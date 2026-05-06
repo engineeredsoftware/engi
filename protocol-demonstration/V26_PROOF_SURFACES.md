@@ -4,7 +4,7 @@
 
 - Scope: non-canonical supplementary proof and coverage map for V26
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
-- Next draft target: `BITCODE_SPEC_V27.md` (not yet opened)
+- Next draft target: `BITCODE_SPEC_V27.md` (opened as draft; V26 remains active canon)
 - Purpose: map new V26 code systems to proof/test/spec expectations while the largest convergence pass in repo history is underway
 
 ## Rule

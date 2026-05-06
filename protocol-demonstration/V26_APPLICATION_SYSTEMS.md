@@ -4,7 +4,7 @@
 
 - Scope: non-canonical supplementary system document for the V26 Bitcode application architecture
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
-- Next draft target: `BITCODE_SPEC_V27.md` (not yet opened)
+- Next draft target: `BITCODE_SPEC_V27.md` (opened as draft; V26 remains active canon)
 - Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the application, overlay systems, retained package owners, and storage/persistence ownership
 
 ## Rule

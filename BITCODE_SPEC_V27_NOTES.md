@@ -2,11 +2,11 @@
 
 ## Status
 
-- Scope: non-canonical future-version notes for Bitcode `$BTD` tokenomics.
+- Scope: non-canonical future-version notes for Bitcode `$BTD` tokenomics and practical cryptotechnological commercialization.
 - Active canonical pointer: `BITCODE_SPEC.txt` -> `V26`.
 - Draft target: `V27`.
-- Primary V27 focus: formal `$BTD` tokenomics.
-- Adjacent future implementation focus: Terminal mint/acquire flows, Exchange purchase/trading flows, and external-interface expansion remain V28+ work unless a V27 tokenomics invariant requires an earlier implementation witness.
+- Primary V27 focus: formal `$BTD` tokenomics plus the minimum real crypto-application path for wallet authorization, BTC fee transactions, ledgerized AssetPacks, minimal Exchange rights transfer, Terminal transactions, ledger/database synchronization, testnet/mainnet readiness, telemetry, and upgrades.
+- Adjacent future implementation focus: larger Terminal product breadth, larger Exchange market depth, and broad external-interface expansion remain V28+ work only after V27 proves the minimal crypto-commercial path.
 
 These notes do not promote V27 and do not reopen V26.
 They record the tokenomics handoff that V26 intentionally deferred after proving the commercial Bitcode baseline.
@@ -15,9 +15,27 @@ The source research memo that seeded this file contained external citation handl
 Those references must be rebound to durable primary sources before any V27 normative specification is promoted.
 Until then, this file is an internal specification note, not a cited public paper.
 
+## WDRR Digest Incorporated
+
+The May 6, 2026 web deep-research report sharpens V27 from open tokenomics research into implementation preparation.
+The following conclusions are now draft-target guidance:
+
+- keep `$BTD` compact at the base layer: finite cap, non-fungible cell, AssetPack range, Need-Fit-Prove-Settle minting;
+- make the AssetPack range the commercial unit and keep individual cells as proof/accounting units;
+- define normalized Bitcode volume as proof-addressable semantic volume, not raw bytes or tokenizer counts;
+- use BTC as fee asset through actual wallet-authorized transactions, with PSBT-style signing and no server custody of user private keys;
+- use regtest or equivalent local chain for deterministic Bitcoin tests and signet as the canonical public Bitcoin proof lane;
+- treat public Bitcoin testnet as supplementary only;
+- treat Ethereum anchoring as secondary or optional in V27;
+- use Ethereum standards as analogies, not inherited ontology;
+- enforce recurring economics through Bitcode Exchange licensed reads and rights transfers rather than relying on third-party royalty signaling;
+- keep ancestry optional but canonical, late-bound, evidence-based, and non-supply.
+
+These conclusions supersede earlier draft uncertainty where the V27 files left normalized volume, public testnet lane selection, and Bitcoin/Ethereum priority open.
+
 ## Executive Summary
 
-V27 should formalize `$BTD` as a capped, non-fungible, proof-backed source-share registry rather than as a generic token launch.
+V27 should formalize `$BTD` as a capped, non-fungible, proof-backed source-share registry rather than as a generic token launch, and should make that registry operational through actual wallet, BTC fee, ledger anchor, Exchange transfer, Terminal transaction, reconciliation, and deployment surfaces.
 
 Bitcode already frames Source Shares as measured technical intelligence moving through:
 
@@ -44,7 +62,7 @@ This preserves four critical distinctions:
 - `$BTD` records non-fungible AssetPack share/read-right holdings plus measured Bitcode content amount.
 - Exchange settlement and licensed-read flows are the primary commercial economics, not optional third-party marketplace royalties.
 
-V27 should make this a protocol law across spec, package, proof, database, receipt, and UI surfaces.
+V27 should make this a protocol law across spec, package, proof, database, receipt, wallet, ledger, Exchange, Terminal, telemetry, deployment, and UI surfaces.
 
 ## Normative Core For V27
 
@@ -76,18 +94,27 @@ V27 must turn that currently staged invariant into complete tokenomics law:
 
 ## Version Split
 
-V27 owns the tokenomics law.
+V27 owns tokenomics law and the minimum crypto-commercial implementation path.
+
+V27 owns:
+
+- Terminal Need/Fit minting as the canonical mint path.
+- minimal Exchange existing-`$BTD` acquisition, bid/ask, and rights transfer.
+- wallet/provider signing posture sufficient for user-authorized transactions.
+- actual BTC fee transaction receipts.
+- ledgerized AssetPack anchors for range, source root, proof root, and policy hash.
+- ledgerized journal diffing and ledger/database reconciliation.
+- testnet implementation and mainnet-ready controls.
 
 V28+ owns larger product implementations that rely on that law:
 
-- Terminal Need submission and future Fit-driven `$BTD` mint posture.
-- Exchange existing-`$BTD` purchase and market-reading posture.
-- Wallet/provider signing breadth.
-- Optional liquidity wrappers, slices, or secondary market exposure.
-- Third-party interface propagation after Protocol and Exchange semantics are stable.
+- broader Terminal product expansion.
+- deeper Exchange market structure, richer order books, and external market integrations.
+- optional liquidity wrappers, slices, or secondary market exposure.
+- third-party interface propagation after Protocol and Exchange semantics are stable.
 
-V27 should still specify enough implementation hooks for those later versions, but it must not block on a full Exchange marketplace.
-The V27 closure standard should be: supply, mint, range, receipt, access, replay, and proof invariants are exact enough that Terminal and Exchange can safely build on them in later versions.
+V27 should not block on a full Exchange marketplace.
+The V27 closure standard should be: supply, mint, range, receipt, access, replay, proof, wallet, fee, anchor, minimal transfer, journal, reconciliation, and deployment invariants are exact enough that later Terminal and Exchange versions can grow without changing the base law.
 
 ## Repo Grounding And Enforcement Surfaces
 
@@ -136,6 +163,8 @@ The research seed memo pointed at several external design families.
 V27 should rebind these to primary sources before using them normatively:
 
 - Bitcoin: terminal scarcity, deterministic issuance, and invalidity of over-cap issuance.
+- Bitcoin PSBT: user-controlled signing is the V27 fee-transaction posture; Bitcode may construct transaction intent and observe finality but must not custody user private keys.
+- Bitcoin signet: canonical public Bitcoin proof lane for V27 fee and anchor paths; public testnet is supplementary.
 - ERC-20: useful contrast for why pure fungible balances are the wrong base ontology.
 - ERC-721: unique asset identity.
 - ERC-1155: mixed fungible, non-fungible, and semi-fungible token-type management.
@@ -143,6 +172,8 @@ V27 should rebind these to primary sources before using them normatively:
 - ERC-4907: split owner/user roles as an analogue for owner-read vs licensed-read.
 - ERC-3525: slot/value semi-fungibility as a possible wrapper layer, not the base `$BTD` cell model.
 - EIP-2981: royalty signaling is not enough because payment depends on marketplace behavior.
+- EIP-712: useful for signed intents only when Bitcode adds nonces, deadlines, and domain separation.
+- ERC-5218: reminder that token property logs are not legal-rights tracing.
 - Filecoin: issuance should follow provable utility rather than mere arrival, with proof, collateral, and slashing as anti-game design inspiration.
 - NFTX-like vault patterns: liquidity wrappers can improve tradability but collapse individual provenance and should stay above the canonical cell/range layer.
 - Story-like ancestry graphs: derivative relationships and license-bound revenue routing are closer to Bitcode's knowledge-economy claim than age-based royalties.
@@ -272,8 +303,19 @@ Default starting value:
 export const BTD_QUANTIZATION_Q = 1_000n;
 ```
 
-The exact normalized Bitcode volume scalar is still an open V27 protocol question.
-It must settle whether the scalar is byte-like, token-like, semantic-chunk-like, or another canonical unit.
+The normalized Bitcode volume scalar is no longer open at the class level.
+WDRR resolves it as proof-addressable semantic volume.
+It is not byte-like and not tokenizer-count-like.
+V27 implementation must still define the exact algorithm for identifying, deduping, proving, and replaying those semantic units.
+
+Required semantic-volume properties:
+
+- every counted unit is accepted by Fit;
+- every counted unit has a proof receipt;
+- every counted unit passes dedupe;
+- repeated wording, compression artifacts, tokenizer drift, and pack fragmentation cannot inflate count;
+- excluded candidate units have exact exclusion reasons;
+- replay reconstructs the same `tokenCount` from receipt roots.
 
 Quality should determine allocation and revenue weighting, not mint inflation.
 
@@ -493,6 +535,23 @@ Minimum mitigations:
 - separate "cited" from "necessary";
 - weight by proof receipts rather than social popularity.
 
+## WDRR Threat Model
+
+The WDRR threat finding is that V27's highest-risk attack surface is knowledge-market distortion.
+The system must assume contributors will optimize whatever gets paid.
+
+| Threat | Failure mode | V27 mitigation | Proof or telemetry artifact |
+| --- | --- | --- | --- |
+| foundational squatting | broad early packs try to tax later work | no ancestry payout at mint; minimum evidence threshold; no reward for breadth alone | `ancestor.review_receipt`, low-confidence unpaid edge log |
+| premature specifying | vague foundational claims arrive before utility is proven | enforce `createdAfterChildFit === true`; ancestry only after child settlement | mint-admission negative tests; settlement gate receipts |
+| citation cartels and reciprocity | mutual edge inflation among related parties | anti-reciprocity checks; claimant/reviewer separation; conflict disclosure; confidence floor | graph anomaly telemetry; reviewer conflict receipts |
+| dependency laundering | controlled intermediates siphon revenue | full DAG traversal; common-control disclosure; depth decay; intermediate-age discount | route audit receipts; lineage repair receipts |
+| fragmentation | one coherent pack is split into many micro-packs | minimum semantic unit threshold; dedupe/compression penalty; no extra mint for splits | dedupe receipts; fragmentation alerts |
+| royalty evasion | external markets skip creator or ancestor payouts | keep recurring economics inside licensed-read and Exchange settlement paths | settlement-route receipts; payout-failure alerts |
+| rights overclaim | users infer copyright, dividends, or derivative rights from `$BTD` ownership | immutable access-policy hash; explicit owner-read/licensed-read/derivative terms in UI | policy-hash mismatch alerts; access-check failure receipts |
+| false ledger finality | UI or API treats pending/reorged facts as settled | ledger/database reconciliation and blocking journal diffs | projection repair receipts; finality mismatch alerts |
+| fee misuse | `$BTD` is used like a spend token | BTC-only fee receipts and generic `$BTD` mutation rejection | fee-asset tests; mutation rejection telemetry |
+
 ## Code-Level Invariants
 
 V27 must repeat a small rigid rule set across spec, packages, receipts, database, proofs, and UI:
@@ -640,16 +699,17 @@ Public copy must avoid claiming:
 
 V27 must answer these before promotion:
 
-1. What exactly is normalized Bitcode volume?
-2. Is the quantization scalar byte-like, token-like, semantic-chunk-like, or another canonical unit?
-3. What minimum pack size should avoid dust and over-fragmentation?
-4. What legal rights does `$BTD` convey, and which rights require a separate license?
-5. How are source-right disputes filed, bonded, reviewed, and resolved?
-6. How strong should the anti-game layer be at launch?
-7. Which reviewer/prover roles need reputation or bond requirements?
-8. Should any secondary trading be native in V27, or deferred entirely to V28+?
-9. Should wrapper slices exist in V27 tests only, or be postponed until the base range registry has live evidence?
-10. How does post-cap refit-only value routing work when a new Need depends on an exhausted registry?
+1. What exact algorithm identifies proof-addressable semantic units from fit-accepted contribution segments?
+2. What minimum semantic unit or pack-size threshold avoids dust and over-fragmentation?
+3. Which Bitcoin commitment path is selected for the first AssetPack anchor: Taproot, OP_RETURN, or another standard pattern?
+4. Which wallet/library stack best supports PSBT-style V27 fee flow and signet proof?
+5. What legal rights does `$BTD` convey, and which rights require a separate license?
+6. How are source-right disputes filed, bonded, reviewed, and resolved?
+7. How strong should the anti-game layer be at launch?
+8. Which reviewer/prover roles need reputation or bond requirements?
+9. What is the exact minimal V27 Exchange boundary for buy, sell, bid, ask, cancellation, settlement, and rights transfer before broader V28+ market depth begins?
+10. Should wrapper slices exist in V27 tests only, or be postponed until the base range registry has live evidence?
+11. How does post-cap refit-only value routing work when a new Need depends on an exhausted registry?
 
 ## Implementation Priority
 
@@ -662,17 +722,247 @@ The correct implementation order is:
 5. Exchange database constraints.
 6. Access policy and licensed-read evaluation.
 7. Owner-read and licensed-read UI disclosure.
-8. Direct-holder revenue routing.
-9. Ancestry edge schema and unpaid proof graph.
-10. Paid ancestry routing only after attack mitigations are proven.
-11. Optional wrapper/slice/liquidity structures only after the canonical registry works.
+8. Wallet signer/session/network model.
+9. PSBT-style BTC fee transaction receipts and regtest/signet transaction proof.
+10. Ledgerized AssetPack anchor schema and first concrete Bitcoin commitment path.
+11. Minimal Exchange buy/sell/bid/ask and rights-transfer receipts.
+12. Terminal transaction journal and ledgerized journal diffing.
+13. Ledger/database reconciler and projection repair receipts.
+14. Crypto telemetry taxonomy, deployment lanes, and upgrade receipts.
+15. Direct-holder revenue routing.
+16. Ancestry edge schema and unpaid proof graph.
+17. Paid ancestry routing only after attack mitigations are proven.
+18. Optional wrapper/slice/liquidity structures only after the canonical registry works.
 
-Starting with marketplace liquidity before registry law exists would invert the Bitcode model.
-V27 must first prove what is being traded, read, licensed, and settled.
+Starting with marketplace liquidity before registry law and real transaction finality exist would invert the Bitcode model.
+V27 must first prove what is being traded, read, licensed, paid, anchored, reconciled, and settled.
+
+## Practical Cryptotechnological Commercialization Addendum
+
+The V27 tokenomics law must be paired with a practical crypto-application layer.
+Otherwise `$BTD` remains a correct internal model but not a commercial cryptotechnological system.
+
+Minimum V27 crypto surfaces:
+
+- wallet integration for signer sessions, network selection, address/session authorization, and failure-aware transaction flow;
+- actual BTC fee transactions for mint, anchor, license, transfer, Exchange, and Terminal operations;
+- ledgerized AssetPack anchors that bind range, source root, proof root, and access policy hash without exposing private source;
+- minimal Exchange order flow for buy, sell, bid, ask, cancellation, acceptance, settlement, and rights transfer;
+- Terminal transaction journals for Need, Fit, proof, mint, fee, anchor, license, order, transfer, dispute, and settlement finalization;
+- ledgerized journal diffing across Terminal intent, Exchange settlement, external ledger observation, database projection, proof roots, and telemetry;
+- database synchronization where external ledgers are source of truth for cryptographic finality and the database is ledger-derived plus metaphysical canonical state;
+- testnet and mainnet-ready deployment lanes;
+- crypto telemetry and operational upgrade receipts.
+
+WDRR implementation posture:
+
+- BTC fee flow should be `prepared -> signed -> broadcast -> confirmed | replaced | reorged | failed`.
+- signing should use PSBT-style wallet handoff or an accepted wallet-native equivalent.
+- Bitcode servers may prepare transaction intent and observe finality, but must not custody user private keys for user-owned actions.
+- local Bitcoin tests should use regtest or an equivalent deterministic local chain.
+- public Bitcoin proof should use signet.
+- public Bitcoin testnet may be used as supplementary coverage but is not the canonical V27 proof lane.
+- Ethereum anchoring, if included, should be a minimal immutable registry/event emitter for commitments and should remain secondary to Bitcoin in V27.
+
+The key truth split:
+
+```text
+External ledgers:
+  source of truth for cryptographic finality, payments, anchors, and ledgerized ownership transfer.
+
+Exchange journal:
+  source of truth for protocol settlement, proof admission, access policy, and commercial state.
+
+Database:
+  ledger-derived and journal-derived projection plus canonical private/metaphysical facts.
+
+UI/API:
+  projections only; never allowed to claim finality unsupported by ledger, journal, proof, or policy roots.
+```
+
+Metaphysical canonical database facts include private source metadata, encrypted storage pointers, Need/Fit records before ledgerization, access policy documents, proof bundles, disputes, telemetry, pending settlement state, and user-experience state that cannot be a public ledger fact.
+
+V27 must treat value-bearing mainnet launch as an operational approval event after V27 proves mainnet-ready controls.
+Spec promotion is not itself permission to move real value on mainnet.
+
+## Crypto Data Shapes To Refine
+
+V27 should refine these draft shapes into package, receipt, database, and proof forms.
+
+```ts
+export interface BtcFeeTransactionReceipt {
+  kind: 'btc.fee_transaction';
+  feePurpose:
+    | 'asset_pack_mint'
+    | 'asset_pack_anchor'
+    | 'licensed_read'
+    | 'rights_transfer'
+    | 'exchange_order'
+    | 'terminal_operation';
+  payerWalletId: string;
+  network: 'regtest' | 'signet' | 'testnet' | 'mainnet';
+  txid: string;
+  vout?: number;
+  satsPaid: bigint;
+  satsPerVbyte?: number;
+  exchangeSequence: bigint;
+  terminalJournalRoot: string;
+  relatedAssetPackId?: string;
+  relatedOrderId?: string;
+  finalityState: 'prepared' | 'signed' | 'broadcast' | 'confirmed' | 'replaced' | 'reorged' | 'failed';
+  confirmations: number;
+}
+
+export interface AssetPackLedgerAnchor {
+  anchorId: string;
+  assetPackId: string;
+  chain: 'bitcoin' | 'ethereum' | 'bitcode-internal-ledger';
+  network:
+    | 'regtest'
+    | 'signet'
+    | 'testnet'
+    | 'mainnet'
+    | 'sepolia'
+    | 'holesky'
+    | 'local';
+  txidOrHash: string;
+  outputIndex?: number;
+  contractAddress?: string;
+  tokenId?: string;
+  commitmentRoot: string;
+  sourceManifestRoot: string;
+  proofRoot: string;
+  accessPolicyHash: string;
+  btdRangeStart: BtdTokenId;
+  btdRangeEndExclusive: BtdTokenId;
+  finalityState: 'prepared' | 'broadcast' | 'confirmed' | 'reorged' | 'failed';
+  confirmations: number;
+  anchoredAt?: string;
+}
+
+export interface AssetPackExchangeOrder {
+  orderId: string;
+  orderKind: 'sell' | 'buy' | 'bid' | 'ask';
+  assetPackId: string;
+  rangeStart: BtdTokenId;
+  rangeEndExclusive: BtdTokenId;
+  makerWalletId: string;
+  takerWalletId?: string;
+  priceAsset: 'BTC';
+  priceSats: bigint;
+  accessPolicyHash: string;
+  orderState: 'open' | 'accepted' | 'cancelled' | 'expired' | 'settled' | 'failed';
+  createdAtExchangeSequence: bigint;
+  settledAtExchangeSequence?: bigint;
+  ledgerAnchorId?: string;
+}
+```
+
+## Web Research Deep-Study Agenda
+
+Before V27 promotes any normative crypto/library choices, the following agenda needs current web research rebound to primary sources, official docs, BIPs/EIPs, implementation docs, or audited library documentation.
+
+Research outputs should answer: what is the current standard, what libraries are production-grade, what failure modes matter, what licensing/security constraints exist, and how the choice maps to V27 proof requirements.
+
+Primary seed sources already identified for the research pass:
+
+- Bitcoin Core RPC documentation: <https://bitcoincore.org/en/doc/>
+- Bitcoin Core test-network onboarding: <https://bitcoincore.academy/testnets.html>
+- BIP 174 PSBT: <https://bips.dev/174/>
+- BIP 340 Schnorr signatures: <https://bips.dev/340/>
+- BIP 341 Taproot: <https://bips.dev/341/>
+- BIP 342 Tapscript: <https://bips.dev/342/>
+- ERC-721: <https://eips.ethereum.org/EIPS/eip-721>
+- ERC-1155: <https://eips.ethereum.org/EIPS/eip-1155>
+- ERC-2309: <https://eips.ethereum.org/EIPS/eip-2309>
+- ERC-4907: <https://eips.ethereum.org/EIPS/eip-4907>
+- ERC-3525: <https://eips.ethereum.org/EIPS/eip-3525>
+- ERC-2981: <https://eips.ethereum.org/EIPS/eip-2981>
+- OpenZeppelin Contracts: <https://docs.openzeppelin.com/contracts>
+- viem: <https://viem.sh/docs/getting-started>
+- wagmi: <https://wagmi.sh/>
+- Hardhat: <https://hardhat.org/>
+- Foundry: <https://book.getfoundry.sh/>
+
+Bitcoin research:
+
+- Taproot commitments and script-path design for AssetPack anchors.
+- OP_RETURN, Taproot, inscriptions/ordinals, descriptors, and miniscript tradeoffs for small commitments.
+- PSBT flows, wallet compatibility, hardware-wallet behavior, and browser-wallet support.
+- BIP32, BIP39, BIP84, BIP86, BIP174, BIP341, and BIP342 applicability.
+- fee estimation, RBF, CPFP, mempool policy, dust, standardness, and transaction pinning risks.
+- regtest, signet, testnet, and mainnet operational differences.
+- Bitcoin Core RPC, Esplora/electrs, mempool APIs, provider failover, and reorg handling.
+- candidate libraries such as bitcoinjs-lib, scure-btc-signer, bitcoinerlab, and miniscript tooling, with current maintenance and security posture.
+
+Ethereum research:
+
+- ERC-721, ERC-1155, ERC-2309, ERC-4907, ERC-3525, and ERC-2981 as reference points, not automatic adoption.
+- EIP-712 signed orders and typed data for off-chain intent.
+- account abstraction and smart account implications for ownership and access.
+- OpenZeppelin, Foundry, Hardhat, viem, wagmi, ethers, and indexer options.
+- Sepolia, Holesky, local chain, finality, reorg, gas, event indexing, and upgrade patterns.
+- contract upgrade posture, immutable registry posture, and migration receipts.
+
+Wallet research:
+
+- Bitcoin browser wallet APIs and PSBT signing compatibility.
+- WalletConnect coverage for Bitcoin and Ethereum flows.
+- hardware wallet constraints for Taproot, PSBT, and EIP-712.
+- message signing standards, SIWE where relevant, nonce/session expiration, and replay protection.
+- privacy constraints around xpubs, address reuse, wallet fingerprinting, and user consent.
+
+Storage and proof research:
+
+- content-addressed manifests, Merkle DAGs, CAR files, IPFS, Arweave, object storage hash contracts, and encrypted source storage.
+- selective disclosure and private AssetPack proof patterns.
+- KMS/HSM/key custody options for server-held operational keys, never user private keys.
+- proof bundle permanence, takedown, dispute, and revocation models.
+
+Exchange and settlement research:
+
+- signed order models, escrow, PSBT-based offer/accept flows, HTLC/atomic-swap applicability, DLC applicability, and payment-channel relevance.
+- minimal order book vs bulletin-board order designs.
+- rights transfer, licensed-read sale, revenue routing, refund, dispute, and cancellation mechanics.
+- market manipulation, wash trading, replay, front-running, and stale order risks.
+- compliance research for marketplace, money transmission, securities/commodities, tax reporting, sanctions, KYC/AML, and consumer disclosure issues.
+
+Ledger/database reconciliation research:
+
+- event-sourcing and projection repair patterns.
+- indexer architectures for Bitcoin and Ethereum.
+- idempotency keys, finality thresholds, reorg rollback, replay windows, and cross-provider disagreement handling.
+- operational approaches for ledger as source of truth plus private canonical database state.
+
+Deployment and observability research:
+
+- RPC provider reliability, rate limits, failover, alerting, and cost.
+- testnet/mainnet deployment checklists.
+- key management, HSM/KMS, backup, rotation, break-glass access, and incident response.
+- telemetry event naming for wallet failures, tx construction, broadcast, confirmation, reorg, reconciler drift, access failures, settlement failures, and migration failures.
+- upgrade/migration best practices for on-chain contracts and off-chain projections.
+
+Legal and policy research:
+
+- source-share rights, read-rights, licensed reads, copyright transfer, derivative rights, resale, royalties, and access policy enforceability.
+- token classification risk for non-fungible source-share/read-right assets.
+- disclosures that avoid implying dividends, guaranteed royalties, broad copyright transfer, or price appreciation.
+- privacy and confidential-source obligations for private AssetPacks.
+
+The research result should come back as source-bound findings with explicit implications for:
+
+- `packages/btd` module choices;
+- ledger anchor implementation;
+- wallet integration;
+- Exchange order and rights-transfer design;
+- database reconciliation;
+- telemetry and deployment;
+- legal/access-policy copy;
+- V27 parity rows and generated proof families.
 
 ## Working Definition
 
-> `$BTD` is Bitcode's finite 21,000,000-cell non-fungible source-share registry. Each cell is minted only at proof-backed Need-Fit settlement. Each AssetPack occupies a contiguous `$BTD` range whose length is derived from normalized Bitcode volume. Holding `$BTD` grants source-share owner-read/audit rights for the associated cell or range under an immutable access policy, while licensed reads route revenue to current holders and, when proven after child fit, knowledge ancestors through Exchange receipts.
+> `$BTD` is Bitcode's finite 21,000,000-cell non-fungible source-share registry. Each cell is minted only at proof-backed Need-Fit settlement. Each AssetPack occupies a contiguous `$BTD` range whose length is derived from normalized Bitcode volume. Holding `$BTD` grants source-share owner-read/audit rights for the associated cell or range under an immutable access policy, while licensed reads route revenue to current holders and, when proven after child fit, knowledge ancestors through Exchange receipts. V27 makes this commercially real through wallet-authorized BTC fee transactions, ledgerized AssetPack anchors, minimal Exchange rights transfers, Terminal journals, and ledger/database reconciliation.
 
 ## V27 Closure Target
 
@@ -686,8 +976,14 @@ V27 should be closable only when all of the following are true:
 - owner-read and licensed-read are distinct and tested.
 - the canonical receipt replay reconstructs supply state and allocation state.
 - Exchange database constraints fail closed on overflow, overlap, missing policy, and duplicate mint.
+- wallet signer/session and BTC fee transaction receipts are implemented and tested in regtest and signet lanes.
+- ledgerized AssetPack anchors bind range, roots, policy, and finality state.
+- minimal Exchange buy/sell/bid/ask and rights transfer replay from receipts.
+- Terminal transaction journals and ledgerized diffs detect drift.
+- ledger/database reconciliation repairs projections without contradicting ledgers.
+- testnet/mainnet-ready controls, telemetry, and upgrade receipts exist.
+- crypto concepts and library choices are rebound to current primary web sources before normative selection.
 - ancestry is specified as a non-supply late-bound module.
 - post-cap refit-only policy is specified.
 - UI surfaces disclose BTC fee asset, non-fungible `$BTD`, access rights, range, supply remaining, and policy hash.
-- V28+ Terminal and Exchange hooks are specified without requiring full V28/V29 product breadth inside V27.
-
+- V28+ Terminal and Exchange breadth is scoped without weakening V27's minimal crypto-commercial proof path.

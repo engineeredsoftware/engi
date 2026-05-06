@@ -129,8 +129,8 @@
   },
   "assets": [
     {
-      "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
-      "depositedAt": "2026-04-30T18:48:46.176Z",
+      "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
+      "depositedAt": "2026-05-06T13:02:20.271Z",
       "title": "Enterprise auth migration rollback playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -138,13 +138,13 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_enterprise-auth-migration-rollback-playbook_10f7ba132a"
+        "materializationRoot": ".bitcode/source-material/asset_enterprise-auth-migration-rollback-playbook_0c53ca5874"
       },
-      "contentRoot": "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+      "contentRoot": "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
       "contentUnits": [
         {
-          "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-1",
-          "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
+          "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-1",
+          "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
           "unitKind": "text",
           "text": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.",
           "codeAnalysisFacts": {
@@ -227,7 +227,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:b7ea68d86742846d875df2ca5a2c3b32a3a115943f46936dc2bde780315edf44"
+                "inputHash": "sha256:03dfbcde03b0825aad9388ef30e2e7711c201790c580054d42a30867c1c56ea5"
               },
               "values": [
                 0.269408,
@@ -303,7 +303,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_a1f7ea8a28d3"
+                "static_receipt_5623dad47dc4"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -357,7 +357,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_a1f7ea8a28d3",
+              "receiptId": "static_receipt_5623dad47dc4",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -365,8 +365,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:b72abc3ff5595fd79eddd7e4037d33004b019635f016b0c70080b0d4cc7d3aca",
-              "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+              "inputsHash": "sha256:453a4555bd9039548dd4a174f857953caf136bc5e12001664a567eb95f27b410",
+              "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
               "evidenceRefs": [
                 "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
                 "config/auth/issuer-compat.yml",
@@ -420,7 +420,7 @@
                   "kill switch"
                 ]
               },
-              "receiptHash": "sha256:b53e339a60693965b74964d689be314bf412614568be0b3ef8122d80474edb04"
+              "receiptHash": "sha256:ad4d31a705866f06610f7b1b4bc14392907a32576ac5cf3b87a36262a850decf"
             }
           ],
           "semanticSummary": {
@@ -441,8 +441,8 @@
           "unitHash": "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d"
         },
         {
-          "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-2",
-          "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
+          "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-2",
+          "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
           "unitKind": "config-block",
           "text": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore prior verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.",
           "codeAnalysisFacts": {
@@ -495,24 +495,24 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:3821edf824b83a0163d2840b7ff9626499c2f828e9a679b83032c543dd758326"
+                "inputHash": "sha256:23901f20652c4591cbf3bdabe22e3bfdf32e7ccf24112c0d5e790ebf8bb6c687"
               },
               "values": [
-                0.240772,
+                0.23094,
                 0,
-                0.240772,
-                0.120386,
-                0.481543,
-                0.120386,
-                0.120386,
-                0.120386,
-                0.481543,
-                0.120386,
-                0.361158,
-                0.120386,
-                0.120386,
-                0.240772,
-                0.361158,
+                0.23094,
+                0.11547,
+                0.46188,
+                0.11547,
+                0.11547,
+                0,
+                0.46188,
+                0.11547,
+                0.34641,
+                0.11547,
+                0.11547,
+                0.23094,
+                0.46188,
                 0
               ]
             },
@@ -525,24 +525,24 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:f23683c2c8b2924f3cc3e431aa87aa925bc56d98cfbb575b7c395ab264cd41ac"
+                "inputHash": "sha256:1f6dfc4473db66da3416488fb18b996d98edff470e16ea28ef9bc891db38cf25"
               },
               "values": [
-                0.327693,
+                0.319235,
                 0,
-                0.24577,
-                0.163846,
-                0.491539,
-                0.081923,
-                0.327693,
-                0.081923,
-                0.327693,
-                0.163846,
-                0.24577,
-                0.081923,
-                0.163846,
-                0.327693,
-                0.327693,
+                0.239426,
+                0.159617,
+                0.478852,
+                0.079809,
+                0.319235,
+                0,
+                0.319235,
+                0.159617,
+                0.239426,
+                0.079809,
+                0.159617,
+                0.319235,
+                0.399043,
                 0
               ]
             },
@@ -555,25 +555,25 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:0060a8d0259da9d56c4ed5473c0e869955d2e298401656b2f0c5a03410090944"
+                "inputHash": "sha256:f5797b13d7b1848bac1efdc12edbd31f4e8f6ca5274010f48b323365d7b568c5"
               },
               "values": [
-                0.302372,
-                0.075593,
-                0.226779,
-                0.226779,
-                0.302372,
-                0.075593,
-                0.226779,
-                0.151186,
-                0.377964,
-                0.151186,
-                0.302372,
-                0.302372,
-                0.302372,
-                0.302372,
-                0.302372,
-                0.075593
+                0.297318,
+                0.074329,
+                0.222988,
+                0.222988,
+                0.297318,
+                0.074329,
+                0.222988,
+                0.074329,
+                0.371647,
+                0.148659,
+                0.297318,
+                0.297318,
+                0.297318,
+                0.297318,
+                0.371647,
+                0.074329
               ]
             }
           },
@@ -591,7 +591,7 @@
               "toolOrPromptId": "content-unit.extract-static-code-analysis.v15",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+                "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                 "config/auth/issuer-compat.yml",
                 "docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
@@ -601,7 +601,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_afeb4f36fa69"
+                "static_receipt_3e27b9350e29"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -615,7 +615,7 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": false,
                 "evidenceRefs": [
-                  "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+                  "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                   "config/auth/issuer-compat.yml",
                   "docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts",
@@ -633,7 +633,7 @@
               "toolOrPromptId": "content-unit.embedding-standin.v8",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a"
+                "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b"
               ],
               "receiptRefs": [],
               "evaluatorSurface": {
@@ -648,14 +648,14 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": true,
                 "evidenceRefs": [
-                  "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a"
+                  "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b"
                 ]
               }
             }
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_afeb4f36fa69",
+              "receiptId": "static_receipt_3e27b9350e29",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -663,10 +663,10 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:5f4c0b91a990395bed404caea1579a7bd7e16ee825b678cf97b17f0c7a9b9d24",
-              "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+              "inputsHash": "sha256:5ff83fabc0e7df9afe0d6c20a22a30d5d7fab8066de09ab8bce265d0366015f2",
+              "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
               "evidenceRefs": [
-                "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+                "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                 "config/auth/issuer-compat.yml",
                 "docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
@@ -676,7 +676,7 @@
                 "issuer-compat.yml"
               ],
               "replayInputClosure": [
-                "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a"
+                "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b"
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
@@ -718,7 +718,7 @@
                   "kill switch"
                 ]
               },
-              "receiptHash": "sha256:560cb0dd146b3a1ca0870c8f165eba2a819bdb4c75148bc85add921e4dfe7e1c"
+              "receiptHash": "sha256:a876c97a90778e9546449790e37430739a987e987c4cebb36ca62feae940d1b0"
             }
           ],
           "semanticSummary": {
@@ -736,11 +736,11 @@
               "constraints": 4
             }
           },
-          "unitHash": "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a"
+          "unitHash": "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b"
         },
         {
-          "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-3",
-          "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
+          "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-3",
+          "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
           "unitKind": "proof-block",
           "text": "Validation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.",
           "codeAnalysisFacts": {
@@ -823,7 +823,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:9d6479f569bd07ab3f1ed54c0c00f03e1d4e06498ccb49e1b011c14d89ff8170"
+                "inputHash": "sha256:847eea3aba27994b09410669223ef70227f6ac6d2a05933028ada8dea81718a2"
               },
               "values": [
                 0.373002,
@@ -899,7 +899,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_ebef6f117432"
+                "static_receipt_588ad42859f4"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -953,7 +953,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_ebef6f117432",
+              "receiptId": "static_receipt_588ad42859f4",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -961,8 +961,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:939bf219c8c71effadfc45a5c8f3aa54e862bfc93b5788f0933fc51542cb7550",
-              "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+              "inputsHash": "sha256:60e8725e297c8b9320ac373271dc87357e86a8eb02716e19b74204b7350c541c",
+              "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
               "evidenceRefs": [
                 "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
                 "config/auth/issuer-compat.yml",
@@ -1016,7 +1016,7 @@
                   "kill switch"
                 ]
               },
-              "receiptHash": "sha256:e4213b856f8985e155f1abca25cd1d2b1f2bf8b2640cb7df540446c45435c56e"
+              "receiptHash": "sha256:ba8415dbb04f9cf610b0ed7280af75dc7dd5eb5a7efb50ed12db0c3d37b7adc4"
             }
           ],
           "semanticSummary": {
@@ -1037,8 +1037,8 @@
           "unitHash": "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37"
         },
         {
-          "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-4",
-          "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
+          "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-4",
+          "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
           "unitKind": "config-block",
           "text": "Expected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the Bitcode remediation branch validation notes.",
           "codeAnalysisFacts": {
@@ -1121,7 +1121,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:8d41a1b9edb91229d888fb0891fbef70956d7c869bbe922a96f5df9b04897a80"
+                "inputHash": "sha256:002528b078ab3315b4376eedcaa4d0a77a5cf564e570277b3523f3e6a52c5b2a"
               },
               "values": [
                 0.323498,
@@ -1197,7 +1197,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_22cfba452d82"
+                "static_receipt_a3aa10850e15"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -1251,7 +1251,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_22cfba452d82",
+              "receiptId": "static_receipt_a3aa10850e15",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -1259,8 +1259,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:0c842a4dae5682d6637842bb68c07ca0a99fa1b849f52d1d2d89cb7556d74864",
-              "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+              "inputsHash": "sha256:fd5d1f3b0abdae8cd84790557da8c1984923c867da89b51411c305e836150790",
+              "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
               "evidenceRefs": [
                 "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
                 "config/auth/issuer-compat.yml",
@@ -1314,7 +1314,7 @@
                   "kill switch"
                 ]
               },
-              "receiptHash": "sha256:049a9908a98d13b29d85aef4336ce571ed07eca03e3ed18549d33f084f984452"
+              "receiptHash": "sha256:03b2a13d6ef8fb91842dd451bf695e99aeb25976de7fffe4fc7f0d6c8af145d6"
             }
           ],
           "semanticSummary": {
@@ -1337,17 +1337,17 @@
       ],
       "attestations": [
         {
-          "attestationId": "att_d04c7180c9f1",
+          "attestationId": "att_d96dc67002d4",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:5b82bf78d6ae9327be49049ea654335771109fc6c1021ae7ea4cbd2118483c1b",
+          "payloadHash": "sha256:97591e717a5c504d2594684c235a877a7a0b860bdeec2bb7b77ecaf90e731d55",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:7e7c1d8a7b487882fae164d1ba9672a4294f6a9ae0499b80ae43e946fec99eb4"
+          "attestationHash": "sha256:e7e708be1182b0904d1eaafb480b3f91b444ac3c37bbcc4f4d547335c6b97e74"
         }
       ],
       "uploadSurface": {
-        "uploadId": "upload_f1400c5c8cd1",
+        "uploadId": "upload_5d4bedfa7e5d",
         "artifactKind": "runbook",
         "artifactType": "runbook/operator-playbook",
         "artifactSelectionSurface": {
@@ -1372,7 +1372,7 @@
               "title": "Auth rollback benchmark summary",
               "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
               "installationId": "gh_inst_bitcode_001",
-              "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+              "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
               "addressingScope": "workflow-artifact",
               "primaryAddressRef": "auth-remediation-report.json",
               "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
@@ -1410,7 +1410,7 @@
               "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
             }
           ],
-          "selectedInventoryRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
+          "selectedInventoryRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906",
           "selectedArtifactKinds": [
             "runbook",
             "config",
@@ -1444,7 +1444,7 @@
             "configKeys": 4
           },
           "inventorySelectionCount": 3,
-          "inventorySelectionRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309"
+          "inventorySelectionRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906"
         },
         "surfaces": [
           {
@@ -1473,7 +1473,7 @@
             "mediaType": "application/json",
             "role": "selection",
             "available": true,
-            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_workflow-artifact_1dcb0ec071\",\"inv_frontier-demo-auth_config-snapshot_3d113def88\",\"inv_frontier-demo-auth_incident-document_cc12c2fd0f\"],\"selectedInventoryRoot\":\"sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309\",\"originKinds\":[\"workflow-artifact\",\"config-snapshot\",\"incident-document\"]}"
+            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_workflow-artifact_1dcb0ec071\",\"inv_frontier-demo-auth_config-snapshot_3d113def88\",\"inv_frontier-demo-auth_incident-document_cc12c2fd0f\"],\"selectedInventoryRoot\":\"sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906\",\"originKinds\":[\"workflow-artifact\",\"config-snapshot\",\"incident-document\"]}"
           }
         ],
         "githubBinding": {
@@ -1490,7 +1490,7 @@
             "inv_frontier-demo-auth_config-snapshot_3d113def88",
             "inv_frontier-demo-auth_incident-document_cc12c2fd0f"
           ],
-          "selectedInventoryRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
+          "selectedInventoryRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906",
           "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
           "localBoundary": "Stored locally as modeled metadata only.",
           "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -1520,7 +1520,7 @@
             "title": "Auth rollback benchmark summary",
             "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
             "installationId": "gh_inst_bitcode_001",
-            "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+            "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
             "addressingScope": "workflow-artifact",
             "primaryAddressRef": "auth-remediation-report.json",
             "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
@@ -1558,7 +1558,7 @@
             "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
           }
         ],
-        "selectedInventoryRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
+        "selectedInventoryRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906",
         "selectedArtifactKinds": [
           "runbook",
           "config",
@@ -1617,7 +1617,7 @@
             "artifactType": "runbook/operator-playbook",
             "originKind": "workflow-artifact",
             "primaryAddressRef": "auth-remediation-report.json",
-            "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+            "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
             "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
           },
           {
@@ -1640,7 +1640,7 @@
           }
         ],
         "primaryAddressRef": "config/auth/issuer-compat.yml",
-        "addressingRoot": "sha256:5a4078204e660ab3db7d5271b38c5d4203b1f5997e5906b5b2f7828c89ad5d4d"
+        "addressingRoot": "sha256:96392761a40e191e11db92a5028e16b1ec8a4589c0d15f9ebc5ba240a0b75ef7"
       },
       "signingSurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -1648,12 +1648,12 @@
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
         "statementKind": "bitcode-asset-intake-attestation.v11",
-        "payloadHash": "sha256:5b82bf78d6ae9327be49049ea654335771109fc6c1021ae7ea4cbd2118483c1b",
+        "payloadHash": "sha256:97591e717a5c504d2594684c235a877a7a0b860bdeec2bb7b77ecaf90e731d55",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:7e7c1d8a7b487882fae164d1ba9672a4294f6a9ae0499b80ae43e946fec99eb4",
-        "signedAddressingRoot": "sha256:5a4078204e660ab3db7d5271b38c5d4203b1f5997e5906b5b2f7828c89ad5d4d",
-        "signedSelectionRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
+        "attestationHash": "sha256:e7e708be1182b0904d1eaafb480b3f91b444ac3c37bbcc4f4d547335c6b97e74",
+        "signedAddressingRoot": "sha256:96392761a40e191e11db92a5028e16b1ec8a4589c0d15f9ebc5ba240a0b75ef7",
+        "signedSelectionRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
       },
       "githubAppAuthSurface": {
@@ -1724,7 +1724,7 @@
           "inv_frontier-demo-auth_config-snapshot_3d113def88",
           "inv_frontier-demo-auth_incident-document_cc12c2fd0f"
         ],
-        "selectedInventoryRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
+        "selectedInventoryRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
         "localBoundary": "Stored locally as modeled metadata only.",
         "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -1742,7 +1742,7 @@
         },
         "permissionsRoot": "sha256:a702283d0e8b655976c2341319c8dd67e04830565e6744db510127b8048f550f",
         "addressingScope": "multi-artifact-selection",
-        "addressingRoot": "sha256:5a4078204e660ab3db7d5271b38c5d4203b1f5997e5906b5b2f7828c89ad5d4d"
+        "addressingRoot": "sha256:96392761a40e191e11db92a5028e16b1ec8a4589c0d15f9ebc5ba240a0b75ef7"
       },
       "identitySurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -1751,10 +1751,10 @@
         "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
         "installationId": "gh_inst_bitcode_001",
         "authMechanism": "github-app-installation",
-        "selectedInventoryRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
-        "addressingRoot": "sha256:5a4078204e660ab3db7d5271b38c5d4203b1f5997e5906b5b2f7828c89ad5d4d",
+        "selectedInventoryRoot": "sha256:70bb6f213bbf2fc762710988b5eb9010200dc46b54db95446ea9b923c8f44906",
+        "addressingRoot": "sha256:96392761a40e191e11db92a5028e16b1ec8a4589c0d15f9ebc5ba240a0b75ef7",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:5b82bf78d6ae9327be49049ea654335771109fc6c1021ae7ea4cbd2118483c1b",
+        "signedPayloadHash": "sha256:97591e717a5c504d2594684c235a877a7a0b860bdeec2bb7b77ecaf90e731d55",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -1833,7 +1833,7 @@
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
-        "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
+        "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
         "codeAnalysisFacts": {
           "symbols": [
             "restorePriorVerifier",
@@ -1870,7 +1870,7 @@
         },
         "contentUnitSemantics": [
           {
-            "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-1",
+            "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-1",
             "unitKind": "text",
             "unitHash": "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
             "codeAnalysisFactCounts": {
@@ -1899,7 +1899,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:b7ea68d86742846d875df2ca5a2c3b32a3a115943f46936dc2bde780315edf44"
+                "inputHash": "sha256:03dfbcde03b0825aad9388ef30e2e7711c201790c580054d42a30867c1c56ea5"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -1914,9 +1914,9 @@
             }
           },
           {
-            "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-2",
+            "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-2",
             "unitKind": "config-block",
-            "unitHash": "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+            "unitHash": "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
             "codeAnalysisFactCounts": {
               "symbols": 8,
               "paths": 3,
@@ -1933,7 +1933,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:3821edf824b83a0163d2840b7ff9626499c2f828e9a679b83032c543dd758326"
+                "inputHash": "sha256:23901f20652c4591cbf3bdabe22e3bfdf32e7ccf24112c0d5e790ebf8bb6c687"
               },
               "failureModeVector": {
                 "vectorSpace": "failure-mode-space.v8",
@@ -1943,7 +1943,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:f23683c2c8b2924f3cc3e431aa87aa925bc56d98cfbb575b7c395ab264cd41ac"
+                "inputHash": "sha256:1f6dfc4473db66da3416488fb18b996d98edff470e16ea28ef9bc891db38cf25"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -1953,12 +1953,12 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:0060a8d0259da9d56c4ed5473c0e869955d2e298401656b2f0c5a03410090944"
+                "inputHash": "sha256:f5797b13d7b1848bac1efdc12edbd31f4e8f6ca5274010f48b323365d7b568c5"
               }
             }
           },
           {
-            "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-3",
+            "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-3",
             "unitKind": "proof-block",
             "unitHash": "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
             "codeAnalysisFactCounts": {
@@ -1987,7 +1987,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:9d6479f569bd07ab3f1ed54c0c00f03e1d4e06498ccb49e1b011c14d89ff8170"
+                "inputHash": "sha256:847eea3aba27994b09410669223ef70227f6ac6d2a05933028ada8dea81718a2"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -2002,7 +2002,7 @@
             }
           },
           {
-            "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-4",
+            "unitId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:unit-4",
             "unitKind": "config-block",
             "unitHash": "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
             "codeAnalysisFactCounts": {
@@ -2031,7 +2031,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:8d41a1b9edb91229d888fb0891fbef70956d7c869bbe922a96f5df9b04897a80"
+                "inputHash": "sha256:002528b078ab3315b4376eedcaa4d0a77a5cf564e570277b3523f3e6a52c5b2a"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -2061,12 +2061,12 @@
             "toolOrPromptId": "asset.measurement.extract.v15",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+              "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "services/auth/rollback.ts",
               "config/auth/issuer-compat.yml"
             ],
             "receiptRefs": [
-              "static_receipt_d6f8a140c387"
+              "static_receipt_68d71bd61f7c"
             ],
             "evaluatorSurface": {
               "evaluatorId": "asset.measurement.extract.v15",
@@ -2080,7 +2080,7 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": false,
               "evidenceRefs": [
-                "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+                "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
                 "services/auth/rollback.ts",
                 "config/auth/issuer-compat.yml"
               ]
@@ -2093,9 +2093,9 @@
             "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+              "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
-              "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+              "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
               "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
               "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5"
             ],
@@ -2112,9 +2112,9 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": true,
               "evidenceRefs": [
-                "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+                "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
                 "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
-                "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+                "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                 "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
                 "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5"
               ]
@@ -2123,7 +2123,7 @@
         ],
         "staticExecutionReceipts": [
           {
-            "receiptId": "static_receipt_d6f8a140c387",
+            "receiptId": "static_receipt_68d71bd61f7c",
             "receiptKind": "asset-static-code-analysis",
             "stageId": "asset.measurement.extract.v15",
             "toolId": "asset.measurement.extract.v15",
@@ -2131,18 +2131,18 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:8e5d9ef9ca9d2c4765de3290651024a61d3c48d0ed939a0ec36ae19f7c19bd07",
-            "outputHash": "sha256:6681abae8f0dc9416d9d9cf3a948d486f12407c2e952724b3c6332dd6e6f4979",
+            "inputsHash": "sha256:13b809fd67752b81fce7e54ba9ac81b1a8842f1c5b68f7deb264bacfd9e6b460",
+            "outputHash": "sha256:114482cb152eafde749703de7014474d38558978c4cd1e3112ad85c695ef5f90",
             "evidenceRefs": [
-              "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+              "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "config/auth/issuer-compat.yml",
               "docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts"
             ],
             "replayInputClosure": [
-              "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+              "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
-              "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+              "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
               "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
               "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5"
             ],
@@ -2180,10 +2180,10 @@
                 "emit audit receipt"
               ]
             },
-            "receiptHash": "sha256:9ef1bb4ce5b49190986db9753472fa0a386306aa8301d7470a888e9f4fe6b8ca"
+            "receiptHash": "sha256:0c16f8c1562513117782acdee4ce9d069c50a9d0112f3c25fb42a2e7efba9ff0"
           },
           {
-            "receiptId": "static_receipt_a1f7ea8a28d3",
+            "receiptId": "static_receipt_5623dad47dc4",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -2191,8 +2191,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:b72abc3ff5595fd79eddd7e4037d33004b019635f016b0c70080b0d4cc7d3aca",
-            "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+            "inputsHash": "sha256:453a4555bd9039548dd4a174f857953caf136bc5e12001664a567eb95f27b410",
+            "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
             "evidenceRefs": [
               "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
               "config/auth/issuer-compat.yml",
@@ -2246,10 +2246,10 @@
                 "kill switch"
               ]
             },
-            "receiptHash": "sha256:b53e339a60693965b74964d689be314bf412614568be0b3ef8122d80474edb04"
+            "receiptHash": "sha256:ad4d31a705866f06610f7b1b4bc14392907a32576ac5cf3b87a36262a850decf"
           },
           {
-            "receiptId": "static_receipt_afeb4f36fa69",
+            "receiptId": "static_receipt_3e27b9350e29",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -2257,10 +2257,10 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:5f4c0b91a990395bed404caea1579a7bd7e16ee825b678cf97b17f0c7a9b9d24",
-            "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+            "inputsHash": "sha256:5ff83fabc0e7df9afe0d6c20a22a30d5d7fab8066de09ab8bce265d0366015f2",
+            "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
             "evidenceRefs": [
-              "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+              "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
               "config/auth/issuer-compat.yml",
               "docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts",
@@ -2270,7 +2270,7 @@
               "issuer-compat.yml"
             ],
             "replayInputClosure": [
-              "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a"
+              "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b"
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
@@ -2312,10 +2312,10 @@
                 "kill switch"
               ]
             },
-            "receiptHash": "sha256:560cb0dd146b3a1ca0870c8f165eba2a819bdb4c75148bc85add921e4dfe7e1c"
+            "receiptHash": "sha256:a876c97a90778e9546449790e37430739a987e987c4cebb36ca62feae940d1b0"
           },
           {
-            "receiptId": "static_receipt_ebef6f117432",
+            "receiptId": "static_receipt_588ad42859f4",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -2323,8 +2323,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:939bf219c8c71effadfc45a5c8f3aa54e862bfc93b5788f0933fc51542cb7550",
-            "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+            "inputsHash": "sha256:60e8725e297c8b9320ac373271dc87357e86a8eb02716e19b74204b7350c541c",
+            "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
             "evidenceRefs": [
               "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
               "config/auth/issuer-compat.yml",
@@ -2378,10 +2378,10 @@
                 "kill switch"
               ]
             },
-            "receiptHash": "sha256:e4213b856f8985e155f1abca25cd1d2b1f2bf8b2640cb7df540446c45435c56e"
+            "receiptHash": "sha256:ba8415dbb04f9cf610b0ed7280af75dc7dd5eb5a7efb50ed12db0c3d37b7adc4"
           },
           {
-            "receiptId": "static_receipt_22cfba452d82",
+            "receiptId": "static_receipt_a3aa10850e15",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -2389,8 +2389,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:0c842a4dae5682d6637842bb68c07ca0a99fa1b849f52d1d2d89cb7556d74864",
-            "outputHash": "sha256:e3c7f94500567a2f5841f4a20cfbf344d8de91a81f4c3e514096bbf53ddf2597",
+            "inputsHash": "sha256:fd5d1f3b0abdae8cd84790557da8c1984923c867da89b51411c305e836150790",
+            "outputHash": "sha256:d6f587c3b004fc3d44417a18e36f0d150273e4f4f5b3b116c560f172f3234be6",
             "evidenceRefs": [
               "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
               "config/auth/issuer-compat.yml",
@@ -2444,7 +2444,7 @@
                 "kill switch"
               ]
             },
-            "receiptHash": "sha256:049a9908a98d13b29d85aef4336ce571ed07eca03e3ed18549d33f084f984452"
+            "receiptHash": "sha256:03b2a13d6ef8fb91842dd451bf695e99aeb25976de7fffe4fc7f0d6c8af145d6"
           }
         ],
         "analysisFactLifecycle": {
@@ -2657,12 +2657,12 @@
           "toolOrPromptId": "asset.measurement.extract.v15",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+            "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
             "services/auth/rollback.ts",
             "config/auth/issuer-compat.yml"
           ],
           "receiptRefs": [
-            "static_receipt_d6f8a140c387"
+            "static_receipt_68d71bd61f7c"
           ],
           "evaluatorSurface": {
             "evaluatorId": "asset.measurement.extract.v15",
@@ -2676,7 +2676,7 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": false,
             "evidenceRefs": [
-              "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+              "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "services/auth/rollback.ts",
               "config/auth/issuer-compat.yml"
             ]
@@ -2689,9 +2689,9 @@
           "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+            "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
             "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
-            "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+            "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
             "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
             "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5"
           ],
@@ -2708,9 +2708,9 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": true,
             "evidenceRefs": [
-              "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
+              "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
-              "sha256:9f7e0d717589e821455f6f2ba38a23adc7b60534aa69b2cb6441da13fbc5fe3a",
+              "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
               "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
               "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5"
             ]
@@ -2720,7 +2720,7 @@
     },
     {
       "assetId": "asset_proof-carrying-session-validator-patch-kit_535567adae",
-      "depositedAt": "2026-04-30T18:48:46.177Z",
+      "depositedAt": "2026-05-06T13:02:20.272Z",
       "title": "Proof-carrying session validator patch kit",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -3930,10 +3930,10 @@
           "attestationId": "att_f67036cd8087",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:403649b8586ebf95a03a510e6bf81b5060a71b2a9ee497ae461cc096fe5b87ca",
+          "payloadHash": "sha256:f8853dd22a96df57ff58a900b9d28c0b25daa9be948577bc8c9ce93ea42bf787",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:0100e1b78283f100572b7f5ae05aa64174de643d744bcee48f7d74a8e4d5c977"
+          "attestationHash": "sha256:5fb8ded31147cc4cfe4562c6042b04b240eea62bb1e47257b6174f9b6ff76cd5"
         }
       ],
       "uploadSurface": {
@@ -3961,7 +3961,7 @@
               "title": "Rollback verifier compatibility patch",
               "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
               "installationId": "gh_inst_bitcode_001",
-              "contentRoot": "sha256:c1c47ad8ccb42f56a25a844a56140d2479baa40a1e3c2fd0d1385c60ce0a70b1",
+              "contentRoot": "sha256:f421e4b29a30212a366717a747da7576a16e974bb55781a2a8cd6833743e5589",
               "addressingScope": "repo-file",
               "primaryAddressRef": "services/auth/rollback.ts",
               "addressingRoot": "sha256:b7670833ae4b1c2a81e724a9ec60394744efd0db0a00118d6f63c56460aac7ec"
@@ -3983,7 +3983,7 @@
               "addressingRoot": "sha256:c2e22730a88ff0b6fe7bb4599fb61483075da3bcfe7e25ef5914a0f289cde951"
             }
           ],
-          "selectedInventoryRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
+          "selectedInventoryRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8",
           "selectedArtifactKinds": [
             "patch",
             "proof"
@@ -4013,7 +4013,7 @@
             "configKeys": 3
           },
           "inventorySelectionCount": 2,
-          "inventorySelectionRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75"
+          "inventorySelectionRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8"
         },
         "surfaces": [
           {
@@ -4042,7 +4042,7 @@
             "mediaType": "application/json",
             "role": "selection",
             "available": true,
-            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_commit-file_4be7242c7f\",\"inv_frontier-demo-auth_proof-log_20d8627978\"],\"selectedInventoryRoot\":\"sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75\",\"originKinds\":[\"commit-file\",\"proof-log\"]}"
+            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_commit-file_4be7242c7f\",\"inv_frontier-demo-auth_proof-log_20d8627978\"],\"selectedInventoryRoot\":\"sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8\",\"originKinds\":[\"commit-file\",\"proof-log\"]}"
           }
         ],
         "githubBinding": {
@@ -4058,7 +4058,7 @@
             "inv_frontier-demo-auth_commit-file_4be7242c7f",
             "inv_frontier-demo-auth_proof-log_20d8627978"
           ],
-          "selectedInventoryRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
+          "selectedInventoryRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8",
           "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
           "localBoundary": "Stored locally as modeled metadata only.",
           "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -4087,7 +4087,7 @@
             "title": "Rollback verifier compatibility patch",
             "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
             "installationId": "gh_inst_bitcode_001",
-            "contentRoot": "sha256:c1c47ad8ccb42f56a25a844a56140d2479baa40a1e3c2fd0d1385c60ce0a70b1",
+            "contentRoot": "sha256:f421e4b29a30212a366717a747da7576a16e974bb55781a2a8cd6833743e5589",
             "addressingScope": "repo-file",
             "primaryAddressRef": "services/auth/rollback.ts",
             "addressingRoot": "sha256:b7670833ae4b1c2a81e724a9ec60394744efd0db0a00118d6f63c56460aac7ec"
@@ -4109,7 +4109,7 @@
             "addressingRoot": "sha256:c2e22730a88ff0b6fe7bb4599fb61483075da3bcfe7e25ef5914a0f289cde951"
           }
         ],
-        "selectedInventoryRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
+        "selectedInventoryRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8",
         "selectedArtifactKinds": [
           "patch",
           "proof"
@@ -4163,7 +4163,7 @@
             "artifactType": "code/patch",
             "originKind": "commit-file",
             "primaryAddressRef": "services/auth/rollback.ts",
-            "contentRoot": "sha256:c1c47ad8ccb42f56a25a844a56140d2479baa40a1e3c2fd0d1385c60ce0a70b1",
+            "contentRoot": "sha256:f421e4b29a30212a366717a747da7576a16e974bb55781a2a8cd6833743e5589",
             "addressingRoot": "sha256:b7670833ae4b1c2a81e724a9ec60394744efd0db0a00118d6f63c56460aac7ec"
           },
           {
@@ -4177,7 +4177,7 @@
           }
         ],
         "primaryAddressRef": "services/auth/rollback.ts",
-        "addressingRoot": "sha256:7a6da016fc6f8d40e9ec3af2eeb20d1bf66cf9a81845f422a7537410cb9c7e07"
+        "addressingRoot": "sha256:30a3bc2df43065baf82d7d6d76b8cd66682f6f5be444c8d3b2899b98f6cd257c"
       },
       "signingSurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -4185,12 +4185,12 @@
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
         "statementKind": "bitcode-asset-intake-attestation.v11",
-        "payloadHash": "sha256:403649b8586ebf95a03a510e6bf81b5060a71b2a9ee497ae461cc096fe5b87ca",
+        "payloadHash": "sha256:f8853dd22a96df57ff58a900b9d28c0b25daa9be948577bc8c9ce93ea42bf787",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:0100e1b78283f100572b7f5ae05aa64174de643d744bcee48f7d74a8e4d5c977",
-        "signedAddressingRoot": "sha256:7a6da016fc6f8d40e9ec3af2eeb20d1bf66cf9a81845f422a7537410cb9c7e07",
-        "signedSelectionRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
+        "attestationHash": "sha256:5fb8ded31147cc4cfe4562c6042b04b240eea62bb1e47257b6174f9b6ff76cd5",
+        "signedAddressingRoot": "sha256:30a3bc2df43065baf82d7d6d76b8cd66682f6f5be444c8d3b2899b98f6cd257c",
+        "signedSelectionRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
       },
       "githubAppAuthSurface": {
@@ -4260,7 +4260,7 @@
           "inv_frontier-demo-auth_commit-file_4be7242c7f",
           "inv_frontier-demo-auth_proof-log_20d8627978"
         ],
-        "selectedInventoryRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
+        "selectedInventoryRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
         "localBoundary": "Stored locally as modeled metadata only.",
         "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -4278,7 +4278,7 @@
         },
         "permissionsRoot": "sha256:a702283d0e8b655976c2341319c8dd67e04830565e6744db510127b8048f550f",
         "addressingScope": "multi-artifact-selection",
-        "addressingRoot": "sha256:7a6da016fc6f8d40e9ec3af2eeb20d1bf66cf9a81845f422a7537410cb9c7e07"
+        "addressingRoot": "sha256:30a3bc2df43065baf82d7d6d76b8cd66682f6f5be444c8d3b2899b98f6cd257c"
       },
       "identitySurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -4287,10 +4287,10 @@
         "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
         "installationId": "gh_inst_bitcode_001",
         "authMechanism": "github-app-installation",
-        "selectedInventoryRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
-        "addressingRoot": "sha256:7a6da016fc6f8d40e9ec3af2eeb20d1bf66cf9a81845f422a7537410cb9c7e07",
+        "selectedInventoryRoot": "sha256:fd2bdbcbfaf128885228fd3b141fef9a30760c9e4c1d4aab3efb75af83e082d8",
+        "addressingRoot": "sha256:30a3bc2df43065baf82d7d6d76b8cd66682f6f5be444c8d3b2899b98f6cd257c",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:403649b8586ebf95a03a510e6bf81b5060a71b2a9ee497ae461cc096fe5b87ca",
+        "signedPayloadHash": "sha256:f8853dd22a96df57ff58a900b9d28c0b25daa9be948577bc8c9ce93ea42bf787",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -5252,7 +5252,7 @@
     },
     {
       "assetId": "asset_formal-replay-window-validator-proof-bundle_ebe682fd49",
-      "depositedAt": "2026-04-30T18:48:46.178Z",
+      "depositedAt": "2026-05-06T13:02:20.273Z",
       "title": "Formal replay-window validator proof bundle",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -7379,8 +7379,8 @@
       ]
     },
     {
-      "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
-      "depositedAt": "2026-04-30T18:48:46.178Z",
+      "assetId": "asset_token-issuer-incident-escalation-notes_4665bb5c15",
+      "depositedAt": "2026-05-06T13:02:20.274Z",
       "title": "Token issuer incident escalation notes",
       "artifactKind": "incident-note",
       "artifactType": "notes/incident-retrospective",
@@ -7388,13 +7388,13 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_token-issuer-incident-escalation-notes_cdd908aa03"
+        "materializationRoot": ".bitcode/source-material/asset_token-issuer-incident-escalation-notes_4665bb5c15"
       },
-      "contentRoot": "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
+      "contentRoot": "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
       "contentUnits": [
         {
-          "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-1",
-          "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
+          "unitId": "asset_token-issuer-incident-escalation-notes_4665bb5c15:unit-1",
+          "assetId": "asset_token-issuer-incident-escalation-notes_4665bb5c15",
           "unitKind": "config-block",
           "text": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.",
           "codeAnalysisFacts": {
@@ -7434,25 +7434,25 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:4898947488bc6b173dc6e50471d24a5949deee4957d0d0312ff2bef1342b2a88"
+                "inputHash": "sha256:0efbac53ed8172f9c4bb35476d28de8f28e2b1d490918e99c403a584f6cb7a06"
               },
               "values": [
-                0.13484,
-                0,
-                0.13484,
-                0,
-                0.40452,
-                0.53936,
                 0,
                 0,
-                0.13484,
-                0.13484,
+                0.125988,
                 0,
-                0.13484,
-                0.26968,
-                0.53936,
-                0.13484,
-                0.26968
+                0.377964,
+                0.629941,
+                0,
+                0,
+                0.125988,
+                0.125988,
+                0,
+                0.125988,
+                0.251976,
+                0.503953,
+                0.125988,
+                0.251976
               ]
             },
             "failureModeVector": {
@@ -7464,25 +7464,25 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:fea628403da9cf2a20ce7d0da06df446df371bf79a5b18c8889f8f80ccb1f8d9"
+                "inputHash": "sha256:a16abd5afa5a27640c8536cc66af1ead0e9bdeee21a1d36056ad784d216594fb"
               },
               "values": [
-                0.123091,
-                0,
-                0.246183,
-                0.246183,
-                0.369274,
-                0.492366,
                 0,
                 0,
-                0.246183,
-                0.123091,
-                0.123091,
-                0.123091,
-                0.246183,
-                0.492366,
-                0.123091,
-                0.246183
+                0.232495,
+                0.232495,
+                0.348743,
+                0.581238,
+                0,
+                0,
+                0.232495,
+                0.116248,
+                0.116248,
+                0.116248,
+                0.232495,
+                0.464991,
+                0.116248,
+                0.232495
               ]
             },
             "technicalContextVector": {
@@ -7494,25 +7494,25 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:1d578597e2c00775098fac4d666b4c14ab56c1a8148d67aa6641d50e537a97ee"
+                "inputHash": "sha256:0d950e14bcc08da25be96c3a18ce89422dfa331732c3a0d80af6bf4c08c7b2c2"
               },
               "values": [
-                0.109764,
-                0.109764,
-                0.219529,
                 0,
-                0.329293,
-                0.439057,
+                0.104828,
+                0.209657,
                 0,
-                0.109764,
-                0.109764,
-                0.219529,
-                0.109764,
-                0.109764,
-                0.329293,
-                0.548821,
-                0.109764,
-                0.329293
+                0.314485,
+                0.524142,
+                0,
+                0.104828,
+                0.104828,
+                0.209657,
+                0.104828,
+                0.104828,
+                0.314485,
+                0.524142,
+                0.104828,
+                0.314485
               ]
             }
           },
@@ -7530,12 +7530,12 @@
               "toolOrPromptId": "content-unit.extract-static-code-analysis.v15",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+                "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
                 "docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "receiptRefs": [
-                "static_receipt_5e6b62d7d0dd"
+                "static_receipt_905eeb1fab95"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -7549,7 +7549,7 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": false,
                 "evidenceRefs": [
-                  "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+                  "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
                   "docs/incidents/auth-issuer-mismatch.md",
                   "auth.issuer.previousJwksUrl"
                 ]
@@ -7562,7 +7562,7 @@
               "toolOrPromptId": "content-unit.embedding-standin.v8",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72"
+                "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1"
               ],
               "receiptRefs": [],
               "evaluatorSurface": {
@@ -7577,14 +7577,14 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": true,
                 "evidenceRefs": [
-                  "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72"
+                  "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1"
                 ]
               }
             }
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_5e6b62d7d0dd",
+              "receiptId": "static_receipt_905eeb1fab95",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -7592,15 +7592,15 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:90dfcbc058d1cc09c7cb5e863e47095902459428c5f34ac545d8ba7702291059",
+              "inputsHash": "sha256:93bd96f16df44ea9ec2d4b4bc9f68346bdf47bb4698b38a54f15e30ee6bc9e20",
               "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
               "evidenceRefs": [
-                "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+                "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
                 "docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "replayInputClosure": [
-                "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72"
+                "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1"
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
@@ -7629,7 +7629,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:dc375d81671c99fb13cccb55b4451bbc5371c2e3145241fb17b80dc0dd5c2243"
+              "receiptHash": "sha256:6222ca43a7a2f57fd7f080a504f2ed1439d244f333878398b1d7a593566bed9f"
             }
           ],
           "semanticSummary": {
@@ -7647,11 +7647,11 @@
               "constraints": 1
             }
           },
-          "unitHash": "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72"
+          "unitHash": "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1"
         },
         {
-          "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-2",
-          "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
+          "unitId": "asset_token-issuer-incident-escalation-notes_4665bb5c15:unit-2",
+          "assetId": "asset_token-issuer-incident-escalation-notes_4665bb5c15",
           "unitKind": "config-block",
           "text": "Recovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.",
           "codeAnalysisFacts": {
@@ -7792,7 +7792,7 @@
                 "auth.issuer.previousJwksUrl"
               ],
               "receiptRefs": [
-                "static_receipt_e968de640428"
+                "static_receipt_53088f73662b"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -7841,7 +7841,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_e968de640428",
+              "receiptId": "static_receipt_53088f73662b",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -7849,7 +7849,7 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:44b3d2d0ff25443edb5ce40c313c94206a6f83f37c7755030a61c1e06c513922",
+              "inputsHash": "sha256:6fcbfb7d8ee8175cf4c42efccbc4ff74e797b9ffb3e6db8456c06a52a058aef1",
               "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
               "evidenceRefs": [
                 "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
@@ -7886,7 +7886,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:6f1551286cd5bc360befb7d3ea36a6270f9e7a6be078e06ab1d19fdd8109b235"
+              "receiptHash": "sha256:aec17bae72f9caf6a11e5a3ef38418e808b93eade37d117240f9f0397f978da2"
             }
           ],
           "semanticSummary": {
@@ -7907,8 +7907,8 @@
           "unitHash": "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b"
         },
         {
-          "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-3",
-          "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
+          "unitId": "asset_token-issuer-incident-escalation-notes_4665bb5c15:unit-3",
+          "assetId": "asset_token-issuer-incident-escalation-notes_4665bb5c15",
           "unitKind": "config-block",
           "text": "Operator note: most failed recoveries came from restoring schema before restoring validator config.",
           "codeAnalysisFacts": {
@@ -8049,7 +8049,7 @@
                 "auth.issuer.previousJwksUrl"
               ],
               "receiptRefs": [
-                "static_receipt_4532182d5e6f"
+                "static_receipt_241da1cfa4b4"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -8098,7 +8098,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_4532182d5e6f",
+              "receiptId": "static_receipt_241da1cfa4b4",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -8106,7 +8106,7 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:89c02e560f4616db5736d57c87dbb68bc6a4117429014a6121df0b0ff2e34af0",
+              "inputsHash": "sha256:71b136dae3e4d519d5486453b4b01cc2158bec85af69c00ac1ffe6d22fcbd3d0",
               "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
               "evidenceRefs": [
                 "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
@@ -8143,7 +8143,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:fca4de4f1e54da188696d12741d2ce245f97f1862190ecc62dc2d01614d6d1bb"
+              "receiptHash": "sha256:9cf6a7c2000b262d6bc98ed49837938dc157d03e08bb580d84798d576744bd73"
             }
           ],
           "semanticSummary": {
@@ -8166,17 +8166,17 @@
       ],
       "attestations": [
         {
-          "attestationId": "att_5104d4753b5f",
+          "attestationId": "att_c2085052d692",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:71c7fee81f572ece12c97979c064f178722df82f476bd08f7fa78fdafe88b589",
+          "payloadHash": "sha256:37814c2f65be17ef369082517b7f2b56196ee65eda64a91f6794b22ed20ea0cd",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:29a324dd3235898ba1164e02cdfd182ac1eb015451a109c54babad24317522bc"
+          "attestationHash": "sha256:126a842ae8ddc566eb9fad383b6d361d7533b525fd8320a16f43e1a2694b384d"
         }
       ],
       "uploadSurface": {
-        "uploadId": "upload_ac5b13dd140e",
+        "uploadId": "upload_da5a3510b7ae",
         "artifactKind": "incident-note",
         "artifactType": "notes/incident-retrospective",
         "artifactSelectionSurface": {
@@ -8246,7 +8246,7 @@
             "mediaType": "text/plain",
             "role": "raw",
             "available": true,
-            "valuePreview": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, "
+            "valuePreview": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience mig"
           },
           {
             "surfaceId": "code-analysis-summary",
@@ -8367,10 +8367,10 @@
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
         "statementKind": "bitcode-asset-intake-attestation.v11",
-        "payloadHash": "sha256:71c7fee81f572ece12c97979c064f178722df82f476bd08f7fa78fdafe88b589",
+        "payloadHash": "sha256:37814c2f65be17ef369082517b7f2b56196ee65eda64a91f6794b22ed20ea0cd",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:29a324dd3235898ba1164e02cdfd182ac1eb015451a109c54babad24317522bc",
+        "attestationHash": "sha256:126a842ae8ddc566eb9fad383b6d361d7533b525fd8320a16f43e1a2694b384d",
         "signedAddressingRoot": "sha256:ac818a9a21000c7052579acc66abf79932fa1bf33cd02d0e9640e82c8d42cb09",
         "signedSelectionRoot": "sha256:77002e20c41504985b51d4ba3578180383c51a55a3c796f9f078b120d302ad02",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
@@ -8471,7 +8471,7 @@
         "selectedInventoryRoot": "sha256:77002e20c41504985b51d4ba3578180383c51a55a3c796f9f078b120d302ad02",
         "addressingRoot": "sha256:ac818a9a21000c7052579acc66abf79932fa1bf33cd02d0e9640e82c8d42cb09",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:71c7fee81f572ece12c97979c064f178722df82f476bd08f7fa78fdafe88b589",
+        "signedPayloadHash": "sha256:37814c2f65be17ef369082517b7f2b56196ee65eda64a91f6794b22ed20ea0cd",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -8524,12 +8524,12 @@
           "compatibility window",
           "record operator ordering"
         ],
-        "summary": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ",
+        "summary": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience mig",
         "privateContent": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.",
         "issuerPolicyStatus": "restricted"
       },
       "assetMeasurement": {
-        "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
+        "assetId": "asset_token-issuer-incident-escalation-notes_4665bb5c15",
         "codeAnalysisFacts": {
           "symbols": [
             "issuerCompatibilityWindow",
@@ -8554,9 +8554,9 @@
         },
         "contentUnitSemantics": [
           {
-            "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-1",
+            "unitId": "asset_token-issuer-incident-escalation-notes_4665bb5c15:unit-1",
             "unitKind": "config-block",
-            "unitHash": "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+            "unitHash": "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
             "codeAnalysisFactCounts": {
               "symbols": 5,
               "paths": 1,
@@ -8573,7 +8573,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:4898947488bc6b173dc6e50471d24a5949deee4957d0d0312ff2bef1342b2a88"
+                "inputHash": "sha256:0efbac53ed8172f9c4bb35476d28de8f28e2b1d490918e99c403a584f6cb7a06"
               },
               "failureModeVector": {
                 "vectorSpace": "failure-mode-space.v8",
@@ -8583,7 +8583,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:fea628403da9cf2a20ce7d0da06df446df371bf79a5b18c8889f8f80ccb1f8d9"
+                "inputHash": "sha256:a16abd5afa5a27640c8536cc66af1ead0e9bdeee21a1d36056ad784d216594fb"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -8593,12 +8593,12 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:1d578597e2c00775098fac4d666b4c14ab56c1a8148d67aa6641d50e537a97ee"
+                "inputHash": "sha256:0d950e14bcc08da25be96c3a18ce89422dfa331732c3a0d80af6bf4c08c7b2c2"
               }
             }
           },
           {
-            "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-2",
+            "unitId": "asset_token-issuer-incident-escalation-notes_4665bb5c15:unit-2",
             "unitKind": "config-block",
             "unitHash": "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
             "codeAnalysisFactCounts": {
@@ -8642,7 +8642,7 @@
             }
           },
           {
-            "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-3",
+            "unitId": "asset_token-issuer-incident-escalation-notes_4665bb5c15:unit-3",
             "unitKind": "config-block",
             "unitHash": "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
             "codeAnalysisFactCounts": {
@@ -8701,11 +8701,11 @@
             "toolOrPromptId": "asset.measurement.extract.v15",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
+              "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
               "docs/incidents/auth-issuer-mismatch.md"
             ],
             "receiptRefs": [
-              "static_receipt_3690421be13f"
+              "static_receipt_0b09b194d5cd"
             ],
             "evaluatorSurface": {
               "evaluatorId": "asset.measurement.extract.v15",
@@ -8719,7 +8719,7 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": false,
               "evidenceRefs": [
-                "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
+                "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
                 "docs/incidents/auth-issuer-mismatch.md"
               ]
             }
@@ -8731,8 +8731,8 @@
             "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
-              "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+              "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
+              "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
               "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
               "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2"
             ],
@@ -8749,8 +8749,8 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": true,
               "evidenceRefs": [
-                "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
-                "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+                "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
+                "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
                 "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
                 "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2"
               ]
@@ -8759,7 +8759,7 @@
         ],
         "staticExecutionReceipts": [
           {
-            "receiptId": "static_receipt_3690421be13f",
+            "receiptId": "static_receipt_0b09b194d5cd",
             "receiptKind": "asset-static-code-analysis",
             "stageId": "asset.measurement.extract.v15",
             "toolId": "asset.measurement.extract.v15",
@@ -8767,15 +8767,15 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:a7a660fcd50bc85c245fbf60d1eeb90bc53b3ca76026571425258f708865f83d",
+            "inputsHash": "sha256:68b5ce0bf0611ccc0e2d6597cc0fd770972a70483bb8851e97102ed0fb78920a",
             "outputHash": "sha256:ef5dab9f0ed770bac55b37053b303b194589daab8ed3b3be8d4905622953eb74",
             "evidenceRefs": [
-              "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
+              "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
               "docs/incidents/auth-issuer-mismatch.md"
             ],
             "replayInputClosure": [
-              "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
-              "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+              "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
+              "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
               "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
               "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2"
             ],
@@ -8801,10 +8801,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:f5f44487f0e091daf887bdcb3398cbadb2c0017488a505dba131a17861fb4828"
+            "receiptHash": "sha256:6fa8bfb16d0a71178dfd3950ca6866fae72d1799f1565ca7fd57deeb21a92be6"
           },
           {
-            "receiptId": "static_receipt_5e6b62d7d0dd",
+            "receiptId": "static_receipt_905eeb1fab95",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -8812,15 +8812,15 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:90dfcbc058d1cc09c7cb5e863e47095902459428c5f34ac545d8ba7702291059",
+            "inputsHash": "sha256:93bd96f16df44ea9ec2d4b4bc9f68346bdf47bb4698b38a54f15e30ee6bc9e20",
             "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
             "evidenceRefs": [
-              "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+              "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
               "docs/incidents/auth-issuer-mismatch.md",
               "auth.issuer.previousJwksUrl"
             ],
             "replayInputClosure": [
-              "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72"
+              "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1"
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
@@ -8849,10 +8849,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:dc375d81671c99fb13cccb55b4451bbc5371c2e3145241fb17b80dc0dd5c2243"
+            "receiptHash": "sha256:6222ca43a7a2f57fd7f080a504f2ed1439d244f333878398b1d7a593566bed9f"
           },
           {
-            "receiptId": "static_receipt_e968de640428",
+            "receiptId": "static_receipt_53088f73662b",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -8860,7 +8860,7 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:44b3d2d0ff25443edb5ce40c313c94206a6f83f37c7755030a61c1e06c513922",
+            "inputsHash": "sha256:6fcbfb7d8ee8175cf4c42efccbc4ff74e797b9ffb3e6db8456c06a52a058aef1",
             "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
             "evidenceRefs": [
               "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
@@ -8897,10 +8897,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:6f1551286cd5bc360befb7d3ea36a6270f9e7a6be078e06ab1d19fdd8109b235"
+            "receiptHash": "sha256:aec17bae72f9caf6a11e5a3ef38418e808b93eade37d117240f9f0397f978da2"
           },
           {
-            "receiptId": "static_receipt_4532182d5e6f",
+            "receiptId": "static_receipt_241da1cfa4b4",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -8908,7 +8908,7 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:89c02e560f4616db5736d57c87dbb68bc6a4117429014a6121df0b0ff2e34af0",
+            "inputsHash": "sha256:71b136dae3e4d519d5486453b4b01cc2158bec85af69c00ac1ffe6d22fcbd3d0",
             "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
             "evidenceRefs": [
               "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
@@ -8945,7 +8945,7 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:fca4de4f1e54da188696d12741d2ce245f97f1862190ecc62dc2d01614d6d1bb"
+            "receiptHash": "sha256:9cf6a7c2000b262d6bc98ed49837938dc157d03e08bb580d84798d576744bd73"
           }
         ],
         "analysisFactLifecycle": {
@@ -9158,11 +9158,11 @@
           "toolOrPromptId": "asset.measurement.extract.v15",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
+            "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
             "docs/incidents/auth-issuer-mismatch.md"
           ],
           "receiptRefs": [
-            "static_receipt_3690421be13f"
+            "static_receipt_0b09b194d5cd"
           ],
           "evaluatorSurface": {
             "evaluatorId": "asset.measurement.extract.v15",
@@ -9176,7 +9176,7 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": false,
             "evidenceRefs": [
-              "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
+              "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
               "docs/incidents/auth-issuer-mismatch.md"
             ]
           }
@@ -9188,8 +9188,8 @@
           "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
-            "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+            "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
+            "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
             "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
             "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2"
           ],
@@ -9206,8 +9206,8 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": true,
             "evidenceRefs": [
-              "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
-              "sha256:05b8bca931278299a560a38ba67c35dd5ea43a7586327678941db868dd614b72",
+              "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
+              "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
               "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
               "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2"
             ]
@@ -9217,7 +9217,7 @@
     },
     {
       "assetId": "asset_policy-precedence-incident-governor-fixpack_24fd6bb39b",
-      "depositedAt": "2026-04-30T18:48:46.179Z",
+      "depositedAt": "2026-05-06T13:02:20.275Z",
       "title": "Policy precedence incident governor fixpack",
       "artifactKind": "config",
       "artifactType": "config/policy-change",
@@ -11291,7 +11291,7 @@
     },
     {
       "assetId": "asset_unsafe-patch-review-containment-checklist_d755cefe57",
-      "depositedAt": "2026-04-30T18:48:46.180Z",
+      "depositedAt": "2026-05-06T13:02:20.276Z",
       "title": "Unsafe patch review containment checklist",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -13413,7 +13413,7 @@
     },
     {
       "assetId": "asset_deployment-drift-rollback-release-playbook_06609384ae",
-      "depositedAt": "2026-04-30T18:48:46.181Z",
+      "depositedAt": "2026-05-06T13:02:20.277Z",
       "title": "Deployment drift rollback release playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -15532,7 +15532,7 @@
     },
     {
       "assetId": "asset_projection-safe-bounded-proof-export-notes_a74e682378",
-      "depositedAt": "2026-04-30T18:48:46.182Z",
+      "depositedAt": "2026-05-06T13:02:20.278Z",
       "title": "Projection-safe bounded proof export notes",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -17202,8 +17202,8 @@
       ]
     },
     {
-      "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
-      "depositedAt": "2026-04-30T18:48:46.183Z",
+      "assetId": "asset_session-validator-compatibility-witness-dossier_b262bc6896",
+      "depositedAt": "2026-05-06T13:02:20.279Z",
       "title": "Session validator compatibility witness dossier",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -17211,13 +17211,13 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_session-validator-compatibility-witness-dossier_ced0ee25a5"
+        "materializationRoot": ".bitcode/source-material/asset_session-validator-compatibility-witness-dossier_b262bc6896"
       },
-      "contentRoot": "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+      "contentRoot": "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
       "contentUnits": [
         {
-          "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-1",
-          "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
+          "unitId": "asset_session-validator-compatibility-witness-dossier_b262bc6896:unit-1",
+          "assetId": "asset_session-validator-compatibility-witness-dossier_b262bc6896",
           "unitKind": "config-block",
           "text": "Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.",
           "codeAnalysisFacts": {
@@ -17305,7 +17305,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:35a5812897cf83de1c04d44937acb1cf2bc5b7db3491221313c2b851c2eed87b"
+                "inputHash": "sha256:a0912d799d7abc9dc26f98e580fe84066776dc74cf04c5a4d7fe074f6f7a95cc"
               },
               "values": [
                 0.084515,
@@ -17385,7 +17385,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_3db01b39fd91"
+                "static_receipt_c865338557bb"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -17443,7 +17443,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_3db01b39fd91",
+              "receiptId": "static_receipt_c865338557bb",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -17451,8 +17451,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:ec9d350879ea5a12af5350cbae1d1a86f731580f70ee6920cfcf85b0333575a2",
-              "outputHash": "sha256:6f11b05cc7a19e82dd20d5003d6210ea3cc4426504eff00df674909001cc6e78",
+              "inputsHash": "sha256:498b5370bfa9029bdd8d01d0f415973392bb6344059e9b1401cd378da8d00b2b",
+              "outputHash": "sha256:69d8193255a66c733fd5b1837123299be9df27ba8b639265c9ced621929d1930",
               "evidenceRefs": [
                 "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
                 "proofs/session_validator.creusot.log",
@@ -17515,7 +17515,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:de0a9f116368113aa310acac73ce8ca93fea58b3c2d5daa286f4b792c10c8062"
+              "receiptHash": "sha256:83e7c806e8931217762deb051fc77a3fafdaf74af9344203b2e2b58dfef60f26"
             }
           ],
           "semanticSummary": {
@@ -17536,8 +17536,8 @@
           "unitHash": "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250"
         },
         {
-          "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-2",
-          "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
+          "unitId": "asset_session-validator-compatibility-witness-dossier_b262bc6896:unit-2",
+          "assetId": "asset_session-validator-compatibility-witness-dossier_b262bc6896",
           "unitKind": "text",
           "text": "Implementation note: keep SessionValidator and restorePriorVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.",
           "codeAnalysisFacts": {
@@ -17595,7 +17595,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:16d90fa22d068fff0fdc4e698135b6b5e82b4eb0aada6a6ed0b25357278801d6"
+                "inputHash": "sha256:58198589e8275ab3931cdd165f364829796909a1acbd9a922d79880f46104531"
               },
               "values": [
                 0.107211,
@@ -17625,7 +17625,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:d0ac428a073fb09d991dc14424d007e74a0c762438db158aa1fcd926806831b7"
+                "inputHash": "sha256:aec0b5402c3d902e28f8561059a3e9bdcf9b157e913926b371c9e757567be52e"
               },
               "values": [
                 0.080064,
@@ -17655,7 +17655,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:af3c7d8aec6f6863e22da6534c1035e8a538865f5142d384ca77cd7b1eb62b35"
+                "inputHash": "sha256:a7b8012557ccf208e0cf4e09266770fe43a104162430ff05dad4821361a73da3"
               },
               "values": [
                 0.121942,
@@ -17691,7 +17691,7 @@
               "toolOrPromptId": "content-unit.extract-static-code-analysis.v15",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+                "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
                 "proofs/session_validator.creusot.log",
                 "config/auth/issuer-compat.yml",
                 "services/auth/session_validator.rs",
@@ -17705,7 +17705,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_05a65619b40e"
+                "static_receipt_5babfc59f37f"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -17719,7 +17719,7 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": false,
                 "evidenceRefs": [
-                  "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+                  "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
                   "proofs/session_validator.creusot.log",
                   "config/auth/issuer-compat.yml",
                   "services/auth/session_validator.rs",
@@ -17741,7 +17741,7 @@
               "toolOrPromptId": "content-unit.embedding-standin.v8",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f"
+                "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601"
               ],
               "receiptRefs": [],
               "evaluatorSurface": {
@@ -17756,14 +17756,14 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": true,
                 "evidenceRefs": [
-                  "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f"
+                  "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601"
                 ]
               }
             }
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_05a65619b40e",
+              "receiptId": "static_receipt_5babfc59f37f",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -17771,10 +17771,10 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:6c408c600d38d92ebe97d111cc7fe5efbbecf40848a0e1211e64f00a0419d946",
-              "outputHash": "sha256:6f11b05cc7a19e82dd20d5003d6210ea3cc4426504eff00df674909001cc6e78",
+              "inputsHash": "sha256:9799616be77807e864ba13775cc4667235a7c6ea224d510af40e0e20dcde0fbf",
+              "outputHash": "sha256:69d8193255a66c733fd5b1837123299be9df27ba8b639265c9ced621929d1930",
               "evidenceRefs": [
-                "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+                "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
                 "proofs/session_validator.creusot.log",
                 "config/auth/issuer-compat.yml",
                 "services/auth/session_validator.rs",
@@ -17788,7 +17788,7 @@
                 "issuer-compat.yml"
               ],
               "replayInputClosure": [
-                "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f"
+                "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601"
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
@@ -17835,7 +17835,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:c02100cb409bbb0cded4f2111b5b3bbd9b3d3384fe758975f206f2033e92995d"
+              "receiptHash": "sha256:992575585b4a0ab345108a8e7bc19628cdfd77e699b3c0330f24cc80d15b2c21"
             }
           ],
           "semanticSummary": {
@@ -17853,11 +17853,11 @@
               "constraints": 5
             }
           },
-          "unitHash": "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f"
+          "unitHash": "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601"
         },
         {
-          "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-3",
-          "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
+          "unitId": "asset_session-validator-compatibility-witness-dossier_b262bc6896:unit-3",
+          "assetId": "asset_session-validator-compatibility-witness-dossier_b262bc6896",
           "unitKind": "config-block",
           "text": "Verification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.",
           "codeAnalysisFacts": {
@@ -17945,7 +17945,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:fe3e3d920e25151001e4d1603d8e8902c5094227cbc262883ad1c2d2ebbf7ab6"
+                "inputHash": "sha256:fb618689fb8eb75dc53df70c5041d69cdb01c0b22e609fd0654cab556ccd9cd1"
               },
               "values": [
                 0.081379,
@@ -18025,7 +18025,7 @@
                 "issuer-compat.yml"
               ],
               "receiptRefs": [
-                "static_receipt_2681d9daedea"
+                "static_receipt_9b2fef24c95f"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -18083,7 +18083,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_2681d9daedea",
+              "receiptId": "static_receipt_9b2fef24c95f",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -18091,8 +18091,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:2175512633f27f5404e85981de34868eba92de7c8fc455205d171471896ff714",
-              "outputHash": "sha256:6f11b05cc7a19e82dd20d5003d6210ea3cc4426504eff00df674909001cc6e78",
+              "inputsHash": "sha256:a8b7fbcdb3fa3e9f4f4edc31e9df05d8e6bdd755d556d05f55560956921e8072",
+              "outputHash": "sha256:69d8193255a66c733fd5b1837123299be9df27ba8b639265c9ced621929d1930",
               "evidenceRefs": [
                 "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14",
                 "proofs/session_validator.creusot.log",
@@ -18155,7 +18155,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:c08c866cea7f93d542b9400b1be72e0a899bb6a3e62a47dc4ce052d65f46a690"
+              "receiptHash": "sha256:b492cfdfb344dfeed2053501b3deea1c81c885acdcd98fb971f4afe64c5ab7fa"
             }
           ],
           "semanticSummary": {
@@ -18178,17 +18178,17 @@
       ],
       "attestations": [
         {
-          "attestationId": "att_c6f428d281c5",
+          "attestationId": "att_bbef40091374",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:9f23420bf5ffa442a269896fa32a8cbd37957acc14f98e045acc2d2f299985b5",
+          "payloadHash": "sha256:85d51b05423651cf35c34493287341ac31ac0457474b330ece38ea3756d7b19d",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:e90e67555ba6a00fc20049858fea5087569fc028c92225580d079648160349a4"
+          "attestationHash": "sha256:023accdfb8cfc0ecf36e1dd35aa3f060b7299be5449e3fb400f2b69341263574"
         }
       ],
       "uploadSurface": {
-        "uploadId": "upload_b063db59a97d",
+        "uploadId": "upload_8db89dfc92f3",
         "artifactKind": "proof",
         "artifactType": "proof/verification-log",
         "artifactSelectionSurface": {
@@ -18229,7 +18229,7 @@
               "title": "Auth rollback benchmark summary",
               "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
               "installationId": "gh_inst_bitcode_001",
-              "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+              "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
               "addressingScope": "workflow-artifact",
               "primaryAddressRef": "auth-remediation-report.json",
               "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
@@ -18251,7 +18251,7 @@
               "addressingRoot": "sha256:7043177f7539234c9eaab9650316d55e416cdd597c59dc86379b63334ee2f893"
             }
           ],
-          "selectedInventoryRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
+          "selectedInventoryRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be",
           "selectedArtifactKinds": [
             "proof",
             "runbook",
@@ -18285,7 +18285,7 @@
             "configKeys": 6
           },
           "inventorySelectionCount": 3,
-          "inventorySelectionRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525"
+          "inventorySelectionRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be"
         },
         "surfaces": [
           {
@@ -18314,7 +18314,7 @@
             "mediaType": "application/json",
             "role": "selection",
             "available": true,
-            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_proof-log_20d8627978\",\"inv_frontier-demo-auth_workflow-artifact_1dcb0ec071\",\"inv_frontier-demo-auth_config-snapshot_3d113def88\"],\"selectedInventoryRoot\":\"sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525\",\"originKinds\":[\"proof-log\",\"workflow-artifact\",\"config-snapshot\"]}"
+            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_proof-log_20d8627978\",\"inv_frontier-demo-auth_workflow-artifact_1dcb0ec071\",\"inv_frontier-demo-auth_config-snapshot_3d113def88\"],\"selectedInventoryRoot\":\"sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be\",\"originKinds\":[\"proof-log\",\"workflow-artifact\",\"config-snapshot\"]}"
           }
         ],
         "githubBinding": {
@@ -18331,7 +18331,7 @@
             "inv_frontier-demo-auth_workflow-artifact_1dcb0ec071",
             "inv_frontier-demo-auth_config-snapshot_3d113def88"
           ],
-          "selectedInventoryRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
+          "selectedInventoryRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be",
           "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
           "localBoundary": "Stored locally as modeled metadata only.",
           "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -18377,7 +18377,7 @@
             "title": "Auth rollback benchmark summary",
             "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
             "installationId": "gh_inst_bitcode_001",
-            "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+            "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
             "addressingScope": "workflow-artifact",
             "primaryAddressRef": "auth-remediation-report.json",
             "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
@@ -18399,7 +18399,7 @@
             "addressingRoot": "sha256:7043177f7539234c9eaab9650316d55e416cdd597c59dc86379b63334ee2f893"
           }
         ],
-        "selectedInventoryRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
+        "selectedInventoryRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be",
         "selectedArtifactKinds": [
           "proof",
           "runbook",
@@ -18469,7 +18469,7 @@
             "artifactType": "runbook/operator-playbook",
             "originKind": "workflow-artifact",
             "primaryAddressRef": "auth-remediation-report.json",
-            "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+            "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
             "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
           },
           {
@@ -18483,7 +18483,7 @@
           }
         ],
         "primaryAddressRef": "proofs/session_validator.creusot.log",
-        "addressingRoot": "sha256:b17fa3efe7f2d6a342a636c42e37cb5a0cab39bf2844ed80d396be7686de1ca3"
+        "addressingRoot": "sha256:18a6537a88621031ba7015e5777bb1079fa26a7d25f30107cd35e7140956c9a9"
       },
       "signingSurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -18491,12 +18491,12 @@
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
         "statementKind": "bitcode-asset-intake-attestation.v11",
-        "payloadHash": "sha256:9f23420bf5ffa442a269896fa32a8cbd37957acc14f98e045acc2d2f299985b5",
+        "payloadHash": "sha256:85d51b05423651cf35c34493287341ac31ac0457474b330ece38ea3756d7b19d",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:e90e67555ba6a00fc20049858fea5087569fc028c92225580d079648160349a4",
-        "signedAddressingRoot": "sha256:b17fa3efe7f2d6a342a636c42e37cb5a0cab39bf2844ed80d396be7686de1ca3",
-        "signedSelectionRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
+        "attestationHash": "sha256:023accdfb8cfc0ecf36e1dd35aa3f060b7299be5449e3fb400f2b69341263574",
+        "signedAddressingRoot": "sha256:18a6537a88621031ba7015e5777bb1079fa26a7d25f30107cd35e7140956c9a9",
+        "signedSelectionRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
       },
       "githubAppAuthSurface": {
@@ -18567,7 +18567,7 @@
           "inv_frontier-demo-auth_workflow-artifact_1dcb0ec071",
           "inv_frontier-demo-auth_config-snapshot_3d113def88"
         ],
-        "selectedInventoryRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
+        "selectedInventoryRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
         "localBoundary": "Stored locally as modeled metadata only.",
         "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -18585,7 +18585,7 @@
         },
         "permissionsRoot": "sha256:a702283d0e8b655976c2341319c8dd67e04830565e6744db510127b8048f550f",
         "addressingScope": "multi-artifact-selection",
-        "addressingRoot": "sha256:b17fa3efe7f2d6a342a636c42e37cb5a0cab39bf2844ed80d396be7686de1ca3"
+        "addressingRoot": "sha256:18a6537a88621031ba7015e5777bb1079fa26a7d25f30107cd35e7140956c9a9"
       },
       "identitySurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -18594,10 +18594,10 @@
         "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
         "installationId": "gh_inst_bitcode_001",
         "authMechanism": "github-app-installation",
-        "selectedInventoryRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
-        "addressingRoot": "sha256:b17fa3efe7f2d6a342a636c42e37cb5a0cab39bf2844ed80d396be7686de1ca3",
+        "selectedInventoryRoot": "sha256:12ece86ed47136cd5c08b826b2c0d78016637e4cb23419c39f4ce2119d5ec5be",
+        "addressingRoot": "sha256:18a6537a88621031ba7015e5777bb1079fa26a7d25f30107cd35e7140956c9a9",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:9f23420bf5ffa442a269896fa32a8cbd37957acc14f98e045acc2d2f299985b5",
+        "signedPayloadHash": "sha256:85d51b05423651cf35c34493287341ac31ac0457474b330ece38ea3756d7b19d",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -18682,7 +18682,7 @@
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
-        "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
+        "assetId": "asset_session-validator-compatibility-witness-dossier_b262bc6896",
         "codeAnalysisFacts": {
           "symbols": [
             "SessionValidator",
@@ -18722,7 +18722,7 @@
         },
         "contentUnitSemantics": [
           {
-            "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-1",
+            "unitId": "asset_session-validator-compatibility-witness-dossier_b262bc6896:unit-1",
             "unitKind": "config-block",
             "unitHash": "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
             "codeAnalysisFactCounts": {
@@ -18751,7 +18751,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:35a5812897cf83de1c04d44937acb1cf2bc5b7db3491221313c2b851c2eed87b"
+                "inputHash": "sha256:a0912d799d7abc9dc26f98e580fe84066776dc74cf04c5a4d7fe074f6f7a95cc"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -18766,9 +18766,9 @@
             }
           },
           {
-            "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-2",
+            "unitId": "asset_session-validator-compatibility-witness-dossier_b262bc6896:unit-2",
             "unitKind": "text",
-            "unitHash": "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+            "unitHash": "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
             "codeAnalysisFactCounts": {
               "symbols": 7,
               "paths": 5,
@@ -18785,7 +18785,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:16d90fa22d068fff0fdc4e698135b6b5e82b4eb0aada6a6ed0b25357278801d6"
+                "inputHash": "sha256:58198589e8275ab3931cdd165f364829796909a1acbd9a922d79880f46104531"
               },
               "failureModeVector": {
                 "vectorSpace": "failure-mode-space.v8",
@@ -18795,7 +18795,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:d0ac428a073fb09d991dc14424d007e74a0c762438db158aa1fcd926806831b7"
+                "inputHash": "sha256:aec0b5402c3d902e28f8561059a3e9bdcf9b157e913926b371c9e757567be52e"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -18805,12 +18805,12 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:af3c7d8aec6f6863e22da6534c1035e8a538865f5142d384ca77cd7b1eb62b35"
+                "inputHash": "sha256:a7b8012557ccf208e0cf4e09266770fe43a104162430ff05dad4821361a73da3"
               }
             }
           },
           {
-            "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-3",
+            "unitId": "asset_session-validator-compatibility-witness-dossier_b262bc6896:unit-3",
             "unitKind": "config-block",
             "unitHash": "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14",
             "codeAnalysisFactCounts": {
@@ -18839,7 +18839,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:fe3e3d920e25151001e4d1603d8e8902c5094227cbc262883ad1c2d2ebbf7ab6"
+                "inputHash": "sha256:fb618689fb8eb75dc53df70c5041d69cdb01c0b22e609fd0654cab556ccd9cd1"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -18869,14 +18869,14 @@
             "toolOrPromptId": "asset.measurement.extract.v15",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+              "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
               "services/auth/session_validator.rs",
               "services/auth/audit_receipt.ts",
               "services/auth/rollback.ts",
               "config/auth/issuer-compat.yml"
             ],
             "receiptRefs": [
-              "static_receipt_09f4e4b1640e"
+              "static_receipt_4ea075dd3788"
             ],
             "evaluatorSurface": {
               "evaluatorId": "asset.measurement.extract.v15",
@@ -18890,7 +18890,7 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": false,
               "evidenceRefs": [
-                "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+                "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
                 "services/auth/session_validator.rs",
                 "services/auth/audit_receipt.ts",
                 "services/auth/rollback.ts",
@@ -18905,9 +18905,9 @@
             "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+              "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
               "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
-              "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+              "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
               "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14"
             ],
             "receiptRefs": [],
@@ -18923,9 +18923,9 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": true,
               "evidenceRefs": [
-                "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+                "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
                 "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
-                "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+                "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
                 "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14"
               ]
             }
@@ -18933,7 +18933,7 @@
         ],
         "staticExecutionReceipts": [
           {
-            "receiptId": "static_receipt_09f4e4b1640e",
+            "receiptId": "static_receipt_4ea075dd3788",
             "receiptKind": "asset-static-code-analysis",
             "stageId": "asset.measurement.extract.v15",
             "toolId": "asset.measurement.extract.v15",
@@ -18941,10 +18941,10 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:99a9530e18d67bfefd00386d25401c0a9ddd297cff1ed93f8f860196ed328e03",
-            "outputHash": "sha256:3088c0b4a13048710bb0ccdf26bc2456b333652a5771bb27feada9c417d672c9",
+            "inputsHash": "sha256:449593c71de73052047782dab973882904d3ec2590de275b4605ec7e9463e94f",
+            "outputHash": "sha256:3cc38388741f387544b66ed3c9a3402868a9e32004e0a834b382416181150d90",
             "evidenceRefs": [
-              "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+              "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
               "proofs/session_validator.creusot.log",
               "config/auth/issuer-compat.yml",
               "services/auth/session_validator.rs",
@@ -18952,9 +18952,9 @@
               "services/auth/rollback.ts"
             ],
             "replayInputClosure": [
-              "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+              "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
               "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
-              "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+              "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
               "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14"
             ],
             "normalizedOutputEnvelope": {
@@ -18994,10 +18994,10 @@
                 "no unchecked validator panic"
               ]
             },
-            "receiptHash": "sha256:12d5ca80d4cb6149a2f57209db42fd4a75f3ea8cf4afaa6e0770434badee6879"
+            "receiptHash": "sha256:4caca42b025d2871c0ff7c9f303324ed70a47cfa252fb7dcdf01253ea6e147e2"
           },
           {
-            "receiptId": "static_receipt_3db01b39fd91",
+            "receiptId": "static_receipt_c865338557bb",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -19005,8 +19005,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:ec9d350879ea5a12af5350cbae1d1a86f731580f70ee6920cfcf85b0333575a2",
-            "outputHash": "sha256:6f11b05cc7a19e82dd20d5003d6210ea3cc4426504eff00df674909001cc6e78",
+            "inputsHash": "sha256:498b5370bfa9029bdd8d01d0f415973392bb6344059e9b1401cd378da8d00b2b",
+            "outputHash": "sha256:69d8193255a66c733fd5b1837123299be9df27ba8b639265c9ced621929d1930",
             "evidenceRefs": [
               "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
               "proofs/session_validator.creusot.log",
@@ -19069,10 +19069,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:de0a9f116368113aa310acac73ce8ca93fea58b3c2d5daa286f4b792c10c8062"
+            "receiptHash": "sha256:83e7c806e8931217762deb051fc77a3fafdaf74af9344203b2e2b58dfef60f26"
           },
           {
-            "receiptId": "static_receipt_05a65619b40e",
+            "receiptId": "static_receipt_5babfc59f37f",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -19080,10 +19080,10 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:6c408c600d38d92ebe97d111cc7fe5efbbecf40848a0e1211e64f00a0419d946",
-            "outputHash": "sha256:6f11b05cc7a19e82dd20d5003d6210ea3cc4426504eff00df674909001cc6e78",
+            "inputsHash": "sha256:9799616be77807e864ba13775cc4667235a7c6ea224d510af40e0e20dcde0fbf",
+            "outputHash": "sha256:69d8193255a66c733fd5b1837123299be9df27ba8b639265c9ced621929d1930",
             "evidenceRefs": [
-              "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+              "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
               "proofs/session_validator.creusot.log",
               "config/auth/issuer-compat.yml",
               "services/auth/session_validator.rs",
@@ -19097,7 +19097,7 @@
               "issuer-compat.yml"
             ],
             "replayInputClosure": [
-              "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f"
+              "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601"
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
@@ -19144,10 +19144,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:c02100cb409bbb0cded4f2111b5b3bbd9b3d3384fe758975f206f2033e92995d"
+            "receiptHash": "sha256:992575585b4a0ab345108a8e7bc19628cdfd77e699b3c0330f24cc80d15b2c21"
           },
           {
-            "receiptId": "static_receipt_2681d9daedea",
+            "receiptId": "static_receipt_9b2fef24c95f",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -19155,8 +19155,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:2175512633f27f5404e85981de34868eba92de7c8fc455205d171471896ff714",
-            "outputHash": "sha256:6f11b05cc7a19e82dd20d5003d6210ea3cc4426504eff00df674909001cc6e78",
+            "inputsHash": "sha256:a8b7fbcdb3fa3e9f4f4edc31e9df05d8e6bdd755d556d05f55560956921e8072",
+            "outputHash": "sha256:69d8193255a66c733fd5b1837123299be9df27ba8b639265c9ced621929d1930",
             "evidenceRefs": [
               "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14",
               "proofs/session_validator.creusot.log",
@@ -19219,7 +19219,7 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:c08c866cea7f93d542b9400b1be72e0a899bb6a3e62a47dc4ce052d65f46a690"
+            "receiptHash": "sha256:b492cfdfb344dfeed2053501b3deea1c81c885acdcd98fb971f4afe64c5ab7fa"
           }
         ],
         "analysisFactLifecycle": {
@@ -19432,14 +19432,14 @@
           "toolOrPromptId": "asset.measurement.extract.v15",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+            "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
             "services/auth/session_validator.rs",
             "services/auth/audit_receipt.ts",
             "services/auth/rollback.ts",
             "config/auth/issuer-compat.yml"
           ],
           "receiptRefs": [
-            "static_receipt_09f4e4b1640e"
+            "static_receipt_4ea075dd3788"
           ],
           "evaluatorSurface": {
             "evaluatorId": "asset.measurement.extract.v15",
@@ -19453,7 +19453,7 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": false,
             "evidenceRefs": [
-              "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+              "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
               "services/auth/session_validator.rs",
               "services/auth/audit_receipt.ts",
               "services/auth/rollback.ts",
@@ -19468,9 +19468,9 @@
           "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+            "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
             "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
-            "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+            "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
             "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14"
           ],
           "receiptRefs": [],
@@ -19486,9 +19486,9 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": true,
             "evidenceRefs": [
-              "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
+              "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
               "sha256:612ea6e9cca9938576811b6b9d8273f358c59cc7eed0c46a1a5e9df6fd2f1250",
-              "sha256:471254b70124bf74f84dd00bdeb3375a69e6d94b62b2e7122a5c885a6be91f6f",
+              "sha256:c7b1c56d5ebf69b64a4ba335b7d48b79e0a7f3fca5374dd15fd2b33013612601",
               "sha256:d9d189c2455ce4ac15cfdff25833b55424b91096d2b0a76f9897e53fd0270d14"
             ]
           }
@@ -19496,8 +19496,8 @@
       ]
     },
     {
-      "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
-      "depositedAt": "2026-04-30T18:48:46.183Z",
+      "assetId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99",
+      "depositedAt": "2026-05-06T13:02:20.280Z",
       "title": "Auth audit receipt reconciliation patchset",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -19505,13 +19505,13 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_auth-audit-receipt-reconciliation-patchset_7a12545802"
+        "materializationRoot": ".bitcode/source-material/asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99"
       },
-      "contentRoot": "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+      "contentRoot": "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
       "contentUnits": [
         {
-          "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-1",
-          "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
+          "unitId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:unit-1",
+          "assetId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99",
           "unitKind": "config-block",
           "text": "Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.",
           "codeAnalysisFacts": {
@@ -19589,7 +19589,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:ee7f35a322d63e9fb0052acbcb4536edc71b24a190f371987a938c301534d091"
+                "inputHash": "sha256:09e18f1afacf5a9d4eaefc1dde98b9add3c513d49d9e557584b5eaa9dd802808"
               },
               "values": [
                 0.331295,
@@ -19664,7 +19664,7 @@
                 "audit_receipt.ts"
               ],
               "receiptRefs": [
-                "static_receipt_f838757aa6b5"
+                "static_receipt_974a8704c0d4"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -19717,7 +19717,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_f838757aa6b5",
+              "receiptId": "static_receipt_974a8704c0d4",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -19725,8 +19725,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:3a8b7205990b6f621a0cfd0b4ad560aff70ead6535055a9120c7925c59de42db",
-              "outputHash": "sha256:6fab2df63b47192dfbd3a8dac7e98909f09f640e8efd5b0d3857915f8d8fc48f",
+              "inputsHash": "sha256:61063b2b47dbf57cb8aa7ace8ce646c29e381224f31852f22af3d8f795c8a780",
+              "outputHash": "sha256:4209ee69d8c429a1a9924325f593a4234440d3c51249e3ccc8782dae5572d371",
               "evidenceRefs": [
                 "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
                 "services/auth/audit_receipt.ts",
@@ -19774,7 +19774,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:2acfa7b1e883dad5824547b05c4ba32b785bd0eb4b0df428024ae7702b1ade5e"
+              "receiptHash": "sha256:6d33def4c92008f824b7b7b2ce6d2179dd8144ac013cfb1e9e5d5b0b7e5d115b"
             }
           ],
           "semanticSummary": {
@@ -19795,8 +19795,8 @@
           "unitHash": "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7"
         },
         {
-          "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-2",
-          "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
+          "unitId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:unit-2",
+          "assetId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99",
           "unitKind": "config-block",
           "text": "Implementation note: write the workflow run and commit into emitAuditReceipt, keep restorePriorVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.",
           "codeAnalysisFacts": {
@@ -19844,7 +19844,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:c17e16b74200c9e161989066c3c9bf94c4e7bc4d40c9153a76d097fbc9617868"
+                "inputHash": "sha256:8a2441c65dc0f2926a4c990c3b5964094bc15e4d4b6aa017f6d981e7d684445b"
               },
               "values": [
                 0,
@@ -19874,7 +19874,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:d09ecd837375db27a05a8c5185b443312a00ee220f1e6bf1e2f317e04c2d56e5"
+                "inputHash": "sha256:11b99944ef840f124738e035032130d70f479bce9aea11d05e55616bcffb756b"
               },
               "values": [
                 0.194257,
@@ -19904,7 +19904,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:3b65302f46dec58bb08ff1c21a54a710da4f3cde066648d37357210159944668"
+                "inputHash": "sha256:068d68c767dd33b80af59da66955fdc89f19e0eeff34fbcaaad3fe00b49945b7"
               },
               "values": [
                 0.14825,
@@ -19940,7 +19940,7 @@
               "toolOrPromptId": "content-unit.extract-static-code-analysis.v15",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+                "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
                 "services/auth/audit_receipt.ts",
                 "config/auth/issuer-compat.yml",
                 "services/auth/rollback.ts",
@@ -19949,7 +19949,7 @@
                 "audit_receipt.ts"
               ],
               "receiptRefs": [
-                "static_receipt_117cda7454ea"
+                "static_receipt_37643d14a5c4"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -19963,7 +19963,7 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": false,
                 "evidenceRefs": [
-                  "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+                  "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
                   "services/auth/audit_receipt.ts",
                   "config/auth/issuer-compat.yml",
                   "services/auth/rollback.ts",
@@ -19980,7 +19980,7 @@
               "toolOrPromptId": "content-unit.embedding-standin.v8",
               "version": "demo-v15.0",
               "evidenceRefs": [
-                "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc"
+                "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3"
               ],
               "receiptRefs": [],
               "evaluatorSurface": {
@@ -19995,14 +19995,14 @@
                 "profile": "Profile A — targeted deposit / bounded need",
                 "standIn": true,
                 "evidenceRefs": [
-                  "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc"
+                  "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3"
                 ]
               }
             }
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_117cda7454ea",
+              "receiptId": "static_receipt_37643d14a5c4",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -20010,10 +20010,10 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:4c4b70ba40d0d3a30bfc8e922b7e7a1163c702e64287ca9e7c3004fa9bd80072",
-              "outputHash": "sha256:6fab2df63b47192dfbd3a8dac7e98909f09f640e8efd5b0d3857915f8d8fc48f",
+              "inputsHash": "sha256:54b517ece6933ca0b65b9c98e37f574c8fbaf090aa57613826a9a646202718c9",
+              "outputHash": "sha256:4209ee69d8c429a1a9924325f593a4234440d3c51249e3ccc8782dae5572d371",
               "evidenceRefs": [
-                "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+                "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
                 "services/auth/audit_receipt.ts",
                 "config/auth/issuer-compat.yml",
                 "services/auth/rollback.ts",
@@ -20022,7 +20022,7 @@
                 "audit_receipt.ts"
               ],
               "replayInputClosure": [
-                "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc"
+                "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3"
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
@@ -20059,7 +20059,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:19525d05862e3637e1cdcc184f5a87df9211bbe4b152ff801e280462ea9515d7"
+              "receiptHash": "sha256:45968f6565ac69ca75c897a14f3dc1bee23b5009bb3c1c904baf2d715748f10c"
             }
           ],
           "semanticSummary": {
@@ -20077,11 +20077,11 @@
               "constraints": 4
             }
           },
-          "unitHash": "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc"
+          "unitHash": "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3"
         },
         {
-          "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-3",
-          "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
+          "unitId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:unit-3",
+          "assetId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99",
           "unitKind": "test-block",
           "text": "Validation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.",
           "codeAnalysisFacts": {
@@ -20159,7 +20159,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:7265b16c56419bda0119ac47ba63897a0151de9752d4d271d13adf0ba8b1b4b0"
+                "inputHash": "sha256:e469d3b0c6973cd130846aed4d828654aac0c9092437f9e40ba2d81fc8610694"
               },
               "values": [
                 0.309426,
@@ -20234,7 +20234,7 @@
                 "audit_receipt.ts"
               ],
               "receiptRefs": [
-                "static_receipt_2f40f295d04f"
+                "static_receipt_d89f87fa0a8e"
               ],
               "evaluatorSurface": {
                 "evaluatorId": "content-unit.extract-static-code-analysis.v15",
@@ -20287,7 +20287,7 @@
           ],
           "staticExecutionReceipts": [
             {
-              "receiptId": "static_receipt_2f40f295d04f",
+              "receiptId": "static_receipt_d89f87fa0a8e",
               "receiptKind": "content-unit-static-code-analysis",
               "stageId": "content-unit.extract-static-code-analysis.v15",
               "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -20295,8 +20295,8 @@
               "productionIntentProfile": "Profile B — normalization deposit / composite need",
               "executedLocally": true,
               "standIn": false,
-              "inputsHash": "sha256:aff3fa85f61061abd762d0d7a81e494b83a30dc80cc38ee98b27424f22b12ebb",
-              "outputHash": "sha256:6fab2df63b47192dfbd3a8dac7e98909f09f640e8efd5b0d3857915f8d8fc48f",
+              "inputsHash": "sha256:bcf44ed15b4b43f3a40f67a22e49474e41e0e8fd09aadb80d9f706e3faa29397",
+              "outputHash": "sha256:4209ee69d8c429a1a9924325f593a4234440d3c51249e3ccc8782dae5572d371",
               "evidenceRefs": [
                 "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48",
                 "services/auth/audit_receipt.ts",
@@ -20344,7 +20344,7 @@
                   "compatibility window"
                 ]
               },
-              "receiptHash": "sha256:e722f4de618bca7a2b13cbc1fe5e17d37c5c967a80b472c9de30bc3b41b7e52f"
+              "receiptHash": "sha256:75ccf6f573db6e81e8ba7ee758759316b0c37541527064f41c5a165f01ed37bf"
             }
           ],
           "semanticSummary": {
@@ -20367,17 +20367,17 @@
       ],
       "attestations": [
         {
-          "attestationId": "att_755faa405f35",
+          "attestationId": "att_aa03c933ff91",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:30b86010a4f23328feac78effd94433e7adcfbf4894a989feef2ac864d153633",
+          "payloadHash": "sha256:e97d6362defd3f4e729ef8d77cad12f133bc580640f55b889a753a776f23f832",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:89d05ddbf19b132595a31fbd1acd5551a5ac318d5d6ac895490c2ff7beee66fa"
+          "attestationHash": "sha256:8f3990a9012cede64f7ecedea61efd91baf3f3f478b7f4310854e823511820ab"
         }
       ],
       "uploadSurface": {
-        "uploadId": "upload_e401afafed7c",
+        "uploadId": "upload_86444c44d5ca",
         "artifactKind": "patch",
         "artifactType": "code/patch",
         "artifactSelectionSurface": {
@@ -20418,7 +20418,7 @@
               "title": "Auth rollback benchmark summary",
               "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
               "installationId": "gh_inst_bitcode_001",
-              "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+              "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
               "addressingScope": "workflow-artifact",
               "primaryAddressRef": "auth-remediation-report.json",
               "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
@@ -20440,7 +20440,7 @@
               "addressingRoot": "sha256:7043177f7539234c9eaab9650316d55e416cdd597c59dc86379b63334ee2f893"
             }
           ],
-          "selectedInventoryRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
+          "selectedInventoryRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636",
           "selectedArtifactKinds": [
             "patch",
             "runbook",
@@ -20474,7 +20474,7 @@
             "configKeys": 3
           },
           "inventorySelectionCount": 3,
-          "inventorySelectionRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1"
+          "inventorySelectionRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636"
         },
         "surfaces": [
           {
@@ -20503,7 +20503,7 @@
             "mediaType": "application/json",
             "role": "selection",
             "available": true,
-            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_commit-file_e93582e96e\",\"inv_frontier-demo-auth_workflow-artifact_1dcb0ec071\",\"inv_frontier-demo-auth_config-snapshot_3d113def88\"],\"selectedInventoryRoot\":\"sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1\",\"originKinds\":[\"commit-file\",\"workflow-artifact\",\"config-snapshot\"]}"
+            "valuePreview": "{\"selectedInventoryEntryIds\":[\"inv_frontier-demo-auth_commit-file_e93582e96e\",\"inv_frontier-demo-auth_workflow-artifact_1dcb0ec071\",\"inv_frontier-demo-auth_config-snapshot_3d113def88\"],\"selectedInventoryRoot\":\"sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636\",\"originKinds\":[\"commit-file\",\"workflow-artifact\",\"config-snapshot\"]}"
           }
         ],
         "githubBinding": {
@@ -20520,7 +20520,7 @@
             "inv_frontier-demo-auth_workflow-artifact_1dcb0ec071",
             "inv_frontier-demo-auth_config-snapshot_3d113def88"
           ],
-          "selectedInventoryRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
+          "selectedInventoryRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636",
           "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
           "localBoundary": "Stored locally as modeled metadata only.",
           "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -20566,7 +20566,7 @@
             "title": "Auth rollback benchmark summary",
             "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
             "installationId": "gh_inst_bitcode_001",
-            "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+            "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
             "addressingScope": "workflow-artifact",
             "primaryAddressRef": "auth-remediation-report.json",
             "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
@@ -20588,7 +20588,7 @@
             "addressingRoot": "sha256:7043177f7539234c9eaab9650316d55e416cdd597c59dc86379b63334ee2f893"
           }
         ],
-        "selectedInventoryRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
+        "selectedInventoryRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636",
         "selectedArtifactKinds": [
           "patch",
           "runbook",
@@ -20656,7 +20656,7 @@
             "artifactType": "runbook/operator-playbook",
             "originKind": "workflow-artifact",
             "primaryAddressRef": "auth-remediation-report.json",
-            "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+            "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
             "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95"
           },
           {
@@ -20670,7 +20670,7 @@
           }
         ],
         "primaryAddressRef": "services/auth/audit_receipt.ts",
-        "addressingRoot": "sha256:8e3de3b601a0c405f5edab56f372fafb2f06d3eb24e535b126bab37448a43804"
+        "addressingRoot": "sha256:fb37493eb16c4dec6af04fc45583ade0ac8b7f4fb0f5a7e3c4038b0ac2dbe81a"
       },
       "signingSurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -20678,12 +20678,12 @@
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
         "statementKind": "bitcode-asset-intake-attestation.v11",
-        "payloadHash": "sha256:30b86010a4f23328feac78effd94433e7adcfbf4894a989feef2ac864d153633",
+        "payloadHash": "sha256:e97d6362defd3f4e729ef8d77cad12f133bc580640f55b889a753a776f23f832",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:89d05ddbf19b132595a31fbd1acd5551a5ac318d5d6ac895490c2ff7beee66fa",
-        "signedAddressingRoot": "sha256:8e3de3b601a0c405f5edab56f372fafb2f06d3eb24e535b126bab37448a43804",
-        "signedSelectionRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
+        "attestationHash": "sha256:8f3990a9012cede64f7ecedea61efd91baf3f3f478b7f4310854e823511820ab",
+        "signedAddressingRoot": "sha256:fb37493eb16c4dec6af04fc45583ade0ac8b7f4fb0f5a7e3c4038b0ac2dbe81a",
+        "signedSelectionRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
       },
       "githubAppAuthSurface": {
@@ -20754,7 +20754,7 @@
           "inv_frontier-demo-auth_workflow-artifact_1dcb0ec071",
           "inv_frontier-demo-auth_config-snapshot_3d113def88"
         ],
-        "selectedInventoryRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
+        "selectedInventoryRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
         "localBoundary": "Stored locally as modeled metadata only.",
         "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
@@ -20772,7 +20772,7 @@
         },
         "permissionsRoot": "sha256:a702283d0e8b655976c2341319c8dd67e04830565e6744db510127b8048f550f",
         "addressingScope": "multi-artifact-selection",
-        "addressingRoot": "sha256:8e3de3b601a0c405f5edab56f372fafb2f06d3eb24e535b126bab37448a43804"
+        "addressingRoot": "sha256:fb37493eb16c4dec6af04fc45583ade0ac8b7f4fb0f5a7e3c4038b0ac2dbe81a"
       },
       "identitySurface": {
         "signerAddress": "did:key:frontier-ci-signer",
@@ -20781,10 +20781,10 @@
         "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
         "installationId": "gh_inst_bitcode_001",
         "authMechanism": "github-app-installation",
-        "selectedInventoryRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
-        "addressingRoot": "sha256:8e3de3b601a0c405f5edab56f372fafb2f06d3eb24e535b126bab37448a43804",
+        "selectedInventoryRoot": "sha256:147307d94ce6f033f40eecb8db902c8486013d30a5c69f4407da0a87b9d4a636",
+        "addressingRoot": "sha256:fb37493eb16c4dec6af04fc45583ade0ac8b7f4fb0f5a7e3c4038b0ac2dbe81a",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:30b86010a4f23328feac78effd94433e7adcfbf4894a989feef2ac864d153633",
+        "signedPayloadHash": "sha256:e97d6362defd3f4e729ef8d77cad12f133bc580640f55b889a753a776f23f832",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -20855,7 +20855,7 @@
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
-        "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
+        "assetId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99",
         "codeAnalysisFacts": {
           "symbols": [
             "emitAuditReceipt",
@@ -20888,7 +20888,7 @@
         },
         "contentUnitSemantics": [
           {
-            "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-1",
+            "unitId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:unit-1",
             "unitKind": "config-block",
             "unitHash": "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
             "codeAnalysisFactCounts": {
@@ -20917,7 +20917,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:ee7f35a322d63e9fb0052acbcb4536edc71b24a190f371987a938c301534d091"
+                "inputHash": "sha256:09e18f1afacf5a9d4eaefc1dde98b9add3c513d49d9e557584b5eaa9dd802808"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -20932,9 +20932,9 @@
             }
           },
           {
-            "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-2",
+            "unitId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:unit-2",
             "unitKind": "config-block",
-            "unitHash": "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+            "unitHash": "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
             "codeAnalysisFactCounts": {
               "symbols": 6,
               "paths": 3,
@@ -20951,7 +20951,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:c17e16b74200c9e161989066c3c9bf94c4e7bc4d40c9153a76d097fbc9617868"
+                "inputHash": "sha256:8a2441c65dc0f2926a4c990c3b5964094bc15e4d4b6aa017f6d981e7d684445b"
               },
               "failureModeVector": {
                 "vectorSpace": "failure-mode-space.v8",
@@ -20961,7 +20961,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:d09ecd837375db27a05a8c5185b443312a00ee220f1e6bf1e2f317e04c2d56e5"
+                "inputHash": "sha256:11b99944ef840f124738e035032130d70f479bce9aea11d05e55616bcffb756b"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -20971,12 +20971,12 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:3b65302f46dec58bb08ff1c21a54a710da4f3cde066648d37357210159944668"
+                "inputHash": "sha256:068d68c767dd33b80af59da66955fdc89f19e0eeff34fbcaaad3fe00b49945b7"
               }
             }
           },
           {
-            "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-3",
+            "unitId": "asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:unit-3",
             "unitKind": "test-block",
             "unitHash": "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48",
             "codeAnalysisFactCounts": {
@@ -21005,7 +21005,7 @@
                 "provider": "bitcode",
                 "modelId": "deterministic-local-evaluator.v15",
                 "generationMethod": "deterministic-stand-in",
-                "inputHash": "sha256:7265b16c56419bda0119ac47ba63897a0151de9752d4d271d13adf0ba8b1b4b0"
+                "inputHash": "sha256:e469d3b0c6973cd130846aed4d828654aac0c9092437f9e40ba2d81fc8610694"
               },
               "technicalContextVector": {
                 "vectorSpace": "technical-context-space.v8",
@@ -21035,13 +21035,13 @@
             "toolOrPromptId": "asset.measurement.extract.v15",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+              "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
               "services/auth/audit_receipt.ts",
               "services/auth/rollback.ts",
               "config/auth/issuer-compat.yml"
             ],
             "receiptRefs": [
-              "static_receipt_3b8b4d862390"
+              "static_receipt_088b70a01db5"
             ],
             "evaluatorSurface": {
               "evaluatorId": "asset.measurement.extract.v15",
@@ -21055,7 +21055,7 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": false,
               "evidenceRefs": [
-                "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+                "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
                 "services/auth/audit_receipt.ts",
                 "services/auth/rollback.ts",
                 "config/auth/issuer-compat.yml"
@@ -21069,9 +21069,9 @@
             "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
             "version": "demo-v15.0",
             "evidenceRefs": [
-              "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+              "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
               "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
-              "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+              "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
               "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48"
             ],
             "receiptRefs": [],
@@ -21087,9 +21087,9 @@
               "profile": "Profile A — targeted deposit / bounded need",
               "standIn": true,
               "evidenceRefs": [
-                "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+                "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
                 "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
-                "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+                "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
                 "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48"
               ]
             }
@@ -21097,7 +21097,7 @@
         ],
         "staticExecutionReceipts": [
           {
-            "receiptId": "static_receipt_3b8b4d862390",
+            "receiptId": "static_receipt_088b70a01db5",
             "receiptKind": "asset-static-code-analysis",
             "stageId": "asset.measurement.extract.v15",
             "toolId": "asset.measurement.extract.v15",
@@ -21105,18 +21105,18 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:a8ed6650981f5885f155ff8ae22b1b7f64a4bb2390213ff0a10c01bdc47607ea",
-            "outputHash": "sha256:99683b25f293a2d222d8d7d087b3f5f67c9c1f91290c77d0c3779b0c3334e94e",
+            "inputsHash": "sha256:f317bb24f5845d83a6cadb235b2ebe165b8f5b306c981eb4f176b4efa4749122",
+            "outputHash": "sha256:ce431874e39e863b6a32c94101eb451867643de3cbcd9464694147a67d13345b",
             "evidenceRefs": [
-              "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+              "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
               "services/auth/audit_receipt.ts",
               "config/auth/issuer-compat.yml",
               "services/auth/rollback.ts"
             ],
             "replayInputClosure": [
-              "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+              "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
               "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
-              "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+              "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
               "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48"
             ],
             "normalizedOutputEnvelope": {
@@ -21149,10 +21149,10 @@
                 "bind workflow run to receipt"
               ]
             },
-            "receiptHash": "sha256:2f22b36db143cb382b748ed4bbb19afe3a000633174ee6429e9115767d2510eb"
+            "receiptHash": "sha256:f9cf51e583d4c326f10d5adf4789cd2bcb6581787c3c5629fab65dfe419ef986"
           },
           {
-            "receiptId": "static_receipt_f838757aa6b5",
+            "receiptId": "static_receipt_974a8704c0d4",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -21160,8 +21160,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:3a8b7205990b6f621a0cfd0b4ad560aff70ead6535055a9120c7925c59de42db",
-            "outputHash": "sha256:6fab2df63b47192dfbd3a8dac7e98909f09f640e8efd5b0d3857915f8d8fc48f",
+            "inputsHash": "sha256:61063b2b47dbf57cb8aa7ace8ce646c29e381224f31852f22af3d8f795c8a780",
+            "outputHash": "sha256:4209ee69d8c429a1a9924325f593a4234440d3c51249e3ccc8782dae5572d371",
             "evidenceRefs": [
               "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
               "services/auth/audit_receipt.ts",
@@ -21209,10 +21209,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:2acfa7b1e883dad5824547b05c4ba32b785bd0eb4b0df428024ae7702b1ade5e"
+            "receiptHash": "sha256:6d33def4c92008f824b7b7b2ce6d2179dd8144ac013cfb1e9e5d5b0b7e5d115b"
           },
           {
-            "receiptId": "static_receipt_117cda7454ea",
+            "receiptId": "static_receipt_37643d14a5c4",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -21220,10 +21220,10 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:4c4b70ba40d0d3a30bfc8e922b7e7a1163c702e64287ca9e7c3004fa9bd80072",
-            "outputHash": "sha256:6fab2df63b47192dfbd3a8dac7e98909f09f640e8efd5b0d3857915f8d8fc48f",
+            "inputsHash": "sha256:54b517ece6933ca0b65b9c98e37f574c8fbaf090aa57613826a9a646202718c9",
+            "outputHash": "sha256:4209ee69d8c429a1a9924325f593a4234440d3c51249e3ccc8782dae5572d371",
             "evidenceRefs": [
-              "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+              "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
               "services/auth/audit_receipt.ts",
               "config/auth/issuer-compat.yml",
               "services/auth/rollback.ts",
@@ -21232,7 +21232,7 @@
               "audit_receipt.ts"
             ],
             "replayInputClosure": [
-              "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc"
+              "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3"
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
@@ -21269,10 +21269,10 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:19525d05862e3637e1cdcc184f5a87df9211bbe4b152ff801e280462ea9515d7"
+            "receiptHash": "sha256:45968f6565ac69ca75c897a14f3dc1bee23b5009bb3c1c904baf2d715748f10c"
           },
           {
-            "receiptId": "static_receipt_2f40f295d04f",
+            "receiptId": "static_receipt_d89f87fa0a8e",
             "receiptKind": "content-unit-static-code-analysis",
             "stageId": "content-unit.extract-static-code-analysis.v15",
             "toolId": "content-unit.extract-static-code-analysis.v15",
@@ -21280,8 +21280,8 @@
             "productionIntentProfile": "Profile B — normalization deposit / composite need",
             "executedLocally": true,
             "standIn": false,
-            "inputsHash": "sha256:aff3fa85f61061abd762d0d7a81e494b83a30dc80cc38ee98b27424f22b12ebb",
-            "outputHash": "sha256:6fab2df63b47192dfbd3a8dac7e98909f09f640e8efd5b0d3857915f8d8fc48f",
+            "inputsHash": "sha256:bcf44ed15b4b43f3a40f67a22e49474e41e0e8fd09aadb80d9f706e3faa29397",
+            "outputHash": "sha256:4209ee69d8c429a1a9924325f593a4234440d3c51249e3ccc8782dae5572d371",
             "evidenceRefs": [
               "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48",
               "services/auth/audit_receipt.ts",
@@ -21329,7 +21329,7 @@
                 "compatibility window"
               ]
             },
-            "receiptHash": "sha256:e722f4de618bca7a2b13cbc1fe5e17d37c5c967a80b472c9de30bc3b41b7e52f"
+            "receiptHash": "sha256:75ccf6f573db6e81e8ba7ee758759316b0c37541527064f41c5a165f01ed37bf"
           }
         ],
         "analysisFactLifecycle": {
@@ -21542,13 +21542,13 @@
           "toolOrPromptId": "asset.measurement.extract.v15",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+            "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
             "services/auth/audit_receipt.ts",
             "services/auth/rollback.ts",
             "config/auth/issuer-compat.yml"
           ],
           "receiptRefs": [
-            "static_receipt_3b8b4d862390"
+            "static_receipt_088b70a01db5"
           ],
           "evaluatorSurface": {
             "evaluatorId": "asset.measurement.extract.v15",
@@ -21562,7 +21562,7 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": false,
             "evidenceRefs": [
-              "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+              "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
               "services/auth/audit_receipt.ts",
               "services/auth/rollback.ts",
               "config/auth/issuer-compat.yml"
@@ -21576,9 +21576,9 @@
           "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
           "version": "demo-v15.0",
           "evidenceRefs": [
-            "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+            "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
             "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
-            "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+            "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
             "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48"
           ],
           "receiptRefs": [],
@@ -21594,9 +21594,9 @@
             "profile": "Profile A — targeted deposit / bounded need",
             "standIn": true,
             "evidenceRefs": [
-              "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
+              "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
               "sha256:43c931af594d02170456e77a62b870c72d95bf61a162cc6a7e9ca1fa414e83d7",
-              "sha256:6f5d58774d09bd13939e738674c2832cfc2dcd140601111acc535dbc3a5c28cc",
+              "sha256:f36b178c48b9ffb71198fc2e73a2c4d911d75943cb66012d86eea2ef767afae3",
               "sha256:a4152cfaf959be646afe9429b563970db2adc0fb2dc7fbcf58b49830c31eaf48"
             ]
           }
@@ -21605,7 +21605,7 @@
     },
     {
       "assetId": "asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7",
-      "depositedAt": "2026-04-30T18:48:46.184Z",
+      "depositedAt": "2026-05-06T13:02:20.280Z",
       "title": "Polyglot gateway rollback coordination playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -25480,7 +25480,7 @@
       "installationAccountLogin": "frontier-code-systems",
       "installationAccountId": "gh_acct_d875a9a3cf",
       "installationAccountNodeId": "A_7574fdcc4b75e153",
-      "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+      "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
       "addressing": {
         "addressingScope": "workflow-artifact",
         "repo": "frontier/demo-auth",
@@ -25545,10 +25545,10 @@
       "provenance": {
         "selectionLabel": "runbook · workflow-artifact · auth-remediation-report.json",
         "previewHash": "sha256:19b3421d869a849d515425b7dcb37e27c597c9654f2797658b2d08a6590d659e",
-        "contentRoot": "sha256:a47b5e019ec1586cf88f13b2621aed1daafc95719301c520a17c03490894afc0",
+        "contentRoot": "sha256:bc562635438688dd381471a95189864e6391d93ef9c809834de96114a8aa6fd5",
         "addressingRoot": "sha256:ee34afc1cbb51593b138af4df6da48a0e6b3d3a24e653e125b90336d77711f95",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "provenanceHash": "sha256:729b1242377e45b586a10b856c5509777ccacc1ee550715762c39fd643081213"
+        "provenanceHash": "sha256:3733cd7e1eb5a64131d64b61dc7f9101df9f832f32db95ae31048f4d190cf21b"
       }
     },
     {
@@ -25595,7 +25595,7 @@
       "installationAccountLogin": "frontier-code-systems",
       "installationAccountId": "gh_acct_d875a9a3cf",
       "installationAccountNodeId": "A_7574fdcc4b75e153",
-      "contentRoot": "sha256:c1c47ad8ccb42f56a25a844a56140d2479baa40a1e3c2fd0d1385c60ce0a70b1",
+      "contentRoot": "sha256:f421e4b29a30212a366717a747da7576a16e974bb55781a2a8cd6833743e5589",
       "addressing": {
         "addressingScope": "repo-file",
         "repo": "frontier/demo-auth",
@@ -25662,10 +25662,10 @@
       "provenance": {
         "selectionLabel": "patch · commit-file · services/auth/rollback.ts",
         "previewHash": "sha256:f1c7f525c1ec67e1da0fce42f7a3731f8215dcc04ae5e8bc35990fe043eb6f40",
-        "contentRoot": "sha256:c1c47ad8ccb42f56a25a844a56140d2479baa40a1e3c2fd0d1385c60ce0a70b1",
+        "contentRoot": "sha256:f421e4b29a30212a366717a747da7576a16e974bb55781a2a8cd6833743e5589",
         "addressingRoot": "sha256:b7670833ae4b1c2a81e724a9ec60394744efd0db0a00118d6f63c56460aac7ec",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "provenanceHash": "sha256:361ff0158f40b30182d7919993a7cc5bd53fa3db01c964e66de8f21d6d39bb24"
+        "provenanceHash": "sha256:d8d5d108455e9c8f55f32a48925219b1dc6eeca1a3f90c11db4399c74d13786a"
       }
     },
     {
@@ -28610,16 +28610,16 @@
   "ledger": {
     "accounts": {
       "buyer:frontier-code-systems:license_pool": "900000000",
-      "supplier:asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:pending_claims": "0",
+      "supplier:asset_enterprise-auth-migration-rollback-playbook_0c53ca5874:pending_claims": "0",
       "supplier:asset_proof-carrying-session-validator-patch-kit_535567adae:pending_claims": "0",
       "supplier:asset_formal-replay-window-validator-proof-bundle_ebe682fd49:pending_claims": "0",
-      "supplier:asset_token-issuer-incident-escalation-notes_cdd908aa03:pending_claims": "0",
+      "supplier:asset_token-issuer-incident-escalation-notes_4665bb5c15:pending_claims": "0",
       "supplier:asset_policy-precedence-incident-governor-fixpack_24fd6bb39b:pending_claims": "0",
       "supplier:asset_unsafe-patch-review-containment-checklist_d755cefe57:pending_claims": "0",
       "supplier:asset_deployment-drift-rollback-release-playbook_06609384ae:pending_claims": "0",
       "supplier:asset_projection-safe-bounded-proof-export-notes_a74e682378:pending_claims": "0",
-      "supplier:asset_session-validator-compatibility-witness-dossier_ced0ee25a5:pending_claims": "0",
-      "supplier:asset_auth-audit-receipt-reconciliation-patchset_7a12545802:pending_claims": "0",
+      "supplier:asset_session-validator-compatibility-witness-dossier_b262bc6896:pending_claims": "0",
+      "supplier:asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:pending_claims": "0",
       "supplier:asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7:pending_claims": "0"
     },
     "journalEvents": []
