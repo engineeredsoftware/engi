@@ -51,6 +51,10 @@ export interface BtdRangeAllocationResult {
   exchangeReceiptRoot: string;
 }
 
+export interface BtdRangeAllocationOptions {
+  existingRanges?: AssetPackRange[];
+}
+
 export function assertMintAdmission(input: BtdMintAdmissionInput): BtdMintAdmissionInput {
   if (input.acceptedNeed !== true) {
     throw new Error('BTD mint admission requires accepted Need.');
@@ -73,6 +77,10 @@ export function assertMintAdmission(input: BtdMintAdmissionInput): BtdMintAdmiss
   assertNonEmptyString(input.accessPolicyHash, 'accessPolicyHash');
   assertPositiveSafeInteger(input.tokenCount, 'tokenCount');
 
+  if (typeof input.mintedAtExchangeSequence !== 'bigint' || input.mintedAtExchangeSequence <= 0n) {
+    throw new Error('mintedAtExchangeSequence must be a positive bigint.');
+  }
+
   const volume = toBigIntAmount(input.normalizedBitcodeVolume, 'normalizedBitcodeVolume');
   if (volume <= 0n) {
     throw new Error('normalizedBitcodeVolume must be positive for mint admission.');
@@ -84,6 +92,7 @@ export function assertMintAdmission(input: BtdMintAdmissionInput): BtdMintAdmiss
 export function allocateAssetPackRange(
   state: BtdSupplyState,
   input: BtdMintAdmissionInput,
+  options: BtdRangeAllocationOptions = {},
 ): BtdRangeAllocationResult {
   assertBtdSupplyState(state);
   assertMintAdmission(input);
@@ -96,6 +105,25 @@ export function allocateAssetPackRange(
   }
 
   const nextSupply = advanceBtdSupply(state, input.tokenCount, input.mintedAtExchangeSequence);
+  const range = assertAssetPackRangeIntegrity({
+    assetPackId: input.assetPackId,
+    rangeStart,
+    rangeEndExclusive,
+    tokenCount: input.tokenCount,
+    normalizedBitcodeVolume: toBigIntAmount(
+      input.normalizedBitcodeVolume,
+      'normalizedBitcodeVolume',
+    ),
+    needId: input.needId,
+    fitReceiptRoot: input.fitReceiptRoot,
+    proofRoot: input.proofRoot,
+    sourceManifestRoot: input.sourceManifestRoot,
+    settlementJournalRoot: input.settlementJournalRoot,
+    dedupeReceiptRoot: input.dedupeReceiptRoot,
+    mintedAtExchangeSequence: input.mintedAtExchangeSequence,
+  });
+
+  assertAssetPackRangePlacement(options.existingRanges ?? [], range);
 
   return {
     previousSupply: state,
@@ -104,22 +132,62 @@ export function allocateAssetPackRange(
     accessPolicyHash: input.accessPolicyHash,
     measurementReceiptRoot: input.measurementReceiptRoot,
     exchangeReceiptRoot: input.exchangeReceiptRoot,
-    range: {
-      assetPackId: input.assetPackId,
-      rangeStart,
-      rangeEndExclusive,
-      tokenCount: input.tokenCount,
-      normalizedBitcodeVolume: toBigIntAmount(
-        input.normalizedBitcodeVolume,
-        'normalizedBitcodeVolume',
-      ),
-      needId: input.needId,
-      fitReceiptRoot: input.fitReceiptRoot,
-      proofRoot: input.proofRoot,
-      sourceManifestRoot: input.sourceManifestRoot,
-      settlementJournalRoot: input.settlementJournalRoot,
-      dedupeReceiptRoot: input.dedupeReceiptRoot,
-      mintedAtExchangeSequence: input.mintedAtExchangeSequence,
-    },
+    range,
   };
+}
+
+export function assertAssetPackRangeIntegrity(range: AssetPackRange): AssetPackRange {
+  assertNonEmptyString(range.assetPackId, 'assetPackId');
+  assertNonEmptyString(range.needId, 'needId');
+  assertNonEmptyString(range.fitReceiptRoot, 'fitReceiptRoot');
+  assertNonEmptyString(range.proofRoot, 'proofRoot');
+  assertNonEmptyString(range.sourceManifestRoot, 'sourceManifestRoot');
+  assertNonEmptyString(range.settlementJournalRoot, 'settlementJournalRoot');
+  assertNonEmptyString(range.dedupeReceiptRoot, 'dedupeReceiptRoot');
+  assertPositiveSafeInteger(range.tokenCount, 'tokenCount');
+
+  if (range.rangeStart < 0 || !Number.isSafeInteger(range.rangeStart)) {
+    throw new Error('rangeStart must be a non-negative safe integer.');
+  }
+
+  if (range.rangeEndExclusive !== range.rangeStart + range.tokenCount) {
+    throw new Error('AssetPack range boundaries must conserve tokenCount.');
+  }
+
+  if (range.rangeEndExclusive > BTD_MAX_MINTABLE_SUPPLY) {
+    throw new Error(`AssetPack range would exceed ${BTD_MAX_MINTABLE_SUPPLY}.`);
+  }
+
+  if (range.normalizedBitcodeVolume <= 0n) {
+    throw new Error('normalizedBitcodeVolume must be positive for AssetPack ranges.');
+  }
+
+  return range;
+}
+
+export function assertAssetPackRangePlacement(
+  existingRanges: AssetPackRange[],
+  candidate: AssetPackRange,
+): AssetPackRange {
+  const candidateRange = assertAssetPackRangeIntegrity(candidate);
+
+  for (const existing of existingRanges) {
+    const existingRange = assertAssetPackRangeIntegrity(existing);
+
+    if (existingRange.assetPackId === candidateRange.assetPackId) {
+      throw new Error(`AssetPack ${candidateRange.assetPackId} already has a primary BTD range.`);
+    }
+
+    if (rangesOverlap(existingRange, candidateRange)) {
+      throw new Error(
+        `AssetPack range ${candidateRange.rangeStart}-${candidateRange.rangeEndExclusive} overlaps ${existingRange.rangeStart}-${existingRange.rangeEndExclusive}.`,
+      );
+    }
+  }
+
+  return candidateRange;
+}
+
+function rangesOverlap(left: AssetPackRange, right: AssetPackRange): boolean {
+  return left.rangeStart < right.rangeEndExclusive && right.rangeStart < left.rangeEndExclusive;
 }

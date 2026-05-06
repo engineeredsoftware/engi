@@ -47,6 +47,28 @@ import {
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
 
+function rangeInput(overrides: Record<string, unknown> = {}) {
+  return {
+    assetPackId: 'asset-pack-range',
+    needId: 'need-1',
+    acceptedNeed: true as const,
+    acceptedFit: true as const,
+    sourceManifestRoot: 'source-root',
+    measurementReceiptRoot: 'measurement-root',
+    fitReceiptRoot: 'fit-root',
+    proofRoot: 'proof-root',
+    dedupeReceiptRoot: 'dedupe-root',
+    settlementJournalRoot: 'settlement-root',
+    exchangeReceiptRoot: 'exchange-root',
+    accessPolicyId: 'policy-1',
+    accessPolicyHash: 'policy-hash',
+    normalizedBitcodeVolume: 2000n,
+    tokenCount: 2,
+    mintedAtExchangeSequence: 1n,
+    ...overrides,
+  };
+}
+
 describe('V27 proof-addressable semantic volume', () => {
   it('measures only fit-accepted, deduped semantic units and quantizes deterministically', () => {
     const receipt = measureProofAddressableSemanticVolume({
@@ -184,22 +206,11 @@ describe('V27 supply, range, and mint receipt primitives', () => {
     });
 
     const allocation = allocateAssetPackRange(createBtdSupplyState(), {
-      assetPackId: 'asset-pack-range',
-      needId: 'need-1',
-      acceptedNeed: true,
-      acceptedFit: true,
-      sourceManifestRoot: 'source-root',
-      measurementReceiptRoot: measurement.measurementId,
-      fitReceiptRoot: 'fit-root',
-      proofRoot: 'proof-root',
-      dedupeReceiptRoot: 'dedupe-root',
-      settlementJournalRoot: 'settlement-root',
-      exchangeReceiptRoot: 'exchange-root',
-      accessPolicyId: 'policy-1',
-      accessPolicyHash: 'policy-hash',
-      normalizedBitcodeVolume: measurement.normalizedBitcodeVolume,
-      tokenCount: measurement.tokenCount,
-      mintedAtExchangeSequence: 1n,
+      ...rangeInput({
+        measurementReceiptRoot: measurement.measurementId,
+        normalizedBitcodeVolume: measurement.normalizedBitcodeVolume,
+        tokenCount: measurement.tokenCount,
+      }),
     });
 
     const receipt = buildBtdMintReceipt(allocation, issuedAt);
@@ -213,6 +224,292 @@ describe('V27 supply, range, and mint receipt primitives', () => {
     expect(receipt.maxSupply).toBe(BTD_MAX_MINTABLE_SUPPLY);
     expect(replay.blocking).toBe(false);
     expect(replay.totalMinted).toBe(2);
+  });
+
+  it('fails closed when a range would exceed the fixed supply cap', () => {
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState({
+          totalMinted: BTD_MAX_MINTABLE_SUPPLY - 1,
+          nextTokenId: BTD_MAX_MINTABLE_SUPPLY - 1,
+        }),
+        rangeInput({
+          assetPackId: 'asset-pack-overflow',
+          tokenCount: 2,
+        }),
+      ),
+    ).toThrow(/21000000/);
+  });
+
+  it('fails closed on invalid range input before supply mutation', () => {
+    const state = createBtdSupplyState();
+
+    expect(() =>
+      allocateAssetPackRange(
+        state,
+        rangeInput({
+          tokenCount: 0,
+        }),
+      ),
+    ).toThrow(/tokenCount must be positive/);
+
+    expect(state.totalMinted).toBe(0);
+    expect(state.nextTokenId).toBe(0);
+  });
+
+  it('rejects source deposit, candidate fit, uncommitted proof, and missing Exchange sequence before mint', () => {
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState(),
+        rangeInput({
+          acceptedNeed: false,
+        }) as any,
+      ),
+    ).toThrow(/accepted Need/);
+
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState(),
+        rangeInput({
+          acceptedFit: false,
+        }) as any,
+      ),
+    ).toThrow(/accepted Fit/);
+
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState(),
+        rangeInput({
+          proofRoot: '',
+        }) as any,
+      ),
+    ).toThrow(/proofRoot must be a non-empty string/);
+
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState(),
+        rangeInput({
+          settlementJournalRoot: '',
+        }) as any,
+      ),
+    ).toThrow(/settlementJournalRoot must be a non-empty string/);
+
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState(),
+        rangeInput({
+          mintedAtExchangeSequence: 0n,
+        }),
+      ),
+    ).toThrow(/mintedAtExchangeSequence must be a positive bigint/);
+  });
+
+  it('prevents duplicate primary AssetPack ranges and stale-state overlap', () => {
+    const first = allocateAssetPackRange(
+      createBtdSupplyState(),
+      rangeInput({ assetPackId: 'asset-pack-one-range' }),
+    );
+
+    expect(() =>
+      allocateAssetPackRange(
+        first.nextSupply,
+        rangeInput({
+          assetPackId: 'asset-pack-one-range',
+          mintedAtExchangeSequence: 2n,
+        }),
+        { existingRanges: [first.range] },
+      ),
+    ).toThrow(/already has a primary BTD range/);
+
+    expect(() =>
+      allocateAssetPackRange(
+        createBtdSupplyState(),
+        rangeInput({
+          assetPackId: 'asset-pack-stale-state',
+          tokenCount: 1,
+          mintedAtExchangeSequence: 3n,
+        }),
+        { existingRanges: [first.range] },
+      ),
+    ).toThrow(/overlaps/);
+  });
+
+  it('replays sequential mint receipts into the next token state', () => {
+    const first = allocateAssetPackRange(
+      createBtdSupplyState(),
+      rangeInput({ assetPackId: 'asset-pack-replay-range-1' }),
+    );
+    const second = allocateAssetPackRange(
+      first.nextSupply,
+      rangeInput({
+        assetPackId: 'asset-pack-replay-range-2',
+        tokenCount: 3,
+        normalizedBitcodeVolume: 3000n,
+        mintedAtExchangeSequence: 2n,
+      }),
+      { existingRanges: [first.range] },
+    );
+    const replay = replayBtdMintReceipts([
+      buildBtdMintReceipt(first, issuedAt),
+      buildBtdMintReceipt(second, issuedAt),
+    ]);
+
+    expect(second.range.rangeStart).toBe(first.range.rangeEndExclusive);
+    expect(replay.blocking).toBe(false);
+    expect(replay.nextTokenId).toBe(second.nextSupply.nextTokenId);
+    expect(replay.nextTokenId).toBe(5);
+  });
+
+  it('replays mint and allocation receipts into exact supply, range, allocation, and next-token state', () => {
+    const first = allocateAssetPackRange(
+      createBtdSupplyState(),
+      rangeInput({ assetPackId: 'asset-pack-replay-bundle-1' }),
+    );
+    const second = allocateAssetPackRange(
+      first.nextSupply,
+      rangeInput({
+        assetPackId: 'asset-pack-replay-bundle-2',
+        tokenCount: 3,
+        normalizedBitcodeVolume: 3000n,
+        mintedAtExchangeSequence: 2n,
+      }),
+      { existingRanges: [first.range] },
+    );
+    const firstReceipt = buildBtdMintReceipt(first, issuedAt);
+    const secondReceipt = buildBtdMintReceipt(second, issuedAt);
+    const firstAllocation = allocateBtdContributorCells({
+      assetPackId: first.range.assetPackId,
+      rangeStart: first.range.rangeStart,
+      rangeEndExclusive: first.range.rangeEndExclusive,
+      issuedAt,
+      contributors: [
+        {
+          contributorId: 'contributor-a',
+          walletId: 'wallet-a',
+          normalizedContributionVolume: 1000n,
+          fitBps: 10_000,
+          qualityBps: 10_000,
+          provenanceBps: 10_000,
+          noveltyBps: 10_000,
+          antiNoiseBps: 10_000,
+        },
+      ],
+    });
+    const secondAllocation = allocateBtdContributorCells({
+      assetPackId: second.range.assetPackId,
+      rangeStart: second.range.rangeStart,
+      rangeEndExclusive: second.range.rangeEndExclusive,
+      issuedAt,
+      contributors: [
+        {
+          contributorId: 'contributor-b',
+          walletId: 'wallet-b',
+          normalizedContributionVolume: 2000n,
+          fitBps: 10_000,
+          qualityBps: 10_000,
+          provenanceBps: 10_000,
+          noveltyBps: 10_000,
+          antiNoiseBps: 10_000,
+        },
+      ],
+    });
+
+    const replay = replayBtdMintReceipts(
+      [firstReceipt, secondReceipt],
+      [firstAllocation, secondAllocation],
+    );
+
+    expect(replay.blocking).toBe(false);
+    expect(replay.supplyCheckpoints).toEqual([
+      {
+        assetPackId: 'asset-pack-replay-bundle-1',
+        totalMintedBefore: 0,
+        totalMintedAfter: 2,
+        rangeStart: 0,
+        rangeEndExclusive: 2,
+      },
+      {
+        assetPackId: 'asset-pack-replay-bundle-2',
+        totalMintedBefore: 2,
+        totalMintedAfter: 5,
+        rangeStart: 2,
+        rangeEndExclusive: 5,
+      },
+    ]);
+    expect(replay.ranges.map((range) => range.assetPackId)).toEqual([
+      'asset-pack-replay-bundle-1',
+      'asset-pack-replay-bundle-2',
+    ]);
+    expect(replay.allocations.map((allocation) => allocation.assetPackId)).toEqual([
+      'asset-pack-replay-bundle-1',
+      'asset-pack-replay-bundle-2',
+    ]);
+    expect(replay.nextTokenId).toBe(5);
+  });
+
+  it('blocks replay when receipts mutate roots, cap, range, policy, or allocation conservation', () => {
+    const allocation = allocateAssetPackRange(
+      createBtdSupplyState(),
+      rangeInput({ assetPackId: 'asset-pack-replay-mutation' }),
+    );
+    const receipt = buildBtdMintReceipt(allocation, issuedAt);
+    const contributorAllocation = allocateBtdContributorCells({
+      assetPackId: allocation.range.assetPackId,
+      rangeStart: allocation.range.rangeStart,
+      rangeEndExclusive: allocation.range.rangeEndExclusive,
+      issuedAt,
+      contributors: [
+        {
+          contributorId: 'contributor-a',
+          walletId: 'wallet-a',
+          normalizedContributionVolume: 1000n,
+          fitBps: 10_000,
+          qualityBps: 10_000,
+          provenanceBps: 10_000,
+          noveltyBps: 10_000,
+          antiNoiseBps: 10_000,
+        },
+      ],
+    });
+
+    expect(
+      replayBtdMintReceipts([{ ...receipt, proofRoot: '' }]).errors,
+    ).toContain('proofRoot must be a non-empty string.');
+    expect(
+      replayBtdMintReceipts([
+        {
+          ...receipt,
+          rangeEndExclusive: receipt.rangeEndExclusive + 1,
+        },
+      ]).errors,
+    ).toContain('Mint receipt tokenCount does not match range boundaries.');
+    expect(
+      replayBtdMintReceipts([
+        {
+          ...receipt,
+          maxSupply: 21_000_001 as typeof BTD_MAX_MINTABLE_SUPPLY,
+        },
+      ]).errors,
+    ).toContain(`maxSupply must be ${BTD_MAX_MINTABLE_SUPPLY}.`);
+    expect(
+      replayBtdMintReceipts([{ ...receipt, accessPolicyHash: '' }]).errors,
+    ).toContain('accessPolicyHash must be a non-empty string.');
+    expect(
+      replayBtdMintReceipts(
+        [receipt],
+        [
+          {
+            ...contributorAllocation,
+            allocations: [
+              {
+                ...contributorAllocation.allocations[0],
+                tokenCount: contributorAllocation.allocations[0].tokenCount + 1,
+              },
+            ],
+          },
+        ],
+      ).errors,
+    ).toContain('Contributor allocation rangeEndExclusive drift.');
   });
 });
 

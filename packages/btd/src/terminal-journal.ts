@@ -5,6 +5,7 @@ export type TerminalTransactionKind =
   | 'fit_closure'
   | 'proof_admission'
   | 'asset_pack_mint'
+  | 'measure_mint_tail'
   | 'btc_fee_payment'
   | 'asset_pack_anchor'
   | 'licensed_read_purchase'

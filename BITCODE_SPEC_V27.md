@@ -158,6 +158,9 @@ The V27 implementation may start with narrow chains and libraries.
 The requirement is not maximum chain coverage.
 The requirement is that the selected path is real, signed, replayable, reconciled, and failure-aware.
 
+BTD API routes may expose authenticated registry snapshots and deterministic mint drafts before they are allowed to commit mint state.
+Draft routes must preserve the same admission law as package primitives, return JSON-safe receipt projections, and disclose that final minting still requires persisted Exchange settlement, ledger observation when applicable, and replay proof.
+
 ## Wallet And Fee Transactions
 
 Wallet integration is a protocol surface, not UI decoration.
@@ -902,6 +905,22 @@ packages/btd/src/telemetry.ts
 packages/btd/src/upgrade.ts
 ```
 
+## API Route Boundary
+
+Commercial API routes that expose V27 crypto state must be thin adapters over package and ORM boundaries.
+
+Current draft route split:
+
+```text
+packages/api/src/routes/btd-crypto.ts
+uapi/app/api/btd/registry/route.ts
+uapi/app/api/btd/mint-draft/route.ts
+```
+
+The registry route may read `btd_supply_state` and AssetPack ranges through `BtdRegistryModel`.
+The mint-draft route may compute proof-addressable semantic volume, fixed-supply measureminting, range allocation, mint receipt projections, contributor allocation, and a Terminal journal entry.
+It may not persist state, broadcast transactions, or claim final mint finality until the Exchange write path, BTC fee/anchor proof, and replay proof are closed.
+
 ## Interface Requirements
 
 Every admitted UI/API/interface surface must disclose:
@@ -923,6 +942,10 @@ Every admitted UI/API/interface surface must disclose:
 
 ### Gate 1: Draft Opening And Source Audit
 
+Status: closed as a draft-target audit gate.
+Closure proof: `.bitcode/v27-gate-1-source-audit-proof.json`.
+This closure keeps `BITCODE_SPEC.txt` on `V26` and does not create `BITCODE_SPEC_V27_PROVEN.md`.
+
 Acceptance:
 
 - `BITCODE_SPEC_V27.md`, `BITCODE_SPEC_V27_DELTA.md`, `BITCODE_SPEC_V27_NOTES.md`, and `BITCODE_SPEC_V27_PARITY_MATRIX.md` exist.
@@ -931,6 +954,10 @@ Acceptance:
 - parity rows distinguish implemented baseline, partial baseline, and V27 gaps.
 
 ### Gate 2: Ontology And Hard Cap
+
+Status: closed as a draft-target ontology and hard-cap gate.
+Closure proof: `.bitcode/v27-gate-2-ontology-cap-proof.json`.
+This closure proves the ontology/cap baseline; later gates still own registry persistence, range proof, access policy UI, and generated proof-family promotion.
 
 Acceptance:
 
@@ -941,6 +968,10 @@ Acceptance:
 
 ### Gate 3: Supply And Range Primitives
 
+Status: closed as a draft-target package primitive gate.
+Closure proof: `.bitcode/v27-gate-3-supply-range-proof.json`.
+This closure proves package-level supply/range behavior; DB persistence, generated no-overlap proofs, and persisted Exchange write paths remain later-gate work.
+
 Acceptance:
 
 - package primitives define supply state, contiguous range allocation, no-overlap checks, and one-pack-one-range behavior.
@@ -948,13 +979,24 @@ Acceptance:
 
 ### Gate 4: Need-Fit Mint Admission
 
+Status: closed as a draft-target package/API admission gate.
+Closure proof: `.bitcode/v27-gate-4-mint-admission-proof.json`.
+Source-to-shares range binding proof: `.bitcode/v27-source-to-shares-mint-admission-proof.json`.
+This closure proves the mint-admission boundary for package allocation and authenticated mint drafts; persisted Exchange write finality and generated V27 proof-family closure remain later-gate work.
+
 Acceptance:
 
 - mint requires accepted Need, Fit, proof, dedupe, settlement, access policy, and Exchange sequence.
 - source-to-shares proof artifacts can carry minted range roots.
+- authenticated API mint-draft adapters can evaluate admission without persisting final mint state.
 - tests prove source deposit, Need discovery, candidate fit, and uncommitted proof cannot mint.
 
 ### Gate 5: Receipt And Replay
+
+Status: closed as a draft-target package and demonstration replay gate.
+Closure proof: `.bitcode/v27-gate-5-receipt-replay-proof.json`.
+Receipt replay proof slice: `.bitcode/v27-receipt-replay-proof.json`.
+This closure proves receipt and replay exactness for package primitives and the demonstration witness; persisted Exchange receipt writes, database projection replay, ledger finality, and generated total proof-family closure remain later-gate work.
 
 Acceptance:
 
@@ -964,11 +1006,16 @@ Acceptance:
 
 ### Gate 6: Exchange Persistence
 
+Status: closed as a draft-target migration and ORM boundary gate.
+Closure proof: `.bitcode/v27-gate-6-exchange-persistence-proof.json`.
+This closure proves the V27 registry/projection migration plan, SQL constraints, ORM boundary, and noncanonical compatibility-table posture; live Supabase migration execution, generated DB type refresh, and value-bearing operational rollout remain later work.
+
 Acceptance:
 
 - Exchange database tables or equivalent migration plan exist.
 - DB constraints enforce cap, unique token id, no overlapping ranges, access-policy presence, and service-role mint mutation.
 - ORM models expose Bitcode-native names rather than storage compatibility names.
+- authenticated registry snapshot routes read V27 registry projection through the ORM boundary without becoming tokenomics truth.
 
 ### Gate 7: Access And Legal Policy
 

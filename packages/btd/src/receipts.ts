@@ -1,4 +1,10 @@
-import { BTD_MAX_MINTABLE_SUPPLY, BtdTokenId, assertNonEmptyString } from './constants';
+import {
+  BTD_MAX_MINTABLE_SUPPLY,
+  BtdTokenId,
+  assertNonEmptyString,
+  assertNonNegativeSafeInteger,
+  assertPositiveSafeInteger,
+} from './constants';
 import { BtdRangeAllocationResult } from './range';
 
 export interface BtdMintReceipt {
@@ -67,9 +73,19 @@ export function assertBtdMintReceipt(receipt: BtdMintReceipt): BtdMintReceipt {
   assertNonEmptyString(receipt.exchangeReceiptRoot, 'exchangeReceiptRoot');
   assertNonEmptyString(receipt.accessPolicyId, 'accessPolicyId');
   assertNonEmptyString(receipt.accessPolicyHash, 'accessPolicyHash');
+  assertNonEmptyString(receipt.issuedAt, 'issuedAt');
+  assertNonNegativeSafeInteger(receipt.rangeStart, 'rangeStart');
+  assertPositiveSafeInteger(receipt.rangeEndExclusive, 'rangeEndExclusive');
+  assertPositiveSafeInteger(receipt.tokenCount, 'tokenCount');
+  assertNonNegativeSafeInteger(receipt.totalMintedBefore, 'totalMintedBefore');
+  assertPositiveSafeInteger(receipt.totalMintedAfter, 'totalMintedAfter');
 
   if (receipt.maxSupply !== BTD_MAX_MINTABLE_SUPPLY) {
     throw new Error(`maxSupply must be ${BTD_MAX_MINTABLE_SUPPLY}.`);
+  }
+
+  if (receipt.rangeEndExclusive <= receipt.rangeStart) {
+    throw new Error('Mint receipt range must be non-empty.');
   }
 
   if (receipt.tokenCount !== receipt.rangeEndExclusive - receipt.rangeStart) {
@@ -82,6 +98,10 @@ export function assertBtdMintReceipt(receipt: BtdMintReceipt): BtdMintReceipt {
 
   if (receipt.totalMintedAfter > receipt.maxSupply) {
     throw new Error('Mint receipt exceeds maxSupply.');
+  }
+
+  if (typeof receipt.mintedAtExchangeSequence !== 'bigint' || receipt.mintedAtExchangeSequence <= 0n) {
+    throw new Error('mintedAtExchangeSequence must be a positive bigint.');
   }
 
   return receipt;

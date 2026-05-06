@@ -27,7 +27,7 @@ export const RECEIPT_SCHEMAS = {
   },
   btd_asset_pack_mint: {
     predicateType: 'https://bitcode.ai/receipt/btd-asset-pack-mint/v27',
-    required: ['type', 'receiptId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'tokenCount', 'totalMintedBefore', 'totalMintedAfter', 'maxSupply', 'sourceManifestRoot', 'measurementReceiptRoot', 'fitReceiptRoot', 'proofRoot', 'dedupeReceiptRoot', 'settlementJournalRoot', 'exchangeReceiptRoot', 'accessPolicyId', 'accessPolicyHash', 'issuedAt'],
+    required: ['type', 'receiptId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'tokenCount', 'totalMintedBefore', 'totalMintedAfter', 'maxSupply', 'sourceManifestRoot', 'measurementReceiptRoot', 'fitReceiptRoot', 'proofRoot', 'dedupeReceiptRoot', 'settlementJournalRoot', 'exchangeReceiptRoot', 'accessPolicyId', 'accessPolicyHash', 'mintedAtExchangeSequence', 'issuedAt'],
     publicClaim: 'A proof-backed Need-Fit settlement minted a contiguous AssetPack range without exceeding the fixed BTD supply cap.'
   },
   btd_measure_mint: {

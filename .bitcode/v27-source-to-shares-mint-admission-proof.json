@@ -1,0 +1,55 @@
+{
+  "proofId": "v27-source-to-shares-mint-admission-proof",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "activeCanonicalPointer": "V26",
+  "state": "draft-target-source-to-shares-mint-binding",
+  "scope": [
+    "Need-Fit-Prove-Settle mint admission binding",
+    "source-to-shares semantic measurement root",
+    "minted AssetPack range root",
+    "supply replay root",
+    "Terminal journal intent pointer"
+  ],
+  "assetPackMintBinding": {
+    "assetPackId": "asset-pack-api-1",
+    "needId": "need-api-1",
+    "acceptedNeed": true,
+    "acceptedFit": true,
+    "sourceManifestRoot": "source-root",
+    "measurementReceiptRoot": "btd-semantic-volume_956ea137abff021d",
+    "fitReceiptRoot": "fit-root",
+    "proofRoot": "proof-root",
+    "dedupeReceiptRoot": "dedupe-root",
+    "settlementJournalRoot": "settlement-root",
+    "exchangeReceiptRoot": "exchange-root",
+    "accessPolicyId": "policy-1",
+    "accessPolicyHash": "policy-hash",
+    "mintedRange": {
+      "rangeStart": 0,
+      "rangeEndExclusive": 10500000,
+      "tokenCount": 10500000,
+      "mintedRangeRoot": "range-root_705340c307360702"
+    },
+    "supplyReplayRoot": "supply-replay-root_4332ce0cc35d50f2",
+    "terminalJournalEntryId": "terminal-v27-btd-mint-draft_d4b505eea65f5d31",
+    "terminalReceiptRoots": [
+      "btd-semantic-volume_956ea137abff021d",
+      "btd-measure-mint_d4b505eea65f5d31",
+      "btd-asset-pack-mint_66ba52cdfac9951d",
+      "btd-contributor-allocation_66ba52cdfac9951d"
+    ]
+  },
+  "admissionLaw": [
+    "source deposit alone cannot mint",
+    "Need discovery alone cannot mint",
+    "candidate Fit alone cannot mint",
+    "uncommitted proof cannot mint",
+    "accepted Need, accepted Fit, source root, proof root, dedupe root, settlement root, access policy, Exchange receipt root, and positive Exchange sequence are required before a mint draft may allocate a range"
+  ],
+  "nonPromotionAssertions": [
+    "BITCODE_SPEC.txt remains V26",
+    "BITCODE_SPEC_V27_PROVEN.md does not exist",
+    "This proof binds a V27 mint-admission source-to-shares draft artifact and does not claim persisted Exchange finality or value-bearing mainnet launch"
+  ]
+}

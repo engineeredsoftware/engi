@@ -22,7 +22,12 @@
     "deployment-lane guards",
     "protocol upgrade receipts",
     "protocol-demonstration V27 crypto receipt witness",
-    "V27 registry/projection migration and ORM boundary"
+    "V27 registry/projection migration and ORM boundary",
+    "authenticated registry snapshot and mint-draft API route boundary",
+    "package/API Need-Fit-Prove-Settle mint admission rejection",
+    "source-to-shares minted range proof binding",
+    "mint receipt and contributor allocation replay",
+    "Exchange registry migration and ORM boundary"
   ],
   "sourceSurfaces": [
     "BITCODE_SPEC_V27.md",
@@ -51,28 +56,52 @@
     "packages/btd/src/telemetry.ts",
     "packages/btd/src/upgrade.ts",
     "packages/btd/__tests__/v27-crypto-primitives.test.ts",
+    "packages/api/src/routes/btd-crypto.ts",
+    "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+    "packages/api/src/routes/__tests__/user-btd-mutation.test.ts",
+    "packages/api/src/index.ts",
+    "uapi/app/api/btd/registry/route.ts",
+    "uapi/app/api/btd/mint-draft/route.ts",
     "protocol-demonstration/src/receipt-schemas.js",
     "protocol-demonstration/src/v27-crypto-primitives.js",
     "protocol-demonstration/test/v27-crypto-primitives.test.js",
     "supabase/migrations/002_v27_btd_crypto_registry.sql",
+    "packages/orm/src/client.ts",
     "packages/orm/src/models/btd-registry.ts",
-    "internal-docs/BITCODE_EXCHANGE_DATABASE.md"
+    "packages/orm/src/__tests__/btd-registry.test.ts",
+    "internal-docs/BITCODE_EXCHANGE_DATABASE.md",
+    ".bitcode/v27-gate-3-supply-range-proof.json",
+    ".bitcode/v27-source-to-shares-mint-admission-proof.json",
+    ".bitcode/v27-gate-4-mint-admission-proof.json",
+    ".bitcode/v27-receipt-replay-proof.json",
+    ".bitcode/v27-gate-5-receipt-replay-proof.json",
+    ".bitcode/v27-gate-6-exchange-persistence-proof.json"
   ],
   "validation": [
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/btd focused ts-jest config...}' --runInBand",
+      "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
-      "assertions": 27,
-      "notes": "Jest still reports pre-existing duplicate manual mock warnings outside the V27 package slice."
+      "assertions": 44,
+      "notes": "Jest still reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
+    },
+    {
+      "command": "pnpm -C packages/api build",
+      "status": "passed"
     },
     {
       "command": "pnpm -C protocol-demonstration test:v27-crypto",
       "status": "passed",
-      "assertions": 7
+      "assertions": 8
     },
     {
       "command": "pnpm -C packages/orm build",
       "status": "passed"
+    },
+    {
+      "command": "pnpm -C packages/orm exec jest --runTestsByPath src/__tests__/btd-registry.test.ts --runInBand",
+      "status": "passed",
+      "assertions": 3,
+      "notes": "Jest reports an existing ts-jest globals deprecation warning."
     },
     {
       "command": "git diff --check",
@@ -88,13 +117,20 @@
     "package-level zero-cell tail receipt behavior",
     "package-level semantic-volume measurement",
     "package-level range/mint/access/replay primitives",
+    "package-level one-AssetPack-one-primary-range rejection",
+    "package-level stale-state range-overlap rejection",
+    "package/API-level Need-Fit-Prove-Settle mint admission rejection",
+    "source-to-shares minted range root proof binding",
+    "package/demonstration mint receipt replay closure",
+    "Exchange registry migration/ORM boundary closure",
     "package-level contributor allocation conservation",
     "package-level optional ancestry review with unpaid weak/citation edges",
     "package-level local BTC revenue-route conservation",
     "package-level BTC fee receipt lifecycle and provider boundary",
     "package-level deployment-lane mainnet approval guard",
     "demonstration receipt family coverage for V27 crypto primitives",
-    "database migration and ORM projection boundary for V27 registry tables"
+    "database migration and ORM projection boundary for V27 registry tables",
+    "authenticated registry snapshot and deterministic mint-draft route boundary"
   ],
   "remainingBlockingForPromotion": [
     "live wallet adapters",

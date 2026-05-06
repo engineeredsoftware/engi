@@ -810,6 +810,10 @@ UI/API:
   projections only; never allowed to claim finality unsupported by ledger, journal, proof, or policy roots.
 ```
 
+The first V27 commercial API boundary should remain intentionally narrow:
+authenticated registry snapshots can expose supply and AssetPack range projections, and authenticated mint drafts can compute semantic volume, measureminting, range, mint receipt, allocation, and Terminal journal projections.
+Those draft routes are not committing mint APIs until Exchange persistence, wallet/BTC fee, ledger anchor, and replay proofs are closed.
+
 Metaphysical canonical database facts include private source metadata, encrypted storage pointers, Need/Fit records before ledgerization, access policy documents, proof bundles, disputes, telemetry, pending settlement state, and user-experience state that cannot be a public ledger fact.
 
 V27 must treat value-bearing mainnet launch as an operational approval event after V27 proves mainnet-ready controls.

@@ -6,6 +6,7 @@ import {
   BITCODE_FEE_ASSET,
   BITCODE_PUBLIC_BITCOIN_PROOF_NETWORK,
   buildAncestryReviewReceipt,
+  buildAssetPackMintReceipt,
   allocateRange,
   buildBitcoinAnchorReceipt,
   buildContributorAllocationReceipt,
@@ -15,7 +16,8 @@ import {
   buildReconciliationReceipt,
   confirmBtcFeeReceipt,
   measureMint,
-  measureSemanticVolume
+  measureSemanticVolume,
+  replayAssetPackMintReceipts
 } from '../src/v27-crypto-primitives.js';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
@@ -121,6 +123,69 @@ test('V27 demonstration measureminting decays issuance and supports zero-cell ta
 
   assert.equal(tail.tokenCount, 0);
   assert.equal(tail.zeroCellReason, 'below_integer_threshold');
+});
+
+test('V27 demonstration mint receipt replay reconstructs supply ranges and allocations', () => {
+  const firstRange = allocateRange({ totalMinted: 0, tokenCount: 2 });
+  const secondRange = allocateRange({ totalMinted: firstRange.totalMintedAfter, tokenCount: 3 });
+  const firstMint = buildAssetPackMintReceipt({
+    receiptId: 'mint-1',
+    assetPackId: 'asset-pack-mint-1',
+    rangeStart: firstRange.rangeStart,
+    rangeEndExclusive: firstRange.rangeEndExclusive,
+    totalMintedBefore: 0,
+    sourceManifestRoot: 'source-root-1',
+    measurementReceiptRoot: 'measurement-root-1',
+    fitReceiptRoot: 'fit-root-1',
+    proofRoot: 'proof-root-1',
+    dedupeReceiptRoot: 'dedupe-root-1',
+    settlementJournalRoot: 'settlement-root-1',
+    exchangeReceiptRoot: 'exchange-root-1',
+    accessPolicyId: 'policy-1',
+    accessPolicyHash: 'policy-hash-1',
+    mintedAtExchangeSequence: 1n,
+    issuedAt
+  });
+  const secondMint = buildAssetPackMintReceipt({
+    receiptId: 'mint-2',
+    assetPackId: 'asset-pack-mint-2',
+    rangeStart: secondRange.rangeStart,
+    rangeEndExclusive: secondRange.rangeEndExclusive,
+    totalMintedBefore: firstRange.totalMintedAfter,
+    sourceManifestRoot: 'source-root-2',
+    measurementReceiptRoot: 'measurement-root-2',
+    fitReceiptRoot: 'fit-root-2',
+    proofRoot: 'proof-root-2',
+    dedupeReceiptRoot: 'dedupe-root-2',
+    settlementJournalRoot: 'settlement-root-2',
+    exchangeReceiptRoot: 'exchange-root-2',
+    accessPolicyId: 'policy-2',
+    accessPolicyHash: 'policy-hash-2',
+    mintedAtExchangeSequence: 2n,
+    issuedAt
+  });
+  const allocation = buildContributorAllocationReceipt({
+    receiptId: 'allocation-mint-2',
+    assetPackId: 'asset-pack-mint-2',
+    rangeStart: secondMint.rangeStart,
+    rangeEndExclusive: secondMint.rangeEndExclusive,
+    contributors: [{ contributorId: 'contributor-a', walletId: 'wallet-a', weight: 1n }],
+    issuedAt
+  });
+  const replay = replayAssetPackMintReceipts({
+    mintReceipts: [firstMint, secondMint],
+    allocationReceipts: [allocation]
+  });
+  const mutated = replayAssetPackMintReceipts({
+    mintReceipts: [{ ...firstMint, proofRoot: '' }]
+  });
+
+  assert.equal(replay.blocking, false);
+  assert.equal(replay.nextTokenId, 5);
+  assert.equal(replay.ranges[1].rangeStart, 2);
+  assert.equal(replay.allocationCount, 1);
+  assert.equal(mutated.blocking, true);
+  assert.ok(mutated.errors.includes('mint asset-pack-mint-1: missing proofRoot'));
 });
 
 test('V27 demonstration BTC fee and anchor receipts use signet and BTC', () => {

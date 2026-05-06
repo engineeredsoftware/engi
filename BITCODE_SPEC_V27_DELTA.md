@@ -99,6 +99,12 @@ V27 must make all of these implementation-derivable:
 
 ### Gate 1: Draft Opening And Source Audit
 
+Status:
+Closed as a draft-target source-audit gate.
+Closure proof: `.bitcode/v27-gate-1-source-audit-proof.json`.
+V26 remains the active canonical pointer.
+No generated V27 proof appendix is claimed.
+
 Purpose:
 Open the V27 spec family and build an honest source parity baseline without promoting V27.
 
@@ -112,6 +118,11 @@ Closure criteria:
 
 ### Gate 2: Ontology And Cap Closure
 
+Status:
+Closed as a draft-target ontology and hard-cap gate.
+Closure proof: `.bitcode/v27-gate-2-ontology-cap-proof.json`.
+Later gates still own registry persistence, range proof, access policy UI, generated proof-family closure, and promotion.
+
 Purpose:
 Make `$BTD` identity, non-fungibility, and hard cap exact.
 
@@ -124,6 +135,11 @@ Closure criteria:
 - UI copy keeps BTC fee and `$BTD` share/read-right separate.
 
 ### Gate 3: Supply And Range Primitive Closure
+
+Status:
+Closed as a draft-target package primitive gate.
+Closure proof: `.bitcode/v27-gate-3-supply-range-proof.json`.
+Later gates still own DB persistence, generated no-overlap proof families, and write-committing Exchange integration.
 
 Purpose:
 Implement the canonical range allocator.
@@ -139,6 +155,12 @@ Closure criteria:
 
 ### Gate 4: Mint Admission Closure
 
+Status:
+Closed as a draft-target package/API admission gate.
+Closure proof: `.bitcode/v27-gate-4-mint-admission-proof.json`.
+Source-to-shares range binding proof: `.bitcode/v27-source-to-shares-mint-admission-proof.json`.
+Later gates still own persisted Exchange mint writes, generated proof-family closure, and ledger finality.
+
 Purpose:
 Make Need-Fit-Prove-Settle the only mint path.
 
@@ -151,6 +173,12 @@ Closure criteria:
 
 ### Gate 5: Receipt And Replay Closure
 
+Status:
+Closed as a draft-target package and demonstration replay gate.
+Closure proof: `.bitcode/v27-gate-5-receipt-replay-proof.json`.
+Receipt replay proof slice: `.bitcode/v27-receipt-replay-proof.json`.
+Later gates still own persisted Exchange receipt writes, database projection replay, ledger finality, and generated total proof-family closure.
+
 Purpose:
 Make mint facts reconstructable without trusting runtime memory.
 
@@ -162,6 +190,11 @@ Closure criteria:
 - proof generator includes V27 receipt replay.
 
 ### Gate 6: Exchange Persistence Closure
+
+Status:
+Closed as a draft-target migration and ORM boundary gate.
+Closure proof: `.bitcode/v27-gate-6-exchange-persistence-proof.json`.
+Later gates still own live migration execution, generated DB type refresh, wallet/ledger finality, and value-bearing rollout controls.
 
 Purpose:
 Replace aggregate compatibility storage with Exchange registry state.
@@ -331,10 +364,14 @@ Implemented baseline:
 - `packages/btd/src/telemetry.ts` owns V27 crypto telemetry event taxonomy.
 - `packages/btd/src/upgrade.ts` owns versioned protocol upgrade receipts.
 - `packages/btd/__tests__/v27-crypto-primitives.test.ts` proves the package primitives.
+- `packages/api/src/routes/btd-crypto.ts` exposes authenticated registry snapshots and deterministic mint-draft projections without committing mint state.
+- `uapi/app/api/btd/registry/route.ts` and `uapi/app/api/btd/mint-draft/route.ts` mount the commercial Next route boundary in place, without versioned route paths.
+- `packages/api/src/routes/__tests__/btd-crypto.test.ts` proves route-level authentication injection, registry snapshot projection, and JSON-safe mint drafts.
 - `protocol-demonstration/src/v27-crypto-primitives.js` and `test/v27-crypto-primitives.test.js` demonstrate the minimum protocol witness.
 - `protocol-demonstration/src/receipt-schemas.js` exposes V27 semantic-volume, mint, allocation, ancestry, revenue-route, BTC fee, ledger-anchor, rights-transfer, reconciliation, and upgrade receipt families.
 - `supabase/migrations/002_v27_btd_crypto_registry.sql` defines the V27 registry/projection table set.
 - `packages/orm/src/models/btd-registry.ts` gives commercial source a Bitcode-native ORM boundary for V27 tables until generated types refresh.
+- `packages/orm/src/client.ts` now exposes `btdRegistry` on standard and admin ORM clients.
 - `.bitcode/v27-crypto-primitives-proof.json` records the first V27 proof slice for package, demonstration, registry, and validation surfaces.
 - `packages/btd/src/index.ts` exports `BTD_MAX_MINTABLE_SUPPLY = 21_000_000`.
 - `packages/btd/src/index.ts` exports BTC fee-basis helpers.
@@ -367,9 +404,10 @@ Partial baseline:
 
 Remaining gaps:
 
-- no V27 minted range proof artifact;
-- no V27 receipt replay proof;
+- no persisted/generated total V27 minted range proof family;
+- no persisted/generated total V27 receipt replay proof family;
 - no V27 token/range route;
+- no write-committing route/API persistence path;
 - no V27 generated proof appendix;
 - no live wallet adapter over the V27 signer-session boundary;
 - no Bitcoin transaction broadcaster/reconciler for fee payment;

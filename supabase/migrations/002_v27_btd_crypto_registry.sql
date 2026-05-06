@@ -106,7 +106,10 @@ CREATE TABLE IF NOT EXISTS public.btd_asset_pack_ranges (
   CONSTRAINT btd_asset_pack_ranges_start CHECK (range_start >= 0),
   CONSTRAINT btd_asset_pack_ranges_non_empty CHECK (range_end_exclusive > range_start),
   CONSTRAINT btd_asset_pack_ranges_count CHECK (token_count = range_end_exclusive - range_start),
-  CONSTRAINT btd_asset_pack_ranges_cap CHECK (range_end_exclusive <= 21000000)
+  CONSTRAINT btd_asset_pack_ranges_cap CHECK (range_end_exclusive <= 21000000),
+  CONSTRAINT btd_asset_pack_ranges_policy CHECK (
+    length(trim(access_policy_id)) > 0 AND length(trim(access_policy_hash)) > 0
+  )
 );
 
 ALTER TABLE public.btd_asset_pack_ranges
@@ -124,7 +127,10 @@ CREATE TABLE IF NOT EXISTS public.btd_cells (
   access_policy_id text NOT NULL,
   access_policy_hash text NOT NULL,
   created_at timestamp with time zone DEFAULT now() NOT NULL,
-  CONSTRAINT btd_cells_token_id CHECK (token_id >= 0 AND token_id < 21000000)
+  CONSTRAINT btd_cells_token_id CHECK (token_id >= 0 AND token_id < 21000000),
+  CONSTRAINT btd_cells_policy CHECK (
+    length(trim(access_policy_id)) > 0 AND length(trim(access_policy_hash)) > 0
+  )
 );
 
 CREATE TABLE IF NOT EXISTS public.btd_ownership_events (
@@ -144,6 +150,8 @@ CREATE TABLE IF NOT EXISTS public.btd_ownership_events (
   issued_at timestamp with time zone NOT NULL,
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT btd_ownership_events_non_empty CHECK (range_end_exclusive > range_start),
+  CONSTRAINT btd_ownership_events_cap CHECK (range_start >= 0 AND range_end_exclusive <= 21000000),
+  CONSTRAINT btd_ownership_events_policy CHECK (length(trim(access_policy_hash)) > 0),
   CONSTRAINT btd_ownership_events_kind CHECK (event_kind IN ('mint_allocation', 'rights_transfer', 'reconciliation_repair'))
 );
 
@@ -160,7 +168,8 @@ CREATE TABLE IF NOT EXISTS public.btd_read_licenses (
   receipt jsonb NOT NULL,
   issued_at timestamp with time zone NOT NULL,
   created_at timestamp with time zone DEFAULT now() NOT NULL,
-  CONSTRAINT btd_read_licenses_window CHECK (expires_at IS NULL OR expires_at > valid_from)
+  CONSTRAINT btd_read_licenses_window CHECK (expires_at IS NULL OR expires_at > valid_from),
+  CONSTRAINT btd_read_licenses_policy CHECK (length(trim(access_policy_hash)) > 0)
 );
 
 CREATE TABLE IF NOT EXISTS public.btd_mint_receipts (
@@ -295,6 +304,8 @@ CREATE TABLE IF NOT EXISTS public.btd_asset_pack_ledger_anchors (
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT btd_asset_pack_ledger_anchors_chain CHECK (chain IN ('bitcoin', 'ethereum', 'bitcode-internal-ledger')),
   CONSTRAINT btd_asset_pack_ledger_anchors_non_empty CHECK (btd_range_end_exclusive > btd_range_start),
+  CONSTRAINT btd_asset_pack_ledger_anchors_cap CHECK (btd_range_start >= 0 AND btd_range_end_exclusive <= 21000000),
+  CONSTRAINT btd_asset_pack_ledger_anchors_policy CHECK (length(trim(access_policy_hash)) > 0),
   CONSTRAINT btd_asset_pack_ledger_anchors_state CHECK (finality_state IN ('prepared', 'broadcast', 'confirmed', 'reorged', 'failed')),
   CONSTRAINT btd_asset_pack_ledger_anchors_confirmations CHECK (confirmations >= 0)
 );
@@ -322,7 +333,9 @@ CREATE TABLE IF NOT EXISTS public.btd_exchange_orders (
   CONSTRAINT btd_exchange_orders_state CHECK (order_state IN ('open', 'accepted', 'cancelled', 'expired', 'settled', 'failed')),
   CONSTRAINT btd_exchange_orders_price_asset CHECK (price_asset = 'BTC'),
   CONSTRAINT btd_exchange_orders_price CHECK (price_sats > 0),
-  CONSTRAINT btd_exchange_orders_non_empty CHECK (range_end_exclusive > range_start)
+  CONSTRAINT btd_exchange_orders_non_empty CHECK (range_end_exclusive > range_start),
+  CONSTRAINT btd_exchange_orders_cap CHECK (range_start >= 0 AND range_end_exclusive <= 21000000),
+  CONSTRAINT btd_exchange_orders_policy CHECK (length(trim(access_policy_hash)) > 0)
 );
 
 CREATE TABLE IF NOT EXISTS public.btd_rights_transfer_receipts (
@@ -330,6 +343,8 @@ CREATE TABLE IF NOT EXISTS public.btd_rights_transfer_receipts (
   receipt_id text NOT NULL UNIQUE,
   order_id text NOT NULL REFERENCES public.btd_exchange_orders(order_id) ON DELETE RESTRICT,
   asset_pack_id text NOT NULL,
+  range_start integer NOT NULL,
+  range_end_exclusive integer NOT NULL,
   from_wallet_id text NOT NULL,
   to_wallet_id text NOT NULL,
   price_asset text NOT NULL DEFAULT 'BTC',
@@ -340,6 +355,9 @@ CREATE TABLE IF NOT EXISTS public.btd_rights_transfer_receipts (
   receipt jsonb NOT NULL,
   issued_at timestamp with time zone NOT NULL,
   created_at timestamp with time zone DEFAULT now() NOT NULL,
+  CONSTRAINT btd_rights_transfer_non_empty CHECK (range_end_exclusive > range_start),
+  CONSTRAINT btd_rights_transfer_cap CHECK (range_start >= 0 AND range_end_exclusive <= 21000000),
+  CONSTRAINT btd_rights_transfer_policy CHECK (length(trim(access_policy_hash)) > 0),
   CONSTRAINT btd_rights_transfer_price_asset CHECK (price_asset = 'BTC'),
   CONSTRAINT btd_rights_transfer_price CHECK (price_sats > 0)
 );
@@ -405,3 +423,23 @@ CREATE TABLE IF NOT EXISTS public.btd_crypto_telemetry_events (
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT btd_crypto_telemetry_severity CHECK (severity IN ('info', 'warning', 'critical'))
 );
+
+ALTER TABLE public.btd_supply_state ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_semantic_volume_measurements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_measure_mint_receipts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_asset_pack_ranges ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_cells ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_ownership_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_read_licenses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_mint_receipts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_contributor_allocations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_ancestor_edges ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_licensed_read_revenue_routes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btc_fee_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_asset_pack_ledger_anchors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_exchange_orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_rights_transfer_receipts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_terminal_journal_entries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_ledger_database_reconciliation_repairs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_protocol_upgrade_receipts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.btd_crypto_telemetry_events ENABLE ROW LEVEL SECURITY;

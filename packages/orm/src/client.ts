@@ -1,6 +1,6 @@
 /**
  * ORM CLIENT - Database Connection Management
- * 
+ *
  * Manages database connections with different access levels
  */
 
@@ -17,6 +17,7 @@ import { NotificationsModel } from './models/notifications';
 import { MessageAttachmentsModel } from './models/message-attachments';
 import { UserConnectionsModel } from './models/user-connections';
 import { UserBtdBalancesModel } from './models/user-btd-balances';
+import { BtdRegistryModel } from './models/btd-registry';
 import {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
@@ -53,6 +54,7 @@ export interface BitcodeOrmClient {
   messageAttachments: MessageAttachmentsModel;
   userConnections: UserConnectionsModel;
   userBtdBalances: UserBtdBalancesModel;
+  btdRegistry: BtdRegistryModel;
 }
 
 /**
@@ -100,7 +102,8 @@ export function createClient(authToken?: string): BitcodeOrmClient {
     notifications: new NotificationsModel(supabase),
     messageAttachments: new MessageAttachmentsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
-    userBtdBalances: new UserBtdBalancesModel(supabase)
+    userBtdBalances: new UserBtdBalancesModel(supabase),
+    btdRegistry: new BtdRegistryModel(supabase)
   };
 }
 
@@ -139,7 +142,8 @@ export function createAdminClient(): AdminClient {
     notifications: new NotificationsModel(supabase),
     messageAttachments: new MessageAttachmentsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
-    userBtdBalances: new UserBtdBalancesModel(supabase)
+    userBtdBalances: new UserBtdBalancesModel(supabase),
+    btdRegistry: new BtdRegistryModel(supabase)
   };
 
   return {

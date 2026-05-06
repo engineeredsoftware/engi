@@ -1,8 +1,12 @@
 /**
  * User BTD Balances Model
  *
- * Manages user `$BTD` balances through the storage table `user_credits`
- * until the persistence schema is renamed forward.
+ * Reads the non-canonical aggregate `$BTD` holding posture carried by the
+ * storage table `user_credits`.
+ *
+ * V27 tokenomics truth belongs to `BtdRegistryModel` and the registry
+ * cell/range tables. This model remains a compatibility read corridor only and
+ * must not mint, debit, transfer, or settle `$BTD`.
  *
  * @doc-code
  * type: model
@@ -23,7 +27,7 @@ export class UserBtdBalancesModel extends BaseModel<'user_credits'> {
   }
 
   /**
-   * Get BTD balance by user ID
+   * Get compatibility holding posture by user ID.
    */
   async getByUserId(userId: string): Promise<UserBtdBalance | null> {
     const { data, error } = await this.supabase

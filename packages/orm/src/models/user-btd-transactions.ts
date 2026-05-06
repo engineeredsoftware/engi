@@ -1,8 +1,12 @@
 /**
  * User BTD Transactions Model
  *
- * Tracks `$BTD` transaction history through the storage table
- * `user_credit_usages` until the persistence schema is renamed forward.
+ * Reads non-canonical aggregate `$BTD` usage posture carried by the storage
+ * table `user_credit_usages`.
+ *
+ * V27 tokenomics truth belongs to `BtdRegistryModel` and registry receipts.
+ * This model remains a compatibility read corridor only and must not mint,
+ * debit, transfer, or settle `$BTD`.
  *
  * @doc-code
  * type: model
@@ -22,7 +26,7 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
   }
 
   /**
-   * Get recent usage for user
+   * Get recent compatibility usage for user.
    */
   async getRecentByUserId(userId: string, limit = 20): Promise<UserBtdTransaction[]> {
     const { data, error } = await this.client
@@ -37,7 +41,7 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
   }
 
   /**
-   * Get usage statistics for date range
+   * Get compatibility usage statistics for date range.
    */
   async getUsageStats(userId: string, startDate: Date): Promise<{
     total: number;
@@ -74,7 +78,7 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
   }
 
   /**
-   * Get total `$BTD` used in period
+   * Get total compatibility `$BTD` usage in period.
    */
   async getTotalUsed(userId: string, days: number): Promise<number> {
     const startDate = new Date();
@@ -88,7 +92,7 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
       .gte('created_at', startDate.toISOString());
 
     if (error) throw error;
-    
+
     return data?.reduce((sum: number, usage: { amount: number }) => sum + Math.abs(usage.amount), 0) || 0;
   }
 }

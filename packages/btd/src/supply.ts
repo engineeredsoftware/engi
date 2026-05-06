@@ -6,9 +6,7 @@ import {
   assertPositiveSafeInteger,
   toBigIntAmount,
 } from './constants';
-
-export type BtdMeasureMintCurve = 'hyperbolic_saturation';
-export type BtdMeasureMintTailPolicy = 'zero_cell_receipt_then_refit_only';
+import type { BtdMeasureMintCurve, BtdMeasureMintTailPolicy } from './measuremint';
 
 export interface BtdSupplyState {
   maxSupply: typeof BTD_MAX_MINTABLE_SUPPLY;

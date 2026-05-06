@@ -89,6 +89,120 @@ export function allocateRange(input) {
  * @param {{
  *   receiptId: string,
  *   assetPackId: string,
+ *   rangeStart: number,
+ *   rangeEndExclusive: number,
+ *   totalMintedBefore: number,
+ *   sourceManifestRoot: string,
+ *   measurementReceiptRoot: string,
+ *   fitReceiptRoot: string,
+ *   proofRoot: string,
+ *   dedupeReceiptRoot: string,
+ *   settlementJournalRoot: string,
+ *   exchangeReceiptRoot: string,
+ *   accessPolicyId: string,
+ *   accessPolicyHash: string,
+ *   mintedAtExchangeSequence: bigint,
+ *   issuedAt: string
+ * }} input
+ */
+export function buildAssetPackMintReceipt(input) {
+  const tokenCount = input.rangeEndExclusive - input.rangeStart;
+  if (tokenCount <= 0) {
+    throw new Error('mint receipt range must be non-empty');
+  }
+  if (input.totalMintedBefore !== input.rangeStart) {
+    throw new Error('mint receipt totalMintedBefore must equal rangeStart');
+  }
+
+  return {
+    type: 'btd_asset_pack_mint',
+    receiptId: input.receiptId,
+    assetPackId: input.assetPackId,
+    rangeStart: input.rangeStart,
+    rangeEndExclusive: input.rangeEndExclusive,
+    tokenCount,
+    totalMintedBefore: input.totalMintedBefore,
+    totalMintedAfter: input.totalMintedBefore + tokenCount,
+    maxSupply: BTD_MAX_MINTABLE_SUPPLY,
+    sourceManifestRoot: input.sourceManifestRoot,
+    measurementReceiptRoot: input.measurementReceiptRoot,
+    fitReceiptRoot: input.fitReceiptRoot,
+    proofRoot: input.proofRoot,
+    dedupeReceiptRoot: input.dedupeReceiptRoot,
+    settlementJournalRoot: input.settlementJournalRoot,
+    exchangeReceiptRoot: input.exchangeReceiptRoot,
+    accessPolicyId: input.accessPolicyId,
+    accessPolicyHash: input.accessPolicyHash,
+    mintedAtExchangeSequence: input.mintedAtExchangeSequence.toString(),
+    issuedAt: input.issuedAt
+  };
+}
+
+/**
+ * @param {{ mintReceipts: any[], allocationReceipts?: any[] }} input
+ */
+export function replayAssetPackMintReceipts(input) {
+  const errors = [];
+  let totalMinted = 0;
+  const ranges = [];
+  const allocationByAssetPackId = new Map();
+
+  for (const allocation of input.allocationReceipts || []) {
+    const allocated = allocation.allocations.reduce((sum, item) => sum + item.tokenCount, 0);
+    if (allocated !== allocation.tokenCount) {
+      errors.push(`allocation ${allocation.assetPackId}: tokenCount drift`);
+    }
+    allocationByAssetPackId.set(allocation.assetPackId, allocation);
+  }
+
+  for (const receipt of input.mintReceipts) {
+    if (receipt.maxSupply !== BTD_MAX_MINTABLE_SUPPLY) {
+      errors.push(`mint ${receipt.assetPackId}: invalid maxSupply`);
+    }
+    for (const rootKey of ['sourceManifestRoot', 'measurementReceiptRoot', 'fitReceiptRoot', 'proofRoot', 'dedupeReceiptRoot', 'settlementJournalRoot', 'exchangeReceiptRoot', 'accessPolicyId', 'accessPolicyHash']) {
+      if (!receipt[rootKey]) {
+        errors.push(`mint ${receipt.assetPackId}: missing ${rootKey}`);
+      }
+    }
+    if (receipt.rangeStart !== totalMinted || receipt.totalMintedBefore !== totalMinted) {
+      errors.push(`mint ${receipt.assetPackId}: supply/range drift`);
+    }
+    if (receipt.tokenCount !== receipt.rangeEndExclusive - receipt.rangeStart) {
+      errors.push(`mint ${receipt.assetPackId}: tokenCount drift`);
+    }
+    if (receipt.totalMintedAfter !== receipt.totalMintedBefore + receipt.tokenCount) {
+      errors.push(`mint ${receipt.assetPackId}: totalMintedAfter drift`);
+    }
+    const allocation = allocationByAssetPackId.get(receipt.assetPackId);
+    if (allocation && (
+      allocation.rangeStart !== receipt.rangeStart ||
+      allocation.rangeEndExclusive !== receipt.rangeEndExclusive ||
+      allocation.tokenCount !== receipt.tokenCount
+    )) {
+      errors.push(`allocation ${receipt.assetPackId}: range drift`);
+    }
+    ranges.push({
+      assetPackId: receipt.assetPackId,
+      rangeStart: receipt.rangeStart,
+      rangeEndExclusive: receipt.rangeEndExclusive
+    });
+    totalMinted = receipt.totalMintedAfter;
+  }
+
+  return {
+    blocking: errors.length > 0,
+    errors,
+    totalMinted,
+    nextTokenId: totalMinted,
+    ranges,
+    allocationCount: allocationByAssetPackId.size
+  };
+}
+
+/**
+ * @param {{
+ *   receiptId: string,
+ *   assetPackId: string,
  *   normalizedBitcodeVolume: bigint,
  *   cumulativeMeasurementBefore: bigint,
  *   totalMintedBefore: number,

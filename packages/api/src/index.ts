@@ -25,6 +25,7 @@ export * from './conversations';
 export * from './routes/conversations';
 export * from './routes/auxillaries';
 export * from './routes/auxillaries-contract';
+export * from './routes/btd-crypto';
 export * from './routes/executions';
 export * from './pipelines/branch';
 

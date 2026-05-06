@@ -1,8 +1,12 @@
 /**
  * User BTD Transactions Model
  *
- * Tracks `$BTD` transaction history through the storage table
- * `user_credit_usages` until the persistence schema is renamed forward.
+ * Reads non-canonical aggregate `$BTD` usage posture carried by the storage
+ * table `user_credit_usages`.
+ *
+ * V27 tokenomics truth belongs to `BtdRegistryModel` and registry receipts.
+ * This model remains a compatibility read corridor only and must not mint,
+ * debit, transfer, or settle `$BTD`.
  *
  * @doc-code
  * type: model
@@ -16,11 +20,11 @@ export type UserBtdTransactionUpdate = Updatable<'user_credit_usages'>;
 export declare class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
     constructor(supabase: any);
     /**
-     * Get recent usage for user
+     * Get recent compatibility usage for user.
      */
     getRecentByUserId(userId: string, limit?: number): Promise<UserBtdTransaction[]>;
     /**
-     * Get usage statistics for date range
+     * Get compatibility usage statistics for date range.
      */
     getUsageStats(userId: string, startDate: Date): Promise<{
         total: number;
@@ -30,7 +34,7 @@ export declare class UserBtdTransactionsModel extends BaseModel<'user_credit_usa
         }>;
     }>;
     /**
-     * Get total `$BTD` used in period
+     * Get total compatibility `$BTD` usage in period.
      */
     getTotalUsed(userId: string, days: number): Promise<number>;
 }

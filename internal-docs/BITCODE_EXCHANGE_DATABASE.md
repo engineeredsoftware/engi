@@ -95,5 +95,8 @@ Required database truths:
 - Exchange orders and rights-transfer receipts use BTC prices and access-policy hashes.
 - Terminal journal rows and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality.
 - `btd_protocol_upgrade_receipts` records deployment/migration state roots, approvals, rollback roots, and network scope.
+- V27 registry tables enable row-level security without user-facing policies; writes are expected through service-role route/worker boundaries until a narrower policy set is specified.
+- `user_credits` and `user_credit_usages` are compatibility read corridors only. They are not canonical tokenomics truth, cannot mint `$BTD`, and cannot settle AssetPack rights.
 
 `packages/orm/src/models/btd-registry.ts` is the V27 ORM boundary until generated Supabase types are refreshed from the migration.
+`packages/api/src/routes/btd-crypto.ts` may read registry snapshots and produce deterministic mint-draft projections through that ORM/package boundary, but it is not a committing Exchange write path until persistence, wallet fee, ledger anchor, and replay proofs close.

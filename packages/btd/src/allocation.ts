@@ -154,6 +154,81 @@ export function allocateBtdContributorCells(input: {
   };
 }
 
+export function assertBtdContributorAllocationReceipt(
+  receipt: BtdContributorAllocationReceipt,
+): BtdContributorAllocationReceipt {
+  if (receipt.kind !== 'btd.contributor_allocation') {
+    throw new Error('Invalid BTD contributor allocation receipt kind.');
+  }
+
+  assertNonEmptyString(receipt.assetPackId, 'assetPackId');
+  const rangeStart = assertNonNegativeSafeInteger(receipt.rangeStart, 'rangeStart');
+  const rangeEndExclusive = assertPositiveSafeInteger(
+    receipt.rangeEndExclusive,
+    'rangeEndExclusive',
+  );
+
+  if (rangeEndExclusive <= rangeStart) {
+    throw new Error('Contributor allocation range must be non-empty.');
+  }
+
+  if (receipt.tokenCount !== rangeEndExclusive - rangeStart) {
+    throw new Error('Contributor allocation tokenCount does not match range boundaries.');
+  }
+
+  if (receipt.allocationMethod !== 'hare_niemeyer_weighted_fit') {
+    throw new Error('Unsupported contributor allocation method.');
+  }
+
+  assertNonEmptyString(receipt.issuedAt, 'issuedAt');
+
+  if (!receipt.allocations.length) {
+    throw new Error('Contributor allocation receipt requires at least one allocation.');
+  }
+
+  let allocated = 0;
+  let cursor = rangeStart;
+  const seenContributorIds = new Set<string>();
+  for (const allocation of receipt.allocations) {
+    const contributorId = assertNonEmptyString(allocation.contributorId, 'contributorId');
+    if (seenContributorIds.has(contributorId)) {
+      throw new Error(`Duplicate contributor allocation id: ${contributorId}.`);
+    }
+    seenContributorIds.add(contributorId);
+
+    assertNonEmptyString(allocation.walletId, 'walletId');
+    assertNonNegativeSafeInteger(allocation.tokenCount, 'allocation.tokenCount');
+    assertNonEmptyString(allocation.weight, 'allocation.weight');
+
+    if (allocation.tokenCount === 0) {
+      if (
+        allocation.rangeStart !== undefined ||
+        allocation.rangeEndExclusive !== undefined
+      ) {
+        throw new Error('Zero-cell allocation cannot carry range boundaries.');
+      }
+      continue;
+    }
+
+    if (allocation.rangeStart !== cursor) {
+      throw new Error('Contributor allocation rangeStart drift.');
+    }
+
+    if (allocation.rangeEndExclusive !== cursor + allocation.tokenCount) {
+      throw new Error('Contributor allocation rangeEndExclusive drift.');
+    }
+
+    allocated += allocation.tokenCount;
+    cursor += allocation.tokenCount;
+  }
+
+  if (allocated !== receipt.tokenCount || cursor !== rangeEndExclusive) {
+    throw new Error('Contributor allocation does not conserve the AssetPack range.');
+  }
+
+  return receipt;
+}
+
 function assertBasisPoints(value: number, label: string): number {
   if (!Number.isSafeInteger(value) || value < 0 || value > 10_000) {
     throw new Error(`${label} must be an integer from 0 to 10000.`);
