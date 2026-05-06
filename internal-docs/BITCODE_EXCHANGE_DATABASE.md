@@ -1,6 +1,6 @@
 # Bitcode Exchange Database Notes
 
-Status: non-canonical internal note. V26 remains active canon; V27 registry requirements become canonical only after the V27 SPEC/proof family is promoted.
+Status: non-canonical internal note. V27 is active canon; this note mirrors the V27 registry and Exchange database posture for implementation review.
 
 ## Purpose
 

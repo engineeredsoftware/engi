@@ -1,0 +1,41 @@
+{
+  "proofId": "v27-promotion-deep-review",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "state": "post-promotion-review",
+  "activeCanonicalPointer": "V27",
+  "reviewedFamilies": [
+    "BITCODE_SPEC_V26.md",
+    "BITCODE_SPEC_V26_DELTA.md",
+    "BITCODE_SPEC_V26_NOTES.md",
+    "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+    "BITCODE_SPEC_V26_PROVEN.md",
+    "BITCODE_SPEC_V27.md",
+    "BITCODE_SPEC_V27_DELTA.md",
+    "BITCODE_SPEC_V27_NOTES.md",
+    "BITCODE_SPEC_V27_PARITY_MATRIX.md",
+    "BITCODE_SPEC_V27_PROVEN.md"
+  ],
+  "promotionConfirmations": [
+    "BITCODE_SPEC.txt points to V27",
+    "V27 proof appendix exists",
+    "V27 total closure proof maps required proof families to gate artifacts or accepted equivalents",
+    "UAPI implementation API routes are unversioned",
+    "V27 parity matrix has no blocking promotion rows",
+    "V27 source and proof artifacts preserve BTC as fee asset and BTD as non-fungible AssetPack range/read-right posture",
+    "V26 remains historical promoted baseline and is not reopened by V27 promotion"
+  ],
+  "deferredToV28": [
+    "Refresh or annotate V26 supplementary docs that still cite historical route paths.",
+    "Decide whether active demonstration internals with V24 names should be renamed or preserved as historical witness modules.",
+    "Apply V27 registry migration in a controlled environment and refresh generated database types.",
+    "Build Terminal wallet UX over V27 signer-session and BTC fee receipt law.",
+    "Build broadcaster/observer and signet operational harnesses.",
+    "Expose Terminal journal diffing and reconciliation repairs as ordinary operator workflows.",
+    "Replace aggregate compatibility holding gates with registry-derived range/read-license/policy checks.",
+    "Draft Terminal-visible access-policy/legal templates.",
+    "Keep Terminal provider UX honest about GitHub-only VCS readiness while staging Bitbucket, GitLab, Azure DevOps, generic Git, webhooks, and provider-feature detection for the external-connections scope.",
+    "Keep broader Exchange depth staged for V29."
+  ],
+  "v28Notes": "BITCODE_SPEC_V28_NOTES.md"
+}

@@ -71,4 +71,4 @@ V27 promotion does not approve value-bearing mainnet launch. It makes the reposi
 
 Later versions own broader Terminal workflows, Exchange market depth, external integration rollout, production wallet/broadcaster credentials, generated Supabase type refresh after migration execution, and final legal template review.
 
-Route discipline is part of the closure: V27 keeps API implementations in place and unversioned. The former UAPI `/api/v24/*` corridors were ported to `/api/external-realization` and `/api/executors/[interfaceId]`.
+Route discipline is part of the closure: V27 keeps API implementations in place and unversioned. The former version-prefixed UAPI corridors were ported to `/api/external-realization` and `/api/executors/[interfaceId]`.

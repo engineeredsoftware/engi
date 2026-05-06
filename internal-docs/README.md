@@ -1,11 +1,11 @@
 # Bitcode Internal Notes
 
-Status: non-canonical scratch documentation. The active canonical system specification is `BITCODE_SPEC_V26.md`; these notes are useful only insofar as they help draft, implement, or verify that canonical SPEC family.
+Status: non-canonical scratch documentation. The active canonical system specification is `BITCODE_SPEC_V27.md`; these notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
 
 ## Rules
 
 - Do not treat this directory as canonical truth.
-- Promote requirements into `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, or V26 proof-surface files before relying on them as requirements.
+- Promote requirements into the active SPEC/PARITY/proof family, or into the explicitly opened draft-target SPEC family, before relying on them as requirements.
 - Keep note filenames and content Bitcode-only.
 - Prefer Need, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
 - Treat compatibility source names as implementation corridors, not product vocabulary.
@@ -48,7 +48,7 @@ Status: non-canonical scratch documentation. The active canonical system specifi
 
 1. Use internal notes to identify a subsystem requirement or implementation gap.
 2. Verify the current source owner.
-3. Edit source or tests when the requirement is already accepted by V26.
-4. Promote the requirement into the V26 SPEC/proof family when it must become canonical.
-5. Regenerate V26 proof artifacts.
+3. Edit source or tests when the requirement is already accepted by active canon.
+4. Promote the requirement into the active or draft-target SPEC/proof family when it must become canonical.
+5. Regenerate the matching proof artifacts.
 6. Re-scan this directory for non-Bitcode residue before claiming gate closure progress.
