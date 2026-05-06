@@ -14,7 +14,7 @@ export interface DocCodeToolMetadata {
   category: string;
   version: string;
   priority: 'low' | 'medium' | 'high' | 'critical';
-  stability: 'experimental' | 'beta' | 'stable' | 'deprecated';
+  stability: 'experimental' | 'beta' | 'stable' | 'retired';
   purpose?: string;
   capabilities?: string[];
   parameters?: Record<string, any>;
@@ -81,7 +81,7 @@ export class DocCodeToolPlugin extends BaseDocCommentPlugin<DocCodeToolMetadata>
       errors.push({ field: 'priority', message: 'Invalid priority value', severity: 'error' });
     }
     
-    if (!['experimental', 'beta', 'stable', 'deprecated'].includes(metadata.stability)) {
+    if (!['experimental', 'beta', 'stable', 'retired'].includes(metadata.stability)) {
       errors.push({ field: 'stability', message: 'Invalid stability value', severity: 'error' });
     }
     

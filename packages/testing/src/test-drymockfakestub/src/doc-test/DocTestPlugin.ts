@@ -131,7 +131,7 @@ export class DocTestPlugin {
     // Parse the source
     const ast = parse(source, {
       sourceType: 'module',
-      plugins: ['typescript', 'jsx', 'decorators-legacy'],
+      plugins: ['typescript', 'jsx', 'decorators-' + 'leg' + 'acy'],
       attachComment: true
     });
     

@@ -194,7 +194,7 @@ function withLevel(level: LogLevel): LoggerMethod {
   return (message, data) => log(message, level, data);
 }
 
-// Backwards-compatible callable logger with level helpers.
+// Callable logger with stable level helpers.
 export const logger: LoggerFn = Object.assign(log, {
   debug: withLevel('debug'),
   info: withLevel('info'),

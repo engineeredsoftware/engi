@@ -35,7 +35,7 @@ export declare class UserConnectionsModel extends BaseModel<'user_connections'> 
      */
     upsert(connection: UserConnectionInsert): Promise<UserConnection>;
     /**
-     * Get auth from connection by installation ID (legacy support)
+     * Get auth from connection by installation ID.
      */
     getAuthFromConnectionByInstallationId(installationId: number): Promise<{
         provider: string;
@@ -47,7 +47,7 @@ export declare class UserConnectionsModel extends BaseModel<'user_connections'> 
      * Normalizes historical JSON keys used in connection_data:
      * - installation_id (snake_case)
      * - installationId (camelCase)
-     * - connectionId (legacy field used for installation id)
+     * - connectionId (older provider field used for installation id)
      * Returns the id as a string or null if not connected.
      */
     getInstallationIdForUser(userId: string, provider?: string): Promise<string | null>;

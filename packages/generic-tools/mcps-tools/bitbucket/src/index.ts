@@ -2,7 +2,7 @@
  * BITBUCKET MCP TOOLS - MODERN TOOL CLASS ARCHITECTURE
  * 
  * Unified Bitbucket API operations through MCP integration using the new abstract Tool class
- * with DocCodeToolPrompt documentation. Zero legacy patterns, maximum elegance.
+ * with DocCodeToolPrompt documentation. Zero old-world patterns, maximum elegance.
  */
 
 // Import and export the unified Tool class implementation

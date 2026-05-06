@@ -111,7 +111,7 @@ export type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput
 /**
  * AgentGeneration - Preferred alias for AgentStep. A Generation is a typed
  * executor (input → output) that may be composed by PTRR failsafes and tools
- * postprocess. AgentStep remains for backward compatibility.
+     * postprocess. AgentStep remains the concrete execution shape.
  */
 export type AgentGeneration<TInput = any, TOutput = any> = AgentStep<TInput, TOutput>;
 /**

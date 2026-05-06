@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_SEARCH_TECHNIQUES: PromptPart =
-  'Prefer exact Bitcode identifiers, compatibility filenames, prompt constants, schema fields, proof artifact names, and AssetPack terms. Use regex only when it improves evidence recall without obscuring file/line traceability.' as PromptPart;
+  'Prefer exact Bitcode identifiers, stable filenames, prompt constants, schema fields, proof artifact names, and AssetPack terms. Use regex only when it improves evidence recall without obscuring file/line traceability.' as PromptPart;

@@ -15,9 +15,9 @@ import {
 } from '@/app/application/application-transaction-query';
 
 describe('application-transaction-query', () => {
-  it('reads transaction id from current or legacy query carriers', () => {
+  it('reads transaction id from current or former query carriers', () => {
     expect(readApplicationTransactionId(new URLSearchParams('transactionId=tx-123'))).toBe('tx-123');
-    expect(readApplicationTransactionId(new URLSearchParams('runId=legacy-run'))).toBe('legacy-run');
+    expect(readApplicationTransactionId(new URLSearchParams('runId=former-run'))).toBe('former-run');
     expect(readApplicationTransactionId(new URLSearchParams(''))).toBeNull();
   });
 
@@ -90,9 +90,9 @@ describe('application-transaction-query', () => {
     expect(resetToDefault.get('transactionDetail')).toBeNull();
   });
 
-  it('writes transaction id and removes legacy run id carrier', () => {
+  it('writes transaction id and removes former run id carrier', () => {
     const nextParams = writeApplicationTransactionId(
-      new URLSearchParams('runId=legacy-run&provider=github'),
+      new URLSearchParams('runId=former-run&provider=github'),
       'tx-456',
     );
 

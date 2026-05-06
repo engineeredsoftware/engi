@@ -566,7 +566,7 @@ describe('Enhanced Editing Package', () => {
     });
   });
 
-  describe('Legacy runEditCommand Function', () => {
+  describe('runEditCommand convenience function', () => {
     test('executes command with automatic transaction management', async () => {
       const params: EditCommandParams = {
         command: 'create',

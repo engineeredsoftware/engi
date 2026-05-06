@@ -1191,7 +1191,7 @@ function escapeRegex(string: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Legacy compatibility functions
+// Convenience command runner
 // ---------------------------------------------------------------------------
 
 export async function runEditCommand(params: EditCommandParams): Promise<string> {

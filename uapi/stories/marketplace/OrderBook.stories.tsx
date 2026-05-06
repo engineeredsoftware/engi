@@ -22,7 +22,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-// Backwards-compatibility alias for the former Static story ID
+// Stable story alias for the former Static story ID.
 export const Static: Story = {};
 
 export const Empty: Story = {

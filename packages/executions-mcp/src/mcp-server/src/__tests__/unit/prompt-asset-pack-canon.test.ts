@@ -60,7 +60,7 @@ describe('MCP prompt asset-pack canon', () => {
 
     const rendered = contents.join('\n');
     expect(rendered).toContain("Bitcode's asset-pack pipeline");
-    expect(rendered).toContain('retained compatibility subtype');
+    expect(rendered).toContain('admitted subtype');
     expect(rendered).toContain('written assets');
     expect(rendered).not.toMatch(/deliverable pipeline/i);
   });
@@ -98,7 +98,7 @@ describe('MCP prompt asset-pack canon', () => {
 
     const rendered = contents.join('\n');
     expect(rendered).toContain("Bitcode's asset-pack pipeline");
-    expect(rendered).toContain('retained compatibility subtype');
+    expect(rendered).toContain('admitted subtype');
     expect(rendered).not.toMatch(/deliverable pipeline/i);
   });
 
@@ -107,7 +107,7 @@ describe('MCP prompt asset-pack canon', () => {
 
     expect(source).toContain("name: 'bitcode://pipelines/asset-pack/create'");
     expect(source).toContain('Bitcode asset-pack pipeline');
-    expect(source).toContain('Retained compatibility subtypes');
+    expect(source).toContain('Admitted subtypes');
     expect(source).toContain('connected-interface delivery readiness');
     expect(source).not.toMatch(/deliverable pipeline/i);
   });

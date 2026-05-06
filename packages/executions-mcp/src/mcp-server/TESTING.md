@@ -141,7 +141,7 @@ packages/mcp-server/src/__tests__/
 The testing suite includes comprehensive fixtures for:
 
 - **Authentication Contexts**: Owner, Admin, Developer, Limited User scenarios
-- **Repository Contexts**: Next.js, React Native, Python API, Legacy projects
+- **Repository Contexts**: Next.js, React Native, Python API, retired projects
 - **Multimodal Attachments**: Figma designs, screenshots, documents, videos
 - **Pipeline Results**: Success, failure, and cancellation scenarios
 - **Streaming Events**: Real-time pipeline execution events
@@ -161,7 +161,7 @@ Every test includes customer impact metrics:
 ### Real-World Scenarios
 
 1. **Startup Developer Building MVP**: E-commerce checkout with 80% time-to-market acceleration
-2. **Enterprise Team Lead Upgrading**: Legacy system migration with 95% risk reduction
+2. **Enterprise Team Lead Upgrading**: Retired system migration with 95% risk reduction
 3. **Mobile Developer**: Real-time chat feature 3x faster delivery
 4. **Freelancer with Limited BTC Fee Liquidity**: Cost-effective development validation
 5. **Security Team Audit**: 95% automated vulnerability identification

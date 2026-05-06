@@ -4,14 +4,14 @@ import { createMockConversationStreamResponse, isConversationMockMode } from '..
 
 export const runtime = 'nodejs';
 
-type LegacyStreamRequest = {
+type ConversationStreamRequest = {
   message?: string;
   content?: string;
   tokens?: Array<{ type?: string; value?: string; metadata?: Record<string, unknown> }>;
 };
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => ({} as LegacyStreamRequest));
+  const body = await request.json().catch(() => ({} as ConversationStreamRequest));
 
   if (isConversationMockMode()) {
     return createMockConversationStreamResponse({

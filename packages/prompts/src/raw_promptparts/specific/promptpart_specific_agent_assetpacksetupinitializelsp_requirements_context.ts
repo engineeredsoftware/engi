@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: requirements context"
+ * intent: "Bitcode PromptPart for asset-pack need LSP measurement: requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: requirements context"
+ * intent: "Bitcode PromptPart for asset-pack need LSP measurement: requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

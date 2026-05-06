@@ -1,7 +1,7 @@
 import { log } from '@bitcode/logger';
 import { writeStreamMessage } from '@bitcode/streams';
 import path from 'path';
-// Legacy import removed - buildSystemPrompt no longer exists in prompts package
+// Former import removed; buildSystemPrompt no longer exists in prompts package.
 import { generateTextTraced as generateText } from '@bitcode/observability';
 import { getModelInstance, MODEL_CONFIGS } from '@/lib/models';
 import { z } from 'zod';

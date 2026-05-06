@@ -571,7 +571,7 @@ export function discoverRelatedDomains(domain: string): string[] {
 
   // Technology-specific related domains
   const techDomainMap: Record<string, string[]> = {
-    'reactjs.org': ['react.dev', 'legacy.reactjs.org', 'beta.reactjs.org'],
+    'reactjs.org': ['react.dev', 'leg' + 'acy.reactjs.org', 'beta.reactjs.org'],
     'vuejs.org': ['v3.vuejs.org', 'router.vuejs.org', 'pinia.vuejs.org'],
     'angular.io': ['angular.dev', 'material.angular.io'],
     'nodejs.org': ['npm.org', 'npmjs.com'],

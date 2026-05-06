@@ -28,7 +28,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Bitcode repository-evidence search tool-specific DocCodeToolPrompt.
- * The old system-text-search name remains an implementation compatibility path; this
+ * The system-text-search import path remains a stable support path; this
  * prompt owns the V26 semantics injected into Bitcode agentic runs.
  */
 export class BitcodeRepositoryEvidenceSearchDocCodeToolPrompt extends DocCodeToolPrompt {

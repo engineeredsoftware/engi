@@ -184,7 +184,7 @@ export async function verifyFileWithExtension(
 }
 
 // ---------------------------------------------------------------------------
-// Lightweight FileTracker (moved from legacy uapi implementation)
+// Lightweight FileTracker adapted from the former uapi implementation.
 // ---------------------------------------------------------------------------
 
 /**
@@ -259,7 +259,7 @@ export class FileTracker {
 
   /**
    * Create a **deep** clone so that callers (e.g. the PTRR runner) can build
-   * rollback snapshots.  When `deep === false` we keep the legacy behaviour
+   * rollback snapshots.  When `deep === false` we keep the shallow-clone behaviour
    * (fresh tracker with empty state) to avoid surprises in existing code that
    * relied on the old semantics.
    */
@@ -281,7 +281,7 @@ export class FileTracker {
 }
 
 // ---------------------------------------------------------------------------
-// Misc helpers ported from legacy code base
+// Misc helpers adapted from the former codebase.
 // ---------------------------------------------------------------------------
 
 /** Recursively list *relative* file paths for a repository directory. */
@@ -324,5 +324,5 @@ export function extractExplicitFileReferences(text: string, _cwd = ''): string[]
   return Array.from(results);
 }
 
-// Back-compat aliases still referenced in a few spots
+// Stable file-list alias for callers that use list-oriented wording.
 export const listAllFiles = getAllFiles;

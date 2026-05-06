@@ -140,7 +140,7 @@ const symbols = await documentSymbolsTool.use({
 import { codeActionsTool } from '@bitcode/generic-tools-lsp-query';
 
 const actions = await codeActionsTool.use({
-  filePath: '/project/src/legacy.ts',
+  filePath: '/project/src/retired.ts',
   startLine: 10,
   startCharacter: 0,
   endLine: 20,

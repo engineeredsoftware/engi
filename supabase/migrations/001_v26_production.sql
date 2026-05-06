@@ -768,7 +768,7 @@ CREATE TABLE IF NOT EXISTS "public"."user_github_connections" (
 ALTER TABLE "public"."user_github_connections" OWNER TO "postgres";
 
 
-COMMENT ON TABLE "public"."user_github_connections" IS 'DEPRECATED: This table is kept for backward compatibility but not actively used. All VCS connections are now stored in user_connections table with provider field. TODO: Remove in post-V26 migration.';
+COMMENT ON TABLE "public"."user_github_connections" IS 'V26 storage-compatibility carrier. Active VCS connections are stored in user_connections with provider field; this table remains only as a bounded historical GitHub attachment surface until a future schema recut.';
 
 
 

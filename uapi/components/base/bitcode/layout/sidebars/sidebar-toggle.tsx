@@ -304,7 +304,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
           <div className="absolute inset-0 opacity-0 group-hover/toggle:opacity-100 transition-opacity duration-300">
             <div className={`absolute inset-0 bg-gradient-to-${position === 'left' ? 'r' : 'l'} from-emerald-500/[0.02] via-emerald-500/[0.05] to-transparent`} />
           </div>
-          {/* Removed legacy onboarding tooltip */}
+          {/* Removed former onboarding tooltip */}
         </div>
       </motion.div>
 

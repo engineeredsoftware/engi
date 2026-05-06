@@ -164,11 +164,11 @@ export class VCSConnections {
         // Try by provider_user_id first
         connection = await this.connections.getByProviderUserId('github', connectionId);
         
-        // If still not found, try the legacy approach with installation ID
+        // If still not found, use the installation-ID lookup.
         if (!connection) {
           const auth = await this.connections.getAuthFromConnectionByInstallationId(Number(connectionId));
           if (auth?.accessToken) {
-            log('Found connection via legacy installation ID lookup', 'info', { connectionId });
+            log('Found connection via installation ID lookup', 'info', { connectionId });
             return {
               accessToken: auth.accessToken,
               provider: auth.provider as VCSProviderType,
@@ -278,7 +278,7 @@ export class VCSConnections {
   }
   
   /**
-   * Get auth by installation ID (legacy GitHub support)
+   * Get auth by GitHub installation ID.
    */
   async getAuthFromConnectionByInstallationId(
     installationId: number

@@ -34,5 +34,4 @@ If conversation shortcuts exist, they should name Bitcode concepts:
 - `/delivery` for destination and delivery-mechanism state,
 - `/proof` for proof and settlement receipts.
 
-Compatibility aliases should be hidden from operator copy and bounded in tests/proofs until removed.
-
+Former-name aliases should be hidden from operator copy and bounded in tests/proofs until removed.

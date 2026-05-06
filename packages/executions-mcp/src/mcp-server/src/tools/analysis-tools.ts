@@ -296,7 +296,7 @@ async function synthesizeIntelligence(
         architecturePatterns: {
           dominant: ['MVC', 'Repository', 'Service Layer'],
           emerging: ['CQRS', 'Event Sourcing'],
-          deprecated: ['Singleton', 'God Object']
+          retired: ['Singleton', 'God Object']
         },
         
         securityPosture: {

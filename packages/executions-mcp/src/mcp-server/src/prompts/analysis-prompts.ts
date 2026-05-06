@@ -120,7 +120,7 @@ Please conduct a thorough security audit using Bitcode's analysis capabilities:
 7. **API Security (if applicable)**:
    - Review API authentication and rate limiting
    - Analyze API input validation and output filtering
-   - Evaluate API versioning and deprecation security
+   - Evaluate API versioning and retirement security
    - Review API documentation security exposure
    - Assess GraphQL security (if used)
    - Analyze webhook and callback security
@@ -387,7 +387,7 @@ Please conduct a thorough dependency analysis using Bitcode's analysis capabilit
    - **Issue Response**: Evaluate issue resolution times and responsiveness
    - **Long-term Viability**: Assess long-term sustainability and support
    - **Bus Factor**: Evaluate maintainer diversity and sustainability
-   - **Deprecation Status**: Identify deprecated or end-of-life dependencies
+   - **Retirement Status**: Identify retired or end-of-life dependencies
 
 6. **Update Strategy & Planning**:
    ${args.updateStrategy ? `
@@ -411,7 +411,7 @@ Please conduct a thorough dependency analysis using Bitcode's analysis capabilit
    - **Code Quality**: Evaluate dependency code quality and maintainability
    - **Test Coverage**: Assess dependency test coverage and quality
    - **Documentation Quality**: Review dependency documentation and examples
-   - **API Stability**: Evaluate API design and backward compatibility
+   - **API Stability**: Evaluate API design and published-contract stability
    - **Error Handling**: Assess dependency error handling and resilience
    - **Configuration Complexity**: Evaluate setup and configuration requirements
 

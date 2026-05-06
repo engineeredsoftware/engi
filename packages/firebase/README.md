@@ -16,7 +16,7 @@ Enterprise-grade Firebase platform integration providing comprehensive NoSQL dat
 - **Collection Enumeration**: Comprehensive listing of database collections and subcollections
 - **Collection Group Queries**: Cross-collection querying with advanced filtering capabilities
 - **Index Management**: Automatic index creation and optimization recommendations
-- **Schema Evolution**: Dynamic document structure adaptation with backward compatibility
+- **Schema Evolution**: Dynamic document structure adaptation with published-schema stability
 
 ### Query Operations
 - **Advanced Filtering**: Complex query construction with multiple condition support

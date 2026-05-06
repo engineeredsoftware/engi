@@ -75,7 +75,7 @@ const lspSemanticAnalysisSchema = z.object({
       'enum', 'type', 'namespace', 'module', 'property', 'field'
     ])).optional(),
     visibility: z.array(z.enum(['public', 'private', 'protected', 'internal'])).optional(),
-    deprecated: z.boolean().optional(),
+    retired: z.boolean().optional(),
     experimental: z.boolean().optional()
   }).optional().describe('Filters for symbol analysis'),
   
@@ -619,7 +619,7 @@ async function buildCallGraph(
   return {
     graph: { nodes: [], edges: [] },
     entryPoints: ['main', 'handler'],
-    deadCode: ['unusedFunction', 'deprecatedMethod'],
+        deadCode: ['unusedFunction', 'retiredMethod'],
     hotPaths: [['main', 'processRequest', 'validateInput']],
     metrics: {
       totalCalls: 234,

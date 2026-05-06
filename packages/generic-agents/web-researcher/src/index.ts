@@ -1,8 +1,7 @@
 /**
- * Bitcode Need-Synthesis Web Research Agent - Declarative PTRR compatibility pattern.
+ * Bitcode Need-Synthesis Web Research Agent - Declarative PTRR support pattern.
  *
- * The retained web-researcher package name remains a compatibility path. V26
- * semantics are discovery-phase web research for need synthesis. The agent
+ * V26 semantics are discovery-phase web research for need synthesis. The agent
  * returns source-attributed external evidence for need measurement, third-party
  * interface constraints, proof-gap question formation, and AssetPack planning.
  * External web findings are auxiliary evidence, not canonical proof.

@@ -58,7 +58,7 @@ function printHelp() {
       '  --commit <sha>         Canonical commit to render. Defaults to HEAD.',
       '  --generated-at <iso>   Override generation timestamp. Defaults to commit recorded-at time.',
       '  --worktree-state <s>   Override recorded replay worktree state. Defaults to live git state.',
-      '  --output <path>        Output markdown path. Defaults to the active Bitcode or legacy proven appendix path for the requested version.',
+      '  --output <path>        Output markdown path. Defaults to the active Bitcode or archived proven appendix path for the requested version.',
       '  --check                Fail if the target file differs from generator output.',
       '  --allow-dirty          Allow generation from a dirty worktree for preview use.',
       '  --stdout               Print markdown to stdout instead of writing a file.',

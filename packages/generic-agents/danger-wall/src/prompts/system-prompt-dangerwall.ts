@@ -17,7 +17,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * Bitcode Need Risk Admission Agent - System Prompt
  * 
- * System-level configuration for retained danger-wall compatibility as Bitcode
+ * System-level configuration for retained danger-wall support as Bitcode
  * need, AssetPack, proof-gap, likely-failure, and delivery-mechanism risk admission.
  * 
  * @doc-comment-developing-promptdevelopment

@@ -341,7 +341,7 @@ let nextConfig = {
       '@bitcode/git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
       '@bitcode/mcp': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
       '@bitcode/mcp$': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
-      // Legacy generic-agents umbrella alias
+      // Generic agents umbrella alias
       '@bitcode/generic-agents': path.resolve(__dirname, '..', 'packages', 'agent-generics', 'src', 'index.ts'),
       '@bitcode/generic-agent-code-editor': path.resolve(
         __dirname,

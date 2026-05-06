@@ -5000,7 +5000,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         {
           file: 'packages/git/src/index.ts',
           evidence: 'Git is retained in V26 as concrete repository-transport infrastructure',
-          description: 'Git package is active Bitcode repository infrastructure, not a deprecated removal target'
+          description: 'Git package is active Bitcode repository infrastructure, not a removal target'
         },
         {
           file: 'packages/generic-tools/git-interactor/src/index.ts',

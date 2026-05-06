@@ -223,7 +223,7 @@ const technologies = extractTechnologyContext(urls);
 import { discoverRelatedDomains } from '@bitcode/web-search';
 
 const related = discoverRelatedDomains('reactjs.org');
-// Returns: ['react.dev', 'legacy.reactjs.org', 'beta.reactjs.org']
+// Returns: ['react.dev', 'retired.reactjs.org', 'beta.reactjs.org']
 ```
 
 ### Complete URL Attachment Analysis

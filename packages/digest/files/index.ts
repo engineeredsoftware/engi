@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 /**
  * Normalize file content so identical logical files map to identical hashes.
- * (Copied from legacy digest implementation.)
+ * (Adapted from the former digest implementation.)
  */
 export function normalizeContent(content: string): string {
   if (!content) return '';
@@ -34,11 +34,11 @@ export function hashFile(relativePath: string, rawContent: string): string {
   return `v1_${pathHash}_${contentHash}`;
 }
 
-// Back-compat alias (will be removed when monolith is fully migrated)
+// Stable digest hash alias for callers that use content-oriented wording.
 export const hashContent = hashFile;
 
 // ------------------------------------------------------------
-// Ignoring / scanning helpers (ported from legacy digest)
+// Ignoring / scanning helpers adapted from the former digest implementation.
 // ------------------------------------------------------------
 
 import fs from 'fs';
@@ -181,4 +181,3 @@ export async function listAllFiles(rootDir: string, ignorePatterns: string[]): P
 
 // Expose util for tests / external callers
 export { shouldIgnoreFile, matchesPattern };
-

@@ -498,7 +498,7 @@ export class IntegrationTestEnvironment {
     return this.execution;
   }
   
-  // Backwards compatibility alias
+  // Stable alias for tests that use context-manager wording.
   getContextManager() {
     return this.execution;
   }

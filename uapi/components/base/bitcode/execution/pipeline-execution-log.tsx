@@ -308,7 +308,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
     const flat: LogLine[] = [];
 
-    // Prepare phaseGroups for backward-compat analytics (not rendered anymore)
+    // Prepare phase groups for internal analytics; the visible view uses flat logs.
     const phaseGroups = new Map<string, PhaseGroup>();
     PHASES.forEach(phase => {
       phaseGroups.set(phase, { phase, lines: [], iterations: new Map() });
@@ -507,7 +507,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       });
     });
 
-    setProcessedLogs(sortedPhaseGroups); // kept for backward-compat potential
+    setProcessedLogs(sortedPhaseGroups);
 
     // Sort flat list by timestamp if available, otherwise keep original order
     const sortedFlat = [...flat].sort((a, b) => {

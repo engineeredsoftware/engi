@@ -370,7 +370,7 @@ function getDomainPrompt(domain: string): PromptPart {
   return `Domain knowledge for ${domain}`;
 }
 
-// Legacy composePrompt removed: Prompt#format provides output
+// Former composePrompt removed: Prompt#format provides output.
 
 function processResponse(response: any): Result {
   // Would process LLM response

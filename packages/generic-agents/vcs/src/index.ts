@@ -1,7 +1,7 @@
 
 /**
  * Retained reference-only VCS automation layer for V26 fifth-gate reform.
- * This module can support compatibility agents and pipeline bring-up, but it
+ * This module can support VCS agents and pipeline bring-up, but it
  * is not the Bitcode owner of repository scope, Exchange state, or settlement.
  */
 import { 
@@ -513,9 +513,9 @@ export const vcsQuickAgent = factoryAgentWithSingleStep<VCSInput, VCSResult>({
 });
 
 /**
- * VCS Agent - Base agent that can be extended for specific operations
- * Deprecated: Use vcsComprehensiveAgent or vcsQuickAgent directly
- * or register them in agent registry for dynamic selection
+ * VCS Agent - registry-friendly canonical default.
+ * Direct callers can choose vcsComprehensiveAgent or vcsQuickAgent when they
+ * need a specific execution profile.
  */
 export const vcsAgent = vcsComprehensiveAgent;
 

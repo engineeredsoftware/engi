@@ -311,7 +311,7 @@ const assetPackCategories: PromptCategory[] = [
       {
         suffix: 'written_asset_integrity',
         description: 'Written-asset integrity',
-        content: 'WRITTEN-ASSET INTEGRITY:\nKeep generated changes coherent as AssetPack synthesis artifacts.\nVerify changed files against need-satisfaction criteria.\nAvoid compatibility aliases once canonical Bitcode names exist.'
+        content: 'WRITTEN-ASSET INTEGRITY:\nKeep generated changes coherent as AssetPack synthesis artifacts.\nVerify changed files against need-satisfaction criteria.\nAvoid support aliases once canonical Bitcode names exist.'
       },
       {
         suffix: 'proof_evidence',

@@ -1010,7 +1010,7 @@ const mcpApiReference = [
           'mcpConfig, streaming, organizationId, modelPreferences, and options.',
         ],
         outputs: [
-          'runId and shippableCompatibilityId.',
+          'runId and assetPackEvidenceId.',
           'status, interfaceSurface, inputContext, writeAdmission, and outputMeaning.',
           'When completed: result, AssetPack synthesis artifacts, Shippables, measuredBtd, BTC-fee posture, timestamps, and events.',
         ],

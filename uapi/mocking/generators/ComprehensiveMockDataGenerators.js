@@ -238,7 +238,7 @@ class ComprehensiveMockDataGenerator {
         this.generators.set('USAGE_ANALYTICS', () => this.generateUsageAnalytics());
         this.generators.set('FINANCIAL_ANALYTICS', () => this.generateFinancialAnalytics());
         this.generators.set('RUN_MONITORING', () => this.generateRunMonitoring());
-        // Legacy/Generic
+        // Retained generic areas
         this.generators.set('COMPLETION_DATA', () => this.generateCompletionData());
         this.generators.set('PROCESSING_STATS', () => this.generateProcessingStats());
         this.generators.set('REPO_SNAPSHOTS', () => this.generateRepoSnapshots());
@@ -921,7 +921,7 @@ class ComprehensiveMockDataGenerator {
     generateAuthConfirm() { return { token: 'confirm_token_123', email: 'user@example.com', confirmed: true }; }
     // User Data (continued)
     generateUserData() { return this.generateUserProfile(); }
-    generateUserUsage() { return { runs_this_month: 23, btd_used: 567, api_calls: 1247 }; }
+    generateUserUsage() { return { runs_this_month: 23, measured_btd: 567, api_calls: 1247 }; }
     generateUserApiKeys() { return [{ id: 'key_' + this.generateId(), name: 'Production API', key: 'bitcode_pk_' + this.generateId(), created_at: this.generateTimestamp(-30) }]; }
     generateUserPreferences() { return { theme: 'dark', notifications: true, auto_save: true }; }
     generateUserModelPreferences() { return { preferred_model: 'claude-3-sonnet', temperature: 0.7, max_tokens: 2000 }; }
@@ -1018,10 +1018,10 @@ class ComprehensiveMockDataGenerator {
     generateAdminOrganizations() { return this.generateOrganizations(); }
     generateAdminRuns() { return [{ id: 'run_123', user_id: 'user_456', status: 'completed', cost: 0.25, duration: '120s' }]; }
     generateAdminAnalytics() { return { users: { total: 1247, active: 567, new_this_month: 89 }, runs: { total: 5432, success_rate: 0.94 } }; }
-    generateUsageAnalytics() { return { api_calls: 12470, btd_used: 5678, popular_features: ['assetPacks', 'chat'] }; }
+    generateUsageAnalytics() { return { api_calls: 12470, measured_btd: 5678, popular_features: ['assetPacks', 'chat'] }; }
     generateFinancialAnalytics() { return { revenue: { monthly: 12450, annual: 149400 }, costs: { infrastructure: 2300, ai_models: 5600 } }; }
     generateRunMonitoring() { return [{ run_id: 'run_123', status: 'running', progress: 0.75, eta: '2 minutes' }]; }
-    // Legacy/Generic
+    // Retained generic areas
     generateCompletionData() { return { text: 'Generated completion', usage: { tokens: 150 }, model: 'claude-3-sonnet' }; }
     generateProcessingStats() { return { duration: '120s', tokens_used: 1500, cost: 0.15 }; }
     generateRepoSnapshots() { return { org: 'bitcode-labs', repo: 'platform', branch: 'main', commit: 'abc123' }; }

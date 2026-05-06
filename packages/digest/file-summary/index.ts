@@ -75,7 +75,7 @@ export function buildFileInfo(relativePath: string, content: string): FileInfo {
 }
 
 // ---------------------------------------------------------------------------
-// Batch summarisation (ported from legacy digest)
+// Batch summarisation from the former digest implementation.
 // ---------------------------------------------------------------------------
 
 import {
@@ -127,4 +127,3 @@ export async function batchSummarizeFiles(
     throw new Error('Failed to parse JSON from batchSummarizeFiles response');
   }
 }
-

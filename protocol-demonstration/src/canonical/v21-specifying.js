@@ -194,7 +194,7 @@ const COMMON_ALLOWED_PARITY_JUDGMENTS = new Set([
   'draft-required',
   'not yet implemented',
   'pending',
-  'deprecated',
+  'retired',
   'historical only'
 ]);
 

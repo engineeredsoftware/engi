@@ -5,7 +5,7 @@
 This package admits the retained `simpleSystemTextSearch` callable as Bitcode repository-evidence search support.
 It wraps `@bitcode/system-grep` in the generic tool abstraction so agentic Bitcode runs can search source text while measuring a need, grounding written-asset choices, and preparing AssetPack synthesis.
 
-The old package name remains a compatibility surface.
+The package name remains a stable support surface.
 The active V26 meaning is not generic codebase intelligence, task analysis, or a standalone search product.
 It is a bounded support tool that returns line-level repository evidence to prompt-bearing tools and agents.
 
@@ -13,8 +13,8 @@ It is a bounded support tool that returns line-level repository evidence to prom
 
 - `packages/generic-tools/simple-system-text-search/src/index.ts` owns the callable generic-tool wrapper.
 - `src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts` owns the canonical DocCode prompt injected into Bitcode runs.
-- `src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts` is only a compatibility export path for old imports.
-- `packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_*` still have compatibility filenames, but their content and metadata describe Bitcode repository evidence search.
+- `src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts` is only a stable export path for old imports.
+- `packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_*` still have stable filenames, but their content and metadata describe Bitcode repository evidence search.
 - `packages/system-grep/src/index.ts` owns the server-only grep primitive and returns relative file paths, zero-based line numbers, and matched line text.
 
 ## API
@@ -59,7 +59,7 @@ The DocCode prompt must teach:
 - search results inform need measurement, proof inspection, and AssetPack or written-asset planning;
 - returned lines are evidence snippets, not final conclusions;
 - callers must keep mutation, delivery, and proof production in their owning tools, agents, or pipelines;
-- the compatibility `simpleSystemTextSearch` name does not define Bitcode ontology.
+- the `simpleSystemTextSearch` support name does not define Bitcode ontology.
 
 The prompt uses generic DocCode metadata labels as base PromptParts and specific system-text-search PromptParts as the concrete implementation layer.
 That Registry layering is intentional: generic labels remain reusable prompt infrastructure, while the specific PromptParts carry this tool's V26 support semantics.

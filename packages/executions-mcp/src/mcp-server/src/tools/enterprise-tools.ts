@@ -178,7 +178,7 @@ const enterpriseApiManagementSchema = z.object({
     }).optional(),
     
     tags: z.array(z.string()).optional(),
-    status: z.enum(['draft', 'published', 'deprecated']).default('draft')
+    status: z.enum(['draft', 'published', 'retired']).default('draft')
   }).optional().describe('API configuration'),
   
   // For versioning operations
@@ -752,7 +752,7 @@ Enables sophisticated event-driven architectures with enterprise reliability.`,
       description: `Complete enterprise API lifecycle management with governance and analytics.
 
 Full-featured API management platform:
-• API versioning with semantic versioning and deprecation management
+• API versioning with semantic versioning and retirement management
 • Comprehensive rate limiting with tiered access controls
 • API governance with automated compliance checking
 • Interactive documentation generation with OpenAPI 3.0

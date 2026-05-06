@@ -13,7 +13,7 @@
  * - System Health (monitoring)
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mockAreas = exports.mockLegacy = exports.mockAdmin = exports.mockHealth = exports.mockMCP = exports.mockPayments = exports.mockMarketplace = exports.mockIntegrations = exports.mockGitLab = exports.mockGitHub = exports.mockOrganizations = exports.mockAssetPacks = exports.mockChat = exports.mockConversation = exports.mockOnboarding = exports.mockUser = exports.mockAuth = void 0;
+exports.mockAreas = exports.mockConvenience = exports.mockAdmin = exports.mockHealth = exports.mockMCP = exports.mockPayments = exports.mockMarketplace = exports.mockIntegrations = exports.mockGitLab = exports.mockGitHub = exports.mockOrganizations = exports.mockAssetPacks = exports.mockChat = exports.mockConversation = exports.mockOnboarding = exports.mockUser = exports.mockAuth = void 0;
 exports.createSpecializedMiddleware = createSpecializedMiddleware;
 const server_1 = require("next/server");
 const MockOrchestrator_1 = require("../core/MockOrchestrator");
@@ -551,12 +551,12 @@ exports.mockAdmin = {
     })
 };
 // ============================================================================
-// LEGACY/CONVENIENCE MIDDLEWARE
+// CONVENIENCE MIDDLEWARE
 // ============================================================================
 /**
- * Legacy middleware functions for backward compatibility
+ * Convenience middleware shortcuts for common mock areas.
  */
-exports.mockLegacy = {
+exports.mockConvenience = {
     assetPacks: () => exports.mockAssetPacks.main(),
     github: (type = 'repos') => exports.mockGitHub[type](),
     userData: (type = 'profile') => exports.mockUser[type]()

@@ -204,7 +204,7 @@ export const MODEL_CONFIGS: ModelConfig[] = [
   },
   {
     provider: 'google',
-    model: 'palm-2-chat-bison',      // Legacy
+    model: 'palm-2-chat-bison',      // Retired
     contextWindow: 4000,
     inputTokenCost: 0.000001,        // $1.00 per 1M input tokens
     outputTokenCost: 0.000001,       // $1.00 per 1M output tokens
@@ -372,7 +372,7 @@ export const MODEL_CONFIGS: ModelConfig[] = [
   },
   {
     provider: 'cohere',
-    model: 'command-light',          // Best for structured output (legacy)
+    model: 'command-light',          // Best for structured output (retired)
     contextWindow: 4000,
     inputTokenCost: 0.0000003,       // $0.30 per 1M input tokens
     outputTokenCost: 0.0000006,      // $0.60 per 1M output tokens

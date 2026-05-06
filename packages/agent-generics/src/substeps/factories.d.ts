@@ -88,9 +88,8 @@ export declare function factoryToolsExecution<T extends {
     usedTools: UsedTool[];
 }>;
 /**
- * Validation - Validates output against expectations
- * NOT part of core 7-substep sequence - removed in correct architecture
- * @deprecated Use schema validation within StructuredOutput instead
+ * Validation - validates output against caller-supplied expectations.
+ * Core PTRR agents should prefer schema validation inside StructuredOutput.
  */
 export declare function factoryValidation<T>(validators?: Array<(input: T) => boolean | Promise<boolean>>): Executor<T, T & {
     validation: {

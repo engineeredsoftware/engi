@@ -48,7 +48,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * domain: tool
  * intent: "Bitcode discovery-phase web search tool prompt for source-attributed need-synthesis evidence"
  * 
- * This retained compatibility prompt injects web-search capabilities only as
+ * This support prompt injects web-search capabilities only as
  * bounded external evidence support for Bitcode need synthesis.
  */
 export class WebSearchDocCodeToolPrompt extends DocCodeToolPrompt {

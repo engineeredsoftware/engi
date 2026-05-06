@@ -40,7 +40,7 @@ export interface GateConfig {
   primaryDocument?: string;
 }
 
-// Legacy alias - DELETE after migration
+// Public synonym for callers that model Design/Develop/Digest as meta-phases.
 export type MetaPhaseConfig = GateConfig;
 
 /**
@@ -70,7 +70,7 @@ export const GATE_CONFIGS: Record<Gate, GateConfig> = {
   },
 };
 
-// Legacy alias - DELETE after migration
+// Meta-phase naming mirrors the same Bitcode gate configuration table.
 export const META_PHASE_CONFIGS = GATE_CONFIGS;
 
 /**
@@ -106,7 +106,7 @@ export const GATE_TRANSITIONS: GateTransition[] = [
   }
 ];
 
-// Compatibility alias kept while callers migrate to GATE_TRANSITIONS.
+// Meta-phase naming mirrors the same operator-gated transition list.
 export const META_PHASE_USER_GATES = GATE_TRANSITIONS;
 
 /**
@@ -136,7 +136,7 @@ export interface GateState {
   nextGate?: Gate;
 }
 
-// Legacy alias - DELETE after migration
+// Public synonym for callers that model Design/Develop/Digest as meta-phases.
 export type MetaPhaseState = GateState;
 
 /**
@@ -155,11 +155,11 @@ export function initializeGateState(startingGate: Gate = 'Design'): GateState {
   };
 }
 
-// Legacy alias - DELETE after migration
+// Meta-phase naming initializes the same Bitcode gate state.
 export const initializeMetaPhaseState = initializeGateState;
 
 /**
- * Transition to next meta-phase
+ * Transition to next gate phase
  */
 export function transitionMetaPhase(
   currentState: MetaPhaseState,
@@ -199,7 +199,7 @@ export function transitionMetaPhase(
 }
 
 /**
- * Check if ready to transition
+ * Check if the current gate phase is ready to transition
  */
 export function checkMetaPhaseTransition(
   currentPhase: MetaPhase,

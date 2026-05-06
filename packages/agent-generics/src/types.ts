@@ -104,7 +104,7 @@ export interface FailsafeContext {
 export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOutput> {
   readonly name: string;
   readonly description?: string;
-  // Back-compat: "steps" remain but generational naming is canonical
+  // "steps" remain the concrete runtime sequence; generational naming is canonical.
   readonly steps: AgentStep<any, any>[];
   readonly generations?: AgentGeneration<any, any>[];
 }
@@ -128,7 +128,7 @@ export type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput
 /**
  * AgentGeneration - Preferred alias for AgentStep. A Generation is a typed
  * executor (input → output) that may be composed by PTRR failsafes and tools
- * postprocess. AgentStep remains for backward compatibility.
+ * postprocess. AgentStep remains the concrete execution shape.
  */
 export type AgentGeneration<TInput = any, TOutput = any> = AgentStep<TInput, TOutput>;
 

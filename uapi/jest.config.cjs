@@ -64,9 +64,8 @@ module.exports = {
     '^@bitcode/([^/]+)/(.+)$': '<rootDir>/../packages/$1/src/$2',
 
     // -------------------------------------------------------------------
-    // Legacy @/lib/* aliases – kept temporarily to avoid breaking any files
-    // that have not yet been migrated. These can be removed once the import
-    // sweep is complete.
+    // Current @/lib/* test aliases for files that still import application-local
+    // helpers through the Next.js path convention.
     // -------------------------------------------------------------------
     '^@/lib/protocol-demonstration-app-context$': '<rootDir>/lib/protocol-demonstration-app-context.ts',
     '^@/lib/bitcode-app-context$': '<rootDir>/lib/bitcode-app-context.ts',
@@ -90,7 +89,7 @@ module.exports = {
     '<rootDir>/tests/searchRelevantAI Documents.test.ts',
     '<rootDir>/tests/searchLocalVector.test.ts',
     '<rootDir>/tests/discoveryGetAI DocumentsAgent.test.ts',
-    // '<rootDir>/tests/pipelineDiscoveryGetAI Documents.test.ts', // removed legacy test
+    // '<rootDir>/tests/pipelineDiscoveryGetAI Documents.test.ts', // removed former test
     // Meta-level prompt builder tests
     '<rootDir>/tests/meta/**/buildMessagesWithSystemPrompt.test.ts',
     // Include API integration tests for AssetPack and Shippable routes

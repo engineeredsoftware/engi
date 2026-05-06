@@ -14,7 +14,7 @@ describe('createMessage attachment references', () => {
     jest.clearAllMocks();
   });
 
-  it('persists attachment_id from AttachmentReference instead of requiring a legacy id field', async () => {
+  it('persists attachment_id from AttachmentReference instead of requiring a former id field', async () => {
     const messageBuilder = {
       insert: jest.fn().mockReturnThis(),
       select: jest.fn().mockReturnThis(),

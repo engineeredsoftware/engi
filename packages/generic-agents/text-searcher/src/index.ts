@@ -1,8 +1,7 @@
 /**
- * Bitcode Repository Evidence Search Agent - Declarative PTRR compatibility pattern.
+ * Bitcode Repository Evidence Search Agent - Declarative PTRR support pattern.
  *
- * The retained text-searcher package name remains a compatibility path. V26
- * semantics are repository-evidence collection for need measurement,
+ * V26 semantics are repository-evidence collection for need measurement,
  * source-grounding, proof inspection, and AssetPack planning.
  */
 

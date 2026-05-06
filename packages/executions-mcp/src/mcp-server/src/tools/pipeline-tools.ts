@@ -288,13 +288,13 @@ async function executePipelineWithMonitoring(
     };
 
     // Queue the pipeline job using ORM-based adapter
-    const { runId, shippableCompatibilityId } = await queuePipelineJob(jobOptions);
+    const { runId, assetPackEvidenceId } = await queuePipelineJob(jobOptions);
     
     // If streaming is enabled, return immediately with run details
     if (params.streaming) {
       return {
         runId,
-        shippableCompatibilityId,
+        assetPackEvidenceId,
         status: 'queued',
         interfaceSurface,
         inputContext,
@@ -334,7 +334,7 @@ async function executePipelineWithMonitoring(
 
     return {
       runId,
-      shippableCompatibilityId,
+      assetPackEvidenceId,
       status: executionResult.status,
       interfaceSurface,
       inputContext,
@@ -396,7 +396,7 @@ This is Bitcode's most powerful pipeline, capable of:
 Supports multimodal inputs including Figma designs, documents, images, audio, and video.
 Real-time streaming provides live updates during need measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
 
-Retained compatibility subtypes:
+Admitted subtypes:
 • pull_request - Complete feature implementation with PR
 • pr_review - Comprehensive code review with suggestions
 • issue - Bug analysis and fixes with testing

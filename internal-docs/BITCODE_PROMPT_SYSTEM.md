@@ -35,7 +35,7 @@ Required behavior:
 
 ## Need-Comprehension Pattern
 
-The retained Need-comprehension compatibility package path has V26 meaning only as Need comprehension.
+The retained Need-comprehension support package path has V26 meaning only as Need comprehension.
 
 Canonical prompt work should prefer:
 - AnalyzeNeedSemantics,

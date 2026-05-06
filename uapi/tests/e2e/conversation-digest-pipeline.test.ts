@@ -75,7 +75,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
     it('disables live updates for archived threads to prevent idle SSE usage', () => {
       const archivedThread = conversationRichResponseFactory.createConversationThread({
         conversationId: 'conv-old',
-        title: 'Legacy Thread',
+        title: 'Former Thread',
         participants: [{ id: 'user', name: 'Builder', role: 'user' }],
         messages: [],
         status: 'archived',

@@ -38,7 +38,7 @@
 }
 
 /* ==== ScrollDown Forced Override ==== */
-/* Legacy override created during previous redesign – now limited to the
+/* Retired override created during previous redesign; now limited to the
    `.scroll-indicator-container:not(.discover)` variant so we can introduce a
    lighter, more elegant “discover” style without breaking components that
    still rely on the chunkier orb. */

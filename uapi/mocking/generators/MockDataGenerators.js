@@ -305,7 +305,7 @@ class AssetPackGenerator extends BaseDataGenerator {
                         output: Math.floor(Math.random() * 1000) + 200,
                         total: 0
                     },
-                    btdUsed: Math.floor(Math.random() * 50) + 10
+                    measuredBtd: Math.floor(Math.random() * 50) + 10
                 },
                 repo_snapshot: {
                     org: 'mock-org',
@@ -369,7 +369,7 @@ class CompletionDataGenerator extends BaseDataGenerator {
                     output: Math.floor(Math.random() * 1500) + 500,
                     total: 0
                 },
-                btdUsed: Math.floor(Math.random() * 100) + 25
+                measuredBtd: Math.floor(Math.random() * 100) + 25
             },
             repoSnapshot: {
                 org: 'mock-org',

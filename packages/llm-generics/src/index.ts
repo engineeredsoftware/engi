@@ -19,7 +19,7 @@ export interface LLMInput {
 export interface LLMMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
-  [key: string]: any; // Allow additional properties for StorableObject compatibility
+  [key: string]: any; // Allow additional properties for StorableObject shape support
 }
 
 export interface LLMOutputMetadata {

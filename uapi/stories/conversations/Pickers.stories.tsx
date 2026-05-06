@@ -4,7 +4,7 @@ import SourcePicker from '@/app/conversations/components/ConversationsSourcePick
 import AttachmentPicker from '@/app/conversations/components/ConversationsAttachmentPicker';
 import ShippablePicker from '@/app/conversations/components/ConversationsShippablePicker';
 import UpgradePicker from '@/app/conversations/components/ConversationsUpgradePicker';
-// CommandMenu legacy overlay removed; stories pruned.
+// CommandMenu overlay removed; stories pruned.
 
 // Source Picker Stories
 const SourcePickerMeta = {
@@ -472,7 +472,7 @@ const CommandMenuMeta = {
   tags: ['autodocs'],
 } satisfies Meta<typeof CommandMenu>;
 
-/* CommandMenu stories removed with legacy overlay. Keeping pickers only.
+/* CommandMenu stories removed with retired overlay. Keeping pickers only.
 const mockCommands = [
   {
     id: 'shippable',

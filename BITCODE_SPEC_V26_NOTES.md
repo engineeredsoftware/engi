@@ -545,25 +545,25 @@ The fourth-gate collaboration pack must now include:
 
 This pack should be treated as required V26 drafting work before broad fourth-gate implementation begins.
 
-## Open questions that remain real
+## Closed-gate audit boundaries and future reopen conditions
 
 ### 1. Second-gate application surface shape
 
-Still open:
-- how far the preserved first-gate shell should be decomposed into native application-facing components,
-- which sections should become route-local React composition first,
-- how aggressively the old shell CSS and DOM contract should be retired during second-gate,
-- the exact master-detail structure for transactions, AssetPack/Shippables, proofs, and history within `/application`,
-- the exact fullscreen overlay choreography for conversations relative to the main application workspace,
-- how the preserved late-stage design-system atmosphere should be preserved while the product expression stays entirely Bitcode,
-- and which external interfacings must be considered second-gate-stable before the new application page is considered ready.
+Closed for V26:
+- the preserved first-gate shell is decomposed enough for V26 by route-local application composition, shell snapshot bridges, and app-owned control decks;
+- `/application` owns the master-detail activity surface for transactions, AssetPack/Shippables, proofs, history, and settlement follow-through;
+- conversations and auxillaries enter from `/application` as contained fullscreen/overlay experiences rather than peer product destinations;
+- retained CSS/DOM shell carriers remain only where they are bounded as preserved-runtime substrate and semantic bridges;
+- and the admitted external interfacings are stable enough for V26 MVP/commercial-testnet posture.
+
+Reopen only under V28/V30 work if the Terminal or external-interface ownership model changes source behavior rather than only presentation.
 
 ### 2. Third-gate marketing refurbishment shape
 
-Still open:
-- what exactly the public marketing page should inherit from the stabilized second-gate application language,
-- which parts of current marketing can remain untouched until after second-gate acceptance,
-- and what third-gate acceptance should require versus leave to later refinement.
+Closed for V26:
+- public marketing inherits the stabilized Bitcode Terminal, Network, Transactions, Docs, Auxillaries, give/need, BTC-fee, and non-fungible `$BTD` vocabulary;
+- mounted public routes no longer foreground the old embedded-demo posture;
+- and third-gate acceptance is bounded to public shell identity, route ownership, docs authority, walkthrough fallback, metadata/title posture, and application-entry truth.
 
 Mounted public-shell owners are no longer ambiguous:
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
@@ -635,12 +635,10 @@ Current draft-only spine to preserve for that future gate:
 
 ### 3. Fifth-gate debug and environment controls
 
-Still open:
-- where the debug setting should live,
-- how the floating debug widget should appear and persist,
-- what the minimum environment toggle contract is,
-- how environment switching should refresh application state coherently,
-- and which additional debug controls are worth carrying in V26 versus later versions.
+Closed for V26:
+- debug/environment posture is accepted as a proof-bearing application readiness surface rather than a product feature expansion bucket;
+- proof-family generation, canonical-input checks, environment-mode coherence, and retained package admissibility now define the minimum V26 operator/debug contract;
+- and additional debug controls are deliberately later-version work unless they affect route/API/proof correctness.
 
 ### 4. Fourth-gate retained-system convergence
 
@@ -654,77 +652,72 @@ Promoted closed after reopening re-review:
 - retained packages are admitted through generated retained-package admissibility records plus a whole-`packages/` package census that classifies every active package owner and fails closed on unclassified fallbacks,
 - proof obligations are assigned to generated fourth-gate proof families rather than left as prose-only intent,
 - `.bitcode/fourth-gate-reclosure-review-proof.json` maps every fourth-gate material criterion to proof evidence and records no blocking fourth-gate deviance,
-- and `.bitcode/v26-gate-checkpoint-report.json` records fourth-gate `promotedClosed` while keeping fifth-gate open with source-to-shares and closure-deepening proof evidence.
+- and `.bitcode/v26-gate-checkpoint-report.json` records fourth-gate `promotedClosed`; its earlier fifth-gate-open checkpoint is superseded by fifth-, sixth-, seventh-, and eighth-gate closure proofs.
 
 ### 5. Longer-term package splitting after `protocol-demonstration`
 
-Still open:
-- whether `protocol-demonstration` remains the long-term owner,
-- which second-gate or later package seams should split out,
-- and which of those seams belong in existing owners like `packages/github` or `packages/api`.
+Closed for V26:
+- `protocol-demonstration` remains the preserved commercial protocol owner and demonstration-reference source for V26;
+- existing package owners such as `packages/github`, `packages/vcs`, `packages/api`, `packages/btd`, `packages/orm`, and `packages/executions-mcp` are admitted commercial infrastructure where they serve Bitcode directly;
+- and further package splitting is a future-version architectural refactor, not a V26 promotion blocker.
 
 ### 6. Legacy component intake policy
 
-Still open:
-- which non-legacy current base/common components should be extended first,
-- which styling patterns from the current app shell should be absorbed into second-gate Bitcode sections,
-- and which former legacy ideas are worth forward-porting only after they are rebuilt into current owners.
+Closed for V26:
+- `_legacy/` remains non-canonical and cannot be active implementation truth;
+- non-legacy reusable components may be extended only where they serve Bitcode-owned routes, interfaces, proofs, or commercial infrastructure;
+- and former ideas are admissible only after rewrite into current owners with Bitcode naming, tests, and spec/proof coverage.
 
 ### 7. Auth and wallet production target
 
-Still open:
-- exact wallet verification flow requirements,
-- how wallet connection interacts with the current auth/provider model,
-- whether wallet is primary, linked, or action-scoped,
-- where the current credits carrier is cut and replaced by wallet-connected Bitcoin for auth, share ownership, and token transfers,
-- and how much of the current MetaMask/auth code can be reused without redesign.
+Closed for V26:
+- auth, provider, repository, and wallet posture are accepted at the commercial-testnet boundary;
+- BTC is the fee asset and `$BTD` is the non-fungible AssetPack share/read-right plus measured Bitcode amount;
+- saved-signer-only settlement fails closed, live wallet/provider readiness is explicit, and generic balance mutation is rejected;
+- and deeper tokenomics, Terminal wallet UX, Exchange trading flow, and third-party provider breadth are reserved for V27 through V30.
 
 ### 8. Compatibility-carrier treatment
 
-Still open:
-- whether `.bitcode/*` remains the emitted namespace in V26,
-- whether repo-local `ENGI_SPEC_*` remains stable through V26 promotion,
-- how far directory names, script names, and other non-module compatibility carriers should follow the now-active `@bitcode/*` module namespace,
-- and which compatibility carriers are worth changing during a productionizing version versus later dedicated migration work.
+Closed for V26:
+- `.bitcode/*` remains the emitted proof namespace for V26;
+- `ENGI_SPEC_*` may appear only as historical lineage, legacy proof-reference text, or `_legacy/` material, not as current product canon;
+- storage/generated-schema compatibility identifiers such as historical `deliverable_*` and `user_credit_usages` names are bounded physical carriers whose live Bitcode meaning is AssetPack evidence or non-fungible `$BTD` holding history;
+- and active module, route, UI, prompt, and package teaching must prefer Bitcode, AssetPack, Shippable, Need, Finish, BTC fee, and non-fungible `$BTD` language.
 
 ### 9. Fifth-gate proof precision and closure
 
-Still open:
-- the exact theorem/member structure for the new V26 proof families,
-- how retained-package admissibility verdicts should advance beyond the new generated package census into package-specific compile/runtime acceptance,
-- how migration/schema/ORM/type closure should be emitted as a generated proof family rather than a hand-waved infrastructure note,
-- how prompt-space proofs and application-composition proofs should join the existing Bitcode proof family catalog,
-- and what minimum closure signal is required before V26 can be considered formally complete.
+Closed for V26:
+- the fifth-gate closure proof, sixth-gate MVP closure proof, seventh-gate commercial-testnet launch proof, prompt-space completeness proof, whole-repository production-satisfaction proof, and V26 total-closure proof now define the exact closure signal;
+- retained-package admissibility, system-reform admissibility, persistence/schema totality, prompt-system totality, and source-to-shares proofs are generated evidence rather than prose-only claims;
+- and package-specific compile/runtime acceptance is represented by declared package checks plus source-backed proof assertions at the V26 commercial MVP boundary.
 
 ### 10. Later-gate Bitcode rename completion
 
-Still open:
-- full Bitcode rename completion remains later-gate work rather than first-gate,
-- first-gate may preserve compatibility carriers while package/app migration closes,
-- fifth-gate should return to remaining active-source rename debt after second-, third-, and fourth-gate closure are established,
-- and any remaining Bitcode-era naming that survives first-gate must be cataloged and intentionally retired rather than left implicit.
+Closed for V26:
+- full active product naming is Bitcode-owned wherever the source is product, route, prompt, API, interface, or package teaching;
+- remaining historical names are admitted only as bounded compatibility, storage, generated-schema, proof-lineage, or `_legacy/` references;
+- and any future rename cleanup must not reopen V26 unless it reveals active product behavior that still depends on old-world Engi semantics.
 
-## Current sequencing bias
+## Current promotion sequencing posture
 
-The current sequencing bias is:
+The V26 sequencing record is now:
 
-1. keep first-gate source stable,
-2. keep spec/parity/generated tooling synchronized to first-gate file structure,
-3. preserve the now-closed first-gate anonymous and signed-in app behavior while deeper hardening proceeds,
-4. execute second-gate application UX/UI plus external hardening,
-5. execute third-gate marketing refurbishment,
-6. preserve through-fourth-gate retained-system convergence closure,
-7. execute fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline including debug/environment controls,
-8. execute sixth-gate minimal viable product elevation,
-9. execute seventh-gate initial commercially-viable testnet live-launch refinement,
-10. execute eighth-gate total-repository provation and final closure,
-11. then refresh generated evidence and promotion checks.
+1. first-gate source stays stable as the preserved protocol/application migration base,
+2. spec/parity/generated tooling remains synchronized to the V26 file family,
+3. second-gate application UX/UI plus external hardening is closed for V26,
+4. third-gate marketing/public-shell refurbishment is closed for V26,
+5. fourth-gate retained-system convergence is promoted closed after explicit re-review,
+6. fifth-gate minimum-functional Exchange/Terminal closure plus old-world reform baseline is closed,
+7. sixth-gate minimal viable product elevation is closed,
+8. seventh-gate initial commercially viable testnet launch refinement is closed,
+9. eighth-gate total-repository provation and final closure is closed,
+10. and promotion confidence is maintained by regenerating evidence and rerunning proof checks whenever source or spec changes.
 
 ## Non-goals for these notes
 
 The following remain non-goals for this notes companion:
-- promoting V26 early,
-- pretending first-gate already completes second-gate application experience work,
+- reopening promoted V26 gates without source/proof cause,
+- treating first-gate preservation as the whole system instead of the completed V26 gate chain,
 - widening V26 into economics redesign,
 - or treating `_legacy/` code as current truth.
 
@@ -736,7 +729,7 @@ Current fourth-gate closure reminders:
 Current fifth-gate reminders:
 - fifth-gate is the minimum-functional Bitcode gate, not a generic residue-cleanup gate; the north star is the repository being able to make shares and use shares through Bitcode-owned interfaces and state
 - fifth-gate now also owns the broad old-world reform baseline: anything retained from the old world has to be cut, isolated, or Bitcode-repurposed enough that the live Bitcode path already reads as a new-world product rather than a renamed compatibility shell
-- `.bitcode/fifth-gate-closure-deepening-proof.json` records post-fourth-gate-promotion closure evidence across Terminal, Exchange, persistence/schema, reform, proof, and environment axes, while deliberately keeping fifth-gate closure open
+- `.bitcode/fifth-gate-closure-deepening-proof.json` records post-fourth-gate-promotion closure evidence across Terminal, Exchange, persistence/schema, reform, proof, and environment axes, and `.bitcode/fifth-gate-closure-proof.json` supersedes that precursor with explicit fifth-gate closure
 - `make shares` means authenticated source-bearing give/need writes can produce need measurement, branch artifacts, asset packs, proof, and history without falling back to demo-only or compatibility-only posture
 - `make shares` now includes a mandatory post-measurement pre-fit Need review: `.bitcode/need-review.json` must expose a reviewable Need with accept, reject, and remeasure-with-feedback outcomes, `/api/need-review` must present and record those decisions for admitted app/API consumers, and fit search is admitted only after the Need is accepted for source-to-shares settlement review
 - `/api/need-review` is also the Exchange-owned Need-fitting review payload seam: `GET` must return `needFittingReview` with source-to-shares focus, blocked/admitted candidate-fit stages, the present-fit settlement review stage, and the quantized fit-quality objective contract id; `POST` must update that same payload after accept/reject/remeasure so downstream fit search cannot infer admission from route-local copy
@@ -745,7 +738,7 @@ Current fifth-gate reminders:
 - `use shares` now also requires settlement review to carry quantized source-to-shares fit qualities: the objective contract shown in the present-fit-for-settlement-review surface must be the same objective contract carried by settlement AssetPack receipts and the settlement-source-to-shares proof
 - the Bitcode Terminal settlement panel now treats quantized source-to-shares fit qualities as first-class read state: objective contract id, source-to-shares ref, fit-quality hash, receipt refs, and quality rows must be visible in the same closure/reread model as branch artifacts and proof families
 - the website application and the protocol deployment have to be treated together for fifth-gate: `/application`, APIs, MCPs, and admitted third-party app surfaces must all read/write the same Bitcode-owned system
-- product readiness is now audited as an explicit generated source-parity surface: `.bitcode/v26-product-readiness-audit.json` must read protocol-demonstration as Exchange-lite and Terminal-lite, read `uapi` as the commercial Exchange/Terminal implementation rail, read this parity matrix as acceptance criteria, and report which product baselines are source-backed while keeping fifth-gate closure and later-gate readiness explicitly not ready
+- product readiness is now audited as an explicit generated source-parity surface: `.bitcode/v26-product-readiness-audit.json` must read protocol-demonstration as Exchange-lite and Terminal-lite, read `uapi` as the commercial Exchange/Terminal implementation rail, read this parity matrix as acceptance criteria, and report source-backed baseline, MVP, and launch readiness with zero open product rows for V26 closure
 - fifth-gate confidence now requires dual SPEC-IMPL parity, not only parallel source existence: when low-level behavior is defined in `protocol-demonstration` and commercial behavior is exposed through `uapi`, focused commercial route/API tests must exercise the same protocol contract so Bitcode requirements demonstrably drive low-level behavior upward into production architecture; this includes accepted branch materialization carrying source-to-shares artifacts, present-fit settlement review, and quantized fit-quality receipt proof through the commercial route response and then rereading accepted Need-review plus source-to-shares settlement posture through `/api/state?principal=buyer`; generated source-to-shares proof must inspect those route-test assertions directly so the fifth-gate evidence cannot pass by file presence after the route-level behavior regresses
 - package and interface PARITY proof closure is now explicit fifth-gate procedure: if an active package, API route, MCP surface, Terminal panel, or admitted third-party interface carries make-share or use-share behavior, closure requires specification text, generated proof artifacts, source-content proof checks, and executable tests; file-presence-only proof is acceptable only as an inventory precursor, not as final package/interface acceptance
 - `/application` fifth-gate closure depends on command, deposit, closure, and detail controls resolving into protocol-owned routes and rereading through the same Bitcode activity ledger rather than only poking preserved shell controls
@@ -841,7 +834,7 @@ Current fifth-gate reminders:
 - retained ORM persistence drift counts the same way too: `packages/orm/src/models/{user-btd-transactions,deliverables,notifications}.ts` must not preserve implicit-`any` reducers or null-key assumptions inside the active `$BTD` transaction and deliverable statistics carriers; those are active share/use storage-path carry-over errors in the Bitcode persistence corridor, not harmless model debt
 - fifth-gate proof closure is not allowed to stop at rename cleanup; the newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package surfaces have to prove to the same rigorous standard the earlier Bitcode core already established
 - broad old-world reform now follows `protocol-demonstration/V26_REFORM_STRATEGY.md`; corridor-by-corridor work is expected to classify, mirror, boundary-harden, verify, and only then rename or cut
-- the remaining closure checklist is now explicit too:
+- the fifth-gate closure checklist is now explicit and closed too:
   - `make shares`: repository anchor, give-side supply selection, need measurement, fit/settlement posture, deposit, branch, and closure must all be writable back into the Bitcode activity ledger rather than only mutating preserved shell state
   - `use shares`: the Bitcode activity ledger must remain the dominant searchable/filterable/paginatable read surface, with selected activity exposing asset packs, proofs, history, and settlement follow-through without teaching a separate primary route
   - interface totality: `/application`, APIs, conversations, MCPs, and admitted app surfaces must all read from and write to the same Bitcode-owned system instead of tolerating parallel state models

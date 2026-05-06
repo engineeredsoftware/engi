@@ -19,8 +19,8 @@ Therefore:
 - `bitcode.lsp.measure-need-static.v26` is the canonical measurement role for the retained LSP corridor.
 - LSP-derived facts feed `NeedDescriptor.staticMeasurements`, `measurementProvenance`, `.bitcode/measurement-receipts.json`, candidate ranking, AssetPack fit, and proof replay.
 - PromptParts and DocCodeTool prompts must explain LSP through Need measurement, AssetPack evidence, and proof replay rather than generic "intelligent code operations."
-- Old names can remain during fifth-gate only as tactical compatibility flags when they point at a more precise canonical measurement role.
-- Full V26 closure may not leave deprecated, backwards-compatible, legacy, or unspecified LSP filesystem/code names as canonical truth.
+- Old names may appear only as trace inputs when they point at a more precise canonical measurement role.
+- Full V26 closure may not leave former, compatibility-only, historical, or unspecified LSP filesystem/code names as canonical truth.
 
 ## Implementation Requirements
 
@@ -31,12 +31,12 @@ Active source must satisfy the following:
 - `packages/lsp/src/index.ts` describes LSP as Bitcode static-measurement infrastructure for Need/AssetPack evidence.
 - `packages/generic-tools/lsp-query/src/prompts/*` and the retained LSP raw PromptParts describe LSP as replayable measurement infrastructure.
 - LSP raw PromptParts must not retain generic old-world wording such as "code intelligence", "code navigation", "intelligence suite", "development workflows", or false "guaranteed success" promises.
-- Fifth-gate compatibility handles in filenames or exported constants are admitted only when their doc-comment intent, content, and dynamic test coverage bind them to `bitcode.lsp.measure-need-static.v26`; sixth-, seventh-, and eighth-gate work must replace those handles with canonical filesystem and code names before full V26 closure.
-- Any explicit deprecated alias that becomes part of active API surface must be paired with a canonical replacement name and a removal condition in the specification or test surface.
+- Compatibility handles in filenames or exported constants are admitted only when their doc-comment intent, content, and dynamic test coverage bind them to `bitcode.lsp.measure-need-static.v26`; full V26 closure requires canonical filesystem and code names for active LSP measurement surfaces.
+- Any former-name alias that becomes part of an active API surface must be paired with a canonical replacement name and a removal condition in the specification or test surface.
 
-## Deprecation Discipline
+## Former-Name Discipline
 
-Deprecation flags are acceptable in fifth-gate as a tactical development practice only when they prevent breakage while canonical names land.
-They are not closure evidence.
+Former-name trace flags are acceptable only as reform discovery aids while canonical names land.
+They are not closure evidence or retained V26 behavior.
 
-Sixth-, seventh-, and eighth-gate work must aggressively eliminate deprecated names, backwards-compatible labels, compatibility-only filesystem paths, and unspecified behavior until the active repository is fully Bitcode-specified by both filesystem and code names.
+Sixth-, seventh-, and eighth-gate work aggressively eliminated former names, compatibility-only labels, compatibility-only filesystem paths, and unspecified behavior until the active repository became fully Bitcode-specified by both filesystem and code names.

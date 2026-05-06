@@ -21,7 +21,7 @@ Therefore:
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
 - `Delivering` owns connected-interface Shippables. V26 commercial behavior admits GitHub pull requests only; issue/review/comment/Jira or other destination branches are V27+ design space.
 - `Shippable` is the noun for what Finish delivers; `Deliverable` is old-world Engi residue used only as a trace word or literal migration-boundary identifier, not a current payload or reusable infrastructure field.
-- Deprecated names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence.
+- Former names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence.
 
 ## Pipeline Naming
 
@@ -46,14 +46,14 @@ Active source must satisfy the following:
 - The retained AssetPack corridor must execute `assetPackPhases.finish` through `finish:*` agent keys and must not register `shipping:*` phase aliases in active AssetPack phase/tool registries.
 - Finish agents may reuse old-world Ship implementation ideas only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, AssetPack completion, and PR Delivering semantics.
 - AssetPack postprocess and reread must use `finish/asset_pack_completion` and `finish` stores directly; retained `shipping` or `finish/final_work_summary` store fallbacks are reform residue rather than current AssetPack behavior.
-- Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` names must be removed from active implementation once the precise `Finish` / `Delivering` / `AssetPack completion` replacement is present.
+- Former `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` names must be removed from active implementation once the precise `Finish` / `Delivering` / `AssetPack completion` replacement is present.
 
-## Deprecation Discipline
+## Former-Name Discipline
 
-Deprecation flags can be used during fifth-gate when they prevent unnecessary breakage while the precise Bitcode surface lands.
-They are not a durable architecture.
+Former-name trace flags may be used during reform only to identify the exact Bitcode replacement surface.
+They are not a durable architecture and they are not retained V26 behavior.
 
-Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names to remain as canonical truth.
+Full V26 closure requires no former, compatibility-only, historical, or unspecified broad-pipeline names to remain as canonical truth.
 Filesystem names and code names must converge on the precise Bitcode objects they implement: `Finish`, `Delivering`, `Need`, `AssetPack`, `AssetPackPartial`, and exact pipeline purposes such as `MeasureNeed` or `FindFittingSettlement`.
 
 ## Proof Requirement

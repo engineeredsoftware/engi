@@ -134,9 +134,9 @@ import { replaceFileTool } from '@bitcode/generic-tools-editing';
 
 const result = await replaceFileTool.use({
   operation: 'replace',
-  filePath: '/project/src/legacy.ts',
+  filePath: '/project/src/retired.ts',
   content: modernImplementation,
-  backupPath: '/project/backups/legacy.ts.bak'
+  backupPath: '/project/backups/retired.ts.bak'
 });
 ```
 

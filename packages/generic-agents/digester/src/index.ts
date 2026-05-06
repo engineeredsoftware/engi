@@ -403,7 +403,7 @@ export const digester = comprehensiveDigest;
  */
 export const quickDigester = quickDigest;
 
-// Backwards-compatible aliases
+// Stable agent alias
 export const digesterAgent = digester;
 
 /**
@@ -421,7 +421,7 @@ export function selectDigesterAgent(input: DigestInput): string {
   return needsComprehensive ? 'digester' : 'quickDigester';
 }
 
-// Removed legacy class wrappers and instance exports
+// Removed former class wrappers and instance exports.
 
 /**
  * THE MAGIC EXPLAINED:

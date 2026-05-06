@@ -98,7 +98,7 @@ Where physical storage identifiers still include `deliverable` during V26:
 - once a trace has identified the equivalent Bitcode object, destructive cleanup is preferred over aliases; aliases are temporary aids, not retained V26 behavior
 - old names may remain only as bounded raw PromptPart, table, generated-schema, or migration-boundary literals when active code names expose canonical Bitcode meaning first and the old name is not emitted as a new active payload field
 - `SDIVS` / `shipping` compatibility APIs are reform residue outside active AssetPack Finish ownership; active AssetPack phase, registry, tool, and store code must use `SDIVF` / `finish` behavior directly
-- deprecated exports are not admissible as V26 implementation after their Bitcode replacement exists; full V26 closure requires removing these aliases rather than treating compatibility as canon
+- former-name exports are not admissible as V26 implementation after their Bitcode replacement exists; full V26 closure requires removing these aliases rather than treating compatibility as canon
 - active route logs, execution type, lineage, `/api/templates/shippables`, header props, streaming parser names, generated co-located JS cleanup, and client payload fields must use `asset-pack` / `AssetPack completion` / `shippable` source names; `/api/templates/deliverables` is not an active V26 wrapper
 
 ## V27+ Design Space

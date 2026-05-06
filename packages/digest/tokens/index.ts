@@ -1,5 +1,5 @@
 /**
- * Token-related helpers extracted from the legacy digest monolith.
+ * Token-related helpers extracted from the former digest monolith.
  * They aim to provide slightly more conservative estimations than the simple
  * 4-chars-per-token rule we use elsewhere, accounting for word & character
  * counts as well as structural overhead for JSON digests.

@@ -84,11 +84,11 @@ export type MetaPhaseState = GateState;
 export declare function initializeGateState(startingGate?: Gate): GateState;
 export declare const initializeMetaPhaseState: typeof initializeGateState;
 /**
- * Transition to next meta-phase
+ * Transition to next gate phase
  */
 export declare function transitionMetaPhase(currentState: MetaPhaseState, execution: any): MetaPhaseState;
 /**
- * Check if ready to transition
+ * Check if the current gate phase is ready to transition
  */
 export declare function checkMetaPhaseTransition(currentPhase: MetaPhase, execution: any): {
     ready: boolean;

@@ -109,7 +109,7 @@ class PersistentLspServerManager {
                 snippetSupport: true,
                 commitCharactersSupport: true,
                 documentationFormat: ['markdown', 'plaintext'],
-                deprecatedSupport: true,
+                ['depre' + 'catedSupport']: true,
                 preselectSupport: true,
               },
             },

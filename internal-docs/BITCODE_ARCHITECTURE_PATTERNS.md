@@ -15,7 +15,7 @@ Functionality in Bitcode must flow through three layers:
 - Interfaces own operator or external-contract expression.
 - Specifications own canonical requirements.
 - Proofs own replayable evidence.
-- Compatibility paths must be wrapped, bounded, and eventually renamed or removed.
+- Support paths must be wrapped, bounded, and eventually renamed or removed.
 
 ## Pattern Checklist
 

@@ -359,7 +359,7 @@ export default function AuxillariesProfilePane({ onSave,
     setShowAvatarSelector(!showAvatarSelector);
   };
 
-  // (legacy repository-sharing state removed; the control now lives under $BTD)
+  // (repository-sharing state removed; the control now lives under $BTD)
 
   const selectAvatar = (index: number) => {
 

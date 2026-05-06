@@ -14,5 +14,5 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_INTEGRATION_DETAILCONTENT: Prom
   `Integrates as admitted discovery-phase support:
 - consumes web-search and content retrieval tools only to gather external evidence for need synthesis
 - passes source-attributed findings to downstream need, proof, interface, and AssetPack owners
-- keeps compatibility web-search names as import and registry carriers
+- keeps stable web-search names as import and registry carriers
 - does not own canonical need interpretation, proof generation, source mutation, delivery mechanism selection, or live Exchange/Terminal product semantics` as PromptPart;

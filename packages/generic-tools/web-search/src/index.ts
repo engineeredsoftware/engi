@@ -1,5 +1,5 @@
 /**
- * BITCODE NEED-SYNTHESIS WEB SEARCH TOOLS - retained compatibility package
+ * BITCODE NEED-SYNTHESIS WEB SEARCH TOOLS - admitted support package
  * 
  * Tool implementations with doc-prompt integration for runtime documentation.
  * V26 admits these tools only as discovery-phase external evidence support for
@@ -233,7 +233,7 @@ export const getProductionHealth = factoryTool(
   },
   {
     description: `Get provider health details for retained web-search evidence infrastructure.
-    This compatibility tool is admitted for evidence-collection reliability, not
+    This support tool is admitted for evidence-collection reliability, not
     as a standalone monitoring surface.`
   }
 );

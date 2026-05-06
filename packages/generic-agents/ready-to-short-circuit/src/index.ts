@@ -535,4 +535,4 @@ export function selectReadyToShortCircuitAgent(input: ShortCircuitInput): string
   return needsComprehensive ? 'readyToShortCircuitAgent' : 'quickReadyToShortCircuitAgent';
 }
 
-// Removed legacy compatibility wrappers
+// Removed former wrapper exports.

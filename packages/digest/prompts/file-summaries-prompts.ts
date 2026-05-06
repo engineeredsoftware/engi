@@ -1,14 +1,13 @@
 /*
- * Compatibility bridge until all import paths are updated.
+ * Stable file-summary prompt re-export.
  * ------------------------------------------------------------------
  * Existing digest code expects two named exports from the
  * `@/digest/prompts/file-summaries-prompts` module:
  *   1. FILE_SUMMARIES_PROMPT
  *   2. FILE_SUMMARIES_TYPE_SPECIFIC_INSTRUCTIONS
  *
- * During the refactor the original definitions were moved to
- * `digest-prompts.js`.  To avoid touching a large number of call-sites we
- * simply re-export the constants from the new file here.
+ * The canonical definitions live in `digest-prompts.js`; this module keeps
+ * the named prompt exports explicit for digest callers.
  */
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

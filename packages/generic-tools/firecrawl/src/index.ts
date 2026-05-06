@@ -2,7 +2,7 @@
  * FIRECRAWL TOOLS - MODERN TOOL CLASS ARCHITECTURE
  * 
  * Production-grade web scraping and crawling tools using the new abstract Tool class
- * with DocCodeToolPrompt documentation. Zero legacy patterns, maximum elegance.
+ * with DocCodeToolPrompt documentation. Zero old-world patterns, maximum elegance.
  * 
  * ARCHITECTURAL PRINCIPLES:
  * ✅ Abstract Tool class inheritance

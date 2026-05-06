@@ -49,7 +49,7 @@ export abstract class BaseModel<T extends TableName> {
   }
 
   /**
-   * Alias for findById for backward compatibility
+   * Alias for callers that prefer get-style model reads.
    */
   async getById(id: string): Promise<Tables<T> | null> {
     return this.findById(id);

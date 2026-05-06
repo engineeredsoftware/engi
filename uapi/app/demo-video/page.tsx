@@ -9,7 +9,7 @@ import { MARKETING_OPERATOR_GUIDE_SOURCE } from '../(root)/components/marketing-
 export const metadata: Metadata = {
   title: 'Bitcode Docs',
   description:
-    'Compatibility path into the Bitcode docs hub, including the walkthrough, inline widgets, and direct links into live transactions.',
+    'Redirect path into the Bitcode docs hub, including the walkthrough, inline widgets, and direct links into live transactions.',
   alternates: {
     canonical: '/docs',
   },

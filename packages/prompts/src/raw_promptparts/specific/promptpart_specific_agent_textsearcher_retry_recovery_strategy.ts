@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_RECOVERY_STRATEGY: PromptPart =
-  'Recover by trying canonical Bitcode names, compatibility filenames, package owners, prompt constants, schema fields, proof artifact names, and AssetPack terms; stop when evidence is sufficient or the remaining gap is explicit.' as PromptPart;
+  'Recover by trying canonical Bitcode names, stable filenames, package owners, prompt constants, schema fields, proof artifact names, and AssetPack terms; stop when evidence is sufficient or the remaining gap is explicit.' as PromptPart;

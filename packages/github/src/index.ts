@@ -2,7 +2,7 @@
  * GitHub - GitHub VCS provider implementation
  * 
  * Provides GitHub integration via the unified VCS abstraction.
- * Clean provider export without legacy MCP stubs.
+ * Clean provider export without former MCP stubs.
  * 
  * @doc-package
  * version: 1.0.0

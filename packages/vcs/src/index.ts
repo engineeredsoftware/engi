@@ -38,18 +38,18 @@ export {
 
 // ==================== FACTORY ====================
 export { VCSProviderFactory, createGitHubProvider, createGitLabProvider, createBitbucketProvider } from './factory';
-// Backwards-compatible aliases
+// Stable provider factory aliases
 export { VCSProviderFactory as VCSFactory } from './factory';
 
 // ==================== CONNECTIONS ====================
 export { VCSConnections } from './connections';
 export { VCSConnections as VCSConnectionManager } from './connections';
 
-// Historical helper names (stubs for build compatibility)
+// Historical helper names (stubs for build stability)
 import type { VCSConfig, VCSProviderType } from './types';
 
 /**
- * V26 provider config from environment. Compatible with legacy route helpers.
+ * V26 provider config from environment for route helpers.
  */
 export function getVCSConfig(provider: VCSProviderType, instanceUrl?: string): VCSConfig {
   const upper = provider.toUpperCase();
@@ -117,7 +117,7 @@ export type { VCSServiceConfig } from './service';
  * 
  */
 
-// Version for compatibility tracking
+// Version for provider support tracking
 export const VCS_VERSION = '1.0.0';
 
 // Feature flags for gradual rollout

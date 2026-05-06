@@ -1,7 +1,7 @@
 /**
  * User BTD Balances Model
  *
- * Manages user `$BTD` balances through the compatibility table `user_credits`
+ * Manages user `$BTD` balances through the storage table `user_credits`
  * until the persistence schema is renamed forward.
  *
  * @doc-code

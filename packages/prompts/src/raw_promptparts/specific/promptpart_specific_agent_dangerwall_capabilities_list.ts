@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall capabilities"
+ * intent: "Bitcode risk-admission PromptPart for danger-wall capabilities"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -15,4 +15,4 @@ export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_CAPABILITIES_LIST: PromptPart 
 - Flag unsafe mutation, secret/private-data exposure, proof/evidence gaps, likely execution failure, delivery-mechanism mismatch, and AssetPack scope mismatch
 - Separate admission evidence from canonical need interpretation, proof closure, mutation ownership, and delivery execution
 - Return admit, block, or manual-review guidance with source-traceable reasons
-- Preserve retained danger-wall compatibility while speaking only Bitcode risk-admission semantics` as PromptPart;
+- Preserve retained danger-wall support while speaking only Bitcode risk-admission semantics` as PromptPart;

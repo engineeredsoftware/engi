@@ -1,5 +1,5 @@
 /**
- * Bitcode Need Risk Admission Agent - retained danger-wall compatibility path.
+ * Bitcode Need Risk Admission Agent - retained danger-wall support path.
  *
  * The package name and dangerWall aliases remain for retained callers. V26
  * semantics are narrower: this agent decides whether a Bitcode need,
@@ -199,7 +199,7 @@ export type SecurityResult = BitcodeNeedRiskAdmissionResult;
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode risk-admission compatibility prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
+ * intent: "Bitcode risk-admission support prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
  * current_version: "V26"
  */
 export const bitcodeNeedRiskAdmissionPrompt = new AgentPrompt({

@@ -3,7 +3,7 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Compatibility-named tool label for Bitcode repository-evidence search support"
+ * intent: "Stable-path tool label for Bitcode repository-evidence search support"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

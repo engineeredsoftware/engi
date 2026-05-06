@@ -59,8 +59,7 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
     setUpdatingAll(true);
     setRepos((prev) => prev.map((r) => ({ ...r, enabled: newValue })));
     try {
-      // Re-use legacy API behaviour by toggling each repo individually so we
-      // remain backward-compatible while the backend endpoint catches up.
+      // Toggle each repository individually until the backend owns a bulk action.
       await Promise.all(
         repos.map((repo) =>
           fetch("/api/auxillaries/user/data-share", {

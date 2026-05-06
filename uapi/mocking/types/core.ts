@@ -259,7 +259,7 @@ export type MockableFeature =
   | 'FINANCIAL_ANALYTICS'
   | 'RUN_MONITORING'
   
-  // Legacy/Generic (Keep for Backward Compatibility)
+  // Retained generic areas
   | 'COMPLETION_DATA'
   | 'PROCESSING_STATS'
   | 'REPO_SNAPSHOTS'
@@ -611,7 +611,7 @@ export interface MockPipelinePhase {
   /** LLM calls in this phase */
   readonly llmCalls: readonly MockLlmCall[];
 
-  /** Compatibility mirror for retained mock callers that still read generations. */
+  /** Stable mirror for mock callers that still read generations. */
   readonly generations?: readonly MockGeneration[];
   
   /** Tool usage in this phase */

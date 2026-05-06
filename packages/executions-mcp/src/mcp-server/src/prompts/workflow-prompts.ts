@@ -71,7 +71,7 @@ ${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` :
 
 Please help me implement this feature using Bitcode's asset-pack pipeline with the following source-to-shares approach:
 
-1. **Use the asset-pack pipeline tool** with retained compatibility subtype "pull_request" to synthesize the complete implementation as reviewable written assets
+1. **Use the asset-pack pipeline tool** with admitted subtype "pull_request" to synthesize the complete implementation as reviewable written assets
 2. **Include comprehensive analysis** with scope analysis and implementation planning
 3. **Follow engineering best practices**:
    - Type-safe implementation with comprehensive error handling
@@ -84,7 +84,7 @@ Please help me implement this feature using Bitcode's asset-pack pipeline with t
    - Code review readiness with clear PR description
    - Security vulnerability scanning
    - Performance impact assessment
-   - Backward compatibility verification
+   - Published-contract stability verification
 
 5. **Delivery excellence**:
    - Clean, maintainable code following project conventions
@@ -160,7 +160,7 @@ ${args.affectedUsers}` : ''}
 
 Please help me analyze and fix this bug using Bitcode's asset-pack pipeline with the following systematic source-to-shares approach:
 
-1. **Use the asset-pack pipeline tool** with retained compatibility subtype "issue" for comprehensive bug resolution as reviewable written assets
+1. **Use the asset-pack pipeline tool** with admitted subtype "issue" for comprehensive bug resolution as reviewable written assets
 
 2. **Root Cause Analysis**:
    - Investigate the codebase to identify the root cause
@@ -252,7 +252,7 @@ ${args.compliance.map((std: string) => `- ${std}`).join('\n')}` : ''}
 
 Please conduct a thorough code review using Bitcode's asset-pack pipeline with the following source-to-shares approach:
 
-1. **Use the asset-pack pipeline tool** with retained compatibility subtype "pr_review" for comprehensive code analysis and reviewable written assets
+1. **Use the asset-pack pipeline tool** with admitted subtype "pr_review" for comprehensive code analysis and reviewable written assets
 
 2. **Security Analysis**:
    - Scan for common vulnerabilities (XSS, SQL injection, CSRF, etc.)
@@ -471,14 +471,14 @@ Please help me optimize the application performance using Bitcode's analysis and
    - Review network latency and data transfer efficiency
    - Evaluate frontend rendering and JavaScript performance
 
-2. **Optimization Strategy** - Use the asset-pack pipeline with retained compatibility subtype "implementation_plan" to create an optimization roadmap:
+2. **Optimization Strategy** - Use the asset-pack pipeline with admitted subtype "implementation_plan" to create an optimization roadmap:
    - Prioritize optimizations by impact and effort
    - Design caching strategies (Redis, CDN, application-level)
    - Plan database optimizations (indexing, query tuning, connection pooling)
    - Outline frontend optimizations (code splitting, lazy loading, bundling)
    - Design monitoring and alerting for performance metrics
 
-3. **Implementation** - Use the asset-pack pipeline with retained compatibility subtype "pull_request" to implement optimizations:
+3. **Implementation** - Use the asset-pack pipeline with admitted subtype "pull_request" to implement optimizations:
    - Implement high-impact performance improvements
    - Add performance monitoring and profiling tools
    - Optimize critical path operations and hot code paths

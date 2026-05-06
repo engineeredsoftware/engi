@@ -9,7 +9,7 @@
 
 // Export core streaming functionality (explicit exports only)
 export {
-  // Backwards compat aliases (actual types from @bitcode/pipelines-generics)
+  // Stable type aliases (actual types from @bitcode/pipelines-generics)
   type ExecutionPhase,
   type ExecutionStep,
   type FailsafeStep,

@@ -33,7 +33,7 @@
  * // Use in React components
  * const { data } = useMockData('ASSET_PACKS');
  * 
- * // Use in API routes (legacy)
+ * // Use in API routes
  * export const GET = mockAssetPacks(originalHandler);
  * 
  * // Use specialized middleware (recommended)
@@ -137,7 +137,7 @@ export {
 // Area-Based Organization & Utilities
 export {
   mockAreas,         // Organized by system area for easy access
-  mockLegacy,        // Backward compatibility functions
+  mockConvenience,   // Shortcuts for common mock areas
   createSpecializedMiddleware  // Factory for custom middleware
 } from './middleware/SpecializedMockMiddleware';
 
@@ -326,7 +326,7 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
     // Vector & AI (5 features)
     'ASSET_PACK_VECTORS', 'UPGRADE_VECTORS', 'USER_VECTORS', 'PATTERN_RECOGNITION', 'VECTOR_SEARCH',
     
-    // Legacy/Generic (6 features) 
+    // Retained generic areas (6 features) 
     'COMPLETION_DATA', 'PROCESSING_STATS', 'REPO_SNAPSHOTS', 'API_RESPONSES', 'ERROR_SCENARIOS', 'PERFORMANCE_METRICS'
   ];
   

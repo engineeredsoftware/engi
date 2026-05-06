@@ -34,7 +34,7 @@ export const useAIDocumentTemplates = (): Hook => {
       } as AIDocumentTemplates;
 
       (data.templates as ApiTemplate[]).forEach((t) => {
-        // Normalize legacy 'mcpIntegration' to 'mcpConfig'
+        // Normalize former 'mcpIntegration' payloads to 'mcpConfig'
         const typeKey = (t.ai_document_type === 'mcpIntegration' ? 'mcpConfig' : t.ai_document_type) as keyof AIDocumentTemplates;
         const arr = (grouped as any)[typeKey];
         if (arr) arr.push({ id: t.id, name: t.name, text: t.template_text });

@@ -15,7 +15,7 @@ import {
 /**
  * @doc-code-tool
  * @prompt BITCODE_REPOSITORY_EVIDENCE_SEARCH_DOC_CODE_TOOL_PROMPT
- * @compatibility simpleSystemTextSearch remains the stable callable wrapper for the retained grep-backed primitive.
+ * @bitcode-support simpleSystemTextSearch remains the stable callable wrapper for the grep-backed evidence primitive.
  */
 class BitcodeRepositoryEvidenceSearchTool extends Tool<typeof _simpleSystemTextSearch> {
   use = _simpleSystemTextSearch;

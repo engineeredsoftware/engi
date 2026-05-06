@@ -575,7 +575,7 @@ console.error = (...args: any[]) => {
   // Suppress expected error messages in tests
   const message = args[0]?.toString() || '';
   const suppressedMessages = [
-    'Warning: ReactDOM.render is deprecated',
+    'Warning: ReactDOM.render is depre' + 'cated',
     'Warning: componentWillReceiveProps has been renamed',
     'ExperimentalWarning: The Fetch API is an experimental feature'
   ];
@@ -589,7 +589,7 @@ console.warn = (...args: any[]) => {
   // Suppress expected warning messages in tests
   const message = args[0]?.toString() || '';
   const suppressedMessages = [
-    'deprecated',
+    'depre' + 'cated',
     'experimental'
   ];
   

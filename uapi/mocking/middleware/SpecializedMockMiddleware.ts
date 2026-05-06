@@ -668,13 +668,13 @@ export const mockAdmin = {
 };
 
 // ============================================================================
-// LEGACY/CONVENIENCE MIDDLEWARE
+// CONVENIENCE MIDDLEWARE
 // ============================================================================
 
 /**
- * Legacy middleware functions for backward compatibility
+ * Convenience middleware shortcuts for common mock areas.
  */
-export const mockLegacy = {
+export const mockConvenience = {
   assetPacks: () => mockAssetPacks.main(),
   github: (type: 'repos' | 'issues' | 'accounts' = 'repos') => mockGitHub[type](),
   userData: (type: 'profile' | 'btd' | 'usage' = 'profile') => mockUser[type]()
@@ -783,6 +783,6 @@ export {
   mockMCP,
   mockHealth,
   mockAdmin,
-  mockLegacy,
+  mockConvenience,
   createSpecializedMiddleware
 };

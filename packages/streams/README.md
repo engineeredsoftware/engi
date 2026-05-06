@@ -13,7 +13,7 @@ Industrial real-time communication infrastructure providing pipeline streaming, 
 - **Error Propagation**: Intelligent error handling and recovery signaling
 
 ### Message Processing Engine
-- **Type Normalization**: Legacy message type conversion and standardization
+- **Type Normalization**: Former message type conversion and standardization
 - **Context Enrichment**: Automatic execution context injection and path construction
 - **Metadata Management**: Comprehensive metadata handling and correlation
 - **Stream Persistence**: Automatic message persistence for audit and replay capabilities

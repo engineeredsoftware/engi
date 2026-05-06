@@ -398,6 +398,7 @@ const attachmentsGenericsReadmeSource = readFileSync(new URL('../../packages/att
 const attachmentsGenericsIndexSource = readFileSync(new URL('../../packages/attachments-generics/src/index.ts', import.meta.url), 'utf8');
 const attachmentsGenericsTypesSource = readFileSync(new URL('../../packages/attachments-generics/src/types.ts', import.meta.url), 'utf8');
 const btdIndexSource = readFileSync(new URL('../../packages/btd/src/index.ts', import.meta.url), 'utf8');
+const btdIndexJsSource = readFileSync(new URL('../../packages/btd/src/index.js', import.meta.url), 'utf8');
 const btdPlansSource = readFileSync(new URL('../../packages/btd/src/plans.ts', import.meta.url), 'utf8');
 const digestReadmeSource = readFileSync(new URL('../../packages/digest/README.md', import.meta.url), 'utf8');
 const digestCachingSource = readFileSync(new URL('../../packages/digest/caching/index.ts', import.meta.url), 'utf8');
@@ -1951,6 +1952,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(attachmentsGenericsIndexSource, /across the entire Bitcode codebase/);
   assert.match(attachmentsGenericsTypesSource, /Universal attachment definitions for Bitcode/);
   assert.match(btdIndexSource, /when Bitcode supports new models or vendors/);
+  assert.match(btdIndexJsSource, /non-fungible AssetPack share\/read-right/);
+  assert.match(btdIndexJsSource, /BTD_MAX_MINTABLE_SUPPLY = 21_000_000/);
+  assert.doesNotMatch(btdIndexJsSource, /deductBtdBalance|reserveBtdBalance|processShortCircuitBtdRefund|InsufficientBtdBalanceError/u);
   assert.match(btdPlansSource, /Try Bitcode with a small project or quick fix/);
   assert.match(techTypesReadmeSource, /definitions for the Bitcode platform/);
   assert.match(techTypesReadmeSource, /across the Bitcode platform/);
@@ -2131,6 +2135,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(attachmentsGenericsIndexSource, /across the entire Engi codebase/);
   assert.doesNotMatch(attachmentsGenericsTypesSource, /Universal attachment definitions for Engi/);
   assert.doesNotMatch(btdIndexSource, /when Engi supports new models or vendors/);
+  assert.doesNotMatch(btdIndexJsSource, /when Engi supports new models or vendors/);
   assert.doesNotMatch(btdPlansSource, /Try Engi with a small project or quick fix/);
   assert.doesNotMatch(techTypesReadmeSource, /for ENGI platform/);
   assert.doesNotMatch(techTypesReadmeSource, /across ENGI platform/);
@@ -2746,10 +2751,10 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(agentDiagnosticsInstrumentationSource, /BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT/);
   assert.match(agentExecutionSource, /BITCODE_LLM_PROVIDER/);
   assert.match(agentExecutionSource, /BITCODE_LLM_MODEL/);
-  assert.match(agentFactoriesSource, /BITCODE_DEBUG_STOP_AFTER_PLAN/);
   assert.match(agentFactoriesSource, /BITCODE_DEBUG_ONLY_STEP/);
   assert.match(agentFactoriesSource, /BITCODE_DEBUG_ONLY_PHASE/);
   assert.match(agentFactoriesSource, /BITCODE_DEBUG_ONLY_AGENT/);
+  assert.doesNotMatch(agentFactoriesSource, /BITCODE_DEBUG_STOP_AFTER_PLAN/);
   assert.match(agentThricifiedGenerationSource, /BITCODE_DEBUG_ONLY_GENERATIONS/);
   assert.match(agentFailsafeSequenceSource, /BITCODE_DEBUG_/);
   assert.match(agentSubstepsFactoriesSource, /BITCODE_LLM_ONE_SHOT/);

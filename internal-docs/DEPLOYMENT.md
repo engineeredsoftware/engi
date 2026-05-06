@@ -326,7 +326,7 @@ Use this quick checklist when promoting an environment.
 - GitLab / Bitbucket (optional)
   - [ ] Callbacks: `/api/vcs/gitlab/callback` and `/api/vcs/bitbucket/callback`
 
-- Legacy UI alias redirects (for safety)
+- Former UI alias redirects (for safety)
   - [ ] `/login/callback` → `/tps/supabase/callback`
   - [ ] `/checkout/callback` → `/tps/stripe/checkout`
   - [ ] `/github/callback` → `/tps/github/app-install`

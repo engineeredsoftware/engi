@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall system instructions"
+ * intent: "Bitcode risk-admission PromptPart for danger-wall system instructions"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

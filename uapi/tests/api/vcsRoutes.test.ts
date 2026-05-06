@@ -48,7 +48,7 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(payload.repositories[0].fullName).toBe('bitcode/bitcode');
   });
 
-  it('accepts PAT connect requests in mock mode without falling through to legacy HTML routes', async () => {
+  it('accepts PAT connect requests in mock mode without falling through to former HTML routes', async () => {
     const { POST } = await import('@/app/api/vcs/[provider]/connect-token/route');
     const request = new Request('https://example.com/api/vcs/github/connect-token', {
       method: 'POST',

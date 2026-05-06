@@ -74,7 +74,7 @@ export type { PromptFormatter } from './prompt';
  * RAW PROMPT ORGANIZATION:
  * - /raw_promptparts/generic/: base, reusable, and Registry-inheritable PromptPart layers
  * - /raw_promptparts/specific/: concrete implementations of PromptPart types for Bitcode
- *   tools, agents, phases, pipelines, products, proof corridors, and compatibility overlays
+ *   tools, agents, phases, pipelines, products, proof corridors, and support overlays
  *
  * `Prompt` extends `RegistryImpl<PromptPart>`. Generic PromptParts provide the
  * base layers; specific PromptParts specialize those layers at concrete registry
@@ -112,7 +112,7 @@ export type { PromptFormatter } from './prompt';
 // - Tree shaking (only import what you use)
 
 // ==================== SELECTED PROMPTPART BARREL ====================
-// This is a curated compatibility surface, not the default import style.
+// This is a curated support surface, not the default import style.
 // Prefer narrow raw_promptparts subpath imports for non-root PromptPart assets.
 
 // Generic PTRR objectives

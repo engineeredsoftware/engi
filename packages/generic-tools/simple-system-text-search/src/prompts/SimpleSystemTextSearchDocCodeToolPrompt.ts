@@ -1,5 +1,5 @@
 /**
- * Compatibility export for the retained simple-system-text-search prompt path.
+ * Stable export for the simple-system-text-search prompt path.
  * V26 canonical prompt semantics live in BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.
  */
 export {

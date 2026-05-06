@@ -35,7 +35,7 @@ export function withMetaPhaseSupport<TInput, TOutput>(
   basePipeline: Executor<TInput, TOutput>,
   options?: {
     /**
-     * Starting meta-phase (default: Develop for V26 backwards compat)
+     * Starting meta-phase (default: Develop for V26 single-phase AssetPack runs)
      */
     initialMetaPhase?: 'Design' | 'Develop' | 'Digest';
 

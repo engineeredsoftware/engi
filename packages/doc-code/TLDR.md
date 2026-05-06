@@ -1,6 +1,6 @@
 # Doc-Code TLDR
 
-**V26 status**: Admitted support/compatibility corridor for build-time tool prompt attachment
+**V26 status**: Admitted support corridor for build-time tool prompt attachment
 
 **What**: Build-time prompt injection via webpack loader
 

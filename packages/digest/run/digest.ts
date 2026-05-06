@@ -235,7 +235,7 @@ interface DigestOptions {
   dryRun?: boolean;
 
   /**
-   * Deprecated: use rootDir instead
+   * Local execution root. CLI `--root-dir` and `--path` both normalize here.
    */
   path?: string;
 
@@ -530,7 +530,7 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
       /^\.npm\//,          // npm cache
       /^\.yarn\//,         // yarn cache
       /^\.rush\//,         // Rush.js cache
-      /^bower_components\//, // Bower components (legacy)
+      /^bower_components\//, // historical package-manager output
 
       // IDE and system files
       /^\.idea\//,
@@ -809,8 +809,7 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
       }
     }
 
-    // Local stub for getCachePath maintained only for legacy functions below.
-    // Legacy getCachePath no longer used – kept for backward-compat safety
+    // Reserved local cache path helper retained as a bounded cache adapter note.
     /*
     function getCachePath(fileHash) {
       return path.join(cacheDir, `${fileHash}.json`);

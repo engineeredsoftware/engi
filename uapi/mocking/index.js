@@ -34,7 +34,7 @@
  * // Use in React components
  * const { data } = useMockData('ASSET_PACKS');
  *
- * // Use in API routes (legacy)
+ * // Use in API routes
  * export const GET = mockAssetPacks(originalHandler);
  *
  * // Use specialized middleware (recommended)
@@ -43,7 +43,7 @@
  * ```
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MOCK_SYSTEM_BUILD = exports.MOCK_SYSTEM_VERSION = exports.createSpecializedMiddleware = exports.mockLegacy = exports.mockAreas = exports.mockAdmin = exports.mockHealth = exports.mockMCP = exports.mockPayments = exports.mockMarketplace = exports.mockIntegrations = exports.mockGitLab = exports.mockGitHubSpecialized = exports.mockOrganizations = exports.mockAssetPacksSpecialized = exports.mockChat = exports.mockConversation = exports.mockOnboarding = exports.mockUser = exports.mockAuth = exports.handlePipelineMockRequest = exports.handleGitHubMockRequest = exports.createMockMiddleware = exports.mockUserData = exports.mockGitHub = exports.mockAssetPacks = exports.withStreamingMocking = exports.withMocking = exports.withMockData = exports.RealOnly = exports.MockOnly = exports.useMockDataMultiple = exports.useMockDataConditional = exports.useMockContext = exports.useMockData = exports.MockProvider = exports.comprehensiveMockGenerator = exports.mockDataGenerator = exports.createStreamingPipelineEngine = exports.StreamingPipelineEngine = exports.MockOrchestrator = void 0;
+exports.MOCK_SYSTEM_BUILD = exports.MOCK_SYSTEM_VERSION = exports.createSpecializedMiddleware = exports.mockConvenience = exports.mockAreas = exports.mockAdmin = exports.mockHealth = exports.mockMCP = exports.mockPayments = exports.mockMarketplace = exports.mockIntegrations = exports.mockGitLab = exports.mockGitHubSpecialized = exports.mockOrganizations = exports.mockAssetPacksSpecialized = exports.mockChat = exports.mockConversation = exports.mockOnboarding = exports.mockUser = exports.mockAuth = exports.handlePipelineMockRequest = exports.handleGitHubMockRequest = exports.createMockMiddleware = exports.mockUserData = exports.mockGitHub = exports.mockAssetPacks = exports.withStreamingMocking = exports.withMocking = exports.withMockData = exports.RealOnly = exports.MockOnly = exports.useMockDataMultiple = exports.useMockDataConditional = exports.useMockContext = exports.useMockData = exports.MockProvider = exports.comprehensiveMockGenerator = exports.mockDataGenerator = exports.createStreamingPipelineEngine = exports.StreamingPipelineEngine = exports.MockOrchestrator = void 0;
 exports.loadMockConfig = loadMockConfig;
 exports.initializeMockSystem = initializeMockSystem;
 exports.isMockingEnabled = isMockingEnabled;
@@ -123,7 +123,7 @@ Object.defineProperty(exports, "mockAdmin", { enumerable: true, get: function ()
 // Area-Based Organization & Utilities
 var SpecializedMockMiddleware_9 = require("./middleware/SpecializedMockMiddleware");
 Object.defineProperty(exports, "mockAreas", { enumerable: true, get: function () { return SpecializedMockMiddleware_9.mockAreas; } });
-Object.defineProperty(exports, "mockLegacy", { enumerable: true, get: function () { return SpecializedMockMiddleware_9.mockLegacy; } });
+Object.defineProperty(exports, "mockConvenience", { enumerable: true, get: function () { return SpecializedMockMiddleware_9.mockConvenience; } });
 Object.defineProperty(exports, "createSpecializedMiddleware", { enumerable: true, get: function () { return SpecializedMockMiddleware_9.createSpecializedMiddleware; } }); // Factory for custom middleware
 /**
  * Load configuration from environment variables
@@ -196,7 +196,7 @@ function loadFeatureOverrides() {
         'ADMIN_USERS', 'ADMIN_ORGANIZATIONS', 'ADMIN_RUNS', 'ADMIN_ANALYTICS', 'USAGE_ANALYTICS', 'FINANCIAL_ANALYTICS', 'RUN_MONITORING',
         // Vector & AI (5 features)
         'ASSET_PACK_VECTORS', 'UPGRADE_VECTORS', 'USER_VECTORS', 'PATTERN_RECOGNITION', 'VECTOR_SEARCH',
-        // Legacy/Generic (6 features) 
+        // Retained generic areas (6 features) 
         'COMPLETION_DATA', 'PROCESSING_STATS', 'REPO_SNAPSHOTS', 'API_RESPONSES', 'ERROR_SCENARIOS', 'PERFORMANCE_METRICS'
     ];
     allFeatures.forEach(feature => {

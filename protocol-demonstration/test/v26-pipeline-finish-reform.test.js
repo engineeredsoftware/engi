@@ -168,8 +168,8 @@ test('compatibility prompt and agent names point at precise canonical Finish rep
   assert.match(finishDeliveryAgentsSource, /AssetPackFinishFinalizeDeliveryEvidenceAgent/);
   assert.match(finishDeliveryAgentsSource, /registerFinishDeliveryAgentsForType/u);
   assert.doesNotMatch(finishDeliveryAgentsSource, /@deprecated|FinalizeShipment|ShippingPhase|shipping:deliverable-pipeline|Compatibility registry keys|written-asset type/u);
-  assert.match(finishSpec, /Deprecated names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence/);
-  assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
+  assert.match(finishSpec, /Former names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence/);
+  assert.match(finishSpec, /Full V26 closure requires no former, compatibility-only, historical, or unspecified broad-pipeline names/);
 });
 
 test('AssetPack prompt-builder doc-comments use Bitcode-specific labels', () => {

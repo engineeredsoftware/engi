@@ -220,7 +220,7 @@ export const rollbackTransactionTool = factoryTool(
   }
 );
 
-// Backwards compatibility aliases
+// Stable file-operation aliases for callers that need narrower command names.
 export const renameFileTool = textEditorTool as typeof textEditorTool;
 export const directoryTool = textEditorTool as typeof textEditorTool;
 

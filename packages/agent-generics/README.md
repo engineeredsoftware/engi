@@ -107,9 +107,7 @@ Agent (name + identity)
 
 - BITCODE_DEBUG_ONLY_PHASE: run agents only in this phase (e.g., setup, finish). Non-matching agents no-op.
 - BITCODE_DEBUG_ONLY_AGENT: substring match on agent name; non‑matching agents no‑op.
-- BITCODE_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation (back‑compat).
-- BITCODE_DEBUG_STOP_AFTER_STEP: deprecated — prefer ONLY filters (kept temporarily, no-op by default).
-- BITCODE_DEBUG_STOP_AFTER_PLAN: deprecated — prefer BITCODE_DEBUG_ONLY_STEP=plan.
+- BITCODE_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — runs only those parent failsafes.
 - BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — runs only those child generations under each parent.
 

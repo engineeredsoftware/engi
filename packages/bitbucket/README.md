@@ -191,7 +191,7 @@ const updated = await provider.updateFile(auth, 'workspace', 'repo', 'src/index.
 
 // Delete file
 const deleted = await provider.deleteFile(auth, 'workspace', 'repo', 'old-file.ts', {
-  message: 'Remove deprecated file',
+  message: 'Remove retired file',
   branch: 'main'
 });
 ```

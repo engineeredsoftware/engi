@@ -1,5 +1,5 @@
 "use strict";
-// Simple codegen: parse Supabase migrations to output TS/Zod for AssetPack pipeline compatibility tables.
+// Simple codegen: parse Supabase migrations to output TS/Zod for AssetPack pipeline storage tables.
 // SRP: migrations → generated types; orm exposes helpers; *-generics import aliases
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -73,7 +73,7 @@ function sqlToZod(sqlType) {
     return 'z.any()';
 }
 function generate(tables) {
-    const header = `/* AUTO-GENERATED FROM supabase/migrations (AssetPack pipeline compatibility tables) */\nimport { z } from 'zod';\n`;
+    const header = `/* AUTO-GENERATED FROM supabase/migrations (AssetPack pipeline storage tables) */\nimport { z } from 'zod';\n`;
     let body = '';
     for (const tbl of tables) {
         const ifaceName = toPascal(tbl.name);

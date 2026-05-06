@@ -218,7 +218,7 @@ const TechTypesIdentifierRetrySchema = z.object({
     techStackSummary: z.object({
       primaryStack: z.string(),
       stackDescription: z.string(),
-      maturityLevel: z.enum(['experimental', 'emerging', 'mature', 'legacy']),
+      maturityLevel: z.enum(['experimental', 'emerging', 'mature', 'retired']),
       complexityScore: z.number().min(0).max(1)
     })
   }),

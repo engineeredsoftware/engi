@@ -408,7 +408,7 @@ const scenario: MockScenarioType = 'demo';       // 6 scenario types
 ### ✅ Zero Breaking Changes
 - Existing code continues to work exactly the same
 - No client-side modifications required
-- Backward compatible with all 39+ existing mock flags
+- Existing 39+ mock flags continue through the stable mock control surface
 
 ### ✅ Single Flag Control
 ```bash

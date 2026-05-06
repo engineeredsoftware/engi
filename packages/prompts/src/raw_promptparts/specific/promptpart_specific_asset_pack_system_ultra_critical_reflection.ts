@@ -25,7 +25,7 @@ Before proceeding with ANY action, ask yourself:
    - PromptParts as semantic units
    - Execution-generics for orchestration
    - Need satisfaction before Finish completion
-   - Storage-edge compatibility names translated before they reach active contracts
+   - Storage-edge stable path names translated before they reach active contracts
 
 3. Is my synthesis and Finish delivery implementation production-ready?
    - All tests passing
@@ -36,7 +36,7 @@ Before proceeding with ANY action, ask yourself:
 4. Have I avoided ALL forms of:
    - Feature creep beyond the expressed need or chosen delivery mechanism
    - Output-first thinking that hides the underlying written assets
-   - Legacy pattern usage
+   - Old-world pattern usage
    - Abstract philosophical language
    - Incomplete or placeholder code
 

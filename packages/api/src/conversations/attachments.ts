@@ -173,14 +173,14 @@ export async function createConversationAttachment(options: any): Promise<any> {
     message_id: messageId,
     attachment: {
       id: options.attachment_id || crypto.randomUUID(),
-      category: mapLegacyAttachmentType(options.attachment_type),
+      category: mapAttachmentTypeCarrier(options.attachment_type),
       type: options.attachment_type,
       ...options
     }
   });
 }
 
-function mapLegacyAttachmentType(type: string): AttachmentCategory {
+function mapAttachmentTypeCarrier(type: string): AttachmentCategory {
   const mapping: Record<string, AttachmentCategory> = {
     'asset-pack': 'integration',
     'shippable': 'integration',

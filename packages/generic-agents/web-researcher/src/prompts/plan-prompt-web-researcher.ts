@@ -21,7 +21,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * PLAN PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
  *
- * Composes the discovery-phase need-synthesis source-selection prompt for this compatibility agent.
+ * Composes the discovery-phase need-synthesis source-selection prompt for this support agent.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

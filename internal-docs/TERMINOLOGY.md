@@ -145,7 +145,7 @@ export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOu
 - "FailsafeSubStep" - It's `FailsafeMetaSubStep`
 - "GenerationSubStep" - It's `GenerationSubMetaSubStep`
 - "@doc-code-agent" - This doesn't exist
-- "Legacy patterns" - Just document current state
+- "Former patterns" - Just document current state
 
 ### ✅ ALWAYS Use These Terms:
 - `AgentVariationStep` for PTRR steps

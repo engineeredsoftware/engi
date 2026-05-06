@@ -287,7 +287,7 @@ const MarketingAccelerationSection: React.FC = () => {
       images: ['/screenshots/mcp-1.png']
     },
     Extension: {
-      stats: ['90%+ Fewer Legacy Hallucinations'],
+      stats: ['90%+ Fewer Stale-System Hallucinations'],
       images: ['/screenshots/knowledge-1.png']
     }
   }), []);

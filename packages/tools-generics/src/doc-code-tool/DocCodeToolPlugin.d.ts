@@ -9,7 +9,7 @@ export interface DocCodeToolMetadata {
     category: string;
     version: string;
     priority: 'low' | 'medium' | 'high' | 'critical';
-    stability: 'experimental' | 'beta' | 'stable' | 'deprecated';
+    stability: 'experimental' | 'beta' | 'stable' | 'retired';
     purpose?: string;
     capabilities?: string[];
     parameters?: Record<string, any>;

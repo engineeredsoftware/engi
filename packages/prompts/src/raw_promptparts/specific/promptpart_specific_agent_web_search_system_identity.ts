@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search system identity compatibility PromptPart"
+ * intent: "Bitcode need-synthesis web search system identity PromptPart"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

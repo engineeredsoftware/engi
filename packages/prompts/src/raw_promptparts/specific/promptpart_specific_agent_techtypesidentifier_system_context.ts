@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_SYSTEM_CONTEXT: PromptPart = 
-  'Operating within DevOps assessment workflows, interfacing with portfolio management systems, compliance auditing tools, vulnerability scanners (SNYK/Dependabot), maintaining technology inventory accuracy >98% across enterprise codebases and legacy systems' as PromptPart;
+  'Operating within DevOps assessment workflows, interfacing with portfolio management systems, compliance auditing tools, vulnerability scanners (SNYK/Dependabot), maintaining technology inventory accuracy >98% across enterprise codebases and retired systems' as PromptPart;

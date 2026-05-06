@@ -20,7 +20,7 @@ export interface RateLimitConfig {
   readonly message?: string; // Custom error message
   readonly headers?: boolean; // Include rate limit headers in response
   readonly standardHeaders?: boolean; // Use standard headers (X-RateLimit-*)
-  readonly legacyHeaders?: boolean; // Use legacy headers (X-Rate-Limit-*)
+  readonly hyphenatedHeaders?: boolean; // Include X-Rate-Limit-* headers
   readonly store?: RateLimitStore; // Custom storage backend
   readonly onLimitReached?: (req: NextRequest, identifier: string) => void;
 }
@@ -187,7 +187,7 @@ export function createRateLimiter(config: RateLimitConfig) {
     message = 'Too many requests',
     headers = true,
     standardHeaders = true,
-    legacyHeaders = false,
+    hyphenatedHeaders = false,
     store = new MemoryStore(),
     onLimitReached
   } = config;
@@ -259,7 +259,7 @@ export function rateLimitMiddleware(config: RateLimitConfig) {
         headers.set('X-RateLimit-Reset', Math.ceil(result.resetTime.getTime() / 1000).toString());
       }
       
-      if (config.legacyHeaders) {
+      if (config.hyphenatedHeaders) {
         headers.set('X-Rate-Limit-Limit', result.limit.toString());
         headers.set('X-Rate-Limit-Remaining', result.remaining.toString());
         headers.set('X-Rate-Limit-Reset', Math.ceil(result.resetTime.getTime() / 1000).toString());

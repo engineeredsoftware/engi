@@ -44,6 +44,6 @@ export { AURORA_POSTGRES_MCP_DOC_CODE_TOOL_PROMPT };
 export { AuroraNaturalLanguageToSqlTool };
 export { AuroraExecuteSqlTool };
 
-// Legacy type exports for backwards compatibility
+// Public type exports for provider consumers.
 export type AuroraNaturalLanguageToSqlToolFn = AuroraNaturalLanguageToSqlTool;
 export type AuroraExecuteSqlToolFn = AuroraExecuteSqlTool;

@@ -1,6 +1,6 @@
 # @bitcode/doc-code
 
-V26 status: admitted `ingress-or-support` plus `compatibility` corridor for build-time tool prompt attachment.
+V26 status: admitted support corridor for build-time tool prompt attachment.
 `@bitcode/doc-code` keeps tool prompt descriptions attached to tool instances so Bitcode agentic runs can consume full tool documentation without each package inventing its own runtime convention.
 
 Runtime prompt injection system - automatically attaches prompt instances to tool instances based on `@doc-code-*` comment patterns.
@@ -65,7 +65,7 @@ config.module.rules.push({
 - **doc-code-tool**: The current admitted implementation for Tool classes
 - Supports any class pattern with instantiation
 - Requires the prompt constant to be imported in the same file
-- Coexists with the runtime compatibility helper `attachDocCodeToolPrompt` during convergence
+- Coexists with the runtime support helper `attachDocCodeToolPrompt` during convergence
 
 ## Type Safety
 
@@ -82,7 +82,7 @@ export abstract class Tool<T extends ToolFunction = ToolFunction> {
   __docCodePrompt?: any;
 
   /**
-   * Prompt parts compatibility carrier attached alongside __docCodePrompt.
+   * Prompt parts carrier attached alongside __docCodePrompt.
    * @internal
    */
   __promptParts?: any;
@@ -105,4 +105,4 @@ const documentation = formatUsableTools(tools);
 - The loader runs automatically during webpack builds
 - No manual transformation needed
 - Works with Next.js, webpack, and other build tools that support loaders
-- This package is an admitted support/compatibility corridor, not an independent product semantics owner
+- This package is an admitted support corridor, not an independent product semantics owner

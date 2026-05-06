@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-describe('/api/vcs compatibility route', () => {
+describe('/api/vcs support route', () => {
   const envBackup = { ...process.env };
 
   beforeAll(() => {
@@ -19,7 +19,7 @@ describe('/api/vcs compatibility route', () => {
     jest.resetModules();
   });
 
-  it('returns deterministic mock connections and accounts for retained executions compatibility', async () => {
+  it('returns deterministic mock connections and accounts for retained executions support', async () => {
     const { GET } = await import('@/app/api/vcs/route');
 
     const connectionsResponse = await GET(

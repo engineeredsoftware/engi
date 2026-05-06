@@ -212,7 +212,7 @@ export class RepositoryHealthMonitor {
     let maintainability = 70;
     if (content.includes('modular') || content.includes('reusable')) maintainability += 15;
     if (content.includes('clean') || content.includes('refactor')) maintainability += 10;
-    if (content.includes('legacy') || content.includes('deprecated')) maintainability -= 20;
+    if (content.includes('historical') || content.includes('retired')) maintainability -= 20;
 
     // Technical debt estimation (in hours)
     let techDebt = 5;
@@ -367,7 +367,7 @@ export class RepositoryHealthMonitor {
           suggestedActions: [
             'Schedule refactoring sessions',
             'Address code smells and anti-patterns',
-            'Modernize legacy code components'
+            'Modernize old-world code components'
           ]
         });
       }

@@ -153,17 +153,10 @@ function useMediaQuery(query: string) {
     const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
     if (typeof mq.addEventListener === "function") {
       mq.addEventListener("change", handler);
-    } else {
-      // Safari < 14
-      // @ts-ignore deprecated API fallback
-      mq.addListener(handler);
     }
     return () => {
       if (typeof mq.removeEventListener === "function") {
         mq.removeEventListener("change", handler);
-      } else {
-        // @ts-ignore deprecated API fallback
-        mq.removeListener(handler);
       }
     };
   }, [query]);
@@ -212,7 +205,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
   checkoutSplit: {
     label: "Extract Checkout Service",
     steps: [
-      { title: 'Monolith Bottleneck', desc: 'Checkout logic is trapped inside legacy monolith.', Icon: CursorArrowRaysIcon },
+      { title: 'Monolith Bottleneck', desc: 'Checkout logic is trapped inside a stalled monolith.', Icon: CursorArrowRaysIcon },
       { title: 'Define Boundaries', desc: 'Select repo; list endpoints & tables that form checkout domain.', Icon: AcademicCapIcon },
       { title: 'Bitcode Carves & Validates', desc: 'Generates strangler proxy, new service, contract tests, data migration & load tests—no regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Seamless Cut-over', desc: 'Dual-write rollout script & PR delivered above-and-beyond quality.', Icon: ArrowRightIcon },

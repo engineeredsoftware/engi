@@ -933,4 +933,4 @@ export const mcpsInitializer = comprehensiveMcp;
  */
 export const quickMcpsInitializer = quickMcp;
 
-// Removed backwards compatibility export
+// Removed former export.

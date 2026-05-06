@@ -35,7 +35,6 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useConversationStream = useConversationStream;
-exports.useLegacyConversationStream = useLegacyConversationStream;
 const react_1 = require("react");
 const logger_1 = require("@bitcode/logger");
 /**
@@ -321,39 +320,5 @@ function useConversationStream(options) {
         ...state,
         sendMessage,
         cleanup
-    };
-}
-/**
- * Legacy compatibility hook that mimics the old chat streaming behavior
- */
-function useLegacyConversationStream(conversationId) {
-    const [isStreaming, setIsStreaming] = (0, react_1.useState)(false);
-    const [currentContent, setCurrentContent] = (0, react_1.useState)('');
-    const [error, setError] = (0, react_1.useState)(null);
-    const { sendMessage: streamSendMessage, ...streamState } = useConversationStream({
-        conversationId,
-        onToken: (token) => {
-            setCurrentContent(prev => prev + token);
-        },
-        onMessageComplete: () => {
-            setIsStreaming(false);
-        },
-        onError: (message) => {
-            setError(message);
-            setIsStreaming(false);
-        }
-    });
-    const sendMessage = (0, react_1.useCallback)(async (content, tokens = []) => {
-        setIsStreaming(true);
-        setCurrentContent('');
-        setError(null);
-        await streamSendMessage(content, tokens, true, conversationId);
-    }, [streamSendMessage]);
-    return {
-        isStreaming: isStreaming || streamState.isStreaming,
-        currentContent: currentContent || streamState.currentContent,
-        error: error || streamState.error,
-        sendMessage,
-        activePipelines: streamState.activePipelines
     };
 }

@@ -22,8 +22,8 @@
 const env = {
   NEXT_PUBLIC_CONVERSATIONS_WIDGET: process.env.NEXT_PUBLIC_CONVERSATIONS_WIDGET,
   NEXT_PUBLIC_SIDEBAR_LEFT: process.env.NEXT_PUBLIC_SIDEBAR_LEFT,
-  // Keep backwards compatibility: if the old NEXT_PUBLIC_SIDEBAR_UPGRADES is
-  // defined use it, otherwise fall back to the new single flag name.
+  // If NEXT_PUBLIC_SIDEBAR_UPGRADES is defined, use it alongside the single
+  // left-sidebar flag so shipped deploy environments keep the same sidebar posture.
   NEXT_PUBLIC_SIDEBAR_UPGRADES: process.env.NEXT_PUBLIC_SIDEBAR_UPGRADES,
   NEXT_PUBLIC_NOTIFICATIONS_WIDGET: process.env.NEXT_PUBLIC_NOTIFICATIONS_WIDGET,
   NEXT_PUBLIC_CONVERSATION_SECTION: process.env.NEXT_PUBLIC_CONVERSATION_SECTION,
@@ -62,8 +62,7 @@ export const FEATURE_FLAGS = {
   // Always enabled by default in local/dev unless explicitly disabled via env.
   CONVERSATIONS_WIDGET: envFlag('NEXT_PUBLIC_CONVERSATIONS_WIDGET', true),
 
-  // Single left sidebar flag (replaces SIDEBAR_CHATS / FEEDBACKS / UPGRADES
-  // previously used by legacy sidebars).
+  // Single left sidebar flag replacing the older split sidebar controls.
   SIDEBAR_LEFT:
     envFlag('NEXT_PUBLIC_SIDEBAR_LEFT', true) || envFlag('NEXT_PUBLIC_SIDEBAR_UPGRADES', true) || envFlag('NEXT_PUBLIC_MCP_UPGRADES'),
 

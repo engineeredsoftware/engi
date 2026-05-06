@@ -1012,7 +1012,7 @@ Allowed judgments:
 - `accepted boundary`,
 - `reopened`,
 - `blocked`,
-- `deprecated`,
+- `retired`,
 - `historical only`.
 
 Forbidden judgments:
@@ -1034,7 +1034,7 @@ For promoted versions, required parity rows must no longer use transitional judg
 - or `substantially advanced`.
 
 Those are draft-phase or reopening judgments.
-A promoted parity matrix must either record `closed`, `accepted boundary`, `deprecated`, or `historical only` as appropriate.
+A promoted parity matrix must either record `closed`, `accepted boundary`, `retired`, or `historical only` as appropriate.
 
 ## 11.2 Promotion Status Rows
 

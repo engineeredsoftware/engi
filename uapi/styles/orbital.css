@@ -2809,7 +2809,7 @@ to {
 .bio-container {
   height: 100%;
 }
-/* Legacy disabled styles - removed in favor of unified AfterOnboardingOverlay component */
+/* Retired disabled styles removed in favor of unified AfterOnboardingOverlay component */
 /* All "After Onboarding" overlays now use the .after-onboarding-overlay class */
 
 .disabled-avatar {
@@ -3877,10 +3877,10 @@ to {
   }
 
 }
-/* Legacy floating footer styles - kept for backward compatibility */
+/* Retired floating footer styles are neutralized here. */
 .floating-footer {
   display: none !important;
-  /* Hide the old floating footers */
+  /* Hide the retired floating footers */
 }
 /* Dev mode styles */
 .dev-mode-floating-indicator {

@@ -70,7 +70,7 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.semanticKind).toBe('asset-pack-written-asset');
   });
 
-  it('drops non-canonical processingStats.credits instead of retaining deprecated economics', () => {
+  it('drops non-canonical processingStats.credits instead of retaining old economics', () => {
     const payload = {
       type: 'completion',
       result: {

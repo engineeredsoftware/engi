@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const specSource = readFileSync(new URL('../../BITCODE_SPEC_V26.md', import.meta.url), 'utf8');
+const notesSource = readFileSync(new URL('../../BITCODE_SPEC_V26_NOTES.md', import.meta.url), 'utf8');
 const paritySource = readFileSync(new URL('../../BITCODE_SPEC_V26_PARITY_MATRIX.md', import.meta.url), 'utf8');
 const proofSurfaceSource = readFileSync(new URL('../V26_PROOF_SURFACES.md', import.meta.url), 'utf8');
 const fifthGateDeepeningProof = JSON.parse(
@@ -126,6 +127,18 @@ test('V26 parity matrix records the current fifth-gate closure queue', () => {
   assert.match(proofSurfaceSource, /sixth-gate MVP closure proof/u);
   assert.match(proofSurfaceSource, /seventh-gate commercial testnet launch proof/u);
   assert.match(proofSurfaceSource, /generated V26 proof appendix and reports are eighth-gate final closure evidence/u);
+});
+
+test('V26 notes companion cannot contradict promoted gate closure', () => {
+  assert.match(notesSource, /## Closed-gate audit boundaries and future reopen conditions/u);
+  assert.match(notesSource, /## Current promotion sequencing posture/u);
+  assert.match(notesSource, /second-gate application UX\/UI plus external hardening is closed for V26/u);
+  assert.match(notesSource, /fifth-gate minimum-functional Exchange\/Terminal closure plus old-world reform baseline is closed/u);
+  assert.match(notesSource, /eighth-gate total-repository provation and final closure is closed/u);
+  assert.match(notesSource, /source-backed baseline, MVP, and launch readiness with zero open product rows for V26 closure/u);
+  assert.doesNotMatch(notesSource, /Still open:/u);
+  assert.doesNotMatch(notesSource, /Open questions that remain real/u);
+  assert.doesNotMatch(notesSource, /keeping fifth-gate closure open|deliberately keeping fifth-gate closure open/u);
 });
 
 test('V26 generated proofs close fifth, sixth, seventh, and eighth gates', () => {

@@ -132,7 +132,7 @@ export type {
   DPToolExecInsert
 } from './types/db';
 
-// Retained exports for backward compatibility/reference porting
+// Direct pipeline-runner composition exports.
 export {
   createPhaseRunner,
   type PhaseConfig,

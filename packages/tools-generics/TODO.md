@@ -181,7 +181,7 @@ describe(SearchCodeTool, () => {
 
 #### Tool Versioning
 - Version-aware tool selection
-- Backward compatibility patterns
+- Published-contract stability patterns
 - Migration utilities
 - **Timeline**: Post-V26
 

@@ -121,7 +121,7 @@ The Bitcode MCP Server represents a **controlled frontier system** - operating a
 #### **3. Code Quality Variability**
 - **Context-Dependent Quality**: Output quality varies with input clarity and complexity
 - **Language/Framework Familiarity**: AI performs better with popular technologies
-- **Legacy Code Challenges**: Older codebases may be harder to analyze/modify
+- **Retired Code Challenges**: Older codebases may be harder to analyze/modify
 - **Test Coverage Gaps**: Generated tests may not cover all edge cases
 - **Performance Optimization**: AI may not always choose optimal algorithms
 

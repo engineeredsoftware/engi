@@ -27,16 +27,16 @@ const prefetchAuxillaries = () => {
 type AuxillaryWindow = 'SignInWindow' | 'SignUpWindow';
 type AuxillaryOpenMode = AuxillaryWindow | 'login' | 'account' | 'auxillaries';
 
-function normalizeAuxillaryWindow(winOrLegacy: AuxillaryOpenMode = 'SignUpWindow'): AuxillaryWindow {
-  if (winOrLegacy === 'login') {
+function normalizeAuxillaryWindow(requestedWindow: AuxillaryOpenMode = 'SignUpWindow'): AuxillaryWindow {
+  if (requestedWindow === 'login') {
     return 'SignInWindow';
   }
 
-  if (winOrLegacy === 'account' || winOrLegacy === 'auxillaries') {
+  if (requestedWindow === 'account' || requestedWindow === 'auxillaries') {
     return 'SignUpWindow';
   }
 
-  return winOrLegacy;
+  return requestedWindow;
 }
 
 function isDedicatedAuxillariesLocation() {
@@ -183,9 +183,9 @@ export function useAuxillaries() {
   return ctx;
 }
 
-export function openAuxillaries(winOrLegacy: AuxillaryOpenMode = 'SignUpWindow', step?: AuxillaryPane) {
+export function openAuxillaries(requestedWindow: AuxillaryOpenMode = 'SignUpWindow', step?: AuxillaryPane) {
   prefetchAuxillaries();
-  const win = normalizeAuxillaryWindow(winOrLegacy);
+  const win = normalizeAuxillaryWindow(requestedWindow);
   const ev = new CustomEvent('open-auxillaries', { detail: { window: win, step } });
   window.dispatchEvent(ev);
 }

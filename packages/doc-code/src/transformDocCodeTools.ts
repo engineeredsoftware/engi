@@ -3,7 +3,7 @@
  *
  * The V26 admitted path is narrow:
  * attach a DocCodeToolPrompt to tool instances in a consistent way for both
- * build-time and compatibility runtime consumption.
+ * build-time and runtime consumption.
  */
 
 /**

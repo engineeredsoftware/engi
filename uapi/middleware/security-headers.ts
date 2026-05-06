@@ -28,7 +28,7 @@ export const securityHeadersMiddleware: MiddlewareHandler = async (context) => {
   // Prevent MIME type sniffing
   headers.set('X-Content-Type-Options', 'nosniff');
 
-  // XSS Protection (legacy browsers)
+  // XSS Protection for older browsers
   headers.set('X-XSS-Protection', '1; mode=block');
 
   // Referrer Policy - privacy focused

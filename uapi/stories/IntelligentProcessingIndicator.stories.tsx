@@ -21,7 +21,7 @@ A consciousness-aware evolution of the standard processing indicator that demons
 - **Progress visualization** - Subtle ring showing phase completion
 - **Performance optimized** - Respects device capabilities and accessibility preferences
 
-Built on top of the existing ProcessingIndicator with full backward compatibility.
+Built on top of the existing ProcessingIndicator with the same public prop shape.
         `,
       },
     },
@@ -68,7 +68,7 @@ export const Standard: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Standard processing indicator without intelligence enhancements (backward compatibility)',
+        story: 'Standard processing indicator without intelligence enhancements',
       },
     },
   },

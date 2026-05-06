@@ -131,7 +131,7 @@ export function createGuidedPipelineExecution<TInput, TOutput>(
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Initialize gate from input or default to Develop
     const initialGate = (input as any).gate ||
-                       (input as any).metaPhase || // Legacy support
+                       (input as any).metaPhase || // Meta-phase input synonym
                        execution.get('gate', 'current') ||
                        'Develop';
 

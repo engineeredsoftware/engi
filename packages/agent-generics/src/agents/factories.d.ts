@@ -85,7 +85,7 @@ export declare function factoryAgentWithSingleStep<TInput, TOutput>(config: {
 }): Agent<TInput, TOutput>;
 /**
  * factoryAgentWithGenerations - Preferred ergonomic: pass Generations directly.
- * Back-compat: also sets 'steps' to the same array.
+ * Also sets 'steps' to the same array for stable execution readers.
  */
 export declare function factoryAgentWithGenerations<TInput, TOutput>(config: {
     name: string;
@@ -128,7 +128,7 @@ export {};
  * that does not orchestrate PTRR. It wraps a single typed executor and uses
  * standard AgentExecution/StepExecution for consistent statefulness.
  *
- * Note: factoryAgentWithSingleStep remains for compatibility; this is the
+ * Note: factoryAgentWithSingleStep remains available; this is the
  * canonical name to use going forward.
  */
 export declare function factoryQuickAgent<TInput, TOutput>(config: {

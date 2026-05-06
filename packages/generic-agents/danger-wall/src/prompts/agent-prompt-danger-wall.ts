@@ -14,7 +14,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * Bitcode need risk-admission agent prompt.
  * 
- * The danger-wall filename remains a retained compatibility carrier. The
+ * The danger-wall filename remains a retained stable support carrier. The
  * prompt's purpose is Bitcode need/AssetPack admission, not generic security
  * scanning or content moderation.
  * 
@@ -25,7 +25,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode risk-admission compatibility prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
+ * intent: "Bitcode risk-admission support prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
  * current_version: "V26"
  */
 

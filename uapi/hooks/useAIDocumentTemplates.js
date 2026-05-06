@@ -20,7 +20,7 @@ const useAIDocumentTemplates = () => {
                 mcpConfig: [],
             };
             data.templates.forEach((t) => {
-                // Normalize legacy 'mcpIntegration' to 'mcpConfig'
+                // Normalize former 'mcpIntegration' payloads to 'mcpConfig'
                 const typeKey = (t.ai_document_type === 'mcpIntegration' ? 'mcpConfig' : t.ai_document_type);
                 const arr = grouped[typeKey];
                 if (arr)

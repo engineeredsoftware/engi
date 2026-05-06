@@ -82,7 +82,7 @@ export class GitHubMCPTool extends Tool<typeof githubMCPOperation> {
 export const githubMCPTool = new GitHubMCPTool();
 export const gitHubMCPTool = githubMCPTool;
 
-// Backward-compatible grouped export surface
+// Stable grouped export surface
 export const githubTools = {
   createRepository: async (params: GitHubMCPParams['params']) =>
     githubMCPOperation({ operation: 'createRepository', params }),

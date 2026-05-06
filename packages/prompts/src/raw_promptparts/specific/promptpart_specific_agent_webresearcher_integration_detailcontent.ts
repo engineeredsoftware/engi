@@ -15,5 +15,5 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_INTEGRATION_DETAILCONTENT: 
   `Integrates as admitted discovery-phase need-synthesis support:
 - consumes web-search and content tools only for source-attributed external evidence needed by need synthesis
 - feeds context into need-comprehension, third-party interface planning, proof-gap question formation, and AssetPack synthesis
-- preserves compatibility web-researcher names only as import and package wrappers
+- preserves stable web-researcher names only as import and package wrappers
 - does not own mutation, delivery mechanism selection, proof generation, canonical need interpretation, or live Exchange/Terminal product semantics` as PromptPart;

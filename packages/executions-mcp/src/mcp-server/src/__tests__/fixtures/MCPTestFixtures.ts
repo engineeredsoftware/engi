@@ -119,7 +119,7 @@ export const REPOSITORY_CONTEXTS = {
   
   LEGACY_PROJECT: {
     owner: 'bitcode-labs',
-    name: 'legacy-monolith',
+    name: 'retired-monolith',
     branch: 'main',
     connectionId: 12348
   } as RepositoryContext
@@ -341,8 +341,8 @@ export const CUSTOMER_SCENARIOS = {
   },
   
   ENTERPRISE_TEAM_LEAD: {
-    name: 'Enterprise Team Lead Upgrading Legacy System',
-    description: 'A team lead upgrading a legacy monolith to modern architecture',
+    name: 'Enterprise Team Lead Upgrading Retired System',
+    description: 'A team lead upgrading a retired monolith to modern architecture',
     userContext: AUTH_CONTEXTS.ADMIN,
     inputs: {
       task: 'Migrate authentication system from custom JWT to OAuth 2.0 with PKCE',

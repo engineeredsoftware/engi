@@ -24,7 +24,7 @@ uapi/
 ├── components/            # Shared React components
 ├── utils/                 # Shared utilities
 │   └── supabase/         # Database clients
-├── lib/                   # Legacy utilities (to be migrated)
+├── lib/                   # Application-local utilities
 ├── stories/              # Storybook stories
 ├── tests/                # Test files
 └── middleware.ts         # Next.js middleware entry
@@ -64,7 +64,7 @@ The middleware system uses a composable pipeline architecture:
 - Metrics exported to external service
 - Structured logging throughout
 
-## Migration from Legacy
+## Migration from Former Layouts
 
 ### Old Structure Issues:
 - Middleware at root level (`uapi/middleware.ts`)

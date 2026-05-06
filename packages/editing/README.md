@@ -117,7 +117,7 @@ const inserted = await editor.executeCommand({
 // Delete file with backup
 const deleted = await editor.executeCommand({
   command: 'delete',
-  path: '/project/src/deprecated.ts',
+  path: '/project/src/retired.ts',
   atomic: true,
   create_backup: true
 });
@@ -172,7 +172,7 @@ try {
 }
 ```
 
-### Legacy Compatibility
+### Former API Stability
 ```typescript
 import { runEditCommand, EditCommandParams } from '@bitcode/editing';
 

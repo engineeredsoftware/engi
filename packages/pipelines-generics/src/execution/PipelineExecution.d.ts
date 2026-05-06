@@ -14,7 +14,7 @@ import { PipelinePromptRegistry } from './PipelinePromptRegistry';
 import { PipelineToolRegistry } from './PipelineToolRegistry';
 import { PipelineLLMRegistry } from './PipelineLLMRegistry';
 import { PipelineAgentRegistry } from './PipelineAgentRegistry';
-export type PipelineExecutionPosture = 'live' | 'reference' | 'compatibility';
+export type PipelineExecutionPosture = 'live' | 'reference' | 'support';
 export type PipelineExecutionFamily = 'ad_hoc' | 'asset_pack' | 'quick' | 'custom';
 export interface PipelineExecutionLineage {
     pipelineName: string;

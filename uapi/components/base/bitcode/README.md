@@ -48,4 +48,4 @@ If shared operator chrome or execution carriers change materially, their README 
 - [../../../app/auxillaries/README.md](../../../app/auxillaries/README.md)
   Canonical `/auxillaries` route and contained auxillary ownership.
 - [../../../app/orbitals/README.md](../../../app/orbitals/README.md)
-  Retained `/orbitals` compatibility route only.
+  Retained `/orbitals` redirect-support route only.

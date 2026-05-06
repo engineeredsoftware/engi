@@ -11,7 +11,7 @@ It preserves the four-ring auxillary system while keeping the merged-world namin
 - `/auxillaries/btd`
 
 Those routes are the enduring V26 naming model.
-Legacy `/orbitals/*` links are compatibility-only and should redirect here without rendering canonical HTML.
+Former `/orbitals/*` links are redirect-only and should resolve here without rendering canonical HTML.
 
 ## Ownership
 
@@ -30,7 +30,7 @@ Legacy `/orbitals/*` links are compatibility-only and should redirect here witho
 - `components/headers/*`, `components/shared/*`, `components/models/*`, `components/AuxillariesDataSharingPanel.tsx`, `components/auxillary-pane-explainers.ts`, `components/profile-pane.module.css`
   Canonical auxillary lower-level implementation carriers for pane headers, onboarding overlays, preference/stat sections, model defaults, data-share posture, explainer copy, and profile styling.
 - `../orbitals/components/*`
-  Compatibility route wrappers still being retired behind canonical auxillary ownership during fifth gate.
+  Redirect-support route wrappers still being retired behind canonical auxillary ownership during fifth gate.
 - `../api/auxillaries/*`
   Canonical auxillary API owners for profile, Connects, notifications, onboarding, model preferences, BTD balance history, BTD transaction history, API keys, and data-share posture.
 
@@ -38,4 +38,4 @@ Legacy `/orbitals/*` links are compatibility-only and should redirect here witho
 
 User-facing route and HTML posture should prefer `/auxillaries/*`.
 Active product code should also prefer `/api/auxillaries/*`.
-`/orbitals/*` and `/api/orbitals/*` are compatibility carriers only and should be retired entirely by full V26 closure.
+`/orbitals/*` and `/api/orbitals/*` are redirect-support carriers only and should be retired entirely by full V26 closure.

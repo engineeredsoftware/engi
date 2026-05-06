@@ -6,7 +6,7 @@ Date: 2025-09-15
 
 ## Context
 
-We standardized the user-facing Auxillaries overlay across the app. The canonical route and API family is now `/auxillaries/*`. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used “mode” and singular “orbital” inconsistently, and this ADR records the Bitcode-side organization while compatibility residue is retired.
+We standardized the user-facing Auxillaries overlay across the app. The canonical route and API family is now `/auxillaries/*`. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used "mode" and singular "orbital" inconsistently, and this ADR records the Bitcode-side organization while redirect/support residue is retired.
 
 ## Decision
 
@@ -19,7 +19,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 - Panes (inside SignUpWindow):
   - `profile`, `connects`, `interfaces`, `$BTD`
 - Headers: a singular auxillary header per pane for consistent title/copy.
-  Retained `uapi/app/orbitals/components/headers/*` files are now compatibility re-exports only; canonical header ownership lives under `uapi/app/auxillaries/components/headers/*`.
+  Retained `uapi/app/orbitals/components/headers/*` files are redirect-support re-exports only; canonical header ownership lives under `uapi/app/auxillaries/components/headers/*`.
 
 2) Component Placement
 
@@ -28,7 +28,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
   - Pane owners: `AuxillariesProfilePane.tsx`, `AuxillariesConnectsPane.tsx`, `AuxillariesInterfacesPane.tsx`, `AuxillariesBTDPane.tsx`
   - Lower-level pane owners: `headers/*`, `shared/*`, `models/*`, `AuxillariesDataSharingPanel.tsx`, `auxillary-pane-explainers.ts`, `profile-pane.module.css`
 - Retained implementation internals still live under: `uapi/app/orbitals/components/*`
-  - Compatibility wrappers and compatibility re-exports only; canonical pane logic and lower-level helper ownership now live under `uapi/app/auxillaries/components/*`
+  - Redirect-support wrappers and re-exports only; canonical pane logic and lower-level helper ownership now live under `uapi/app/auxillaries/components/*`
 - Experience boundaries:
   - Marketing: `uapi/app/(root)/components/*`
   - Executions: `uapi/app/executions/components/*`
@@ -50,7 +50,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 
 - API paths are canonicalized under `/api/auxillaries/*`.
 - CSS Modules: animations declared via `:global { @keyframes ... }` (purity).
-  Retained style prefixes like `orbitals-*` are internal compatibility residue that should keep shrinking until the full fifth-gate cut-over is complete.
+  Retained style prefixes like `orbitals-*` are internal redirect-support residue that should keep shrinking until the full fifth-gate cut-over is complete.
 
 ## Consequences
 

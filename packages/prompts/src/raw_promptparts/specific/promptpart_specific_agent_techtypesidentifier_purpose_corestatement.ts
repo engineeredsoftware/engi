@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "[Previous version content not preserved]",
  *     "score": 0.10,
- *     "reason": "Legacy version with metaphysical language"
+ *     "reason": "Former version with metaphysical language"
  *   }
  * ]
  * benchmarks: [

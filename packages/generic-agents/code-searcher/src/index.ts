@@ -350,7 +350,7 @@ export const quickCodeSearcher = quickSearch;
 export const codeSearcherAgent = codeSearcher;
 export const quickCodeSearcherAgent = quickCodeSearcher;
 
-// Removed legacy compatibility exports
+// Removed former exports.
 
 /**
  * THE MAGIC EXPLAINED:

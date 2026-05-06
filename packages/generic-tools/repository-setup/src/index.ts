@@ -79,7 +79,7 @@ const FileFilterParamsSchema = z.object({
   allFiles: z.array(z.string()),
   needDescription: z.string().optional().describe('Canonical expressed Bitcode need used to prioritize repository files'),
   expressedNeed: z.string().optional().describe('Canonical alias for the expressed Bitcode need'),
-  taskDescription: z.string().optional().describe('Compatibility carrier for the expressed Bitcode need'),
+  taskDescription: z.string().optional().describe('Stable support carrier for the expressed Bitcode need'),
   maxFiles: z.number().default(50),
   patterns: z.object({
     include: z.array(z.string()).optional(),
@@ -378,7 +378,7 @@ async function executeFileFiltering(params: z.infer<typeof FileFilterParamsSchem
     };
 
     // Extract keywords from the expressed need. taskDescription remains only as
-    // a compatibility carrier when callers have not yet migrated.
+    // a stable support carrier when callers have not yet migrated.
     const keywords = expressedNeed
       .toLowerCase()
       .replace(/[^\w\s]/g, ' ')

@@ -101,7 +101,7 @@ Primary repository cloning and setup orchestration tool.
 
 ### filterRelevantFilesTool
 
-Intelligent file filtering based on architectural patterns and expressed-need relevance. `taskDescription` remains a compatibility carrier only.
+Intelligent file filtering based on architectural patterns and expressed-need relevance. `taskDescription` remains a stable support carrier only.
 
 **Input Schema:**
 ```typescript
@@ -109,7 +109,7 @@ Intelligent file filtering based on architectural patterns and expressed-need re
   allFiles: string[];
   needDescription?: string;
   expressedNeed?: string;
-  taskDescription?: string; // compatibility carrier for the expressed need
+  taskDescription?: string; // stable support carrier for the expressed need
   maxFiles: number;
   patterns?: {
     include?: string[];
@@ -328,7 +328,7 @@ async function executeFileFiltering(params: FileFilterParams) {
     )
   };
   
-  // Extract expressed-need keywords. taskDescription remains a compatibility carrier.
+  // Extract expressed-need keywords. taskDescription remains a stable support carrier.
   const keywords = (params.expressedNeed ?? params.needDescription ?? params.taskDescription ?? '')
     .toLowerCase()
     .replace(/[^\w\s]/g, ' ')
@@ -484,7 +484,7 @@ export const prepareRepositoryWorkspace = factoryTool(
   'prepareRepositoryWorkspace',
   async (params: {
     repositories: RepositoryTarget[];
-    taskContext: string; // compatibility carrier for the expressed need
+    taskContext: string; // stable support carrier for the expressed need
     maxFilesPerRepo: number;
   }) => {
     // Clone repositories

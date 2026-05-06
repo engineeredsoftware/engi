@@ -2,7 +2,7 @@
  * Bitbucket - Bitbucket VCS provider implementation
  * 
  * Provides Bitbucket integration via the unified VCS abstraction.
- * Clean provider export without legacy dependencies.
+ * Clean provider export without former dependency seams.
  * 
  * @doc-package
  * version: 1.0.0

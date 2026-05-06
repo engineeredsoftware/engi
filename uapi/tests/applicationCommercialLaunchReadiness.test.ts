@@ -13,7 +13,7 @@ describe('seventh-gate commercial testnet launch map', () => {
       'proof-state-reread-and-operator-flow',
       'exchange-terminal-protocol-interface-alignment',
       'mcp-and-chatgpt-app-connected-interfaces',
-      'old-world-compatibility-explanations-retired',
+      'old-world-fallback-explanations-retired',
     ]);
 
     expect(getSeventhGateCommercialTestnetLaunchSurface('testnet-first-launch-boundary')).toMatchObject({
@@ -52,7 +52,7 @@ describe('seventh-gate commercial testnet launch map', () => {
       getSeventhGateCommercialTestnetLaunchSurface('mcp-and-chatgpt-app-connected-interfaces')?.requiredPosture,
     ).toContain('not as parallel Exchange owners');
     expect(
-      getSeventhGateCommercialTestnetLaunchSurface('old-world-compatibility-explanations-retired')?.requiredPosture,
-    ).toContain('without old-world compatibility fallback');
+      getSeventhGateCommercialTestnetLaunchSurface('old-world-fallback-explanations-retired')?.requiredPosture,
+    ).toContain('without old-world fallback semantics');
   });
 });

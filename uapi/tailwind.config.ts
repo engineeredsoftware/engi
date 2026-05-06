@@ -32,7 +32,7 @@ const config = {
     { pattern: /^(bg|text|border)-ai-(thinking|processing|complete|error|tool-use|otf-insight|otf-adherence|pattern-recognition|consciousness-awakening|celebration-gold|mastery-purple|learning-glow)$/ },
     { pattern: /^(bg|text|border)-quantum-(particle|dust|star|star-blue|trail)$/ },
     
-    // Legacy patterns (keep for transition period)
+    // Retained shadow patterns used by existing grouped hover states.
     'group-hover:shadow-[0_0_2rem_-0.5rem_rgba(103,254,183,0.45)]',
     'group-hover:shadow-[0_0_2rem_-0.5rem_rgba(168,85,247,0.45)]',
     'group-hover:shadow-[0_0_2rem_-0.5rem_rgba(249,115,22,0.45)]',

@@ -1,2 +1,2 @@
-// Legacy compatibility re-export for the $BTD Orbital component
+// Redirect-route re-export for the $BTD Auxillary component.
 export { default } from './OrbitalsBTDPane';

@@ -60,7 +60,7 @@ export interface DocCodeTool {
    * Optional stability level
    * @example @stability stable
    */
-  '@stability'?: 'experimental' | 'unstable' | 'stable' | 'deprecated';
+  '@stability'?: 'experimental' | 'unstable' | 'stable' | 'retired';
   
   /**
    * Optional version

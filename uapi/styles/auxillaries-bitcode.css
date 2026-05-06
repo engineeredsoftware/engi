@@ -1,4 +1,4 @@
-/* Route-scoped Bitcode Auxillaries UI. The legacy orbital styles remain loaded
+/* Route-scoped Bitcode Auxillaries UI. The retired orbital styles remain loaded
    for the reusable ring/modal experience, but this layer owns active Auxillaries routes. */
 .auxillaries-bitcode-surface {
   --aux-bc-ink: rgba(248, 250, 252, 0.96);

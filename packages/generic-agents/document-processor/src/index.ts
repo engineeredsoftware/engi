@@ -369,7 +369,7 @@ export const documentProcessor = comprehensiveProcessing;
  */
 export const quickDocumentProcessor = quickProcessing;
 
-// Removed all legacy compatibility exports
+// Removed former exports.
 
 /**
  * THE MAGIC EXPLAINED:

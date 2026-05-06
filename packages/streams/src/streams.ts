@@ -1,5 +1,5 @@
 // Canonical location for all generic streaming helpers used across Bitcode.
-// All callers should import from `@bitcode/streams`. No legacy re-exports remain.
+// All callers should import from `@bitcode/streams`. No former re-exports remain.
 
 // DataStream type - properly typed for streaming data chunks
 export interface DataStream {
@@ -20,7 +20,7 @@ import type {
   ExecutionState as PipelineExecutionState
 } from '@bitcode/pipelines-generics';
 
-// Re-export for backwards compatibility (streams used to define these)
+// Re-export canonical stream-facing type names.
 export type ExecutionPhase = PhaseTitle;
 export type ExecutionStep = StepTitle;
 export type FailsafeStep = MetaStep;

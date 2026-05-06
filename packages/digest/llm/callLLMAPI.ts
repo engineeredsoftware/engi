@@ -81,7 +81,7 @@ export async function callLLMAPI(
     return resultText.trim();
   }
 
-  // ---------- JSON post-processing identical to legacy implementation ----------
+  // ---------- JSON post-processing carried forward from the former implementation ----------
 
   // Attempt to extract JSON array from the response
   let cleaned = resultText.trim();
@@ -122,7 +122,7 @@ export async function callLLMAPI(
   cleaned = jsonContent;
 
   // Validate JSON is an array – we keep validation minimal here because the
-  // legacy digest generator runs a deeper validation later.
+  // The digest generator runs a deeper validation later.
   try {
     const parsed = JSON.parse(cleaned);
     if (!Array.isArray(parsed)) {

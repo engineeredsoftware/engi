@@ -1,7 +1,7 @@
 # `uapi/` Bitcode Application
 
 `uapi/` is the active application owner for Bitcode.
-It carries the `/application` transactions surface, fullscreen conversations, canonical `/auxillaries` reads, redirect-only `/orbitals` compatibility routes, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate and fourth-gate closure.
+It carries the `/application` transactions surface, fullscreen conversations, canonical `/auxillaries` reads, redirect-only `/orbitals` routes, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate and fourth-gate closure.
 
 Active canon remains `V26`.
 `uapi/` now carries promoted V26 route/application truth through fourth gate while `V27` remains the next draft target after this promotion.
@@ -11,13 +11,13 @@ Active canon remains `V26`.
 - `/`
 - `/docs`
 - `/demo-video`
-  Mounted Bitcode public shell, docs hub, and compatibility walkthrough alias.
+  Mounted Bitcode public shell, docs hub, and docs walkthrough alias.
 - `/application`
   Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
 - `/conversations`
   Fullscreen conversation mode entered from `/application`.
 - `/executions`
-  Retained compatibility route for Bitcode execution primitives, kept explicit as a fourth-gate promotion-boundary owner inside the broader activity family.
+  Retained execution route for Bitcode execution primitives, kept explicit as a fourth-gate promotion-boundary owner inside the broader activity family.
 - `/edgetimes`
   Fourth-gate storage/schema/package ownership read mounted as a docs-branded Bitcode route.
 - `/auxillaries/profile`
@@ -26,12 +26,12 @@ Active canon remains `V26`.
 - `/auxillaries/btd`
   Canonical auxillary routes for direct auxillary reading without losing the application framing.
 
-Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring V26 naming model.
+Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring V26 naming model.
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
 Selected `/application` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared auxillary metadata layer in `app/auxillaries/components/auxillary-pane-meta.ts` is the active owner for fullscreen auxillary-entry wording such as `Open Auxillaries fullscreen`, targeted auxillary-open actions, and the direct-route return action `Open transactions`.
 Signed-in auxillary reopen actions should flow through the shared `openAuxillaries('auxillaries', step?)` contract rather than older account-named caller aliases.
-Contained auxillary rails should converge on the shared panel-plus-tabs carriers in `app/auxillaries/components/shared/`, with retained `app/orbitals/components/*` imports treated as compatibility-only internals rather than active route ownership.
+Contained auxillary rails should converge on the shared panel-plus-tabs carriers in `app/auxillaries/components/shared/`, with retained `app/orbitals/components/*` imports treated as redirect-support internals rather than active route ownership.
 
 ## Main route systems
 
@@ -40,7 +40,7 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 - `app/auxillaries/`
   Canonical focused auxillary routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `app/orbitals/`
-  Redirect-only compatibility route carriers preserving legacy deep links while `/auxillaries/*` remains canonical.
+  Redirect-only route carriers preserving former deep links while `/auxillaries/*` remains canonical.
 - `app/conversations/`
   Fullscreen conversation mode.
 - `app/executions/`
@@ -77,7 +77,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/docs/page.tsx`
   Real public docs route for the mounted Bitcode shell.
 - `app/demo-video/page.tsx`
-  Compatibility alias into the public docs hub and walkthrough content.
+  Redirect alias into the public docs hub and walkthrough content.
 - `components/base/bitcode/layout/nav.tsx`
   Public-route navigation and access CTA chrome shared with product surfaces.
 - `components/base/bitcode/layout/NavBrand.tsx`
@@ -92,24 +92,24 @@ Third-gate public-shell work is now explicitly carried by:
 Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
 They should also keep landing hero, guide, preview, and shared public-shell data split into clearer carriers once those sections stabilize rather than regressing to one oversized owner file.
 They should preserve rich help posture on those public entry points instead of falling back to thin browser `title` tooltips.
-They should keep the stable docs walkthrough on one Bitcode-owned guide asset instead of preserving ordered demo-era media compatibility.
-They should keep `/docs` as the real public teaching surface and `/demo-video` only as a compatibility alias into that docs-owned content.
+They should keep the stable docs walkthrough on one Bitcode-owned guide asset instead of preserving ordered demo-era media.
+They should keep `/docs` as the real public teaching surface and `/demo-video` only as a docs alias into that docs-owned content.
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 They should keep footer entry links and protocol/version metadata progressive on smaller shells, using card/chip presentation instead of compressed inline microcopy.
 They should now also keep `/edgetimes` aligned with the docs-branded public shell while treating it as a fourth-gate retained-system owner rather than brochure content.
 
-Fourth-gate retained `/executions` health also now depends on explicit compatibility API carriers:
+Fourth-gate retained `/executions` health also now depends on explicit support API carriers:
 
 - `app/api/vcs/route.ts`
-  Reader-first VCS compatibility carrier for retained execution selectors and repo context.
+  Reader-first VCS support carrier for retained execution selectors and repo context.
 - `app/api/templates/shippables/route.ts`
   Active Shippable-template carrier for retained execution composition.
 - `app/api/auxillaries/template-preferences/route.ts`
-  Saved template-preference compatibility carrier for retained execution personalization.
+  Saved template-preference support carrier for retained execution personalization.
 - `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/btd/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`
-  Canonical auxillary API owners for profile, Connects, $BTD balance history, BTD transaction history, and API-key management; active product code should prefer these over compatibility `orbitals` API aliases.
+  Canonical auxillary API owners for profile, Connects, $BTD balance history, BTD transaction history, and API-key management; active product code should prefer these over redirect `orbitals` API aliases.
 
-Those routes are not brochure compatibility leftovers.
+Those routes are not brochure support leftovers.
 They are current fourth-gate promotion-boundary owners and should stay fail-closed, tested, and documented until inward convergence removes the retained dependency.
 
 ## Development

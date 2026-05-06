@@ -84,7 +84,6 @@ These are pre‑enabled in `.env.local` for local development.
 - BITCODE_DEBUG_ONLY_PHASE: string — execute agents only when `execution.findUp('phase','current')` equals this.
 - BITCODE_DEBUG_ONLY_AGENT: substring — execute only agents whose name includes this.
 - BITCODE_DEBUG_ONLY_STEP: plan|try|refine|retry — execute only that PTRR step.
-- BITCODE_DEBUG_STOP_AFTER_STEP: deprecated; prefer BITCODE_DEBUG_ONLY_STEP.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — include only those parent failsafes.
 - BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those child substeps under each parent.
 

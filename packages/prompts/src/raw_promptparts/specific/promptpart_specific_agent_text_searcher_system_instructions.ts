@@ -1,11 +1,11 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Compatibility-named system instructions for Bitcode repository-evidence search"
+ * intent: "Stable-path system instructions for Bitcode repository-evidence search"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "compatibility_precision", "test": "Compatibility filename carries canonical Bitcode instructions", "score": 1.00 }
+ *   { "name": "support_precision", "test": "Stable filename carries canonical Bitcode instructions", "score": 1.00 }
  * ]
  */
 

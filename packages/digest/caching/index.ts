@@ -29,7 +29,7 @@ function normaliseLogger(logger?: Partial<Logger>): Logger {
 
 /**
  * Compute cache directory path based on execution context (GitHub vs local).
- * Mirrors the behaviour of the legacy helper in `uapi/lib/digest/digest.ts`
+ * Mirrors the behaviour of the former helper in `uapi/lib/digest/digest.ts`
  * but without side-effects.  The caller may create the directory if needed.
  */
 export function getCacheDir(
@@ -203,7 +203,7 @@ export function createCache(opts: CreateCacheOptions): CacheHelpers {
 }
 
 // ---------------------------------------------------------------------------
-// Legacy placeholders – allow callers to import symbols even if they haven’t
+// Placeholder exports allow callers to import symbols even if they haven’t
 // migrated to the bound-helper pattern yet. These simply throw.
 // ---------------------------------------------------------------------------
 

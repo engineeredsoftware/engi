@@ -402,9 +402,9 @@ export const codeEditorQuickAgent = factoryAgentWithSingleStep<
 // ==================== AGENT EXPORTS ====================
 
 /**
- * Code Editor Agent - Base agent that can be extended for specific operations
- * Deprecated: Use codeEditorComprehensiveAgent or codeEditorQuickAgent directly
- * or register them in agent registry for dynamic selection
+ * Code Editor Agent - registry-friendly canonical default.
+ * Direct callers can choose codeEditorComprehensiveAgent or codeEditorQuickAgent
+ * when they need a specific execution profile.
  */
 export const codeEditorAgent = codeEditorComprehensiveAgent;
 

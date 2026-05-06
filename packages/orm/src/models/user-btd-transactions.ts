@@ -1,7 +1,7 @@
 /**
  * User BTD Transactions Model
  *
- * Tracks `$BTD` transaction history through the compatibility table
+ * Tracks `$BTD` transaction history through the storage table
  * `user_credit_usages` until the persistence schema is renamed forward.
  *
  * @doc-code

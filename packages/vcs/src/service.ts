@@ -81,10 +81,10 @@ export class VCSService {
   ): Promise<T> {
     log('withProvider called', 'debug', { 
       connectionId, 
-      isLegacyId: typeof connectionId === 'number' 
+      isNumericConnectionId: typeof connectionId === 'number' 
     });
     
-    // Handle legacy installationId (number) during migration
+    // Numeric connection IDs are GitHub installation IDs.
     const auth = typeof connectionId === 'number'
       ? await this.connections.getAuthFromConnectionByInstallationId(connectionId)
       : await this.connections.getAuthFromConnection(connectionId);

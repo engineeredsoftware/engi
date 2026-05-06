@@ -206,7 +206,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   it('returns normalized ingress and output meaning for queued MCP writes', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-1',
-      shippableCompatibilityId: 'ship-compat-1',
+      assetPackEvidenceId: 'asset-pack-evidence-1',
     });
 
     const tool = registerPipelineTools().find(
@@ -248,7 +248,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
 
     expect(result).toMatchObject({
       runId: 'run-1',
-      shippableCompatibilityId: 'ship-compat-1',
+      assetPackEvidenceId: 'asset-pack-evidence-1',
       status: 'queued',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
@@ -362,7 +362,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   it('admits provider-authenticated repository ingress without explicit repository_connection', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-credential',
-      shippableCompatibilityId: 'ship-compat-credential',
+      assetPackEvidenceId: 'asset-pack-evidence-credential',
     });
 
     const tool = registerPipelineTools().find(
@@ -387,7 +387,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
 
     expect(result).toMatchObject({
       runId: 'run-credential',
-      shippableCompatibilityId: 'ship-compat-credential',
+      assetPackEvidenceId: 'asset-pack-evidence-credential',
       status: 'queued',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
@@ -403,7 +403,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   it('returns asset-pack-normalized results for completed MCP writes', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-2',
-      shippableCompatibilityId: 'ship-compat-2',
+      assetPackEvidenceId: 'asset-pack-evidence-2',
     });
     mockedMonitorPipelineExecution.mockResolvedValue({
       runId: 'run-2',

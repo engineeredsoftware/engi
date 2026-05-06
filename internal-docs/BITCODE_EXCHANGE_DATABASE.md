@@ -50,5 +50,5 @@ The Exchange state model must support:
 Remaining database work should prioritize:
 - eliminating stale null-key drift,
 - naming new columns/tables after Need, AssetPack, fit, settlement, Finish, and Exchange activity,
-- keeping compatibility table names hidden behind ORM or route adapters,
+- keeping storage-edge table names hidden behind ORM or route adapters,
 - generating proof artifacts that show schema, ORM, route, and UI all describe the same Bitcode state.

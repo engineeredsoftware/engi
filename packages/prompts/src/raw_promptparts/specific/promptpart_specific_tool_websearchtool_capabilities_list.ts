@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode web search tool capabilities compatibility PromptPart"
+ * intent: "Bitcode web search tool capabilities PromptPart"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

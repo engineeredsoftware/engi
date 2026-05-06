@@ -1,6 +1,6 @@
 // Structured pipeline persistence types for V26. The current V26 schema only
 // formally carries `phase_executions`; the finer-grained step/generation/tool
-// rows are tolerated here as planned compatibility shapes so the streaming
+// rows are tolerated here as planned support shapes so the streaming
 // layer can compile without asserting nonexistent ORM table aliases.
 
 export interface DPPhaseDelegation {

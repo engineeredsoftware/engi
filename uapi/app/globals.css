@@ -479,7 +479,7 @@ nextjs-portal {
   }
 }
 
-/* Legacy Cmd‑K command menu overlay removed — hard neutralize any leftover styles */
+/* Retired Cmd-K command menu overlay removed; neutralize any leftover styles. */
 .raycast, .raycast * { all: unset !important; display: none !important; }
 .raycast-submenu, .raycast-submenu * { all: unset !important; display: none !important; }
 
@@ -1377,7 +1377,7 @@ nextjs-portal {
 }
 
 /* -------------------------------------------------------------------
-   Legacy `.disabled-section` blocks now map to the generic overlay
+   Retired `.disabled-section` blocks now map to the generic overlay
 -------------------------------------------------------------------- */
 
 .disabled-section {
@@ -1420,7 +1420,7 @@ nextjs-portal {
 /* Override any step-local overlays to avoid double-darkening */
 /* Step-local overrides removed – generic overlay now in effect for all */
 
-/* Hide legacy inline disabled badge containers */
+/* Hide retired inline disabled badge containers */
 .disabled-badge-container {
   display: none !important;
 }
@@ -1474,7 +1474,7 @@ nextjs-portal {
   pointer-events: none !important;
 }
 
-/* Hide legacy inline badge spans */
+/* Hide retired inline badge spans */
 .first-time-badge {
   display: none !important;
 }

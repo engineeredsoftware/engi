@@ -41,4 +41,4 @@
 - [ ] Advanced usage patterns guide
 - [ ] Integration with other agents cookbook
 - [ ] Performance tuning guide
-- [ ] Migration guide from legacy editors
+- [ ] Migration guide from former editors

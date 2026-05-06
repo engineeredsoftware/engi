@@ -3,8 +3,8 @@ import { z } from 'zod';
 /**
  * V26 schemas for the retained web-researcher package.
  *
- * The package is a compatibility carrier for Bitcode need-synthesis web
- * research in the discovery phase. Its contracts collect source-attributed
+ * The package is a Bitcode need-synthesis web research support carrier in the
+ * discovery phase. Its contracts collect source-attributed
  * outside context for need measurement, proof-gap question formation,
  * third-party interface planning, and AssetPack planning; they never claim
  * canonical need ownership, proof ownership, mutation, or delivery authority.
@@ -33,7 +33,7 @@ export const BitcodeExternalEvidenceTemporalRiskSchema = z.enum([
 export const BitcodeExternalEvidenceResearchInputSchema = z.object({
   need: z.string().describe('Bitcode need or proof gap that requires external context'),
   discoveryPhase: z.literal('need-synthesis').default('need-synthesis').describe('Canonical Bitcode discovery phase this web research supports'),
-  query: z.string().optional().describe('Compatibility query text when the caller has not separated need from search terms'),
+  query: z.string().optional().describe('Query text when the caller has not separated need from search terms'),
   sources: z.array(z.string()).optional().describe('Preferred domains, URLs, or source classes to inspect'),
   evidenceDepth: BitcodeExternalEvidenceDepthSchema.default('moderate').describe('Bounded evidence collection depth'),
   maxResults: z.number().min(1).max(50).default(20).describe('Maximum external evidence items to return'),

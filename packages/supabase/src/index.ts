@@ -110,7 +110,7 @@ export async function supabaseDeleteTool(params: { table: string; match: any }):
 // inclusion of server-only code.
 
 export { createClient as createBrowserClient } from './ssr/client';
-// Backwards-compatible alias expected by some packages
+// Stable browser-client alias used by package callers.
 export { createClient as createClient } from './ssr/client';
 
 // ---------------------------------------------------------------------------

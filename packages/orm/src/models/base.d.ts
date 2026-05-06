@@ -22,7 +22,7 @@ export declare abstract class BaseModel<T extends TableName> {
      */
     findById(id: string): Promise<Tables<T> | null>;
     /**
-     * Alias for findById for backward compatibility
+     * Alias for callers that prefer get-style model reads.
      */
     getById(id: string): Promise<Tables<T> | null>;
     /**

@@ -971,9 +971,8 @@ function summarize(v: any): any {
 }
 
 /**
- * Validation - Validates output against expectations  
- * NOT part of core 7-substep sequence - removed in correct architecture
- * @deprecated Use schema validation within StructuredOutput instead
+ * Validation - validates output against caller-supplied expectations.
+ * Core PTRR agents should prefer schema validation inside StructuredOutput.
  */
 export function factoryValidation<T>(
   validators?: Array<(input: T) => boolean | Promise<boolean>>
@@ -1027,9 +1026,8 @@ function findGreatestParent(execution: Execution): Execution {
 
 // ==================== SCHEMAS ====================
 
-// PreparedContext is now a Partial of execution state
-// Schema validates the partial fields we expect
-// TODO: these are unused? defined elsewhere and this is legacy or missing impl?
+// PreparedContext is a partial execution-state projection for callers that
+// validate context outside StructuredOutput.
 const PreparedContextSchema = z.object({
   files: z.array(z.string()).optional(),
   dependencies: z.array(z.string()).optional(),
@@ -1038,7 +1036,7 @@ const PreparedContextSchema = z.object({
   metadata: z.record(z.any()).optional()
 }).partial();
 
-// TODO: these are unused? defined elsewhere and this is legacy or missing impl?
+// ChunkedContent keeps chunk validation available to context-preparation flows.
 const ChunkedContentSchema = z.object({
   chunks: z.array(z.object({
     id: z.string(),

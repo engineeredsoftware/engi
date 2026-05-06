@@ -156,10 +156,10 @@ export interface PipelineExecution {
   metadata?: Record<string, any> | null;
   items: ShippableHistoryItem[];
   /**
-   * Arbitrary JSON context blob attached to the run.  Modern pipelines attach
-   * a rich object matching `GlobalContext` (see `lib/context`), while legacy
-   * runs stored a raw JSON string that contained only ai_document suggestions or
-   * a summary.  Keep this loosely typed so callers can narrow as needed.
+   * Arbitrary JSON context blob attached to the run. Current pipelines attach
+   * a rich object matching `GlobalContext` (see `lib/context`), while former
+   * runs stored a raw JSON string with only ai_document suggestions or a
+   * summary. Keep this loosely typed so callers can narrow as needed.
    */
   context?: Record<string, any> | string | null;
 

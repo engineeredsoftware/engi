@@ -159,7 +159,7 @@ test('V26 prompt hierarchy lint rule enforces Bitcode Registry-backed prompt com
   assert.match(promptHierarchyRuleDocs, /The compatibility `prompts` shape is also accepted/u);
 });
 
-test('V26 active app config no longer preserves deprecated prompt source aliases', () => {
+test('V26 active app config no longer preserves retired prompt source aliases', () => {
   assert.doesNotMatch(uapiTsconfigSource, /"@bitcode\/prompts\/src\/\*"/u);
   assert.doesNotMatch(uapiTsconfigSource, /"@bitcode\/prompts\/src\/raw_promptparts\/\*"/u);
   assert.match(uapiTsconfigSource, /"@bitcode\/prompts":\s*\[\s*"\.\.\/packages\/prompts\/src\/index\.ts"\s*\]/u);

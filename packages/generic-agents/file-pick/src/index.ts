@@ -336,7 +336,7 @@ export const filePickAgent = filePick;
 export const quickFilePickAgent = quickFilePick;
 
 
-// Removed legacy compatibility schema re-exports
+// Removed former schema re-exports.
 
 /**
  * THE MAGIC EXPLAINED:

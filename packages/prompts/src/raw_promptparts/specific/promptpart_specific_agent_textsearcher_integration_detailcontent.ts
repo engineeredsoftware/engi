@@ -15,5 +15,5 @@ export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_INTEGRATION_DETAILCONTENT: P
   `Integrates as admitted support:
 - consumes the simpleSystemTextSearch tool and its repository-evidence DocCode prompt
 - feeds source-grounding context into need-comprehension, AssetPack evidence corridors, proof, and AssetPack synthesis agents
-- preserves compatibility text-searcher names only as import and package wrappers
+- preserves stable text-searcher names only as import and package wrappers
 - does not own mutation, delivery mechanism selection, proof generation, canonical need interpretation, or live Exchange/Terminal product semantics` as PromptPart;

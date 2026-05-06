@@ -165,7 +165,7 @@ function enrichPipelineResult(
  */
 export async function queuePipelineJob(
   options: PipelineJobOptions
-): Promise<{ runId: string; shippableCompatibilityId?: string }> {
+): Promise<{ runId: string; assetPackEvidenceId?: string }> {
   const span = observability.startSpan('queue_pipeline_job', {
     pipeline: options.pipeline,
     userId: options.userId,
@@ -176,11 +176,11 @@ export async function queuePipelineJob(
     const supabase = createClient();
     const runs = new PipelineExecutionsModel(supabase);
 
-    const shippableCompatibilityId = uuidv4();
+    const assetPackEvidenceId = uuidv4();
 
     // Create run record
     const run = await runs.create({
-      deliverable_id: shippableCompatibilityId,
+      deliverable_id: assetPackEvidenceId,
       user_id: options.userId,
       status: 'pending',
       metadata: {
@@ -201,12 +201,12 @@ export async function queuePipelineJob(
 
     logger.info('Pipeline job queued', {
       runId: run.id,
-      shippableCompatibilityId,
+      assetPackEvidenceId,
       pipeline: options.pipeline,
       userId: options.userId
     });
 
-    return { runId: run.id, shippableCompatibilityId };
+    return { runId: run.id, assetPackEvidenceId };
   } catch (error) {
     span.recordException(error as Error);
     throw error;

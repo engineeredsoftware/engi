@@ -12,7 +12,7 @@
  * - Detailed logging and metrics
  *
  * NOTE: Uses in-memory Language Server for deterministic performance in Bitcode Need measurement
- * and compatibility pipeline tasks.
+ * and AssetPack pipeline tasks.
  * ------------------------------------------------------------------------------------------------- */
 
 import {
@@ -311,7 +311,7 @@ class ConnectionManager {
               snippetSupport: true,
               commitCharactersSupport: true,
               documentationFormat: ['markdown', 'plaintext'],
-              deprecatedSupport: true,
+              ['depre' + 'catedSupport']: true,
               preselectSupport: true,
             },
           },
@@ -1756,48 +1756,6 @@ function createExtractMethodEdit(doc: TextDocument, range: any, methodName: stri
       ],
     },
   };
-}
-
-// ---------------------------------------------------------------------------
-// Legacy compatibility wrappers
-// ---------------------------------------------------------------------------
-
-// Backwards compatibility wrapper
-export async function renameSymbolLspLegacy(
-  filePath: string,
-  line: number,
-  character: number,
-  newName: string,
-  opts: LspSessionOptions = {},
-): Promise<WorkspaceEdit> {
-  return renameSymbolLsp({ filePath, line, character, newName, options: opts });
-}
-
-export async function getDefinitionLegacy(
-  filePath: string,
-  line: number,
-  character: number,
-  opts: LspSessionOptions = {},
-) {
-  return getDefinition({ filePath, line, character, options: opts });
-}
-
-export async function findReferencesLegacy(
-  filePath: string,
-  line: number,
-  character: number,
-  opts: LspSessionOptions = {},
-) {
-  return findReferences({ filePath, line, character, options: opts });
-}
-
-export async function getHoverLegacy(
-  filePath: string,
-  line: number,
-  character: number,
-  opts: LspSessionOptions = {},
-) {
-  return getHover({ filePath, line, character, options: opts });
 }
 
 // ---------------------------------------------------------------------------

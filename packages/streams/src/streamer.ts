@@ -2,7 +2,7 @@
  * STREAMER - Clean event emission for pipeline streaming
  * 
  * A minimal streamer focused on emitting events to subscribers
- * without legacy complexity or domain coupling.
+ * without old-world complexity or domain coupling.
  */
 
 export type StreamEventHandler = (event: any) => void | Promise<void>;
@@ -64,8 +64,7 @@ export class Streamer {
   }
 
   /**
-   * Compatibility entrypoint for retained callers that still write serialized
-   * stream payloads directly instead of calling emit().
+   * Serialized-payload entrypoint for callers that write stream data directly.
    */
   async writeData(data: string | Record<string, unknown>): Promise<void> {
     let event = data;

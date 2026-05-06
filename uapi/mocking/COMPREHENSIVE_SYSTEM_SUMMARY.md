@@ -307,7 +307,7 @@ const mockData = useMockDataMultiple([
 - **Validation**: Data integrity and consistency checks
 
 ### Production Quality
-- **Zero Breaking Changes**: Backward compatibility maintained
+- **Stable Integration**: Existing mock flags keep their shipped behavior
 - **Gradual Adoption**: Feature-by-feature enablement
 - **Production Safety**: Disabled by default in production
 - **Error Injection**: Chaos engineering support
@@ -351,7 +351,7 @@ NEXT_PUBLIC_MOCK_MAX_MEMORY_MB=1000
 - **Performance optimized** for billions of users
 
 ### ✅ ZERO-CHANGE INTEGRATION
-- **Backward compatible** with existing 39+ mock flags
+- **Shipped-flag stable** across existing 39+ mock flags
 - **Drop-in replacement** requiring no client changes
 - **Single flag enablement** (`NEXT_PUBLIC_MASTER_MOCK_MODE=true`)
 - **Gradual adoption** possible feature by feature
@@ -372,7 +372,7 @@ You now have a **production-ready enterprise mocking system** that:
 3. **Scales to billions of users** (enterprise-grade performance)
 4. **Provides rich developer experience** (type-safe, debuggable)
 5. **Supports all major workflows** (onboarding → Conversations → assetPacks → marketplace)
-6. **Maintains backward compatibility** (existing mocks continue working)
+6. **Maintains shipped mock behavior** (existing mocks continue working)
 7. **Enables single-flag control** (entire system with one environment variable)
 
 **Enable with one line:**

@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Compatibility PromptPart for former Comprehend Task system role; content is canonical Bitcode comprehend-need semantics"
+ * intent: "Bitcode PromptPart for former Comprehend Task system role; content is canonical Bitcode comprehend-need semantics"
  * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [

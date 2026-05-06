@@ -29,8 +29,8 @@ import ModelOptions from "./model-options";
 import AnimatingTypeCommands from "./animating-typing-commands";
 import AnimatingTypingCommands from "./animating-typing-commands";
 // Drop heavy react-icons; use Radix MixIcon as the default for robot symbol.
-// Reuse `MixIcon` as our robot symbol to keep the bundle small; alias for
-// backward compatibility with existing props.
+// Reuse `MixIcon` as our robot symbol to keep the bundle small while preserving
+// the component prop shape.
 const RiRobot2Line = MixIcon;
 import { useRouter } from "next/navigation";
 

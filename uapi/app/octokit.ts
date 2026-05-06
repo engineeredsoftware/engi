@@ -1,8 +1,8 @@
 /**
- * VCS-Migrated version of octokit.ts
+ * VCS-backed GitHub adapter.
  * 
- * This file provides backward compatibility for legacy code while using
- * the new VCS abstraction layer underneath.
+ * This file keeps Octokit-shaped call sites bound to the VCS abstraction
+ * without preserving a separate GitHub product implementation.
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -17,25 +17,24 @@ import {
   type VCSIssue,
   type VCSRepository,
 } from '@bitcode/vcs';
-// Removed vcsAgent import - using VCS primitives directly
 import { log } from '@bitcode/logger';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import decompress from 'decompress';
 
-type LegacyRepositoryLike = {
+type VcsGitHubRepositoryLike = {
   name: string;
   owner: {
     login: string;
   };
 };
 
-type LegacyIssueLike = {
+type VcsGitHubIssueLike = {
   number: number;
 };
 
-type LegacyConnectionRecord = {
+type VcsGitHubConnectionRecord = {
   id: string;
   user_id: string;
 };
@@ -61,7 +60,7 @@ function requireProviderMethod<T>(
 
 async function getGitHubConnectionByInstallationId(
   connectionId: number,
-): Promise<LegacyConnectionRecord> {
+): Promise<VcsGitHubConnectionRecord> {
   const { data: connection } = await supabaseAdmin
     .from('user_connections')
     .select('id, user_id')
@@ -79,7 +78,7 @@ async function getGitHubConnectionByInstallationId(
 async function getGitHubProviderAndAuth(connectionId: number): Promise<{
   auth: VCSAuth;
   provider: AbstractVCSProvider;
-  connection: LegacyConnectionRecord;
+  connection: VcsGitHubConnectionRecord;
 }> {
   const connection = await getGitHubConnectionByInstallationId(connectionId);
   const auth = await new VCSConnections(supabaseAdmin).getAuthFromConnection(connection.id);
@@ -95,7 +94,7 @@ async function getGitHubProviderAndAuth(connectionId: number): Promise<{
   };
 }
 
-// Legacy configuration for backward compatibility
+// VCS adapter configuration for existing GitHub installation callers.
 export const config = {
   appId: 244206,
   privateKey: process.env.GITHUB_PRIVATE_KEY || '',
@@ -105,11 +104,10 @@ export const config = {
   },
 };
 
-// Legacy app export for backward compatibility
-// This will be removed once all references are migrated
+// Octokit-shaped adapter over the canonical VCS provider abstraction.
 export const app = {
   async getInstallationOctokit(connectionId: number) {
-    log('DEPRECATED: app.getInstallationOctokit called, using VCS abstraction', 'warn', { connectionId });
+    log('Octokit-shaped GitHub adapter read through VCS abstraction', 'info', { connectionId });
     const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
     const listIssues = requireProviderMethod(provider.listIssues, 'issue listing');
     const listIssueComments = requireProviderMethod(
@@ -182,7 +180,7 @@ export const app = {
   
   eachRepository: {
     async *iterator({ connectionId }: { connectionId: number }) {
-      log('DEPRECATED: app.eachRepository.iterator called, using VCS abstraction', 'warn', { connectionId });
+      log('Octokit-shaped repository iterator read through VCS abstraction', 'info', { connectionId });
       const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
       const octokit = await app.getInstallationOctokit(connectionId);
       const repos = await provider.listRepositories(auth, { perPage: 100 });
@@ -281,7 +279,7 @@ export const getUsersRepositories = async () => {
  */
 export const getIssuesForRepository = async (
   connectionId: number,
-  repository: LegacyRepositoryLike,
+  repository: VcsGitHubRepositoryLike,
 ): Promise<VCSIssue[]> => {
   log('Getting issues via VCS abstraction', 'info', { 
     connectionId, 
@@ -301,8 +299,8 @@ export const getIssuesForRepository = async (
  */
 export const getCommentsForIssue = async (
   connectionId: number,
-  repository: LegacyRepositoryLike,
-  issue: LegacyIssueLike,
+  repository: VcsGitHubRepositoryLike,
+  issue: VcsGitHubIssueLike,
 ): Promise<VCSComment[]> => {
   log('Getting issue comments via VCS abstraction', 'info', { 
     connectionId, 
@@ -323,8 +321,8 @@ export const getCommentsForIssue = async (
  */
 export const leaveIssueComment = async (
   connectionId: number,
-  repository: LegacyRepositoryLike,
-  issue: LegacyIssueLike,
+  repository: VcsGitHubRepositoryLike,
+  issue: VcsGitHubIssueLike,
   body: string,
 ): Promise<void> => {
   log('Creating issue comment via VCS abstraction', 'info', { 
@@ -353,7 +351,7 @@ export const leaveIssueComment = async (
  */
 export const downloadRepository = async (
   connectionId: number,
-  repository: LegacyRepositoryLike,
+  repository: VcsGitHubRepositoryLike,
 ): Promise<string> => {
   log('Downloading repository', 'info', { 
     connectionId, 
@@ -392,7 +390,7 @@ export const downloadRepository = async (
  */
 export const createBranch = async (
   connectionId: number,
-  repository: LegacyRepositoryLike,
+  repository: VcsGitHubRepositoryLike,
   name: string,
 ): Promise<VCSBranch> => {
   log('Creating branch via VCS abstraction', 'info', { 

@@ -14,7 +14,7 @@ import { buildApplicationTransactionFilters } from './application-transactions';
 
 const SEARCH_PARAM_KEYS = {
   transactionId: 'transactionId',
-  legacyRunId: 'runId',
+  runIdAlias: 'runId',
   detailSection: 'transactionDetail',
   environmentMode: 'environmentMode',
   debug: 'bitcodeDebug',
@@ -77,7 +77,7 @@ function parsePositiveInteger(value: string | null, fallback: number) {
 export function readApplicationTransactionId(searchParams: URLSearchParams) {
   return (
     searchParams.get(SEARCH_PARAM_KEYS.transactionId)
-    || searchParams.get(SEARCH_PARAM_KEYS.legacyRunId)
+    || searchParams.get(SEARCH_PARAM_KEYS.runIdAlias)
     || null
   );
 }
@@ -140,7 +140,7 @@ export function readApplicationTransactionPagination(searchParams: URLSearchPara
 export function writeApplicationTransactionId(searchParams: URLSearchParams, transactionId: string) {
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.set(SEARCH_PARAM_KEYS.transactionId, transactionId);
-  nextParams.delete(SEARCH_PARAM_KEYS.legacyRunId);
+  nextParams.delete(SEARCH_PARAM_KEYS.runIdAlias);
   return nextParams;
 }
 

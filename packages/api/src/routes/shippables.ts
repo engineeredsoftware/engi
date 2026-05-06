@@ -2,8 +2,8 @@
  * AssetPack Shippable API Route Handlers
  *
  * Active handler owner for AssetPack pipeline runs with Finish/Delivering
- * semantics. Retained compatibility callers re-export these handlers
- * through a compatibility wrapper.
+ * semantics. Route adapters re-export these handlers as AssetPack-owned
+ * implementation, not as a parallel product surface.
  * All database operations use ORM, all VCS operations use VCS service.
  */
 
@@ -1413,10 +1413,10 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           error: JSON.stringify({ message: reportedError.message, stack: reportedError.stack, phase: currentPhase }),
           updated_at: new Date().toISOString()
         } as any);
-        // If legacy pipeline_runs metadata table is present in the environment, best-effort update
+        // If a pipeline_runs metadata table is present in the environment, best-effort update
         try {
-          const legacyPipelineRuns = (orm as any).pipelineRuns;
-          await legacyPipelineRuns?.update?.(runId, {
+          const pipelineRunsMetadata = (orm as any).pipelineRuns;
+          await pipelineRunsMetadata?.update?.(runId, {
             status: 'failed',
             metadata: {
               correlationId,
@@ -1506,10 +1506,10 @@ export const DELETE = traceRoute('/executions', async (request: NextRequest) => 
       status: 'cancelled',
       completed_at: new Date().toISOString()
     } as any);
-        // If legacy pipeline_runs metadata table is present in the environment, best-effort update
+        // If a pipeline_runs metadata table is present in the environment, best-effort update
         try {
-          const legacyPipelineRuns = (orm as any).pipelineRuns;
-          await legacyPipelineRuns?.update?.(runId, {
+          const pipelineRunsMetadata = (orm as any).pipelineRuns;
+          await pipelineRunsMetadata?.update?.(runId, {
             status: 'cancelled',
             metadata: {
               correlationId,

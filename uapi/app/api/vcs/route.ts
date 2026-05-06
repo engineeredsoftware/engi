@@ -121,7 +121,7 @@ function buildMockPayload(resource: z.infer<typeof resourceSchema>, provider: VC
           {
             id: 101,
             number: 101,
-            title: 'Need ingestion compatibility proof for retained executions',
+            title: 'Need ingestion proof for retained execution selectors',
             html_url: 'https://github.com/bitcode/bitcode/issues/101',
           },
           {
@@ -265,7 +265,7 @@ export async function GET(request: Request) {
     }
   } catch (routeError) {
     const message =
-      routeError instanceof Error ? routeError.message : 'Failed to load VCS compatibility data';
+      routeError instanceof Error ? routeError.message : 'Failed to load VCS route data';
 
     return NextResponse.json(
       {

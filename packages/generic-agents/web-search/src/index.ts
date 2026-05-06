@@ -1,8 +1,7 @@
 /**
- * Bitcode Need-Synthesis Web Search Agent - retained compatibility package.
+ * Bitcode Need-Synthesis Web Search Agent - admitted support package.
  *
- * The retained `web-search` package name is a compatibility carrier. V26
- * semantics are bounded discovery-phase web search for Bitcode need synthesis:
+ * V26 semantics are bounded discovery-phase web search for Bitcode need synthesis:
  * collect source-attributed external evidence, score source quality, surface
  * volatility, and hand unresolved questions to downstream need/proof owners.
  * This package does not own canonical need interpretation, proof generation,
@@ -26,7 +25,7 @@ import { z } from 'zod';
 
 export const BitcodeNeedSynthesisWebSearchInputSchema = z.object({
   need: z.string().describe('Bitcode need or proof gap requiring external source context'),
-  query: z.string().optional().describe('Compatibility search query when the caller has not separated need from query text'),
+  query: z.string().optional().describe('Search query when the caller has not separated need from query text'),
   sourceScope: z.enum(['primary-first', 'official-first', 'broad-context']).default('primary-first'),
   maxResults: z.number().min(1).max(50).default(10),
   dateFilter: z.enum(['any', 'day', 'week', 'month', 'year']).default('any'),
@@ -193,7 +192,7 @@ const quickBitcodeNeedSynthesisWebSearchAgent = factoryAgentWithSingleStep<
   z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>
 >({
   name: 'quick-bitcode-need-synthesis-web-search',
-  description: 'Fast compatibility web-search evidence support for Bitcode need synthesis',
+  description: 'Fast stable web-search evidence support for Bitcode need synthesis',
   execute: async (input, execution) => {
     execution.store('variation', 'mode', 'quick-bitcode-need-synthesis-web-search');
 
@@ -212,7 +211,7 @@ const quickBitcodeNeedSynthesisWebSearchAgent = factoryAgentWithSingleStep<
       },
       searchMetadata: {
         searchDuration: 0,
-        enginesUsed: ['quick-compatibility-placeholder'],
+        enginesUsed: ['quick-support-placeholder'],
         totalQueries: input.query ? 1 : 0,
         finalResultCount: 0,
         confidenceScore: 0.5
@@ -220,7 +219,7 @@ const quickBitcodeNeedSynthesisWebSearchAgent = factoryAgentWithSingleStep<
       downstreamNeedSynthesisActions: ['Run full Bitcode need-synthesis web search before relying on external evidence.'],
       proofBoundaryWarnings: ['Quick web-search output is not source-attributed proof evidence.'],
       success: true,
-      completionMessage: 'Quick Bitcode need-synthesis web search compatibility output completed'
+      completionMessage: 'Quick Bitcode need-synthesis web search support output completed'
     };
   }
 });

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Update legacy language to industrial V26 language
+# Update old-world language to industrial V26 language
 
-echo "=== Updating legacy language to industrial V26 ==="
+echo "=== Updating old-world language to industrial V26 ==="
 
 # Files to update
 FILES=(
@@ -72,13 +72,13 @@ for file in "${FILES[@]}"; do
 done
 
 echo ""
-echo "=== Verifying remaining legacy terms ==="
+echo "=== Verifying remaining old-world terms ==="
 grep -h "consciousness\|transcendent\|quantum\|dimensional\|manifest\|elevated" "${FILES[@]}" 2>/dev/null | head -5
 
 REMAINING=$(grep -l "consciousness\|transcendent\|quantum\|dimensional\|manifest\|elevated" "${FILES[@]}" 2>/dev/null | wc -l)
 echo ""
 if [ $REMAINING -eq 0 ]; then
-  echo "✓ All legacy language updated to industrial V26!"
+  echo "All old-world language updated to industrial V26!"
 else
-  echo "✗ $REMAINING files still contain legacy terms"
+  echo "$REMAINING files still contain old-world terms"
 fi

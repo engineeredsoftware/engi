@@ -201,8 +201,7 @@ export function factoryAgentWithPTRR<TInput, TOutput>(
     refine: resolveBitcodePTRRStepPrompt('refine', stepPromptRegistry.refine),
     retry: resolveBitcodePTRRStepPrompt('retry', stepPromptRegistry.retry)
   };
-  // Debug pattern (env-gated): prefer skip semantics via ONLY_* filters
-  const stopAfterPlan = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_PLAN || '0') === '1';
+  // Debug pattern (env-gated): skip semantics via ONLY_* filters
   const onlyStepEnv = String(process?.env?.BITCODE_DEBUG_ONLY_STEP || '').toLowerCase();
 
   const steps: AgentStep<any, any>[] = [
@@ -406,7 +405,7 @@ export function factoryAgentWithSingleStep<TInput, TOutput>(config: {
 // ==================== AGENT WITH GENERATIONS (PREFERRED) ====================
 /**
  * factoryAgentWithGenerations - Preferred ergonomic: pass Generations directly.
- * Back-compat: also sets 'steps' to the same array.
+ * Also sets 'steps' to the same array for stable execution readers.
  */
 export function factoryAgentWithGenerations<TInput, TOutput>(config: {
   name: string;
@@ -476,7 +475,7 @@ export function factoryAgentWithPTRRGenerations<TInput, TOutput>(config: {
  * that does not orchestrate PTRR. It wraps a single typed executor and uses
  * standard AgentExecution/StepExecution for consistent statefulness.
  *
- * Note: factoryAgentWithSingleStep remains for compatibility; this is the
+ * Note: factoryAgentWithSingleStep remains available; this is the
  * canonical name to use going forward.
  */
 export function factoryQuickAgent<TInput, TOutput>(config: {
