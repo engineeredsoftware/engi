@@ -208,6 +208,10 @@ Closure criteria:
 
 ### Gate 7: Access And Policy Closure
 
+Closed as a draft-target access and policy gate.
+Closure proof: `.bitcode/v27-gate-7-access-policy-proof.json`.
+Later gates still own value-bearing access operations, full legal template review, and generated proof-family promotion.
+
 Purpose:
 Make owner-read and licensed-read exact.
 
@@ -215,7 +219,7 @@ Closure criteria:
 
 - access policy evaluator exists.
 - owner-read, licensed-read, expired license, unauthorized read, and policy mismatch are tested.
-- UI discloses policy id/hash.
+- UI discloses policy id/hash and AssetPack range posture.
 - legal overclaim text is absent from public surfaces.
 
 ### Gate 8: Allocation And Revenue Closure
@@ -394,7 +398,7 @@ Partial baseline:
 - `packages/orm/src/models/organization-btd-treasury.ts` aggregates user holdings but does not own registry supply.
 - `internal-docs/BITCODE_EXCHANGE_DATABASE.md` now names the V27 registry/projection table set, but deployment must still apply and prove it.
 - `supabase/migrations/001_v26_production.sql` contains compatibility storage and RLS; `002_v27_btd_crypto_registry.sql` starts the V27 range/cell registry and crypto projection constraints.
-- UI surfaces can show holdings and intent, but not minted range boundaries or access policy hashes.
+- UI surfaces can now show holdings, intent, policy id/hash, and AssetPack range posture in the $BTD auxillary.
 - auxillary wallet UI can display wallet posture; the V27 signer/session/transaction lifecycle exists in package primitives but is not wired to live adapters.
 - BTC fee receipt and PSBT-style lifecycle primitives exist, but no broadcaster or confirmation reconciler is wired yet.
 - demonstration settlement primitives can account for source-to-shares value and now witness V27 crypto receipts, but not external chain observations.

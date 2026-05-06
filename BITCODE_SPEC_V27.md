@@ -1019,6 +1019,10 @@ Acceptance:
 
 ### Gate 7: Access And Legal Policy
 
+Status: closed as a draft-target access and policy gate.
+Closure proof: `.bitcode/v27-gate-7-access-policy-proof.json`.
+This closure proves owner-read/licensed-read policy evaluation, read-access route behavior, registry-derived license/policy projection, UAPI policy disclosure, and public-copy overclaim scanning; live value-bearing access operations and legal template finalization remain later work.
+
 Acceptance:
 
 - owner-read and licensed-read policy evaluator exists.

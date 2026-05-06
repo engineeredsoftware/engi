@@ -77,6 +77,10 @@ export interface BtdReadAccessInput {
   at?: string;
 }
 
+type BtdReadAccessRouteInput = Omit<BtdReadAccessInput, 'accessPolicy'> & {
+  accessPolicy?: BtdAccessPolicy;
+};
+
 export interface BtdReadAccessDecision {
   kind: 'btd_read_access_decision';
   actorId: string;
@@ -334,7 +338,7 @@ export function buildPostBtdReadAccessRoute(options: BtdRouteOptions = {}) {
       return createJsonResponse({ error: 'Unauthorized' }, 401);
     }
 
-    let body: BtdReadAccessInput;
+    let body: BtdReadAccessRouteInput;
     try {
       body = await request.json();
     } catch {
@@ -343,8 +347,35 @@ export function buildPostBtdReadAccessRoute(options: BtdRouteOptions = {}) {
 
     let decision: BtdReadAccessDecision;
     try {
+      const registry = options.registry;
+      const accessPolicy =
+        body.accessPolicy ?? (await resolveRegistryAccessPolicy(registry, body.assetPackId));
+      const ownershipClaims =
+        body.ownershipClaims ??
+        (registry
+          ? mapRegistryOwnershipClaims(
+              await registry.listOwnershipClaims({
+                walletId: body.walletId,
+                assetPackId: body.assetPackId,
+              }),
+            )
+          : undefined);
+      const licenses =
+        body.licenses ??
+        (registry
+          ? mapRegistryReadLicenses(
+              await registry.listReadLicenses({
+                walletId: body.walletId,
+                assetPackId: body.assetPackId,
+              }),
+            )
+          : undefined);
+
       decision = buildBtdReadAccessDecision({
         ...body,
+        accessPolicy,
+        ownershipClaims,
+        licenses,
         actorId: user.userId,
       });
     } catch (error) {
@@ -408,6 +439,120 @@ function stableId(prefix: string, parts: string[]): string {
 
 function toBadRequestMessage(error: unknown): string {
   return error instanceof Error ? error.message : 'Invalid V27 BTD mint draft input';
+}
+
+async function resolveRegistryAccessPolicy(
+  registry: BtdRegistryModel | undefined,
+  assetPackId: string,
+): Promise<BtdAccessPolicy> {
+  if (!registry) {
+    throw new Error('accessPolicy is required when no registry projection is supplied.');
+  }
+
+  const [range] = await registry.listAssetPackRanges(assetPackId);
+  if (!range) {
+    throw new Error('No registry range found for AssetPack access policy.');
+  }
+
+  return {
+    accessPolicyId: readStringField(range, 'access_policy_id', 'accessPolicyId'),
+    accessPolicyHash: readStringField(range, 'access_policy_hash', 'accessPolicyHash'),
+    ownerRead: readBooleanField(range, true, 'owner_read', 'ownerRead'),
+    licensedRead: readBooleanField(range, true, 'licensed_read', 'licensedRead'),
+    derivativeUse: readBooleanField(range, false, 'derivative_use', 'derivativeUse'),
+    redistributionAllowed: readBooleanField(
+      range,
+      false,
+      'redistribution_allowed',
+      'redistributionAllowed',
+    ),
+    confidentiality: readConfidentiality(range),
+  };
+}
+
+function mapRegistryOwnershipClaims(rows: Record<string, unknown>[]): BtdOwnershipClaim[] {
+  return rows.map((row) => ({
+    walletId: readStringField(row, 'to_wallet_id', 'walletId'),
+    assetPackId: readStringField(row, 'asset_pack_id', 'assetPackId'),
+    rangeStart: readNumberField(row, 'range_start', 'rangeStart'),
+    rangeEndExclusive: readNumberField(row, 'range_end_exclusive', 'rangeEndExclusive'),
+    accessPolicyHash: readStringField(row, 'access_policy_hash', 'accessPolicyHash'),
+  }));
+}
+
+function mapRegistryReadLicenses(rows: Record<string, unknown>[]): BtdReadLicense[] {
+  return rows.map((row) => ({
+    licenseId: readStringField(row, 'license_id', 'licenseId'),
+    walletId: readStringField(row, 'wallet_id', 'walletId'),
+    assetPackId: readStringField(row, 'asset_pack_id', 'assetPackId'),
+    accessPolicyHash: readStringField(row, 'access_policy_hash', 'accessPolicyHash'),
+    validFrom: readStringField(row, 'valid_from', 'validFrom'),
+    expiresAt: readOptionalStringField(row, 'expires_at', 'expiresAt'),
+    revokedAt: readOptionalStringField(row, 'revoked_at', 'revokedAt'),
+  }));
+}
+
+function readStringField(row: Record<string, unknown>, ...keys: string[]): string {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === 'string' && value.trim()) {
+      return value;
+    }
+  }
+
+  throw new Error(`${keys[0]} must be a non-empty string.`);
+}
+
+function readOptionalStringField(
+  row: Record<string, unknown>,
+  ...keys: string[]
+): string | undefined {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === 'string' && value.trim()) {
+      return value;
+    }
+  }
+
+  return undefined;
+}
+
+function readNumberField(row: Record<string, unknown>, ...keys: string[]): number {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === 'number' && Number.isSafeInteger(value)) {
+      return value;
+    }
+    if (typeof value === 'string' && /^-?\d+$/.test(value)) {
+      return Number(value);
+    }
+  }
+
+  throw new Error(`${keys[0]} must be a safe integer.`);
+}
+
+function readBooleanField(
+  row: Record<string, unknown>,
+  fallback: boolean,
+  ...keys: string[]
+): boolean {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === 'boolean') {
+      return value;
+    }
+  }
+
+  return fallback;
+}
+
+function readConfidentiality(row: Record<string, unknown>): BtdAccessPolicy['confidentiality'] {
+  const value = readOptionalStringField(row, 'confidentiality');
+  if (value === 'public' || value === 'private' || value === 'public_proof_private_source') {
+    return value;
+  }
+
+  return 'public_proof_private_source';
 }
 
 function toJsonSafe(value: unknown): unknown {

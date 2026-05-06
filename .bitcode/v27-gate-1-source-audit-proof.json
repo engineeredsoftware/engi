@@ -98,6 +98,9 @@
       "packages/api/src/routes/__tests__/user-btd-mutation.test.ts",
       "uapi/app/api/btd/registry/route.ts",
       "uapi/app/api/btd/mint-draft/route.ts",
+      "uapi/app/api/btd/read-access/route.ts",
+      "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+      "uapi/tests/orbitalsBTDPane.test.tsx",
       "packages/orm/src/models/btd-registry.ts",
       "packages/orm/src/client.ts",
       "supabase/migrations/002_v27_btd_crypto_registry.sql",
@@ -111,7 +114,8 @@
       ".bitcode/v27-gate-4-mint-admission-proof.json",
       ".bitcode/v27-receipt-replay-proof.json",
       ".bitcode/v27-gate-5-receipt-replay-proof.json",
-      ".bitcode/v27-gate-6-exchange-persistence-proof.json"
+      ".bitcode/v27-gate-6-exchange-persistence-proof.json",
+      ".bitcode/v27-gate-7-access-policy-proof.json"
     ]
   },
   "nonPromotionAssertions": [
@@ -121,7 +125,6 @@
     "No value-bearing mainnet readiness or launch is claimed by Gate 1 closure"
   ],
   "remainingGateFamilies": [
-    "Gate 7: Access And Policy",
     "Gate 8: Allocation And Revenue",
     "Gate 9: Ancestry And Anti-Game",
     "Gate 10: Wallet And BTC Fee Settlement",

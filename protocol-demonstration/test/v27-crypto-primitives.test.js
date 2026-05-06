@@ -15,6 +15,7 @@ import {
   buildProtocolUpgradeReceipt,
   buildReconciliationReceipt,
   confirmBtcFeeReceipt,
+  evaluateReadAccess,
   measureMint,
   measureSemanticVolume,
   replayAssetPackMintReceipts
@@ -186,6 +187,82 @@ test('V27 demonstration mint receipt replay reconstructs supply ranges and alloc
   assert.equal(replay.allocationCount, 1);
   assert.equal(mutated.blocking, true);
   assert.ok(mutated.errors.includes('mint asset-pack-mint-1: missing proofRoot'));
+});
+
+test('V27 demonstration access evaluation separates owner, license, expiry, and policy mismatch', () => {
+  const policy = {
+    accessPolicyId: 'policy-1',
+    accessPolicyHash: 'policy-hash',
+    ownerRead: true,
+    licensedRead: true
+  };
+  const owner = evaluateReadAccess({
+    walletId: 'wallet-owner',
+    assetPackId: 'asset-pack-1',
+    accessPolicy: policy,
+    ownershipClaims: [
+      {
+        walletId: 'wallet-owner',
+        assetPackId: 'asset-pack-1',
+        rangeStart: 0,
+        rangeEndExclusive: 2,
+        accessPolicyHash: 'policy-hash'
+      }
+    ],
+    at: issuedAt
+  });
+  const licensed = evaluateReadAccess({
+    walletId: 'wallet-reader',
+    assetPackId: 'asset-pack-1',
+    accessPolicy: policy,
+    licenses: [
+      {
+        licenseId: 'license-1',
+        walletId: 'wallet-reader',
+        assetPackId: 'asset-pack-1',
+        accessPolicyHash: 'policy-hash',
+        validFrom: '2026-05-01T00:00:00.000Z',
+        expiresAt: '2026-05-07T00:00:00.000Z'
+      }
+    ],
+    at: issuedAt
+  });
+  const expired = evaluateReadAccess({
+    walletId: 'wallet-reader',
+    assetPackId: 'asset-pack-1',
+    accessPolicy: policy,
+    licenses: [
+      {
+        licenseId: 'license-expired',
+        walletId: 'wallet-reader',
+        assetPackId: 'asset-pack-1',
+        accessPolicyHash: 'policy-hash',
+        validFrom: '2026-05-01T00:00:00.000Z',
+        expiresAt: '2026-05-05T00:00:00.000Z'
+      }
+    ],
+    at: issuedAt
+  });
+  const mismatch = evaluateReadAccess({
+    walletId: 'wallet-owner',
+    assetPackId: 'asset-pack-1',
+    accessPolicy: policy,
+    ownershipClaims: [
+      {
+        walletId: 'wallet-owner',
+        assetPackId: 'asset-pack-1',
+        rangeStart: 0,
+        rangeEndExclusive: 2,
+        accessPolicyHash: 'stale-policy-hash'
+      }
+    ],
+    at: issuedAt
+  });
+
+  assert.equal(owner.decision, 'owner_read');
+  assert.equal(licensed.decision, 'licensed_read');
+  assert.equal(expired.reason, 'license_expired');
+  assert.equal(mismatch.reason, 'policy_mismatch');
 });
 
 test('V27 demonstration BTC fee and anchor receipts use signet and BTC', () => {

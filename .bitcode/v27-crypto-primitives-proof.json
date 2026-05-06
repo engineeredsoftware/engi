@@ -24,10 +24,13 @@
     "protocol-demonstration V27 crypto receipt witness",
     "V27 registry/projection migration and ORM boundary",
     "authenticated registry snapshot and mint-draft API route boundary",
+    "registry-backed read-access API route boundary",
+    "UAPI access policy, policy hash, range, and read-branch disclosure",
     "package/API Need-Fit-Prove-Settle mint admission rejection",
     "source-to-shares minted range proof binding",
     "mint receipt and contributor allocation replay",
-    "Exchange registry migration and ORM boundary"
+    "Exchange registry migration and ORM boundary",
+    "Access And Policy gate closure"
   ],
   "sourceSurfaces": [
     "BITCODE_SPEC_V27.md",
@@ -62,6 +65,9 @@
     "packages/api/src/index.ts",
     "uapi/app/api/btd/registry/route.ts",
     "uapi/app/api/btd/mint-draft/route.ts",
+    "uapi/app/api/btd/read-access/route.ts",
+    "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+    "uapi/tests/orbitalsBTDPane.test.tsx",
     "protocol-demonstration/src/receipt-schemas.js",
     "protocol-demonstration/src/v27-crypto-primitives.js",
     "protocol-demonstration/test/v27-crypto-primitives.test.js",
@@ -75,13 +81,14 @@
     ".bitcode/v27-gate-4-mint-admission-proof.json",
     ".bitcode/v27-receipt-replay-proof.json",
     ".bitcode/v27-gate-5-receipt-replay-proof.json",
-    ".bitcode/v27-gate-6-exchange-persistence-proof.json"
+    ".bitcode/v27-gate-6-exchange-persistence-proof.json",
+    ".bitcode/v27-gate-7-access-policy-proof.json"
   ],
   "validation": [
     {
       "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
-      "assertions": 44,
+      "assertions": 42,
       "notes": "Jest still reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
     },
     {
@@ -91,7 +98,7 @@
     {
       "command": "pnpm -C protocol-demonstration test:v27-crypto",
       "status": "passed",
-      "assertions": 8
+      "assertions": 9
     },
     {
       "command": "pnpm -C packages/orm build",
@@ -101,6 +108,12 @@
       "command": "pnpm -C packages/orm exec jest --runTestsByPath src/__tests__/btd-registry.test.ts --runInBand",
       "status": "passed",
       "assertions": 3,
+      "notes": "Jest reports an existing ts-jest globals deprecation warning."
+    },
+    {
+      "command": "pnpm -C uapi exec jest --runTestsByPath tests/orbitalsBTDPane.test.tsx --runInBand",
+      "status": "passed",
+      "assertions": 2,
       "notes": "Jest reports an existing ts-jest globals deprecation warning."
     },
     {
@@ -130,15 +143,18 @@
     "package-level deployment-lane mainnet approval guard",
     "demonstration receipt family coverage for V27 crypto primitives",
     "database migration and ORM projection boundary for V27 registry tables",
-    "authenticated registry snapshot and deterministic mint-draft route boundary"
+    "authenticated registry snapshot and deterministic mint-draft route boundary",
+    "authenticated read-access route boundary with registry-derived policy, ownership, and license projection",
+    "UAPI policy id/hash, AssetPack range, and read-branch disclosure",
+    "public-surface overclaim scan for copyright, dividend, royalty, and price-promise language",
+    "Gate 7 Access And Policy closure"
   ],
   "remainingBlockingForPromotion": [
     "live wallet adapters",
     "regtest/signet broadcaster and observer proof",
     "selected Bitcoin commitment method with implementation proof",
     "Ethereum secondary boundary or explicit deferral proof",
-    "route/API persistence integration",
-    "range/policy UI disclosure",
+    "write-committing route/API persistence integration",
     "generated V27 proof family set and BITCODE_SPEC_V27_PROVEN.md",
     "Supabase migration execution and generated DB type refresh",
     "full source-to-shares settlement integration",

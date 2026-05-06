@@ -201,6 +201,97 @@ export function replayAssetPackMintReceipts(input) {
 
 /**
  * @param {{
+ *   walletId: string,
+ *   assetPackId: string,
+ *   accessPolicy: {
+ *     accessPolicyId: string,
+ *     accessPolicyHash: string,
+ *     ownerRead: boolean,
+ *     licensedRead: boolean
+ *   },
+ *   ownershipClaims?: Array<{
+ *     walletId: string,
+ *     assetPackId: string,
+ *     rangeStart: number,
+ *     rangeEndExclusive: number,
+ *     accessPolicyHash: string
+ *   }>,
+ *   licenses?: Array<{
+ *     licenseId: string,
+ *     walletId: string,
+ *     assetPackId: string,
+ *     accessPolicyHash: string,
+ *     validFrom: string,
+ *     expiresAt?: string
+ *   }>,
+ *   at: string
+ * }} input
+ */
+export function evaluateReadAccess(input) {
+  const at = new Date(input.at);
+  const matchingOwner = (input.ownershipClaims || []).find((claim) =>
+    claim.walletId === input.walletId &&
+    claim.assetPackId === input.assetPackId &&
+    claim.accessPolicyHash === input.accessPolicy.accessPolicyHash &&
+    claim.rangeEndExclusive > claim.rangeStart
+  );
+
+  if (matchingOwner && input.accessPolicy.ownerRead) {
+    return {
+      decision: 'owner_read',
+      accessPolicyHash: input.accessPolicy.accessPolicyHash,
+      reason: 'wallet_owns_policy_matching_range'
+    };
+  }
+
+  const policyMatchedLicenses = (input.licenses || []).filter((license) =>
+    license.walletId === input.walletId &&
+    license.assetPackId === input.assetPackId &&
+    license.accessPolicyHash === input.accessPolicy.accessPolicyHash
+  );
+  const validLicense = policyMatchedLicenses.find((license) =>
+    new Date(license.validFrom) <= at &&
+    (!license.expiresAt || new Date(license.expiresAt) > at)
+  );
+
+  if (validLicense && input.accessPolicy.licensedRead) {
+    return {
+      decision: 'licensed_read',
+      accessPolicyHash: input.accessPolicy.accessPolicyHash,
+      reason: 'wallet_has_valid_policy_matching_license'
+    };
+  }
+
+  if (
+    policyMatchedLicenses.some((license) =>
+      license.expiresAt && new Date(license.expiresAt) <= at
+    )
+  ) {
+    return deniedAccess(input.accessPolicy.accessPolicyHash, 'license_expired');
+  }
+
+  const mismatchedPolicy = [...(input.ownershipClaims || []), ...(input.licenses || [])].some((entry) =>
+    entry.walletId === input.walletId &&
+    entry.assetPackId === input.assetPackId &&
+    entry.accessPolicyHash !== input.accessPolicy.accessPolicyHash
+  );
+  if (mismatchedPolicy) {
+    return deniedAccess(input.accessPolicy.accessPolicyHash, 'policy_mismatch');
+  }
+
+  return deniedAccess(input.accessPolicy.accessPolicyHash, 'no_owner_or_valid_license');
+}
+
+function deniedAccess(accessPolicyHash, reason) {
+  return {
+    decision: 'denied',
+    accessPolicyHash,
+    reason
+  };
+}
+
+/**
+ * @param {{
  *   receiptId: string,
  *   assetPackId: string,
  *   normalizedBitcodeVolume: bigint,
