@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 jest.mock('@/lib/mock-review-mode', () => ({
-  isUserOrbitalMockMode: () => true,
+  isAuxillariesMockMode: () => true,
 }));
 
 jest.mock('@/networking/api-client', () => ({

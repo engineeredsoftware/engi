@@ -193,7 +193,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
                       if (isAvailable) {
                         try {
                           const { trackEvent } = require('@bitcode/google-analytics');
-                          trackEvent(isAuxillariesMode ? 'orbital_step_click' : 'onboarding_step_click', { step });
+                          trackEvent(isAuxillariesMode ? 'auxillaries_step_click' : 'onboarding_step_click', { step });
                         } catch {}
                         onStepClick(step);
                       }

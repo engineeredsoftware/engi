@@ -23,7 +23,7 @@ import {
 } from '@/app/application/application-transaction-query';
 import { resolveApplicationTransactionSource } from '@/app/application/application-transaction-source';
 import type { WorkspaceRun } from '@/app/application/application-run-data';
-import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { isAuxillariesMockMode } from '@/lib/mock-review-mode';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 
 export default function ExchangePageClient() {
@@ -31,7 +31,7 @@ export default function ExchangePageClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const routeSearchParams = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
-  const mockMode = isUserOrbitalMockMode();
+  const mockMode = isAuxillariesMockMode();
   const selectedTransactionId = useMemo(
     () => readApplicationTransactionId(routeSearchParams),
     [routeSearchParams],
@@ -67,21 +67,29 @@ export default function ExchangePageClient() {
 
   const replaceExchangeSearchParams = useCallback(
     (nextParams: URLSearchParams) => {
+      if (typeof window !== 'undefined' && window.location.pathname !== pathname) return;
       const nextQuery = nextParams.toString();
       router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
     },
     [pathname, router],
   );
+  const readCurrentExchangeSearchParams = useCallback(
+    () =>
+      typeof window !== 'undefined' && window.location.pathname === pathname
+        ? new URLSearchParams(window.location.search)
+        : new URLSearchParams(searchParams.toString()),
+    [pathname, searchParams],
+  );
 
   const replaceExchangeRoute = useCallback(
     (transactionId: string, detailSection = selectedTransactionDetailSection) => {
       const nextParams = writeApplicationTransactionDetailSection(
-        writeApplicationTransactionId(routeSearchParams, transactionId),
+        writeApplicationTransactionId(readCurrentExchangeSearchParams(), transactionId),
         detailSection,
       );
       replaceExchangeSearchParams(nextParams);
     },
-    [replaceExchangeSearchParams, routeSearchParams, selectedTransactionDetailSection],
+    [readCurrentExchangeSearchParams, replaceExchangeSearchParams, selectedTransactionDetailSection],
   );
 
   const refreshLiveRuns = useCallback(async () => {
@@ -120,7 +128,7 @@ export default function ExchangePageClient() {
 
   const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
     const nextParams = writeApplicationTransactionPagination(
-      writeApplicationTransactionFilters(routeSearchParams, nextFilters),
+      writeApplicationTransactionFilters(readCurrentExchangeSearchParams(), nextFilters),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     replaceExchangeSearchParams(nextParams);
@@ -128,18 +136,18 @@ export default function ExchangePageClient() {
 
   const handleTransactionFiltersReset = () => {
     const nextParams = writeApplicationTransactionPagination(
-      resetApplicationTransactionFilters(routeSearchParams),
+      resetApplicationTransactionFilters(readCurrentExchangeSearchParams()),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     replaceExchangeSearchParams(nextParams);
   };
 
   const handleTransactionPaginationChange = (nextPagination: typeof transactionPagination) => {
-    replaceExchangeSearchParams(writeApplicationTransactionPagination(routeSearchParams, nextPagination));
+    replaceExchangeSearchParams(writeApplicationTransactionPagination(readCurrentExchangeSearchParams(), nextPagination));
   };
 
   const handleTransactionDetailSectionChange = (detailSection: typeof selectedTransactionDetailSection) => {
-    replaceExchangeSearchParams(writeApplicationTransactionDetailSection(routeSearchParams, detailSection));
+    replaceExchangeSearchParams(writeApplicationTransactionDetailSection(readCurrentExchangeSearchParams(), detailSection));
   };
 
   return (

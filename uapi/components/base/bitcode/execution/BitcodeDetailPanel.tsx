@@ -44,7 +44,7 @@ export default function BitcodeDetailPanel({
           <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">{badge}</p>
           <h3 className="mt-2 text-lg font-semibold text-white">{title}</h3>
         </div>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-300">
+        <span className="select-none rounded-full bg-white/[0.04] px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-400">
           {tagLabel}
         </span>
       </div>

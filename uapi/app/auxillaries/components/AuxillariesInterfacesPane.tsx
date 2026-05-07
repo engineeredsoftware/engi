@@ -35,14 +35,14 @@ interface ModelOption {
   outputLimit?: number;
 }
 
-type MasterDetailDensity = "signal" | "balanced" | "full";
+type ExchangeDetailDensity = "signal" | "balanced" | "full";
 type ConversationLaunch = "overlay" | "focused" | "continuity";
 type ProofMode = "visual" | "mixed" | "raw";
 type PromptTone = "bounded" | "formal" | "decisive";
 type ExecutionBias = "balanced" | "quality" | "throughput";
 
 interface InterfacesDefaults {
-  masterDetailDensity: MasterDetailDensity;
+  exchangeDetailDensity: ExchangeDetailDensity;
   conversationLaunch: ConversationLaunch;
   proofMode: ProofMode;
   promptTone: PromptTone;
@@ -50,7 +50,7 @@ interface InterfacesDefaults {
 }
 
 const DEFAULT_INTERFACES_DEFAULTS: InterfacesDefaults = {
-  masterDetailDensity: "balanced",
+  exchangeDetailDensity: "balanced",
   conversationLaunch: "continuity",
   proofMode: "mixed",
   promptTone: "formal",
@@ -166,14 +166,14 @@ export default function AuxillariesInterfacesPane({
   const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
       {
-        id: "master-detail-density",
-        title: "Master-detail density",
+        id: "exchange-detail-density",
+        title: "Exchange detail density",
         description: "Choose how much structured operator signal opens by default in transactions.",
-        value: defaults.masterDetailDensity,
+        value: defaults.exchangeDetailDensity,
         onChange: (value) =>
           setDefaults((current) => ({
             ...current,
-            masterDetailDensity: value as MasterDetailDensity,
+            exchangeDetailDensity: value as ExchangeDetailDensity,
           })),
         options: [
           {
@@ -333,18 +333,18 @@ export default function AuxillariesInterfacesPane({
           <AuxillariesWorkspaceSection
             kicker="Interfaces posture"
             title="Shape transactions before you reopen them"
-            description="Interfaces is where you keep master-detail, conversation entry, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
+            description="Interfaces is where you keep Exchange detail density, conversation entry, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
             explainer={auxillaryPaneExplainers.interfacesDefaults}
             tone="emerald"
           >
             <AuxillariesStatGrid
               items={[
                 {
-                  label: "Master detail",
+                  label: "Exchange detail",
                   value:
-                    defaults.masterDetailDensity === "signal"
+                    defaults.exchangeDetailDensity === "signal"
                       ? "Dense signal"
-                      : defaults.masterDetailDensity === "full"
+                      : defaults.exchangeDetailDensity === "full"
                         ? "Full read"
                         : "Balanced read",
                   detail: "How much structured detail opens first in transactions.",
@@ -386,7 +386,7 @@ export default function AuxillariesInterfacesPane({
           <form onSubmit={handleSubmit} className="space-y-5">
             <AuxillariesWorkspaceSection
               kicker="Interface defaults"
-              title="Master-detail and conversation defaults"
+              title="Exchange detail and conversation defaults"
               description="Set the opening behavior the operator should see when moving between transactions, proofs, and dedicated conversation work."
               explainer={auxillaryPaneExplainers.interfacesDefaults}
             >

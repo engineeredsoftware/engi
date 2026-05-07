@@ -7,7 +7,7 @@ It is the reusable carrier layer for:
 - route chrome,
 - shared activity vocabulary,
 - notifications and menus,
-- execution/master-detail components,
+- execution and Exchange master-detail components,
 - and the supporting primitives needed to keep `/application` cleanly componentized.
 
 ## Main system areas

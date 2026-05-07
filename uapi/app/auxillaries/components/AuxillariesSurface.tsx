@@ -15,7 +15,7 @@ import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibil
 import {
   getAuxillaryRingIndex,
   isAuxillariesPath,
-  isOrbitalsSupportPath,
+  isAuxillariesCompatPath,
   normalizeAuxillaryPane,
   normalizeAuxillarySteps,
   AUXILLARY_FLOW_STEPS,
@@ -105,7 +105,7 @@ export default function AuxillariesSurface({
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
   const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
-  const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isOrbitalsSupportPath(pathname);
+  const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteAuxillaryPane>(
@@ -292,7 +292,7 @@ export default function AuxillariesSurface({
     setIsCompletingStep(true);
     const newCompletedSteps = [...completedSteps, step];
     setCompletedSteps(newCompletedSteps);
-    trackEvent(isAuxillariesSurface ? 'orbital_step_completed' : 'onboarding_step_completed', { step });
+    trackEvent(isAuxillariesSurface ? 'auxillaries_step_completed' : 'onboarding_step_completed', { step });
 
     try {
       await updateOnboardingMutation.mutateAsync(step);
@@ -321,7 +321,7 @@ export default function AuxillariesSurface({
     }
 
     setCurrentStep(step as ConcreteAuxillaryPane);
-    trackEvent(isAuxillariesSurface ? 'orbital_step_click' : 'onboarding_step_click', { step });
+    trackEvent(isAuxillariesSurface ? 'auxillaries_step_click' : 'onboarding_step_click', { step });
   }, [availableSteps, isAuxillariesSurface]);
 
   const toggleWindow = useCallback(() => {

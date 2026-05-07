@@ -1,0 +1,144 @@
+# Bitcode V28 QA Ledger
+
+## Purpose
+
+This ledger records collaborative human QA for V28 commercial application MVP hardening.
+It stays synchronized as manual QA proceeds and separates V28 MVP closure from later deepening versions.
+
+V28 is not a marketing-page review.
+V28 focuses on whether the commercial application functions are coherent, readable, navigable, and honest over the V27 `$BTD` and crypto-commercial canon.
+
+## Session Header
+
+| Field | Value |
+| --- | --- |
+| Date | 2026-05-07 |
+| App URL | `http://127.0.0.1:3000` |
+| Server mode | deterministic mock-mode dev server |
+| Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
+| Draft target | `V28` |
+| Manual QA focus | big-picture commercial application MVP |
+| Marketing page status | intentionally de-scoped except for nav/application-entry regressions |
+
+## V28 MVP Scope
+
+V28 closes when the commercial app can be used and understood at MVP level across the major product surfaces:
+
+| Surface | V28 MVP expectation | Later deepening |
+| --- | --- | --- |
+| Identity and authentication | Auth/profile/menu/notifications are reachable, legible, and do not block application orientation. | V31 deepens account, team, multi-sig, role, recovery, and organization controls. |
+| Terminal | Activity ledger, selected detail, Give/Need/Fit/proof/readiness/range signals are readable and route-stable at MVP level. | V29 deepens full Terminal transactions, wallet recovery, BTC lifecycle, journal diff, and reconciliation. |
+| Exchange | Exchange route, activity search/table/detail, BTD intent entry, and range disclosure work without homepage redirects or false market depth. | V30 deepens order book, bid/ask/buy/sell/settle history, wrappers, disputes, and revenue routes. |
+| Auxillaries | Profile, Connects, Interfaces, and BTD panes are contained, selectable, legible, and free of active old orbital shell collision. | V31 deepens settings, provider readiness, diagnostics, policies, accessibility, and recovery flows. |
+| Conversations | Conversation route functions as a Bitcode write/interface surface and returns to Terminal cleanly. | V33 deepens ChatGPT App and API-facing conversational interfaces. |
+| API/interfaces/docs | Docs and interface pages explain current MVP behavior without claiming final MCP/ChatGPT/API commercial depth. | V33 deepens MCP API, ChatGPT App, and non-website interfaces; V35 deepens documentation. |
+| Provation/testing | E2E coverage proves current MVP route/readability/user-flow stability. | V32 deepens provation and regression breadth. |
+| Deployment/telemetry | Dev/testnet readiness is honest; value-bearing mainnet is not silently enabled. | V34 deepens deployment; V35 deepens telemetry and operational documentation. |
+
+## Running Manual QA Findings
+
+### 2026-05-07 Pass 1: Big-Picture Identity/Auth And Auxillaries Entry
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Top nav shows Exchange, Terminal, Docs, BTC, and BTD | pass | Notifications, profile menu dropdown, and logo/page indicator are present. |
+| Auxillaries opens from application entry | pass | Overlay opens and panes are selectable. |
+| Console after initial pass | pass | No console errors reported by manual QA. |
+| Old orbital shell conflict | pass | No old orbital shell was visible in this pass. |
+| Marketing page review | de-scoped | V28 manual QA now focuses on application functionality, not marketing-page critique. |
+
+Open V28 issue from this pass:
+
+| Issue | Severity | V28 disposition |
+| --- | --- | --- |
+| Auxillaries selector cards render `lane ready` / `lane active` as visible prose. These should become clearer readiness/active indicators rather than text labels. | medium | V28 MVP polish blocker for Auxillaries shell quality. |
+| Auxillaries overlay and panes need minor hierarchy, legibility, spacing, and border cleanup. | medium | V28 MVP polish blocker if it impairs commercial readability; deeper settings expansion remains V31. |
+
+Evidence:
+
+- Screenshots supplied in chat for nav/balance/profile-menu/notifications at approximately 2026-05-07 09:41-09:42.
+- Auxillaries overlay screenshot supplied in chat at approximately 2026-05-07 09:42 showing contained panes selectable, no old orbitals, and the `connection lane ready` / `identity lane active` wording issue.
+
+### 2026-05-07 Pass 2: Terminal Big-Picture Orientation
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Terminal reads as the primary operator surface | pass for V28 MVP | Acceptable at current V28 depth. Deeper Terminal clarity and operational polish belong to V29 unless a finding blocks basic V28 use. |
+| Exchange owns master-detail, not Terminal | fail | The current Terminal copy/architecture overstates master-detail. V28 must reserve the master-detail concept for Exchange: master = searchable activity table across Exchange/all-vs-own activity, detail = selected activity state. |
+| Terminal activity table focuses Terminal results | partial | Terminal should show results of Give/Need/closure activity using the shared activity table, but limited and framed around recent Terminal activity rather than whole-Exchange master state. |
+| Activity ledger, selected activity detail, and support panels | partial | Support panels are broadly acceptable, but Terminal organization needs MVP cleanup before deeper manual QA can judge the dense surface confidently. |
+| Give / Need / Fit / proof / AssetPack / BTC / BTD concepts | pending deeper manual check | Need to verify that concepts are visible enough for MVP while not claiming V29 transaction depth. |
+| Activity search, row selection, and detail tabs | pending deeper manual check | Need to verify route stability, selected context, no confusing state transitions, and that shared table behavior feels Terminal-scoped on Terminal and Exchange-wide on Exchange. |
+| Clickable affordance and dead-click audit | fail | Some Terminal objects appear clickable without action, while others click correctly. V28 must fix known dead targets and distinguish clickable controls from static badges/chips consistently. |
+| Dense Terminal organization | partial | Density is expected, but V28 MVP must improve grouping and visual hierarchy enough that the Terminal is digestible before V29 deepens workflows. |
+| Console after Terminal pass | pass | No console errors reported by manual QA. |
+
+Open V28 issues from this pass:
+
+| Issue | Severity | V28 disposition |
+| --- | --- | --- |
+| Terminal incorrectly presents itself as the master-detail surface. Exchange should own master-detail. | high | V28 blocker. Correct product architecture, copy, tests, and visible labels so Terminal is a Give/Need operator surface with recent activity results; Exchange is the market-wide master-detail surface. |
+| Terminal activity table should be shared infrastructure but scoped/framed to recent Terminal activity and executed Give/Need results. | high | V28 blocker for MVP comprehension. Deeper Terminal transaction flow remains V29. |
+| Some Terminal click targets do not visibly perform an action, and static capsules can look too similar to clickable controls. | high | V28 blocker until known no-op jump targets and control/static styling are audited and corrected. |
+| Terminal density and grouping are not yet digestible enough to judge deeper behavior confidently. | medium | V28 MVP polish blocker for organization only; full Terminal workflow polish is V29. |
+| Active `orbitals` naming remains in source/UI/test carriers around Auxillaries. | medium | V28 cleanup target for active commercial surfaces. Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until explicitly removed, but active UX copy, mock helpers, tests, and component names should converge on Auxillaries where touched. |
+| Exchange selected activity detail must be complete enough for QAing activity-system reality. | high | V28 blocker for Exchange MVP. Master = searchable table of all activity types; detail = selected activity facts including table columns plus relevant non-column facts and payload/proof/history paths. |
+
+Implemented after Pass 2, pending next manual QA confirmation:
+
+| Fix | Verification state |
+| --- | --- |
+| Exchange master-detail now uses the table/search/filter pane as master and a named selected activity detail pane as detail. | Focused Playwright Exchange spec passes; full commercial MVP E2E suite passes. |
+| Exchange selected detail keeps table facts and non-column facts visible through the identity/payload card on every focus. | Focused Playwright Exchange spec checks Activity id, lens, participant, ownership, repository, branch, proof posture, closure focus, measured BTD, BTC fee basis, and detail tabs. |
+| Terminal no longer claims master-detail; it presents recent/scoped activity plus selected result. | Focused Playwright Terminal spec passes after copy/structure update. |
+| Terminal adds compact operator lanes for Recent activity, Give, Need, and Closure. | Focused Playwright Terminal spec checks the lane map. |
+| Terminal digest actions now change selected detail focus before scrolling, closing the visible no-op class found in QA. | Focused Playwright Terminal spec clicks `Open proof detail` and verifies `transactionDetail=proofs`. |
+| Static overview badges are quieter than actionable chips/buttons. | Requires next manual visual confirmation. |
+| Active touched Auxillaries names moved from orbitals to Auxillaries in mock-mode envs, component callbacks, and commercial tests. | Source search is clean for active renamed identifiers; compatibility route/style carriers remain tracked. |
+| Conversations split-pane source selector tolerates missing or variant repository payloads and no longer crashes the route during commercial QA. | `commercial-mvp.conversations-docs.spec.ts` passes 3-repeat focused verification and the full commercial MVP suite. |
+| Bare Terminal route no longer auto-mutates its URL during load, while explicit route context and user selections still remain URL-addressable. | Public stitched navigation route spec passes 5-repeat focused verification and the full commercial MVP suite. |
+
+Automated verification after this implementation pass:
+
+- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass.
+- `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed.
+
+Deferred to V29 from this pass:
+
+| Finding | V29 disposition |
+| --- | --- |
+| Terminal prose clarity can improve while maintaining technical accuracy. | V29 Terminal-focused version should rewrite and refine Terminal copy, explainers, labels, and read/write guidance as part of deeper Terminal workflows. |
+| Terminal transaction sequencing, dense workflow hierarchy, and deeper Give/Need/Fit/settlement ergonomics need a dedicated version. | V29 owns full Terminal workflow deepening after V28 fixes MVP architecture and obvious clickability/organization problems. |
+
+## Current QA Queue
+
+1. Identity/auth and Auxillaries shell polish.
+2. Terminal big-picture Give/Need/activity flow.
+3. Exchange big-picture activity/table/detail/range intent flow.
+4. BTD range/read-right and wallet/BTC/BTD posture.
+5. Conversations as MVP write/interface surface.
+6. Docs/API/interface claims for MVP accuracy.
+
+## Issue Template
+
+```md
+### Title
+
+### Surface
+Identity/Auth / Terminal / Exchange / Auxillaries / BTD / Conversations / Docs/API / Deployment
+
+### Expected V28 MVP Behavior
+
+### Actual Behavior
+
+### Evidence
+- URL:
+- Screenshot:
+- Console/network:
+- Route/query state:
+
+### V28 vs Later-Version Disposition
+V28 blocker / V28 polish / V29+ deferred
+
+### Notes
+```

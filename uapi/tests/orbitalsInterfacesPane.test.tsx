@@ -57,7 +57,7 @@ describe('AuxillariesInterfacesPane', () => {
     );
 
     expect(screen.getAllByText('Auxillary step 3')).toHaveLength(2);
-    expect(screen.getByText(/Master-detail and conversation defaults/i)).toBeTruthy();
+    expect(screen.getByText(/Exchange detail and conversation defaults/i)).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Shared instruction baseline/i })).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: /signal/i }));
@@ -79,12 +79,12 @@ describe('AuxillariesInterfacesPane', () => {
         defaultModel: 'claude-3-7-sonnet',
         globalSystemPrompt: 'Keep closure exact and user-facing.',
         interfacesDefaults: expect.objectContaining({
-          masterDetailDensity: 'signal',
+          exchangeDetailDensity: 'signal',
           conversationLaunch: 'overlay',
           proofMode: 'raw',
         }),
         workspaceDefaults: expect.objectContaining({
-          masterDetailDensity: 'signal',
+          exchangeDetailDensity: 'signal',
           conversationLaunch: 'overlay',
           proofMode: 'raw',
         }),

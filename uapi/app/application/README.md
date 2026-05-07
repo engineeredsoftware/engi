@@ -3,8 +3,8 @@
 `/application` is the primary Bitcode route and the center of V26 second-gate closure.
 
 Its job is to keep one operator route coherent:
-- the activity ledger as the master surface,
-- selected activity detail as the detail surface,
+- recent Terminal activity as the scoped read surface,
+- selected activity detail as the selected result surface,
 - give and need as the primary write actions,
 - fullscreen conversations and auxillaries as deeper modes entered from within the route,
 - and the preserved lower runtime available only when dense proof/settlement inspection is required.
@@ -12,7 +12,7 @@ Its job is to keep one operator route coherent:
 ## Main experience model
 
 V26 locks three experiences:
-- `master detail`
+- `terminal activity`
 - `conversations`
 - `auxillaries`
 
@@ -27,7 +27,7 @@ V26 locks two actions:
 - `ApplicationPageClient.tsx`
   Route owner, activity-query state owner, and shell/auxillary/conversation entry owner.
 - `ApplicationTransactionWorkspace.tsx`
-  Main activity-ledger master-detail shell.
+  Main Terminal activity and selected-result shell.
 - `application-transaction-query.ts`
   Route-owned filter, paging, and selected-activity state.
 - `ApplicationCommandDeck.tsx`

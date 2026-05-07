@@ -57,9 +57,9 @@ jest.mock('@/components/base/bitcode/vcs/VCSRepositorySelector', () => ({
   },
 }));
 
-jest.mock('@/app/application/ApplicationOpenOrbitalsButton', () => ({
+jest.mock('@/app/application/ApplicationOpenAuxillariesButton', () => ({
   __esModule: true,
-  default: function MockApplicationOpenOrbitalsButton({
+  default: function MockApplicationOpenAuxillariesButton({
     label,
   }: {
     label?: string;

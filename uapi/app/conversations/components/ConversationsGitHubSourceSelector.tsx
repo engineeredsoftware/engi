@@ -276,6 +276,11 @@ export default function ConversationsGitHubSourceSelector({
     setSelectedCommit(val);
   }, []);
 
+  const accountList = Array.isArray(accounts) ? accounts : [];
+  const repositoryList = Array.isArray(repositories) ? repositories : [];
+  const branchList = Array.isArray(branches) ? branches : [];
+  const commitList = Array.isArray(commits) ? commits : [];
+
   // ------------------------------------------------------------------
   // Render – choose implementation based on `variant`
   // ------------------------------------------------------------------
@@ -284,10 +289,10 @@ export default function ConversationsGitHubSourceSelector({
     // Use existing full-size shared component
     return (
       <GitHubSelectors
-        accounts={accounts}
-        repositories={repositories}
-        branches={branches}
-        commits={commits}
+        accounts={accountList}
+        repositories={repositoryList}
+        branches={branchList}
+        commits={commitList}
         selectedAccount={selectedAccount}
         selectedRepo={selectedRepo}
         selectedBranch={selectedBranch}
@@ -312,10 +317,10 @@ export default function ConversationsGitHubSourceSelector({
     return (
       <div className={styles.compactGhSelectors}>
         <GitHubSelectors
-          accounts={accounts}
-          repositories={repositories}
-          branches={branches}
-          commits={commits}
+          accounts={accountList}
+          repositories={repositoryList}
+          branches={branchList}
+          commits={commitList}
           selectedAccount={selectedAccount}
           selectedRepo={selectedRepo}
           selectedBranch={selectedBranch}
@@ -455,7 +460,7 @@ export default function ConversationsGitHubSourceSelector({
     <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
       {renderSmall(
         selectedAccount ? { label: selectedAccount, value: selectedAccount } : null,
-        accounts.map((a) => ({ label: a.login, value: a.login })),
+        accountList.map((a) => ({ label: a.login, value: a.login })),
         (o: any) => handleAccountChange(o?.value || null),
         isLoadingAccounts,
         "/icons/repo.svg",
@@ -463,7 +468,7 @@ export default function ConversationsGitHubSourceSelector({
       )}
       {renderSmall(
         selectedRepo ? { label: selectedRepo, value: selectedRepo } : null,
-        repositories.map((r) => ({ label: r.name, value: r.name })),
+        repositoryList.map((r) => ({ label: r.name, value: r.name })),
         (o: any) => handleRepoChange(o?.value || null),
         isLoadingRepos,
         "/icons/repo.svg",
@@ -471,7 +476,10 @@ export default function ConversationsGitHubSourceSelector({
       )}
       {renderSmall(
         selectedBranch ? { label: selectedBranch, value: selectedBranch } : null,
-        branches.map((b: any) => ({ label: b.name, value: b.name })),
+        branchList.map((b: any) => {
+          const name = typeof b === "string" ? b : b.name;
+          return { label: name, value: name };
+        }),
         (o: any) => handleBranchChange(o?.value || null),
         isLoadingBranches,
         "/icons/branch.svg",
@@ -479,7 +487,7 @@ export default function ConversationsGitHubSourceSelector({
       )}
       {renderSmall(
         selectedCommit ? { label: selectedCommit.slice(0, 7), value: selectedCommit } : null,
-        commits.map((c: any) => ({ label: c.sha.slice(0, 7), value: c.sha })),
+        commitList.map((c: any) => ({ label: c.sha.slice(0, 7), value: c.sha })),
         (o: any) => handleCommitChange(o?.value || null),
         isLoadingCommits,
         "/icons/commit.svg",

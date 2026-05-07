@@ -19,8 +19,8 @@ describe('/api/activity GET', () => {
   it('returns combined execution and notification activity in mock mode', async () => {
     jest.doMock('@/config/featureFlags', () => ({
       ENABLE_MOCKS: true,
-      MOCK_USER_ORBITAL: true,
-      MOCK_USER_ORBITAL_SCENARIO: 'demo',
+      MOCK_USER_AUXILLARIES: true,
+      MOCK_USER_AUXILLARIES_SCENARIO: 'demo',
     }));
 
     const { GET } = await import('@/app/api/activity/route');
@@ -41,8 +41,8 @@ describe('/api/activity GET', () => {
   it('returns an empty live activity payload when unauthenticated', async () => {
     jest.doMock('@/config/featureFlags', () => ({
       ENABLE_MOCKS: false,
-      MOCK_USER_ORBITAL: false,
-      MOCK_USER_ORBITAL_SCENARIO: 'default',
+      MOCK_USER_AUXILLARIES: false,
+      MOCK_USER_AUXILLARIES_SCENARIO: 'default',
     }));
     jest.doMock('@bitcode/supabase/ssr/server', () => ({
       createClient: jest.fn().mockResolvedValue({
@@ -142,8 +142,8 @@ describe('/api/activity GET', () => {
 
     jest.doMock('@/config/featureFlags', () => ({
       ENABLE_MOCKS: false,
-      MOCK_USER_ORBITAL: false,
-      MOCK_USER_ORBITAL_SCENARIO: 'default',
+      MOCK_USER_AUXILLARIES: false,
+      MOCK_USER_AUXILLARIES_SCENARIO: 'default',
     }));
     jest.doMock('@bitcode/supabase/ssr/server', () => ({
       createClient: jest.fn().mockResolvedValue({

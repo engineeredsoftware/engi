@@ -5,7 +5,7 @@ import {
 } from '@bitcode/api/src/executions/agentic-execution';
 
 import { ENABLE_MOCKS, MOCK_CHAT_STREAM } from '../../../config/featureFlags';
-import { buildMockReviewUser, isUserOrbitalMockMode } from '../../../lib/mock-review-mode';
+import { buildMockReviewUser, isAuxillariesMockMode } from '../../../lib/mock-review-mode';
 
 type ConversationToken = {
   type?: string;
@@ -54,7 +54,7 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     updated_at: '2026-04-16T10:21:00.000Z',
     message_count: 7,
     attachment_count: 2,
-    last_message: 'Preserve the master-detail reading surfaces while removing peer-product routing and sealing output destinations.',
+    last_message: 'Preserve Terminal and Exchange reading surfaces while removing peer-product routing and sealing output destinations.',
   },
 ];
 
@@ -63,7 +63,7 @@ function getMockConversationRows() {
 }
 
 export function isConversationMockMode() {
-  return isUserOrbitalMockMode() || (ENABLE_MOCKS && MOCK_CHAT_STREAM);
+  return isAuxillariesMockMode() || (ENABLE_MOCKS && MOCK_CHAT_STREAM);
 }
 
 export function getEmptyConversationPage() {
@@ -256,22 +256,45 @@ export function createMockConversationStreamResponse(input: {
   const encoder = new TextEncoder();
   const envelope = buildMockConversationStreamEnvelope(input);
 
+  let closed = false;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
       let index = 0;
 
       const pushNext = () => {
+        if (closed) {
+          return;
+        }
+
         if (index >= envelope.queue.length) {
+          closed = true;
           controller.close();
           return;
         }
 
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify(envelope.queue[index])}\n\n`));
+        try {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(envelope.queue[index])}\n\n`));
+        } catch {
+          closed = true;
+          return;
+        }
+
         index += 1;
-        setTimeout(pushNext, index <= (envelope.pipeline?.events.length || 0) ? 70 : 45);
+        timeoutId = setTimeout(pushNext, index <= (envelope.pipeline?.events.length || 0) ? 70 : 45);
       };
 
       pushNext();
+    },
+    cancel() {
+      // Browser-driven tests and route changes can close the stream before the
+      // delayed mock queue is exhausted. Treat that as normal SSE lifecycle.
+      closed = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
     },
   });
 

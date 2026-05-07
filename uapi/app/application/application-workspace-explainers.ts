@@ -19,12 +19,12 @@ const TERMINAL_SOURCE_REFS = [
 
 export const APPLICATION_SURFACE_EXPLAINERS = {
   experienceMap: buildExplainer({
-    kicker: 'Bitcode Terminal read model',
+    kicker: 'Bitcode Terminal operator model',
     title: 'Bitcode Terminal experience map',
     summary:
-      'The Bitcode Terminal is the primary UX/UI over Bitcode Exchange: one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
+      'The Bitcode Terminal is the primary operator surface for Give, Need, closure, and recent activity results, while Exchange owns the market-wide master-detail view.',
     detail:
-      'Use this map to keep the main Bitcode Terminal reading surface stable: Bitcode activity and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
+      'Use this map to keep the main Bitcode Terminal working surface stable: Give, Need, recent activity, and selected results stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
     points: [
       'Keeps the ledger and selected activity central',
       'Treats conversations and Auxillaries as deliberate follow-through modes',
@@ -237,7 +237,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
-      'The map should act like a readable table of contents for the lower Bitcode Terminal flow so you can move from Bitcode Exchange reread into Bitcode Protocol proof without losing context, not like an internal engineering note.',
+      'The map should act like a readable table of contents for the lower Bitcode Terminal flow so you can move from recent activity results into Bitcode Protocol proof without losing context, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
       'Keeps exact-detail navigation legible',
@@ -318,12 +318,12 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     kicker: 'Reading modes',
     title: 'Read here, open deeper modes when needed',
     summary:
-      'The right rail should keep mode changes obvious without competing with the central activity ledger window.',
+      'The right rail should keep mode changes obvious without competing with the recent activity result window.',
     detail:
-      'Use the rail to open conversations or Auxillaries deliberately, while the ledger and selected activity remain the primary read surface.',
+      'Use the rail to open conversations or Auxillaries deliberately, while recent activity and the selected result remain the primary Terminal read surface.',
     points: [
       'Keeps deeper drafting deliberate',
-      'Avoids splitting attention away from the activity ledger',
+      'Avoids splitting attention away from recent activity results',
       'Preserves orientation when switching modes',
     ],
     references: {
@@ -383,9 +383,9 @@ export const APPLICATION_INLINE_EXPLAINERS = {
   readWindow: buildExplainer({
     title: 'Read window',
     summary:
-      'The main Bitcode Terminal read window is the activity ledger plus selected detail, not a generic dashboard tile.',
+      'The main Bitcode Terminal read window is recent activity plus the selected Terminal result, not the Exchange master-detail table.',
     detail:
-      'Keep the master-detail read loop centered here. Deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries, and this read window should stay visibly tied to Bitcode Exchange state plus Bitcode Protocol proof posture.',
+      'Exchange owns the market-wide master-detail loop. Terminal keeps a focused read/write loop for recent Give, Need, proof, and closure results; deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
     references: {
       source: [
         'uapi/app/application/ApplicationExperienceFrame.tsx',
@@ -485,9 +485,9 @@ export const APPLICATION_INLINE_EXPLAINERS = {
   repositoryAnchor: buildExplainer({
     title: 'Record repository anchor',
     summary:
-      'Recording the repository anchor writes the selected source perimeter into the Bitcode activity ledger.',
+      'Recording the repository anchor writes the selected source perimeter into recent Bitcode Terminal activity.',
     detail:
-      'This keeps source posture rereadable in the Bitcode activity ledger alongside give, need, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
+      'This keeps source posture rereadable in recent Terminal activity alongside give, need, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
     references: {
       source: [
         'uapi/app/application/ApplicationRepositoryContextPanel.tsx',
@@ -540,9 +540,9 @@ export const APPLICATION_INLINE_EXPLAINERS = {
   activeNeed: buildExplainer({
     title: 'Record active need',
     summary:
-      'Recording the active need writes the currently measured demand frame into the Bitcode activity ledger.',
+      'Recording the active need writes the currently measured demand frame into recent Bitcode Terminal activity.',
     detail:
-      'This makes the selected need rereadable from the same master-detail system that later shows fit, proof, and settlement.',
+      'This makes the selected need rereadable from the same Terminal activity result path that later shows fit, proof, and settlement.',
     references: {
       source: [
         'uapi/app/application/ApplicationNeedScenarioPanel.tsx',

@@ -16,7 +16,7 @@ interface UserMenuProps {
   /** Supabase user object */
   user: import("@supabase/supabase-js").User;
   /** Callback when the user selects “Auxillaries” */
-  onOpenOrbitals?: () => void;
+  onOpenAuxillaries?: () => void;
   /** Callback when the user selects “Sign out” */
   onSignOut: () => void;
 }
@@ -44,7 +44,7 @@ const contentStyles = `${menuStyles.menu}`;
  * Increased padding, smooth colour transitions and active/hover feedback that
  * follow the emerald accent used across interactive elements.
  */
-export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
+export function UserMenu({ user, onOpenAuxillaries, onSignOut }: UserMenuProps) {
   const avatarUrl =
     (user.user_metadata && (user.user_metadata.avatar_url as string)) || "";
 
@@ -114,11 +114,11 @@ export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
         </div>
 
         <div className="flex flex-col">
-            {onOpenOrbitals && (
+            {onOpenAuxillaries && (
               <DropdownMenu.Item
                 onSelect={(e) => {
                   e.preventDefault();
-                  onOpenOrbitals();
+                  onOpenAuxillaries();
                 }}
                 className={`${menuStyles.item}`}
               >

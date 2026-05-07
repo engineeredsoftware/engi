@@ -2,11 +2,11 @@
 
 export const APPLICATION_EXPERIENCES = [
   {
-    id: 'master-detail',
+    id: 'terminal-activity',
     label: 'Bitcode Terminal',
-    badge: 'primary',
+    badge: 'operator surface',
     description:
-      'The central Bitcode activity ledger: a searchable activity table with the selected activity opened into asset packs, proofs, and history.',
+      'The Give and Need operator surface: recent Terminal activity rows open into AssetPack results, proofs, and history without replacing the Exchange master-detail view.',
     targetId: 'applicationTransactionWorkspace',
   },
   {
@@ -46,13 +46,13 @@ export const APPLICATION_ACTIONS = [
   },
 ] as const;
 
-export const MASTER_DETAIL_SUBSTRUCTURES = [
+export const ACTIVITY_DETAIL_SECTIONS = [
   {
     id: 'transactions',
-    label: 'Bitcode activity ledger',
-    badge: 'master',
+    label: 'Bitcode activity results',
+    badge: 'activity',
     description:
-      'Search, filter, and inspect Bitcode agentic executions from one ledger window without breaking the selected detail read.',
+      'Search, filter, and inspect recent Terminal activity without breaking the selected result read.',
     targetId: 'applicationTransactionWorkspace',
   },
   {
@@ -85,11 +85,11 @@ export const SIXTH_GATE_MVP_APPLICATION_MAP = [
   {
     id: 'activity',
     label: 'Activity',
-    role: 'dominant-master-detail-read-surface',
+    role: 'terminal-operator-activity-surface',
     routeSurface: '/application',
     targetId: 'applicationTransactionWorkspace',
     requiredPosture:
-      'Dominant searchable, filterable, live-updating Bitcode activity table with selected activity detail.',
+      'Focused searchable, filterable, live-updating Terminal activity table for recent Give, Need, proof, closure, and selected result reading.',
     implementedBy: [
       'uapi/app/application/ApplicationTransactionWorkspace.tsx',
       'uapi/app/application/ApplicationTransactionsTable.tsx',
@@ -150,10 +150,10 @@ export const SIXTH_GATE_MVP_APPLICATION_MAP = [
 ] as const;
 
 export const CORE_PANEL_EXPERIENCE: Record<string, (typeof APPLICATION_EXPERIENCES)[number]['id']> = {
-  panelOperatingPicture: 'master-detail',
-  panelDepositing: 'master-detail',
-  panelNeeding: 'master-detail',
-  panelFit: 'master-detail',
+  panelOperatingPicture: 'terminal-activity',
+  panelDepositing: 'terminal-activity',
+  panelNeeding: 'terminal-activity',
+  panelFit: 'terminal-activity',
 };
 
 export const CORE_PANEL_ACTION: Record<string, (typeof APPLICATION_ACTIONS)[number]['id'] | null> = {
@@ -165,7 +165,7 @@ export const CORE_PANEL_ACTION: Record<string, (typeof APPLICATION_ACTIONS)[numb
 
 export const CLOSURE_PANEL_SUBSTRUCTURE: Record<
   string,
-  (typeof MASTER_DETAIL_SUBSTRUCTURES)[number]['id'] | null
+  (typeof ACTIVITY_DETAIL_SECTIONS)[number]['id'] | null
 > = {
   panelEvaluations: 'proofs',
   panelBranchArtifacts: 'shippables',
@@ -181,8 +181,8 @@ export function getApplicationAction(id: (typeof APPLICATION_ACTIONS)[number]['i
   return APPLICATION_ACTIONS.find((action) => action.id === id) || null;
 }
 
-export function getMasterDetailSubstructure(id: (typeof MASTER_DETAIL_SUBSTRUCTURES)[number]['id']) {
-  return MASTER_DETAIL_SUBSTRUCTURES.find((substructure) => substructure.id === id) || null;
+export function getActivityDetailSection(id: (typeof ACTIVITY_DETAIL_SECTIONS)[number]['id']) {
+  return ACTIVITY_DETAIL_SECTIONS.find((substructure) => substructure.id === id) || null;
 }
 
 export function getSixthGateMvpApplicationSurface(

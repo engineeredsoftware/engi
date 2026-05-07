@@ -91,6 +91,43 @@ The initial implementation target is `uapi/tests/e2e/commercial-mvp*.spec.ts`, w
 That runner should remain serial unless the shared Next dev server and route-level mock harness are proven concurrency-stable; the purpose is product-experience proof, not parallel load testing. The harness owns Auxillaries profile/model-preference/data-share state and conversation streaming so QA can distinguish UI regressions from unavailable local wallets, provider accounts, or database sessions.
 Commercial QA also exposed a provider-package dependency boundary issue: `@bitcode/generic-llms` directly requires AI SDK, Google, OpenAI, and Anthropic bindings, so V28 declares those runtime dependencies in that package rather than relying on the UAPI host dependency tree. Module-resolution warnings from provider packages are not acceptable QA noise.
 
+Manual QA resumed on May 7, 2026 as a big-picture commercial application MVP pass.
+The running collaborative QA document is `BITCODE_V28_QA.md`.
+This pass explicitly de-scopes marketing-page critique except for navigation/application-entry regressions and focuses on identity/auth, Terminal, Exchange, Auxillaries, BTD, Conversations, docs/API/interface claims, and testnet-readiness honesty.
+The first resumed pass confirmed the top navigation, notifications, profile menu, logo/page indicator, BTD/BTC balance posture, Auxillaries opening, pane selectability, no console errors, and no old orbital shell collision.
+It also opened an Auxillaries V28 polish issue: selector cards must replace visible `lane ready` / `lane active` prose with clearer indicators, and the overlay/panes need minor hierarchy, legibility, spacing, and border cleanup before Auxillaries shell closure.
+The first Terminal big-picture pass found the Terminal acceptable as the primary operator surface for V28 MVP orientation and reported no console errors.
+Detailed checks for activity ledger comprehension, selected detail, support panels, Give/Need/Fit/proof/AssetPack/BTC/BTD visibility, row selection, and detail-tab stability remain in the V28 QA queue.
+Terminal prose clarity and deeper copy refinement are explicitly deferred to V29 unless a wording issue blocks basic V28 use.
+
+The next Terminal pass refined that judgment: Terminal is acceptable as the primary operator surface, but the master-detail concept was assigned to the wrong product surface in current copy and visible structure.
+V28 must correct this before closure.
+Exchange owns the master-detail experience: the master is the searchable activity table over whole-Exchange or user-owned activity, and detail is the selected activity state.
+Terminal owns Give, Need, closure, and operator transaction work; it may reuse the same activity table, but it must frame that table as recent/scoped Terminal activity and executed Give/Need results rather than the whole Exchange master.
+The pass also opened V28 issues for dead or ambiguous click targets, static capsules that visually resemble buttons, and Terminal grouping/legibility that is dense enough to slow judgment.
+V28 should fix the architectural copy, obvious no-op targets, and clickable/static affordance boundary now; V29 should deepen Terminal transaction sequencing, prose, and full workflow organization.
+
+Exchange master-detail is now specified more precisely for V28 QA: the master is the searchable/filterable activity table containing all Exchange-visible activity types, including Needs, Gives, closures, proof refreshes, and later marketplace events.
+Selecting a master row opens rich selected-activity detail.
+The detail must carry all facts from the master row plus relevant non-column facts that belong to the activity: summary, status, participant, ownership, repository/branch, action lens, proof posture, closure focus, timing, measured BTD, BTC fee basis, token/latency/accounting metrics, payload, proofs, AssetPack evidence, history, and any activity-specific Give/Need/closure state available at MVP depth.
+V28 does not need V30-level market depth, but it must be sufficiently complete to QA the activity system as a real commercial primitive rather than a decorative table.
+
+Implementation refinement after the clarified Exchange master-detail design:
+
+- Exchange now renders the activity table/search/filter controls as the master pane and the selected activity detail as a named detail pane.
+- Exchange selected detail includes the identity/payload card on every detail focus so table-column facts and non-column facts remain visible while the operator reads Shippables, proofs, closure, history, or execution-stream detail.
+- Exchange route synchronization is guarded against stale route writes so generic entry, BTD widget entry, row selection, and detail tab focus do not unexpectedly redirect or scroll.
+- Terminal no longer presents itself as the Exchange master-detail surface. It uses the shared activity table as a recent/scoped Terminal result surface and adds a compact operator-lane map for Recent Activity, Give, Need, and Closure.
+- Terminal result digest actions now change the active detail section before scrolling, which closes the known no-op detail-card action class found in manual QA.
+- Static overview badges were visually quieted relative to actionable chips/buttons so clickability is more apparent during the next manual QA pass.
+- Bare `/application` no longer writes default provider/repository/transaction query state during route load. Explicit route context and user selections remain URL-addressable, but public navigation can move Terminal -> Docs without being overwritten by hydration-time route synchronization.
+- Conversations split-pane QA now uses stable commercial mocks for execution pickers and stream responses, and the source selector treats missing or variant repository/branch/commit payloads as empty collections rather than crashing the fullscreen route.
+- The current automated V28 commercial MVP baseline is `pnpm -C uapi run test:e2e:commercial-mvp`, which passes 50 laptop-project tests after the Exchange, Terminal, Auxillaries, Conversations, BTD, docs, responsive, and stitched-nav fixes.
+
+The same pass also reclassified active `orbitals` naming as legacy residue when it appears in current commercial Auxillaries source, visible copy, mock-mode naming, or test names.
+Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until it is removed, and old stylesheet class names can remain temporarily only where they are inert styling carriers.
+Active product language and touched implementation should converge on Auxillaries.
+
 ## Promotion Review Basis
 
 The V28 handoff is grounded in:

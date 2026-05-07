@@ -5,7 +5,7 @@ import { createClient } from "@bitcode/supabase/ssr/client";
 
 import type { Session, User } from "@supabase/supabase-js";
 
-import { buildMockReviewUser, isUserOrbitalMockMode } from "@/lib/mock-review-mode";
+import { buildMockReviewUser, isAuxillariesMockMode } from "@/lib/mock-review-mode";
 
 interface AuthContextValue {
   user: User | null;
@@ -16,7 +16,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const mockMode = isUserOrbitalMockMode();
+  const mockMode = isAuxillariesMockMode();
   const supabase = useMemo(() => createClient(), []);
 
   const [user, setUser] = useState<User | null>(mockMode ? buildMockReviewUser() : null);

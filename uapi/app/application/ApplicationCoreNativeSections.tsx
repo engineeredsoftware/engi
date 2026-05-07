@@ -136,7 +136,7 @@ export default function ApplicationCoreNativeSections({
 
       <div className="mt-6 grid gap-5">
         {panels.map((panel) => (
-          <div key={panel.id} className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(panel.id)}`}>
+          <div id={panel.id} key={panel.id} className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(panel.id)}`}>
             <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
               <div className="min-w-0 max-w-3xl">
                 <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Core Bitcode section</p>

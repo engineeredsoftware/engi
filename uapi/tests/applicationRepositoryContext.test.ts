@@ -31,7 +31,7 @@ describe('application repository context helpers', () => {
     expect(deriveSelectedRepository(repositories, 'repo-1', null)?.fullName).toBe('bitcode/bitcode');
   });
 
-  it('falls back to the preferred repository from current master-detail context', () => {
+  it('falls back to the preferred repository from current Terminal context', () => {
     expect(deriveSelectedRepository(repositories, null, 'bitcode/bitcode-core')?.id).toBe('repo-2');
   });
 

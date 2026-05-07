@@ -22,8 +22,8 @@ export function getTransactionDataModeDescription(mode: TransactionDataMode) {
     case 'mock-review':
       return 'full transaction review is running against deterministic mock surfaces';
     case 'review-fallback':
-      return 'live history is empty here, so bounded review transactions keep master detail interactive';
+      return 'live history is empty here, so bounded review transactions keep activity reading interactive';
     default:
-      return 'master detail is reading live Bitcode execution history';
+      return 'live Bitcode execution history is feeding the selected activity read';
   }
 }

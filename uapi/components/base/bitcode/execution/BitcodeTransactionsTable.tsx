@@ -56,17 +56,21 @@ export default function BitcodeTransactionsTable({
   dataMode,
   surface = 'terminal',
 }: BitcodeTransactionsTableProps) {
-  const surfaceName = surface === 'exchange' ? 'Bitcode Exchange' : 'central Bitcode Terminal';
+  const isExchangeSurface = surface === 'exchange';
+  const tableKicker = isExchangeSurface ? 'Exchange master-detail' : 'Terminal activity';
+  const tableTitle = isExchangeSurface ? 'Searchable Exchange activity table' : 'Recent Terminal activity';
+  const tableSummary = isExchangeSurface
+    ? 'The Exchange master table is searchable and filterable across market activity or your own activity. Select any row to load AssetPack evidence, proofs, history, and execution detail in the Exchange detail pane.'
+    : 'Terminal uses the shared activity table as a focused result surface for recent Give, Need, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates without leaving the Terminal workflow.';
 
   return (
     <section className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <div className="max-w-3xl">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Activity ledger</p>
-          <h3 className="mt-2 text-xl font-semibold text-white">Rich Bitcode activity ledger</h3>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">{tableKicker}</p>
+          <h3 className="mt-2 text-xl font-semibold text-white">{tableTitle}</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            Master detail is concretely a searchable, filterable ledger of Bitcode activity. Select any row to load
-            activity detail, asset packs, proofs, history, and execution updates in the {surfaceName}.
+            {tableSummary}
           </p>
         </div>
 

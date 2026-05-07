@@ -341,7 +341,7 @@ export function normalizeApplicationClosureState(snapshot: ShellSnapshot): Appli
       label: stringValue(ledger.label, 'Ledger + run history'),
       summary:
         recentRuns.length > 0
-          ? 'Ledger and run history remain inside the same master-detail closure space as proof and settlement.'
+          ? 'Ledger and run history remain inside the same Terminal closure space as proof and settlement.'
           : 'Ledger state is ready even when run history has not accumulated yet.',
       metrics: [
         { label: 'Accounts', value: numberValue(ledger.accountCount) },

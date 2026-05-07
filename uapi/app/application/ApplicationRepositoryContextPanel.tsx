@@ -8,7 +8,7 @@ import type { VCSRepository } from '@bitcode/vcs-core';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import { VCSRepositorySelector } from '@/components/base/bitcode/vcs/VCSRepositorySelector';
 
-import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
+import ApplicationOpenAuxillariesButton from './ApplicationOpenAuxillariesButton';
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
   buildApplicationRepositoryAnchorDraft,
@@ -158,7 +158,16 @@ export default function ApplicationRepositoryContextPanel({
   }, [connectionStatus, inventorySource, onContextChange, provider, repositories, selectedRepository]);
 
   useEffect(() => {
-    const nextParams = new URLSearchParams(searchParams.toString());
+    const hasRouteContext =
+      typeof window !== 'undefined'
+        ? window.location.pathname === '/application' && window.location.search.length > 1
+        : searchParams.toString().length > 0;
+    if (!hasRouteContext) return;
+
+    const nextParams =
+      typeof window !== 'undefined' && window.location.pathname === '/application'
+        ? new URLSearchParams(window.location.search)
+        : new URLSearchParams(searchParams.toString());
     let changed = false;
 
     if (nextParams.get('provider') !== provider) {
@@ -177,8 +186,9 @@ export default function ApplicationRepositoryContextPanel({
     }
 
     if (!changed) return;
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
-  }, [pathname, provider, router, searchParams, selectedRepository]);
+    if (typeof window !== 'undefined' && window.location.pathname !== '/application') return;
+    router.replace(`/application?${nextParams.toString()}`, { scroll: false });
+  }, [provider, router, searchParams, selectedRepository]);
 
   const refreshRepositoryContext = () => {
     setConnectionStatus(null);
@@ -260,7 +270,8 @@ export default function ApplicationRepositoryContextPanel({
                       const nextParams = new URLSearchParams(searchParams.toString());
                       nextParams.set('provider', option);
                       nextParams.delete('repo');
-                      router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+                      if (typeof window !== 'undefined' && window.location.pathname !== '/application') return;
+                      router.replace(`/application?${nextParams.toString()}`, { scroll: false });
                     }}
                     className={`rounded-full border px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] transition ${
                       isActive
@@ -288,7 +299,8 @@ export default function ApplicationRepositoryContextPanel({
                   } else {
                     nextParams.delete('repo');
                   }
-                  router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+                  if (typeof window !== 'undefined' && window.location.pathname !== '/application') return;
+                  router.replace(`/application?${nextParams.toString()}`, { scroll: false });
                 }}
                 placeholder={
                   connectionStatus?.connected
@@ -395,7 +407,7 @@ export default function ApplicationRepositoryContextPanel({
                       </dd>
                     </div>
                   </dl>
-                  <ApplicationOpenOrbitalsButton
+                  <ApplicationOpenAuxillariesButton
                     step="connects"
                     label="Reconnect Connects to restore live write admission"
                     className="rounded-[1.2rem] border border-amber-300/24 bg-amber-400/12 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"
@@ -407,7 +419,7 @@ export default function ApplicationRepositoryContextPanel({
                     No active {getProviderLabel(provider)} connection is available for repository supply in this application
                     context.
                   </p>
-                  <ApplicationOpenOrbitalsButton
+                  <ApplicationOpenAuxillariesButton
                     step="connects"
                     className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                   />

@@ -13,8 +13,8 @@ describe('/api/conversations/branch POST (mock mode)', () => {
 
   beforeAll(() => {
     process.env.NEXT_PUBLIC_ENABLE_MOCKS = 'true';
-    process.env.NEXT_PUBLIC_MOCK_USER_ORBITAL = 'true';
-    process.env.NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO = 'demo';
+    process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES = 'true';
+    process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO = 'demo';
   });
 
   afterAll(() => {
@@ -50,8 +50,8 @@ describe('/api/conversations/branch POST (non-mock mode)', () => {
     jest.resetModules();
     jest.clearAllMocks();
     process.env.NEXT_PUBLIC_ENABLE_MOCKS = 'false';
-    process.env.NEXT_PUBLIC_MOCK_USER_ORBITAL = 'false';
-    process.env.NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO = 'false';
+    process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES = 'false';
+    process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO = 'false';
 
     createClientMock = require('@bitcode/supabase/ssr/server').createClient;
     supabaseFromMock = require('@bitcode/supabase').supabaseAdmin.from;

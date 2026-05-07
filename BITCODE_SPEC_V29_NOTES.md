@@ -36,6 +36,14 @@ V29 owns deeper Terminal:
 - Terminal journal diffing, reconciliation repair, ledger/database/metaphysical state separation, and proof-root surfacing;
 - organization holdings, team roles, read-license usage, and registry-derived Terminal permission decisions;
 - Terminal-specific route, UI, accessibility, responsive, error-state, and Playwright coverage.
+- Terminal prose, labels, explainers, and read/write guidance refined for clearer commercial comprehension while preserving V27 technical law.
+
+## Inputs deferred from V28 QA
+
+- May 7, 2026 V28 manual QA accepted Terminal as the primary operator surface at MVP level but identified prose clarity as a Terminal-focused improvement.
+- V29 should improve Terminal copy, hierarchy, explanatory precision, and operator sequencing around Give, Need, Fit, proof, AssetPack, BTC fee posture, BTD range/read-right posture, and selected activity detail.
+- This is not a V28 blocker unless specific wording prevents a user from completing basic V28 MVP navigation or materially misstates Bitcode law.
+- May 7, 2026 follow-up QA clarified that Exchange, not Terminal, owns the master-detail product pattern. V28 must fix that MVP architecture and any obvious dead/ambiguous click targets; V29 should then deepen Terminal-specific sequencing, density management, task progression, and richer Give/Need result reading without reintroducing Exchange master-detail language.
 
 ## Boundaries
 

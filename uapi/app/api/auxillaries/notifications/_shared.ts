@@ -1,4 +1,4 @@
-import { buildMockReviewUser, isUserOrbitalMockMode } from '../../../../lib/mock-review-mode';
+import { buildMockReviewUser, isAuxillariesMockMode } from '../../../../lib/mock-review-mode';
 
 export type OrbitalNotificationRow = {
   id: string;
@@ -66,5 +66,5 @@ export function normalizeOrbitalNotificationRow(row: OrbitalNotificationRow) {
 }
 
 export function isOrbitalNotificationsMockMode() {
-  return isUserOrbitalMockMode();
+  return isAuxillariesMockMode();
 }

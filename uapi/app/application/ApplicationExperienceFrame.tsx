@@ -4,7 +4,7 @@ import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeI
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import ApplicationOpenConversationsButton from './ApplicationOpenConversationsButton';
-import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
+import ApplicationOpenAuxillariesButton from './ApplicationOpenAuxillariesButton';
 import {
   APPLICATION_INLINE_EXPLAINERS,
   APPLICATION_WORKSPACE_EXPLAINERS,
@@ -20,8 +20,8 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
   return (
     <ApplicationWorkspaceCard
       kicker="Mode map"
-      title="Read the ledger, then open deeper modes only when needed"
-      summary="Keep the activity ledger and selected detail primary, then move into conversations or Auxillaries only when you need drafting, coordination, or interface changes."
+      title="Work in Terminal, open deeper modes only when needed"
+      summary="Keep Give, Need, and recent activity results primary, then move into conversations or Auxillaries only when you need drafting, coordination, or interface changes."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -30,7 +30,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
             <p className="text-emerald-300/85">Read window</p>
             <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.readWindow} />
           </div>
-          <p className="mt-2 text-neutral-200">activity ledger + selected detail</p>
+          <p className="mt-2 text-neutral-200">recent activity + selected result</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <div className="flex items-center gap-2">
@@ -55,7 +55,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
             </div>
             <p className="mt-3 text-sm leading-6 text-neutral-300">{experience.description}</p>
             <div className="mt-5">
-              {experience.id === 'master-detail' ? (
+              {experience.id === 'terminal-activity' ? (
                 <button
                   type="button"
                   onClick={() => jumpToShellSection(experience.targetId)}
@@ -69,7 +69,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
                   className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
                 />
               ) : (
-                <ApplicationOpenOrbitalsButton
+                <ApplicationOpenAuxillariesButton
                   className="rounded-[1.3rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                 />
               )}

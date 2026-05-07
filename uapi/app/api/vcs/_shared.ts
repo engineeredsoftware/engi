@@ -12,7 +12,7 @@ import {
 import {
   buildMockVcsConnectionStatus,
   buildMockVcsRepositories,
-  isUserOrbitalMockMode,
+  isAuxillariesMockMode,
 } from '../../../lib/mock-review-mode';
 
 const providerSchema = z.enum(['github', 'gitlab', 'bitbucket']);
@@ -48,7 +48,7 @@ export async function resolveRouteProvider(context: ProviderRouteContext): Promi
 }
 
 export function isMockVcsMode() {
-  return isUserOrbitalMockMode();
+  return isAuxillariesMockMode();
 }
 
 export function getMockConnectionStatus(provider: VCSProviderType) {

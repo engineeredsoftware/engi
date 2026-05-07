@@ -154,7 +154,7 @@ export function buildAssetPackRightsTransferReceipt(input: {
   if (settledOrder.orderState !== 'settled' || settledOrder.settledAtExchangeSequence === undefined) {
     throw new Error('Rights transfer requires a settled Exchange order.');
   }
-  assertNonEmptyString(settledOrder.ledgerAnchorId, 'ledgerAnchorId');
+  const ledgerAnchorId = assertNonEmptyString(settledOrder.ledgerAnchorId, 'ledgerAnchorId');
 
   return {
     kind: 'btd.asset_pack_rights_transfer',
@@ -169,7 +169,7 @@ export function buildAssetPackRightsTransferReceipt(input: {
     priceSats: settledOrder.priceSats,
     accessPolicyHash: settledOrder.accessPolicyHash,
     btcFeeReceiptId: assertNonEmptyString(input.btcFeeReceiptId, 'btcFeeReceiptId'),
-    ledgerAnchorId: settledOrder.ledgerAnchorId,
+    ledgerAnchorId,
     exchangeSequence: settledOrder.settledAtExchangeSequence,
     issuedAt: input.issuedAt ?? new Date().toISOString(),
   };

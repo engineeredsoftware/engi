@@ -160,13 +160,13 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
       file: 0
     };
 
-    (data || []).forEach(att => {
+    (data || []).forEach((att: { attachment_type: string | null }) => {
       if (att.attachment_type === 'asset_pack_evidence') {
         counts.assetPackEvidence++;
         return;
       }
 
-      if (att.attachment_type in counts) {
+      if (att.attachment_type && att.attachment_type in counts) {
         counts[att.attachment_type as keyof typeof counts]++;
       }
     });
@@ -191,7 +191,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
 
     // Return unique pipeline execution IDs
     const runIds = new Set<string>();
-    (data || []).forEach(att => {
+    (data || []).forEach((att: { attachment_id: string | null }) => {
       if (att.attachment_id) {
         runIds.add(att.attachment_id);
       }

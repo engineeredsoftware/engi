@@ -123,9 +123,13 @@ export default function ApplicationTransactionDetailSurface({
       transaction: {
         id: selectedRun.id,
         type: selectedRun.type || null,
+        typeLabel: selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type),
         status: selectedRun.status || null,
         createdAt: selectedRun.created_at,
         summary: detail?.summary || selectedRun.summary || null,
+        participant: selectedRun.participant || null,
+        ownership: selectedRun.isOwnTransaction ? 'mine' : 'network',
+        actionLens: selectedRun.transactionLens || null,
       },
       repository: detail?.repoSnapshot
         ? {
@@ -280,6 +284,7 @@ export default function ApplicationTransactionDetailSurface({
             proofPosture={detail.proofStatus || 'closure state in flight'}
             modeLabel={getTransactionDataModeLabel(transactionDataMode)}
             metrics={overviewMetrics}
+            surface={surface}
           />
 
           <ApplicationTransactionDetailActionBar
@@ -296,6 +301,14 @@ export default function ApplicationTransactionDetailSurface({
             mockMode={usesMockTransactions}
             surface={surface}
           />
+
+          <div id="applicationTransactionTransaction">
+            <ApplicationTransactionIdentityCard
+              startedAt={formatRunTimestamp(selectedRun.created_at)}
+              rows={identityRows}
+              payload={transactionPayload}
+            />
+          </div>
 
           {showShippables && mergedAssetPackSurface ? (
             <section
@@ -337,16 +350,6 @@ export default function ApplicationTransactionDetailSurface({
         </div>
 
         <div className="space-y-5">
-          {showTransaction ? (
-            <div id="applicationTransactionTransaction">
-              <ApplicationTransactionIdentityCard
-                startedAt={formatRunTimestamp(selectedRun.created_at)}
-                rows={identityRows}
-                payload={transactionPayload}
-              />
-            </div>
-          ) : null}
-
           {showClosure ? (
             <div id="applicationTransactionClosure">
               <ApplicationTransactionClosureCard

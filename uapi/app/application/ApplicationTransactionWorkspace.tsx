@@ -25,7 +25,7 @@ import {
   normalizeApplicationRunDetailPayload,
   type ApplicationRunDetailSnapshot,
 } from './application-transaction-detail-snapshot';
-import { MASTER_DETAIL_SUBSTRUCTURES } from './application-experience-architecture';
+import { ACTIVITY_DETAIL_SECTIONS } from './application-experience-architecture';
 import { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
 import { MOCK_RUN_ASSET_PACK_SURFACES, type WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
@@ -72,22 +72,30 @@ function countShippableSurfaces(shippables?: ShippablesDoc | null) {
   return count;
 }
 
-type ApplicationMasterDetailSubstructure = (typeof MASTER_DETAIL_SUBSTRUCTURES)[number] & {
+type ApplicationActivitySubstructure = (typeof ACTIVITY_DETAIL_SECTIONS)[number] & {
   summary: string;
   metrics: BitcodeMetric[];
   rows: BitcodeDetailRow[];
 };
 
-const MASTER_DETAIL_ACTION_LABELS: Partial<Record<ApplicationMasterDetailSubstructure['id'], string>> = {
-  shippables: 'Focus shippables detail',
-  proofs: 'Focus proofs detail',
-  history: 'Focus history detail',
+const ACTIVITY_ACTION_LABELS: Partial<Record<ApplicationActivitySubstructure['id'], string>> = {
+  shippables: 'Open output detail',
+  proofs: 'Open proof detail',
+  history: 'Open history detail',
 };
 
-function buildMasterDetailSubstructures(
+const ACTIVITY_DETAIL_SECTION_BY_SUBSTRUCTURE: Partial<
+  Record<ApplicationActivitySubstructure['id'], ApplicationTransactionDetailSection>
+> = {
+  shippables: 'shippables',
+  proofs: 'proofs',
+  history: 'history',
+};
+
+function buildActivitySubstructures(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
-): ApplicationMasterDetailSubstructure[] {
+): ApplicationActivitySubstructure[] {
   const writtenAssets = detail?.writtenAssets || null;
   const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
   const mergedAssetPackSurface = {
@@ -98,14 +106,14 @@ function buildMasterDetailSubstructures(
   const attachedAssetPackSurfaceCount =
     countShippableSurfaces(deliveryMechanism) + (writtenAssets ? 1 : 0);
 
-  return MASTER_DETAIL_SUBSTRUCTURES.map((substructure) => {
+  return ACTIVITY_DETAIL_SECTIONS.map((substructure) => {
     if (substructure.id === 'transactions') {
       return {
         ...substructure,
         summary:
           detail?.summary ||
           selectedRun.summary ||
-          'This selected Bitcode activity is the active detail surface inside the Bitcode Terminal.',
+          'This selected Bitcode activity is the active Terminal result, scoped to the Give, Need, proof, and closure work performed here.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
@@ -123,7 +131,7 @@ function buildMasterDetailSubstructures(
         ...substructure,
         summary:
           mergedAssetPackSurface.summary ||
-          'Finish-delivered Shippables and AssetPack evidence stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
+          'Finish-delivered outputs and AssetPack evidence stay inside the selected Bitcode activity context so you can inspect Terminal results without leaving this workflow.',
         metrics: [
           { label: 'Attached surfaces', value: formatNumber(attachedAssetPackSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
@@ -164,7 +172,7 @@ function buildMasterDetailSubstructures(
     return {
       ...substructure,
       summary:
-        'Activity history, ledger reading, and processing posture remain part of the same Bitcode Terminal surface.',
+        'Activity history, ledger reading, and processing posture remain part of the same Terminal activity result.',
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
@@ -228,10 +236,10 @@ export default function ApplicationTransactionWorkspace({
   const surfaceKicker = isExchangeSurface ? 'Bitcode Exchange' : 'Bitcode Terminal';
   const surfaceTitle = isExchangeSurface
     ? 'Activity search, master table, and selected detail'
-    : 'Master-detail activity, asset packs, proofs, and history';
+    : 'Recent Terminal activity and selected result';
   const surfaceSummary = isExchangeSurface
-    ? 'Search Exchange activity, select a row, and inspect its AssetPack evidence, proof posture, history, and execution detail from the Exchange state layer.'
-    : 'Use the central ledger as the main read surface: select Bitcode activity, inspect its asset packs, proofs, and history, and keep the full operating chain readable without leaving the page.';
+    ? 'Search Exchange activity across the market or your own rows, select from the master table, and inspect AssetPack evidence, proof posture, history, and execution detail from the Exchange state layer.'
+    : 'Terminal keeps recent Give, Need, proof, and closure activity near the top of the workflow. Select a row to read the result here, then use the Give and Need workspace below for the next write.';
   const loadingLabel = isExchangeSurface ? 'Loading Bitcode Exchange…' : 'Loading Bitcode Terminal…';
   const mockAssetPackSurface = selectedRun ? MOCK_RUN_ASSET_PACK_SURFACES[selectedRun.id] : null;
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
@@ -294,10 +302,46 @@ export default function ApplicationTransactionWorkspace({
     };
   }, [mockAssetPackSurface, selectedRun, usesMockTransactions]);
 
-  const masterDetailSubstructures = useMemo(
-    () => (selectedRun ? buildMasterDetailSubstructures(selectedRun, runDetail) : []),
+  const activitySubstructures = useMemo(
+    () => (selectedRun ? buildActivitySubstructures(selectedRun, runDetail) : []),
     [runDetail, selectedRun],
   );
+  const handleActivitySubstructureAction = (substructure: ApplicationActivitySubstructure) => {
+    const nextDetailSection = ACTIVITY_DETAIL_SECTION_BY_SUBSTRUCTURE[substructure.id];
+    if (nextDetailSection) {
+      onDetailSectionChange(nextDetailSection);
+    }
+    window.setTimeout(() => jumpToShellSection(substructure.targetId), 40);
+  };
+  const activityTable = selectedRun ? (
+    <ApplicationTransactionsTable
+      runs={runs}
+      selectedTransactionId={selectedRun.id}
+      onSelectTransaction={onSelectTransaction}
+      filters={filters}
+      onFiltersChange={onFiltersChange}
+      onResetFilters={onResetFilters}
+      pagination={pagination}
+      onPaginationChange={onPaginationChange}
+      isLoadingRuns={isLoadingRuns}
+      runsError={runsError}
+      transactionDataMode={transactionDataMode}
+      surface={surface}
+    />
+  ) : null;
+  const selectedDetailSurface = selectedRun ? (
+    <ApplicationTransactionDetailSurface
+      selectedRun={selectedRun}
+      detail={runDetail}
+      isLoadingDetail={isLoadingRunDetail}
+      detailError={runDetailError}
+      transactionDataMode={transactionDataMode}
+      detailSection={detailSection}
+      onDetailSectionChange={onDetailSectionChange}
+      onRecordActivity={onRecordActivity}
+      surface={surface}
+    />
+  ) : null;
 
   return (
     <section
@@ -348,52 +392,52 @@ export default function ApplicationTransactionWorkspace({
           </div>
         ) : (
           <div className="space-y-6">
-            <ApplicationTransactionsTable
-              runs={runs}
-              selectedTransactionId={selectedRun.id}
-              onSelectTransaction={onSelectTransaction}
-              filters={filters}
-              onFiltersChange={onFiltersChange}
-              onResetFilters={onResetFilters}
-              pagination={pagination}
-              onPaginationChange={onPaginationChange}
-              isLoadingRuns={isLoadingRuns}
-              runsError={runsError}
-              transactionDataMode={transactionDataMode}
-              surface={surface}
-            />
+            {isExchangeSurface ? (
+              <div className="grid items-start gap-6 2xl:grid-cols-[minmax(0,1.18fr)_minmax(30rem,0.82fr)]">
+                <div className="min-w-0">{activityTable}</div>
+                <aside className="min-w-0 2xl:sticky 2xl:top-28" aria-label="Selected Exchange activity detail">
+                  {selectedDetailSurface}
+                </aside>
+              </div>
+            ) : (
+              <>
+                {activityTable}
 
-            <div className="grid gap-4 2xl:grid-cols-4">
-              {masterDetailSubstructures.map((substructure) => {
-                const actionLabel = MASTER_DETAIL_ACTION_LABELS[substructure.id];
+                <section className="rounded-[1.5rem] border border-white/8 bg-white/[0.035] px-5 py-5">
+                  <div className="flex flex-col gap-2 xl:flex-row xl:items-end xl:justify-between">
+                    <div>
+                      <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected result digest</p>
+                      <h3 className="mt-2 text-lg font-semibold text-white">Read the current Terminal activity before continuing work</h3>
+                    </div>
+                    <p className="max-w-2xl text-sm leading-6 text-neutral-300">
+                      These cards summarize the selected row and route into exact detail sections. Static values stay quiet;
+                      explicit buttons change focus.
+                    </p>
+                  </div>
+                  <div className="mt-5 grid gap-4 2xl:grid-cols-4">
+                    {activitySubstructures.map((substructure) => {
+                      const actionLabel = ACTIVITY_ACTION_LABELS[substructure.id];
 
-                return (
-                  <BitcodeDetailPanel
-                    key={substructure.id}
-                    badge={substructure.badge}
-                    title={substructure.label}
-                    summary={substructure.summary}
-                    metrics={substructure.metrics}
-                    rows={substructure.rows}
-                    tagLabel="substructure"
-                    actionLabel={actionLabel}
-                    onAction={actionLabel ? () => jumpToShellSection(substructure.targetId) : undefined}
-                  />
-                );
-              })}
-            </div>
+                      return (
+                        <BitcodeDetailPanel
+                          key={substructure.id}
+                          badge={substructure.id === 'transactions' ? 'recent activity' : substructure.badge}
+                          title={substructure.label}
+                          summary={substructure.summary}
+                          metrics={substructure.metrics}
+                          rows={substructure.rows}
+                          tagLabel="Terminal result"
+                          actionLabel={actionLabel}
+                          onAction={actionLabel ? () => handleActivitySubstructureAction(substructure) : undefined}
+                        />
+                      );
+                    })}
+                  </div>
+                </section>
 
-            <ApplicationTransactionDetailSurface
-              selectedRun={selectedRun}
-              detail={runDetail}
-              isLoadingDetail={isLoadingRunDetail}
-              detailError={runDetailError}
-              transactionDataMode={transactionDataMode}
-              detailSection={detailSection}
-              onDetailSectionChange={onDetailSectionChange}
-              onRecordActivity={onRecordActivity}
-              surface={surface}
-            />
+                {selectedDetailSurface}
+              </>
+            )}
           </div>
         )}
       </div>

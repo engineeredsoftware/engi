@@ -44,16 +44,16 @@ export default function BitcodeTransactionsOverview({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+        <span className="cursor-default rounded-[0.65rem] border border-white/8 bg-white/[0.035] px-2.5 py-1">
           selected {selectedTransactionId ? 'activity active' : 'none'}
         </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+        <span className="cursor-default rounded-[0.65rem] border border-white/8 bg-white/[0.035] px-2.5 py-1">
           mode {modeLabel}
         </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+        <span className="cursor-default rounded-[0.65rem] border border-white/8 bg-white/[0.035] px-2.5 py-1">
           {modeDescription}
         </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+        <span className="cursor-default rounded-[0.65rem] border border-white/8 bg-white/[0.035] px-2.5 py-1">
           search spans ids, repos, branches, participants, proof posture, and summaries
         </span>
       </div>

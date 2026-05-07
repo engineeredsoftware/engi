@@ -1,7 +1,7 @@
 import type { User } from '@supabase/supabase-js';
 import type { VCSProviderType, VCSRepository } from '@bitcode/vcs';
 
-import { ENABLE_MOCKS, MOCK_USER_ORBITAL, MOCK_USER_ORBITAL_SCENARIO } from '@/config/featureFlags';
+import { ENABLE_MOCKS, MOCK_USER_AUXILLARIES, MOCK_USER_AUXILLARIES_SCENARIO } from '@/config/featureFlags';
 import {
   buildMockBitcodeWalletConnectionStatus,
   type BitcodeWalletConnectionStatus,
@@ -43,7 +43,7 @@ type MockWalletBinding = {
   boundAt: string;
 };
 
-type MockOrbitalData = {
+type MockAuxillariesData = {
   profile: {
     user_id: string;
     username: string;
@@ -95,12 +95,12 @@ type MockOrbitalData = {
   isOnboardingComplete: true;
 };
 
-export function isUserOrbitalMockMode() {
-  return ENABLE_MOCKS && MOCK_USER_ORBITAL;
+export function isAuxillariesMockMode() {
+  return ENABLE_MOCKS && MOCK_USER_AUXILLARIES;
 }
 
-export function getUserOrbitalMockScenario() {
-  return MOCK_USER_ORBITAL_SCENARIO || 'default';
+export function getAuxillariesMockScenario() {
+  return MOCK_USER_AUXILLARIES_SCENARIO || 'default';
 }
 
 export function buildMockReviewUser(): User {
@@ -116,7 +116,7 @@ export function buildMockReviewUser(): User {
     app_metadata: {
       provider: 'mock',
       providers: ['mock'],
-      reviewScenario: getUserOrbitalMockScenario(),
+      reviewScenario: getAuxillariesMockScenario(),
     },
     user_metadata: {
       full_name: 'Avery Mercer',
@@ -173,7 +173,7 @@ export function buildMockVcsConnectionStatus(provider: VCSProviderType): MockRep
   };
 }
 
-export function buildMockOrbitalData(): MockOrbitalData {
+export function buildMockAuxillariesData(): MockAuxillariesData {
   const onboardedPanes = [...REVIEW_COMPLETED_STEPS];
   const repositories = buildMockVcsRepositories('github');
   const githubConnection = buildMockGitHubConnection(repositories);
@@ -213,7 +213,7 @@ export function buildMockOrbitalData(): MockOrbitalData {
         { id: 'tm-2', username: 'sora', display_name: 'Sora Ames', role: 'reviewer' },
       ],
       mock_mode: true,
-      mock_scenario: getUserOrbitalMockScenario(),
+      mock_scenario: getAuxillariesMockScenario(),
     },
     githubConnection,
     walletConnectionStatus: buildMockBitcodeWalletConnectionStatus(

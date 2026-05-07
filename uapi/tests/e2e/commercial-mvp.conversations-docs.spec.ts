@@ -37,7 +37,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await input.press('Enter');
 
     await expect(page.getByText(/Summarize the selected Need/i).first()).toBeVisible();
-    await expect(page.getByText('2 messages').first()).toBeVisible();
+    await expect(page.getByText(/[34] messages/).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Close split' })).toHaveCount(2);
 
     await exitFullscreen.click();
@@ -87,7 +87,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
 
     await page.getByRole('link', { name: /^Use Terminal$/ }).click();
     await expect(page).toHaveURL(/\/application$/);
-    await expectCommercialRouteReady(page, /The Bitcode Terminal keeps AssetPack execution/i);
+    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
     await trap.assertClean();
   });

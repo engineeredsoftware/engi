@@ -44,7 +44,7 @@ function buildExternalRuntimePayload() {
 }
 
 test.describe('Bitcode Terminal browser flow', () => {
-  test('application route keeps read, selection, and repository-anchor write-through in one master-detail surface', async ({
+  test('application route keeps read, selection, and repository-anchor write-through in one Terminal surface', async ({
     page,
     context,
   }) => {
@@ -370,7 +370,7 @@ test.describe('Bitcode Terminal browser flow', () => {
 
     await page.goto('/application?provider=github&repo=bitcode%2Fterminal&transactionId=run-proof&transactionDetail=activity');
 
-    await expect(page.getByText('Rich Bitcode activity ledger')).toBeVisible();
+    await expect(page.getByText('Recent Terminal activity')).toBeVisible();
     await expect(page.getByText('Proof execution')).toBeVisible();
     await expect(page.getByText(/Recorded closure posture\./)).toBeVisible();
     await expect(page.getByText('Connected as bitcode')).toBeVisible();

@@ -163,6 +163,26 @@ export function buildApplicationTransactionIdentityRows(
 ): ApplicationTransactionDetailRow[] {
   const rows: ApplicationTransactionDetailRow[] = [
     { label: 'Activity id', value: selectedRun.id },
+    { label: 'Activity type', value: selectedRun.agentic_execution?.label || selectedRun.type || 'n/a' },
+    { label: 'Status', value: selectedRun.status || 'running' },
+    { label: 'Action lens', value: selectedRun.transactionLens || 'closure' },
+    { label: 'Participant', value: selectedRun.participant || 'n/a' },
+    { label: 'Ownership', value: selectedRun.isOwnTransaction ? 'mine' : 'network' },
+    { label: 'Activity summary', value: detail?.summary || selectedRun.summary || 'n/a' },
+    { label: 'Proof posture', value: detail?.proofStatus || selectedRun.proofStatus || 'closure state in flight' },
+    { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'application consequence reading' },
+    { label: 'Token total', value: formatNumber(detail?.processingStats.tokenTotal) },
+    {
+      label: 'Measured BTD',
+      value: formatNumber(detail?.processingStats.measuredBtd, { maximumFractionDigits: 1 }),
+    },
+    { label: 'BTC fee basis', value: formatUsd(detail?.processingStats.btcFeeUsdEquivalent) },
+    {
+      label: 'Latency',
+      value: detail?.processingStats.averageLatencyMs ? `${formatNumber(detail.processingStats.averageLatencyMs)} ms` : 'n/a',
+    },
+    { label: 'History items', value: formatNumber(detail?.historyItemCount) },
+    { label: 'Event count', value: formatNumber(detail?.eventCount) },
   ];
   const activityState = detail?.bitcodeActivityState;
 

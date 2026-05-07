@@ -6,9 +6,9 @@ import type { User } from '@supabase/supabase-js';
 
 import {
   buildMockOnboardingData,
-  buildMockOrbitalData,
+  buildMockAuxillariesData,
   buildMockReviewUser,
-  isUserOrbitalMockMode,
+  isAuxillariesMockMode,
 } from '@/lib/mock-review-mode';
 
 // Query key for auth queries
@@ -32,7 +32,7 @@ function getSupabaseClient() {
  * Fetches the current user from Supabase auth
  */
 async function fetchUser(): Promise<User | null> {
-  if (isUserOrbitalMockMode()) {
+  if (isAuxillariesMockMode()) {
     return buildMockReviewUser();
   }
 
@@ -70,8 +70,8 @@ export async function prefetchUser(queryClient: QueryClient) {
  * Fetches user profile data
  */
 async function fetchProfile() {
-  if (isUserOrbitalMockMode()) {
-    return buildMockOrbitalData().profile;
+  if (isAuxillariesMockMode()) {
+    return buildMockAuxillariesData().profile;
   }
 
   const response = await fetch('/api/auxillaries/data', {
@@ -101,7 +101,7 @@ export function useProfile() {
  * Fetches onboarding status
  */
 async function fetchOnboarding() {
-  if (isUserOrbitalMockMode()) {
+  if (isAuxillariesMockMode()) {
     return buildMockOnboardingData();
   }
 

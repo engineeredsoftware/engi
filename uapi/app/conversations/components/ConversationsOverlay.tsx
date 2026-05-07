@@ -502,6 +502,14 @@ const Conversation = memo(function Conversation({
           content,
           status: 'sent',
         };
+      } else {
+        messages.push({
+          id: messageId,
+          type: 'agent',
+          content,
+          status: 'sent',
+          timestamp: new Date(),
+        });
       }
 
       return {
@@ -627,10 +635,16 @@ const Conversation = memo(function Conversation({
 
     try {
       // Send via streaming API
-      await conversationStream.sendMessage(message, tokens || [], true, activeChat.id);
+      const assistantContent = await conversationStream.sendMessage(message, tokens || [], true, activeChat.id);
       
       // Mark user message as sent
       updateMessage(newMsg.id, { status: 'sent' }, activeChat.id);
+      if (assistantContent) {
+        updateMessage(assistantMsg.id, {
+          content: assistantContent,
+          status: 'sent',
+        }, activeChat.id);
+      }
       void mutateConversationPages();
     } catch (error) {
       setProcessError(error as Error);

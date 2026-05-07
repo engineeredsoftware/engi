@@ -14,16 +14,18 @@ test.describe('commercial MVP Terminal experience', () => {
     await installCommercialMvpApiMocks(page);
   });
 
-  test('Terminal opens as master-detail activity, selected detail, and support controls', async ({
+  test('Terminal opens as Give/Need activity, selected result, and support controls', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/application', /The Bitcode Terminal keeps AssetPack execution/i);
+    await openCommercialRoute(page, '/application', /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
     const terminalWorkspace = page.locator('#applicationTransactionWorkspace');
     await expect(page.getByText('Bitcode Terminal').first()).toBeVisible();
-    await expect(page.getByText('Rich Bitcode activity ledger')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Operator lanes' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Recent Terminal activity', exact: true })).toBeVisible();
+    await expect(page.getByText('Selected result digest')).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
     await expect(page.getByText('selected activity active')).toBeVisible();
     await expect(terminalWorkspace.locator('dt').filter({ hasText: /^Activity id$/ }).first()).toBeVisible();
@@ -42,7 +44,7 @@ test.describe('commercial MVP Terminal experience', () => {
     await openCommercialRoute(
       page,
       '/application?transactionId=mock-run-branch-remediation&provider=github&repo=bitcode%2Fbitcode',
-      /The Bitcode Terminal keeps AssetPack execution/i,
+      /The Bitcode Terminal is where operators prepare Give and Need work/i,
     );
     await expect(page).toHaveURL(/transactionId=mock-run-branch-remediation/);
 
@@ -59,6 +61,10 @@ test.describe('commercial MVP Terminal experience', () => {
       page.locator('article').filter({ hasText: /Proofs/ }).getByText('proof-family refresh in flight').first(),
     ).toBeVisible();
 
+    await page.getByRole('button', { name: /^Open proof detail$/ }).click();
+    await expect(page).toHaveURL(/transactionDetail=proofs/);
+    await expect(page.getByText(/Bounded proof stays in activity detail/i)).toBeVisible();
+
     await page.getByRole('button', { name: /^History$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=history/);
     await expect(page.getByText(/Recent activity history stays inline/i)).toBeVisible();
@@ -74,7 +80,7 @@ test.describe('commercial MVP Terminal experience', () => {
     await openCommercialRoute(
       page,
       '/application?provider=github&repo=bitcode%2Fbitcode',
-      /The Bitcode Terminal keeps AssetPack execution/i,
+      /The Bitcode Terminal is where operators prepare Give and Need work/i,
     );
     await expectRouteParam(page, 'transactionId', 'mock-run-branch-remediation');
 
@@ -141,7 +147,7 @@ test.describe('commercial MVP Terminal experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/application', /The Bitcode Terminal keeps AssetPack execution/i);
+    await openCommercialRoute(page, '/application', /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
     await expect(page.getByText(/Need measurement/i).first()).toBeVisible();
     await expect(page.getByText(/Fit pressure/i).first()).toBeVisible();

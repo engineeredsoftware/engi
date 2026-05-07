@@ -8,7 +8,7 @@ import { VCSConnections, VCSService, type VCSProviderType } from '@bitcode/vcs';
 import {
   buildMockVcsConnectionStatus,
   buildMockVcsRepositories,
-  isUserOrbitalMockMode,
+  isAuxillariesMockMode,
 } from '../../../lib/mock-review-mode';
 
 const resourceSchema = z.enum([
@@ -153,7 +153,7 @@ export async function GET(request: Request) {
   const resource = resourceResult.data;
   const provider = providerResult.data;
 
-  if (isUserOrbitalMockMode()) {
+  if (isAuxillariesMockMode()) {
     return NextResponse.json(buildMockPayload(resource, provider));
   }
 

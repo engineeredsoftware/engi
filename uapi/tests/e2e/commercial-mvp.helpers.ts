@@ -125,6 +125,7 @@ const NEXT_OVERLAY_PATTERNS = [
 
 const BENIGN_DEV_NAVIGATION_ERROR_PATTERNS = [
   /Failed to fetch RSC payload .* Falling back to browser navigation\. TypeError: Failed to fetch/i,
+  /Failed to fetch RSC payload .* Falling back to browser navigation\. TypeError: network error/i,
   /\[notifications\] fetch failed TypeError: Failed to fetch/i,
 ];
 
@@ -204,6 +205,74 @@ export async function installCommercialMvpApiMocks(page: Page) {
     });
   });
 
+  await page.route('**/api/executions?**', async (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.get('owner') && url.searchParams.get('repo') && url.searchParams.get('branch')) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          commits: [
+            { sha: '8d4d0a7b6c5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a' },
+            { sha: '4b7f2d9a9c3e1a8f6b5c4d3e2f1a0b9c8d7e6f5a' },
+          ],
+        }),
+      });
+      return;
+    }
+
+    if (url.searchParams.get('owner') && url.searchParams.get('repo')) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          branches: [{ name: 'main' }, { name: 'v28-commercial-mvp' }],
+          repoInfo: { default_branch: 'main' },
+        }),
+      });
+      return;
+    }
+
+    if (url.searchParams.get('owner')) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          repositories: [
+            {
+              id: 'mock-repo-bitcode',
+              name: 'bitcode',
+              full_name: 'bitcode/bitcode',
+              default_branch: 'main',
+            },
+          ],
+        }),
+      });
+      return;
+    }
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        {
+          id: 'mock-run-branch-remediation',
+          title: 'Run Branch Remediation',
+          name: 'Run Branch Remediation',
+          description: 'AssetPack execution available to conversation pickers during V28 commercial QA.',
+          status: 'completed',
+        },
+        {
+          id: 'mock-exchange-route-rendering',
+          title: 'Exchange Route Rendering',
+          name: 'Exchange Route Rendering',
+          description: 'Exchange route rendering evidence for picker and attachment flows.',
+          status: 'completed',
+        },
+      ]),
+    });
+  });
+
   const fulfillConversationStream = async (route: Route) => {
     let payload: Record<string, unknown> = {};
     try {
@@ -244,14 +313,6 @@ export async function installCommercialMvpApiMocks(page: Page) {
 
   await page.route('**/api/conversations/stream', fulfillConversationStream);
   await page.route('**/api/conversations/**/stream', fulfillConversationStream);
-  await page.route('**/api/conversations**', async (route) => {
-    const request = route.request();
-    if (request.method() === 'POST' && request.url().includes('/stream')) {
-      await fulfillConversationStream(route);
-      return;
-    }
-    await route.continue();
-  });
 }
 
 export function installCommercialBrowserErrorTrap(

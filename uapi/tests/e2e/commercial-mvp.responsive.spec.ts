@@ -14,7 +14,7 @@ const RESPONSIVE_ROUTES = [
   },
   {
     path: '/application',
-    expected: /The Bitcode Terminal keeps AssetPack execution/i,
+    expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
   },
   {
     path: '/auxillaries/btd',

@@ -43,7 +43,7 @@ Those aliases are not the enduring V26 naming model.
 - `components/OrbitalsConnectsPane.tsx`
   Repository and external connection posture.
 - `components/OrbitalsInterfacesPane.tsx`
-  Master-detail, conversation, proof, and operator-default posture.
+  Exchange detail, conversation, proof, and operator-default posture.
 - `components/OrbitalsProfilePane.tsx`
   Wallet identity, roles, balances, membership, and authentication posture.
 - `../api/auxillaries/user/data-share/route.ts`

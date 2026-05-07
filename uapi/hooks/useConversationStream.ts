@@ -316,6 +316,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
       const decoder = new TextDecoder();
 
       let buffer = '';
+      let completedContent = '';
 
       for (;;) {
         const { done, value } = await reader.read();
@@ -336,10 +337,12 @@ export function useConversationStream(options: UseConversationStreamOptions) {
 
               switch (event.type) {
                 case 'token':
+                  completedContent += event.data;
                   throttledTokenUpdate(event.data);
                   break;
 
                 case 'message_complete':
+                  completedContent = event.data.content;
                   setState(prev => ({
                     ...prev,
                     isStreaming: false,
@@ -399,11 +402,12 @@ export function useConversationStream(options: UseConversationStreamOptions) {
       }));
 
       log('[useConversationStream] Stream completed', 'info', { conversationId });
+      return completedContent;
 
     } catch (err: any) {
       if (err.name === 'AbortError') {
         log('[useConversationStream] Stream aborted', 'info', { conversationId });
-        return;
+        return undefined;
       }
 
       log('[useConversationStream] Stream error', 'error', {
@@ -418,6 +422,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
       }));
 
       onError?.(err.message, 'STREAM_ERROR');
+      return undefined;
     }
   }, [
     conversationId,

@@ -11,7 +11,7 @@ import AuxillariesProvider from '@/app/auxillaries/components/AuxillariesProvide
 import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
-import { buildMockReviewUser, isUserOrbitalMockMode } from '@/lib/mock-review-mode'
+import { buildMockReviewUser, isAuxillariesMockMode } from '@/lib/mock-review-mode'
 import { shouldHideWorkspaceFooter } from '@/components/base/bitcode/layout/workspace-surface'
 
 // Lazy-load toast infrastructure to avoid increasing initial JS bundle – the
@@ -114,7 +114,7 @@ Nav.preload?.();
 export default function ClientLayoutInner({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const queryClient = useQueryClient();
-  const mockMode = isUserOrbitalMockMode();
+  const mockMode = isAuxillariesMockMode();
   const supabase = createClient()
   const [user, setUser] = React.useState<null | import('@supabase/supabase-js').User>(mockMode ? buildMockReviewUser() : null)
   const [authLoaded, setAuthLoaded] = React.useState(mockMode)

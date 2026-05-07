@@ -1,6 +1,6 @@
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn(), rpc: jest.fn() } }));
-jest.mock('@/lib/mock-review-mode', () => ({ isUserOrbitalMockMode: jest.fn(() => false) }));
+jest.mock('@/lib/mock-review-mode', () => ({ isAuxillariesMockMode: jest.fn(() => false) }));
 
 import { POST } from '@/app/api/auxillaries/btd/route';
 

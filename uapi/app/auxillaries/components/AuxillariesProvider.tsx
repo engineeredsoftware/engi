@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { isAuxillariesPath, isOrbitalsSupportPath, type AuxillaryPane } from './auxillary-pane-meta';
+import { isAuxillariesCompatPath, isAuxillariesPath, type AuxillaryPane } from './auxillary-pane-meta';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 
@@ -45,7 +45,7 @@ function isDedicatedAuxillariesLocation() {
   }
 
   const pathname = window.location.pathname;
-  return isAuxillariesPath(pathname) || isOrbitalsSupportPath(pathname);
+  return isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
 }
 
 interface AuxillariesContextType {

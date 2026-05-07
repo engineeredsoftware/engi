@@ -96,7 +96,10 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await expect(page.getByText('Primary read')).toBeVisible();
     await expect(page.getByText('activity ledger', { exact: true }).first()).toBeVisible();
     await expect(page.getByText('same state, read-only here')).toBeVisible();
-    await expect(page.getByText('Rich Bitcode activity ledger')).toBeVisible();
+    await expect(page.getByText('Searchable Exchange activity table')).toBeVisible();
+    await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /mock-run-need-measurement-pass/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /mock-run-proof-refresh/i })).toBeVisible();
 
     await page.getByLabel('Search transactions').fill('need-measurement');
     await expect(page).toHaveURL(/transactionSearch=need-measurement/);
@@ -105,14 +108,31 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await page.getByRole('button', { name: /mock-run-need-measurement-pass/i }).click();
 
     await expect(page).toHaveURL(/transactionId=mock-run-need-measurement-pass/);
-    await expect(page.getByText('Selected activity')).toBeVisible();
-    await expect(
-      page.locator('article').filter({ hasText: /Proofs/ }).getByText('verification witness refreshed').first(),
-    ).toBeVisible();
-
+    await expect(page.getByText('Exchange selected activity detail')).toBeVisible();
+    await expect(page.getByLabel('Selected Exchange activity detail')).toBeVisible();
+    await expect(page.getByText('Selected activity', { exact: true })).toBeVisible();
+    const selectedFacts = page.locator('#applicationTransactionTransaction');
+    const selectedFactValue = (label: string) =>
+      selectedFacts
+        .locator('dt')
+        .filter({ hasText: new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`) })
+        .locator('xpath=following-sibling::dd[1]');
+    await expect(selectedFactValue('Activity id')).toHaveText('mock-run-need-measurement-pass');
+    await expect(selectedFactValue('Action lens')).toHaveText('need');
+    await expect(selectedFactValue('Participant')).toHaveText('research-partner');
+    await expect(selectedFactValue('Ownership')).toHaveText('network');
+    await expect(selectedFactValue('Repository')).toHaveText('bitcode/bitcode');
+    await expect(selectedFactValue('Branch')).toHaveText('fit-pressure/review');
+    await expect(selectedFactValue('Proof posture')).toHaveText('verification witness refreshed');
+    await expect(selectedFactValue('Closure focus')).toHaveText('need measurement + ledger refresh');
+    await expect(selectedFactValue('Measured BTD')).toHaveText('82.1');
+    await expect(selectedFactValue('BTC fee basis')).toHaveText('$3.11');
     await page.getByRole('button', { name: /^Proofs$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=proofs/);
     await expect(page.getByText(/Bounded proof stays in activity detail/i)).toBeVisible();
+    await expect(
+      page.getByLabel('Selected Exchange activity detail').getByText('verification witness refreshed').first(),
+    ).toBeVisible();
 
     await trap.assertClean();
   });

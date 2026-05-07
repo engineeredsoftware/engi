@@ -145,7 +145,7 @@ const whatIsBitcodeSections = [
     summary:
       'A first-time operator should understand Bitcode as a short path: give source, measure Need, inspect fit, produce proof, settle attribution, and issue/read Source Shares.',
     detail:
-      'The Terminal keeps the path visible as a master-detail read/write loop. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, or connected-interface delivery.',
+      'The Terminal keeps the path visible as a focused Give/Need read/write loop. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, Exchange master-detail, or connected-interface delivery.',
     reason:
       'The product becomes easier to learn when every button is read as part of the value path rather than as miscellaneous dashboard furniture.',
     steps: [
@@ -444,13 +444,13 @@ const auxillariesSections = [
     eyebrow: 'Interfaces',
     title: 'Interface defaults shape how Terminal, conversations, and proofs open',
     summary:
-      'Interfaces owns global model selection, system prompt posture, master-detail density, conversation launch behavior, proof read mode, instruction tone, and execution bias.',
+      'Interfaces owns global model selection, system prompt posture, Exchange detail density, conversation launch behavior, proof read mode, instruction tone, and execution bias.',
     detail:
       'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, which model family anchors work by default, and whether proof readers see visual, mixed, or raw evidence first.',
     reason:
       'Configuration becomes teachable when every preference says what operational consequence it has.',
     points: [
-      'Master-detail density controls how much activity detail opens by default.',
+      'Exchange detail density controls how much selected activity detail opens by default.',
       'Conversation launch controls whether chat appears as overlay, focused work, or continuity-preserving mode.',
       'Proof mode controls whether evidence opens visually, mixed with structured payloads, or raw first.',
     ],
@@ -1377,7 +1377,7 @@ export const TERMINAL_ACTION_GUIDES = [
     write:
       'Write the selected source perimeter into Bitcode activity so it survives navigation and later rereads.',
     expectedRead:
-      'The master-detail ledger shows repository posture beside give, need, proof, and settlement records.',
+      'Recent Terminal activity shows repository posture beside give, need, proof, and settlement records.',
     proofSignal: APPLICATION_INLINE_EXPLAINERS.repositoryAnchor.summary,
   },
   {
@@ -1407,7 +1407,7 @@ export const TERMINAL_ACTION_GUIDES = [
     write:
       'Write the currently measured demand frame into the Bitcode activity ledger before fit and closure read against it.',
     expectedRead:
-      'The master-detail view can reopen the exact Need frame with parser posture, scenario, and review state intact.',
+      'The Terminal activity result can reopen the exact Need frame with parser posture, scenario, and review state intact.',
     proofSignal: APPLICATION_INLINE_EXPLAINERS.activeNeed.summary,
   },
   {
@@ -1495,8 +1495,8 @@ export const TERMINAL_ACTION_GUIDES = [
 export const TERMINAL_READ_GUIDES = [
   {
     id: 'activity-ledger',
-    read: 'Activity ledger',
-    location: 'Master-detail Terminal',
+    read: 'Terminal activity results',
+    location: 'Bitcode Terminal',
     tellsYou:
       'Which Bitcode activity is selected, how it is typed, and whether it reads as give, Need, closure, proof, or history posture.',
     expectedResult:
@@ -1505,7 +1505,7 @@ export const TERMINAL_READ_GUIDES = [
   {
     id: 'selected-detail',
     read: 'Selected activity detail',
-    location: 'Master-detail Terminal',
+    location: 'Bitcode Terminal',
     tellsYou:
       'The selected activity identity, source posture, AssetPacks, proof rows, closure state, and related history.',
     expectedResult:
@@ -1649,10 +1649,10 @@ export const BITCODE_DOCS_PAGES = [
     embeddedUi: [
       {
         id: 'exchange-ledger',
-        eyebrow: 'Embedded Terminal card',
-        title: 'Activity ledger read window',
+        eyebrow: 'Embedded Exchange card',
+        title: 'Exchange activity master-detail',
         summary:
-          'The real Terminal uses a master-detail pattern. This specimen teaches what the ledger must make visible before a user opens exact detail.',
+          'The Exchange uses a master-detail pattern: searchable activity rows as the master, selected AssetPack/proof/history state as detail.',
         explainer: APPLICATION_INLINE_EXPLAINERS.readWindow,
         signals: [
           { label: 'Search', value: 'Query-owned ledger', tone: 'default' },
@@ -1668,7 +1668,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Terminal map',
     title: 'Orient inside the Bitcode Terminal',
     summary:
-      'Understand the Terminal as one master-detail ledger with deliberate write modes, support rails, and exact proof follow-through.',
+      'Understand the Terminal as one focused Give/Need operator surface with recent activity results, support rails, and exact proof follow-through.',
     detail:
       'Use this page when you need to know where to read, where to write, and when to open deeper modes such as Conversations or Auxillaries.',
     learningOutcome:
@@ -2011,7 +2011,7 @@ export const BITCODE_DOCS_CHAPTERS = [
     id: 'experiences',
     number: '01',
     title: 'Exchange And Terminal',
-    summary: 'The product experiences: market state, master-detail Terminal, write actions, and proof-bearing reads.',
+    summary: 'The product experiences: Exchange master-detail, Terminal write actions, and proof-bearing reads.',
     pages: docsPagesFor(['exchange', 'terminal', 'terminal-actions', 'read-results']),
   },
   {

@@ -74,7 +74,7 @@ export const useGitHubData = () => {
       const repositories = await fetchRepositories(owner);
       setData(prev => ({
         ...prev,
-        repositories,
+        repositories: Array.isArray(repositories) ? repositories : [],
         isLoadingRepos: false
       }));
     } catch (error) {
@@ -93,7 +93,7 @@ export const useGitHubData = () => {
       const { branches, defaultBranch } = await fetchBranchesAndInfo(owner, repo);
       setData(prev => ({
         ...prev,
-        branches,
+        branches: Array.isArray(branches) ? branches : [],
         defaultBranch,
         isLoadingBranches: false
       }));
@@ -113,7 +113,7 @@ export const useGitHubData = () => {
       const commits = await fetchCommits(owner, repo, branch);
       setData(prev => ({
         ...prev,
-        commits,
+        commits: Array.isArray(commits) ? commits : [],
         isLoadingCommits: false
       }));
     } catch (error) {
@@ -151,7 +151,7 @@ export const useGitHubData = () => {
       const files = await fetchFiles(owner, repo, path);
       setData(prev => ({
         ...prev,
-        files,
+        files: Array.isArray(files) ? files : [],
         isLoadingFiles: false
       }));
     } catch (error) {
@@ -177,4 +177,3 @@ export const useGitHubData = () => {
     loadFiles
   };
 };
-

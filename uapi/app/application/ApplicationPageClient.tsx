@@ -9,7 +9,7 @@ import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { useUserData } from '@/hooks/useUserData';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
-import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { isAuxillariesMockMode } from '@/lib/mock-review-mode';
 import { FEATURE_FLAGS } from '@/config/features';
 import type { PipelineExecution } from '@/types/api';
 
@@ -29,6 +29,7 @@ import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPan
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationSurfaceSection from './ApplicationSurfaceSection';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
+import ApplicationTerminalMvpMap from './ApplicationTerminalMvpMap';
 import ApplicationTransactionWorkspace from './ApplicationTransactionWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
 import {
@@ -75,7 +76,7 @@ export default function ApplicationPageClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const routeSearchParams = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
-  const mockMode = isUserOrbitalMockMode();
+  const mockMode = isAuxillariesMockMode();
   const selectedTransactionId = useMemo(
     () => readApplicationTransactionId(routeSearchParams),
     [routeSearchParams],
@@ -145,20 +146,28 @@ export default function ApplicationPageClient() {
   );
   const replaceApplicationSearchParams = useCallback(
     (nextParams: URLSearchParams) => {
+      if (typeof window !== 'undefined' && window.location.pathname !== '/application') return;
       const nextQuery = nextParams.toString();
-      router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
+      router.replace(nextQuery ? `/application?${nextQuery}` : '/application', { scroll: false });
     },
-    [pathname, router],
+    [router],
+  );
+  const readCurrentApplicationSearchParams = useCallback(
+    () =>
+      typeof window !== 'undefined' && window.location.pathname === '/application'
+        ? new URLSearchParams(window.location.search)
+        : new URLSearchParams(searchParams.toString()),
+    [searchParams],
   );
   const replaceApplicationRoute = useCallback(
     (transactionId: string, detailSection = selectedTransactionDetailSection) => {
       const nextParams = writeApplicationTransactionDetailSection(
-        writeApplicationTransactionId(routeSearchParams, transactionId),
+        writeApplicationTransactionId(readCurrentApplicationSearchParams(), transactionId),
         detailSection,
       );
       replaceApplicationSearchParams(nextParams);
     },
-    [replaceApplicationSearchParams, routeSearchParams, selectedTransactionDetailSection],
+    [readCurrentApplicationSearchParams, replaceApplicationSearchParams, selectedTransactionDetailSection],
   );
 
   const refreshLiveRuns = useCallback(async () => {
@@ -226,9 +235,20 @@ export default function ApplicationPageClient() {
   useEffect(() => {
     if (!runs.length) return;
     if (selectedTransactionId && runs.some((run) => run.id === selectedTransactionId)) return;
-    const nextParams = writeApplicationTransactionId(routeSearchParams, runs[0].id);
+    const hasRouteContext =
+      typeof window !== 'undefined'
+        ? window.location.pathname === '/application' && window.location.search.length > 1
+        : searchParams.toString().length > 0;
+    if (!hasRouteContext) return;
+    const nextParams = writeApplicationTransactionId(readCurrentApplicationSearchParams(), runs[0].id);
     replaceApplicationSearchParams(nextParams);
-  }, [replaceApplicationSearchParams, routeSearchParams, runs, selectedTransactionId]);
+  }, [
+    readCurrentApplicationSearchParams,
+    replaceApplicationSearchParams,
+    runs,
+    searchParams,
+    selectedTransactionId,
+  ]);
 
   const selectedRun = useMemo(
     () => runs.find((run) => run.id === selectedTransactionId) || runs[0] || null,
@@ -278,7 +298,7 @@ export default function ApplicationPageClient() {
 
   const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
     const nextParams = writeApplicationTransactionPagination(
-      writeApplicationTransactionFilters(routeSearchParams, nextFilters),
+      writeApplicationTransactionFilters(readCurrentApplicationSearchParams(), nextFilters),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     replaceApplicationSearchParams(nextParams);
@@ -286,34 +306,34 @@ export default function ApplicationPageClient() {
 
   const handleTransactionFiltersReset = () => {
     const nextParams = writeApplicationTransactionPagination(
-      resetApplicationTransactionFilters(routeSearchParams),
+      resetApplicationTransactionFilters(readCurrentApplicationSearchParams()),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     replaceApplicationSearchParams(nextParams);
   };
 
   const handleTransactionPaginationChange = (nextPagination: typeof transactionPagination) => {
-    const nextParams = writeApplicationTransactionPagination(routeSearchParams, nextPagination);
+    const nextParams = writeApplicationTransactionPagination(readCurrentApplicationSearchParams(), nextPagination);
     replaceApplicationSearchParams(nextParams);
   };
 
   const handleTransactionDetailSectionChange = (detailSection: typeof selectedTransactionDetailSection) => {
-    const nextParams = writeApplicationTransactionDetailSection(routeSearchParams, detailSection);
+    const nextParams = writeApplicationTransactionDetailSection(readCurrentApplicationSearchParams(), detailSection);
     replaceApplicationSearchParams(nextParams);
   };
 
   const handleEnvironmentModeChange = useCallback(
     (nextEnvironmentMode: ReturnType<typeof readApplicationEnvironmentMode>) => {
-      replaceApplicationSearchParams(writeApplicationEnvironmentMode(routeSearchParams, nextEnvironmentMode));
+      replaceApplicationSearchParams(writeApplicationEnvironmentMode(readCurrentApplicationSearchParams(), nextEnvironmentMode));
     },
-    [replaceApplicationSearchParams, routeSearchParams],
+    [readCurrentApplicationSearchParams, replaceApplicationSearchParams],
   );
 
   const handleDebugEnabledChange = useCallback(
     (enabled: boolean) => {
-      replaceApplicationSearchParams(writeApplicationDebugEnabled(routeSearchParams, enabled));
+      replaceApplicationSearchParams(writeApplicationDebugEnabled(readCurrentApplicationSearchParams(), enabled));
     },
-    [replaceApplicationSearchParams, routeSearchParams],
+    [readCurrentApplicationSearchParams, replaceApplicationSearchParams],
   );
 
   return (
@@ -332,19 +352,18 @@ export default function ApplicationPageClient() {
               <div className="max-w-4xl">
                 <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode Terminal</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
-                  Read agentic executions, then move deeper only when you need to
+                  Give, Need, and read recent Bitcode activity
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  The Bitcode Terminal keeps AssetPack execution, need measurement,
-                  proof refresh, and closure reading in one ledger window. Open the selected
-                  activity into asset packs, proofs, and history, then move into conversations
-                  or Auxillaries without losing your place.
+                  The Bitcode Terminal is where operators prepare Give and Need work, then read
+                  the recent activity, AssetPack results, proofs, and closure history produced by
+                  that work. Use Exchange for the full market-wide master-detail view.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Primary experience</p>
-                  <p className="mt-2 text-neutral-200">Bitcode Terminal ledger</p>
+                  <p className="mt-2 text-neutral-200">Give + Need workspace</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Deeper modes</p>
@@ -357,6 +376,8 @@ export default function ApplicationPageClient() {
               </div>
             </div>
           </section>
+
+          <ApplicationTerminalMvpMap />
 
           <div className="grid gap-6">
             <div className="min-w-0">

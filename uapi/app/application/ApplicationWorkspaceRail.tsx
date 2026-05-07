@@ -8,7 +8,7 @@ import {
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import ApplicationOpenConversationsButton from './ApplicationOpenConversationsButton';
-import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
+import ApplicationOpenAuxillariesButton from './ApplicationOpenAuxillariesButton';
 import type { WorkspaceRun } from './application-run-data';
 import { APPLICATION_SURFACE_EXPLAINERS } from './application-workspace-explainers';
 import { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
@@ -63,7 +63,7 @@ export default function ApplicationWorkspaceRail({
       >
         <div className="mt-5 grid gap-3">
           <ApplicationOpenConversationsButton onOpen={onOpenConversations} />
-          <ApplicationOpenOrbitalsButton />
+          <ApplicationOpenAuxillariesButton />
         </div>
       </ApplicationWorkspaceRailCard>
 

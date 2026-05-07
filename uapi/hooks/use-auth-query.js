@@ -30,7 +30,7 @@ function getSupabaseClient() {
  * Fetches the current user from Supabase auth
  */
 async function fetchUser() {
-    if ((0, mock_review_mode_1.isUserOrbitalMockMode)()) {
+    if ((0, mock_review_mode_1.isAuxillariesMockMode)()) {
         return (0, mock_review_mode_1.buildMockReviewUser)();
     }
     const client = getSupabaseClient();
@@ -64,8 +64,8 @@ async function prefetchUser(queryClient) {
  * Fetches user profile data
  */
 async function fetchProfile() {
-    if ((0, mock_review_mode_1.isUserOrbitalMockMode)()) {
-        return (0, mock_review_mode_1.buildMockOrbitalData)().profile;
+    if ((0, mock_review_mode_1.isAuxillariesMockMode)()) {
+        return (0, mock_review_mode_1.buildMockAuxillariesData)().profile;
     }
     const response = await fetch('/api/auxillaries/data', {
         credentials: 'same-origin',
@@ -92,7 +92,7 @@ function useProfile() {
  * Fetches onboarding status
  */
 async function fetchOnboarding() {
-    if ((0, mock_review_mode_1.isUserOrbitalMockMode)()) {
+    if ((0, mock_review_mode_1.isAuxillariesMockMode)()) {
         return (0, mock_review_mode_1.buildMockOnboardingData)();
     }
     const response = await fetch('/api/auxillaries/onboarding', {

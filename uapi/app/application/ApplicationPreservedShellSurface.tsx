@@ -31,7 +31,7 @@ export default function ApplicationPreservedShellSurface() {
 
       <ApplicationRuntimeDrawer
         title="Open proof and settlement runtime"
-        summary="This keeps the dense proof and settlement runtime available for inspection and closure follow-through while the main application stays centered on the cleaner master-detail read."
+        summary="This keeps the dense proof and settlement runtime available for inspection and closure follow-through while the main application stays centered on the cleaner Terminal activity read."
       >
         <div className="min-w-0 p-2 tablet:p-4">
           <BitcodeApplicationRuntimeMount />

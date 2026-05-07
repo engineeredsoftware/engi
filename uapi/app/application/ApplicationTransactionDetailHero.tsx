@@ -10,6 +10,7 @@ interface ApplicationTransactionDetailHeroProps {
   proofPosture: string;
   modeLabel: string;
   metrics: Array<{ label: string; value: string }>;
+  surface?: 'terminal' | 'exchange';
 }
 
 export default function ApplicationTransactionDetailHero({
@@ -18,12 +19,16 @@ export default function ApplicationTransactionDetailHero({
   proofPosture,
   modeLabel,
   metrics,
+  surface = 'terminal',
 }: ApplicationTransactionDetailHeroProps) {
+  const kicker =
+    surface === 'exchange' ? 'Exchange selected activity detail' : 'Bitcode Terminal activity result';
+
   return (
     <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode Terminal activity detail</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">{kicker}</p>
           <h3 className="mt-2 text-xl font-semibold text-white">{title}</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">{summary}</p>
         </div>

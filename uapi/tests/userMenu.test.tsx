@@ -43,12 +43,12 @@ describe('UserMenu', () => {
     user_metadata: {},
   } as any;
 
-  it('opens orbitals through the workspace account menu and keeps orbital naming user-facing', async () => {
-    const onOpenOrbitals = jest.fn();
+  it('opens Auxillaries through the workspace account menu with current product naming', async () => {
+    const onOpenAuxillaries = jest.fn();
     const onSignOut = jest.fn();
 
     render(
-      <UserMenu user={mockUser} onOpenOrbitals={onOpenOrbitals} onSignOut={onSignOut} />,
+      <UserMenu user={mockUser} onOpenAuxillaries={onOpenAuxillaries} onSignOut={onSignOut} />,
     );
 
     expect(screen.getByText('Bitcode account')).toBeInTheDocument();
@@ -57,7 +57,7 @@ describe('UserMenu', () => {
 
     fireEvent.click(screen.getByText('Open Auxillaries fullscreen'));
 
-    expect(onOpenOrbitals).toHaveBeenCalledTimes(1);
+    expect(onOpenAuxillaries).toHaveBeenCalledTimes(1);
     expect(onSignOut).not.toHaveBeenCalled();
   });
 });

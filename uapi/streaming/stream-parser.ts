@@ -247,8 +247,8 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const explicitShippables = normalizeAssetPackSurface(data.result.shippables) || explicitDeliveryMechanism;
             const actionsFileChanges = data.result.actions?.files || null;
             const deliveryEvidenceSurface =
-              normalizeAssetPackEvidenceSurface(explicitDeliveryMechanism) ||
-              normalizeAssetPackEvidenceSurface(explicitShippables);
+              (normalizeAssetPackEvidenceSurface(explicitDeliveryMechanism) ||
+                normalizeAssetPackEvidenceSurface(explicitShippables)) as ReturnType<typeof normalizeAssetPackSurface>;
 
             const semanticFileChanges =
               explicitAssetPackSynthesisArtifacts?.fileChanges ||

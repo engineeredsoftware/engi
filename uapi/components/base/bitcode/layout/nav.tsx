@@ -107,7 +107,7 @@ export default function Nav() {
     }
   }, []);
 
-  // Global event listeners for opening orbital
+  // Global event listeners for opening Auxillaries
   useEffect(() => {
     const openLogin = () => openAuxillaries('SignInWindow');
     const openOnboarding = () => openAuxillaries('SignUpWindow');
@@ -498,7 +498,7 @@ export default function Nav() {
 
                 <UserMenu
                   user={user}
-                  onOpenOrbitals={() => openAuxillaries('auxillaries', 'profile')}
+                  onOpenAuxillaries={() => openAuxillaries('auxillaries', 'profile')}
                   onSignOut={() => {
                     import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                       const client = createClient();

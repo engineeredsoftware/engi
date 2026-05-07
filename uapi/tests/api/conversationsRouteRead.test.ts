@@ -128,7 +128,7 @@ describe('/api/conversations/[conversationId] GET (non-mock mode)', () => {
     process.env = envBackup;
   });
 
-  it('returns the persisted conversation with messages for master-detail read hydration', async () => {
+  it('returns the persisted conversation with messages for Exchange read hydration', async () => {
     const conversationBuilder = {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),

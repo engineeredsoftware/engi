@@ -24,8 +24,9 @@ export default function ConversationsRouteClient() {
                 </h1>
                 <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
                   This direct route keeps the fullscreen conversations surface available without
-                  treating it as a separate product. Step back into the Bitcode activity ledger
-                  when you need searchable master-detail context, or keep writing through rich
+                  treating it as a separate product. Step back into Terminal when you need
+                  recent activity context, or into Exchange when you need the searchable
+                  master-detail view; keep writing through rich
                   inputs, source attachments, output destinations, and agentic execution updates
                   here.
                 </p>

@@ -21,7 +21,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     title: 'Terminal',
     summary: 'Open the full Terminal for proofs, history, and give-to-settle detail.',
     detail:
-      'This is the main operator-grade surface. Use it when you want the full master-detail ledger instead of the public exchange read.',
+      'This is the main operator-grade surface. Use it when you want to prepare Give and Need work, then read recent Terminal activity results, proofs, and history.',
     points: [
       'Loads selected execution detail, proofs, history, and closure posture',
       'Keeps mocked launch-mode state readable without requiring live external connectivity',

@@ -14,7 +14,7 @@ export const auxillaryPaneExplainers: Record<
     detail:
       "These defaults shape how the Bitcode Terminal opens, how detail is emphasized, and how evidence is read before closure.",
     points: [
-      "Choose the master-detail density you want to read first",
+      "Choose the Exchange detail density you want to read first",
       "Keep conversation entry and continuity predictable",
       "Decide whether proofs open visually, mixed, or as raw evidence",
     ],
@@ -38,7 +38,7 @@ export const auxillaryPaneExplainers: Record<
     summary:
       "Global model posture lets you decide what provider family should anchor the Bitcode Terminal by default.",
     detail:
-      "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across master-detail and conversation work.",
+      "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across Terminal, Exchange, and conversation work.",
     points: [
       "Apply one default model family to the Bitcode Terminal",
       "Review visible cost and context posture before switching",
@@ -68,7 +68,7 @@ export const auxillaryPaneExplainers: Record<
     points: [
       "Choose the share lens that matches the current operating context",
       "Keep settlement reading explicit before closure",
-      "Control how BTD-specific detail re-enters master-detail surfaces",
+      "Control how BTD-specific detail re-enters Terminal and Exchange surfaces",
     ],
   },
   btdAdvanced: {

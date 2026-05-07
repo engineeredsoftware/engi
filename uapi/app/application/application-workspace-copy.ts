@@ -19,9 +19,9 @@ export const APPLICATION_SURFACE_COPY = {
   },
   detail: {
     emptySelection:
-      'Select Bitcode activity from the ledger to load its asset pack, proofs, and history.',
+      'Select recent Terminal activity to load its asset pack, proofs, and history.',
     transactionSummaryFallback:
-      'Inspect this Bitcode activity from the central Bitcode Terminal detail.',
+      'Inspect this Bitcode activity from the selected Terminal result.',
   },
   rail: {
     control: {
@@ -34,7 +34,7 @@ export const APPLICATION_SURFACE_COPY = {
       kicker: 'Transaction support',
       title: 'Ledger support rail',
       summary:
-        'Keep mode, count, and timing context close to the ledger without pulling attention away from the central execution and settlement detail.',
+        'Keep mode, count, and timing context close without pulling attention away from the selected execution and settlement detail.',
     },
     focus: {
       kicker: 'Selected transaction focus',

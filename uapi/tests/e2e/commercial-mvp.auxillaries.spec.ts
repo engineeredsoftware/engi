@@ -117,7 +117,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await page.goto('/auxillaries/interfaces');
     await expectCommercialRouteReady(page, /Interfaces in one contained auxillary read/i);
     await expect(page.getByText(/Global Model Selection/i)).toBeVisible();
-    await expect(page.getByText(/Master-detail and conversation defaults/i)).toBeVisible();
+    await expect(page.getByText(/Exchange detail and conversation defaults/i)).toBeVisible();
     const modelPreferenceSave = page.waitForResponse((response) => {
       return (
         response.url().includes('/api/auxillaries/model-preferences') &&

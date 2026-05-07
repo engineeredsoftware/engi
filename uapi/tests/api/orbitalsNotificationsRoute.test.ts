@@ -10,8 +10,8 @@ describe('/api/auxillaries/notifications routes', () => {
   it('returns mock notifications when orbital mock mode is enabled', async () => {
     jest.doMock('@/config/featureFlags', () => ({
       ENABLE_MOCKS: true,
-      MOCK_USER_ORBITAL: true,
-      MOCK_USER_ORBITAL_SCENARIO: 'demo',
+      MOCK_USER_AUXILLARIES: true,
+      MOCK_USER_AUXILLARIES_SCENARIO: 'demo',
     }));
 
     const { GET } = await import('@/app/api/auxillaries/notifications/route');
@@ -32,8 +32,8 @@ describe('/api/auxillaries/notifications routes', () => {
   it('returns an empty list when live mode is unauthenticated', async () => {
     jest.doMock('@/config/featureFlags', () => ({
       ENABLE_MOCKS: false,
-      MOCK_USER_ORBITAL: false,
-      MOCK_USER_ORBITAL_SCENARIO: 'default',
+      MOCK_USER_AUXILLARIES: false,
+      MOCK_USER_AUXILLARIES_SCENARIO: 'default',
     }));
     jest.doMock('@bitcode/supabase/ssr/server', () => ({
       createClient: jest.fn().mockResolvedValue({
@@ -64,8 +64,8 @@ describe('/api/auxillaries/notifications routes', () => {
   it('patches and deletes mock notifications in mock mode', async () => {
     jest.doMock('@/config/featureFlags', () => ({
       ENABLE_MOCKS: true,
-      MOCK_USER_ORBITAL: true,
-      MOCK_USER_ORBITAL_SCENARIO: 'demo',
+      MOCK_USER_AUXILLARIES: true,
+      MOCK_USER_AUXILLARIES_SCENARIO: 'demo',
     }));
 
     const routeModule = await import('@/app/api/auxillaries/notifications/[notificationId]/route');

@@ -171,6 +171,7 @@ export default function ApplicationCommandDeck({
 
   return (
     <ApplicationWorkspaceCard
+      id="applicationCommandDeck"
       kicker="Flow controls"
       title="Give, need, and closure controls"
       summary="Set scenario, projection, and branch mode, then run closure or resume the working flow from the same Bitcode Terminal you use to read the ledger."

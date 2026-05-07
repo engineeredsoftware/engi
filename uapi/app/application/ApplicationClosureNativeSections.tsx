@@ -8,7 +8,7 @@ import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetric
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
-import { CLOSURE_PANEL_SUBSTRUCTURE, getMasterDetailSubstructure } from './application-experience-architecture';
+import { CLOSURE_PANEL_SUBSTRUCTURE, getActivityDetailSection } from './application-experience-architecture';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection, toneForPanel } from './application-shell-reading';
 import {
@@ -70,11 +70,11 @@ function panelRows(panel: ApplicationClosurePanel) {
 function renderClosurePanelCard(panel: ApplicationClosurePanel) {
   const shellPanelId = PANEL_IDS[panel.id];
   const substructureId = CLOSURE_PANEL_SUBSTRUCTURE[shellPanelId];
-  const substructure = substructureId ? getMasterDetailSubstructure(substructureId) : null;
+  const substructure = substructureId ? getActivityDetailSection(substructureId) : null;
   const rows = panelRows(panel);
 
   return (
-    <article key={panel.id} className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(shellPanelId)}`}>
+    <article id={shellPanelId} key={panel.id} className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(shellPanelId)}`}>
       <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0 max-w-3xl">
           <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Closure Bitcode section</p>

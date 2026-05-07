@@ -157,7 +157,7 @@ export function useChatState(options: UseChatStateOptions = {}) {
 
     const newMessage: ChatMessage = {
       ...message,
-      id: createChatId(),
+      id: 'id' in message && message.id ? message.id : createChatId(),
       timestamp: message.timestamp || new Date()
     };
 

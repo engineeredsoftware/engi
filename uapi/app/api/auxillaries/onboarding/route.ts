@@ -2,12 +2,12 @@ import {
   buildGetAuxillaryOnboardingRoute,
   buildPostAuxillaryOnboardingRoute,
 } from '@bitcode/api/src/routes/auxillaries';
-import { buildMockOnboardingData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { buildMockOnboardingData, isAuxillariesMockMode } from '@/lib/mock-review-mode';
 
 export const runtime = 'nodejs';
 
 const routeOptions = {
-  isMockMode: isUserOrbitalMockMode,
+  isMockMode: isAuxillariesMockMode,
   mockOnboardingData: buildMockOnboardingData,
 };
 

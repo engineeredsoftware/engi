@@ -13,7 +13,7 @@ describe('sixth-gate MVP application map', () => {
     ]);
 
     expect(getSixthGateMvpApplicationSurface('activity')).toMatchObject({
-      role: 'dominant-master-detail-read-surface',
+      role: 'terminal-operator-activity-surface',
       routeSurface: '/application',
       targetId: 'applicationTransactionWorkspace',
     });

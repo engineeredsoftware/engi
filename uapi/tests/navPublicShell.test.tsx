@@ -64,11 +64,11 @@ jest.mock('@/components/base/bitcode/notifications/NotificationsWidget', () => (
 
 jest.mock('@/components/base/bitcode/layout/user-menu', () => ({
   UserMenu: ({
-    onOpenOrbitals,
+    onOpenAuxillaries,
   }: {
-    onOpenOrbitals: () => void;
+    onOpenAuxillaries: () => void;
   }) => (
-    <button type="button" onClick={onOpenOrbitals}>
+    <button type="button" onClick={onOpenAuxillaries}>
       User menu
     </button>
   ),

@@ -11,7 +11,7 @@ import {
   type VCSRepository,
 } from '@bitcode/vcs';
 
-import { buildMockVcsRepositories, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { buildMockVcsRepositories, isAuxillariesMockMode } from '@/lib/mock-review-mode';
 import { readBitcodeWalletConnectionStatus } from '@/app/api/wallet/_shared';
 
 type StatusError = Error & { statusCode?: number | undefined };
@@ -103,7 +103,7 @@ async function findLiveRepositoryInventoryMatch(
   repositoryProvider: VCSProviderType,
   repositoryAnchor: string,
 ) {
-  if (isUserOrbitalMockMode()) {
+  if (isAuxillariesMockMode()) {
     const matchedRepository = buildMockVcsRepositories(repositoryProvider).find((repository) =>
       repositoryMatchesAnchor(repository, repositoryAnchor),
     );
@@ -150,7 +150,7 @@ async function readBitcodeRepositoryProviderReadiness(
   userId: string,
   repositoryProvider: VCSProviderType,
 ) {
-  if (isUserOrbitalMockMode()) {
+  if (isAuxillariesMockMode()) {
     return {
       hasRepositoryProvider: true,
       hasValidRepositoryProvider: true,
@@ -199,7 +199,7 @@ async function readBitcodeWalletProviderSigningReadiness(
   userId: string,
   profile: Record<string, unknown> | null,
 ) {
-  if (isUserOrbitalMockMode()) {
+  if (isAuxillariesMockMode()) {
     return {
       hasStoredVerifiedWalletBinding: true,
       hasVerifiedWalletBinding: true,
