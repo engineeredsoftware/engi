@@ -1148,9 +1148,21 @@ importers:
 
   packages/generic-llms:
     dependencies:
+      '@ai-sdk/google':
+        specifier: 1.0.4
+        version: 1.0.4(zod@3.25.76)
+      '@anthropic-ai/sdk':
+        specifier: 0.15.0
+        version: 0.15.0(encoding@0.1.13)
       '@bitcode/llm-generics':
         specifier: workspace:*
         version: link:../llm-generics
+      ai:
+        specifier: 4.3.16
+        version: 4.3.16(react@18.3.1)(zod@3.25.76)
+      openai:
+        specifier: 4.97.0
+        version: 4.97.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
     devDependencies:
       '@jest/globals':
         specifier: ^29.0.0

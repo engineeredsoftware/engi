@@ -51,7 +51,7 @@ describe('ExchangePageClient', () => {
     mockQuery = 'intent=buy-existing-btd';
   });
 
-  it('renders the Exchange activity master-detail surface without redirecting to the homepage', async () => {
+  it('renders the Exchange activity master-detail surface without redirecting or route-focusing the first row', async () => {
     render(<ExchangePageClient />);
 
     expect(
@@ -64,10 +64,20 @@ describe('ExchangePageClient', () => {
     );
 
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith(
-        '/exchange?intent=buy-existing-btd&transactionId=mock-run-branch-remediation',
-        { scroll: false },
-      );
+      expect(screen.getByTestId('exchange-workspace')).toHaveAttribute('data-run-count', '3');
     });
+    expect(mockReplace).not.toHaveBeenCalled();
+  });
+
+  it('honors an explicit Exchange transaction focus without rewriting the entry URL', async () => {
+    mockQuery = 'intent=buy-existing-btd&transactionId=mock-run-need-measurement-pass';
+
+    render(<ExchangePageClient />);
+
+    expect(screen.getByTestId('exchange-workspace')).toHaveAttribute(
+      'data-selected-run',
+      'mock-run-need-measurement-pass',
+    );
+    expect(mockReplace).not.toHaveBeenCalled();
   });
 });

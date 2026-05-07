@@ -113,12 +113,6 @@ export default function ExchangePageClient() {
     void refreshLiveRuns();
   }, [refreshLiveRuns]);
 
-  useEffect(() => {
-    if (!runs.length) return;
-    if (selectedTransactionId && runs.some((run) => run.id === selectedTransactionId)) return;
-    replaceExchangeSearchParams(writeApplicationTransactionId(routeSearchParams, runs[0].id));
-  }, [replaceExchangeSearchParams, routeSearchParams, runs, selectedTransactionId]);
-
   const selectedRun = useMemo(
     () => runs.find((run) => run.id === selectedTransactionId) || runs[0] || null,
     [runs, selectedTransactionId],

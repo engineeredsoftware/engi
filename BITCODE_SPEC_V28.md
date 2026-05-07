@@ -204,6 +204,10 @@ Acceptance criteria:
 - Exchange MVP activity/search/detail route renders without homepage redirects or disabled navigation.
 - signed-in navigation shows BTC and BTD balances as peer wallet facts, without `$BTD` currency-token styling, with a distinct visual separator, and with hover context reserved for recent BTD AssetPacks rather than explanatory product copy.
 - top-right BTD action copy says `Exchange BTD` and routes to `/exchange?intent=buy-existing-btd`.
+- `Exchange BTD` entry opens the top of Exchange and must not automatically append the first activity `transactionId` or scroll to a lower detail section.
+- automated Playwright E2E coverage exists at commercial-product granularity for public home, Terminal, Exchange, Auxillaries, BTD range disclosure, conversations, docs, route navigation, responsive route health, and key micro-interactions including URL-addressable activity filters, filter reset behavior, BTD data-share consent, Exchange-intent preservation, and public docs article readability.
+- Playwright tests must check browser console/page-error cleanliness, framework-overlay absence, route readability, micro-interface interaction, and stitched user flows rather than only screenshot snapshots.
+- the commercial-MVP Playwright runner executes serially against one deterministic mock-mode dev server, including mocked Auxillaries profile, model-preferences, data-share, notifications, and conversation-stream API paths, so failures represent product regressions rather than local wallet/session availability.
 - visual QA proves no framework overlay, blank page, major content overlap, or unreadable primary controls.
 
 ### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
@@ -471,7 +475,7 @@ Promotion must add `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonic
 
 ## validation canon
 
-Minimum V28 validation includes spec-family checks, canon-posture drift checks, JSON checks, unversioned-route scan, package/API/ORM tests, protocol-demonstration tests, Terminal UI checks, UAPI build, and `git diff --check`.
+Minimum V28 validation includes spec-family checks, canon-posture drift checks, JSON checks, unversioned-route scan, package/API/ORM tests, protocol-demonstration tests, Terminal UI checks, commercial-MVP Playwright E2E tests, UAPI build, and `git diff --check`.
 
 ## promotion canon
 

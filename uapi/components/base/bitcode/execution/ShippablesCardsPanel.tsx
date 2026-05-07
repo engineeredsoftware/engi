@@ -20,6 +20,7 @@ export interface ShippablesCardsPanelProps {
   shippables: {
     pullRequest?: Shippable | null;
   };
+  autoScrollOnAnimation?: boolean;
 }
 
 const childVariants = {
@@ -40,7 +41,10 @@ const scaledTextFadeVariants = {
   },
 } as const;
 
-export default function ShippablesCardsPanel({ shippables }: ShippablesCardsPanelProps) {
+export default function ShippablesCardsPanel({
+  shippables,
+  autoScrollOnAnimation = true,
+}: ShippablesCardsPanelProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
     if (ref.current) ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -58,7 +62,9 @@ export default function ShippablesCardsPanel({ shippables }: ShippablesCardsPane
       animate="animate"
       className="grid grid-cols-1 laptop:grid-cols-2 desktop:grid-cols-3 gap-6"
       ref={sectionRef}
-      onAnimationStart={() => scrollToSection(sectionRef)}
+      onAnimationStart={() => {
+        if (autoScrollOnAnimation) scrollToSection(sectionRef);
+      }}
     >
       {pr && (
         <motion.div variants={childVariants} initial="initial" animate="animate">

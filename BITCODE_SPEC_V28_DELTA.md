@@ -134,6 +134,8 @@ Opened by:
 ### Gate 2: Commercial Application MVP QA Baseline
 
 Adds primary-route QA, Auxillaries shell cleanup, Exchange MVP hardening, and browser/visual proof requirements.
+The automated browser layer is the commercial-MVP Playwright suite: product-route readability, micro-interface assertions, stitched user flows, URL-addressable filter state, data-share consent persistence, public docs article coverage, responsive route health, and browser-error cleanliness are required before Gate 2 can close.
+The package runner is intentionally serial against one deterministic mock-mode dev server. Its mock harness must own Auxillaries data, model-preferences, data-share, notifications, and conversation-stream calls so V28 QA validates commercial UI behavior rather than external account/session availability.
 
 ### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
 

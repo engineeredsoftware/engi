@@ -65,6 +65,32 @@ V28 refinement:
 - route the hover action as `Exchange BTD` to `/exchange?intent=buy-existing-btd`;
 - keep the demonstration protocol aligned with a source-reading V28 MVP QA proof.
 
+Manual follow-up QA on May 6, 2026 passed after tightening the divider and icon spacing:
+
+- resting state reads `0.042 BTC | 1,200 BTD` visually with a styled divider rather than a literal pipe;
+- hover state reads `Exchange BTD` without layout shift;
+- hover title lists recent BTD AssetPacks and does not explain BTC/BTD ontology;
+- click routes into the Exchange intent path without console errors.
+
+Follow-up Exchange landing QA revealed that the Exchange client was appending `transactionId=mock-run-branch-remediation` and scrolling to the lower `Finish-delivered Shippables` section after the widget click. V28 closes that as an Exchange MVP bug: the generic `intent=buy-existing-btd` entry must land at the top of Exchange, must not route-focus the first activity row, and must suppress Shippables card animation auto-scroll on the read-only Exchange surface. Explicit transaction focus remains supported only when the URL already contains a transaction id or the operator selects a row.
+
+Manual QA is now paused while V28 moves the same product-experience granularity into Playwright.
+
+The automated V28 commercial-MVP suite must be product-experiential, not generic smoke testing:
+
+- each active commercial route is asserted as a readable product surface;
+- each micro-interface receives local assertions for visible state, copy, interaction, and route consequence;
+- stitched flows bind micro-interactions across product surfaces, such as BTD widget -> Exchange, BTD range -> Exchange, Docs -> Terminal, Conversations -> Terminal, and Auxillaries pane navigation;
+- activity controls are tested as URL-addressable commercial state, including Terminal and Exchange filters, active-filter chips, reset behavior, and preservation of Exchange intent parameters;
+- configuration controls are tested as persisted commercial consent, including the BTD auxillary data-share toggle path through `/api/auxillaries/user/data-share`;
+- public docs coverage includes the guide home plus each shipped article route so commercial product learning does not regress into dead or unreadable pages;
+- responsive checks run inside the commercial suite so obvious phone/widescreen regressions surface before manual QA resumes;
+- every test captures console errors, uncaught page errors, framework overlays, route readability, and visible main content.
+
+The initial implementation target is `uapi/tests/e2e/commercial-mvp*.spec.ts`, with the deterministic mock-mode runner `pnpm -C uapi run test:e2e:commercial-mvp`.
+That runner should remain serial unless the shared Next dev server and route-level mock harness are proven concurrency-stable; the purpose is product-experience proof, not parallel load testing. The harness owns Auxillaries profile/model-preference/data-share state and conversation streaming so QA can distinguish UI regressions from unavailable local wallets, provider accounts, or database sessions.
+Commercial QA also exposed a provider-package dependency boundary issue: `@bitcode/generic-llms` directly requires AI SDK, Google, OpenAI, and Anthropic bindings, so V28 declares those runtime dependencies in that package rather than relying on the UAPI host dependency tree. Module-resolution warnings from provider packages are not acceptable QA noise.
+
 ## Promotion Review Basis
 
 The V28 handoff is grounded in:

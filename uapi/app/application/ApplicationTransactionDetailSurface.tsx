@@ -319,6 +319,7 @@ export default function ApplicationTransactionDetailSurface({
                 shippables={{
                   pullRequest: mergedAssetPackSurface.pullRequest ?? null,
                 }}
+                autoScrollOnAnimation={surface !== 'exchange'}
               />
             </section>
           ) : showShippables ? (

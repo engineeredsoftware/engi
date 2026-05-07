@@ -353,8 +353,37 @@ const Conversation = memo(function Conversation({
 
   const toggleSplitScreen = useCallback(() => {
     if (!ENABLE_SPLIT_VIEW) return;
-    setSplitScreenMode(prev => !prev);
-  }, []);
+    setSplitScreenMode(prev => {
+      const next = !prev;
+      if (next && splitBoxes.length === 0) {
+        const chat = currentChat || createNewChat();
+        const primaryBoxId = `box-${Date.now()}-primary`;
+        const secondaryBoxId = `box-${Date.now()}-secondary`;
+        setSplitBoxes([
+          {
+            id: primaryBoxId,
+            type: 'chat',
+            chatId: chat.id,
+            width: 50,
+            height: 100,
+            x: 0,
+            y: 0,
+          },
+          {
+            id: secondaryBoxId,
+            type: 'chat',
+            chatId: chat.id,
+            width: 50,
+            height: 100,
+            x: 10,
+            y: 10,
+          },
+        ]);
+        setActiveSplitId(primaryBoxId);
+      }
+      return next;
+    });
+  }, [createNewChat, currentChat, splitBoxes.length]);
 
   useKeyboardShortcuts({
     isOpen,
@@ -644,12 +673,23 @@ const Conversation = memo(function Conversation({
   const handleClose = useCallback(() => {
     if (inSidebar && onToggle) {
       onToggle();
-    } else if (isControlledOpen && onCloseRequest) {
+    } else if (onCloseRequest) {
       onCloseRequest();
+      if (
+        forceOpen &&
+        typeof window !== 'undefined' &&
+        window.location.pathname.startsWith('/conversations')
+      ) {
+        window.setTimeout(() => {
+          if (window.location.pathname.startsWith('/conversations')) {
+            window.location.assign('/application');
+          }
+        }, 0);
+      }
     } else {
       setIsOpenInternal(false);
     }
-  }, [inSidebar, isControlledOpen, onCloseRequest, onToggle]);
+  }, [forceOpen, inSidebar, onCloseRequest, onToggle]);
 
   // Render token in message helper
   const renderTokenInMessage = useCallback((content: string, tokens?: any[]): string => {

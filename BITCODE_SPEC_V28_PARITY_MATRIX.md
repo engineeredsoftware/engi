@@ -110,8 +110,9 @@ Audit query classes:
 
 | Area | Current source evidence | Judgment | Gate owner |
 | --- | --- | --- | --- |
-| Commercial application MVP route QA | `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, conversations | pending | Gate 2 |
-| Signed-in BTD balance widget uses V28 commercial semantics | `uapi/components/base/bitcode/btd/btd-tracker.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `uapi/hooks/useUserData.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js` | closed for current micro-interface | Gate 2 |
+| Commercial application MVP route QA | `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, conversations, and the public `/docs` article map are covered by `uapi/tests/e2e/commercial-mvp*.spec.ts`; `PORT=3017 pnpm -C uapi run test:e2e:commercial-mvp` passes with 50 laptop-project tests covering route readability, stitched navigation, Terminal and Exchange URL-addressable filters, filter reset, Exchange-intent preservation, BTD data-share consent persistence, BTD range disclosure, conversations, and responsive checks | closed for expanded automated commercial MVP E2E proof | Gate 2 |
+| Signed-in BTD balance widget uses V28 commercial semantics | `uapi/components/base/bitcode/btd/btd-tracker.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `uapi/hooks/useUserData.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js`, manual QA screenshots May 6 2026 | closed | Gate 2 |
+| Exchange BTD widget landing stays at top-level Exchange entry | `uapi/app/exchange/ExchangePageClient.tsx`, `uapi/tests/exchangePageClient.test.tsx`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js` | closed for current micro-interface | Gate 2 |
 | Auxillaries old orbital shell conflicts removed from active contained tabs-left experience | screenshots plus `uapi/app/auxillaries/components/AuxillariesContent.tsx`, `AuxillariesLoginPane.tsx`, shared `orbital-*` classes, and `uapi/styles/auxillaries-bitcode.css` | pending | Gate 2 |
 | Exchange MVP activity/search/detail/range-acquisition readiness | `uapi/app/exchange/*`, `/api/btd/asset-pack-exchange`, `/btd/[assetPackId]` | pending | Gate 2 |
 | Terminal wallet connection and signer-session review | `packages/btd/src/wallet.ts`; profile and wallet API readiness helpers | implemented prerequisite | Gate 3 |
@@ -137,7 +138,7 @@ Audit query classes:
 | Draft family | SPEC, DELTA, NOTES, PARITY exist | closed |
 | Canon posture | V27 active / V28 draft in source posture carriers | closed |
 | Routes | unversioned UAPI route scan passes | closed |
-| Commercial app QA | primary route, auth, Auxillaries, Exchange, and BTD range visual QA | pending |
+| Commercial app QA | primary route, auth, Auxillaries, Exchange, BTD range, conversations, docs article map, responsive health, URL-addressable filters, consent persistence, and stitched navigation/interaction E2E coverage | closed for expanded automated commercial MVP E2E baseline |
 | Auxillaries shell | contained tabs-left active experience without orbital layout collision | pending |
 | Exchange MVP | activity/search/detail/range-acquisition route readiness | pending |
 | Terminal wallet | wallet and signer-session UX built over V27 primitives | pending |
@@ -184,6 +185,8 @@ Before V28 promotion:
 - `BITCODE_SPEC_V28_PROVEN.md` must be generated or manually bound to accepted proof artifacts.
 - package/API/ORM/protocol-demonstration tests must pass.
 - Terminal UI tests or Playwright checks must cover wallet, BTC fee, Need/Fit, range, read-right, journal, reconciliation, and operational health flows.
+- `pnpm -C uapi run test:e2e:commercial-mvp` must pass serially with deterministic Auxillaries and Conversations mock APIs.
+- commercial provider packages must declare the runtime SDK bindings they require directly, so dev-server provider module-resolution warnings are not normalized as QA noise.
 - `pnpm -C uapi build` must pass.
 - `find uapi/app/api -path '*v[0-9]*' -print | sort` must remain empty.
 - `git diff --check` must pass.
