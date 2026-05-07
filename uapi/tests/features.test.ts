@@ -1,5 +1,5 @@
 type FeatureFlagOverrides = {
-  applicationDebugWidget?: string;
+  terminalDebugWidget?: string;
   bitcodeEnv?: string;
   disableExchangeLink?: string;
   disableAuxillaries?: string;
@@ -8,17 +8,17 @@ type FeatureFlagOverrides = {
 
 function loadFeatureFlags(nodeEnv: string, overrides: FeatureFlagOverrides = {}) {
   const previousNodeEnv = process.env.NODE_ENV;
-  const previousDebugWidget = process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET;
+  const previousDebugWidget = process.env.NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET;
   const previousBitcodeEnv = process.env.NEXT_PUBLIC_BITCODE_ENV;
   const previousDisableExchangeLink = process.env.NEXT_PUBLIC_DISABLE_EXCHANGE_LINK;
   const previousDisableAuxillaries = process.env.NEXT_PUBLIC_DISABLE_AUXILLARIES;
   const previousDisableCreateAccount = process.env.NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT;
 
   process.env.NODE_ENV = nodeEnv;
-  if (overrides.applicationDebugWidget === undefined) {
-    delete process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET;
+  if (overrides.terminalDebugWidget === undefined) {
+    delete process.env.NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET;
   } else {
-    process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET = overrides.applicationDebugWidget;
+    process.env.NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET = overrides.terminalDebugWidget;
   }
   if (overrides.bitcodeEnv === undefined) delete process.env.NEXT_PUBLIC_BITCODE_ENV;
   else process.env.NEXT_PUBLIC_BITCODE_ENV = overrides.bitcodeEnv;
@@ -36,9 +36,9 @@ function loadFeatureFlags(nodeEnv: string, overrides: FeatureFlagOverrides = {})
 
   process.env.NODE_ENV = previousNodeEnv;
   if (previousDebugWidget === undefined) {
-    delete process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET;
+    delete process.env.NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET;
   } else {
-    process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET = previousDebugWidget;
+    process.env.NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET = previousDebugWidget;
   }
   if (previousBitcodeEnv === undefined) delete process.env.NEXT_PUBLIC_BITCODE_ENV;
   else process.env.NEXT_PUBLIC_BITCODE_ENV = previousBitcodeEnv;
@@ -53,14 +53,14 @@ function loadFeatureFlags(nodeEnv: string, overrides: FeatureFlagOverrides = {})
 }
 
 describe('FEATURE_FLAGS', () => {
-  it('defaults the application debug widget on locally and off in production', () => {
-    expect(loadFeatureFlags('development')?.APPLICATION_DEBUG_WIDGET).toBe(true);
-    expect(loadFeatureFlags('production')?.APPLICATION_DEBUG_WIDGET).toBe(false);
+  it('defaults the Terminal debug widget on locally and off in production', () => {
+    expect(loadFeatureFlags('development')?.TERMINAL_DEBUG_WIDGET).toBe(true);
+    expect(loadFeatureFlags('production')?.TERMINAL_DEBUG_WIDGET).toBe(false);
   });
 
-  it('lets NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET override the environment default', () => {
-    expect(loadFeatureFlags('production', { applicationDebugWidget: 'true' })?.APPLICATION_DEBUG_WIDGET).toBe(true);
-    expect(loadFeatureFlags('development', { applicationDebugWidget: 'false' })?.APPLICATION_DEBUG_WIDGET).toBe(false);
+  it('lets NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET override the environment default', () => {
+    expect(loadFeatureFlags('production', { terminalDebugWidget: 'true' })?.TERMINAL_DEBUG_WIDGET).toBe(true);
+    expect(loadFeatureFlags('development', { terminalDebugWidget: 'false' })?.TERMINAL_DEBUG_WIDGET).toBe(false);
   });
 
   it('keeps Exchange and QA-entry surfaces open by default in development and testnet', () => {

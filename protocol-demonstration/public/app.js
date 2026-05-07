@@ -147,7 +147,7 @@
  * }} JsonSurfaceOptions
  */
 
-export function mountBitcodeApplicationShell() {
+export function mountBitcodeDemonstrationShell() {
 const eventController = new AbortController();
 const eventListenerOptions = { signal: eventController.signal };
 
@@ -221,7 +221,7 @@ function canonPosture(state) {
   }
   return {
     operatorLabel: 'Bitcode active posture',
-    documentTitle: 'Bitcode Application',
+    documentTitle: 'Bitcode Demonstration',
     inheritedCanonSurfaceLabel: 'live Bitcode surfaces',
     heroEyebrow: 'Bitcode transactions',
     heroLede: 'Set the working scenario, select supply, and follow the flow from give through settlement.',
@@ -315,7 +315,7 @@ function compactRunHistoryEntry(entry, index) {
   };
 }
 
-function compactApplicationMetric(label, value) {
+function compactDemonstrationMetric(label, value) {
   const normalizedLabel = String(label || '').trim();
   if (!normalizedLabel) return null;
   const normalizedValue = String(value ?? '').trim() || '—';
@@ -325,7 +325,7 @@ function compactApplicationMetric(label, value) {
   };
 }
 
-function compactApplicationRow(label, value) {
+function compactDemonstrationRow(label, value) {
   const normalizedLabel = String(label || '').trim();
   if (!normalizedLabel) return null;
   const normalizedValue = String(value ?? '').trim() || '—';
@@ -335,7 +335,7 @@ function compactApplicationRow(label, value) {
   };
 }
 
-function compactApplicationCountMap(counts) {
+function compactDemonstrationCountMap(counts) {
   if (!counts || typeof counts !== 'object') return [];
   return Object.entries(counts)
     .filter(([, count]) => typeof count === 'number' && count > 0)
@@ -343,14 +343,14 @@ function compactApplicationCountMap(counts) {
     .map(([label, count]) => `${label} (${count})`);
 }
 
-function compactApplicationList(values, fallback = '—') {
+function compactDemonstrationList(values, fallback = '—') {
   const items = Array.isArray(values)
     ? values.map((value) => String(value || '').trim()).filter(Boolean)
     : [];
   return items.length ? items.join(', ') : fallback;
 }
 
-function compactApplicationCard(card) {
+function compactDemonstrationCard(card) {
   if (!card || typeof card !== 'object') return null;
   return {
     title: String(card.title || 'Bitcode surface').trim() || 'Bitcode surface',
@@ -359,19 +359,19 @@ function compactApplicationCard(card) {
     help: String(card.help || '').trim(),
     badge: String(card.badge || '').trim(),
     metrics: Array.isArray(card.metrics)
-      ? card.metrics.map((entry) => compactApplicationMetric(entry?.label, entry?.value)).filter(Boolean)
+      ? card.metrics.map((entry) => compactDemonstrationMetric(entry?.label, entry?.value)).filter(Boolean)
       : [],
     rows: Array.isArray(card.rows)
-      ? card.rows.map((entry) => compactApplicationRow(entry?.label, entry?.value)).filter(Boolean)
+      ? card.rows.map((entry) => compactDemonstrationRow(entry?.label, entry?.value)).filter(Boolean)
       : []
   };
 }
 
-function compactApplicationPanel(panel, fallbackLabel) {
+function compactDemonstrationPanel(panel, fallbackLabel) {
   return {
     label: String(panel?.label || fallbackLabel || 'Bitcode panel').trim() || fallbackLabel || 'Bitcode panel',
     badge: String(panel?.badge || '').trim(),
-    cards: Array.isArray(panel?.cards) ? panel.cards.map(compactApplicationCard).filter(Boolean) : []
+    cards: Array.isArray(panel?.cards) ? panel.cards.map(compactDemonstrationCard).filter(Boolean) : []
   };
 }
 
@@ -541,7 +541,7 @@ function compactClosureSurface(state) {
   };
 }
 
-function buildApplicationCoreSurface(state) {
+function buildDemonstrationCoreSurface(state) {
   const run = /** @type {LatestRunShape} */ (state.latestRun || {});
   const scenario = currentScenario(state);
   const authSession = activeAuthSession(state);
@@ -572,8 +572,8 @@ function buildApplicationCoreSurface(state) {
     || run.boundedPublicProof?.bundleId
     || run.journalDiff?.bundleId
     || 'No run yet';
-  const selectedArtifactKinds = compactApplicationCountMap(depositingSurface?.selectedArtifactKindCounts);
-  const selectedOriginKinds = compactApplicationCountMap(depositingSurface?.selectedOriginKindCounts);
+  const selectedArtifactKinds = compactDemonstrationCountMap(depositingSurface?.selectedArtifactKindCounts);
+  const selectedOriginKinds = compactDemonstrationCountMap(depositingSurface?.selectedOriginKindCounts);
   const closureCriteria = Array.isArray(needingSurface?.closureCriteria)
     ? needingSurface.closureCriteria.map((entry) => String(entry || '').trim()).filter(Boolean)
     : [];
@@ -591,7 +591,7 @@ function buildApplicationCoreSurface(state) {
     : [];
 
   return {
-    operatingPicture: compactApplicationPanel({
+    operatingPicture: compactDemonstrationPanel({
       label: 'Operating picture',
       badge: canonOperatorLabel(state),
       cards: [
@@ -602,37 +602,37 @@ function buildApplicationCoreSurface(state) {
           help: 'Transactions start from repo supply, then immediately read the active deposit, need, and fit before deeper closure surfaces.',
           badge: `${state.repoSupplySurface?.repoCount || 0} repos`,
           metrics: [
-            compactApplicationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0),
-            compactApplicationMetric('Repo supply entries', state.repoSupplySurface?.inventoryEntryCount || 0),
-            compactApplicationMetric('Need scenarios', state.needScenarios?.length || 0),
-            compactApplicationMetric('Candidate assets', state.assets?.length || 0)
+            compactDemonstrationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0),
+            compactDemonstrationMetric('Repo supply entries', state.repoSupplySurface?.inventoryEntryCount || 0),
+            compactDemonstrationMetric('Need scenarios', state.needScenarios?.length || 0),
+            compactDemonstrationMetric('Candidate assets', state.assets?.length || 0)
           ],
           rows: [
-            compactApplicationRow('Active scenario', scenario?.scenarioFamily || scenario?.scenarioId || '—'),
-            compactApplicationRow('Projection', activeProjectionPrincipal(state)),
-            compactApplicationRow('Branch mode', activeBranchMode(state)),
-            compactApplicationRow('Auth session', authSession?.authSessionId || '—')
+            compactDemonstrationRow('Active scenario', scenario?.scenarioFamily || scenario?.scenarioId || '—'),
+            compactDemonstrationRow('Projection', activeProjectionPrincipal(state)),
+            compactDemonstrationRow('Branch mode', activeBranchMode(state)),
+            compactDemonstrationRow('Auth session', authSession?.authSessionId || '—')
           ]
         },
         {
           title: 'Repo-to-settlement path',
-          eyebrow: run.repoToSettlementSurface ? 'Run surface' : 'Application closure',
+          eyebrow: run.repoToSettlementSurface ? 'Run surface' : 'Demonstration closure',
           subtitle: 'Depositing to settlement as one staged operating path',
           help: run.repoToSettlementSurface
             ? 'The active run has already staged the operating path from deposit through settlement.'
             : 'Pick repo artifacts from authenticated supply, confirm the measured need, inspect the deposit-to-need fit, then run the branch flow to stage proof and settlement.',
           badge: run.repoToSettlementSurface ? 'staged' : 'ready',
           metrics: [
-            compactApplicationMetric('Selected assets in latest pack', run.assetPack?.selectedAssets?.length || 0),
-            compactApplicationMetric('Settlement-credited assets', creditedAssetCount),
-            compactApplicationMetric('Visible proof families', proofCatalog?.proofFamilyCount || 0),
-            compactApplicationMetric('Visible branch artifacts', visibleArtifacts || 0)
+            compactDemonstrationMetric('Selected assets in latest pack', run.assetPack?.selectedAssets?.length || 0),
+            compactDemonstrationMetric('Settlement-credited assets', creditedAssetCount),
+            compactDemonstrationMetric('Visible proof families', proofCatalog?.proofFamilyCount || 0),
+            compactDemonstrationMetric('Visible branch artifacts', visibleArtifacts || 0)
           ],
           rows: [
-            compactApplicationRow('Latest bundle', latestBundleId),
-            compactApplicationRow('Status', statusEl.textContent?.trim() || '—'),
-            compactApplicationRow('Proof posture', proofCatalog?.proofFamilyCount ? 'proof families surfaced' : 'awaiting proof family read'),
-            compactApplicationRow('Closure owner', 'transactions composition + shared Bitcode shell')
+            compactDemonstrationRow('Latest bundle', latestBundleId),
+            compactDemonstrationRow('Status', statusEl.textContent?.trim() || '—'),
+            compactDemonstrationRow('Proof posture', proofCatalog?.proofFamilyCount ? 'proof families surfaced' : 'awaiting proof family read'),
+            compactDemonstrationRow('Closure owner', 'transactions composition + shared Bitcode shell')
           ]
         },
         {
@@ -642,21 +642,21 @@ function buildApplicationCoreSurface(state) {
           help: 'Boundary truth stays explicit so the main Bitcode story can stay centered on give, need, fit, proof, and settlement.',
           badge: boundaryStages ? `${boundaryStages} stages` : 'support surface',
           metrics: [
-            compactApplicationMetric('Boundary stages', boundaryStages),
-            compactApplicationMetric('Live-observed interfaces', liveObservedInterfaces),
-            compactApplicationMetric('Blocking interfaces', blockingExternalInterfaces),
-            compactApplicationMetric('Proof families', proofCatalog?.proofFamilyCount || 0)
+            compactDemonstrationMetric('Boundary stages', boundaryStages),
+            compactDemonstrationMetric('Live-observed interfaces', liveObservedInterfaces),
+            compactDemonstrationMetric('Blocking interfaces', blockingExternalInterfaces),
+            compactDemonstrationMetric('Proof families', proofCatalog?.proofFamilyCount || 0)
           ],
           rows: [
-            compactApplicationRow('Environment mode', externalSummary.configuredEnvironmentMode || 'mock'),
-            compactApplicationRow('Actuality disposition', externalSummary.actualityDisposition || 'deterministic-mock-only'),
-            compactApplicationRow('Projection principal', activeProjectionPrincipal(state)),
-            compactApplicationRow('Primary route', '/application')
+            compactDemonstrationRow('Environment mode', externalSummary.configuredEnvironmentMode || 'mock'),
+            compactDemonstrationRow('Actuality disposition', externalSummary.actualityDisposition || 'deterministic-mock-only'),
+            compactDemonstrationRow('Projection principal', activeProjectionPrincipal(state)),
+            compactDemonstrationRow('Demonstration route', '/')
           ]
         }
       ]
     }, 'Operating picture'),
-    depositing: compactApplicationPanel({
+    depositing: compactDemonstrationPanel({
       label: 'Depositing',
       badge: depositingSurface?.depositProfile || 'Pending deposit',
       cards: [
@@ -667,17 +667,17 @@ function buildApplicationCoreSurface(state) {
           help: depositingSurface?.depositIntentSummary || 'The opening Bitcode action is what was deposited, from where, and with which bound roots.',
           badge: depositingSurface?.depositProfile || 'Pending deposit',
           metrics: [
-            compactApplicationMetric('Selected refs', depositingSurface?.selectedInventoryRefs?.length || 0),
-            compactApplicationMetric('Artifact kinds', selectedArtifactKinds.length),
-            compactApplicationMetric('Origin kinds', selectedOriginKinds.length),
-            compactApplicationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0)
+            compactDemonstrationMetric('Selected refs', depositingSurface?.selectedInventoryRefs?.length || 0),
+            compactDemonstrationMetric('Artifact kinds', selectedArtifactKinds.length),
+            compactDemonstrationMetric('Origin kinds', selectedOriginKinds.length),
+            compactDemonstrationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0)
           ],
           rows: [
-            compactApplicationRow('Deposit session', depositingSurface?.depositSessionId || '—'),
-            compactApplicationRow('Repository supply', depositingSurface?.repoSupplyRef || authSession?.repo || '—'),
-            compactApplicationRow('Addressing root', depositingSurface?.addressingRoot || '—'),
-            compactApplicationRow('Auth root', depositingSurface?.authRoot || '—'),
-            compactApplicationRow('Artifact kinds', compactApplicationList(selectedArtifactKinds))
+            compactDemonstrationRow('Deposit session', depositingSurface?.depositSessionId || '—'),
+            compactDemonstrationRow('Repository supply', depositingSurface?.repoSupplyRef || authSession?.repo || '—'),
+            compactDemonstrationRow('Addressing root', depositingSurface?.addressingRoot || '—'),
+            compactDemonstrationRow('Auth root', depositingSurface?.authRoot || '—'),
+            compactDemonstrationRow('Artifact kinds', compactDemonstrationList(selectedArtifactKinds))
           ]
         },
         {
@@ -687,21 +687,21 @@ function buildApplicationCoreSurface(state) {
           help: 'Selection turns repository supply into an actual Bitcode deposit candidate before verification and closure rights are evaluated.',
           badge: authSession?.authSessionId ? 'repo-authenticated' : 'selection pending',
           metrics: [
-            compactApplicationMetric('Active inventory', activeInventoryEntries(state).length),
-            compactApplicationMetric('Filtered inventory', filteredInventoryEntries(state).length),
-            compactApplicationMetric('Selected inventory', selectedInventoryEntries(state).length),
-            compactApplicationMetric('Scenario coverage', state.needScenarios?.length || 0)
+            compactDemonstrationMetric('Active inventory', activeInventoryEntries(state).length),
+            compactDemonstrationMetric('Filtered inventory', filteredInventoryEntries(state).length),
+            compactDemonstrationMetric('Selected inventory', selectedInventoryEntries(state).length),
+            compactDemonstrationMetric('Scenario coverage', state.needScenarios?.length || 0)
           ],
           rows: [
-            compactApplicationRow('Selected refs', compactApplicationList(depositingSurface?.selectedInventoryRefs)),
-            compactApplicationRow('Origin kinds', compactApplicationList(selectedOriginKinds)),
-            compactApplicationRow('Auth session', authSession?.authSessionId || '—'),
-            compactApplicationRow('Installation account', authSession?.installationAccountLogin || '—')
+            compactDemonstrationRow('Selected refs', compactDemonstrationList(depositingSurface?.selectedInventoryRefs)),
+            compactDemonstrationRow('Origin kinds', compactDemonstrationList(selectedOriginKinds)),
+            compactDemonstrationRow('Auth session', authSession?.authSessionId || '—'),
+            compactDemonstrationRow('Installation account', authSession?.installationAccountLogin || '—')
           ]
         }
       ]
     }, 'Depositing'),
-    needing: compactApplicationPanel({
+    needing: compactDemonstrationPanel({
       label: 'Needing + measured demand',
       badge: scenario?.realizationProfile?.shortLabel || needingSurface?.realizationProfile?.shortLabel || 'Needing',
       cards: [
@@ -716,17 +716,17 @@ function buildApplicationCoreSurface(state) {
             || 'This is the measured need the deposit has to justify before proof and settlement carry the story forward.',
           badge: needingSurface?.parserKind || 'measured demand',
           metrics: [
-            compactApplicationMetric('Target kinds', targetKinds.length),
-            compactApplicationMetric('Closure criteria', closureCriteria.length),
-            compactApplicationMetric('Failure modes', failureModes.length),
-            compactApplicationMetric('Need scenarios', state.needScenarios?.length || 0)
+            compactDemonstrationMetric('Target kinds', targetKinds.length),
+            compactDemonstrationMetric('Closure criteria', closureCriteria.length),
+            compactDemonstrationMetric('Failure modes', failureModes.length),
+            compactDemonstrationMetric('Need scenarios', state.needScenarios?.length || 0)
           ],
           rows: [
-            compactApplicationRow('Need ID', needingSurface?.needId || '—'),
-            compactApplicationRow('Scenario', scenario?.scenarioFamily || scenario?.scenarioId || '—'),
-            compactApplicationRow('Repository', scenario?.repo || authSession?.repo || '—'),
-            compactApplicationRow('Parser', needingSurface?.parserKind || '—'),
-            compactApplicationRow('Target kinds', compactApplicationList(targetKinds))
+            compactDemonstrationRow('Need ID', needingSurface?.needId || '—'),
+            compactDemonstrationRow('Scenario', scenario?.scenarioFamily || scenario?.scenarioId || '—'),
+            compactDemonstrationRow('Repository', scenario?.repo || authSession?.repo || '—'),
+            compactDemonstrationRow('Parser', needingSurface?.parserKind || '—'),
+            compactDemonstrationRow('Target kinds', compactDemonstrationList(targetKinds))
           ]
         },
         {
@@ -738,21 +738,21 @@ function buildApplicationCoreSurface(state) {
             : 'Closure detail will become more explicit once the active need carries criterion-bearing measurement payloads.',
           badge: closureCriteria.length ? 'criteria surfaced' : 'criteria pending',
           metrics: [
-            compactApplicationMetric('Failure modes', failureModes.length),
-            compactApplicationMetric('Target kinds', targetKinds.length),
-            compactApplicationMetric('Candidate assets', state.assets?.length || 0),
-            compactApplicationMetric('Projection', activeProjectionPrincipal(state))
+            compactDemonstrationMetric('Failure modes', failureModes.length),
+            compactDemonstrationMetric('Target kinds', targetKinds.length),
+            compactDemonstrationMetric('Candidate assets', state.assets?.length || 0),
+            compactDemonstrationMetric('Projection', activeProjectionPrincipal(state))
           ],
           rows: [
-            compactApplicationRow('Closure criteria', compactApplicationList(closureCriteria)),
-            compactApplicationRow('Failure modes', compactApplicationList(failureModes)),
-            compactApplicationRow('Profile', scenario?.realizationProfile?.shortLabel || scenario?.realizationProfile?.label || '—'),
-            compactApplicationRow('Task summary', needingSurface?.taskSummary || scenario?.task || '—')
+            compactDemonstrationRow('Closure criteria', compactDemonstrationList(closureCriteria)),
+            compactDemonstrationRow('Failure modes', compactDemonstrationList(failureModes)),
+            compactDemonstrationRow('Profile', scenario?.realizationProfile?.shortLabel || scenario?.realizationProfile?.label || '—'),
+            compactDemonstrationRow('Task summary', needingSurface?.taskSummary || scenario?.task || '—')
           ]
         }
       ]
     }, 'Needing + measured demand'),
-    fit: compactApplicationPanel({
+    fit: compactDemonstrationPanel({
       label: 'Depositing-to-needing fit',
       badge: fitSurface?.normalizationPressure || 'pending',
       cards: [
@@ -765,16 +765,16 @@ function buildApplicationCoreSurface(state) {
             || 'Transactions make the deposit-to-need fit explicit before deeper proof and settlement sections.',
           badge: fitSurface?.normalizationPressure || 'pending',
           metrics: [
-            compactApplicationMetric('Decisive kinds', decisiveKinds.length),
-            compactApplicationMetric('Overlap kinds', overlapKinds.length),
-            compactApplicationMetric('Pressure', fitSurface?.normalizationPressure || 'pending'),
-            compactApplicationMetric('Selected refs', depositingSurface?.selectedInventoryRefs?.length || 0)
+            compactDemonstrationMetric('Decisive kinds', decisiveKinds.length),
+            compactDemonstrationMetric('Overlap kinds', overlapKinds.length),
+            compactDemonstrationMetric('Pressure', fitSurface?.normalizationPressure || 'pending'),
+            compactDemonstrationMetric('Selected refs', depositingSurface?.selectedInventoryRefs?.length || 0)
           ],
           rows: [
-            compactApplicationRow('Decisive kinds', compactApplicationList(decisiveKinds)),
-            compactApplicationRow('Overlap kinds', compactApplicationList(overlapKinds)),
-            compactApplicationRow('Projection', activeProjectionPrincipal(state)),
-            compactApplicationRow('Branch mode', activeBranchMode(state))
+            compactDemonstrationRow('Decisive kinds', compactDemonstrationList(decisiveKinds)),
+            compactDemonstrationRow('Overlap kinds', compactDemonstrationList(overlapKinds)),
+            compactDemonstrationRow('Projection', activeProjectionPrincipal(state)),
+            compactDemonstrationRow('Branch mode', activeBranchMode(state))
           ]
         },
         {
@@ -784,16 +784,16 @@ function buildApplicationCoreSurface(state) {
           help: fitSurface?.proofIntentSummary || 'Fit intent becomes the explanation layer between measured demand and downstream closure behavior.',
           badge: fitSurface?.normalizationPressure || 'fit intent',
           metrics: [
-            compactApplicationMetric('Proof families', proofCatalog?.proofFamilyCount || 0),
-            compactApplicationMetric('Visible artifacts', visibleArtifacts || 0),
-            compactApplicationMetric('Credited assets', creditedAssetCount),
-            compactApplicationMetric('Latest bundle', latestBundleId)
+            compactDemonstrationMetric('Proof families', proofCatalog?.proofFamilyCount || 0),
+            compactDemonstrationMetric('Visible artifacts', visibleArtifacts || 0),
+            compactDemonstrationMetric('Credited assets', creditedAssetCount),
+            compactDemonstrationMetric('Latest bundle', latestBundleId)
           ],
           rows: [
-            compactApplicationRow('Branch intent', fitSurface?.branchIntentSummary || '—'),
-            compactApplicationRow('Proof intent', fitSurface?.proofIntentSummary || '—'),
-            compactApplicationRow('Settlement intent', fitSurface?.settlementIntentSummary || '—'),
-            compactApplicationRow('Latest bundle', latestBundleId)
+            compactDemonstrationRow('Branch intent', fitSurface?.branchIntentSummary || '—'),
+            compactDemonstrationRow('Proof intent', fitSurface?.proofIntentSummary || '—'),
+            compactDemonstrationRow('Settlement intent', fitSurface?.settlementIntentSummary || '—'),
+            compactDemonstrationRow('Latest bundle', latestBundleId)
           ]
         }
       ]
@@ -801,7 +801,7 @@ function buildApplicationCoreSurface(state) {
   };
 }
 
-function buildApplicationSummarySurface(state) {
+function buildDemonstrationSummarySurface(state) {
   const latestRun = state.latestRun;
   const selected = latestRun?.assetPack?.selectedAssets?.length || 0;
   const settled = latestRun?.settlementPreview?.creditedAssetIds?.length
@@ -852,7 +852,7 @@ function buildApplicationSummarySurface(state) {
 
 const DEFAULT_SURFACE_MODE = 'visual';
 const EXPLAINER_PANEL_MAX_WIDTH = 360;
-const FLOW_GUIDE_STORAGE_KEY = 'bitcode-application:first-gate:flow-guide-overlay-dismissed:v26';
+const FLOW_GUIDE_STORAGE_KEY = 'bitcode-demonstration:flow-guide-overlay-dismissed';
 let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
@@ -876,7 +876,7 @@ try {
   flowGuideOpen = true;
 }
 
-function getBitcodeApplicationShellSnapshot() {
+function getBitcodeDemonstrationShellSnapshot() {
   const state = lastLoadedState;
   if (!state) return null;
 
@@ -961,8 +961,8 @@ function getBitcodeApplicationShellSnapshot() {
       projectionOptions: compactSelectOptions(projectionPickerEl),
       branchModeOptions: compactSelectOptions(branchModePickerEl)
     },
-    summarySurface: buildApplicationSummarySurface(state),
-    coreSurface: buildApplicationCoreSurface(state),
+    summarySurface: buildDemonstrationSummarySurface(state),
+    coreSurface: buildDemonstrationCoreSurface(state),
     depositingSurface: activeDepositingSurface(state),
     needingSurface: activeNeedingSurface(state),
     fitSurface: activeDepositingToNeedingSurface(state),
@@ -970,7 +970,7 @@ function getBitcodeApplicationShellSnapshot() {
   };
 }
 
-globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__ = getBitcodeApplicationShellSnapshot;
+globalThis.__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__ = getBitcodeDemonstrationShellSnapshot;
 
 function updateShellSelectValue(element, value) {
   if (!element || element.value === value) return;
@@ -978,37 +978,37 @@ function updateShellSelectValue(element, value) {
   element.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
-const bitcodeApplicationShellControls = {
+const bitcodeDemonstrationShellControls = {
   setScenario(value) {
     updateShellSelectValue(scenarioPickerEl, value);
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   setProjection(value) {
     updateShellSelectValue(projectionPickerEl, value);
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   setBranchMode(value) {
     updateShellSelectValue(branchModePickerEl, value);
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   setAuthSession(value) {
     updateShellSelectValue(authSessionPickerEl, value);
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   setInventoryKind(value) {
     updateShellSelectValue(inventoryKindFilterEl, value);
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   setInventorySearch(value) {
     const nextValue = String(value || '');
-    if (!inventorySearchInputEl || inventorySearchInputEl.value === nextValue) return getBitcodeApplicationShellSnapshot();
+    if (!inventorySearchInputEl || inventorySearchInputEl.value === nextValue) return getBitcodeDemonstrationShellSnapshot();
     inventorySearchInputEl.value = nextValue;
     inventorySearchInputEl.dispatchEvent(new Event('input', { bubbles: true }));
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   toggleInventoryEntry(entryId) {
     const value = String(entryId || '').trim();
-    if (!value) return getBitcodeApplicationShellSnapshot();
+    if (!value) return getBitcodeDemonstrationShellSnapshot();
     if (selectedInventoryEntryIds.has(value)) selectedInventoryEntryIds.delete(value);
     else selectedInventoryEntryIds.add(value);
     if (lastLoadedState) {
@@ -1021,31 +1021,31 @@ const bitcodeApplicationShellControls = {
       syncExplainerAlignment();
       renderFlowGuideOverlay(lastLoadedState);
     }
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   toggleFlowGuide() {
     flowGuideToggleButtonEl.click();
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   toggleTutorial() {
     flowGuideToggleButtonEl.click();
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   makeBranch() {
     makeBranchButtonEl.click();
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
-  resetApplication() {
+  resetDemonstration() {
     resetButtonEl.click();
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   },
   async refresh() {
     await refresh();
-    return getBitcodeApplicationShellSnapshot();
+    return getBitcodeDemonstrationShellSnapshot();
   }
 };
 
-globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ = bitcodeApplicationShellControls;
+globalThis.__BITCODE_DEMONSTRATION_SHELL_CONTROLS__ = bitcodeDemonstrationShellControls;
 
 /**
  * @param {AppState | null | undefined} state
@@ -1061,7 +1061,7 @@ function inheritedCanonSurfaceLabel(state) {
  */
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
-  document.title = posture['documentTitle'] || `Bitcode Application — ${canonOperatorLabel(state)}`;
+  document.title = posture['documentTitle'] || `Bitcode Demonstration — ${canonOperatorLabel(state)}`;
   heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode transactions';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
@@ -1223,7 +1223,7 @@ const EXPLAINERS = {
     kicker: 'Transactions surface',
     title: 'Operating picture',
     summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
-    detail: 'This panel is the high-level application map for how repo supply, need, fit, proof, settlement, and boundary posture connect end to end.',
+    detail: 'This panel is the high-level demonstration map for how repo supply, need, fit, proof, settlement, and boundary posture connect end to end.',
     points: [
       'Keeps the thesis legible before deep artifacts',
       'Keeps every later section anchored in one readable chain'
@@ -1233,7 +1233,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Boundary reality',
     summary: 'The explicit split between what is modeled locally, what runs locally, and what remains a real external dependency.',
-    detail: 'This keeps Bitcode honest. The application can center deposit, need, and fit without pretending external systems disappeared.',
+    detail: 'This keeps Bitcode honest. The demonstration can center deposit, need, and fit without pretending external systems disappeared.',
     points: [
       'Prevents profile semantics from being confused with integration truth',
       'Shows where a live system would still need real external execution'
@@ -7707,22 +7707,22 @@ refresh().then(() => {
   syncExplainerAlignment();
   setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. The closure runtime stays available below when you need deeper proof, replay, or settlement follow-through. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
-  const applicationRootEl = document.getElementById('bitcodeApplicationRoot');
-  (applicationRootEl || document.body).innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
+  const demonstrationRootEl = document.getElementById('bitcodeDemonstrationRoot');
+  (demonstrationRootEl || document.body).innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });
 
 return () => {
   eventController.abort();
-  if (globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__ === getBitcodeApplicationShellSnapshot) {
-    delete globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__;
+  if (globalThis.__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__ === getBitcodeDemonstrationShellSnapshot) {
+    delete globalThis.__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__;
   }
-  if (globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ === bitcodeApplicationShellControls) {
-    delete globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__;
+  if (globalThis.__BITCODE_DEMONSTRATION_SHELL_CONTROLS__ === bitcodeDemonstrationShellControls) {
+    delete globalThis.__BITCODE_DEMONSTRATION_SHELL_CONTROLS__;
   }
 };
 }
 
-if (typeof window !== 'undefined' && globalThis.__BITCODE_APPLICATION_SHELL_AUTOBOOT__ !== false) {
-  globalThis.__BITCODE_APPLICATION_SHELL_CLEANUP__?.();
-  globalThis.__BITCODE_APPLICATION_SHELL_CLEANUP__ = mountBitcodeApplicationShell();
+if (typeof window !== 'undefined' && globalThis.__BITCODE_DEMONSTRATION_SHELL_AUTOBOOT__ !== false) {
+  globalThis.__BITCODE_DEMONSTRATION_SHELL_CLEANUP__?.();
+  globalThis.__BITCODE_DEMONSTRATION_SHELL_CLEANUP__ = mountBitcodeDemonstrationShell();
 }

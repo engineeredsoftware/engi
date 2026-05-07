@@ -121,7 +121,7 @@ describe('user BTD mutation route', () => {
 
     expect(response.status).toBe(410);
     expect(body.error).toContain('non-fungible asset-pack share/read-right');
-    expect(body.acquisitionPaths.terminalNeedMinting).toContain('/application');
+    expect(body.acquisitionPaths.terminalNeedMinting).toContain('/terminal');
     expect(mockSendServerEvent).toHaveBeenCalledWith('generic_btd_mutation_rejected', {
       admin_id: 'admin-1',
       reason: 'btd_is_non_fungible_asset_pack_share_read_right',

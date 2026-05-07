@@ -152,7 +152,7 @@ export default function Nav() {
   const publicSurface = getPublicShellSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
-  const usesProductChrome = usesPublicChrome || navSurface === 'application';
+  const usesProductChrome = usesPublicChrome || navSurface === 'terminal';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
 
   // Determine if the nav should be fixed
@@ -304,7 +304,7 @@ export default function Nav() {
         const isExchangeRoute = href === '/exchange';
         const isDisabledRoute =
           (isExchangeRoute && disableExchangeLink) ||
-          (href === '/application' && disableTerminalLink);
+          (href === '/terminal' && disableTerminalLink);
         const isActiveRoute =
           isExchangeRoute
             ? pathname === '/exchange' || pathname?.startsWith('/exchange/')
@@ -357,7 +357,7 @@ export default function Nav() {
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />
-              ) : href === '/application' ? (
+              ) : href === '/terminal' ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.transactions}
                   side="bottom"
@@ -413,12 +413,12 @@ export default function Nav() {
             {!usesProductChrome && user && (
               <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
-                  { href: '/application', label: 'application' },
+                  { href: '/terminal', label: 'terminal' },
                 ].map(({ href, label }, index) => {
                   const isDisabled = false;
                   const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
                   const isActiveRoute =
-                    pathname === '/application' ||
+                    pathname === '/terminal' ||
                     pathname?.startsWith('/executions') ||
                     pathname?.startsWith('/conversations') ||
                     pathname?.startsWith('/auxillaries') ||

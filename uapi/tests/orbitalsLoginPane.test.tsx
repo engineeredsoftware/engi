@@ -14,7 +14,7 @@ jest.mock('@/components/base/bitcode/auth/LoginForm', () => ({
 import OrbitalsLoginPane from '@/app/auxillaries/components/AuxillariesLoginPane';
 
 describe('OrbitalsLoginPane', () => {
-  it('renders the application-owned orbital access shell', () => {
+  it('renders the terminal-owned orbital access shell', () => {
     render(<OrbitalsLoginPane />);
 
     expect(screen.getByText('Open Connects, Interfaces, Profile, and $BTD')).toBeTruthy();

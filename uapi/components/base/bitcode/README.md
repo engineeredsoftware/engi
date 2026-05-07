@@ -1,6 +1,6 @@
 # `uapi/components/base/bitcode`
 
-This directory holds the shared Bitcode operator component systems used by `/application`, auxillaries, conversations, and the retained route chrome.
+This directory holds the shared Bitcode operator component systems used by `/terminal`, auxillaries, conversations, and the retained route chrome.
 
 In V26 second-gate work, this directory is not a grab-bag.
 It is the reusable carrier layer for:
@@ -8,7 +8,7 @@ It is the reusable carrier layer for:
 - shared activity vocabulary,
 - notifications and menus,
 - execution and Exchange master-detail components,
-- and the supporting primitives needed to keep `/application` cleanly componentized.
+- and the supporting primitives needed to keep `/terminal` cleanly componentized.
 
 ## Main system areas
 
@@ -26,7 +26,7 @@ It is the reusable carrier layer for:
 ## V26 second-gate rule
 
 New product behavior should prefer this shared layer when the result is:
-- reusable across `/application`, `/auxillaries`, and `/conversations`,
+- reusable across `/terminal`, `/auxillaries`, and `/conversations`,
 - typed and provable,
 - cleaner than page-local duplication,
 - and aligned to Bitcode operator UX rather than marketing or demo posture.
@@ -43,8 +43,8 @@ If shared operator chrome or execution carriers change materially, their README 
   Shared Bitcode activity vocabulary and convergence intent.
 - [execution/README.md](execution/README.md)
   Shared transaction/detail/payload carrier map.
-- [../../../app/application/README.md](../../../app/application/README.md)
-  Route-local `/application` ownership.
+- [../../../app/terminal/README.md](../../../app/terminal/README.md)
+  Route-local `/terminal` ownership.
 - [../../../app/auxillaries/README.md](../../../app/auxillaries/README.md)
   Canonical `/auxillaries` route and contained auxillary ownership.
 - [../../../app/orbitals/README.md](../../../app/orbitals/README.md)

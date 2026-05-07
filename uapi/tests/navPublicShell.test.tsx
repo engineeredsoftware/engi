@@ -101,7 +101,7 @@ describe('Nav public shell', () => {
     expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
     expect(screen.getByRole('link', { name: 'Exchange' })).not.toHaveAttribute('aria-current');
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.getByRole('button', { name: 'Explain Exchange' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
@@ -128,7 +128,7 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 

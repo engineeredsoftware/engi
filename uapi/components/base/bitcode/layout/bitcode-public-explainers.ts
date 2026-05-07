@@ -17,7 +17,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     ],
   }),
   transactions: buildExplainer({
-    kicker: 'Live application',
+    kicker: 'Live Terminal',
     title: 'Terminal',
     summary: 'Open the full Terminal for proofs, history, and give-to-settle detail.',
     detail:
@@ -54,7 +54,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     title: 'Protocol specification',
     summary: 'Read the public Bitcode protocol specification for system semantics, value flow, proofs, and operating posture.',
     detail:
-      'This is the reference document for how Bitcode works. It is meant for readers who want the precise model behind the application.',
+      'This is the reference document for how Bitcode works. It is meant for readers who want the precise model behind the protocol and commercial interfaces.',
     points: [
       'Covers system semantics and proof-bearing posture',
       'Useful for partners, researchers, and implementation review',

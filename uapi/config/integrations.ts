@@ -109,7 +109,7 @@ export const integrationOptions: IntegrationOption[] = [
         label: 'Mobile App',
         value: 'figma-project-mobile-app',
         type: 'figma-project',
-        subLabel: 'Mobile Application Project',
+        subLabel: 'Mobile Terminal Project',
         isDisabled: true
       },
       {

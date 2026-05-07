@@ -69,7 +69,7 @@ const quickRouteCards = [
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
   },
   {
-    href: '/application',
+    href: '/terminal',
     eyebrow: 'Terminal',
     title: 'Operate the ledger',
     summary: BITCODE_PUBLIC_EXPLAINERS.transactions.summary,

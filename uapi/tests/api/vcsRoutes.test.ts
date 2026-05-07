@@ -34,7 +34,7 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(payload.metadata.account).toBe('bitcode');
   });
 
-  it('returns deterministic mock repositories for the application-owned GitHub carrier', async () => {
+  it('returns deterministic mock repositories for the terminal-owned GitHub carrier', async () => {
     const { GET } = await import('@/app/api/vcs/[provider]/repositories/route');
     const request = new Request('https://example.com/api/vcs/github/repositories');
 

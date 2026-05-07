@@ -111,7 +111,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await expect(page.getByText('Exchange selected activity detail')).toBeVisible();
     await expect(page.getByLabel('Selected Exchange activity detail')).toBeVisible();
     await expect(page.getByText('Selected activity', { exact: true })).toBeVisible();
-    const selectedFacts = page.locator('#applicationTransactionTransaction');
+    const selectedFacts = page.locator('#terminalTransactionTransaction');
     const selectedFactValue = (label: string) =>
       selectedFacts
         .locator('dt')
@@ -129,7 +129,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await expect(selectedFactValue('BTC fee basis')).toHaveText('$3.11');
     await page.getByRole('button', { name: /^Proofs$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=proofs/);
-    await expect(page.getByText(/Bounded proof stays in activity detail/i)).toBeVisible();
+    await expect(page.getByText(/Bounded proof stays with the selected activity/i)).toBeVisible();
     await expect(
       page.getByLabel('Selected Exchange activity detail').getByText('verification witness refreshed').first(),
     ).toBeVisible();

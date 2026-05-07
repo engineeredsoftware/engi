@@ -20,7 +20,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await openCommercialRoute(
       page,
       '/conversations',
-      /Keep the Bitcode Terminal write path as a first-class application mode/i,
+      /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
     );
 
     await expect(page.getByRole('button', { name: /Add split pane/i })).toBeVisible();
@@ -37,11 +37,12 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await input.press('Enter');
 
     await expect(page.getByText(/Summarize the selected Need/i).first()).toBeVisible();
-    await expect(page.getByText(/[34] messages/).first()).toBeVisible();
+    await expect(page.getByText(/Bitcode mock mode received/i).first()).toBeVisible();
+    await expect(page.getByText('2 messages').first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Close split' })).toHaveCount(2);
 
     await exitFullscreen.click();
-    await expect(page).toHaveURL(/\/application$/);
+    await expect(page).toHaveURL(/\/terminal$/);
 
     await trap.assertClean();
   });
@@ -86,7 +87,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await expectCommercialRouteReady(page, /Terminal actions: what writes and what should read back/i);
 
     await page.getByRole('link', { name: /^Use Terminal$/ }).click();
-    await expect(page).toHaveURL(/\/application$/);
+    await expect(page).toHaveURL(/\/terminal$/);
     await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
     await trap.assertClean();

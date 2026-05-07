@@ -101,7 +101,7 @@ function renderPayloadTreeNode({
 
   if (!isComposite) {
     return (
-      <div className="rounded-[0.95rem] border border-white/8 bg-[rgba(4,8,18,0.66)] px-3 py-3">
+      <div className="rounded-[0.9rem] border border-white/8 bg-[rgba(4,8,18,0.66)] px-3 py-2.5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium text-white">{label}</span>
           {renderTypeBadge(kind)}
@@ -118,10 +118,10 @@ function renderPayloadTreeNode({
 
   return (
     <details
-      className="rounded-[0.95rem] border border-white/8 bg-[rgba(4,8,18,0.66)]"
+      className="rounded-[0.9rem] border border-white/8 bg-[rgba(4,8,18,0.66)]"
       open={defaultOpen}
     >
-      <summary className="cursor-pointer list-none px-3 py-3">
+      <summary className="cursor-pointer list-none px-3 py-2.5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium text-white">{label}</span>
           {renderTypeBadge(kind)}
@@ -167,7 +167,7 @@ export default function BitcodePayloadTree({
   if (payload === undefined) return null;
 
   return (
-    <div className={cn('rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4', className)}>
+    <div className={cn('rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3', className)}>
       <div className="flex items-center gap-2">
         <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Payload field tree</p>
         <BitcodeInlineExplainer

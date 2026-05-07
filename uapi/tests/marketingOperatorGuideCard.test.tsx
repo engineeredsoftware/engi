@@ -35,7 +35,7 @@ describe('MarketingOperatorGuideCard', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'Open Bitcode Terminal' }),
-    ).toHaveAttribute('href', '/application');
+    ).toHaveAttribute('href', '/terminal');
   });
 
   it('resolves only the Bitcode guide media source', () => {

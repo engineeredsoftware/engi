@@ -52,15 +52,15 @@ jest.mock('@/components/base/bitcode/multi-line-typing-animation', () => ({
 }));
 
 jest.mock('@bitcode/protocol-demonstration/src/client-entry.js', () => ({
-  mountBitcodeApplicationShell: jest.fn(async () => jest.fn()),
-  readBitcodeApplicationShellSnapshot: jest.fn(),
-  readBitcodeApplicationShellControls: jest.fn(),
+  mountBitcodeDemonstrationShell: jest.fn(async () => jest.fn()),
+  readBitcodeDemonstrationShellSnapshot: jest.fn(),
+  readBitcodeDemonstrationShellControls: jest.fn(),
 }));
 
-const { mountBitcodeApplicationShell } = jest.requireMock(
+const { mountBitcodeDemonstrationShell } = jest.requireMock(
   '@bitcode/protocol-demonstration/src/client-entry.js',
 ) as {
-  mountBitcodeApplicationShell: jest.Mock;
+  mountBitcodeDemonstrationShell: jest.Mock;
 };
 
 describe('MarketingLandingPage', () => {
@@ -80,11 +80,11 @@ describe('MarketingLandingPage', () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText('Bitcode is auditable market infrastructure for engineering knowledge.'),
+      screen.getByText('Bitcode is auditable market infrastructure for technical knowledge.'),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'Open Terminal' }),
-    ).toHaveAttribute('href', '/application');
+    ).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
       'href',
       '/docs',
@@ -100,9 +100,9 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('SOURCE SHARES')).toBeInTheDocument();
     expect(screen.getByText('MOCKED TERMINAL')).toBeInTheDocument();
     expect(screen.getByText('Exchange')).toBeInTheDocument();
-    expect(document.getElementById('bitcodeApplicationRoot')).toBeNull();
+    expect(document.getElementById('bitcodeDemonstrationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();
-    expect(mountBitcodeApplicationShell).not.toHaveBeenCalled();
+    expect(mountBitcodeDemonstrationShell).not.toHaveBeenCalled();
     expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');

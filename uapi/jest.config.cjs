@@ -64,7 +64,7 @@ module.exports = {
     '^@bitcode/([^/]+)/(.+)$': '<rootDir>/../packages/$1/src/$2',
 
     // -------------------------------------------------------------------
-    // Current @/lib/* test aliases for files that still import application-local
+    // Current @/lib/* test aliases for files that still import terminal-local
     // helpers through the Next.js path convention.
     // -------------------------------------------------------------------
     '^@/lib/protocol-demonstration-app-context$': '<rootDir>/lib/protocol-demonstration-app-context.ts',
@@ -101,21 +101,25 @@ module.exports = {
     '<rootDir>/tests/assetPackInstructionsRoute.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
     '<rootDir>/tests/usePipelineExecution.test.tsx',
-    // Fifth-gate BTD and auxillaries coverage
+    // BTD and auxillaries coverage
     '<rootDir>/tests/userDataRoute.test.ts',
     '<rootDir>/tests/orbitalsBTDPane.test.tsx',
     '<rootDir>/tests/marketingLandingPage.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',
     '<rootDir>/tests/bitcodeDocsContent.test.tsx',
     '<rootDir>/tests/features.test.ts',
-    '<rootDir>/tests/applicationPreservedShellSurface.test.tsx',
-    '<rootDir>/tests/applicationFloatingDebugWidget.test.tsx',
-    '<rootDir>/tests/applicationPageShell.test.tsx',
-    '<rootDir>/tests/applicationExperienceArchitecture.test.ts',
-    '<rootDir>/tests/applicationCommercialLaunchReadiness.test.ts',
-    '<rootDir>/tests/applicationShellBridge.test.tsx',
-    '<rootDir>/tests/bitcodeApplicationRuntimeMount.test.tsx',
-    '<rootDir>/tests/firstGateScopedStylesRoute.test.ts',
+    '<rootDir>/tests/workspaceSurface.test.ts',
+    '<rootDir>/tests/exchangePageClient.test.tsx',
+    '<rootDir>/tests/terminalPreservedShellSurface.test.tsx',
+    '<rootDir>/tests/terminalFloatingDebugWidget.test.tsx',
+    '<rootDir>/tests/terminalPageShell.test.tsx',
+    '<rootDir>/tests/terminalSurfaceCopy.test.ts',
+    '<rootDir>/tests/terminalCommandState.test.ts',
+    '<rootDir>/tests/terminalExperienceArchitecture.test.ts',
+    '<rootDir>/tests/terminalCommercialLaunchReadiness.test.ts',
+    '<rootDir>/tests/terminalShellBridge.test.tsx',
+    '<rootDir>/tests/demonstrationWitnessMount.test.tsx',
+    '<rootDir>/tests/demonstrationWitnessScopedStylesRoute.test.ts',
     '<rootDir>/tests/btdStep.static.test.tsx',
     '<rootDir>/tests/btdStep.initialFlow.test.tsx',
     '<rootDir>/tests/btdStep.test.tsx',

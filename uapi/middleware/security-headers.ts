@@ -74,7 +74,7 @@ function generateCSP(pathname: string): string {
     ].join('; ');
   }
 
-  // Application CSP
+  // Terminal CSP
   const cspDirectives = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net", // Required for Next.js

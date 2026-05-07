@@ -5,24 +5,24 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import ApplicationTransactionWorkspace from '@/app/application/ApplicationTransactionWorkspace';
+import TerminalTransactionWorkspace from '@/app/terminal/TerminalTransactionWorkspace';
 import {
   mapExecutionHistoryRunToWorkspaceRun,
-} from '@/app/application/application-activity-history';
-import { ApplicationShellBridgeProvider } from '@/app/application/application-shell-bridge';
+} from '@/app/terminal/terminal-activity-history';
+import { TerminalShellBridgeProvider } from '@/app/terminal/terminal-shell-bridge';
 import {
-  readApplicationTransactionDetailSection,
-  readApplicationTransactionFilters,
-  readApplicationTransactionId,
-  readApplicationTransactionPagination,
-  resetApplicationTransactionFilters,
-  writeApplicationTransactionDetailSection,
-  writeApplicationTransactionFilters,
-  writeApplicationTransactionId,
-  writeApplicationTransactionPagination,
-} from '@/app/application/application-transaction-query';
-import { resolveApplicationTransactionSource } from '@/app/application/application-transaction-source';
-import type { WorkspaceRun } from '@/app/application/application-run-data';
+  readTerminalTransactionDetailSection,
+  readTerminalTransactionFilters,
+  readTerminalTransactionId,
+  readTerminalTransactionPagination,
+  resetTerminalTransactionFilters,
+  writeTerminalTransactionDetailSection,
+  writeTerminalTransactionFilters,
+  writeTerminalTransactionId,
+  writeTerminalTransactionPagination,
+} from '@/app/terminal/terminal-transaction-query';
+import { resolveTerminalTransactionSource } from '@/app/terminal/terminal-transaction-source';
+import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
 import { isAuxillariesMockMode } from '@/lib/mock-review-mode';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 
@@ -33,19 +33,19 @@ export default function ExchangePageClient() {
   const routeSearchParams = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
   const mockMode = isAuxillariesMockMode();
   const selectedTransactionId = useMemo(
-    () => readApplicationTransactionId(routeSearchParams),
+    () => readTerminalTransactionId(routeSearchParams),
     [routeSearchParams],
   );
   const selectedTransactionDetailSection = useMemo(
-    () => readApplicationTransactionDetailSection(routeSearchParams),
+    () => readTerminalTransactionDetailSection(routeSearchParams),
     [routeSearchParams],
   );
   const transactionFilters = useMemo(
-    () => readApplicationTransactionFilters(routeSearchParams),
+    () => readTerminalTransactionFilters(routeSearchParams),
     [routeSearchParams],
   );
   const transactionPagination = useMemo(
-    () => readApplicationTransactionPagination(routeSearchParams),
+    () => readTerminalTransactionPagination(routeSearchParams),
     [routeSearchParams],
   );
   const [liveRuns, setLiveRuns] = useState<WorkspaceRun[]>([]);
@@ -54,7 +54,7 @@ export default function ExchangePageClient() {
 
   const transactionSource = useMemo(
     () =>
-      resolveApplicationTransactionSource({
+      resolveTerminalTransactionSource({
         liveRuns,
         mockMode,
         selectedTransactionId,
@@ -83,8 +83,8 @@ export default function ExchangePageClient() {
 
   const replaceExchangeRoute = useCallback(
     (transactionId: string, detailSection = selectedTransactionDetailSection) => {
-      const nextParams = writeApplicationTransactionDetailSection(
-        writeApplicationTransactionId(readCurrentExchangeSearchParams(), transactionId),
+      const nextParams = writeTerminalTransactionDetailSection(
+        writeTerminalTransactionId(readCurrentExchangeSearchParams(), transactionId),
         detailSection,
       );
       replaceExchangeSearchParams(nextParams);
@@ -127,31 +127,31 @@ export default function ExchangePageClient() {
   );
 
   const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
-    const nextParams = writeApplicationTransactionPagination(
-      writeApplicationTransactionFilters(readCurrentExchangeSearchParams(), nextFilters),
+    const nextParams = writeTerminalTransactionPagination(
+      writeTerminalTransactionFilters(readCurrentExchangeSearchParams(), nextFilters),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     replaceExchangeSearchParams(nextParams);
   };
 
   const handleTransactionFiltersReset = () => {
-    const nextParams = writeApplicationTransactionPagination(
-      resetApplicationTransactionFilters(readCurrentExchangeSearchParams()),
+    const nextParams = writeTerminalTransactionPagination(
+      resetTerminalTransactionFilters(readCurrentExchangeSearchParams()),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     replaceExchangeSearchParams(nextParams);
   };
 
   const handleTransactionPaginationChange = (nextPagination: typeof transactionPagination) => {
-    replaceExchangeSearchParams(writeApplicationTransactionPagination(readCurrentExchangeSearchParams(), nextPagination));
+    replaceExchangeSearchParams(writeTerminalTransactionPagination(readCurrentExchangeSearchParams(), nextPagination));
   };
 
   const handleTransactionDetailSectionChange = (detailSection: typeof selectedTransactionDetailSection) => {
-    replaceExchangeSearchParams(writeApplicationTransactionDetailSection(readCurrentExchangeSearchParams(), detailSection));
+    replaceExchangeSearchParams(writeTerminalTransactionDetailSection(readCurrentExchangeSearchParams(), detailSection));
   };
 
   return (
-    <ApplicationShellBridgeProvider>
+    <TerminalShellBridgeProvider>
       <main className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.14),transparent_28%),linear-gradient(180deg,#050915_0%,#02050d_100%)] px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8">
         <div className="mx-auto flex w-full max-w-none flex-col gap-6">
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
@@ -184,7 +184,7 @@ export default function ExchangePageClient() {
             </div>
           </section>
 
-          <ApplicationTransactionWorkspace
+          <TerminalTransactionWorkspace
             runs={runs}
             selectedRun={selectedRun}
             isLoadingRuns={isLoadingRuns}
@@ -202,6 +202,6 @@ export default function ExchangePageClient() {
           />
         </div>
       </main>
-    </ApplicationShellBridgeProvider>
+    </TerminalShellBridgeProvider>
   );
 }

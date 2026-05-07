@@ -263,7 +263,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       readBitcodeRequestBody: readRequestBody,
       toBitcodeErrorResponse: mapBitcodeError,
     }));
-    jest.doMock('@/app/application/bitcode-transaction-route-readiness', () => ({
+    jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
       requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
     }));
 
@@ -301,7 +301,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       readBitcodeRequestBody: readRequestBody,
       toBitcodeErrorResponse: mapBitcodeError,
     }));
-    jest.doMock('@/app/application/bitcode-transaction-route-readiness', () => ({
+    jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
       requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
     }));
 
@@ -386,7 +386,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       readBitcodeRequestBody: readRequestBody,
       toBitcodeErrorResponse: mapBitcodeError,
     }));
-    jest.doMock('@/app/application/bitcode-transaction-route-readiness', () => ({
+    jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
       requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
     }));
 

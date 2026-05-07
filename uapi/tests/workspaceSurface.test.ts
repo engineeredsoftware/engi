@@ -6,20 +6,20 @@ import {
 
 describe('workspaceSurface helpers', () => {
   it('classifies operator workspace routes consistently', () => {
-    expect(getWorkspaceSurface('/application')).toBe('application');
-    expect(getWorkspaceSurface('/application/detail')).toBe('application');
+    expect(getWorkspaceSurface('/terminal')).toBe('terminal');
+    expect(getWorkspaceSurface('/terminal/detail')).toBe('terminal');
     expect(getWorkspaceSurface('/auxillaries/connects')).toBe('auxillaries');
     expect(getWorkspaceSurface('/conversations/thread')).toBe('conversations');
     expect(getWorkspaceSurface('/')).toBeNull();
   });
 
   it('marks workspace chrome and footer suppression together', () => {
-    expect(usesWorkspaceChrome('/application')).toBe(true);
+    expect(usesWorkspaceChrome('/terminal')).toBe(true);
     expect(usesWorkspaceChrome('/auxillaries')).toBe(true);
     expect(usesWorkspaceChrome('/conversations')).toBe(true);
     expect(usesWorkspaceChrome('/pricing')).toBe(false);
 
-    expect(shouldHideWorkspaceFooter('/application')).toBe(true);
+    expect(shouldHideWorkspaceFooter('/terminal')).toBe(true);
     expect(shouldHideWorkspaceFooter('/auxillaries')).toBe(true);
     expect(shouldHideWorkspaceFooter('/conversations')).toBe(true);
     expect(shouldHideWorkspaceFooter('/pricing')).toBe(false);

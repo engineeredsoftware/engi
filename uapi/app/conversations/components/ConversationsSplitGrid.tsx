@@ -26,7 +26,7 @@ interface SplitGridProps {
   onActivateBox: (boxId: string) => void;
   onRemoveBox: (boxId: string) => void;
 
-  onSend: (msg: string, tokens: any[]) => void;
+  onSend: (msg: string, tokens: any[], chatId: string) => void;
   renderTokenInMessage: (content: string, tokens?: any[]) => string;
   // not currently used – placeholder
   splitRefs?: React.MutableRefObject<Record<string, HTMLTextAreaElement | null>>;
@@ -93,7 +93,7 @@ export function SplitGrid({
             splitRefCb={undefined}
             onSend={(msg, tokens) => {
               onActivateBox(id);
-              onSend(msg, tokens);
+              onSend(msg, tokens, chatId);
             }}
             renderTokenInMessage={renderTokenInMessage}
             onActivate={() => onActivateBox(id)}

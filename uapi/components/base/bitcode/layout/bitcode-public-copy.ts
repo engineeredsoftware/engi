@@ -10,7 +10,7 @@ export const BITCODE_PUBLIC_COPY = {
     'MOCKED TERMINAL',
   ],
   primaryCta: {
-    href: '/application',
+    href: '/terminal',
     label: 'Open Terminal',
   },
   secondaryCta: {
@@ -80,7 +80,7 @@ export const BITCODE_PUBLIC_COPY = {
   publicNav: {
     links: [
       { href: '/exchange', label: 'Exchange' },
-      { href: '/application', label: 'Terminal' },
+      { href: '/terminal', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },
     ],
     guestPrimaryCta: 'Open Auxillaries',

@@ -90,11 +90,11 @@ export default function BitcodePayloadInspector({
         : 'Copy JSON';
 
   return (
-    <div className={`rounded-[1.5rem] border border-white/8 bg-black/20 p-5 ${className || ''}`.trim()}>
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+    <div className={`rounded-[1.3rem] border border-white/8 bg-black/20 p-4 ${className || ''}`.trim()}>
+      <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">{kicker}</p>
-          <div className="mt-2 flex items-center gap-2">
+          <div className="mt-1.5 flex items-center gap-2">
             <h3 className="text-lg font-semibold text-white">{title}</h3>
             <BitcodeInlineExplainer explainer={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.modes} />
           </div>
@@ -107,7 +107,7 @@ export default function BitcodePayloadInspector({
               type="button"
               onClick={() => setMode('visual')}
               aria-pressed={mode === 'visual'}
-              className={`rounded-full px-3 py-2 transition ${
+              className={`rounded-full px-3 py-1.5 transition ${
                 mode === 'visual' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
               }`}
             >
@@ -117,7 +117,7 @@ export default function BitcodePayloadInspector({
               type="button"
               onClick={() => setMode('raw')}
               aria-pressed={mode === 'raw'}
-              className={`rounded-full px-3 py-2 transition ${
+              className={`rounded-full px-3 py-1.5 transition ${
                 mode === 'raw' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
               }`}
             >
@@ -131,9 +131,11 @@ export default function BitcodePayloadInspector({
 
       <div className="mt-4">
         {mode === 'visual' ? (
-          <div className="space-y-4">
-            {children}
-            {payload !== undefined ? <BitcodePayloadShape payload={payload} /> : null}
+          <div className="grid gap-3 2xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+            <div className="space-y-3">
+              {children}
+              {payload !== undefined ? <BitcodePayloadShape payload={payload} /> : null}
+            </div>
             {payload !== undefined ? <BitcodePayloadTree payload={payload} /> : null}
           </div>
         ) : rawPayload ? (

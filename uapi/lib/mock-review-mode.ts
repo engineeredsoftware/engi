@@ -260,7 +260,7 @@ export function buildMockAuxillariesData(): MockAuxillariesData {
       preferred_model: 'claude-3-7-sonnet',
       temperature: 0.4,
       max_tokens: 3200,
-      review_profile: 'bitcode-application-demo',
+      review_profile: 'bitcode-terminal-demo',
     },
     onboardedPanes,
     onboarded_steps: onboardedPanes,

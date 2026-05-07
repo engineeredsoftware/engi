@@ -28,22 +28,22 @@ export default function BitcodeTransactionsOverview({
 
   return (
     <>
-      <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-3">
-        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
+      <div className="grid gap-2 text-xs uppercase tracking-[0.18em] text-neutral-400 tablet:grid-cols-3">
+        <div className="rounded-xl border border-white/8 bg-white/5 px-3 py-2.5">
           <p className="text-emerald-300/85">Activity</p>
-          <p className="mt-2 text-neutral-100">{recordCount}</p>
+          <p className="mt-1.5 text-neutral-100">{recordCount}</p>
         </div>
-        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
+        <div className="rounded-xl border border-white/8 bg-white/5 px-3 py-2.5">
           <p className="text-emerald-300/85">Own visible</p>
-          <p className="mt-2 text-neutral-100">{ownTransactionCount}</p>
+          <p className="mt-1.5 text-neutral-100">{ownTransactionCount}</p>
         </div>
-        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
+        <div className="rounded-xl border border-white/8 bg-white/5 px-3 py-2.5">
           <p className="text-emerald-300/85">Visible tokens</p>
-          <p className="mt-2 text-neutral-100">{visibleTokenTotal.toLocaleString('en-US')}</p>
+          <p className="mt-1.5 text-neutral-100">{visibleTokenTotal.toLocaleString('en-US')}</p>
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
+      <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
         <span className="cursor-default rounded-[0.65rem] border border-white/8 bg-white/[0.035] px-2.5 py-1">
           selected {selectedTransactionId ? 'activity active' : 'none'}
         </span>

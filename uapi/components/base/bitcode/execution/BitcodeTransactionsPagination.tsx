@@ -23,16 +23,16 @@ export default function BitcodeTransactionsPagination({
     : 'No matching transactions';
 
   return (
-    <div className="mt-4 flex flex-col gap-3 border-t border-white/8 px-4 py-4 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-400 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mt-3 flex flex-col gap-2 border-t border-white/8 px-3 py-3 text-[0.64rem] uppercase tracking-[0.16em] text-neutral-400 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">{rangeLabel}</span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5">{rangeLabel}</span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5">
           Page {pagination.page} of {pagination.totalPages}
         </span>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <label className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2">
+        <label className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5">
           <span>Page size</span>
           <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.pageSize} side="top" />
           <select
@@ -57,7 +57,7 @@ export default function BitcodeTransactionsPagination({
           type="button"
           onClick={() => onPaginationChange({ page: pagination.page - 1, pageSize: pagination.pageSize })}
           disabled={!canMoveBackward}
-          className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Previous
         </button>
@@ -65,7 +65,7 @@ export default function BitcodeTransactionsPagination({
           type="button"
           onClick={() => onPaginationChange({ page: pagination.page + 1, pageSize: pagination.pageSize })}
           disabled={!canMoveForward}
-          className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1.5 text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Next
         </button>

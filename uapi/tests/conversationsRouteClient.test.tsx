@@ -45,19 +45,19 @@ describe('ConversationsRouteClient', () => {
     mockOverlayClose.mockReset();
   });
 
-  it('renders first-class application-mode copy and returns closed flow to the Bitcode activity ledger', () => {
+  it('renders first-class terminal-mode copy and returns closed flow to the Bitcode activity ledger', () => {
     render(<ConversationsRouteClient />);
 
     expect(screen.getByText('Conversations fullscreen')).toBeTruthy();
     expect(
       screen.getByRole('heading', {
-        name: /Keep the Bitcode Terminal write path as a first-class application mode\./i,
+        name: /Keep the Bitcode Terminal write path as a first-class Terminal interface mode\./i,
       }),
     ).toBeTruthy();
     expect(screen.getByText(/Step back into the Bitcode activity ledger/i)).toBeTruthy();
     expect(screen.getByRole('link', { name: /Open Bitcode Terminal/i })).toHaveAttribute(
       'href',
-      '/application',
+      '/terminal',
     );
     expect(
       screen.getByText(/Overlay forceOpen=true forceFullscreen=true floatingOrb=false/i),
@@ -65,6 +65,6 @@ describe('ConversationsRouteClient', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Close overlay' }));
 
-    expect(mockPush).toHaveBeenCalledWith('/application');
+    expect(mockPush).toHaveBeenCalledWith('/terminal');
   });
 });

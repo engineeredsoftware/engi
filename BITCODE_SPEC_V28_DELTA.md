@@ -73,6 +73,7 @@ V28 must not:
 - V28 productizes V27 primitives rather than redefining tokenomics.
 - Terminal, Exchange, Auxillaries, and BTD disclosure read models must be registry-derived where they speak about `$BTD`, fees, rights, or readiness.
 - UAPI route implementations remain unversioned.
+- Source implementation names remain unversioned and ungated unless explicitly required for a bounded compatibility artifact; V28 must not introduce route, file, stylesheet, constant, class, or test names such as `api/v1`, `v27-*`, `first-gate-*`, or `wip-*`.
 - value-bearing mainnet remains separately approval-gated.
 
 ## Explicitly deferred

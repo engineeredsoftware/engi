@@ -57,7 +57,7 @@ describe('Footer public shell', () => {
     );
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute(
       'href',
-      '/application',
+      '/terminal',
     );
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute(
       'href',

@@ -48,7 +48,7 @@ describe('/api/external-realization GET', () => {
     mockGetExternalRealization.mockClear();
   });
 
-  it('returns the app-owned external realization payload used by /application', async () => {
+  it('returns the app-owned external realization payload used by /terminal', async () => {
     const { GET } = await import('@/app/api/external-realization/route');
 
     const response = await GET(new Request('http://localhost/api/external-realization'));

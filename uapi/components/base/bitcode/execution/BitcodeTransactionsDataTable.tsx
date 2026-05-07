@@ -47,7 +47,7 @@ export default function BitcodeTransactionsDataTable({
   error,
 }: BitcodeTransactionsDataTableProps) {
   return (
-    <div className="mt-5 min-h-[25rem] overflow-hidden rounded-[1.35rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
+    <div className="mt-4 min-h-[20rem] overflow-hidden rounded-[1.15rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
       {isLoading ? (
         <div className="px-5 py-10 text-sm text-neutral-400">Loading Bitcode transactions…</div>
       ) : error ? (
@@ -59,43 +59,43 @@ export default function BitcodeTransactionsDataTable({
           <table className="min-w-full border-collapse text-left">
             <thead className="border-b border-white/8 bg-white/5 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
               <tr>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Transaction</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.transaction} />
                   </span>
                 </th>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Lens</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.lens} />
                   </span>
                 </th>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Status</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.status} />
                   </span>
                 </th>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Participant</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.participant} />
                   </span>
                 </th>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Repository</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.repository} />
                   </span>
                 </th>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Proof</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.proof} />
                   </span>
                 </th>
-                <th className="px-4 py-3">
+                <th className="px-3 py-2.5">
                   <span className="inline-flex items-center gap-2">
                     <span>Started</span>
                     <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.started} />
@@ -111,40 +111,40 @@ export default function BitcodeTransactionsDataTable({
                     key={record.id}
                     className={`border-t border-white/6 transition ${isSelected ? 'bg-emerald-400/10' : 'hover:bg-white/5'}`}
                   >
-                    <td className="px-4 py-4 align-top">
+                    <td className="px-3 py-3 align-top">
                       <button type="button" onClick={() => onSelectTransaction(record.id)} className="w-full text-left">
                         <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.id}</p>
-                        <p className="mt-2 text-sm font-medium text-white">{formatTypeLabel(record.type, record.typeLabel)}</p>
-                        <p className="mt-1 max-w-[24rem] text-sm leading-6 text-neutral-300">{record.summary}</p>
+                        <p className="mt-1.5 text-sm font-medium text-white">{formatTypeLabel(record.type, record.typeLabel)}</p>
+                        <p className="mt-1 max-w-[24rem] text-sm leading-5 text-neutral-300">{record.summary}</p>
                       </button>
                     </td>
-                    <td className="px-4 py-4 align-top">
+                    <td className="px-3 py-3 align-top">
                       <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200">
                         {record.transactionLens}
                       </span>
                     </td>
-                    <td className="px-4 py-4 align-top">
+                    <td className="px-3 py-3 align-top">
                       <span
                         className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] ${statusTone(record.status)}`}
                       >
                         {record.status}
                       </span>
                     </td>
-                    <td className="px-4 py-4 align-top text-sm text-neutral-200">
+                    <td className="px-3 py-3 align-top text-sm text-neutral-200">
                       <p>{record.participant}</p>
                       <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">
                         {record.isOwnTransaction ? 'mine' : 'network'}
                       </p>
                     </td>
-                    <td className="px-4 py-4 align-top text-sm text-neutral-200">
+                    <td className="px-3 py-3 align-top text-sm text-neutral-200">
                       <p>{record.repository}</p>
                       <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.branch}</p>
                     </td>
-                    <td className="px-4 py-4 align-top text-sm text-neutral-200">
+                    <td className="px-3 py-3 align-top text-sm text-neutral-200">
                       <p>{record.proofStatus}</p>
                       <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.closureFocus}</p>
                     </td>
-                    <td className="px-4 py-4 align-top text-sm text-neutral-200">{formatTimestamp(record.createdAt)}</td>
+                    <td className="px-3 py-3 align-top text-sm text-neutral-200">{formatTimestamp(record.createdAt)}</td>
                   </tr>
                 );
               })}

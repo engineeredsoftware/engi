@@ -85,7 +85,7 @@ describe('GET /api/executions/history', () => {
           },
         },
         context: {
-          source: 'application-closure-control',
+          source: 'terminal-closure-control',
           repoSnapshot: {
             org: 'bitcode',
             repo: 'terminal',

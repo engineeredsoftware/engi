@@ -110,7 +110,7 @@ exports.integrationOptions = [
                 label: 'Mobile App',
                 value: 'figma-project-mobile-app',
                 type: 'figma-project',
-                subLabel: 'Mobile Application Project',
+                subLabel: 'Mobile interface project',
                 isDisabled: true
             },
             {

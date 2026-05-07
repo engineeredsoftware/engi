@@ -5,8 +5,8 @@ import React, { useEffect } from 'react';
 
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { VCSIntegrationPanel } from '@/components/base/bitcode/vcs/VCSIntegrationPanel';
-import { getRepositoryInventorySourceLabel } from '@/app/application/application-repository-context';
-import { deriveBitcodeTransactionReadiness } from '@/app/application/bitcode-transaction-readiness';
+import { getRepositoryInventorySourceLabel } from '@/app/terminal/terminal-repository-context';
+import { deriveBitcodeTransactionReadiness } from '@/app/terminal/bitcode-transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
 
 import AuxillariesConnectsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader';

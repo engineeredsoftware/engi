@@ -49,7 +49,7 @@ export const EDGETIMES_TOPOLOGY = {
       ],
     },
     {
-      title: 'Application and API carriers',
+      title: 'Terminal and API carriers',
       detail:
         'These route owners expose the retained storage system upward into Bitcode and should converge on one explicit storage/API posture instead of ad-hoc access patterns.',
       owners: [
@@ -57,7 +57,7 @@ export const EDGETIMES_TOPOLOGY = {
         'uapi/app/api/edgetimes/route.ts',
         'uapi/app/api/conversations/*',
         'uapi/app/api/executions/history*',
-        'uapi/app/application/*',
+        'uapi/app/terminal/*',
         'uapi/app/conversations/*',
       ],
     },

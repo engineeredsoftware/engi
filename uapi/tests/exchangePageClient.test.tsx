@@ -21,11 +21,11 @@ jest.mock('@/networking/api-client', () => ({
   fetchPipelineExecutionHistory: jest.fn(),
 }));
 
-jest.mock('@/app/application/application-shell-bridge', () => ({
-  ApplicationShellBridgeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+jest.mock('@/app/terminal/terminal-shell-bridge', () => ({
+  TerminalShellBridgeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-jest.mock('@/app/application/ApplicationTransactionWorkspace', () => ({
+jest.mock('@/app/terminal/TerminalTransactionWorkspace', () => ({
   __esModule: true,
   default: ({
     runs,

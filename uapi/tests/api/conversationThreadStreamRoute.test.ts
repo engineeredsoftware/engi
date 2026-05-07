@@ -162,7 +162,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
           tokens: [
             {
               type: 'source',
-              value: 'bitcode-labs/application',
+              value: 'bitcode-labs/terminal',
               metadata: { attachment_id: 'repo-1', category: 'integration', type: 'github_repo' },
             },
             {

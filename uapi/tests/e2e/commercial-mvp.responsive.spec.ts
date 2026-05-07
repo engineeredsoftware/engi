@@ -13,7 +13,7 @@ const RESPONSIVE_ROUTES = [
     expected: /Search activity, select a row, and read Exchange state/i,
   },
   {
-    path: '/application',
+    path: '/terminal',
     expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
   },
   {
@@ -22,7 +22,7 @@ const RESPONSIVE_ROUTES = [
   },
   {
     path: '/conversations',
-    expected: /Keep the Bitcode Terminal write path as a first-class application mode/i,
+    expected: /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
   },
 ] as const;
 

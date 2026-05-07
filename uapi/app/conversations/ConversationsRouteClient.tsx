@@ -33,7 +33,7 @@ export default function ConversationsRouteClient() {
               </div>
 
               <Link
-                href="/application"
+                href="/terminal"
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/18 bg-emerald-400/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-200/32 hover:bg-emerald-400/12"
               >
                 Open Bitcode Terminal
@@ -46,7 +46,7 @@ export default function ConversationsRouteClient() {
       <ConversationsOverlay
         forceOpen
         forceFullscreen
-        onCloseRequest={() => router.push('/application')}
+        onCloseRequest={() => router.push('/terminal')}
         showFloatingOrb={false}
       />
     </>

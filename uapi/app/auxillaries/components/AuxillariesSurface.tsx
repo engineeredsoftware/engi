@@ -104,7 +104,7 @@ export default function AuxillariesSurface({
   const router = useRouter();
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
-  const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
+  const isTerminalRoute = Boolean(pathname?.startsWith('/terminal'));
   const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
@@ -454,12 +454,12 @@ export default function AuxillariesSurface({
   ]);
 
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
-  const usesApplicationOverlay = isApplicationRoute;
-  const usesContainedAuxillariesSurface = usesApplicationOverlay || isDedicatedAuxillariesRoute || isAuxillariesSurface;
+  const usesTerminalOverlay = isTerminalRoute;
+  const usesContainedAuxillariesSurface = usesTerminalOverlay || isDedicatedAuxillariesRoute || isAuxillariesSurface;
   const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const auxillariesBackgroundClass = usesContainedAuxillariesSurface
-    ? 'orbital-application-background'
+    ? 'orbital-terminal-background'
     : showLoginPane
       ? 'login-background-glow'
       : 'account-background-highlight';
@@ -469,7 +469,7 @@ export default function AuxillariesSurface({
   return (
     <div
       ref={containerRef}
-      className={`orbital-system ${auxillariesSurfaceClass} ${usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${activeWindow === 'SignUpWindow' && !isAuxillariesSurface && !usesApplicationOverlay ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system ${auxillariesSurfaceClass} ${usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${activeWindow === 'SignUpWindow' && !isAuxillariesSurface && !usesTerminalOverlay ? 'orbital-system-onboarding' : ''} ${usesTerminalOverlay ? 'orbital-system-application' : ''} ${isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >

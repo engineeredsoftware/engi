@@ -1,4 +1,4 @@
-import { deriveBitcodeTransactionReadiness } from '@/app/application/bitcode-transaction-readiness';
+import { deriveBitcodeTransactionReadiness } from '@/app/terminal/bitcode-transaction-readiness';
 
 describe('deriveBitcodeTransactionReadiness', () => {
   it('fails closed for transaction-bearing work until wallet and repository scope are both ready', () => {

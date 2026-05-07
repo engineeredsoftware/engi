@@ -1,5 +1,5 @@
 import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import { APPLICATION_INLINE_EXPLAINERS, APPLICATION_WORKSPACE_EXPLAINERS } from '@/app/application/application-workspace-explainers';
+import { TERMINAL_INLINE_EXPLAINERS, TERMINAL_WORKSPACE_EXPLAINERS } from '@/app/terminal/terminal-workspace-explainers';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitcode-public-explainers';
 
 type DocsGuideCard = {
@@ -103,7 +103,7 @@ function docsPage(page: Omit<BitcodeDocsPage, 'href'>): BitcodeDocsPage {
   };
 }
 
-const APPLICATION_SURFACE_EXPLAINERS_ALIAS = APPLICATION_WORKSPACE_EXPLAINERS;
+const TERMINAL_SURFACE_EXPLAINERS_ALIAS = TERMINAL_WORKSPACE_EXPLAINERS;
 
 const whatIsBitcodeSections = [
   {
@@ -256,134 +256,134 @@ const exchangeSections = [
 const terminalSections = [
   {
     id: 'experience-map',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.experienceMap.kicker ?? 'Terminal',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.experienceMap.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.experienceMap.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.experienceMap.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap.kicker ?? 'Terminal',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap.detail ?? '',
     reason:
       'The Terminal keeps the product understandable by making the activity ledger primary and treating deeper modes as deliberate follow-through.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.experienceMap.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap.points,
   },
   {
     id: 'read-window',
     eyebrow: 'Read',
-    title: APPLICATION_INLINE_EXPLAINERS.readWindow.title,
-    summary: APPLICATION_INLINE_EXPLAINERS.readWindow.summary,
-    detail: APPLICATION_INLINE_EXPLAINERS.readWindow.detail ?? '',
+    title: TERMINAL_INLINE_EXPLAINERS.readWindow.title,
+    summary: TERMINAL_INLINE_EXPLAINERS.readWindow.summary,
+    detail: TERMINAL_INLINE_EXPLAINERS.readWindow.detail ?? '',
     reason:
       'The read window is where users learn whether a Bitcode action actually changed state.',
   },
   {
     id: 'write-posture',
     eyebrow: 'Write',
-    title: APPLICATION_INLINE_EXPLAINERS.writePosture.title,
-    summary: APPLICATION_INLINE_EXPLAINERS.writePosture.summary,
-    detail: APPLICATION_INLINE_EXPLAINERS.writePosture.detail ?? '',
+    title: TERMINAL_INLINE_EXPLAINERS.writePosture.title,
+    summary: TERMINAL_INLINE_EXPLAINERS.writePosture.summary,
+    detail: TERMINAL_INLINE_EXPLAINERS.writePosture.detail ?? '',
     reason:
       'Writes must stay bounded because Bitcode has proof, wallet, repository, and disclosure consequences.',
   },
   {
     id: 'mode-rail',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.railModes.kicker ?? 'Modes',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.railModes.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.railModes.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.railModes.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.railModes.kicker ?? 'Modes',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.railModes.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.railModes.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.railModes.detail ?? '',
     reason:
       'Mode changes are useful only when the reader never loses the active Exchange activity context.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.railModes.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.railModes.points,
   },
   {
     id: 'repository-supply',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply.kicker ?? 'Source',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.kicker ?? 'Source',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.detail ?? '',
     reason:
       'Repository scope is the give-side boundary; every deposit and downstream proof depends on it staying explicit.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.points,
   },
 ] as const satisfies readonly DocsGuideCard[];
 
 const terminalActionSections = [
   {
     id: 'controls',
-    eyebrow: APPLICATION_SURFACE_EXPLAINERS_ALIAS.controls.kicker ?? 'Controls',
-    title: APPLICATION_SURFACE_EXPLAINERS_ALIAS.controls.title,
-    summary: APPLICATION_SURFACE_EXPLAINERS_ALIAS.controls.summary,
-    detail: APPLICATION_SURFACE_EXPLAINERS_ALIAS.controls.detail ?? '',
+    eyebrow: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.kicker ?? 'Controls',
+    title: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.title,
+    summary: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.summary,
+    detail: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.detail ?? '',
     reason:
       'Controls are not generic preferences. Scenario, projection, branch mode, and guide state decide what Bitcode will measure, materialize, and prove.',
-    points: APPLICATION_SURFACE_EXPLAINERS_ALIAS.controls.points,
+    points: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.points,
   },
   {
     id: 'supply',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory.kicker ?? 'Supply',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.kicker ?? 'Supply',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.detail ?? '',
     reason:
       'Supply search is the first filter on what source can become share-bearing intelligence.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.points,
   },
   {
     id: 'deposit',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.depositComposer.kicker ?? 'Deposit',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.depositComposer.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.depositComposer.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.depositComposer.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.kicker ?? 'Deposit',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.detail ?? '',
     reason:
       'Deposit provenance is what prevents useful source from becoming anonymous or unauditable.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.depositComposer.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.points,
   },
   {
     id: 'closure',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.closureControls.kicker ?? 'Closure',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.closureControls.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.closureControls.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.closureControls.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.kicker ?? 'Closure',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.detail ?? '',
     reason:
       'Closure is where reviewable Need, verification, branch materialization, proof, and settlement become one consequence chain.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.closureControls.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.points,
   },
 ] as const satisfies readonly DocsGuideCard[];
 
 const readResultSections = [
   {
     id: 'closure-map',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.kicker ?? 'Closure',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.kicker ?? 'Closure',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.detail ?? '',
     reason:
       'Closure reads let experienced users decide whether a Bitcode activity is ready for deeper proof or settlement trust.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.points,
   },
   {
     id: 'ledger-pulse',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.kicker ?? 'Signals',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.kicker ?? 'Signals',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.detail ?? '',
     reason:
       'Pinned signals prevent users from opening dense proof detail just to answer whether work is blocked, proving, or ready.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.points,
   },
   {
     id: 'boundary-runtime',
-    eyebrow: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.kicker ?? 'Readiness',
-    title: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.title,
-    summary: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
-    detail: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.detail ?? '',
+    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.kicker ?? 'Readiness',
+    title: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.title,
+    summary: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
+    detail: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.detail ?? '',
     reason:
       'Boundary honesty is what keeps launch-mode mocks, live connections, blocked interfaces, and proof readiness from being conflated.',
-    points: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.points,
+    points: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.points,
   },
   {
     id: 'signed-posture',
     eyebrow: 'Signed transaction posture',
-    title: APPLICATION_INLINE_EXPLAINERS.transactionReadiness.title,
-    summary: APPLICATION_INLINE_EXPLAINERS.transactionReadiness.summary,
-    detail: APPLICATION_INLINE_EXPLAINERS.transactionReadiness.detail ?? '',
+    title: TERMINAL_INLINE_EXPLAINERS.transactionReadiness.title,
+    summary: TERMINAL_INLINE_EXPLAINERS.transactionReadiness.summary,
+    detail: TERMINAL_INLINE_EXPLAINERS.transactionReadiness.detail ?? '',
     reason:
       'Bitcode can teach and stage work before every production connection is live, but it must fail closed before signed settlement when readiness is incomplete.',
   },
@@ -1338,7 +1338,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Select the measured Need or operating frame the Terminal should honor before fit, branch, and closure work continues.',
     expectedRead:
       'The Terminal rereads give, need, fit, and closure against the selected scenario rather than treating it as a cosmetic filter.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.scenario.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.scenario.summary,
   },
   {
     id: 'projection',
@@ -1348,7 +1348,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Choose whether the current flow is previewing, staging, or readying a stronger materialized posture.',
     expectedRead:
       'The rest of the Terminal should make clear which posture is being read before any state-changing work is trusted.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.projection.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.projection.summary,
   },
   {
     id: 'branch-mode',
@@ -1358,7 +1358,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Select the AssetPack execution posture that branch materialization should use when closure runs.',
     expectedRead:
       'Branch, settlement, and proof panels should reflect the selected mode as an operator-visible Bitcode decision.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.branchMode.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.branchMode.summary,
   },
   {
     id: 'provider-repository',
@@ -1368,7 +1368,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Bind the give-side boundary to the provider and repository whose source supply the Terminal may search and cite.',
     expectedRead:
       'Repository supply, deposit provenance, and later closure reads should all stay attached to that selected source perimeter.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.providerRepository.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.providerRepository.summary,
   },
   {
     id: 'repository-anchor',
@@ -1378,7 +1378,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Write the selected source perimeter into Bitcode activity so it survives navigation and later rereads.',
     expectedRead:
       'Recent Terminal activity shows repository posture beside give, need, proof, and settlement records.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.repositoryAnchor.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.repositoryAnchor.summary,
   },
   {
     id: 'supply-selection',
@@ -1388,7 +1388,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Use auth session, artifact kind, and inventory search to narrow the supply set before drafting a deposit.',
     expectedRead:
       'Selected inventory remains explicit and can be carried directly into give, deposit, fit, and closure.',
-    proofSignal: APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.summary,
   },
   {
     id: 'give-posture',
@@ -1398,7 +1398,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Record the current give-side summary into the Bitcode activity ledger when supply posture is ready to be reread.',
     expectedRead:
       'The selected activity can show what was offered, where it came from, and how it relates to later fit.',
-    proofSignal: APPLICATION_WORKSPACE_EXPLAINERS.giveNeedChain.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.giveNeedChain.summary,
   },
   {
     id: 'active-need',
@@ -1408,7 +1408,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Write the currently measured demand frame into the Bitcode activity ledger before fit and closure read against it.',
     expectedRead:
       'The Terminal activity result can reopen the exact Need frame with parser posture, scenario, and review state intact.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.activeNeed.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.activeNeed.summary,
   },
   {
     id: 'need-review',
@@ -1418,7 +1418,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Choose whether the measured Need is admitted for fit search, rejected, or sent back for remeasurement with feedback.',
     expectedRead:
       'Fit search stays blocked until Need review is accepted, and the closure map shows the current review posture.',
-    proofSignal: APPLICATION_WORKSPACE_EXPLAINERS.needScenarios.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.needScenarios.summary,
   },
   {
     id: 'deposit-draft',
@@ -1428,7 +1428,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Set source repo, source commit or ref, signer address, selected supply, and optional raw content where exact provenance is required.',
     expectedRead:
       'The deposit draft reads as source-backed supply rather than loose metadata, with readiness blockers visible before submit.',
-    proofSignal: APPLICATION_WORKSPACE_EXPLAINERS.depositComposer.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.summary,
   },
   {
     id: 'deposit-submit',
@@ -1438,7 +1438,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Submit selected supply, provenance, and content into the Bitcode activity chain.',
     expectedRead:
       'A ledger row should be rereadable immediately and should carry forward into fit, proof, settlement, and history.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.depositSubmission.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.depositSubmission.summary,
   },
   {
     id: 'external-readiness',
@@ -1448,7 +1448,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Record whether connections, attachments, repository scope, and boundary services are live, modeled, blocked, or review-only.',
     expectedRead:
       'The Terminal shows boundary truth before downstream AssetPacks or settlement are trusted.',
-    proofSignal: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
   },
   {
     id: 'closure-run',
@@ -1458,7 +1458,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Run the closure path from Need review through verification, branch materialization, settlement, and proof.',
     expectedRead:
       'Verification, branch artifacts, AssetPack settlement, ledger continuity, and history should read as one consequence chain.',
-    proofSignal: APPLICATION_INLINE_EXPLAINERS.closureAction.summary,
+    proofSignal: TERMINAL_INLINE_EXPLAINERS.closureAction.summary,
   },
   {
     id: 'closure-refresh-reset',
@@ -1468,7 +1468,7 @@ export const TERMINAL_ACTION_GUIDES = [
       'Refresh the current closure read or reset closure state when the operator needs to rebuild the exact follow-through path.',
     expectedRead:
       'The Terminal should make runtime status, visible artifacts, proof families, credited assets, and flow continuity explicit.',
-    proofSignal: APPLICATION_WORKSPACE_EXPLAINERS.closureControls.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.summary,
   },
   {
     id: 'conversations-mode',
@@ -1513,57 +1513,57 @@ export const TERMINAL_READ_GUIDES = [
   },
   {
     id: 'read-window',
-    read: APPLICATION_INLINE_EXPLAINERS.readWindow.title,
+    read: TERMINAL_INLINE_EXPLAINERS.readWindow.title,
     location: 'Experience frame',
-    tellsYou: APPLICATION_INLINE_EXPLAINERS.readWindow.summary,
+    tellsYou: TERMINAL_INLINE_EXPLAINERS.readWindow.summary,
     expectedResult:
       'The central ledger remains primary while deeper modes and proof views are deliberate follow-through.',
   },
   {
     id: 'transaction-readiness',
-    read: APPLICATION_INLINE_EXPLAINERS.transactionReadiness.title,
+    read: TERMINAL_INLINE_EXPLAINERS.transactionReadiness.title,
     location: 'Command deck, deposit, and closure controls',
-    tellsYou: APPLICATION_INLINE_EXPLAINERS.transactionReadiness.summary,
+    tellsYou: TERMINAL_INLINE_EXPLAINERS.transactionReadiness.summary,
     expectedResult:
       'If readiness is incomplete, branch, deposit, signed settlement, and closure stay fail-closed while review can continue.',
   },
   {
     id: 'boundary-runtime',
-    read: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.title,
+    read: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.title,
     location: 'External interface readiness',
-    tellsYou: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
+    tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
     expectedResult:
       'Live, modeled, boundary-only, and blocked states are visible before downstream proof or settlement work is trusted.',
   },
   {
     id: 'supply-fit',
-    read: APPLICATION_WORKSPACE_EXPLAINERS.supplyFit.title,
+    read: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit.title,
     location: 'Give and need overview',
-    tellsYou: APPLICATION_WORKSPACE_EXPLAINERS.supplyFit.summary,
+    tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit.summary,
     expectedResult:
       'Repository supply, measured Need, and fit posture can be read together before exact proof inspection.',
   },
   {
     id: 'closure-map',
-    read: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.title,
+    read: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.title,
     location: 'Closure and provenance',
-    tellsYou: APPLICATION_WORKSPACE_EXPLAINERS.closureMap.summary,
+    tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.summary,
     expectedResult:
       'Need review, verification, branch artifacts, AssetPack settlement, and ledger continuity read as one sequence.',
   },
   {
     id: 'proof-runtime',
-    read: APPLICATION_WORKSPACE_EXPLAINERS.sourcePath.title,
-    location: 'Lower runtime detail',
-    tellsYou: APPLICATION_WORKSPACE_EXPLAINERS.sourcePath.summary,
+    read: TERMINAL_WORKSPACE_EXPLAINERS.sourcePath.title,
+    location: 'Demonstration witness detail',
+    tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.sourcePath.summary,
     expectedResult:
       'Dense replay, proof, and settlement detail stays available without making the main Terminal feel like plumbing.',
   },
   {
     id: 'ledger-pulse',
-    read: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.title,
+    read: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.title,
     location: 'Pinned operating signals',
-    tellsYou: APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse.summary,
+    tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.ledgerPulse.summary,
     expectedResult:
       'You can judge whether activity is moving, blocked, proving, or ready for closure before opening exact detail.',
   },
@@ -1590,7 +1590,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Exchange, Terminal, Protocol, interfaces',
         summary:
           'The docs use the same card and explainer pattern as Terminal so the mental model transfers into the application.',
-        explainer: APPLICATION_WORKSPACE_EXPLAINERS.experienceMap,
+        explainer: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap,
         signals: [
           { label: 'Exchange', value: 'State, APIs, ledger', tone: 'emerald' },
           { label: 'Terminal', value: 'Operator read/write UX', tone: 'cyan' },
@@ -1624,7 +1624,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Source-to-shares status card',
         summary:
           'This mirrors the compact status cards used around Terminal: a reader should see supply, Need, fit, and proof as related signals.',
-        explainer: APPLICATION_WORKSPACE_EXPLAINERS.supplyFit,
+        explainer: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit,
         signals: [
           { label: 'Supply', value: 'Repository-backed', tone: 'emerald' },
           { label: 'Need', value: 'Measured and reviewable', tone: 'cyan' },
@@ -1653,7 +1653,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Exchange activity master-detail',
         summary:
           'The Exchange uses a master-detail pattern: searchable activity rows as the master, selected AssetPack/proof/history state as detail.',
-        explainer: APPLICATION_INLINE_EXPLAINERS.readWindow,
+        explainer: TERMINAL_INLINE_EXPLAINERS.readWindow,
         signals: [
           { label: 'Search', value: 'Query-owned ledger', tone: 'default' },
           { label: 'Selected detail', value: 'Proof + history', tone: 'emerald' },
@@ -1682,7 +1682,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Command deck signals',
         summary:
           'Terminal control cards pair plain labels with explainers because every control changes how the Exchange interprets work.',
-        explainer: APPLICATION_WORKSPACE_EXPLAINERS.controls,
+        explainer: TERMINAL_WORKSPACE_EXPLAINERS.controls,
         signals: [
           { label: 'Scenario', value: 'Need frame', tone: 'emerald' },
           { label: 'Projection', value: 'Read posture', tone: 'cyan' },
@@ -1707,7 +1707,7 @@ export const BITCODE_DOCS_PAGES = [
       'Use this as the practical manual for Terminal operation. It follows the same model as the exhaustive tooltips: write deliberately, then verify the resulting read surface before moving deeper.',
     learningOutcome:
       'You can identify the write, the expected read, and the proof signal for each major Terminal action.',
-    primaryCta: { href: '/application', label: 'Use Terminal' },
+    primaryCta: { href: '/terminal', label: 'Use Terminal' },
     sections: terminalActionSections,
     embeddedUi: [
       {
@@ -1716,7 +1716,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Action cards are bounded state changes',
         summary:
           'The action guide mirrors Terminal controls: each write has a location, an expected read, and a proof signal.',
-        explainer: APPLICATION_INLINE_EXPLAINERS.closureAction,
+        explainer: TERMINAL_INLINE_EXPLAINERS.closureAction,
         signals: [
           { label: 'Write', value: 'Operator action', tone: 'emerald' },
           { label: 'Read', value: 'Exchange state', tone: 'cyan' },
@@ -1745,7 +1745,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Boundary and signed-transaction readiness',
         summary:
           'Readiness cards teach whether a flow is live, modeled, blocked, review-only, or ready for signed follow-through.',
-        explainer: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime,
+        explainer: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime,
         signals: [
           { label: 'Repository', value: 'Scoped', tone: 'emerald' },
           { label: 'Wallet', value: 'Staged', tone: 'amber' },
@@ -1803,7 +1803,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Conversation input should become Exchange evidence',
         summary:
           'Chat can be expressive, but Bitcode needs normalized context so Terminal can reread the outcome.',
-        explainer: APPLICATION_INLINE_EXPLAINERS.writePosture,
+        explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Source', value: 'Attachment tokens', tone: 'emerald' },
           { label: 'Need', value: 'Measurement intent', tone: 'cyan' },
@@ -1875,7 +1875,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Proof families become readable product signals',
         summary:
           'Terminal can keep dense proof detail available without forcing every user to start in raw artifacts.',
-        explainer: APPLICATION_WORKSPACE_EXPLAINERS.sourcePath,
+        explainer: TERMINAL_WORKSPACE_EXPLAINERS.sourcePath,
         signals: [
           { label: 'Witness', value: 'Artifact-bound', tone: 'emerald' },
           { label: 'Replay', value: 'Step-bound', tone: 'cyan' },
@@ -1918,7 +1918,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Connected interfaces need admission and reread',
         summary:
           'Interface cards should tell users what is connected, what is staged, and where to verify effects in Terminal.',
-        explainer: APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime,
+        explainer: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime,
         signals: [
           { label: 'GitHub', value: 'Ingress + delivery', tone: 'emerald' },
           { label: 'Webhook', value: 'Automation trigger', tone: 'cyan' },
@@ -1948,7 +1948,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'A good tool result points back to Terminal',
         summary:
           'Programmable writes should never strand users in a tool transcript; the Exchange activity should be rereadable in Terminal.',
-        explainer: APPLICATION_INLINE_EXPLAINERS.repositoryAnchor,
+        explainer: TERMINAL_INLINE_EXPLAINERS.repositoryAnchor,
         signals: [
           { label: 'Write admission', value: 'Confirmed', tone: 'emerald' },
           { label: 'Activity ID', value: 'Rereadable', tone: 'cyan' },
@@ -1978,7 +1978,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Conversational writes still need proof-aware confirmation',
         summary:
           'The app can help a user draft, but state changes should clearly say what will be written and where to verify it.',
-        explainer: APPLICATION_INLINE_EXPLAINERS.writePosture,
+        explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Draft', value: 'Natural language', tone: 'default' },
           { label: 'Confirm', value: 'Bounded write', tone: 'amber' },

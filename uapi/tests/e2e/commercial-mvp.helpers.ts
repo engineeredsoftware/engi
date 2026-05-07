@@ -108,7 +108,7 @@ const COMMERCIAL_MVP_AUXILLARY_DATA = {
     preferred_model: 'claude-3-7-sonnet',
     temperature: 0.4,
     max_tokens: 3200,
-    review_profile: 'bitcode-application-demo',
+    review_profile: 'bitcode-terminal-demo',
   },
   onboardedPanes: ['profile', 'connects', 'interfaces', 'btd'],
   onboarded_steps: ['profile', 'connects', 'interfaces', 'btd'],

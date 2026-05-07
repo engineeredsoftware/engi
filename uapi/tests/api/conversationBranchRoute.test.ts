@@ -80,7 +80,7 @@ describe('/api/conversations/branch POST (non-mock mode)', () => {
           id: 'msg-source-1',
           conversation_id: 'conv-source-1',
           role: 'user',
-          content: 'Measure fit for bitcode/application.',
+          content: 'Measure fit for bitcode/terminal.',
           created_at: '2026-04-24T10:01:00.000Z',
         },
         {
@@ -100,7 +100,7 @@ describe('/api/conversations/branch POST (non-mock mode)', () => {
           attachment_type: 'github_repo',
           metadata: {
             token_type: 'source',
-            title: 'bitcode/application',
+            title: 'bitcode/terminal',
           },
           created_at: '2026-04-24T10:01:00.000Z',
         },

@@ -24,7 +24,7 @@ uapi/
 ├── components/            # Shared React components
 ├── utils/                 # Shared utilities
 │   └── supabase/         # Database clients
-├── lib/                   # Application-local utilities
+├── lib/                   # Terminal-local utilities
 ├── stories/              # Storybook stories
 ├── tests/                # Test files
 └── middleware.ts         # Next.js middleware entry

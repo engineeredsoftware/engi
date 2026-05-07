@@ -177,7 +177,7 @@ function HeroClientInner() {
     }));
     // Signed-in operators should land in transactions.
     if (isOnboardingComplete) {
-      router.push('/application');
+      router.push('/terminal');
     } else {
       openAuxillaries('auxillaries');
     }

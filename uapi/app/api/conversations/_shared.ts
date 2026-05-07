@@ -37,14 +37,14 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     last_message: 'Bound the remaining V26 proof layers to conversations, runs, asset packs, and settlement evidence.',
   },
   {
-    id: 'conv-application-second-gate',
+    id: 'conv-terminal-convergence',
     user_id: MOCK_USER.id,
-    title: 'Second-gate application convergence',
+    title: 'Terminal convergence',
     created_at: '2026-04-16T10:40:00.000Z',
     updated_at: '2026-04-16T11:42:00.000Z',
     message_count: 9,
     attachment_count: 1,
-    last_message: 'Port the fullscreen conversations, activity runs, and write-side reservoirs inward to /application.',
+    last_message: 'Keep fullscreen conversations, activity runs, and write-side reservoirs aligned with the Terminal route.',
   },
   {
     id: 'conv-run-shippable-reuse',

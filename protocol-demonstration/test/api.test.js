@@ -237,7 +237,7 @@ testAny('GET / returns the app shell', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
-    assert.match(response.text, /<title>Bitcode Application<\/title>/);
+    assert.match(response.text, /<title>Bitcode Demonstration<\/title>/);
     assert.match(response.text, /Bitcode closure runtime/);
     assert.match(response.text, /Inspect the live Bitcode runtime from give through settlement\./);
     assert.match(response.text, /id="heroLede"/);

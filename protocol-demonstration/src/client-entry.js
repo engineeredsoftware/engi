@@ -1,8 +1,8 @@
-async function waitForBitcodeApplicationHost() {
+async function waitForBitcodeDemonstrationHost() {
   if (typeof document === 'undefined') return false;
 
   for (let index = 0; index < 12; index += 1) {
-    if (document.getElementById('bitcodeApplicationRoot') && document.getElementById('heroEyebrow')) {
+    if (document.getElementById('bitcodeDemonstrationRoot') && document.getElementById('heroEyebrow')) {
       return true;
     }
 
@@ -14,8 +14,8 @@ async function waitForBitcodeApplicationHost() {
   return false;
 }
 
-async function loadBitcodeApplicationShellModule() {
-  const hostReady = await waitForBitcodeApplicationHost();
+async function loadBitcodeDemonstrationShellModule() {
+  const hostReady = await waitForBitcodeDemonstrationHost();
   if (!hostReady) return null;
   return import('../public/app.js');
 }
@@ -23,20 +23,20 @@ async function loadBitcodeApplicationShellModule() {
 /**
  * @returns {Promise<(() => void) | undefined>}
  */
-export async function mountBitcodeApplicationShell() {
-  globalThis.__BITCODE_APPLICATION_SHELL_AUTOBOOT__ = false;
-  const module = await loadBitcodeApplicationShellModule();
+export async function mountBitcodeDemonstrationShell() {
+  globalThis.__BITCODE_DEMONSTRATION_SHELL_AUTOBOOT__ = false;
+  const module = await loadBitcodeDemonstrationShellModule();
   if (!module) return undefined;
-  if (typeof module.mountBitcodeApplicationShell === 'function') {
-    return module.mountBitcodeApplicationShell();
+  if (typeof module.mountBitcodeDemonstrationShell === 'function') {
+    return module.mountBitcodeDemonstrationShell();
   }
   return undefined;
 }
 
-export async function readBitcodeApplicationShellSnapshot() {
-  const module = await loadBitcodeApplicationShellModule();
+export async function readBitcodeDemonstrationShellSnapshot() {
+  const module = await loadBitcodeDemonstrationShellModule();
   if (!module) return null;
-  const snapshotReader = globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__;
+  const snapshotReader = globalThis.__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__;
   if (typeof snapshotReader === 'function') {
     try {
       return snapshotReader();
@@ -47,10 +47,10 @@ export async function readBitcodeApplicationShellSnapshot() {
   return null;
 }
 
-export async function readBitcodeApplicationShellControls() {
-  const module = await loadBitcodeApplicationShellModule();
+export async function readBitcodeDemonstrationShellControls() {
+  const module = await loadBitcodeDemonstrationShellModule();
   if (!module) return null;
-  const controls = globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__;
+  const controls = globalThis.__BITCODE_DEMONSTRATION_SHELL_CONTROLS__;
   if (controls && typeof controls === 'object') {
     return controls;
   }

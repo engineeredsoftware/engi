@@ -10,14 +10,14 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 import { GET as getHistory, POST as postHistory } from '@/app/api/executions/history/route';
 import {
-  buildApplicationClosureAssetPackCompletion,
-  buildApplicationExecutionHistoryRequest,
-  buildApplicationGiveWorkbenchDraft,
-  buildApplicationNeedMeasurementDraft,
+  buildTerminalClosureAssetPackCompletion,
+  buildTerminalExecutionHistoryRequest,
+  buildTerminalGiveWorkbenchDraft,
+  buildTerminalNeedMeasurementDraft,
   mapExecutionHistoryRunToWorkspaceRun,
-} from '@/app/application/application-activity-history';
-import type { ApplicationClosureState } from '@/app/application/application-closure-state';
-import type { ApplicationRepositoryContextState } from '@/app/application/application-repository-context';
+} from '@/app/terminal/terminal-activity-history';
+import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
+import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
 
 function createExecutionHistoryStore(userId = 'user-1') {
   const storedRows: any[] = [];
@@ -111,7 +111,7 @@ function createExecutionHistoryStore(userId = 'user-1') {
 }
 
 describe('Bitcode execution-history write/read parity', () => {
-  const repositoryContext: ApplicationRepositoryContextState = {
+  const repositoryContext: TerminalRepositoryContextState = {
     provider: 'github',
     connectionStatus: {
       connected: true,
@@ -138,7 +138,7 @@ describe('Bitcode execution-history write/read parity', () => {
     },
   };
 
-  const closureState: ApplicationClosureState = {
+  const closureState: TerminalClosureState = {
     canonLabel: 'Bitcode active posture',
     needReview: {
       id: 'need-review',
@@ -198,8 +198,8 @@ describe('Bitcode execution-history write/read parity', () => {
   it('round-trips give, need, and closure writes through the same Bitcode activity ledger', async () => {
     const { storedRows } = createExecutionHistoryStore();
 
-    const giveRequest = buildApplicationExecutionHistoryRequest(
-      buildApplicationGiveWorkbenchDraft({
+    const giveRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalGiveWorkbenchDraft({
         canonLabel: 'Bitcode active posture',
         projectionPrincipal: 'giver',
         branchMode: 'patch',
@@ -230,8 +230,8 @@ describe('Bitcode execution-history write/read parity', () => {
       }),
       { repositoryContext },
     );
-    const needRequest = buildApplicationExecutionHistoryRequest(
-      buildApplicationNeedMeasurementDraft({
+    const needRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalNeedMeasurementDraft({
         parserKind: 'benchmark-parser',
         selectedScenarioId: 'need-auth',
         closureCriteriaCount: 2,
@@ -248,14 +248,14 @@ describe('Bitcode execution-history write/read parity', () => {
       }),
       { repositoryContext },
     );
-    const closureRequest = buildApplicationExecutionHistoryRequest(
+    const closureRequest = buildTerminalExecutionHistoryRequest(
       {
         type: 'agentic-execution:proof-refresh',
         detailSection: 'closure',
         summary: 'Recorded closure posture.',
         output: {
           protocol: { ok: true },
-          assetPackCompletion: buildApplicationClosureAssetPackCompletion(closureState, {
+          assetPackCompletion: buildTerminalClosureAssetPackCompletion(closureState, {
             summary: 'Recorded closure posture.',
             processingStats: {
               time: '4m 12s',
@@ -267,7 +267,7 @@ describe('Bitcode execution-history write/read parity', () => {
           }),
         },
         context: {
-          source: 'application-closure-control-deck',
+          source: 'terminal-closure-control-deck',
           scenario: 'auth-remediation',
         },
       },

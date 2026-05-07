@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import ApplicationWorkspaceCard from '@/app/application/ApplicationWorkspaceCard';
+import TerminalWorkspaceCard from '@/app/terminal/TerminalWorkspaceCard';
 import Footer from '@/components/base/bitcode/layout/footer';
 
 import {
@@ -184,7 +184,7 @@ function GuideCard({
 
 function EmbeddedUiSpecimen({ specimen }: { specimen: DocsEmbeddedUiSpecimen }) {
   return (
-    <ApplicationWorkspaceCard
+    <TerminalWorkspaceCard
       id={specimen.id}
       kicker={specimen.eyebrow}
       title={specimen.title}
@@ -223,7 +223,7 @@ function EmbeddedUiSpecimen({ specimen }: { specimen: DocsEmbeddedUiSpecimen }) 
           ))}
         </div>
       ) : null}
-    </ApplicationWorkspaceCard>
+    </TerminalWorkspaceCard>
   );
 }
 

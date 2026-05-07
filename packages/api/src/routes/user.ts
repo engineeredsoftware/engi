@@ -186,7 +186,7 @@ export const rejectBtdBalanceMutation = traceRoute('/user/btd', async (_request:
       error:
         'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Need minting or Exchange purchase.',
       acquisitionPaths: {
-        terminalNeedMinting: '/application?intent=submit-need-for-btd',
+        terminalNeedMinting: '/terminal?intent=submit-need-for-btd',
         exchangePurchase: '/exchange?intent=buy-existing-btd',
       },
     }, 410);

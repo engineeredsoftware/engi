@@ -19,9 +19,9 @@ test.describe('commercial MVP Terminal experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/application', /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
-    const terminalWorkspace = page.locator('#applicationTransactionWorkspace');
+    const terminalWorkspace = page.locator('#terminalTransactionWorkspace');
     await expect(page.getByText('Bitcode Terminal').first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Operator lanes' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent Terminal activity', exact: true })).toBeVisible();
@@ -43,7 +43,7 @@ test.describe('commercial MVP Terminal experience', () => {
 
     await openCommercialRoute(
       page,
-      '/application?transactionId=mock-run-branch-remediation&provider=github&repo=bitcode%2Fbitcode',
+      '/terminal?transactionId=mock-run-branch-remediation&provider=github&repo=bitcode%2Fbitcode',
       /The Bitcode Terminal is where operators prepare Give and Need work/i,
     );
     await expect(page).toHaveURL(/transactionId=mock-run-branch-remediation/);
@@ -61,9 +61,9 @@ test.describe('commercial MVP Terminal experience', () => {
       page.locator('article').filter({ hasText: /Proofs/ }).getByText('proof-family refresh in flight').first(),
     ).toBeVisible();
 
-    await page.getByRole('button', { name: /^Open proof detail$/ }).click();
+    await page.getByRole('button', { name: /^Show proofs$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=proofs/);
-    await expect(page.getByText(/Bounded proof stays in activity detail/i)).toBeVisible();
+    await expect(page.getByText(/Bounded proof stays with the selected activity/i)).toBeVisible();
 
     await page.getByRole('button', { name: /^History$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=history/);
@@ -79,7 +79,7 @@ test.describe('commercial MVP Terminal experience', () => {
 
     await openCommercialRoute(
       page,
-      '/application?provider=github&repo=bitcode%2Fbitcode',
+      '/terminal?provider=github&repo=bitcode%2Fbitcode',
       /The Bitcode Terminal is where operators prepare Give and Need work/i,
     );
     await expectRouteParam(page, 'transactionId', 'mock-run-branch-remediation');
@@ -115,7 +115,7 @@ test.describe('commercial MVP Terminal experience', () => {
 
     await openCommercialRoute(
       page,
-      '/application?transactionId=mock-run-branch-remediation&provider=github&repo=bitcode%2Fbitcode',
+      '/terminal?transactionId=mock-run-branch-remediation&provider=github&repo=bitcode%2Fbitcode',
       /Prepared the active branch artifact pack/i,
     );
 
@@ -125,7 +125,7 @@ test.describe('commercial MVP Terminal experience', () => {
 
     await page.getByRole('button', { name: /^Proofs$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=proofs/);
-    await expect(page.getByText(/Bounded proof stays in activity detail/i)).toBeVisible();
+    await expect(page.getByText(/Bounded proof stays with the selected activity/i)).toBeVisible();
 
     await page.getByRole('button', { name: /^Closure$/ }).click();
     await expect(page).toHaveURL(/transactionDetail=closure/);
@@ -147,7 +147,7 @@ test.describe('commercial MVP Terminal experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/application', /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
     await expect(page.getByText(/Need measurement/i).first()).toBeVisible();
     await expect(page.getByText(/Fit pressure/i).first()).toBeVisible();
@@ -157,7 +157,7 @@ test.describe('commercial MVP Terminal experience', () => {
     await expect(page.getByText(/GitHub/i).first()).toBeVisible();
     await expect(page.getByText(/wallet/i).first()).toBeVisible();
     await expect(
-      page.locator('#applicationTransactionWorkspace').locator('dt').filter({ hasText: /^BTC fee basis$/ }).first(),
+      page.locator('#terminalTransactionWorkspace').locator('dt').filter({ hasText: /^BTC fee basis$/ }).first(),
     ).toBeVisible();
 
     await trap.assertClean();

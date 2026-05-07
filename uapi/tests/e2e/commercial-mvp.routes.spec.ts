@@ -14,7 +14,7 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'public home',
   },
   {
-    path: '/application',
+    path: '/terminal',
     expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
     name: 'Terminal',
   },
@@ -45,7 +45,7 @@ const ROUTE_SMOKE_MATRIX = [
   },
   {
     path: '/conversations',
-    expected: /Keep the Bitcode Terminal write path as a first-class application mode/i,
+    expected: /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
     name: 'conversations',
   },
   {
@@ -160,8 +160,8 @@ test.describe('commercial MVP route surfaces', () => {
     await expect(page).toHaveURL(/\/exchange$/);
     await expectCommercialRouteReady(page, /Search activity, select a row, and read Exchange state/i);
 
-    await page.locator('a[href="/application"]').first().click();
-    await expect(page).toHaveURL(/\/application$/);
+    await page.locator('a[href="/terminal"]').first().click();
+    await expect(page).toHaveURL(/\/terminal$/);
     await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
     await page.locator('a[href="/docs"]').first().click();

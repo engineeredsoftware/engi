@@ -13,7 +13,7 @@ const mockPrefetchOrbital = jest.fn();
 const mockUseAuth = jest.fn();
 
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/application',
+  usePathname: () => '/terminal',
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
@@ -75,7 +75,7 @@ jest.mock('@/components/base/bitcode/nav/AuxillariesUseButton', () => ({
   AuxillariesUseButton: () => <div>Use button</div>,
 }));
 
-describe('Nav application product chrome', () => {
+describe('Nav Terminal product chrome', () => {
   beforeEach(() => {
     mockPush.mockReset();
     mockReplace.mockReset();
@@ -84,14 +84,14 @@ describe('Nav application product chrome', () => {
     mockUseAuth.mockReturnValue({ user: null });
   });
 
-  it('shows product-route links and guest access actions for unauthenticated application routes', () => {
+  it('shows product-route links and guest access actions for unauthenticated Terminal routes', () => {
     render(<Nav />);
 
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
@@ -114,7 +114,7 @@ describe('Nav application product chrome', () => {
     render(<Nav />);
 
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();

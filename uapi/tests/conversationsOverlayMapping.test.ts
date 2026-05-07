@@ -13,7 +13,7 @@ describe('ConversationsOverlay attachment hydration', () => {
           id: 'msg-1',
           conversation_id: 'conv-1',
           role: 'user',
-          content: 'Use bitcode/application and route it to Settlement lane.',
+          content: 'Use bitcode/terminal and route it to Settlement lane.',
           created_at: '2026-04-21T12:01:00.000Z',
           message_attachments: [
             {
@@ -22,9 +22,9 @@ describe('ConversationsOverlay attachment hydration', () => {
               attachment_type: 'github_repo',
               metadata: {
                 token_type: 'source',
-                title: 'bitcode/application',
+                title: 'bitcode/terminal',
                 provider: 'github',
-                path: 'bitcode/application',
+                path: 'bitcode/terminal',
               },
             },
             {
@@ -63,7 +63,7 @@ describe('ConversationsOverlay attachment hydration', () => {
       expect.arrayContaining([
         expect.objectContaining({
           type: 'source',
-          text: 'bitcode/application',
+          text: 'bitcode/terminal',
         }),
         expect.objectContaining({
           type: 'destination',

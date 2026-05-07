@@ -26,8 +26,8 @@ const exchangePageClientSource = readFileSync(
   new URL('../../uapi/app/exchange/ExchangePageClient.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionDetailSurfaceSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionDetailSurface.tsx', import.meta.url),
+const terminalTransactionDetailSurfaceSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionDetailSurface.tsx', import.meta.url),
   'utf8',
 );
 const shippablesCardsPanelSource = readFileSync(
@@ -71,16 +71,16 @@ test('V28 BTD tracker opens Exchange instead of legacy acquisition posture', () 
   assert.match(btdTrackerSource, /bitcode:btd-exchange-intent/u);
   assert.doesNotMatch(btdTrackerSource, /Acquire BTD/u);
   assert.doesNotMatch(btdTrackerSource, /Acquire \$BTD/u);
-  assert.doesNotMatch(btdTrackerSource, /\/application\?intent=acquire-btd/u);
+  assert.doesNotMatch(btdTrackerSource, /acquire-btd/u);
 });
 
 test('V28 Exchange BTD entry does not auto-focus the first activity route', () => {
   assert.doesNotMatch(
     exchangePageClientSource,
-    /replaceExchangeSearchParams\(writeApplicationTransactionId\(routeSearchParams, runs\[0\]\.id\)\)/u,
+    /replaceExchangeSearchParams\(writeTerminalTransactionId\(routeSearchParams, runs\[0\]\.id\)\)/u,
   );
   assert.match(shippablesCardsPanelSource, /autoScrollOnAnimation = true/u);
-  assert.match(applicationTransactionDetailSurfaceSource, /autoScrollOnAnimation=\{surface !== 'exchange'\}/u);
+  assert.match(terminalTransactionDetailSurfaceSource, /autoScrollOnAnimation=\{surface !== 'exchange'\}/u);
 });
 
 test('V28 BTD tracker hover context lists recent BTD AssetPacks', () => {
@@ -116,7 +116,7 @@ test('V28 commercial MVP Playwright suite covers product-experiential route and 
     .map((file) => readFileSync(new URL(file, import.meta.url), 'utf8'))
     .join('\n');
 
-  assert.match(suiteSource, /\/application/u);
+  assert.match(suiteSource, /\/terminal/u);
   assert.match(suiteSource, /\/exchange/u);
   assert.match(suiteSource, /\/auxillaries\/profile/u);
   assert.match(suiteSource, /\/auxillaries\/connects/u);

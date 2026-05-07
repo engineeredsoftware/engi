@@ -153,7 +153,7 @@ export const MultiplePipelines: Story = {
   args: {
     conversation: {
       id: 'conv-125',
-      title: 'Full-Stack Application Build',
+      title: 'Full-Stack Terminal Build',
       created_at: '2024-01-15T09:00:00Z',
       updated_at: '2024-01-15T09:45:00Z'
     },

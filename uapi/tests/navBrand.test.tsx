@@ -4,8 +4,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import NavBrand from '@/components/base/bitcode/layout/NavBrand';
 
 describe('NavBrand', () => {
-  it('renders product-surface copy for the application workspace', () => {
-    render(<NavBrand surface="application" onClick={() => {}} />);
+  it('renders product-surface copy for the terminal workspace', () => {
+    render(<NavBrand surface="terminal" onClick={() => {}} />);
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();

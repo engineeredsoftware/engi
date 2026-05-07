@@ -60,7 +60,7 @@ V28 therefore owns:
 
 - removal or containment of old orbital background/layout styles where they conflict with the active Auxillaries tabs-left experience;
 - auth modal sizing, empty-state, and content-position QA;
-- route-level QA for `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations;
+- route-level QA for `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations, with the prior generic workspace route absent from active source;
 - visual, responsive, and interaction QA for commercially active surfaces;
 - Exchange MVP readiness and minimum detail/search/table behavior;
 - Terminal operator-readiness preparation on top of V27 primitives.
@@ -89,6 +89,7 @@ V28 requires:
 - wallet, BTC fee, AssetPack range, read-license, journal, reconciliation, telemetry, and upgrade state are surfaced in Terminal product language;
 - compatibility storage carriers are hidden behind Bitcode vocabulary and registry-derived read models;
 - no new versioned UAPI route family is introduced;
+- implementation source remains implicitly versioned to the active canon and current gate: routes, file names, CSS, constants, tests, and identifiers must not introduce explicit version/gate/work-in-progress names without a bounded compatibility instruction;
 - value-bearing mainnet remains gated by explicit operational approval;
 - V29 Terminal depth, V30 Exchange depth, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth, V34 deployment depth, and V35 telemetry/documenting depth remain staged unless V28 requires a narrow MVP hook.
 
@@ -200,7 +201,7 @@ Acceptance criteria:
 
 - Auxillaries active auth/profile/readiness experience uses the contained tabs-left model without old orbital layout collision.
 - sign-in, sign-up, signed-in, and signed-out Auxillaries states are responsive and not pushed offscreen.
-- route QA covers `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations.
+- route QA covers `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations; the prior generic workspace route is verified absent from active source.
 - Exchange MVP activity/search/detail route renders without homepage redirects or disabled navigation.
 - signed-in navigation shows BTC and BTD balances as peer wallet facts, without `$BTD` currency-token styling, with a distinct visual separator, and with hover context reserved for recent BTD AssetPacks rather than explanatory product copy.
 - top-right BTD action copy says `Exchange BTD` and routes to `/exchange?intent=buy-existing-btd`.
@@ -358,7 +359,8 @@ V28 keeps these layer boundaries:
 - `packages/api`: service-owned admission and route builders.
 - `packages/orm` plus migrations: registry and projection persistence.
 - `uapi/app/api`: unversioned Next route wrappers.
-- `uapi/app/application`: Terminal operator surface.
+- `/terminal` plus `uapi/app/terminal`: Terminal route surface.
+- `uapi/app/terminal`: Terminal implementation module retained as an internal component boundary while the prior generic workspace route remains absent.
 - `uapi/app/exchange`: reread and minimal acquisition surface.
 - `uapi/app/btd/[assetPackId]`: AssetPack range disclosure surface.
 - `protocol-demonstration`: minimal deterministic protocol witness.
@@ -400,7 +402,7 @@ Current canonical objects and emitted artifacts: Need text, Need measurement rec
 Current algorithms and derivation rules: needing and measured demand are reviewed before fit.
 Current invariants and fail-closed conditions: prompt contract incompleteness blocks proof-bearing settlement.
 Current proof obligations: bind prompt, model/provider, source scope, and measurement evidence.
-Current source-bearing implementation basis: `uapi/app/application`, `uapi/app/executions`, prompt system notes.
+Current source-bearing implementation basis: `uapi/app/terminal`, `uapi/app/executions`, prompt system notes.
 Current validating commands and parity basis: package/API tests and Terminal UI tests.
 Current accepted boundaries: V28 productizes Terminal reads without redefining inference law.
 
@@ -514,7 +516,7 @@ V28 is complete only when commercial application MVP QA, Terminal readiness prod
 
 Canonical types include TerminalWalletReadiness, TerminalBtcFeeReadiness, TerminalNeedFitRead, TerminalMeasuremintRead, TerminalAssetPackRangeRead, TerminalReadRightRead, TerminalJournalDiffRead, TerminalOrganizationBtdRead, and TerminalOperationalHealthRead.
 
-Canonical surfaces include `/application`, `/exchange`, `/btd/[assetPackId]`, unversioned `/api/btd/*` routes, and the protocol-demonstration witness runtime.
+Canonical surfaces include `/terminal`, `/exchange`, `/btd/[assetPackId]`, unversioned `/api/btd/*` routes, and the protocol-demonstration witness runtime. the prior generic workspace route is fully retired and must redirect to `/terminal`.
 
 ## Appendix B. Proof family closure catalog
 
@@ -741,7 +743,8 @@ Current canonical source map:
 - draft target: `BITCODE_SPEC_V28.md`
 - source-bearing package: `packages/btd/src`
 - route owners: `packages/api/src/routes/btd-crypto.ts` and `uapi/app/api/btd/*`
-- Terminal surface: `uapi/app/application`
+- Terminal route surface: `/terminal` through `uapi/app/terminal`
+- Terminal implementation module: `uapi/app/terminal`
 - Exchange reread surface: `uapi/app/exchange`
 - AssetPack range surface: `uapi/app/btd/[assetPackId]`
 - witness runtime: `protocol-demonstration`

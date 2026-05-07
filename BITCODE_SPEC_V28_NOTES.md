@@ -46,7 +46,7 @@ V28 therefore starts as commercial application MVP QA:
 
 - clean active Auxillaries auth/profile/readiness states to the contained tabs-left model;
 - keep any old orbital aesthetic only as isolated styling reference or inactive retained route behavior;
-- QA `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations;
+- QA `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations, with the retired generic workspace-route absence verified only as redirect behavior;
 - harden Exchange MVP route/search/detail/range-acquisition readiness without broad market depth;
 - then advance Terminal transaction depth once the application shell is commercially coherent.
 
@@ -93,7 +93,7 @@ Commercial QA also exposed a provider-package dependency boundary issue: `@bitco
 
 Manual QA resumed on May 7, 2026 as a big-picture commercial application MVP pass.
 The running collaborative QA document is `BITCODE_V28_QA.md`.
-This pass explicitly de-scopes marketing-page critique except for navigation/application-entry regressions and focuses on identity/auth, Terminal, Exchange, Auxillaries, BTD, Conversations, docs/API/interface claims, and testnet-readiness honesty.
+This pass explicitly de-scopes marketing-page critique except for navigation-entry regressions and focuses on identity/auth, Terminal, Exchange, Auxillaries, BTD, Conversations, docs/API/interface claims, and testnet-readiness honesty.
 The first resumed pass confirmed the top navigation, notifications, profile menu, logo/page indicator, BTD/BTC balance posture, Auxillaries opening, pane selectability, no console errors, and no old orbital shell collision.
 It also opened an Auxillaries V28 polish issue: selector cards must replace visible `lane ready` / `lane active` prose with clearer indicators, and the overlay/panes need minor hierarchy, legibility, spacing, and border cleanup before Auxillaries shell closure.
 The first Terminal big-picture pass found the Terminal acceptable as the primary operator surface for V28 MVP orientation and reported no console errors.
@@ -120,8 +120,9 @@ Implementation refinement after the clarified Exchange master-detail design:
 - Terminal no longer presents itself as the Exchange master-detail surface. It uses the shared activity table as a recent/scoped Terminal result surface and adds a compact operator-lane map for Recent Activity, Give, Need, and Closure.
 - Terminal result digest actions now change the active detail section before scrolling, which closes the known no-op detail-card action class found in manual QA.
 - Static overview badges were visually quieted relative to actionable chips/buttons so clickability is more apparent during the next manual QA pass.
-- Bare `/application` no longer writes default provider/repository/transaction query state during route load. Explicit route context and user selections remain URL-addressable, but public navigation can move Terminal -> Docs without being overwritten by hydration-time route synchronization.
+- Bare `/terminal` no longer writes default provider/repository/transaction query state during route load. Explicit route context and user selections remain URL-addressable, the old Terminal route redirects to `/terminal`, and public navigation can move Terminal -> Docs without being overwritten by hydration-time route synchronization.
 - Conversations split-pane QA now uses stable commercial mocks for execution pickers and stream responses, and the source selector treats missing or variant repository/branch/commit payloads as empty collections rather than crashing the fullscreen route.
+- Demonstration witness stylesheet source paths and identifiers are unversioned and precise: `demonstration-witness-scoped-styles`, `demonstration-witness-styles`, `demonstration-witness-theme-overrides`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace explicit gate-named source carriers. `AGENTS.md` now records that implementation source is implicitly versioned to the active canon and current gate, not explicitly versioned by route/file/CSS/test names.
 - The current automated V28 commercial MVP baseline is `pnpm -C uapi run test:e2e:commercial-mvp`, which passes 50 laptop-project tests after the Exchange, Terminal, Auxillaries, Conversations, BTD, docs, responsive, and stitched-nav fixes.
 
 The same pass also reclassified active `orbitals` naming as legacy residue when it appears in current commercial Auxillaries source, visible copy, mock-mode naming, or test names.

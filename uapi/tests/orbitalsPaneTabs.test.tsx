@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import AuxillariesPaneTabs from '@/app/auxillaries/components/shared/AuxillariesPaneTabs';
 
 describe('AuxillariesPaneTabs', () => {
-  it('renders calmer application tabs and only fires for available steps', () => {
+  it('renders calmer auxillaries tabs and only fires for available steps', () => {
     const onStepClick = jest.fn();
 
     render(

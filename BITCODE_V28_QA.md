@@ -18,7 +18,7 @@ V28 focuses on whether the commercial application functions are coherent, readab
 | Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
 | Draft target | `V28` |
 | Manual QA focus | big-picture commercial application MVP |
-| Marketing page status | intentionally de-scoped except for nav/application-entry regressions |
+| Marketing page status | intentionally de-scoped except for navigation-entry regressions |
 
 ## V28 MVP Scope
 
@@ -83,6 +83,7 @@ Open V28 issues from this pass:
 | Terminal density and grouping are not yet digestible enough to judge deeper behavior confidently. | medium | V28 MVP polish blocker for organization only; full Terminal workflow polish is V29. |
 | Active `orbitals` naming remains in source/UI/test carriers around Auxillaries. | medium | V28 cleanup target for active commercial surfaces. Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until explicitly removed, but active UX copy, mock helpers, tests, and component names should converge on Auxillaries where touched. |
 | Exchange selected activity detail must be complete enough for QAing activity-system reality. | high | V28 blocker for Exchange MVP. Master = searchable table of all activity types; detail = selected activity facts including table columns plus relevant non-column facts and payload/proof/history paths. |
+| Source code must not be explicitly versioned or gate-named. | high | V28 blocker for touched source. `AGENTS.md` now records that implementation source is implicitly versioned to active canon/current gate; Terminal runtime stylesheet files/routes/classes/tests were renamed from explicit gate names to `demonstration-witness-*` / `bitcode-demonstration-witness-*`. |
 
 Implemented after Pass 2, pending next manual QA confirmation:
 
@@ -93,8 +94,10 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Terminal no longer claims master-detail; it presents recent/scoped activity plus selected result. | Focused Playwright Terminal spec passes after copy/structure update. |
 | Terminal adds compact operator lanes for Recent activity, Give, Need, and Closure. | Focused Playwright Terminal spec checks the lane map. |
 | Terminal digest actions now change selected detail focus before scrolling, closing the visible no-op class found in QA. | Focused Playwright Terminal spec clicks `Open proof detail` and verifies `transactionDetail=proofs`. |
+| `/terminal` is the canonical Terminal route and the prior generic workspace route is fully retired. | Unit and E2E route expectations now point to `/terminal`; active source scans verify the prior generic workspace route is absent rather than retained as a compatibility route. |
+| Active demonstration witness stylesheet source uses unversioned names. | `uapi/app/terminal/demonstration-witness-*`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace the explicit gate-named stylesheet route carriers. |
 | Static overview badges are quieter than actionable chips/buttons. | Requires next manual visual confirmation. |
-| Active touched Auxillaries names moved from orbitals to Auxillaries in mock-mode envs, component callbacks, and commercial tests. | Source search is clean for active renamed identifiers; compatibility route/style carriers remain tracked. |
+| Active touched Auxillaries names moved from orbitals to Auxillaries in mock-mode envs, component callbacks, and commercial tests. | Source search is clean for active renamed identifiers; no route compatibility artifact is retained for the retired generic workspace. |
 | Conversations split-pane source selector tolerates missing or variant repository payloads and no longer crashes the route during commercial QA. | `commercial-mvp.conversations-docs.spec.ts` passes 3-repeat focused verification and the full commercial MVP suite. |
 | Bare Terminal route no longer auto-mutates its URL during load, while explicit route context and user selections still remain URL-addressable. | Public stitched navigation route spec passes 5-repeat focused verification and the full commercial MVP suite. |
 

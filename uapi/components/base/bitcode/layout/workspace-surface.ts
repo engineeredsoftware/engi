@@ -1,9 +1,9 @@
-export type WorkspaceSurface = 'application' | 'auxillaries' | 'conversations' | null;
+export type WorkspaceSurface = 'terminal' | 'auxillaries' | 'conversations' | null;
 export type PublicShellSurface = 'home' | 'network' | 'docs' | null;
 
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
-  if (pathname.startsWith('/application')) return 'application';
+  if (pathname.startsWith('/terminal')) return 'terminal';
   if (pathname.startsWith('/auxillaries')) return 'auxillaries';
   if (pathname.startsWith('/conversations')) return 'conversations';
   return null;

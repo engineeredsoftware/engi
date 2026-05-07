@@ -1,10 +1,10 @@
-# `uapi/` Bitcode Application
+# `uapi/` Bitcode Terminal
 
 `uapi/` is the active application owner for Bitcode.
-It carries the `/application` transactions surface, fullscreen conversations, canonical `/auxillaries` reads, redirect-only `/orbitals` routes, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate and fourth-gate closure.
+It carries the `/terminal` transactions surface, fullscreen conversations, canonical `/auxillaries` reads, redirect-only `/orbitals` routes, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate and fourth-gate closure.
 
 Active canon remains `V26`.
-`uapi/` now carries promoted V26 route/application truth through fourth gate while `V27` remains the next draft target after this promotion.
+`uapi/` now carries promoted V26 route/terminal truth through fourth gate while `V27` remains the next draft target after this promotion.
 
 ## Primary routes
 
@@ -12,10 +12,10 @@ Active canon remains `V26`.
 - `/docs`
 - `/demo-video`
   Mounted Bitcode public shell, docs hub, and docs walkthrough alias.
-- `/application`
+- `/terminal`
   Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
 - `/conversations`
-  Fullscreen conversation mode entered from `/application`.
+  Fullscreen conversation mode entered from `/terminal`.
 - `/executions`
   Retained execution route for Bitcode execution primitives, kept explicit as a fourth-gate promotion-boundary owner inside the broader activity family.
 - `/edgetimes`
@@ -28,15 +28,15 @@ Active canon remains `V26`.
 
 Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring V26 naming model.
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
-Selected `/application` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
+Selected `/terminal` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared auxillary metadata layer in `app/auxillaries/components/auxillary-pane-meta.ts` is the active owner for fullscreen auxillary-entry wording such as `Open Auxillaries fullscreen`, targeted auxillary-open actions, and the direct-route return action `Open transactions`.
 Signed-in auxillary reopen actions should flow through the shared `openAuxillaries('auxillaries', step?)` contract rather than older account-named caller aliases.
 Contained auxillary rails should converge on the shared panel-plus-tabs carriers in `app/auxillaries/components/shared/`, with retained `app/orbitals/components/*` imports treated as redirect-support internals rather than active route ownership.
 
 ## Main route systems
 
-- `app/application/`
-  `/application` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, give/need workbench, and transaction detail.
+- `app/terminal/`
+  `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, give/need workbench, and transaction detail.
 - `app/auxillaries/`
   Canonical focused auxillary routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `app/orbitals/`
@@ -71,7 +71,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/(root)/components/landing/marketing-landing-shared.tsx`
   Shared landing-shell constants and visual helpers for the mounted public shell.
 - `app/(root)/components/MarketingOperatorGuideCard.tsx`
-  Stable docs-owned walkthrough card with user-facing fallback forward into `/application` when guide media is absent.
+  Stable docs-owned walkthrough card with user-facing fallback forward into `/terminal` when guide media is absent.
 - `app/(root)/components/PublicDocsPageContent.tsx`
   Public docs hub content with route cards, inline widgets, walkthrough embedding, and public CTA posture.
 - `app/docs/page.tsx`
@@ -153,14 +153,14 @@ Focused lint:
 
 ```bash
 cd uapi
-pnpm exec next lint --file app/application/ApplicationPageClient.tsx
+pnpm exec next lint --file app/terminal/TerminalPageClient.tsx
 ```
 
 Focused Jest examples:
 
 ```bash
 cd uapi
-pnpm exec jest --runInBand --testMatch '<rootDir>/tests/applicationTransactionQuery.test.ts'
+pnpm exec jest --runInBand --testMatch '<rootDir>/tests/terminalTransactionQuery.test.ts'
 pnpm exec jest --runInBand --testMatch '<rootDir>/tests/auxillariesProvider.test.tsx'
 ```
 
@@ -170,7 +170,7 @@ The active V26 checkpoint treats markdown/doc refurbishment as part of second-ga
 The current application doc set is:
 
 - [README.md](../README.md)
-- [app/application/README.md](app/application/README.md)
+- [app/terminal/README.md](app/terminal/README.md)
 - [app/auxillaries/README.md](app/auxillaries/README.md)
 - [app/orbitals/README.md](app/orbitals/README.md)
 - [components/base/bitcode/README.md](components/base/bitcode/README.md)

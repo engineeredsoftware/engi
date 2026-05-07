@@ -3,7 +3,7 @@
 This directory holds the reusable execution-level components that power the Bitcode activity ledger, selected-activity detail, explainers, and payload reading.
 
 The V26 second-gate rule for this layer is simple:
-- if an activity/detail/payload pattern appears repeatedly across `/application`, conversations, or related retained workspaces, it should converge here as a typed, testable carrier.
+- if an activity/detail/payload pattern appears repeatedly across `/terminal`, conversations, or related retained workspaces, it should converge here as a typed, testable carrier.
 
 ## Main component groups
 
@@ -44,6 +44,6 @@ The V26 second-gate rule for this layer is simple:
 
 ## Used by
 
-- [../../../app/application/README.md](../../../app/application/README.md)
-- activity detail cards under `uapi/app/application/*`
+- [../../../app/terminal/README.md](../../../app/terminal/README.md)
+- activity detail cards under `uapi/app/terminal/*`
 - retained execution/log readers that continue to converge inward during V26
