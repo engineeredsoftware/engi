@@ -1,10 +1,12 @@
 # Conversations Generics
 
-Retained Bitcode conversation-domain package for fourth-gate convergence.
+Bitcode conversation-domain package for shared prompt and type ownership.
 
-## Role In V26
+## Role
 
-This package remains admitted because fullscreen conversations are still part of the merged-world Bitcode application and need explicit prompt/type ownership before fifth-gate proof closure.
+This package remains admitted because fullscreen conversations are a commercial
+Bitcode interface and need explicit prompt/type ownership across Terminal,
+Exchange, Auxillaries, MCP, and ChatGPT App contexts.
 
 It owns:
 - conversation domain types and validation helpers
@@ -16,7 +18,7 @@ It does not own:
 - persistence writes
 - UI composition
 
-Those remain with the application and API owners.
+Those remain with the commercial route and API owners.
 
 ## Architectural Rule
 
@@ -24,6 +26,6 @@ Use this package when a Bitcode conversation surface needs:
 - shared conversation types
 - validation helpers
 - retained agent behavior
-- prompt-system composition that should survive into proof-bearing V26
+- prompt-system composition that should survive into proof-bearing Bitcode
 
 Do not duplicate those contracts in route-local code.

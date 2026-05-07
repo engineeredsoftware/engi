@@ -123,7 +123,7 @@ NEXT_PUBLIC_MOCK_TIMING=realistic
 📚 Creating quick start guide...
 ✅ Quick start guide created: mocking/QUICK_START_DEMO.md
 
-🎉 Setup Complete! Your Bitcode application is now running in Demo Experience.
+🎉 Setup Complete! Your Bitcode commercial surface is now running in Demo Experience.
 
 📋 Next Steps:
 1. Start your development server: npm run dev

@@ -2,12 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 
 export default function ConversationsRouteClient() {
-  const router = useRouter();
+  const closeToTerminal = React.useCallback(() => {
+    window.location.assign('/terminal');
+  }, []);
 
   return (
     <>
@@ -20,7 +21,7 @@ export default function ConversationsRouteClient() {
                   Conversations fullscreen
                 </p>
                 <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                  Keep the Bitcode Terminal write path as a first-class application mode.
+                  Keep the Bitcode Terminal write path as a first-class Terminal interface mode.
                 </h1>
                 <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
                   This direct route keeps the fullscreen conversations surface available without
@@ -46,7 +47,7 @@ export default function ConversationsRouteClient() {
       <ConversationsOverlay
         forceOpen
         forceFullscreen
-        onCloseRequest={() => router.push('/terminal')}
+        onCloseRequest={closeToTerminal}
         showFloatingOrb={false}
       />
     </>

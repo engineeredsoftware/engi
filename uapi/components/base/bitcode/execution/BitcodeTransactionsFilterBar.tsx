@@ -25,6 +25,12 @@ export default function BitcodeTransactionsFilterBar({
   participantOptions,
   proofStatusOptions,
 }: BitcodeTransactionsFilterBarProps) {
+  const [searchValue, setSearchValue] = React.useState(filters.searchTerm);
+
+  React.useEffect(() => {
+    setSearchValue(filters.searchTerm);
+  }, [filters.searchTerm]);
+
   const updateFilter = <K extends keyof TransactionFilters>(key: K, value: TransactionFilters[K]) => {
     onFiltersChange({ ...filters, [key]: value });
   };
@@ -38,8 +44,12 @@ export default function BitcodeTransactionsFilterBar({
         </span>
         <input
           aria-label="Search transactions"
-          value={filters.searchTerm}
-          onChange={(event) => updateFilter('searchTerm', event.target.value)}
+          value={searchValue}
+          onChange={(event) => {
+            const nextValue = event.target.value;
+            setSearchValue(nextValue);
+            updateFilter('searchTerm', nextValue);
+          }}
           placeholder="Search ids, repos, branches, proof posture, participants…"
           className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
         />

@@ -44,7 +44,7 @@ await createPullRequestTool.use({
   provider: 'github',
   userId: 'user_123',
   owner: 'bitcode-labs',
-  repo: 'application',
+  repo: 'terminal',
   title: 'Finish AssetPack',
   sourceBranch: 'asset-pack/run-123',
   targetBranch: 'main',

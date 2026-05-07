@@ -4,7 +4,7 @@
   "canonicalPointerVersion": "V27",
   "draftTargetVersion": "V28",
   "packageOwner": "protocol-demonstration",
-  "primaryApplicationCarrier": "uapi/app/application",
+  "primaryTerminalCarrier": "uapi/app/terminal",
   "host": {
     "os": "Darwin 25.4.0",
     "arch": "arm64"
@@ -16,8 +16,8 @@
   },
   "programUsageTruth": {
     "primaryReviewPath": [
-      "uapi/app/application/page.tsx",
-      "uapi/app/application/ApplicationPageClient.tsx",
+      "uapi/app/terminal/page.tsx",
+      "uapi/app/terminal/TerminalPageClient.tsx",
       "uapi/app/api/*"
     ],
     "packageValidationPath": [
@@ -68,16 +68,16 @@
   },
   "availableConfigurations": [
     {
-      "configurationId": "application-review-mock",
+      "configurationId": "terminal-review-mock",
       "workingDirectory": "/Users/garrettmaring/Developer/ENGI/uapi",
       "command": "NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_ORBITAL=true NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_ISSUES=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_GITHUB_FILES=true PORT=3000 pnpm dev:remote",
-      "purpose": "Primary first-gate review of the application-owned Bitcode route"
+      "purpose": "Primary review of the Terminal-owned Bitcode route"
     },
     {
-      "configurationId": "application-review-liveish",
+      "configurationId": "terminal-review-liveish",
       "workingDirectory": "/Users/garrettmaring/Developer/ENGI/uapi",
       "command": "PORT=3000 pnpm dev:remote",
-      "purpose": "App-owned route review without mock flags"
+      "purpose": "Terminal-owned route review without mock flags"
     },
     {
       "configurationId": "package-runtime-validation",

@@ -172,7 +172,7 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
     : label
   const disabledReason = isStagedProvider
     ? 'Wallet-provider verification remains staged in Profile; direct wallet sign-in is not yet active here'
-    : `${shortLabel} is not active in the current Bitcode application surface`
+    : `${shortLabel} is not active in the current Bitcode surface`
   // Icon element, override size/color for iconOnly
   let iconElement = icon
   if (iconOnly && React.isValidElement(icon)) {

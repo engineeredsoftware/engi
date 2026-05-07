@@ -1,10 +1,9 @@
-# `uapi/` Bitcode Terminal
+# `uapi/` Bitcode Commercial Surface
 
-`uapi/` is the active application owner for Bitcode.
-It carries the `/terminal` transactions surface, fullscreen conversations, canonical `/auxillaries` reads, redirect-only `/orbitals` routes, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate and fourth-gate closure.
+`uapi/` is the active commercial interface owner for Bitcode.
+It carries the `/terminal` operator surface, `/exchange` activity master-detail, fullscreen conversations, canonical `/auxillaries` reads, redirect-only legacy route aliases where still explicitly retained, Bitcode API routes, and the shared UI systems used by the commercial protocol implementation.
 
-Active canon remains `V26`.
-`uapi/` now carries promoted V26 route/terminal truth through fourth gate while `V27` remains the next draft target after this promotion.
+Active canon follows the top-level `BITCODE_SPEC.txt` pointer while the current draft hardens the commercial MVP experience.
 
 ## Primary routes
 
@@ -13,7 +12,9 @@ Active canon remains `V26`.
 - `/demo-video`
   Mounted Bitcode public shell, docs hub, and docs walkthrough alias.
 - `/terminal`
-  Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
+  Main Bitcode operator surface. Give and Need are the primary write actions; recent Terminal activity is the focused read result surface.
+- `/exchange`
+  Exchange activity master-detail. The searchable activity table is the master; selected activity facts, proof posture, range evidence, and history are the detail.
 - `/conversations`
   Fullscreen conversation mode entered from `/terminal`.
 - `/executions`
@@ -24,9 +25,9 @@ Active canon remains `V26`.
 - `/auxillaries/connects`
 - `/auxillaries/interfaces`
 - `/auxillaries/btd`
-  Canonical auxillary routes for direct auxillary reading without losing the application framing.
+  Canonical auxillary routes for direct auxillary reading without losing the commercial Bitcode framing.
 
-Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring V26 naming model.
+Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring naming model.
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
 Selected `/terminal` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared auxillary metadata layer in `app/auxillaries/components/auxillary-pane-meta.ts` is the active owner for fullscreen auxillary-entry wording such as `Open Auxillaries fullscreen`, targeted auxillary-open actions, and the direct-route return action `Open transactions`.
@@ -37,6 +38,8 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 
 - `app/terminal/`
   `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, give/need workbench, and transaction detail.
+- `app/exchange/`
+  `/exchange` activity search, table, selected detail, and BTD intent entry surface.
 - `app/auxillaries/`
   Canonical focused auxillary routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `app/orbitals/`
@@ -44,7 +47,7 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 - `app/conversations/`
   Fullscreen conversation mode.
 - `app/executions/`
-  Retained execution route owners kept explicit while AssetPack/Shippable semantics converge into the application surface.
+  Retained execution route owners kept explicit while AssetPack evidence and activity semantics converge into Terminal and Exchange reads.
 - `app/edgetimes/`
   Fourth-gate storage/schema/package ownership route and shared topology owner for `/edgetimes`.
 - `app/api/`
@@ -164,26 +167,25 @@ pnpm exec jest --runInBand --testMatch '<rootDir>/tests/terminalTransactionQuery
 pnpm exec jest --runInBand --testMatch '<rootDir>/tests/auxillariesProvider.test.tsx'
 ```
 
-## README set required for second-gate closure
+## README Set
 
-The active V26 checkpoint treats markdown/doc refurbishment as part of second-gate implementation, not as optional cleanup.
-The current application doc set is:
+The current commercial interface doc set is:
 
 - [README.md](../README.md)
 - [app/terminal/README.md](app/terminal/README.md)
+- [app/exchange/README.md](app/exchange/README.md)
 - [app/auxillaries/README.md](app/auxillaries/README.md)
-- [app/orbitals/README.md](app/orbitals/README.md)
 - [components/base/bitcode/README.md](components/base/bitcode/README.md)
 - [components/base/bitcode/execution/README.md](components/base/bitcode/execution/README.md)
 
-Those markdown carriers are part of the second-gate implementation/proof boundary.
+Those markdown carriers are part of the commercial interface implementation/proof boundary.
 If the route/package/component owners change, this doc set is expected to move with them.
 
 ## Related docs
 
-- [BITCODE_SPEC_V26.md](../BITCODE_SPEC_V26.md)
-- [BITCODE_SPEC_V26_DELTA.md](../BITCODE_SPEC_V26_DELTA.md)
-- [BITCODE_SPEC_V26_PARITY_MATRIX.md](../BITCODE_SPEC_V26_PARITY_MATRIX.md)
-- [BITCODE_SPEC_V26_NOTES.md](../BITCODE_SPEC_V26_NOTES.md)
-- [protocol-demonstration/V26_APPLICATION_SYSTEMS.md](../protocol-demonstration/V26_APPLICATION_SYSTEMS.md)
-- [protocol-demonstration/V26_PROOF_SURFACES.md](../protocol-demonstration/V26_PROOF_SURFACES.md)
+- [BITCODE_SPEC_V27.md](../BITCODE_SPEC_V27.md)
+- [BITCODE_SPEC_V27_PROVEN.md](../BITCODE_SPEC_V27_PROVEN.md)
+- [BITCODE_SPEC_V28.md](../BITCODE_SPEC_V28.md)
+- [BITCODE_SPEC_V28_DELTA.md](../BITCODE_SPEC_V28_DELTA.md)
+- [BITCODE_SPEC_V28_PARITY_MATRIX.md](../BITCODE_SPEC_V28_PARITY_MATRIX.md)
+- [BITCODE_SPEC_V28_NOTES.md](../BITCODE_SPEC_V28_NOTES.md)

@@ -23,9 +23,9 @@ export const auxillaryPaneExplainers: Record<
     kicker: "Interfaces auxillary",
     title: "Instruction baseline",
     summary:
-      "The global prompt baseline carries the user-visible posture the application should keep when it reasons or explains.",
+      "The global prompt baseline carries the user-visible posture Bitcode should keep when it reasons or explains.",
     detail:
-      "Use a bounded baseline here when you want calmer, more exact application behavior without rewriting every transaction or conversation locally.",
+      "Use a bounded baseline here when you want calmer, more exact Bitcode behavior without rewriting every transaction or conversation locally.",
     points: [
       "Keep formal or decisive tone consistent",
       "Bias toward throughput, quality, or balanced review",
@@ -77,7 +77,7 @@ export const auxillaryPaneExplainers: Record<
     summary:
       "Advanced $BTD defaults shape how the inner auxillary biases replay, automation, and settlement follow-through.",
     detail:
-      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking the application reading posture.",
+      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking Terminal and Exchange reading posture.",
     points: [
       "Bias toward review-first or more decisive settlement handling",
       "Decide how BTD detail should open back into transaction views",

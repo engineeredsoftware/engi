@@ -167,7 +167,7 @@ Execution systems must:
 | `packages/generic-agents/danger-wall/*` | retained danger-wall corridor now specified as admitted Bitcode need/AssetPack risk admission for unsafe mutation, private-data exposure, proof gaps, AssetPack scope fit, delivery-mechanism fit, likely execution failure, and manual-review triggers |
 | `packages/generic-tools/need-comprehension/*` | individually owned Bitcode need-comprehension prompt/tool primitives with local need-first code ownership, source-to-shares service-question evidence, TypeScript-only source, and need-first raw PromptPart families |
 | `packages/generic-agents/need-comprehension/*` | setup/pre-danger-wall PTRR Need-comprehension agent that registers and composes the individual generic-tools before risk admission |
-| `packages/conversations-generics/*`, `uapi/prompts/*` | rich-input conversation prompt and application-facing inference binding |
+| `packages/conversations-generics/*`, `uapi/prompts/*` | rich-input conversation prompt and Terminal-facing inference binding |
 | `packages/executions-mcp/*` | admitted Exchange-facing MCP inference ingress, narrowed to currently admitted tool families and fail-closed create admission |
 
 ## Promotion Control
@@ -197,7 +197,7 @@ The generated `.bitcode/prompt-space-completeness-proof.json` witness must cover
 - retained asset-pack compatibility prompts and need-comprehension need-first prompt owners
 - retained need-synthesis web research/search compatibility prompts
 - TypeScript and runtime JavaScript raw PromptPart carry-through for reformed compatibility prompts
-- application conversation prompt binding and admitted Bitcode MCP prompt/tool ingress
+- Terminal conversation prompt binding and admitted Bitcode MCP prompt/tool ingress
 - specification, implementation-record, and test witnesses tying the prompt surface to generated proof
 
 `baselinePassed: true` supports fifth-gate progress only when those witness sets are present.

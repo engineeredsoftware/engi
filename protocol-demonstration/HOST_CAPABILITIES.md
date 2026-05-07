@@ -8,16 +8,16 @@ Host scope: local machine capabilities relevant to active V27 canon and V28 draf
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V27`
 - Current canonical/latest target: `V27`
 - Current draft-target family: `V28`
-- Current protocol owner: `protocol-demonstration` mounted through `uapi/app/application/*`
+- Current protocol owner: `protocol-demonstration` mounted through `uapi/app/terminal/*`
 
 ## Purpose
 
-This document records what the host actually needs to run the current first-gate Bitcode application expression, what remains optional, and what is still modeled rather than executed live.
+This document records what the host actually needs to run the current Bitcode Terminal expression, what remains optional, and what is still modeled rather than executed live.
 
 The source of truth for this document is:
 
 - live host inspection commands run on 2026-04-16,
-- the current repo implementation in `protocol-demonstration/*` and `uapi/app/application/*`,
+- the current repo implementation in `protocol-demonstration/*` and `uapi/app/terminal/*`,
 - the active V27 canonical family,
 - and the V28 draft-target family.
 
@@ -25,14 +25,14 @@ The source of truth for this document is:
 
 ### Primary review path
 
-The primary first-gate review path is the application-owned route:
+The primary review path is the Terminal-owned route:
 
-- `uapi/app/application/page.tsx`
-- `uapi/app/application/ApplicationPageClient.tsx`
+- `uapi/app/terminal/page.tsx`
+- `uapi/app/terminal/TerminalPageClient.tsx`
 - `uapi/app/api/*`
 
 This is the route that carries the preserved Bitcode operator UX inside the app shell.
-For interface review, the preferred posture is mock mode so the application can be reviewed without live external dependencies or real user data.
+For interface review, the preferred posture is mock mode so Terminal can be reviewed without live external dependencies or real user data.
 
 ### Package-local validation path
 
@@ -51,8 +51,8 @@ The repo needs:
 
 The current real local program usage includes:
 
-- serving the app-owned `/application` route,
-- serving app-owned JSON contract routes under `uapi/app/api/*`,
+- serving the Terminal-owned `/terminal` route,
+- serving Terminal-owned JSON contract routes under `uapi/app/api/*`,
 - deterministic need derivation and state transitions inside `protocol-demonstration`,
 - proof/materialization/accounting artifact assembly,
 - and the Node-based regression/test stack.
@@ -70,7 +70,7 @@ The current real local program usage includes:
 - `openclaw`
 - `codex`
 
-These are useful for inspection, authoring, container work, or upstream experiments, but not required to review the first-gate application route.
+These are useful for inspection, authoring, container work, or upstream experiments, but not required to review the Terminal route.
 
 ### Proof-program usage truth
 
@@ -86,7 +86,7 @@ Instead it:
 
 Current first-gate review does not require live GitHub network effects.
 
-The application can be reviewed in mock mode without:
+Terminal can be reviewed in mock mode without:
 
 - live GitHub App installation auth,
 - live workflow artifact fetch,
@@ -107,7 +107,7 @@ The application can be reviewed in mock mode without:
 - Node.js `v24.14.1`
 - npm `11.11.0`
 
-Because the current first-gate review path is app-owned, the practical runtime requirement is:
+Because the current first-gate review path is Terminal-owned, the practical runtime requirement is:
 
 - `node`
 - `npm` or `pnpm`
@@ -122,18 +122,18 @@ Because the current first-gate review path is app-owned, the practical runtime r
 
 ## Available configurations
 
-### `application-review-mock`
+### `terminal-review-mock`
 
 - working directory: `/Users/garrettmaring/Developer/ENGI/uapi`
 - command:
   `NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_ORBITAL=true NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_ISSUES=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_GITHUB_FILES=true PORT=3000 pnpm dev:remote`
-- purpose: primary first-gate review of the application-owned Bitcode route at `/application`
+- purpose: primary first-gate review of the Terminal-owned Bitcode route at `/terminal`
 
-### `application-review-liveish`
+### `terminal-review-liveish`
 
 - working directory: `/Users/garrettmaring/Developer/ENGI/uapi`
 - command: `PORT=3000 pnpm dev:remote`
-- purpose: app-owned route review against current non-mock environment posture
+- purpose: Terminal-owned route review against current non-mock environment posture
 
 ### `package-runtime-validation`
 
@@ -162,11 +162,11 @@ Current repo truth relevant to host safety:
 - path traversal is blocked,
 - public/API projection defaults are explicit,
 - private branch/source material remains withheld from public projection,
-- and first-gate app review can run entirely in mock mode without requiring production credentials.
+- and first-gate Terminal review can run entirely in mock mode without requiring production credentials.
 
 Operational implication:
 
-- the host does not need secret production credentials to review first-gate application behavior,
+- the host does not need secret production credentials to review first-gate Terminal behavior,
 - and the package-local runtime path should be described as validation posture rather than primary product carriage.
 
 ## Remote assumptions and boundaries

@@ -42,7 +42,7 @@ export function buildCanonPosture() {
     draftTargetVersion: DRAFT_TARGET_VERSION,
     operatorLabel: CURRENT_CANON_OPERATOR_LABEL,
     specVersionLabel: CURRENT_SPEC_VERSION_LABEL,
-    documentTitle: `${CURRENT_PROJECT_LABEL} Application`,
+    documentTitle: `${CURRENT_PROJECT_LABEL} Demonstration`,
     policyRef: CURRENT_POLICY_REF,
     activeProvenAppendixPath: ACTIVE_PROVEN_APPENDIX_PATH,
     draftSpecPath: DRAFT_SPEC_PATH,

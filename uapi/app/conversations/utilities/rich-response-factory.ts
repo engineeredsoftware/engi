@@ -443,7 +443,7 @@ export class ConversationRichResponseFactoryImpl implements ConversationRichResp
   }
 }
 
-// Factory instance for use throughout the application
+// Factory instance for use throughout Conversations.
 export const conversationRichResponseFactory = new ConversationRichResponseFactoryImpl();
 
 /**

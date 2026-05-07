@@ -196,7 +196,7 @@ export default function AuxillariesInterfacesPane({
       {
         id: "conversation-launch",
         title: "Conversation launch",
-        description: "Control how conversation work should re-enter the application when opened from operator context.",
+        description: "Control how conversation work should re-enter Terminal when opened from operator context.",
         value: defaults.conversationLaunch,
         onChange: (value) =>
           setDefaults((current) => ({
@@ -252,7 +252,7 @@ export default function AuxillariesInterfacesPane({
       {
         id: "prompt-tone",
         title: "Instruction tone",
-        description: "Choose the user-facing reasoning posture the application should prefer.",
+        description: "Choose the user-facing reasoning posture Bitcode should prefer.",
         value: defaults.promptTone,
         onChange: (value) =>
           setDefaults((current) => ({
@@ -280,7 +280,7 @@ export default function AuxillariesInterfacesPane({
       {
         id: "execution-bias",
         title: "Execution bias",
-        description: "Set the preferred tradeoff the application should carry when it chooses defaults.",
+        description: "Set the preferred tradeoff Bitcode should carry when it chooses defaults.",
         value: defaults.executionBias,
         onChange: (value) =>
           setDefaults((current) => ({
@@ -358,7 +358,7 @@ export default function AuxillariesInterfacesPane({
                       : defaults.conversationLaunch === "focused"
                         ? "Focused launch"
                         : "Continuity launch",
-                  detail: "How conversation work should re-enter the live application frame.",
+                  detail: "How conversation work should re-enter the live Bitcode frame.",
                   tone: "sky",
                 },
                 {
@@ -396,7 +396,7 @@ export default function AuxillariesInterfacesPane({
             <AuxillariesWorkspaceSection
               kicker="Prompt baseline"
               title="Shared instruction baseline"
-              description="Keep a reusable global instruction surface for how the application should reason, summarize, and explain."
+              description="Keep a reusable global instruction surface for how Bitcode should reason, summarize, and explain."
               explainer={auxillaryPaneExplainers.interfacesPrompt}
               tone="sky"
             >

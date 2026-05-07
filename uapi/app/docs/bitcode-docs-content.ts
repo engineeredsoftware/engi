@@ -1589,7 +1589,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Component vocabulary',
         title: 'Exchange, Terminal, Protocol, interfaces',
         summary:
-          'The docs use the same card and explainer pattern as Terminal so the mental model transfers into the application.',
+          'The docs use the same card and explainer pattern as Terminal so the mental model transfers into the commercial surfaces.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap,
         signals: [
           { label: 'Exchange', value: 'State, APIs, ledger', tone: 'emerald' },

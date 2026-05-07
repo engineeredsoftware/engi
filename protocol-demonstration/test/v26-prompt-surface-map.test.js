@@ -130,7 +130,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Need-comprehension support/u);
   assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
   assert.match(inferenceSystemsSource, /## Prompt-Space Witness Baseline/u);
-  assert.match(inferenceSystemsSource, /application conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
+  assert.match(inferenceSystemsSource, /terminal conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
   assert.match(inferenceSystemsSource, /`passed: true` is required after eighth-gate prompt-space saturation/u);
   assert.match(inferenceSystemsSource, /runtime and proof evidence can be regenerated from source/u);
   assert.match(inferenceSystemsSource, /treat `Prompt` as `RegistryImpl<PromptPart>`/u);

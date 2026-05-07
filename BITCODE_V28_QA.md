@@ -99,12 +99,19 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Static overview badges are quieter than actionable chips/buttons. | Requires next manual visual confirmation. |
 | Active touched Auxillaries names moved from orbitals to Auxillaries in mock-mode envs, component callbacks, and commercial tests. | Source search is clean for active renamed identifiers; no route compatibility artifact is retained for the retired generic workspace. |
 | Conversations split-pane source selector tolerates missing or variant repository payloads and no longer crashes the route during commercial QA. | `commercial-mvp.conversations-docs.spec.ts` passes 3-repeat focused verification and the full commercial MVP suite. |
+| Conversations streaming no longer aborts itself on ordinary rerenders, so the assistant response bubble completes in split-pane fullscreen QA. | Focused Conversations E2E passes; full commercial MVP E2E passes. |
+| Direct `/conversations` fullscreen exit returns deterministically to `/terminal`. | Focused Conversations E2E passes; full commercial MVP E2E passes. |
 | Bare Terminal route no longer auto-mutates its URL during load, while explicit route context and user selections still remain URL-addressable. | Public stitched navigation route spec passes 5-repeat focused verification and the full commercial MVP suite. |
+| Terminal transaction search keeps the typed value stable while URL-backed filter state updates. | Focused Terminal activity-search E2E passes; full commercial MVP E2E passes. |
+| Active `/application` route/import/runtime compatibility artifacts are absent from commercial source scans. | Source scans show no active `/application`, `app/application`, or application shell runtime names outside explicit historical spec notes and framework error patterns. |
+| Protocol-demonstration client-entry, public mount globals, UAPI demonstration witness mocks, and demonstration state title use demonstration vocabulary rather than application shell vocabulary. | Runtime/API scans show no application-shell names across active demonstration entrypoints. |
 
 Automated verification after this implementation pass:
 
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass.
-- `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed.
+- `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
+- `pnpm -C protocol-demonstration test:integration`: 58 passed after demonstration title/posture cleanup.
+- `pnpm -C protocol-demonstration test:v28-commercial-mvp-qa`: 6 passed after demonstration title/posture cleanup.
 
 Deferred to V29 from this pass:
 

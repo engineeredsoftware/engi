@@ -3,7 +3,7 @@
 /**
  * Bitcode Mock System - Easy Setup Script
  * 
- * This script automatically sets up the comprehensive mock system for your Bitcode application.
+ * This script automatically sets up the comprehensive mock system for your Bitcode commercial surface.
  * Run this script to get started with mocking in seconds!
  * 
  * Usage:
@@ -323,7 +323,7 @@ function getScenarioFeatures(scenario) {
 }
 
 function displayNextSteps(scenario) {
-  console.log(`\n🎉 Setup Complete! Your Bitcode application is now running in ${SCENARIOS[scenario].name}.`);
+  console.log(`\n🎉 Setup Complete! Your Bitcode commercial surface is now running in ${SCENARIOS[scenario].name}.`);
   console.log('\n📋 Next Steps:');
   console.log('1. Start your development server: npm run dev');
   console.log('2. Open your browser and navigate to any Bitcode page');

@@ -14,7 +14,7 @@ export const EDGETIMES_TOPOLOGY = {
   eyebrow: 'Bitcode edgetimes',
   heading: 'Converge storage, schema, and retained package ownership.',
   body:
-    'Edgetimes is the fourth-gate storage and API read for PostgreSQL/Supabase, typed ORM/query ownership, generated database types, and the retained packages that still carry Bitcode state upward into the application.',
+    'Edgetimes is the storage and API read for PostgreSQL/Supabase, typed ORM/query ownership, generated database types, and the retained packages that still carry Bitcode state upward into Terminal, Exchange, and Auxillaries.',
   baselineMigration: {
     label: 'Schema baseline',
     path: 'supabase/migrations/001_v26_production.sql',

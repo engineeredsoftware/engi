@@ -88,8 +88,8 @@ const removedComprehendTaskEntrypoints = [
   '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.js',
 ];
 const removedTerminalExecutionGeneratedJsMirrors = [
-  '../../uapi/app/application/ApplicationTransactionDetailSurface.js',
-  '../../uapi/app/application/application-experience-architecture.js',
+  '../../uapi/app/terminal/TerminalTransactionDetailSurface.js',
+  '../../uapi/app/terminal/terminal-experience-architecture.js',
   '../../uapi/app/executions/page.js',
   '../../uapi/app/executions/components/ExecutionsDoButton.js',
   '../../uapi/components/base/bitcode/execution/DeliverablesDocPanel.js',
@@ -188,8 +188,8 @@ const executionsRouteSource = readFileSync(
   new URL('../../packages/api/src/routes/executions.ts', import.meta.url),
   'utf8'
 );
-const applicationDetailSnapshotSource = readFileSync(
-  new URL('../../uapi/app/application/application-transaction-detail-snapshot.ts', import.meta.url),
+const terminalDetailSnapshotSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-transaction-detail-snapshot.ts', import.meta.url),
   'utf8'
 );
 const executionsPageHeaderSource = readFileSync(
@@ -584,7 +584,7 @@ function extractJsPromptPart(source, name) {
 
 test('V26 shippable reform supplement removes active deliverable compatibility behavior', () => {
   assert.match(reformSource, /`deliverable` is not a Bitcode concept/u);
-  assert.match(reformSource, /must not remain as an active route, payload field, application data model, reusable infrastructure name, exported API alias, mock feature, template category, email-template identifier, or algorithmic branch/u);
+  assert.match(reformSource, /must not remain as an active route, payload field, terminal data model, reusable infrastructure name, exported API alias, mock feature, template category, email-template identifier, or algorithmic branch/u);
   assert.match(reformSource, /live Bitcode meaning is a need-satisfying agentic pipeline run/u);
   assert.match(reformSource, /canonical broad final phase is now `Finish`/u);
   assert.match(reformSource, /`Delivering` is the narrower Finish subresponsibility/u);
@@ -878,8 +878,8 @@ test('operator-facing execution header and active route teach Delivering mechani
   assert.match(executionsRouteSource, /function buildAssetPackSynthesisArtifacts/u);
   assert.match(executionsRouteSource, /asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts\(row\)/u);
   assert.match(executionsRouteSource, /assetPackSynthesisArtifacts \? \{ assetPackSynthesisArtifacts \}/u);
-  assert.match(applicationDetailSnapshotSource, /assetPackSynthesisArtifacts\?: ShippablesDoc \| null;/u);
-  assert.match(applicationDetailSnapshotSource, /coerceShippableSurface\(assetPackCompletion\?\.assetPackSynthesisArtifacts\)/u);
+  assert.match(terminalDetailSnapshotSource, /assetPackSynthesisArtifacts\?: ShippablesDoc \| null;/u);
+  assert.match(terminalDetailSnapshotSource, /coerceShippableSurface\(assetPackCompletion\?\.assetPackSynthesisArtifacts\)/u);
   assert.match(executionsCompleteHeaderContentSource, /assetPackSynthesisArtifacts\?: HeaderShippables;/u);
   assert.match(executionsCompleteHeaderContentSource, /shippables\?: HeaderShippables;/u);
   assert.match(executionsCompleteHeaderContentSource, /assetPackCompletion\?\.assetPackSynthesisArtifacts/u);
@@ -1036,7 +1036,7 @@ test('execution notifications and support rails use AssetPack and Shippable nami
   assert.match(authenticationMiddlewareSource, /Check Exchange execution ownership/u);
   assert.match(vcsDataHookSource, /Need measurement,/u);
   assert.match(vcsDataHookSource, /AssetPack synthesis evidence, and Shippable delivery mechanisms/u);
-  assert.match(tpsReadmeSource, /\/application/u);
+  assert.match(tpsReadmeSource, /\/terminal/u);
   assert.match(tpsReadmeSource, /\/executions/u);
   assert.doesNotMatch(tpsReadmeSource, /\/deliverables/u);
 

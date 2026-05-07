@@ -758,21 +758,10 @@ const Conversation = memo(function Conversation({
       onToggle();
     } else if (onCloseRequest) {
       onCloseRequest();
-      if (
-        forceOpen &&
-        typeof window !== 'undefined' &&
-        window.location.pathname.startsWith('/conversations')
-      ) {
-        window.setTimeout(() => {
-          if (window.location.pathname.startsWith('/conversations')) {
-            window.location.assign('/terminal');
-          }
-        }, 0);
-      }
     } else {
       setIsOpenInternal(false);
     }
-  }, [forceOpen, inSidebar, onCloseRequest, onToggle]);
+  }, [inSidebar, onCloseRequest, onToggle]);
 
   // Render token in message helper
   const renderTokenInMessage = useCallback((content: string, tokens?: any[]): string => {
@@ -808,11 +797,13 @@ const Conversation = memo(function Conversation({
   }, []);
 
   // Clean up on unmount
+  const cleanupConversationStream = conversationStream.cleanup;
+
   useEffect(() => {
     return () => {
-      conversationStream.cleanup?.();
+      cleanupConversationStream?.();
     };
-  }, [conversationStream]);
+  }, [cleanupConversationStream]);
 
   // Render main component
   if (!isOpen && !inSidebar) {

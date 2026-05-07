@@ -105,7 +105,7 @@ describe('branchConversation', () => {
         attachment_id: 'repo-1',
         attachment_category: 'integration',
         attachment_type: 'github_repo',
-        metadata: { token_type: 'source', title: 'bitcode/application' },
+        metadata: { token_type: 'source', title: 'bitcode/terminal' },
         created_at: new Date().toISOString(),
       },
       {
@@ -153,7 +153,7 @@ describe('branchConversation', () => {
               attachment_type: 'github_repo',
               metadata: expect.objectContaining({
                 token_type: 'source',
-                title: 'bitcode/application',
+                title: 'bitcode/terminal',
               }),
             }),
           ]),

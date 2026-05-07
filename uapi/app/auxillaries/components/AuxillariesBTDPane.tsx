@@ -446,8 +446,8 @@ export default function AuxillariesBTDPane({
                     detail: hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
                       ? "Saved verified signer posture is recorded, but the wallet provider must reconnect before Bitcode can rely on live signing again."
                       : walletBinding?.status === 'verified'
-                      ? "The verified signer posture the application will use for signed settlement follow-through."
-                      : "The address posture the application will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
+                      ? "The verified signer posture Bitcode will use for signed settlement follow-through."
+                      : "The address posture Bitcode will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
                     tone: "violet",
                   },
                   {
@@ -509,8 +509,8 @@ export default function AuxillariesBTDPane({
 
             <AuxillariesWorkspaceSection
               kicker="Advanced defaults"
-              title="Set the inner-orbital follow-through posture"
-              description="These controls shape how review, replay, and wallet refresh should behave when BTD-specific detail re-enters the main application."
+              title="Set the BTD follow-through posture"
+              description="These controls shape how review, replay, and wallet refresh should behave when BTD-specific detail re-enters the main operator surfaces."
               explainer={auxillaryPaneExplainers.btdAdvanced}
               tone="sky"
             >

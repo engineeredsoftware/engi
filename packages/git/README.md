@@ -25,7 +25,7 @@ await createPullRequest({
   provider: 'github',
   userId: 'user_123',
   owner: 'bitcode-labs',
-  repo: 'application',
+  repo: 'terminal',
   title: 'Finish AssetPack',
   sourceBranch: 'asset-pack/run-123',
   targetBranch: 'main',
@@ -35,7 +35,7 @@ const files = await listGitFiles({
   provider: 'github',
   connectionId: 'connection-id',
   owner: 'bitcode-labs',
-  repo: 'application',
+  repo: 'terminal',
   path: 'src',
 });
 ```

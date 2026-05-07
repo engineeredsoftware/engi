@@ -201,7 +201,7 @@ The current prompt surface map is expected to align with:
 
 - `BITCODE_SPEC_V26.md`
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
-- `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
+- `protocol-demonstration/V26_TERMINAL_SYSTEMS.md`
 - `.bitcode/prompt-system-totality-proof.json`
 - `.bitcode/prompt-space-completeness-proof.json`
 - `.bitcode/inference-implementation-records-proof.json`

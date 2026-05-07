@@ -1,11 +1,11 @@
-# V26 Application Systems
+# V26 Terminal Systems
 
 ## Status
 
-- Scope: non-canonical supplementary system document for the V26 Bitcode application architecture
+- Scope: non-canonical supplementary system document for the V26 Bitcode terminal architecture
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Next draft target: `BITCODE_SPEC_V27.md` (opened as draft; V26 remains active canon)
-- Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the application, overlay systems, retained package owners, and storage/persistence ownership
+- Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the terminal, overlay systems, retained package owners, and storage/persistence ownership
 
 ## Rule
 
@@ -44,10 +44,10 @@ Current fifth-gate retained-system classification:
 | `packages/generic-tools/mcps-tools/jira/src/index.ts` | `reference-only` | Jira integration ingress/reference layer, not Exchange-state ownership |
 | `packages/web-search/src/index.ts` | `auxiliary-input` | external search context provider that may enrich admitted interfaces without becoming Bitcode’s source of truth |
 
-## Primary application architecture
+## Primary terminal architecture
 
 V26 centers Bitcode on one primary route:
-- `/application`
+- `/terminal`
 
 V26 defines three main Bitcode experiences:
 1. `master detail`
@@ -60,11 +60,11 @@ V26 defines two main Bitcode actions:
 
 Those map as follows:
 - `master detail`
-  The application-owned operating workspace for repo supply, measured need, a transactions master surface, transaction detail, Finish-delivered Shippables, proofs, and history.
+  The terminal-owned operating workspace for repo supply, measured need, a transactions master surface, transaction detail, Finish-delivered Shippables, proofs, and history.
 - `conversations`
-  The fullscreen chat workspace entered from within `/application`.
+  The fullscreen chat workspace entered from within `/terminal`.
 - `auxillaries`
-  The fullscreen auxillary workspace entered from within `/application`, fixed as `Connects`, `Interfaces`, `Profile`, and `$BTD`.
+  The fullscreen auxillary workspace entered from within `/terminal`, fixed as `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `give`
   Repo supply, deposits, authenticated material intake, and actions that place material into the Bitcode chain.
 - `need`
@@ -74,7 +74,7 @@ The orbital ring model is fixed for V26:
 - `Connects`
   Repository and other connection posture, with the closest retained canonical inner-pane UX/UI.
 - `Interfaces`
-  Visual, behavioral, and default application posture for transactions, conversations, and related reads.
+  Visual, behavioral, and default terminal posture for transactions, conversations, and related reads.
 - `Profile`
   Wallet identity, address, balances, organization roles, multi-sig membership, and authentication posture.
 - `$BTD`
@@ -88,7 +88,7 @@ Direct auxillary routes should prefer:
 
 Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` may survive only as redirect-only convergence carriers into `/auxillaries/*` until later cleanup removes them entirely.
 
-Sixth-gate deepening now has an explicit post-cut-over application target:
+Sixth-gate deepening now has an explicit post-cut-over terminal target:
 - `activity`
   The dominant searchable, filterable, transaction-first master/detail surface for Bitcode activity, with transactions as the primary row type and additional activity classes admitted only where they strengthen the same model.
 - `transactions`
@@ -119,7 +119,7 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 - `uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`
 
 Operational rule:
-- the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
+- the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/terminal`
 - the mounted public shell must clearly organize itself as `Network`, `Transactions`, `Docs`, and `Auxillaries`
 - the mounted public shell must also mount live public-route nav and orbital-entry behavior instead of relying on page-local CTA copy alone
 - `/docs` must be the real public teaching surface while `/demo-video` remains a compatibility alias into that docs-owned content
@@ -147,46 +147,46 @@ Within the master-detail experience, V26 treats these as required substructures:
 - `history`
 
 Current active carriers:
-- `uapi/app/application/ApplicationOperatorCard.tsx`
-- `uapi/app/application/application-operator-explainers.ts`
-- `uapi/app/application/ApplicationExperienceFrame.tsx`
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
-- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
-- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
-- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
-- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
-- `uapi/app/application/ApplicationCoreNativeSections.tsx`
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
-- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationTransactionsTable.tsx`
-- `uapi/app/application/ApplicationDepositComposer.tsx`
-- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
-- `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/application-closure-state.ts`
-- `uapi/app/application/application-command-state.ts`
-- `uapi/app/application/application-shell-bridge.tsx`
-- `uapi/app/application/application-live-summary.ts`
-- `uapi/app/application/application-deposit-composer.ts`
-- `uapi/app/application/application-external-runtime.ts`
-- `uapi/app/application/application-experience-architecture.ts`
-- `uapi/app/application/application-give-need-workbench.ts`
-- `uapi/app/application/application-need-scenarios.ts`
-- `uapi/app/application/application-run-activity.ts`
-- `uapi/app/application/application-transaction-source.ts`
-- `uapi/app/application/application-transaction-detail-snapshot.ts`
-- `uapi/app/application/application-transaction-detail.ts`
-- `uapi/app/application/application-transaction-query.ts`
-- `uapi/app/application/application-repository-context.ts`
-- `uapi/app/application/application-supply-selection.ts`
-- `uapi/app/application/application-transactions.ts`
+- `uapi/app/terminal/TerminalOperatorCard.tsx`
+- `uapi/app/terminal/terminal-operator-explainers.ts`
+- `uapi/app/terminal/TerminalExperienceFrame.tsx`
+- `uapi/app/terminal/TerminalCommandDeck.tsx`
+- `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
+- `uapi/app/terminal/TerminalExternalInterfacingPanel.tsx`
+- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalLiveSummaryStrip.tsx`
+- `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
+- `uapi/app/terminal/TerminalCoreNativeSections.tsx`
+- `uapi/app/terminal/TerminalClosureNativeSections.tsx`
+- `uapi/app/terminal/TerminalTransactionActivitySurface.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailActionBar.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailHero.tsx`
+- `uapi/app/terminal/TerminalTransactionIdentityCard.tsx`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionsTable.tsx`
+- `uapi/app/terminal/TerminalDepositComposer.tsx`
+- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
+- `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
+- `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
+- `uapi/app/terminal/TerminalWorkspaceRail.tsx`
+- `uapi/app/terminal/terminal-closure-state.ts`
+- `uapi/app/terminal/terminal-command-state.ts`
+- `uapi/app/terminal/terminal-shell-bridge.tsx`
+- `uapi/app/terminal/terminal-live-summary.ts`
+- `uapi/app/terminal/terminal-deposit-composer.ts`
+- `uapi/app/terminal/terminal-external-runtime.ts`
+- `uapi/app/terminal/terminal-experience-architecture.ts`
+- `uapi/app/terminal/terminal-give-need-workbench.ts`
+- `uapi/app/terminal/terminal-need-scenarios.ts`
+- `uapi/app/terminal/terminal-run-activity.ts`
+- `uapi/app/terminal/terminal-transaction-source.ts`
+- `uapi/app/terminal/terminal-transaction-detail-snapshot.ts`
+- `uapi/app/terminal/terminal-transaction-detail.ts`
+- `uapi/app/terminal/terminal-transaction-query.ts`
+- `uapi/app/terminal/terminal-repository-context.ts`
+- `uapi/app/terminal/terminal-supply-selection.ts`
+- `uapi/app/terminal/terminal-transactions.ts`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
@@ -209,26 +209,26 @@ Current active carriers:
 
 ## Shared shell bridge provider
 
-Second-gate now centralizes mounted-shell semantic polling and control refresh behind one reusable application bridge.
+Second-gate now centralizes mounted-shell semantic polling and control refresh behind one reusable terminal bridge.
 
 Current active carriers:
-- `uapi/app/application/application-shell-bridge.tsx`
+- `uapi/app/terminal/terminal-shell-bridge.tsx`
 - `protocol-demonstration/src/client-entry.js`
 - `protocol-demonstration/public/app.js`
 
 Operational rule:
 - route-local second-gate carriers consume one shared shell bridge instead of independently polling the mounted shell
 - command, summary, give/need, core, closure, and intake surfaces all refresh against the same semantic Bitcode state carrier
-- the shared shell bridge must fail closed during pre-mount and hot-reload rebuild windows instead of crashing `/application`
+- the shared shell bridge must fail closed during pre-mount and hot-reload rebuild windows instead of crashing `/terminal`
 - V26 should extend this provider rather than multiplying per-component shell refresh loops
 
 ## Runtime health carriers
 
-Second-gate now explicitly treats application health as part of the productionizing pass, not as incidental developer ergonomics.
+Second-gate now explicitly treats terminal health as part of the productionizing pass, not as incidental developer ergonomics.
 
 Current active carriers:
 - `uapi/app/api/client-error/route.ts`
-- `uapi/app/application/application-shell-bridge.tsx`
+- `uapi/app/terminal/terminal-shell-bridge.tsx`
 - `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`
 - `protocol-demonstration/src/client-entry.js`
 - `protocol-demonstration/public/app.js`
@@ -236,16 +236,16 @@ Current active carriers:
 Operational rule:
 - client-side runtime failures should be accepted by an app-owned telemetry intake route instead of 404ing
 - semantic snapshot reads should return null during shell pre-mount windows rather than throwing
-- mounted-shell bootstrap should wait for the host markup and fail closed while the application is rebuilding
-- fullscreen orbitals entered from `/application` should remain renderable during convergence rather than crashing on missing overlay-pane references
+- mounted-shell bootstrap should wait for the host markup and fail closed while the terminal is rebuilding
+- fullscreen orbitals entered from `/terminal` should remain renderable during convergence rather than crashing on missing overlay-pane references
 
 ## Transactions master carrier
 
 Second-gate now makes master detail concrete as a searchable and filterable Bitcode transactions table rather than leaving the master surface implicit.
 
 Current active carriers:
-- `uapi/app/application/ApplicationTransactionsTable.tsx`
-- `uapi/app/application/application-transactions.ts`
+- `uapi/app/terminal/TerminalTransactionsTable.tsx`
+- `uapi/app/terminal/terminal-transactions.ts`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
@@ -255,18 +255,18 @@ Current active carriers:
 - `uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
 - `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
 - `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
 
 Operational rule:
 - master detail means a rich Bitcode transactions table as master and transaction detail as detail
-- the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and orbitals/interfaces posture from application context
-- `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
-- transaction selection and rich master-table filters are route-owned and shareable through application query state
+- the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and orbitals/interfaces posture from terminal context
+- `/terminal` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
+- transaction selection and rich master-table filters are route-owned and shareable through terminal query state
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
 - transaction pagination must remain route-owned and query-shareable rather than living only as a table-local row window
 - active transaction filters should remain visibly surfaced as individually clearable chips rather than hiding the shaped table window inside controls alone
 - transaction filters, headers, pagination, and payload views should share one explainer/tooltip carrier rather than embedding incidental one-off help text per surface
-- route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
+- route-local Terminal orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
 - transaction source resolution should derive `live`, `mock-review`, and `review-fallback` from fetched live history plus the selected transaction URL instead of trapping source mode in mutable page-local branches
 - the master surface should fail over into a clearly labeled `review-fallback` posture when live history is empty but the route is opened on an explicit mock transaction review URL
 - workspace substructure preview cards should reuse one shared detail-panel carrier rather than preserving page-local metric/row card markup
@@ -274,13 +274,13 @@ Operational rule:
 
 ## Route-owned transaction query carrier
 
-Second-gate now treats transaction selection and rich master filters as route-owned application state instead of component-local table state.
+Second-gate now treats transaction selection and rich master filters as route-owned terminal state instead of component-local table state.
 
 Current active carriers:
-- `uapi/app/application/application-transaction-query.ts`
-- `uapi/app/application/ApplicationPageClient.tsx`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
-- `uapi/app/application/ApplicationTransactionsTable.tsx`
+- `uapi/app/terminal/terminal-transaction-query.ts`
+- `uapi/app/terminal/TerminalPageClient.tsx`
+- `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
+- `uapi/app/terminal/TerminalTransactionsTable.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
@@ -293,11 +293,11 @@ Operational rule:
 - transaction search, status, ownership, lens, repository, participant, proof posture, sort, page, and page size are persisted in route query state
 - shared transaction defaults and active-filter chip normalization should live in the execution layer rather than being redefined independently per route or component
 - transaction detail prefers `transaction` as the active detail carrier while accepting legacy `identity` only as a compatibility parsing alias
-- resetting filters clears only transaction-filter carriers and preserves selected transaction plus unrelated application parameters
+- resetting filters clears only transaction-filter carriers and preserves selected transaction plus unrelated terminal parameters
 
 ## Reusable payload inspection carrier
 
-Second-gate now treats visual-vs-raw payload inspection as a reusable application/base-component problem instead of an incidental per-card debugging convenience.
+Second-gate now treats visual-vs-raw payload inspection as a reusable terminal/base-component problem instead of an incidental per-card debugging convenience.
 
 Current active carriers:
 - `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
@@ -308,11 +308,11 @@ Current active carriers:
 - `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
 - `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
-- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationTransactionProofsCard.tsx`
-- `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+- `uapi/app/terminal/TerminalTransactionIdentityCard.tsx`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionProofsCard.tsx`
+- `uapi/app/terminal/TerminalTransactionHistoryCard.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`
 
 Operational rule:
 - selected-transaction identity, closure, proofs, and history should all expose one shared visual-vs-raw payload reading carrier
@@ -325,35 +325,35 @@ Operational rule:
 - selected-transaction rows, metric grids, and chip clouds should converge on reusable execution-level base carriers instead of being re-authored per card
 - selected-transaction action rows and payload-card shells should also converge on reusable execution-level carriers instead of each card reauthoring its own inspector-plus-button structure
 - proof/history collection cards and workspace substructure preview cards should converge on shared collection/panel carriers instead of repeating page-local list/article markup
-- execution-log header, log body, and work-update stacks should converge on one reusable execution-stream carrier across `/application`, conversations, and `/executions` instead of remaining page-local log glue
+- execution-log header, log body, and work-update stacks should converge on one reusable execution-stream carrier across `/terminal`, conversations, and `/executions` instead of remaining page-local log glue
 - future transaction-detail, closure, and conversation payload views should extend this base carrier instead of rebuilding raw-view toggles ad hoc
 
 ## Route-owned transaction detail interaction carrier
 
-Second-gate now treats selected-transaction focus and closure follow-through as application route state rather than detail-local widget state.
+Second-gate now treats selected-transaction focus and closure follow-through as Terminal route state rather than detail-local widget state.
 
 Current active carriers:
-- `uapi/app/application/application-transaction-query.ts`
-- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
-- `uapi/app/application/ApplicationPageClient.tsx`
+- `uapi/app/terminal/terminal-transaction-query.ts`
+- `uapi/app/terminal/TerminalTransactionDetailActionBar.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`
+- `uapi/app/terminal/TerminalPageClient.tsx`
 
 Operational rule:
 - detail focus is persisted as route query state with `shippables` as the default focus; `deliverables` is not accepted as an active detail alias
 - selected transactions can switch focus between Shippables, transaction, closure, proofs, history, activity, and compatibility console without losing the active transaction selection
-- closure rerun and detail refresh are available directly from the application-owned transaction detail carrier through the shared shell bridge
+- closure rerun and detail refresh are available directly from the terminal-owned transaction detail carrier through the shared shell bridge
 
 ## Inline transaction closure follow-through carrier
 
-Second-gate now treats settlement/proof/history reading inside selected-transaction detail as application-owned closure composition rather than primarily a shell-section navigation task.
+Second-gate now treats settlement/proof/history reading inside selected-transaction detail as terminal-owned closure composition rather than primarily a shell-section navigation task.
 
 Current active carriers:
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationTransactionProofsCard.tsx`
-- `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
-- `uapi/app/application/application-transaction-detail.ts`
-- `uapi/app/application/application-closure-state.ts`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionProofsCard.tsx`
+- `uapi/app/terminal/TerminalTransactionHistoryCard.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`
+- `uapi/app/terminal/terminal-transaction-detail.ts`
+- `uapi/app/terminal/terminal-closure-state.ts`
 
 Operational rule:
 - selected-transaction closure view reads settlement metrics and branch artifacts inline
@@ -363,237 +363,237 @@ Operational rule:
 
 ## Give-side repository supply carrier
 
-Second-gate now treats repository supply as an application-owned part of the `give` action rather than only as preserved-shell detail.
+Second-gate now treats repository supply as an terminal-owned part of the `give` action rather than only as preserved-shell detail.
 
 Current active carriers:
-- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
-- `uapi/app/application/application-repository-context.ts`
+- `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
+- `uapi/app/terminal/terminal-repository-context.ts`
 - `uapi/app/api/vcs/[provider]/connection/route.ts`
 - `uapi/app/api/vcs/[provider]/repositories/route.ts`
 - `uapi/components/base/bitcode/vcs/VCSRepositorySelector.tsx`
 
 Operational rule:
-- repository connection posture is application-visible before the deposit chain
-- selected repository supply is route state inside `/application`
+- repository connection posture is terminal-visible before the deposit chain
+- selected repository supply is route state inside `/terminal`
 - the app-owned `/api/vcs/*` contract feeds the give-side carrier
-- the preserved deposit surfaces remain the semantic source below that application frame
+- the preserved deposit surfaces remain the semantic source below that terminal frame
 
 ## Give/need semantic snapshot bridge
 
-Second-gate now exposes the mounted Bitcode shell through a read-only semantic snapshot so route-local application carriers can reuse precise Bitcode truth without re-implementing shell-local selection logic or scraping generic markup.
+Second-gate now exposes the mounted Bitcode shell through a read-only semantic snapshot so route-local terminal carriers can reuse precise Bitcode truth without re-implementing shell-local selection logic or scraping generic markup.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
-- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
-- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
-- `uapi/app/application/application-give-need-workbench.ts`
+- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
+- `uapi/app/terminal/terminal-give-need-workbench.ts`
 
 Operational rule:
 - the preserved shell remains the semantic owner of active scenario, auth session, deposit preview, need surface, and fit surface
-- V26 route-local application carriers may consume that truth through `getBitcodeApplicationShellSnapshot()` and `readBitcodeApplicationShellSnapshot()`
-- client entry must wait for the application host before importing the preserved shell module for mount, snapshot, or control reads
+- V26 route-local terminal carriers may consume that truth through `getBitcodeTerminalShellSnapshot()` and `readBitcodeTerminalShellSnapshot()`
+- client entry must wait for the terminal host before importing the preserved shell module for mount, snapshot, or control reads
 - route-local give/need action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
 - this bridge is read-only and does not reopen first-gate ownership
 
-## Application workspace shell and explainer carrier
+## Terminal workspace shell and explainer carrier
 
-Second-gate now treats the application workspace shell, help posture, and visible copy discipline as shared application composition rather than one-off per-panel chrome.
+Second-gate now treats the terminal workspace shell, help posture, and visible copy discipline as shared terminal composition rather than one-off per-panel chrome.
 
 Current active carriers:
-- `uapi/app/application/ApplicationOperatorCard.tsx`
-- `uapi/app/application/application-operator-explainers.ts`
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
-- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
-- `uapi/app/application/ApplicationDepositComposer.tsx`
-- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+- `uapi/app/terminal/TerminalOperatorCard.tsx`
+- `uapi/app/terminal/terminal-operator-explainers.ts`
+- `uapi/app/terminal/TerminalCommandDeck.tsx`
+- `uapi/app/terminal/TerminalWorkspaceRail.tsx`
+- `uapi/app/terminal/TerminalWorkspaceRailCard.tsx`
+- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
+- `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
+- `uapi/app/terminal/TerminalDepositComposer.tsx`
+- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalClosureNativeSections.tsx`
+- `uapi/app/terminal/TerminalClosureControlDeck.tsx`
 
 Operational rule:
-- application workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
-- the support rail and give-side supply terminal are part of that same shared application shell and may not drift into one-off section chrome
-- live application copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the user
-- live application copy should also avoid shell-plumbing, mounted-state, or source-path narration unless the user deliberately enters a bounded lower-level runtime view
+- terminal workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
+- the support rail and give-side supply terminal are part of that same shared terminal shell and may not drift into one-off section chrome
+- live terminal copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the user
+- live terminal copy should also avoid shell-plumbing, mounted-state, or source-path narration unless the user deliberately enters a bounded lower-level runtime view
 - stepwise workspace guidance should read as resumable give/need flow guidance and working-draft continuity rather than tutorial or demo residue
-- the shared application shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
+- the shared terminal shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
 - client component modularization should keep expanding through base carriers, route-local state normalizers, and orbital descriptors rather than growing new page-local monoliths
 
 ## Command-state and control bridge
 
-Second-gate now also exposes the mounted Bitcode shell as a mutable command carrier so the application deck can drive Bitcode command posture without scraping or mutating raw shell DOM directly.
+Second-gate now also exposes the mounted Bitcode shell as a mutable command carrier so the terminal deck can drive Bitcode command posture without scraping or mutating raw shell DOM directly.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/application-command-state.ts`
+- `uapi/app/terminal/TerminalCommandDeck.tsx`
+- `uapi/app/terminal/terminal-command-state.ts`
 
 Operational rule:
 - scenario, projection, branch mode, flow-guide visibility fed from preserved-shell tutorial compatibility, make-branch, and reset remain preserved-shell semantics
-- `/application` drives those semantics through the shell control bridge rather than direct DOM reads and synthetic document listeners
-- command posture is normalized into route-local application state before rendering
+- `/terminal` drives those semantics through the shell control bridge rather than direct DOM reads and synthetic document listeners
+- command posture is normalized into route-local terminal state before rendering
 - stepwise guide posture is presented to operators as flow guidance and resumable draft continuity rather than tutorial residue
-- second-gate command composition stays application-owned even while first-gate shell ownership remains below it
+- second-gate command composition stays terminal-owned even while first-gate shell ownership remains below it
 
 ## Summary-state semantic snapshot bridge
 
-Second-gate now also treats the Bitcode summary strip as application-owned semantic state rather than a rendered-card mirror.
+Second-gate now also treats the Bitcode summary strip as terminal-owned semantic state rather than a rendered-card mirror.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
-- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
-- `uapi/app/application/application-live-summary.ts`
+- `uapi/app/terminal/TerminalLiveSummaryStrip.tsx`
+- `uapi/app/terminal/terminal-live-summary.ts`
 
 Operational rule:
 - the mounted Bitcode shell now emits a compact `summarySurface` through the semantic snapshot bridge
-- `/application` reads pinned and full operating posture from that summary bridge instead of scraping rendered summary cards
-- summary posture stays semantically aligned to the preserved Bitcode shell while becoming application-owned route composition
+- `/terminal` reads pinned and full operating posture from that summary bridge instead of scraping rendered summary cards
+- summary posture stays semantically aligned to the preserved Bitcode shell while becoming terminal-owned route composition
 - later second-gate and fourth-gate convergence work should extend this bridge rather than reintroducing summary DOM reads
 
 ## Atlas semantic bridge
 
-Second-gate now also treats the section-atlas layer as semantic application state rather than a rendered-panel preview scrape.
+Second-gate now also treats the section-atlas layer as semantic terminal state rather than a rendered-panel preview scrape.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
-- `uapi/app/application/ApplicationSectionAtlas.tsx`
-- `uapi/app/application/application-section-atlas.ts`
+- `uapi/app/terminal/TerminalSectionAtlas.tsx`
+- `uapi/app/terminal/terminal-section-atlas.ts`
 
 Operational rule:
 - the route-local atlas now reads semantic core and closure bridges rather than rendered shell text
 - atlas labels, previews, subheads, and item counts stay aligned to the real Bitcode body without depending on panel markup
-- the atlas remains a route-local application summary layer above the preserved shell
+- the atlas remains a route-local terminal summary layer above the preserved shell
 - later second-gate convergence should extend this bridge rather than reintroducing generic DOM panel readers
 
 ## Core-state semantic snapshot bridge
 
-Second-gate now also treats the operating-picture, depositing, needing, and fit body as semantic application state rather than a rendered-panel discovery problem.
+Second-gate now also treats the operating-picture, depositing, needing, and fit body as semantic terminal state rather than a rendered-panel discovery problem.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
-- `uapi/app/application/ApplicationCoreNativeSections.tsx`
-- `uapi/app/application/application-core-surface.ts`
+- `uapi/app/terminal/TerminalCoreNativeSections.tsx`
+- `uapi/app/terminal/terminal-core-surface.ts`
 
 Operational rule:
 - the mounted Bitcode shell now emits a compact `coreSurface` through the semantic snapshot bridge
-- `/application` normalizes that core surface into operating, give, need, and fit cards without scraping rendered shell panel markup
-- the application core body now reads exact Bitcode semantic posture while remaining route-local composition
+- `/terminal` normalizes that core surface into operating, give, need, and fit cards without scraping rendered shell panel markup
+- the terminal core body now reads exact Bitcode semantic posture while remaining route-local composition
 - later second-gate and fourth-gate convergence work should extend this bridge rather than reintroducing DOM-era panel readers
 
 ## Give-side intake selection carrier
 
-Second-gate now also treats authenticated intake session, artifact filtering, search, and inventory selection as route-local application composition rather than preserved-shell-only control surfaces.
+Second-gate now also treats authenticated intake session, artifact filtering, search, and inventory selection as route-local terminal composition rather than preserved-shell-only control surfaces.
 
 Current active carriers:
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
-- `uapi/app/application/application-supply-selection.ts`
+- `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
+- `uapi/app/terminal/terminal-supply-selection.ts`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
 
 Operational rule:
 - the mounted Bitcode shell remains the semantic owner of intake selection
-- `/application` reads and drives intake selection through the shell snapshot/control bridge
+- `/terminal` reads and drives intake selection through the shell snapshot/control bridge
 - selected inventory, artifact filters, and authenticated session binding are explicit in the give-side workspace before the preserved deposit chain
-- second-gate should keep moving intake behavior inward to route-local application carriers without inventing alternate Bitcode semantics
+- second-gate should keep moving intake behavior inward to route-local terminal carriers without inventing alternate Bitcode semantics
 
 ## Native deposit submission carrier
 
-Second-gate now also treats deposit submission itself as application-owned behavior rather than preserved-shell-only form ownership.
+Second-gate now also treats deposit submission itself as terminal-owned behavior rather than preserved-shell-only form ownership.
 
 Current active carriers:
-- `uapi/app/application/ApplicationDepositComposer.tsx`
-- `uapi/app/application/application-deposit-composer.ts`
+- `uapi/app/terminal/TerminalDepositComposer.tsx`
+- `uapi/app/terminal/terminal-deposit-composer.ts`
 - `uapi/app/api/deposits/route.ts`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
 
 Operational rule:
-- `/application` posts deposits through the app-owned Bitcode route contract
+- `/terminal` posts deposits through the app-owned Bitcode route contract
 - selected inventory and authenticated session continuity are derived from the mounted shell snapshot/control bridge
 - title/author inference, raw fallback behavior, and selection-derived payload rules stay aligned to the Bitcode deposit builder
-- the native application composer strengthens second-gate without forking deposit semantics away from the preserved Bitcode chain
+- the native terminal composer strengthens second-gate without forking deposit semantics away from the preserved Bitcode chain
 
 ## Native need-scenario carrier
 
-Second-gate now also treats active need selection as application-owned behavior rather than preserved-shell-only scenario selection.
+Second-gate now also treats active need selection as terminal-owned behavior rather than preserved-shell-only scenario selection.
 
 Current active carriers:
-- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
-- `uapi/app/application/application-need-scenarios.ts`
+- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
+- `uapi/app/terminal/terminal-need-scenarios.ts`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
 
 Operational rule:
-- `/application` selects the active Bitcode scenario through the shell control bridge
+- `/terminal` selects the active Bitcode scenario through the shell control bridge
 - parser posture, closure count, and target-kind count remain visible inside the native need workspace
 - scenario selection stays semantically aligned to the mounted Bitcode shell rather than creating a competing need state
-- second-gate should keep shifting need behavior inward to route-local application carriers while preserving Bitcode need/fit semantics
+- second-gate should keep shifting need behavior inward to route-local terminal carriers while preserving Bitcode need/fit semantics
 
 ## Closure-state semantic snapshot bridge
 
-Second-gate now also treats verification, branch, settlement, and ledger semantics as an application-owned native carrier rather than a rendered-shell discovery problem.
+Second-gate now also treats verification, branch, settlement, and ledger semantics as an terminal-owned native carrier rather than a rendered-shell discovery problem.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/application-closure-state.ts`
+- `uapi/app/terminal/TerminalClosureNativeSections.tsx`
+- `uapi/app/terminal/terminal-closure-state.ts`
 
 Operational rule:
 - the mounted Bitcode shell now emits a compact `closureSurface` through the semantic snapshot bridge
-- `/application` normalizes that closure surface into verification, branch, settlement, and ledger panels without re-deriving meaning from rendered shell DOM
+- `/terminal` normalizes that closure surface into verification, branch, settlement, and ledger panels without re-deriving meaning from rendered shell DOM
 - closure-side second-gate carriers should prefer this semantic bridge over generic DOM reads whenever the underlying Bitcode state is already available
 - deeper fourth-gate and fifth-gate proof closure should build from this bridge rather than recreating a parallel closure semantics layer
 
-## Closure-operation application carrier
+## Closure-operation terminal carrier
 
-Second-gate now also treats closure execution posture as application-owned behavior rather than an implicit preserved-shell action.
+Second-gate now also treats closure execution posture as terminal-owned behavior rather than an implicit preserved-shell action.
 
 Current active carriers:
-- `uapi/app/application/ApplicationClosureControlDeck.tsx`
-- `uapi/app/application/application-closure-controls.ts`
+- `uapi/app/terminal/TerminalClosureControlDeck.tsx`
+- `uapi/app/terminal/terminal-closure-controls.ts`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
 
 Operational rule:
-- `/application` normalizes closure operation posture from command and closure semantic bridges
+- `/terminal` normalizes closure operation posture from command and closure semantic bridges
 - make-branch, refresh, reset, and closure follow-through remain Bitcode shell semantics underneath
 - closure interaction now reads as a route-local Bitcode operator deck instead of a hidden lower-body shell action
 - later second-gate work should deepen closure behavior from this carrier rather than relocating control back into preserved-shell UI
 
 ## External interfacing posture carrier
 
-Second-gate now also treats boundary honesty and external actuality as application-owned read surfaces rather than preserved-shell-only detail.
+Second-gate now also treats boundary honesty and external actuality as terminal-owned read surfaces rather than preserved-shell-only detail.
 
 Current active carriers:
-- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
-- `uapi/app/application/application-external-runtime.ts`
+- `uapi/app/terminal/TerminalExternalInterfacingPanel.tsx`
+- `uapi/app/terminal/terminal-external-runtime.ts`
 - `uapi/app/api/v24/external-realization/route.ts`
 
 Operational rule:
-- environment mode and actuality disposition are application-visible inside `/application`
+- environment mode and actuality disposition are terminal-visible inside `/terminal`
 - per-interface runtime state stays explicit for bitcoin, repeated-read, sidechain, compute, storage, and GitHub
 - boundary-only, mock, live-configured, and misconfigured states remain visible and fail closed
-- the app-owned V24 route feeds the application carrier while preserved-shell boundary reading remains below as semantic context
+- the app-owned V24 route feeds the terminal carrier while preserved-shell boundary reading remains below as semantic context
 
 ## Selected-transaction detail carrier
 
-Second-gate now treats selected-transaction detail as an application-owned carrier instead of a mock-only inward-port preview.
+Second-gate now treats selected-transaction detail as an terminal-owned carrier instead of a mock-only inward-port preview.
 
 Current active carriers:
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
-- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
-- `uapi/app/application/application-transaction-detail-snapshot.ts`
-- `uapi/app/application/application-transaction-detail.ts`
+- `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailHero.tsx`
+- `uapi/app/terminal/TerminalTransactionIdentityCard.tsx`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
+- `uapi/app/terminal/terminal-transaction-detail-snapshot.ts`
+- `uapi/app/terminal/terminal-transaction-detail.ts`
 - `uapi/app/api/executions/_shared.ts`
 - `uapi/app/api/executions/history/route.ts`
 - `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
@@ -602,22 +602,22 @@ Current active carriers:
 - `/api/executions/history/[runId]`
 
 Operational rule:
-- selected-transaction history payloads normalize into one application-owned detail snapshot
+- selected-transaction history payloads normalize into one terminal-owned detail snapshot
 - current app-owned execution-history routes return JSON again for both transaction collection and selected-transaction detail instead of falling through to missing-route HTML
-- GET history carriers fail closed to anonymous-safe empty payloads during unauthenticated review so `/application` remains interactive without leaking privileged history
+- GET history carriers fail closed to anonymous-safe empty payloads during unauthenticated review so `/terminal` remains interactive without leaking privileged history
 - overview, identity, and closure reading are split into SRP-aligned transaction-detail modules rather than one mixed-responsibility pane
 - closure now exposes the same visual-versus-raw payload posture as the other JSON-bearing transaction-detail cards
-- Shippable summary/cards render in both mock and live posture inside `/application`
+- Shippable summary/cards render in both mock and live posture inside `/terminal`
 - proof/history/accounting remain part of the same selected-transaction read surface
 - the detailed execution console remains secondary compatibility context during second-gate convergence
 
-## Application-owned transaction activity carrier
+## Terminal-owned transaction activity carrier
 
-Second-gate now also elevates the retained execution/log/work-update system into the Bitcode application workspace instead of leaving that depth mostly to `/executions`.
+Second-gate now also elevates the retained execution/log/work-update system into the Bitcode terminal workspace instead of leaving that depth mostly to `/executions`.
 
 Current active carriers:
-- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
-- `uapi/app/application/application-run-activity.ts`
+- `uapi/app/terminal/TerminalTransactionActivitySurface.tsx`
+- `uapi/app/terminal/terminal-run-activity.ts`
 - `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`
 - `uapi/hooks/usePipelineExecution.ts`
 - `uapi/components/base/bitcode/execution/pipeline-execution-log.tsx`
@@ -628,14 +628,14 @@ Current active carriers:
 Operational rule:
 - central master detail owns the selected transaction’s activity read
 - one shared Bitcode activity vocabulary should normalize retained execution events and personal notification rows before later activity kinds are admitted
-- retained execution/log carriers are reused under Bitcode application ownership
+- retained execution/log carriers are reused under Bitcode terminal ownership
 - notifications remain user-facing, but their titles, scope, and summaries should be expressible through the same shared activity model as transactions
 - the rail is selection/orientation focused rather than duplicating the detailed activity surface
 - compatibility execution pages remain available during convergence but are no longer the only rich carrier
 
 ## Overlay choreography
 
-V26 keeps `/application` as the owned page context and mounts overlays from within it.
+V26 keeps `/terminal` as the owned page context and mounts overlays from within it.
 
 Current active carriers:
 - conversations overlay:
@@ -649,24 +649,24 @@ Current active carriers:
 
 Operational rule:
 - conversations and auxillaries are not peer product destinations
-- they are fullscreen application overlays entered from the application frame
-- `uapi/components/base/bitcode/layout/workspace-surface.ts` is the shared route-classification owner for navbar surface posture and footer suppression across `/application`, `/orbitals`, and `/conversations`
+- they are fullscreen terminal overlays entered from the terminal frame
+- `uapi/components/base/bitcode/layout/workspace-surface.ts` is the shared route-classification owner for navbar surface posture and footer suppression across `/terminal`, `/orbitals`, and `/conversations`
 - unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
 - marketing footer chrome does not render on operator workspace routes
-- `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/auxillary transitions
-- application-triggered auxillary entry opens a contained, login-first auxillary surface while preserving the four-ring auxillary contract for Connects, Interfaces, Profile, and `$BTD`
+- `uapi/app/terminal/TerminalOpenConversationsButton.tsx` and `uapi/app/terminal/TerminalOpenOrbitalsButton.tsx` are the shared terminal-owned mode-entry controls for conversation/auxillary transitions
+- terminal-triggered auxillary entry opens a contained, login-first auxillary surface while preserving the four-ring auxillary contract for Connects, Interfaces, Profile, and `$BTD`
 - contained auxillary access shells and focused auxillary routes must keep auxillaries-first wording and contained auxillary reads rather than reverting to generic workspace/settings/account entry furniture
 - `uapi/app/auxillaries/components/auxillary-pane-meta.ts` is the shared auxillary naming/copy owner for fullscreen auxillary entry labels, targeted auxillary-open actions, and the direct-route return action into transactions
 - signed-in auxillary reopen actions now flow through the shared `auxillaries` entry alias in `uapi/app/auxillaries/components/AuxillariesProvider.tsx` rather than older active `account`-named callers
-- signed-in `Interfaces` and `$BTD` auxillaries now read through application-owned pane carriers and shared auxillary workspace section/stat/preference modules rather than model or BTD wrapper panes
+- signed-in `Interfaces` and `$BTD` auxillaries now read through terminal-owned pane carriers and shared auxillary workspace section/stat/preference modules rather than model or BTD wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model or BTD names surviving only as current compatibility only where storage names require it where still required
 - organization treasury posture now belongs to the same canonical auxillary system too: `uapi/app/auxillaries/components/organization/{BTDTreasuryManagement,OrganizationSettings}.tsx` frame wallet-settled BTC, issued `$BTD`, GitHub-before-transaction readiness, and Connects-owned SSO/auth policy as the active Bitcode organization surface, while the existing `uapi/app/orbitals/components/organization/OrganizationSettings.tsx` carrier survives only as a thin compatibility re-export
-- contained auxillary reads now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
+- contained auxillary reads now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/terminal`
 - contained auxillary rails now converge on shared panel plus tabs carriers instead of mixing floating sequence cards with older absolute-position ring-label furniture
 - profile-owned repository knowledge sharing now reads through an app-owned fail-closed auxillary route instead of 404ing inside the contained workspace
 - signed-in workspace chrome now exposes Auxillaries through the user menu as `Open Auxillaries fullscreen`, while notifications stay operator-facing and describe proof closure, repository activity, and review prompts rather than generic account/settings chrome
-- the homepage/operator-shell CTA now returns onboarded operators to `/application` instead of dispatching stale overlay-only modes
-- selected application and retained auxillary review surfaces now keep visible `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
+- the homepage/operator-shell CTA now returns onboarded operators to `/terminal` instead of dispatching stale overlay-only modes
+- selected Terminal and retained auxillary review surfaces now keep visible `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
 - preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
 - preserved-runtime telemetry now reports through Bitcode-facing `[bitcode-runtime]` labeling rather than `engi-demo`-era visible prefixes
 
@@ -694,7 +694,7 @@ Current active carriers:
 
 Operational rule:
 - `Connects` remains the closest retained canonical orbital pane
-- `Interfaces` owns application visual and default-behavioral posture for master detail, conversations, and related reads
+- `Interfaces` owns terminal visual and default-behavioral posture for master detail, conversations, and related reads
 - `$BTD` owns wallet-adjacent share posture, settlement-view bias, and `$BTD`-specific default return posture
 - `Profile` keeps repository knowledge-sharing posture readable without requiring a missing backend carrier or missing asset bundle
 - contained orbital rails should reuse one shared panel list plus one shared tab carrier before any new pane-local navigation furniture is introduced
@@ -708,7 +708,7 @@ Current active documentation carriers:
 - `README.md`
 - `uapi/README.md`
 - `protocol-demonstration/README.md`
-- `uapi/app/application/README.md`
+- `uapi/app/terminal/README.md`
 - `uapi/app/orbitals/README.md`
 - `uapi/components/base/bitcode/README.md`
 - `uapi/components/base/bitcode/execution/README.md`
@@ -716,11 +716,11 @@ Current active documentation carriers:
 Operational rule:
 - the active route, orbital, execution, and package owners that define second-gate Bitcode reality must have current markdown carriers
 - that active markdown set includes the root, package, route, and shared-component README family and is a required second-gate implementation/proof surface
-- those docs must use the same product naming the live workspace uses: `/application`, `Connects`, `Interfaces`, `Profile`, `$BTD`, and `flow guide`
+- those docs must use the same product naming the live workspace uses: `/terminal`, `Connects`, `Interfaces`, `Profile`, `$BTD`, and `flow guide`
 - generated checkpoint artifacts should fail if this documentation set disappears
 - third-gate marketing work remains separate from this operator-facing documentation set
 
-## Active application-owned API carriers
+## Active terminal-owned API carriers
 
 Current active V26-facing API surfaces include:
 - `uapi/app/api/state/route.ts`
@@ -743,20 +743,20 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/v24/executors/[interfaceId]/route.ts`
 
 Current active readiness and transaction-admission carriers include:
-- `uapi/app/application/bitcode-transaction-readiness.ts`
-- `uapi/app/application/bitcode-transaction-route-readiness.ts`
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/ApplicationDepositComposer.tsx`
-- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+- `uapi/app/terminal/bitcode-transaction-readiness.ts`
+- `uapi/app/terminal/bitcode-transaction-route-readiness.ts`
+- `uapi/app/terminal/TerminalCommandDeck.tsx`
+- `uapi/app/terminal/TerminalDepositComposer.tsx`
+- `uapi/app/terminal/TerminalClosureControlDeck.tsx`
 
 Operational rule:
 - app-owned write routes are no longer allowed to trust client-only readiness posture when auth, wallet, provider, and repository scope can be re-derived on the server
 - app-owned read routes for `activity` and `executions/history` must also prove authenticated persisted reread of execution rows, notifications, Finish `assetPackCompletion` payloads, repo snapshots, processing stats, and execution events rather than relying on mock-mode or unauthenticated fallback as the only tested behavior
-- `need-review` is the application-owned Bitcode pre-fit review boundary: it must present the measured source-to-shares Need before fitting, return an Exchange `needFittingReview` payload with candidate-fit admission and present-fit settlement review requirements, persist accept/reject/remeasure-with-feedback decisions, and keep explicit non-accept decisions from being bypassed by branch materialization
-- `ApplicationNeedScenarioPanel` is the Terminal read/control owner for that boundary: it must fetch `/api/need-review`, normalize `needFittingReview`, show blocked/admitted fit stages and the quantized fit-quality objective contract before fit search, and keep the route/source family TypeScript-owned rather than proving generated JavaScript mirrors
+- `need-review` is the terminal-owned Bitcode pre-fit review boundary: it must present the measured source-to-shares Need before fitting, return an Exchange `needFittingReview` payload with candidate-fit admission and present-fit settlement review requirements, persist accept/reject/remeasure-with-feedback decisions, and keep explicit non-accept decisions from being bypassed by branch materialization
+- `TerminalNeedScenarioPanel` is the Terminal read/control owner for that boundary: it must fetch `/api/need-review`, normalize `needFittingReview`, show blocked/admitted fit stages and the quantized fit-quality objective contract before fit search, and keep the route/source family TypeScript-owned rather than proving generated JavaScript mirrors
 - commercial route tests for `need-review` and `make-bitcode-branch` must include a protocol-demonstration parity seam, proving the `uapi` routes preserve the low-level reviewable-Need, branch-blocking, accepted source-to-shares artifact, present-fit settlement review, and quantized fit-quality receipt contracts rather than approximating them with route-local fixture behavior
-- `deposits` and `make-bitcode-branch` are application-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness, repository anchor posture, and accepted Need-review admission are satisfied where those preconditions apply
-- application write controls may expose drafting posture before settlement posture, but they may not overclaim that staged drafting readiness is equivalent to verified signing readiness
+- `deposits` and `make-bitcode-branch` are terminal-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness, repository anchor posture, and accepted Need-review admission are satisfied where those preconditions apply
+- terminal write controls may expose drafting posture before settlement posture, but they may not overclaim that staged drafting readiness is equivalent to verified signing readiness
 - the generic `Profile` write route may preserve an already provider-managed wallet signer state when rereading the same bound identity, but it may not assert new `pending` or `verified` signer posture on behalf of the client
 - the admitted `Bitcode MCP` asset-pack-create boundary, currently mounted on the deliverable-create compatibility URI, must fail closed before queueing or reserving `BTD` when `pipelines.create` permission is absent or the requested repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider credential
 - GitHub webhook ingress must schedule asset-pack pipeline automation as an ingress-only boundary: successful trigger telemetry must say `Trigger Asset-Pack Pipeline`, carry `github_webhook` ingress basis, `asset_packs` output meaning, an ingress-only Exchange role, and the current `bitcode-asset-pack-trigger` command
@@ -783,11 +783,11 @@ Operational rule:
 
 ## Commercial infrastructure topology
 
-V26 now needs to be legible not only as a route/application map but also as a production-shaped commercial infrastructure topology.
+V26 now needs to be legible not only as a route/terminal map but also as a production-shaped commercial infrastructure topology.
 
 The active topology is:
 - `product surfaces`
-  `/application`, `/conversations`, `/auxillaries`, `/(root)`, `/docs`, and `/executions`
+  `/terminal`, `/conversations`, `/auxillaries`, `/(root)`, `/docs`, and `/executions`
 - `protocol and ingress routes`
   app-owned `/api/*` carriers for state, write actions, conversations, auxillaries, VCS, storage, telemetry, webhooks, and external realization
 - `identity and admission`
@@ -806,7 +806,7 @@ Operational rule:
 
 ## Package corridor responsibility map
 
-This document groups the repository packages by the role they currently play in V26 application convergence.
+This document groups the repository packages by the role they currently play in V26 terminal convergence.
 
 Current corridor map:
 
@@ -860,11 +860,11 @@ Current major retained owners:
 - `packages/orm/src/models/bitcode-execution-storage.ts`
   Bitcode execution-storage ORM ownership for AssetPack vectors, phase execution, queued run jobs, on-the-fly instructions, stream logs, generated assets, activity events, error logs, and token costs, including the explicit `deliverable_run_phases -> phase_executions` schema parity bridge.
 - storage-facing app/API carriers including `/edgetimes` and `/api/edgetimes`
-  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as live fifth-gate Bitcode storage/API material witnesses after the reopened fourth-gate proof boundary.
+  Terminal and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as live fifth-gate Bitcode storage/API material witnesses after the reopened fourth-gate proof boundary.
 - retained execution carriers including `/api/vcs`, active `/api/templates/shippables`, and `/api/auxillaries/template-preferences`
-  Application API surfaces that keep retained runs/pipelines selectors and Shippable template personalization healthy while fifth-gate convergence ports those behaviors inward to `/application`.
+  Terminal API surfaces that keep retained runs/pipelines selectors and Shippable template personalization healthy while fifth-gate convergence ports those behaviors inward to `/terminal`.
 - canonical auxillary API carriers including `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys`
-  Application API surfaces that keep profile identity, Connects-approved repository knowledge, $BTD balance history, $BTD transaction history, and API-key control under canonical Bitcode auxillary ownership instead of compatibility `orbitals` ownership.
+  Terminal API surfaces that keep profile identity, Connects-approved repository knowledge, $BTD balance history, $BTD transaction history, and API-key control under canonical Bitcode auxillary ownership instead of compatibility `orbitals` ownership.
 - retained `/executions` and `/orbitals` route posture
   Compatibility route families that remain explicit during fifth-gate convergence while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; `/orbitals/*` must remain redirect-only compatibility into canonical `/auxillaries/*`, transactions/executions/notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
 
@@ -877,7 +877,7 @@ Required convergence rule:
 ## Proof, generated-evidence, and observability carriers
 
 Current active proof and evidence carriers include:
-- `.bitcode/application-composition-proof.json`
+- `.bitcode/terminal-composition-proof.json`
 - `.bitcode/conversations-continuity-proof.json`
 - `.bitcode/runs-pipelines-totality-proof.json`
 - `.bitcode/persistence-schema-totality-proof.json`

@@ -55,7 +55,7 @@ const expectedClosureQueueRows = [
 const expectedSixthGateRows = [
   'fifth-gate-acceptance-holds',
   'mvp-product-readiness',
-  'explicit-application-map',
+  'explicit-terminal-map',
   'activity-transactions-operator-loop',
   'conversations-chatgpt-parity',
   'auxillaries-readiness-and-btd',
@@ -79,7 +79,7 @@ const expectedEighthGateRows = [
   'prompt-space-completeness-closed',
   'whole-repository-production-satisfaction-closed',
   'spec-family-and-canonical-input-promoted',
-  'application-ready-bitcode-canon-no-silent-compatibility',
+  'terminal-ready-bitcode-canon-no-silent-compatibility',
   'promotion-without-interpretive-notes'
 ];
 
@@ -132,7 +132,7 @@ test('V26 parity matrix records the current fifth-gate closure queue', () => {
 test('V26 notes companion cannot contradict promoted gate closure', () => {
   assert.match(notesSource, /## Closed-gate audit boundaries and future reopen conditions/u);
   assert.match(notesSource, /## Current promotion sequencing posture/u);
-  assert.match(notesSource, /second-gate application UX\/UI plus external hardening is closed for V26/u);
+  assert.match(notesSource, /second-gate terminal UX\/UI plus external hardening is closed for V26/u);
   assert.match(notesSource, /fifth-gate minimum-functional Exchange\/Terminal closure plus retained-system reform baseline is closed/u);
   assert.match(notesSource, /eighth-gate total-repository provation and final closure is closed/u);
   assert.match(notesSource, /source-backed baseline, MVP, and launch readiness with zero open product rows for V26 closure/u);

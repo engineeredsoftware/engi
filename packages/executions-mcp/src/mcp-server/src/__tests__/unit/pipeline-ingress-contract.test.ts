@@ -114,7 +114,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
       repository: {
         owner: 'bitcode-labs',
-        name: 'application',
+        name: 'terminal',
         provider: 'github',
       },
       attachments: [
@@ -129,7 +129,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           provider: 'github',
           connectionId: 42,
           owner: 'bitcode-labs',
-          name: 'application',
+          name: 'terminal',
           branch: 'main',
         },
       ],
@@ -154,7 +154,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     const inputContext = buildPipelineInputContext('third_party_mcp', {
       repository: {
         owner: 'bitcode-labs',
-        name: 'application',
+        name: 'terminal',
         provider: 'github',
         branch: 'main',
       },
@@ -170,7 +170,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           provider: 'github',
           connectionId: 42,
           owner: 'bitcode-labs',
-          name: 'application',
+          name: 'terminal',
           branch: 'main',
         },
       ],
@@ -180,7 +180,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       ingress: 'third_party_mcp',
       repository: {
         owner: 'bitcode-labs',
-        name: 'application',
+        name: 'terminal',
         provider: 'github',
       },
       attachments: [
@@ -220,7 +220,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
         repository: {
           owner: 'bitcode-labs',
-          name: 'application',
+          name: 'terminal',
           provider: 'github',
           branch: 'main',
         },
@@ -236,7 +236,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
             provider: 'github',
             connectionId: 42,
             owner: 'bitcode-labs',
-            name: 'application',
+            name: 'terminal',
             branch: 'main',
           },
         ],
@@ -258,7 +258,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         permission: 'pipelines.create',
         ingressBasis: 'matching_repository_connection',
         repositoryProvider: 'github',
-        repositoryAnchor: 'github:bitcode-labs/application@main',
+        repositoryAnchor: 'github:bitcode-labs/terminal@main',
         attachmentCount: 1,
         connectionCount: 1,
         outputMeaning: 'asset_packs',
@@ -268,7 +268,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       ingress: 'bitcode_mcp',
       repository: {
         owner: 'bitcode-labs',
-        name: 'application',
+        name: 'terminal',
       },
     });
     expect(result.inputContext.attachments).toHaveLength(1);
@@ -289,7 +289,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           writeAdmission: expect.objectContaining({
             admitted: true,
             ingressBasis: 'matching_repository_connection',
-            repositoryAnchor: 'github:bitcode-labs/application@main',
+            repositoryAnchor: 'github:bitcode-labs/terminal@main',
           }),
         }),
       }),
@@ -307,7 +307,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
           repository: {
             owner: 'bitcode-labs',
-            name: 'application',
+            name: 'terminal',
             provider: 'github',
           },
           attachments: [],
@@ -334,7 +334,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
           repository: {
             owner: 'bitcode-labs',
-            name: 'application',
+            name: 'terminal',
             provider: 'github',
           },
           attachments: [],
@@ -374,7 +374,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
         repository: {
           owner: 'bitcode-labs',
-          name: 'application',
+          name: 'terminal',
           provider: 'github',
         },
         attachments: [],
@@ -395,7 +395,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         admitted: true,
         ingressBasis: 'provider_credential',
         repositoryProvider: 'github',
-        repositoryAnchor: 'github:bitcode-labs/application',
+        repositoryAnchor: 'github:bitcode-labs/terminal',
       },
     });
   });
@@ -412,7 +412,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         assetPacks: [
           {
             type: 'pull_request',
-            url: 'https://github.com/bitcode-labs/application/pull/1',
+            url: 'https://github.com/bitcode-labs/terminal/pull/1',
           },
         ],
       },
@@ -431,7 +431,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
         repository: {
           owner: 'bitcode-labs',
-          name: 'application',
+          name: 'terminal',
           provider: 'github',
         },
         attachments: [],
@@ -451,13 +451,13 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         admitted: true,
         ingressBasis: 'provider_credential',
         repositoryProvider: 'github',
-        repositoryAnchor: 'github:bitcode-labs/application',
+        repositoryAnchor: 'github:bitcode-labs/terminal',
       },
     });
     expect(result.assetPacks).toEqual([
       expect.objectContaining({
         type: 'pull_request',
-        url: 'https://github.com/bitcode-labs/application/pull/1',
+        url: 'https://github.com/bitcode-labs/terminal/pull/1',
       }),
     ]);
     expect(result).not.toHaveProperty('deliverables');

@@ -79,7 +79,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
       toast.error(
         provider === 'metamask'
           ? 'Wallet-provider verification remains staged through Profile and is not yet available as direct account linking'
-          : `${providerLabel} account linking is not yet available in the active application surface`,
+          : `${providerLabel} account linking is not yet available in the active Bitcode surface`,
       )
       return
     }

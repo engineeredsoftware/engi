@@ -504,7 +504,7 @@ test('V26 proven generator renders the active Bitcode appendix with all eight ga
   assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.promotionStatus, 'promoted-closed');
   assert.equal(generated.data.aggregate.fullyProven, true);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
-    '.bitcode/application-composition-proof.json',
+    '.bitcode/terminal-composition-proof.json',
     '.bitcode/conversations-continuity-proof.json',
     '.bitcode/environment-mode-coherence-proof.json',
     '.bitcode/fifth-gate-closure-deepening-proof.json',
@@ -530,7 +530,7 @@ test('V26 proven generator renders the active Bitcode appendix with all eight ga
   assert.ok(generated.markdown.includes('# Bitcode Spec V26 Proven'));
   assert.ok(generated.markdown.includes('## V26 Productionizing Draft and Canon Reports'));
   assert.ok(generated.markdown.includes('### V26 Gate Checkpoint Report'));
-  assert.ok(generated.markdown.includes('### V26 Application Composition Proof'));
+  assert.ok(generated.markdown.includes('### V26 Terminal Composition Proof'));
   assert.ok(generated.markdown.includes('### V26 Environment Mode Coherence Proof'));
   assert.ok(generated.markdown.includes('### V26 Conversations Continuity Proof'));
   assert.ok(generated.markdown.includes('### V26 Runs and Pipelines Totality Proof'));
@@ -550,8 +550,8 @@ test('V26 proven generator renders the active Bitcode appendix with all eight ga
   assert.ok(generated.markdown.includes('### V26 Whole Repository Production Satisfaction Witness'));
   assert.ok(generated.markdown.includes('### V26 Total Closure Witness'));
   assert.ok(generated.markdown.includes('V26 fully proven: ready for canonical promotion'));
-  assert.ok(generated.markdown.includes('application-native-full-page'));
-  assert.ok(generated.markdown.includes('.bitcode/application-composition-proof.json'));
+  assert.ok(generated.markdown.includes('terminal-native-full-page'));
+  assert.ok(generated.markdown.includes('.bitcode/terminal-composition-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/conversations-continuity-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/environment-mode-coherence-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/fourth-gate-reclosure-review-proof.json'));

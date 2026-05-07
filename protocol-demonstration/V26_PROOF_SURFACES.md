@@ -25,41 +25,41 @@ Any new or newly repurposed V26 system must have all three:
 2. test coverage
 3. proof-surface assignment
 
-V26 does not allow large application glue layers to accumulate without explicit coverage expectations.
-The provable space is expected to grow materially in V26 as more package code, application surfaces, and reused component/system carriers are admitted into the converged Bitcode system.
+V26 does not allow large terminal glue layers to accumulate without explicit coverage expectations.
+The provable space is expected to grow materially in V26 as more package code, commercial surfaces, and reused component/system carriers are admitted into the converged Bitcode system.
 
 ## Gate coverage map
 
-### Gate 2: application UX/UI and external interfacings
+### Gate 2: terminal UX/UI and external interfacings
 
 Required system families:
-- `/application` architecture framing
+- `/terminal` architecture framing
 - native master-detail sections
 - conversations overlay entry and app-owned routes
 - auxillaries entry, compatibility orbital routing, and app-owned auxillary data
 - app-owned VCS surfaces required for connections and repository context
 
 Current active carriers:
-- `uapi/app/application/ApplicationOperatorCard.tsx`
-- `uapi/app/application/application-operator-explainers.ts`
-- `uapi/app/application/ApplicationExperienceFrame.tsx`
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
-- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
-- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
-- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
-- `uapi/app/application/ApplicationCoreNativeSections.tsx`
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
-- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
-- `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/application-closure-state.ts`
-- `uapi/app/application/application-external-runtime.ts`
-- `uapi/app/application/application-live-summary.ts`
-- `uapi/app/application/application-give-need-workbench.ts`
-- `uapi/app/application/application-repository-context.ts`
-- `uapi/app/application/application-transaction-query.ts`
+- `uapi/app/terminal/TerminalOperatorCard.tsx`
+- `uapi/app/terminal/terminal-operator-explainers.ts`
+- `uapi/app/terminal/TerminalExperienceFrame.tsx`
+- `uapi/app/terminal/TerminalCommandDeck.tsx`
+- `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
+- `uapi/app/terminal/TerminalExternalInterfacingPanel.tsx`
+- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
+- `uapi/app/terminal/TerminalCoreNativeSections.tsx`
+- `uapi/app/terminal/TerminalClosureNativeSections.tsx`
+- `uapi/app/terminal/TerminalLiveSummaryStrip.tsx`
+- `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailActionBar.tsx`
+- `uapi/app/terminal/TerminalWorkspaceRail.tsx`
+- `uapi/app/terminal/terminal-closure-state.ts`
+- `uapi/app/terminal/terminal-external-runtime.ts`
+- `uapi/app/terminal/terminal-live-summary.ts`
+- `uapi/app/terminal/terminal-give-need-workbench.ts`
+- `uapi/app/terminal/terminal-repository-context.ts`
+- `uapi/app/terminal/terminal-transaction-query.ts`
 - `uapi/app/api/conversations/*`
 - `uapi/app/api/auxillaries/data/route.ts`
 - `uapi/app/api/vcs/[provider]/*`
@@ -81,14 +81,14 @@ Required system families:
 - public website refurbishment carriers
 - mounted public-shell vocabulary carriers for landing, footer, `/docs`, and the compatibility `/demo-video` alias
 - tooltip/help posture preservation
-- separation between application acceptance and marketing iteration
+- separation between terminal acceptance and marketing iteration
 - generated checkpoint artifacts that leave third-gate work explicit instead of implied complete
 
 Required coverage posture:
 - spec:
   third-gate scope, timing, and separation remain explicit in `BITCODE_SPEC_V26*`
 - tests:
-  mounted public-shell copy, CTA posture, and guide-route continuity are covered without making second-gate application acceptance depend on the full marketing backlog
+  mounted public-shell copy, CTA posture, and guide-route continuity are covered without making second-gate terminal acceptance depend on the full marketing backlog
 - proof surface:
   first+second-gate closure artifacts must still report mounted third-gate start clearly while leaving broader marketing/public-shell refurbishment explicitly incomplete
 
@@ -137,7 +137,7 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover non-_legacy historical path carriers such as `BITCODE_{V10,V11}_PREP_MEMO.md` and `protocol-demonstration/BITCODE_DEMO_SPEC_V15*.md`, so root/package historical docs do not keep teaching `ENGI_*` filenames outside `_legacy/`
   fifth-gate active-product naming witnesses now also cover canonical auxillary lower-level implementation carriers such as `uapi/app/auxillaries/components/{headers/*,shared/*,models/*,AuxillariesDataSharingPanel.tsx,auxillary-pane-explainers.ts,profile-pane.module.css}`, so canonical pane files do not silently keep orbitals-owned header/shared/model/data-share/explainer imports after the auxillary surface has already become the active owner
   fifth-gate active-product naming witnesses now also cover retained orbitals lower-level compatibility carriers such as `uapi/app/orbitals/components/{headers/*,shared/*,models/*,OrbitalsDataSharingPanel.tsx,orbital-pane-explainers.ts}`, so those paths remain thin compatibility re-exports rather than silently preserving duplicate live implementations after canonical auxillary equivalents exist
-  fifth-gate active-product naming witnesses now also cover canonical auxillary onboarding/data contracts and active external-realization witnesses such as `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/tests/{orbitalsOnboardingRoute,userDataRoute,api/externalRealizationRoute,applicationExternalRuntime}.test.ts`, and active Bitcode operating docs like `protocol-demonstration/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md`, so payload aliases, schema-backed onboarding semantics, env witnesses, and branch-artifact naming cannot silently preserve `models/credits`, `ENGI_V24_*`, or `ENGI_NEED.md`
+  fifth-gate active-product naming witnesses now also cover canonical auxillary onboarding/data contracts and active external-realization witnesses such as `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/tests/{orbitalsOnboardingRoute,userDataRoute,api/externalRealizationRoute,terminalExternalRuntime}.test.ts`, and active Bitcode operating docs like `protocol-demonstration/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md`, so payload aliases, schema-backed onboarding semantics, env witnesses, and branch-artifact naming cannot silently preserve `models/credits`, `ENGI_V24_*`, or `ENGI_NEED.md`
   fifth-gate active-product naming witnesses now also cover live Bitcode-core need-materialization and external-executor carriers such as `protocol-demonstration/src/canonical/{need-measurement,run-artifacts,v24-local-executors,v24-remote-adapters}.js` and `protocol-demonstration/test/{api,workflow.integration}.test.js`, so emitted need artifacts, V24 env controls, local executor schemes, and Bitcode-core sample branch/runtime refs cannot silently preserve `ENGI_NEED.md`, `ENGI_V24_*`, `engi-local://*`, `engi-review/*`, or other Engi-branded active protocol examples
   fifth-gate active-product naming witnesses now also cover active draft/env/measuring contracts and ChatGPT app type carriers such as `protocol-demonstration/data/state.json`, `internal-docs/{BITCODE_LLM_REGISTRY,SECURITY,BITCODE_PROTOCOL_THESIS}.md`, `tsconfig.json`, `uapi/tsconfig.json`, `packages/procurement/src/quality-assessment.ts`, and `packages/chatgptapp/src/types/protocol-demonstration__*.d.ts`, so live V27 draft paths, LLM/MCP env docs, thesis constants, measuring helpers, and filesystem-level type carriers cannot silently preserve `ENGI_SPEC_V27*`, `ENGI_LLM_*`, `ENGI_ENABLE_MCP_*`, `measureEngi`, or `engi__*.d.ts`
   fifth-gate active-product naming witnesses now also cover active canon-posture carriers such as `protocol-demonstration/src/{canon-posture.js,canonical/v22-canon-posture.js}` and `protocol-demonstration/test/canon-posture.test.js`, so the live V26/V27 runtime/report surface reads `BITCODE_SPEC.txt` and `BITCODE_SPEC_{V26,V27,*}` rather than preserving `ENGI_SPEC.txt` or `ENGI_SPEC_V26/V27*` in current canonical posture truth
@@ -154,7 +154,7 @@ Required coverage posture:
   fifth-gate proof now also covers protocol need-measurement follow-through into that package surface through `protocol-demonstration/src/{bitcode-demo.js,canonical/need-measurement.js}` and `protocol-demonstration/test/core.test.js`, requiring canonical `technologyProfile` emission rather than ad hoc stack-hint-only closure.
   fifth-gate proof now also covers the first dependent package hop beyond that normalization boundary through `packages/generic-agents/tech-types-identifier/{src/index.ts,src/technology-profile-contract.ts,src/__tests__/technology-profile-contract.test.ts,README.md}` and `protocol-demonstration/test/v26-active-product-naming.test.js`, so downstream agent packages keep `technologyProfile` as the canonical output envelope instead of re-fragmenting it into local stack-only schemas.
   fifth-gate proof now also covers the constrained dependent-package compile chain for that same example surface through `./node_modules/.bin/tsc -p packages/generic-agents/tech-types-identifier/tsconfig.json --noEmit`, with the shared closure explicitly admitted in `packages/{orm,pipelines-generics,streams,supabase}/*`; the example is not considered closed if its package-local test passes but the actual dependent compile path is still broken.
-  fifth-gate proof now also covers the canonical `$BTD` package/application balance surface through `packages/{btd,api,digest,web-search,orm}/*`, `uapi/{app/api/auxillaries,app/application,app/executions,tests,components/base/bitcode/{btd,execution,inputs},stories/BTDInvestmentExperience.stories.tsx,.env.example,README.md,app/orbitals/README.md}/*`, and `protocol-demonstration/test/v26-active-product-naming.test.js`, so active Bitcode package imports, ORM model owners, route payloads, measured-BTD transaction/workspace processing stats, BTD share/read-right carriers, and public-shell wording do not silently regress to credit-bucket semantics.
+  fifth-gate proof now also covers the canonical `$BTD` package/terminal balance surface through `packages/{btd,api,digest,web-search,orm}/*`, `uapi/{app/api/auxillaries,app/terminal,app/executions,tests,components/base/bitcode/{btd,execution,inputs},stories/BTDInvestmentExperience.stories.tsx,.env.example,README.md,app/orbitals/README.md}/*`, and `protocol-demonstration/test/v26-active-product-naming.test.js`, so active Bitcode package imports, ORM model owners, route payloads, measured-BTD transaction/workspace processing stats, BTD share/read-right carriers, and public-shell wording do not silently regress to credit-bucket semantics.
   fifth-gate proof now also covers canonical in-product BTD acquisition and BTD-notification execution through `uapi/components/base/bitcode/btd/{btd-tracker,BTDPrices}.tsx`, `uapi/app/(root)/components/MarketingPricingSection.tsx`, `/auxillaries/btd`, `uapi/networking/api-client.ts`, and `supabase/templates/{low_btd_reminder,out_of_btd,btd_transfer}.html`, so the live BTC→BTD acquisition/balance/transfer flow no longer routes through `app/_legacy`, checkout/Stripe route owners, or old `credit-transfer` / `low-credits-reminder` / `out-of-credits` naming.
   fifth-gate proof now also covers canonical organization treasury and interface-readiness posture through `uapi/app/{auxillaries/components/organization/{BTDTreasuryManagement,OrganizationSettings}.tsx,orbitals/components/organization/OrganizationSettings.tsx,(root)/components/MarketingSetupForm.tsx}` and `protocol-demonstration/test/v26-active-product-naming.test.js`, so active organization-facing treasury guidance stays wallet/BTC/`$BTD`/Connects-native, Stripe-backed credit purchase scaffolding stays deleted, and `uapi/app/_legacy` remains absent.
   fifth-gate proof now also covers canonical auxillary runtime selectors through `uapi/app/auxillaries/components/{AuxillariesProvider,AuxillariesSurface,AuxillariesContent}.tsx`, `uapi/app/auxillaries/components/shared/AuxillariesPaneTabs.tsx`, `uapi/components/base/bitcode/nav/AuxillariesUseButton.tsx`, `uapi/styles/{orbital-global,orbital}.css`, `uapi/tests/auxillariesProvider.test.tsx`, and the active auxillary Playwright specs, so the live runtime/test interface uses `auxillaries-*` portal/open/button/label selectors and portal ids rather than preserving `data-orbital-testid`, `orbital-portal`, `orbital-open`, `orbital-label-active`, or `__orbitalPrefetched`.
@@ -164,7 +164,7 @@ Required coverage posture:
   fifth-gate proof now also covers Bitcode acquisition and asset-pack execution storytelling through `uapi/app/(root)/components/MarketingBtdInvestmentExperience.tsx`, `packages/executions-mcp/src/mcp-server/{ARCHITECTURE.md,docs/public/mcp-overview.md,src/__tests__/fixtures/MCPTestFixtures.ts,src/__tests__/tools/MCPToolsTestSuite.test.ts}`, `uapi/stories/conversations/{RichTextInput,Pickers,PipelineIntegration,CompleteSystem}.stories.tsx`, and `uapi/tests/api/deliverables.test.ts`, so wallet-gated BTC settlement, GitHub-before-transacting posture, asset-pack execution, and `$BTD` planning remain the active interface story rather than Stripe checkout or credit-era investment narration.
   fifth-gate proof also preserves the settlement accounting boundary: `protocol-demonstration/src/canonical/settlement.js` may keep journal `debits` and `credits` only as exact accounting-entry semantics, while product-denominated balance, spend, UI, route, and MCP carriers stay BTC/`$BTD`.
   fifth-gate active-product naming witnesses now also cover preserved-protocol runtime posture carriers such as `protocol-demonstration/{src/bitcode-demo.js,src/canon-posture.js,test/e2e.test.js}`, so active runtime branch namespaces, operator wait states, and canon/spec-family posture remain Bitcode-only and do not silently regress to `engi/remediation-*` or an `ENGI_SPEC` fallback in live runtime and interface proof
-  fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved need-measurement teaching layer such as `uapi/app/{application/application-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,applicationTransactions}.test.ts`, and `internal-docs/{BITCODE_AUXILLARIES_READINESS,BITCODE_CONNECTED_SERVICES,BITCODE_FRONTEND_ARCHITECTURE,BITCODE_EXCHANGE_DATABASE,BITCODE_API,BITCODE_EXECUTIONS,BITCODE_AGENTIC_EXECUTION,BITCODE_INTERFACE_STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and need-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
+  fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved need-measurement teaching layer such as `uapi/app/{terminal/terminal-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,terminalTransactions}.test.ts`, and `internal-docs/{BITCODE_AUXILLARIES_READINESS,BITCODE_CONNECTED_SERVICES,BITCODE_FRONTEND_ARCHITECTURE,BITCODE_EXCHANGE_DATABASE,BITCODE_API,BITCODE_EXECUTIONS,BITCODE_AGENTIC_EXECUTION,BITCODE_INTERFACE_STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and need-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
 
 ### Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad retained-system reform baseline
 
@@ -181,14 +181,14 @@ Required system families:
 - explicit removal proof for non-Bitcode multi-agent / multi-output execution controls and internal-only `use-computer` Need-measurement admission under `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
-- proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
+- proof-bearing closure for newly admitted terminal, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
 - generated fifth-gate source-to-shares proof through `.bitcode/source-to-shares-fifth-gate-proof.json`, explicitly covering the make-shares/use-shares baseline as a source-to-shares input to fifth-gate procedural closure
 - generated fifth-gate closure-deepening proof through `.bitcode/fifth-gate-closure-deepening-proof.json`, explicitly recording post-fourth-gate-promotion evidence across Terminal, Exchange, persistence/schema, reform, proof, and environment axes
 - generated fifth-gate closure proof through `.bitcode/fifth-gate-closure-proof.json`, explicitly accepting the six fifth-gate closure rows as the minimum-functional prerequisite for later gates
 - generated sixth-gate MVP closure proof through `.bitcode/sixth-gate-mvp-closure-proof.json`, explicitly accepting the eight MVP closure rows as the prerequisite for commercial testnet launch
 - generated seventh-gate commercial testnet launch proof through `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, explicitly accepting the eight launch rows before the now-closed eighth-gate provation family
 - protocol proof closure for `.bitcode/need-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
-- application/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/application/ApplicationNeedScenarioPanel.tsx`, `uapi/app/application/application-closure-state.ts`, `ApplicationClosureNativeSections.tsx`, `application-section-atlas.ts`, `application-transaction-detail.ts`, and `application-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
+- terminal/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`, `uapi/app/terminal/terminal-closure-state.ts`, `TerminalClosureNativeSections.tsx`, `terminal-section-atlas.ts`, `terminal-transaction-detail.ts`, and `terminal-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
 
 Required coverage posture:
 - spec:
@@ -201,7 +201,7 @@ Required coverage posture:
 ### Gate 6: minimal viable product elevation
 
 Required system families:
-- explicit post-fifth-gate Bitcode application map:
+- explicit post-fifth-gate Bitcode Terminal map:
   - `activity`
   - `transactions`
   - `conversations`
@@ -238,13 +238,13 @@ Required system families:
 - whole-repository production satisfaction
 - prompt-space completeness
 - total V26 closure
-- final application/API/MCP/ChatGPT-surface alignment
+- final terminal/API/MCP/ChatGPT-surface alignment
 
 Required coverage posture:
 - spec:
   total repository closure is explicit
 - tests:
-  whole-repository final witnesses exercise the kept V26 system as one Bitcode application
+  whole-repository final witnesses exercise the kept V26 system as one Bitcode terminal
 - proof surface:
   generated V26 proof appendix and reports are eighth-gate final closure evidence
 
@@ -261,26 +261,26 @@ Current active assignments:
   route response tests and repository-selector behaviors
   proof surface:
   second-gate give-side repository context readiness
-- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
+- `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
   test coverage:
   browser verification plus repository-selection helper coverage
   proof surface:
-  second-gate give-side repository context readiness inside `/application`
+  second-gate give-side repository context readiness inside `/terminal`
 - `protocol-demonstration/public/app.js`
   test coverage:
-  semantic snapshot bridge verification through route-local normalization tests and live application checks
+  semantic snapshot bridge verification through route-local normalization tests and live terminal checks
   proof surface:
-  second-gate admissible shell snapshot and shell control exposure for native application composition
+  second-gate admissible shell snapshot and shell control exposure for native terminal composition
 - `protocol-demonstration/src/client-entry.js`
   test coverage:
-  semantic snapshot bridge exercised by application-owned give/need normalization, shell-bridge tests, and live `/application` review
+  semantic snapshot bridge exercised by terminal-owned give/need normalization, shell-bridge tests, and live `/terminal` review
   proof surface:
-  second-gate package-to-application bridge for mounted-shell semantic state and command/intake control, including host-wait and fail-closed snapshot reads during bootstrap windows
-- `uapi/app/application/application-shell-bridge.tsx`
+  second-gate package-to-terminal bridge for mounted-shell semantic state and command/intake control, including host-wait and fail-closed snapshot reads during bootstrap windows
+- `uapi/app/terminal/terminal-shell-bridge.tsx`
   test coverage:
-  `uapi/tests/applicationShellBridge.test.tsx`
+  `uapi/tests/terminalShellBridge.test.tsx`
   proof surface:
-  centralized mounted-shell polling and control refresh for second-gate application carriers, including fail-closed refresh behavior during pre-mount and hot-reload rebuild windows
+  centralized mounted-shell polling and control refresh for second-gate terminal carriers, including fail-closed refresh behavior during pre-mount and hot-reload rebuild windows
 - `uapi/app/api/executions/_shared.ts`
   test coverage:
   `uapi/tests/api/executionsHistoryRoute.test.ts`, `uapi/tests/api/executionsHistoryRunRoute.test.ts`, and `uapi/tests/usePipelineExecution.test.tsx`
@@ -300,22 +300,22 @@ Current active assignments:
   test coverage:
   `uapi/tests/api/clientErrorRoute.test.ts`
   proof surface:
-  second-gate runtime-health intake so client-side application failures are accepted by an app-owned carrier instead of 404ing
+  second-gate runtime-health intake so client-side terminal failures are accepted by an app-owned carrier instead of 404ing
 - `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`
   test coverage:
-  live `/application` verification with fullscreen orbitals entry exercised from the running app
+  live `/terminal` verification with fullscreen orbitals entry exercised from the running app
   proof surface:
-  second-gate orbitals renderability from `/application`, including the active data-sharing pane hookup required to avoid missing-overlay crashes
+  second-gate orbitals renderability from `/terminal`, including the active data-sharing pane hookup required to avoid missing-overlay crashes
 - `uapi/app/auxillaries/components/AuxillariesProvider.tsx`
   test coverage:
-  `uapi/tests/auxillariesProvider.test.tsx` plus live `/application` verification with auxillaries entry exercised from the running app
+  `uapi/tests/auxillariesProvider.test.tsx` plus live `/terminal` verification with auxillaries entry exercised from the running app
   proof surface:
-  second-gate fullscreen auxillaries portal readiness from `/application`, including first-open rendering when the shared event bridge fires before the overlay container would otherwise be visible to React
+  second-gate fullscreen auxillaries portal readiness from `/terminal`, including first-open rendering when the shared event bridge fires before the overlay container would otherwise be visible to React
 - `uapi/app/api/auxillaries/model-preferences/route.ts`
   test coverage:
   `uapi/tests/api/userModelPreferencesRoute.test.ts`
   proof surface:
-  second-gate application-owned signed-in orbital preference persistence, including authenticated read posture, lead/admin write posture, mock-mode fallback, and app-owned save ownership for orbital defaults
+  second-gate terminal-owned signed-in orbital preference persistence, including authenticated read posture, lead/admin write posture, mock-mode fallback, and app-owned save ownership for orbital defaults
 - `uapi/app/api/auxillaries/user/data-share/route.ts`
   test coverage:
   `uapi/tests/api/orbitalsUserDataShareRoute.test.ts`
@@ -333,9 +333,9 @@ Current active assignments:
   second-gate `$BTD` orbital ownership, including wallet and share posture, settlement and history return defaults, and app-owned preference saving through the orbital route carrier
 - `uapi/components/base/bitcode/layout/nav.tsx`
   test coverage:
-  `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/application` verification
+  `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/terminal` verification
   proof surface:
-  second-gate workspace-chrome discipline for unauthenticated application and orbital routes, replacing disabled marketing CTA behavior with deliberate access/create-account actions
+  second-gate workspace-chrome discipline for unauthenticated Terminal and orbital routes, replacing disabled marketing CTA behavior with deliberate access/create-account actions
 - `uapi/components/base/bitcode/layout/user-menu.tsx`
   test coverage:
   `uapi/tests/userMenu.test.tsx`
@@ -353,17 +353,17 @@ Current active assignments:
   second-gate operator-facing notification posture so proof closure, repository activity, and review prompts remain part of the workspace chrome rather than generic account furniture, and signed-in follow-through reopens Orbitals instead of the sign-up window
 - `uapi/styles/orbital.css`
   test coverage:
-  live browser verification on `host.docker.internal:3000/application?...` and `host.docker.internal:3000/auxillaries/profile`
+  live browser verification on `host.docker.internal:3000/terminal?...` and `host.docker.internal:3000/auxillaries/profile`
   proof surface:
-  second-gate contained-operator-shell stability so application-opened orbitals no longer collapse back to modal-width access furniture and both contained/direct orbital surfaces stay renderable with no error-level console output
+  second-gate contained-operator-shell stability so terminal-opened orbitals no longer collapse back to modal-width access furniture and both contained/direct orbital surfaces stay renderable with no error-level console output
 - `uapi/components/base/bitcode/layout/workspace-surface.ts`
   test coverage:
   `uapi/tests/workspaceSurface.test.ts`
   proof surface:
-  shared second-gate route classification for application/orbital/conversation chrome, including footer suppression on operator routes and stable navbar-surface selection
+  shared second-gate route classification for terminal/orbital/conversation chrome, including footer suppression on operator routes and stable navbar-surface selection
 - `protocol-demonstration/public/app.js`
   test coverage:
-  live `/application` verification through the preserved runtime tooltip/footer layer and
+  live `/terminal` verification through the preserved runtime tooltip/footer layer and
   `protocol-demonstration/test/v26-public-copy.test.js`
   proof surface:
   preserved-runtime user-facing copy discipline, including live-surface/reference-topic tooltip labels, friendly reference-chip naming, and removal of demo-era language from visible help surfaces
@@ -374,19 +374,19 @@ Current active assignments:
   preserved-runtime telemetry labeling discipline so operator-visible diagnostics report as `[bitcode-runtime]` instead of leaking `[engi-demo]`
 - `protocol-demonstration/public/index.html`
   test coverage:
-  live `/application` verification through the preserved runtime drawer and direct runtime load expectations
+  live `/terminal` verification through the preserved runtime drawer and direct runtime load expectations
   proof surface:
   preserved-runtime HTML parity for closure-runtime, flow-guide, give, need, AssetPack, and Shippable wording so direct runtime inspection does not regress to prototype/tutorial copy
-- `uapi/app/application/application-command-state.ts`
+- `uapi/app/terminal/terminal-command-state.ts`
   test coverage:
-  `uapi/tests/applicationCommandState.test.ts`
+  `uapi/tests/terminalCommandState.test.ts`
   proof surface:
-  deterministic normalization of shell command posture, flow-guide continuity, preserved-shell tutorial compatibility input, and option sets into route-local application command state
-- `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/ApplicationSectionAtlas.tsx`, `uapi/app/application/ApplicationPreservedShellSurface.tsx`, `uapi/app/application/ApplicationTransactionWorkspace.tsx`, `uapi/app/application/application-run-data.ts`, `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`, `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`, `uapi/app/orbitals/components/OrbitalsModelsPane.tsx`, `uapi/components/base/bitcode/notifications/notification-presentation.ts`, `uapi/components/base/bitcode/layout/user-menu.tsx`
+  deterministic normalization of shell command posture, flow-guide continuity, preserved-shell tutorial compatibility input, and option sets into route-local terminal command state
+- `uapi/app/terminal/TerminalCommandDeck.tsx`, `uapi/app/terminal/TerminalLiveSummaryStrip.tsx`, `uapi/app/terminal/TerminalSectionAtlas.tsx`, `uapi/app/terminal/TerminalPreservedShellSurface.tsx`, `uapi/app/terminal/TerminalTransactionWorkspace.tsx`, `uapi/app/terminal/terminal-run-data.ts`, `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`, `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`, `uapi/app/orbitals/components/OrbitalsModelsPane.tsx`, `uapi/components/base/bitcode/notifications/notification-presentation.ts`, `uapi/components/base/bitcode/layout/user-menu.tsx`
   test coverage:
-  `uapi/tests/applicationCommandPresentation.test.ts`,
-  `uapi/tests/applicationFlowGuide.test.ts`,
-  `uapi/tests/applicationWorkspaceRailCard.test.tsx`,
+  `uapi/tests/terminalCommandPresentation.test.ts`,
+  `uapi/tests/terminalFlowGuide.test.ts`,
+  `uapi/tests/terminalWorkspaceRailCard.test.tsx`,
   `uapi/tests/orbitalsInterfacesPane.test.tsx`,
   `uapi/tests/orbitalsBTDPane.test.tsx`,
   `uapi/tests/orbitalsContent.test.tsx`,
@@ -394,18 +394,18 @@ Current active assignments:
   `uapi/tests/notificationsWidget.test.tsx`,
   `uapi/tests/userMenu.test.tsx`
   proof surface:
-  third-gate review-surface wording discipline on active `/application` and canonical `/auxillaries` carriers so visible product copy reads as `Transactions` and `Auxillaries` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
-- `uapi/app/application/ApplicationOperatorCard.tsx`
+  third-gate review-surface wording discipline on active `/terminal` and canonical `/auxillaries` carriers so visible product copy reads as `Transactions` and `Auxillaries` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
+- `uapi/app/terminal/TerminalOperatorCard.tsx`
   test coverage:
-  `uapi/tests/applicationOperatorCard.test.tsx`
+  `uapi/tests/terminalOperatorCard.test.tsx`
   proof surface:
-  second-gate shared application workspace shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
+  second-gate shared terminal workspace shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
 - `.bitcode/v26-gate-checkpoint-report.json`
   test coverage:
   `protocol-demonstration/test/proven-generator.test.js`
   proof surface:
   explicit first+second-gate closure witness for the near-term V26 commit boundary, including third-gate preparation posture before full V26 promotion
-- `README.md`, `uapi/README.md`, `protocol-demonstration/README.md`, `uapi/app/application/README.md`, `uapi/app/auxillaries/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/bitcode/README.md`, `uapi/components/base/bitcode/execution/README.md`
+- `README.md`, `uapi/README.md`, `protocol-demonstration/README.md`, `uapi/app/terminal/README.md`, `uapi/app/auxillaries/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/bitcode/README.md`, `uapi/components/base/bitcode/execution/README.md`
   test coverage:
   generated file-presence checks inside `.bitcode/v26-gate-checkpoint-report.json` plus spec-family validation
   proof surface:
@@ -420,120 +420,120 @@ Current active assignments:
   `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
   proof surface:
   mounted third-gate public-route chrome, including live Bitcode nav on `/`, `/docs`, and `/demo-video`, stable public-route entry links, shared public-shell explainers for key entry links and the protocol reference, explicit `Bitcode Network` / `Bitcode Docs` / `Bitcode Transactions` route-title posture, a protocol-spec link that resolves through the stable canonical pointer instead of a version-specific public spec URL, a mobile-first footer card/chip posture that keeps route links and protocol/version metadata legible on narrow shells, public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy, a responsive stacked public-nav posture that avoids hiding the primary entry paths behind extra menu state, and a compatibility `/demo-video` alias that resolves back into docs-owned content
-- `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
+- `uapi/app/terminal/TerminalWorkspaceRailCard.tsx`
   test coverage:
-  `uapi/tests/applicationWorkspaceRailCard.test.tsx`
+  `uapi/tests/terminalWorkspaceRailCard.test.tsx`
   proof surface:
-  second-gate compact shared application-shell/help carrier for the right-rail posture, including explainer continuity and user-facing copy framing
-- `uapi/app/application/application-operator-explainers.ts`
+  second-gate compact shared terminal-shell/help carrier for the right-rail posture, including explainer continuity and user-facing copy framing
+- `uapi/app/terminal/terminal-operator-explainers.ts`
   test coverage:
-  consumed through component tests and lint plus live `/application` verification
+  consumed through component tests and lint plus live `/terminal` verification
   proof surface:
-  shared application explainer catalog for give, need, deposit, closure, and workspace-map help posture carried forward into the production application
-- `uapi/app/application/ApplicationCommandDeck.tsx`
+  shared terminal explainer catalog for give, need, deposit, closure, and workspace-map help posture carried forward into the production terminal
+- `uapi/app/terminal/TerminalCommandDeck.tsx`
   test coverage:
-  lint plus live `/application` verification through the shell command/control bridge
+  lint plus live `/terminal` verification through the shell command/control bridge
   proof surface:
-  second-gate application-owned command posture for scenario, projection, branch mode, guide continuity, reset, and branch creation
-- `uapi/app/application/application-live-summary.ts`
+  second-gate terminal-owned command posture for scenario, projection, branch mode, guide continuity, reset, and branch creation
+- `uapi/app/terminal/terminal-live-summary.ts`
   test coverage:
-  `uapi/tests/applicationLiveSummary.test.ts`
+  `uapi/tests/terminalLiveSummary.test.ts`
   proof surface:
-  deterministic normalization of the shell summary bridge into route-local application operating posture
-- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+  deterministic normalization of the shell summary bridge into route-local terminal operating posture
+- `uapi/app/terminal/TerminalLiveSummaryStrip.tsx`
   test coverage:
-  lint plus localhost `/application` verification with route-local summary posture mounted
+  lint plus localhost `/terminal` verification with route-local summary posture mounted
   proof surface:
-  second-gate application-owned operating summary reading from semantic shell state rather than rendered shell cards
-- `uapi/app/application/application-section-atlas.ts`
+  second-gate terminal-owned operating summary reading from semantic shell state rather than rendered shell cards
+- `uapi/app/terminal/terminal-section-atlas.ts`
   test coverage:
-  `uapi/tests/applicationSectionAtlas.test.ts`
+  `uapi/tests/terminalSectionAtlas.test.ts`
   proof surface:
-  deterministic normalization of section-atlas previews from semantic core and closure bridges into route-local application navigation state
-- `uapi/app/application/ApplicationSectionAtlas.tsx`
+  deterministic normalization of section-atlas previews from semantic core and closure bridges into route-local terminal navigation state
+- `uapi/app/terminal/TerminalSectionAtlas.tsx`
   test coverage:
-  lint plus localhost `/application` verification with semantic atlas cards mounted
+  lint plus localhost `/terminal` verification with semantic atlas cards mounted
   proof surface:
-  second-gate application-owned section atlas reading from semantic bridges rather than rendered shell panel markup
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+  second-gate terminal-owned section atlas reading from semantic bridges rather than rendered shell panel markup
+- `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
   test coverage:
-  `uapi/tests/applicationSupplySelection.test.ts` for normalized supply-selection state plus lint and live `/application` verification for the shared operator-shell framing
+  `uapi/tests/terminalSupplySelection.test.ts` for normalized supply-selection state plus lint and live `/terminal` verification for the shared operator-shell framing
   proof surface:
-  second-gate give-side supply terminal with shared application-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/application`
-- `uapi/app/application/application-core-surface.ts`
+  second-gate give-side supply terminal with shared terminal-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/terminal`
+- `uapi/app/terminal/terminal-core-surface.ts`
   test coverage:
-  `uapi/tests/applicationCoreSurface.test.ts`
+  `uapi/tests/terminalCoreSurface.test.ts`
   proof surface:
-  deterministic normalization of operating, depositing, needing, and fit semantics from the shell snapshot into route-local application core panels
-- `uapi/app/application/ApplicationCoreNativeSections.tsx`
+  deterministic normalization of operating, depositing, needing, and fit semantics from the shell snapshot into route-local terminal core panels
+- `uapi/app/terminal/TerminalCoreNativeSections.tsx`
   test coverage:
-  lint plus localhost `/application` verification with core panels mounted from the semantic bridge
+  lint plus localhost `/terminal` verification with core panels mounted from the semantic bridge
   proof surface:
-  second-gate application-owned master-detail core composition reading from the semantic `coreSurface` bridge instead of rendered shell DOM
-- `uapi/app/application/application-give-need-workbench.ts`
+  second-gate terminal-owned master-detail core composition reading from the semantic `coreSurface` bridge instead of rendered shell DOM
+- `uapi/app/terminal/terminal-give-need-workbench.ts`
   test coverage:
-  `uapi/tests/applicationGiveNeedWorkbench.test.ts`
+  `uapi/tests/terminalGiveNeedWorkbench.test.ts`
   proof surface:
-  deterministic normalization of give, need, and fit action detail from the shell snapshot into route-local Bitcode application composition
-- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
+  deterministic normalization of give, need, and fit action detail from the shell snapshot into route-local Bitcode terminal composition
+- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
   test coverage:
   browser verification and UI review around route-local give/need action detail
   proof surface:
-  second-gate application-owned action detail for repository supply, measured demand, and fit intent
-- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
+  second-gate terminal-owned action detail for repository supply, measured demand, and fit intent
+- `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
   test coverage:
-  `uapi/tests/applicationActionWorkbenchCard.test.tsx`
+  `uapi/tests/terminalActionWorkbenchCard.test.tsx`
   proof surface:
   retained late-stage design-system card reuse under Bitcode-owned action composition, now grounded in shared execution-level metric, row, and chip carriers
-- `uapi/app/application/application-transactions.ts`
+- `uapi/app/terminal/terminal-transactions.ts`
   test coverage:
-  `uapi/tests/applicationTransactions.test.ts`
+  `uapi/tests/terminalTransactions.test.ts`
   proof surface:
   deterministic normalization and filtering of Bitcode Terminal executions into a searchable master-detail table carrier, including raw-pipeline-to-agentic-execution normalization, participant/proof-posture filters, and explicit sort posture
-- `packages/api/src/executions/agentic-execution.ts`, `packages/api/src/routes/executions.ts`, `uapi/app/application/ApplicationPageClient.tsx`, and `uapi/components/base/bitcode/layout/{bitcode-public-copy,bitcode-public-explainers}.ts`
+- `packages/api/src/executions/agentic-execution.ts`, `packages/api/src/routes/executions.ts`, `uapi/app/terminal/TerminalPageClient.tsx`, and `uapi/components/base/bitcode/layout/{bitcode-public-copy,bitcode-public-explainers}.ts`
   test coverage:
-  `uapi/tests/{applicationTransactions,navPublicShell,footerPublicShell,marketingLandingPage,marketingOperatorGuideCard,edgetimesPageContent,conversationsRouteClient,orbitalsRouteClient}.test.*`
+  `uapi/tests/{terminalTransactions,navPublicShell,footerPublicShell,marketingLandingPage,marketingOperatorGuideCard,edgetimesPageContent,conversationsRouteClient,orbitalsRouteClient}.test.*`
   proof surface:
-  one shared agentic-execution grammar now repurposes the retained pipeline substrate into canonical Bitcode Terminal execution labels, lenses, proof posture, and closure focus across API history rows, `/application`, and the public shell
+  one shared agentic-execution grammar now repurposes the retained pipeline substrate into canonical Bitcode Terminal execution labels, lenses, proof posture, and closure focus across API history rows, `/terminal`, and the public shell
 - `packages/api/src/executions/agentic-execution.ts`, `packages/api/src/routes/executions.ts`, `uapi/networking/api-client.ts`, `uapi/hooks/useExecutionState.ts`, `uapi/app/executions/components/ExecutionsPageClient.tsx`, and `uapi/components/base/bitcode/layout/sidebars/left-sidebar.tsx`
   test coverage:
-  focused lint on retained execution carriers plus `uapi/tests/applicationSurfaceCopy.test.ts`
+  focused lint on retained execution carriers plus `uapi/tests/terminalSurfaceCopy.test.ts`
   proof surface:
   canonical `agentic-execution:branch-artifact` route/query posture now reaches the retained `/executions` surface and live callers while mapping back onto the preserved raw `pipeline:*` storage substrate, proving that Bitcode product routing can be canonical without discarding the reusable execution implementation basis
-- `uapi/app/application/application-workspace-explainers.ts`, `uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationTransactionWorkspace.tsx,application-flow-guide.ts,application-command-presentation.ts,ApplicationCoreNativeSections.tsx,ApplicationDepositComposer.tsx,ApplicationPreservedShellSurface.tsx}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,bitcode-transaction-explainers.ts}`, and `uapi/app/auxillaries/components/{auxillary-pane-explainers.ts,AuxillariesBTDPane.tsx}`
+- `uapi/app/terminal/terminal-workspace-explainers.ts`, `uapi/app/terminal/{TerminalCommandDeck.tsx,TerminalTransactionWorkspace.tsx,terminal-flow-guide.ts,terminal-command-presentation.ts,TerminalCoreNativeSections.tsx,TerminalDepositComposer.tsx,TerminalPreservedShellSurface.tsx}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,bitcode-transaction-explainers.ts}`, and `uapi/app/auxillaries/components/{auxillary-pane-explainers.ts,AuxillariesBTDPane.tsx}`
   test coverage:
-  `uapi/tests/applicationSurfaceCopy.test.ts`
+  `uapi/tests/terminalSurfaceCopy.test.ts`
   proof surface:
-  active `/application`, retained `/executions`, and auxillary product copy now teach the `Bitcode Terminal` directly instead of a generic `transactions surface`, and the visible explainer/detail layer now reads as Bitcode activity plus asset-pack/proof/history consequence rather than raw transaction/deliverable product wording
-- `uapi/app/application/{application-run-data.ts,ApplicationLiveSummaryStrip.tsx,ApplicationTransactionActivitySurface.tsx,application-workspace-copy.ts}`, `uapi/app/auxillaries/components/auxillary-pane-meta.ts`, and `uapi/app/api/conversations/_shared.ts`
+  active `/terminal`, retained `/executions`, and auxillary product copy now teach the `Bitcode Terminal` directly instead of a generic `transactions surface`, and the visible explainer/detail layer now reads as Bitcode activity plus asset-pack/proof/history consequence rather than raw transaction/deliverable product wording
+- `uapi/app/terminal/{terminal-run-data.ts,TerminalLiveSummaryStrip.tsx,TerminalTransactionActivitySurface.tsx,terminal-workspace-copy.ts}`, `uapi/app/auxillaries/components/auxillary-pane-meta.ts`, and `uapi/app/api/conversations/_shared.ts`
   test coverage:
-  `uapi/tests/{applicationTransactions,applicationTransactionDetail,applicationTransactionDetailSnapshot,applicationTransactionSource,bitcodeDetailPanel}.test.*`
+  `uapi/tests/{terminalTransactions,terminalTransactionDetail,terminalTransactionDetailSnapshot,terminalTransactionSource,bitcodeDetailPanel}.test.*`
   proof surface:
   active mock-run, detail-snapshot, and conversation-support carriers now keep branch-artifact execution typing and Bitcode Terminal wording canonical instead of teaching raw AssetPack-compatibility route strings or generic transaction-surface language in the review substrate
-- `BITCODE_SPEC_V26.md`, `uapi/app/application/{ApplicationGiveNeedWorkbench.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationClosureNativeSections.tsx,application-workspace-copy.ts,page.tsx}`, and `uapi/app/auxillaries/components/{AuxillariesConnectsPane.tsx,auxillary-pane-meta.ts,headers/AuxillariesConnectsPaneHeader.tsx}`
+- `BITCODE_SPEC_V26.md`, `uapi/app/terminal/{TerminalGiveNeedWorkbench.tsx,TerminalNeedScenarioPanel.tsx,TerminalClosureNativeSections.tsx,terminal-workspace-copy.ts,page.tsx}`, and `uapi/app/auxillaries/components/{AuxillariesConnectsPane.tsx,auxillary-pane-meta.ts,headers/AuxillariesConnectsPaneHeader.tsx}`
   test coverage:
-  `uapi/tests/{applicationSurfaceCopy,connectionsStep.static}.test.*`
+  `uapi/tests/{terminalSurfaceCopy,connectionsStep.static}.test.*`
   proof surface:
   active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
   active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
-- `uapi/app/application/{ApplicationTransactionDetailSurface.tsx,ApplicationTransactionDetailHero.tsx,ApplicationTransactionIdentityCard.tsx,ApplicationTransactionClosureCard.tsx,ApplicationTransactionProofsCard.tsx,ApplicationTransactionHistoryCard.tsx,ApplicationTransactionDetailActionBar.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionActivitySurface.tsx,ApplicationExperienceFrame.tsx,ApplicationWorkspaceRail.tsx,ApplicationMockTransactionDetails.tsx,application-command-presentation.ts,application-flow-guide.ts,README.md}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,BitcodeTransactionsActiveFilters.tsx,BitcodeTransactionsOverview.tsx,README.md}`, and `uapi/app/application/application-transaction-detail.ts`
+- `uapi/app/terminal/{TerminalTransactionDetailSurface.tsx,TerminalTransactionDetailHero.tsx,TerminalTransactionIdentityCard.tsx,TerminalTransactionClosureCard.tsx,TerminalTransactionProofsCard.tsx,TerminalTransactionHistoryCard.tsx,TerminalTransactionDetailActionBar.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionActivitySurface.tsx,TerminalExperienceFrame.tsx,TerminalWorkspaceRail.tsx,TerminalMockTransactionDetails.tsx,terminal-command-presentation.ts,terminal-flow-guide.ts,README.md}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,BitcodeTransactionsActiveFilters.tsx,BitcodeTransactionsOverview.tsx,README.md}`, and `uapi/app/terminal/terminal-transaction-detail.ts`
   test coverage:
-  `uapi/tests/{applicationTransactionDetail,applicationTransactionDetailCards,applicationCommandPresentation,applicationWorkspaceRailCard,bitcodeTransactionsOverview,bitcodeDetailRowList,bitcodePayloadRowsCard,bitcodePayloadDetailCard,bitcodeDetailPanel}.test.*`
+  `uapi/tests/{terminalTransactionDetail,terminalTransactionDetailCards,terminalCommandPresentation,terminalWorkspaceRailCard,bitcodeTransactionsOverview,bitcodeDetailRowList,bitcodePayloadRowsCard,bitcodePayloadDetailCard,bitcodeDetailPanel}.test.*`
   proof surface:
   the selected-activity detail family and shared execution/activity-ledger carriers now teach Bitcode activity, activity identity, asset packs, inline proof/history closure, and Bitcode Terminal ledger posture instead of selected-transaction / deliverable operator wording while the retained route ids and payload substrate remain reusable underneath
-- `uapi/app/application/ApplicationTransactionsTable.tsx`
+- `uapi/app/terminal/TerminalTransactionsTable.tsx`
   test coverage:
-  lint plus localhost `/application` verification with the transactions master surface mounted
+  lint plus localhost `/terminal` verification with the transactions master surface mounted
   proof surface:
-  second-gate application-owned orchestration of transaction selection, `transactionId` route posture, filter state, active-filter chip posture, and route-owned pagination
-- `uapi/app/application/application-transaction-source.ts`
+  second-gate terminal-owned orchestration of transaction selection, `transactionId` route posture, filter state, active-filter chip posture, and route-owned pagination
+- `uapi/app/terminal/terminal-transaction-source.ts`
   test coverage:
-  `uapi/tests/applicationTransactionSource.test.ts`
+  `uapi/tests/terminalTransactionSource.test.ts`
   proof surface:
-  deterministic resolution of `live`, `mock-review`, and `review-fallback` transaction-source posture from live history plus the selected transaction URL, so explicit mock review URLs fail over to interactive review state instead of emptying `/application`
-- `uapi/app/application/application-transaction-query.ts`
+  deterministic resolution of `live`, `mock-review`, and `review-fallback` transaction-source posture from live history plus the selected transaction URL, so explicit mock review URLs fail over to interactive review state instead of emptying `/terminal`
+- `uapi/app/terminal/terminal-transaction-query.ts`
   test coverage:
-  `uapi/tests/applicationTransactionQuery.test.ts`
+  `uapi/tests/terminalTransactionQuery.test.ts`
   proof surface:
   deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, shared default filter/pagination carriers, route-owned pagination carriers, and reset behavior for route-owned transaction query state
 - `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
@@ -546,29 +546,29 @@ Current active assignments:
   `uapi/tests/protocol-demonstrationTransactionsActiveFilters.test.tsx`
   proof surface:
   reusable active-filter chip carrier for the Bitcode Terminal, keeping the shaped master window explicit and individually clearable
-- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailActionBar.tsx`
   test coverage:
-  lint plus localhost `/application` verification with route-owned detail focus and closure actions mounted
+  lint plus localhost `/terminal` verification with route-owned detail focus and closure actions mounted
   proof surface:
-  application-owned detail interaction and closure follow-through inside the selected-transaction carrier
-- `uapi/app/application/application-transaction-detail.ts`
+  terminal-owned detail interaction and closure follow-through inside the selected-transaction carrier
+- `uapi/app/terminal/terminal-transaction-detail.ts`
   test coverage:
-  `uapi/tests/applicationTransactionDetail.test.ts`
+  `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   deterministic closure follow-through normalization for inline settlement metrics, proof families, branch artifacts, recent transaction history, and reusable closure raw-payload inspection
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
   test coverage:
-  `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  `uapi/tests/terminalTransactionDetailCards.test.tsx`
   proof surface:
   explicit closure summary and settlement/branch follow-through carrier inside selected-transaction detail, including the shared visual-vs-raw payload posture
-- `uapi/app/application/ApplicationTransactionProofsCard.tsx`
+- `uapi/app/terminal/TerminalTransactionProofsCard.tsx`
   test coverage:
-  `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  `uapi/tests/terminalTransactionDetailCards.test.tsx`
   proof surface:
   explicit proofs detail carrier inside selected-transaction detail
-- `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
+- `uapi/app/terminal/TerminalTransactionHistoryCard.tsx`
   test coverage:
-  `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  `uapi/tests/terminalTransactionDetailCards.test.tsx`
   proof surface:
   explicit history detail carrier inside selected-transaction detail
 - `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
@@ -581,29 +581,29 @@ Current active assignments:
   `uapi/tests/protocol-demonstrationDetailPanel.test.tsx`
   proof surface:
   reusable execution-level carrier for master-detail substructure preview panels inside the Bitcode transaction workspace
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
   test coverage:
-  lint plus localhost `/application` verification with inline closure follow-through mounted in selected-transaction detail
+  lint plus localhost `/terminal` verification with inline closure follow-through mounted in selected-transaction detail
   proof surface:
-  application-owned lower closure reading inside the selected-transaction carrier rather than shell-section-only follow-through
+  terminal-owned lower closure reading inside the selected-transaction carrier rather than shell-section-only follow-through
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
   test coverage:
-  lint plus application-level verification through the route-local transactions carrier
+  lint plus terminal-level verification through the route-local transactions carrier
   proof surface:
   reusable base-component table carrier for searchable Bitcode transaction master-detail UI
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
   test coverage:
-  lint plus application-level verification through the transactions master carrier
+  lint plus terminal-level verification through the transactions master carrier
   proof surface:
   reusable overview metrics and mode posture carrier for transaction-master SRP decomposition
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
   test coverage:
-  lint plus `uapi/tests/applicationTransactions.test.ts` and `uapi/tests/protocol-demonstrationTransactionsFilterBar.test.tsx`
+  lint plus `uapi/tests/terminalTransactions.test.ts` and `uapi/tests/protocol-demonstrationTransactionsFilterBar.test.tsx`
   proof surface:
   reusable field-filter and sort-control carrier for transaction-master SRP decomposition, including explicit accessible control naming under shared explainers
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
   test coverage:
-  lint plus application-level verification through the transactions master carrier
+  lint plus terminal-level verification through the transactions master carrier
   proof surface:
   reusable row-selection and detail-entry carrier for transaction-master SRP decomposition, including shared header explainers
 - `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
@@ -648,7 +648,7 @@ Current active assignments:
   reusable metric-grid carrier for selected-transaction overview and closure follow-through
 - `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
   test coverage:
-  browser verification and card-level integration through `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  browser verification and card-level integration through `uapi/tests/terminalTransactionDetailCards.test.tsx`
   proof surface:
   reusable chip-cloud carrier for branch artifacts and later selected-transaction detail token clouds
 - `uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
@@ -660,7 +660,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/bitcodeExecutionStreamPanel.test.tsx`
   proof surface:
-  reusable execution-stream carrier for shared header/log/work-update composition across `/application`, conversations, and `/executions`
+  reusable execution-stream carrier for shared header/log/work-update composition across `/terminal`, conversations, and `/executions`
 - `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
   test coverage:
   covered indirectly through `uapi/tests/protocol-demonstrationInlineExplainer.test.tsx`, `uapi/tests/protocol-demonstrationTransactionsFilterBar.test.tsx`, `uapi/tests/protocol-demonstrationPayloadInspector.test.tsx`, `uapi/tests/protocol-demonstrationPayloadShape.test.tsx`, and `uapi/tests/protocol-demonstrationPayloadTree.test.tsx`
@@ -683,74 +683,74 @@ Current active assignments:
   reusable payload-plus-collection carrier for proof/history and other list-shaped Bitcode detail cards
 - `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
   test coverage:
-  imported through `uapi/tests/applicationTransactions.test.ts`, `uapi/tests/applicationTransactionQuery.test.ts`, and `uapi/tests/protocol-demonstrationTransactionsPagination.test.tsx`
+  imported through `uapi/tests/terminalTransactions.test.ts`, `uapi/tests/terminalTransactionQuery.test.ts`, and `uapi/tests/protocol-demonstrationTransactionsPagination.test.tsx`
   proof surface:
   typed base-component contract for transaction-master filtering, overview, pagination, and row-selection carriers
-- `uapi/app/application/application-supply-selection.ts`
+- `uapi/app/terminal/terminal-supply-selection.ts`
   test coverage:
-  `uapi/tests/applicationSupplySelection.test.ts`
+  `uapi/tests/terminalSupplySelection.test.ts`
   proof surface:
-  deterministic normalization of authenticated intake session, artifact filter, search, and selected inventory entries into route-local application intake state
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+  deterministic normalization of authenticated intake session, artifact filter, search, and selected inventory entries into route-local terminal intake state
+- `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
   test coverage:
-  lint plus live `/application` verification through the shell command/control bridge
+  lint plus live `/terminal` verification through the shell command/control bridge
   proof surface:
-  second-gate application-owned give-side intake control for session binding, inventory filtering, search, and artifact selection
-- `uapi/app/application/application-deposit-composer.ts`
+  second-gate terminal-owned give-side intake control for session binding, inventory filtering, search, and artifact selection
+- `uapi/app/terminal/terminal-deposit-composer.ts`
   test coverage:
-  `uapi/tests/applicationDepositComposer.test.ts`
+  `uapi/tests/terminalDepositComposer.test.ts`
   proof surface:
   deterministic normalization of deposit-auth session defaults, selected inventory continuity, and signer/source-repo defaults into route-local deposit-composer state
-- `uapi/app/application/ApplicationDepositComposer.tsx`
+- `uapi/app/terminal/TerminalDepositComposer.tsx`
   test coverage:
-  lint plus localhost route verification with the app-owned deposit carrier present in `/application`
+  lint plus localhost route verification with the app-owned deposit carrier present in `/terminal`
   proof surface:
-  second-gate application-owned native deposit submission against the app-owned Bitcode intake route
-- `uapi/app/application/application-need-scenarios.ts`
+  second-gate terminal-owned native deposit submission against the app-owned Bitcode intake route
+- `uapi/app/terminal/terminal-need-scenarios.ts`
   test coverage:
-  `uapi/tests/applicationNeedScenarios.test.ts`
+  `uapi/tests/terminalNeedScenarios.test.ts`
   proof surface:
   deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state
-- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
+- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
   test coverage:
-  lint plus localhost `/application` verification with route-local scenario selection mounted, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `protocol-demonstration/test/v26-need-review-source-to-shares.test.js`
+  lint plus localhost `/terminal` verification with route-local scenario selection mounted, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `protocol-demonstration/test/v26-need-review-source-to-shares.test.js`
   proof surface:
-  second/fifth-gate application-owned native need selection and pre-fit Need-review controls through the Bitcode shell control bridge and app-owned `/api/need-review` boundary
-- `uapi/app/application/application-closure-state.ts`
+  second/fifth-gate terminal-owned native need selection and pre-fit Need-review controls through the Bitcode shell control bridge and app-owned `/api/need-review` boundary
+- `uapi/app/terminal/terminal-closure-state.ts`
   test coverage:
-  `uapi/tests/applicationClosureState.test.ts`
+  `uapi/tests/terminalClosureState.test.ts`
   proof surface:
-  deterministic normalization of verification, branch, settlement, and ledger semantics from the shell snapshot into application-owned closure state
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
+  deterministic normalization of verification, branch, settlement, and ledger semantics from the shell snapshot into terminal-owned closure state
+- `uapi/app/terminal/TerminalClosureNativeSections.tsx`
   test coverage:
-  lint plus localhost `/application` verification with native closure cards mounted
+  lint plus localhost `/terminal` verification with native closure cards mounted
   proof surface:
-  second-gate application-owned closure composition reading from the semantic `closureSurface` bridge instead of rendered shell DOM
-- `uapi/app/application/application-closure-controls.ts`
+  second-gate terminal-owned closure composition reading from the semantic `closureSurface` bridge instead of rendered shell DOM
+- `uapi/app/terminal/terminal-closure-controls.ts`
   test coverage:
-  `uapi/tests/applicationClosureControls.test.ts`
+  `uapi/tests/terminalClosureControls.test.ts`
   proof surface:
   deterministic normalization of closure execution, reset, refresh, and follow-through posture from the command and closure semantic bridges
-- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+- `uapi/app/terminal/TerminalClosureControlDeck.tsx`
   test coverage:
-  lint plus localhost `/application` verification with route-local closure operation controls mounted
+  lint plus localhost `/terminal` verification with route-local closure operation controls mounted
   proof surface:
-  second-gate application-owned closure operation deck rather than implicit preserved-shell action ownership
-- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+  second-gate terminal-owned closure operation deck rather than implicit preserved-shell action ownership
+- `uapi/app/terminal/TerminalExternalInterfacingPanel.tsx`
   test coverage:
   browser/API verification plus runtime-normalization helper coverage
   proof surface:
-  second-gate boundary honesty and external-interfacing stable readiness inside `/application`
-- `uapi/app/application/application-repository-context.ts`
+  second-gate boundary honesty and external-interfacing stable readiness inside `/terminal`
+- `uapi/app/terminal/terminal-repository-context.ts`
   test coverage:
-  `uapi/tests/applicationRepositoryContext.test.ts`
+  `uapi/tests/terminalRepositoryContext.test.ts`
   proof surface:
-  deterministic repository-provider normalization and selected-repository derivation for the give-side application frame
-- `uapi/app/application/application-external-runtime.ts`
+  deterministic repository-provider normalization and selected-repository derivation for the give-side terminal frame
+- `uapi/app/terminal/terminal-external-runtime.ts`
   test coverage:
-  `uapi/tests/applicationExternalRuntime.test.ts`
+  `uapi/tests/terminalExternalRuntime.test.ts`
   proof surface:
-  deterministic runtime-state normalization and blocking-interface classification for the application-owned external posture carrier
+  deterministic runtime-state normalization and blocking-interface classification for the terminal-owned external posture carrier
 - `uapi/app/api/vcs/[provider]/oauth/route.ts`
   test coverage:
   route behavior tests and redirect contract checks
@@ -765,27 +765,27 @@ Current active assignments:
   test coverage:
   route response tests for app-owned runtime posture and live localhost verification
   proof surface:
-  second-gate external interfacing hardening and native boundary-actuality application read
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+  second-gate external interfacing hardening and native boundary-actuality terminal read
+- `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
   test coverage:
   browser verification and UI coverage around transactions, AssetPacks, proofs, and history
   proof surface:
   second-gate master-detail substructure closure
-- `uapi/app/application/application-transaction-detail-snapshot.ts`
+- `uapi/app/terminal/terminal-transaction-detail-snapshot.ts`
   test coverage:
-  `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
+  `uapi/tests/terminalTransactionDetailSnapshot.test.ts`
   proof surface:
-  deterministic normalization of selected-transaction history payloads into application-owned AssetPack/proof/history detail
-- `uapi/app/application/application-transaction-detail.ts`
+  deterministic normalization of selected-transaction history payloads into terminal-owned AssetPack/proof/history detail
+- `uapi/app/terminal/terminal-transaction-detail.ts`
   test coverage:
-  `uapi/tests/applicationTransactionDetail.test.ts`
+  `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   deterministic normalization of selected-transaction overview, identity, and closure-read rows into SRP-aligned detail modules
-- `uapi/app/application/application-run-activity.ts`
+- `uapi/app/terminal/terminal-run-activity.ts`
   test coverage:
-  `uapi/tests/applicationTransactionActivity.test.ts`
+  `uapi/tests/terminalTransactionActivity.test.ts`
   proof surface:
-  deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
+  deterministic normalization of retained execution events into terminal-owned Bitcode run-activity detail
 - `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`
   test coverage:
   `uapi/tests/bitcodeActivityModel.test.ts`
@@ -796,31 +796,31 @@ Current active assignments:
   route metadata verification plus live browser checks on retained compatibility routes
   proof surface:
   fourth-gate merged-world naming discipline so retained `/executions` teaches explicit executions primitives inside `activity`, canonical `/auxillaries/*` teaches `auxillaries`, and retained `/orbitals/*` is reduced to redirect-only compatibility that no longer renders canonical HTML
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+- `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`
   test coverage:
   browser verification and UI coverage around live and mock selected-transaction detail rendering
   proof surface:
-  second-gate selected-transaction application ownership rather than mock-only inward reuse
-- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
+  second-gate selected-transaction terminal ownership rather than mock-only inward reuse
+- `uapi/app/terminal/TerminalTransactionDetailHero.tsx`
   test coverage:
-  lint plus `uapi/tests/applicationTransactionDetail.test.ts`
+  lint plus `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   reusable overview carrier for selected-transaction detail SRP decomposition
-- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `uapi/app/terminal/TerminalTransactionIdentityCard.tsx`
   test coverage:
-  lint plus `uapi/tests/applicationTransactionDetail.test.ts`
+  lint plus `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   reusable identity/read carrier for selected-transaction detail SRP decomposition
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+- `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
   test coverage:
-  lint plus `uapi/tests/applicationTransactionDetail.test.ts`
+  lint plus `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   reusable closure/read-follow-through carrier for selected-transaction detail SRP decomposition
-- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `uapi/app/terminal/TerminalTransactionActivitySurface.tsx`
   test coverage:
   browser verification and UI coverage around central activity/log/work-update rendering
   proof surface:
-  second-gate elevation of retained execution/log carriers into Bitcode application ownership
+  second-gate elevation of retained execution/log carriers into Bitcode terminal ownership
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
   test coverage:
   browser verification and conversations route tests
@@ -833,8 +833,8 @@ V26 proof closure must extend beyond the former demo core.
 
 Required closure posture:
 - the retained and repurposed whole repository that remains in V26 production canon must be proven up to Bitcode-grade satisfaction
-- any package, component family, route carrier, or application subsystem kept for V26 must have explicit spec, test, and proof-surface ownership
-- proof closure may no longer terminate at the old `engi-demo` equivalent core alone; it must close over the production application and surviving packages as one Bitcode system
+- any package, component family, route carrier, or terminal subsystem kept for V26 must have explicit spec, test, and proof-surface ownership
+- proof closure may no longer terminate at the old `engi-demo` equivalent core alone; it must close over the production Terminal and surviving packages as one Bitcode system
 
 ## Fifth-gate runtime/env naming closure
 
@@ -992,25 +992,25 @@ Required closure posture:
   test coverage:
   `uapi/tests/conversationsEnhancedRichTextInput.test.tsx` and `uapi/tests/conversationsOverlayMapping.test.ts`
   proof surface:
-  fifth-gate conversations destination-roundtrip closure so Bitcode Terminal rich input now serializes `!` selections as canonical output-destination tokens, persisted conversation detail rehydrates source/destination/execution attachments back into chat tokens for stable reread, and execution follow-through from the fullscreen overlay points back into the Bitcode activity ledger at `/application` rather than teaching the retained `/executions` peer surface as the primary destination
-- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationCommandDeck.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionWorkspace.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts},uapi/tests/applicationActivityHistory.test.ts}`
+  fifth-gate conversations destination-roundtrip closure so Bitcode Terminal rich input now serializes `!` selections as canonical output-destination tokens, persisted conversation detail rehydrates source/destination/execution attachments back into chat tokens for stable reread, and execution follow-through from the fullscreen overlay points back into the Bitcode activity ledger at `/terminal` rather than teaching the retained `/executions` peer surface as the primary destination
+- `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalCommandDeck.tsx,TerminalDepositComposer.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionWorkspace.tsx,TerminalTransactionDetailSurface.tsx,terminal-activity-history.ts},uapi/tests/terminalActivityHistory.test.ts}`
   test coverage:
-  `uapi/tests/applicationActivityHistory.test.ts`
+  `uapi/tests/terminalActivityHistory.test.ts`
   proof surface:
-  fifth-gate application write-through closure so Bitcode Terminal command, deposit, closure, and selected-detail actions now record canonical Bitcode activity rows into retained execution history, immediately select those rows back into `/application`, and teach the application ledger as the reread surface instead of leaving protocol writes trapped in preserved shell controls or separate execution routes
-- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationGiveNeedWorkbench.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationActionWorkbenchCard.tsx,application-activity-history.ts},uapi/tests/applicationActivityHistory.test.ts}`
+  fifth-gate terminal write-through closure so Bitcode Terminal command, deposit, closure, and selected-detail actions now record canonical Bitcode activity rows into retained execution history, immediately select those rows back into `/terminal`, and teach the terminal ledger as the reread surface instead of leaving protocol writes trapped in preserved shell controls or separate execution routes
+- `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalGiveNeedWorkbench.tsx,TerminalNeedScenarioPanel.tsx,TerminalSupplySelectionPanel.tsx,TerminalActionWorkbenchCard.tsx,terminal-activity-history.ts},uapi/tests/terminalActivityHistory.test.ts}`
   test coverage:
-  `uapi/tests/applicationActivityHistory.test.ts`
+  `uapi/tests/terminalActivityHistory.test.ts`
   proof surface:
   fifth-gate give-need workbench closure so Bitcode Terminal give-side selection, active need measurement, and fit/settlement posture can all be explicitly recorded back into the same Bitcode activity ledger, keeping repository/supply/need/fit decision boundaries on the protocol-owned write/read path rather than leaving them as preserved-shell-only state
-- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationExternalInterfacingPanel.tsx,application-activity-history.ts},uapi/tests/applicationActivityHistory.test.ts}`
+- `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalRepositoryContextPanel.tsx,TerminalExternalInterfacingPanel.tsx,terminal-activity-history.ts},uapi/tests/terminalActivityHistory.test.ts}`
   test coverage:
-  `uapi/tests/applicationActivityHistory.test.ts`
+  `uapi/tests/terminalActivityHistory.test.ts`
   proof surface:
   fifth-gate repository-anchor and boundary-readiness closure so the Bitcode Terminal panels that establish repository supply anchoring and external-interface honesty can now be recorded into the same Bitcode activity ledger as the rest of the write surfaces, instead of remaining read-only orientation panels outside the protocol-owned reread path
-- `{uapi/lib/bitcode-transaction-readiness.ts,uapi/app/application/{ApplicationPageClient.tsx,ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationDepositComposer.tsx,ApplicationFlowGuideCard.tsx,application-flow-guide.ts},uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx,uapi/tests/{bitcodeTransactionReadiness.test.ts,applicationFlowGuide.test.ts}}`
+- `{uapi/lib/bitcode-transaction-readiness.ts,uapi/app/terminal/{TerminalPageClient.tsx,TerminalCommandDeck.tsx,TerminalClosureControlDeck.tsx,TerminalDepositComposer.tsx,TerminalFlowGuideCard.tsx,terminal-flow-guide.ts},uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx,uapi/tests/{bitcodeTransactionReadiness.test.ts,terminalFlowGuide.test.ts}}`
   test coverage:
-  `uapi/tests/bitcodeTransactionReadiness.test.ts` and `uapi/tests/applicationFlowGuide.test.ts`
+  `uapi/tests/bitcodeTransactionReadiness.test.ts` and `uapi/tests/terminalFlowGuide.test.ts`
   proof surface:
   fifth-gate transactional-readiness closure so wallet identity in `Profile`, verified wallet-provider signing access, repository scope in `Connects`, and a selected repository anchor in the Bitcode Terminal now resolve through one shared review-only-vs-transactable contract, with deposit/branch/closure-bearing actions failing closed on that contract while read/review continuity remains available and signed settlement remains staged until verified signing is present
 - `{packages/orm/src/{profile-contract.ts,models/user-profiles.ts},packages/api/src/routes/{auxillaries.ts,user.ts,auth.ts},uapi/app/api/auxillaries/profile/route.ts,uapi/app/auxillaries/components/{AuxillariesSurface.tsx,AuxillariesProfilePane.tsx,AuxillariesBTDPane.tsx},uapi/hooks/useUserData.ts,uapi/tests/{userProfileRoute.test.ts,userDataRoute.test.ts}}`
@@ -1018,29 +1018,29 @@ Required closure posture:
   `uapi/tests/userProfileRoute.test.ts` and `uapi/tests/userDataRoute.test.ts`
   proof surface:
   fifth-gate profile-wallet-binding persistence closure so Profile-owned wallet identity, organization/profile extras, and auxillary reread now persist through `user_profiles.settings.bitcodeProfile`, the active auxillary/profile routes read `user_profiles` by its real `id` key instead of stale `user_id` drift, hydrated compatibility fields reread that one Exchange-owned settings carrier back into the Bitcode Terminal, `Connects`, and `$BTD`, and active wallet status no longer collapses manual identity and verified signing into the same fake `bound` posture
-- `{uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx,uapi/app/application/{application-workspace-explainers.ts,ApplicationExperienceFrame.tsx,ApplicationCommandDeck.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx},uapi/tests/{applicationSurfaceCopy.test.ts,bitcodeInlineExplainer.test.tsx}}`
+- `{uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx,uapi/app/terminal/{terminal-workspace-explainers.ts,TerminalExperienceFrame.tsx,TerminalCommandDeck.tsx,TerminalRepositoryContextPanel.tsx,TerminalSupplySelectionPanel.tsx,TerminalNeedScenarioPanel.tsx,TerminalDepositComposer.tsx,TerminalClosureControlDeck.tsx},uapi/tests/{terminalSurfaceCopy.test.ts,bitcodeInlineExplainer.test.tsx}}`
   test coverage:
-  `uapi/tests/applicationSurfaceCopy.test.ts` and `uapi/tests/bitcodeInlineExplainer.test.tsx`
+  `uapi/tests/terminalSurfaceCopy.test.ts` and `uapi/tests/bitcodeInlineExplainer.test.tsx`
   proof surface:
   fifth-gate operator-guidance adjacency closure so the Bitcode Terminal now carries protocol-demonstration-style field- and action-adjacent explainers for read/write posture, repository anchoring, supply selection, need measurement, readiness, deposit provenance, and closure follow-through, with `Current source` and `Current canon` references preserved directly in the inline help contract
-- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationTransactionWorkspace.tsx,application-transaction-source.ts,application-protocol-projection.ts,application-run-data.ts},uapi/tests/{applicationTransactionSource.test.ts,applicationProtocolProjection.test.ts}}`
+- `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalTransactionWorkspace.tsx,terminal-transaction-source.ts,terminal-protocol-projection.ts,terminal-run-data.ts},uapi/tests/{terminalTransactionSource.test.ts,terminalProtocolProjection.test.ts}}`
   test coverage:
-  `uapi/tests/applicationTransactionSource.test.ts` and `uapi/tests/applicationProtocolProjection.test.ts`
+  `uapi/tests/terminalTransactionSource.test.ts` and `uapi/tests/terminalProtocolProjection.test.ts`
   proof surface:
   fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and carry a projected-detail snapshot on protocol rows so selected detail keeps repository/give/need/fit/supply posture even before retained execution-history persistence catches up
-- `{protocol-demonstration/{server.js,src/{bitcode-demo.js,bitcode-runtime.js,index.d.ts},test/v26-need-review-source-to-shares.test.js},uapi/{app/api/{need-review,state,make-bitcode-branch}/route.ts,app/application/ApplicationNeedScenarioPanel.tsx,lib/bitcode-app-context.ts,tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}}}`
+- `{protocol-demonstration/{server.js,src/{bitcode-demo.js,bitcode-runtime.js,index.d.ts},test/v26-need-review-source-to-shares.test.js},uapi/{app/api/{need-review,state,make-bitcode-branch}/route.ts,app/terminal/TerminalNeedScenarioPanel.tsx,lib/bitcode-app-context.ts,tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}}}`
   test coverage:
   `node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js`, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`
   proof surface:
   fifth-gate pre-fit Need-review API/control closure so the protocol runtime can present a measured source-to-shares Need before fit search, app-owned `/api/need-review` can record accept/reject/remeasure-with-feedback decisions, explicit non-accept decisions fail closed before branch materialization, accepted `/api/make-bitcode-branch` responses carry source-to-shares artifacts plus present-fit settlement and quantized fit-quality receipt evidence, `/api/state?principal=buyer` rereads the accepted Need-review plus source-to-shares settlement posture from app-owned state after branch materialization without exposing raw private branch files, the generated source-to-shares proof now checks those state-route test assertions directly rather than treating file presence as sufficient, the commercial route boundary is parity-tested against the protocol implementation, and the Bitcode Terminal exposes the same review boundary from native need-scenario controls rather than leaving review admission as artifact-only proof
-- `{uapi/app/application/{ApplicationClosureNativeSections.tsx,application-closure-state.ts,application-transaction-detail-snapshot.ts,application-activity-history.ts},uapi/tests/{applicationClosureState.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationActivityHistory.test.ts}}`
+- `{uapi/app/terminal/{TerminalClosureNativeSections.tsx,terminal-closure-state.ts,terminal-transaction-detail-snapshot.ts,terminal-activity-history.ts},uapi/tests/{terminalClosureState.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalActivityHistory.test.ts}}`
   test coverage:
-  `uapi/tests/{applicationClosureState.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationActivityHistory.test.ts}`
+  `uapi/tests/{terminalClosureState.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalActivityHistory.test.ts}`
   proof surface:
   fifth-gate Terminal package/interface PARITY closure for source-to-shares reads so native closure panels normalize Need-review admission, present-fit settlement review, objective-contract rows, source-to-shares refs, fit-quality hashes, fit-quality detail rows, proof-family posture, and selected-detail persistence as one use-share read model; `.bitcode/source-to-shares-fifth-gate-proof.json` now includes source-content checks over these Terminal read assertions rather than accepting file presence alone
-- `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
+- `{uapi/app/terminal/{TerminalCommandDeck.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionDetailSurface.tsx,terminal-activity-history.ts,terminal-transaction-detail-snapshot.ts,terminal-transaction-detail.ts},uapi/tests/{terminalActivityHistory.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalTransactionDetail.test.ts}}`
   test coverage:
-  `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
+  `uapi/tests/terminalActivityHistory.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   fifth-gate closure-follow-through persistence closure so branch/closure/detail-triggered Bitcode writes now persist settlement metrics, branch artifacts, proof families, and recent history into Finish `assetPackCompletion` payloads, allowing the Bitcode Terminal selected-detail surface to reread closure posture from saved activity rows instead of depending on a still-live shell snapshot
 - `{packages/api/src/{executions/agentic-execution.ts,conversations/streaming.ts,routes/{auth.ts,shippables.ts}},packages/vcs/src/service.ts,uapi/{hooks/useConversationStream.ts,types/{next-server-compat.d.ts,supabase-js-compat.d.ts},tsconfig.json},uapi/tests/{useConversationStream.firstWrite.test.ts,api/{chatStreamRoute.test.ts,conversationThreadStreamRoute.test.ts}}}`
@@ -1103,14 +1103,14 @@ Required closure posture:
   generated source-content proof plus active UAPI execution route tests
   proof surface:
   fifth-gate client execution-hook closure so the active execution caller teaches Bitcode AssetPack pipeline submission, uses canonical `definitionOfNeed` input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
-- `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
+- `{uapi/app/terminal/{TerminalCommandDeck.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionDetailSurface.tsx,terminal-activity-history.ts,terminal-transaction-detail-snapshot.ts,terminal-transaction-detail.ts},uapi/tests/{terminalActivityHistory.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalTransactionDetail.test.ts}}`
   test coverage:
-  `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
+  `uapi/tests/terminalActivityHistory.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   fifth-gate persisted-closure-panel reread closure so the Bitcode Terminal selected-detail surface can reconstruct verification, branch, settlement, and ledger panels from persisted activity rows when live shell state is absent, reducing the split between runtime shell truth and saved activity truth
-- `{uapi/app/application/{ApplicationTransactionActivitySurface.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationTransactionActivitySurface.test.tsx,applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
+- `{uapi/app/terminal/{TerminalTransactionActivitySurface.tsx,TerminalTransactionDetailSurface.tsx,terminal-activity-history.ts,terminal-transaction-detail-snapshot.ts,terminal-transaction-detail.ts},uapi/tests/{terminalTransactionActivitySurface.test.tsx,terminalActivityHistory.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalTransactionDetail.test.ts}}`
   test coverage:
-  `uapi/tests/applicationTransactionActivitySurface.test.tsx`, `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
+  `uapi/tests/terminalTransactionActivitySurface.test.tsx`, `uapi/tests/terminalActivityHistory.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
   fifth-gate persisted-share-use reread closure so saved repository-anchor, give, need, fit, and supply-selection posture now survives into selected detail and the Bitcode activity tab when no live execution stream is available, keeping the Bitcode Terminal ledger readable as one state system instead of a shell-plus-ledger split
 - `{packages/agent-generics/src/{diagnostics/instrumentation.ts,steps/{failsafe-sequence.ts,thricified-generation.ts},substeps/factories.ts}}`
@@ -1192,7 +1192,7 @@ Required closure posture:
   test coverage:
   source review against the formal fifth-gate acceptance rule and generated readiness/closure-axis artifacts
   proof surface:
-  current fifth-gate closure queue confirmation, sixth-gate MVP closure proof, and seventh-gate commercial testnet launch proof so accepted closure is explicitly bound to whole Terminal read/write acceptance, conversations/ad hoc parity, transactional readiness runtime proof, persistence runtime acceptance, non-Bitcode reform saturation, proof/promotion closure, MVP product readiness, explicit application map, activity/transactions repeated-operator loop, conversations ChatGPT-style parity, auxillaries readiness, admitted interface convergence, clean architecture, testnet-first launch boundary, wallet/BTC/`$BTD` launch readiness, proof/state reread, connected-interface launch alignment, and retirement of non-Bitcode compatibility explanations; eighth-gate provation remains downstream and cannot be substituted for launch closure evidence
+  current fifth-gate closure queue confirmation, sixth-gate MVP closure proof, and seventh-gate commercial testnet launch proof so accepted closure is explicitly bound to whole Terminal read/write acceptance, conversations/ad hoc parity, transactional readiness runtime proof, persistence runtime acceptance, non-Bitcode reform saturation, proof/promotion closure, MVP product readiness, explicit Terminal map, activity/transactions repeated-operator loop, conversations ChatGPT-style parity, auxillaries readiness, admitted interface convergence, clean architecture, testnet-first launch boundary, wallet/BTC/`$BTD` launch readiness, proof/state reread, connected-interface launch alignment, and retirement of non-Bitcode compatibility explanations; eighth-gate provation remains downstream and cannot be substituted for launch closure evidence
 
 ## Module namespace proof note
 

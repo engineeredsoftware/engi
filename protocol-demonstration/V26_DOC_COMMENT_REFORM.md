@@ -61,7 +61,7 @@ This supplement is expected to stay synchronized with:
 
 - `BITCODE_SPEC_V26.md`
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
-- `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
+- `protocol-demonstration/V26_TERMINAL_SYSTEMS.md`
 - `protocol-demonstration/V26_PROMPT_SURFACES.md`
 - `packages/doc-code/tsconfig.typecheck.json`
 - `packages/{execution-generics,registry,doc-comment,doc-code,tools-generics}/package.json`

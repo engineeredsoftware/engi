@@ -138,8 +138,8 @@ test('V26 Need-fitting Exchange and Terminal source stays TypeScript-owned witho
     'uapi/tests/api/needReviewRoute.test.js',
     'uapi/tests/api/needReviewProtocolParity.test.js',
     'uapi/tests/api/executionsHistoryWriteReadParity.test.js',
-    'uapi/tests/applicationNeedScenarios.test.js',
-    'uapi/tests/applicationClosureState.test.js'
+    'uapi/tests/terminalNeedScenarios.test.js',
+    'uapi/tests/terminalClosureState.test.js'
   ].forEach((sourcePath) => {
     assert.equal(existsSync(sourcePath), false, `${sourcePath} must not be emitted beside TypeScript source`);
   });

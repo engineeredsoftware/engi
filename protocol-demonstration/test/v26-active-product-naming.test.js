@@ -20,101 +20,101 @@ const footerAnimationsSource = readFileSync(new URL('../../uapi/styles/footer-an
 const fillGapsSource = readFileSync(new URL('../../uapi/app/fill-gaps.tsx', import.meta.url), 'utf8');
 const featureFlagsSource = readFileSync(new URL('../../uapi/config/features.ts', import.meta.url), 'utf8');
 const heroClientSource = readFileSync(new URL('../../uapi/app/hero-client.tsx', import.meta.url), 'utf8');
-const applicationPageSource = readFileSync(new URL('../../uapi/app/application/page.tsx', import.meta.url), 'utf8');
-const applicationPageClientSource = readFileSync(new URL('../../uapi/app/application/ApplicationPageClient.tsx', import.meta.url), 'utf8');
-const applicationTransactionsSource = readFileSync(
-  new URL('../../uapi/app/application/application-transactions.ts', import.meta.url),
+const terminalPageSource = readFileSync(new URL('../../uapi/app/terminal/page.tsx', import.meta.url), 'utf8');
+const terminalPageClientSource = readFileSync(new URL('../../uapi/app/terminal/TerminalPageClient.tsx', import.meta.url), 'utf8');
+const terminalTransactionsSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-transactions.ts', import.meta.url),
   'utf8',
 );
-const applicationRunDataSource = readFileSync(
-  new URL('../../uapi/app/application/application-run-data.ts', import.meta.url),
+const terminalRunDataSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-run-data.ts', import.meta.url),
   'utf8',
 );
-const applicationWorkspaceCopySource = readFileSync(
-  new URL('../../uapi/app/application/application-workspace-copy.ts', import.meta.url),
+const terminalWorkspaceCopySource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-workspace-copy.ts', import.meta.url),
   'utf8',
 );
-const applicationTransactionActivitySurfaceSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionActivitySurface.tsx', import.meta.url),
+const terminalTransactionActivitySurfaceSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionActivitySurface.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionDetailSurfaceSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionDetailSurface.tsx', import.meta.url),
+const terminalTransactionDetailSurfaceSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionDetailSurface.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionDetailHeroSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionDetailHero.tsx', import.meta.url),
+const terminalTransactionDetailHeroSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionDetailHero.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionIdentityCardSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionIdentityCard.tsx', import.meta.url),
+const terminalTransactionIdentityCardSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionIdentityCard.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionClosureCardSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionClosureCard.tsx', import.meta.url),
+const terminalTransactionClosureCardSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionClosureCard.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionProofsCardSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionProofsCard.tsx', import.meta.url),
+const terminalTransactionProofsCardSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionProofsCard.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionHistoryCardSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionHistoryCard.tsx', import.meta.url),
+const terminalTransactionHistoryCardSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionHistoryCard.tsx', import.meta.url),
   'utf8',
 );
-const applicationTransactionDetailActionBarSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionDetailActionBar.tsx', import.meta.url),
+const terminalTransactionDetailActionBarSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionDetailActionBar.tsx', import.meta.url),
   'utf8',
 );
-const applicationClosureControlDeckSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationClosureControlDeck.tsx', import.meta.url),
+const terminalClosureControlDeckSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalClosureControlDeck.tsx', import.meta.url),
   'utf8',
 );
-const applicationExperienceFrameSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationExperienceFrame.tsx', import.meta.url),
+const terminalExperienceFrameSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalExperienceFrame.tsx', import.meta.url),
   'utf8',
 );
-const applicationWorkspaceRailSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationWorkspaceRail.tsx', import.meta.url),
+const terminalWorkspaceRailSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalWorkspaceRail.tsx', import.meta.url),
   'utf8',
 );
-const applicationMockTransactionDetailsSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationMockTransactionDetails.tsx', import.meta.url),
+const terminalMockTransactionDetailsSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalMockTransactionDetails.tsx', import.meta.url),
   'utf8',
 );
-const applicationCommandPresentationSource = readFileSync(
-  new URL('../../uapi/app/application/application-command-presentation.ts', import.meta.url),
+const terminalCommandPresentationSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-command-presentation.ts', import.meta.url),
   'utf8',
 );
-const applicationFlowGuideSource = readFileSync(
-  new URL('../../uapi/app/application/application-flow-guide.ts', import.meta.url),
+const terminalFlowGuideSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-flow-guide.ts', import.meta.url),
   'utf8',
 );
-const applicationTransactionWorkspaceSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationTransactionWorkspace.tsx', import.meta.url),
+const terminalTransactionWorkspaceSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalTransactionWorkspace.tsx', import.meta.url),
   'utf8',
 );
-const applicationGiveNeedWorkbenchSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationGiveNeedWorkbench.tsx', import.meta.url),
+const terminalGiveNeedWorkbenchSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalGiveNeedWorkbench.tsx', import.meta.url),
   'utf8',
 );
-const applicationNeedScenarioPanelSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationNeedScenarioPanel.tsx', import.meta.url),
+const terminalNeedScenarioPanelSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalNeedScenarioPanel.tsx', import.meta.url),
   'utf8',
 );
-const applicationClosureNativeSectionsSource = readFileSync(
-  new URL('../../uapi/app/application/ApplicationClosureNativeSections.tsx', import.meta.url),
+const terminalClosureNativeSectionsSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalClosureNativeSections.tsx', import.meta.url),
   'utf8',
 );
-const applicationExperienceArchitectureSource = readFileSync(
-  new URL('../../uapi/app/application/application-experience-architecture.ts', import.meta.url),
+const terminalExperienceArchitectureSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-experience-architecture.ts', import.meta.url),
   'utf8',
 );
-const applicationWorkspaceExplainersSource = readFileSync(
-  new URL('../../uapi/app/application/application-workspace-explainers.ts', import.meta.url),
+const terminalWorkspaceExplainersSource = readFileSync(
+  new URL('../../uapi/app/terminal/terminal-workspace-explainers.ts', import.meta.url),
   'utf8',
 );
-const applicationReadmeSource = readFileSync(new URL('../../uapi/app/application/README.md', import.meta.url), 'utf8');
+const terminalReadmeSource = readFileSync(new URL('../../uapi/app/terminal/README.md', import.meta.url), 'utf8');
 const agenticExecutionSource = readFileSync(
   new URL('../../packages/api/src/executions/agentic-execution.ts', import.meta.url),
   'utf8',
@@ -728,7 +728,7 @@ const auxillariesConnectsSource = readFileSync(new URL('../../uapi/app/auxillari
 const auxillariesModelsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesModels.tsx', import.meta.url), 'utf8');
 const auxillariesProfileStepSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProfileStep.tsx', import.meta.url), 'utf8');
 const externalRealizationRouteTestSource = readFileSync(new URL('../../uapi/tests/api/externalRealizationRoute.test.ts', import.meta.url), 'utf8');
-const applicationExternalRuntimeTestSource = readFileSync(new URL('../../uapi/tests/applicationExternalRuntime.test.ts', import.meta.url), 'utf8');
+const terminalExternalRuntimeTestSource = readFileSync(new URL('../../uapi/tests/terminalExternalRuntime.test.ts', import.meta.url), 'utf8');
 const orbitalsOnboardingRouteTestSource = readFileSync(new URL('../../uapi/tests/orbitalsOnboardingRoute.test.ts', import.meta.url), 'utf8');
 const userDataRouteTestSource = readFileSync(new URL('../../uapi/tests/userDataRoute.test.ts', import.meta.url), 'utf8');
 const bitcodeScriptSource = readFileSync(new URL('../SCRIPT.md', import.meta.url), 'utf8');
@@ -813,7 +813,7 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
   assert.equal(
     existsSync(new URL('../../uapi/app/_legacy', import.meta.url)),
     false,
-    `${new URL('../../uapi/app/_legacy', import.meta.url).pathname} should not remain as an active application subtree`
+    `${new URL('../../uapi/app/_legacy', import.meta.url).pathname} should not remain as an active terminal subtree`
   );
   assert.equal(
     existsSync(new URL('../../uapi/components/base/bitcode/credits', import.meta.url)),
@@ -1210,8 +1210,8 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(agenticExecutionSource, /pipeline:deliverables/);
   assert.match(agenticExecutionSource, /AssetPack execution/);
   assert.match(agenticExecutionSource, /need measurement execution/);
-  assert.match(applicationPageSource, /Bitcode Terminal/);
-  assert.match(applicationPageClientSource, /Bitcode Terminal/);
+  assert.match(terminalPageSource, /Bitcode Terminal/);
+  assert.match(terminalPageClientSource, /Bitcode Terminal/);
   assert.match(conversationsRouteClientSource, /Bitcode Terminal write path/);
   assert.match(conversationsRouteClientSource, /Bitcode activity ledger/);
   assert.match(
@@ -1232,63 +1232,63 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(conversationSharedSource, /agentic-execution:need-measurement/);
   assert.match(conversationSharedSource, /Mock Bitcode agentic execution/);
   assert.match(conversationSharedSource, /source attachments, asset packs, output destinations, and settlement-bound proofs/);
-  assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal experience map/);
-  assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal activity map/);
-  assert.doesNotMatch(applicationWorkspaceExplainersSource, /Transactions experience map/);
-  assert.match(applicationPageClientSource, /buildApplicationExecutionHistoryRequest/);
-  assert.match(applicationPageClientSource, /mapExecutionHistoryRunToWorkspaceRun/);
-  assert.match(applicationPageClientSource, /\/api\/executions\/history/);
-  assert.doesNotMatch(applicationPageClientSource, /deriveClosureFocus/);
-  assert.doesNotMatch(applicationPageClientSource, /deriveProofStatus/);
-  assert.doesNotMatch(applicationPageClientSource, /deriveTransactionLens/);
-  assert.match(applicationTransactionsSource, /buildAgenticExecutionSummary/);
-  assert.match(applicationTransactionsSource, /typeLabel/);
-  assert.match(applicationRunDataSource, /agentic-execution:asset-pack/);
-  assert.match(applicationRunDataSource, /agentic-execution:need-measurement/);
-  assert.match(applicationRunDataSource, /agentic-execution:proof-refresh/);
-  assert.match(applicationRunDataSource, /Bitcode Terminal/);
-  assert.match(applicationPageSource, /need measurement, asset packs, settlements/);
-  assert.match(applicationPageClientSource, /activity into asset packs, proofs, and history/);
-  assert.match(applicationWorkspaceCopySource, /Bitcode Terminal/);
-  assert.match(applicationWorkspaceCopySource, /asset-pack posture/);
-  assert.match(applicationWorkspaceCopySource, /asset pack, proofs, and history/);
-  assert.match(applicationTransactionActivitySurfaceSource, /Bitcode Terminal/);
-  assert.match(applicationTransactionActivitySurfaceSource, /selected Bitcode activity/);
-  assert.match(applicationTransactionDetailSurfaceSource, /selected Bitcode activity/);
-  assert.match(applicationTransactionDetailSurfaceSource, /Shippables attached to this activity/);
-  assert.match(applicationTransactionDetailHeroSource, /Bitcode Terminal activity detail/);
-  assert.match(applicationTransactionIdentityCardSource, /Selected activity/);
-  assert.match(applicationTransactionIdentityCardSource, /Activity payload/);
-  assert.match(applicationTransactionClosureCardSource, /selected Bitcode activity/);
-  assert.match(applicationTransactionProofsCardSource, /Bounded proof stays in activity detail/);
-  assert.match(applicationTransactionHistoryCardSource, /Recent activity history stays inline/);
-  assert.match(applicationTransactionDetailActionBarSource, /Shippables/);
-  assert.match(applicationTransactionDetailActionBarSource, /selected Bitcode activity/);
-  assert.match(applicationClosureControlDeckSource, /active Bitcode activity detail/);
-  assert.match(applicationTransactionWorkspaceSource, /Master-detail activity, asset packs, proofs, and history/);
-  assert.match(applicationTransactionWorkspaceSource, /select Bitcode activity, inspect its asset packs/);
-  assert.match(applicationGiveNeedWorkbenchSource, /need measurement/);
-  assert.match(applicationGiveNeedWorkbenchSource, /Asset-pack fit and settlement intent/);
-  assert.match(applicationNeedScenarioPanelSource, /Choose the active need measurement/);
-  assert.match(applicationNeedScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
-  assert.match(applicationClosureNativeSectionsSource, /Need review, verification, asset pack, settlement, and ledger/);
-  assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
-  assert.match(applicationExperienceArchitectureSource, /Bitcode activity ledger/);
-  assert.match(applicationExperienceArchitectureSource, /current Bitcode activity context/);
-  assert.match(applicationExperienceArchitectureSource, /label: 'Shippables'/);
-  assert.match(applicationWorkspaceExplainersSource, /selected activity/);
-  assert.match(applicationWorkspaceExplainersSource, /current Bitcode activity chain/);
-  assert.match(applicationWorkspaceExplainersSource, /asset packs or settlement/);
-  assert.match(applicationExperienceFrameSource, /activity ledger \+ selected detail/);
-  assert.match(applicationExperienceFrameSource, /asset packs, and history stay connected/);
-  assert.match(applicationWorkspaceRailSource, /Activity id/);
-  assert.match(applicationWorkspaceRailSource, /selected Bitcode activity is now loaded/);
-  assert.match(applicationMockTransactionDetailsSource, /Mock activity detail/);
-  assert.match(applicationCommandPresentationSource, /current Bitcode activity/);
-  assert.match(applicationFlowGuideSource, /selected Bitcode activity context/);
-  assert.match(applicationFlowGuideSource, /asset-pack, and history follow-through/);
-  assert.match(applicationReadmeSource, /activity ledger as the master surface/);
-  assert.match(applicationReadmeSource, /selected activity detail as the detail surface/);
+  assert.match(terminalWorkspaceExplainersSource, /Bitcode Terminal experience map/);
+  assert.match(terminalWorkspaceExplainersSource, /Bitcode Terminal activity map/);
+  assert.doesNotMatch(terminalWorkspaceExplainersSource, /Transactions experience map/);
+  assert.match(terminalPageClientSource, /buildTerminalExecutionHistoryRequest/);
+  assert.match(terminalPageClientSource, /mapExecutionHistoryRunToWorkspaceRun/);
+  assert.match(terminalPageClientSource, /\/api\/executions\/history/);
+  assert.doesNotMatch(terminalPageClientSource, /deriveClosureFocus/);
+  assert.doesNotMatch(terminalPageClientSource, /deriveProofStatus/);
+  assert.doesNotMatch(terminalPageClientSource, /deriveTransactionLens/);
+  assert.match(terminalTransactionsSource, /buildAgenticExecutionSummary/);
+  assert.match(terminalTransactionsSource, /typeLabel/);
+  assert.match(terminalRunDataSource, /agentic-execution:asset-pack/);
+  assert.match(terminalRunDataSource, /agentic-execution:need-measurement/);
+  assert.match(terminalRunDataSource, /agentic-execution:proof-refresh/);
+  assert.match(terminalRunDataSource, /Bitcode Terminal/);
+  assert.match(terminalPageSource, /need measurement, asset packs, settlements/);
+  assert.match(terminalPageClientSource, /activity into asset packs, proofs, and history/);
+  assert.match(terminalWorkspaceCopySource, /Bitcode Terminal/);
+  assert.match(terminalWorkspaceCopySource, /asset-pack posture/);
+  assert.match(terminalWorkspaceCopySource, /asset pack, proofs, and history/);
+  assert.match(terminalTransactionActivitySurfaceSource, /Bitcode Terminal/);
+  assert.match(terminalTransactionActivitySurfaceSource, /selected Bitcode activity/);
+  assert.match(terminalTransactionDetailSurfaceSource, /selected Bitcode activity/);
+  assert.match(terminalTransactionDetailSurfaceSource, /Shippables attached to this activity/);
+  assert.match(terminalTransactionDetailHeroSource, /Bitcode Terminal activity detail/);
+  assert.match(terminalTransactionIdentityCardSource, /Selected activity/);
+  assert.match(terminalTransactionIdentityCardSource, /Activity payload/);
+  assert.match(terminalTransactionClosureCardSource, /selected Bitcode activity/);
+  assert.match(terminalTransactionProofsCardSource, /Bounded proof stays in activity detail/);
+  assert.match(terminalTransactionHistoryCardSource, /Recent activity history stays inline/);
+  assert.match(terminalTransactionDetailActionBarSource, /Shippables/);
+  assert.match(terminalTransactionDetailActionBarSource, /selected Bitcode activity/);
+  assert.match(terminalClosureControlDeckSource, /active Bitcode activity detail/);
+  assert.match(terminalTransactionWorkspaceSource, /Master-detail activity, asset packs, proofs, and history/);
+  assert.match(terminalTransactionWorkspaceSource, /select Bitcode activity, inspect its asset packs/);
+  assert.match(terminalGiveNeedWorkbenchSource, /need measurement/);
+  assert.match(terminalGiveNeedWorkbenchSource, /Asset-pack fit and settlement intent/);
+  assert.match(terminalNeedScenarioPanelSource, /Choose the active need measurement/);
+  assert.match(terminalNeedScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
+  assert.match(terminalClosureNativeSectionsSource, /Need review, verification, asset pack, settlement, and ledger/);
+  assert.match(terminalExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
+  assert.match(terminalExperienceArchitectureSource, /Bitcode activity ledger/);
+  assert.match(terminalExperienceArchitectureSource, /current Bitcode activity context/);
+  assert.match(terminalExperienceArchitectureSource, /label: 'Shippables'/);
+  assert.match(terminalWorkspaceExplainersSource, /selected activity/);
+  assert.match(terminalWorkspaceExplainersSource, /current Bitcode activity chain/);
+  assert.match(terminalWorkspaceExplainersSource, /asset packs or settlement/);
+  assert.match(terminalExperienceFrameSource, /activity ledger \+ selected detail/);
+  assert.match(terminalExperienceFrameSource, /asset packs, and history stay connected/);
+  assert.match(terminalWorkspaceRailSource, /Activity id/);
+  assert.match(terminalWorkspaceRailSource, /selected Bitcode activity is now loaded/);
+  assert.match(terminalMockTransactionDetailsSource, /Mock activity detail/);
+  assert.match(terminalCommandPresentationSource, /current Bitcode activity/);
+  assert.match(terminalFlowGuideSource, /selected Bitcode activity context/);
+  assert.match(terminalFlowGuideSource, /asset-pack, and history follow-through/);
+  assert.match(terminalReadmeSource, /activity ledger as the master surface/);
+  assert.match(terminalReadmeSource, /selected activity detail as the detail surface/);
   assert.match(bitcodeTransactionsTableSource, /Rich Bitcode activity ledger/);
   assert.match(bitcodeTransactionsActiveFiltersSource, /Bitcode activity window/);
   assert.match(bitcodeTransactionsOverviewSource, /activity active/);
@@ -1402,14 +1402,14 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.equal(existsSync(createCheckoutSessionRoutePath), false);
   assert.equal(existsSync(fulfillCheckoutSessionRoutePath), false);
   assert.doesNotMatch(heroClientSource, /successful_checkout_session_id/);
-  assert.match(btdTrackerSource, /\/application\?intent=acquire-btd/);
+  assert.match(btdTrackerSource, /\/terminal\?intent=acquire-btd/);
   assert.match(btdTrackerSource, /BTC pays fees/);
   assert.match(btdTrackerSource, /non-fungible asset-pack share\/read-right/);
   assert.doesNotMatch(btdTrackerSource, /create-checkout-session/);
   assert.doesNotMatch(btdTrackerSource, /\bStripe\b/);
   assert.doesNotMatch(btdTrackerSource, /Buy More/);
   assert.match(marketingPricingSectionSource, /Opening BTD acquisition/);
-  assert.match(marketingPricingSectionSource, /\/application\?intent=acquire-btd/);
+  assert.match(marketingPricingSectionSource, /\/terminal\?intent=acquire-btd/);
   assert.match(marketingPricingSectionSource, /BTC pays fees/);
   assert.doesNotMatch(marketingPricingSectionSource, /create-checkout-session/);
   assert.doesNotMatch(marketingPricingSectionSource, /\bStripe\b/);
@@ -1737,14 +1737,14 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(orbitalsOnboardingRouteTestSource, /completedPanes/);
   assert.match(userDataRouteTestSource, /onboardedPanes/);
   assert.match(externalRealizationRouteTestSource, /BITCODE_V24_ENVIRONMENT_MODE/);
-  assert.match(applicationExternalRuntimeTestSource, /BITCODE_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
+  assert.match(terminalExternalRuntimeTestSource, /BITCODE_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
   assert.match(bitcodeChecklistSource, /BITCODE_NEED\.md/);
   assert.match(bitcodeScriptSource, /BITCODE_NEED\.md/);
   assert.match(bitcodeDemoSpecV15Source, /BITCODE_NEED\.md/);
   assert.match(specV6GapAnalysisSource, /BITCODE_NEED\.md/);
   assert.doesNotMatch(btdStepInitialFlowTestSource, /@\/app\/orbitals\/components\/OrbitalsDataSharingPanel/);
   assert.doesNotMatch(externalRealizationRouteTestSource, /ENGI_V24_ENVIRONMENT_MODE/);
-  assert.doesNotMatch(applicationExternalRuntimeTestSource, /ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
+  assert.doesNotMatch(terminalExternalRuntimeTestSource, /ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
   assert.doesNotMatch(bitcodeChecklistSource, /ENGI_NEED\.md/);
   assert.doesNotMatch(bitcodeScriptSource, /ENGI_NEED\.md/);
   assert.doesNotMatch(bitcodeDemoSpecV15Source, /ENGI_NEED\.md/);
@@ -2398,7 +2398,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(performanceDocSource, /Auxillary Performance/);
   assert.match(verificationDocSource, /# Bitcode Verification Notes/);
   assert.match(verificationDocSource, /Need review and fit review tests/);
-  assert.match(uapiArchitectureDocSource, /main API and web application layer for Bitcode/);
+  assert.match(uapiArchitectureDocSource, /main API and web terminal layer for Bitcode/);
   assert.doesNotMatch(rootTsconfigSource, /measureEngi/);
   assert.doesNotMatch(uapiTsconfigSource, /measureEngi/);
   assert.match(startBitcodeMcpScriptSource, /BITCODE_LOG_STDOUT/);
@@ -2533,7 +2533,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(architecturePatternsDocSource, /Architectural Laws of Engi/);
   assert.doesNotMatch(performanceDocSource, /Critical Performance Patterns in Engi/);
   assert.doesNotMatch(verificationDocSource, /explains the Engi test architecture across layers/);
-  assert.doesNotMatch(uapiArchitectureDocSource, /main API and web application layer for Engi/);
+  assert.doesNotMatch(uapiArchitectureDocSource, /main API and web terminal layer for Engi/);
   assert.doesNotMatch(bitcodeV10PrepMemoSource, /engi-demo\//);
   assert.doesNotMatch(bitcodeV10PrepMemoSource, /ENGI_V10_PREP_MEMO\.md/);
   assert.doesNotMatch(bitcodeV10PrepMemoSource, /ENGI_SPEC\.txt/);
@@ -2667,7 +2667,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(auxillariesReadinessDocSource, /Engi uses Supabase Auth/);
 
   assert.match(frontendArchitectureDocSource, /# Bitcode Frontend Architecture Notes/);
-  assert.match(frontendArchitectureDocSource, /Bitcode Terminal at `\/application`/);
+  assert.match(frontendArchitectureDocSource, /Bitcode Terminal at `\/terminal`/);
   assert.match(frontendArchitectureDocSource, /Auxillaries/);
   assert.match(frontendArchitectureDocSource, /Transactions/);
   assert.doesNotMatch(frontendArchitectureDocSource, /The Engi app consists of three core experience categories/);
@@ -2680,7 +2680,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
 
   assert.match(productGuideSource, /# Bitcode V26 Product Guide/);
   assert.match(productGuideSource, /Activity compatibility page lives under `\/executions`/);
-  assert.match(productGuideSource, /Transactions write-space lives under `\/application`/);
+  assert.match(productGuideSource, /Transactions write-space lives under `\/terminal`/);
   assert.match(productGuideSource, /Auxillaries live under `\/auxillaries\/\*`/);
   assert.doesNotMatch(productGuideSource, /# Engi V26 Product Guide/);
 

@@ -6,7 +6,7 @@
     "draftTargetVersion": "V28",
     "operatorLabel": "V27 active canon / V28 system draft",
     "specVersionLabel": "Bitcode Spec V27 active canon / V28 system draft",
-    "documentTitle": "Bitcode Application",
+    "documentTitle": "Bitcode Demonstration",
     "policyRef": "policy://bitcode/spec-v27-active-v28-system-draft/current",
     "activeProvenAppendixPath": "BITCODE_SPEC_V27_PROVEN.md",
     "draftSpecPath": "BITCODE_SPEC_V28.md",
