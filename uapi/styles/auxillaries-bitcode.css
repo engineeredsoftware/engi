@@ -34,6 +34,9 @@
 
 .auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-shell {
   width: min(100%, 92rem);
+  height: min(58rem, calc(100dvh - clamp(2rem, 4vw, 4rem)));
+  min-height: 0 !important;
+  max-height: calc(100dvh - clamp(2rem, 4vw, 4rem));
   margin: auto;
 }
 
@@ -60,6 +63,7 @@
   gap: clamp(1rem, 1.8vw, 1.4rem) !important;
   min-height: min(58rem, calc(100vh - 14rem)) !important;
   padding-top: 0 !important;
+  overflow: hidden;
 }
 
 .auxillaries-bitcode-selector {
@@ -97,6 +101,8 @@
 .auxillaries-bitcode-selector-list {
   display: grid !important;
   gap: 0.75rem !important;
+  overflow: auto;
+  padding-right: 0.15rem;
 }
 
 .auxillaries-bitcode-selector-card {
@@ -131,12 +137,48 @@
   white-space: nowrap;
 }
 
+.auxillaries-bitcode-selector-card-topline {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.7rem !important;
+}
+
 .auxillaries-bitcode-selector-card-layer {
   color: rgba(167, 243, 208, 0.84) !important;
 }
 
 .auxillaries-bitcode-selector-card-state {
-  color: rgba(226, 232, 240, 0.62) !important;
+  display: inline-flex !important;
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(148, 163, 184, 0.46);
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.08);
+}
+
+.auxillaries-bitcode-selector-card-state-ready {
+  border-color: rgba(167, 243, 208, 0.28);
+  background: rgba(167, 243, 208, 0.72);
+  box-shadow: 0 0 0 3px rgba(101, 254, 183, 0.09);
+}
+
+.auxillaries-bitcode-selector-card-state-active {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-color: rgba(101, 254, 183, 0.74);
+  background: rgba(101, 254, 183, 0.95);
+  box-shadow:
+    0 0 0 4px rgba(101, 254, 183, 0.12),
+    0 0 16px rgba(101, 254, 183, 0.5);
+}
+
+.auxillaries-bitcode-selector-card-state-locked {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(148, 163, 184, 0.28);
+  box-shadow: none;
 }
 
 .auxillaries-bitcode-selector-card-label {
@@ -153,7 +195,9 @@
 .auxillaries-bitcode-pane {
   display: flex !important;
   min-width: 0;
-  min-height: 100%;
+  min-height: 0 !important;
+  height: 100%;
+  overflow: hidden;
 }
 
 .auxillaries-bitcode-pane > .orbital-content-container,
@@ -164,10 +208,10 @@
   width: 100% !important;
   max-width: none !important;
   height: auto !important;
-  max-height: none !important;
+  max-height: 100% !important;
   min-height: 100% !important;
   margin: 0 !important;
-  overflow: visible !important;
+  overflow: auto !important;
   border: 1px solid var(--aux-bc-line) !important;
   border-radius: 1.45rem !important;
   background:

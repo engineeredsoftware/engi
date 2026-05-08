@@ -294,6 +294,26 @@ export default function AuxillariesProfilePane({ onSave,
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
 
   useEffect(() => {
+    _setUsername(initialUsername);
+  }, [initialUsername]);
+
+  useEffect(() => {
+    setDisplayName(initialDisplayName);
+  }, [initialDisplayName]);
+
+  useEffect(() => {
+    setBio(initialBio);
+  }, [initialBio]);
+
+  useEffect(() => {
+    setCompanyName(initialCompanyName);
+  }, [initialCompanyName]);
+
+  useEffect(() => {
+    setAvatarUrl(initialAvatarUrl);
+  }, [initialAvatarUrl]);
+
+  useEffect(() => {
     setWalletAddress(initialWalletAddress);
     setWalletProvider(initialWalletProvider || (initialWalletAddress ? 'manual' : ''));
     setWalletBindingStatus(initialWalletBindingStatus ?? (initialWalletAddress ? 'manual' : null));
@@ -320,6 +340,11 @@ export default function AuxillariesProfilePane({ onSave,
     ]
   );
   const [teamSectionExpanded, setTeamSectionExpanded] = useState(false);
+
+  useEffect(() => {
+    if (initialTeamMembers.length === 0) return;
+    setTeamMembers(initialTeamMembers);
+  }, [initialTeamMembers]);
 
   // Sample avatar options
   const avatarOptions = AVATAR_OPTIONS;

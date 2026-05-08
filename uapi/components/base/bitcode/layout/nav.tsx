@@ -84,7 +84,13 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
-  const { btdBalance, btcFeeBalance, recentBtdAssetPacks } = useUserData();
+  const {
+    btdBalance,
+    btcFeeBalance,
+    recentBtdAssetPacks,
+    isLoading: isUserDataLoading,
+    isRevalidating: isUserDataRevalidating,
+  } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
   const [showNavEntrance, setShowNavEntrance] = useState(navEntrancePlayedInRuntime);
@@ -489,6 +495,7 @@ export default function Nav() {
                     btdBalance={btdBalance}
                     btcFeeBalance={btcFeeBalance}
                     recentBtdAssetPacks={recentBtdAssetPacks}
+                    isLoading={isUserDataLoading || isUserDataRevalidating}
                   />
                 )}
 

@@ -53,6 +53,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 let nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  // V28 QA runs deterministic mock and testnet-readiness dev servers side by
+  // side.  Keep their Next build artifacts isolated so public env compilation
+  // cannot leak between lanes.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   productionBrowserSourceMaps: false,
   experimental: {
     // Allow importing source files from outside the `uapi` package directory.
@@ -85,6 +89,7 @@ let nextConfig = {
     '@bitcode/generic-tools-lsp-query',
     '@bitcode/vcs-tools',
     // Core shared libs commonly imported in app/server code
+    '@bitcode/protocol',
     '@bitcode/models',
     '@bitcode/files',
     '@bitcode/logger',
@@ -112,6 +117,17 @@ let nextConfig = {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     // Disable “use” / auth entry points across the marketing site.
     NEXT_PUBLIC_DISABLE_USING: process.env.NEXT_PUBLIC_DISABLE_USING ?? 'true',
+    NEXT_PUBLIC_MASTER_MOCK_MODE: process.env.NEXT_PUBLIC_MASTER_MOCK_MODE,
+    NEXT_PUBLIC_ENABLE_MOCKS: process.env.NEXT_PUBLIC_ENABLE_MOCKS,
+    NEXT_PUBLIC_MOCK_USER_AUXILLARIES: process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES,
+    NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO: process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO,
+    NEXT_PUBLIC_MOCK_SCENARIO: process.env.NEXT_PUBLIC_MOCK_SCENARIO,
+    NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS: process.env.NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS,
+    NEXT_PUBLIC_MOCK_GITHUB_REPOS: process.env.NEXT_PUBLIC_MOCK_GITHUB_REPOS,
+    NEXT_PUBLIC_MOCK_GITHUB_BRANCHES: process.env.NEXT_PUBLIC_MOCK_GITHUB_BRANCHES,
+    NEXT_PUBLIC_MOCK_GITHUB_COMMITS: process.env.NEXT_PUBLIC_MOCK_GITHUB_COMMITS,
+    NEXT_PUBLIC_MOCK_CHAT_STREAM: process.env.NEXT_PUBLIC_MOCK_CHAT_STREAM,
+    NEXT_PUBLIC_MOCK_CHAT_SCENARIO: process.env.NEXT_PUBLIC_MOCK_CHAT_SCENARIO,
     NEXT_PUBLIC_APP_VERSION: (() => {
       // Prefer CI-provided commit SHA if available to avoid spawning git.
       if (process.env.VERCEL_GIT_COMMIT_SHA) {
@@ -289,6 +305,8 @@ let nextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Single top-level alias for prompts – root-only import
+      '@bitcode/protocol': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js'),
+      '@bitcode/protocol$': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js'),
       '@bitcode/prompts': path.resolve(__dirname, '..', 'packages', 'prompts', 'src', 'index.ts'),
       '@bitcode/execution-generics': path.resolve(
         __dirname,

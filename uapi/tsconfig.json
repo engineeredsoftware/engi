@@ -525,7 +525,9 @@
     "app/**/*.ts",
     "app/**/*.tsx",
     "types/**/*.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next-v28-testnet/types/**/*.ts",
+    ".next-v28-mock/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

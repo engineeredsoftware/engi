@@ -171,6 +171,33 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Testnet-readiness | `http://127.0.0.1:3001/terminal` | renders HTTP 200 after cold compile | Server runs with public mock flags disabled and `NEXT_PUBLIC_BITCODE_ENV=testnet`; missing live credentials/providers are expected to appear as blocked readiness, not success. |
 | Both | `/terminal` browser title | pass | Follow-up smoke confirms both lanes keep the commercial `Bitcode Terminal` document title after the embedded witness title guard. |
 | Both | 2026-05-08 dev-server restart for Pass 3A | pass | Mock server restarted on `3000`; testnet-readiness server restarted on `3001`; curl and Playwright smoke confirm `/terminal` HTTP 200, `Bitcode Terminal` title, no page errors, and no non-HMR internal 404s after reload. |
+| Vercel deployment build | pass after fix | Latest deployment failed because `lib/bitcode-app-context.ts` imported `@bitcode/protocol` before Next's workspace-package resolver knew how to transpile/alias the new formal protocol package. V28 now adds `@bitcode/protocol` to `transpilePackages`, aliases the root import to `packages/protocol/src/index.js`, and verifies the resolver in `tests/protocolCommercialBoundary.test.ts`. Local `pnpm run build` from `uapi` now passes. |
+| Mock top chrome during 1A | pass | Manual reconfirmation on 2026-05-08 accepted the fixed mock balance, notification, and profile posture. V28 now treats master mock mode as sufficient for auxillaries mock data in client and server code, explicitly exposes public mock flags through Next config, and revalidates stale module-level user data on new mount so lane transitions cannot keep anonymous/zero cached data. |
+| Dual-lane dev artifact isolation | pass | Manual reconfirmation on 2026-05-08 accepted the mock/testnet-readiness separation. V28 QA servers use lane-specific `NEXT_DIST_DIR` values so public mock env compilation is isolated per lane. |
+
+### 2026-05-08 Pass 3A: Auxillaries Profile And Connects Readiness
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Auxillaries overlay opens and pane selection works | pass | Manual QA confirmed the overlay opens and panes remain selectable. |
+| Inner pane scrolling | fixed | Manual QA found the contained pane could not scroll down. V28 now constrains the overlay shell height, keeps the pane as the scroll container, and verifies the active pane can advance `scrollTop` with `overflowY:auto`. |
+| Selector card state rendering | fixed | Manual QA found raw `laneactive` / `laneready` text. V28 replaces visible state prose with active/ready/locked visual indicators and keeps state available through `aria-label`, `title`, and `data-state` for accessibility and tests. |
+| Mock profile fields | fixed | Manual QA confirmed email but found display name and bio missing. V28 now hydrates async initial profile props into local editable state and mock data supplies display name, bio, and company posture. |
+| Connected repositories | pass | Manual QA confirmed mocked connected repos; browser verification confirms `Connected Repositories (3)` and `bitcode/economic-ledger` render in Connects. |
+| BTD/BTC first-load posture | fixed | Manual QA found the top-right widget flashing anonymous zero-state before hydrated values. V28 now surfaces a compact `Reading wallet` posture while fresh lane-specific user data is loading or revalidating stale cached zero-state. |
+| Console/page errors | pass | Manual QA reported none; focused browser verification reports no product console messages and no page errors. |
+
+Automated verification for this slice:
+
+- `pnpm -C uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/btdTrackerLoading.test.tsx tests/auxillariesWorkspacePanels.test.tsx tests/featureFlagsMockMode.test.ts`: pass.
+- `pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 8 passed.
+- Focused browser verification on the mock lane: raw lane text count `0`, state indicator count `4`, Profile display name `Avery Mercer`, Profile bio `Reviewing the Bitcode commercial surface in deterministic mock mode.`, pane `scrollTop` advances, Connects repos present, no product console/page errors.
+
+Deferred to V31 from this pass:
+
+| Finding | V31 disposition |
+| --- | --- |
+| Auxillaries pane hierarchy, spacing, border polish, readiness recovery, and account/provider diagnostics can deepen beyond the V28 MVP shell. | V31 owns full Auxillaries deepening after V28 proves the contained shell, pane selectability, mocked prerequisites, and fail-closed readiness posture. |
 
 Ignored during this setup smoke: Google Analytics network aborts in headless Playwright.
 They are external telemetry noise, not product readiness evidence.
@@ -187,6 +214,8 @@ Automated verification after this implementation pass:
 - `pnpm -C packages/protocol test`: 1 passed after the formal package split.
 - `pnpm -C packages/protocol run typecheck`: pass after adding the formal package typecheck config.
 - `pnpm -C uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`: 3 passed after the formal package split.
+- `pnpm -C uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/featureFlagsMockMode.test.ts tests/protocolCommercialBoundary.test.ts`: 11 passed after the mock top-chrome cache/flag fix, JavaScript companion parity check, and protocol package resolver check.
+- Playwright dual-lane browser verification after lane-specific `NEXT_DIST_DIR` restart: mock lane shows `0.042 BTC`, `1,200 BTD`, mock review state, reviewer profile, and populated notifications; testnet-readiness lane shows no mock balances, no mock review state, and the Connect Wallet prerequisite controls; both lanes have no product console/page errors.
 
 Deferred to V29 from this pass:
 
@@ -208,6 +237,7 @@ Mock lane dev server:
 
 ```sh
 NEXT_PUBLIC_MASTER_MOCK_MODE=true \
+NEXT_DIST_DIR=.next-v28-mock \
 NEXT_PUBLIC_ENABLE_MOCKS=true \
 NEXT_PUBLIC_MOCK_USER_AUXILLARIES=true \
 NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO=demo \
@@ -225,6 +255,7 @@ Testnet-readiness lane dev server:
 
 ```sh
 NEXT_PUBLIC_BITCODE_ENV=testnet \
+NEXT_DIST_DIR=.next-v28-testnet \
 NEXT_PUBLIC_MASTER_MOCK_MODE=false \
 NEXT_PUBLIC_ENABLE_MOCKS=false \
 NEXT_PUBLIC_MOCK_USER_AUXILLARIES=false \

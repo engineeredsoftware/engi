@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import Logo from '@/components/base/bitcode/branding/logo';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,6 +18,7 @@ interface BTDTrackerProps {
   btdBalance: number;
   btcFeeBalance?: number | null;
   recentBtdAssetPacks?: BtdAssetPackSummary[];
+  isLoading?: boolean;
 }
 
 function formatBtcFeeBalance(balance: number | null | undefined) {
@@ -53,16 +54,18 @@ export function BTDTracker({
   btdBalance,
   btcFeeBalance = null,
   recentBtdAssetPacks = [],
+  isLoading = false,
 }: BTDTrackerProps) {
   const [displayedBtdBalance, setDisplayedBtdBalance] = useState(btdBalance);
   const [displayedBtcFeeBalance, setDisplayedBtcFeeBalance] = useState<number | null>(btcFeeBalance);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [exchangeState, setExchangeState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const shouldShowExchangeNow = isHovered;
+  const isBalanceLoading = isLoading && btdBalance === 0 && btcFeeBalance === null;
+  const shouldShowExchangeNow = isHovered && !isBalanceLoading;
   const btcBalanceLabel = formatBtcFeeBalance(displayedBtcFeeBalance);
   const btdBalanceLabel = `${displayedBtdBalance.toLocaleString()} BTD`;
-  const balanceLabel = `${btcBalanceLabel}; ${btdBalanceLabel}`;
+  const balanceLabel = isBalanceLoading ? 'Reading BTC and BTD wallet posture' : `${btcBalanceLabel}; ${btdBalanceLabel}`;
   const recentAssetPackTitle = useMemo(() => {
     const labels = recentBtdAssetPacks
       .slice(0, 5)
@@ -76,14 +79,16 @@ export function BTDTracker({
   // Measure the widest hover/rest posture so the tracker does not resize on hover.
   const exchangeRef = useRef<HTMLSpanElement>(null);
   const btdRef = useRef<HTMLSpanElement>(null);
+  const loadingRef = useRef<HTMLSpanElement>(null);
   const [textWidth, setTextWidth] = useState(0);
   useLayoutEffect(() => {
-    if (exchangeRef.current && btdRef.current) {
+    if (exchangeRef.current && btdRef.current && loadingRef.current) {
       const exchangeW = exchangeRef.current.offsetWidth;
       const btdW = btdRef.current.offsetWidth;
-      setTextWidth(Math.ceil(Math.max(exchangeW, btdW)));
+      const loadingW = loadingRef.current.offsetWidth;
+      setTextWidth(Math.ceil(Math.max(exchangeW, btdW, loadingW)));
     }
-  }, [displayedBtcFeeBalance, displayedBtdBalance]);
+  }, [displayedBtcFeeBalance, displayedBtdBalance, isBalanceLoading]);
   // Compute static container min-width: icon + gap + text + horizontal paddings
   const paddingPx = 24; // px-6
   const iconWidthPx = 16; // w-4
@@ -318,6 +323,7 @@ export function BTDTracker({
           {/* Hidden measurement spans */}
           <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
             <span ref={exchangeRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Exchange BTD</span>
+            <span ref={loadingRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Reading wallet</span>
             <span ref={btdRef} className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm">
               <span>{btcBalanceLabel}</span>
               <span
@@ -377,6 +383,21 @@ export function BTDTracker({
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >Opening Exchange...</motion.span>
+            ) : isBalanceLoading ? (
+              <motion.span
+                key="wallet-loading"
+                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm text-emerald-200/78"
+                initial={{ opacity: 0, rotateX: -90 }}
+                animate={{ opacity: 1, rotateX: 0 }}
+                exit={{ opacity: 0, rotateX: 90 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+              >
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-200/80 shadow-[0_0_10px_rgba(103,254,183,0.45)]"
+                />
+                <span>Reading wallet</span>
+              </motion.span>
             ) : exchangeState === 'idle' && shouldShowExchangeNow ? (
               <motion.span
                 key="exchange"

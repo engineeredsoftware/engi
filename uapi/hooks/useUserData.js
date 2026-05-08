@@ -2,6 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mutateUserData = mutateUserData;
+exports.resetUserDataCacheForTests = resetUserDataCacheForTests;
 exports.useUserData = useUserData;
 // Centralised user data fetch & cache so all UI surfaces (Nav, the BTD balance
 // tracker, auxillaries, etc.) share a single source of truth and avoid
@@ -19,6 +20,7 @@ const ANONYMOUS_USER_DATA = {
     organizations: [],
     btdBalance: 0,
     btcFeeBalance: null,
+    recentBtdAssetPacks: [],
     modelPreferences: null,
     onboardedPanes: [],
     onboarded_steps: [],
@@ -94,11 +96,11 @@ function readNumericField(source, ...keys) {
 // ---------------------------------------------------------------------------
 let cached = null;
 let inFlight = null;
-async function fetchUserData() {
+async function fetchUserData(options = {}) {
     // Return the cached object immediately if available so callers can render
     // synchronously while we start a background revalidation (handled in the
     // hook).
-    if (cached)
+    if (cached && !options.revalidate)
         return cached;
     // If a request is already in-flight, return the shared promise.
     if (inFlight)
@@ -128,6 +130,12 @@ async function mutateUserData() {
     cached = null;
     return fetchUserData();
 }
+function resetUserDataCacheForTests() {
+    if (process.env.NODE_ENV !== 'test')
+        return;
+    cached = null;
+    inFlight = null;
+}
 /**
  * React hook that returns the aggregated user data plus derived convenience
  * booleans.  All components that call this hook receive the same object
@@ -138,6 +146,7 @@ function useUserData() {
     const [data, setData] = (0, react_1.useState)(cached);
     const [error, setError] = (0, react_1.useState)(null);
     const [cachedBtdBalance, setCachedBtdBalance] = (0, react_1.useState)(0);
+    const [isRevalidating, setIsRevalidating] = (0, react_1.useState)(false);
     const isLoading = data === null && error === null;
     (0, react_1.useEffect)(() => {
         try {
@@ -150,6 +159,7 @@ function useUserData() {
         }
     }, []);
     const refresh = (0, react_1.useCallback)(async () => {
+        setIsRevalidating(true);
         try {
             const fresh = await mutateUserData();
             setData(fresh);
@@ -166,10 +176,17 @@ function useUserData() {
         catch (err) {
             setError(err);
         }
+        finally {
+            setIsRevalidating(false);
+        }
     }, []);
     (0, react_1.useEffect)(() => {
         let cancelled = false;
-        fetchUserData()
+        const hadCachedDataAtMount = Boolean(cached);
+        if (hadCachedDataAtMount) {
+            setIsRevalidating(true);
+        }
+        fetchUserData({ revalidate: hadCachedDataAtMount })
             .then((d) => {
             if (!cancelled) {
                 setData(d);
@@ -182,11 +199,14 @@ function useUserData() {
                         // ignore
                     }
                 }
+                setIsRevalidating(false);
             }
         })
             .catch((err) => {
-            if (!cancelled)
+            if (!cancelled) {
                 setError(err);
+                setIsRevalidating(false);
+            }
         });
         return () => {
             cancelled = true;
@@ -218,6 +238,7 @@ function useUserData() {
     const btcFeeBalance = typeof data?.btcFeeBalance === 'number'
         ? data.btcFeeBalance
         : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
+    const recentBtdAssetPacks = Array.isArray(data?.recentBtdAssetPacks) ? data.recentBtdAssetPacks : [];
     const onboardedSteps = (0, auxillary_pane_meta_1.normalizeAuxillarySteps)(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
     const isOnboardingComplete = data?.isOnboardingComplete || false;
     return {
@@ -235,7 +256,9 @@ function useUserData() {
         organizations,
         btdBalance,
         btcFeeBalance,
+        recentBtdAssetPacks,
         isLoading,
+        isRevalidating,
         error,
         refresh,
         isOnboardingComplete,

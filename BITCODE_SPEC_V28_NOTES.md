@@ -136,6 +136,9 @@ The standalone `protocol-demonstration` runtime must not import UAPI or commerci
 V28 closes this as a boundary baseline; V29 must continue commercializing freshly ported protocol internals into cleaner packages and narrower APIs.
 Dual-lane setup smoke also found that the embedded demonstration witness could overwrite the commercial Terminal browser title with `Bitcode Demonstration`.
 That is a commercial/demonstration boundary leak, so V28 now requires the mounted witness bundle to guard document-title writes when hosted inside `/terminal`; standalone demonstration may keep its demonstration title.
+The same deployment-readiness pass found a Vercel production build failure in `lib/bitcode-app-context.ts` because the newly formalized `@bitcode/protocol` package was present as a workspace dependency but had not been added to the Next transpilation/webpack alias path.
+V28 treats this as a commercial MVP blocker: formal protocol package imports must resolve during local and Vercel `next build`.
+The UAPI Next configuration now transpiles `@bitcode/protocol`, aliases its root import to `packages/protocol/src/index.js`, and the commercial protocol boundary test asserts this resolver so the standalone demonstration separation remains deployable.
 
 Manual QA was re-ordered on May 8, 2026 into two directionalities.
 The first is natural operator progression: connect wallet/GitHub/identity prerequisites, perform the fastest simple Need through Fit/settlement/delivery readback, then perform the fastest simple Give through measurement/earning/settlement readback.
@@ -148,6 +151,21 @@ The Mock lane runs first with deterministic mocks enabled so visual behavior, co
 The Testnet-readiness lane follows with public mock flags disabled and `NEXT_PUBLIC_BITCODE_ENV=testnet`, preserving Exchange/Auxillaries/Create Account entry while exposing real provider, signer, GitHub, database, BTC broadcaster, ledger observer, and interface readiness.
 V28 does not require that every live credential already be provisioned, but it does require that missing live/testnet dependencies fail closed with readable readiness rather than silent mocked success.
 This dual-lane process is intentionally earlier than V34 deployment deepening: it guards V28 MVP QA against mock-only confidence while leaving production deployment, host capabilities, distributed execution, CI/CD promotion, and operational rollback to V34.
+The first restarted 1A mock-lane pass showed a readiness/cache edge case: Auxillaries indicated mock mode, but the top chrome rendered zero BTC/BTD and an empty notification tray after prior mock values had been visible.
+V28 closes this as an MVP QA bug, not a user-data polish item.
+Master mock mode must activate auxillaries mock data consistently in client and server code, public mock flags must be visible to the Next client bundle, and shared user-data cache must revalidate on fresh mounts so environment-lane changes cannot preserve anonymous or zero-valued state.
+The same 1A verification also found that simultaneous mock and testnet-readiness dev servers must not share the same Next build artifact directory.
+V28 QA therefore requires lane-specific `NEXT_DIST_DIR` values for local dual-lane runs, because the client bundle compiles public env values while the server routes read process env at request time.
+Without isolated artifacts, the testnet-readiness lane can appear mock-authenticated even while its `/api/auxillaries/data` response correctly returns anonymous zero-state.
+
+The next 1A Auxillaries/Profile/Connects slice exposed four MVP shell issues and closed them in source and tests.
+The active contained pane must own vertical scrolling; the overlay shell may constrain height, but it must not trap the operator above lower profile, wallet, or repository controls.
+Selector-card state must render as visual indicators rather than `laneactive` / `laneready` prose, while retaining accessible labels and machine-readable state for tests.
+Async profile props must hydrate into editable local fields after mock/live data arrives, so display name, bio, company, avatar, and team data do not remain blank after the email field has already loaded.
+The BTC/BTD widget must render a compact wallet-reading posture while fresh lane-specific data loads or while stale anonymous zero-state is being revalidated; zero BTC/BTD may be shown only as a settled data state, not as an unceremonious hydration flash.
+
+These changes remain V28 scope because they are MVP-readiness and trust issues.
+The deeper Auxillaries version retains hierarchy, spacing, diagnostics, recovery, and provider-management expansion after V28 proves the contained shell, mocked prerequisite reads, fail-closed testnet-readiness, and no-console-error baseline.
 
 ## Promotion Review Basis
 

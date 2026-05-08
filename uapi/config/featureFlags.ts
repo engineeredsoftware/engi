@@ -1,8 +1,10 @@
 // uapi/app/config/featureFlags.ts
 // Feature flags for enabling mocks and other dev utilities
-export const ENABLE_MOCKS = process.env.NEXT_PUBLIC_ENABLE_MOCKS === 'true';
+export const MASTER_MOCK_MODE = process.env.NEXT_PUBLIC_MASTER_MOCK_MODE === 'true';
+export const ENABLE_MOCKS = MASTER_MOCK_MODE || process.env.NEXT_PUBLIC_ENABLE_MOCKS === 'true';
 export const MOCK_MEASURE = process.env.NEXT_PUBLIC_MOCK_MEASURE === 'true';
-export const MOCK_USER_AUXILLARIES = process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES === 'true';
+export const MOCK_USER_AUXILLARIES =
+  ENABLE_MOCKS && (MASTER_MOCK_MODE || process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES === 'true');
 export const MOCK_USER_AUXILLARIES_SCENARIO = process.env.NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO || 'default';
 export const MOCK_GET_TITLE = process.env.NEXT_PUBLIC_MOCK_GET_TITLE === 'true';
 export const MOCK_CHECKOUT_SESSION = process.env.NEXT_PUBLIC_MOCK_CHECKOUT_SESSION === 'true';

@@ -68,6 +68,14 @@ describe('commercial protocol boundary', () => {
     expect(dependencies['@bitcode/protocol-demonstration']).toBeUndefined();
   });
 
+  it('teaches Next webpack how to resolve the formal protocol package during Vercel builds', () => {
+    const nextConfigSource = readFileSync(path.join(uapiRoot, 'next.config.mjs'), 'utf8');
+
+    expect(nextConfigSource).toContain("'@bitcode/protocol',");
+    expect(nextConfigSource).toContain("'@bitcode/protocol': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/protocol$': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js')");
+  });
+
   it('keeps the standalone protocol demonstration outside the workspace build graph', () => {
     const workspaceSource = readFileSync(path.join(repoRoot, 'pnpm-workspace.yaml'), 'utf8');
 

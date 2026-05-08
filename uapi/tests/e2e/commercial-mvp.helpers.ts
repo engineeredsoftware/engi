@@ -9,6 +9,8 @@ const COMMERCIAL_MVP_AUXILLARY_DATA = {
     user_id: 'mock-bitcode-review-user',
     username: 'avery-mercer',
     display_name: 'Avery Mercer',
+    bio: 'Reviewing the Bitcode commercial surface in deterministic mock mode.',
+    company_name: 'Bitcode Review Lab',
     email: 'reviewer@bitcode.ai',
     wallet_address: 'tb1qbitcodemockoperator0000000000000000000000',
     wallet_provider: 'walletconnect',

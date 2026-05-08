@@ -50,6 +50,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
       await expect(page.getByTestId(auxillary.container)).toBeVisible();
       await expect(page.getByText('Open Bitcode Terminal')).toBeVisible();
       await expect(page.getByText('Current route')).toBeVisible();
+      await expect(page.locator('text=/lane(active|ready|locked)/i')).toHaveCount(0);
       await expect(page.locator('.orbital-ring')).toHaveCount(0);
       await expect(page.locator('.login-background-glow')).toHaveCount(0);
 
@@ -95,6 +96,10 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await openCommercialRoute(page, '/auxillaries/profile', /Profile in one contained auxillary read/i);
 
     const walletInput = page.getByTestId('profile-wallet-address-input');
+    await expect(page.getByLabel('Display Name')).toHaveValue('Avery Mercer');
+    await expect(page.getByLabel('Professional Bio')).toHaveValue(
+      'Reviewing the Bitcode commercial surface in deterministic mock mode.',
+    );
     await expect(walletInput).toBeVisible();
     await expect(walletInput).toHaveValue(/tb1qbitcodemockoperator/i);
 

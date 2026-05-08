@@ -101,6 +101,10 @@ module.exports = {
     '<rootDir>/tests/usePipelineExecution.test.tsx',
     // BTD and auxillaries coverage
     '<rootDir>/tests/userDataRoute.test.ts',
+    '<rootDir>/tests/useUserDataHydration.test.tsx',
+    '<rootDir>/tests/featureFlagsMockMode.test.ts',
+    '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
+    '<rootDir>/tests/btdTrackerLoading.test.tsx',
     '<rootDir>/tests/orbitalsBTDPane.test.tsx',
     '<rootDir>/tests/marketingLandingPage.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',

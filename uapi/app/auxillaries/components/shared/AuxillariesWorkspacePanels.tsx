@@ -33,6 +33,13 @@ export default function AuxillariesWorkspacePanels({
         const descriptor = getAuxillaryDescriptor(step);
         const isActive = currentStep === step;
         const isAvailable = availableSteps.includes(step);
+        const state = isActive ? 'active' : isAvailable ? 'ready' : 'locked';
+        const stateLabel =
+          state === 'active'
+            ? 'Active auxillary'
+            : state === 'ready'
+              ? 'Ready auxillary'
+              : 'Locked auxillary';
 
         return (
           <div key={step} role="listitem">
@@ -57,9 +64,12 @@ export default function AuxillariesWorkspacePanels({
                 <span className="orbital-workspace-panel-layer auxillaries-bitcode-selector-card-layer">
                   {getAuxillaryLayerLabel(step)}
                 </span>
-                <span className="orbital-workspace-panel-state auxillaries-bitcode-selector-card-state">
-                  {isActive ? 'active' : isAvailable ? 'ready' : 'locked'}
-                </span>
+                <span
+                  className={`orbital-workspace-panel-state auxillaries-bitcode-selector-card-state auxillaries-bitcode-selector-card-state-${state}`}
+                  aria-label={stateLabel}
+                  title={stateLabel}
+                  data-state={state}
+                />
               </div>
               <p className="orbital-workspace-panel-label auxillaries-bitcode-selector-card-label">
                 {descriptor.label}

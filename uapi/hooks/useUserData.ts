@@ -170,11 +170,11 @@ function readNumericField(source: unknown, ...keys: string[]) {
 let cached: AggregatedUserData | null = null;
 let inFlight: Promise<AggregatedUserData> | null = null;
 
-async function fetchUserData(): Promise<AggregatedUserData> {
+async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<AggregatedUserData> {
   // Return the cached object immediately if available so callers can render
   // synchronously while we start a background revalidation (handled in the
   // hook).
-  if (cached) return cached;
+  if (cached && !options.revalidate) return cached;
 
   // If a request is already in-flight, return the shared promise.
   if (inFlight) return inFlight;
@@ -205,6 +205,12 @@ export async function mutateUserData(): Promise<AggregatedUserData> {
   return fetchUserData();
 }
 
+export function resetUserDataCacheForTests() {
+  if (process.env.NODE_ENV !== 'test') return;
+  cached = null;
+  inFlight = null;
+}
+
 /**
  * React hook that returns the aggregated user data plus derived convenience
  * booleans.  All components that call this hook receive the same object
@@ -215,6 +221,7 @@ export function useUserData() {
   const [data, setData] = useState<AggregatedUserData | null>(cached);
   const [error, setError] = useState<unknown>(null);
   const [cachedBtdBalance, setCachedBtdBalance] = useState(0);
+  const [isRevalidating, setIsRevalidating] = useState(false);
   const isLoading = data === null && error === null;
 
   useEffect(() => {
@@ -228,6 +235,7 @@ export function useUserData() {
   }, []);
 
   const refresh = useCallback(async () => {
+    setIsRevalidating(true);
     try {
       const fresh = await mutateUserData();
       setData(fresh);
@@ -241,12 +249,18 @@ export function useUserData() {
       }
     } catch (err) {
       setError(err);
+    } finally {
+      setIsRevalidating(false);
     }
   }, []);
 
   useEffect(() => {
     let cancelled = false;
-    fetchUserData()
+    const hadCachedDataAtMount = Boolean(cached);
+    if (hadCachedDataAtMount) {
+      setIsRevalidating(true);
+    }
+    fetchUserData({ revalidate: hadCachedDataAtMount })
       .then((d) => {
         if (!cancelled) {
           setData(d);
@@ -258,10 +272,14 @@ export function useUserData() {
               // ignore
             }
           }
+          setIsRevalidating(false);
         }
       })
       .catch((err) => {
-        if (!cancelled) setError(err);
+        if (!cancelled) {
+          setError(err);
+          setIsRevalidating(false);
+        }
       });
     return () => {
       cancelled = true;
@@ -326,6 +344,7 @@ export function useUserData() {
     btcFeeBalance,
     recentBtdAssetPacks,
     isLoading,
+    isRevalidating,
     error,
     refresh,
     isOnboardingComplete,
