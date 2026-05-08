@@ -174,6 +174,8 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Vercel deployment build | pass after fix | Latest deployment failed because `lib/bitcode-app-context.ts` imported `@bitcode/protocol` before Next's workspace-package resolver knew how to transpile/alias the new formal protocol package. V28 now adds `@bitcode/protocol` to `transpilePackages`, aliases the root import to `packages/protocol/src/index.js`, and verifies the resolver in `tests/protocolCommercialBoundary.test.ts`. Local `pnpm run build` from `uapi` now passes. |
 | Mock top chrome during 1A | pass | Manual reconfirmation on 2026-05-08 accepted the fixed mock balance, notification, and profile posture. V28 now treats master mock mode as sufficient for auxillaries mock data in client and server code, explicitly exposes public mock flags through Next config, and revalidates stale module-level user data on new mount so lane transitions cannot keep anonymous/zero cached data. |
 | Dual-lane dev artifact isolation | pass | Manual reconfirmation on 2026-05-08 accepted the mock/testnet-readiness separation. V28 QA servers use lane-specific `NEXT_DIST_DIR` values so public mock env compilation is isolated per lane. |
+| Mock Terminal data classification | pass | Manual QA clarified that the currently visible Terminal data is mock data because the operator is in the mock lane. This evidence remains mock-lane evidence only, not testnet-readiness evidence. |
+| Testnet-readiness Terminal baseline | pass | Port `3001` API returns anonymous/empty readiness rather than mock profile/repos/balances, and browser verification renders `Bitcode Terminal` with `Connect Wallet`, no mock profile strings, no mock balances, and no product console/page errors. |
 
 ### 2026-05-08 Pass 3A: Auxillaries Profile And Connects Readiness
 
@@ -185,13 +187,16 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Mock profile fields | fixed | Manual QA confirmed email but found display name and bio missing. V28 now hydrates async initial profile props into local editable state and mock data supplies display name, bio, and company posture. |
 | Connected repositories | pass | Manual QA confirmed mocked connected repos; browser verification confirms `Connected Repositories (3)` and `bitcode/economic-ledger` render in Connects. |
 | BTD/BTC first-load posture | fixed | Manual QA found the top-right widget flashing anonymous zero-state before hydrated values. V28 now surfaces a compact `Reading wallet` posture while fresh lane-specific user data is loading or revalidating stale cached zero-state. |
+| Fullscreen overlay viewport fit | fixed | Manual QA found a bottom gap approximately the height of the navigation/chrome after opening Auxillaries fullscreen from Terminal. V28 now lets the overlay shell fill the available viewport height and anchors the shell to the bottom edge while keeping overlay overflow hidden. |
+| Profile scroll quality | fixed | Manual QA found Profile auxillary scrolling technically worked but felt poor. V28 now constrains the right pane as a true `height:100%` scroll container, prevents selector/pane grid-row overflow, and tightens Profile vertical rhythm so lower wallet/access/provider controls stay reachable in the contained pane. |
+| Auxillaries menu icon | fixed | Manual QA found the account-menu Auxillaries entry had lost the more elegant animated solar-system cue from the late-Engi era. V28 restores the visual language as an Auxillaries-named animated solar icon without reverting product copy or route naming to Orbitals. |
 | Console/page errors | pass | Manual QA reported none; focused browser verification reports no product console messages and no page errors. |
 
 Automated verification for this slice:
 
 - `pnpm -C uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/btdTrackerLoading.test.tsx tests/auxillariesWorkspacePanels.test.tsx tests/featureFlagsMockMode.test.ts`: pass.
-- `pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 8 passed.
-- Focused browser verification on the mock lane: raw lane text count `0`, state indicator count `4`, Profile display name `Avery Mercer`, Profile bio `Reviewing the Bitcode commercial surface in deterministic mock mode.`, pane `scrollTop` advances, Connects repos present, no product console/page errors.
+- `pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 9 passed, including the Terminal fullscreen Auxillaries viewport/scroll assertion.
+- Focused browser verification on the mock lane: raw lane text count `0`, state indicator count `4`, Profile display name `Avery Mercer`, Profile bio `Reviewing the Bitcode commercial surface in deterministic mock mode.`, shell bottom gap `0`, pane bottom overflow `0`, pane `scrollTop` advances, Save Profile is visible at the internal scroll bottom, Connects repos present, no product console/page errors.
 
 Deferred to V31 from this pass:
 

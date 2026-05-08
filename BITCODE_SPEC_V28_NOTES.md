@@ -163,6 +163,10 @@ The active contained pane must own vertical scrolling; the overlay shell may con
 Selector-card state must render as visual indicators rather than `laneactive` / `laneready` prose, while retaining accessible labels and machine-readable state for tests.
 Async profile props must hydrate into editable local fields after mock/live data arrives, so display name, bio, company, avatar, and team data do not remain blank after the email field has already loaded.
 The BTC/BTD widget must render a compact wallet-reading posture while fresh lane-specific data loads or while stale anonymous zero-state is being revalidated; zero BTC/BTD may be shown only as a settled data state, not as an unceremonious hydration flash.
+Terminal-opened Auxillaries fullscreen must fill the operator viewport as a working overlay, not as a centered modal that leaves a navigation-height dead band below it.
+The contained selector/pane grid must use a single bounded row, with selector cards and the active pane owning their own internal scroll surfaces.
+Profile must remain long-form enough to expose identity, wallet, access-provider, and save controls, but its vertical rhythm must be tightened so scrolling feels like a contained product pane rather than a legacy onboarding form dropped into the commercial shell.
+The account-menu Auxillaries entry may reuse the pre-V26 solar-system visual language when it improves product legibility and polish, but the source and visible product naming must remain Auxillaries/Bitcode rather than restoring Orbitals as a commercial construct.
 
 These changes remain V28 scope because they are MVP-readiness and trust issues.
 The deeper Auxillaries version retains hierarchy, spacing, diagnostics, recovery, and provider-management expansion after V28 proves the contained shell, mocked prerequisite reads, fail-closed testnet-readiness, and no-console-error baseline.

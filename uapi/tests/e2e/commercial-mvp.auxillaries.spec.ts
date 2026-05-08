@@ -110,6 +110,45 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await trap.assertClean();
   });
 
+  test('Terminal fullscreen Auxillaries fills the viewport and keeps Profile scrolling inside the pane', async ({
+    page,
+  }, testInfo) => {
+    const trap = installCommercialBrowserErrorTrap(page, testInfo);
+
+    await openCommercialRoute(page, '/terminal', /Bitcode Terminal/i);
+
+    await page.getByRole('button', { name: /Open Auxillaries fullscreen/i }).click();
+    const shell = page.locator('.auxillaries-bitcode-shell');
+    await expect(shell).toBeVisible();
+
+    await page.getByRole('button', { name: /^Profile auxillary$/ }).click();
+    await expect(page.getByTestId('profile-step-container')).toBeVisible();
+
+    const shellBottomGap = await shell.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return Math.round(window.innerHeight - rect.bottom);
+    });
+    expect(shellBottomGap).toBeLessThanOrEqual(2);
+
+    const pane = page.locator('.auxillaries-bitcode-pane > .orbital-content-container').first();
+    const paneScrollMetrics = await pane.evaluate((element) => {
+      element.scrollTop = element.scrollHeight;
+      const style = window.getComputedStyle(element);
+      return {
+        scrollTop: Math.round(element.scrollTop),
+        clientHeight: Math.round(element.clientHeight),
+        scrollHeight: Math.round(element.scrollHeight),
+        overflowY: style.overflowY,
+      };
+    });
+    expect(paneScrollMetrics.overflowY).toBe('auto');
+    expect(paneScrollMetrics.scrollHeight).toBeGreaterThan(paneScrollMetrics.clientHeight);
+    expect(paneScrollMetrics.scrollTop).toBeGreaterThan(0);
+    await expect(page.getByRole('button', { name: /Save Profile auxillary/i })).toBeVisible();
+
+    await trap.assertClean();
+  });
+
   test('Connects, Interfaces, and BTD panes expose MVP configuration consequences', async ({
     page,
   }, testInfo) => {

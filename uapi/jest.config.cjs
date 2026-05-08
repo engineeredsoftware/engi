@@ -130,6 +130,7 @@ module.exports = {
     '<rootDir>/tests/btdStep.integration.test.tsx',
     '<rootDir>/tests/navPublicShell.test.tsx',
     '<rootDir>/tests/navBrand.test.tsx',
+    '<rootDir>/tests/userMenu.test.tsx',
     '<rootDir>/tests/footerPublicShell.test.tsx',
     '<rootDir>/tests/bitcodeTransactionsFilterBar.test.tsx',
     '<rootDir>/tests/bitcodeTransactionsActiveFilters.test.tsx',

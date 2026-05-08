@@ -6,7 +6,7 @@ import * as Avatar from "@radix-ui/react-avatar";
 import classNames from "classnames";
 import menuStyles from '../menus/glassy-menu.module.css';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
-import { OrbitalIcon } from './orbital-icon';
+import { AuxillariesSolarIcon } from './auxillaries-solar-icon';
 import {
   OPEN_AUXILLARIES_FULLSCREEN_LABEL,
   AUXILLARIES_LIST_COMPACT_LABEL,
@@ -122,7 +122,7 @@ export function UserMenu({ user, onOpenAuxillaries, onSignOut }: UserMenuProps) 
                 }}
                 className={`${menuStyles.item}`}
               >
-                <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
+                <AuxillariesSolarIcon className="mr-2" />
                 <div className="min-w-0">
                   <span className="block">{OPEN_AUXILLARIES_FULLSCREEN_LABEL}</span>
                   <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-emerald-200/60">
