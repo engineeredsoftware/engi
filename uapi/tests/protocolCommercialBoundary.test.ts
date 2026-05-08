@@ -1,4 +1,5 @@
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const repoRoot = path.resolve(__dirname, '..', '..');
@@ -44,6 +45,44 @@ function collectSourceFiles(root: string): string[] {
 }
 
 describe('commercial protocol boundary', () => {
+  it('keeps formal protocol runtime sources present and unignored for deployment clones', () => {
+    const requiredRuntimeFiles = [
+      'packages/protocol/package.json',
+      'packages/protocol/server.js',
+      'packages/protocol/src/index.js',
+      'packages/protocol/src/bitcode-runtime.js',
+      'packages/protocol/src/canon-posture.js',
+      'packages/protocol/src/canonical/v23-bitcoin-demonstration-service.js',
+      'packages/protocol/src/canonical/v24-external-realization.js',
+      'packages/protocol/src/canonical/v24-live-execution.js',
+      'packages/protocol/src/canonical/v24-local-executors.js',
+    ];
+
+    const missingFiles = requiredRuntimeFiles.filter((filePath) => !existsSync(path.join(repoRoot, filePath)));
+    const ignoredFiles = requiredRuntimeFiles.filter((filePath) => {
+      try {
+        execFileSync('git', ['check-ignore', filePath], { cwd: repoRoot, stdio: 'ignore' });
+        return true;
+      } catch {
+        return false;
+      }
+    });
+    const untrackedFiles = existsSync(path.join(repoRoot, '.git'))
+      ? requiredRuntimeFiles.filter((filePath) => {
+          try {
+            execFileSync('git', ['ls-files', '--error-unmatch', filePath], { cwd: repoRoot, stdio: 'ignore' });
+            return false;
+          } catch {
+            return true;
+          }
+        })
+      : [];
+
+    expect(missingFiles).toEqual([]);
+    expect(ignoredFiles).toEqual([]);
+    expect(untrackedFiles).toEqual([]);
+  });
+
   it('keeps commercial runtime source free of standalone demonstration imports', () => {
     const violations = COMMERCIAL_SOURCE_ROOTS.flatMap((rootName) =>
       collectSourceFiles(path.join(uapiRoot, rootName)).flatMap((filePath) => {

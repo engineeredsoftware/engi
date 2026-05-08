@@ -136,9 +136,9 @@ The standalone `protocol-demonstration` runtime must not import UAPI or commerci
 V28 closes this as a boundary baseline; V29 must continue commercializing freshly ported protocol internals into cleaner packages and narrower APIs.
 Dual-lane setup smoke also found that the embedded demonstration witness could overwrite the commercial Terminal browser title with `Bitcode Demonstration`.
 That is a commercial/demonstration boundary leak, so V28 now requires the mounted witness bundle to guard document-title writes when hosted inside `/terminal`; standalone demonstration may keep its demonstration title.
-The same deployment-readiness pass found a Vercel production build failure in `lib/bitcode-app-context.ts` because the newly formalized `@bitcode/protocol` package was present as a workspace dependency but had not been added to the Next transpilation/webpack alias path.
-V28 treats this as a commercial MVP blocker: formal protocol package imports must resolve during local and Vercel `next build`.
-The UAPI Next configuration now transpiles `@bitcode/protocol`, aliases its root import to `packages/protocol/src/index.js`, and the commercial protocol boundary test asserts this resolver so the standalone demonstration separation remains deployable.
+The same deployment-readiness pass found a Vercel production build failure in `lib/bitcode-app-context.ts` because the newly formalized `@bitcode/protocol` package exported runtime JS from `packages/protocol/src/**`, while those files were still ignored by the generic "package TS build output" rule.
+V28 treats this as a commercial MVP blocker: formal protocol package imports must resolve from a clean git clone during local and Vercel `next build`.
+The repository now explicitly unignores the `@bitcode/protocol` runtime JS source and package-boundary tests, the commercial protocol boundary test asserts required protocol runtime files are present and not ignored, and clean-repro builds pass after those runtime files are present in the clone.
 
 Manual QA was re-ordered on May 8, 2026 into two directionalities.
 The first is natural operator progression: connect wallet/GitHub/identity prerequisites, perform the fastest simple Need through Fit/settlement/delivery readback, then perform the fastest simple Give through measurement/earning/settlement readback.

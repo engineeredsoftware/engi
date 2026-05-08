@@ -65,6 +65,10 @@ uapi/stories/**/*.js
 admin/tailwind.config.js
 packages/**/tests/**/*.js
 packages/**/test/**/*.js
+# @bitcode/protocol is a runtime JavaScript package, not TypeScript build
+# output. These sources must ship in git clones for Vercel builds.
+!packages/protocol/src/**/*.js
+!packages/protocol/test/**/*.js
 !protocol-demonstration/test/v26-public-copy.test.js
 packages/**/examples/**/*.js
 packages/**/run/**/*.js
