@@ -1056,12 +1056,22 @@ function inheritedCanonSurfaceLabel(state) {
 }
 
 /**
+ * @returns {boolean}
+ */
+function shouldUpdateDocumentTitle() {
+  const demonstrationRootEl = document.getElementById('bitcodeDemonstrationRoot');
+  return demonstrationRootEl?.getAttribute('data-bitcode-demonstration-witness-host') !== 'mounted-demonstration-witness';
+}
+
+/**
  * @param {AppState | null | undefined} state
  * @returns {void}
  */
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
-  document.title = posture['documentTitle'] || `Bitcode Demonstration — ${canonOperatorLabel(state)}`;
+  if (shouldUpdateDocumentTitle()) {
+    document.title = posture['documentTitle'] || `Bitcode Demonstration — ${canonOperatorLabel(state)}`;
+  }
   heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode transactions';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';

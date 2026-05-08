@@ -47,3 +47,11 @@ test('standalone protocol demonstration stays outside the workspace build graph'
 
   assert.equal(workspaceSource.includes("- 'protocol-demonstration'"), false);
 });
+
+test('standalone protocol demonstration guards title updates when embedded as a commercial witness', () => {
+  const appBundle = readFileSync(path.join(demonstrationRoot, 'public', 'app.js'), 'utf8');
+
+  assert.match(appBundle, /function shouldUpdateDocumentTitle\(\)/);
+  assert.match(appBundle, /data-bitcode-demonstration-witness-host/);
+  assert.match(appBundle, /if \(shouldUpdateDocumentTitle\(\)\) \{\s*document\.title =/);
+});

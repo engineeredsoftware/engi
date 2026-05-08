@@ -134,6 +134,20 @@ The demonstration remains a sibling reference implementation and proof witness, 
 Commercial source must import formal protocol primitives from `packages/protocol` / `@bitcode/protocol`, and the UAPI Terminal witness must read formal protocol package assets rather than `protocol-demonstration/public`.
 The standalone `protocol-demonstration` runtime must not import UAPI or commercial packages; proof tests may continue to read commercial source as audit material only when the read is explicitly a parity/proof source-read, not a runtime dependency.
 V28 closes this as a boundary baseline; V29 must continue commercializing freshly ported protocol internals into cleaner packages and narrower APIs.
+Dual-lane setup smoke also found that the embedded demonstration witness could overwrite the commercial Terminal browser title with `Bitcode Demonstration`.
+That is a commercial/demonstration boundary leak, so V28 now requires the mounted witness bundle to guard document-title writes when hosted inside `/terminal`; standalone demonstration may keep its demonstration title.
+
+Manual QA was re-ordered on May 8, 2026 into two directionalities.
+The first is natural operator progression: connect wallet/GitHub/identity prerequisites, perform the fastest simple Need through Fit/settlement/delivery readback, then perform the fastest simple Give through measurement/earning/settlement readback.
+The second follows public documentation order: Start Here, Exchange and Terminal, Operator Modes, Protocol and Proof, and Commercial Interfaces.
+This is now the V28 workshop roadmap because it tests the application the way a user learns it while also validating the docs against the product.
+Surface-by-surface QA still matters, but it is subordinate to these flows: every issue should name the flow that revealed it, the product surface that owns it, and whether V28 must fix it or a later focused version owns it.
+
+Each V28 manual QA pass now runs in two environment lanes.
+The Mock lane runs first with deterministic mocks enabled so visual behavior, copy, route state, and happy-path interaction can be judged without external-service volatility.
+The Testnet-readiness lane follows with public mock flags disabled and `NEXT_PUBLIC_BITCODE_ENV=testnet`, preserving Exchange/Auxillaries/Create Account entry while exposing real provider, signer, GitHub, database, BTC broadcaster, ledger observer, and interface readiness.
+V28 does not require that every live credential already be provisioned, but it does require that missing live/testnet dependencies fail closed with readable readiness rather than silent mocked success.
+This dual-lane process is intentionally earlier than V34 deployment deepening: it guards V28 MVP QA against mock-only confidence while leaving production deployment, host capabilities, distributed execution, CI/CD promotion, and operational rollback to V34.
 
 ## Promotion Review Basis
 
@@ -186,6 +200,8 @@ The minimum useful V28 gate plan is commercial-application-MVP-first:
    - Remove Auxillaries old orbital shell conflicts from active contained tabs-left paths.
    - Harden Exchange MVP activity/search/detail/range-acquisition readiness.
    - Separate commercial runtime imports from the standalone protocol demonstration and remove the demonstration from the workspace build graph.
+   - Reorder manual QA around natural operator progression and public-docs sequencing rather than broad surface sweeps.
+   - Run each manual QA pass through Mock and Testnet-readiness lanes; record whether failures are product bugs, missing live credentials, or deferred deployment readiness.
    - Capture desktop/mobile visual proof for sign-in, create-account, signed-in profile, Exchange, Terminal, and BTD range disclosure.
 
 3. **Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow**

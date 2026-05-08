@@ -12,12 +12,13 @@ V28 focuses on whether the commercial application functions are coherent, readab
 
 | Field | Value |
 | --- | --- |
-| Date | 2026-05-07 |
-| App URL | `http://127.0.0.1:3000` |
-| Server mode | deterministic mock-mode dev server |
+| Date | 2026-05-08 |
+| Mock app URL | `http://127.0.0.1:3000` |
+| Testnet-readiness app URL | `http://127.0.0.1:3001` when a second dev server is running |
+| Server mode | dual-lane QA: deterministic mock first, then testnet/live-readiness |
 | Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
 | Draft target | `V28` |
-| Manual QA focus | big-picture commercial application MVP |
+| Manual QA focus | natural operator progression plus docs-sequenced validation |
 | Marketing page status | intentionally de-scoped except for navigation-entry regressions |
 
 ## V28 MVP Scope
@@ -34,6 +35,60 @@ V28 closes when the commercial app can be used and understood at MVP level acros
 | API/interfaces/docs | Docs and interface pages explain current MVP behavior without claiming final MCP/ChatGPT/API commercial depth. | V33 deepens MCP API, ChatGPT App, and non-website interfaces; V35 deepens documentation. |
 | Provation/testing | E2E coverage proves current MVP route/readability/user-flow stability. | V32 deepens provation and regression breadth. |
 | Deployment/telemetry | Dev/testnet readiness is honest; value-bearing mainnet is not silently enabled. | V34 deepens deployment; V35 deepens telemetry and operational documentation. |
+
+## V28 QA Directionality
+
+Manual QA now proceeds on two coordinated tracks instead of isolated surface review.
+Every finding should be assigned to the track that revealed it and then mapped back to the owning product surface.
+Every pass runs in two environment lanes:
+
+| Lane | Purpose | Expected V28 result |
+| --- | --- | --- |
+| Mock | Deterministic happy-path and modeled blocked-state validation with `NEXT_PUBLIC_MASTER_MOCK_MODE=true` and provider mocks enabled. | Product behavior, copy, route state, and console cleanliness can be judged without external wallet, GitHub, broadcaster, or database volatility. |
+| Testnet-readiness | Same user path with public mock flags disabled and `NEXT_PUBLIC_BITCODE_ENV=testnet`. | The app must stay navigable and honest: live-ready capabilities work when credentials/providers exist, missing credentials surface as blocked readiness, and no value-bearing mainnet behavior is silently enabled. |
+
+The testnet-readiness lane is not a substitute for V34 deployment hardening.
+For V28, it exists to catch false-positive mock success, disabled-route regressions, and unclear readiness states while the commercial MVP is still being shaped.
+
+### Track 1: Natural Operator Progression
+
+This track follows the order a reasonable first commercial user would experience before they understand the whole system.
+It intentionally starts with prerequisites because unclear readiness blocks every later judgment.
+
+| Step | User progression | V28 MVP questions | Primary surfaces | Later-version boundary |
+| --- | --- | --- | --- | --- |
+| 1A | Connect wallet, GitHub, identity/profile, and required provider prerequisites. | Can the user see what is connected, what is mocked/testnet, what is missing, and what actions remain blocked? | Auxillaries, nav/profile, Terminal readiness, BTD widget | V31 deepens account/provider recovery; V34 deepens deployment/runtime readiness. |
+| 1B | Perform the fastest simple Need and read the Fit/settlement/delivery result. | Can a user express or select a Need, trigger the simplest path, and read back Fit, proof, AssetPack, BTD/BTC, and delivery state without guessing? | Terminal, Exchange activity detail, BTD range pages | V29 deepens Terminal transaction choreography; V30 deepens Exchange market detail. |
+| 1C | Perform the fastest simple Give and read the earning/settlement result. | Can a user contribute source, see admissibility/readiness, and understand what was earned or why earning is blocked/staged? | Terminal Give, Auxillaries Connects, Exchange activity detail, BTD settlement reads | V29 deepens Give workflows; V30 deepens sale/bid/ask/settlement history. |
+
+### Track 2: Docs-Sequenced Product Validation
+
+This track follows the public docs order so the application can be checked against how Bitcode teaches itself.
+The objective is not marketing critique; it is whether docs, routes, labels, controls, and visible state agree at MVP depth.
+
+| Docs sequence | Public docs route(s) | Product validation focus | Expected V28 disposition |
+| --- | --- | --- | --- |
+| 00 Start Here | `/docs/what-is-bitcode`, `/docs/source-shares` | Can a new user connect Source Shares, Exchange, Terminal, Protocol, Give, Need, and Read to what the app actually shows? | V28 fixes contradictions; deeper explanatory polish can move to V35. |
+| 01 Exchange And Terminal | `/docs/exchange`, `/docs/terminal`, `/docs/terminal-actions`, `/docs/read-results` | Does Exchange own master-detail and Terminal own bounded Give/Need/operator actions with expected readbacks? | V28 blocker when product/docs disagree about ownership or action consequences. |
+| 02 Operator Modes | `/docs/auxillaries`, `/docs/conversations`, `/docs/configuration` | Do Auxillaries, Conversations, and configuration/readiness copy match the visible app and fail-closed states? | V28 fixes MVP confusion; V31/V33 deepen feature sets. |
+| 03 Protocol And Proof | `/docs/protocol-v26`, `/docs/proofs`, `/docs/settlement-btd` | Do proof, settlement, BTD, BTC, owner/licensed read, and fail-closed claims match visible reads and V27 law? | V28 fixes overclaims and missing MVP proof posture; V32/V35 deepen provation/docs. |
+| 04 Commercial Interfaces | `/docs/commercial-interfaces`, `/docs/mcp-api`, `/docs/chatgpt-app` | Are API/MCP/ChatGPT/interface claims honest about MVP readiness and where users verify results? | V28 fixes false commercial claims; V33 owns full interface finalization. |
+
+## Reordered QA Roadmap
+
+Use this roadmap for the interactive workshop from here forward.
+Each pass should be small enough to produce actionable screenshots, console observations, and route-state notes before implementation.
+
+| Pass | Track | Scope | Stop condition |
+| --- | --- | --- | --- |
+| 3A | Natural progression 1A | Wallet, GitHub, profile, notifications, nav balance, Auxillaries Connects/Profile/BTD readiness. | Mock passes deterministic readiness; testnet-readiness either works live or records precise blocked provider/credential states; no console errors. |
+| 3B | Natural progression 1B | Simplest Need path: select/express Need, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what happened, where it landed in Exchange, what is mocked, and what remains staged in testnet-readiness. |
+| 3C | Natural progression 1C | Simplest Give path: attach or select source, run/inspect Give flow, read earning/settlement state. | User can explain what source was contributed, how it was measured, and whether earning/BTD posture is live, mocked, or blocked. |
+| 4A | Docs sequence 00 | Docs overview and Source Shares against nav, Terminal, Exchange, BTD widget. | Contradictions between docs and product are logged in both lanes. |
+| 4B | Docs sequence 01 | Exchange and Terminal docs against the actual Exchange master-detail and Terminal action/read flows. | Ownership of product patterns is clear in mock and still honest when live/testnet dependencies are absent. |
+| 4C | Docs sequence 02 | Auxillaries, Conversations, and Configuration docs against app modes. | MVP readiness and fail-closed states are honest in both lanes. |
+| 4D | Docs sequence 03 | Protocol/proof/settlement docs against visible proof, BTD, BTC, and access-policy reads. | No public docs overclaim proof/source/license/payment behavior; testnet-readiness exposes missing ledger/signer/broadcaster posture plainly. |
+| 4E | Docs sequence 04 | Commercial Interfaces, MCP/API, and ChatGPT App docs against available routes/interface claims. | Interface claims are staged honestly for V33 and do not imply unavailable live integrations. |
 
 ## Running Manual QA Findings
 
@@ -106,6 +161,19 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Retired generic workspace route/import/runtime compatibility artifacts are absent from commercial source scans. | Source scans show no active retired route, generic workspace subtree, or retired-shell runtime names outside explicit historical spec notes and framework error patterns. |
 | Protocol-demonstration client-entry, public mount globals, UAPI demonstration witness mocks, and demonstration state title use demonstration vocabulary rather than retired shell vocabulary. | Runtime/API scans show no retired shell names across active demonstration entrypoints. |
 | Standalone demonstration is not a commercial runtime dependency. | `@bitcode/protocol` is the commercial dependency, UAPI source/tests no longer import `@bitcode/protocol-demonstration`, Terminal witness routes read `packages/protocol/public`, `protocol-demonstration` is outside `pnpm-workspace.yaml`, and bidirectional boundary tests are added. |
+| Embedded demonstration witness no longer overwrites the commercial `/terminal` document title. | Dual-lane Playwright smoke found `/terminal` rendering with the browser title `Bitcode Demonstration`; the protocol witness bundle now skips `document.title` updates when mounted under the commercial witness host attribute, while standalone demonstration can keep its own title. |
+
+### 2026-05-08 Pass 3A Setup: Dual Environment Lanes
+
+| Lane | URL | Smoke result | Notes |
+| --- | --- | --- | --- |
+| Mock | `http://127.0.0.1:3000/terminal` | renders HTTP 200 | Deterministic mock server remains the first pass lane. Initial automated smoke exposed a mocked `/api/vcs/github/repositories` 404 while the server was warming; follow-up smoke after the witness-title boundary fix showed no internal 404s. |
+| Testnet-readiness | `http://127.0.0.1:3001/terminal` | renders HTTP 200 after cold compile | Server runs with public mock flags disabled and `NEXT_PUBLIC_BITCODE_ENV=testnet`; missing live credentials/providers are expected to appear as blocked readiness, not success. |
+| Both | `/terminal` browser title | pass | Follow-up smoke confirms both lanes keep the commercial `Bitcode Terminal` document title after the embedded witness title guard. |
+| Both | 2026-05-08 dev-server restart for Pass 3A | pass | Mock server restarted on `3000`; testnet-readiness server restarted on `3001`; curl and Playwright smoke confirm `/terminal` HTTP 200, `Bitcode Terminal` title, no page errors, and no non-HMR internal 404s after reload. |
+
+Ignored during this setup smoke: Google Analytics network aborts in headless Playwright.
+They are external telemetry noise, not product readiness evidence.
 
 Automated verification after this implementation pass:
 
@@ -129,12 +197,50 @@ Deferred to V29 from this pass:
 
 ## Current QA Queue
 
-1. Identity/auth and Auxillaries shell polish.
-2. Terminal big-picture Give/Need/activity flow.
-3. Exchange big-picture activity/table/detail/range intent flow.
-4. BTD range/read-right and wallet/BTC/BTD posture.
-5. Conversations as MVP write/interface surface.
-6. Docs/API/interface claims for MVP accuracy.
+1. Natural progression 1A in Mock lane, then Testnet-readiness lane.
+2. Natural progression 1B in Mock lane, then Testnet-readiness lane.
+3. Natural progression 1C in Mock lane, then Testnet-readiness lane.
+4. Docs sequence 00-04 in Mock lane, then Testnet-readiness lane where the route depends on live/provider state.
+
+## Environment Lane Commands
+
+Mock lane dev server:
+
+```sh
+NEXT_PUBLIC_MASTER_MOCK_MODE=true \
+NEXT_PUBLIC_ENABLE_MOCKS=true \
+NEXT_PUBLIC_MOCK_USER_AUXILLARIES=true \
+NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO=demo \
+NEXT_PUBLIC_MOCK_SCENARIO=demo \
+NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true \
+NEXT_PUBLIC_MOCK_GITHUB_REPOS=true \
+NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true \
+NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true \
+NEXT_PUBLIC_MOCK_CHAT_STREAM=true \
+NEXT_PUBLIC_MOCK_CHAT_SCENARIO=demo \
+pnpm -C uapi dev:remote
+```
+
+Testnet-readiness lane dev server:
+
+```sh
+NEXT_PUBLIC_BITCODE_ENV=testnet \
+NEXT_PUBLIC_MASTER_MOCK_MODE=false \
+NEXT_PUBLIC_ENABLE_MOCKS=false \
+NEXT_PUBLIC_MOCK_USER_AUXILLARIES=false \
+NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=false \
+NEXT_PUBLIC_MOCK_GITHUB_REPOS=false \
+NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=false \
+NEXT_PUBLIC_MOCK_GITHUB_COMMITS=false \
+NEXT_PUBLIC_MOCK_CHAT_STREAM=false \
+NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=false \
+NEXT_PUBLIC_DISABLE_AUXILLARIES=false \
+NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false \
+pnpm -C uapi exec next dev --hostname 127.0.0.1 -p 3001
+```
+
+When the testnet-readiness lane lacks wallet, GitHub, Supabase, signer, BTC broadcaster, or ledger observer credentials, the expected V28 behavior is explicit blocked readiness.
+It is not acceptable for that lane to silently show a mocked success state.
 
 ## Issue Template
 
@@ -143,6 +249,9 @@ Deferred to V29 from this pass:
 
 ### Surface
 Identity/Auth / Terminal / Exchange / Auxillaries / BTD / Conversations / Docs/API / Deployment
+
+### Environment Lane
+Mock / Testnet-readiness
 
 ### Expected V28 MVP Behavior
 
