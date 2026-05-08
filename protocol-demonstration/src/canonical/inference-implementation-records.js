@@ -856,7 +856,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
       'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
-      'protocol-demonstration/V26_APPLICATION_SYSTEMS.md'
+      'protocol-demonstration/V26_TERMINAL_SYSTEMS.md'
     ]
   }
 ]);

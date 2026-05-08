@@ -72,10 +72,10 @@ importers:
         version: 29.5.14
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+        version: 29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3))
       ts-jest:
         specifier: ^29.0.0
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3)))(typescript@5.8.3)
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -404,7 +404,7 @@ importers:
         version: 29.5.14
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3))
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
 
   packages/docker: {}
 
@@ -2118,6 +2118,15 @@ importers:
         specifier: ^4.7.0
         version: 4.20.3
 
+  packages/protocol:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.2
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
   packages/refactoring:
     dependencies:
       '@bitcode/lsp':
@@ -2344,15 +2353,6 @@ importers:
         specifier: workspace:*
         version: link:../logger
 
-  protocol-demonstration:
-    devDependencies:
-      '@types/node':
-        specifier: ^25.5.2
-        version: 25.6.0
-      typescript:
-        specifier: ^6.0.2
-        version: 6.0.3
-
   uapi:
     dependencies:
       '@ai-sdk/anthropic':
@@ -2385,9 +2385,9 @@ importers:
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../packages/prompts
-      '@bitcode/protocol-demonstration':
+      '@bitcode/protocol':
         specifier: workspace:*
-        version: link:../protocol-demonstration
+        version: link:../packages/protocol
       '@headlessui/react':
         specifier: ^1.7.18
         version: 1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

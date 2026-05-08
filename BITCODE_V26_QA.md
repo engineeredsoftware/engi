@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This guide records human QA for the V26 commercial promotion. It focuses on the website application and the commercial implementation of the Bitcode demonstration protocol.
+This guide records human QA for the V26 commercial promotion. It focuses on the website product and the commercial implementation of the Bitcode demonstration protocol.
 
 Use this document to collect observations the repository cannot infer locally: browser behavior, wallet/provider account state, live API responses, database rows, network failures, and whether the commercial UI actually teaches Bitcode rather than old Engi or generic agentic SWE concepts.
 
@@ -32,7 +32,7 @@ Record this once per QA pass.
 Use the dev-server URL reported by the agent. For testnet validation, prefer:
 
 ```text
-/application?environmentMode=testnet&bitcodeDebug=1
+/terminal?environmentMode=testnet&bitcodeDebug=1
 ```
 
 If the server falls back to a different port, keep the same path and query string.
@@ -46,23 +46,23 @@ Every issue should connect to at least one of these questions.
 | Spec alignment | Does the product behave like a commercial extension of `protocol-demonstration/`, not a separate product or old Engi flow? |
 | Inference | Do prompts, contexts, model/provider calls, and completion payloads use Need, AssetPack evidence, Finish, Shippables, BTC fees, and non-fungible `$BTD` precisely? |
 | AssetPack pipeline | Are `assetPackSynthesisArtifacts` / `writtenAssets` evidence-only, while `shippables` / `deliveryMechanism` represent GitHub pull-request delivery only? |
-| Terminal | Can a user express a Need, anchor repository context, inspect activity, reread evidence, and understand closure without leaving `/application`? |
+| Terminal | Can a user express a Need, anchor repository context, inspect activity, reread evidence, and understand closure without leaving `/terminal`? |
 | Exchange | Are existing V26 Exchange surfaces minimum viable and scoped, without pretending V27/V28 tokenomics, Terminal, or market depth is complete? |
 | Wallet and balances | Does the top-right balance distinguish BTC fee liquidity from non-fungible `$BTD` share/read-right holdings? |
 | Providers | Do GitHub, wallet, MCP, ChatGPT App, and API surfaces fail closed when authorization or repository context is missing? |
 | Storage | Do database rows preserve Bitcode fields and avoid resurrecting old deliverable/product vocabulary except as physical retained table identifiers? |
 | Proof | Do visible proof/status/readiness claims match actual route, database, network, and UI behavior? |
 
-## Website Application QA
+## Website Product QA
 
-Start at `/application?environmentMode=testnet&bitcodeDebug=1`.
+Start at `/terminal?environmentMode=testnet&bitcodeDebug=1`.
 
 1. Load the page signed out.
    - Record load time, visible route, console errors, and whether any old Engi, generic developer-platform, or deprecated "deliverables" language is visible.
-   - Confirm `/application` is the primary product surface and not a marketing wrapper around a demo.
+   - Confirm `/terminal` is the primary product surface and not a marketing wrapper around a demo.
 
 2. Sign in.
-   - Record provider used and whether the app lands back on `/application`.
+   - Record provider used and whether the app lands back on `/terminal`.
    - Confirm auth, Profile, Connects, Interfaces, and `$BTD` surfaces use Bitcode naming.
 
 3. Inspect the top-right balance widget.
@@ -146,7 +146,7 @@ If you inspect Supabase or local database state, collect row ids and field names
 | generated assets | AssetPack evidence and file-change metadata |
 | vector storage | AssetPack evidence embeddings; retained physical table names are acceptable only as storage identifiers |
 | user BTD tables | `$BTD` holdings/read-rights, not fungible credit spend |
-| notifications/email rows | AssetPack completion, measured `$BTD`, BTC fee posture, `/application?transactionId=...` links |
+| notifications/email rows | AssetPack completion, measured `$BTD`, BTC fee posture, `/terminal?transactionId=...` links |
 
 Flag any current API/UI field named `deliverables`, `finalWorkSummary`, `credits` as product denomination, `$ENGI`, or `ENGI`.
 
@@ -199,7 +199,7 @@ Blocking / high / medium / low
 
 | Area | Pass / fail | Blocking issue ids |
 | --- | --- | --- |
-| Website application | | |
+| Website product | | |
 | Need review | | |
 | AssetPack run | | |
 | Finish PR delivery | | |

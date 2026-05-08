@@ -1,5 +1,4 @@
 packages:
-  - 'protocol-demonstration'
   # The Next.js webapp (uapi) manages its dependencies independently.
   # Exclude the app from pnpm workspace to avoid lock-file divergence issues.
   #

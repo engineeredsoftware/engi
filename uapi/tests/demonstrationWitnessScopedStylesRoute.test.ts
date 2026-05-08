@@ -1,7 +1,3 @@
-jest.mock('@bitcode/protocol-demonstration', () => ({
-  DEFAULT_BITCODE_PUBLIC_DIR: require('node:path').join(process.cwd(), '../protocol-demonstration/public'),
-}));
-
 import { GET } from '@/app/terminal/demonstration-witness-scoped-styles/route';
 
 describe('demonstration witness scoped stylesheet route', () => {

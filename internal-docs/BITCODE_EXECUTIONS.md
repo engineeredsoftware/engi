@@ -48,4 +48,4 @@ Operators should be able to:
 - Replace output-object-first labels with AssetPack or written-asset labels.
 - Replace pre-Finish labels with Finish and delivery-mechanism labels.
 - Keep computer-use hidden unless the server admits it internally for Need measurement.
-- Ensure all execution UI reads from the same Exchange activity model as `/application`.
+- Ensure all execution UI reads from the same Exchange activity model as `/terminal`.

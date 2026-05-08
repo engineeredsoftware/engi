@@ -333,7 +333,7 @@ function buildV21LikeProfile(version) {
       `.bitcode/${versionLower}-canonical-input-report.json`,
       ...(version === 'V26'
         ? [
-          '.bitcode/application-composition-proof.json',
+          '.bitcode/terminal-composition-proof.json',
           '.bitcode/conversations-continuity-proof.json',
           '.bitcode/environment-mode-coherence-proof.json',
           '.bitcode/v26-gate-checkpoint-report.json',

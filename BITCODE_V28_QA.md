@@ -103,15 +103,22 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Direct `/conversations` fullscreen exit returns deterministically to `/terminal`. | Focused Conversations E2E passes; full commercial MVP E2E passes. |
 | Bare Terminal route no longer auto-mutates its URL during load, while explicit route context and user selections still remain URL-addressable. | Public stitched navigation route spec passes 5-repeat focused verification and the full commercial MVP suite. |
 | Terminal transaction search keeps the typed value stable while URL-backed filter state updates. | Focused Terminal activity-search E2E passes; full commercial MVP E2E passes. |
-| Active `/application` route/import/runtime compatibility artifacts are absent from commercial source scans. | Source scans show no active `/application`, `app/application`, or application shell runtime names outside explicit historical spec notes and framework error patterns. |
-| Protocol-demonstration client-entry, public mount globals, UAPI demonstration witness mocks, and demonstration state title use demonstration vocabulary rather than application shell vocabulary. | Runtime/API scans show no application-shell names across active demonstration entrypoints. |
+| Retired generic workspace route/import/runtime compatibility artifacts are absent from commercial source scans. | Source scans show no active retired route, generic workspace subtree, or retired-shell runtime names outside explicit historical spec notes and framework error patterns. |
+| Protocol-demonstration client-entry, public mount globals, UAPI demonstration witness mocks, and demonstration state title use demonstration vocabulary rather than retired shell vocabulary. | Runtime/API scans show no retired shell names across active demonstration entrypoints. |
+| Standalone demonstration is not a commercial runtime dependency. | `@bitcode/protocol` is the commercial dependency, UAPI source/tests no longer import `@bitcode/protocol-demonstration`, Terminal witness routes read `packages/protocol/public`, `protocol-demonstration` is outside `pnpm-workspace.yaml`, and bidirectional boundary tests are added. |
 
 Automated verification after this implementation pass:
 
-- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass.
+- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
-- `pnpm -C protocol-demonstration test:integration`: 58 passed after demonstration title/posture cleanup.
-- `pnpm -C protocol-demonstration test:v28-commercial-mvp-qa`: 6 passed after demonstration title/posture cleanup.
+- `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
+- `npm --prefix protocol-demonstration run test:v27-crypto`: 9 passed after standalone demonstration/package-boundary cleanup.
+- `npm --prefix protocol-demonstration run test:v28-commercial-mvp-qa`: 8 passed after adding the boundary-separation checks.
+- `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/needReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
+- `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`: 2 passed after the formal package split.
+- `pnpm -C packages/protocol test`: 1 passed after the formal package split.
+- `pnpm -C packages/protocol run typecheck`: pass after adding the formal package typecheck config.
+- `pnpm -C uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`: 3 passed after the formal package split.
 
 Deferred to V29 from this pass:
 

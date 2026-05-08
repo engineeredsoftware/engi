@@ -14,7 +14,7 @@ const TERMINAL_SOURCE_REFS = [
   'uapi/app/terminal/TerminalPageClient.tsx',
   'uapi/app/terminal/terminal-activity-history.ts',
   'uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx',
-  'protocol-demonstration/public/app.js',
+  'packages/protocol/public/app.js',
 ] as const;
 
 export const TERMINAL_SURFACE_EXPLAINERS = {

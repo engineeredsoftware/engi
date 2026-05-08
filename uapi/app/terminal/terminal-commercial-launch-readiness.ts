@@ -79,7 +79,7 @@ export const TERMINAL_COMMERCIAL_TESTNET_LAUNCH_MAP = [
       'uapi/tests/api/needReviewProtocolParity.test.ts',
       'packages/pipelines/asset-pack/src/postprocess.ts',
       'packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts',
-      'uapi/tests/e2e/terminal.terminal.flow.spec.ts',
+      'uapi/tests/e2e/terminal.flow.spec.ts',
     ],
   },
   {

@@ -131,7 +131,7 @@ const whatIsBitcodeSections = [
     detail:
       'The important rule is that none of the interfaces become separate products. They must read and write the same Exchange state, follow the same Protocol boundaries, and leave the same proof posture that Terminal can reread.',
     reason:
-      'New users need one map before learning details. Otherwise Exchange, Terminal, MCP, ChatGPT App, and Auxillaries can look like separate applications instead of coordinated surfaces over Source Shares.',
+      'New users need one map before learning details. Otherwise Exchange, Terminal, MCP, ChatGPT App, and Auxillaries can look like separate products instead of coordinated surfaces over Source Shares.',
     points: [
       'Exchange owns persisted activity, ledger, proof, interface, and settlement state.',
       'Terminal owns the give, need, read, write, proof, and history experience.',

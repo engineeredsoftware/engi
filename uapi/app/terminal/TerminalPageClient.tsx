@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { readBitcodeDemonstrationShellSnapshot } from '@bitcode/protocol-demonstration/src/client-entry.js';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
@@ -62,6 +61,7 @@ import { resolveTerminalTransactionSource } from './terminal-transaction-source'
 import type { WorkspaceRun } from './terminal-run-data';
 import { buildProtocolProjectedWorkspaceRun } from './terminal-protocol-projection';
 import { buildTerminalHref, TERMINAL_ROUTE } from './terminal-routes';
+import { readBitcodeDemonstrationShellSnapshot } from './demonstration-witness-runtime';
 
 export default function TerminalPageClient() {
   const { user } = useAuth();

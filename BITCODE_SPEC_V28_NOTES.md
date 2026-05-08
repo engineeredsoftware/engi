@@ -129,6 +129,12 @@ The same pass also reclassified active `orbitals` naming as legacy residue when 
 Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until it is removed, and old stylesheet class names can remain temporarily only where they are inert styling carriers.
 Active product language and touched implementation should converge on Auxillaries.
 
+V28 also owns the first hard separation between the standalone protocol demonstration and commercial Bitcode runtime source.
+The demonstration remains a sibling reference implementation and proof witness, not a workspace package that commercial UAPI can import.
+Commercial source must import formal protocol primitives from `packages/protocol` / `@bitcode/protocol`, and the UAPI Terminal witness must read formal protocol package assets rather than `protocol-demonstration/public`.
+The standalone `protocol-demonstration` runtime must not import UAPI or commercial packages; proof tests may continue to read commercial source as audit material only when the read is explicitly a parity/proof source-read, not a runtime dependency.
+V28 closes this as a boundary baseline; V29 must continue commercializing freshly ported protocol internals into cleaner packages and narrower APIs.
+
 ## Promotion Review Basis
 
 The V28 handoff is grounded in:
@@ -163,6 +169,7 @@ They are V28 inputs because V27 closed the protocol law and minimum crypto-comme
 | External VCS providers beyond GitHub remain incomplete or not started | V27 does not require broad third-party provider completion, and V28 is MVP QA | Keep V28 provider UX honest about GitHub-only readiness and hand off broader provider readiness to the later product version that owns the affected surface |
 | Auxillaries still mixes old orbital-era shell styles with the active contained tabs-left experience | V27 closed protocol law, not full commercial application visual QA | Remove or strictly contain conflicting `orbital-*` layout/background classes from active Auxillaries auth/profile/readiness paths, preserve only reusable aesthetic pieces that do not control commercial layout, and prove with desktop/mobile screenshots |
 | V26 proof generator and older promotion scripts still contain version-specific historical logic | V27 accepted generated-equivalent proof artifacts rather than fully modernizing promotion automation | Decide whether V28 should update proof generation for V28+ families or leave older promotion scripts as historical tooling |
+| Some formal protocol package internals are freshly ported from the standalone demonstration | V28 needs a commercial import boundary before it can finish all deeper package refactors | Keep commercial UAPI imports on `@bitcode/protocol`, keep `protocol-demonstration` out of the workspace build graph, and defer narrower package extraction/commercialization to V29 Terminal depth unless it blocks V28 MVP QA |
 
 ## V28 Gate Sketch
 
@@ -178,6 +185,7 @@ The minimum useful V28 gate plan is commercial-application-MVP-first:
    - QA primary active routes and navigation.
    - Remove Auxillaries old orbital shell conflicts from active contained tabs-left paths.
    - Harden Exchange MVP activity/search/detail/range-acquisition readiness.
+   - Separate commercial runtime imports from the standalone protocol demonstration and remove the demonstration from the workspace build graph.
    - Capture desktop/mobile visual proof for sign-in, create-account, signed-in profile, Exchange, Terminal, and BTD range disclosure.
 
 3. **Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow**
@@ -218,7 +226,9 @@ Before V28 implementation closes, rerun at minimum:
 - `rg -n 'gap blocking|partial blocking|not started|not promoted|not generated yet' BITCODE_SPEC_V28*`
 - `pnpm -C packages/api build`
 - `pnpm -C packages/orm build`
-- `pnpm -C protocol-demonstration test:v27-crypto`
+- `npm --prefix protocol-demonstration run test:v27-crypto`
+- `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`
+- `pnpm -C uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`
 - Commercial application and Terminal-specific Jest/Playwright coverage once added
 - `pnpm -C uapi build`
 - `git diff --check`

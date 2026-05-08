@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Read repository files: listGitFilesTool.use({ provider: "github", userId, owner: "bitcode-labs", repo: "application", path: "packages" }) returns provider-normalized tree entries for evidence selection.' as PromptPart;
+  'Read repository files: listGitFilesTool.use({ provider: "github", userId, owner: "bitcode-labs", repo: "terminal", path: "packages" }) returns provider-normalized tree entries for evidence selection.' as PromptPart;

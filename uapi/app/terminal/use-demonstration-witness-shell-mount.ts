@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { mountBitcodeDemonstrationShell } from '@bitcode/protocol-demonstration/src/client-entry.js';
+import { mountBitcodeDemonstrationShell } from './demonstration-witness-runtime';
 
 export const BITCODE_DEMONSTRATION_WITNESS_STYLESHEET_ID = 'bitcode-demonstration-witness-stylesheet';
 export const BITCODE_DEMONSTRATION_WITNESS_STYLESHEET_HREF = '/terminal/demonstration-witness-scoped-styles';

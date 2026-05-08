@@ -5,7 +5,7 @@ Status: non-canonical internal note.
 ## Product Surfaces
 
 V26 frontend architecture is organized around:
-- Bitcode Terminal at `/application`,
+- Bitcode Terminal at `/terminal`,
 - Bitcode Exchange activity, Transactions, and history surfaces,
 - conversations as rich input overlays,
 - auxillaries for identity/readiness,

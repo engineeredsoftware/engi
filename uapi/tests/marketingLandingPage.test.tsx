@@ -51,14 +51,14 @@ jest.mock('@/components/base/bitcode/multi-line-typing-animation', () => ({
   default: ({ text }: { text: string }) => <>{text}</>,
 }));
 
-jest.mock('@bitcode/protocol-demonstration/src/client-entry.js', () => ({
+jest.mock('@/app/terminal/demonstration-witness-runtime', () => ({
   mountBitcodeDemonstrationShell: jest.fn(async () => jest.fn()),
   readBitcodeDemonstrationShellSnapshot: jest.fn(),
   readBitcodeDemonstrationShellControls: jest.fn(),
 }));
 
 const { mountBitcodeDemonstrationShell } = jest.requireMock(
-  '@bitcode/protocol-demonstration/src/client-entry.js',
+  '@/app/terminal/demonstration-witness-runtime',
 ) as {
   mountBitcodeDemonstrationShell: jest.Mock;
 };

@@ -182,7 +182,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('presents the protocol reviewable Need through the commercial /api/need-review route', async () => {
     const protocol = (await import(
-      '@bitcode/protocol-demonstration/src/bitcode-demo.js'
+      '@bitcode/protocol/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const app = buildCommercialRouteContext(protocol);
     const directProtocolPayload = app.getNeedReview({ scenarioId: 'auth-issuer-rollback' });
@@ -254,7 +254,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('blocks commercial branch materialization when the protocol Need review rejects fit search', async () => {
     const protocol = (await import(
-      '@bitcode/protocol-demonstration/src/bitcode-demo.js'
+      '@bitcode/protocol/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const app = buildCommercialRouteContext(protocol);
 
@@ -264,7 +264,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       toBitcodeErrorResponse: mapBitcodeError,
     }));
     jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
-      requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
+      requireBitcodeSignedTransactionReadiness: jest.fn(async () => ({ repositoryProvider: 'mock-github' })),
     }));
 
     const { POST } = await import('@/app/api/make-bitcode-branch/route');
@@ -288,7 +288,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('carries accepted source-to-shares settlement artifacts through the commercial branch route', async () => {
     const protocol = (await import(
-      '@bitcode/protocol-demonstration/src/bitcode-demo.js'
+      '@bitcode/protocol/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const directProtocolRun = protocol.runMakeBitcodeBranch(protocol.buildInitialState(), {
       scenarioId: 'auth-issuer-rollback',
@@ -302,7 +302,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       toBitcodeErrorResponse: mapBitcodeError,
     }));
     jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
-      requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
+      requireBitcodeSignedTransactionReadiness: jest.fn(async () => ({ repositoryProvider: 'mock-github' })),
     }));
 
     const { POST } = await import('@/app/api/make-bitcode-branch/route');
@@ -377,7 +377,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route', async () => {
     const protocol = (await import(
-      '@bitcode/protocol-demonstration/src/bitcode-demo.js'
+      '@bitcode/protocol/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const app = buildCommercialRouteContext(protocol);
 
@@ -387,7 +387,7 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       toBitcodeErrorResponse: mapBitcodeError,
     }));
     jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
-      requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
+      requireBitcodeSignedTransactionReadiness: jest.fn(async () => ({ repositoryProvider: 'mock-github' })),
     }));
 
     const { POST } = await import('@/app/api/make-bitcode-branch/route');

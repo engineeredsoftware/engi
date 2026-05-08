@@ -13,7 +13,7 @@ describe('resolveBitcodeAppContextOptions', () => {
     ).toEqual({ dataPath: '/tmp/custom-bitcode-state.json' });
   });
 
-  it('keeps the protocol-demonstration default outside serverless runtimes', () => {
+  it('keeps the protocol package default outside serverless runtimes', () => {
     expect(resolveBitcodeAppContextOptions({})).toEqual({});
   });
 

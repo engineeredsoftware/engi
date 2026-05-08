@@ -44,7 +44,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'top',
     routeTitle: 'Connects Auxillary',
     routeDescription:
-      'Attach GitHub and the live repository or interface bindings Bitcode reuses across need measurement, asset-pack synthesis, settlement follow-through, and third-party application behavior in one focused auxillary.',
+      'Attach GitHub and the live repository or interface bindings Bitcode reuses across need measurement, asset-pack synthesis, settlement follow-through, and third-party interface behavior in one focused auxillary.',
   },
   interfaces: {
     label: 'Interfaces',
@@ -53,7 +53,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'right',
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
-      'Shape how the Bitcode Terminal, conversations, proofs, and default application behavior read and operate through one focused auxillary.',
+      'Shape how the Bitcode Terminal, conversations, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
   },
   btd: {
     label: '$BTD',

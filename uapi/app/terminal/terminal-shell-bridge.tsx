@@ -15,7 +15,7 @@ import {
 import {
   readBitcodeDemonstrationShellControls,
   readBitcodeDemonstrationShellSnapshot,
-} from '@bitcode/protocol-demonstration/src/client-entry.js';
+} from './demonstration-witness-runtime';
 
 export type BitcodeTerminalShellSnapshot = Awaited<ReturnType<typeof readBitcodeDemonstrationShellSnapshot>>;
 

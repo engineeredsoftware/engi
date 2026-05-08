@@ -47,31 +47,31 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
   {
     productId: 'bitcode-terminal',
     productName: 'Bitcode Terminal',
-    baselineReadiness: 'terminal-lite-and-application-read-backed',
+    baselineReadiness: 'terminal-lite-and-demonstration-read-backed',
     parityMatrixAnchor: 'Bitcode Terminal read/write loop',
     requiredEvidence: [
-      ['protocol-demonstration/public/app.js', '__BITCODE_APPLICATION_SHELL_SNAPSHOT__'],
+      ['protocol-demonstration/public/app.js', '__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__'],
       ['protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js', 'TypeScript-only'],
-      ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationNeedScenarioPanel'],
-      ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationLiveSummaryStrip'],
-      ['uapi/app/application/application-transaction-readiness-source.ts', 'route_repository_context'],
-      ['uapi/app/application/ApplicationRepositoryContextPanel.tsx', 'Inventory source'],
-      ['uapi/app/application/ApplicationRepositoryContextPanel.tsx', 'Reconnect Connects to restore live write admission'],
-      ['uapi/app/application/ApplicationLiveSummaryStrip.tsx', 'Settlement posture'],
-      ['uapi/app/application/ApplicationLiveSummaryStrip.tsx', 'Repository posture'],
-      ['uapi/app/application/ApplicationFlowGuideCard.tsx', 'repository-reconnect-required'],
-      ['uapi/app/application/ApplicationFlowGuideCard.tsx', 'wallet-reconnect-required'],
-      ['uapi/app/application/application-activity-history.ts', "status: draft.status || 'completed'"],
-      ['uapi/app/application/ApplicationNeedScenarioPanel.tsx', 'Need-fitting Exchange review'],
-      ['uapi/app/application/ApplicationClosureNativeSections.tsx', 'Read closure as one sequence from reviewable Need admission'],
-      ['uapi/app/application/application-transaction-detail-snapshot.ts', 'fitQualities: coerceFitQualities'],
+      ['uapi/app/terminal/TerminalPageClient.tsx', 'TerminalNeedScenarioPanel'],
+      ['uapi/app/terminal/TerminalPageClient.tsx', 'TerminalLiveSummaryStrip'],
+      ['uapi/app/terminal/terminal-transaction-readiness-source.ts', 'route_repository_context'],
+      ['uapi/app/terminal/TerminalRepositoryContextPanel.tsx', 'Inventory source'],
+      ['uapi/app/terminal/TerminalRepositoryContextPanel.tsx', 'Reconnect Connects to restore live write admission'],
+      ['uapi/app/terminal/TerminalLiveSummaryStrip.tsx', 'Settlement posture'],
+      ['uapi/app/terminal/TerminalLiveSummaryStrip.tsx', 'Repository posture'],
+      ['uapi/app/terminal/TerminalFlowGuideCard.tsx', 'repository-reconnect-required'],
+      ['uapi/app/terminal/TerminalFlowGuideCard.tsx', 'wallet-reconnect-required'],
+      ['uapi/app/terminal/terminal-activity-history.ts', "status: draft.status || 'completed'"],
+      ['uapi/app/terminal/TerminalNeedScenarioPanel.tsx', 'Need-fitting Exchange review'],
+      ['uapi/app/terminal/TerminalClosureNativeSections.tsx', 'Read closure as one sequence from reviewable Need admission'],
+      ['uapi/app/terminal/terminal-transaction-detail-snapshot.ts', 'fitQualities: coerceFitQualities'],
       ['uapi/tests/api/vcsRepositoriesInventoryParity.test.ts', 'stored repository inventory and skips live provider reads'],
       ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
-      ['uapi/tests/applicationLiveSummaryStrip.test.tsx', 'GitHub reconnect required · stored Exchange inventory'],
-      ['uapi/tests/applicationFlowGuideCard.test.tsx', 'repository-reconnect-required'],
-      ['uapi/tests/applicationTransactionReadinessSource.test.ts', 'route_repository_context'],
-      ['uapi/tests/applicationRepositoryContextPanel.test.tsx', 'Saved GitHub attachment found, but the live provider session must reconnect'],
-      ['uapi/tests/applicationNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
+      ['uapi/tests/terminalLiveSummaryStrip.test.tsx', 'GitHub reconnect required · stored Exchange inventory'],
+      ['uapi/tests/terminalFlowGuideCard.test.tsx', 'repository-reconnect-required'],
+      ['uapi/tests/terminalTransactionReadinessSource.test.ts', 'route_repository_context'],
+      ['uapi/tests/terminalRepositoryContextPanel.test.tsx', 'Saved GitHub attachment found, but the live provider session must reconnect'],
+      ['uapi/tests/terminalNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],
     closureNotes: [
@@ -86,7 +86,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'Need review before fit search',
     requiredEvidence: [
       ['protocol-demonstration/server.js', 'bitcode-need-fitting-review'],
-      ['uapi/app/application/application-need-scenarios.ts', 'normalizeApplicationNeedFittingReview'],
+      ['uapi/app/terminal/terminal-need-scenarios.ts', 'normalizeTerminalNeedFittingReview'],
       ['uapi/tests/api/needReviewRoute.test.ts', 'presents a reviewable Need before fit search'],
       ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Need review before fit search']
@@ -136,12 +136,12 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'materially-implemented-open',
     parityMatrixAnchor: 'Transactional readiness and signed-settlement admission',
     requiredEvidence: [
-      ['uapi/app/application/bitcode-transaction-readiness.ts', 'canSettle'],
-      ['uapi/app/application/bitcode-transaction-readiness.ts', 'repository reconnect required'],
-      ['uapi/app/application/bitcode-transaction-readiness.ts', 'wallet reconnect required'],
-      ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'requireBitcodeSignedTransactionReadiness'],
-      ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'repository inventory'],
-      ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'readBitcodeWalletConnectionStatus'],
+      ['uapi/app/terminal/bitcode-transaction-readiness.ts', 'canSettle'],
+      ['uapi/app/terminal/bitcode-transaction-readiness.ts', 'repository reconnect required'],
+      ['uapi/app/terminal/bitcode-transaction-readiness.ts', 'wallet reconnect required'],
+      ['uapi/app/terminal/bitcode-transaction-route-readiness.ts', 'requireBitcodeSignedTransactionReadiness'],
+      ['uapi/app/terminal/bitcode-transaction-route-readiness.ts', 'repository inventory'],
+      ['uapi/app/terminal/bitcode-transaction-route-readiness.ts', 'readBitcodeWalletConnectionStatus'],
       ['uapi/app/api/auxillaries/data/route.ts', 'repositoryConnectionStatus'],
       ['uapi/app/api/auxillaries/data/route.ts', 'repositoryInventorySource'],
       ['uapi/app/api/auxillaries/data/route.ts', 'resolveWalletConnectionStatus'],
@@ -157,9 +157,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/tests/userDataRoute.test.ts', 'walletConnectionStatus'],
       ['uapi/tests/auxillariesConnectsPane.test.tsx', 'stored Exchange inventory'],
       ['uapi/tests/auxillariesConnectsPane.test.tsx', 'Reconnect required'],
-      ['uapi/tests/applicationCommandDeck.test.tsx', 'repository reconnect required'],
-      ['uapi/tests/applicationClosureControlDeck.test.tsx', 'repository reconnect required'],
-      ['uapi/tests/applicationDepositComposerCard.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/terminalCommandDeck.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/terminalClosureControlDeck.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/terminalDepositComposerCard.test.tsx', 'repository reconnect required'],
       ['uapi/tests/orbitalsBTDPane.test.tsx', 'wallet provider must reconnect before Bitcode can rely on live signing again'],
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'Reconnect GitHub'],
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'live wallet-provider signing session is no longer available'],
@@ -220,9 +220,9 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
     ['uapi/tests/api/activityRoute.test.ts', 'returns live activity with persisted execution reread and notification aggregation']
   ],
   'bitcode-terminal': [
-    ['uapi/app/application/application-experience-architecture.ts', 'SIXTH_GATE_MVP_APPLICATION_MAP'],
-    ['uapi/tests/applicationExperienceArchitecture.test.ts', 'locks the post-fifth-gate application map to activity, transactions, conversations, and auxillaries'],
-    ['uapi/tests/e2e/application.terminal.flow.spec.ts', 'application route keeps read, selection, and repository-anchor write-through in one master-detail surface']
+    ['uapi/app/terminal/terminal-experience-architecture.ts', 'TERMINAL_MVP_SURFACE_MAP'],
+    ['uapi/tests/terminalExperienceArchitecture.test.ts', 'locks the Terminal map to activity, transactions, conversations, and auxillaries'],
+    ['uapi/tests/e2e/terminal.flow.spec.ts', 'Terminal route keeps read, selection, and repository-anchor write-through in one Terminal surface']
   ],
   'source-to-shares-need-fitting': [
     ['uapi/tests/api/needReviewRoute.test.ts', 'presents a reviewable Need before fit search'],
@@ -268,9 +268,9 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
     ['uapi/tests/api/activityRoute.test.ts', 'returns live activity with persisted execution reread and notification aggregation']
   ],
   'bitcode-terminal': [
-    ['uapi/app/application/application-commercial-launch-readiness.ts', 'SEVENTH_GATE_COMMERCIAL_TESTNET_LAUNCH_MAP'],
-    ['uapi/tests/applicationCommercialLaunchReadiness.test.ts', 'locks the launch-readiness rows required after MVP closure'],
-    ['uapi/tests/e2e/application.terminal.flow.spec.ts', 'application route keeps read, selection, and repository-anchor write-through in one master-detail surface']
+    ['uapi/app/terminal/terminal-commercial-launch-readiness.ts', 'TERMINAL_COMMERCIAL_TESTNET_LAUNCH_MAP'],
+    ['uapi/tests/terminalCommercialLaunchReadiness.test.ts', 'locks the launch-readiness rows required after MVP closure'],
+    ['uapi/tests/e2e/terminal.flow.spec.ts', 'Terminal route keeps read, selection, and repository-anchor write-through in one Terminal surface']
   ],
   'source-to-shares-need-fitting': [
     ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],

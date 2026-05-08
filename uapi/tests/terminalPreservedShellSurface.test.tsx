@@ -3,14 +3,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 
 import TerminalPreservedShellSurface from '@/app/terminal/TerminalPreservedShellSurface';
 
-jest.mock('@bitcode/protocol-demonstration/src/client-entry.js', () => ({
+jest.mock('@/app/terminal/demonstration-witness-runtime', () => ({
   mountBitcodeDemonstrationShell: jest.fn(async () => jest.fn()),
   readBitcodeDemonstrationShellSnapshot: jest.fn(),
   readBitcodeDemonstrationShellControls: jest.fn(),
 }));
 
 const { mountBitcodeDemonstrationShell } = jest.requireMock(
-  '@bitcode/protocol-demonstration/src/client-entry.js',
+  '@/app/terminal/demonstration-witness-runtime',
 ) as {
   mountBitcodeDemonstrationShell: jest.Mock;
 };

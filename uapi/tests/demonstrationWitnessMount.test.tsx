@@ -4,12 +4,12 @@ import { render, waitFor } from '@testing-library/react';
 
 import DemonstrationWitnessMount from '@/app/terminal/DemonstrationWitnessMount';
 
-jest.mock('@bitcode/protocol-demonstration/src/client-entry.js', () => ({
+jest.mock('@/app/terminal/demonstration-witness-runtime', () => ({
   mountBitcodeDemonstrationShell: jest.fn(async () => jest.fn()),
 }));
 
 const { mountBitcodeDemonstrationShell } = jest.requireMock(
-  '@bitcode/protocol-demonstration/src/client-entry.js',
+  '@/app/terminal/demonstration-witness-runtime',
 ) as {
   mountBitcodeDemonstrationShell: jest.Mock;
 };

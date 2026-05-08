@@ -28,7 +28,7 @@ Fresh audit inputs:
 - `BITCODE_SPEC_V27_DELTA.md`
 - `BITCODE_SPEC_V27_NOTES.md`
 - `BITCODE_SPEC_V27_PARITY_MATRIX.md`
-- `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
+- `protocol-demonstration/V26_TERMINAL_SYSTEMS.md`
 - `protocol-demonstration/V26_PROOF_SURFACES.md`
 - `packages/btd/src/constants.ts`
 - `packages/btd/src/index.ts`
