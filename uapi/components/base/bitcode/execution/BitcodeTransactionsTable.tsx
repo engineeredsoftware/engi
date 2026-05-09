@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import BitcodeTransactionsDataTable from './BitcodeTransactionsDataTable';
 import BitcodeTransactionsActiveFilters from './BitcodeTransactionsActiveFilters';
 import BitcodeTransactionsFilterBar from './BitcodeTransactionsFilterBar';

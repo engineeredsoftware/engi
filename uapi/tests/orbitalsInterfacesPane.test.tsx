@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import OrbitalsInterfacesPane from '@/app/auxillaries/components/AuxillariesInterfacesPane';
 import { useUserData } from '@/hooks/useUserData';
@@ -45,7 +45,7 @@ describe('AuxillariesInterfacesPane', () => {
     } as any);
   });
 
-  it('renders production interfaces sections and submits merged defaults', () => {
+  it('renders production interfaces sections and autosaves merged defaults', async () => {
     const onSave = jest.fn();
 
     render(
@@ -71,24 +71,31 @@ describe('AuxillariesInterfacesPane', () => {
     fireEvent.change(screen.getByLabelText(/Global System Prompt/i), {
       target: { value: 'Keep closure exact and user-facing.' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
-    expect(onSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        existingSetting: 'keep-me',
-        defaultModel: 'claude-3-7-sonnet',
-        globalSystemPrompt: 'Keep closure exact and user-facing.',
-        interfacesDefaults: expect.objectContaining({
-          exchangeDetailDensity: 'signal',
-          conversationLaunch: 'overlay',
-          proofMode: 'raw',
-        }),
-        workspaceDefaults: expect.objectContaining({
-          exchangeDetailDensity: 'signal',
-          conversationLaunch: 'overlay',
-          proofMode: 'raw',
-        }),
-      }),
+    expect(screen.getByText(/Changes save automatically so transactions, proofs, and conversations/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument();
+
+    await waitFor(
+      () => {
+        expect(onSave).toHaveBeenCalledWith(
+          expect.objectContaining({
+            existingSetting: 'keep-me',
+            defaultModel: 'claude-3-7-sonnet',
+            globalSystemPrompt: 'Keep closure exact and user-facing.',
+            interfacesDefaults: expect.objectContaining({
+              exchangeDetailDensity: 'signal',
+              conversationLaunch: 'overlay',
+              proofMode: 'raw',
+            }),
+            workspaceDefaults: expect.objectContaining({
+              exchangeDetailDensity: 'signal',
+              conversationLaunch: 'overlay',
+              proofMode: 'raw',
+            }),
+          }),
+        );
+      },
+      { timeout: 2000 },
     );
   });
 });

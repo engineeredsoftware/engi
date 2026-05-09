@@ -111,6 +111,7 @@ export default function AuxillariesInterfacesPane({
 }: AuxillariesInterfacesPaneProps) {
   const { data } = useUserData();
   const hasCalledCompletionRef = useRef(false);
+  const lastInterfacesAutosaveSignatureRef = useRef<string | null>(null);
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const [defaults, setDefaults] = useState<InterfacesDefaults>(() => ({
     ...DEFAULT_INTERFACES_DEFAULTS,
@@ -309,10 +310,8 @@ export default function AuxillariesInterfacesPane({
     [defaults],
   );
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    onSave({
+  const interfacesAutosavePayload = useMemo(
+    () => ({
       ...(savedPreferences || {}),
       defaultModel: selectedGlobalModel || null,
       defaultProvider: selectedModel?.specialization || null,
@@ -321,8 +320,32 @@ export default function AuxillariesInterfacesPane({
       interfacesDefaults: defaults,
       workspaceDefaults: defaults,
       review_profile: savedPreferences?.review_profile || "bitcode-operator-workspace",
-    });
+    }),
+    [defaults, globalSystemPrompt, savedPreferences, selectedGlobalModel, selectedModel?.specialization, tokenCount],
+  );
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSave(interfacesAutosavePayload);
   };
+
+  useEffect(() => {
+    const signature = JSON.stringify(interfacesAutosavePayload);
+    if (lastInterfacesAutosaveSignatureRef.current === null) {
+      lastInterfacesAutosaveSignatureRef.current = signature;
+      return;
+    }
+    if (lastInterfacesAutosaveSignatureRef.current === signature) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      lastInterfacesAutosaveSignatureRef.current = signature;
+      onSave(interfacesAutosavePayload);
+    }, 550);
+
+    return () => window.clearTimeout(timer);
+  }, [interfacesAutosavePayload, onSave]);
 
   return (
     <div data-testid="interfaces-pane-container">
@@ -421,13 +444,10 @@ export default function AuxillariesInterfacesPane({
               />
             </AuxillariesWorkspaceSection>
 
-            <div className="flex items-center justify-between gap-4 rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
+            <div className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
-                Save the current interfaces posture so transactions, proofs, and conversations reopen with the same operator defaults.
+                Changes save automatically so transactions, proofs, and conversations reopen with the same operator defaults.
               </p>
-              <button type="submit" className="primary-button save-button" disabled={loading}>
-                {isOnboardingComplete ? "Save Interfaces auxillary" : "Continue"}
-              </button>
             </div>
           </form>
         </div>

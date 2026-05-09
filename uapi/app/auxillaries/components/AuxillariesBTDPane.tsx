@@ -4,6 +4,15 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm';
 
+import { MASTER_MOCK_MODE } from '@/config/featureFlags';
+import TerminalTransactionsTable from '@/app/terminal/TerminalTransactionsTable';
+import { MOCK_RUNS, type WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import {
+  DEFAULT_TRANSACTION_FILTERS,
+  DEFAULT_TRANSACTION_PAGINATION,
+  type TransactionFilters,
+  type TransactionPagination,
+} from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 
@@ -46,7 +55,7 @@ const DEFAULT_BTD_DEFAULTS: BtdDefaults = {
 };
 
 function formatBtdHoldings(btdBalance: number) {
-  return `${btdBalance.toLocaleString()} $BTD`;
+  return `${btdBalance.toLocaleString()} BTD`;
 }
 
 function formatBtcFeeBalance(balance: unknown) {
@@ -69,7 +78,7 @@ function formatBtcFeeBalance(balance: unknown) {
 function resolveWalletAddress(profile: Record<string, any> | null, userId: string | undefined) {
   const walletBinding = readBitcodeWalletBindingFromProfile(profile);
   if (walletBinding?.address) {
-    return String(walletBinding.address);
+    return formatCompactIdentifier(String(walletBinding.address));
   }
 
   if (!userId) {
@@ -77,6 +86,15 @@ function resolveWalletAddress(profile: Record<string, any> | null, userId: strin
   }
 
   return `Binding pending for ${userId.slice(0, 8)}...`;
+}
+
+function formatCompactIdentifier(value: string) {
+  const normalized = value.trim();
+  if (normalized.length <= 22) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, 10)}...${normalized.slice(-8)}`;
 }
 
 function readProfileString(profile: Record<string, any> | null, ...keys: string[]) {
@@ -185,6 +203,7 @@ export default function AuxillariesBTDPane({
     hasVerifiedWalletConnection,
   } = useUserData();
   const hasCalledCompletionRef = useRef(false);
+  const lastBtdAutosaveSignatureRef = useRef<string | null>(null);
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const profile = (data?.profile as Record<string, any> | null) || null;
   const walletBinding = readBitcodeWalletBindingFromProfile(profile);
@@ -198,6 +217,15 @@ export default function AuxillariesBTDPane({
     ...DEFAULT_BTD_DEFAULTS,
     ...(savedPreferences?.btdDefaults || {}),
   }));
+  const [activityFilters, setActivityFilters] = useState<TransactionFilters>({
+    ...DEFAULT_TRANSACTION_FILTERS,
+  });
+  const [activityPagination, setActivityPagination] = useState<TransactionPagination>({
+    ...DEFAULT_TRANSACTION_PAGINATION,
+  });
+  const [selectedActivityId, setSelectedActivityId] = useState<string | null>(
+    MASTER_MOCK_MODE ? MOCK_RUNS[0]?.id ?? null : null,
+  );
 
   useEffect(() => {
     if (onCompletionStatusChange && !hasCalledCompletionRef.current) {
@@ -371,18 +399,45 @@ export default function AuxillariesBTDPane({
     [defaults],
   );
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    onSave({
+  const btdAutosavePayload = useMemo(
+    () => ({
       ...(savedPreferences || {}),
       btdDefaults: defaults,
       btdSummary: {
         shareLens: defaults.shareLens,
         settlementView: defaults.settlementView,
       },
-    });
-  };
+    }),
+    [defaults, savedPreferences],
+  );
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const signature = JSON.stringify(btdAutosavePayload);
+    if (lastBtdAutosaveSignatureRef.current === null) {
+      lastBtdAutosaveSignatureRef.current = signature;
+      return;
+    }
+    if (lastBtdAutosaveSignatureRef.current === signature) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      lastBtdAutosaveSignatureRef.current = signature;
+      onSave(btdAutosavePayload);
+    }, 550);
+
+    return () => window.clearTimeout(timer);
+  }, [btdAutosavePayload, onSave, user]);
+
+  const btdActivityRuns = useMemo<WorkspaceRun[]>(
+    () => (MASTER_MOCK_MODE ? MOCK_RUNS : []),
+    [],
+  );
+  const resetActivityFilters = () => setActivityFilters({ ...DEFAULT_TRANSACTION_FILTERS });
 
   return (
     <div data-testid="btd-pane-container">
@@ -410,7 +465,7 @@ export default function AuxillariesBTDPane({
             </div>
           </AuxillariesWorkspaceSection>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-5">
             <AuxillariesWorkspaceSection
               kicker="Wallet posture"
               title="Keep BTC fees, $BTD holdings, identity, and membership readable together"
@@ -498,6 +553,33 @@ export default function AuxillariesBTDPane({
             </AuxillariesWorkspaceSection>
 
             <AuxillariesWorkspaceSection
+              kicker="BTD activity"
+              title="Read your BTD-relevant activity from the shared Exchange table"
+              description="Owned AssetPacks, Exchange trades, Gives, Needs, proof closures, and range-bearing activity should be inspected through the same table grammar used by Exchange."
+              tone="emerald"
+            >
+              <TerminalTransactionsTable
+                runs={btdActivityRuns}
+                selectedTransactionId={selectedActivityId}
+                onSelectTransaction={setSelectedActivityId}
+                filters={activityFilters}
+                onFiltersChange={setActivityFilters}
+                onResetFilters={resetActivityFilters}
+                pagination={activityPagination}
+                onPaginationChange={setActivityPagination}
+                isLoadingRuns={false}
+                runsError={null}
+                transactionDataMode={MASTER_MOCK_MODE ? 'mock-review' : 'live'}
+                surface="exchange"
+              />
+              {!MASTER_MOCK_MODE ? (
+                <p className="mt-3 text-xs leading-6 text-white/56">
+                  Testnet-readiness shows an empty live activity table until ledger-derived BTD events are present.
+                </p>
+              ) : null}
+            </AuxillariesWorkspaceSection>
+
+            <AuxillariesWorkspaceSection
               kicker="Share posture"
               title="Choose how $BTD detail should read back into transactions"
               description="Use the inner auxillary to decide whether account, organization, or network share posture should dominate when you reopen main operator surfaces."
@@ -576,15 +658,12 @@ export default function AuxillariesBTDPane({
               </div>
             </AuxillariesWorkspaceSection>
 
-            <div className="flex items-center justify-between gap-4 rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
+            <div className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
-                Save the current $BTD posture so the inner auxillary reopens with the same share, replay, and wallet-facing defaults.
+                Changes save automatically so the BTD posture reopens with the same share, replay, and wallet-facing defaults.
               </p>
-              <button type="submit" className="primary-button save-button" disabled={loading}>
-                {isOnboardingComplete ? "Save $BTD auxillary" : "Continue"}
-              </button>
             </div>
-          </form>
+          </div>
         )}
       </div>
     </div>

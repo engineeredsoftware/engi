@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import BitcodeTransactionsTable from '@/components/base/bitcode/execution/BitcodeTransactionsTable';
 import type {

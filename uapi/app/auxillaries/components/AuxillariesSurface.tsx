@@ -455,7 +455,9 @@ export default function AuxillariesSurface({
 
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
   const usesTerminalOverlay = isTerminalRoute;
-  const usesContainedAuxillariesSurface = usesTerminalOverlay || isDedicatedAuxillariesRoute || isAuxillariesSurface;
+  const usesPortalOverlay = Boolean(onClose);
+  const usesContainedAuxillariesSurface =
+    usesPortalOverlay || usesTerminalOverlay || isDedicatedAuxillariesRoute || isAuxillariesSurface;
   const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const auxillariesBackgroundClass = usesContainedAuxillariesSurface
@@ -469,7 +471,7 @@ export default function AuxillariesSurface({
   return (
     <div
       ref={containerRef}
-      className={`orbital-system ${auxillariesSurfaceClass} ${usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${activeWindow === 'SignUpWindow' && !isAuxillariesSurface && !usesTerminalOverlay ? 'orbital-system-onboarding' : ''} ${usesTerminalOverlay ? 'orbital-system-application' : ''} ${isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system ${auxillariesSurfaceClass} ${usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${activeWindow === 'SignUpWindow' && !isAuxillariesSurface && !usesContainedAuxillariesSurface ? 'orbital-system-onboarding' : ''} ${usesContainedAuxillariesSurface ? 'orbital-system-application' : ''} ${isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >

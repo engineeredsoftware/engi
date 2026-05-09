@@ -156,7 +156,7 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
-          <table className="min-w-full text-sm whitespace-nowrap">
+          <table className="min-w-full text-sm whitespace-nowrap" data-testid="btd-data-share-repositories">
             <thead className="text-slate-300 font-semibold">
               <tr>
                 <th className="py-3 px-4 text-left">Repository</th>
@@ -169,6 +169,8 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
               {repos.map((repo, idx) => (
                 <tr
                   key={repo.fullName + repo.commit}
+                  data-testid="btd-data-share-repo-row"
+                  data-repo-full-name={repo.fullName}
                   className="border-t border-slate-700/60 hover:bg-[#1A2335] group transition-colors"
                 >
                   <td className="py-3 px-4 font-medium text-slate-200 flex items-center gap-2">

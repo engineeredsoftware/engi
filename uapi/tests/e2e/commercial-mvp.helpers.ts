@@ -228,7 +228,7 @@ export async function installCommercialMvpApiMocks(page: Page) {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          branches: [{ name: 'main' }, { name: 'v28-commercial-mvp' }],
+          branches: [{ name: 'main' }, { name: 'commercial-mvp' }],
           repoInfo: { default_branch: 'main' },
         }),
       });

@@ -100,7 +100,7 @@ describe('AuxillariesBTDPane', () => {
     jest.restoreAllMocks();
   });
 
-  it('renders wallet and share posture and submits merged btd defaults', async () => {
+  it('renders wallet and share posture and autosaves merged btd defaults', async () => {
     const onSave = jest.fn();
 
     render(
@@ -136,19 +136,26 @@ describe('AuxillariesBTDPane', () => {
       }),
     );
     fireEvent.click(screen.getByRole('button', { name: /live/i }));
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
-    expect(onSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        existingSetting: 'keep-me',
-        btdDefaults: expect.objectContaining({
-          shareLens: 'organization',
-          settlementView: 'replay',
-          btdDetailView: 'proofs',
-          automationBias: 'decisive',
-          walletSync: 'live',
-        }),
-      }),
+    expect(screen.getByText(/Changes save automatically so the BTD posture/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument();
+
+    await waitFor(
+      () => {
+        expect(onSave).toHaveBeenCalledWith(
+          expect.objectContaining({
+            existingSetting: 'keep-me',
+            btdDefaults: expect.objectContaining({
+              shareLens: 'organization',
+              settlementView: 'replay',
+              btdDetailView: 'proofs',
+              automationBias: 'decisive',
+              walletSync: 'live',
+            }),
+          }),
+        );
+      },
+      { timeout: 2000 },
     );
   });
 

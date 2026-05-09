@@ -4,12 +4,9 @@ import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import {
-  getAuxillariesWorkspaceDescription,
-  getAuxillariesWorkspaceHeading,
   getAuxillaryDescriptor,
   labelForAuxillaryPane,
   AUXILLARIES_ACCESS_LABEL,
-  AUXILLARIES_LABEL,
   type AuxillaryPane,
 } from './auxillary-pane-meta';
 import AuxillariesPaneTabs from './shared/AuxillariesPaneTabs';
@@ -220,15 +217,6 @@ function AuxillariesContent(props: AuxillariesContentProps) {
       {usesContainedLayout ? (
         <div className="orbital-workspace-shell auxillaries-bitcode-shell">
           <aside className="orbital-workspace-nav auxillaries-bitcode-selector">
-            <div className="orbital-workspace-nav-copy auxillaries-bitcode-selector-copy">
-              <p className="orbital-workspace-kicker auxillaries-bitcode-kicker">
-                {isAuxillariesMode ? AUXILLARIES_LABEL : AUXILLARIES_ACCESS_LABEL}
-              </p>
-              <h3 className="orbital-workspace-title auxillaries-bitcode-title">{getAuxillariesWorkspaceHeading(mode)}</h3>
-              <p className="orbital-workspace-description auxillaries-bitcode-description">
-                {getAuxillariesWorkspaceDescription(mode)}
-              </p>
-            </div>
             <AuxillariesWorkspacePanels
               steps={steps}
               currentStep={currentStep}

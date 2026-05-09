@@ -201,6 +201,9 @@ Acceptance criteria:
 
 - Auxillaries active auth/profile/readiness experience uses the contained tabs-left model without old orbital layout collision.
 - sign-in, sign-up, signed-in, and signed-out Auxillaries states are responsive and not pushed offscreen.
+- Auxillaries portal entry, including unauthenticated `Connect Wallet`, opens the contained Auxillaries shell rather than the old onboarding/orbital shell.
+- Auxillaries settings panes auto-save edits; visible pane-level Save buttons are not part of the commercial MVP shell.
+- the `$BTD` auxillary shows BTD and BTC balances legibly, avoids long-identifier overflow, and includes the shared Exchange activity table grammar for BTD-relevant owned packs, Exchange trades, Gives, Needs, proof closures, and range-bearing activity.
 - route QA covers `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations; the prior generic workspace route is verified absent from active source.
 - Exchange MVP activity/search/detail route renders without homepage redirects or disabled navigation.
 - signed-in navigation shows BTC and BTD balances as peer wallet facts, without `$BTD` currency-token styling, with a distinct visual separator, and with hover context reserved for recent BTD AssetPacks rather than explanatory product copy.

@@ -37,6 +37,17 @@
   overflow: hidden !important;
 }
 
+.auxillaries-bitcode-surface.orbital-system-overlay .orbital-header-buttons {
+  position: fixed !important;
+  inset: var(--aux-bc-overlay-pad) var(--aux-bc-overlay-pad) auto auto !important;
+  z-index: 120 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.65rem !important;
+  transform: none !important;
+}
+
 .auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-shell {
   width: min(100%, 92rem);
   height: calc(100dvh - var(--aux-bc-overlay-pad));
@@ -60,7 +71,9 @@
 
 .auxillaries-bitcode-surface .content-vis {
   width: 100% !important;
-  min-height: inherit;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
 .auxillaries-bitcode-shell {
@@ -73,6 +86,29 @@
   height: 100%;
   padding-top: 0 !important;
   overflow: hidden;
+}
+
+.auxillaries-bitcode-surface .orbital-auth-container {
+  position: relative !important;
+  inset: auto !important;
+  box-sizing: border-box !important;
+  width: min(100%, 92rem) !important;
+  max-width: min(100%, 92rem) !important;
+  height: calc(100dvh - var(--aux-bc-overlay-pad, 2rem)) !important;
+  max-height: calc(100dvh - var(--aux-bc-overlay-pad, 2rem)) !important;
+  min-height: 0 !important;
+  margin: auto auto 0 !important;
+  overflow: auto !important;
+  overscroll-behavior: contain !important;
+  scrollbar-gutter: stable !important;
+  border: 1px solid var(--aux-bc-line) !important;
+  border-radius: 1.45rem !important;
+  background:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(8, 16, 30, 0.94), rgba(4, 9, 18, 0.95)) !important;
+  box-shadow:
+    0 26px 80px rgba(0, 0, 0, 0.26),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
 }
 
 .auxillaries-bitcode-selector {
@@ -154,12 +190,13 @@
 .auxillaries-bitcode-selector-card-topline {
   display: flex !important;
   align-items: center !important;
-  justify-content: space-between !important;
+  justify-content: flex-end !important;
   gap: 0.7rem !important;
+  min-height: 0.78rem !important;
 }
 
 .auxillaries-bitcode-selector-card-layer {
-  color: rgba(167, 243, 208, 0.84) !important;
+  display: none !important;
 }
 
 .auxillaries-bitcode-selector-card-state {
@@ -198,12 +235,14 @@
 .auxillaries-bitcode-selector-card-label {
   color: var(--aux-bc-ink) !important;
   font-size: 0.98rem !important;
+  text-align: center !important;
 }
 
 .auxillaries-bitcode-selector-card-copy {
   color: var(--aux-bc-muted) !important;
   font-size: 0.84rem !important;
   line-height: 1.55 !important;
+  text-align: center !important;
 }
 
 .auxillaries-bitcode-pane {

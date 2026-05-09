@@ -13,6 +13,7 @@ V28 focuses on whether the commercial application functions are coherent, readab
 | Field | Value |
 | --- | --- |
 | Date | 2026-05-08 |
+| Latest resume | 2026-05-09 |
 | Mock app URL | `http://127.0.0.1:3000` |
 | Testnet-readiness app URL | `http://127.0.0.1:3001` when a second dev server is running |
 | Server mode | dual-lane QA: deterministic mock first, then testnet/live-readiness |
@@ -177,6 +178,61 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Mock Terminal data classification | pass | Manual QA clarified that the currently visible Terminal data is mock data because the operator is in the mock lane. This evidence remains mock-lane evidence only, not testnet-readiness evidence. |
 | Testnet-readiness Terminal baseline | pass | Port `3001` API returns anonymous/empty readiness rather than mock profile/repos/balances, and browser verification renders `Bitcode Terminal` with `Connect Wallet`, no mock profile strings, no mock balances, and no product console/page errors. |
 
+### 2026-05-09 Pass 3A Resume: Wallet Extension And Provider Prerequisites
+
+This pass resumes natural progression `1A` with both lanes already running.
+Mock still establishes the expected stable prerequisite posture first.
+The non-mock lane then checks the real wallet-extension path, or records precisely where the commercial MVP still exposes only staged/manual wallet identity.
+
+| Lane | URL | Status at resume | Pass intent |
+| --- | --- | --- | --- |
+| Mock | `http://127.0.0.1:3000/terminal` | HTTP 200 | Reconfirm that top chrome, Auxillaries Profile, Connects, and BTD wallet posture remain deterministic after the deployment-build fix. |
+| Non-mock/testnet-readiness | `http://127.0.0.1:3001/terminal` | HTTP 200 | Validate real prerequisite order: Connect Wallet, identity/auth state, wallet-extension prompt if available, GitHub connection posture, and fail-closed Terminal readiness. |
+
+V28 distinction for this pass:
+
+| Finding type | V28 action |
+| --- | --- |
+| A visible `Connect Wallet` control opens an account/access pane but does not invoke a wallet extension or clearly say wallet-extension signing is staged. | V28 MVP bug: label/copy/action mismatch must be fixed before continuing deeper QA. |
+| A wallet extension prompt appears and connection succeeds, but BTC/BTD/top-chrome/Auxillaries/Profile/BTD panes do not reflect the connected address or readiness. | V28 MVP bug: connected identity and readiness state are not coherent. |
+| A wallet extension prompt appears but fails because testnet provider/network/permission is absent, while the app reports the blocker clearly and remains usable. | Acceptable V28 blocked-readiness outcome; V29/V34 may deepen live wallet and deployment operations. |
+| Source truth confirms wallet-provider signing is intentionally staged and only manual wallet identity is active. | V28 must make that explicit wherever `Connect Wallet` appears; actual extension integration becomes a near-term V29/V34-boundary requirement unless the user elevates it into V28. |
+
+Manual evidence requested for this pass:
+
+- screenshots of mock and non-mock top chrome before interaction;
+- screenshots of the non-mock `Connect Wallet` result, including any extension prompt or staged-state copy;
+- screenshots of Auxillaries Profile wallet identity and `$BTD` wallet posture after the attempted connection;
+- console errors and network errors after each lane;
+- answer whether any wallet-extension permission prompt appeared, which wallet extension/provider it was, which network/account was selected, and whether the app changed state after approval/cancel/failure.
+
+Manual findings from 2026-05-09:
+
+| Lane | Check | Result | V28 disposition |
+| --- | --- | --- | --- |
+| Mock | Top chrome | pass | Balance/nav/profile chrome is acceptable. Notification dropdown needs text wrapping and legibility polish. |
+| Mock | Auxillaries Profile initial scroll | fail | Profile pane is not scrollable on first open but becomes scrollable after switching panes. V28 blocker because prerequisite settings must be reachable on first open. |
+| Mock | Auxillaries save model | fail | Visible Save buttons remain in Profile, $BTD, and Interfaces. V28 must use autosave for auxillary edits and remove explicit save buttons from the contained application experience. |
+| Mock | Auxillaries selector cards | fail | Cards duplicate the pane title through a top lane label plus centered title. V28 should keep the centered pane name and top-right state indicator only. |
+| Mock | Auxillaries controls/layout | fail | Close and Sign Out controls should read as top-right overlay controls, not left-edge controls. The selector-side self-explainer text is unnecessary. |
+| Mock | $BTD pane stats | partial | Text overflows in balance and identity cards; BTD/BTC balances need stronger visual emphasis. |
+| Mock | $BTD activity | missing | The $BTD pane should include the shared Exchange/Terminal activity table filtered for the user's BTD-relevant owned packs, Exchange trades, Gives, and Needs. |
+| Mock | Console | pass | Manual QA reports clean console. |
+| Non-mock/testnet-readiness | Top chrome | pass | Non-mock chrome is acceptable before interaction. |
+| Non-mock/testnet-readiness | Connect Wallet entry | fail | `Connect Wallet` opens the broken legacy late-orbital onboarding shell. V28 blocker: all unauthenticated auxillaries portal entry must use the new contained Auxillaries shell and honest staged/live wallet copy. |
+
+Implemented after the 2026-05-09 findings, pending manual reconfirmation:
+
+| Fix | Verification state |
+| --- | --- |
+| Notification dropdown wraps title/message text in a wider, more legible two-column layout without breaking item actions. | Production build passes; next manual top-chrome pass should judge visual fit. |
+| Auxillaries contained portal, including unauthenticated `Connect Wallet`, uses the contained Auxillaries surface and suppresses the old ring-background onboarding shell. | Browser smoke on `3001` confirms `.auxillaries-bitcode-surface.orbital-system-application`, zero old login/account ring backgrounds, and no page/console errors. |
+| Profile, Interfaces, and BTD panes autosave changes and no longer expose visible auxillary Save/Continue buttons in the contained application experience. | Unit tests cover BTD and Interfaces autosave; focused Auxillaries E2E checks no visible `$BTD` Save button. |
+| Auxillaries selector cards remove duplicate top lane titles and keep state as a top-right visual indicator with accessible state metadata. | Focused Auxillaries E2E still passes route-card and pane-tab navigation. |
+| Overlay controls are aligned as top-right close/sign-out controls and the selector-side self-explainer copy is removed. | Production build passes; next manual Auxillaries pass should judge spacing. |
+| BTD/BTC statistics use stronger value tones and safer overflow handling. | Production build passes; next manual BTD pane pass should judge vibrancy/legibility. |
+| BTD pane includes the shared Exchange activity table for BTD-relevant activity and keeps connected-repository consent tests scoped to their own table. | Focused Auxillaries E2E passes all 10 tests. |
+
 ### 2026-05-08 Pass 3A: Auxillaries Profile And Connects Readiness
 
 | Check | Result | Notes |
@@ -195,8 +251,8 @@ Implemented after Pass 2, pending next manual QA confirmation:
 Automated verification for this slice:
 
 - `pnpm -C uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/btdTrackerLoading.test.tsx tests/auxillariesWorkspacePanels.test.tsx tests/featureFlagsMockMode.test.ts`: pass.
-- `pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 9 passed, including the Terminal fullscreen Auxillaries viewport/scroll assertion.
-- Focused browser verification on the mock lane: raw lane text count `0`, state indicator count `4`, Profile display name `Avery Mercer`, Profile bio `Reviewing the Bitcode commercial surface in deterministic mock mode.`, shell bottom gap `0`, pane bottom overflow `0`, pane `scrollTop` advances, Save Profile is visible at the internal scroll bottom, Connects repos present, no product console/page errors.
+- `pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed, including the Terminal fullscreen Auxillaries viewport/scroll assertion and contained portal-entry regression.
+- Focused browser verification on the mock lane: raw lane text count `0`, state indicator count `4`, Profile display name `Avery Mercer`, Profile bio `Reviewing the Bitcode commercial surface in deterministic mock mode.`, shell bottom gap `0`, pane bottom overflow `0`, pane `scrollTop` advances, explicit auxillary Save buttons are removed in favor of autosave, Connects repos present, no product console/page errors.
 
 Deferred to V31 from this pass:
 

@@ -168,6 +168,13 @@ The contained selector/pane grid must use a single bounded row, with selector ca
 Profile must remain long-form enough to expose identity, wallet, access-provider, and save controls, but its vertical rhythm must be tightened so scrolling feels like a contained product pane rather than a legacy onboarding form dropped into the commercial shell.
 The account-menu Auxillaries entry may reuse the pre-V26 solar-system visual language when it improves product legibility and polish, but the source and visible product naming must remain Auxillaries/Bitcode rather than restoring Orbitals as a commercial construct.
 
+The following 1A resume exposed a second Auxillaries MVP shell slice.
+All portal entry into Auxillaries, including unauthenticated `Connect Wallet` from the non-mock top chrome, must use the contained Auxillaries shell rather than falling back into the old onboarding/orbital shell.
+The contained selector should not duplicate pane names with both lane labels and centered titles; the centered pane title plus top-right visual state indicator is the V28 pattern.
+Auxillaries edits are application settings and should auto-save; visible Save buttons belong to legacy/onboarding behavior and should be removed from the contained commercial panes.
+The `$BTD` pane must highlight BTD and BTC balances strongly, avoid long-address overflow, and include the shared Exchange activity-table grammar for BTD-relevant activity even when testnet-readiness has no ledger-derived events yet.
+The notification dropdown is part of prerequisite trust and must keep titles, timestamps, pills, messages, and actions legible without awkward line breaks.
+
 These changes remain V28 scope because they are MVP-readiness and trust issues.
 The deeper Auxillaries version retains hierarchy, spacing, diagnostics, recovery, and provider-management expansion after V28 proves the contained shell, mocked prerequisite reads, fail-closed testnet-readiness, and no-console-error baseline.
 

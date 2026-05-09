@@ -110,6 +110,30 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await trap.assertClean();
   });
 
+  test('Auxillaries portal entry opens the contained access surface without the old onboarding shell', async ({
+    page,
+  }, testInfo) => {
+    const trap = installCommercialBrowserErrorTrap(page, testInfo);
+
+    await openCommercialRoute(page, '/terminal', /Bitcode Terminal/i);
+
+    await page.evaluate(() => {
+      window.dispatchEvent(
+        new CustomEvent('open-auxillaries', {
+          detail: { window: 'SignUpWindow' },
+        }),
+      );
+    });
+
+    const portal = page.locator('.auxillaries-portal');
+    await expect(portal.locator('.auxillaries-bitcode-surface.orbital-system-application')).toBeVisible();
+    await expect(portal.locator('.login-background-glow')).toHaveCount(0);
+    await expect(portal.locator('.account-background-highlight')).toHaveCount(0);
+    await expect(portal.locator('.orbital-ring')).toHaveCount(0);
+
+    await trap.assertClean();
+  });
+
   test('Terminal fullscreen Auxillaries fills the viewport and keeps Profile scrolling inside the pane', async ({
     page,
   }, testInfo) => {
@@ -144,7 +168,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     expect(paneScrollMetrics.overflowY).toBe('auto');
     expect(paneScrollMetrics.scrollHeight).toBeGreaterThan(paneScrollMetrics.clientHeight);
     expect(paneScrollMetrics.scrollTop).toBeGreaterThan(0);
-    await expect(page.getByRole('button', { name: /Save Profile auxillary/i })).toBeVisible();
+    await expect(page.getByText(/Profile edits save automatically/i)).toBeVisible();
 
     await trap.assertClean();
   });
@@ -175,10 +199,13 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await page.goto('/auxillaries/btd');
     await expectCommercialRouteReady(page, /\$BTD in one contained auxillary read/i);
     const btdPane = page.getByTestId('btd-pane-container');
-    await expect(btdPane.getByText('1,200 $BTD')).toBeVisible();
+    await expect(btdPane.getByText('1,200 BTD')).toBeVisible();
     await expect(btdPane.getByText(/0\.042 BTC/i)).toBeVisible();
     await expect(page.getByText(/BTC is the fee-liquidity posture/i)).toBeVisible();
-    await expect(page.getByRole('button', { name: /Save \$BTD auxillary/i })).toBeVisible();
+    await expect(page.getByText(/Read your BTD-relevant activity from the shared Exchange table/i)).toBeVisible();
+    await expect(page.getByText(/Searchable Exchange activity table/i)).toBeVisible();
+    await expect(page.getByText(/Changes save automatically so the BTD posture/i)).toBeVisible();
+    await expect(page.getByRole('button', { name: /Save \$BTD auxillary/i })).toHaveCount(0);
 
     await trap.assertClean();
   });
@@ -208,7 +235,10 @@ test.describe('commercial MVP Auxillaries experience', () => {
       enabled: false,
     });
 
-    const repoRow = btdPane.getByRole('row', { name: /bitcode\/bitcode/i });
+    const repoRow = btdPane
+      .getByTestId('btd-data-share-repositories')
+      .getByTestId('btd-data-share-repo-row')
+      .filter({ hasText: 'bitcode/bitcode' });
     await expect(repoRow).toBeVisible();
     await expect(repoRow.getByText('main')).toBeVisible();
     await expect(repoRow.locator('input[type="checkbox"]')).not.toBeChecked();

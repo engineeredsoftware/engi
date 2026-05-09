@@ -1,6 +1,6 @@
-// Canonical auxillary owner using canonical auxillary internals while fifth-gate support-route retirement proceeds.
+// Canonical auxillary owner using canonical auxillary internals while support-route retirement proceeds.
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import SocialLoginButton from '@/components/base/bitcode/auth/SocialLoginButton';
 import SocialAccountLinker from '@/components/base/bitcode/auth/SocialAccountLinker';
 import LoadingSpinner from '@/components/base/bitcode/indicators/LoadingSpinner';
@@ -340,6 +340,7 @@ export default function AuxillariesProfilePane({ onSave,
     ]
   );
   const [teamSectionExpanded, setTeamSectionExpanded] = useState(false);
+  const lastProfileAutosaveSignatureRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (initialTeamMembers.length === 0) return;
@@ -358,15 +359,15 @@ export default function AuxillariesProfilePane({ onSave,
     }
   }, [isVerified, onCompletionStatusChange]);
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const profileAutosavePayload = useMemo(() => {
     const walletBindingStatusForSave =
       !walletAddress
         ? null
         : walletBindingStatus === 'manual' || walletBindingStatus === null
           ? 'manual'
           : undefined;
-    onSave({
+
+    return {
       username,
       displayName,
       bio,
@@ -377,8 +378,48 @@ export default function AuxillariesProfilePane({ onSave,
       walletAddress: walletAddress || null,
       walletProvider: walletAddress ? walletProvider || 'manual' : null,
       walletBindingStatus: walletBindingStatusForSave,
-    });
+    };
+  }, [
+    avatarOptions,
+    avatarUrl,
+    bio,
+    companyName,
+    displayName,
+    isVerified,
+    selectedAvatar,
+    teamMembers,
+    username,
+    walletAddress,
+    walletBindingStatus,
+    walletProvider,
+  ]);
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    onSave(profileAutosavePayload);
   };
+
+  useEffect(() => {
+    if (!isOnboardingComplete || loading) {
+      return;
+    }
+
+    const signature = JSON.stringify(profileAutosavePayload);
+    if (lastProfileAutosaveSignatureRef.current === null) {
+      lastProfileAutosaveSignatureRef.current = signature;
+      return;
+    }
+    if (lastProfileAutosaveSignatureRef.current === signature) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      lastProfileAutosaveSignatureRef.current = signature;
+      onSave(profileAutosavePayload);
+    }, 550);
+
+    return () => window.clearTimeout(timer);
+  }, [isOnboardingComplete, loading, onSave, profileAutosavePayload]);
 
   const toggleAvatarSelector = () => {
     setShowAvatarSelector(!showAvatarSelector);
@@ -1043,10 +1084,8 @@ export default function AuxillariesProfilePane({ onSave,
             style={{ display: 'none' }}
           />
           {isOnboardingComplete && (
-            <div className="mt-6 flex justify-end">
-              <button type="submit" className="primary-button save-button enhanced-contrast">
-                Save Profile auxillary
-              </button>
+            <div className="mt-6 rounded-[18px] border border-white/10 bg-black/20 px-4 py-3 text-sm leading-6 text-white/66">
+              Profile edits save automatically as identity, wallet, and provider posture changes.
             </div>
           )}
         </form>

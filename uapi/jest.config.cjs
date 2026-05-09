@@ -106,6 +106,7 @@ module.exports = {
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
     '<rootDir>/tests/btdTrackerLoading.test.tsx',
     '<rootDir>/tests/orbitalsBTDPane.test.tsx',
+    '<rootDir>/tests/orbitalsInterfacesPane.test.tsx',
     '<rootDir>/tests/marketingLandingPage.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',
     '<rootDir>/tests/bitcodeDocsContent.test.tsx',

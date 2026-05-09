@@ -4,7 +4,6 @@ import React from 'react';
 
 import {
   getAuxillaryDescriptor,
-  getAuxillaryLayerLabel,
   type AuxillaryPane,
 } from '../auxillary-pane-meta';
 
@@ -61,9 +60,6 @@ export default function AuxillariesWorkspacePanels({
               aria-label={`${descriptor.label} auxillary`}
             >
               <div className="orbital-workspace-panel-topline auxillaries-bitcode-selector-card-topline">
-                <span className="orbital-workspace-panel-layer auxillaries-bitcode-selector-card-layer">
-                  {getAuxillaryLayerLabel(step)}
-                </span>
                 <span
                   className={`orbital-workspace-panel-state auxillaries-bitcode-selector-card-state auxillaries-bitcode-selector-card-state-${state}`}
                   aria-label={stateLabel}
