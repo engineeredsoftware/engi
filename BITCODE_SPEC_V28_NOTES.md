@@ -62,15 +62,16 @@ V28 refinement:
 - replace the literal pipe character with a styled vertical divider;
 - use hover title context for the user's most recent BTD AssetPacks when known;
 - leave hover title absent when no recent AssetPack facts are known instead of showing explanatory copy;
-- route the hover action as `Exchange BTD` to `/exchange?intent=buy-existing-btd`;
+- use the hover action for the connected wallet label: show the wallet nickname when one exists and otherwise show a middle-truncated Bitcoin address;
+- click the widget into the `$BTD` wallet auxillary pane, leaving Exchange acquisition/trading entry to explicit Exchange navigation and `$BTD` pane activity-table links;
 - keep the demonstration protocol aligned with a source-reading V28 MVP QA proof.
 
 Manual follow-up QA on May 6, 2026 passed after tightening the divider and icon spacing:
 
 - resting state reads `0.042 BTC | 1,200 BTD` visually with a styled divider rather than a literal pipe;
-- hover state reads `Exchange BTD` without layout shift;
+- hover state reads wallet identity without layout shift;
 - hover title lists recent BTD AssetPacks and does not explain BTC/BTD ontology;
-- click routes into the Exchange intent path without console errors.
+- click opens the `$BTD` auxillary wallet pane without console errors.
 
 Follow-up Exchange landing QA revealed that the Exchange client was appending `transactionId=mock-run-branch-remediation` and scrolling to the lower `Finish-delivered Shippables` section after the widget click. V28 closes that as an Exchange MVP bug: the generic `intent=buy-existing-btd` entry must land at the top of Exchange, must not route-focus the first activity row, and must suppress Shippables card animation auto-scroll on the read-only Exchange surface. Explicit transaction focus remains supported only when the URL already contains a transaction id or the operator selects a row.
 
@@ -181,8 +182,30 @@ The contained Auxillaries surface must avoid global intrinsic-size rendering sho
 Selector-card hover motion may remain, but the selector rail must reserve enough top space that the first card border is never clipped.
 The `$BTD` pane hierarchy is now: one large BTD balance row; one sub-stat row for owned AssetPack count and BTC wallet liquidity; then compact identity, membership, policy, range, and read-branch cards.
 System explanations for these cards belong in tooltips and accessible labels, not as visible description cards competing with the user's values.
-The V28 prerequisite posture is narrowed to MetaMask wallet authentication and GitHub repository connection; Google and broader identity/provider surfaces are outside the primary V28 prerequisite path.
+The V28 prerequisite posture is narrowed to Bitcoin wallet authentication and GitHub repository connection; Google and broader identity/provider surfaces are outside the primary V28 prerequisite path.
 Mock and testnet-readiness Auxillaries must keep the same pane order and shell regardless of which caller opens the overlay.
+
+The May 9 wallet-first onboarding correction makes Bitcoin wallet identity the first and minimum authentication action.
+Email is no longer allowed to present as the primary Profile authentication path.
+The Profile onboarding order is now:
+
+1. Bitcoin wallet authentication connects a Bitcoin-capable wallet provider, captures a Bitcode Bitcoin authentication proof when available, and establishes wallet identity for the staging profile. Xverse is preferred through Sats Connect provider discovery and `wallet_connect`; Leather is supported through `window.LeatherProvider.request('getAddresses')` plus `signMessage`; UniSat/OKX remain fallback providers; MetaMask BTC remains manual-staging-only until a documented Bitcoin dapp provider or Snap bridge is implemented.
+2. GitHub repository connection follows and is required for Give and Need, but Exchange viewing can proceed from wallet identity alone.
+3. Email is optional and exists for notifications, Bitcode updates, and recovery/contact posture.
+
+Implementation must therefore keep wallet auth enabled and top-most in Profile, avoid the Ethereum provider path for Bitcoin identity, persist wallet-provider binding only through the wallet-auth route when backend session state is available, keep the generic Profile save route from accepting unverifiable provider-managed signer assertions, and surface staging prerequisites clearly.
+The live wallet selector must also be provider-explicit: the Profile pane should disclose detected Bitcoin wallets and expose direct Xverse and Leather actions when both are installed. This avoids the observed QA failure where a silent or stalled Xverse handoff could make the single generic connect button appear inert while Leather was also available.
+Non-mock QA requires a browser with Xverse and/or Leather installed and unlocked for the first pass; Xverse should be tested first on Testnet4, then Leather on its documented testnet lane. If only MetaMask's injected Ethereum provider is available, Bitcode must not open an Ethereum account prompt and may only stage the displayed Bitcoin address manually until a Bitcoin provider API is available. The `user_connections` provider-constraint migration and GitHub OAuth or GitHub personal-access-token credentials remain required for backend persistence and the second step.
+The contained Auxillaries product routes are not the progressive onboarding wizard.
+Wallet connection inside `/auxillaries/profile` must remain on Profile, must not auto-advance to Connects, and must not call `/api/auxillaries/onboarding` when the route is being used as the commercial contained settings surface.
+If Supabase staging credentials are missing or placeholder values, the wallet proof remains locally staged and the UI may show backend persistence pending, but the client must not emit noisy failed Supabase signup requests.
+
+The May 9 follow-up QA tightened the connected-wallet chrome and ownership boundaries.
+Profile must not render GitHub connection controls; it may point the operator to Connects after wallet identity exists.
+Connects owns GitHub because repository scope is shared by Terminal, Exchange rereads, conversations, and future interfaces.
+The top chrome must use wallet identity as a sufficient signed posture for BTC/BTD balance display even before Supabase/email identity is present.
+The BTD tracker hover/action area now identifies the connected wallet and opens the `$BTD` auxillary pane.
+Verbose QA telemetry is allowed behind explicit flags so local testnet passes can observe provider detection, Leather/Xverse signing, local wallet persistence, user-data merge, navigation identity, and BTD auxillary entry without making normal production consoles noisy.
 
 These changes remain V28 scope because they are MVP-readiness and trust issues.
 The deeper Auxillaries version retains hierarchy, spacing, diagnostics, recovery, and provider-management expansion after V28 proves the contained shell, mocked prerequisite reads, fail-closed testnet-readiness, and no-console-error baseline.

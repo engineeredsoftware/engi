@@ -9,8 +9,8 @@ export default function AuxillariesProfilePaneHeader({
   isVerified = false,
 }: { isOnboardingComplete?: boolean; isVerified?: boolean }) {
   const description = !isVerified
-    ? 'Verify your email to secure Bitcode access and unlock the rest of your Auxillaries.'
-    : 'Manage wallet identity, balances, organization roles, and multi-sig membership from one auxillary.';
+    ? 'Connect a Bitcoin wallet first, connect GitHub second, and optionally add email for notifications.'
+    : 'Manage wallet identity, optional notification email, organization roles, and multi-sig membership from one auxillary.';
 
   return (
     <AuxillariesPaneHeader
@@ -21,8 +21,8 @@ export default function AuxillariesProfilePaneHeader({
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="profile-step-badge"
       showInfoBox
-      infoTitle="Secure wallet profile access"
-      infoDescription="Verify your email before opening Connects, shaping Interfaces, or reviewing $BTD posture."
+      infoTitle="Wallet-first profile access"
+      infoDescription="Bitcoin wallet identity is the authentication minimum. GitHub enables Give and Need work; email is optional notification posture."
     />
   );
 }

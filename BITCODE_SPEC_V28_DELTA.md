@@ -109,7 +109,7 @@ The eventual V28 promotion commit body must describe commercial application MVP 
 | --- | --- |
 | commercial application routes render but still contain mixed visual generations | V28 makes active routes MVP-coherent through QA, visual cleanup, route checks, and browser proof |
 | Auxillaries retained orbital-era shell styles while adopting contained tabs-left panes | V28 removes conflicting orbital layout from active Auxillaries auth/profile/readiness experience |
-| signed-in balance widget used currency-like `$BTD`, a raw pipe separator, explanatory hover title, and acquisition wording | V28 renders BTC and BTD as peer wallet balances, uses a styled separator, shows recent BTD AssetPacks in hover context, and routes `Exchange BTD` to the Exchange MVP |
+| signed-in balance widget used currency-like `$BTD`, a raw pipe separator, explanatory hover title, and acquisition wording | V28 renders BTC and BTD as peer wallet balances, uses a styled separator, shows recent BTD AssetPacks in hover context, shows connected wallet identity in the action posture, and opens the `$BTD` wallet auxillary pane |
 | Exchange route exists as minimum commercial surface | V28 hardens Exchange MVP activity/search/detail/range-acquisition readiness without broad order-book depth |
 | `$BTD` supply and measureminting law are implemented in `packages/btd` | Terminal reads measuremint entitlement and zero-cell/refit posture as operator state |
 | wallet and BTC fee primitives exist | Terminal exposes wallet connection, signer-session state, PSBT handoff, txid, confirmation, replacement, reorg, and failure state |

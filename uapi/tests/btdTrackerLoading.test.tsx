@@ -29,8 +29,16 @@ describe('BTDTracker loading posture', () => {
   });
 
   it('renders hydrated BTC and BTD values after user data resolves', () => {
-    render(<BTDTracker btdBalance={1200} btcFeeBalance={0.042} isLoading={false} />);
+    render(
+      <BTDTracker
+        btdBalance={1200}
+        btcFeeBalance={0.042}
+        isLoading={false}
+        walletAddress="tb1qbitcodemockoperator0000000000000000000000"
+        walletProvider="leather"
+      />,
+    );
 
-    expect(screen.getByLabelText(/0.042 BTC; 1,200 BTD/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/0.042 BTC; 1,200 BTD\. Open BTD wallet auxillary for leather/i)).toBeInTheDocument();
   });
 });

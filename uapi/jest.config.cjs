@@ -68,6 +68,8 @@ module.exports = {
     // -------------------------------------------------------------------
     '^@/lib/bitcode-app-context$': '<rootDir>/lib/bitcode-app-context.ts',
     '^@/lib/bitcode-app-context-options$': '<rootDir>/lib/bitcode-app-context-options.ts',
+    '^@/lib/bitcoin-wallet-client$': '<rootDir>/lib/bitcoin-wallet-client.ts',
+    '^@/lib/bitcode-wallet-local$': '<rootDir>/lib/bitcode-wallet-local.ts',
     '^@/lib/mock-review-mode$': '<rootDir>/lib/mock-review-mode.ts',
     '^@/lib/logger$': '<rootDir>/../packages/pipelines-generics/src/logger.ts',
     '^@/lib/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',
@@ -103,6 +105,7 @@ module.exports = {
     '<rootDir>/tests/userDataRoute.test.ts',
     '<rootDir>/tests/useUserDataHydration.test.tsx',
     '<rootDir>/tests/featureFlagsMockMode.test.ts',
+    '<rootDir>/tests/bitcoinWalletClient.test.ts',
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
     '<rootDir>/tests/btdTrackerLoading.test.tsx',
     '<rootDir>/tests/notificationsWidget.test.tsx',

@@ -226,10 +226,10 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   const isVerificationStage = stage === 'verify'
   const containedStageTitle = isVerificationStage
     ? 'Enter the code we sent to your email'
-    : 'Email code is the fastest way back into Bitcode'
+    : 'Email is optional after wallet authentication'
   const containedStageCopy = isVerificationStage
     ? `We sent a one-time code to ${email}. Verify it here to reopen transactions, Auxillaries, and the active detail context.`
-    : 'Use one email step to reopen transactions, Auxillaries, and the exact detail surface you were reading.'
+    : 'Use Profile to connect a Bitcoin wallet first. Email remains an optional notification and recovery contact.'
 
   // Decrease cooldown every second
   React.useEffect(() => {
@@ -663,8 +663,8 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
           <>
             <div className="mx-auto mb-6 max-w-[28rem] rounded-[24px] border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
               {isContainedSurface
-                ? 'MetaMask wallet authentication and GitHub repository connection are the primary Bitcode prerequisites. Email code remains a fallback access path.'
-                : 'Email code remains an access fallback. MetaMask wallet authentication and GitHub repository connection are the primary Bitcode prerequisites.'}
+                ? 'Bitcoin wallet identity and GitHub repository connection are the primary Bitcode prerequisites. Email code remains a fallback access path.'
+                : 'Email code remains an access fallback. Bitcoin wallet identity and GitHub repository connection are the primary Bitcode prerequisites.'}
             </div>
 
             {isContainedSurface ? null : (
@@ -679,7 +679,14 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                     OTP
                   </div>
                 </OrbitPlanet>
-                <OrbitPlanet angleDeg={108.33} provider="metamask" delay={1.0} />
+                <OrbitPlanet angleDeg={108.33} delay={1.0}>
+                  <div
+                    className="absolute inset-0 flex items-center justify-center rounded-full border border-orange-200/24 bg-orange-300/10 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-100/90 backdrop-blur-lg"
+                    aria-hidden="true"
+                  >
+                    BTC
+                  </div>
+                </OrbitPlanet>
 
                 {/* Outer ring reserved-provider carriers. */}
                 <OuterOrbitCircle provider="apple" angleDeg={10} delay={1.4} />

@@ -33,8 +33,8 @@ export default function AuxillariesLoginPane({
               Open {AUXILLARIES_LIST_LABEL}
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Sign in to reopen transactions, conversations, and the four Bitcode auxillaries without
-              losing the current transaction context.
+              Authenticate a wallet to open the commercial profile, then connect GitHub when Give
+              or Need work requires repository scope.
             </p>
           </div>
 
@@ -44,8 +44,8 @@ export default function AuxillariesLoginPane({
                 Primary path
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
-                Email code remains the most direct way to reopen Bitcode and continue from the
-                current transactions context.
+                A Bitcoin wallet is the minimum identity/authentication path for staging. Email
+                remains optional notification and recovery contact after wallet identity exists.
               </p>
             </div>
 
@@ -54,8 +54,8 @@ export default function AuxillariesLoginPane({
                 Required providers
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
-                MetaMask authenticates wallet identity. GitHub connects repository context through
-                Connects after access opens.
+                Bitcoin wallet identity authenticates Profile. GitHub connects repository context
+                through Connects after access opens.
               </p>
             </div>
 

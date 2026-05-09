@@ -25,7 +25,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await installCommercialMvpApiMocks(page);
   });
 
-  test('signed-in BTD widget states BTC fees, BTD holdings, recent packs, and Exchange intent', async ({
+  test('signed-in BTD widget states BTC fees, BTD holdings, recent packs, and wallet intent', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -36,7 +36,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
       /Search activity, select a row, and read Exchange state/i,
     );
 
-    const tracker = page.getByLabel(/Open Exchange to buy or transfer BTD AssetPack rights/i);
+    const tracker = page.getByLabel(/Open BTD wallet auxillary/i);
     await expect(tracker).toBeVisible();
     await expect(tracker).toContainText('0.042 BTC');
     await expect(tracker).toContainText('1,200 BTD');
@@ -50,14 +50,14 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
 
     await tracker.click();
 
-    await expect(page).toHaveURL(/\/exchange\?intent=buy-existing-btd$/);
-    await expectAtPageTop(page);
-    await expectCommercialRouteReady(page, /Search activity, select a row, and read Exchange state/i);
-    await expect(page.getByText(/Finish-delivered Shippables/i)).not.toBeInViewport();
+    await expect(page).toHaveURL(/\/exchange$/);
+    await expect(page.getByTestId('btd-pane-container')).toBeVisible();
+    await expect(page.getByText(/1,200 BTD/i)).toBeVisible();
 
-    const exchangeIntent = await page.evaluate(() => window.sessionStorage.getItem('bitcode:btd-exchange-intent'));
-    expect(exchangeIntent).toContain('"feeAsset":"BTC"');
-    expect(exchangeIntent).toContain('"shareAsset":"BTD"');
+    const btdIntent = await page.evaluate(() => window.sessionStorage.getItem('bitcode:btd-wallet-intent'));
+    expect(btdIntent).toContain('"feeAsset":"BTC"');
+    expect(btdIntent).toContain('"shareAsset":"BTD"');
+    expect(btdIntent).toContain('"intent":"open-btd-wallet"');
 
     await trap.assertClean();
   });

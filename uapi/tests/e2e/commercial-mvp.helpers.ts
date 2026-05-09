@@ -140,6 +140,24 @@ export async function installCommercialMvpApiMocks(page: Page) {
     });
   });
 
+  await page.route('**/api/auxillaries/profile', async (route) => {
+    const requestBody =
+      route.request().method() === 'POST'
+        ? route.request().postDataJSON()
+        : {};
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        profile: {
+          ...COMMERCIAL_MVP_AUXILLARY_DATA.profile,
+          ...(typeof requestBody === 'object' && requestBody ? requestBody : {}),
+        },
+      }),
+    });
+  });
+
   await page.route('**/api/auxillaries/model-preferences**', async (route) => {
     const method = route.request().method();
     await route.fulfill({

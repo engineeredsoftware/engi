@@ -65,16 +65,18 @@ test('V28 BTD tracker renders BTC and BTD as peer wallet balances', () => {
   assert.doesNotMatch(btdTrackerSource, /\$BTD/u);
 });
 
-test('V28 BTD tracker opens Exchange instead of legacy acquisition posture', () => {
-  assert.match(btdTrackerSource, /Exchange BTD/u);
-  assert.match(btdTrackerSource, /window\.location\.assign\('\/exchange\?intent=buy-existing-btd'\)/u);
-  assert.match(btdTrackerSource, /bitcode:btd-exchange-intent/u);
+test('V28 BTD tracker opens wallet-owned BTD auxillary posture', () => {
+  assert.match(btdTrackerSource, /Open BTD wallet auxillary/u);
+  assert.match(btdTrackerSource, /walletActionLabel/u);
+  assert.match(btdTrackerSource, /bitcode:btd-wallet-intent/u);
+  assert.match(btdTrackerSource, /wallet-btd-auxillary/u);
   assert.doesNotMatch(btdTrackerSource, /Acquire BTD/u);
   assert.doesNotMatch(btdTrackerSource, /Acquire \$BTD/u);
   assert.doesNotMatch(btdTrackerSource, /acquire-btd/u);
+  assert.doesNotMatch(btdTrackerSource, /Exchange BTD/u);
 });
 
-test('V28 Exchange BTD entry does not auto-focus the first activity route', () => {
+test('V28 generic Exchange intent entry does not auto-focus the first activity route', () => {
   assert.doesNotMatch(
     exchangePageClientSource,
     /replaceExchangeSearchParams\(writeTerminalTransactionId\(routeSearchParams, runs\[0\]\.id\)\)/u,
@@ -125,7 +127,7 @@ test('V28 commercial MVP Playwright suite covers product-experiential route and 
   assert.match(suiteSource, /\/btd\/asset-pack-run-branch-remediation/u);
   assert.match(suiteSource, /\/conversations/u);
   assert.match(suiteSource, /\/docs/u);
-  assert.match(suiteSource, /Exchange BTD|buy-existing-btd/u);
+  assert.match(suiteSource, /Open BTD wallet auxillary|bitcode:btd-wallet-intent/u);
   assert.match(suiteSource, /Search transactions/u);
   assert.match(suiteSource, /transactionStatus/u);
   assert.match(suiteSource, /transactionOwnership/u);

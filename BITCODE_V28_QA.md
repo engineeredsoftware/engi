@@ -221,6 +221,14 @@ Manual findings from 2026-05-09:
 | Non-mock/testnet-readiness | Top chrome | pass | Non-mock chrome is acceptable before interaction. |
 | Non-mock/testnet-readiness | Connect Wallet entry | fail | `Connect Wallet` opens the broken legacy late-orbital onboarding shell. V28 blocker: all unauthenticated auxillaries portal entry must use the new contained Auxillaries shell and honest staged/live wallet copy. |
 
+Profile onboarding order refined after this finding:
+
+| Order | Required action | V28 rule |
+| --- | --- | --- |
+| 1 | Connect Bitcoin wallet | This is the first and minimum Bitcode identity/authentication action. It must use a Bitcoin-capable wallet provider when available, capture a Bitcode Bitcoin authentication proof when available, bind the Bitcoin address, and persist wallet-provider posture without opening an Ethereum account prompt. |
+| 2 | Connect GitHub | Required for Give and Need because those flows need repository/source context. Exchange viewing can proceed from wallet identity alone. GitHub may be connected through OAuth when configured or through a personal access token in staging. |
+| 3 | Add email | Optional. Email is for notifications, updates, and recovery/contact posture. It must not present as the primary V28 identity gate. |
+
 Implemented after the 2026-05-09 findings, pending manual reconfirmation:
 
 | Fix | Verification state |
@@ -234,7 +242,55 @@ Implemented after the 2026-05-09 findings, pending manual reconfirmation:
 | BTD/BTC statistics use a hierarchy matching the QA direction: large BTD balance row, sub-stat row for owned AssetPacks and BTC in wallet, then compact identity/policy cards. | Typecheck, focused unit tests, focused Auxillaries E2E, and production build pass; next manual BTD pane pass should judge vibrancy/legibility. |
 | Auxillaries stat-card explanatory prose is no longer adjacent to user values; each explanation is carried by tooltip/accessible label on the value card. | BTD pane tests updated to query tooltip/aria descriptions rather than visible prose. |
 | BTD pane includes the shared Exchange activity table for BTD-relevant activity and keeps connected-repository consent tests scoped to their own table. | Focused Auxillaries E2E passes all 10 tests. |
-| Non-mock prerequisite posture is narrowed to MetaMask wallet authentication and GitHub repository connection for V28. | Browser smoke on `3001` confirms Profile contains MetaMask and GitHub, does not expose Google as a prerequisite, and keeps the same contained Auxillaries shell/order as mock. |
+| Non-mock prerequisite posture is narrowed to Bitcoin wallet authentication and GitHub repository connection for V28. | Browser smoke on `3001` confirms Profile contains Bitcoin wallet and GitHub, does not expose Google as a prerequisite, and keeps the same contained Auxillaries shell/order as mock. |
+| Profile onboarding has been refurbished to wallet-first, GitHub-second, optional-email-third. | Typecheck passes; wallet-auth route unit tests pass; next non-mock manual QA must run against real Xverse/Leather and staging/testnet credentials. |
+| Bitcoin wallet authentication persists through a dedicated wallet route instead of the generic Profile route. | `/api/wallet/authenticate` accepts Bitcoin-provider proof posture, rejects Ethereum/EVM wallet submissions, saves profile wallet binding when a Bitcode session exists, and stores wallet-provider connection posture; the client stages the Bitcoin identity locally if staging auth is unavailable. |
+| Profile shows provider-specific wallet connect actions instead of one silent generic path. | Source now detects Xverse/Sats Connect and Leather separately, renders direct provider actions, shows the detected-provider status line, adds timeout-backed wallet request errors, and unit-tests that Leather can be selected even when Xverse is installed. Stubbed browser smoke verifies the Leather click calls `getAddresses` and `signMessage`. Live Xverse/Leather extension QA remains pending. |
+| Contained Profile wallet connection must not become progressive onboarding. | Manual QA confirmed Leather worked, then found the route force-bumped to Connects and emitted unauthenticated onboarding/Supabase placeholder errors. Source now treats contained Auxillaries routes as product settings surfaces, suppresses `/api/auxillaries/onboarding` completion there, keeps Profile selected after wallet connection, and avoids Supabase anonymous signup attempts when staging credentials are placeholders. |
+| Staging database can store non-GitHub provider posture in `user_connections`. | Added migration `supabase/migrations/003_user_connections_provider_scope.sql`; staging/testnet verification must apply this before wallet-provider persistence can succeed. |
+
+Manual console classification after Leather connection:
+
+| Console message class | V28 disposition |
+| --- | --- |
+| `SES Removing unpermitted intrinsics`, Xverse `StacksProvider` redefine warning, React DevTools prompt, and Vercel Analytics/Speed Insights development debug messages | external/dev-tool noise; record only if they correlate with app behavior failure |
+| `/api/auxillaries/onboarding 401` after contained Profile wallet connection | V28 bug, fixed by separating contained Auxillaries from progressive onboarding completion |
+| Supabase placeholder signup request to `https://your-project.supabase.co/auth/v1/signup` | V28 bug, fixed by guarding server wallet persistence when staging Supabase env vars are placeholders |
+
+Non-mock prerequisites for the next QA3.1 pass:
+
+- Xverse and Leather installed and unlocked in the Chrome profile. Test Xverse first on Testnet4, then Leather on its documented testnet lane.
+- MetaMask alone is not sufficient for this V28 QA path unless it exposes a Bitcoin dapp-provider API; Bitcode must not open the injected Ethereum provider for Bitcoin identity. If only a MetaMask Bitcoin address is available, stage that Bitcoin address manually and record the fallback.
+- Staging/testnet Supabase session persistence configured for backend wallet binding. If staging auth is unavailable, Profile should still show the locally staged Bitcoin identity and clearly note backend persistence as pending.
+- Latest Supabase migrations applied, including `003_user_connections_provider_scope.sql`.
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and service role/server Supabase env values configured for the staging lane.
+- GitHub OAuth callback configured for the staging origin, or a GitHub personal access token available for the VCS panel fallback.
+- Public mock flags disabled for the non-mock lane.
+
+QA3.1 Profile onboarding script:
+
+| Lane | Step | Manual action | Expected V28 observation |
+| --- | --- | --- | --- |
+| Mock | 1 | Open `/terminal`, then open Auxillaries and select Profile. | The contained Auxillaries shell opens with the same selector order and visual language as non-mock. Profile shows Bitcoin wallet identity first, GitHub second, optional email third. Mock fields may already be populated, but the order must remain visible. |
+| Mock | 2 | Scroll Profile from first open without switching panes first. | The right pane scrolls immediately, no first-render scroll dead zone appears, and no visible Save/Continue controls are required for auxillary edits. |
+| Mock | 3 | Confirm BTD pane and top chrome remain hydrated. | BTC/BTD values show the mock wallet posture after the loading state, BTD activity is visible through the shared Exchange-style table, and no console errors appear. |
+| Non-mock | 1 | Open `/terminal` on the staging/testnet lane with mock flags disabled. | Top chrome is anonymous until a wallet session exists. `Connect Wallet` or Auxillaries/Profile opens the contained Auxillaries shell, not the retired onboarding shell. |
+| Non-mock | 2 | In Profile with Xverse and Leather unlocked on Testnet4, confirm the provider status line says `Detected Xverse, Leather` or accurately names the installed Bitcoin wallets. Click `Connect Xverse` first. | Xverse/Sats Connect requests wallet connection for payment plus ordinals addresses and then requests a BIP322 message proof. The app must not ask for email first and must not open an Ethereum account prompt. If no prompt appears, capture the exact provider status line and inline message, then click `Rescan wallets`. |
+| Non-mock | 3 | Approve the Xverse connection and proof. | The Profile wallet state becomes connected, the Taproot/ordinals auth address appears in the wallet field when available, refresh preserves website-side wallet state, and the console remains free of product errors. If backend persistence is unavailable, the UI should say server persistence is pending while local staging remains visible. Capture the exact inline message and Network response for `/api/wallet/authenticate` when a backend request occurs. |
+| Non-mock | 4 | Return to Profile and click `Connect Leather` directly. Do this even if Xverse is installed so the Leather path is verified independently. | Leather returns addresses through `getAddresses`, Bitcode selects the BTC Taproot address when present without relying on array indexes, signs with `signMessage`, and stores the Native SegWit payment address separately from the auth address. |
+| Non-mock | 5 | If only MetaMask BTC is available, paste the displayed `bc1...`/`tb1...` address and click `Stage Bitcoin address`. | No Ethereum prompt opens. Profile shows locally staged Bitcoin identity and clearly marks backend/provider proof as pending/manual. |
+| Non-mock | 6 | Connect GitHub from the second Profile section using OAuth or the staging token fallback. | GitHub becomes connected for Give/Need readiness. Exchange viewing must not be blocked by GitHub, but Terminal Give/Need readiness should reflect repository scope once connected. |
+| Non-mock | 7 | Optionally add email from the third section. | Email is presented only as notifications/updates/recovery posture. It must not replace wallet authentication, and the user can leave it blank without breaking wallet or Exchange readiness. |
+
+QA3.1 reply template:
+
+1. Mock Profile order, first-open scroll, BTD/top-chrome hydration, and console result.
+2. Xverse Testnet4 prompt result: connection prompt, BIP322 proof prompt, selected address shown in Bitcode, and whether refresh preserved it.
+3. Leather prompt result: `getAddresses` approval/proof result, selected address shown in Bitcode, and whether refresh preserved it.
+4. Non-mock `/api/wallet/authenticate` result for each wallet: success, exact inline error, or exact Network response.
+5. Non-mock GitHub connection result: OAuth or token fallback, connected account/repo visibility, and any error copy.
+6. Optional email result if attempted; otherwise confirm it remained optional and ungating.
+7. Screenshots of any visual mismatch, especially Profile ordering, contained shell mismatch, scroll failure, or legacy shell reappearance.
 
 ### 2026-05-08 Pass 3A: Auxillaries Profile And Connects Readiness
 
@@ -273,6 +329,7 @@ Automated verification after this implementation pass:
 - `START_STORYBOOK=false pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed after contained shell and pane-state refinements.
 - `pnpm -C uapi run build`: pass after the May 9 QA fixes; the prior clean-clone Vercel module-resolution failure remains fixed locally.
 - Playwright non-mock browser smoke after the May 9 patch: `Connect Wallet` opens the contained Auxillaries shell, selector order is `Connects`, `Interfaces`, `Profile`, `$BTD`, old-ring count is `0`, Google prerequisite copy is absent, MetaMask and GitHub are present, no visible Save/Continue buttons remain, Profile first-open scroll advances, and no console/page errors occur.
+- May 9 live Leather QA: wallet connection persisted, but follow-up findings required V28 fixes for wallet-authenticated nav chrome, Profile/Connects ownership, robust connected-wallet readout, Sign Out button styling, BTD tracker wallet identity action, and verbose console telemetry. Source now treats local Bitcoin wallet identity as sufficient chrome identity while backend persistence catches up; Profile owns wallet/profile/email only; Connects owns GitHub; the BTD tracker opens the `$BTD` auxillary pane; and verbose QA logs are gated behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
@@ -317,6 +374,7 @@ NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true \
 NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true \
 NEXT_PUBLIC_MOCK_CHAT_STREAM=true \
 NEXT_PUBLIC_MOCK_CHAT_SCENARIO=demo \
+NEXT_PUBLIC_BITCODE_QA_VERBOSE=true \
 pnpm -C uapi dev:remote
 ```
 
@@ -336,6 +394,7 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false \
 NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=false \
 NEXT_PUBLIC_DISABLE_AUXILLARIES=false \
 NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false \
+NEXT_PUBLIC_BITCODE_QA_VERBOSE=true \
 pnpm -C uapi exec next dev --hostname 127.0.0.1 -p 3001
 ```
 

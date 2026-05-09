@@ -126,7 +126,8 @@ export default function AuxillariesSurface({
   const [isCompletingStep, setIsCompletingStep] = useState(false);
 
   const canonicalOnboardingComplete = onboardingData?.isOnboardingComplete || false;
-  const isAuxillariesSurface = Boolean(sessionUser);
+  const isAuxillariesSurface = treatsContainedSurfaceAsAuxillaries || Boolean(sessionUser);
+  const shouldPersistOnboardingProgress = !treatsContainedSurfaceAsAuxillaries;
   const isUnlockedSurface = canonicalOnboardingComplete || isAuxillariesSurface || treatsContainedSurfaceAsAuxillaries;
   const visibleSteps: ConcreteAuxillaryPane[] = treatsContainedSurfaceAsAuxillaries
     ? [...AUXILLARY_RING_STEPS]
@@ -290,6 +291,11 @@ export default function AuxillariesSurface({
   }, [pathname, queryClient, router, supabaseClient]);
 
   const handleStepComplete = useCallback(async (step: ConcreteAuxillaryPane) => {
+    if (!shouldPersistOnboardingProgress) {
+      trackEvent('auxillaries_step_confirmed', { step });
+      return;
+    }
+
     if (completedSteps.includes(step) || isCompletingStep) {
       return;
     }
@@ -318,7 +324,13 @@ export default function AuxillariesSurface({
         setCurrentStep('btd');
       }
     }
-  }, [completedSteps, isCompletingStep, isAuxillariesSurface, updateOnboardingMutation]);
+  }, [
+    completedSteps,
+    isCompletingStep,
+    isAuxillariesSurface,
+    shouldPersistOnboardingProgress,
+    updateOnboardingMutation,
+  ]);
 
   const handleStepClick = useCallback((step: AuxillaryPane) => {
     if (!step || !availableSteps.includes(step as ConcreteAuxillaryPane)) {
@@ -371,9 +383,10 @@ export default function AuxillariesSurface({
             initialWalletAddress={profileData?.wallet_address}
             initialWalletProvider={profileData?.wallet_provider}
             initialWalletBindingStatus={profileData?.wallet_binding_status}
+            initialWalletBoundAt={profileData?.wallet_bound_at}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isAuxillariesSurface ? undefined : (isComplete) => handleStepCompletionChange('profile', isComplete)
+              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('profile', isComplete) : undefined
             }
             onSave={async (updated) => {
               try {
@@ -391,7 +404,7 @@ export default function AuxillariesSurface({
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isAuxillariesSurface ? undefined : (isComplete) => handleStepCompletionChange('connects', isComplete)
+              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('connects', isComplete) : undefined
             }
             onSave={async () => {
               await handleStepComplete('connects');
@@ -404,7 +417,7 @@ export default function AuxillariesSurface({
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isAuxillariesSurface ? undefined : (isComplete) => handleStepCompletionChange('btd', isComplete)
+              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('btd', isComplete) : undefined
             }
             onSave={async (updated) => {
               try {
@@ -426,7 +439,7 @@ export default function AuxillariesSurface({
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isAuxillariesSurface ? undefined : (isComplete) => handleStepCompletionChange('interfaces', isComplete)
+              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('interfaces', isComplete) : undefined
             }
             onSave={async (updated) => {
               try {
@@ -455,6 +468,7 @@ export default function AuxillariesSurface({
     profileLoading,
     queryClient,
     sessionUser,
+    shouldPersistOnboardingProgress,
     updateProfileMutation,
   ]);
 
@@ -506,8 +520,9 @@ export default function AuxillariesSurface({
 
         {authLoaded && sessionUser && (
           <button
+            type="button"
             onClick={handleSignOut}
-            className="orbital-signout-button"
+            className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-[8.25rem] items-center justify-center rounded-full border border-red-300/32 bg-red-950/80 px-4 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84"
             aria-label="Sign Out"
           >
             Sign Out
@@ -550,7 +565,7 @@ export default function AuxillariesSurface({
             completedSteps={completedSteps}
             availableSteps={availableSteps}
             showContent
-            showSuccessAnimation={!isAuxillariesSurface}
+            showSuccessAnimation={shouldPersistOnboardingProgress}
             navigationMode="tabs"
             surfaceVariant={usesContainedAuxillariesSurface ? 'contained' : 'default'}
             onStepClick={handleStepClick}

@@ -1,8 +1,6 @@
 // Canonical auxillary owner using canonical auxillary internals while support-route retirement proceeds.
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import SocialLoginButton from '@/components/base/bitcode/auth/SocialLoginButton';
-import SocialAccountLinker from '@/components/base/bitcode/auth/SocialAccountLinker';
 import LoadingSpinner from '@/components/base/bitcode/indicators/LoadingSpinner';
 import { trackEvent } from '@bitcode/google-analytics';
 import { reportError } from '@bitcode/errors';
@@ -10,8 +8,21 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 // Use Supabase client for OTP flows instead of manual fetch
 import { motion, AnimatePresence } from 'framer-motion';
 import { AfterOnboardingOverlay } from '@/app/auxillaries/components/shared/AfterOnboardingOverlay';
-import stylesProfilePane from '@/app/auxillaries/components/profile-pane.module.css';
 import AuxillariesProfilePaneHeader from '@/app/auxillaries/components/headers/AuxillariesProfilePaneHeader';
+import { mutateUserData } from '@/hooks/useUserData';
+import {
+  connectBitcoinWallet,
+  inspectBitcoinWalletProviders,
+  type BitcoinWalletProviderId,
+  type BitcoinWalletProviderSummary,
+} from '@/lib/bitcoin-wallet-client';
+import {
+  isPlausibleBitcoinAddress,
+  readLocalBitcodeWalletIdentity,
+  writeLocalBitcodeWalletIdentity,
+  type LocalBitcodeWalletIdentity,
+} from '@/lib/bitcode-wallet-local';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '../../../lib/bitcode-qa-telemetry';
 
 
 interface TeamMember {
@@ -48,20 +59,46 @@ type SupabaseAuthSession = {
   } | null;
 } | null;
 
-type EthereumProvider = {
-  request: (input: { method: string; params?: unknown[] }) => Promise<unknown>;
-};
+function readSupabaseClientReadiness() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-function readEthereumProvider(): EthereumProvider | null {
-  if (typeof window === 'undefined') return null;
-  const ethereum = (window as unknown as { ethereum?: EthereumProvider }).ethereum;
-  return ethereum && typeof ethereum.request === 'function' ? ethereum : null;
+  if (!url || !anonKey) {
+    return {
+      ready: false as const,
+      error: 'Supabase staging credentials are not configured for server wallet persistence.',
+    };
+  }
+
+  if (/your-project\.supabase\.co/i.test(url) || /your[-_]?anon[-_]?key/i.test(anonKey)) {
+    return {
+      ready: false as const,
+      error: 'Supabase staging credentials still use placeholder values.',
+    };
+  }
+
+  return { ready: true as const };
 }
 
-function readFirstWalletAddress(value: unknown): string | null {
-  if (!Array.isArray(value)) return null;
-  const first = value.find((entry) => typeof entry === 'string' && entry.trim());
-  return typeof first === 'string' ? first.trim() : null;
+function formatWalletProviderLabel(provider: string | null | undefined) {
+  if (!provider) return 'Not connected';
+  if (provider === 'xverse') return 'Xverse';
+  if (provider === 'leather') return 'Leather';
+  if (provider === 'unisat') return 'UniSat';
+  if (provider === 'okx-bitcoin') return 'OKX Bitcoin';
+  if (provider === 'manual-bitcoin') return 'Manual Bitcoin address';
+  if (provider === 'walletconnect') return 'Wallet provider';
+  return provider
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function formatWalletReadout(value: string | null | undefined) {
+  if (!value) return 'Not provided';
+  if (value.length > 24) return compactBitcodeAddress(value, 8) ?? value;
+  return value;
 }
 
 function buildAvatarDataUri(seed: string, background: string, accent: string) {
@@ -99,6 +136,7 @@ export interface AuxillariesProfilePaneProps {
   initialWalletAddress?: string;
   initialWalletProvider?: string;
   initialWalletBindingStatus?: 'pending' | 'manual' | 'verified' | null;
+  initialWalletBoundAt?: string | null;
   /** Initial email for account creation and verification */
   initialEmail?: string;
   /** Initial email verification status */
@@ -119,6 +157,7 @@ export default function AuxillariesProfilePane({ onSave,
   initialWalletAddress = '',
   initialWalletProvider = '',
   initialWalletBindingStatus = null,
+  initialWalletBoundAt = null,
   initialEmail = '',
   initialIsVerified = false,
   isOnboardingComplete = false,
@@ -127,8 +166,10 @@ export default function AuxillariesProfilePane({ onSave,
   // Use Supabase client for OTP flows
   const [authError, setAuthError] = useState<string | null>(null);
   const [email, setEmail] = useState(initialEmail);
+  const suppressProfileAutosaveRef = useRef(false);
   // Update email if initialEmail prop changes (e.g., user session loads)
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setEmail(initialEmail);
   }, [initialEmail]);
   const [verificationCode, setVerificationCode] = useState('');
@@ -138,6 +179,7 @@ export default function AuxillariesProfilePane({ onSave,
   const verifiedRef = useRef<boolean>(initialIsVerified);
   // Update verification status if initialIsVerified prop changes
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setIsVerified(initialIsVerified);
     verifiedRef.current = initialIsVerified;
   }, [initialIsVerified]);
@@ -166,6 +208,7 @@ export default function AuxillariesProfilePane({ onSave,
       const { data } = await supabase.auth.getSession();
       const user = data.session?.user;
       if (user && user.email) {
+        suppressProfileAutosaveRef.current = true;
         setEmail(user.email);
         // Ensure we trigger completion once.  Track via ref so effect
         // doesn’t depend on `isVerified` which would re-create listeners.
@@ -193,6 +236,7 @@ export default function AuxillariesProfilePane({ onSave,
     // sets the session in localStorage/BroadcastChannel.
     const { data: listener } = supabase.auth.onAuthStateChange((_event: unknown, session: SupabaseAuthSession) => {
       if (session?.user?.email) {
+        suppressProfileAutosaveRef.current = true;
         setEmail(session.user.email);
         if (!verifiedRef.current) {
           verifiedRef.current = true;
@@ -306,36 +350,85 @@ export default function AuxillariesProfilePane({ onSave,
   const [walletBindingStatus, setWalletBindingStatus] = useState<'pending' | 'manual' | 'verified' | null>(
     initialWalletBindingStatus ?? (initialWalletAddress ? 'manual' : null),
   );
+  const [walletBoundAt, setWalletBoundAt] = useState<string | null>(initialWalletBoundAt ?? null);
   const [selectedAvatar, setSelectedAvatar] = useState(0);
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
   const [walletAuthError, setWalletAuthError] = useState<string | null>(null);
+  const [walletAuthNotice, setWalletAuthNotice] = useState<string | null>(null);
   const [walletAuthStatus, setWalletAuthStatus] = useState<'idle' | 'requesting' | 'signed'>('idle');
+  const [walletProviderOptions, setWalletProviderOptions] = useState<BitcoinWalletProviderSummary[]>([]);
+  const [walletProviderScanStatus, setWalletProviderScanStatus] = useState<'checking' | 'ready' | 'none'>('checking');
+  const [walletIdentityDetails, setWalletIdentityDetails] = useState<LocalBitcodeWalletIdentity | null>(() =>
+    readLocalBitcodeWalletIdentity(),
+  );
 
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     _setUsername(initialUsername);
   }, [initialUsername]);
 
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setDisplayName(initialDisplayName);
   }, [initialDisplayName]);
 
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setBio(initialBio);
   }, [initialBio]);
 
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setCompanyName(initialCompanyName);
   }, [initialCompanyName]);
 
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setAvatarUrl(initialAvatarUrl);
   }, [initialAvatarUrl]);
 
   useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
     setWalletAddress(initialWalletAddress);
     setWalletProvider(initialWalletProvider || (initialWalletAddress ? 'manual' : ''));
     setWalletBindingStatus(initialWalletBindingStatus ?? (initialWalletAddress ? 'manual' : null));
-  }, [initialWalletAddress, initialWalletBindingStatus, initialWalletProvider]);
+    setWalletBoundAt(initialWalletBoundAt ?? null);
+    setWalletIdentityDetails((previous) => {
+      if (previous?.address === initialWalletAddress) return previous;
+      return readLocalBitcodeWalletIdentity();
+    });
+  }, [initialWalletAddress, initialWalletBindingStatus, initialWalletProvider, initialWalletBoundAt]);
+
+  useEffect(() => {
+    if (initialWalletAddress) return;
+    const localWallet = readLocalBitcodeWalletIdentity();
+    if (!localWallet) return;
+
+    suppressProfileAutosaveRef.current = true;
+    setWalletAddress(localWallet.address);
+    setWalletProvider(localWallet.provider);
+    setWalletBindingStatus(localWallet.status);
+    setWalletBoundAt(localWallet.connectedAt);
+    setWalletIdentityDetails(localWallet);
+  }, [initialWalletAddress]);
+
+  const refreshBitcoinWalletProviders = React.useCallback(async () => {
+    setWalletProviderScanStatus('checking');
+    try {
+      const providers = await inspectBitcoinWalletProviders();
+      setWalletProviderOptions(providers);
+      setWalletProviderScanStatus(providers.length > 0 ? 'ready' : 'none');
+      bitcodeQaTelemetry('info', 'profile-wallet', 'provider-scan', providers);
+    } catch {
+      setWalletProviderOptions([]);
+      setWalletProviderScanStatus('none');
+      bitcodeQaTelemetry('warn', 'profile-wallet', 'provider-scan-failed');
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshBitcoinWalletProviders();
+  }, [refreshBitcoinWalletProviders]);
 
   // Repository knowledge sharing now lives under the $BTD auxillary.
 
@@ -362,28 +455,44 @@ export default function AuxillariesProfilePane({ onSave,
 
   useEffect(() => {
     if (initialTeamMembers.length === 0) return;
+    suppressProfileAutosaveRef.current = true;
     setTeamMembers(initialTeamMembers);
   }, [initialTeamMembers]);
 
   // Sample avatar options
   const avatarOptions = AVATAR_OPTIONS;
 
-  // Update completion status when verification status changes
-  const prevIsVerifiedRef = useRef(isVerified);
+  const hasWalletIdentity = Boolean(walletAddress && walletBindingStatus);
+  const hasProviderWalletIdentity = Boolean(
+    walletAddress && (walletBindingStatus === 'verified' || walletBindingStatus === 'pending'),
+  );
+  const walletReadout = useMemo(() => {
+    const provider = walletIdentityDetails?.provider ?? walletProvider;
+    return {
+      providerLabel: formatWalletProviderLabel(provider),
+      network: walletIdentityDetails?.network ?? null,
+      proofKind: walletIdentityDetails?.proofKind ?? null,
+      persistence: walletIdentityDetails?.persistence ?? null,
+      paymentAddress: walletIdentityDetails?.paymentAddress ?? null,
+      authAddress: (walletIdentityDetails?.authAddress ?? walletAddress) || null,
+      addressType: walletIdentityDetails?.addressType ?? null,
+    };
+  }, [walletAddress, walletIdentityDetails, walletProvider]);
+  // Profile completion is wallet-first in V28. Email verification is optional
+  // notification posture and must not gate account identity.
+  const prevWalletCompletionRef = useRef(hasWalletIdentity);
   useEffect(() => {
-    if (onCompletionStatusChange && prevIsVerifiedRef.current !== isVerified) {
-      prevIsVerifiedRef.current = isVerified;
-      queueMicrotask(() => onCompletionStatusChange(isVerified));
+    if (onCompletionStatusChange && prevWalletCompletionRef.current !== hasWalletIdentity) {
+      prevWalletCompletionRef.current = hasWalletIdentity;
+      queueMicrotask(() => onCompletionStatusChange(hasWalletIdentity));
     }
-  }, [isVerified, onCompletionStatusChange]);
+  }, [hasWalletIdentity, onCompletionStatusChange]);
 
   const profileAutosavePayload = useMemo(() => {
     const walletBindingStatusForSave =
       !walletAddress
         ? null
-        : walletBindingStatus === 'manual' || walletBindingStatus === null
-          ? 'manual'
-          : undefined;
+        : walletBindingStatus ?? 'manual';
 
     return {
       username,
@@ -396,6 +505,7 @@ export default function AuxillariesProfilePane({ onSave,
       walletAddress: walletAddress || null,
       walletProvider: walletAddress ? walletProvider || 'manual' : null,
       walletBindingStatus: walletBindingStatusForSave,
+      walletBoundAt,
     };
   }, [
     avatarOptions,
@@ -408,6 +518,7 @@ export default function AuxillariesProfilePane({ onSave,
     teamMembers,
     username,
     walletAddress,
+    walletBoundAt,
     walletBindingStatus,
     walletProvider,
   ]);
@@ -417,44 +528,217 @@ export default function AuxillariesProfilePane({ onSave,
     onSave(profileAutosavePayload);
   };
 
-  const handleAuthenticateMetaMask = async () => {
-    setWalletAuthError(null);
-    const ethereum = readEthereumProvider();
+  const tryEnsureWalletBackedSession = async () => {
+    const supabaseReadiness = readSupabaseClientReadiness();
+    if (!supabaseReadiness.ready) {
+      return supabaseReadiness;
+    }
 
-    if (!ethereum) {
-      setWalletAuthError('MetaMask is not available in this browser session.');
+    const supabase = createClient();
+    try {
+      const existing = await supabase.auth.getUser();
+      if (existing.data.user) {
+        return { ready: true as const };
+      }
+
+      const authWithAnonymous = supabase.auth as typeof supabase.auth & {
+        signInAnonymously?: () => Promise<{
+          data?: { user?: unknown | null } | null;
+          error?: { message?: string } | null;
+        }>;
+      };
+
+      if (typeof authWithAnonymous.signInAnonymously !== 'function') {
+        return {
+          ready: false as const,
+          error: 'Supabase anonymous sign-ins are unavailable in this staging environment.',
+        };
+      }
+
+      const anonymousSession = await authWithAnonymous.signInAnonymously();
+      if (anonymousSession.error) {
+        return {
+          ready: false as const,
+          error: `Supabase anonymous sign-in failed: ${anonymousSession.error.message}`,
+        };
+      }
+
+      if (!anonymousSession.data?.user) {
+        return { ready: false as const, error: 'Bitcode did not receive a staging session.' };
+      }
+
+      return { ready: true as const };
+    } catch (error) {
+      return {
+        ready: false as const,
+        error: error instanceof Error ? error.message : 'Bitcode session creation failed.',
+      };
+    }
+  };
+
+  const handleStageBitcoinAddress = async () => {
+    setWalletAuthError(null);
+    const address = walletAddress.trim();
+    if (!isPlausibleBitcoinAddress(address)) {
+      setWalletAuthError('Enter a valid Bitcoin address before staging wallet identity.');
       return;
     }
 
+    const connectedAt = new Date().toISOString();
+    writeLocalBitcodeWalletIdentity({
+      address,
+      provider: 'manual-bitcoin',
+      network: address.startsWith('bc1') ? 'mainnet' : address.startsWith('bcrt1') ? 'regtest' : 'testnet',
+      status: 'manual',
+      connectedAt,
+      proofKind: 'manual_address',
+      persistence: 'local',
+    });
+    setWalletIdentityDetails(readLocalBitcodeWalletIdentity());
+    setWalletProvider('manual-bitcoin');
+    setWalletBindingStatus('manual');
+    setWalletBoundAt(connectedAt);
+    setWalletAuthStatus('signed');
+    bitcodeQaTelemetry('info', 'profile-wallet', 'manual-stage', {
+      address: compactBitcodeAddress(address),
+    });
+    await mutateUserData();
+  };
+
+  const handleConnectBitcoinWallet = async (providerId?: BitcoinWalletProviderId) => {
+    setWalletAuthError(null);
+    const providerLabel =
+      walletProviderOptions.find((provider) => provider.id === providerId)?.label ??
+      (providerId ? providerId : 'first available Bitcoin wallet');
+    setWalletAuthNotice(
+      `Opening ${providerLabel}. Approve address sharing, then approve the Bitcode BIP322 authentication message.`,
+    );
     setWalletAuthStatus('requesting');
+    bitcodeQaTelemetry('info', 'profile-wallet', 'connect-request', {
+      provider: providerId ?? 'first-available',
+    });
 
     try {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      const address = readFirstWalletAddress(accounts);
-
-      if (!address) {
-        throw new Error('MetaMask did not return an account address.');
-      }
-
-      const message = [
-        'Authenticate Bitcode wallet identity',
-        `Address: ${address}`,
-        `Issued: ${new Date().toISOString()}`,
-        'Purpose: Bitcode commercial Auxillaries profile and BTD readiness.',
-      ].join('\n');
-
-      await ethereum.request({
-        method: 'personal_sign',
-        params: [message, address],
+      const connection = await connectBitcoinWallet(providerId);
+      setWalletAuthNotice(`${connection.providerLabel} signed wallet proof. Staging Bitcode profile identity.`);
+      writeLocalBitcodeWalletIdentity({
+        address: connection.address,
+        provider: connection.provider,
+        network: connection.network,
+        status: 'pending',
+        connectedAt: connection.connectedAt,
+        proofKind: connection.proofKind,
+        paymentAddress: connection.paymentAddress,
+        authAddress: connection.authAddress,
+        addressType: connection.addressType,
+        message: connection.message,
+        signature: connection.signature,
+        persistence: 'local',
+      });
+      setWalletIdentityDetails(readLocalBitcodeWalletIdentity());
+      setWalletAddress(connection.address);
+      setWalletProvider(connection.provider);
+      setWalletBindingStatus('pending');
+      setWalletBoundAt(connection.connectedAt);
+      bitcodeQaTelemetry('info', 'profile-wallet', 'connect-local-staged', {
+        provider: connection.provider,
+        network: connection.network,
+        proofKind: connection.proofKind,
+        address: compactBitcodeAddress(connection.address),
+        paymentAddress: compactBitcodeAddress(connection.paymentAddress),
+        authAddress: compactBitcodeAddress(connection.authAddress),
       });
 
-      setWalletAddress(address);
-      setWalletProvider('metamask');
-      setWalletBindingStatus('verified');
+      const sessionReadiness = await tryEnsureWalletBackedSession();
+      if (sessionReadiness.ready) {
+        const response = await fetch('/api/wallet/authenticate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            address: connection.address,
+            provider: connection.provider,
+            network: connection.network,
+            message: connection.message,
+            signature: connection.signature,
+            proofKind: connection.proofKind,
+            paymentAddress: connection.paymentAddress,
+            authAddress: connection.authAddress,
+            addressType: connection.addressType,
+            connectedAt: connection.connectedAt,
+            issuedAt: connection.connectedAt,
+          }),
+        });
+
+        const payload = await response.json().catch(() => null);
+        if (response.ok) {
+          const savedAddress = typeof payload?.walletConnectionStatus?.address === 'string'
+            ? payload.walletConnectionStatus.address
+            : connection.address;
+          const savedAt = typeof payload?.walletConnectionStatus?.metadata?.connectedAt === 'string'
+            ? payload.walletConnectionStatus.metadata.connectedAt
+            : connection.connectedAt;
+          const savedStatus =
+            payload?.walletConnectionStatus?.verificationState === 'verified'
+              ? 'verified'
+              : payload?.walletConnectionStatus?.verificationState === 'manual'
+                ? 'manual'
+                : 'pending';
+          writeLocalBitcodeWalletIdentity({
+            address: savedAddress,
+            provider: connection.provider,
+            network: connection.network,
+            status: savedStatus,
+            connectedAt: savedAt,
+            proofKind: connection.proofKind,
+            paymentAddress: connection.paymentAddress,
+            authAddress: connection.authAddress,
+            addressType: connection.addressType,
+            message: connection.message,
+            signature: connection.signature,
+            persistence: 'server',
+          });
+          setWalletIdentityDetails(readLocalBitcodeWalletIdentity());
+          setWalletAddress(savedAddress);
+          setWalletBindingStatus(savedStatus);
+          setWalletBoundAt(savedAt);
+          setWalletAuthNotice(`${connection.providerLabel} wallet identity saved for this Bitcode profile.`);
+          bitcodeQaTelemetry('info', 'profile-wallet', 'server-persisted', {
+            provider: connection.provider,
+            status: savedStatus,
+            address: compactBitcodeAddress(savedAddress),
+          });
+        } else {
+          setWalletAuthError(
+            typeof payload?.error === 'string'
+              ? `Bitcoin wallet connected locally; server persistence is pending: ${payload.error}`
+              : 'Bitcoin wallet connected locally; server persistence is pending.',
+          );
+          bitcodeQaTelemetry('warn', 'profile-wallet', 'server-persistence-pending', {
+            provider: connection.provider,
+            status: response.status,
+            error: typeof payload?.error === 'string' ? payload.error : null,
+          });
+        }
+      } else {
+        setWalletAuthError(
+          `Bitcoin wallet connected locally; server persistence is pending: ${sessionReadiness.error}`,
+        );
+        bitcodeQaTelemetry('warn', 'profile-wallet', 'session-persistence-unavailable', {
+          reason: sessionReadiness.error,
+        });
+      }
+
       setWalletAuthStatus('signed');
+      await mutateUserData();
     } catch (error) {
       setWalletAuthStatus('idle');
-      setWalletAuthError(error instanceof Error ? error.message : 'MetaMask authentication was cancelled or failed.');
+      setWalletAuthNotice(null);
+      setWalletAuthError(error instanceof Error ? error.message : 'Bitcoin wallet connection was cancelled or failed.');
+      bitcodeQaTelemetry('warn', 'profile-wallet', 'connect-failed', {
+        provider: providerId ?? 'first-available',
+        message: error instanceof Error ? error.message : 'unknown',
+      });
+      await refreshBitcoinWalletProviders();
     }
   };
 
@@ -464,7 +748,8 @@ export default function AuxillariesProfilePane({ onSave,
     }
 
     const signature = JSON.stringify(profileAutosavePayload);
-    if (lastProfileAutosaveSignatureRef.current === null) {
+    if (lastProfileAutosaveSignatureRef.current === null || suppressProfileAutosaveRef.current) {
+      suppressProfileAutosaveRef.current = false;
       lastProfileAutosaveSignatureRef.current = signature;
       return;
     }
@@ -569,17 +854,17 @@ export default function AuxillariesProfilePane({ onSave,
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
                   </svg>
                 </div>
-                <strong style={{ fontSize: "16px", color: "rgba(255, 255, 255, 0.95)" }}>Step 1: Secure your account</strong>
+                <strong style={{ fontSize: "16px", color: "rgba(255, 255, 255, 0.95)" }}>Step 1: Connect your Bitcoin wallet</strong>
               </div>
               <p style={{ margin: "0 0 12px 0", fontSize: "15px", lineHeight: "1.5", color: "rgba(255, 255, 255, 0.85)" }}>
-                Verify your email to secure your Bitcode account. You’ll be ready to explore features and collaborate in seconds.
+                Bitcoin wallet identity is the minimum Bitcode authentication path. Connect a Bitcoin-capable browser wallet first, then connect GitHub for Give and Need work. Email is optional for notifications.
               </p>
               <div className="onboarding-focus-note">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style={{ marginTop: "4px", color: "rgba(103, 254, 183, 0.8)" }}>
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
                 </svg>
                 <p style={{ margin: "0", fontSize: "14px", color: "rgba(255, 255, 255, 0.8)", lineHeight: "1.5" }}>
-                  Once verified, invite your team, connect your projects, and shape your Auxillaries.
+                  Wallet authentication requests read/sign proof only. Bitcode never receives your private keys.
                 </p>
               </div>
             </motion.div>
@@ -587,47 +872,231 @@ export default function AuxillariesProfilePane({ onSave,
           
 
 
-          {/* Show compact verified status when verified */}
-          {isVerified && (
-            <div className="verified-container" style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              background: "rgba(103, 254, 183, 0.1)",
-              padding: "16px",
-              borderRadius: "12px",
-              border: "1px solid rgba(103, 254, 183, 0.2)",
-              marginBottom: "24px"
-            }}>
-              <div style={{
-                background: "rgba(103, 254, 183, 0.2)",
-                color: "rgba(103, 254, 183, 1)",
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-              }}>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                </svg>
-              </div>
+          <section
+            className="orbital-section mb-5"
+            style={{
+              background: 'linear-gradient(145deg, rgba(42, 25, 11, 0.86), rgba(14, 22, 36, 0.86))',
+              border: hasWalletIdentity
+                ? '1px solid rgba(103, 254, 183, 0.34)'
+                : '1px solid rgba(251, 146, 60, 0.36)',
+              borderRadius: '20px',
+              padding: '20px',
+              boxShadow: '0 18px 44px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
               <div>
-                <div style={{ fontWeight: "600", color: "rgba(103, 254, 183, 0.9)" }}>
-                  Email Verified
-                </div>
-                <div style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.7)" }}>
-                  {email}
-                </div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-orange-100/76">
+                  1. Required identity
+                </p>
+                <h3 className="mt-2 text-xl font-semibold text-white">Connect Bitcoin wallet</h3>
+                <p className="mt-2 max-w-[48rem] text-sm leading-7 text-white/70">
+                  Bitcoin wallet connection is the first Bitcode identity action. It binds the
+                  operator address for BTC fee readiness, BTD read-right posture, and the rest of
+                  Profile onboarding. Ethereum account prompts are not used for this step.
+                </p>
+              </div>
+              <span
+                className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                  hasWalletIdentity
+                    ? 'border-emerald-300/26 bg-emerald-400/12 text-emerald-100'
+                    : 'border-orange-300/26 bg-orange-400/12 text-orange-100'
+                }`}
+              >
+                {hasWalletIdentity ? 'Connected' : 'Required first'}
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              {walletProviderOptions.length > 0 ? (
+                walletProviderOptions.map((provider) => (
+                  <button
+                    key={provider.id}
+                    type="button"
+                    data-testid={`profile-connect-${provider.id}`}
+                    onClick={() => handleConnectBitcoinWallet(provider.id)}
+                    disabled={walletAuthStatus === 'requesting'}
+                    className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+                  >
+                    {walletAuthStatus === 'requesting'
+                      ? `Opening ${provider.label}`
+                      : hasProviderWalletIdentity
+                        ? `Reconnect ${provider.label}`
+                        : `Connect ${provider.label}`}
+                  </button>
+                ))
+              ) : (
+                <button
+                  type="button"
+                  data-testid="profile-connect-bitcoin-wallet"
+                  onClick={() => handleConnectBitcoinWallet()}
+                  disabled={walletAuthStatus === 'requesting'}
+                  className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+                >
+                  {walletAuthStatus === 'requesting'
+                    ? 'Opening Bitcoin wallet'
+                    : hasProviderWalletIdentity
+                      ? 'Reconnect Bitcoin wallet'
+                      : 'Connect Bitcoin wallet'}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={refreshBitcoinWalletProviders}
+                disabled={walletAuthStatus === 'requesting'}
+                className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
+              >
+                Rescan wallets
+              </button>
+              <button
+                type="button"
+                onClick={handleStageBitcoinAddress}
+                disabled={walletAuthStatus === 'requesting' || !walletAddress.trim()}
+                className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/7 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/76 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-45"
+              >
+                Stage Bitcoin address
+              </button>
+              {walletAuthError ? (
+                <p className="text-sm leading-6 text-amber-200/82">{walletAuthError}</p>
+              ) : null}
+            </div>
+            <div className="mt-3 rounded-2xl border border-white/10 bg-black/18 px-4 py-3 text-sm leading-6 text-white/68">
+              <span className="font-semibold text-white/82">
+                {walletProviderScanStatus === 'checking'
+                  ? 'Checking installed Bitcoin wallets'
+                  : walletProviderOptions.length > 0
+                    ? `Detected ${walletProviderOptions.map((provider) => provider.label).join(', ')}`
+                    : 'No compatible Bitcoin wallet detected'}
+              </span>
+              {walletAuthNotice ? (
+                <span className="ml-2 text-orange-100/82">{walletAuthNotice}</span>
+              ) : walletProviderScanStatus === 'none' ? (
+                <span className="ml-2">
+                  Xverse or Leather must be unlocked, enabled on this site, and set to Testnet4 for this QA pass.
+                </span>
+              ) : null}
+            </div>
+            <div className="mt-4 grid gap-3 tablet:grid-cols-[1fr_0.95fr]">
+              <div className="orbitals-users-input-container enterprise">
+                <input
+                  data-testid="profile-wallet-address-input"
+                  id="walletAddress"
+                  type="text"
+                  value={walletAddress}
+                  onChange={(e) => {
+                    const nextValue = e.target.value;
+                    setWalletAddress(nextValue);
+                    setWalletBindingStatus(nextValue.trim() ? 'manual' : null);
+                    setWalletProvider(nextValue.trim() ? 'manual-bitcoin' : '');
+                    setWalletBoundAt(null);
+                  }}
+                  className="form-input"
+                  placeholder="Bitcoin address appears here after wallet connection"
+                  aria-label="Bitcode Bitcoin wallet address"
+                />
+                <div className="input-focus-indicator"></div>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-black/22 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/58">
+                  Current wallet state
+                </p>
+                <p className="mt-2 text-sm font-medium text-white">
+                  {walletAddress
+                    ? walletBindingStatus === 'verified'
+                      ? 'Verified Bitcoin signer'
+                      : walletBindingStatus === 'pending'
+                        ? 'Bitcoin provider connected'
+                        : 'Manual Bitcoin address staged'
+                    : 'No Bitcoin wallet connected'}
+                </p>
+                {walletBoundAt ? (
+                  <p className="mt-1 text-xs text-white/54">
+                    Bound {new Date(walletBoundAt).toLocaleString()}
+                  </p>
+                ) : null}
+                <dl className="mt-3 grid gap-2 text-xs leading-5 text-white/66">
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Provider</dt>
+                    <dd className="min-w-0 break-words text-white/86">{walletReadout.providerLabel}</dd>
+                  </div>
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Network</dt>
+                    <dd className="min-w-0 break-words text-white/80">{walletReadout.network ?? 'Not provided'}</dd>
+                  </div>
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Auth address</dt>
+                    <dd className="min-w-0 break-all text-white/80">{formatWalletReadout(walletReadout.authAddress)}</dd>
+                  </div>
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Payment</dt>
+                    <dd className="min-w-0 break-all text-white/80">{formatWalletReadout(walletReadout.paymentAddress)}</dd>
+                  </div>
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Address type</dt>
+                    <dd className="min-w-0 break-words text-white/80">{walletReadout.addressType ?? 'Not provided'}</dd>
+                  </div>
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Proof</dt>
+                    <dd className="min-w-0 break-words text-white/80">{walletReadout.proofKind ?? 'Not provided'}</dd>
+                  </div>
+                  <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
+                    <dt className="text-white/42">Persistence</dt>
+                    <dd className="min-w-0 break-words text-white/80">{walletReadout.persistence ?? 'profile'}</dd>
+                  </div>
+                </dl>
               </div>
             </div>
-          )}
+          </section>
 
-          {/* Account Creation Section - Show when not verified */}
-          {!isVerified && (
-              <motion.div
-                className="account-creation-section"
+          <section
+            className="orbital-section mb-5"
+            style={{
+              background: 'linear-gradient(145deg, rgba(12, 24, 39, 0.82), rgba(9, 19, 31, 0.82))',
+              border: '1px solid rgba(103, 254, 183, 0.22)',
+              borderRadius: '20px',
+              padding: '20px',
+              boxShadow: '0 18px 44px rgba(0, 0, 0, 0.18)',
+            }}
+          >
+            <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                  2. Repository connection
+                </p>
+                <h3 className="mt-2 text-xl font-semibold text-white">Connect GitHub in Connects</h3>
+                <p className="mt-2 max-w-[48rem] text-sm leading-7 text-white/70">
+                  Profile owns wallet identity and personal profile values. Connects owns GitHub
+                  attachment because repository scope is shared by Terminal, conversations,
+                  Exchange rereads, and future external interfaces.
+                </p>
+              </div>
+              <span
+                className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                  hasWalletIdentity
+                    ? 'border-emerald-300/24 bg-emerald-400/10 text-emerald-100'
+                    : 'border-white/10 bg-white/5 text-white/46'
+                }`}
+              >
+                {hasWalletIdentity ? 'Ready to connect' : 'Wallet first'}
+              </span>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/68">
+              {hasWalletIdentity
+                ? 'Wallet identity is ready. Open Connects next to attach GitHub for Give and Need source access.'
+                : 'Connect or stage a Bitcoin wallet first. Connects will unlock GitHub attachment after wallet identity exists.'}
+              <div className="mt-3">
+                <a
+                  href="/auxillaries/connects"
+                  className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
+                >
+                  Open Connects
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* Optional notification email */}
+          <motion.div
+              className="account-creation-section"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -636,7 +1105,7 @@ export default function AuxillariesProfilePane({ onSave,
                 borderRadius: "16px",
                 padding: "28px",
                 marginBottom: "32px",
-                border: "1px solid rgba(103, 254, 183, 0.4)",
+                  border: "1px solid rgba(255, 255, 255, 0.12)",
                 boxShadow: "0 12px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(103, 254, 183, 0.15)",
                 position: "relative"
               }}
@@ -667,7 +1136,7 @@ export default function AuxillariesProfilePane({ onSave,
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                   </svg>
                 </div>
-                {isVerified ? 'Email Verified!' : 'Verify Your Email'}
+                Optional email notifications
               </h3>
 
               {authError && (
@@ -676,12 +1145,15 @@ export default function AuxillariesProfilePane({ onSave,
                 </div>
               )}
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                {/* First, show email input or social sign-in when no verification in progress */}
+                {/* Email is optional notification posture after wallet and GitHub prerequisites */}
                 {!isVerifying && !isVerified && (
                   <>
                   <div className="email-input-container" style={{ position: "relative" }}>
                     <label htmlFor="email" className="form-label" style={{ marginBottom: "8px", display: "block" }}>
                       Email Address
+                      <span style={{ marginLeft: '8px', fontSize: '12px', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>
+                        Optional
+                      </span>
                     </label>
                     <div className="orbitals-users-input-row-responsive" style={{ display: "flex", gap: "12px", alignItems: "flex-start", flexWrap: "wrap" }}>
                       <div className="orbitals-users-input-container enterprise" style={{ flex: "1" }}>
@@ -692,8 +1164,7 @@ export default function AuxillariesProfilePane({ onSave,
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           className="form-input"
-                          placeholder="Enter your work email"
-                          required
+                          placeholder="Receive notifications and Bitcode updates"
                         />
                         <div className="input-focus-indicator"></div>
                       </div>
@@ -731,27 +1202,9 @@ export default function AuxillariesProfilePane({ onSave,
                       </button>
                     </div>
                   </div>
-                  {/* Divider with OR label */}
-                  <div className="flex items-center w-full">
-                    <div className="flex-grow h-px bg-[linear-gradient(to_right,_#10B981_0%,_#6EE7B7_50%,_#10B981_100%)] drop-shadow-[0_0_6px_rgba(103,254,183,0.5)]" />
-                    <span className="px-4 text-base tablet:text-lg font-semibold text-[rgba(103,254,183,0.9)] whitespace-nowrap">
-                      or
-                    </span>
-                    <div className="flex-grow h-px bg-[linear-gradient(to_right,_#10B981_0%,_#6EE7B7_50%,_#10B981_100%)] drop-shadow-[0_0_6px_rgba(103,254,183,0.5)]" />
-                  </div>
-                  {/* Active provider buttons plus staged wallet carrier */}
-                  <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    gap: '8px',
-                    width: '100%' 
-                  }}>
-                    <SocialLoginButton provider="github" variant="icon-square" />
-                    <SocialLoginButton provider="metamask" variant="icon-square" />
-                  </div>
                   <p className="mt-3 text-sm leading-7 text-white/66">
-                    MetaMask wallet authentication and GitHub repository connection are the primary
-                    Bitcode prerequisites here today.
+                    Email does not authenticate Bitcode in V28. It only adds a notification and
+                    account-recovery contact after wallet identity is established.
                   </p>
                   </>
                 )}
@@ -896,7 +1349,6 @@ export default function AuxillariesProfilePane({ onSave,
                 )}
               </div>
             </motion.div>
-          )}
 
 
           {/* Enhanced form layout for enterprise users */}
@@ -1062,93 +1514,6 @@ export default function AuxillariesProfilePane({ onSave,
               </AfterOnboardingOverlay>
             </div>
           </div>
-
-          <div
-            className="orbital-section mt-8"
-            style={{
-              background: 'linear-gradient(145deg, rgba(12, 24, 39, 0.82), rgba(9, 19, 31, 0.82))',
-              border: '1px solid rgba(103, 254, 183, 0.22)',
-              borderRadius: '18px',
-              padding: '20px',
-              boxShadow: '0 18px 40px rgba(0, 0, 0, 0.18)',
-            }}
-          >
-            <div className="bio-label-container" style={{ marginBottom: '12px' }}>
-              <label htmlFor="walletAddress" className="form-label">
-                Wallet identity
-              </label>
-            </div>
-            <p style={{ margin: '0 0 14px 0', fontSize: '14px', lineHeight: '1.6', color: 'rgba(255, 255, 255, 0.72)' }}>
-              Profile owns the wallet identity that transaction readiness, the Bitcode Terminal, and
-              <span style={{ color: 'rgba(103, 254, 183, 0.88)' }}> $BTD</span> reread. MetaMask is
-              the primary wallet-authentication path; manual identity remains available for review
-              sessions that cannot open an extension.
-            </p>
-            <div className="mb-4 flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={handleAuthenticateMetaMask}
-                disabled={walletAuthStatus === 'requesting'}
-                className="inline-flex items-center justify-center rounded-full border border-orange-300/28 bg-orange-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/44 hover:bg-orange-400/18 disabled:cursor-wait disabled:opacity-60"
-              >
-                {walletAuthStatus === 'requesting'
-                  ? 'Opening MetaMask'
-                  : walletAuthStatus === 'signed'
-                    ? 'MetaMask authenticated'
-                    : 'Authenticate with MetaMask'}
-              </button>
-              {walletAuthError ? (
-                <p className="text-xs leading-5 text-amber-200/78">{walletAuthError}</p>
-              ) : null}
-            </div>
-            <div className="orbitals-users-input-container enterprise">
-              <input
-                data-testid="profile-wallet-address-input"
-                id="walletAddress"
-                type="text"
-                value={walletAddress}
-                onChange={(e) => {
-                  const nextValue = e.target.value;
-                  setWalletAddress(nextValue);
-                  setWalletBindingStatus(nextValue.trim() ? 'manual' : null);
-                  setWalletProvider((current) =>
-                    current || nextValue.trim() ? (current || 'manual') : '',
-                  );
-                }}
-                className="form-input"
-                placeholder="Bind the wallet address Bitcode should treat as operator identity"
-              />
-              <div className="input-focus-indicator"></div>
-            </div>
-            <div style={{ marginTop: '10px', fontSize: '13px', color: 'rgba(255, 255, 255, 0.6)' }}>
-              {walletAddress
-                ? walletBindingStatus === 'verified'
-                  ? `Verified wallet-provider signer: ${walletProvider || 'wallet provider'}`
-                  : walletBindingStatus === 'pending'
-                    ? `Wallet-provider verification is staged. Current provider: ${walletProvider || 'wallet provider'}`
-                    : `Manual wallet identity saved from ${walletProvider || 'manual'}; signed settlement still waits on provider verification.`
-                : 'No wallet identity is bound yet. Transaction-bearing actions remain review-only until one is saved here.'}
-            </div>
-          </div>
-
-          {isOnboardingComplete && (
-            <div className="orbital-section mt-12">
-              <div className="rounded-[24px] border border-white/10 bg-white/[0.045] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
-                <div className="mb-5">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                    Access providers
-                  </div>
-                  <p className="mt-3 max-w-[44rem] text-sm leading-7 text-white/72">
-                    Connect GitHub as the required repository provider for Bitcode Need and Give
-                    activity. Other providers are not part of the V28 MVP prerequisite path.
-                  </p>
-                </div>
-                <div className="grid gap-3">
-                  <SocialAccountLinker provider="github" />
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Hidden submit button that will be triggered by the global action button */}
           <button

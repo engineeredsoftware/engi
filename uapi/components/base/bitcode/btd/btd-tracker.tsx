@@ -5,6 +5,7 @@ import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 're
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import Logo from '@/components/base/bitcode/branding/logo';
 import { motion, AnimatePresence } from 'framer-motion';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '../../../../lib/bitcode-qa-telemetry';
 
 interface BtdAssetPackSummary {
   assetPackId: string;
@@ -19,6 +20,11 @@ interface BTDTrackerProps {
   btcFeeBalance?: number | null;
   recentBtdAssetPacks?: BtdAssetPackSummary[];
   isLoading?: boolean;
+  hasWalletIdentity?: boolean;
+  walletLabel?: string | null;
+  walletAddress?: string | null;
+  walletProvider?: string | null;
+  onOpenBtdAuxillary?: () => void;
 }
 
 function formatBtcFeeBalance(balance: number | null | undefined) {
@@ -55,17 +61,27 @@ export function BTDTracker({
   btcFeeBalance = null,
   recentBtdAssetPacks = [],
   isLoading = false,
+  hasWalletIdentity = false,
+  walletLabel = null,
+  walletAddress = null,
+  walletProvider = null,
+  onOpenBtdAuxillary,
 }: BTDTrackerProps) {
   const [displayedBtdBalance, setDisplayedBtdBalance] = useState(btdBalance);
   const [displayedBtcFeeBalance, setDisplayedBtcFeeBalance] = useState<number | null>(btcFeeBalance);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [exchangeState, setExchangeState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [actionState, setActionState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const isBalanceLoading = isLoading && btdBalance === 0 && btcFeeBalance === null;
-  const shouldShowExchangeNow = isHovered && !isBalanceLoading;
+  const shouldShowWalletNow = isHovered && !isBalanceLoading;
   const btcBalanceLabel = formatBtcFeeBalance(displayedBtcFeeBalance);
   const btdBalanceLabel = `${displayedBtdBalance.toLocaleString()} BTD`;
   const balanceLabel = isBalanceLoading ? 'Reading BTC and BTD wallet posture' : `${btcBalanceLabel}; ${btdBalanceLabel}`;
+  const walletActionLabel = useMemo(() => {
+    const explicitLabel = walletLabel?.trim();
+    if (explicitLabel) return explicitLabel;
+    return compactBitcodeAddress(walletAddress, 6) ?? 'BTD wallet';
+  }, [walletAddress, walletLabel]);
   const recentAssetPackTitle = useMemo(() => {
     const labels = recentBtdAssetPacks
       .slice(0, 5)
@@ -77,18 +93,18 @@ export function BTDTracker({
   }, [recentBtdAssetPacks]);
 
   // Measure the widest hover/rest posture so the tracker does not resize on hover.
-  const exchangeRef = useRef<HTMLSpanElement>(null);
+  const walletActionRef = useRef<HTMLSpanElement>(null);
   const btdRef = useRef<HTMLSpanElement>(null);
   const loadingRef = useRef<HTMLSpanElement>(null);
   const [textWidth, setTextWidth] = useState(0);
   useLayoutEffect(() => {
-    if (exchangeRef.current && btdRef.current && loadingRef.current) {
-      const exchangeW = exchangeRef.current.offsetWidth;
+    if (walletActionRef.current && btdRef.current && loadingRef.current) {
+      const walletActionW = walletActionRef.current.offsetWidth;
       const btdW = btdRef.current.offsetWidth;
       const loadingW = loadingRef.current.offsetWidth;
-      setTextWidth(Math.ceil(Math.max(exchangeW, btdW, loadingW)));
+      setTextWidth(Math.ceil(Math.max(walletActionW, btdW, loadingW)));
     }
-  }, [displayedBtcFeeBalance, displayedBtdBalance, isBalanceLoading]);
+  }, [displayedBtcFeeBalance, displayedBtdBalance, isBalanceLoading, walletActionLabel]);
   // Compute static container min-width: icon + gap + text + horizontal paddings
   const paddingPx = 24; // px-6
   const iconWidthPx = 16; // w-4
@@ -136,7 +152,7 @@ export function BTDTracker({
 
   // Use shared auth context so we don't open duplicate listeners.
   const { user } = useAuth();
-  const isSignedIn = Boolean(user);
+  const canOpenBtdWallet = Boolean(user || hasWalletIdentity);
 
   // Particle state for dynamic burst
   const [particles, setParticles] = useState<Array<{
@@ -208,17 +224,22 @@ export function BTDTracker({
   }, [isHovered]);
 
   /**
-   * Handle Exchange click: check auth, refresh the displayed balance, then
-   * take the operator into the Exchange range-right transfer posture.
+   * Handle BTD wallet click: check identity, refresh the displayed balance,
+   * then take the operator into the BTD auxillary wallet posture.
    */
-  const handleExchangeBtd = async () => {
-    // Prevent duplicate clicks and enter loading state
-    if (exchangeState !== 'idle') return;
-    if (!isSignedIn) {
+  const handleOpenBtdWallet = async () => {
+    if (actionState !== 'idle') return;
+    if (!canOpenBtdWallet) {
       window.dispatchEvent(new Event('start-onboarding'));
       return;
     }
-    setExchangeState('loading');
+    setActionState('loading');
+    bitcodeQaTelemetry('info', 'btd-tracker', 'open-btd-wallet-start', {
+      walletProvider,
+      walletAddress: compactBitcodeAddress(walletAddress),
+      btdBalance: displayedBtdBalance,
+      btcFeeBalance: displayedBtcFeeBalance,
+    });
 
     // Refresh displayed BTD balance from server
     try {
@@ -240,40 +261,51 @@ export function BTDTracker({
       }
     } catch (err) {
       console.error('Error fetching user BTC/BTD balance posture:', err);
+      bitcodeQaTelemetry('warn', 'btd-tracker', 'balance-refresh-failed', {
+        message: err instanceof Error ? err.message : 'unknown',
+      });
     }
 
     try {
       window.sessionStorage.setItem(
-        'bitcode:btd-exchange-intent',
+        'bitcode:btd-wallet-intent',
         JSON.stringify({
           source: 'btd-tracker',
-          intent: 'exchange-btd',
+          intent: 'open-btd-wallet',
           feeAsset: 'BTC',
           shareAsset: 'BTD',
           btdSemantics: 'non-fungible asset-pack share and read-right',
           paths: [
-            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd' },
+            { mode: 'wallet-btd-auxillary', target: '/auxillaries/btd' },
           ],
           createdAt: new Date().toISOString(),
         })
       );
-      setExchangeState('success');
-      window.location.assign('/exchange?intent=buy-existing-btd');
+      setActionState('success');
+      if (onOpenBtdAuxillary) {
+        onOpenBtdAuxillary();
+      } else {
+        window.location.assign('/auxillaries/btd');
+      }
+      window.setTimeout(() => setActionState('idle'), 600);
     } catch (err) {
-      console.error('Error opening BTD Exchange surface:', err);
-      setExchangeState('error');
-      setTimeout(() => setExchangeState('idle'), 2000);
+      console.error('Error opening BTD auxillary surface:', err);
+      bitcodeQaTelemetry('error', 'btd-tracker', 'open-btd-wallet-failed', {
+        message: err instanceof Error ? err.message : 'unknown',
+      });
+      setActionState('error');
+      setTimeout(() => setActionState('idle'), 2000);
     }
   };
 
   return (
     <motion.div
-      className={`relative group inline-block ${isSignedIn ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
+      className={`relative group inline-block ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
-      onClick={isSignedIn ? handleExchangeBtd : undefined}
-      aria-disabled={!isSignedIn}
-      aria-label={`${balanceLabel}. Open Exchange to buy or transfer BTD AssetPack rights.`}
+      onClick={canOpenBtdWallet ? handleOpenBtdWallet : undefined}
+      aria-disabled={!canOpenBtdWallet}
+      aria-label={`${balanceLabel}. Open BTD wallet auxillary${walletProvider ? ` for ${walletProvider}` : ''}.`}
       title={recentAssetPackTitle}
     >
       <motion.div
@@ -322,7 +354,7 @@ export function BTDTracker({
         >
           {/* Hidden measurement spans */}
           <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
-            <span ref={exchangeRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Exchange BTD</span>
+            <span ref={walletActionRef} className="whitespace-nowrap font-normal tracking-wide text-sm">{walletActionLabel}</span>
             <span ref={loadingRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Reading wallet</span>
             <span ref={btdRef} className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm">
               <span>{btcBalanceLabel}</span>
@@ -335,7 +367,7 @@ export function BTDTracker({
           </div>
           {/* Icon slot */}
           <AnimatePresence initial={false} mode="wait">
-            {exchangeState === 'loading' ? (
+            {actionState === 'loading' ? (
               <motion.div
                 key="spinner"
                 className="flex items-center justify-center w-4 h-4"
@@ -374,7 +406,7 @@ export function BTDTracker({
           </AnimatePresence>
           {/* Text slot */}
           <AnimatePresence initial={false} mode="wait">
-            {exchangeState === 'loading' ? (
+            {actionState === 'loading' ? (
               <motion.span
                 key="loading"
                 className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
@@ -382,7 +414,7 @@ export function BTDTracker({
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Opening Exchange...</motion.span>
+              >Opening BTD...</motion.span>
             ) : isBalanceLoading ? (
               <motion.span
                 key="wallet-loading"
@@ -398,15 +430,15 @@ export function BTDTracker({
                 />
                 <span>Reading wallet</span>
               </motion.span>
-            ) : exchangeState === 'idle' && shouldShowExchangeNow ? (
+            ) : actionState === 'idle' && shouldShowWalletNow ? (
               <motion.span
-                key="exchange"
+                key="wallet"
                 className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Exchange BTD</motion.span>
+              >{walletActionLabel}</motion.span>
             ) : (
               <motion.span
                 key="btd"

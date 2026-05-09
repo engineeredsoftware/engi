@@ -17,6 +17,7 @@ import { BITCODE_PUBLIC_COPY } from "@/components/base/bitcode/layout/bitcode-pu
 import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } from "@/components/base/bitcode/layout/workspace-surface";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/base/bitcode/layout/bitcode-public-explainers";
+import { bitcodeQaTelemetry, compactBitcodeAddress } from "../../../../lib/bitcode-qa-telemetry";
 
 const MemoBTDTracker = React.memo(BTDTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
@@ -80,11 +81,24 @@ function disabledClassName(className: string) {
   return `${className} ${disabledActionClassName}`;
 }
 
+function readStringField(source: unknown, ...keys: string[]) {
+  if (!source || typeof source !== 'object') return null;
+  const record = source as Record<string, unknown>;
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return null;
+}
+
 export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
   const {
+    data: userData,
+    hasWalletConnection,
+    walletConnectionStatus,
     btdBalance,
     btcFeeBalance,
     recentBtdAssetPacks,
@@ -160,6 +174,46 @@ export default function Nav() {
   const usesPublicChrome = usesPublicShellChrome(pathname);
   const usesProductChrome = usesPublicChrome || navSurface === 'terminal';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
+  const profileRecord =
+    userData?.profile && typeof userData.profile === 'object'
+      ? (userData.profile as Record<string, unknown>)
+      : null;
+  const profileSettings =
+    profileRecord?.settings && typeof profileRecord.settings === 'object'
+      ? (profileRecord.settings as Record<string, unknown>)
+      : null;
+  const bitcodeProfileSettings =
+    profileSettings?.bitcodeProfile && typeof profileSettings.bitcodeProfile === 'object'
+      ? (profileSettings.bitcodeProfile as Record<string, unknown>)
+      : null;
+  const walletBinding =
+    profileRecord?.wallet_binding && typeof profileRecord.wallet_binding === 'object'
+      ? (profileRecord.wallet_binding as Record<string, unknown>)
+      : null;
+  const chromeWalletAddress =
+    walletConnectionStatus?.address ??
+    readStringField(profileRecord, 'wallet_address') ??
+    readStringField(walletBinding, 'address');
+  const chromeWalletProvider =
+    walletConnectionStatus?.provider ??
+    readStringField(profileRecord, 'wallet_provider') ??
+    readStringField(walletBinding, 'provider');
+  const chromeWalletLabel =
+    readStringField(bitcodeProfileSettings, 'walletNickname', 'wallet_nickname') ??
+    readStringField(profileRecord, 'wallet_nickname') ??
+    compactBitcodeAddress(chromeWalletAddress, 6);
+  const hasChromeWalletIdentity = Boolean(user || hasWalletConnection);
+
+  useEffect(() => {
+    bitcodeQaTelemetry('info', 'nav', 'chrome-identity', {
+      hasUser: Boolean(user),
+      hasWalletConnection,
+      walletProvider: chromeWalletProvider ?? null,
+      walletAddress: compactBitcodeAddress(chromeWalletAddress, 6),
+      btdBalance,
+      btcFeeBalance,
+    });
+  }, [btdBalance, btcFeeBalance, chromeWalletAddress, chromeWalletProvider, hasWalletConnection, user]);
 
   // Determine if the nav should be fixed
   const shouldBeFixed = useMemo(() => {
@@ -210,7 +264,7 @@ export default function Nav() {
     router.push('/')
   }
 
-  const workspaceGuestActions = usesWorkspaceOnlyChrome && !user ? (
+  const workspaceGuestActions = usesWorkspaceOnlyChrome && !hasChromeWalletIdentity ? (
     <div className={`${controlsEntranceClassName} flex items-center gap-2.5`}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries}>
@@ -257,7 +311,7 @@ export default function Nav() {
     </div>
   ) : null;
 
-  const publicGuestActions = usesProductChrome && !user ? (
+  const publicGuestActions = usesProductChrome && !hasChromeWalletIdentity ? (
     <div className={`${controlsEntranceClassName} flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5`}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries} className="flex-1 tablet:flex-none">
@@ -415,8 +469,8 @@ export default function Nav() {
               surface={navSurface ?? publicSurface}
             />
             {usesProductChrome ? publicRouteLinks : null}
-            {!usesProductChrome && !user && <div className="flex-1" />}
-            {!usesProductChrome && user && (
+            {!usesProductChrome && !hasChromeWalletIdentity && <div className="flex-1" />}
+            {!usesProductChrome && hasChromeWalletIdentity && (
               <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
                   { href: '/terminal', label: 'terminal' },
@@ -488,7 +542,7 @@ export default function Nav() {
               workspaceGuestActions
             ) : publicGuestActions ? (
               publicGuestActions
-            ) : user ? (
+            ) : hasChromeWalletIdentity ? (
               <div className={`${controlsEntranceClassName} flex items-center space-x-3.5`}>
                 {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
                   <MemoBTDTracker
@@ -496,30 +550,46 @@ export default function Nav() {
                     btcFeeBalance={btcFeeBalance}
                     recentBtdAssetPacks={recentBtdAssetPacks}
                     isLoading={isUserDataLoading || isUserDataRevalidating}
+                    hasWalletIdentity={hasWalletConnection}
+                    walletLabel={chromeWalletLabel}
+                    walletAddress={chromeWalletAddress}
+                    walletProvider={chromeWalletProvider}
+                    onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'btd')}
                   />
                 )}
 
-                {FEATURE_FLAGS.NOTIFICATIONS && (
+                {FEATURE_FLAGS.NOTIFICATIONS && user && (
                   <MemoNotificationsWidget />
                 )}
 
-                <UserMenu
-                  user={user}
-                  onOpenAuxillaries={() => openAuxillaries('auxillaries', 'profile')}
-                  onSignOut={() => {
-                    import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
-                      const client = createClient();
-                      client.auth.signOut().finally(() => {
-                        // Show login pane after sign out
-                        openAuxillaries('login');
-                        // Redirect from authenticated pages
-                        if (pathname && pathname.startsWith('/upgrades')) {
-                          router.replace('/');
-                        }
+                {user ? (
+                  <UserMenu
+                    user={user}
+                    onOpenAuxillaries={() => openAuxillaries('auxillaries', 'profile')}
+                    onSignOut={() => {
+                      import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
+                        const client = createClient();
+                        client.auth.signOut().finally(() => {
+                          // Show login pane after sign out
+                          openAuxillaries('login');
+                          // Redirect from authenticated pages
+                          if (pathname && pathname.startsWith('/upgrades')) {
+                            router.replace('/');
+                          }
+                        });
                       });
-                    });
-                  }}
-                />
+                    }}
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onMouseEnter={() => prefetchAuxillaries()}
+                    onClick={() => openAuxillaries('auxillaries', 'profile')}
+                    className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+                  >
+                    Profile
+                  </button>
+                )}
               </div>
             ) : (
               showNavUse && (

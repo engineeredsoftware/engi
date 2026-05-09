@@ -70,7 +70,7 @@ test.describe('commercial MVP responsive route health', () => {
     await expect(page.getByRole('link', { name: /^Exchange$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Terminal$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Docs$/ })).toBeVisible();
-    await expect(page.getByLabel(/Open Exchange to buy or transfer BTD AssetPack rights/i)).toBeVisible();
+    await expect(page.getByLabel(/Open BTD wallet auxillary/i)).toBeVisible();
 
     await trap.assertClean();
   });

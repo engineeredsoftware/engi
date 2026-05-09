@@ -577,6 +577,36 @@
     0 0 0 1px rgba(248, 113, 113, 0.06) inset;
 }
 
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-signout-button {
+  min-width: 8.25rem;
+  padding: 0 1rem;
+  border-color: rgba(248, 113, 113, 0.32);
+  background: rgba(39, 9, 15, 0.82);
+  color: rgba(254, 226, 226, 0.96);
+}
+
 .orbital-system-application .orbital-close-button:hover,
 .orbital-system-application .orbital-toggle-button:hover,
 .orbital-system-application .orbital-signout-button:hover,

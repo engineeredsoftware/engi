@@ -84,8 +84,8 @@ export default function AuxillariesConnectsPane({
                   Current posture
                 </p>
                 <p className="mt-2 text-sm leading-7 text-white/74">
-                  Email code or a linked provider restores Bitcode access first. Connects then owns
-                  repository attachment, scope review, and external interface posture.
+                  Wallet authentication opens Bitcode access first. Connects then owns repository
+                  attachment, scope review, and external interface posture.
                 </p>
               </div>
             </div>

@@ -105,7 +105,83 @@ test.describe('commercial MVP Auxillaries experience', () => {
 
     await walletInput.fill('tb1qcommercialmvpqa0000000000000000000000');
     await expect(walletInput).toHaveValue('tb1qcommercialmvpqa0000000000000000000000');
-    await expect(page.getByText(/Profile owns the wallet identity/i)).toBeVisible();
+    await expect(page.getByText(/Bitcoin wallet connection is the first Bitcode identity action/i)).toBeVisible();
+    await expect(page.getByText(/Connect GitHub in Connects/i)).toBeVisible();
+    await expect(page.getByText(/Optional email notifications/i)).toBeVisible();
+
+    await trap.assertClean();
+  });
+
+  test('Profile wallet connection stays on Profile and does not run onboarding completion in contained Auxillaries', async ({
+    page,
+  }, testInfo) => {
+    const trap = installCommercialBrowserErrorTrap(page, testInfo);
+    let onboardingRequests = 0;
+
+    await page.addInitScript(() => {
+      (window as any).LeatherProvider = {
+        request: async (method: string, params?: Record<string, unknown>) => {
+          (window as any).__bitcodeWalletCalls = [
+            ...((window as any).__bitcodeWalletCalls ?? []),
+            { method, params },
+          ];
+
+          if (method === 'getAddresses') {
+            return {
+              result: {
+                addresses: [
+                  {
+                    symbol: 'BTC',
+                    type: 'p2wpkh',
+                    address: 'tb1qcmrcalqaqqqqqqqqqqqqqqqqqqqqqqqqq',
+                    publicKey: 'payment-public-key',
+                    derivationPath: "m/84'/1'/1'/0/0",
+                  },
+                  {
+                    symbol: 'BTC',
+                    type: 'p2tr',
+                    address: 'tb1pqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
+                    publicKey: 'auth-public-key',
+                    tweakedPublicKey: 'auth-tweaked-public-key',
+                    derivationPath: "m/86'/1'/1'/0/0",
+                  },
+                ],
+              },
+            };
+          }
+
+          if (method === 'signMessage') {
+            return { result: { signature: 'leather-contained-profile-signature' } };
+          }
+
+          return { result: null };
+        },
+      };
+    });
+    await page.route('**/api/auxillaries/onboarding', async (route) => {
+      onboardingRequests += 1;
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ completedPanes: ['profile'], isOnboardingComplete: false }),
+      });
+    });
+
+    await openCommercialRoute(page, '/auxillaries/profile', /Profile in one contained auxillary read/i);
+    await expect(page.getByTestId('profile-step-container')).toBeVisible();
+    await expect(page.getByTestId('profile-connect-leather')).toBeVisible();
+
+    await page.getByTestId('profile-connect-leather').click();
+    await expect(page.getByTestId('profile-step-container')).toBeVisible();
+    await expect(page.getByText(/Bitcoin provider connected/i)).toBeVisible();
+    await expect(page.getByTestId('profile-wallet-address-input')).toHaveValue(
+      'tb1pqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
+    );
+    await expect(page).toHaveURL(/\/auxillaries\/profile$/);
+    await expect.poll(() => Promise.resolve(onboardingRequests)).toBe(0);
+
+    const calls = await page.evaluate(() => (window as any).__bitcodeWalletCalls ?? []);
+    expect(calls.map((call: { method: string }) => call.method)).toEqual(['getAddresses', 'signMessage']);
 
     await trap.assertClean();
   });

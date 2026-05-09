@@ -7,6 +7,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '../lib/bitcode-qa-telemetry';
+import {
+  BITCODE_LOCAL_WALLET_EVENT,
+  mergeLocalBitcodeWalletIdentity,
+} from '@/lib/bitcode-wallet-local';
 import { readBitcodeWalletCapabilityFromProfile } from '@bitcode/orm';
 
 type UserRepositoryInventorySource =
@@ -41,6 +46,12 @@ type WalletConnectionStatus = {
     connectionAddress?: string | null;
     matchesBindingAddress?: boolean;
     connectedAt?: string | null;
+    network?: string | null;
+    proofKind?: string | null;
+    persistence?: 'server' | 'local' | null;
+    paymentAddress?: string | null;
+    authAddress?: string | null;
+    addressType?: string | null;
     mock_mode?: boolean;
   } | null;
 } | null;
@@ -183,13 +194,30 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
     try {
       const res = await fetch('/api/auxillaries/data');
       if (res.status === 401) {
-        cached = ANONYMOUS_USER_DATA;
+        cached = mergeLocalBitcodeWalletIdentity(ANONYMOUS_USER_DATA);
+        bitcodeQaTelemetry('info', 'user-data', 'anonymous-read', {
+          localWallet: cached.walletConnectionStatus
+            ? {
+                provider: cached.walletConnectionStatus.provider,
+                valid: cached.walletConnectionStatus.valid,
+                address: compactBitcodeAddress(cached.walletConnectionStatus.address),
+              }
+            : null,
+        });
         return cached;
       }
       if (!res.ok) throw new Error(`Status ${res.status}`);
       const data = (await res.json()) as AggregatedUserData;
-      cached = data;
-      return data;
+      cached = mergeLocalBitcodeWalletIdentity(data);
+      bitcodeQaTelemetry('info', 'user-data', 'read', {
+        hasProfile: Boolean(cached.profile),
+        hasWallet: Boolean(cached.walletConnectionStatus?.connected),
+        walletProvider: cached.walletConnectionStatus?.provider ?? null,
+        walletAddress: compactBitcodeAddress(cached.walletConnectionStatus?.address),
+        btdBalance: cached.btdBalance ?? null,
+        btcFeeBalance: cached.btcFeeBalance ?? null,
+      });
+      return cached;
     } finally {
       inFlight = null;
     }
@@ -253,6 +281,24 @@ export function useUserData() {
       setIsRevalidating(false);
     }
   }, []);
+
+  useEffect(() => {
+    const refreshAfterLocalWalletChange = () => {
+      bitcodeQaTelemetry('info', 'user-data', 'local-wallet-change');
+      void refresh();
+    };
+    const refreshAfterStorageChange = (event: StorageEvent) => {
+      if (event.key !== 'bitcode_local_wallet_identity') return;
+      refreshAfterLocalWalletChange();
+    };
+
+    window.addEventListener(BITCODE_LOCAL_WALLET_EVENT, refreshAfterLocalWalletChange);
+    window.addEventListener('storage', refreshAfterStorageChange);
+    return () => {
+      window.removeEventListener(BITCODE_LOCAL_WALLET_EVENT, refreshAfterLocalWalletChange);
+      window.removeEventListener('storage', refreshAfterStorageChange);
+    };
+  }, [refresh]);
 
   useEffect(() => {
     let cancelled = false;

@@ -79,3 +79,6 @@ packages/web-search/examples/**/*.js
 packages/digest/**/*.js
 scripts/*.js
 uapi/tailwind.config.js
+
+# Miscellaneous
+.tmp/
