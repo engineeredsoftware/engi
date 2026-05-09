@@ -199,6 +199,7 @@ export default function AuxillariesBTDPane({
     data,
     btdBalance = 0,
     btcFeeBalance = null,
+    recentBtdAssetPacks = [],
     hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
   } = useUserData();
@@ -252,6 +253,11 @@ export default function AuxillariesBTDPane({
 
     return `${teamMembers.length + 1} active members`;
   }, [teamMembers.length]);
+  const ownedAssetPackCount = recentBtdAssetPacks.length;
+  const ownedAssetPackSummary =
+    ownedAssetPackCount === 1
+      ? "1 AssetPack"
+      : `${ownedAssetPackCount.toLocaleString()} AssetPacks`;
 
   const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
@@ -473,53 +479,67 @@ export default function AuxillariesBTDPane({
               explainer={auxillaryPaneExplainers.btdWallet}
               tone="amber"
             >
-              <AuxillariesStatGrid
-                items={[
-                  {
-                    label: "$BTD holdings",
-                    value: formatBtdHoldings(btdBalance),
-                    detail: "Non-fungible share/read-right holdings visible to this account.",
-                    tone: "amber",
-                  },
-                  {
-                    label: "BTC fee liquidity",
-                    value: formatBtcFeeBalance(btcFeeBalanceSource),
-                    detail: hasReadableBtcFeeBalance
-                      ? "Live BTC fee-liquidity posture supplied by the connected wallet posture."
-                      : hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
-                        ? "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect before signed settlement or refreshed BTC posture can resume."
-                      : walletBinding?.status === 'verified'
-                        ? "Verified wallet-provider posture is present, but live BTC balance has not populated yet."
+              <div
+                className="rounded-[26px] border border-amber-200/16 bg-[linear-gradient(180deg,rgba(251,191,36,0.11),rgba(8,16,30,0.62))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.2),0_0_34px_rgba(251,191,36,0.08)_inset]"
+                title="BTD is the non-fungible source-share/read-right balance currently visible to this account."
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-100/76">
+                  BTD balance
+                </p>
+                <p className="mt-3 break-words text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-none tracking-normal text-amber-50 drop-shadow-[0_0_26px_rgba(251,191,36,0.24)]">
+                  {formatBtdHoldings(btdBalance)}
+                </p>
+              </div>
+
+              <div className="mt-3">
+                <AuxillariesStatGrid
+                  items={[
+                    {
+                      label: "Owned AssetPacks",
+                      value: ownedAssetPackSummary,
+                      detail: "Counted from recent BTD AssetPacks currently readable for this account.",
+                      tone: "emerald",
+                    },
+                    {
+                      label: "BTC in wallet",
+                      value: formatBtcFeeBalance(btcFeeBalanceSource),
+                      detail: hasReadableBtcFeeBalance
+                        ? "Live BTC fee-liquidity posture supplied by the connected wallet posture."
+                        : hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
+                          ? "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect before signed settlement or refreshed BTC posture can resume."
+                        : walletBinding?.status === 'verified'
+                          ? "Verified wallet-provider posture is present, but live BTC balance has not populated yet."
                         : walletBinding?.address
-                          ? "Wallet identity is present, but verified wallet-provider signing is still staged before live BTC posture should settle here."
-                          : "Attach a wallet binding to surface live BTC posture here.",
-                    tone: "sky",
-                  },
-                  {
-                    label: "Wallet address",
-                    value: resolveWalletAddress(profile, user.id),
-                    detail: hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
-                      ? "Saved verified signer posture is recorded, but the wallet provider must reconnect before Bitcode can rely on live signing again."
-                      : walletBinding?.status === 'verified'
-                      ? "The verified signer posture Bitcode will use for signed settlement follow-through."
-                      : "The address posture Bitcode will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
-                    tone: "violet",
-                  },
-                  {
-                    label: "Membership",
-                    value: membershipSummary,
-                    detail: teamMembers.length
-                      ? "Team and multi-party posture currently reflected in the active profile."
-                      : "Single-account posture until more roles join this Bitcode account.",
-                    tone: "emerald",
-                  },
-                ]}
-                columns={4}
-              />
+                            ? "Wallet identity is present, but verified wallet-provider signing is still staged before live BTC posture should settle here."
+                            : "Attach a wallet binding to surface live BTC posture here.",
+                      tone: "sky",
+                    },
+                  ]}
+                  columns={2}
+                />
+              </div>
 
               <div className="mt-4">
                 <AuxillariesStatGrid
                   items={[
+                    {
+                      label: "Wallet address",
+                      value: resolveWalletAddress(profile, user.id),
+                      detail: hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
+                        ? "Saved verified signer posture is recorded, but the wallet provider must reconnect before Bitcode can rely on live signing again."
+                        : walletBinding?.status === 'verified'
+                        ? "The verified signer posture Bitcode will use for signed settlement follow-through."
+                        : "The address posture Bitcode will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
+                      tone: "violet",
+                    },
+                    {
+                      label: "Membership",
+                      value: membershipSummary,
+                      detail: teamMembers.length
+                        ? "Team and multi-party posture currently reflected in the active profile."
+                        : "Single-account posture until more roles join this Bitcode account.",
+                      tone: "emerald",
+                    },
                     {
                       label: "Access policy",
                       value: accessDisclosure.policyId,

@@ -202,8 +202,12 @@ Acceptance criteria:
 - Auxillaries active auth/profile/readiness experience uses the contained tabs-left model without old orbital layout collision.
 - sign-in, sign-up, signed-in, and signed-out Auxillaries states are responsive and not pushed offscreen.
 - Auxillaries portal entry, including unauthenticated `Connect Wallet`, opens the contained Auxillaries shell rather than the old onboarding/orbital shell.
+- mock and testnet-readiness Auxillaries entry render the same pane order and shell regardless of caller; V28 primary prerequisites are MetaMask wallet authentication and GitHub repository connection.
+- Auxillaries selector cards use centered pane names plus visual state indicators, not duplicate lane-title prose, and hover movement must not clip the first selector card.
+- Auxillaries profile panes must be scrollable on first render, including unauthenticated and non-mock contained portal entry.
 - Auxillaries settings panes auto-save edits; visible pane-level Save buttons are not part of the commercial MVP shell.
-- the `$BTD` auxillary shows BTD and BTC balances legibly, avoids long-identifier overflow, and includes the shared Exchange activity table grammar for BTD-relevant owned packs, Exchange trades, Gives, Needs, proof closures, and range-bearing activity.
+- the `$BTD` auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes the shared Exchange activity table grammar for BTD-relevant owned packs, Exchange trades, Gives, Needs, proof closures, and range-bearing activity.
+- notification dropdowns remain legible and do not include redundant Auxillaries footer launchers when top chrome and profile menu already provide that entry.
 - route QA covers `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations; the prior generic workspace route is verified absent from active source.
 - Exchange MVP activity/search/detail route renders without homepage redirects or disabled navigation.
 - signed-in navigation shows BTC and BTD balances as peer wallet facts, without `$BTD` currency-token styling, with a distinct visual separator, and with hover context reserved for recent BTD AssetPacks rather than explanatory product copy.

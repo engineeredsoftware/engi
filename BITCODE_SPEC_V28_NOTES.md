@@ -175,6 +175,15 @@ Auxillaries edits are application settings and should auto-save; visible Save bu
 The `$BTD` pane must highlight BTD and BTC balances strongly, avoid long-address overflow, and include the shared Exchange activity-table grammar for BTD-relevant activity even when testnet-readiness has no ledger-derived events yet.
 The notification dropdown is part of prerequisite trust and must keep titles, timestamps, pills, messages, and actions legible without awkward line breaks.
 
+The next May 9 1A patch tightened this into implementation-level V28 expectations.
+The notification dropdown should not contain a redundant Auxillaries launcher in its footer after the top chrome and profile menu already own that entry.
+The contained Auxillaries surface must avoid global intrinsic-size rendering shortcuts that can make Profile unscrollable on first open.
+Selector-card hover motion may remain, but the selector rail must reserve enough top space that the first card border is never clipped.
+The `$BTD` pane hierarchy is now: one large BTD balance row; one sub-stat row for owned AssetPack count and BTC wallet liquidity; then compact identity, membership, policy, range, and read-branch cards.
+System explanations for these cards belong in tooltips and accessible labels, not as visible description cards competing with the user's values.
+The V28 prerequisite posture is narrowed to MetaMask wallet authentication and GitHub repository connection; Google and broader identity/provider surfaces are outside the primary V28 prerequisite path.
+Mock and testnet-readiness Auxillaries must keep the same pane order and shell regardless of which caller opens the overlay.
+
 These changes remain V28 scope because they are MVP-readiness and trust issues.
 The deeper Auxillaries version retains hierarchy, spacing, diagnostics, recovery, and provider-management expansion after V28 proves the contained shell, mocked prerequisite reads, fail-closed testnet-readiness, and no-console-error baseline.
 

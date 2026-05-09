@@ -225,13 +225,16 @@ Implemented after the 2026-05-09 findings, pending manual reconfirmation:
 
 | Fix | Verification state |
 | --- | --- |
-| Notification dropdown wraps title/message text in a wider, more legible two-column layout without breaking item actions. | Production build passes; next manual top-chrome pass should judge visual fit. |
-| Auxillaries contained portal, including unauthenticated `Connect Wallet`, uses the contained Auxillaries surface and suppresses the old ring-background onboarding shell. | Browser smoke on `3001` confirms `.auxillaries-bitcode-surface.orbital-system-application`, zero old login/account ring backgrounds, and no page/console errors. |
+| Notification dropdown wraps title/message text in a wider, more legible two-column layout without breaking item actions, and the redundant bottom `Open Auxillaries fullscreen` link is removed. | Notification unit test updated; production build passes; next manual top-chrome pass should judge visual fit. |
+| Auxillaries contained portal, including unauthenticated `Connect Wallet`, uses the contained Auxillaries surface and suppresses the old ring-background onboarding shell. | Browser smoke on `3001` confirms `.auxillaries-bitcode-surface.orbital-system-application`, selector order `Connects`, `Interfaces`, `Profile`, `$BTD`, zero old login/account ring backgrounds, and no page/console errors. |
 | Profile, Interfaces, and BTD panes autosave changes and no longer expose visible auxillary Save/Continue buttons in the contained application experience. | Unit tests cover BTD and Interfaces autosave; focused Auxillaries E2E checks no visible `$BTD` Save button. |
-| Auxillaries selector cards remove duplicate top lane titles and keep state as a top-right visual indicator with accessible state metadata. | Focused Auxillaries E2E still passes route-card and pane-tab navigation. |
+| Auxillaries selector cards remove duplicate top lane titles, keep state as a top-right visual indicator with accessible state metadata, and reserve enough top padding for hover lift without clipping the first card border. | Focused Auxillaries E2E still passes route-card and pane-tab navigation; selector hover padding is source-fixed for next manual confirmation. |
 | Overlay controls are aligned as top-right close/sign-out controls and the selector-side self-explainer copy is removed. | Production build passes; next manual Auxillaries pass should judge spacing. |
-| BTD/BTC statistics use stronger value tones and safer overflow handling. | Production build passes; next manual BTD pane pass should judge vibrancy/legibility. |
+| First-open Profile scrolling is stabilized by forcing the contained Auxillaries surface out of global `content-visibility:auto` intrinsic sizing. | Non-mock browser smoke scrolls the Profile pane on first portal open; next mock manual pass should confirm the originally reported first-render case. |
+| BTD/BTC statistics use a hierarchy matching the QA direction: large BTD balance row, sub-stat row for owned AssetPacks and BTC in wallet, then compact identity/policy cards. | Typecheck, focused unit tests, focused Auxillaries E2E, and production build pass; next manual BTD pane pass should judge vibrancy/legibility. |
+| Auxillaries stat-card explanatory prose is no longer adjacent to user values; each explanation is carried by tooltip/accessible label on the value card. | BTD pane tests updated to query tooltip/aria descriptions rather than visible prose. |
 | BTD pane includes the shared Exchange activity table for BTD-relevant activity and keeps connected-repository consent tests scoped to their own table. | Focused Auxillaries E2E passes all 10 tests. |
+| Non-mock prerequisite posture is narrowed to MetaMask wallet authentication and GitHub repository connection for V28. | Browser smoke on `3001` confirms Profile contains MetaMask and GitHub, does not expose Google as a prerequisite, and keeps the same contained Auxillaries shell/order as mock. |
 
 ### 2026-05-08 Pass 3A: Auxillaries Profile And Connects Readiness
 
@@ -265,6 +268,11 @@ They are external telemetry noise, not product readiness evidence.
 
 Automated verification after this implementation pass:
 
+- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the May 9 Auxillaries/Profile/BTD/notification refinements.
+- `pnpm -C uapi exec jest --runInBand tests/orbitalsBTDPane.test.tsx tests/notificationsWidget.test.tsx tests/orbitalsInterfacesPane.test.tsx`: 9 passed after the BTD hierarchy, tooltip, notification-footer, and autosave assertions.
+- `START_STORYBOOK=false pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed after contained shell and pane-state refinements.
+- `pnpm -C uapi run build`: pass after the May 9 QA fixes; the prior clean-clone Vercel module-resolution failure remains fixed locally.
+- Playwright non-mock browser smoke after the May 9 patch: `Connect Wallet` opens the contained Auxillaries shell, selector order is `Connects`, `Interfaces`, `Profile`, `$BTD`, old-ring count is `0`, Google prerequisite copy is absent, MetaMask and GitHub are present, no visible Save/Continue buttons remain, Profile first-open scroll advances, and no console/page errors occur.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.

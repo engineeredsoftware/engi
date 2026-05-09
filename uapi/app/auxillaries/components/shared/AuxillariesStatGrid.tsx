@@ -45,25 +45,38 @@ export default function AuxillariesStatGrid({
 
   return (
     <div className={`grid gap-3 ${gridClassName}`}>
-      {items.map((item) => (
+      {items.map((item) => {
+        const tooltip = item.detail ? `${item.value} - ${item.detail}` : item.value;
+
+        return (
         <article
           key={`${item.label}-${item.value}`}
           className="min-w-0 rounded-[20px] border border-white/8 bg-black/20 p-4"
+          title={tooltip}
+          aria-label={`${item.label}: ${tooltip}`}
         >
-          <p className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${TONE_ACCENTS[item.tone || "default"]}`}>
-            {item.label}
-          </p>
+          <div className="flex min-w-0 items-center justify-between gap-2">
+            <p className={`min-w-0 text-[11px] font-semibold uppercase tracking-[0.18em] ${TONE_ACCENTS[item.tone || "default"]}`}>
+              {item.label}
+            </p>
+            {item.detail ? (
+              <span
+                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[11px] font-semibold text-white/58"
+                aria-hidden="true"
+              >
+                i
+              </span>
+            ) : null}
+          </div>
           <p
             className={`mt-3 min-w-0 break-words text-lg font-semibold leading-snug [overflow-wrap:anywhere] ${TONE_VALUE_ACCENTS[item.tone || "default"]}`}
-            title={item.value}
+            title={tooltip}
           >
             {item.value}
           </p>
-          {item.detail ? (
-            <p className="mt-2 min-w-0 break-words text-sm leading-6 text-white/62 [overflow-wrap:anywhere]">{item.detail}</p>
-          ) : null}
         </article>
-      ))}
+        );
+      })}
     </div>
   );
 }

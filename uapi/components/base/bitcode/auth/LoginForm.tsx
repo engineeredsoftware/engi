@@ -663,8 +663,8 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
           <>
             <div className="mx-auto mb-6 max-w-[28rem] rounded-[24px] border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
               {isContainedSurface
-                ? 'Email code opens Bitcode directly. GitHub and Google stay available after sign-in, and wallet binding continues inside Profile and $BTD.'
-                : 'Email code remains the primary Bitcode sign-in path. GitHub and Google are active account providers, and wallet-provider verification remains staged through Profile instead of direct sign-in.'}
+                ? 'MetaMask wallet authentication and GitHub repository connection are the primary Bitcode prerequisites. Email code remains a fallback access path.'
+                : 'Email code remains an access fallback. MetaMask wallet authentication and GitHub repository connection are the primary Bitcode prerequisites.'}
             </div>
 
             {isContainedSurface ? null : (
@@ -679,8 +679,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                     OTP
                   </div>
                 </OrbitPlanet>
-                <OrbitPlanet angleDeg={108.33} provider="google" delay={1.0} />
-                <OrbitPlanet angleDeg={145} provider="metamask" delay={1.15} />
+                <OrbitPlanet angleDeg={108.33} provider="metamask" delay={1.0} />
 
                 {/* Outer ring reserved-provider carriers. */}
                 <OuterOrbitCircle provider="apple" angleDeg={10} delay={1.4} />

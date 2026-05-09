@@ -7,8 +7,6 @@
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
-import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
-import { OPEN_AUXILLARIES_FULLSCREEN_LABEL } from '@/app/auxillaries/components/auxillary-pane-meta';
 import {
   buildBitcodeActivityRecordFromNotification,
   getBitcodeActivityScopeLabel,
@@ -282,19 +280,6 @@ export function NotificationsWidget() {
               )})}
             </div>
           )}
-
-          <div className="notifications-footer">
-            <button
-              type="button"
-              className="notifications-footer-action"
-              onClick={() => {
-                setOpen(false);
-                openAuxillaries('auxillaries', 'profile');
-              }}
-            >
-              {OPEN_AUXILLARIES_FULLSCREEN_LABEL}
-            </button>
-          </div>
         </div>
       )}
     </div>

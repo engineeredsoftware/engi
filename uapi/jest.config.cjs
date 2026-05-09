@@ -105,6 +105,7 @@ module.exports = {
     '<rootDir>/tests/featureFlagsMockMode.test.ts',
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
     '<rootDir>/tests/btdTrackerLoading.test.tsx',
+    '<rootDir>/tests/notificationsWidget.test.tsx',
     '<rootDir>/tests/orbitalsBTDPane.test.tsx',
     '<rootDir>/tests/orbitalsInterfacesPane.test.tsx',
     '<rootDir>/tests/marketingLandingPage.test.tsx',

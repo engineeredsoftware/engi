@@ -148,13 +148,14 @@ describe('NotificationsWidget', () => {
     });
   });
 
-  it('offers an explicit orbital follow-through action from the dropdown footer', async () => {
+  it('keeps the dropdown focused on notifications without a footer route action', async () => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => [] });
 
     render(<NotificationsWidget />);
     fireEvent.click(screen.getByRole('button', { name: 'Notifications' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'Open Auxillaries fullscreen' }));
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'profile');
+    await screen.findByText('All caught up! No notifications yet.');
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries fullscreen' })).not.toBeInTheDocument();
+    expect(mockOpenOrbital).not.toHaveBeenCalled();
   });
 });

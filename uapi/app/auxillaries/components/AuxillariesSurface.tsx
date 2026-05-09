@@ -106,6 +106,11 @@ export default function AuxillariesSurface({
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
   const isTerminalRoute = Boolean(pathname?.startsWith('/terminal'));
   const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
+  const usesTerminalOverlay = isTerminalRoute;
+  const usesPortalOverlay = Boolean(onClose);
+  const usesContainedAuxillariesSurface =
+    usesPortalOverlay || usesTerminalOverlay || isDedicatedAuxillariesRoute || Boolean(sessionUser);
+  const treatsContainedSurfaceAsAuxillaries = usesContainedAuxillariesSurface;
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteAuxillaryPane>(
@@ -122,8 +127,8 @@ export default function AuxillariesSurface({
 
   const canonicalOnboardingComplete = onboardingData?.isOnboardingComplete || false;
   const isAuxillariesSurface = Boolean(sessionUser);
-  const isUnlockedSurface = canonicalOnboardingComplete || isAuxillariesSurface;
-  const visibleSteps: ConcreteAuxillaryPane[] = isAuxillariesSurface
+  const isUnlockedSurface = canonicalOnboardingComplete || isAuxillariesSurface || treatsContainedSurfaceAsAuxillaries;
+  const visibleSteps: ConcreteAuxillaryPane[] = treatsContainedSurfaceAsAuxillaries
     ? [...AUXILLARY_RING_STEPS]
     : [...AUXILLARY_FLOW_STEPS];
 
@@ -191,7 +196,7 @@ export default function AuxillariesSurface({
   }, []);
 
   const availableSteps = useMemo(() => {
-    if (isAuxillariesSurface) {
+    if (treatsContainedSurfaceAsAuxillaries) {
       return visibleSteps;
     }
 
@@ -221,7 +226,7 @@ export default function AuxillariesSurface({
     }
 
     return available;
-  }, [completedSteps, currentStep, isAuxillariesSurface, visibleSteps]);
+  }, [completedSteps, currentStep, treatsContainedSurfaceAsAuxillaries, visibleSteps]);
 
   const updateOnboardingMutation = useMutation({
     mutationFn: async (step: ConcreteAuxillaryPane) => {
@@ -453,11 +458,7 @@ export default function AuxillariesSurface({
     updateProfileMutation,
   ]);
 
-  const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
-  const usesTerminalOverlay = isTerminalRoute;
-  const usesPortalOverlay = Boolean(onClose);
-  const usesContainedAuxillariesSurface =
-    usesPortalOverlay || usesTerminalOverlay || isDedicatedAuxillariesRoute || isAuxillariesSurface;
+  const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser && !usesContainedAuxillariesSurface;
   const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const auxillariesBackgroundClass = usesContainedAuxillariesSurface
@@ -543,7 +544,7 @@ export default function AuxillariesSurface({
           </motion.div>
         ) : (
           <AuxillariesContent
-            mode={isAuxillariesSurface ? 'auxillaries' : 'onboarding'}
+            mode={treatsContainedSurfaceAsAuxillaries ? 'auxillaries' : 'onboarding'}
             steps={visibleSteps}
             currentStep={currentStep}
             completedSteps={completedSteps}

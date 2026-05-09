@@ -51,11 +51,11 @@ export default function AuxillariesLoginPane({
 
             <div className="orbital-auth-support-card rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
-                Connected providers
+                Required providers
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
-                GitHub and Google stay available here. Wallet binding continues inside Profile and
-                $BTD after Auxillaries open.
+                MetaMask authenticates wallet identity. GitHub connects repository context through
+                Connects after access opens.
               </p>
             </div>
 

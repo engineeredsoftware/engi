@@ -48,6 +48,22 @@ type SupabaseAuthSession = {
   } | null;
 } | null;
 
+type EthereumProvider = {
+  request: (input: { method: string; params?: unknown[] }) => Promise<unknown>;
+};
+
+function readEthereumProvider(): EthereumProvider | null {
+  if (typeof window === 'undefined') return null;
+  const ethereum = (window as unknown as { ethereum?: EthereumProvider }).ethereum;
+  return ethereum && typeof ethereum.request === 'function' ? ethereum : null;
+}
+
+function readFirstWalletAddress(value: unknown): string | null {
+  if (!Array.isArray(value)) return null;
+  const first = value.find((entry) => typeof entry === 'string' && entry.trim());
+  return typeof first === 'string' ? first.trim() : null;
+}
+
 function buildAvatarDataUri(seed: string, background: string, accent: string) {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
@@ -292,6 +308,8 @@ export default function AuxillariesProfilePane({ onSave,
   );
   const [selectedAvatar, setSelectedAvatar] = useState(0);
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+  const [walletAuthError, setWalletAuthError] = useState<string | null>(null);
+  const [walletAuthStatus, setWalletAuthStatus] = useState<'idle' | 'requesting' | 'signed'>('idle');
 
   useEffect(() => {
     _setUsername(initialUsername);
@@ -397,6 +415,47 @@ export default function AuxillariesProfilePane({ onSave,
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     onSave(profileAutosavePayload);
+  };
+
+  const handleAuthenticateMetaMask = async () => {
+    setWalletAuthError(null);
+    const ethereum = readEthereumProvider();
+
+    if (!ethereum) {
+      setWalletAuthError('MetaMask is not available in this browser session.');
+      return;
+    }
+
+    setWalletAuthStatus('requesting');
+
+    try {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const address = readFirstWalletAddress(accounts);
+
+      if (!address) {
+        throw new Error('MetaMask did not return an account address.');
+      }
+
+      const message = [
+        'Authenticate Bitcode wallet identity',
+        `Address: ${address}`,
+        `Issued: ${new Date().toISOString()}`,
+        'Purpose: Bitcode commercial Auxillaries profile and BTD readiness.',
+      ].join('\n');
+
+      await ethereum.request({
+        method: 'personal_sign',
+        params: [message, address],
+      });
+
+      setWalletAddress(address);
+      setWalletProvider('metamask');
+      setWalletBindingStatus('verified');
+      setWalletAuthStatus('signed');
+    } catch (error) {
+      setWalletAuthStatus('idle');
+      setWalletAuthError(error instanceof Error ? error.message : 'MetaMask authentication was cancelled or failed.');
+    }
   };
 
   useEffect(() => {
@@ -683,17 +742,16 @@ export default function AuxillariesProfilePane({ onSave,
                   {/* Active provider buttons plus staged wallet carrier */}
                   <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(3, 1fr)', 
+                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
                     gap: '8px',
                     width: '100%' 
                   }}>
                     <SocialLoginButton provider="github" variant="icon-square" />
-                    <SocialLoginButton provider="google" variant="icon-square" />
                     <SocialLoginButton provider="metamask" variant="icon-square" />
                   </div>
                   <p className="mt-3 text-sm leading-7 text-white/66">
-                    GitHub and Google are the active Bitcode sign-in providers here today. Wallet
-                    binding opens after access is established inside Profile and $BTD.
+                    MetaMask wallet authentication and GitHub repository connection are the primary
+                    Bitcode prerequisites here today.
                   </p>
                   </>
                 )}
@@ -1022,11 +1080,27 @@ export default function AuxillariesProfilePane({ onSave,
             </div>
             <p style={{ margin: '0 0 14px 0', fontSize: '14px', lineHeight: '1.6', color: 'rgba(255, 255, 255, 0.72)' }}>
               Profile owns the wallet identity that transaction readiness, the Bitcode Terminal, and
-              <span style={{ color: 'rgba(103, 254, 183, 0.88)' }}> $BTD</span> reread. Manual
-              identity binding is active here now; verified wallet-provider signing remains staged
-              until the live signature primitive is admitted. Provider-managed pending or verified
-              signer posture can be reflected here, but this form does not assert it.
+              <span style={{ color: 'rgba(103, 254, 183, 0.88)' }}> $BTD</span> reread. MetaMask is
+              the primary wallet-authentication path; manual identity remains available for review
+              sessions that cannot open an extension.
             </p>
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={handleAuthenticateMetaMask}
+                disabled={walletAuthStatus === 'requesting'}
+                className="inline-flex items-center justify-center rounded-full border border-orange-300/28 bg-orange-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/44 hover:bg-orange-400/18 disabled:cursor-wait disabled:opacity-60"
+              >
+                {walletAuthStatus === 'requesting'
+                  ? 'Opening MetaMask'
+                  : walletAuthStatus === 'signed'
+                    ? 'MetaMask authenticated'
+                    : 'Authenticate with MetaMask'}
+              </button>
+              {walletAuthError ? (
+                <p className="text-xs leading-5 text-amber-200/78">{walletAuthError}</p>
+              ) : null}
+            </div>
             <div className="orbitals-users-input-container enterprise">
               <input
                 data-testid="profile-wallet-address-input"
@@ -1065,13 +1139,12 @@ export default function AuxillariesProfilePane({ onSave,
                     Access providers
                   </div>
                   <p className="mt-3 max-w-[44rem] text-sm leading-7 text-white/72">
-                    Manage sign-in methods linked to this Bitcode account. Repository and workflow
-                    integrations remain in the Connects auxillary.
+                    Connect GitHub as the required repository provider for Bitcode Need and Give
+                    activity. Other providers are not part of the V28 MVP prerequisite path.
                   </p>
                 </div>
-                <div className="grid gap-3 tablet:grid-cols-2">
+                <div className="grid gap-3">
                   <SocialAccountLinker provider="github" />
-                  <SocialAccountLinker provider="google" />
                 </div>
               </div>
             </div>

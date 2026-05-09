@@ -203,10 +203,10 @@ describe('AuxillariesBTDPane', () => {
     );
 
     expect(
-      screen.getByText(/saved verified wallet-provider signer posture exists, but the live signer session needs reconnect/i),
+      screen.getByLabelText(/saved verified wallet-provider signer posture exists, but the live signer session needs reconnect/i),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/wallet provider must reconnect before Bitcode can rely on live signing again/i),
+      screen.getByLabelText(/wallet provider must reconnect before Bitcode can rely on live signing again/i),
     ).toBeInTheDocument();
   });
 });
