@@ -11,7 +11,7 @@
 - Source parity state: first-gate draft parity opened in `BITCODE_SPEC_V28_PARITY_MATRIX.md`
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
-- Scope: commercial application MVP QA delta from V27 tokenomics and crypto-commercial rails to V28 operator-ready commercial surfaces
+- Scope: commercial Protocol implementation and Terminal MVP delta from V27 tokenomics and crypto-commercial rails, with MCP API and ChatGPT App MVP retained and Exchange plus website Conversations deferred beyond V35
 - Spec companion: `BITCODE_SPEC_V28.md`
 - Notes companion: `BITCODE_SPEC_V28_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V28_PARITY_MATRIX.md`
@@ -33,28 +33,32 @@ V27 closed the core `$BTD` law and minimum practical crypto rails:
 - wallet signer-session and BTC fee receipt primitives;
 - ledger anchor, minimal Exchange, Terminal journal, reconciliation, telemetry, and upgrade primitives.
 
-Those primitives are technically coherent but not yet commercial-application coherent.
-V28 exists to make the active application surfaces commercially MVP-readable, with Exchange MVP and Auxillaries shell cleanup treated as first-class QA work before deeper Terminal expansion.
+Those primitives are technically coherent but not yet commercially Protocol-operable through Terminal and the first interface surfaces.
+V28 exists to make the active Protocol/Terminal surfaces commercially MVP-readable, with Auxillaries readiness cleanup, MCP API, ChatGPT App, BTD-AssetPack minting, realistic testnetting, wallet/BTC flow, and demonstration-to-commercial package separation treated as first-class QA work before deeper Terminal expansion.
+Exchange and website Conversations are no longer V28 closure work.
 
 ## Delta Contract
 
-V28 changes Bitcode by turning V27's package/API/receipt primitives into commercial application MVP workflows.
+V28 changes Bitcode by turning V27's package/API/receipt primitives into commercial Protocol/Terminal MVP workflows.
 
 V28 must make all of these implementation-derivable:
 
-- commercial application route QA across Terminal, Exchange, Auxillaries, BTD range disclosure, conversations, auth, and navigation;
+- commercial route QA across Terminal, Auxillaries, BTD range disclosure, MCP API, ChatGPT App, auth/readiness, wallet/BTC/testnet paths, and navigation;
 - Auxillaries contained tabs-left experience with old orbital style conflicts removed from active paths;
-- Exchange MVP activity/search/detail/range-acquisition readiness;
+- Exchange and website Conversations disabled or hidden for V28 QA and deferred beyond V35;
+- route-level flags disable direct Exchange and website Conversations entry during V28 QA;
 - Terminal wallet readiness and signer-session review;
 - BTC fee transaction preparation, signing, broadcast, finality, and failure display;
 - Need review and Fit review as explicit pre-settlement boundaries;
+- realistic synthetic measurement receipts, BTD-AssetPack minting, ledgerized journal rows, and projection/reconciliation readback in testnet-ready lanes;
 - measureminting entitlement and zero-cell/refit posture in the operator flow;
 - AssetPack range details from registry state;
 - owner-read/licensed-read/denied access decision surfaces;
 - Terminal journal diff and ledger/database reconciliation detail;
 - organization/team/read-license readiness from registry-derived facts;
-- MCP action gates based on range/read-license/policy truth;
+- MCP API and ChatGPT App action gates based on range/read-license/policy truth;
 - operational health over deployment lanes, telemetry, upgrades, migrations, and rollback state;
+- commercial package/UAPI implementations that no longer depend on runtime imports from `protocol-demonstration/`;
 - honest connected-provider readiness while broader provider/interface work remains staged beyond V28.
 
 V28 must not:
@@ -64,14 +68,24 @@ V28 must not:
 - make `$BTD` a fee or spend token;
 - rely on compatibility aggregate balances as canonical range ownership;
 - approve value-bearing mainnet launch without operational approval;
-- pull broad Exchange depth beyond V28 Exchange MVP QA.
+- include Exchange or website Conversations in V28 closure.
+
+## Research-Informed Chain Boundary
+
+The BitVM/Taproot/BNB/Binance research is incorporated as V28 planning guidance:
+
+- Bitcoin Taproot, PSBT, BIP340/BIP341/BIP342, and wallet-controlled signing remain V28's practical cryptographic center.
+- BitVM is compatible with Taproot and useful for future Bitcoin-side bridge research, but it is not a V28 production dependency.
+- BSC/opBNB/BEP-20/Binance Web3 Wallet pilots are future bridge/distribution work; they do not define the V28 `$BTD` chain of record.
+- BNB Chain is EVM-compatible and therefore bridge-mediated for Taproot/BitVM truth rather than a native Taproot execution lane.
+- V28 may expose disabled or documentation-only readiness for BSC/opBNB/Binance pilots, but must not imply live public BTD deployment on those chains unless a proof-bound testnet artifact exists.
 
 ## Accepted V28 decisions
 
-- V28 is commercial-application-MVP-first.
+- V28 is commercial Protocol/Terminal MVP first.
 - V27 remains active canon during V28 drafting.
 - V28 productizes V27 primitives rather than redefining tokenomics.
-- Terminal, Exchange, Auxillaries, and BTD disclosure read models must be registry-derived where they speak about `$BTD`, fees, rights, or readiness.
+- Terminal, Auxillaries, BTD disclosure, MCP API, and ChatGPT App read models must be registry-derived where they speak about `$BTD`, fees, rights, or readiness.
 - UAPI route implementations remain unversioned.
 - Source implementation names remain unversioned and ungated unless explicitly required for a bounded compatibility artifact; V28 must not introduce route, file, stylesheet, constant, class, or test names such as `api/v1`, `v27-*`, `first-gate-*`, or `wip-*`.
 - value-bearing mainnet remains separately approval-gated.
@@ -79,29 +93,31 @@ V28 must not:
 ## Explicitly deferred
 
 - V29 owns deeper Terminal workflows beyond MVP QA.
-- V30 owns deeper Exchange beyond V28 Exchange MVP QA.
+- V30 is reserved for post-V29 Protocol/BTD hardening discovered during V28/V29; Exchange moves beyond V35.
 - V31 owns deeper Auxillaries beyond V28 active-shell cleanup.
 - V32 owns deeper provation and testing.
-- V33 owns deeper Interfaces, including the MCP API, ChatGPT App, and non-Auxillaries non-website application interfaces.
+- V33 owns deeper Interfaces beyond the V28 MCP API and ChatGPT App MVP.
 - V34 owns deeper Deployment, including host capabilities, real executions, distributed compute, runtime/storage expectations, and canonical-promotion CI/CD.
 - V35 owns deeper telemetry and documenting across internal codebase docs plus public `/docs` usage material.
-- broad Exchange market depth, wrappers, liquidity, and advanced market flows remain V30 unless an MVP Exchange QA issue requires a narrow V28 hook.
+- V36+ owns deeper Exchange and website Conversations work after V35 telemetry/documenting.
+- broad Exchange market depth, wrappers, liquidity, advanced market flows, and website Conversations remain out of V28.
 - final legal templates may be drafted in V28 but broader legal-product expansion is not a promotion blocker unless Terminal copy claims rights that are not policy-bound.
 
 ## Pre-Implementation Sequence
 
 1. Confirm V27 active pointer and V28 draft target.
 2. Close V28 Gate 1 by synchronizing SPEC, DELTA, NOTES, PARITY, posture carriers, and route scans.
-3. Close commercial application MVP QA baseline across primary routes.
+3. Close commercial Protocol/Terminal MVP QA baseline across primary routes.
 4. Clean Auxillaries active shell to the contained tabs-left model.
-5. Harden Exchange MVP activity/search/detail/range-acquisition readiness.
-6. Build Terminal wallet, BTC fee, Need/Fit, measuremint, range, read-right, journal, and reconciliation surfaces to MVP.
+5. Build Terminal wallet, BTC fee, Need/Fit, synthetic measurement, BTD-AssetPack minting, range, read-right, journal, ledgerization, and reconciliation surfaces to MVP.
+6. Build MCP API and ChatGPT App MVP gates over registry-derived read/write authority.
 7. Build organization/access-policy and operational-health surfaces at MVP depth.
-8. Generate proof artifacts and promote only after tests/builds/QA pass.
+8. Commercialize remaining demonstration-derived runtime dependencies into packages/UAPI and prove commercial code does not import `protocol-demonstration/`.
+9. Generate proof artifacts and promote only after tests/builds/QA pass.
 
 ## Commit-Body Direction
 
-The eventual V28 promotion commit body must describe commercial application MVP QA over V27 tokenomics, list gate closures, name tests/builds/proofs/visual QA, state route-versioning discipline, and explicitly defer deeper Terminal work to V29, deeper Exchange to V30, deeper Auxillaries to V31, deeper provation/testing to V32, deeper Interfaces to V33, deeper Deployment to V34, and deeper telemetry/documenting to V35.
+The eventual V28 promotion commit body must describe commercial Protocol/Terminal MVP QA over V27 tokenomics, list gate closures, name tests/builds/proofs/visual QA, state route-versioning discipline, name MCP API and ChatGPT App MVP closure, and explicitly defer deeper Terminal work to V29, Protocol/BTD hardening to V30, deeper Auxillaries to V31, deeper provation/testing to V32, deeper Interfaces beyond the V28 MVP to V33, deeper Deployment to V34, deeper telemetry/documenting to V35, and Exchange/website Conversations to V36+.
 
 ## From V27 To V28
 
@@ -110,12 +126,12 @@ The eventual V28 promotion commit body must describe commercial application MVP 
 | commercial application routes render but still contain mixed visual generations | V28 makes active routes MVP-coherent through QA, visual cleanup, route checks, and browser proof |
 | Auxillaries retained orbital-era shell styles while adopting contained tabs-left panes | V28 removes conflicting orbital layout from active Auxillaries auth/profile/readiness experience |
 | signed-in balance widget used currency-like `$BTD`, a raw pipe separator, explanatory hover title, and acquisition wording | V28 renders BTC and BTD as peer wallet balances, uses a styled separator, shows recent BTD AssetPacks in hover context, shows connected wallet identity in the action posture, and opens the `$BTD` wallet auxillary pane |
-| Exchange route exists as minimum commercial surface | V28 hardens Exchange MVP activity/search/detail/range-acquisition readiness without broad order-book depth |
+| Exchange route exists as a prior minimum commercial surface | V28 disables or hides Exchange from closure and defers Exchange product work beyond V35 |
 | `$BTD` supply and measureminting law are implemented in `packages/btd` | Terminal reads measuremint entitlement and zero-cell/refit posture as operator state |
 | wallet and BTC fee primitives exist | Terminal exposes wallet connection, signer-session state, PSBT handoff, txid, confirmation, replacement, reorg, and failure state |
 | AssetPack ranges exist as package/API/database primitives | Terminal makes range, cells, owner, policy hash, source root, proof root, and ledger anchor state readable |
 | access evaluation exists | Terminal separates owner-read, licensed-read, and denied branches with policy context |
-| minimal Exchange transfer exists | Terminal rereads Exchange state for transaction detail but does not widen market depth |
+| minimal Exchange transfer exists | Terminal uses protocol/settlement readback for V28 and does not depend on Exchange product surfaces |
 | Terminal journal primitive exists | Terminal turns journal rows and diffs into ordinary transaction detail |
 | reconciliation primitive exists | Terminal displays ledger facts, database projections, metaphysical facts, blocking drift, and repair receipts |
 | telemetry and deployment lanes exist | Terminal exposes crypto health, approval roots, upgrade posture, and rollback readiness |
@@ -134,9 +150,9 @@ Opened by:
 
 ### Gate 2: Commercial Application MVP QA Baseline
 
-Adds primary-route QA, Auxillaries shell cleanup, Exchange MVP hardening, and browser/visual proof requirements.
+Adds primary-route QA, Auxillaries shell cleanup, Protocol/Terminal MVP hardening, MCP/ChatGPT App readiness, and browser/visual proof requirements.
 The automated browser layer is the commercial-MVP Playwright suite: product-route readability, micro-interface assertions, stitched user flows, URL-addressable filter state, data-share consent persistence, public docs article coverage, responsive route health, and browser-error cleanliness are required before Gate 2 can close.
-The package runner is intentionally serial against one deterministic mock-mode dev server. Its mock harness must own Auxillaries data, model-preferences, data-share, notifications, and conversation-stream calls so V28 QA validates commercial UI behavior rather than external account/session availability.
+The package runner is intentionally serial against one deterministic mock-mode dev server. Its mock harness must own Auxillaries data, model-preferences, data-share, notifications, Terminal activity, BTD mint/read state, and MCP/ChatGPT App readiness so V28 QA validates commercial Protocol/Terminal behavior rather than external account/session availability.
 
 ### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
 
@@ -152,7 +168,7 @@ Adds transaction detail for journal/database/ledger agreement and repair.
 
 ### Gate 6: Terminal Organization And Access Policy
 
-Adds registry-derived organization and MCP access decisions plus policy templates.
+Adds registry-derived organization, MCP API, ChatGPT App access decisions, and policy templates.
 
 ### Gate 7: Terminal Operations And Testnet Readiness
 
@@ -165,9 +181,10 @@ Adds final proof, build/test, unversioned route, and scope-staging closure.
 ## Later Version Handoff
 
 - V29: deeper Terminal workflows and transaction operation beyond V28 MVP QA.
-- V30: deeper Exchange, including market depth, order books, range trading depth, wrappers, liquidity, and advanced settlement flows beyond MVP.
+- V30: Protocol/BTD hardening discovered during V28/V29, explicitly not Exchange unless a future spec reopens that scope.
 - V31: deeper Auxillaries, including expanded profile/connects/interfaces/BTD readiness, provider readiness, and commercial operator settings.
 - V32: deeper provation and testing, including stronger proof-family closure, E2E breadth, promotion proofs, and regression matrices.
-- V33: deeper Interfaces, including the MCP API, ChatGPT App, integratable chatbot app surfaces, API packaging, interface auth, and non-Auxillaries non-website application interfaces.
+- V33: deeper Interfaces beyond the V28 MCP API and ChatGPT App MVP, including broader API packaging, interface auth, non-Auxillaries non-website application interfaces, and integratable chatbot surfaces.
 - V34: deeper Deployment, including host capabilities, real executions, distributed compute aligned with provations, runtime expectations, storage expectations, and CI/CD for canonical promotions.
 - V35: deeper telemetry and documenting, including internal codebase documentation and public `/docs` usage material as the prelude to full commercial application testnet rollout.
+- V36+: deeper Exchange and website Conversations, including market depth, order books, range trading depth, wrappers, liquidity, buy/sell/bid/ask flows, and website conversational interface work.

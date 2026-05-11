@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
+import { FEATURE_FLAGS } from '@/config/features';
 import ConversationsRouteClient from './ConversationsRouteClient';
 
 export const metadata: Metadata = {
@@ -10,5 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function ConversationsPage() {
+  if (FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE) {
+    redirect('/terminal');
+  }
+
   return <ConversationsRouteClient />;
 }

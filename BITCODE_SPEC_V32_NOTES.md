@@ -10,7 +10,7 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
 - Generated structured artifact inventory: none for V32 yet
 - Source parity state: not opened; V32 source parity begins only after V32 draft opening
-- Scope: future notes for deeper provation and testing after V28 MVP QA, V29 Terminal depth, V30 Exchange depth, and V31 Auxillaries depth.
+- Scope: future notes for deeper provation and testing after V28 Protocol/Terminal/MCP/ChatGPT MVP QA, V29 Terminal depth, V30 Protocol/BTD hardening, and V31 Auxillaries depth.
 
 This NOTES file does not promote V32 and does not open V32 implementation.
 
@@ -21,14 +21,14 @@ Requirements become binding only when V32 is explicitly opened as the draft-targ
 
 ## Concise current-system reading
 
-V28 still must close commercial MVP QA first.
+V28 still must close commercial Protocol/Terminal MVP QA first.
 V32 is where proof depth and test breadth become their own version focus after the main commercial product surfaces have been deepened.
 
 ## Intended V32 focus
 
 V32 owns deeper provation and testing:
 
-- broader proof-family replay across Terminal, Exchange, Auxillaries, BTD registry, and protocol-demonstration;
+- broader proof-family replay across Terminal, Protocol/BTD registry, Auxillaries, MCP API, ChatGPT App, and protocol-demonstration;
 - stronger end-to-end test matrices and failure-state coverage;
 - cross-surface regression suites for route, UI, API, ORM, ledger, and receipt drift;
 - promotion-proof generation hardening;

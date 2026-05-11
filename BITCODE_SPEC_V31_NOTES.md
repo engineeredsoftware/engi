@@ -10,7 +10,7 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
 - Generated structured artifact inventory: none for V31 yet
 - Source parity state: not opened; V31 source parity begins only after V31 draft opening
-- Scope: future notes for deeper Auxillaries work after V28 commercial MVP QA, V29 Terminal depth, and V30 Exchange depth.
+- Scope: future notes for deeper Auxillaries work after V28 commercial Protocol/Terminal MVP QA, V29 Terminal depth, and V30 Protocol/BTD hardening.
 
 This NOTES file does not promote V31 and does not open V31 implementation.
 It preserves roadmap intent so V28 only fixes and hardens the current active Auxillaries MVP shell.
@@ -40,7 +40,7 @@ V31 owns deeper Auxillaries:
 ## Boundaries
 
 V31 must not reintroduce old orbital layout conflicts into active commercial paths.
-V31 must not redefine Terminal transaction law, Exchange market law, or `$BTD` tokenomics.
+V31 must not redefine Terminal transaction law, future Exchange market law, or `$BTD` tokenomics.
 
 ## Return To V28
 

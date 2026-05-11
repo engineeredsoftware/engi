@@ -12,7 +12,7 @@
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V28'`
-- Primary scope: commercial application MVP QA and product-experience consolidation over V27 `$BTD` tokenomics and cryptographic-commercial rails
+- Primary scope: commercial Protocol implementation and Terminal MVP QA over V27 `$BTD` tokenomics and cryptographic-commercial rails, with MCP API and ChatGPT App MVP retained and Exchange plus website Conversations deferred beyond V35
 - Prior active canon: `BITCODE_SPEC_V27.md`
 - Notes companion: `BITCODE_SPEC_V28_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V28_DELTA.md`
@@ -22,22 +22,23 @@
 V28 begins from the promoted V27 tokenomics and cryptographic-commercial implementation.
 V28 does not reopen `$BTD` supply law, measureminting law, BTC fee separation, AssetPack range identity, access-right separation, or V27 crypto receipt invariants.
 
-V28 exists to make those laws usable through the commercial application.
-The Terminal remains the primary operator chain, but V28 must also harden Exchange, Auxillaries, BTD range disclosure, auth/readiness, and navigation into a coherent MVP experience.
+V28 exists to make those laws usable through the commercial Protocol implementation and Terminal.
+The Terminal remains the primary operator chain, and V28 hardens Protocol packages, UAPI protocol routes, Auxillaries readiness, BTD range disclosure, wallet/BTC/testnet posture, MCP API, and ChatGPT App into a coherent MVP experience.
+Exchange and the website Conversations interface are intentionally outside V28 closure.
 
 ## V28 Purpose
 
 V27 made `$BTD` exact.
-V28 makes the commercial application experience exact enough for MVP QA.
+V28 makes the commercial Protocol implementation and Terminal experience exact enough for MVP QA.
 
 The central V28 product and protocol question is:
 
-> Can an operator use the Bitcode commercial application to move through readiness, Exchange reread, Auxillaries setup, Terminal Need/Fit work, `$BTD` range disclosure, licensed-read state, journal diffing, and reconciliation without fighting legacy visual shells or reading package internals?
+> Can an operator use Bitcode's commercial Protocol implementation and Terminal to move through readiness, Auxillaries setup, Need/Fit work, synthetic measurement, BTD-AssetPack minting, BTC fee/testnet authorization, ledgerized journaling, `$BTD` range disclosure, licensed-read state, journal diffing, and reconciliation without relying on demonstration code or reading package internals?
 
 V28 answers that by specifying:
 
-- commercial application QA across Terminal, Exchange, Auxillaries, BTD range disclosure, conversations, auth, and route navigation;
-- Exchange MVP hardening for activity/search/detail/range-acquisition readiness without broad order-book depth;
+- commercial Protocol and Terminal QA across Terminal, Auxillaries, BTD range disclosure, MCP API, ChatGPT App, auth/readiness, wallet/BTC/testnet flows, and route navigation;
+- removal of Exchange and website Conversations from V28 acceptance criteria, navigation expectations, and QA closure;
 - Auxillaries contained tabs-left cleanup, removing old orbital layout conflicts from the active auth/profile/readiness experience;
 - Terminal wallet connection and signer-session review over V27 wallet primitives;
 - BTC fee preparation, PSBT handoff, signature status, broadcast status, confirmation/replacement/reorg readout, and failure recovery;
@@ -45,8 +46,10 @@ V28 answers that by specifying:
 - Terminal AssetPack range details derived from the registry, not aggregate compatibility balances;
 - owner-read and licensed-read state visible from policy and registry evidence;
 - Terminal journal rows and ledger/database reconciliation repairs as ordinary operator-readable transaction details;
-- organization holdings, read-license usage, role posture, and MCP authorization as registry-derived facts;
+- organization holdings, read-license usage, role posture, MCP authorization, and ChatGPT App action authorization as registry-derived facts;
 - testnet and signet operational readiness surfaces that expose V27 telemetry and deployment-lane receipts;
+- realistic testnet BTD-AssetPack minting, synthetic measurement journaling, ledger anchors, and wallet/BTC receipt paths before any value-bearing mainnet posture;
+- Taproot-first Bitcoin anchoring posture, with BSC/opBNB/Binance Web3 Wallet work recorded as research-informed future bridge/distribution planning rather than V28 issuance law;
 - honest provider readiness where GitHub is the implemented VCS provider and broader provider rollout is later external-connection work;
 - V28 promotion proof after implementation, tests, builds, and route scans close.
 
@@ -60,30 +63,31 @@ V28 therefore owns:
 
 - removal or containment of old orbital background/layout styles where they conflict with the active Auxillaries tabs-left experience;
 - auth modal sizing, empty-state, and content-position QA;
-- route-level QA for `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations, with the prior generic workspace route absent from active source;
+- route-level QA for `/`, `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, MCP API routes, ChatGPT App entrypoints, and current protocol routes, with Exchange and website Conversations hidden or disabled for V28 QA and the prior generic workspace route absent from active source;
 - visual, responsive, and interaction QA for commercially active surfaces;
-- Exchange MVP readiness and minimum detail/search/table behavior;
-- Terminal operator-readiness preparation on top of V27 primitives.
+- Terminal operator-readiness preparation on top of V27 primitives;
+- package/UAPI commercialization of protocol and demonstration-derived primitives so commercial code does not import runtime implementation from `protocol-demonstration/`.
 
 Later versions may deepen individual products:
 
 - V29: deeper Terminal workflows and transaction operation.
-- V30: deeper Exchange.
+- V30: reserved for post-V29 Protocol/BTD hardening discovered during V28/V29, not Exchange.
 - V31: deeper Auxillaries.
 - V32: deeper provation and testing.
-- V33: deeper Interfaces, including the MCP API, ChatGPT App, and non-Auxillaries non-website application interfaces.
+- V33: deeper Interfaces beyond the V28 MVP, while V28 retains MCP API and ChatGPT App MVP acceptance.
 - V34: deeper Deployment, including host capabilities, real executions, distributed compute, runtime/storage expectations, and canonical-promotion CI/CD.
 - V35: deeper telemetry and documenting across internal codebase docs plus public `/docs` usage material.
+- V36+: deeper Exchange and website Conversations work after V35.
 
 ## Version Boundaries
 
-V28 owns commercial application MVP QA, Exchange MVP hardening, Auxillaries shell cleanup, and Terminal-operated crypto-readiness preparation.
+V28 owns commercial Protocol implementation MVP QA, Terminal MVP hardening, Auxillaries readiness cleanup, MCP API/ChatGPT App MVP, and Terminal-operated crypto-readiness preparation.
 
 V28 requires:
 
 - active canon remains V27 until V28 promotion;
 - V28 SPEC, DELTA, NOTES, and PARITY exist before implementation gates close;
-- Terminal, Exchange, Auxillaries, and BTD disclosure surfaces read from V27 package/API/database primitives rather than redefining tokenomics;
+- Terminal, Auxillaries, BTD disclosure, MCP API, and ChatGPT App surfaces read from V27 package/API/database primitives rather than redefining tokenomics;
 - active commercial surfaces meet MVP layout, copy, responsiveness, auth, and navigation QA;
 - Auxillaries uses the contained tabs-left approach without old orbital shell collision in the active experience;
 - wallet, BTC fee, AssetPack range, read-license, journal, reconciliation, telemetry, and upgrade state are surfaced in Terminal product language;
@@ -91,11 +95,11 @@ V28 requires:
 - no new versioned UAPI route family is introduced;
 - implementation source remains implicitly versioned to the active canon and current gate: routes, file names, CSS, constants, tests, and identifiers must not introduce explicit version/gate/work-in-progress names without a bounded compatibility instruction;
 - value-bearing mainnet remains gated by explicit operational approval;
-- V29 Terminal depth, V30 Exchange depth, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth, V34 deployment depth, and V35 telemetry/documenting depth remain staged unless V28 requires a narrow MVP hook.
+- V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth remain staged unless V28 requires a narrow Protocol/Terminal/MCP/ChatGPT hook.
 
 V28 does not require:
 
-- broad order-book depth or wrapper liquidity beyond Exchange MVP QA;
+- Exchange route, Exchange master-detail, order-book, buy/sell/bid/ask, wrapper liquidity, or website Conversations MVP closure;
 - third-party market routing;
 - completion of Bitbucket, GitLab, Azure DevOps, generic Git, or webhook provider families;
 - final legal review for every future license template;
@@ -124,6 +128,20 @@ Database projections must not contradict ledger and journal truth.
 V28 may improve how these laws are read and operated.
 V28 may not quietly redefine them.
 
+## External Chain Research Interpretation
+
+V28 incorporates the BitVM, Taproot, BNB Chain, Binance, and BTD compatibility research as planning guidance, not as a new issuance law.
+
+V28 therefore treats:
+
+- Bitcoin Taproot, BIP340 Schnorr signatures, BIP341 Taproot outputs, BIP342 tapscript, PSBT, and wallet-controlled signing as the primary Bitcoin-side primitives to test and expose.
+- BitVM and BitVM2/BitVM3 as Bitcoin/Taproot-compatible bridge research, not production dependencies for V28.
+- BSC, opBNB, BEP-20, Binance Web3 Wallet, Binance dApp self-listing, and Binance listing paths as future bridge/distribution pilots, not current `$BTD` chain-of-record truth.
+- BNB-side compatibility as bridge-mediated because BNB Chain is EVM-compatible rather than a native Taproot or BitVM execution environment.
+- native BSC/opBNB BTD testnet pilots as possible V30+ or V36+ research outputs only after V28 proves Bitcoin-side wallet, BTC fee, synthetic measurement, BTD-AssetPack minting, ledgerized journal, and database projection behavior.
+
+Any V28 UI or document that mentions BNB Chain, Binance, BSC, opBNB, BitVM, or BEP-20 must label that posture as future bridge/distribution research unless an explicit testnet artifact exists and is bound to the V28 proof record.
+
 ## Terminal Transaction Path
 
 The V28 Terminal must present the Bitcode transaction path as a single operator flow:
@@ -142,7 +160,7 @@ Readiness
   -> ledger anchor or ledger observation
   -> journal entry
   -> reconciliation read
-  -> Exchange reread
+  -> protocol readback
 ```
 
 Each step must expose enough state for a competent operator to know:
@@ -169,7 +187,7 @@ Required read models:
 - `TerminalMeasuremintRead`: cumulative measurement before/after, target minted before/after, residual credit, token count, zero-cell reason, range projection if minted.
 - `TerminalAssetPackRangeRead`: AssetPack id, range start/end, cells summary, owner, policy id/hash, source manifest root, proof root, ledger anchor state.
 - `TerminalReadRightRead`: owner-read, licensed-read, denied reason, license scope, expiry, policy hash, derivative and redistribution flags when policy-bound.
-- `TerminalJournalDiffRead`: local intent, Exchange sequence, ledger observation, database projection, drift kind, blocking status, and repair receipt root.
+- `TerminalJournalDiffRead`: local intent, settlement sequence, ledger observation, database projection, drift kind, blocking status, and repair receipt root.
 - `TerminalOrganizationBtdRead`: organization holdings, team role, licensed-read usage, treasury route state, and registry-derived permission result.
 - `TerminalOperationalHealthRead`: lane, network, broadcaster/observer state, telemetry severity, approval root, rollback root, and upgrade posture.
 
@@ -195,7 +213,7 @@ Acceptance criteria:
 ### Gate 2: Commercial Application MVP QA Baseline
 
 Purpose:
-Make active commercial application surfaces visually coherent, navigable, and MVP-readable before deeper Terminal work.
+Make active Protocol/Terminal surfaces visually coherent, navigable, and MVP-readable before deeper Terminal work.
 
 Acceptance criteria:
 
@@ -208,19 +226,20 @@ Acceptance criteria:
 - Auxillaries selector cards use centered pane names plus visual state indicators, not duplicate lane-title prose, and hover movement must not clip the first selector card.
 - Auxillaries profile panes must be scrollable on first render, including unauthenticated and non-mock contained portal entry.
 - Auxillaries settings panes auto-save edits; visible pane-level Save buttons are not part of the commercial MVP shell.
-- the `$BTD` auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes the shared Exchange activity table grammar for BTD-relevant owned packs, Exchange trades, Gives, Needs, proof closures, and range-bearing activity.
+- the `$BTD` auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes a Protocol/Terminal activity table for BTD-relevant owned packs, Gives, Needs, proof closures, ledger anchors, synthetic measurements, and range-bearing activity.
 - notification dropdowns remain legible and do not include redundant Auxillaries footer launchers when top chrome and profile menu already provide that entry.
-- route QA covers `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations; the prior generic workspace route is verified absent from active source.
-- Exchange MVP activity/search/detail route renders without homepage redirects or disabled navigation.
+- route QA covers `/`, `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, MCP API routes, ChatGPT App entrypoints, and protocol routes; Exchange and website Conversations are disabled or hidden for V28 QA, and the prior generic workspace route is verified absent from active source.
+- Exchange navigation is disabled for V28 and must not be required by any V28 acceptance criterion; any retained Exchange route/API behavior is treated as deferred compatibility or future work.
+- V28 QA lanes set `NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=true`, `NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE=true`, `NEXT_PUBLIC_CONVERSATIONS_WIDGET=false`, and `NEXT_PUBLIC_DISABLE_CONVERSATIONS_ROUTE=true`.
 - signed-in navigation shows BTC and BTD balances as peer wallet facts, without `$BTD` currency-token styling, with a distinct visual separator, and with hover context reserved for recent BTD AssetPacks rather than explanatory product copy.
 - connected-wallet navigation is driven by wallet identity, not only by email/Supabase user state; a locally staged Bitcoin provider connection must replace anonymous `Connect Wallet` chrome with BTC/BTD posture while backend persistence is still pending.
 - Connects visibility is driven by wallet identity or an existing user session; once Profile has staged a Bitcoin wallet, Connects must render GitHub connection controls even when optional email/Supabase session persistence is still pending.
 - top-right BTD hover action shows the connected wallet nickname when available and otherwise shows the middle-truncated Bitcoin address; clicking it opens the `$BTD` wallet auxillary pane rather than treating the balance widget as an Exchange shortcut.
 - Profile owns Bitcoin wallet identity, robust wallet-provider readout, and optional email notification posture; Connects owns GitHub connection and future VCS/provider attachments.
 - V28 verbose QA telemetry may log wallet detection, wallet signing, local/server persistence, user-data merge, nav identity state, and BTD wallet pane entry behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
-- automated Playwright E2E coverage exists at commercial-product granularity for public home, Terminal, Exchange, Auxillaries, BTD range disclosure, conversations, docs, route navigation, responsive route health, and key micro-interactions including URL-addressable activity filters, filter reset behavior, BTD data-share consent, Exchange-intent preservation, and public docs article readability.
+- automated Playwright E2E coverage exists at commercial-product granularity for public home, Terminal, Auxillaries, BTD range disclosure, MCP API/ChatGPT App readiness, docs, route navigation, responsive route health, and key micro-interactions including URL-addressable Terminal activity filters, filter reset behavior, BTD data-share consent, and public docs article readability.
 - Playwright tests must check browser console/page-error cleanliness, framework-overlay absence, route readability, micro-interface interaction, and stitched user flows rather than only screenshot snapshots.
-- the commercial-MVP Playwright runner executes serially against one deterministic mock-mode dev server, including mocked Auxillaries profile, model-preferences, data-share, notifications, and conversation-stream API paths, so failures represent product regressions rather than local wallet/session availability.
+- the commercial-MVP Playwright runner executes serially against one deterministic mock-mode dev server, including mocked Auxillaries profile, model-preferences, data-share, notifications, Terminal activity, BTD mint/read state, and MCP/ChatGPT App readiness paths, so failures represent product regressions rather than local wallet/session availability.
 - visual QA proves no framework overlay, blank page, major content overlap, or unreadable primary controls.
 
 ### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
@@ -269,12 +288,12 @@ Acceptance criteria:
 ### Gate 6: Terminal Organization And Access Policy
 
 Purpose:
-Make team, organization, MCP, and read-license decisions registry-derived.
+Make team, organization, MCP, ChatGPT App, and read-license decisions registry-derived.
 
 Acceptance criteria:
 
 - organization holdings and read-license usage read from registry/range/license state.
-- MCP-triggered actions use owner-read or licensed-read checks rather than aggregate holding gates.
+- MCP-triggered and ChatGPT App-triggered actions use owner-read or licensed-read checks rather than aggregate holding gates.
 - policy templates cover owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture.
 - Terminal copy avoids price-appreciation, dividend, copyright-transfer, or marketplace-royalty promises.
 
@@ -290,18 +309,20 @@ Acceptance criteria:
 - broadcaster/observer health and telemetry severity are visible.
 - upgrade, rollback, migration, and generated-type refresh state is visible where applicable.
 - GitHub-only VCS readiness is honest; broader provider work remains outside V28 MVP QA unless required by the active surface.
+- realistic testnet BTD-AssetPack minting uses synthetic measurement receipts, Terminal journal rows, ledger anchors or ledger-observed placeholders, and database projections that can be diffed and repaired.
+- Bitcoin Taproot/PSBT posture is first-class; BSC/opBNB/Binance Web3 Wallet pilots remain future bridge/distribution work unless they are represented as disabled readiness or documentation notes.
 
 ### Gate 8: V28 Promotion Proof
 
 Purpose:
-Promote V28 only after commercial application MVP QA, Terminal readiness productization, tests, proof, and documentation are closed.
+Promote V28 only after commercial Protocol/Terminal MVP QA, Terminal readiness productization, MCP/ChatGPT App MVP readiness, tests, proof, and documentation are closed.
 
 Acceptance criteria:
 
 - V28 SPEC, DELTA, NOTES, PARITY, and PROVEN are synchronized.
 - package/API, ORM, protocol-demonstration, UAPI route, Terminal UI, and build checks pass.
 - unversioned-route scan passes.
-- V29 Terminal depth, V30 Exchange depth, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth, V34 deployment depth, and V35 telemetry/documenting depth are explicitly staged.
+- V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth are explicitly staged.
 - `BITCODE_SPEC.txt` remains V27 until the final promotion step.
 
 ## Draft Boundary
@@ -311,13 +332,14 @@ It is not promoted canon until V28 gates close and `BITCODE_SPEC.txt` is explici
 
 ## Version executive summary
 
-V28 is the commercial application MVP QA and hardening version for the promoted V27 `$BTD` and crypto rails.
-The version makes Terminal, Exchange, Auxillaries, BTD disclosure, auth/readiness, and route navigation commercially coherent while turning registry, wallet, BTC fee, AssetPack range, access, journal, reconciliation, telemetry, and upgrade primitives into operator-readable workflows.
+V28 is the commercial Protocol implementation and Terminal MVP QA/hardening version for the promoted V27 `$BTD` and crypto rails.
+The version makes Terminal, Auxillaries, BTD disclosure, MCP API, ChatGPT App, auth/readiness, wallet/BTC/testnet flows, and route navigation commercially coherent while turning registry, wallet, BTC fee, AssetPack range, access, journal, reconciliation, telemetry, and upgrade primitives into operator-readable workflows.
+Exchange and website Conversations are not part of V28 closure.
 
 ## Canonical Bitcode executive summary
 
 Bitcode remains a proof-bearing technical knowledge exchange.
-V28 keeps V27 tokenomics canon intact while making the commercial application coherent enough for source-to-shares work, with Terminal as the primary operator surface.
+V28 keeps V27 tokenomics canon intact while making the commercial Protocol implementation coherent enough for source-to-shares work, with Terminal as the primary operator surface.
 
 ## source-of-truth hierarchy
 
@@ -351,7 +373,8 @@ Goals:
 
 Non-goals:
 
-- no broad Exchange market depth;
+- no Exchange route/product closure;
+- no website Conversations interface closure;
 - no external-provider completion beyond honest readiness disclosure;
 - no value-bearing mainnet launch;
 - no new `$BTD` supply law.
@@ -373,8 +396,8 @@ V28 keeps these layer boundaries:
 - `uapi/app/api`: unversioned Next route wrappers.
 - `/terminal` plus `uapi/app/terminal`: Terminal route surface.
 - `uapi/app/terminal`: Terminal implementation module retained as an internal component boundary while the prior generic workspace route remains absent.
-- `uapi/app/exchange`: reread and minimal acquisition surface.
 - `uapi/app/btd/[assetPackId]`: AssetPack range disclosure surface.
+- MCP API and ChatGPT App: V28 MVP commercial interface surfaces over registry-derived policy and proof truth.
 - `protocol-demonstration`: minimal deterministic protocol witness.
 
 ## canonical domain model
@@ -387,13 +410,13 @@ The V28 domain model is:
 - `$BTD` cell: non-fungible source-share/read-right registry cell.
 - AssetPack range: contiguous commercial transfer object.
 - BTC fee transaction: fee receipt and ledger-observed payment state.
-- Terminal journal entry: operator transaction event with Exchange sequence.
+- Terminal journal entry: operator transaction event with settlement sequence.
 - reconciliation repair: proof of ledger/database drift handling.
 - access policy: owner-read, licensed-read, denial, derivative, redistribution, confidentiality, dispute, and takedown rule binding.
 
 ## whole Bitcode operator chain
 
-The V28 operator chain is Readiness -> Need -> Fit -> Proof -> Measuremint -> Fee -> Anchor -> Range -> Read -> Journal -> Reconcile -> Exchange reread.
+The V28 operator chain is Readiness -> Need -> Fit -> Proof -> Measuremint -> Fee -> Anchor -> Range -> Read -> Journal -> Reconcile -> Protocol readback.
 Every link must make proof or readiness state visible.
 
 ## canonical subsystem surfaces
@@ -454,7 +477,7 @@ Current canonical objects and emitted artifacts: public projection, private/meta
 Current algorithms and derivation rules: projection, disclosure, and redaction separate public proof from private licensed reads.
 Current invariants and fail-closed conditions: public projection overexposure blocks disclosure.
 Current proof obligations: prove read-right branch and policy hash.
-Current source-bearing implementation basis: BTD access route, BTD range page, Exchange database projection.
+Current source-bearing implementation basis: BTD access route, BTD range page, Terminal projection, and registry/database projection.
 Current validating commands and parity basis: route tests and browser checks.
 Current accepted boundaries: legal template finality is staged.
 
@@ -480,7 +503,7 @@ Current accepted boundaries: V28 PROVEN is generated only at promotion.
 
 ## proof-family canon
 
-V28 inherits the Bitcode proof-family canon and adds commercial application MVP QA plus Terminal readiness productization members.
+V28 inherits the Bitcode proof-family canon and adds commercial Protocol/Terminal MVP QA plus Terminal readiness productization members.
 
 ## generated canon
 
@@ -504,12 +527,13 @@ The appendices below are draft scaffolding for V28 proof closure.
 Accepted boundaries:
 
 - V29 owns deeper Terminal.
-- V30 owns deeper Exchange.
+- V30 owns Protocol/BTD hardening discovered during V28/V29; Exchange moves beyond V35.
 - V31 owns deeper Auxillaries.
 - V32 owns deeper provation and testing.
-- V33 owns deeper Interfaces.
+- V33 owns deeper Interfaces beyond the V28 MCP API and ChatGPT App MVP.
 - V34 owns deeper Deployment.
 - V35 owns deeper telemetry and documenting.
+- V36+ owns deeper Exchange and website Conversations.
 - value-bearing mainnet is separately approved.
 
 Reopen conditions:
@@ -522,13 +546,13 @@ Reopen conditions:
 
 ## completion condition
 
-V28 is complete only when commercial application MVP QA, Terminal readiness productization, tests, documentation, proof, and promotion are closed.
+V28 is complete only when commercial Protocol/Terminal MVP QA, Terminal readiness productization, MCP/ChatGPT App MVP readiness, tests, documentation, proof, and promotion are closed.
 
 ## Appendix A. Canonical type and surface catalog
 
 Canonical types include TerminalWalletReadiness, TerminalBtcFeeReadiness, TerminalNeedFitRead, TerminalMeasuremintRead, TerminalAssetPackRangeRead, TerminalReadRightRead, TerminalJournalDiffRead, TerminalOrganizationBtdRead, and TerminalOperationalHealthRead.
 
-Canonical surfaces include `/terminal`, `/exchange`, `/btd/[assetPackId]`, unversioned `/api/btd/*` routes, and the protocol-demonstration witness runtime. the prior generic workspace route is fully retired and must redirect to `/terminal`.
+Canonical V28 surfaces include `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, unversioned `/api/btd/*` routes, MCP API routes, ChatGPT App entrypoints, and the protocol-demonstration witness runtime. Exchange and website Conversations are deferred beyond V35. the prior generic workspace route is fully retired and must redirect to `/terminal`.
 
 ## Appendix B. Proof family closure catalog
 
@@ -652,7 +676,7 @@ witnessArtifactPaths: `.bitcode/source-to-shares.json`.
 current member closure criteria: Terminal reads exact accounting and drift status.
 current member verdict shape: conserved, drift, repaired, blocked.
 current theorem-by-theorem closure reading: cells and sats are conserved.
-current theorem-to-replay grouping: Exchange sequence and Terminal journal root.
+current theorem-to-replay grouping: settlement sequence and Terminal journal root.
 minimum artifact/replay binding set: measurement, receipt, allocation, fee, journal, reconciliation.
 current proof-object fields: exchangeSequence, range, sats, routes, repairs.
 generated-artifact and test bindings: package/API/ORM tests.
@@ -757,8 +781,8 @@ Current canonical source map:
 - route owners: `packages/api/src/routes/btd-crypto.ts` and `uapi/app/api/btd/*`
 - Terminal route surface: `/terminal` through `uapi/app/terminal`
 - Terminal implementation module: `uapi/app/terminal`
-- Exchange reread surface: `uapi/app/exchange`
 - AssetPack range surface: `uapi/app/btd/[assetPackId]`
+- MCP API and ChatGPT App surfaces: V28 MVP interface ingress over Protocol/Terminal truth
 - witness runtime: `protocol-demonstration`
 
 ## Appendix F. Subsystem totality and derivability matrix

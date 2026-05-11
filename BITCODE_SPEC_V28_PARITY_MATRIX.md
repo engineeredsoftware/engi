@@ -11,18 +11,18 @@
 - Source parity state: first-gate draft parity opened
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
-- Scope: source-to-spec parity for V28 commercial application MVP QA over V27 tokenomics and crypto-commercial rails
+- Scope: source-to-spec parity for V28 commercial Protocol implementation, Terminal MVP QA, MCP API/ChatGPT App MVP, BTD/testnet/ledgerization, and demonstration-to-commercial boundary work over V27 tokenomics and crypto-commercial rails. Exchange and website Conversations are deferred beyond V35.
 - Spec companion: `BITCODE_SPEC_V28.md`
 - Notes companion: `BITCODE_SPEC_V28_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V28_DELTA.md`
 - Generated proof appendix: none until V28 promotion
 
 This matrix records the initial V28 source audit.
-It separates V27-implemented primitive truth from V28 commercial application MVP QA work and later-version deferrals.
+It separates V27-implemented primitive truth from V28 commercial Protocol/Terminal MVP QA work and later-version deferrals.
 
 ## Purpose
 
-The V28 parity matrix keeps commercial application MVP QA tied to exact source surfaces.
+The V28 parity matrix keeps commercial Protocol/Terminal MVP QA tied to exact source surfaces.
 It prevents draft work from claiming V28 closure when only V27 primitives exist.
 
 ## Audit Basis
@@ -80,7 +80,7 @@ Audit query classes:
 
 - active canonical pointer and draft target posture;
 - V27 promoted tokenomics and crypto rails;
-- Terminal, Exchange, Auxillaries, executions, BTD route, auth/readiness, and BTD component discovery;
+- Terminal, Auxillaries, executions, BTD route, MCP API, ChatGPT App, auth/readiness, and BTD component discovery;
 - wallet, BTC fee, PSBT, signer, finality, ledger, journal, reconciliation, telemetry, upgrade, migration, AssetPack range, licensed read, Need, Fit, and organization readiness searches;
 - route versioning scan under `uapi/app/api`.
 
@@ -110,16 +110,17 @@ Audit query classes:
 
 | Area | Current source evidence | Judgment | Gate owner |
 | --- | --- | --- | --- |
-| Commercial application MVP route QA | `/`, `/terminal`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, conversations, and the public `/docs` article map are covered by `uapi/tests/e2e/commercial-mvp*.spec.ts`; the prior generic workspace route is fully retired and redirects to `/terminal`; `pnpm -C uapi run test:e2e:commercial-mvp` passes with 50 laptop-project tests covering route readability, stitched navigation, Terminal and Exchange URL-addressable filters, filter reset, Exchange-intent preservation, BTD data-share consent persistence, BTD range disclosure, conversations, and responsive checks | closed for expanded automated commercial MVP E2E proof | Gate 2 |
+| Protocol/Terminal MVP route QA | `/`, `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, MCP API, ChatGPT App, and the public `/docs` article map are the V28 route QA scope; prior Exchange and website Conversations E2E coverage is now historical/deferred and must not be required for V28 closure; the prior generic workspace route is fully retired and redirects to `/terminal` | partial; existing E2E suite must be narrowed or split so V28 proof excludes Exchange and website Conversations while retaining Terminal/Protocol/Auxillaries/BTD/MCP/ChatGPT coverage | Gate 2 |
 | Signed-in BTD balance widget uses V28 commercial semantics | `uapi/components/base/bitcode/btd/btd-tracker.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `uapi/hooks/useUserData.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js`, manual QA screenshots May 6 2026 | closed | Gate 2 |
-| BTD balance widget opens wallet-owned `$BTD` auxillary state | `uapi/components/base/bitcode/btd/btd-tracker.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js` | updated for May 9 QA: connected wallet identity replaces `Exchange BTD`, and clicking opens the `$BTD` auxillary pane while Exchange acquisition remains an explicit Exchange action | Gate 2 |
+| BTD balance widget opens wallet-owned `$BTD` auxillary state | `uapi/components/base/bitcode/btd/btd-tracker.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js` | updated for May 9 QA: connected wallet identity replaces Exchange-oriented acquisition, and clicking opens the `$BTD` auxillary pane while Exchange acquisition is deferred beyond V35 | Gate 2 |
 | Auxillaries old orbital shell conflicts removed from active contained tabs-left experience | May 7 manual QA reports no active old orbital shell collision and selectable panes; May 9 manual QA found unauthenticated non-mock `Connect Wallet` still opening the old shell, initial Profile scroll instability, duplicate selector titles, visible Save buttons, BTD pane hierarchy/overflow/activity gaps, notification footer clutter, and inconsistent mock/non-mock prerequisite posture. Source now routes all portal overlays through the contained shell, removes selector lane-label duplication, moves overlay controls top-right, removes visible auxillary Save buttons in favor of autosave, stabilizes first-open Profile scroll, removes the notification footer Auxillaries launcher, reserves selector hover headroom, makes Bitcoin wallet identity the first required Profile action, makes GitHub second for Give/Need repository scope, makes email optional notification posture, promotes BTD/BTC stat hierarchy, moves stat explanations to tooltips/accessibility labels, and keeps the shared Exchange activity table in the BTD pane. | partial; source fixes landed, automated smoke confirms non-mock contained shell parity, next manual QA must confirm visual/runtime closure in both lanes | Gate 2 |
 | Wallet-first Profile authentication | `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/api/wallet/authenticate/route.ts`, `uapi/lib/bitcoin-wallet-client.ts`, `uapi/lib/bitcode-wallet-local.ts`, `uapi/tests/bitcoinWalletClient.test.ts`, `uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts`, `supabase/migrations/003_user_connections_provider_scope.sql`, `uapi/tests/api/walletAuthenticateRoute.test.ts` | partial; implemented and unit-tested for Bitcoin-provider admission, Xverse/Sats Connect priority, Leather direct-provider support, provider-specific Profile actions, payment/auth address distinction, and persistence posture, with local staging fallback when backend auth is unavailable. Browser smoke with a stubbed Leather provider verifies the click path calls `getAddresses` and `signMessage`. Contained Auxillaries now suppresses progressive onboarding completion during Profile wallet connection so it stays on Profile and does not call onboarding persistence. Pending live non-mock QA with Xverse Testnet4, Leather testnet, provider-constraint migration, and GitHub connection credentials. MetaMask's Ethereum provider is explicitly rejected for this Bitcoin identity path. | Gate 2 / Gate 3 |
 | Active Auxillaries naming avoids `orbitals` residue | `uapi/config/featureFlags.ts`, `uapi/lib/mock-review-mode.ts`, `uapi/app/terminal/TerminalOpenAuxillariesButton.tsx`, `uapi/components/base/bitcode/layout/user-menu.tsx`, and related tests now use Auxillaries naming; redirect-only `/orbitals/*` compatibility and inert stylesheet carriers remain bounded as compatibility/styling until separately removed | partial; active touched names closed, remaining CSS/compatibility carriers tracked for later cleanup | Gate 2 |
-| Standalone demonstration and commercial protocol source are separated | `packages/protocol` is the formal commercial protocol package; `uapi/package.json` depends on `@bitcode/protocol`; `pnpm-workspace.yaml` no longer includes `protocol-demonstration`; `uapi/tests/protocolCommercialBoundary.test.ts` and `protocol-demonstration/test/v28-boundary-separation.test.js` lock no commercial imports from the standalone demonstration and no demonstration runtime imports from commercial packages/UAPI | closed for V28 boundary baseline; V29 owns deeper commercialization of freshly ported package internals | Gate 2 |
+| Standalone demonstration and commercial protocol source are separated | `packages/protocol` is the formal commercial protocol package; `uapi/package.json` depends on `@bitcode/protocol`; `pnpm-workspace.yaml` no longer includes `protocol-demonstration`; `uapi/tests/protocolCommercialBoundary.test.ts` and `protocol-demonstration/test/v28-boundary-separation.test.js` lock no commercial imports from the standalone demonstration and no demonstration runtime imports from commercial packages/UAPI | partial; V28 keeps this as an active closure area because remaining demonstration-derived behavior needed by commercial Terminal/MCP/ChatGPT must live in packages/UAPI, not runtime imports from `protocol-demonstration/` | Gate 2 / Gate 8 |
 | Terminal big-picture operator orientation | `/terminal`, `uapi/app/terminal/TerminalTransactionWorkspace.tsx`, `uapi/app/terminal/TerminalMvpMap.tsx`, `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`, and `uapi/tests/e2e/commercial-mvp.terminal.spec.ts` now frame Terminal as recent/scoped Give/Need activity plus selected result, not Exchange master-detail; bare `/terminal` no longer auto-mutates during public nav while explicit route context remains addressable, and the old Terminal route redirects without becoming a canonical product route | partial; architectural correction, route-stability fixes, and known digest action no-ops implemented, next manual QA must judge digestibility | Gate 2 / Gate 3 |
 | Source names remain implicitly versioned to active canon | `AGENTS.md`, `uapi/app/terminal/demonstration-witness-scoped-styles/route.ts`, `uapi/app/terminal/demonstration-witness-styles/route.ts`, `uapi/app/terminal/demonstration-witness-scoped-styles/route.ts`, `uapi/app/terminal/demonstration-witness-styles/route.ts`, `uapi/app/terminal/demonstration-witness-theme-overrides.ts`, and `uapi/tests/demonstrationWitnessScopedStylesRoute.test.ts` replace explicit gate-named stylesheet route/source carriers with precise unversioned demonstration-witness names | closed for touched active UAPI demonstration witness stylesheet source | Gate 2 |
-| Exchange MVP activity/search/detail/range-acquisition readiness | `uapi/app/exchange/ExchangePageClient.tsx`, `uapi/app/terminal/TerminalTransactionWorkspace.tsx`, `uapi/app/terminal/TerminalTransactionDetailSurface.tsx`, `/btd/[assetPackId]`, and `uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts` now bind Exchange to a master table/search/filter pane plus named selected detail pane with table facts, non-column facts, payload, proof, AssetPack, and history paths | closed for V28 Exchange master-detail MVP; V30 owns deeper market mechanics | Gate 2 |
+| Exchange product scope | `uapi/app/exchange/*` and Exchange-specific E2E coverage exist from earlier V28 work | deferred beyond V35; V28 must disable/hide Exchange in QA and must not require Exchange route/product behavior for closure | V36+ |
+| Website Conversations product scope | `uapi/app/conversations/*` and Conversations-specific E2E coverage exist from earlier V28 work | deferred beyond V35; V28 must disable/hide website Conversations in QA and must not require Conversations route/product behavior for closure | V36+ |
 | Terminal wallet connection and signer-session review | `packages/btd/src/wallet.ts`; profile and wallet API readiness helpers | implemented prerequisite | Gate 3 |
 | BTC fee PSBT handoff and finality display | `packages/btd/src/bitcoin-fees.ts`, `bitcoin-provider.ts`, `/api/btd/btc-fee-transaction` | implemented prerequisite | Gate 3 |
 | Need review before Fit review | application/executions Need components and internal Terminal notes | implemented prerequisite | Gate 3 |
@@ -130,11 +131,14 @@ Audit query classes:
 | Terminal journal rows as transaction detail | `terminal-journal.ts`, terminal-journal route | implemented prerequisite | Gate 5 |
 | ledger/database reconciliation as operator read | `reconciliation.ts`, reconciliation route | implemented prerequisite | Gate 5 |
 | organization holdings and read-license usage from registry | organization BTD models plus V27 registry docs | pending | Gate 6 |
-| MCP authorization based on range/read-license/policy truth | MCP holding-gate work remains aggregate-compatibility oriented | pending | Gate 6 |
+| MCP authorization based on range/read-license/policy truth | MCP holding-gate work remains aggregate-compatibility oriented | pending; retained in V28 MVP scope | Gate 6 |
+| ChatGPT App authorization based on range/read-license/policy truth | ChatGPT App MVP parity must use the same registry-derived access posture as MCP and Terminal | gap; retained in V28 MVP scope | Gate 6 |
 | access-policy legal templates | policy id/hash exists; full templates not complete | pending | Gate 6 |
 | deployment lanes and telemetry surfaced in Terminal | `deployment-lanes.ts`, `telemetry.ts`, deployment-readiness route | implemented prerequisite | Gate 7 |
 | migration/type refresh visible as readiness | V27 migration exists; generated type refresh is deferred | pending | Gate 7 |
 | GitHub-only provider readiness disclosed | `internal-docs/INTEGRATIONS.md` shows GitHub implemented and broader providers incomplete | implemented prerequisite | Gate 7 |
+| BTD-AssetPack testnet minting and ledgerized synthetic measurement | V27 package primitives exist for measuremint, range, receipts, ledger anchors, Terminal journal, and reconciliation | partial; V28 must prove realistic testnet or testnet-readiness flow with synthetic measurement, BTD-AssetPack mint/read state, journal rows, ledger anchors or blocked ledger readiness, and projection/reconciliation readback | Gate 3 / Gate 5 / Gate 7 |
+| Taproot/BNB/Binance research posture | current V28 sources center Bitcoin wallet/PSBT/Taproot-compatible providers; no BSC/opBNB/BEP-20/Binance Web3 Wallet BTD deployment artifact is bound | deferred; V28 documents Bitcoin/Taproot-first testnet posture and records BSC/opBNB/Binance/BitVM bridge pilots as future bridge/distribution work unless proof-bound artifacts are added | Gate 7 / V36+ |
 
 ## V28 implementation checklist
 
@@ -143,13 +147,13 @@ Audit query classes:
 | Draft family | SPEC, DELTA, NOTES, PARITY exist | closed |
 | Canon posture | V27 active / V28 draft in source posture carriers | closed |
 | Routes | unversioned UAPI route scan passes | closed |
-| Commercial app QA | primary route, auth, Auxillaries, Exchange, BTD range, conversations, docs article map, responsive health, URL-addressable filters, consent persistence, and stitched navigation/interaction E2E coverage | closed for expanded automated commercial MVP E2E baseline |
+| Commercial Protocol/Terminal QA | primary route, auth, Auxillaries, BTD range, Terminal, MCP/ChatGPT App, docs article map, responsive health, URL-addressable Terminal filters, consent persistence, and stitched navigation/interaction E2E coverage | partial; needs E2E and QA command narrowing after Exchange/Conversations deferral |
 | Auxillaries shell | contained tabs-left active experience without orbital layout collision, no visible auxillary Save buttons, stable first-open pane scroll, top-right overlay controls, no notification-footer Auxillaries launcher, wallet-first Profile order, GitHub-second source-provider order, Connects rendering from wallet identity before optional email/Supabase persistence, optional-email-third posture, consistent mock/non-mock pane order, and BTD pane activity/table readability | pending manual reconfirmation after May 9 source fixes |
-| Exchange MVP | activity/search/detail/range-acquisition route readiness | closed for master-detail MVP |
+| Exchange MVP | no longer part of V28 | deferred beyond V35 |
 | Terminal master-detail correction | Terminal must present itself as a Give/Need operator surface with recent/scoped activity results while Exchange owns the searchable master-detail activity table and selected detail | closed pending next manual QA confirmation |
 | Terminal clickable affordance | Known no-op or ambiguous click targets must be fixed, and clickable controls must be visually distinguishable from static badges/chips | partial; digest detail buttons and static overview badges corrected, broader manual pass remains |
-| Exchange selected activity detail completeness | selected Exchange activity detail exposes all table facts plus relevant non-column activity facts and payload paths for activity-system QA | closed for V28 MVP |
-| Conversations route QA | fullscreen split-pane writing mode, docs route handoff, route-local source selectors, and mock stream boundaries must avoid app crashes and unauthenticated console noise | closed for V28 MVP automated baseline |
+| Exchange selected activity detail completeness | no longer part of V28 | deferred beyond V35 |
+| Conversations route QA | no longer part of V28 | deferred beyond V35 |
 | Terminal wallet | wallet and signer-session UX built over V27 primitives | pending |
 | Terminal BTC fees | PSBT/finality UX built over V27 primitives | pending |
 | Terminal Need/Fit | Need, Fit, semantic volume, measuremint, policy UX | pending |
@@ -161,11 +165,13 @@ Audit query classes:
 
 | Finding | Current disposition |
 | --- | --- |
-| Broad Exchange market depth, high-volume order book, wrappers, and third-party market routing | deferred to V30 beyond V28 Exchange MVP QA |
+| Broad Exchange market depth, high-volume order book, wrappers, third-party market routing, and Exchange MVP/deepening | deferred beyond V35 |
+| Website Conversations interface, conversation stream UI, and Conversations-to-Terminal workflow | deferred beyond V35 |
 | Deeper Terminal transaction operation beyond MVP QA | deferred to V29 |
 | Auxillaries expansion beyond active-shell cleanup | deferred to V31 |
 | Bitbucket, GitLab, Azure DevOps, generic Git, webhook abstraction, and provider feature detection | deferred to the later product version that owns the affected commercial surface unless V28 commercial-app QA requires a narrow readiness hook |
-| MCP API, ChatGPT App, and non-Auxillaries non-website application interface maturation beyond registry-derived access checks | deferred to V33 |
+| MCP API and ChatGPT App MVP | retained in V28 |
+| Interface maturation beyond the V28 MCP API and ChatGPT App MVP | deferred to V33 |
 | Deeper provation and testing | deferred to V32 |
 | Deeper deployment | deferred to V34 |
 | Deeper telemetry and documenting | deferred to V35 |
@@ -173,14 +179,15 @@ Audit query classes:
 
 ## accepted boundaries
 
-- V28 is commercial-application-MVP-first.
+- V28 is commercial Protocol/Terminal MVP first.
 - V29 owns deeper Terminal workflows.
-- V30 owns deeper Exchange.
+- V30 is reserved for Protocol/BTD hardening discovered during V28/V29.
 - V31 owns deeper Auxillaries.
 - V32 owns deeper provation and testing.
 - V33 owns deeper Interfaces.
 - V34 owns deeper Deployment.
 - V35 owns deeper telemetry and documenting.
+- V36+ owns deeper Exchange and website Conversations.
 - value-bearing mainnet launch remains separately gated.
 
 ## completion condition
@@ -194,7 +201,7 @@ Before V28 promotion:
 - `BITCODE_SPEC_V28_PROVEN.md` must be generated or manually bound to accepted proof artifacts.
 - package/API/ORM/protocol-demonstration tests must pass.
 - Terminal UI tests or Playwright checks must cover wallet, BTC fee, Need/Fit, range, read-right, journal, reconciliation, and operational health flows.
-- `pnpm -C uapi run test:e2e:commercial-mvp` must pass serially with deterministic Auxillaries and Conversations mock APIs.
+- the V28 commercial-MVP E2E runner must pass serially with deterministic Terminal, Auxillaries, BTD, MCP API, and ChatGPT App readiness mocks; Exchange and website Conversations suites must be split or excluded from V28 proof.
 - commercial provider packages must declare the runtime SDK bindings they require directly, so dev-server provider module-resolution warnings are not normalized as QA noise.
 - `pnpm -C uapi build` must pass.
 - `find uapi/app/api -path '*v[0-9]*' -print | sort` must remain empty.

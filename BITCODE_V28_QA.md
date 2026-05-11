@@ -2,11 +2,12 @@
 
 ## Purpose
 
-This ledger records collaborative human QA for V28 commercial application MVP hardening.
+This ledger records collaborative human QA for V28 commercial Protocol implementation and Terminal MVP hardening.
 It stays synchronized as manual QA proceeds and separates V28 MVP closure from later deepening versions.
 
 V28 is not a marketing-page review.
-V28 focuses on whether the commercial application functions are coherent, readable, navigable, and honest over the V27 `$BTD` and crypto-commercial canon.
+V28 focuses on whether the commercial Protocol implementation, Terminal, Auxillaries readiness, BTD-AssetPack mint/read posture, MCP API, ChatGPT App, wallet/BTC/testnet behavior, and ledgerized journal/projection behavior are coherent, readable, navigable, and honest over the V27 `$BTD` and crypto-commercial canon.
+Exchange and the website Conversations interface are no longer V28 QA surfaces.
 
 ## Session Header
 
@@ -19,7 +20,7 @@ V28 focuses on whether the commercial application functions are coherent, readab
 | Server mode | dual-lane QA: deterministic mock first, then testnet/live-readiness |
 | Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
 | Draft target | `V28` |
-| Manual QA focus | natural operator progression plus docs-sequenced validation |
+| Manual QA focus | natural operator progression through wallet/GitHub/Terminal/BTD/testnet/MCP/ChatGPT plus docs-sequenced validation |
 | Marketing page status | intentionally de-scoped except for navigation-entry regressions |
 
 ## V28 MVP Scope
@@ -30,10 +31,11 @@ V28 closes when the commercial app can be used and understood at MVP level acros
 | --- | --- | --- |
 | Identity and authentication | Auth/profile/menu/notifications are reachable, legible, and do not block application orientation. | V31 deepens account, team, multi-sig, role, recovery, and organization controls. |
 | Terminal | Activity ledger, selected detail, Give/Need/Fit/proof/readiness/range signals are readable and route-stable at MVP level. | V29 deepens full Terminal transactions, wallet recovery, BTC lifecycle, journal diff, and reconciliation. |
-| Exchange | Exchange route, activity search/table/detail, BTD intent entry, and range disclosure work without homepage redirects or false market depth. | V30 deepens order book, bid/ask/buy/sell/settle history, wrappers, disputes, and revenue routes. |
+| Exchange | Not in V28; navigation is disabled/hidden and retained Exchange routes are deferred compatibility/future work. | V36+ owns Exchange MVP/deepening after V35. |
 | Auxillaries | Profile, Connects, Interfaces, and BTD panes are contained, selectable, legible, and free of active old orbital shell collision. | V31 deepens settings, provider readiness, diagnostics, policies, accessibility, and recovery flows. |
-| Conversations | Conversation route functions as a Bitcode write/interface surface and returns to Terminal cleanly. | V33 deepens ChatGPT App and API-facing conversational interfaces. |
-| API/interfaces/docs | Docs and interface pages explain current MVP behavior without claiming final MCP/ChatGPT/API commercial depth. | V33 deepens MCP API, ChatGPT App, and non-website interfaces; V35 deepens documentation. |
+| MCP API and ChatGPT App | MVP interface ingress is present, registry-derived, fail-closed, and aligned with Terminal proof/read-right posture. | V33 deepens interfaces beyond the V28 MVP. |
+| Website Conversations | Not in V28; route/widget QA is deferred and must not block promotion. | V36+ owns website Conversations after V35. |
+| API/interfaces/docs | Docs and interface pages explain current MVP behavior without claiming Exchange or website Conversations readiness. | V33 deepens interfaces; V35 deepens documentation. |
 | Provation/testing | E2E coverage proves current MVP route/readability/user-flow stability. | V32 deepens provation and regression breadth. |
 | Deployment/telemetry | Dev/testnet readiness is honest; value-bearing mainnet is not silently enabled. | V34 deepens deployment; V35 deepens telemetry and operational documentation. |
 
@@ -59,8 +61,8 @@ It intentionally starts with prerequisites because unclear readiness blocks ever
 | Step | User progression | V28 MVP questions | Primary surfaces | Later-version boundary |
 | --- | --- | --- | --- | --- |
 | 1A | Connect wallet, GitHub, identity/profile, and required provider prerequisites. | Can the user see what is connected, what is mocked/testnet, what is missing, and what actions remain blocked? | Auxillaries, nav/profile, Terminal readiness, BTD widget | V31 deepens account/provider recovery; V34 deepens deployment/runtime readiness. |
-| 1B | Perform the fastest simple Need and read the Fit/settlement/delivery result. | Can a user express or select a Need, trigger the simplest path, and read back Fit, proof, AssetPack, BTD/BTC, and delivery state without guessing? | Terminal, Exchange activity detail, BTD range pages | V29 deepens Terminal transaction choreography; V30 deepens Exchange market detail. |
-| 1C | Perform the fastest simple Give and read the earning/settlement result. | Can a user contribute source, see admissibility/readiness, and understand what was earned or why earning is blocked/staged? | Terminal Give, Auxillaries Connects, Exchange activity detail, BTD settlement reads | V29 deepens Give workflows; V30 deepens sale/bid/ask/settlement history. |
+| 1B | Perform the fastest simple Need and read the Fit/settlement/delivery result. | Can a user express or select a Need, trigger the simplest path, and read back Fit, proof, synthetic measurement, BTD-AssetPack mint/read state, BTC fee posture, ledger journal, and delivery state without guessing? | Terminal, BTD range pages, protocol readback | V29 deepens Terminal transaction choreography; V36+ deepens Exchange market detail. |
+| 1C | Perform the fastest simple Give and read the earning/settlement result. | Can a user contribute source, see admissibility/readiness, and understand what was earned or why earning is blocked/staged? | Terminal Give, Auxillaries Connects, BTD settlement reads, journal/reconciliation | V29 deepens Give workflows; V36+ deepens sale/bid/ask/settlement history. |
 
 ### Track 2: Docs-Sequenced Product Validation
 
@@ -70,10 +72,10 @@ The objective is not marketing critique; it is whether docs, routes, labels, con
 | Docs sequence | Public docs route(s) | Product validation focus | Expected V28 disposition |
 | --- | --- | --- | --- |
 | 00 Start Here | `/docs/what-is-bitcode`, `/docs/source-shares` | Can a new user connect Source Shares, Exchange, Terminal, Protocol, Give, Need, and Read to what the app actually shows? | V28 fixes contradictions; deeper explanatory polish can move to V35. |
-| 01 Exchange And Terminal | `/docs/exchange`, `/docs/terminal`, `/docs/terminal-actions`, `/docs/read-results` | Does Exchange own master-detail and Terminal own bounded Give/Need/operator actions with expected readbacks? | V28 blocker when product/docs disagree about ownership or action consequences. |
-| 02 Operator Modes | `/docs/auxillaries`, `/docs/conversations`, `/docs/configuration` | Do Auxillaries, Conversations, and configuration/readiness copy match the visible app and fail-closed states? | V28 fixes MVP confusion; V31/V33 deepen feature sets. |
+| 01 Terminal And Protocol | `/docs/terminal`, `/docs/terminal-actions`, `/docs/read-results`, `/docs/protocol-v26` | Does Terminal own bounded Give/Need/operator actions with expected protocol readbacks and no Exchange dependency? | V28 blocker when product/docs disagree about ownership or action consequences. |
+| 02 Operator Modes | `/docs/auxillaries`, `/docs/configuration` | Do Auxillaries and configuration/readiness copy match the visible app and fail-closed states? | V28 fixes MVP confusion; V31/V33 deepen feature sets. Website Conversations docs are deferred beyond V35. |
 | 03 Protocol And Proof | `/docs/protocol-v26`, `/docs/proofs`, `/docs/settlement-btd` | Do proof, settlement, BTD, BTC, owner/licensed read, and fail-closed claims match visible reads and V27 law? | V28 fixes overclaims and missing MVP proof posture; V32/V35 deepen provation/docs. |
-| 04 Commercial Interfaces | `/docs/commercial-interfaces`, `/docs/mcp-api`, `/docs/chatgpt-app` | Are API/MCP/ChatGPT/interface claims honest about MVP readiness and where users verify results? | V28 fixes false commercial claims; V33 owns full interface finalization. |
+| 04 Commercial Interfaces | `/docs/commercial-interfaces`, `/docs/mcp-api`, `/docs/chatgpt-app` | Are API/MCP/ChatGPT/interface claims honest about V28 MVP readiness and where users verify results? | V28 fixes false commercial claims for MCP API and ChatGPT App MVP; V33 owns interface deepening beyond MVP. |
 
 ## Reordered QA Roadmap
 
@@ -85,11 +87,11 @@ Each pass should be small enough to produce actionable screenshots, console obse
 | 3A | Natural progression 1A | Wallet, GitHub, profile, notifications, nav balance, Auxillaries Connects/Profile/BTD readiness. | Mock passes deterministic readiness; testnet-readiness either works live or records precise blocked provider/credential states; no console errors. |
 | 3B | Natural progression 1B | Simplest Need path: select/express Need, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what happened, where it landed in Exchange, what is mocked, and what remains staged in testnet-readiness. |
 | 3C | Natural progression 1C | Simplest Give path: attach or select source, run/inspect Give flow, read earning/settlement state. | User can explain what source was contributed, how it was measured, and whether earning/BTD posture is live, mocked, or blocked. |
-| 4A | Docs sequence 00 | Docs overview and Source Shares against nav, Terminal, Exchange, BTD widget. | Contradictions between docs and product are logged in both lanes. |
-| 4B | Docs sequence 01 | Exchange and Terminal docs against the actual Exchange master-detail and Terminal action/read flows. | Ownership of product patterns is clear in mock and still honest when live/testnet dependencies are absent. |
-| 4C | Docs sequence 02 | Auxillaries, Conversations, and Configuration docs against app modes. | MVP readiness and fail-closed states are honest in both lanes. |
+| 4A | Docs sequence 00 | Docs overview and Source Shares against nav, Terminal, BTD widget, MCP/ChatGPT readiness. | Contradictions between docs and product are logged in both lanes. |
+| 4B | Docs sequence 01 | Terminal and Protocol docs against Terminal action/read flows and protocol readback. | Ownership of product patterns is clear in mock and still honest when live/testnet dependencies are absent. |
+| 4C | Docs sequence 02 | Auxillaries and Configuration docs against app modes. | MVP readiness and fail-closed states are honest in both lanes; website Conversations is deferred. |
 | 4D | Docs sequence 03 | Protocol/proof/settlement docs against visible proof, BTD, BTC, and access-policy reads. | No public docs overclaim proof/source/license/payment behavior; testnet-readiness exposes missing ledger/signer/broadcaster posture plainly. |
-| 4E | Docs sequence 04 | Commercial Interfaces, MCP/API, and ChatGPT App docs against available routes/interface claims. | Interface claims are staged honestly for V33 and do not imply unavailable live integrations. |
+| 4E | Docs sequence 04 | Commercial Interfaces, MCP/API, and ChatGPT App docs against available routes/interface claims. | MCP API and ChatGPT App MVP claims are testable in V28; deeper interface claims are staged honestly for V33. |
 
 ## Running Manual QA Findings
 
@@ -120,11 +122,11 @@ Evidence:
 | Check | Result | Notes |
 | --- | --- | --- |
 | Terminal reads as the primary operator surface | pass for V28 MVP | Acceptable at current V28 depth. Deeper Terminal clarity and operational polish belong to V29 unless a finding blocks basic V28 use. |
-| Exchange owns master-detail, not Terminal | fail | The current Terminal copy/architecture overstates master-detail. V28 must reserve the master-detail concept for Exchange: master = searchable activity table across Exchange/all-vs-own activity, detail = selected activity state. |
-| Terminal activity table focuses Terminal results | partial | Terminal should show results of Give/Need/closure activity using the shared activity table, but limited and framed around recent Terminal activity rather than whole-Exchange master state. |
+| Terminal owns current V28 operator flow | fail at the time | The current Terminal copy/architecture overstated master-detail and Exchange ownership. After the May 11 scope reduction, V28 keeps only the Terminal-side correction: Terminal must frame activity as recent Give/Need/protocol readback, not whole-Exchange market state. |
+| Terminal activity table focuses Terminal results | partial | Terminal should show results of Give/Need/closure activity, but limited and framed around recent Terminal activity rather than whole-Exchange master state. |
 | Activity ledger, selected activity detail, and support panels | partial | Support panels are broadly acceptable, but Terminal organization needs MVP cleanup before deeper manual QA can judge the dense surface confidently. |
 | Give / Need / Fit / proof / AssetPack / BTC / BTD concepts | pending deeper manual check | Need to verify that concepts are visible enough for MVP while not claiming V29 transaction depth. |
-| Activity search, row selection, and detail tabs | pending deeper manual check | Need to verify route stability, selected context, no confusing state transitions, and that shared table behavior feels Terminal-scoped on Terminal and Exchange-wide on Exchange. |
+| Activity search, row selection, and detail tabs | pending deeper manual check | Need to verify route stability, selected context, no confusing state transitions, and that table behavior feels Terminal/protocol-scoped. Exchange-wide behavior is deferred beyond V35. |
 | Clickable affordance and dead-click audit | fail | Some Terminal objects appear clickable without action, while others click correctly. V28 must fix known dead targets and distinguish clickable controls from static badges/chips consistently. |
 | Dense Terminal organization | partial | Density is expected, but V28 MVP must improve grouping and visual hierarchy enough that the Terminal is digestible before V29 deepens workflows. |
 | Console after Terminal pass | pass | No console errors reported by manual QA. |
@@ -133,20 +135,20 @@ Open V28 issues from this pass:
 
 | Issue | Severity | V28 disposition |
 | --- | --- | --- |
-| Terminal incorrectly presents itself as the master-detail surface. Exchange should own master-detail. | high | V28 blocker. Correct product architecture, copy, tests, and visible labels so Terminal is a Give/Need operator surface with recent activity results; Exchange is the market-wide master-detail surface. |
+| Terminal incorrectly presents itself as the master-detail surface. | high | V28 blocker only for Terminal wording/structure. Correct product architecture, copy, tests, and visible labels so Terminal is a Give/Need operator surface with recent activity results. Exchange product ownership is deferred beyond V35. |
 | Terminal activity table should be shared infrastructure but scoped/framed to recent Terminal activity and executed Give/Need results. | high | V28 blocker for MVP comprehension. Deeper Terminal transaction flow remains V29. |
 | Some Terminal click targets do not visibly perform an action, and static capsules can look too similar to clickable controls. | high | V28 blocker until known no-op jump targets and control/static styling are audited and corrected. |
 | Terminal density and grouping are not yet digestible enough to judge deeper behavior confidently. | medium | V28 MVP polish blocker for organization only; full Terminal workflow polish is V29. |
 | Active `orbitals` naming remains in source/UI/test carriers around Auxillaries. | medium | V28 cleanup target for active commercial surfaces. Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until explicitly removed, but active UX copy, mock helpers, tests, and component names should converge on Auxillaries where touched. |
-| Exchange selected activity detail must be complete enough for QAing activity-system reality. | high | V28 blocker for Exchange MVP. Master = searchable table of all activity types; detail = selected activity facts including table columns plus relevant non-column facts and payload/proof/history paths. |
+| Exchange selected activity detail must be complete enough for QAing activity-system reality. | high historically | No longer a V28 blocker after May 11. Deferred beyond V35 with the rest of Exchange. |
 | Source code must not be explicitly versioned or gate-named. | high | V28 blocker for touched source. `AGENTS.md` now records that implementation source is implicitly versioned to active canon/current gate; Terminal runtime stylesheet files/routes/classes/tests were renamed from explicit gate names to `demonstration-witness-*` / `bitcode-demonstration-witness-*`. |
 
 Implemented after Pass 2, pending next manual QA confirmation:
 
 | Fix | Verification state |
 | --- | --- |
-| Exchange master-detail now uses the table/search/filter pane as master and a named selected activity detail pane as detail. | Focused Playwright Exchange spec passes; full commercial MVP E2E suite passes. |
-| Exchange selected detail keeps table facts and non-column facts visible through the identity/payload card on every focus. | Focused Playwright Exchange spec checks Activity id, lens, participant, ownership, repository, branch, proof posture, closure focus, measured BTD, BTC fee basis, and detail tabs. |
+| Exchange master-detail now uses the table/search/filter pane as master and a named selected activity detail pane as detail. | Historical implementation note only; no longer part of V28 proof after May 11. |
+| Exchange selected detail keeps table facts and non-column facts visible through the identity/payload card on every focus. | Historical implementation note only; deferred beyond V35. |
 | Terminal no longer claims master-detail; it presents recent/scoped activity plus selected result. | Focused Playwright Terminal spec passes after copy/structure update. |
 | Terminal adds compact operator lanes for Recent activity, Give, Need, and Closure. | Focused Playwright Terminal spec checks the lane map. |
 | Terminal digest actions now change selected detail focus before scrolling, closing the visible no-op class found in QA. | Focused Playwright Terminal spec clicks `Open proof detail` and verifies `transactionDetail=proofs`. |
@@ -154,9 +156,9 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Active demonstration witness stylesheet source uses unversioned names. | `uapi/app/terminal/demonstration-witness-*`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace the explicit gate-named stylesheet route carriers. |
 | Static overview badges are quieter than actionable chips/buttons. | Requires next manual visual confirmation. |
 | Active touched Auxillaries names moved from orbitals to Auxillaries in mock-mode envs, component callbacks, and commercial tests. | Source search is clean for active renamed identifiers; no route compatibility artifact is retained for the retired generic workspace. |
-| Conversations split-pane source selector tolerates missing or variant repository payloads and no longer crashes the route during commercial QA. | `commercial-mvp.conversations-docs.spec.ts` passes 3-repeat focused verification and the full commercial MVP suite. |
-| Conversations streaming no longer aborts itself on ordinary rerenders, so the assistant response bubble completes in split-pane fullscreen QA. | Focused Conversations E2E passes; full commercial MVP E2E passes. |
-| Direct `/conversations` fullscreen exit returns deterministically to `/terminal`. | Focused Conversations E2E passes; full commercial MVP E2E passes. |
+| Conversations split-pane source selector tolerates missing or variant repository payloads and no longer crashes the route during commercial QA. | Historical implementation note only; website Conversations is deferred beyond V35 after May 11. |
+| Conversations streaming no longer aborts itself on ordinary rerenders, so the assistant response bubble completes in split-pane fullscreen QA. | Historical implementation note only; website Conversations is deferred beyond V35. |
+| Direct `/conversations` fullscreen exit returns deterministically to `/terminal`. | Historical implementation note only; website Conversations is deferred beyond V35. |
 | Bare Terminal route no longer auto-mutates its URL during load, while explicit route context and user selections still remain URL-addressable. | Public stitched navigation route spec passes 5-repeat focused verification and the full commercial MVP suite. |
 | Terminal transaction search keeps the typed value stable while URL-backed filter state updates. | Focused Terminal activity-search E2E passes; full commercial MVP E2E passes. |
 | Retired generic workspace route/import/runtime compatibility artifacts are absent from commercial source scans. | Source scans show no active retired route, generic workspace subtree, or retired-shell runtime names outside explicit historical spec notes and framework error patterns. |
@@ -356,7 +358,11 @@ Deferred to V29 from this pass:
 1. Natural progression 1A in Mock lane, then Testnet-readiness lane.
 2. Natural progression 1B in Mock lane, then Testnet-readiness lane.
 3. Natural progression 1C in Mock lane, then Testnet-readiness lane.
-4. Docs sequence 00-04 in Mock lane, then Testnet-readiness lane where the route depends on live/provider state.
+4. MCP API and ChatGPT App MVP readiness in Mock lane, then Testnet-readiness lane.
+5. Docs sequence 00-04 in Mock lane, then Testnet-readiness lane where the route depends on live/provider state.
+
+Exchange and website Conversations are removed from the V28 QA queue.
+If they appear through retained routes, footer links, docs, or old E2E files, classify that as deferred compatibility unless it contaminates Terminal, Protocol, BTD, MCP API, or ChatGPT App behavior.
 
 ## Environment Lane Commands
 
@@ -373,8 +379,15 @@ NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true \
 NEXT_PUBLIC_MOCK_GITHUB_REPOS=true \
 NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true \
 NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true \
-NEXT_PUBLIC_MOCK_CHAT_STREAM=true \
-NEXT_PUBLIC_MOCK_CHAT_SCENARIO=demo \
+NEXT_PUBLIC_MOCK_CHAT_STREAM=false \
+NEXT_PUBLIC_CONVERSATIONS_WIDGET=false \
+NEXT_PUBLIC_CONVERSATION_SECTION=false \
+NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=true \
+NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE=true \
+NEXT_PUBLIC_DISABLE_CONVERSATIONS_ROUTE=true \
+NEXT_PUBLIC_DISABLE_AUXILLARIES=false \
+NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false \
+NEXT_PUBLIC_MCP_UPGRADES=true \
 NEXT_PUBLIC_BITCODE_QA_VERBOSE=true \
 pnpm -C uapi dev:remote
 ```
@@ -392,15 +405,21 @@ NEXT_PUBLIC_MOCK_GITHUB_REPOS=false \
 NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=false \
 NEXT_PUBLIC_MOCK_GITHUB_COMMITS=false \
 NEXT_PUBLIC_MOCK_CHAT_STREAM=false \
-NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=false \
+NEXT_PUBLIC_CONVERSATIONS_WIDGET=false \
+NEXT_PUBLIC_CONVERSATION_SECTION=false \
+NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=true \
+NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE=true \
+NEXT_PUBLIC_DISABLE_CONVERSATIONS_ROUTE=true \
 NEXT_PUBLIC_DISABLE_AUXILLARIES=false \
 NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false \
+NEXT_PUBLIC_MCP_UPGRADES=true \
 NEXT_PUBLIC_BITCODE_QA_VERBOSE=true \
 pnpm -C uapi exec next dev --hostname 127.0.0.1 -p 3001
 ```
 
-When the testnet-readiness lane lacks wallet, GitHub, Supabase, signer, BTC broadcaster, or ledger observer credentials, the expected V28 behavior is explicit blocked readiness.
+When the testnet-readiness lane lacks wallet, GitHub, Supabase, signer, BTC broadcaster, ledger observer, MCP, ChatGPT App, or database projection credentials, the expected V28 behavior is explicit blocked readiness.
 It is not acceptable for that lane to silently show a mocked success state.
+Exchange and website Conversations should stay disabled or hidden in these V28 lane commands.
 
 ## Issue Template
 
@@ -408,7 +427,7 @@ It is not acceptable for that lane to silently show a mocked success state.
 ### Title
 
 ### Surface
-Identity/Auth / Terminal / Exchange / Auxillaries / BTD / Conversations / Docs/API / Deployment
+Identity/Auth / Terminal / Protocol / Auxillaries / BTD / MCP API / ChatGPT App / Docs/API / Deployment / Deferred Exchange / Deferred Conversations
 
 ### Environment Lane
 Mock / Testnet-readiness

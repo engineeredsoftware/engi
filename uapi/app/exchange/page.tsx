@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import PublicShellFrame from '@/app/(root)/components/PublicShellFrame';
+import { FEATURE_FLAGS } from '@/config/features';
 
 import ExchangePageClient from './ExchangePageClient';
 
@@ -15,6 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function ExchangePage() {
+  if (FEATURE_FLAGS.DISABLE_EXCHANGE_ROUTE) {
+    redirect('/terminal');
+  }
+
   return (
     <PublicShellFrame>
       <Suspense
