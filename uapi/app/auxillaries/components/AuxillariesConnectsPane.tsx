@@ -8,6 +8,7 @@ import { VCSIntegrationPanel } from '@/components/base/bitcode/vcs/VCSIntegratio
 import { getRepositoryInventorySourceLabel } from '@/app/terminal/terminal-repository-context';
 import { deriveBitcodeTransactionReadiness } from '@/app/terminal/bitcode-transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
+import { bitcodeQaTelemetry } from '../../../lib/bitcode-qa-telemetry';
 
 import AuxillariesConnectsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader';
 
@@ -41,12 +42,38 @@ export default function AuxillariesConnectsPane({
     refresh,
   } = useUserData();
 
+  const hasConnectsIdentity = Boolean(user || hasWalletConnection);
+
   useEffect(() => {
-    onCompletionStatusChange?.(Boolean(user && hasValidGitHubConnection));
-  }, [hasValidGitHubConnection, onCompletionStatusChange, user]);
+    onCompletionStatusChange?.(Boolean(hasConnectsIdentity && hasValidGitHubConnection));
+  }, [hasConnectsIdentity, hasValidGitHubConnection, onCompletionStatusChange]);
+
+  useEffect(() => {
+    bitcodeQaTelemetry('info', 'auxillaries.connects', 'readiness', {
+      hasEmailSession: Boolean(user),
+      hasWalletConnection,
+      hasConnectsIdentity,
+      hasGitHubConnection,
+      hasValidGitHubConnection,
+      walletBindingStatus,
+      walletProvider: walletConnectionStatus?.provider ?? null,
+      repositoryProvider: repositoryConnectionStatus?.provider ?? null,
+      repositoryValid: repositoryConnectionStatus?.valid ?? null,
+    });
+  }, [
+    hasConnectsIdentity,
+    hasGitHubConnection,
+    hasValidGitHubConnection,
+    hasWalletConnection,
+    repositoryConnectionStatus?.provider,
+    repositoryConnectionStatus?.valid,
+    user,
+    walletBindingStatus,
+    walletConnectionStatus?.provider,
+  ]);
 
   const transactionReadiness = deriveBitcodeTransactionReadiness({
-    signedIn: Boolean(user),
+    signedIn: hasConnectsIdentity,
     hasRepositoryProvider: hasGitHubConnection,
     hasValidRepositoryProvider: hasValidGitHubConnection,
     hasWalletBinding: hasWalletConnection,
@@ -59,12 +86,14 @@ export default function AuxillariesConnectsPane({
       <div className="orbital-step-content connects-step">
         <AuxillariesConnectsPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
-        {!user ? (
+        {!hasConnectsIdentity ? (
           <div className="space-y-4 rounded-[24px] border border-white/10 bg-black/20 p-5 text-white/80">
             <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-white">Sign in to open Connects</h3>
+              <h3 className="text-lg font-semibold text-white">Connect Bitcoin wallet first</h3>
               <p className="text-sm leading-7 text-white/68">
-                Sign in first, then attach GitHub so need measurement, asset-pack synthesis, and settlement follow-through can operate against a live repository source.
+                Connect a Bitcoin-capable wallet in Profile, then attach GitHub here so need
+                measurement, asset-pack synthesis, and settlement follow-through can operate
+                against a live repository source.
               </p>
             </div>
 

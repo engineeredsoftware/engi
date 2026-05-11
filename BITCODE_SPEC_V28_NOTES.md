@@ -205,6 +205,7 @@ Profile must not render GitHub connection controls; it may point the operator to
 Connects owns GitHub because repository scope is shared by Terminal, Exchange rereads, conversations, and future interfaces.
 The top chrome must use wallet identity as a sufficient signed posture for BTC/BTD balance display even before Supabase/email identity is present.
 The BTD tracker hover/action area now identifies the connected wallet and opens the `$BTD` auxillary pane.
+Connects must use that same wallet identity as a sufficient prerequisite to render GitHub connection controls; optional email/Supabase session state may improve persistence and notifications, but must not hide the second onboarding step after Bitcoin wallet identity is staged.
 Verbose QA telemetry is allowed behind explicit flags so local testnet passes can observe provider detection, Leather/Xverse signing, local wallet persistence, user-data merge, navigation identity, and BTD auxillary entry without making normal production consoles noisy.
 
 These changes remain V28 scope because they are MVP-readiness and trust issues.

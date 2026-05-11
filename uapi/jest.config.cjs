@@ -107,6 +107,7 @@ module.exports = {
     '<rootDir>/tests/featureFlagsMockMode.test.ts',
     '<rootDir>/tests/bitcoinWalletClient.test.ts',
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
+    '<rootDir>/tests/auxillariesConnectsPane.test.tsx',
     '<rootDir>/tests/btdTrackerLoading.test.tsx',
     '<rootDir>/tests/notificationsWidget.test.tsx',
     '<rootDir>/tests/orbitalsBTDPane.test.tsx',

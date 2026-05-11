@@ -168,6 +168,58 @@ describe('AuxillariesConnectsPane', () => {
     expect(screen.getByText(/write admission will fail closed until the live provider connection is restored/i)).toBeInTheDocument();
   });
 
+  it('renders GitHub connection controls from wallet identity before optional email session exists', () => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      loading: false,
+    } as any);
+
+    mockUseUserData.mockReturnValue({
+      data: {
+        profile: {
+          wallet_address: 'tb1qleatheroperator',
+          wallet_provider: 'leather',
+        },
+      },
+      hasGitHubConnection: false,
+      hasValidGitHubConnection: false,
+      hasWalletConnection: true,
+      hasStoredVerifiedWalletConnection: false,
+      hasVerifiedWalletConnection: false,
+      walletBindingStatus: 'pending',
+      walletConnectionStatus: {
+        connected: true,
+        provider: 'leather',
+        valid: true,
+        address: 'tb1qleatheroperator',
+        verificationState: 'pending',
+      },
+      repositoryConnectionStatus: null,
+      repositories: [],
+      repositoryInventorySource: null,
+      organizations: [],
+      btdBalance: 0,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: false,
+      onboardedSteps: ['profile'],
+    } as any);
+
+    render(
+      <AuxillariesConnectsPane
+        onSave={jest.fn()}
+        loading={false}
+        isOnboardingComplete={false}
+      />,
+    );
+
+    expect(screen.getByText('Connect GitHub for source-bearing input')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-vcs-integration-panel')).toBeInTheDocument();
+    expect(screen.queryByText(/Sign in to open Connects/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Connect Bitcoin wallet first/i)).not.toBeInTheDocument();
+  });
+
   it('treats a saved verified wallet signer without a live wallet-provider session as reconnect-required settlement posture', () => {
     mockUseUserData.mockReturnValue({
       data: {
