@@ -84,6 +84,21 @@ function readDate(value: unknown) {
   return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 }
 
+const sensitiveConnectionDataKeys = new Set([
+  'access_token',
+  'oauth_token',
+  'refresh_token',
+  'token',
+  'client_secret',
+  'private_key',
+]);
+
+function sanitizeConnectionMetadata(connectionData: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(connectionData).filter(([key]) => !sensitiveConnectionDataKeys.has(key.toLowerCase())),
+  );
+}
+
 function mapStoredRepositoryInventoryRowToRepository(row: StoredRepositoryInventoryRow): VCSRepository | null {
   const repoData = isRecord(row.repo_data) ? row.repo_data : null;
   const repoDataOwner = repoData && isRecord(repoData.owner) ? repoData.owner : null;
@@ -224,7 +239,7 @@ export function buildStoredConnectionStatus(
       typeof connectionData.token_expires_at === 'string'
         ? connectionData.token_expires_at
         : undefined,
-    metadata: connectionData,
+    metadata: sanitizeConnectionMetadata(connectionData),
   };
 }
 

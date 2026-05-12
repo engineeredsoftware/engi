@@ -129,7 +129,10 @@ export class VCSService {
         provider: providerType,
         clientId,
         clientSecret,
-        redirectUri: process.env.VCS_REDIRECT_URI || '',
+        redirectUri:
+          providerType === 'github'
+            ? process.env.GITHUB_APP_REDIRECT_URI || process.env.GITHUB_REDIRECT_URI || process.env.VCS_REDIRECT_URI || ''
+            : process.env[`${providerType.toUpperCase()}_REDIRECT_URI`] || process.env.VCS_REDIRECT_URI || '',
         // Add GitHub App specific config
         ...(providerType === 'github' ? {
           appId: process.env.GITHUB_APP_ID,

@@ -26,6 +26,20 @@ type VCSProviderLoader = () => Promise<{ default: VCSProviderConstructor }>;
 // Provider registry - populated at build time
 const providerRegistry = new Map<VCSProviderType, VCSProviderLoader>();
 
+function readProviderEnv(provider: VCSProviderType, key: 'CLIENT_ID' | 'CLIENT_SECRET' | 'REDIRECT_URI') {
+  const upper = provider.toUpperCase();
+  if (provider === 'github') {
+    return (
+      process.env[`GITHUB_APP_${key}`] ||
+      process.env[`GITHUB_${key}`] ||
+      (key === 'REDIRECT_URI' ? process.env.VCS_REDIRECT_URI : undefined) ||
+      ''
+    );
+  }
+
+  return process.env[`${upper}_${key}`] || (key === 'REDIRECT_URI' ? process.env.VCS_REDIRECT_URI : undefined) || '';
+}
+
 /**
  * VCS Provider Factory
  */
@@ -109,9 +123,9 @@ export class VCSProviderFactory {
   ): Promise<AbstractVCSProvider> {
     const config: VCSConfig = {
       provider,
-      clientId: process.env[`${provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${provider.toUpperCase()}_REDIRECT_URI`] || process.env.VCS_REDIRECT_URI!,
+      clientId: readProviderEnv(provider, 'CLIENT_ID'),
+      clientSecret: readProviderEnv(provider, 'CLIENT_SECRET'),
+      redirectUri: readProviderEnv(provider, 'REDIRECT_URI'),
       instanceUrl: instanceUrl || process.env[`${provider.toUpperCase()}_INSTANCE_URL`]
     };
 

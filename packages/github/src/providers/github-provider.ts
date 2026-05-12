@@ -87,17 +87,22 @@ export default class GitHubProvider extends VCSProvider {
    */
   async exchangeCodeForToken(code: string): Promise<VCSAuth> {
     return this.executeWithResilience(async () => {
+      const body: Record<string, string> = {
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        code,
+      };
+      if (this.redirectUri) {
+        body.redirect_uri = this.redirectUri;
+      }
+
       const response = await fetch(`${this.instanceUrl || 'https://github.com'}/login/oauth/access_token`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          client_id: this.clientId,
-          client_secret: this.clientSecret,
-          code
-        })
+        body: JSON.stringify(body)
       });
 
       const data = await response.json();
@@ -124,6 +129,11 @@ export default class GitHubProvider extends VCSProvider {
     return this.executeWithResilience(async () => {
       try {
         const octokit = this.getOctokit(auth);
+        if (auth.accessToken.startsWith('ghs_')) {
+          await octokit.request('GET /installation/repositories', { per_page: 1 });
+          return true;
+        }
+
         await octokit.users.getAuthenticated();
         return true;
       } catch {

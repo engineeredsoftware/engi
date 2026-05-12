@@ -68,9 +68,15 @@ export interface AdminClient extends BitcodeOrmClient {
  * Create standard client
  */
 export function createClient(authToken?: string): BitcodeOrmClient {
+  const publicKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY;
+
   const supabase = createSupabaseClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    publicKey!,
     {
       auth: {
         persistSession: false,
@@ -111,9 +117,14 @@ export function createClient(authToken?: string): BitcodeOrmClient {
  * Create admin client for build-time operations
  */
 export function createAdminClient(): AdminClient {
+  const adminKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_ADMIN_KEY;
+
   const supabase = createSupabaseClient<Database>(
     process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    adminKey!,
     {
       auth: {
         persistSession: false,

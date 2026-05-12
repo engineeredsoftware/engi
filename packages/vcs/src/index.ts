@@ -48,16 +48,30 @@ export { VCSConnections as VCSConnectionManager } from './connections';
 // Historical helper names (stubs for build stability)
 import type { VCSConfig, VCSProviderType } from './types';
 
+function readProviderEnv(provider: VCSProviderType, key: 'CLIENT_ID' | 'CLIENT_SECRET' | 'REDIRECT_URI') {
+  const upper = provider.toUpperCase();
+  if (provider === 'github') {
+    return (
+      process.env[`GITHUB_APP_${key}`] ||
+      process.env[`GITHUB_${key}`] ||
+      (key === 'REDIRECT_URI' ? process.env.VCS_REDIRECT_URI : undefined) ||
+      ''
+    );
+  }
+
+  return process.env[`${upper}_${key}`] || (key === 'REDIRECT_URI' ? process.env.VCS_REDIRECT_URI : undefined) || '';
+}
+
 /**
- * V26 provider config from environment for route helpers.
+ * Provider config from environment for route helpers.
  */
 export function getVCSConfig(provider: VCSProviderType, instanceUrl?: string): VCSConfig {
   const upper = provider.toUpperCase();
   const cfg: VCSConfig = {
     provider,
-    clientId: process.env[`${upper}_CLIENT_ID`] || '',
-    clientSecret: process.env[`${upper}_CLIENT_SECRET`] || '',
-    redirectUri: process.env[`${upper}_REDIRECT_URI`] || process.env.VCS_REDIRECT_URI || '',
+    clientId: readProviderEnv(provider, 'CLIENT_ID'),
+    clientSecret: readProviderEnv(provider, 'CLIENT_SECRET'),
+    redirectUri: readProviderEnv(provider, 'REDIRECT_URI'),
     instanceUrl: instanceUrl || process.env[`${upper}_INSTANCE_URL`]
   } as VCSConfig;
 

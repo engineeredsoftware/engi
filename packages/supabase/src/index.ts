@@ -32,7 +32,9 @@ const supabaseUrl =
 
 const _rawAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
   process.env.SUPABASE_ANON_KEY ??
+  process.env.SUPABASE_PUBLISHABLE_KEY ??
   // Dummy anon key – only used in non-production environments
   'local-anon-key';
 const supabaseAnonKey = sanitizeKey(_rawAnonKey);
@@ -45,6 +47,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // ---------------------------------------------------------------------------
 const _rawServiceRoleKey =
   process.env.SUPABASE_SERVICE_ROLE_KEY ??
+  process.env.SUPABASE_SECRET_KEY ??
   process.env.SUPABASE_ADMIN_KEY ??
   process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ??
   'local-service-role-key';

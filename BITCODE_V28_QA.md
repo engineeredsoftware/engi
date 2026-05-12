@@ -333,6 +333,9 @@ Automated verification after this implementation pass:
 - Playwright non-mock browser smoke after the May 9 patch: `Connect Wallet` opens the contained Auxillaries shell, selector order is `Connects`, `Interfaces`, `Profile`, `$BTD`, old-ring count is `0`, Google prerequisite copy is absent, MetaMask and GitHub are present, no visible Save/Continue buttons remain, Profile first-open scroll advances, and no console/page errors occur.
 - May 9 live Leather QA: wallet connection persisted, but follow-up findings required V28 fixes for wallet-authenticated nav chrome, Profile/Connects ownership, robust connected-wallet readout, Sign Out button styling, BTD tracker wallet identity action, and verbose console telemetry. Source now treats local Bitcoin wallet identity as sufficient chrome identity while backend persistence catches up; Profile owns wallet/profile/email only; Connects owns GitHub; the BTD tracker opens the `$BTD` auxillary pane; and verbose QA logs are gated behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
 - May 9 follow-up QA found Connects still showing the old signed-in blocker after the Bitcoin wallet was correctly connected. V28 fixes Connects to render GitHub controls from wallet identity or email session, so Profile wallet completion can progress directly into repository connection without waiting on optional email/Supabase persistence.
+- May 11 externality-readiness check validates the provided GitHub App identity without writing secrets to source: the private key parses, GitHub API returns App ID `244206`, app slug `engi-software-agents`, and the supplied client ID matches the app record. The app can list installations and create an installation token for at least one installation. Initial check found it was not installed on `engineeredsoftware/ENGI`.
+- May 12 externality-readiness recheck confirms the GitHub App is now installed on `engineeredsoftware/ENGI`: `GET /repos/engineeredsoftware/ENGI/installation` returns 200, installation token creation returns 201, `engineeredsoftware/ENGI` is readable, default branch is `main`, and `BITCODE_SPEC.txt` is readable through the app installation token. GitHub App externality is ready for V28 Terminal Give/Need QA against ENGI.
+- May 12 Supabase readiness resolves project reachability and key acceptance but remains blocked on database schema. The project URL is reachable, auth settings return 200 with the supplied publishable key, and the secret key is accepted by the Supabase API gateway. Core Bitcode tables including `user_profiles`, `user_connections`, `vcs_repositories`, `btd_asset_pack_ranges`, and `btd_mint_receipts` return `PGRST205` table-not-found responses, so migrations have not been applied to this testnet project yet. Source now accepts both the older `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` names and the newer `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SECRET_KEY` names so the provided testnet variables can be used directly after migration.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
@@ -397,6 +400,15 @@ Testnet-readiness lane dev server:
 ```sh
 NEXT_PUBLIC_BITCODE_ENV=testnet \
 NEXT_DIST_DIR=.next-v28-testnet \
+NEXT_PUBLIC_SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co \
+SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co \
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<testnet Supabase publishable key> \
+SUPABASE_SECRET_KEY=<testnet Supabase secret key> \
+GITHUB_APP_CLIENT_ID=<GitHub App client ID> \
+GITHUB_APP_CLIENT_SECRET=<GitHub App client secret> \
+GITHUB_APP_ID=<GitHub App ID> \
+GITHUB_PRIVATE_KEY="$(cat /Users/garrettmaring/Downloads/engi-software-agents.2026-05-11.private-key.pem)" \
+GITHUB_WEBHOOK_SECRET=<GitHub webhook secret> \
 NEXT_PUBLIC_MASTER_MOCK_MODE=false \
 NEXT_PUBLIC_ENABLE_MOCKS=false \
 NEXT_PUBLIC_MOCK_USER_AUXILLARIES=false \
