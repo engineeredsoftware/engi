@@ -342,6 +342,11 @@ Automated verification after this implementation pass:
 - `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/userConnectionsGithubRoute.test.ts'`: 6 passed after GitHub connection-status token redaction.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after GitHub App callback/setup and public install-link wiring.
 - `pnpm -C uapi run build`: pass after GitHub App callback/setup and public install-link wiring.
+- May 12 Bitcoin wallet auth formalization: V28 no longer uses anonymous Supabase sign-in as the wallet persistence origin. Profile starts Supabase custom OAuth through `custom:bitcode-bitcoin`, `/tps/wallet/authorize` captures the signed wallet proof, `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo` let Supabase create the user session, and Profile then synchronizes the same wallet proof into `/api/wallet/authenticate`.
+- Supabase custom provider dashboard values for testnet: provider type `OAuth2`, identifier `custom:bitcode-bitcoin`, name `Bitcode Bitcoin Wallet`, authorization URL `<public staging-or-tunnel origin>/tps/wallet/authorize`, token URL `<public staging-or-tunnel origin>/api/wallet/oauth/token`, userinfo URL `<public staging-or-tunnel origin>/api/wallet/oauth/userinfo`, scopes `profile wallet:bitcoin`, PKCE enabled, and email optional enabled. Cloud Supabase cannot call `127.0.0.1` token/userinfo URLs, so local QA needs either a deployed preview/staging origin or a tunnel that uses the same OAuth client secret as the local lane.
+- Required matching app env for testnet lane: `BITCODE_BITCOIN_OAUTH_CLIENT_ID=<same client id configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same client secret configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co`, and `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback` if the Supabase URL env is unavailable, plus the existing Supabase publishable/secret keys.
+- `pnpm -C uapi exec jest --runInBand tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts`: 9 passed after Bitcoin wallet custom OAuth implementation.
+- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after Bitcoin wallet custom OAuth implementation.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
@@ -410,6 +415,11 @@ NEXT_PUBLIC_SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co \
 SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co \
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<testnet Supabase publishable key> \
 SUPABASE_SECRET_KEY=<testnet Supabase secret key> \
+BITCODE_BITCOIN_OAUTH_CLIENT_ID=bitcode-bitcoin-wallet \
+BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same value configured in Supabase custom provider> \
+BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co \
+BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback \
+BITCODE_BITCOIN_OAUTH_SUPABASE_CALLBACK_URL=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback \
 GITHUB_APP_CLIENT_ID=<GitHub App client ID> \
 GITHUB_APP_CLIENT_SECRET=<GitHub App client secret> \
 GITHUB_APP_REDIRECT_URI=http://127.0.0.1:3001/github/callback \

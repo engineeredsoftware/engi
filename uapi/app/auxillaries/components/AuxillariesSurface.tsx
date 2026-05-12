@@ -24,6 +24,7 @@ import {
   type AuxillaryPane,
 } from './auxillary-pane-meta';
 import { mutateUserData } from '@/hooks/useUserData';
+import { clearLocalBitcodeWalletIdentity } from '@/lib/bitcode-wallet-local';
 
 export type { ConcreteAuxillaryPane, AuxillaryPane } from './auxillary-pane-meta';
 
@@ -277,9 +278,11 @@ export default function AuxillariesSurface({
 
   const handleSignOut = useCallback(async () => {
     try {
+      clearLocalBitcodeWalletIdentity();
       await supabaseClient.auth.signOut();
       trackEvent('auth_sign_out');
       queryClient.removeQueries({ queryKey: ['auth'] });
+      void mutateUserData();
     } catch (err) {
       reportError(err);
     } finally {

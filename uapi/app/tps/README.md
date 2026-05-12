@@ -7,6 +7,7 @@
 
 Examples
 - `/tps/supabase/callback` – Auth OTP/OAuth callback overlay
+- `/tps/wallet/authorize` – Bitcode Bitcoin wallet OAuth authorization page for Supabase custom auth
 - `/tps/wallet/connect` – Wallet connection or settlement overlay
 - `/tps/github/callback` – GitHub App user-authorization callback handler
 - `/tps/github/app-install` – GitHub App installation/setup handler

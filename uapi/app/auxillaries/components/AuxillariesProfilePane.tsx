@@ -13,6 +13,7 @@ import { mutateUserData } from '@/hooks/useUserData';
 import {
   connectBitcoinWallet,
   inspectBitcoinWalletProviders,
+  type BitcoinWalletConnection,
   type BitcoinWalletProviderId,
   type BitcoinWalletProviderSummary,
 } from '@/lib/bitcoin-wallet-client';
@@ -58,6 +59,9 @@ type SupabaseAuthSession = {
     email?: string | null;
   } | null;
 } | null;
+
+const BITCODE_BITCOIN_SUPABASE_PROVIDER = 'custom:bitcode-bitcoin';
+const BITCODE_BITCOIN_SUPABASE_SCOPES = 'profile wallet:bitcoin';
 
 function readSupabaseClientReadiness() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -363,6 +367,7 @@ export default function AuxillariesProfilePane({ onSave,
   const [walletIdentityDetails, setWalletIdentityDetails] = useState<LocalBitcodeWalletIdentity | null>(() =>
     readLocalBitcodeWalletIdentity(),
   );
+  const walletServerPersistenceRef = useRef<string | null>(null);
 
   useEffect(() => {
     suppressProfileAutosaveRef.current = true;
@@ -530,7 +535,7 @@ export default function AuxillariesProfilePane({ onSave,
     onSave(profileAutosavePayload);
   };
 
-  const tryEnsureWalletBackedSession = async () => {
+  const ensureWalletBackedSession = async (providerId?: BitcoinWalletProviderId) => {
     const supabaseReadiness = readSupabaseClientReadiness();
     if (!supabaseReadiness.ready) {
       return supabaseReadiness;
@@ -543,33 +548,32 @@ export default function AuxillariesProfilePane({ onSave,
         return { ready: true as const };
       }
 
-      const authWithAnonymous = supabase.auth as typeof supabase.auth & {
-        signInAnonymously?: () => Promise<{
-          data?: { user?: unknown | null } | null;
-          error?: { message?: string } | null;
-        }>;
-      };
+      const redirectTo = `${window.location.origin}/tps/supabase/callback?next=${encodeURIComponent('/auxillaries/profile')}`;
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: BITCODE_BITCOIN_SUPABASE_PROVIDER as any,
+        options: {
+          redirectTo,
+          scopes: BITCODE_BITCOIN_SUPABASE_SCOPES,
+          queryParams: {
+            bitcode_wallet_provider: providerId ?? '',
+            wallet_provider: providerId ?? '',
+            bitcode_auth_surface: 'auxillaries_profile',
+          },
+        },
+      });
 
-      if (typeof authWithAnonymous.signInAnonymously !== 'function') {
+      if (error) {
         return {
           ready: false as const,
-          error: 'Supabase anonymous sign-ins are unavailable in this staging environment.',
+          error: `Supabase Bitcoin wallet auth failed: ${error.message}`,
         };
       }
 
-      const anonymousSession = await authWithAnonymous.signInAnonymously();
-      if (anonymousSession.error) {
-        return {
-          ready: false as const,
-          error: `Supabase anonymous sign-in failed: ${anonymousSession.error.message}`,
-        };
+      if (data?.url) {
+        window.location.assign(data.url);
       }
 
-      if (!anonymousSession.data?.user) {
-        return { ready: false as const, error: 'Bitcode did not receive a staging session.' };
-      }
-
-      return { ready: true as const };
+      return { ready: false as const, pendingRedirect: true as const };
     } catch (error) {
       return {
         ready: false as const,
@@ -607,13 +611,134 @@ export default function AuxillariesProfilePane({ onSave,
     await mutateUserData();
   };
 
+  const persistBitcoinWalletConnection = async (connection: BitcoinWalletConnection) => {
+    const response = await fetch('/api/wallet/authenticate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        address: connection.address,
+        provider: connection.provider,
+        network: connection.network,
+        message: connection.message,
+        signature: connection.signature,
+        proofKind: connection.proofKind,
+        paymentAddress: connection.paymentAddress,
+        authAddress: connection.authAddress,
+        addressType: connection.addressType,
+        connectedAt: connection.connectedAt,
+        issuedAt: connection.connectedAt,
+      }),
+    });
+
+    const payload = await response.json().catch(() => null);
+    if (!response.ok) {
+      setWalletAuthError(
+        typeof payload?.error === 'string'
+          ? `Bitcoin wallet connected locally; server persistence is pending: ${payload.error}`
+          : 'Bitcoin wallet connected locally; server persistence is pending.',
+      );
+      bitcodeQaTelemetry('warn', 'profile-wallet', 'server-persistence-pending', {
+        provider: connection.provider,
+        status: response.status,
+        error: typeof payload?.error === 'string' ? payload.error : null,
+      });
+      return false;
+    }
+
+    const savedAddress = typeof payload?.walletConnectionStatus?.address === 'string'
+      ? payload.walletConnectionStatus.address
+      : connection.address;
+    const savedAt = typeof payload?.walletConnectionStatus?.metadata?.connectedAt === 'string'
+      ? payload.walletConnectionStatus.metadata.connectedAt
+      : connection.connectedAt;
+    const savedStatus =
+      payload?.walletConnectionStatus?.verificationState === 'verified'
+        ? 'verified'
+        : payload?.walletConnectionStatus?.verificationState === 'manual'
+          ? 'manual'
+          : 'pending';
+
+    writeLocalBitcodeWalletIdentity({
+      address: savedAddress,
+      provider: connection.provider,
+      network: connection.network,
+      status: savedStatus,
+      connectedAt: savedAt,
+      proofKind: connection.proofKind,
+      paymentAddress: connection.paymentAddress,
+      authAddress: connection.authAddress,
+      addressType: connection.addressType,
+      message: connection.message,
+      signature: connection.signature,
+      persistence: 'server',
+    });
+    setWalletIdentityDetails(readLocalBitcodeWalletIdentity());
+    setWalletAddress(savedAddress);
+    setWalletProvider(connection.provider);
+    setWalletBindingStatus(savedStatus);
+    setWalletBoundAt(savedAt);
+    setWalletAuthNotice(`${connection.providerLabel} wallet identity saved for this Bitcode profile.`);
+    bitcodeQaTelemetry('info', 'profile-wallet', 'server-persisted', {
+      provider: connection.provider,
+      status: savedStatus,
+      address: compactBitcodeAddress(savedAddress),
+    });
+    return true;
+  };
+
+  useEffect(() => {
+    const identity = walletIdentityDetails ?? readLocalBitcodeWalletIdentity();
+    if (!identity || identity.persistence === 'server') return;
+    if (identity.proofKind !== 'bitcoin_message_signature' || !identity.signature || !identity.message) return;
+
+    const persistenceKey = `${identity.provider}:${identity.address}:${identity.signature}`;
+    if (walletServerPersistenceRef.current === persistenceKey) return;
+    walletServerPersistenceRef.current = persistenceKey;
+
+    let cancelled = false;
+    (async () => {
+      const readiness = readSupabaseClientReadiness();
+      if (!readiness.ready || cancelled) return;
+
+      const supabase = createClient();
+      const existing = await supabase.auth.getUser();
+      if (!existing.data.user || cancelled) return;
+
+      await persistBitcoinWalletConnection({
+        address: identity.address,
+        provider: identity.provider,
+        providerLabel: formatWalletProviderLabel(identity.provider),
+        network: identity.network,
+        paymentAddress: identity.paymentAddress,
+        authAddress: identity.authAddress,
+        addressType: identity.addressType,
+        message: identity.message ?? '',
+        signature: identity.signature ?? null,
+        connectedAt: identity.connectedAt,
+        proofKind: 'bitcoin_message_signature',
+      });
+      if (!cancelled) {
+        await mutateUserData();
+      }
+    })().catch((error) => {
+      if (cancelled) return;
+      bitcodeQaTelemetry('warn', 'profile-wallet', 'oauth-session-persistence-pending', {
+        message: error instanceof Error ? error.message : 'unknown',
+      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [walletIdentityDetails]);
+
   const handleConnectBitcoinWallet = async (providerId?: BitcoinWalletProviderId) => {
     setWalletAuthError(null);
     const providerLabel =
       walletProviderOptions.find((provider) => provider.id === providerId)?.label ??
       (providerId ? providerId : 'first available Bitcoin wallet');
     setWalletAuthNotice(
-      `Opening ${providerLabel}. Approve address sharing, then approve the Bitcode BIP322 authentication message.`,
+      `Preparing ${providerLabel}. Supabase will open Bitcode Bitcoin authentication, then the wallet will ask for a signed Bitcode message.`,
     );
     setWalletAuthStatus('requesting');
     bitcodeQaTelemetry('info', 'profile-wallet', 'connect-request', {
@@ -621,6 +746,22 @@ export default function AuxillariesProfilePane({ onSave,
     });
 
     try {
+      const sessionReadiness = await ensureWalletBackedSession(providerId);
+      if (!sessionReadiness.ready) {
+        if ('pendingRedirect' in sessionReadiness && sessionReadiness.pendingRedirect) {
+          setWalletAuthNotice('Opening Bitcode Bitcoin authentication with Supabase.');
+          return;
+        }
+        setWalletAuthStatus('idle');
+        setWalletAuthError(
+          `Bitcoin wallet authentication cannot establish the Supabase session yet: ${sessionReadiness.error}`,
+        );
+        bitcodeQaTelemetry('warn', 'profile-wallet', 'session-persistence-unavailable', {
+          reason: sessionReadiness.error,
+        });
+        return;
+      }
+
       const connection = await connectBitcoinWallet(providerId);
       setWalletAuthNotice(`${connection.providerLabel} signed wallet proof. Staging Bitcode profile identity.`);
       writeLocalBitcodeWalletIdentity({
@@ -651,85 +792,7 @@ export default function AuxillariesProfilePane({ onSave,
         authAddress: compactBitcodeAddress(connection.authAddress),
       });
 
-      const sessionReadiness = await tryEnsureWalletBackedSession();
-      if (sessionReadiness.ready) {
-        const response = await fetch('/api/wallet/authenticate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            address: connection.address,
-            provider: connection.provider,
-            network: connection.network,
-            message: connection.message,
-            signature: connection.signature,
-            proofKind: connection.proofKind,
-            paymentAddress: connection.paymentAddress,
-            authAddress: connection.authAddress,
-            addressType: connection.addressType,
-            connectedAt: connection.connectedAt,
-            issuedAt: connection.connectedAt,
-          }),
-        });
-
-        const payload = await response.json().catch(() => null);
-        if (response.ok) {
-          const savedAddress = typeof payload?.walletConnectionStatus?.address === 'string'
-            ? payload.walletConnectionStatus.address
-            : connection.address;
-          const savedAt = typeof payload?.walletConnectionStatus?.metadata?.connectedAt === 'string'
-            ? payload.walletConnectionStatus.metadata.connectedAt
-            : connection.connectedAt;
-          const savedStatus =
-            payload?.walletConnectionStatus?.verificationState === 'verified'
-              ? 'verified'
-              : payload?.walletConnectionStatus?.verificationState === 'manual'
-                ? 'manual'
-                : 'pending';
-          writeLocalBitcodeWalletIdentity({
-            address: savedAddress,
-            provider: connection.provider,
-            network: connection.network,
-            status: savedStatus,
-            connectedAt: savedAt,
-            proofKind: connection.proofKind,
-            paymentAddress: connection.paymentAddress,
-            authAddress: connection.authAddress,
-            addressType: connection.addressType,
-            message: connection.message,
-            signature: connection.signature,
-            persistence: 'server',
-          });
-          setWalletIdentityDetails(readLocalBitcodeWalletIdentity());
-          setWalletAddress(savedAddress);
-          setWalletBindingStatus(savedStatus);
-          setWalletBoundAt(savedAt);
-          setWalletAuthNotice(`${connection.providerLabel} wallet identity saved for this Bitcode profile.`);
-          bitcodeQaTelemetry('info', 'profile-wallet', 'server-persisted', {
-            provider: connection.provider,
-            status: savedStatus,
-            address: compactBitcodeAddress(savedAddress),
-          });
-        } else {
-          setWalletAuthError(
-            typeof payload?.error === 'string'
-              ? `Bitcoin wallet connected locally; server persistence is pending: ${payload.error}`
-              : 'Bitcoin wallet connected locally; server persistence is pending.',
-          );
-          bitcodeQaTelemetry('warn', 'profile-wallet', 'server-persistence-pending', {
-            provider: connection.provider,
-            status: response.status,
-            error: typeof payload?.error === 'string' ? payload.error : null,
-          });
-        }
-      } else {
-        setWalletAuthError(
-          `Bitcoin wallet connected locally; server persistence is pending: ${sessionReadiness.error}`,
-        );
-        bitcodeQaTelemetry('warn', 'profile-wallet', 'session-persistence-unavailable', {
-          reason: sessionReadiness.error,
-        });
-      }
-
+      await persistBitcoinWalletConnection(connection);
       setWalletAuthStatus('signed');
       await mutateUserData();
     } catch (error) {

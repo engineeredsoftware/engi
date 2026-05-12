@@ -18,6 +18,7 @@ import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } fro
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/base/bitcode/layout/bitcode-public-explainers";
 import { bitcodeQaTelemetry, compactBitcodeAddress } from "../../../../lib/bitcode-qa-telemetry";
+import { clearLocalBitcodeWalletIdentity } from "../../../../lib/bitcode-wallet-local";
 
 const MemoBTDTracker = React.memo(BTDTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
@@ -570,6 +571,7 @@ export default function Nav() {
                       import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                         const client = createClient();
                         client.auth.signOut().finally(() => {
+                          clearLocalBitcodeWalletIdentity();
                           // Show login pane after sign out
                           openAuxillaries('login');
                           // Redirect from authenticated pages

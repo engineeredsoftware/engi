@@ -220,6 +220,16 @@ The BTD tracker hover/action area now identifies the connected wallet and opens 
 Connects must use that same wallet identity as a sufficient prerequisite to render GitHub connection controls; optional email/Supabase session state may improve persistence and notifications, but must not hide the second onboarding step after Bitcoin wallet identity is staged.
 Verbose QA telemetry is allowed behind explicit flags so local testnet passes can observe provider detection, Leather/Xverse signing, local wallet persistence, user-data merge, navigation identity, and BTD auxillary entry without making normal production consoles noisy.
 
+The May 12 Supabase auth correction makes signed Bitcoin wallet auth the session origin, not a post-hoc anonymous-session attachment.
+Supabase built-in Web3 providers do not cover Bitcoin wallet providers, so V28 defines a Bitcode-owned custom OAuth2 provider named `custom:bitcode-bitcoin`.
+The provider authorization page is `/tps/wallet/authorize`; it detects Bitcoin-capable browser wallets, captures a signed Bitcode Bitcoin authentication message, and redirects back to the Supabase callback with an authorization code.
+The machine endpoints are `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo`.
+Token exchange validates the configured OAuth client secret, allowed Supabase callback origin, and PKCE challenge when present.
+UserInfo returns a stable Bitcoin subject and wallet claims (`bitcoin_address`, provider, network, auth/payment address, proof kind) with email optional.
+After Supabase creates the session, Profile synchronizes the captured local wallet proof into `/api/wallet/authenticate` so the Supabase data realm can project wallet identity from the ledger-facing signed proof.
+Sign-out clears both the Supabase auth session and the local staged wallet identity.
+V28 still treats BIP322 signature verification as a captured-proof boundary (`server_signature_verifier_pending`) unless a verified server-side Bitcoin signature verifier is added before promotion; that verifier should become a V28 blocker only if signed-wallet identity is promoted from captured proof to cryptographic verification.
+
 These changes remain V28 scope because they are MVP-readiness and trust issues.
 The deeper Auxillaries version retains hierarchy, spacing, diagnostics, recovery, and provider-management expansion after V28 proves the contained shell, mocked prerequisite reads, fail-closed testnet-readiness, and no-console-error baseline.
 

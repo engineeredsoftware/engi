@@ -68,6 +68,7 @@ module.exports = {
     // -------------------------------------------------------------------
     '^@/lib/bitcode-app-context$': '<rootDir>/lib/bitcode-app-context.ts',
     '^@/lib/bitcode-app-context-options$': '<rootDir>/lib/bitcode-app-context-options.ts',
+    '^@/lib/bitcoin-wallet-oauth-provider$': '<rootDir>/lib/bitcoin-wallet-oauth-provider.ts',
     '^@/lib/bitcoin-wallet-client$': '<rootDir>/lib/bitcoin-wallet-client.ts',
     '^@/lib/bitcode-wallet-local$': '<rootDir>/lib/bitcode-wallet-local.ts',
     '^@/lib/mock-review-mode$': '<rootDir>/lib/mock-review-mode.ts',
