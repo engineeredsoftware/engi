@@ -40,9 +40,9 @@ const providerConfig = {
   github: {
     icon: GitHubLogoIcon,
     label: 'GitHub',
-    description: 'Connect your GitHub account to access repositories and create pull requests.',
+    description: 'Install the Bitcode GitHub App to grant repository scope for Terminal Need and Give work.',
     color: 'bg-gray-900',
-    features: ['Repository access', 'Pull requests', 'Issues', 'Webhooks']
+    features: ['Installation-scoped repository access', 'Source inventory reads', 'Pull requests', 'Webhooks']
   },
   gitlab: {
     icon: GitBranch,

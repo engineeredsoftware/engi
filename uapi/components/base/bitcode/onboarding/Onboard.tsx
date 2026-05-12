@@ -1,5 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { BITCODE_GITHUB_APP_PUBLIC_URL } from "@/lib/github-app-url";
 
 export const useOnboardCTA = () => {
   const { user } = useUser()
@@ -23,7 +24,7 @@ export const useOnboardCTA = () => {
         } else {
           setText('Install App')
         }
-        setHref('https://github.com/marketplace/bitcode-github-app')
+        setHref(BITCODE_GITHUB_APP_PUBLIC_URL)
       }
     } else {
       setText('Get Started')

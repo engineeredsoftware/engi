@@ -336,6 +336,12 @@ Automated verification after this implementation pass:
 - May 11 externality-readiness check validates the provided GitHub App identity without writing secrets to source: the private key parses, GitHub API returns App ID `244206`, app slug `engi-software-agents`, and the supplied client ID matches the app record. The app can list installations and create an installation token for at least one installation. Initial check found it was not installed on `engineeredsoftware/ENGI`.
 - May 12 externality-readiness recheck confirms the GitHub App is now installed on `engineeredsoftware/ENGI`: `GET /repos/engineeredsoftware/ENGI/installation` returns 200, installation token creation returns 201, `engineeredsoftware/ENGI` is readable, default branch is `main`, and `BITCODE_SPEC.txt` is readable through the app installation token. GitHub App externality is ready for V28 Terminal Give/Need QA against ENGI.
 - May 12 Supabase readiness resolves project reachability and key acceptance but remains blocked on database schema. The project URL is reachable, auth settings return 200 with the supplied publishable key, and the secret key is accepted by the Supabase API gateway. Core Bitcode tables including `user_profiles`, `user_connections`, `vcs_repositories`, `btd_asset_pack_ranges`, and `btd_mint_receipts` return `PGRST205` table-not-found responses, so migrations have not been applied to this testnet project yet. Source now accepts both the older `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` names and the newer `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SECRET_KEY` names so the provided testnet variables can be used directly after migration.
+- May 12 GitHub App setup/callback hardening: the active install link is now `https://github.com/apps/bitcode-github-app-auxillary` in Auxillaries and docs-facing surfaces. The retained public callback route `/github/callback` redirects to `/tps/github/callback`, and the retained setup route `/github/setup` redirects to `/tps/github/app-install`, preserving query fields. The callback handler collects GitHub App installation fields including `installation_id`, `setup_action`, `state`, `target_id`, and `target_type`; when a Supabase user session exists it exchanges the installation for an installation token and stores the GitHub connection as installation-scoped metadata without exposing tokens in client connection status. The GitHub App description copy for the registration form is: `Connect GitHub repositories to Bitcode so Terminal can measure Needs, synthesize BTD-backed AssetPacks, and return proof-bound delivery status.`
+- Recommended GitHub App URLs for production registration: homepage `https://bitcode.exchange`, callback URL `https://bitcode.exchange/github/callback`, setup URL `https://bitcode.exchange/github/setup`, public app link `https://github.com/apps/bitcode-github-app-auxillary`. For local callback QA, add a temporary allowed callback/setup pair for the active local port or use the deployed staging domain; GitHub App setup redirects do not inherit the browser's local origin automatically.
+- `pnpm -C uapi exec jest --runInBand tests/api/vcsRoutes.test.ts tests/api/vcsGithubCallbackRoute.test.ts tests/auxillariesConnectsPane.test.tsx tests/publicDocsPageContent.test.tsx`: 11 passed after GitHub App install-link and callback/setup handling.
+- `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/userConnectionsGithubRoute.test.ts'`: 6 passed after GitHub connection-status token redaction.
+- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after GitHub App callback/setup and public install-link wiring.
+- `pnpm -C uapi run build`: pass after GitHub App callback/setup and public install-link wiring.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
@@ -406,9 +412,11 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<testnet Supabase publishable key> \
 SUPABASE_SECRET_KEY=<testnet Supabase secret key> \
 GITHUB_APP_CLIENT_ID=<GitHub App client ID> \
 GITHUB_APP_CLIENT_SECRET=<GitHub App client secret> \
+GITHUB_APP_REDIRECT_URI=http://127.0.0.1:3001/github/callback \
 GITHUB_APP_ID=<GitHub App ID> \
 GITHUB_PRIVATE_KEY="$(cat /Users/garrettmaring/Downloads/engi-software-agents.2026-05-11.private-key.pem)" \
 GITHUB_WEBHOOK_SECRET=<GitHub webhook secret> \
+NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-app-auxillary \
 NEXT_PUBLIC_MASTER_MOCK_MODE=false \
 NEXT_PUBLIC_ENABLE_MOCKS=false \
 NEXT_PUBLIC_MOCK_USER_AUXILLARIES=false \

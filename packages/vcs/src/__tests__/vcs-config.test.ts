@@ -20,6 +20,9 @@ describe('@bitcode/vcs configuration helpers', () => {
     delete process.env.GITHUB_CLIENT_ID;
     delete process.env.GITHUB_CLIENT_SECRET;
     delete process.env.GITHUB_REDIRECT_URI;
+    delete process.env.GITHUB_APP_CLIENT_ID;
+    delete process.env.GITHUB_APP_CLIENT_SECRET;
+    delete process.env.GITHUB_APP_REDIRECT_URI;
     delete process.env.GITHUB_APP_ID;
     delete process.env.GITHUB_PRIVATE_KEY;
     delete process.env.GITHUB_WEBHOOK_SECRET;
@@ -32,6 +35,18 @@ describe('@bitcode/vcs configuration helpers', () => {
     expect(cfg.clientId).toBe('gh-client');
     expect((cfg as any).appId).toBe('12345');
     expect((cfg as any).privateKey).toBe('private-key');
+  });
+
+  it('prefers GitHub App OAuth client aliases when present', () => {
+    process.env.GITHUB_APP_CLIENT_ID = 'app-client';
+    process.env.GITHUB_APP_CLIENT_SECRET = 'app-secret';
+    process.env.GITHUB_APP_REDIRECT_URI = 'https://app.test/github/callback';
+
+    const cfg = getVCSConfig('github');
+
+    expect(cfg.clientId).toBe('app-client');
+    expect(cfg.clientSecret).toBe('app-secret');
+    expect(cfg.redirectUri).toBe('https://app.test/github/callback');
   });
 
   it('returns provider-specific OAuth scopes', () => {

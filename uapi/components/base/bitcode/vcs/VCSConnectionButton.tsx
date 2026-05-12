@@ -6,6 +6,7 @@ import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { GitBranch, Server } from 'lucide-react';
 import { VCSProviderType } from '@bitcode/vcs-core';
 import { toast } from '@/components/base/shadcn/sonner';
+import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 interface VCSConnectionButtonProps {
   provider: VCSProviderType;
@@ -20,16 +21,19 @@ const providerConfig = {
   github: {
     icon: GitHubLogoIcon,
     label: 'GitHub',
+    actionLabel: 'Install GitHub App',
     color: 'hover:bg-gray-900 hover:text-white'
   },
   gitlab: {
     icon: GitBranch,
     label: 'GitLab',
+    actionLabel: 'Connect GitLab',
     color: 'hover:bg-orange-600 hover:text-white'
   },
   bitbucket: {
     icon: Server,
     label: 'Bitbucket',
+    actionLabel: 'Connect Bitbucket',
     color: 'hover:bg-blue-600 hover:text-white'
   }
 };
@@ -50,8 +54,12 @@ export function VCSConnectionButton({
     setIsConnecting(true);
     
     try {
-      // Build OAuth URL
-      let oauthUrl = `/api/vcs/${provider}/oauth`;
+      // GitHub is installed as a GitHub App so repository scope returns through
+      // the setup/callback URLs with an installation ID. Other providers keep
+      // the generic OAuth route.
+      let oauthUrl = provider === 'github' && !instanceUrl
+        ? BITCODE_GITHUB_APP_PUBLIC_URL
+        : `/api/vcs/${provider}/oauth`;
       if (instanceUrl) {
         oauthUrl += `?instance_url=${encodeURIComponent(instanceUrl)}`;
       }
@@ -78,7 +86,7 @@ export function VCSConnectionButton({
       className={`${config.color} ${className}`}
     >
       <Icon className="mr-2 h-4 w-4" />
-      {isConnecting ? 'Connecting...' : `Connect ${config.label}`}
+      {isConnecting ? 'Connecting...' : config.actionLabel}
     </Button>
   );
 }

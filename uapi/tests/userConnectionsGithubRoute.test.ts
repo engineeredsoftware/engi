@@ -94,7 +94,12 @@ import { createClient } from '@bitcode/supabase/ssr/server';
     });
     it('returns repositories and organizations on success', async () => {
       mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
-      const connectionData = { installationId: '123', code: 'abc' };
+      const connectionData = {
+        installationId: '123',
+        code: 'abc',
+        access_token: 'ghs_secret',
+        refresh_token: 'refresh-secret',
+      };
       mockFrom.maybeSingle.mockResolvedValue({ data: { connection_data: connectionData }, error: null });
       // Mock Octokit installation
       const fakeRepos = [
@@ -112,7 +117,9 @@ import { createClient } from '@bitcode/supabase/ssr/server';
       expect(res.status).toBe(200);
       const body = await res.json();
       expect(body.success).toBe(true);
-      expect(body.connectionData).toEqual(connectionData);
+      expect(body.connectionData).toEqual({ installationId: '123', code: 'abc' });
+      expect(body.connectionData.access_token).toBeUndefined();
+      expect(body.connectionData.refresh_token).toBeUndefined();
       expect(Array.isArray(body.repositories)).toBe(true);
       expect(body.repositories).toEqual(fakeRepos);
       expect(body.organizations).toEqual(['org1']);

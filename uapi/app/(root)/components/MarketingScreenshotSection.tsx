@@ -31,6 +31,7 @@ import type { Screenshot } from './marketing-types';
 // Reuse the global neon underline + glow styles defined for Bitcode headers.
 import "@/styles/bitcode-header-shiny-text.css";
 import { motion, useInView } from "framer-motion";
+import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 // Persist a module-level flag so the animation only ever plays once per page
 // load, even if the component gets unmounted/remounted (e.g. via Next.js
@@ -795,7 +796,7 @@ const MarketingScreenshotSection: React.FC = () => {
                 <a
                   ref={linkRef}
                   id="esi-link"
-                  href="https://github.com/marketplace/bitcode-github-app"
+                  href={BITCODE_GITHUB_APP_PUBLIC_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="glowing-underline text-slate-100 hover:text-white transition-colors font-semibold"

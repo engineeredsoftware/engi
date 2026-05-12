@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import TerminalWorkspaceCard from '@/app/terminal/TerminalWorkspaceCard';
 import Footer from '@/components/base/bitcode/layout/footer';
+import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 import {
   BITCODE_DOCS_CHAPTERS,
@@ -518,6 +519,16 @@ export default function DocsArticlePage({ page }: DocsArticlePageProps) {
               >
                 Docs hub
               </Link>
+              {page.slug === 'auxillaries' || page.slug === 'commercial-interfaces' ? (
+                <a
+                  href={BITCODE_GITHUB_APP_PUBLIC_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex rounded-full border border-cyan-300/22 bg-cyan-400/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-50 transition hover:border-cyan-300/42 hover:bg-cyan-400/16"
+                >
+                  Install GitHub App
+                </a>
+              ) : null}
             </div>
           </section>
 

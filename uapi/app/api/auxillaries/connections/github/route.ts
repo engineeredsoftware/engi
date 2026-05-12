@@ -27,6 +27,21 @@ function resolveInstallationId(connectionData: Record<string, unknown> | null | 
   return Number.isFinite(numeric) ? numeric : null;
 }
 
+const sensitiveConnectionDataKeys = new Set([
+  'access_token',
+  'oauth_token',
+  'refresh_token',
+  'token',
+  'client_secret',
+  'private_key',
+]);
+
+function sanitizeConnectionData(connectionData: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(connectionData).filter(([key]) => !sensitiveConnectionDataKeys.has(key.toLowerCase())),
+  );
+}
+
 export async function GET(_request: Request) {
   const { supabase, user } = await requireUser();
   if (!user) {
@@ -49,7 +64,7 @@ export async function GET(_request: Request) {
   if (!installationId) {
     return NextResponse.json({
       success: true,
-      connectionData,
+      connectionData: sanitizeConnectionData(connectionData),
       repositories: [],
       organizations: [],
     });
@@ -69,7 +84,7 @@ export async function GET(_request: Request) {
 
     return NextResponse.json({
       success: true,
-      connectionData,
+      connectionData: sanitizeConnectionData(connectionData),
       repositories,
       organizations,
     });

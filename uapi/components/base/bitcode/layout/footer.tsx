@@ -20,6 +20,7 @@ import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-pu
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitcode-public-explainers';
 import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
+import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 const TERMINAL_URL = '/terminal';
 const EXCHANGE_URL = '/exchange';
@@ -41,7 +42,7 @@ const footerNavs = [
     label: "Product",
     items: [
       {
-        href: "https://github.com/marketplace/bitcode-github-app",
+        href: BITCODE_GITHUB_APP_PUBLIC_URL,
         name: "GitHub App",
       },
       {

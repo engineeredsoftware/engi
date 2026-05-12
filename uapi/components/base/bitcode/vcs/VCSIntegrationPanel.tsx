@@ -86,13 +86,14 @@ export function VCSIntegrationPanel({
       <div>
         <h3 className="text-lg font-medium">Version Control System Integrations</h3>
         <p className="text-sm text-muted-foreground">
-          Connect your repositories to enable automated workflows and collaboration features.
+          Install the Bitcode GitHub App so Terminal can read permitted repository
+          context for Need, Give, and proof follow-through.
         </p>
       </div>
       
       <Tabs defaultValue="oauth" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="oauth">OAuth Connection</TabsTrigger>
+          <TabsTrigger value="oauth">GitHub App</TabsTrigger>
           <TabsTrigger value="pat">Personal Access Token</TabsTrigger>
         </TabsList>
         
@@ -101,8 +102,9 @@ export function VCSIntegrationPanel({
             <Info className="h-4 w-4" />
             <AlertTitle>Recommended</AlertTitle>
             <AlertDescription>
-              OAuth provides a secure way to connect without sharing your password.
-              Your access can be revoked at any time from your VCS provider settings.
+              The GitHub App returns an installation ID to Bitcode after install,
+              then Bitcode stores only the installation-scoped connection needed
+              for permitted repository reads.
             </AlertDescription>
           </Alert>
           

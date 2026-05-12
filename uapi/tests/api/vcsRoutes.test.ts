@@ -19,6 +19,16 @@ describe('/api/vcs routes (mock mode)', () => {
     jest.resetModules();
   });
 
+  function readHeader(response: any, name: string) {
+    if (typeof response.headers?.get === 'function') {
+      return response.headers.get(name);
+    }
+
+    const headerEntries = Object.entries(response.headers || {});
+    const match = headerEntries.find(([key]) => key.toLowerCase() === name.toLowerCase());
+    return match?.[1] as string | undefined;
+  }
+
   it('returns a deterministic GitHub connection payload for the orbitals connects pane', async () => {
     const { GET } = await import('@/app/api/vcs/[provider]/connection/route');
     const request = new Request('https://example.com/api/vcs/github/connection');
@@ -67,5 +77,18 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(payload.success).toBe(true);
     expect(payload.provider).toBe('github');
     expect(payload.connection.connected).toBe(true);
+  });
+
+  it('handles GitHub callback URLs in mock mode without falling through to HTML routes', async () => {
+    const { GET } = await import('@/app/api/vcs/[provider]/callback/route');
+    const request = new Request(
+      'https://example.com/api/vcs/github/callback?installation_id=123&setup_action=install',
+    );
+
+    const response = await GET(request as any, { params: { provider: 'github' } } as any);
+
+    expect(response.status).toBeGreaterThanOrEqual(300);
+    expect(readHeader(response, 'location')).toContain('/auxillaries/connects');
+    expect(readHeader(response, 'location')).toContain('vcsConnection=mock_connected');
   });
 });

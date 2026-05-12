@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
 
 import { createGitHubAppAuth } from '@bitcode/github';
 import { VCSConnections, VCSProviderFactory, type VCSAuth, type VCSProviderType } from '@bitcode/vcs';
@@ -55,7 +54,12 @@ function buildConnectsRedirect(
     redirectUrl.searchParams.set(key, String(value));
   }
 
-  return NextResponse.redirect(redirectUrl);
+  return new Response(null, {
+    status: 307,
+    headers: {
+      Location: redirectUrl.toString(),
+    },
+  });
 }
 
 function clearOAuthCookies(provider: VCSProviderType) {
