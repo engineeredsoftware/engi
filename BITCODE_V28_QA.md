@@ -14,13 +14,13 @@ Exchange and the website Conversations interface are no longer V28 QA surfaces.
 | Field | Value |
 | --- | --- |
 | Date | 2026-05-08 |
-| Latest resume | 2026-05-09 |
+| Latest resume | 2026-05-13 |
 | Mock app URL | `http://127.0.0.1:3000` |
 | Testnet-readiness app URL | `http://127.0.0.1:3001` when a second dev server is running |
-| Server mode | dual-lane QA: deterministic mock first, then testnet/live-readiness |
+| Server mode | manual QA now prioritizes real staging-testnet with mocks off; mock mode remains a deterministic regression harness that must stay synchronized |
 | Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
 | Draft target | `V28` |
-| Manual QA focus | natural operator progression through wallet/GitHub/Terminal/BTD/testnet/MCP/ChatGPT plus docs-sequenced validation |
+| Manual QA focus | real staging-testnet natural progression from wallet-backed onboarding to Terminal Need/Fit and Give settlement readback, with MCP/ChatGPT parity and docs-sequenced validation |
 | Marketing page status | intentionally de-scoped except for navigation-entry regressions |
 
 ## V28 MVP Scope
@@ -86,13 +86,152 @@ Each pass should be small enough to produce actionable screenshots, console obse
 | --- | --- | --- | --- |
 | 3A | Natural progression 1A | Wallet, GitHub, profile, notifications, nav balance, Auxillaries Externals/Profile/BTD readiness. | Mock passes deterministic readiness; testnet-readiness either works live or records precise blocked provider/credential states; no console errors. |
 | 3A-prereq | Natural progression 1A | Sign-up/sign-in, signed Bitcoin wallet authentication, BTC/BTD chrome, GitHub App installation, and prerequisite clarity before Give/Need. | Mock proves the intended prerequisite model; testnet proves or precisely blocks Supabase custom Bitcoin OAuth, wallet proof capture, profile persistence, sign-out clearing, and GitHub installation visibility. |
-| 3B | Natural progression 1B | Simplest Need path: select/express Need, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what happened, where it landed in Exchange, what is mocked, and what remains staged in testnet-readiness. |
+| 3B | Natural progression 1B | Simplest Need path: select/express Need, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what happened, which Terminal/protocol readbacks were produced, what is mocked, and what remains staged or blocked in testnet-readiness. |
 | 3C | Natural progression 1C | Simplest Give path: attach or select source, run/inspect Give flow, read earning/settlement state. | User can explain what source was contributed, how it was measured, and whether earning/BTD posture is live, mocked, or blocked. |
 | 4A | Docs sequence 00 | Docs overview and Source Shares against nav, Terminal, BTD widget, MCP/ChatGPT readiness. | Contradictions between docs and product are logged in both lanes. |
 | 4B | Docs sequence 01 | Terminal and Protocol docs against Terminal action/read flows and protocol readback. | Ownership of product patterns is clear in mock and still honest when live/testnet dependencies are absent. |
 | 4C | Docs sequence 02 | Auxillaries and Configuration docs against app modes. | MVP readiness and fail-closed states are honest in both lanes; website Conversations is deferred. |
 | 4D | Docs sequence 03 | Protocol/proof/settlement docs against visible proof, BTD, BTC, and access-policy reads. | No public docs overclaim proof/source/license/payment behavior; testnet-readiness exposes missing ledger/signer/broadcaster posture plainly. |
 | 4E | Docs sequence 04 | Commercial Interfaces, MCP/API, and ChatGPT App docs against available routes/interface claims. | MCP API and ChatGPT App MVP claims are testable in V28; deeper interface claims are staged honestly for V33. |
+
+## 2026-05-13 Real-Deployed Staging-Testnet QA Architecture
+
+Manual QA now starts from the staging-testnet deployment path with mocks disabled.
+The objective is to prove the smallest real commercial Bitcode loop:
+
+```text
+Wallet identity
+  -> GitHub source scope
+  -> Terminal Need
+  -> Fit result
+  -> AssetPack synthesis
+  -> BTC/testnet ledger or blocked-readiness receipt
+  -> Terminal journal
+  -> Supabase/PostgreSQL projection
+  -> Terminal readback
+  -> Terminal Give
+  -> earning/settlement or blocked-readiness readback
+```
+
+Mock remains required for automated and regression coverage, but human QA should now report staging-testnet evidence first.
+Every testnet finding must be classified against one of these source-of-truth areas:
+
+| Area | What QA must prove or precisely block |
+| --- | --- |
+| BTC/D identity | Bitcoin wallet provider detection, signed challenge, payment/auth address distinction, wallet-backed Supabase session/projection, top-chrome hydration, sign-out clearing. |
+| GitHub | GitHub App install/callback, provider-scoped connection persistence, repository inventory, repository selection usable by Give and Need. |
+| PSQL data realm | Auth users, profiles, provider connections, repository cache, BTD registry projections, Terminal journals, telemetry, and reconciliation rows match visible UI state. |
+| Fit-finding | Terminal Need produces readable candidate/quality/rejection state and proof/dedupe roots before settlement. |
+| AssetPack synthesis | AssetPack evidence, source manifest, semantic volume, access policy, measuremint/range or zero-cell receipt are generated or blocked with an explicit reason. |
+| Ledgerized journaling | BTC fee, ledger anchor, Terminal journal, and reconciliation state are recorded as journal/projection facts rather than local-only UI decoration. |
+| Pipeline runtime deployment | Runtime lane, GitHub authority, external realization, branch/source write posture, and deployment blockers are visible. |
+| Telemetry and alerting | Client/server verbose logs identify wallet, GitHub, Terminal, Fit, AssetPack, ledger, database, and pipeline transitions without leaking secrets. |
+| Legacy residue | Active V28 flows do not depend on Exchange, website Conversations, retired workspace routes, old orbital shell behavior, broad model selection, or explicit source versioning. |
+
+Deterministic model rule for this QA:
+
+- Terminal, Fit-finding, AssetPack synthesis, semantic measurement, measuremint, proof, journal, and settlement may not offer user-selected model choice.
+- Protocol-specified model/configuration roots must be used for ledgerized synthesis.
+- Conversation-only model preferences are allowed only if they cannot affect ledgerized Terminal/Protocol artifacts.
+
+### Staging-Testnet Milestones
+
+| Milestone | Operator action | Expected acceptance evidence |
+| --- | --- | --- |
+| 0. Environment readiness | Load `/terminal` with mock flags off, Exchange disabled, website Conversations disabled, verbose QA logging on, and Supabase/GitHub credentials configured. | Top chrome waits for wallet-state resolution before showing `Connect Wallet` or BTC/BTD facts; console has no product errors; server logs identify staging-testnet lane. |
+| 1. Wallet identity | Open Wallet, connect Leather or Xverse on testnet/testnet4, approve Bitcode signing, return to app. | Wallet pane shows provider, network, payment/auth addresses, signature/proof state, BTC/BTD readout, and persistence state; top chrome replaces anonymous `Connect Wallet`. |
+| 2. GitHub source scope | Open Externals, install/connect GitHub App, return from callback/setup, choose or inspect repositories. | Externals shows connected GitHub identity/installation/repository scope; Terminal can read repository inventory for Give/Need. |
+| 3. Simple Need | In Terminal, use the simplest available Need path against the connected repository/source scope. | Terminal shows Need text/scope, Fit candidate or blocker, review/proof/dedupe roots, semantic volume, and next commitment action/state. |
+| 4. AssetPack and journal | Commit or inspect the staged AssetPack result. | AssetPack range or zero-cell receipt, access policy hash, BTC fee/ledger readiness, Terminal journal row, and Supabase projection are visible and diffable. |
+| 5. Simple Give | In Terminal, attach/select source from GitHub and run the simplest Give path. | Terminal shows admissibility, source root, synthetic measurement, earning/settlement/readiness state, journal row, and any database projection. |
+| 6. Interface parity | Query MCP API and ChatGPT App MVP entrypoints for the same wallet/source/AssetPack/read-right state. | Interfaces read the same state as Terminal and fail closed when prerequisites are missing. |
+
+### QA Evidence Packet
+
+For every staging-testnet pass, paste back:
+
+1. The exact URL and route state.
+2. Screenshots for Wallet, Externals, Terminal Need result, Terminal Give result, and any AssetPack/BTD range readback.
+3. Browser console logs, excluding known wallet-extension injection warnings unless they block Bitcode behavior.
+4. Server logs for the same actions, with secrets redacted.
+5. Network failures, including URL, method, status, and response body when available.
+6. Supabase SQL results from the queries below.
+7. A short classification for each issue: V28 blocker, V29 Terminal depth, V31 Auxillaries depth, V32 provation/testing, V33 interfaces, V34 deployment, V35 telemetry/docs, or V36+ Exchange/Conversations.
+
+### Supabase SQL Checks
+
+Run these in the staging Supabase SQL editor after each milestone and paste the result rows or any table/permission errors.
+Errors are useful because missing migrations or RLS drift are V28 parity findings.
+
+```sql
+select id, email, created_at, last_sign_in_at
+from auth.users
+order by created_at desc
+limit 10;
+
+select id, username, display_name, role, onboarding_step, onboarding_data, updated_at
+from public.user_profiles
+order by updated_at desc
+limit 10;
+
+select user_id, provider, is_active, connection_data, created_at, updated_at
+from public.user_connections
+order by updated_at desc
+limit 20;
+
+select user_id, provider, repo_full_name, repo_default_branch, repo_private, updated_at
+from public.vcs_repositories
+order by updated_at desc
+limit 20;
+
+select *
+from public.btd_supply_state;
+
+select measurement_id, asset_pack_id, normalized_bitcode_volume, token_count, created_at
+from public.btd_semantic_volume_measurements
+order by created_at desc
+limit 20;
+
+select receipt_id, asset_pack_id, token_count, range_start, range_end_exclusive,
+       zero_cell_reason, total_minted_before, total_minted_after, created_at
+from public.btd_measure_mint_receipts
+order by created_at desc
+limit 20;
+
+select asset_pack_id, range_start, range_end_exclusive, token_count,
+       access_policy_hash, created_at
+from public.btd_asset_pack_ranges
+order by created_at desc
+limit 20;
+
+select receipt_id, asset_pack_id, created_at
+from public.btd_mint_receipts
+order by created_at desc
+limit 20;
+
+select receipt_id, fee_purpose, payer_wallet_id, network, finality_state,
+       sats_paid, txid, created_at
+from public.btc_fee_transactions
+order by created_at desc
+limit 20;
+
+select journal_entry_id, transaction_kind, actor_id, exchange_sequence,
+       receipt_roots, ledger_anchor_ids, created_at
+from public.btd_terminal_journal_entries
+order by created_at desc
+limit 20;
+
+select anchor_id, asset_pack_id, chain, network, finality_state,
+       commitment_method, txid_or_hash, created_at
+from public.btd_asset_pack_ledger_anchors
+order by created_at desc
+limit 20;
+
+select event, severity, subject_id, receipt_root, created_at
+from public.btd_crypto_telemetry_events
+order by created_at desc
+limit 20;
+```
 
 ## Running Manual QA Findings
 
@@ -205,7 +344,7 @@ Manual evidence requested for this pass:
 
 - screenshots of mock and non-mock top chrome before interaction;
 - screenshots of the non-mock `Connect Wallet` result, including any extension prompt or staged-state copy;
-- screenshots of Auxillaries Profile wallet identity and `$BTD` wallet posture after the attempted connection;
+- screenshots of Auxillaries Wallet identity and BTD wallet posture after the attempted connection;
 - console errors and network errors after each lane;
 - answer whether any wallet-extension permission prompt appeared, which wallet extension/provider it was, which network/account was selected, and whether the app changed state after approval/cancel/failure.
 
@@ -241,11 +380,11 @@ Manual findings from 2026-05-09:
 | --- | --- | --- | --- |
 | Mock | Top chrome | pass | Balance/nav/profile chrome is acceptable. Notification dropdown needs text wrapping and legibility polish. |
 | Mock | Auxillaries Profile initial scroll | fail | Profile pane is not scrollable on first open but becomes scrollable after switching panes. V28 blocker because prerequisite settings must be reachable on first open. |
-| Mock | Auxillaries save model | fail | Visible Save buttons remain in Profile, $BTD, and Interfaces. V28 must use autosave for auxillary edits and remove explicit save buttons from the contained application experience. |
+| Mock | Auxillaries save model | fail | Visible Save buttons remain in Profile, Wallet, and Interfaces. V28 must use autosave for auxillary edits and remove explicit save buttons from the contained application experience. |
 | Mock | Auxillaries selector cards | fail | Cards duplicate the pane title through a top lane label plus centered title. V28 should keep the centered pane name and top-right state indicator only. |
 | Mock | Auxillaries controls/layout | fail | Close and Sign Out controls should read as top-right overlay controls, not left-edge controls. The selector-side self-explainer text is unnecessary. |
 | Mock | Wallet pane stats | partial | Text overflows in balance and identity cards; BTD/BTC balances need stronger visual emphasis. |
-| Mock | $BTD activity | missing | The Wallet pane should include the shared Exchange/Terminal activity table filtered for the user's BTD-relevant owned packs, Exchange trades, Gives, and Needs. |
+| Mock | BTD activity | missing | The Wallet pane should include the shared Terminal/Protocol activity table filtered for the user's BTD-relevant owned packs, Gives, Needs, proof closures, ledger anchors, and synthetic measurements. |
 | Mock | Console | pass | Manual QA reports clean console. |
 | Non-mock/testnet-readiness | Top chrome | pass | Non-mock chrome is acceptable before interaction. |
 | Non-mock/testnet-readiness | Connect Wallet entry | fail | `Connect Wallet` opens the broken legacy late-orbital onboarding shell. V28 blocker: all unauthenticated auxillaries portal entry must use the new contained Auxillaries shell and honest staged/live wallet copy. |
@@ -255,7 +394,7 @@ Profile onboarding order refined after this finding:
 | Order | Required action | V28 rule |
 | --- | --- | --- |
 | 1 | Connect Bitcoin wallet | This is the first and minimum Bitcode identity/authentication action. It must use a Bitcoin-capable wallet provider when available, capture a Bitcode Bitcoin authentication proof when available, bind the Bitcoin address, and persist wallet-provider posture without opening an Ethereum account prompt. |
-| 2 | Connect GitHub | Required for Give and Need because those flows need repository/source context. Exchange viewing can proceed from wallet identity alone. GitHub may be connected through OAuth when configured or through a personal access token in staging. |
+| 2 | Connect GitHub | Required for Give and Need because those flows need repository/source context. Terminal read-only orientation can proceed from wallet identity alone, but repository/source-scope actions must stay blocked until GitHub is connected. GitHub may be connected through OAuth when configured or through a personal access token in staging. |
 | 3 | Add email | Optional. Email is for notifications, updates, and recovery/contact posture. It must not present as the primary V28 identity gate. |
 
 Implemented after the 2026-05-09 findings, pending manual reconfirmation:
@@ -270,12 +409,12 @@ Implemented after the 2026-05-09 findings, pending manual reconfirmation:
 | First-open Profile scrolling is stabilized by forcing the contained Auxillaries surface out of global `content-visibility:auto` intrinsic sizing. | Non-mock browser smoke scrolls the Profile pane on first portal open; next mock manual pass should confirm the originally reported first-render case. |
 | BTD/BTC statistics use a hierarchy matching the QA direction: large BTD balance row, sub-stat row for owned AssetPacks and BTC in wallet, then compact identity/policy cards. | Typecheck, focused unit tests, focused Auxillaries E2E, and production build pass; next manual Wallet pane pass should judge vibrancy/legibility. |
 | Auxillaries stat-card explanatory prose is no longer adjacent to user values; each explanation is carried by tooltip/accessible label on the value card. | Wallet pane tests updated to query tooltip/aria descriptions rather than visible prose. |
-| Wallet pane includes the shared Exchange activity table for BTD-relevant activity and keeps connected-repository consent tests scoped to their own table. | Focused Auxillaries E2E passes all 10 tests. |
+| Wallet pane includes the shared Terminal/Protocol activity table for BTD-relevant activity and keeps connected-repository consent tests scoped to their own table. | Focused Auxillaries E2E passes all 10 tests. |
 | Non-mock prerequisite posture is narrowed to Bitcoin wallet authentication and GitHub repository connection for V28. | Browser smoke on `3001` confirms Profile contains Bitcoin wallet and GitHub, does not expose Google as a prerequisite, and keeps the same contained Auxillaries shell/order as mock. |
-| Profile onboarding has been refurbished to wallet-first, GitHub-second, optional-email-third. | Typecheck passes; wallet-auth route unit tests pass; next non-mock manual QA must run against real Xverse/Leather and staging/testnet credentials. |
+| Auxillaries onboarding has been refurbished to Wallet-first, Externals/GitHub-second, Profile optional-email-third. | Typecheck passes; wallet-auth route unit tests pass; next non-mock manual QA must run against real Xverse/Leather and staging/testnet credentials. |
 | Bitcoin wallet authentication persists through a dedicated wallet route instead of the generic Profile route. | `/api/wallet/authenticate` accepts Bitcoin-provider proof posture, rejects Ethereum/EVM wallet submissions, saves profile wallet binding when a Bitcode session exists, and stores wallet-provider connection posture; the client stages the Bitcoin identity locally if staging auth is unavailable. |
-| Profile shows provider-specific wallet connect actions instead of one silent generic path. | Source now detects Xverse/Sats Connect and Leather separately, renders direct provider actions, shows the detected-provider status line, adds timeout-backed wallet request errors, and unit-tests that Leather can be selected even when Xverse is installed. Stubbed browser smoke verifies the Leather click calls `getAddresses` and `signMessage`. Live Xverse/Leather extension QA remains pending. |
-| Contained Profile wallet connection must not become progressive onboarding. | Manual QA confirmed Leather worked, then found the route force-bumped to Externals and emitted unauthenticated onboarding/Supabase placeholder errors. Source now treats contained Auxillaries routes as product settings surfaces, suppresses `/api/auxillaries/onboarding` completion there, keeps Profile selected after wallet connection, and avoids Supabase anonymous signup attempts when staging credentials are placeholders. |
+| Wallet shows provider-specific wallet connect actions instead of one silent generic path. | Source now detects Xverse/Sats Connect and Leather separately, renders direct provider actions, shows the detected-provider status line, adds timeout-backed wallet request errors, and unit-tests that Leather can be selected even when Xverse is installed. Stubbed browser smoke verifies the Leather click calls `getAddresses` and `signMessage`. Live Xverse/Leather extension QA remains pending. |
+| Contained Wallet connection must not become progressive onboarding. | Manual QA confirmed Leather worked, then found the route force-bumped to Externals and emitted unauthenticated onboarding/Supabase placeholder errors. Source now treats contained Auxillaries routes as product settings surfaces, suppresses `/api/auxillaries/onboarding` completion there, keeps Wallet selected after wallet connection, and avoids Supabase anonymous signup attempts when staging credentials are placeholders. |
 | Staging database can store non-GitHub provider posture in `user_connections`. | Added migration `supabase/migrations/003_user_connections_provider_scope.sql`; staging/testnet verification must apply this before wallet-provider persistence can succeed. |
 
 Manual console classification after Leather connection:
@@ -283,7 +422,7 @@ Manual console classification after Leather connection:
 | Console message class | V28 disposition |
 | --- | --- |
 | `SES Removing unpermitted intrinsics`, Xverse `StacksProvider` redefine warning, React DevTools prompt, and Vercel Analytics/Speed Insights development debug messages | external/dev-tool noise; record only if they correlate with app behavior failure |
-| `/api/auxillaries/onboarding 401` after contained Profile wallet connection | V28 bug, fixed by separating contained Auxillaries from progressive onboarding completion |
+| `/api/auxillaries/onboarding 401` after contained Wallet connection | V28 bug, fixed by separating contained Auxillaries from progressive onboarding completion |
 | Supabase placeholder signup request to `https://your-project.supabase.co/auth/v1/signup` | V28 bug, fixed by guarding server wallet persistence when staging Supabase env vars are placeholders |
 
 Non-mock prerequisites for the next QA3.1 pass:
@@ -302,14 +441,14 @@ QA3.1 Profile onboarding script:
 | --- | --- | --- | --- |
 | Mock | 1 | Open `/terminal`, then open Auxillaries and select Profile. | The contained Auxillaries shell opens with the same selector order and visual language as non-mock. Profile shows Bitcoin wallet identity first, GitHub second, optional email third. Mock fields may already be populated, but the order must remain visible. |
 | Mock | 2 | Scroll Profile from first open without switching panes first. | The right pane scrolls immediately, no first-render scroll dead zone appears, and no visible Save/Continue controls are required for auxillary edits. |
-| Mock | 3 | Confirm Wallet pane and top chrome remain hydrated. | BTC/BTD values show the mock wallet posture after the loading state, BTD activity is visible through the shared Exchange-style table, and no console errors appear. |
+| Mock | 3 | Confirm Wallet pane and top chrome remain hydrated. | BTC/BTD values show the mock wallet posture after the loading state, BTD activity is visible through the shared Terminal/Protocol table grammar, and no console errors appear. |
 | Non-mock | 1 | Open `/terminal` on the staging/testnet lane with mock flags disabled. | Top chrome is anonymous until a wallet session exists. `Connect Wallet` or Auxillaries/Profile opens the contained Auxillaries shell, not the retired onboarding shell. |
 | Non-mock | 2 | In Profile with Xverse and Leather unlocked on Testnet4, confirm the provider status line says `Detected Xverse, Leather` or accurately names the installed Bitcoin wallets. Click `Connect Xverse` first. | Xverse/Sats Connect requests wallet connection for payment plus ordinals addresses and then requests a BIP322 message proof. The app must not ask for email first and must not open an Ethereum account prompt. If no prompt appears, capture the exact provider status line and inline message, then click `Rescan wallets`. |
-| Non-mock | 3 | Approve the Xverse connection and proof. | The Profile wallet state becomes connected, the Taproot/ordinals auth address appears in the wallet field when available, refresh preserves website-side wallet state, and the console remains free of product errors. If backend persistence is unavailable, the UI should say server persistence is pending while local staging remains visible. Capture the exact inline message and Network response for `/api/wallet/authenticate` when a backend request occurs. |
+| Non-mock | 3 | Approve the Xverse connection and proof. | The Wallet state becomes connected, the Taproot/ordinals auth address appears in the wallet field when available, refresh preserves website-side wallet state, and the console remains free of product errors. If backend persistence is unavailable, the UI should say server persistence is pending while local staging remains visible. Capture the exact inline message and Network response for `/api/wallet/authenticate` when a backend request occurs. |
 | Non-mock | 4 | Return to Profile and click `Connect Leather` directly. Do this even if Xverse is installed so the Leather path is verified independently. | Leather returns addresses through `getAddresses`, Bitcode selects the BTC Taproot address when present without relying on array indexes, signs with `signMessage`, and stores the Native SegWit payment address separately from the auth address. |
 | Non-mock | 5 | If only MetaMask BTC is available, paste the displayed `bc1...`/`tb1...` address and click `Stage Bitcoin address`. | No Ethereum prompt opens. Profile shows locally staged Bitcoin identity and clearly marks backend/provider proof as pending/manual. |
-| Non-mock | 6 | Connect GitHub from the second Profile section using OAuth or the staging token fallback. | GitHub becomes connected for Give/Need readiness. Exchange viewing must not be blocked by GitHub, but Terminal Give/Need readiness should reflect repository scope once connected. |
-| Non-mock | 7 | Optionally add email from the third section. | Email is presented only as notifications/updates/recovery posture. It must not replace wallet authentication, and the user can leave it blank without breaking wallet or Exchange readiness. |
+| Non-mock | 6 | Connect GitHub from Externals using OAuth or the staging token fallback. | GitHub becomes connected for Give/Need readiness. Terminal read-only orientation must not be blocked by GitHub, but Terminal Give/Need actions should reflect repository scope once connected. |
+| Non-mock | 7 | Optionally add email from Profile. | Email is presented only as notifications/updates/recovery posture. It must not replace wallet authentication, and the user can leave it blank without breaking wallet, GitHub, or Terminal readiness. |
 
 QA3.1 reply template:
 
@@ -357,9 +496,9 @@ Automated verification after this implementation pass:
 - `pnpm -C uapi exec jest --runInBand tests/auxillariesWalletPane.test.tsx tests/notificationsWidget.test.tsx tests/orbitalsInterfacesPane.test.tsx`: 9 passed after the BTD hierarchy, tooltip, notification-footer, and autosave assertions.
 - `START_STORYBOOK=false pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed after contained shell and pane-state refinements.
 - `pnpm -C uapi run build`: pass after the May 9 QA fixes; the prior clean-clone Vercel module-resolution failure remains fixed locally.
-- Playwright non-mock browser smoke after the May 9 patch: `Connect Wallet` opens the contained Auxillaries shell, selector order is `Externals`, `Interfaces`, `Profile`, `$BTD`, old-ring count is `0`, Google prerequisite copy is absent, MetaMask and GitHub are present, no visible Save/Continue buttons remain, Profile first-open scroll advances, and no console/page errors occur.
-- May 9 live Leather QA: wallet connection persisted, but follow-up findings required V28 fixes for wallet-authenticated nav chrome, Profile/Externals ownership, robust connected-wallet readout, Sign Out button styling, BTD tracker wallet identity action, and verbose console telemetry. Source now treats local Bitcoin wallet identity as sufficient chrome identity while backend persistence catches up; Profile owns wallet/profile/email only; Externals owns GitHub; the BTD tracker opens the `$BTD` auxillary pane; and verbose QA logs are gated behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
-- May 9 follow-up QA found Externals still showing the old signed-in blocker after the Bitcoin wallet was correctly connected. V28 fixes Externals to render GitHub controls from wallet identity or email session, so Profile wallet completion can progress directly into repository connection without waiting on optional email/Supabase persistence.
+- Playwright non-mock browser smoke after the May 9 patch: `Connect Wallet` opens the contained Auxillaries shell, selector order is `Externals`, `Interfaces`, `Profile`, `Wallet`, old-ring count is `0`, Google prerequisite copy is absent, MetaMask and GitHub are present, no visible Save/Continue buttons remain, Profile first-open scroll advances, and no console/page errors occur.
+- May 9 live Leather QA: wallet connection persisted, but follow-up findings required V28 fixes for wallet-authenticated nav chrome, Wallet/Profile/Externals ownership, robust connected-wallet readout, Sign Out button styling, BTD tracker wallet identity action, and verbose console telemetry. Source now treats local Bitcoin wallet identity as sufficient chrome identity while backend persistence catches up; Wallet owns crypto wallet identity and BTD/BTC posture; Profile owns optional email/contact/admin posture; Externals owns GitHub; the BTD tracker opens the Wallet auxillary pane; and verbose QA logs are gated behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
+- May 9 follow-up QA found Externals still showing the old signed-in blocker after the Bitcoin wallet was correctly connected. V28 fixes Externals to render GitHub controls from wallet identity or email session, so Wallet completion can progress directly into repository connection without waiting on optional email/Supabase persistence.
 - May 11 externality-readiness check validates the provided GitHub App identity without writing secrets to source: the private key parses, GitHub API returns App ID `244206`, app slug `engi-software-agents`, and the supplied client ID matches the app record. The app can list installations and create an installation token for at least one installation. Initial check found it was not installed on `engineeredsoftware/ENGI`.
 - May 12 externality-readiness recheck confirms the GitHub App is now installed on `engineeredsoftware/ENGI`: `GET /repos/engineeredsoftware/ENGI/installation` returns 200, installation token creation returns 201, `engineeredsoftware/ENGI` is readable, default branch is `main`, and `BITCODE_SPEC.txt` is readable through the app installation token. GitHub App externality is ready for V28 Terminal Give/Need QA against ENGI.
 - May 12 Supabase readiness resolves project reachability and key acceptance but remains blocked on database schema. The project URL is reachable, auth settings return 200 with the supplied publishable key, and the secret key is accepted by the Supabase API gateway. Core Bitcode tables including `user_profiles`, `user_connections`, `vcs_repositories`, `btd_asset_pack_ranges`, and `btd_mint_receipts` return `PGRST205` table-not-found responses, so migrations have not been applied to this testnet project yet. Source now accepts both the older `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` names and the newer `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SECRET_KEY` names so the provided testnet variables can be used directly after migration.
@@ -369,7 +508,7 @@ Automated verification after this implementation pass:
 - `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/userConnectionsGithubRoute.test.ts'`: 6 passed after GitHub connection-status token redaction.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after GitHub App callback/setup and public install-link wiring.
 - `pnpm -C uapi run build`: pass after GitHub App callback/setup and public install-link wiring.
-- May 12 Bitcoin wallet auth formalization: V28 no longer uses anonymous Supabase sign-in as the wallet persistence origin. Profile starts Supabase custom OAuth through `custom:bitcode-bitcoin`, `/tps/wallet/authorize` captures the signed wallet proof, `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo` let Supabase create the user session, and Profile then synchronizes the same wallet proof into `/api/wallet/authenticate`.
+- May 12 Bitcoin wallet auth formalization: V28 no longer uses anonymous Supabase sign-in as the wallet persistence origin. Wallet starts Supabase custom OAuth through `custom:bitcode-bitcoin`, `/tps/wallet/authorize` captures the signed wallet proof, `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo` let Supabase create the user session, and Wallet then synchronizes the same wallet proof into `/api/wallet/authenticate`.
 - Supabase custom provider dashboard values for testnet: provider type `OAuth2`, identifier `custom:bitcode-bitcoin`, name `Bitcode Bitcoin Wallet`, authorization URL `<public staging-or-tunnel origin>/tps/wallet/authorize`, token URL `<public staging-or-tunnel origin>/api/wallet/oauth/token`, userinfo URL `<public staging-or-tunnel origin>/api/wallet/oauth/userinfo`, scopes `profile wallet:bitcoin`, PKCE enabled, and email optional enabled. Cloud Supabase cannot call `127.0.0.1` token/userinfo URLs, so local QA needs either a deployed preview/staging origin or a tunnel that uses the same OAuth client secret as the local lane.
 - Required matching app env for testnet lane: `BITCODE_BITCOIN_OAUTH_CLIENT_ID=<same client id configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same client secret configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co`, and `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback` if the Supabase URL env is unavailable, plus the existing Supabase publishable/secret keys.
 - `pnpm -C uapi exec jest --runInBand tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts`: 9 passed after Bitcoin wallet custom OAuth implementation.

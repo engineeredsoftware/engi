@@ -47,6 +47,36 @@ This means:
 - V28 keeps Terminal, Auxillaries readiness, BTD range disclosure, wallet/BTC/testnet, synthetic measurement, BTD-AssetPack minting, ledgerized journals, database projection, reconciliation, MCP API, and ChatGPT App MVP.
 - any retained Exchange or Conversations code is compatibility/future source and must not be a V28 promotion blocker unless it contaminates active Terminal/Protocol/MCP/ChatGPT behavior.
 
+## May 13 Staging-Testnet QA Recalibration
+
+V28 QA now resumes from the real deployed staging-testnet path, not from an isolated mock surface tour.
+Mock mode remains important for deterministic regression testing, but manual acceptance must primarily validate the live staging-testnet flow from first onboarding through Terminal transactions.
+
+The V28 natural path is:
+
+1. Wallet first: detect Xverse/Leather/other Bitcoin-capable providers, sign the Bitcode Bitcoin challenge, persist the wallet-backed session through Bitcode's custom Bitcoin-auth boundary, and reflect wallet identity in top chrome and the Wallet pane.
+2. Externals second: connect the GitHub App, capture installation/callback state, and read repository inventory needed by Give and Need.
+3. Profile third: collect optional email/contact/admin posture without treating email as the primary identity primitive.
+4. Need path: use Terminal to express or select the simplest Need, run Fit-finding, expose source/proof/dedupe roots, and read the Fit result.
+5. AssetPack path: synthesize the AssetPack with protocol-specified model and pipeline configuration, emit synthetic measurement, measuremint/range or zero-cell receipt, access policy, ledger anchor/readiness, and Terminal journal state.
+6. Give path: contribute source from the connected repository scope and read earning, settlement, or blocked-readiness state through the same Terminal/protocol readback grammar.
+7. Reconciliation path: query Supabase/PostgreSQL projections and compare them to Terminal journal, ledger anchor, wallet, GitHub, AssetPack, and telemetry state.
+
+This recalibration means the QA document, parity matrix, and implementation work should now classify every finding by the lowest-level source-of-truth it affects: wallet identity, GitHub/source scope, Fit-finding, AssetPack synthesis, ledgerized journal, PostgreSQL projection, pipeline runtime, telemetry/alerting, or legacy residue.
+
+### Deterministic Model Boundary
+
+V28 must remove the idea that a user can choose ledgerized Bitcode synthesis models.
+User model selection breaks replay and parity when the selected model can affect Fit-finding, AssetPack synthesis, semantic measurement, measureminting, proof admission, or journaled settlement.
+
+The allowed boundary is narrow:
+
+- conversation UX may offer user-facing model preferences only for draft, non-ledgerized conversation behavior;
+- ledgerized Terminal/Protocol behavior must use protocol-specified model identities, versions, prompts, thresholds, toolchains, and receipt-bound configuration;
+- any "apply to all" model control visible in active Auxillaries/Interfaces must be removed, disabled, or scoped to non-ledgerized conversation interfaces before V28 promotion.
+
+Current source audit flags `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` and `uapi/app/auxillaries/components/models/GlobalModelSelection.tsx` as likely V28 cleanup points because they still present broad user-driven model preference behavior.
+
 ## QA Scope Refinement
 
 Screenshots captured on May 6, 2026 show the active Auxillaries experience mixing the old orbital shell with the newer contained tabs-left approach.
@@ -75,7 +105,7 @@ V28 refinement:
 - use hover title context for the user's most recent BTD AssetPacks when known;
 - leave hover title absent when no recent AssetPack facts are known instead of showing explanatory copy;
 - use the hover action for the connected wallet label: show the wallet nickname when one exists and otherwise show a middle-truncated Bitcoin address;
-- click the widget into the `$BTD` wallet auxillary pane, leaving Exchange acquisition/trading entry to explicit Exchange navigation and `$BTD` pane activity-table links;
+- click the widget into the Wallet auxillary pane, leaving Exchange acquisition/trading deferred beyond V35 and any BTD-relevant activity visible through Terminal/Protocol activity readbacks;
 - keep the demonstration protocol aligned with a source-reading V28 MVP QA proof.
 
 Manual follow-up QA on May 6, 2026 passed after tightening the divider and icon spacing:
@@ -83,7 +113,7 @@ Manual follow-up QA on May 6, 2026 passed after tightening the divider and icon 
 - resting state reads `0.042 BTC | 1,200 BTD` visually with a styled divider rather than a literal pipe;
 - hover state reads wallet identity without layout shift;
 - hover title lists recent BTD AssetPacks and does not explain BTC/BTD ontology;
-- click opens the `$BTD` auxillary wallet pane without console errors.
+- click opens the Wallet auxillary pane without console errors.
 
 Follow-up Exchange landing QA previously revealed that the Exchange client was appending `transactionId=mock-run-branch-remediation` and scrolling to the lower `Finish-delivered Shippables` section after the widget click. That work is no longer V28 closure after the May 11 scope reduction. The V28 rule is now that the BTD widget opens the `$BTD` wallet auxillary pane and Exchange is disabled/hidden for V28 QA; deeper Exchange behavior moves beyond V35.
 
@@ -185,7 +215,7 @@ The following 1A resume exposed a second Auxillaries MVP shell slice.
 All portal entry into Auxillaries, including unauthenticated `Connect Wallet` from the non-mock top chrome, must use the contained Auxillaries shell rather than falling back into the old onboarding/orbital shell.
 The contained selector should not duplicate pane names with both lane labels and centered titles; the centered pane title plus top-right visual state indicator is the V28 pattern.
 Auxillaries edits are application settings and should auto-save; visible Save buttons belong to legacy/onboarding behavior and should be removed from the contained commercial panes.
-The `$BTD` pane must highlight BTD and BTC balances strongly, avoid long-address overflow, and include the shared Exchange activity-table grammar for BTD-relevant activity even when testnet-readiness has no ledger-derived events yet.
+The Wallet pane must highlight BTD and BTC balances strongly, avoid long-address overflow, and include the shared Terminal/Protocol activity-table grammar for BTD-relevant activity even when testnet-readiness has no ledger-derived events yet.
 The notification dropdown is part of prerequisite trust and must keep titles, timestamps, pills, messages, and actions legible without awkward line breaks.
 
 The next May 9 1A patch tightened this into implementation-level V28 expectations.
@@ -202,7 +232,7 @@ Email is no longer allowed to present as the primary Profile authentication path
 The Profile onboarding order is now:
 
 1. Bitcoin wallet authentication connects a Bitcoin-capable wallet provider, captures a Bitcode Bitcoin authentication proof when available, and establishes wallet identity for the staging profile. Xverse is preferred through Sats Connect provider discovery and `wallet_connect`; Leather is supported through `window.LeatherProvider.request('getAddresses')` plus `signMessage`; UniSat/OKX remain fallback providers; MetaMask BTC remains manual-staging-only until a documented Bitcoin dapp provider or Snap bridge is implemented.
-2. GitHub repository connection follows and is required for Give and Need, but Exchange viewing can proceed from wallet identity alone.
+2. GitHub repository connection follows and is required for Give and Need; V28 Terminal read-only orientation may proceed from wallet identity alone, but repository/source-scope actions must stay blocked until GitHub is connected.
 3. Email is optional and exists for notifications, Bitcode updates, and recovery/contact posture.
 
 Implementation must therefore keep wallet auth enabled and top-most in Wallet, avoid the Ethereum provider path for Bitcoin identity, persist wallet-provider binding only through the wallet-auth route when backend session state is available, keep Profile from accepting unverifiable provider-managed signer assertions, and surface staging prerequisites clearly.

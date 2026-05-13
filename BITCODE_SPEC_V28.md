@@ -53,6 +53,49 @@ V28 answers that by specifying:
 - honest provider readiness where GitHub is the implemented VCS provider and broader provider rollout is later external-connection work;
 - V28 promotion proof after implementation, tests, builds, and route scans close.
 
+## Real-Deployed Staging-Testnet MVP Target
+
+V28 closure is now judged primarily by one real staging-testnet operator path with mocks disabled.
+Mock mode remains a deterministic regression harness, but manual acceptance must prove that the deployed staging-testnet application is honest and minimally usable from first onboarding through Terminal Give and Need results.
+
+The V28 staging-testnet target path is:
+
+1. Open `/terminal` with Exchange and website Conversations disabled and with public mock flags off.
+2. Open the Wallet auxillary pane and connect a Bitcoin-capable browser wallet on the configured testnet lane.
+3. Capture a signed Bitcoin identity proof, bind payment/auth address facts, and project the wallet session into Supabase through Bitcode's custom Bitcoin-auth boundary.
+4. Return to top chrome and verify that wallet identity, BTC fee posture, and BTD posture replace anonymous `Connect Wallet` state only after wallet status is known.
+5. Open Externals and install or connect the GitHub App so repository inventory and source scope are available for Give and Need.
+6. Keep Profile limited to optional email/contact/admin posture; email may improve notifications, but it is not the primary identity primitive.
+7. In Terminal, perform the simplest Need path: select or express a Need, produce Fit-finding evidence, show review/proof/dedupe roots, and read the Fit result without leaving Terminal.
+8. Synthesize the resulting AssetPack through protocol-specified model and pipeline configuration, not user-selected ledgerized synthesis preferences.
+9. Emit or simulate the BTC fee/testnet ledger path with user-controlled signing, explicit blocked-readiness receipts when broadcast is unavailable, and no server custody.
+10. Record synthetic measurement, measuremint result, AssetPack range or zero-cell receipt, access-policy hash, ledger anchor or ledger-observed placeholder, Terminal journal entry, and database projection.
+11. Reconcile ledger/journal/database state and expose any drift as a blocking or repairable Terminal read.
+12. Perform the simplest Give path against a GitHub repository/source scope and read earning, settlement, or blocked-readiness state from the same Terminal/protocol readback grammar.
+
+V28 does not require value-bearing mainnet behavior.
+Regtest, signet, public testnet, and staging-testnet readiness may be used, but value-bearing mainnet requires a separate approval root.
+Ledgers and ledgerized journals remain source-of-truth for cryptographic finality; Supabase/PostgreSQL is the ledger-derived and Bitcode-canonical data realm for private/metaphysical facts, projections, readiness, and UI read models.
+
+MCP API and ChatGPT App MVP entrypoints must read from the same wallet, GitHub, Terminal journal, AssetPack, access-policy, and proof state.
+They may trigger admitted actions only through the same fail-closed Protocol boundary that Terminal uses.
+
+## Deterministic Model Posture
+
+User-driven model selection is not allowed for ledgerized Bitcode synthesis.
+Fit-finding, AssetPack synthesis, semantic measurement, measureminting, proof admission, ledgerized journaling, and settlement must use protocol-specified model identities, model versions, prompts, thresholds, toolchains, and receipt-bound configuration.
+
+This rule exists because user-selected model preferences would break replay, parity, and settlement determinism.
+Changing a ledgerized model or pipeline configuration is a protocol/specification event with receipt/proof impact, not a per-user setting.
+
+Allowed exception:
+
+- non-ledgerized conversational interfaces may expose user model selection for draft conversation UX;
+- any output that becomes Fit evidence, AssetPack material, measurement, proof, journal, or settlement input must pass through the protocol-specified ledgerized path and record the model/configuration roots used.
+
+Active source or UI that presents broad "apply model to all" behavior for Terminal, Protocol, Fit, AssetPack, or BTD synthesis is V28 legacy residue.
+It must be removed, hidden behind a conversation-only boundary, or made explicitly non-ledgerized before V28 promotion.
+
 ## Commercial Application MVP QA Scope
 
 The screenshot QA finding from May 6, 2026 shows that Auxillaries still mixes the older orbital visual shell with the newer contained tabs-left approach.
@@ -221,12 +264,12 @@ Acceptance criteria:
 - sign-in, sign-up, signed-in, and signed-out Auxillaries states are responsive and not pushed offscreen.
 - Auxillaries portal entry, including unauthenticated `Connect Wallet`, opens the contained Auxillaries shell rather than the old onboarding/orbital shell.
 - mock and testnet-readiness Auxillaries entry render the same pane order and shell regardless of caller; V28 primary onboarding order is Bitcoin wallet identity first, GitHub repository connection second, optional email notifications third.
-- Bitcoin wallet authentication must use a Bitcoin-capable wallet provider, with Xverse/Sats Connect first, Leather direct-provider second, UniSat/OKX fallback, and manual Bitcoin-address staging only when no Bitcoin dapp provider is discoverable. When multiple providers are detected, Profile must expose provider-specific actions such as `Connect Xverse` and `Connect Leather` so a stalled Xverse prompt does not block Leather verification. The flow must obtain a Bitcode Bitcoin authentication proof when available, bind the Bitcoin address to the profile, preserve payment/auth address distinction, and persist wallet-provider connection posture without server custody of private keys.
+- Bitcoin wallet authentication must use a Bitcoin-capable wallet provider, with Xverse/Sats Connect first, Leather direct-provider second, UniSat/OKX fallback, and manual Bitcoin-address staging only when no Bitcoin dapp provider is discoverable. When multiple providers are detected, Wallet must expose provider-specific actions such as `Connect Xverse` and `Connect Leather` so a stalled Xverse prompt does not block Leather verification. The flow must obtain a Bitcode Bitcoin authentication proof when available, bind the Bitcoin address to the wallet identity/profile projection, preserve payment/auth address distinction, and persist wallet-provider connection posture without server custody of private keys.
 - non-mock/staging QA must fail clearly when the Bitcoin wallet provider is unavailable, the browser exposes only an Ethereum provider, Supabase session persistence is unavailable, signed proof capture fails, or the connection-storage migration has not been applied; local staging may preserve the wallet identity for QA continuity while backend persistence is repaired.
 - Auxillaries selector cards use centered pane names plus visual state indicators, not duplicate lane-title prose, and hover movement must not clip the first selector card.
 - Auxillaries profile panes must be scrollable on first render, including unauthenticated and non-mock contained portal entry.
 - Auxillaries settings panes auto-save edits; visible pane-level Save buttons are not part of the commercial MVP shell.
-- the `$BTD` auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes a Protocol/Terminal activity table for BTD-relevant owned packs, Gives, Needs, proof closures, ledger anchors, synthetic measurements, and range-bearing activity.
+- the Wallet auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes a Protocol/Terminal activity table for BTD-relevant owned packs, Gives, Needs, proof closures, ledger anchors, synthetic measurements, and range-bearing activity.
 - notification dropdowns remain legible and do not include redundant Auxillaries footer launchers when top chrome and profile menu already provide that entry.
 - route QA covers `/`, `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, MCP API routes, ChatGPT App entrypoints, and protocol routes; Exchange and website Conversations are disabled or hidden for V28 QA, and the prior generic workspace route is verified absent from active source.
 - Exchange navigation is disabled for V28 and must not be required by any V28 acceptance criterion; any retained Exchange route/API behavior is treated as deferred compatibility or future work.
@@ -239,7 +282,7 @@ Acceptance criteria:
 - V28 verbose QA telemetry may log wallet detection, wallet signing, local/server persistence, user-data merge, nav identity state, and BTD wallet pane entry behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
 - automated Playwright E2E coverage exists at commercial-product granularity for public home, Terminal, Auxillaries, BTD range disclosure, MCP API/ChatGPT App readiness, docs, route navigation, responsive route health, and key micro-interactions including URL-addressable Terminal activity filters, filter reset behavior, BTD data-share consent, and public docs article readability.
 - Playwright tests must check browser console/page-error cleanliness, framework-overlay absence, route readability, micro-interface interaction, and stitched user flows rather than only screenshot snapshots.
-- the commercial-MVP Playwright runner executes serially against one deterministic mock-mode dev server, including mocked Auxillaries profile, model-preferences, data-share, notifications, Terminal activity, BTD mint/read state, and MCP/ChatGPT App readiness paths, so failures represent product regressions rather than local wallet/session availability.
+- the commercial-MVP Playwright runner executes serially against one deterministic mock-mode dev server, including mocked Auxillaries profile, non-ledgerized interface preferences, data-share, notifications, Terminal activity, BTD mint/read state, and MCP/ChatGPT App readiness paths, so failures represent product regressions rather than local wallet/session availability.
 - visual QA proves no framework overlay, blank page, major content overlap, or unreadable primary controls.
 
 ### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
@@ -259,6 +302,7 @@ Acceptance criteria:
 - semantic volume, cumulative measurement, measuremint target, residual credit, token count, zero-cell reason, and refit posture are visible.
 - source deposit, Need discovery, preliminary Fit, and uncommitted proof never imply minting.
 - access policy id/hash is shown before mint or licensed-read commitment.
+- ledgerized synthesis uses protocol-specified models and configuration; Terminal must not expose user-driven model selection for Fit, AssetPack, measurement, measuremint, proof, journal, or settlement behavior.
 
 ### Gate 4: Terminal AssetPack Range Detail
 
