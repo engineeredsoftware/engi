@@ -18,12 +18,12 @@ interface RouteRule {
 const ROUTE_RULES: RouteRule[] = [
   // Retained /runs/:id shortcut -> unified execution view
   {
-    pattern: /^\/runs\/([^\/]+)$/,
+    pattern: /^\/runs\/([^/]+)$/,
     rewrite: (match) => `/executions/${match[1]}`
   },
   // Retained conversation message shortcut
   {
-    pattern: /^\/conversations\/([^\/]+)\/messages$/,
+    pattern: /^\/conversations\/([^/]+)\/messages$/,
     rewrite: (match) => `/api/conversations/${match[1]}/stream`
   }
 ];

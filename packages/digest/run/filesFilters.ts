@@ -150,7 +150,7 @@ At the very end of your response, Return ONLY a JSON array of file paths. Exampl
 
     await log('📊 File Filtering Complete', 'info', {
       inputFiles: files.length,
-      selectedFiles: filteredFiles.length,
+      selectedFileCount: filteredFiles.length,
       reduction: `${((1 - filteredFiles.length / files.length) * 100).toFixed(1)}%`,
       selectionRate: `${((filteredFiles.length / files.length) * 100).toFixed(1)}%`,
       selectedFiles: filteredFiles.map(f => f.path),

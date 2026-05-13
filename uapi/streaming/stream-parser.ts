@@ -348,11 +348,13 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
       }
       }
     } catch (error) {
-      // Not a JSON payload – treat as raw text token (most likely standard
-      // assistant content flush).  We intentionally avoid logging a warning
-      // for every non-JSON chunk to keep the console readable during normal
-      // operation.
-      parsedData.text += line;
+      // Not every stream payload is JSON, but explicit SSE data frames that
+      // start with an object and fail to parse are malformed protocol events.
+      if (line.trimStart().startsWith('{')) {
+        parsedData.error = error instanceof Error ? error.message : 'Malformed stream event';
+      } else {
+        parsedData.text += line;
+      }
     }
   }
 

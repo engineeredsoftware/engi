@@ -13,6 +13,7 @@ import {
   type BitcoinWalletProviderSummary,
 } from '@/lib/bitcoin-wallet-client';
 import {
+  clearLocalBitcodeWalletIdentity,
   isPlausibleBitcoinAddress,
   readLocalBitcodeWalletIdentity,
   writeLocalBitcodeWalletIdentity,
@@ -438,6 +439,35 @@ export default function AuxillariesWalletConnectionPanel({
     }
   };
 
+  const handleDisconnectWallet = async () => {
+    clearLocalBitcodeWalletIdentity();
+    setWalletAddress('');
+    setWalletProvider('');
+    setWalletBindingStatus(null);
+    setWalletBoundAt(null);
+    setWalletIdentityDetails(null);
+    setWalletAuthStatus('idle');
+    setWalletAuthError(null);
+    setWalletAuthNotice(
+      'Bitcode wallet identity cleared. Leather or Xverse may still show this site as connected until you revoke it inside the wallet extension.',
+    );
+    onWalletIdentityChange?.(false);
+    bitcodeQaTelemetry('info', 'wallet-auxillary', 'disconnect-local');
+
+    try {
+      const readiness = readSupabaseClientReadiness();
+      if (readiness.ready) {
+        await createClient().auth.signOut();
+      }
+    } catch (error) {
+      bitcodeQaTelemetry('warn', 'wallet-auxillary', 'disconnect-signout-failed', {
+        message: error instanceof Error ? error.message : 'unknown',
+      });
+    }
+
+    await mutateUserData();
+  };
+
   return (
     <section
       className="orbital-section mb-5"
@@ -514,6 +544,17 @@ export default function AuxillariesWalletConnectionPanel({
         >
           Rescan wallets
         </button>
+        {hasWalletIdentity ? (
+          <button
+            type="button"
+            data-testid="wallet-disconnect-bitcode"
+            onClick={handleDisconnectWallet}
+            disabled={walletAuthStatus === 'requesting'}
+            className="inline-flex items-center justify-center rounded-full border border-rose-300/24 bg-rose-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-100 transition hover:border-rose-300/42 hover:bg-rose-400/18 disabled:cursor-wait disabled:opacity-45"
+          >
+            Disconnect wallet
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={handleStageBitcoinAddress}

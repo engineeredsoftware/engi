@@ -218,7 +218,7 @@ export class ConversationEdgeCaseHandler {
 
     // Common injection patterns
     const patterns = [
-      /\<script/gi,
+      /<script/gi,
       /javascript:/gi,
       /data:text\/html/gi,
       /eval\s*\(/gi,

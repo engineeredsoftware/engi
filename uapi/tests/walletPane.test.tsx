@@ -66,7 +66,7 @@ describe('WalletPane (SSR)', () => {
     expect(html).toContain('Wallet Auxillary');
     expect(html).toContain('Keep BTC fees, BTD holdings, and wallet identity readable together');
     expect(html).toContain('250 BTD');
-    expect(html).toContain('0.250 BTC');
+    expect(html).toContain('0.25 BTC');
     expect(html).toContain('Choose how $BTD detail should read back into transactions');
   });
 });

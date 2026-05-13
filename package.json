@@ -14,13 +14,14 @@
     "admin"
   ],
   "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.17.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.1",
     "eslint-plugin-bitcode": "workspace:*",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "playwright": "^1.31.0",
-    "typescript": "^5.8.3",
-    "@modelcontextprotocol/inspector": "^0.17.2"
+    "typescript": "^5.8.3"
   },
   "pnpm": {
     "overrides": {
@@ -55,8 +56,7 @@
     "tail:local": "node ./scripts/tail-logs.js --env local",
     "tail:staging": "node ./scripts/tail-logs.js --env staging",
     "tail:production": "node ./scripts/tail-logs.js --env production",
-    "tail:run": "node ./scripts/tail-run.js"
-    ,
+    "tail:run": "node ./scripts/tail-run.js",
     "tail:request": "node ./scripts/tail-request.js",
     "list:traces": "node ./scripts/trace-sidecars.js",
     "db:reset": "bash scripts/supabase.sh db:reset",

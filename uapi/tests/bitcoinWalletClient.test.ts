@@ -10,7 +10,15 @@ jest.mock('sats-connect', () => ({
   request: (...args: unknown[]) => mockRequest(...args),
 }));
 
-import { connectBitcoinWallet, inspectBitcoinWalletProviders } from '@/lib/bitcoin-wallet-client';
+import {
+  connectBitcoinWallet,
+  inspectBitcoinWalletProviders,
+  inspectLeatherWalletAccount,
+  openLeatherWallet,
+  sendLeatherTransfer,
+  signLeatherBitcoinMessage,
+  signLeatherPsbt,
+} from '@/lib/bitcoin-wallet-client';
 
 const paymentAddress = 'tb1qcmrcalqaqqqqqqqqqqqqqqqqqqqqqqqqq';
 const taprootAddress = 'tb1pqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
@@ -144,6 +152,100 @@ describe('connectBitcoinWallet', () => {
         account: 1,
       }),
     );
+  });
+
+  it('normalizes Leather account data and exposes documented Leather methods', async () => {
+    mockGetProviders.mockReturnValue([]);
+    const leatherRequest = jest.fn()
+      .mockResolvedValueOnce({
+        result: {
+          addresses: [
+            { symbol: 'STX', address: 'SP000000000000000000002Q6VF78' },
+            {
+              symbol: 'BTC',
+              type: 'p2wpkh',
+              address: paymentAddress,
+              publicKey: 'payment-public-key',
+              derivationPath: "m/84'/0'/4'/0/0",
+            },
+            {
+              symbol: 'BTC',
+              type: 'p2tr',
+              address: taprootAddress,
+              publicKey: 'taproot-public-key',
+              tweakedPublicKey: 'tweaked-public-key',
+              derivationPath: "m/86'/0'/4'/0/0",
+            },
+          ],
+        },
+      })
+      .mockResolvedValueOnce({})
+      .mockResolvedValueOnce({
+        result: {
+          signature: 'leather-message-signature',
+          address: taprootAddress,
+          message: 'Bitcode challenge',
+        },
+      })
+      .mockResolvedValueOnce({ result: { hex: '70736274ff01', txid: 'psbt-broadcast-txid' } })
+      .mockResolvedValueOnce({ result: { txid: 'transfer-txid' } });
+    (window as any).LeatherProvider = { request: leatherRequest };
+
+    await expect(inspectLeatherWalletAccount()).resolves.toEqual(expect.objectContaining({
+      account: 4,
+      network: 'testnet',
+      paymentAddress: expect.objectContaining({ address: paymentAddress, type: 'p2wpkh' }),
+      authAddress: expect.objectContaining({
+        address: taprootAddress,
+        type: 'p2tr',
+        tweakedPublicKey: 'tweaked-public-key',
+      }),
+    }));
+
+    await expect(openLeatherWallet()).resolves.toBeUndefined();
+    await expect(signLeatherBitcoinMessage({
+      message: 'Bitcode challenge',
+      paymentType: 'p2tr',
+      network: 'testnet',
+      account: 4,
+    })).resolves.toEqual({
+      signature: 'leather-message-signature',
+      address: taprootAddress,
+      message: 'Bitcode challenge',
+    });
+    await expect(signLeatherPsbt({
+      hex: '70736274ff01',
+      signAtIndex: [0, 1],
+      network: 'testnet',
+      account: 4,
+      broadcast: true,
+    })).resolves.toEqual({ hex: '70736274ff01', txid: 'psbt-broadcast-txid' });
+    await expect(sendLeatherTransfer({
+      recipients: [{ address: paymentAddress, amount: '10000' }],
+      network: 'testnet',
+      account: 4,
+    })).resolves.toEqual({ txid: 'transfer-txid' });
+
+    expect(leatherRequest).toHaveBeenNthCalledWith(1, 'getAddresses');
+    expect(leatherRequest).toHaveBeenNthCalledWith(2, 'open');
+    expect(leatherRequest).toHaveBeenNthCalledWith(3, 'signMessage', {
+      message: 'Bitcode challenge',
+      paymentType: 'p2tr',
+      network: 'testnet',
+      account: 4,
+    });
+    expect(leatherRequest).toHaveBeenNthCalledWith(4, 'signPsbt', {
+      hex: '70736274ff01',
+      signAtIndex: [0, 1],
+      network: 'testnet',
+      account: 4,
+      broadcast: true,
+    });
+    expect(leatherRequest).toHaveBeenNthCalledWith(5, 'sendTransfer', {
+      recipients: [{ address: paymentAddress, amount: '10000' }],
+      network: 'testnet',
+      account: 4,
+    });
   });
 
   it('exposes detected wallet choices and can connect Leather even when Xverse is installed', async () => {

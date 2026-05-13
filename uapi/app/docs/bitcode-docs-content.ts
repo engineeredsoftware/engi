@@ -402,6 +402,8 @@ const auxillariesSections = [
       'Configuration is commercially important only when users can understand which operational capability it unlocks or blocks.',
     points: [
       'Wallet owns the first identity step: a Bitcoin wallet proof that can back a Supabase session.',
+      'Leather support uses its documented Bitcoin provider methods: getAddresses, signMessage, signPsbt, sendTransfer, and open.',
+      'Leather Taproot p2tr is preferred for Bitcode auth when present; Native SegWit p2wpkh remains the payment-address read.',
       'Externals owns GitHub and future source-provider bindings after wallet identity exists.',
       'Profile owns optional email, display identity, account role, and organization metadata.',
       'Interfaces owns default behavior and visual/product posture.',
@@ -420,6 +422,7 @@ const auxillariesSections = [
       'This lets Bitcode ship a strong Terminal experience with mocked data while preserving the production direction toward real connectivity.',
     steps: [
       'Connect and sign with a Bitcoin wallet first.',
+      'For Leather, unlock the extension, use its testnet lane, approve the Bitcode message signature, and expect Bitcode to keep auth and payment addresses distinct.',
       'Install the GitHub App or connect a source provider second.',
       'Add optional email/contact settings only after wallet and source readiness are clear.',
       'Set profile identity, organization, and role posture only after required wallet and repository prerequisites are visible.',

@@ -54,6 +54,55 @@ export interface BitcoinWalletConnection {
   proofKind: 'bitcoin_message_signature' | 'provider_session';
 }
 
+export type LeatherBitcoinNetwork = 'mainnet' | 'testnet' | 'signet' | 'sbtcDevenv' | 'devnet';
+export type LeatherBitcoinPaymentType = 'p2wpkh' | 'p2tr';
+
+export interface LeatherBitcoinAddress {
+  symbol: 'BTC';
+  type: LeatherBitcoinPaymentType;
+  address: string;
+  publicKey?: string;
+  tweakedPublicKey?: string;
+  derivationPath?: string;
+}
+
+export interface LeatherWalletAccount {
+  account?: number;
+  network: LeatherBitcoinNetwork;
+  paymentAddress: LeatherBitcoinAddress | null;
+  authAddress: LeatherBitcoinAddress;
+  addresses: LeatherBitcoinAddress[];
+}
+
+export interface LeatherBitcoinRecipient {
+  address: string;
+  amount: string;
+}
+
+export interface LeatherPsbtSignRequest {
+  hex: string;
+  allowedSighash?: unknown[];
+  signAtIndex?: number | number[];
+  network?: LeatherBitcoinNetwork;
+  account?: number;
+  broadcast?: boolean;
+}
+
+export interface LeatherPsbtSignResult {
+  hex: string;
+  txid?: string | null;
+}
+
+export interface LeatherTransferRequest {
+  recipients: LeatherBitcoinRecipient[];
+  network?: LeatherBitcoinNetwork;
+  account?: number;
+}
+
+export interface LeatherTransferResult {
+  txid: string;
+}
+
 function asRecord(value: unknown): UnknownRecord | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return value as UnknownRecord;
@@ -144,6 +193,8 @@ function readLeatherNetwork() {
   const network = readConfiguredBitcoinNetwork();
   if (network === 'mainnet') return 'mainnet';
   if (network === 'signet') return 'signet';
+  if (network === 'sbtcdevenv') return 'sbtcDevenv';
+  if (network === 'devnet') return 'devnet';
   return 'testnet';
 }
 
@@ -274,6 +325,194 @@ export async function inspectBitcoinWalletProviders(): Promise<BitcoinWalletProv
   return providers.map((provider) => ({ id: provider.id, label: provider.label }));
 }
 
+function requireLeatherProvider() {
+  const leather = detectDirectBitcoinWalletProviders().find(
+    (provider): provider is Extract<BitcoinWalletProvider, { id: 'leather' }> => provider.id === 'leather',
+  );
+  if (!leather) {
+    throw new Error('Leather was not detected in this browser profile. Confirm the extension is enabled, unlocked, and allowed on this site.');
+  }
+  return leather;
+}
+
+function accountFromLeatherDerivationPath(path: string | null | undefined) {
+  if (!path) return undefined;
+  const accountSegment = path.split('/')[3]?.replaceAll("'", '');
+  const account =
+    typeof accountSegment === 'string' && Number.isFinite(Number.parseInt(accountSegment, 10))
+      ? Number.parseInt(accountSegment, 10)
+      : undefined;
+  return account;
+}
+
+function normalizeLeatherBitcoinAddresses(value: unknown): LeatherBitcoinAddress[] {
+  const result = asRecord(asRecord(value)?.result);
+  const addresses = Array.isArray(result?.addresses) ? result.addresses : [];
+  return addresses.flatMap((entry) => {
+    const record = asRecord(entry);
+    const type = readString(record?.type);
+    const address = readString(record?.address);
+    if (record?.symbol !== 'BTC' || (type !== 'p2wpkh' && type !== 'p2tr') || !isPlausibleBitcoinAddress(address)) {
+      return [];
+    }
+    return [{
+      symbol: 'BTC' as const,
+      type,
+      address,
+      publicKey: readString(record?.publicKey) ?? undefined,
+      tweakedPublicKey: readString(record?.tweakedPublicKey) ?? undefined,
+      derivationPath: readString(record?.derivationPath) ?? undefined,
+    }];
+  });
+}
+
+export async function inspectLeatherWalletAccount(): Promise<LeatherWalletAccount> {
+  const provider = requireLeatherProvider();
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-get-addresses-start');
+  const response = await withWalletRequestTimeout(provider.request('getAddresses'), provider.label);
+  const addresses = normalizeLeatherBitcoinAddresses(response);
+  const paymentAddress = addresses.find((address) => address.type === 'p2wpkh') ?? null;
+  const authAddress = addresses.find((address) => address.type === 'p2tr') ?? paymentAddress;
+  if (!authAddress) {
+    throw new Error('Leather did not return a Native SegWit or Taproot Bitcoin address.');
+  }
+
+  const account = accountFromLeatherDerivationPath(authAddress.derivationPath);
+  const walletAccount = {
+    account,
+    network: readLeatherNetwork() as LeatherBitcoinNetwork,
+    paymentAddress,
+    authAddress,
+    addresses,
+  } satisfies LeatherWalletAccount;
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-get-addresses-success', {
+    network: walletAccount.network,
+    account: walletAccount.account,
+    paymentAddress: compactBitcodeAddress(walletAccount.paymentAddress?.address),
+    authAddress: compactBitcodeAddress(walletAccount.authAddress.address),
+    authType: walletAccount.authAddress.type,
+  });
+  return walletAccount;
+}
+
+export async function openLeatherWallet() {
+  const provider = requireLeatherProvider();
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-open-start');
+  await withWalletRequestTimeout(provider.request('open'), provider.label, 15_000);
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-open-finish');
+}
+
+export async function signLeatherBitcoinMessage(input: {
+  message: string;
+  paymentType?: LeatherBitcoinPaymentType;
+  network?: LeatherBitcoinNetwork;
+  account?: number;
+}) {
+  const provider = requireLeatherProvider();
+  const network = input.network ?? (readLeatherNetwork() as LeatherBitcoinNetwork);
+  const response = await withWalletRequestTimeout(
+    provider.request('signMessage', {
+      message: input.message,
+      paymentType: input.paymentType ?? 'p2tr',
+      network,
+      ...(input.account === undefined ? {} : { account: input.account }),
+    }),
+    provider.label,
+  );
+  const record = asRecord(response);
+  const result = record ? asRecord(record.result) : null;
+  const signature = readString(result?.signature) ?? readString(record?.signature);
+  const address = readString(result?.address) ?? readString(record?.address);
+  if (!signature) {
+    throw new Error('Leather did not return a Bitcoin message signature.');
+  }
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-sign-message-success', {
+    network,
+    paymentType: input.paymentType ?? 'p2tr',
+    address: compactBitcodeAddress(address),
+  });
+  return {
+    signature,
+    address,
+    message: readString(result?.message) ?? input.message,
+  };
+}
+
+export async function signLeatherPsbt(input: LeatherPsbtSignRequest): Promise<LeatherPsbtSignResult> {
+  if (!readString(input.hex)) {
+    throw new Error('Leather PSBT signing requires a hex PSBT payload.');
+  }
+
+  const provider = requireLeatherProvider();
+  const network = input.network ?? (readLeatherNetwork() as LeatherBitcoinNetwork);
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-sign-psbt-start', {
+    network,
+    broadcast: input.broadcast === true,
+    signAtIndex: input.signAtIndex,
+  });
+  const response = await withWalletRequestTimeout(
+    provider.request('signPsbt', {
+      hex: input.hex,
+      ...(input.allowedSighash ? { allowedSighash: input.allowedSighash } : {}),
+      ...(input.signAtIndex === undefined ? {} : { signAtIndex: input.signAtIndex }),
+      network,
+      ...(input.account === undefined ? {} : { account: input.account }),
+      ...(input.broadcast === undefined ? {} : { broadcast: input.broadcast }),
+    }),
+    provider.label,
+  );
+  const record = asRecord(response);
+  const result = record ? asRecord(record.result) : null;
+  const hex = readString(result?.hex) ?? readString(record?.hex);
+  if (!hex) {
+    throw new Error('Leather did not return a signed PSBT hex payload.');
+  }
+  const txid = readString(result?.txid) ?? readString(record?.txid);
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-sign-psbt-success', {
+    network,
+    broadcast: input.broadcast === true,
+    txid: compactBitcodeAddress(txid),
+  });
+  return { hex, txid };
+}
+
+export async function sendLeatherTransfer(input: LeatherTransferRequest): Promise<LeatherTransferResult> {
+  if (!input.recipients.length) {
+    throw new Error('Leather transfer requires at least one Bitcoin recipient.');
+  }
+  for (const recipient of input.recipients) {
+    if (!isPlausibleBitcoinAddress(recipient.address) || !/^[1-9][0-9]*$/.test(recipient.amount)) {
+      throw new Error('Leather transfer recipients require a valid Bitcoin address and positive satoshi amount string.');
+    }
+  }
+
+  const provider = requireLeatherProvider();
+  const network = input.network ?? (readLeatherNetwork() as LeatherBitcoinNetwork);
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-send-transfer-start', {
+    network,
+    recipients: input.recipients.length,
+  });
+  const response = await withWalletRequestTimeout(
+    provider.request('sendTransfer', {
+      recipients: input.recipients,
+      network,
+      ...(input.account === undefined ? {} : { account: input.account }),
+    }),
+    provider.label,
+  );
+  const record = asRecord(response);
+  const result = record ? asRecord(record.result) : null;
+  const txid = readString(result?.txid) ?? readString(record?.txid);
+  if (!txid) {
+    throw new Error('Leather did not return a Bitcoin transaction id.');
+  }
+  bitcodeQaTelemetry('info', 'wallet-client', 'leather-send-transfer-success', {
+    network,
+    txid: compactBitcodeAddress(txid),
+  });
+  return { txid };
+}
+
 export function buildBitcoinWalletAuthenticationMessage(input: {
   address: string;
   network: string | null;
@@ -354,57 +593,33 @@ async function connectUniSat(provider: Extract<BitcoinWalletProvider, { id: 'uni
 
 async function connectLeather(provider: Extract<BitcoinWalletProvider, { id: 'leather' }>) {
   bitcodeQaTelemetry('info', 'wallet-client', 'connect-start', { provider: provider.id });
-  const accounts = await withWalletRequestTimeout(provider.request('getAddresses').catch(() => null), provider.label);
-  const result = asRecord(asRecord(accounts)?.result);
-  const addresses = Array.isArray(result?.addresses) ? result.addresses : [];
-  const p2tr = addresses.find((entry) => {
-    const record = asRecord(entry);
-    return record?.symbol === 'BTC' && record?.type === 'p2tr' && isPlausibleBitcoinAddress(record?.address);
-  });
-  const p2wpkh = addresses.find((entry) => {
-    const record = asRecord(entry);
-    return record?.symbol === 'BTC' && record?.type === 'p2wpkh' && isPlausibleBitcoinAddress(record?.address);
-  });
-  const authRecord = asRecord(p2tr ?? p2wpkh);
-  const paymentRecord = asRecord(p2wpkh ?? p2tr);
-  const address = readString(authRecord?.address);
+  const walletAccount = await inspectLeatherWalletAccount();
+  const address = walletAccount.authAddress.address;
   if (!isPlausibleBitcoinAddress(address)) throw new Error('Leather did not return a Bitcoin address.');
 
   const issuedAt = new Date().toISOString();
   const nonce = crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  const network = readLeatherNetwork();
+  const network = walletAccount.network;
   const message = buildBitcoinWalletAuthenticationMessage({ address, network, issuedAt, nonce });
-  const derivationPath = readString(authRecord?.derivationPath);
-  const accountSegment = derivationPath?.split('/')[3]?.replaceAll("'", '');
-  const account =
-    typeof accountSegment === 'string' && Number.isFinite(Number.parseInt(accountSegment, 10))
-      ? Number.parseInt(accountSegment, 10)
-      : undefined;
-  const response = await withWalletRequestTimeout(
-    provider.request('signMessage', {
-      message,
-      paymentType: readString(authRecord?.type) === 'p2tr' ? 'p2tr' : 'p2wpkh',
-      network,
-      ...(account === undefined ? {} : { account }),
-    }),
-    provider.label,
-  );
-  const record = asRecord(response);
-  const signResult = record ? asRecord(record.result) : null;
-  const signature = readString(signResult?.signature) ?? readString(record?.signature);
+  const signedMessage = await signLeatherBitcoinMessage({
+    message,
+    paymentType: walletAccount.authAddress.type,
+    network,
+    account: walletAccount.account,
+  });
 
   const connection = {
     address,
     provider: provider.id,
     providerLabel: provider.label,
     network,
-    paymentAddress: readString(paymentRecord?.address),
+    paymentAddress: walletAccount.paymentAddress?.address ?? null,
     authAddress: address,
-    addressType: readString(authRecord?.type),
+    addressType: walletAccount.authAddress.type,
     message,
-    signature,
+    signature: signedMessage.signature,
     connectedAt: issuedAt,
-    proofKind: signature ? 'bitcoin_message_signature' : 'provider_session',
+    proofKind: 'bitcoin_message_signature',
   } satisfies BitcoinWalletConnection;
   bitcodeQaTelemetry('info', 'wallet-client', 'connect-success', {
     provider: connection.provider,

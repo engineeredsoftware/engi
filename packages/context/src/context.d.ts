@@ -8,6 +8,7 @@ export type GlobalContext = {
     userId?: string | number;
     connectionId?: number;
     attachments?: any[];
+    otfInstructions?: any[];
     dataStream?: {
         writeData?: (...args: any[]) => Promise<void> | void;
         close?: (...args: any[]) => Promise<void> | void;
@@ -24,4 +25,5 @@ export declare function prepareContextForPrompt(context?: GlobalContext): {
     branch: string;
     commit: string;
     task: string;
+    otfInstructions: any[] | undefined;
 };

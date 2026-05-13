@@ -2,6 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionDetailsView';
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
+
 jest.mock('@/hooks/usePipelineExecution', () => ({
   usePipelineExecution: () => ({
     execution: { id: 'run-1', created_at: new Date().toISOString(), items: [], context: {} },

@@ -2,7 +2,7 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn(), rpc: jest.fn() } }));
 jest.mock('@/lib/mock-review-mode', () => ({ isAuxillariesMockMode: jest.fn(() => false) }));
 
-import { POST } from '@/app/api/auxillaries/wallet/route';
+import { POST } from '@/app/api/auxillaries/user/btd/route';
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -26,7 +26,7 @@ beforeEach(() => {
   (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser } });
 });
 
-describe('POST /api/auxillaries/wallet canonical closure', () => {
+describe('POST /api/auxillaries/user/btd canonical closure', () => {
   it('rejects unauthenticated user with 401', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
     const res = await POST(new Request('http://localhost', { method: 'POST', body: '{}' }));

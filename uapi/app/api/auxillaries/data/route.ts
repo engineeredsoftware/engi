@@ -11,6 +11,7 @@ import {
 } from '@/app/api/vcs/_shared';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const getAuxillaryData = buildGetAuxillaryDataRoute({
   isMockMode: isAuxillariesMockMode,

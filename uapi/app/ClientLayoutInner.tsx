@@ -27,13 +27,17 @@ function useLoginErrorToast() {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const err = params.get('loginError');
+    const description = params.get('loginErrorDescription');
     if (err) {
       // Remove the param from the URL so the toast doesn't repeat on refresh.
       params.delete('loginError');
+      params.delete('loginErrorDescription');
       const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '') + window.location.hash;
       window.history.replaceState({}, '', newUrl);
       import('@/components/base/shadcn/sonner').then(({ toast }) => {
-        toast.error(decodeURIComponent(err));
+        const errorLabel = decodeURIComponent(err);
+        const detail = description ? decodeURIComponent(description) : '';
+        toast.error(detail ? `${errorLabel}: ${detail}` : errorLabel);
       }).catch(() => {});
     }
   }, []);

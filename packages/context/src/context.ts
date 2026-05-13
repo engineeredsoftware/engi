@@ -8,6 +8,7 @@ export type GlobalContext = {
   userId?: string | number;
   connectionId?: number;
   attachments?: any[];
+  otfInstructions?: any[];
   dataStream?: {
     writeData?: (...args: any[]) => Promise<void> | void;
     close?: (...args: any[]) => Promise<void> | void;
@@ -39,11 +40,17 @@ export function setGlobalContext(context: GlobalContext): void {
 }
 
 export function prepareContextForPrompt(context: GlobalContext = currentContext) {
+  const mergedContext = {
+    ...currentContext,
+    ...context,
+  };
+
   return {
-    repoOwner: context.repoOwner,
-    repoName: context.repoName,
-    branch: context.repoBranch,
-    commit: context.repoCommit,
-    task: context.task
+    repoOwner: mergedContext.repoOwner,
+    repoName: mergedContext.repoName,
+    branch: mergedContext.repoBranch,
+    commit: mergedContext.repoCommit,
+    task: mergedContext.task,
+    otfInstructions: mergedContext.otfInstructions
   };
 }

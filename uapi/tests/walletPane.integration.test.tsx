@@ -93,20 +93,21 @@ describe('WalletPane interactions', () => {
       }),
     );
     fireEvent.click(screen.getByRole('button', { name: /live/i }));
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
-    expect(onSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        existingSetting: 'keep-me',
-        btdDefaults: expect.objectContaining({
-          shareLens: 'organization',
-          settlementView: 'replay',
-          btdDetailView: 'proofs',
-          automationBias: 'decisive',
-          walletSync: 'live',
+    await waitFor(() => {
+      expect(onSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          existingSetting: 'keep-me',
+          btdDefaults: expect.objectContaining({
+            shareLens: 'organization',
+            settlementView: 'replay',
+            btdDetailView: 'proofs',
+            automationBias: 'decisive',
+            walletSync: 'live',
+          }),
         }),
-      }),
-    );
+      );
+    });
     expect(onCompletionStatusChange).toHaveBeenCalledWith(true);
   });
 });

@@ -287,7 +287,7 @@ export class StorybookAdapter {
     const result = { ...target };
     
     for (const key in source) {
-      if (source.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
         if (typeof source[key] === 'object' && !Array.isArray(source[key])) {
           result[key] = this.deepMerge(target[key], source[key]);
         } else {

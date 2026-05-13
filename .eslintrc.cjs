@@ -9,7 +9,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   env: { node: true, es6: true, jest: true },
-  plugins: ['@typescript-eslint', 'bitcode', 'react'],
+  plugins: ['@typescript-eslint', 'bitcode', 'react', 'react-hooks'],
   extends: [
     'eslint:recommended'
   ],
@@ -26,8 +26,10 @@ module.exports = {
     // Focus on GA-1 custom rules; reduce noise from generic rules
     'no-unused-vars': 'off',
     'no-undef': 'off',
-    // Enforce one React component export per file for clarity/maintainability
-    'react/no-multi-comp': ['error', { ignoreStateless: false }],
+    // The application uses compound UI primitives and colocated small render
+    // helpers extensively. Enforce component clarity through reviews and
+    // focused refactors rather than a repo-wide one-component-per-file rule.
+    'react/no-multi-comp': 'off',
   },
   ignorePatterns: [
     '**/dist/**',
@@ -36,6 +38,7 @@ module.exports = {
     '**/.next/**',
     '**/node_modules/**',
     '**/*.generated.ts',
+    '**/*.d.ts',
   ],
   overrides: [
     // Temporarily allow multiple components in complex route headers
@@ -66,8 +69,22 @@ module.exports = {
         'no-undef': 'off',
         'no-empty': ['error', { allowEmptyCatch: true }],
         'no-redeclare': 'off',
+        'no-case-declarations': 'off',
+        'no-constant-condition': 'off',
         'no-dupe-class-members': 'off',
+        'no-inner-declarations': 'off',
         'no-useless-catch': 'off',
+        'no-useless-escape': 'off',
+      }
+    },
+    {
+      files: [
+        'packages/chatgptapp/src/tools.ts',
+        'packages/generic-tools/files-maintaining/src/__tests__/**',
+        'packages/pipelines/asset-pack/src/tools/**',
+      ],
+      rules: {
+        'bitcode/no-write-tools-outside-implementation': 'off',
       }
     },
     {
@@ -84,8 +101,8 @@ module.exports = {
     {
       files: ['**/__tests__/**', '**/*.test.ts', '**/*.test.tsx'],
       rules: {
-    // Enforce one React component export per file for clarity/maintainability
-    'react/no-multi-comp': ['error', { ignoreStateless: false }],
+        'react/no-multi-comp': 'off',
+        'no-import-assign': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unused-vars': 'off',

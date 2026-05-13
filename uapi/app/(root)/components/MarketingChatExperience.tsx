@@ -22,7 +22,7 @@ interface Message {
   id: string;
   type: 'user' | 'agent';
   content: string;
-};
+}
 
 // Constants that never change are defined outside the component so they don't
 // get re-allocated on every render.

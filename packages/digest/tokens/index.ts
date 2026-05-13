@@ -24,7 +24,7 @@ export interface FileInfoForTokens {
 export function estimateDigestOutputTokens(fileInfo: FileInfoForTokens): number {
   const baseTokens = 30; // JSON structure, field names, etc.
 
-  // Summary is estimated at 10 % of input tokens + a small cushion.
+  // Summary is estimated at 10% of input tokens + a small cushion.
   const summaryTokens = Math.ceil(fileInfo.tokenCount * 0.1) + 50;
 
   // Path tokens depend on length; 0.3 × chars heuristic.

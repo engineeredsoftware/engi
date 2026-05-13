@@ -3,6 +3,13 @@ node_modules
 __pycache__
 app/app/__pychache__
 uapi/tmp
+
+# Local environment files
+.env
+.env.*
+!.env.example
+!**/.env.example
+
 # Playwright test artifacts
 **/playwright-report/**
 uapi/playwright-report/

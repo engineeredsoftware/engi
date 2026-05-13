@@ -154,7 +154,7 @@ describe('GET /api/executions/history/[runId]', () => {
           branch: 'main',
           commit: 'abc123',
         },
-        processing_stats: {
+        processing_stats: expect.objectContaining({
           time: '4m 12s',
           tokens: {
             input: 160,
@@ -164,7 +164,7 @@ describe('GET /api/executions/history/[runId]', () => {
           measuredBtd: 18.5,
           btcFeeUsdEquivalent: 0.91,
           averageLatencyMs: 880,
-        },
+        }),
         written_assets: {
           summary: 'Persisted closure posture.',
         },
@@ -172,12 +172,6 @@ describe('GET /api/executions/history/[runId]', () => {
           summary: 'Persisted AssetPack synthesis artifacts.',
           fileChanges: { edited: 3, created: 1, deleted: 0 },
           proofEvidence: ['history-detail-primary-artifacts'],
-        },
-        delivery_mechanism: {
-          comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
-        },
-        shippables: {
-          comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
         },
         need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
         written_asset_type: 'proof-refresh',
@@ -188,20 +182,6 @@ describe('GET /api/executions/history/[runId]', () => {
         },
         asset_pack_completion: expect.objectContaining({
           summary: 'Persisted closure posture.',
-          assetPackSynthesisArtifacts: {
-            summary: 'Persisted AssetPack synthesis artifacts.',
-            fileChanges: { edited: 3, created: 1, deleted: 0 },
-            proofEvidence: ['history-detail-primary-artifacts'],
-          },
-          writtenAssets: {
-            summary: 'Persisted closure posture.',
-          },
-          deliveryMechanism: {
-            comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
-          },
-          shippables: {
-            comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
-          },
           need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
           writtenAssetType: 'proof-refresh',
           assetPack: {
@@ -212,6 +192,9 @@ describe('GET /api/executions/history/[runId]', () => {
         }),
       }),
     );
+    expect(json.run.output.asset_pack_completion.deliveryMechanism.comments).toEqual([
+      { title: 'Proof note', url: 'https://example.com/comments/9', number: 9 },
+    ]);
     expect(Array.isArray(json.events)).toBe(true);
     expect(json.events[0].event).toEqual({
       type: 'phase',

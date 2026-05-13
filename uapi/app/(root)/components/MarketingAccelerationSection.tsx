@@ -182,7 +182,7 @@ function DocBox({ content, className = '' }: { className: string, content: { tit
       </motion.div>
     </motion.div>
   );
-};
+}
 
 const MarketingAccelerationSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);

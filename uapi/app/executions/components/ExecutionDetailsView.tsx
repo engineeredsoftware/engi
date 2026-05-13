@@ -1,1 +1,1 @@
-export { ExecutionDetailsView as default } from './ExecutionsDetailsView';
+export { ExecutionDetailsView, ExecutionDetailsView as default } from './ExecutionsDetailsView';

@@ -255,13 +255,21 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
       return createJsonResponse(options.mockAuxillaryData?.() || buildAnonymousAuxillaryData());
     }
 
-    const supabase = await createClient();
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+    let supabase: Awaited<ReturnType<typeof createClient>>;
+    let user: { id: string } | null = null;
 
-    if (!user || userError) {
+    try {
+      supabase = await createClient();
+      const authResult = await supabase.auth.getUser();
+      user = authResult.data.user as { id: string } | null;
+
+      if (!user || authResult.error) {
+        return createJsonResponse(buildAnonymousAuxillaryData());
+      }
+    } catch {
+      // Static generation and unauthenticated prefetches can lack request-bound
+      // cookies. Auxillary data must fail open to anonymous data instead of
+      // turning public page builds into noisy 500s.
       return createJsonResponse(buildAnonymousAuxillaryData());
     }
 

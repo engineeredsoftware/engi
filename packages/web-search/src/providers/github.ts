@@ -62,15 +62,7 @@ export class GitHubSearchProvider extends SearchProviderBase {
   }
 
   async healthCheck(): Promise<boolean> {
-    try {
-      // Note: Implement actual GitHub API health check
-      return true;
-    } catch (error) {
-      log('GitHub health check failed', 'error', {
-        provider: this.name,
-        error: error instanceof Error ? error.message : String(error)
-      });
-      return false;
-    }
+    // Note: Implement actual GitHub API health check
+    return true;
   }
 }

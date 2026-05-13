@@ -47,13 +47,13 @@ const config = {
       'wide': '1440px',    // Widescreen
       '2xl': '1400px',     // Keep existing container breakpoint
     },
-  	container: {
-  		center: 'true',
-  		padding: '2rem',
-  		screens: {
-  			'2xl': '1400px'
-  		}
-  	},
+    container: {
+      center: 'true',
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px'
+      }
+    },
     extend: {
       boxShadow: {
         // Subtle elevation for cards/panels (no visual change vs common usage)
@@ -70,14 +70,14 @@ const config = {
       maxWidth: {
         '4.5xl': '60rem',
       },
-		transitionTimingFunction: {
-			elegant: 'cubic-bezier(0.4, 0, 0.2, 1)',
-			'orbit-snap': 'cubic-bezier(0.16, 1, 0.3, 1)',
-			'orbit-fluid': 'cubic-bezier(0.23, 1, 0.32, 1)',
-			'orbit-overshoot': 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-		},
-  		colors: {
-  			'green-primary': '#65FEB7',
+    transitionTimingFunction: {
+      elegant: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      'orbit-snap': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      'orbit-fluid': 'cubic-bezier(0.23, 1, 0.32, 1)',
+      'orbit-overshoot': 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+    },
+      colors: {
+        'green-primary': '#65FEB7',
         
         /* ====================================================================
          * BITCODE BRAND COLOR SYSTEM - Single source of truth
@@ -150,69 +150,69 @@ const config = {
           trail: 'rgba(255, 255, 255, 0.4)',
         },
         
-  			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
-  			ring: 'hsl(var(--ring))',
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
-  			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
-  			},
-  			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
-  			},
-  			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
-  			},
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
-  			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
-  			},
-  			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
-  				foreground: 'hsl(var(--popover-foreground))'
-  			},
-  			card: {
-  				DEFAULT: 'hsl(var(--card))',
-  				foreground: 'hsl(var(--card-foreground))'
-  			},
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
-  		},
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))'
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
+        },
+        chart: {
+          '1': 'hsl(var(--chart-1))',
+          '2': 'hsl(var(--chart-2))',
+          '3': 'hsl(var(--chart-3))',
+          '4': 'hsl(var(--chart-4))',
+          '5': 'hsl(var(--chart-5))'
+        }
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
         keyframes: {
-  			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
-  			},
-  			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
-  			},
+        'accordion-down': {
+          from: {
+            height: '0'
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)'
+          }
+        },
+        'accordion-up': {
+          from: {
+            height: 'var(--radix-accordion-content-height)'
+          },
+          to: {
+            height: '0'
+          }
+        },
         /* ====================================================================
          * CONSOLIDATED BASE ANIMATIONS - Single source of truth
          * Each animation has base behavior + specific variants via CSS classes
@@ -306,46 +306,46 @@ const config = {
             transform: 'translateY(calc(-100% - var(--review-marquee-gap)))'
           }
         },
-  			shimmer: {
-  				'0%, 90%, 100%': {
-  					'background-position': 'calc(-100% - var(--shimmer-width)) 0'
-  				},
-  				'30%, 60%': {
-  					'background-position': 'calc(100% + var(--shimmer-width)) 0'
-  				}
-  			},
-  			'spin-around': {
-  				'0%': {
-  					transform: 'translateZ(0) rotate(0)'
-  				},
-  				'15%, 35%': {
-  					transform: 'translateZ(0) rotate(90deg)'
-  				},
-  				'65%, 85%': {
-  					transform: 'translateZ(0) rotate(270deg)'
-  				},
-  				'100%': {
-  					transform: 'translateZ(0) rotate(360deg)'
-  				}
-  			},
-  			slide: {
-  				to: {
-  					transform: 'translate(calc(100cqw - 100%), 0)'
-  				}
-  			},
-  			meteor: {
-  				'0%': {
-  					transform: 'rotate(215deg) translateX(0)',
-  					opacity: '1'
-  				},
-  				'70%': {
-  					opacity: '1'
-  				},
-  				'100%': {
-  					transform: 'rotate(215deg) translateX(-5000px)',
-  					opacity: '0'
-  				}
-  			},
+        shimmer: {
+          '0%, 90%, 100%': {
+            'background-position': 'calc(-100% - var(--shimmer-width)) 0'
+          },
+          '30%, 60%': {
+            'background-position': 'calc(100% + var(--shimmer-width)) 0'
+          }
+        },
+        'spin-around': {
+          '0%': {
+            transform: 'translateZ(0) rotate(0)'
+          },
+          '15%, 35%': {
+            transform: 'translateZ(0) rotate(90deg)'
+          },
+          '65%, 85%': {
+            transform: 'translateZ(0) rotate(270deg)'
+          },
+          '100%': {
+            transform: 'translateZ(0) rotate(360deg)'
+          }
+        },
+        slide: {
+          to: {
+            transform: 'translate(calc(100cqw - 100%), 0)'
+          }
+        },
+        meteor: {
+          '0%': {
+            transform: 'rotate(215deg) translateX(0)',
+            opacity: '1'
+          },
+          '70%': {
+            opacity: '1'
+          },
+          '100%': {
+            transform: 'rotate(215deg) translateX(-5000px)',
+            opacity: '0'
+          }
+        },
         'cosmic-traverse': {
           '0%': {
             transform: 'rotate(215deg) translateX(0) scale(0.3)',
@@ -432,19 +432,19 @@ const config = {
             transform: 'scale(1.2)'
           }
         },
-  			'border-beam': {
-  				'100%': {
-  					'offset-distance': '100%'
-  				}
-  			},
-  			'shiny-text': {
-  				'0%, 90%, 100%': {
-  					'background-position': 'calc(-100% - var(--shiny-width)) 0'
-  				},
-  				'30%, 60%': {
-  					'background-position': 'calc(100% + var(--shiny-width)) 0'
-  				}
-  			},
+        'border-beam': {
+          '100%': {
+            'offset-distance': '100%'
+          }
+        },
+        'shiny-text': {
+          '0%, 90%, 100%': {
+            'background-position': 'calc(-100% - var(--shiny-width)) 0'
+          },
+          '30%, 60%': {
+            'background-position': 'calc(100% + var(--shiny-width)) 0'
+          }
+        },
         
         /* ====================================================================
          * INTELLIGENCE ENHANCEMENT ANIMATIONS
@@ -532,7 +532,7 @@ const config = {
             'opacity': '1'
           }
         }
-  		},
+      },
         animation: {
             'accordion-down': 'accordion-down 0.2s ease-out',
             'accordion-up': 'accordion-up 0.2s ease-out',
@@ -570,16 +570,16 @@ const config = {
         // Logo marquee uses its own CSS custom property for duration so speed
         // tweaks never affect other marquees.
         'logo-marquee': 'logo-marquee var(--logo-marquee-duration) linear infinite',
-  			shimmer: 'shimmer 8s infinite',
-  			'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear',
-  			slide: 'slide var(--speed) ease-in-out infinite alternate',
-  			meteor: 'meteor 5s linear infinite',
+        shimmer: 'shimmer 8s infinite',
+        'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear',
+        slide: 'slide var(--speed) ease-in-out infinite alternate',
+        meteor: 'meteor 5s linear infinite',
         'cosmic-traverse': 'cosmic-traverse var(--duration, 5s) linear forwards',
         'distant-star': 'distant-star var(--duration, 7s) linear forwards',
         'bright-comet': 'bright-comet var(--duration, 4s) linear forwards',
         'star-twinkle': 'star-twinkle calc(var(--twinkle-duration, 3s) + var(--random-offset, 0s)) ease-in-out infinite',
-  			'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
-  			'shiny-text': 'shiny-text 8s infinite',
+        'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
+        'shiny-text': 'shiny-text 8s infinite',
         
         // Intelligence enhancement animations
         'intelligence-pulse': 'intelligence-pulse 3s ease-in-out infinite',
@@ -587,13 +587,13 @@ const config = {
         'consciousness-awakening': 'consciousness-awakening 4s ease-out',
         'success-cascade': 'success-cascade 1.5s ease-out',
         'confidence-building': 'confidence-building 3s ease-out'
-  		},
-  		variants: {
-  			extend: {
-  				boxShadow: ['hover', 'dark']
-  			}
-  		}
-  	}
+      },
+      variants: {
+        extend: {
+          boxShadow: ['hover', 'dark']
+        }
+      }
+    }
   },
   plugins: [
     require("tailwindcss-animate"),

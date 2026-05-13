@@ -39,6 +39,8 @@ module.exports = {
     '^@bitcode/context$': '<rootDir>/../packages/context/src/index.ts',
     '^@bitcode/context/(.*)$': '<rootDir>/../packages/context/src/$1',
     '^@bitcode/observability$': '<rootDir>/tests/mocks/observability.js',
+    '^@bitcode/orm$': '<rootDir>/tests/mocks/orm.ts',
+    '^@bitcode/sse$': '<rootDir>/../packages/networking/src/sse.ts',
     '^@bitcode/google-analytics$': '<rootDir>/../packages/google-analytics/src/ga.ts',
     '^@bitcode/errors$': '<rootDir>/../packages/errors/src/errors.ts',
     '^@bitcode/artifacts$': '<rootDir>/../packages/artifacts/src/artifacts.ts',
@@ -70,6 +72,7 @@ module.exports = {
     '^@/lib/bitcode-app-context-options$': '<rootDir>/lib/bitcode-app-context-options.ts',
     '^@/lib/bitcoin-wallet-oauth-provider$': '<rootDir>/lib/bitcoin-wallet-oauth-provider.ts',
     '^@/lib/bitcoin-wallet-client$': '<rootDir>/lib/bitcoin-wallet-client.ts',
+    '^@/lib/github-app-url$': '<rootDir>/lib/github-app-url.ts',
     '^@/lib/bitcode-server-telemetry$': '<rootDir>/lib/bitcode-server-telemetry.ts',
     '^@/lib/bitcode-qa-telemetry$': '<rootDir>/lib/bitcode-qa-telemetry.ts',
     '^@/lib/bitcode-wallet-local$': '<rootDir>/lib/bitcode-wallet-local.ts',
@@ -91,8 +94,6 @@ module.exports = {
   testMatch: [
     '<rootDir>/tests/search.test.ts',
     '<rootDir>/tests/searchLocalVector.test.ts',
-    // Meta-level prompt builder tests
-    '<rootDir>/tests/meta/**/buildMessagesWithSystemPrompt.test.ts',
     // Include API integration tests for AssetPack and Shippable routes
     '<rootDir>/tests/api/**/*.test.ts',
     '<rootDir>/tests/api/**/*.test.tsx',

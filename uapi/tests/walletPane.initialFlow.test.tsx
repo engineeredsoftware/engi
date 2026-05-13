@@ -80,6 +80,19 @@ describe('WalletPane Returning User Flow', () => {
       user: null,
       loading: false,
     } as any);
+    mockUseUserData.mockReturnValue({
+      data: {
+        profile: {},
+        modelPreferences: {},
+      },
+      hasGitHubConnection: true,
+      btdBalance: 0,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: false,
+      onboardedSteps: [],
+    } as any);
 
     const onCompletionStatusChange = jest.fn();
     render(

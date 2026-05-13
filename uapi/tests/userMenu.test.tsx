@@ -53,7 +53,7 @@ describe('UserMenu', () => {
 
     expect(screen.getByText('Bitcode account')).toBeInTheDocument();
     expect(screen.getByText('Open Auxillaries fullscreen')).toBeInTheDocument();
-    expect(screen.getByText('Externals, Interfaces, Profile, $BTD')).toBeInTheDocument();
+    expect(screen.getByText('Wallet, Externals, Profile, Interfaces')).toBeInTheDocument();
     expect(screen.getByTestId('auxillaries-solar-icon')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Open Auxillaries fullscreen'));

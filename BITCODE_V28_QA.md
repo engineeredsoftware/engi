@@ -162,6 +162,9 @@ For every staging-testnet pass, paste back:
 
 Run these in the staging Supabase SQL editor after each milestone and paste the result rows or any table/permission errors.
 Errors are useful because missing migrations or RLS drift are V28 parity findings.
+Save each query in Supabase with the `v28_qa_` name shown above it so later passes can reuse the same evidence label.
+
+Saved query name: `v28_qa_00_initial_schema_reality`
 
 ```sql
 select id, email, created_at, last_sign_in_at
@@ -319,6 +322,18 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Dual-lane dev artifact isolation | pass | Manual reconfirmation on 2026-05-08 accepted the mock/testnet-readiness separation. V28 QA servers use lane-specific `NEXT_DIST_DIR` values so public mock env compilation is isolated per lane. |
 | Mock Terminal data classification | pass | Manual QA clarified that the currently visible Terminal data is mock data because the operator is in the mock lane. This evidence remains mock-lane evidence only, not testnet-readiness evidence. |
 | Testnet-readiness Terminal baseline | pass | Port `3001` API returns anonymous/empty readiness rather than mock profile/repos/balances, and browser verification renders `Bitcode Terminal` with `Connect Wallet`, no mock profile strings, no mock balances, and no product console/page errors. |
+
+### 2026-05-13 Staging-Testnet Build Confidence Gate
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Environment file posture | pass | Populated root and UAPI `.env` files were moved out of tracking into `.env.local`; root `.env.example` and `uapi/.env.example` now carry placeholder keys only. |
+| Supabase migrations | pass | Local and remote migration history align for `001`, `002`, `003`, and dashboard-origin RLS migration `20260510223914`; the RLS migration is now represented in `supabase/migrations/20260510223914_rls_auto_enable.sql`. |
+| UAPI unit/integration tests | pass | `pnpm -C uapi exec jest --runInBand --silent --forceExit`: 85 suites passed, 1 skipped; 245 tests passed, 1 skipped. The remaining warning is the known Jest open-handle/MaxListeners warning from the mock orchestrator suite, not a failed assertion. |
+| Package tests | pass | `pnpm -C packages/protocol test`, `pnpm -C packages/protocol run typecheck`, and `pnpm -C packages/orm test` pass. |
+| Lint/typecheck | pass | `pnpm run lint`, `pnpm -C uapi run lint`, and `pnpm -C uapi exec tsc --noEmit --pretty false` pass. |
+| Staging-testnet build | pass | `pnpm -C uapi run build` passes with staging-testnet flags, Exchange and website Conversations disabled, mocks off, and Next loading `uapi/.env.local`. Auxillaries data routes are dynamic and no longer emit build-time 500s. |
+| Diff hygiene | pass | `git diff --check` passes. |
 
 ### 2026-05-09 Pass 3A Resume: Wallet Extension And Provider Prerequisites
 
@@ -511,6 +526,8 @@ Automated verification after this implementation pass:
 - May 12 Bitcoin wallet auth formalization: V28 no longer uses anonymous Supabase sign-in as the wallet persistence origin. Wallet starts Supabase custom OAuth through `custom:bitcode-bitcoin`, `/tps/wallet/authorize` captures the signed wallet proof, `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo` let Supabase create the user session, and Wallet then synchronizes the same wallet proof into `/api/wallet/authenticate`.
 - Supabase custom provider dashboard values for testnet: provider type `OAuth2`, identifier `custom:bitcode-bitcoin`, name `Bitcode Bitcoin Wallet`, authorization URL `<public staging-or-tunnel origin>/tps/wallet/authorize`, token URL `<public staging-or-tunnel origin>/api/wallet/oauth/token`, userinfo URL `<public staging-or-tunnel origin>/api/wallet/oauth/userinfo`, scopes `profile wallet:bitcoin`, PKCE enabled, and email optional enabled. Cloud Supabase cannot call `127.0.0.1` token/userinfo URLs, so local QA needs either a deployed preview/staging origin or a tunnel that uses the same OAuth client secret as the local lane.
 - Required matching app env for testnet lane: `BITCODE_BITCOIN_OAUTH_CLIENT_ID=<same client id configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same client secret configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co`, and `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback` if the Supabase URL env is unavailable, plus the existing Supabase publishable/secret keys.
+- May 13 Leather reconnect QA classified the wallet provider path as working but the Supabase custom-OAuth exchange as blocked: Bitcode issued `wallet-oauth:authorization-code-issued` for Leather on testnet, local wallet identity hydrated in top chrome, but Supabase returned `server_error: Unable to exchange external code` and no `wallet-oauth:token-issued` telemetry appeared. Do not rerun Leather until the Supabase provider token/userinfo URLs are confirmed public-reachable from Supabase and configured with the same Bitcoin OAuth client secret. V28 now surfaces the full `loginErrorDescription` toast and adds a Wallet-pane `Disconnect wallet` action that clears the Bitcode-local wallet/session state while accurately noting that Leather/Xverse extension permissions may need revocation inside the wallet.
+- May 13 Leather documentation ingestion closes the adapter contract for V28 implementation preparation. Leather support is through `window.LeatherProvider.request`, with `getAddresses` selected by BTC `symbol`/`type` rather than index, Taproot `p2tr` preferred for Bitcode auth, Native SegWit `p2wpkh` retained for payment, account derived from the returned derivation path, and explicit `signMessage` parameters. V28 source now also exposes tested Leather utilities for `open`, hex `signPsbt`, and `sendTransfer`; Terminal BTC-fee/PSBT work can call those utilities later without redefining the wallet provider contract.
 - `pnpm -C uapi exec jest --runInBand tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts`: 9 passed after Bitcoin wallet custom OAuth implementation.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after Bitcoin wallet custom OAuth implementation.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
@@ -617,6 +634,221 @@ When the testnet-readiness lane lacks wallet, GitHub, Supabase, signer, BTC broa
 It is not acceptable for that lane to silently show a mocked success state.
 Exchange and website Conversations should stay disabled or hidden in these V28 lane commands.
 
+## Staging-Testnet Vercel Environment
+
+`bitcode.exchange` is the singular deployed staging-testnet target for the next manual QA pass.
+The Supabase custom Bitcoin OAuth provider must use the deployed origin, not localhost:
+
+```text
+Authorization URL: https://bitcode.exchange/tps/wallet/authorize
+Token URL:         https://bitcode.exchange/api/wallet/oauth/token
+UserInfo URL:      https://bitcode.exchange/api/wallet/oauth/userinfo
+Callback URL:      https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback
+```
+
+Set these Vercel environment variables for the deployment environment used by `bitcode.exchange`:
+
+```sh
+NEXT_PUBLIC_APP_URL=https://bitcode.exchange
+NEXT_PUBLIC_BITCODE_ENV=testnet
+NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4
+
+NEXT_PUBLIC_SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co
+SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<testnet Supabase publishable key>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<same testnet Supabase publishable key if older code path needs it>
+SUPABASE_PUBLISHABLE_KEY=<testnet Supabase publishable key>
+SUPABASE_SECRET_KEY=<testnet Supabase secret key>
+SUPABASE_SERVICE_ROLE_KEY=<testnet Supabase secret key if admin/service-role code path needs it>
+
+BITCODE_BITCOIN_OAUTH_CLIENT_ID=bitcode-bitcoin-wallet
+BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same custom provider client secret configured in Supabase>
+BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co
+BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback
+BITCODE_BITCOIN_OAUTH_SUPABASE_CALLBACK_URL=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback
+
+GITHUB_APP_CLIENT_ID=<GitHub App client ID>
+GITHUB_APP_CLIENT_SECRET=<GitHub App client secret>
+GITHUB_APP_ID=<GitHub App ID>
+GITHUB_PRIVATE_KEY=<GitHub App private key PEM>
+GITHUB_WEBHOOK_SECRET=<GitHub webhook secret>
+GITHUB_APP_REDIRECT_URI=https://bitcode.exchange/github/callback
+VCS_REDIRECT_URI=https://bitcode.exchange/github/callback
+NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-app-auxillary
+
+NEXT_PUBLIC_MASTER_MOCK_MODE=false
+NEXT_PUBLIC_ENABLE_MOCKS=false
+NEXT_PUBLIC_MOCK_USER_AUXILLARIES=false
+NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=false
+NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
+NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=false
+NEXT_PUBLIC_MOCK_GITHUB_COMMITS=false
+NEXT_PUBLIC_MOCK_CHAT_STREAM=false
+NEXT_PUBLIC_CONVERSATIONS_WIDGET=false
+NEXT_PUBLIC_CONVERSATION_SECTION=false
+NEXT_PUBLIC_DISABLE_EXCHANGE_LINK=true
+NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE=true
+NEXT_PUBLIC_DISABLE_CONVERSATIONS_ROUTE=true
+NEXT_PUBLIC_DISABLE_AUXILLARIES=false
+NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false
+NEXT_PUBLIC_MCP_UPGRADES=true
+NEXT_PUBLIC_BITCODE_QA_VERBOSE=true
+BITCODE_QA_VERBOSE=true
+
+OPENAI_API_KEY=<OpenAI key for non-mocked Terminal/protocol synthesis if enabled>
+SENTRY_DSN=<optional V28 alert sink; absence must remain readable blocked readiness>
+```
+
+Do not set mock flags true on this deployment.
+Do not point the Supabase custom provider token/userinfo URLs at localhost; Supabase cloud must be able to call the deployed Bitcode origin.
+
+## Live Deployment Pass: First-Run Onboarding To Terminal Readiness
+
+Use this pass when onboarding a fresh browser/profile against `https://bitcode.exchange`.
+It is intentionally ordered like a real operator's first session.
+
+Preconditions:
+
+- Vercel environment is deployed with mock flags off, Exchange disabled, website Conversations disabled, and verbose QA logging enabled.
+- Supabase custom provider `custom:bitcode-bitcoin` points to `https://bitcode.exchange/tps/wallet/authorize`, `/api/wallet/oauth/token`, and `/api/wallet/oauth/userinfo`.
+- Leather and/or Xverse are installed, unlocked, and on the intended Bitcoin testnet lane.
+- The GitHub App is installed on `engineeredsoftware/ENGI` or is installable through the public app link.
+- Use a fresh incognito profile or clear `bitcode.exchange` cookies/local storage before the first pass when validating true first-run behavior.
+
+### Pass 1A: First Page Load And Wallet Identity
+
+1. Open `https://bitcode.exchange/terminal`.
+2. Observe the first 5 seconds before clicking anything.
+3. Open browser DevTools Console and Network.
+4. Confirm top chrome does not flash a settled disconnected state while wallet/user data is still reading.
+5. Click `Connect Wallet` or open Auxillaries, then select Wallet.
+6. Confirm Wallet is the first prerequisite pane and Profile is not the primary identity pane.
+7. Click `Connect Leather` first if available.
+8. Approve the Bitcode message signature in Leather.
+9. Let the Supabase callback complete without manually editing the URL.
+10. Return to `https://bitcode.exchange/terminal` if the callback lands elsewhere.
+
+Expected evidence:
+
+- Wallet pane shows provider `Leather`, network, auth address, payment address, proof/signature state, persistence state, and BTD/BTC posture.
+- Top chrome replaces `Connect Wallet` with connected wallet/BTC/BTD posture after the data read settles.
+- Browser console shows wallet detection/signing/user-data telemetry and no Bitcode product error.
+- Vercel logs show `wallet-oauth:authorization-code-issued`, `wallet-oauth:token-issued`, `wallet-oauth:userinfo-read`, and wallet persistence or a precise blocker.
+- Supabase `auth.users`, `auth.identities`, `user_profiles`, and `user_connections` rows reflect the wallet identity, or the exact schema/RLS error is recorded.
+
+Stop after 1A if Supabase returns `server_error`, token/userinfo logs do not appear, the app returns to a login-error URL, or wallet state cannot persist after refresh.
+
+### Pass 1B: GitHub Source Scope
+
+Only continue after Wallet identity is stable across a hard refresh.
+
+1. Open Auxillaries -> Externals.
+2. Confirm GitHub controls render because wallet identity exists.
+3. Click the GitHub App install/connect action.
+4. Complete GitHub authorization/install flow.
+5. Return to Bitcode and open Externals again.
+6. Inspect repository inventory and connection state.
+
+Expected evidence:
+
+- Externals shows GitHub connected, installation/account posture, and repository/source scope.
+- GitHub controls do not appear in Profile.
+- Vercel logs show GitHub setup/callback handling with installation fields preserved.
+- Supabase `user_connections.provider='github'` and repository inventory rows or connection metadata match the UI.
+
+### Pass 1C: Terminal Readiness For Need And Give
+
+Only continue after Wallet and GitHub are stable across a hard refresh.
+
+1. Return to `/terminal` at the top of the page.
+2. Identify the primary Need/Give work area.
+3. Confirm no model picker can affect ledgerized Terminal/Fit/AssetPack synthesis.
+4. Confirm repository/source scope is visible or selectable from GitHub-derived data.
+5. Attempt the simplest Need path available without leaving Terminal.
+6. Record the first blocker or Fit result.
+7. Attempt the simplest Give path available without leaving Terminal.
+8. Record the first blocker, source root, measurement state, earning state, or settlement state.
+
+Expected evidence:
+
+- Terminal uses Wallet/GitHub readiness rather than mock success.
+- Need and Give either progress to Fit/source/measurement readback or fail closed with exact missing capability.
+- Any AssetPack, BTD range, zero-cell receipt, BTC fee, ledger anchor, Terminal journal, or reconciliation state is internally consistent with Supabase rows.
+- If a pipeline/runtime/deployment prerequisite is missing, the blocker is named and belongs to V34 or later only when the V28 MVP readback remains truthful.
+
+Paste back after each subpass:
+
+- screenshots for the active pane/surface;
+- browser console `[Bitcode QA]` lines;
+- Vercel logs for the same timestamps;
+- Network tab failures with method, URL, status, and response body;
+- Supabase SQL results from the required wallet/GitHub/Terminal queries;
+- a short note naming each issue as V28 blocker, V28 polish, or deferred version focus.
+
+## 2026-05-13 Staging Deployment Readiness Gate
+
+Purpose:
+Validate that `bitcode.exchange` can be deployed under the V28 staging-testnet environment before first-run live QA.
+
+Environment posture checked:
+
+- `NEXT_PUBLIC_APP_URL=https://bitcode.exchange`
+- `NEXT_PUBLIC_BITCODE_ENV=testnet`
+- `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4`
+- Supabase project `https://tkpyosihuouusyaxtbau.supabase.co`
+- `custom:bitcode-bitcoin` OAuth env present for the Bitcode wallet provider
+- GitHub App env present for callback/setup at `https://bitcode.exchange/github/callback`
+- all mock flags false
+- Exchange and website Conversations disabled
+- Auxillaries, Create Account, MCP upgrades, and QA telemetry enabled
+
+Automated checks passed:
+
+- `find uapi/app/api -path '*v[0-9]*' -print | sort`: no versioned API routes.
+- `pnpm -C uapi exec jest --runInBand tests/bitcoinWalletClient.test.ts tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts tests/auxillariesWalletConnectionPanel.test.tsx tests/publicDocsPageContent.test.tsx tests/protocolCommercialBoundary.test.ts`: 19 passed across the matched suites.
+- `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/auxillariesWalletConnectionPanel.test.tsx'`: 1 passed.
+- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass.
+- `pnpm -C packages/protocol test`: 2 passed.
+- `pnpm -C packages/protocol run typecheck`: pass.
+- `pnpm -C packages/orm test`: 15 passed.
+- `pnpm -C uapi run build` with the staging-testnet env block: Next.js production build passed.
+- `git diff --check`: pass.
+
+Build warnings and interpretation:
+
+- Browserslist/caniuse data is stale. This is not a V28 deployment blocker but belongs in V34/V35 maintenance.
+- Tailwind/JIT logs emit repeated `JIT TOTAL` label warnings during build. This is not blocking because compilation succeeds, but it should be cleaned in telemetry/build-log hardening.
+- The production build logs `auxillaries-data:read-finish { status: 500, mockMode: false }` during static generation. This is a V28 live-staging blocker because Wallet/Profile/GitHub readiness depends on the same data route.
+
+External Supabase readiness check:
+
+The staging Supabase REST API currently returns `PGRST205` / HTTP 404 for required V28 tables:
+
+- `public.user_profiles`
+- `public.user_connections`
+- `public.vcs_repositories`
+- `public.btd_asset_pack_ranges`
+- `public.btd_mint_receipts`
+- `public.btd_terminal_journal_entries`
+- `public.btd_crypto_telemetry_events`
+
+Required remediation before live onboarding QA:
+
+1. Apply `supabase/migrations/001_v26_production.sql` to the staging project.
+2. Apply `supabase/migrations/002_v27_btd_crypto_registry.sql`.
+3. Apply `supabase/migrations/003_user_connections_provider_scope.sql`.
+4. Re-run saved Supabase queries `v28_qa_01_*` through `v28_qa_05*`.
+5. Rebuild/redeploy if Vercel env changed after the build.
+6. Re-run Pass 1A from a fresh browser profile.
+
+Deployment judgment:
+
+- Code/build readiness: pass.
+- Wallet/OAuth/GitHub source readiness in code: pass.
+- Formal protocol and ORM migration source readiness: pass.
+- Live staging data-plane readiness: blocked by unapplied Supabase migrations.
+- Manual first-run onboarding should not proceed as a V28 acceptance pass until the staging database schema exists.
+
 ## Issue Template
 
 ```md
@@ -657,8 +889,11 @@ Every V28 manual pass from this point forward must capture three evidence layers
 3. Supabase SQL results.
    Run the relevant SQL queries below after sign-in, sign-out, GitHub install, and any Terminal write that claims to sync identity/source state.
    Paste both successful rows and SQL/table/permission errors into the QA notes.
+   Save each query in Supabase with the `v28_qa_` name shown above it so later passes can reuse the same evidence label.
 
 Wallet-authentication baseline:
+
+Saved query name: `v28_qa_01_auth_users_recent`
 
 ```sql
 select
@@ -672,6 +907,8 @@ from auth.users
 order by created_at desc
 limit 5;
 ```
+
+Saved query name: `v28_qa_02_auth_identities_bitcoin`
 
 ```sql
 select
@@ -688,6 +925,8 @@ limit 10;
 
 Bitcode profile and wallet binding:
 
+Saved query name: `v28_qa_03_user_profiles_wallet_binding`
+
 ```sql
 select
   id,
@@ -703,6 +942,8 @@ limit 10;
 ```
 
 Wallet and GitHub provider connections:
+
+Saved query name: `v28_qa_04_user_connections_wallet_github`
 
 ```sql
 select
@@ -723,6 +964,8 @@ limit 20;
 
 GitHub repository inventory:
 
+Saved query name: `v28_qa_05_vcs_repositories_recent`
+
 ```sql
 select
   user_id,
@@ -736,6 +979,8 @@ limit 20;
 ```
 
 If `vcs_repositories` is not present in the current schema, run:
+
+Saved query name: `v28_qa_05b_github_connection_repository_payload`
 
 ```sql
 select

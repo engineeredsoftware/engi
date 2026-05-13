@@ -258,6 +258,20 @@ Token exchange validates the configured OAuth client secret, allowed Supabase ca
 UserInfo returns a stable Bitcoin subject and wallet claims (`bitcoin_address`, provider, network, auth/payment address, proof kind) with email optional.
 After Supabase creates the session, Profile synchronizes the captured local wallet proof into `/api/wallet/authenticate` so the Supabase data realm can project wallet identity from the ledger-facing signed proof.
 Sign-out clears both the Supabase auth session and the local staged wallet identity.
+
+The May 13 Leather documentation ingestion formalizes Leather as a tested first-class V28 wallet adapter.
+Leather injects `window.LeatherProvider` and exposes `request(method, params)`.
+V28 implementation must use only the documented Bitcoin methods for Bitcode wallet work:
+
+- `getAddresses` for active-account BTC addresses, locating `p2wpkh` and `p2tr` entries with `.find` rather than fixed indexes;
+- `open` as an explicit wallet-opening utility only, not as proof of authentication;
+- `signMessage` with explicit `paymentType`, `network`, and derived `account` when available for Bitcode challenge signing;
+- `signPsbt` with hex PSBT payloads, optional `signAtIndex`, optional broadcast, and no server custody;
+- `sendTransfer` for direct Bitcoin transfer requests when Terminal later needs a minimal BTC fee transaction path.
+
+Leather Stacks methods are documented but outside V28 Bitcode wallet-auth acceptance unless a future Stacks bridge/version explicitly admits them.
+The Leather docs expose `mainnet`, `testnet`, `signet`, `sbtcDevenv`, and `devnet`; V28 maps the staging Testnet4 operator lane to Leather's documented `testnet` parameter until Leather publishes a distinct Testnet4 enum.
+Optional `@leather.io/rpc` typings may be adopted later, but V28 keeps local minimal request typings to avoid adding a dependency during MVP QA.
 V28 still treats BIP322 signature verification as a captured-proof boundary (`server_signature_verifier_pending`) unless a verified server-side Bitcoin signature verifier is added before promotion; that verifier should become a V28 blocker only if signed-wallet identity is promoted from captured proof to cryptographic verification.
 
 These changes remain V28 scope because they are MVP-readiness and trust issues.
@@ -283,7 +297,7 @@ They are V28 inputs because V27 closed the protocol law and minimum crypto-comme
 | --- | --- | --- |
 | V26 historical docs still cite old version-prefixed external-realization routes | V27 source routes are now unversioned and the V26 family is historical promotion evidence | Refresh or annotate V26 supplementary docs so current implementation references do not teach retired route paths |
 | Active demonstration internals still carry `V24` names and environment variables around external realization | Route paths are unversioned and tests prove behavior; names are historical primitive identifiers, not current public API routes | Decide whether to repurpose/rename those primitives into versionless external-realization terminology or preserve them as historical witness modules with explicit notes |
-| The V27 registry migration has not been applied in a live Supabase environment and generated DB types have not been refreshed | V27 proves migration/schema/ORM boundary and route behavior, not production DB application | Run migration in a controlled environment, regenerate Supabase/database types, and replace hand-shaped registry table types where possible |
+| The V27 registry migration had not previously been applied in a live Supabase environment and generated DB types have not been refreshed | V27 proves migration/schema/ORM boundary and route behavior, not production DB application | V28 staging Supabase migration history now aligns for `001`, `002`, `003`, and RLS migration `20260510223914`; generated Supabase/database type refresh remains a follow-up before promotion |
 | Live wallet adapter UX is still below the package/API signer-session law | V27 proves fail-closed signer sessions and BTC fee receipt lifecycle | Build Terminal wallet connection, network choice, PSBT handoff, signature review, and signer-session recovery UX |
 | BTC broadcaster/observer credentials and signet/mainnet operational harnesses are not deployed | V27 proves readiness receipts, lanes, telemetry, and approval gates | Implement the Terminal-facing regtest/signet broadcaster observer, confirmation/replacement/reorg reads, and operator diagnostics |
 | Mainnet value-bearing launch is still separate operational approval | V27 intentionally blocks value-bearing mainnet without approval root | Keep V28 testnet/signet by default; prepare but do not silently enable value-bearing mainnet |

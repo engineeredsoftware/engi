@@ -61,6 +61,9 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
             configuredStepPrompts.add(name);
           }
         };
+        const recordCompleteStepPromptRegistry = () => {
+          for (const step of REQUIRED_STEP_PROMPTS) recordStepPrompt(step);
+        };
 
         for (const prop of arg.properties) {
           if (prop.type !== 'Property' || prop.key.type !== 'Identifier') continue;
@@ -69,6 +72,10 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
           if (key === 'prompts' && prop.value.type === 'ObjectExpression') {
             stepPromptNode = prop.value;
             for (const lp of prop.value.properties) {
+              if (lp.type === 'SpreadElement') {
+                recordCompleteStepPromptRegistry();
+                continue;
+              }
               if (lp.type !== 'Property' || lp.key.type !== 'Identifier') continue;
               const lk = lp.key.name;
               if (lk === 'system') hasPrompt = true;
@@ -81,9 +88,15 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
             stepPromptNode = prop.value;
             if (prop.value.type === 'ObjectExpression') {
               for (const sp of prop.value.properties) {
+                if (sp.type === 'SpreadElement') {
+                  recordCompleteStepPromptRegistry();
+                  continue;
+                }
                 if (sp.type !== 'Property' || sp.key.type !== 'Identifier') continue;
                 recordStepPrompt(sp.key.name);
               }
+            } else {
+              recordCompleteStepPromptRegistry();
             }
           }
         }

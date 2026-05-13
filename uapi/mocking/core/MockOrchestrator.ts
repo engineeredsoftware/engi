@@ -65,6 +65,7 @@ export class MockOrchestrator {
   private static instance: MockOrchestrator | null = null;
   private readonly scenarios = new Map<string, MockScenarioConfig>();
   private readonly dataCache = new Map<string, MockCacheEntry>();
+  private readonly pendingDataLoads = new Map<string, Promise<MockDataContainer<any> | null>>();
   private readonly loadedPlugins = new Map<string, MockPlugin>();
   private readonly performanceMetrics: MockOperationMetrics[] = [];
   private readonly config: MockEnvironmentConfig;
@@ -113,7 +114,7 @@ export class MockOrchestrator {
    * Check if a feature should be mocked based on configuration
    */
   public shouldMock(feature: MockableFeature): boolean {
-    if (!this.config.masterMockMode) {
+    if (process.env.NEXT_PUBLIC_MASTER_MOCK_MODE !== 'true') {
       return false;
     }
 
@@ -163,10 +164,29 @@ export class MockOrchestrator {
           this.endOperation(operationStart, true);
           return cached;
         }
+
+        const pending = this.pendingDataLoads.get(cacheKey);
+        if (pending) {
+          const pendingData = await pending as MockDataContainer<T> | null;
+          this.endOperation(operationStart, true);
+          return pendingData;
+        }
       }
 
       // Generate or load mock data
-      const mockData = await this.generateMockData<T>(feature, scenarioId);
+      const loadPromise = this.generateMockData<T>(feature, scenarioId);
+      if (this.config.cacheEnabled) {
+        this.pendingDataLoads.set(cacheKey, loadPromise as Promise<MockDataContainer<any> | null>);
+      }
+
+      let mockData: MockDataContainer<T> | null;
+      try {
+        mockData = await loadPromise;
+      } finally {
+        if (this.config.cacheEnabled) {
+          this.pendingDataLoads.delete(cacheKey);
+        }
+      }
       
       // Cache the result
       if (this.config.cacheEnabled && mockData) {
@@ -342,6 +362,7 @@ export class MockOrchestrator {
    */
   public reset(): void {
     this.dataCache.clear();
+    this.pendingDataLoads.clear();
     this.performanceMetrics.length = 0;
     this.totalOperations = 0;
     this.cacheHits = 0;
@@ -460,10 +481,41 @@ export class MockOrchestrator {
     feature: MockableFeature,
     scenario: MockScenarioConfig
   ): Promise<T | null> {
-    // This would contain the actual mock data generation logic
-    // For now, return empty data to maintain type safety
-    console.warn(`MockOrchestrator: No built-in generator for feature '${feature}'`);
-    return null;
+    const seed = `${scenario.id}:${feature}`;
+
+    switch (feature) {
+      case 'ASSET_PACKS':
+        return {
+          id: `${seed}:asset-pack`,
+          title: 'Mock AssetPack',
+          status: 'ready',
+          cells: [1],
+        } as T;
+      case 'USER_PROFILE':
+        return {
+          id: `${seed}:profile`,
+          displayName: 'Mock Bitcode Operator',
+          role: 'operator',
+        } as T;
+      case 'GITHUB_REPOS':
+        return [
+          {
+            id: `${seed}:repo`,
+            fullName: 'bitcode/mock-repository',
+            defaultBranch: 'main',
+          },
+        ] as T;
+      case 'TEMPLATES':
+        return [
+          {
+            id: `${seed}:template`,
+            name: 'Mock Need Template',
+          },
+        ] as T;
+      default:
+        console.warn(`MockOrchestrator: No built-in generator for feature '${feature}'`);
+        return null;
+    }
   }
 
   private wrapMockData<T>(

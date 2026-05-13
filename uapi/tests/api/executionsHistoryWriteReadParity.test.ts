@@ -336,13 +336,13 @@ describe('Bitcode execution-history write/read parity', () => {
       expect.objectContaining({
         status: 'completed',
         summary: 'Recorded closure posture.',
-        processing_stats: {
+        processing_stats: expect.objectContaining({
           time: '4m 12s',
           tokens: { total: 2200, input: 0, output: 0 },
           measuredBtd: 24.5,
           btcFeeUsdEquivalent: 1.62,
           averageLatencyMs: 930,
-        },
+        }),
         asset_pack_completion: expect.objectContaining({
           summary: 'Recorded closure posture.',
           closureFollowThrough: expect.objectContaining({

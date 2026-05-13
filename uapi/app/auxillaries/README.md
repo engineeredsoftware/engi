@@ -50,3 +50,18 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
 - Wallet also reflects BTD range/share posture after the shared auxillary data read settles.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.
+
+## Leather wallet contract
+
+Leather is supported through the injected `window.LeatherProvider.request` API.
+The active Wallet pane and wallet utilities must:
+
+- detect Leather by `window.LeatherProvider.request`;
+- call `getAddresses` and select BTC entries by `symbol`/`type`, never by array index;
+- prefer `p2tr` for the Bitcode auth address and retain `p2wpkh` as the payment address when both are returned;
+- derive the Leather account parameter from the BTC derivation path when available;
+- call `signMessage` with explicit `paymentType`, `network`, and `account` for the Bitcode authentication challenge;
+- keep `open`, `signPsbt`, and `sendTransfer` available as tested utilities for Terminal BTC/PSBT flows, without treating them as proof of wallet identity by themselves.
+
+Leather's documented Bitcoin `network` values include `mainnet`, `testnet`, `signet`, `sbtcDevenv`, and `devnet`.
+The V28 staging Testnet4 lane currently calls Leather with `testnet` because that is the documented Leather browser-provider enum.

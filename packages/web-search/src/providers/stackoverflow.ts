@@ -64,15 +64,7 @@ export class StackOverflowSearchProvider extends SearchProviderBase {
   }
 
   async healthCheck(): Promise<boolean> {
-    try {
-      // Note: Implement actual Stack Exchange API health check
-      return true;
-    } catch (error) {
-      log('Stack Overflow health check failed', 'error', {
-        provider: this.name,
-        error: error instanceof Error ? error.message : String(error)
-      });
-      return false;
-    }
+    // Note: Implement actual Stack Exchange API health check
+    return true;
   }
 }
