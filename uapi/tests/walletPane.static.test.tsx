@@ -13,6 +13,10 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
+jest.mock('@bitcode/orm', () => ({
+  readBitcodeWalletBindingFromProfile: jest.fn(() => null),
+}));
+
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 

@@ -21,8 +21,8 @@ describe('AuxillariesWorkspacePanels', () => {
     expect(screen.getByRole('button', { name: 'Interfaces auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Profile auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Wallet auxillary' })).toBeDisabled();
-    expect(screen.getByText('outer ring')).toBeTruthy();
-    expect(screen.getByText('core ring')).toBeTruthy();
+    expect(screen.getByLabelText('Active auxillary')).toHaveAttribute('data-state', 'active');
+    expect(screen.getByLabelText('Locked auxillary')).toHaveAttribute('data-state', 'locked');
 
     fireEvent.click(screen.getByRole('button', { name: 'Externals auxillary' }));
     fireEvent.click(screen.getByRole('button', { name: 'Wallet auxillary' }));
