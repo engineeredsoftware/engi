@@ -64,6 +64,8 @@ The V28 natural path is:
 
 This recalibration means the QA document, parity matrix, and implementation work should now classify every finding by the lowest-level source-of-truth it affects: wallet identity, GitHub/source scope, Fit-finding, AssetPack synthesis, ledgerized journal, PostgreSQL projection, pipeline runtime, telemetry/alerting, or legacy residue.
 
+Supabase/PostgreSQL data-health checks are part of the V28 acceptance apparatus, not a separate operator convenience. The ORM package now owns reusable schema, identity, Terminal, ledger, and operational check manifests plus live runners for daily staging/production validation, CI E2E validation, local QA reports, and generated schema-type coverage. These checks must preserve the core boundary: Supabase rows are ledger-derived or Bitcode-canonical projections, while ledger anchors, signed wallet proofs, Terminal journal receipts, and canonical receipts remain the source of cryptographic truth.
+
 ### Deterministic Model Boundary
 
 V28 must remove the idea that a user can choose ledgerized Bitcode synthesis models.

@@ -139,10 +139,10 @@ export class PipelineRunsModel extends BaseModel<'pipeline_runs'> {
     offset?: number;
     status?: string;
   }): Promise<{ data: PipelineRun[]; count: number }> {
-    let query = this.supabase
+    let query = (this.supabase as any)
       .from(this.tableName)
       .select('*', { count: 'exact' })
-      .eq('type', pipelineType)
+      .eq('pipeline_type', pipelineType)
       .order('created_at', { ascending: false });
 
     if (options?.userId) {

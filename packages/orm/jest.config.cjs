@@ -7,11 +7,13 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
   roots: ['<rootDir>'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/../../tsconfig.json',
-      diagnostics: false,
-    },
+  transform: {
+    '^.+\\.(ts|tsx|js|jsx)$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/../../tsconfig.json',
+        diagnostics: false,
+      },
+    ],
   },
 };
-

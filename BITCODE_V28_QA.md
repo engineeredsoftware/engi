@@ -810,7 +810,10 @@ Automated checks passed:
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass.
 - `pnpm -C packages/protocol test`: 2 passed.
 - `pnpm -C packages/protocol run typecheck`: pass.
-- `pnpm -C packages/orm test`: 15 passed.
+- `pnpm -C packages/orm test`: 19 passed, with live data-health E2E tests skipped unless enabled by env flags.
+- `pnpm -C packages/orm run test:data-health`: data-health contract tests passed; live DB and schema-type E2E tests are gated by env flags.
+- `pnpm -C packages/orm run schema-types:check`: generated Supabase and ORM database types cover canonical public tables.
+- `pnpm -C packages/orm run build`: pass after generated type refresh.
 - `pnpm -C uapi run build` with the staging-testnet env block: Next.js production build passed.
 - `git diff --check`: pass.
 
@@ -825,11 +828,21 @@ External Supabase readiness check:
 The staging Supabase migration history now contains the required V28 tables from local migrations `001`, `002`, and `003`, followed by dashboard-origin RLS migration `20260510223914`.
 `supabase db push --dry-run` reports the remote database is up to date.
 
+Data-health tooling added for repeatable Supabase/PostgreSQL validation:
+
+- `packages/orm/src/data-health/checks.ts` defines schema, identity, Terminal, ledger, and operational checks.
+- `packages/orm/scripts/run-data-health.ts` runs live checks with `SUPABASE_DB_URL`, `DATABASE_URL`, or equivalent Postgres connection env.
+- `packages/orm/scripts/check-schema-types.ts` checks generated Supabase/ORM type coverage against canonical public tables.
+- `supabase/DATA_HEALTH.md` documents daily, CI, and QA usage.
+- Saved Supabase SQL query files are available under `supabase/queries/` with reusable names for projection overview, wallet/GitHub readiness, and BTD ledger reconciliation.
+
 Required next validation before live onboarding QA:
 
-1. Re-run saved Supabase queries `v28_qa_01_*` through `v28_qa_05*`.
-2. Rebuild/redeploy if Vercel env changed after the build.
-3. Re-run Pass 1A from a fresh browser profile.
+1. Run `SUPABASE_DB_URL='<postgres-connection-string>' pnpm db:data-health:daily` against staging-testnet.
+2. Run saved Supabase queries from `supabase/queries/` and paste result excerpts into this QA log.
+3. Run `pnpm db:schema-types:check` after generated Supabase types are refreshed from the staging database.
+4. Rebuild/redeploy if Vercel env changed after the build.
+5. Re-run Pass 1A from a fresh browser profile.
 
 Deployment judgment:
 
