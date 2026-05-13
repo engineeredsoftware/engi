@@ -1,5 +1,6 @@
 import { buildGetAuxillaryDataRoute } from '@bitcode/api/src/routes/auxillaries';
 import { buildMockAuxillariesData, isAuxillariesMockMode } from '@/lib/mock-review-mode';
+import { bitcodeServerTelemetry } from '@/lib/bitcode-server-telemetry';
 import { readBitcodeWalletConnectionStatus } from '@/app/api/wallet/_shared';
 import {
   buildDisconnectedConnectionStatus,
@@ -11,7 +12,7 @@ import {
 
 export const runtime = 'nodejs';
 
-export const GET = buildGetAuxillaryDataRoute({
+const getAuxillaryData = buildGetAuxillaryDataRoute({
   isMockMode: isAuxillariesMockMode,
   mockAuxillaryData: buildMockAuxillariesData,
   resolveWalletConnectionStatus: async ({ supabase, userId, profile }) => {
@@ -48,3 +49,24 @@ export const GET = buildGetAuxillaryDataRoute({
     };
   },
 });
+
+export async function GET(request: Request) {
+  bitcodeServerTelemetry('info', 'auxillaries-data', 'read-start', {
+    mockMode: isAuxillariesMockMode(),
+  });
+
+  try {
+    const response = await getAuxillaryData(request);
+    bitcodeServerTelemetry('info', 'auxillaries-data', 'read-finish', {
+      status: response.status,
+      mockMode: isAuxillariesMockMode(),
+    });
+    return response;
+  } catch (error) {
+    bitcodeServerTelemetry('error', 'auxillaries-data', 'read-failed', {
+      message: error instanceof Error ? error.message : String(error),
+      mockMode: isAuxillariesMockMode(),
+    });
+    throw error;
+  }
+}

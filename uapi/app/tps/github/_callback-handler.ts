@@ -2,6 +2,10 @@ import { cookies } from 'next/headers';
 
 import { createGitHubAppAuth } from '@bitcode/github';
 import { VCSConnections, VCSProviderFactory, type VCSAuth, type VCSProviderType } from '@bitcode/vcs';
+import {
+  bitcodeServerTelemetry,
+  compactBitcodeServerId,
+} from '@/lib/bitcode-server-telemetry';
 
 import {
   getRouteSupabaseUser,
@@ -169,6 +173,7 @@ async function handleInstallationCallback(request: Request) {
   const url = new URL(request.url);
   const installationId = readPositiveInteger(url.searchParams.get('installation_id'));
   if (!installationId) {
+    bitcodeServerTelemetry('warn', 'github-callback', 'installation-missing-id');
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
       vcsConnection: 'failed',
@@ -178,6 +183,9 @@ async function handleInstallationCallback(request: Request) {
 
   const githubApp = createGitHubAppAuth();
   if (!githubApp) {
+    bitcodeServerTelemetry('warn', 'github-callback', 'installation-app-not-configured', {
+      installationId,
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
       vcsConnection: 'failed',
@@ -187,6 +195,12 @@ async function handleInstallationCallback(request: Request) {
   }
 
   const setupFields = collectInstallationCallbackFields(url.searchParams);
+  bitcodeServerTelemetry('info', 'github-callback', 'installation-received', {
+    installationId,
+    setupAction: setupFields.setup_action,
+    targetId: setupFields.target_id,
+    targetType: setupFields.target_type,
+  });
   const installation = await githubApp.getInstallation(installationId);
   const userContext = await readOptionalUser();
 
@@ -205,6 +219,10 @@ async function handleInstallationCallback(request: Request) {
       path: '/',
     });
 
+    bitcodeServerTelemetry('info', 'github-callback', 'installation-staged', {
+      installationId,
+      account: resolveInstallationAccount(installation).login,
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
       vcsConnection: 'installation_staged',
@@ -224,6 +242,12 @@ async function handleInstallationCallback(request: Request) {
     tokenData,
   });
 
+  bitcodeServerTelemetry('info', 'github-callback', 'installation-connected', {
+    userId: compactBitcodeServerId(userContext.user?.id),
+    installationId,
+    account: account.login,
+    repositorySelection: readString(installation.repository_selection) || tokenData.repositorySelection,
+  });
   return buildConnectsRedirect(request, {
     vcsProvider: 'github',
     vcsConnection: 'installation_connected',
@@ -251,6 +275,10 @@ async function saveOAuthConnection({
   const providerUser = await vcsProvider.getCurrentUser(auth);
 
   if (!userContext) {
+    bitcodeServerTelemetry('info', 'github-callback', 'oauth-staged', {
+      provider,
+      account: providerUser.username,
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: provider,
       vcsConnection: 'oauth_staged',
@@ -278,6 +306,11 @@ async function saveOAuthConnection({
     },
   });
 
+  bitcodeServerTelemetry('info', 'github-callback', 'oauth-connected', {
+    provider,
+    userId: compactBitcodeServerId(userContext.user?.id),
+    account: providerUser.username,
+  });
   return buildConnectsRedirect(request, {
     vcsProvider: provider,
     vcsConnection: 'oauth_connected',
@@ -300,6 +333,9 @@ async function handleOAuthCallback(
     undefined;
 
   if (!code) {
+    bitcodeServerTelemetry('warn', 'github-callback', 'oauth-missing-code', {
+      provider,
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: provider,
       vcsConnection: 'failed',
@@ -309,6 +345,9 @@ async function handleOAuthCallback(
 
   if (expectedState && state !== expectedState) {
     clearOAuthCookies(provider);
+    bitcodeServerTelemetry('warn', 'github-callback', 'oauth-state-mismatch', {
+      provider,
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: provider,
       vcsConnection: 'failed',
@@ -326,8 +365,17 @@ async function handleOAuthCallback(
 export async function handleGitHubCallback(request: Request, context?: ProviderRouteContext) {
   const provider = await resolveProvider(context);
   const url = new URL(request.url);
+  bitcodeServerTelemetry('info', 'github-callback', 'received', {
+    provider,
+    hasInstallationId: url.searchParams.has('installation_id'),
+    hasCode: Boolean(readString(url.searchParams.get('code'))),
+    hasError: Boolean(readString(url.searchParams.get('error'))),
+  });
 
   if (isMockVcsMode()) {
+    bitcodeServerTelemetry('info', 'github-callback', 'mock-connected', {
+      provider,
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: provider,
       vcsConnection: 'mock_connected',
@@ -336,6 +384,11 @@ export async function handleGitHubCallback(request: Request, context?: ProviderR
 
   const error = readString(url.searchParams.get('error'));
   if (error) {
+    bitcodeServerTelemetry('warn', 'github-callback', 'provider-error', {
+      provider,
+      error,
+      description: readString(url.searchParams.get('error_description')),
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: provider,
       vcsConnection: 'failed',

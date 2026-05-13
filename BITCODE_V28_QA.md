@@ -85,6 +85,7 @@ Each pass should be small enough to produce actionable screenshots, console obse
 | Pass | Track | Scope | Stop condition |
 | --- | --- | --- | --- |
 | 3A | Natural progression 1A | Wallet, GitHub, profile, notifications, nav balance, Auxillaries Connects/Profile/BTD readiness. | Mock passes deterministic readiness; testnet-readiness either works live or records precise blocked provider/credential states; no console errors. |
+| 3A-prereq | Natural progression 1A | Sign-up/sign-in, signed Bitcoin wallet authentication, BTC/BTD chrome, GitHub App installation, and prerequisite clarity before Give/Need. | Mock proves the intended prerequisite model; testnet proves or precisely blocks Supabase custom Bitcoin OAuth, wallet proof capture, profile persistence, sign-out clearing, and GitHub installation visibility. |
 | 3B | Natural progression 1B | Simplest Need path: select/express Need, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what happened, where it landed in Exchange, what is mocked, and what remains staged in testnet-readiness. |
 | 3C | Natural progression 1C | Simplest Give path: attach or select source, run/inspect Give flow, read earning/settlement state. | User can explain what source was contributed, how it was measured, and whether earning/BTD posture is live, mocked, or blocked. |
 | 4A | Docs sequence 00 | Docs overview and Source Shares against nav, Terminal, BTD widget, MCP/ChatGPT readiness. | Contradictions between docs and product are logged in both lanes. |
@@ -207,6 +208,32 @@ Manual evidence requested for this pass:
 - screenshots of Auxillaries Profile wallet identity and `$BTD` wallet posture after the attempted connection;
 - console errors and network errors after each lane;
 - answer whether any wallet-extension permission prompt appeared, which wallet extension/provider it was, which network/account was selected, and whether the app changed state after approval/cancel/failure.
+
+### 2026-05-12 Pass 3A-prereq: Sign-up, Sign-in, Wallet, And GitHub Prerequisites
+
+This pass focuses only on prerequisite reality before Terminal Give/Need QA continues.
+It validates the V28 rule that signed Bitcoin wallet authentication is the origin point for Supabase user data synchronization, and that GitHub App installation is the next required prerequisite for Giving and Needing.
+
+Run the same checklist first in mock, then in testnet-readiness.
+Mock establishes the intended product language and visual state.
+Testnet-readiness establishes whether the live custom OAuth provider, browser wallet, Supabase session, local/server wallet persistence, BTC/BTD chrome, sign-out clearing, and GitHub App install flow are usable or precisely blocked.
+
+Prerequisite pass stop conditions:
+
+| Lane | Stop condition |
+| --- | --- |
+| Mock | Profile shows wallet-first identity, Connects shows GitHub as the second prerequisite, BTD/top chrome show deterministic wallet facts, sign-out clears the signed-in mock posture, and no console errors appear. |
+| Testnet-readiness | A Bitcoin wallet proof either creates a Supabase session and persists through `/api/wallet/authenticate`, or fails at a named boundary: wallet provider unavailable, OAuth provider URL not reachable by Supabase, database schema missing, or GitHub App install/session missing. |
+
+V28 prerequisite report fields:
+
+1. Current URLs for both lanes and whether each route loaded at the top of `/terminal`.
+2. Mock Profile result: wallet-first copy, provider buttons, optional email position, BTC/BTD chrome, sign-out behavior, and console result.
+3. Testnet wallet result: provider clicked, wallet prompt seen, network/account selected, signed message approved/cancelled, final URL after Supabase callback, and whether Profile/top chrome show connected wallet.
+4. Testnet network/API result: any failed request URL/status/body for `/tps/wallet/authorize`, `/api/wallet/oauth/authorization-code`, Supabase `/auth/v1/token`, `/api/wallet/oauth/token`, `/api/wallet/oauth/userinfo`, `/api/wallet/authenticate`, `/api/auxillaries/data`, and GitHub callback/setup routes.
+5. Testnet sign-out result: whether Supabase session, local wallet identity, top chrome, Profile, BTD pane, and Connects prerequisite state all return to unauthenticated/unconnected.
+6. GitHub result: whether the install link opens `https://github.com/apps/bitcode-github-app-auxillary`, whether installation callback returns to Connects, and whether connected account/repository scope appears.
+7. Screenshots of any blocked/failing state and all console errors/warnings except expected extension-injection noise.
 
 Manual findings from 2026-05-09:
 
@@ -477,3 +504,119 @@ V28 blocker / V28 polish / V29+ deferred
 
 ### Notes
 ```
+
+## Required QA Telemetry And Database Evidence
+
+Every V28 manual pass from this point forward must capture three evidence layers.
+
+1. Browser console with `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`.
+   Capture `[Bitcode QA]` lines after each interaction group, plus warnings/errors from wallet extensions, Supabase, GitHub, and route fetches.
+
+2. Dev server console with `BITCODE_QA_VERBOSE=true`.
+   Capture `[Bitcode QA Server]` lines for wallet OAuth, token/userinfo, wallet persistence, auxillary data reads, and GitHub callback/setup routes.
+
+3. Supabase SQL results.
+   Run the relevant SQL queries below after sign-in, sign-out, GitHub install, and any Terminal write that claims to sync identity/source state.
+   Paste both successful rows and SQL/table/permission errors into the QA notes.
+
+Wallet-authentication baseline:
+
+```sql
+select
+  id,
+  email,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  created_at,
+  last_sign_in_at
+from auth.users
+order by created_at desc
+limit 5;
+```
+
+```sql
+select
+  user_id,
+  provider,
+  identity_data,
+  created_at,
+  updated_at
+from auth.identities
+where provider = 'custom:bitcode-bitcoin'
+order by updated_at desc
+limit 10;
+```
+
+Bitcode profile and wallet binding:
+
+```sql
+select
+  id,
+  username,
+  wallet_address,
+  wallet_provider,
+  wallet_binding_status,
+  settings->'bitcodeProfile'->'walletBinding' as wallet_binding,
+  updated_at
+from public.user_profiles
+order by updated_at desc
+limit 10;
+```
+
+Wallet and GitHub provider connections:
+
+```sql
+select
+  user_id,
+  provider,
+  is_active,
+  connection_data->>'address' as wallet_address,
+  connection_data->>'network' as wallet_network,
+  connection_data->>'verification_state' as verification_state,
+  connection_data->>'auth_source' as auth_source,
+  connection_data->>'account_login' as github_account,
+  updated_at
+from public.user_connections
+where provider in ('xverse', 'leather', 'unisat', 'okx-bitcoin', 'github')
+order by updated_at desc
+limit 20;
+```
+
+GitHub repository inventory:
+
+```sql
+select
+  user_id,
+  provider,
+  repo_full_name,
+  repo_default_branch,
+  updated_at
+from public.vcs_repositories
+order by updated_at desc
+limit 20;
+```
+
+If `vcs_repositories` is not present in the current schema, run:
+
+```sql
+select
+  user_id,
+  provider,
+  connection_data->'repositories' as installation_repositories,
+  updated_at
+from public.user_connections
+where provider = 'github'
+order by updated_at desc
+limit 10;
+```
+
+### Top Chrome Wallet Readiness
+
+Expected V28 behavior:
+
+- first page load renders an integrated `Reading wallet` indicator while `/api/auxillaries/data` and local wallet identity state are unresolved;
+- `Connect Wallet` renders only after the data read has settled with no wallet identity;
+- the BTC/BTD widget renders only after a stored or locally staged wallet identity is known;
+- a later background revalidation may make the BTC/BTD widget show its own loading posture, but it must not regress to the disconnected CTA while a known wallet exists;
+- client telemetry must include `nav:chrome-identity`, `user-data:fetch-start`, `user-data:read` or `user-data:anonymous-read`, and any fetch failure;
+- server telemetry must include `auxillaries-data:read-start` and `auxillaries-data:read-finish` or `auxillaries-data:read-failed`.

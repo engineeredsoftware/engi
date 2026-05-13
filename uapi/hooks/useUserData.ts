@@ -185,13 +185,30 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
   // Return the cached object immediately if available so callers can render
   // synchronously while we start a background revalidation (handled in the
   // hook).
-  if (cached && !options.revalidate) return cached;
+  if (cached && !options.revalidate) {
+    bitcodeQaTelemetry('debug', 'user-data', 'cache-hit', {
+      hasProfile: Boolean(cached.profile),
+      hasWallet: Boolean(cached.walletConnectionStatus?.connected),
+      btdBalance: cached.btdBalance ?? null,
+      btcFeeBalance: cached.btcFeeBalance ?? null,
+    });
+    return cached;
+  }
 
   // If a request is already in-flight, return the shared promise.
-  if (inFlight) return inFlight;
+  if (inFlight) {
+    bitcodeQaTelemetry('debug', 'user-data', 'inflight-reuse', {
+      revalidate: Boolean(options.revalidate),
+    });
+    return inFlight;
+  }
 
   inFlight = (async () => {
     try {
+      bitcodeQaTelemetry('info', 'user-data', 'fetch-start', {
+        revalidate: Boolean(options.revalidate),
+        hadCache: Boolean(cached),
+      });
       const res = await fetch('/api/auxillaries/data');
       if (res.status === 401) {
         cached = mergeLocalBitcodeWalletIdentity(ANONYMOUS_USER_DATA);
@@ -206,7 +223,13 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
         });
         return cached;
       }
-      if (!res.ok) throw new Error(`Status ${res.status}`);
+      if (!res.ok) {
+        bitcodeQaTelemetry('warn', 'user-data', 'fetch-failed', {
+          status: res.status,
+          statusText: res.statusText,
+        });
+        throw new Error(`Status ${res.status}`);
+      }
       const data = (await res.json()) as AggregatedUserData;
       cached = mergeLocalBitcodeWalletIdentity(data);
       bitcodeQaTelemetry('info', 'user-data', 'read', {
@@ -218,6 +241,11 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
         btcFeeBalance: cached.btcFeeBalance ?? null,
       });
       return cached;
+    } catch (error) {
+      bitcodeQaTelemetry('error', 'user-data', 'fetch-error', {
+        message: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
     } finally {
       inFlight = null;
     }
@@ -264,6 +292,9 @@ export function useUserData() {
 
   const refresh = useCallback(async () => {
     setIsRevalidating(true);
+    bitcodeQaTelemetry('info', 'user-data', 'refresh-start', {
+      hadCurrentData: Boolean(data),
+    });
     try {
       const fresh = await mutateUserData();
       setData(fresh);
@@ -275,12 +306,23 @@ export function useUserData() {
           // ignore quota / privacy errors
         }
       }
+      bitcodeQaTelemetry('info', 'user-data', 'refresh-success', {
+        hasProfile: Boolean(fresh.profile),
+        hasWallet: Boolean(fresh.walletConnectionStatus?.connected),
+        walletProvider: fresh.walletConnectionStatus?.provider ?? null,
+        walletAddress: compactBitcodeAddress(fresh.walletConnectionStatus?.address),
+        btdBalance: fresh.btdBalance ?? null,
+        btcFeeBalance: fresh.btcFeeBalance ?? null,
+      });
     } catch (err) {
       setError(err);
+      bitcodeQaTelemetry('error', 'user-data', 'refresh-failed', {
+        message: err instanceof Error ? err.message : String(err),
+      });
     } finally {
       setIsRevalidating(false);
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     const refreshAfterLocalWalletChange = () => {
@@ -306,6 +348,9 @@ export function useUserData() {
     if (hadCachedDataAtMount) {
       setIsRevalidating(true);
     }
+    bitcodeQaTelemetry('info', 'user-data', 'mount-fetch-start', {
+      hadCachedDataAtMount,
+    });
     fetchUserData({ revalidate: hadCachedDataAtMount })
       .then((d) => {
         if (!cancelled) {
@@ -319,12 +364,21 @@ export function useUserData() {
             }
           }
           setIsRevalidating(false);
+          bitcodeQaTelemetry('info', 'user-data', 'mount-fetch-success', {
+            hasProfile: Boolean(d.profile),
+            hasWallet: Boolean(d.walletConnectionStatus?.connected),
+            btdBalance: d.btdBalance ?? null,
+            btcFeeBalance: d.btcFeeBalance ?? null,
+          });
         }
       })
       .catch((err) => {
         if (!cancelled) {
           setError(err);
           setIsRevalidating(false);
+          bitcodeQaTelemetry('error', 'user-data', 'mount-fetch-failed', {
+            message: err instanceof Error ? err.message : String(err),
+          });
         }
       });
     return () => {

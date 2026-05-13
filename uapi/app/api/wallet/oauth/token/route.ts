@@ -5,6 +5,10 @@ import {
   verifyBitcoinWalletAuthorizationCode,
   verifyPkce,
 } from '@/lib/bitcoin-wallet-oauth-provider';
+import {
+  bitcodeServerTelemetry,
+  compactBitcodeServerId,
+} from '@/lib/bitcode-server-telemetry';
 
 export const runtime = 'nodejs';
 
@@ -42,20 +46,30 @@ export async function POST(request: Request) {
   try {
     body = await readBody(request);
   } catch {
+    bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-invalid-body');
     return jsonResponse({ error: 'invalid_request', error_description: 'Invalid OAuth token body.' }, { status: 400 });
   }
 
   const credentials = readOAuthClientCredentials(request, body);
   if (!validateOAuthClientCredentials(credentials)) {
+    bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-invalid-client', {
+      clientId: credentials.clientId,
+    });
     return jsonResponse({ error: 'invalid_client' }, { status: 401 });
   }
 
   if (body.get('grant_type') !== 'authorization_code') {
+    bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-unsupported-grant', {
+      grantType: body.get('grant_type'),
+    });
     return jsonResponse({ error: 'unsupported_grant_type' }, { status: 400 });
   }
 
   const code = body.get('code');
   if (!code) {
+    bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-missing-code', {
+      clientId: credentials.clientId,
+    });
     return jsonResponse({ error: 'invalid_request', error_description: 'Missing authorization code.' }, { status: 400 });
   }
 
@@ -63,6 +77,11 @@ export async function POST(request: Request) {
     const codePayload = verifyBitcoinWalletAuthorizationCode(code);
     const redirectUri = readString(body.get('redirect_uri'));
     if (redirectUri && redirectUri !== codePayload.redirect_uri) {
+      bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-redirect-mismatch', {
+        clientId: credentials.clientId,
+        redirectUri,
+        expectedRedirectUri: codePayload.redirect_uri,
+      });
       return jsonResponse({ error: 'invalid_grant', error_description: 'Redirect URI mismatch.' }, { status: 400 });
     }
 
@@ -71,6 +90,11 @@ export async function POST(request: Request) {
       codeChallengeMethod: codePayload.code_challenge_method,
       codeVerifier: body.get('code_verifier'),
     })) {
+      bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-pkce-failed', {
+        clientId: credentials.clientId,
+        walletProvider: codePayload.wallet.provider,
+        walletAddress: compactBitcodeServerId(codePayload.wallet.address),
+      });
       return jsonResponse({ error: 'invalid_grant', error_description: 'PKCE verification failed.' }, { status: 400 });
     }
 
@@ -79,6 +103,13 @@ export async function POST(request: Request) {
       scope: body.get('scope'),
     });
 
+    bitcodeServerTelemetry('info', 'wallet-oauth', 'token-issued', {
+      clientId: credentials.clientId,
+      walletProvider: codePayload.wallet.provider,
+      walletAddress: compactBitcodeServerId(codePayload.wallet.address),
+      scope: codePayload.scope,
+      expiresIn: token.expiresIn,
+    });
     return jsonResponse({
       access_token: token.accessToken,
       token_type: 'Bearer',
@@ -86,6 +117,10 @@ export async function POST(request: Request) {
       scope: codePayload.scope,
     });
   } catch (error) {
+    bitcodeServerTelemetry('warn', 'wallet-oauth', 'token-invalid-grant', {
+      clientId: credentials.clientId,
+      message: error instanceof Error ? error.message : String(error),
+    });
     return jsonResponse(
       {
         error: 'invalid_grant',

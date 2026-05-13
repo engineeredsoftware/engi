@@ -5,6 +5,9 @@ It carries the `/terminal` operator surface, `/exchange` activity master-detail,
 
 Active canon follows the top-level `BITCODE_SPEC.txt` pointer while the current draft hardens the commercial MVP experience.
 
+V28 QA scope is intentionally narrower than the full route inventory: Terminal, Auxillaries readiness, wallet-backed identity, GitHub source prerequisites, `$BTD` posture, MCP/API, and ChatGPT App MVP remain active; Exchange and website Conversations are deferred beyond V35 unless retained code contaminates the active V28 surfaces.
+Wallet state in top chrome is tri-state during QA: loading while shared auxillary data is unresolved, connected when a wallet binding or local staged wallet exists, and disconnected only after the read settles without a wallet.
+
 ## Primary routes
 
 - `/`

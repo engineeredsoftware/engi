@@ -6,6 +6,10 @@ import {
 } from '@bitcode/orm';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
+import {
+  bitcodeServerTelemetry,
+  compactBitcodeServerId,
+} from '@/lib/bitcode-server-telemetry';
 
 export const runtime = 'nodejs';
 
@@ -80,6 +84,9 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user || userError) {
+    bitcodeServerTelemetry('warn', 'wallet-authenticate', 'session-required', {
+      userError: userError?.message ?? null,
+    });
     return NextResponse.json(
       {
         error:
@@ -94,6 +101,7 @@ export async function POST(request: Request) {
   try {
     body = (await request.json()) as WalletAuthPayload;
   } catch {
+    bitcodeServerTelemetry('warn', 'wallet-authenticate', 'invalid-json');
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
@@ -110,10 +118,19 @@ export async function POST(request: Request) {
   const connectedAt = readNonEmptyString(body.connectedAt) ?? issuedAt;
 
   if (!address || !isPlausibleBitcoinAddress(address)) {
+    bitcodeServerTelemetry('warn', 'wallet-authenticate', 'invalid-address', {
+      address: compactBitcodeServerId(address),
+      provider,
+      network,
+    });
     return NextResponse.json({ error: 'A valid Bitcoin wallet address is required.' }, { status: 400 });
   }
 
   if (!provider) {
+    bitcodeServerTelemetry('warn', 'wallet-authenticate', 'invalid-provider', {
+      provider: readNonEmptyString(body.provider),
+      address: compactBitcodeServerId(address),
+    });
     return NextResponse.json(
       {
         error:
@@ -124,17 +141,29 @@ export async function POST(request: Request) {
   }
 
   if (!proofKind) {
+    bitcodeServerTelemetry('warn', 'wallet-authenticate', 'missing-proof-kind', {
+      provider,
+      address: compactBitcodeServerId(address),
+    });
     return NextResponse.json({ error: 'Bitcoin wallet proof kind is required.' }, { status: 400 });
   }
 
   if (proofKind === 'bitcoin_message_signature') {
     if (!message || !signature) {
+      bitcodeServerTelemetry('warn', 'wallet-authenticate', 'missing-signature', {
+        provider,
+        address: compactBitcodeServerId(address),
+      });
       return NextResponse.json(
         { error: 'Bitcoin wallet message-signature proof requires both message and signature.' },
         { status: 400 },
       );
     }
     if (!isBitcodeBitcoinWalletMessage(message, address)) {
+      bitcodeServerTelemetry('warn', 'wallet-authenticate', 'message-mismatch', {
+        provider,
+        address: compactBitcodeServerId(address),
+      });
       return NextResponse.json(
         { error: 'Bitcoin wallet message does not match the Bitcode authentication challenge.' },
         { status: 400 },
@@ -144,6 +173,15 @@ export async function POST(request: Request) {
 
   const persistedAt = new Date().toISOString();
   const bindingStatus = proofKind === 'bitcoin_message_signature' ? 'pending' : 'pending';
+  bitcodeServerTelemetry('info', 'wallet-authenticate', 'persist-start', {
+    userId: compactBitcodeServerId(user.id),
+    provider,
+    address: compactBitcodeServerId(address),
+    network,
+    proofKind,
+    paymentAddress: compactBitcodeServerId(paymentAddress),
+    authAddress: compactBitcodeServerId(authAddress),
+  });
   const { data: existingProfile, error: profileReadError } = await supabaseAdmin
     .from('user_profiles')
     .select('*')
@@ -151,6 +189,10 @@ export async function POST(request: Request) {
     .maybeSingle();
 
   if (profileReadError) {
+    bitcodeServerTelemetry('error', 'wallet-authenticate', 'profile-read-failed', {
+      userId: compactBitcodeServerId(user.id),
+      message: profileReadError.message,
+    });
     return NextResponse.json({ error: profileReadError.message }, { status: 500 });
   }
 
@@ -190,6 +232,10 @@ export async function POST(request: Request) {
   );
 
   if (profileWriteError) {
+    bitcodeServerTelemetry('error', 'wallet-authenticate', 'profile-write-failed', {
+      userId: compactBitcodeServerId(user.id),
+      message: profileWriteError.message,
+    });
     return NextResponse.json({ error: profileWriteError.message }, { status: 500 });
   }
 
@@ -223,6 +269,12 @@ export async function POST(request: Request) {
   );
 
   if (connectionWriteError) {
+    bitcodeServerTelemetry('error', 'wallet-authenticate', 'connection-write-failed', {
+      userId: compactBitcodeServerId(user.id),
+      provider,
+      address: compactBitcodeServerId(address),
+      message: connectionWriteError.message,
+    });
     return NextResponse.json(
       {
         error: connectionWriteError.message,
@@ -233,6 +285,14 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
+
+  bitcodeServerTelemetry('info', 'wallet-authenticate', 'persist-success', {
+    userId: compactBitcodeServerId(user.id),
+    provider,
+    address: compactBitcodeServerId(address),
+    network,
+    verificationState: bindingStatus,
+  });
 
   return NextResponse.json(
     {

@@ -39,3 +39,14 @@ Former `/orbitals/*` links are redirect-only and should resolve here without ren
 User-facing route and HTML posture should prefer `/auxillaries/*`.
 Active product code should also prefer `/api/auxillaries/*`.
 `/orbitals/*` and `/api/orbitals/*` are redirect-support carriers only and should be retired entirely by full V26 closure.
+
+## V28 prerequisite posture
+
+Auxillaries is the V28 prerequisite control plane for Terminal:
+
+- Profile starts with Bitcoin wallet authentication. The wallet proof is the minimum identity origin for Supabase synchronization and local wallet readiness.
+- Connects comes second and owns GitHub App installation/source-provider scope needed for Give and Need.
+- Email/contact data is optional and must not appear as the primary identity requirement.
+- `$BTD` reflects wallet/range/share posture after the shared auxillary data read settles.
+- The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
+- QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.

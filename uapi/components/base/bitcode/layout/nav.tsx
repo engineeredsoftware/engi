@@ -106,6 +106,7 @@ export default function Nav() {
     isLoading: isUserDataLoading,
     isRevalidating: isUserDataRevalidating,
   } = useUserData();
+  const hasResolvedUserData = userData !== null;
 
   const [showNavUse, setShowNavUse] = useState(false);
   const [showNavEntrance, setShowNavEntrance] = useState(navEntrancePlayedInRuntime);
@@ -204,17 +205,33 @@ export default function Nav() {
     readStringField(profileRecord, 'wallet_nickname') ??
     compactBitcodeAddress(chromeWalletAddress, 6);
   const hasChromeWalletIdentity = Boolean(user || hasWalletConnection);
+  const isWalletReadinessLoading = !hasResolvedUserData && isUserDataLoading;
 
   useEffect(() => {
     bitcodeQaTelemetry('info', 'nav', 'chrome-identity', {
       hasUser: Boolean(user),
       hasWalletConnection,
+      hasResolvedUserData,
+      isUserDataLoading,
+      isUserDataRevalidating,
+      isWalletReadinessLoading,
       walletProvider: chromeWalletProvider ?? null,
       walletAddress: compactBitcodeAddress(chromeWalletAddress, 6),
       btdBalance,
       btcFeeBalance,
     });
-  }, [btdBalance, btcFeeBalance, chromeWalletAddress, chromeWalletProvider, hasWalletConnection, user]);
+  }, [
+    btdBalance,
+    btcFeeBalance,
+    chromeWalletAddress,
+    chromeWalletProvider,
+    hasResolvedUserData,
+    hasWalletConnection,
+    isUserDataLoading,
+    isUserDataRevalidating,
+    isWalletReadinessLoading,
+    user,
+  ]);
 
   // Determine if the nav should be fixed
   const shouldBeFixed = useMemo(() => {
@@ -265,7 +282,21 @@ export default function Nav() {
     router.push('/')
   }
 
-  const workspaceGuestActions = usesWorkspaceOnlyChrome && !hasChromeWalletIdentity ? (
+  const walletReadinessLoadingActions =
+    (usesProductChrome || usesWorkspaceOnlyChrome) && isWalletReadinessLoading ? (
+      <div
+        className={`${controlsEntranceClassName} flex items-center justify-end`}
+        data-testid="nav-wallet-readiness-loading"
+        aria-live="polite"
+      >
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.8)]" />
+          Reading wallet
+        </span>
+      </div>
+    ) : null;
+
+  const workspaceGuestActions = usesWorkspaceOnlyChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
     <div className={`${controlsEntranceClassName} flex items-center gap-2.5`}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries}>
@@ -312,7 +343,7 @@ export default function Nav() {
     </div>
   ) : null;
 
-  const publicGuestActions = usesProductChrome && !hasChromeWalletIdentity ? (
+  const publicGuestActions = usesProductChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
     <div className={`${controlsEntranceClassName} flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5`}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries} className="flex-1 tablet:flex-none">
@@ -539,7 +570,9 @@ export default function Nav() {
           </div>
 
           <div className={usesProductChrome ? 'flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-4' : 'flex items-center justify-center space-x-4'}>
-            {workspaceGuestActions ? (
+            {walletReadinessLoadingActions ? (
+              walletReadinessLoadingActions
+            ) : workspaceGuestActions ? (
               workspaceGuestActions
             ) : publicGuestActions ? (
               publicGuestActions

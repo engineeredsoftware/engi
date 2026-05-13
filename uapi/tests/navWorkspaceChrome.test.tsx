@@ -11,6 +11,7 @@ const mockReplace = jest.fn();
 const mockOpenOrbital = jest.fn();
 const mockPrefetchOrbital = jest.fn();
 const mockUseAuth = jest.fn();
+const mockUseUserData = jest.fn();
 
 jest.mock('next/navigation', () => ({
   usePathname: () => '/terminal',
@@ -22,7 +23,7 @@ jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
 }));
 
 jest.mock('@/hooks/useUserData', () => ({
-  useUserData: () => ({ btdBalance: 0 }),
+  useUserData: () => mockUseUserData(),
 }));
 
 jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
@@ -82,6 +83,16 @@ describe('Nav Terminal product chrome', () => {
     mockOpenOrbital.mockReset();
     mockPrefetchOrbital.mockReset();
     mockUseAuth.mockReturnValue({ user: null });
+    mockUseUserData.mockReturnValue({
+      data: {},
+      hasWalletConnection: false,
+      walletConnectionStatus: null,
+      btdBalance: 0,
+      btcFeeBalance: null,
+      recentBtdAssetPacks: [],
+      isLoading: false,
+      isRevalidating: false,
+    });
   });
 
   it('shows product-route links and guest access actions for unauthenticated Terminal routes', () => {
@@ -101,6 +112,25 @@ describe('Nav Terminal product chrome', () => {
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
     expect(mockOpenOrbital).toHaveBeenNthCalledWith(1, 'login');
     expect(mockOpenOrbital).toHaveBeenNthCalledWith(2, 'SignUpWindow');
+  });
+
+  it('shows wallet readiness loading instead of Connect Wallet before user data settles', () => {
+    mockUseUserData.mockReturnValue({
+      data: null,
+      hasWalletConnection: false,
+      walletConnectionStatus: null,
+      btdBalance: 0,
+      btcFeeBalance: null,
+      recentBtdAssetPacks: [],
+      isLoading: true,
+      isRevalidating: false,
+    });
+
+    render(<Nav />);
+
+    expect(screen.getByTestId('nav-wallet-readiness-loading')).toHaveTextContent('Reading wallet');
+    expect(screen.queryByRole('button', { name: 'Connect Wallet' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
   });
 
   it('keeps product-route links visible while reopening auxillaries from the signed-in menu', () => {

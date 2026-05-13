@@ -395,15 +395,16 @@ const auxillariesSections = [
     eyebrow: 'Auxillaries',
     title: 'Auxillaries are the identity, connection, interface, and $BTD layer',
     summary:
-      'Auxillaries hold the context that changes how Terminal and Exchange can operate: connected repositories, interface defaults, profile identity, wallet posture, roles, and $BTD preferences.',
+      'Auxillaries hold the context that changes how Terminal can operate: signed Bitcoin wallet identity, connected repositories, interface defaults, profile roles, and $BTD preferences.',
     detail:
       'The auxillary shell should feel adjacent to Terminal, not detached from it. Opening Auxillaries changes readiness and configuration while the selected Terminal activity remains recoverable.',
     reason:
       'Configuration is commercially important only when users can understand which operational capability it unlocks or blocks.',
     points: [
-      'Connects owns repository and third-party bindings.',
+      'Profile owns the first identity step: a Bitcoin wallet proof that can back a Supabase session.',
+      'Connects owns GitHub and future source-provider bindings after wallet identity exists.',
       'Interfaces owns default behavior and visual/product posture.',
-      'Profile and $BTD own identity, wallet, roles, and share-specific settings.',
+      '$BTD owns wallet-adjacent balances, range posture, and share-specific settings.',
     ],
   },
   {
@@ -411,14 +412,16 @@ const auxillariesSections = [
     eyebrow: 'Readiness',
     title: 'Connects, Profile, Interfaces, and $BTD are readiness surfaces',
     summary:
-      'Repository scope, wallet identity, profile roles, interface defaults, and $BTD controls determine which writes can move from review to signed or connected execution.',
+      'Wallet identity, repository scope, profile roles, interface defaults, and $BTD controls determine which writes can move from review to signed or connected execution.',
     detail:
       'A user may still learn or draft in launch mode, but production execution must keep blockers clear before deposit, branch, settlement, delivery, or connected-interface writes proceed.',
     reason:
       'This lets Bitcode ship a strong Terminal experience with mocked data while preserving the production direction toward real connectivity.',
     steps: [
-      'Connect source and integration boundaries.',
-      'Set profile identity, signer, organization, and role posture.',
+      'Connect and sign with a Bitcoin wallet first.',
+      'Install the GitHub App or connect a source provider second.',
+      'Add optional email/contact settings only after wallet and source readiness are clear.',
+      'Set profile identity, organization, and role posture.',
       'Choose interface defaults for Terminal and connected surfaces.',
       'Review $BTD and wallet-adjacent controls before settlement.',
     ],
@@ -430,13 +433,13 @@ const auxillariesSections = [
     summary:
       'Connects owns GitHub and future provider bindings because repository scope becomes source-bearing input for Need measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
     detail:
-      'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity stays in Profile while repository attachment and provider scope stay in Connects.',
+      'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity starts in Profile, while repository attachment and provider scope stay in Connects.',
     reason:
       'New users need to understand why a missing GitHub or wallet connection blocks live writes without blocking learning-mode Terminal review.',
     points: [
       'GitHub scope defines which repositories Bitcode can read for source supply.',
       'Stored inventory can support reread, but live write admission fails closed until the provider is restored.',
-      'GitHub plus wallet posture are the minimum live prerequisites before settlement or signed delivery.',
+      'Bitcoin wallet posture plus GitHub scope are the minimum live prerequisites before settlement or signed delivery.',
     ],
   },
   {

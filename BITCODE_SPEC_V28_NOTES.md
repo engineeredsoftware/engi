@@ -269,6 +269,8 @@ They are V28 inputs because V27 closed the protocol law and minimum crypto-comme
 | V26 proof generator and older promotion scripts still contain version-specific historical logic | V27 accepted generated-equivalent proof artifacts rather than fully modernizing promotion automation | Decide whether V28 should update proof generation for V28+ families or leave older promotion scripts as historical tooling |
 | Some formal protocol package internals are freshly ported from the standalone demonstration | V28 now owns commercializing the Protocol implementation enough that commercial code must not depend on demonstration runtime code | Keep commercial UAPI imports on formal packages such as `@bitcode/protocol`, keep `protocol-demonstration` out of the workspace build graph, move required demonstration-derived behavior into packages/UAPI, and use the demonstration only as reference/proof witness |
 | BNB Chain, opBNB, Binance Web3 Wallet, BEP-20, and BitVM bridge research are relevant but not current chain-of-record facts | V28 must avoid implying a public BTD deployment or native BNB Taproot/BitVM compatibility | Treat Bitcoin Taproot/PSBT/testnet as V28's practical crypto lane; record BSC/opBNB/Binance and BitVM bridge pilots as future bridge/distribution work unless a proof-bound testnet artifact exists |
+| Top chrome can briefly show `Connect Wallet` while wallet/user data is still loading | V28 wallet identity is the origin point for Supabase synchronization and Terminal readiness | Treat top chrome wallet state as tri-state: reading, connected, disconnected. The disconnected CTA may render only after auxillary user data has settled. While unresolved, render an integrated loading indicator and emit QA telemetry so manual passes can distinguish slow readiness from missing identity. |
+| Manual QA needs database-level evidence, not only screenshots | V28 is proving ledger/database synchronization posture before deeper deployment versions | Each wallet/GitHub/Terminal pass must collect client logs, server logs, network failures, and Supabase SQL query results for `auth.users`, `auth.identities`, `user_profiles`, `user_connections`, and repository inventory tables. Missing tables or permission errors are valid evidence and must be recorded, not hidden. |
 
 ## V28 Gate Sketch
 
@@ -282,6 +284,9 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 
 2. **Gate 2: Protocol/Terminal MVP QA Baseline**
    - QA primary active routes and navigation.
+   - Prove top chrome wallet readiness as a tri-state loading/connected/disconnected surface so the wallet CTA does not appear before connection status is known.
+   - Add client and server QA telemetry around wallet OAuth, wallet proof persistence, auxillary data reads, GitHub setup callbacks, and user-data cache revalidation.
+   - Add Supabase SQL verification to manual QA steps so profile, wallet identity, provider connection, and GitHub installation synchronization are checked at the database layer.
    - Remove Auxillaries old orbital shell conflicts from active contained tabs-left paths.
    - Disable or hide Exchange and website Conversations from V28 QA.
    - Separate commercial runtime imports from the standalone protocol demonstration and remove the demonstration from the workspace build graph.

@@ -11,6 +11,7 @@ const mockReplace = jest.fn();
 const mockOpenOrbital = jest.fn();
 const mockPrefetchOrbital = jest.fn();
 const mockUseAuth = jest.fn();
+const mockUseUserData = jest.fn();
 let mockPathname = '/';
 
 jest.mock('next/navigation', () => ({
@@ -23,7 +24,7 @@ jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
 }));
 
 jest.mock('@/hooks/useUserData', () => ({
-  useUserData: () => ({ btdBalance: 0 }),
+  useUserData: () => mockUseUserData(),
 }));
 
 jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
@@ -90,6 +91,16 @@ describe('Nav public shell', () => {
     mockOpenOrbital.mockReset();
     mockPrefetchOrbital.mockReset();
     mockUseAuth.mockReturnValue({ user: null });
+    mockUseUserData.mockReturnValue({
+      data: {},
+      hasWalletConnection: false,
+      walletConnectionStatus: null,
+      btdBalance: 0,
+      btcFeeBalance: null,
+      recentBtdAssetPacks: [],
+      isLoading: false,
+      isRevalidating: false,
+    });
   });
 
   it('shows stable public-route links and guest workspace access actions', () => {
@@ -115,6 +126,25 @@ describe('Nav public shell', () => {
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
     expect(mockOpenOrbital).toHaveBeenNthCalledWith(1, 'login');
     expect(mockOpenOrbital).toHaveBeenNthCalledWith(2, 'SignUpWindow');
+  });
+
+  it('waits for wallet readiness before showing public guest wallet actions', () => {
+    mockUseUserData.mockReturnValue({
+      data: null,
+      hasWalletConnection: false,
+      walletConnectionStatus: null,
+      btdBalance: 0,
+      btcFeeBalance: null,
+      recentBtdAssetPacks: [],
+      isLoading: true,
+      isRevalidating: false,
+    });
+
+    render(<Nav />);
+
+    expect(screen.getByTestId('nav-wallet-readiness-loading')).toHaveTextContent('Reading wallet');
+    expect(screen.queryByRole('button', { name: 'Connect Wallet' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
   });
 
   it('keeps public-route links visible while preserving signed-in menu and notifications', () => {
