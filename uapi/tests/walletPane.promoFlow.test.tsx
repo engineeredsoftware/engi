@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
+import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -17,7 +17,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('BtdStep Promo Code Flow', () => {
+describe('WalletPane Promo Code Flow', () => {
   beforeEach(() => {
     global.fetch = jest
       .fn()
@@ -63,7 +63,7 @@ describe('BtdStep Promo Code Flow', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
   });
 
@@ -72,7 +72,7 @@ describe('BtdStep Promo Code Flow', () => {
   });
 
   it('enables continuous need-space repository sharing from the $BTD alias', async () => {
-    render(<BtdStep onSave={() => {}} loading={false} isOnboardingComplete />);
+    render(<WalletPane onSave={() => {}} loading={false} isOnboardingComplete />);
 
     await waitFor(() => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
@@ -85,7 +85,7 @@ describe('BtdStep Promo Code Flow', () => {
     fireEvent.click(toggle);
 
     await waitFor(() => {
-      expect(screen.getByText(/All current and future Connects-approved repositories/i)).toBeInTheDocument();
+      expect(screen.getByText(/All current and future Externals-approved repositories/i)).toBeInTheDocument();
     });
 
     expect(global.fetch).toHaveBeenCalledWith(

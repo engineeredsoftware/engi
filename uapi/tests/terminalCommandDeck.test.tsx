@@ -162,12 +162,12 @@ describe('TerminalCommandDeck', () => {
           status: 'repository-provider-pending',
           label: 'repository reconnect required',
           summary:
-            'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.',
-          nextAction: 'Open Connects and restore a valid repository-provider connection.',
+            'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Externals before you transact, settle, or sign Bitcode activity.',
+          nextAction: 'Open Externals and restore a valid repository-provider connection.',
           blockers: [
             {
               id: 'repository-provider',
-              label: 'Reconnect GitHub or equivalent repository scope in Connects',
+              label: 'Reconnect GitHub or equivalent repository scope in Externals',
             },
           ],
           canTransact: false,
@@ -181,7 +181,7 @@ describe('TerminalCommandDeck', () => {
 
     expect(screen.getByRole('button', { name: 'Make Bitcode branch' })).toBeDisabled();
     expect(
-      screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Connects/i).length,
+      screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Externals/i).length,
     ).toBeGreaterThan(0);
   });
 

@@ -45,7 +45,7 @@ test.describe('Onboarding First Step Flow', () => {
     await page.click('[data-testid="profile-verify-code"]');
 
     // Should auto-advance to Connections step
-    const connBadge = page.locator('[data-testid="connections-step-badge"]');
+    const connBadge = page.locator('[data-testid="externals-step-badge"]');
     await expect(connBadge).toBeVisible();
     await expect(connBadge).toHaveText('Step 2 of 4');
     // Validate heading for connections step

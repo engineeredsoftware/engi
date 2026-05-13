@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { setOnboardingState } from './auxillaries.helpers';
 
-test.describe('@profile Auxillaries - Connects Step', () => {
+test.describe('@profile Auxillaries - Externals Step', () => {
   test('auxillaries-connects-first-load', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Wait for connects step badge to appear
-    await page.waitForSelector('[data-testid="connections-step-badge"]');
+    await page.waitForSelector('[data-testid="externals-step-badge"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('auxillaries-connects-first-load.png');
@@ -15,11 +15,11 @@ test.describe('@profile Auxillaries - Connects Step', () => {
 
   test('auxillaries-connects-github-connect-hover', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Hover over GitHub connect button
-    await page.waitForSelector('[data-testid="connections-github-button"]');
-    await page.hover('[data-testid="connections-github-button"]');
+    await page.waitForSelector('[data-testid="externals-github-button"]');
+    await page.hover('[data-testid="externals-github-button"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('auxillaries-connects-github-connect-hover.png');
@@ -27,12 +27,12 @@ test.describe('@profile Auxillaries - Connects Step', () => {
 
   test('auxillaries-connects-github-connected', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Simulate GitHub connect click
-    await page.click('[data-testid="connections-github-button"]');
+    await page.click('[data-testid="externals-github-button"]');
     // Wait for connected status and summary
-    await page.waitForSelector('[data-testid="connections-step-badge"]');
+    await page.waitForSelector('[data-testid="externals-step-badge"]');
     // Wait for repository chips and selection list
     await page.waitForSelector('[data-testid="connections-repo-chip-user/repo-1"]');
     await page.waitForSelector('[data-testid="connections-repo-item-user/repo-1"]');
@@ -44,7 +44,7 @@ test.describe('@profile Auxillaries - Connects Step', () => {
   
   test.skip('auxillaries-connects-figma-connected', async ({ page }) => {
     await page.goto('/?dev=true');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Click Figma connect button
     await page.click('[data-testid="connections-figma-button"]');
@@ -55,7 +55,7 @@ test.describe('@profile Auxillaries - Connects Step', () => {
   
   test.skip('auxillaries-connects-notion-connected', async ({ page }) => {
     await page.goto('/?dev=true');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Click Notion connect button
     await page.click('[data-testid="connections-notion-button"]');
@@ -83,7 +83,7 @@ test.describe('@profile Auxillaries - Connects Step', () => {
       }
     });
     await page.goto('/?dev=true');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Generate new API key
     await page.click('[data-testid="connections-generate-apikey-button"]');
@@ -105,7 +105,7 @@ test.describe('@profile Auxillaries - Connects Step', () => {
       })
     );
     await page.goto('/');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Enter fake verification code
     await page.fill('[data-testid="connections-verify-input"]', '12345-abcde');
@@ -139,7 +139,7 @@ test.describe('@profile Auxillaries - Connects Step', () => {
       route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
     );
     await page.goto('/');
-    await setOnboardingState(page, 'connects', ['profile']);
+    await setOnboardingState(page, 'externals', ['profile']);
     await page.reload();
     // Wait for API key list
     const item1 = page.locator('[data-testid="connections-apikey-item-key1"]');

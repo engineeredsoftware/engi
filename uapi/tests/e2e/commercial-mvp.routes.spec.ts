@@ -29,9 +29,9 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'Profile auxillary',
   },
   {
-    path: '/auxillaries/connects',
-    expected: /Connects in one contained auxillary read/i,
-    name: 'Connects auxillary',
+    path: '/auxillaries/externals',
+    expected: /Externals in one contained auxillary read/i,
+    name: 'Externals auxillary',
   },
   {
     path: '/auxillaries/interfaces',
@@ -39,7 +39,7 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'Interfaces auxillary',
   },
   {
-    path: '/auxillaries/btd',
+    path: '/auxillaries/wallet',
     expected: /\$BTD in one contained auxillary read/i,
     name: 'BTD auxillary',
   },

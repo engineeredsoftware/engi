@@ -21,6 +21,6 @@
   ],
   "btdBalance": 1000,
   "modelPreferences": [],
-  "onboarded_steps": ["profile", "connects", "interfaces", "btd"],
+  "onboarded_steps": ["profile", "externals", "interfaces", "wallet"],
   "isOnboardingComplete": true
 }

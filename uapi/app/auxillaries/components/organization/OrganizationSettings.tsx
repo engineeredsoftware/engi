@@ -86,7 +86,7 @@ const operatingTiers = {
   },
 }
 
-function openAuxillaryRoute(path: '/auxillaries/btd' | '/auxillaries/connects') {
+function openAuxillaryRoute(path: '/auxillaries/wallet' | '/auxillaries/externals') {
   if (typeof window !== 'undefined') {
     window.location.assign(path)
   }
@@ -436,22 +436,22 @@ export default function OrganizationSettings({
                 <div className="rounded-2xl border bg-slate-50 p-4">
                   <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
                     <Waypoints className="h-4 w-4 text-emerald-700" />
-                    Connects governs entry
+                    Externals governs entry
                   </div>
                   <p className="text-sm text-slate-600">
-                    SSO variety, access policy, and treasury-facing auth posture are configured in the Connects auxillary.
+                    SSO variety, external-provider posture, and repository access are configured in the Externals auxillary.
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Button onClick={() => openAuxillaryRoute('/auxillaries/btd')}>
+                <Button onClick={() => openAuxillaryRoute('/auxillaries/wallet')}>
                   <Wallet className="mr-2 h-4 w-4" />
-                  Open $BTD Auxillary
+                  Open Wallet Auxillary
                 </Button>
-                <Button variant="outline" onClick={() => openAuxillaryRoute('/auxillaries/connects')}>
+                <Button variant="outline" onClick={() => openAuxillaryRoute('/auxillaries/externals')}>
                   <Github className="mr-2 h-4 w-4" />
-                  Open Connects Auxillary
+                  Open Externals Auxillary
                 </Button>
               </div>
             </CardContent>

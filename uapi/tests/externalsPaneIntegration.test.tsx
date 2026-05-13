@@ -1,8 +1,8 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
-describe('ConnectionsStep Integration (SSR)', () => {
+describe('ExternalsPane Integration (SSR)', () => {
   it('renders Figma and Notion sections when configured', () => {
     const initialConnectionData = {
       githubConnected: false,
@@ -23,7 +23,7 @@ describe('ConnectionsStep Integration (SSR)', () => {
       sshKey: ''
     };
     const html = renderToString(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={false}
         isDevMode={false}

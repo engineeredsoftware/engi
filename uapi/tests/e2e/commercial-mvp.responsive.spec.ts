@@ -17,7 +17,7 @@ const RESPONSIVE_ROUTES = [
     expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
   },
   {
-    path: '/auxillaries/btd',
+    path: '/auxillaries/wallet',
     expected: /\$BTD in one contained auxillary read/i,
   },
   {
@@ -36,7 +36,7 @@ test.describe('commercial MVP responsive route health', () => {
       const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
       await page.setViewportSize({ width: 390, height: 844 });
-      const firstDataShareResponse = route.path === '/auxillaries/btd'
+      const firstDataShareResponse = route.path === '/auxillaries/wallet'
         ? page.waitForResponse((response) =>
           response.url().includes('/api/auxillaries/user/data-share'),
         )
@@ -46,7 +46,7 @@ test.describe('commercial MVP responsive route health', () => {
       await expect(page.locator('body')).toBeVisible();
 
       await page.setViewportSize({ width: 1440, height: 900 });
-      const reloadDataShareResponse = route.path === '/auxillaries/btd'
+      const reloadDataShareResponse = route.path === '/auxillaries/wallet'
         ? page.waitForResponse((response) =>
           response.url().includes('/api/auxillaries/user/data-share'),
         )

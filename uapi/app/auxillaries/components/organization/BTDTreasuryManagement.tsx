@@ -116,7 +116,7 @@ const transactionTypeConfig: Record<TreasuryTransactionType, {
   },
 }
 
-function openAuxillaryRoute(path: '/auxillaries/btd' | '/auxillaries/connects') {
+function openAuxillaryRoute(path: '/auxillaries/wallet' | '/auxillaries/externals') {
   if (typeof window !== 'undefined') {
     window.location.assign(path)
   }
@@ -152,13 +152,13 @@ export default function BTDTreasuryManagement({
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
-          <Button variant="outline" onClick={() => openAuxillaryRoute('/auxillaries/connects')}>
+          <Button variant="outline" onClick={() => openAuxillaryRoute('/auxillaries/externals')}>
             <Github className="mr-2 h-4 w-4" />
-            Open Connects
+            Open Externals
           </Button>
-          <Button onClick={() => openAuxillaryRoute('/auxillaries/btd')}>
+          <Button onClick={() => openAuxillaryRoute('/auxillaries/wallet')}>
             <Wallet className="mr-2 h-4 w-4" />
-            Open $BTD Auxillary
+            Open Wallet Auxillary
           </Button>
         </div>
       </div>
@@ -196,10 +196,10 @@ export default function BTDTreasuryManagement({
           <div className="rounded-2xl border border-emerald-200 bg-white/80 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Waypoints className="h-4 w-4 text-emerald-700" />
-              SSO and entry policy live in Connects
+              SSO and entry policy live in Externals
             </div>
             <p className="text-sm text-slate-600">
-              SSO posture, wallet access expectations, and member entry policy are configured through the Connects auxillary.
+              SSO posture, repository access, and future non-wallet provider policy are configured through the Externals auxillary.
             </p>
           </div>
         </CardContent>
@@ -251,7 +251,7 @@ export default function BTDTreasuryManagement({
             <h3 className="text-lg font-semibold">Team $BTD Allocations</h3>
             {canManageTreasury ? (
               <Badge variant="secondary" className="px-3 py-1">
-                Review or adjust allocations from /auxillaries/btd
+                Review or adjust allocations from /auxillaries/wallet
               </Badge>
             ) : null}
           </div>

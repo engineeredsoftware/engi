@@ -14,7 +14,7 @@ const MarketingSetupForm = () => {
       </div>
       <div className="space-y-2 text-sm text-slate-300">
         <p>1. Connect wallet posture in /auxillaries/profile and keep BTC fee liquidity readable.</p>
-        <p>2. Connect GitHub and SSO policy in /auxillaries/connects.</p>
+        <p>2. Connect GitHub and SSO policy in /auxillaries/externals.</p>
         <p>3. Acquire $BTD through Terminal Need minting or Exchange purchase planning.</p>
       </div>
       <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/8 px-4 py-3 text-sm text-emerald-100">

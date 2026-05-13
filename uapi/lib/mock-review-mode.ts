@@ -9,7 +9,7 @@ import {
 
 const REVIEW_USER_ID = 'mock-bitcode-review-user';
 const REVIEW_TIMESTAMP = '2026-04-16T12:00:00.000Z';
-const REVIEW_COMPLETED_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
+const REVIEW_COMPLETED_STEPS = ['profile', 'externals', 'interfaces', 'wallet'] as const;
 
 type MockRepositoryConnectionStatus = {
   connected: boolean;

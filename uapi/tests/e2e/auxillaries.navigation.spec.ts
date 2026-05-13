@@ -50,7 +50,7 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
     await page.fill('[data-testid="login-otp-input"]', '123456');
     await page.click('[data-testid="login-verify-code"]');
     // Steps: profile -> connects -> interfaces -> btd
-    const steps = ['profile', 'connects', 'interfaces', 'btd'];
+    const steps = ['profile', 'externals', 'interfaces', 'wallet'];
     for (const step of steps) {
       await page.click(`[data-auxillaries-testid="auxillaries-label-${step}"]`);
       await page.waitForTimeout(300);

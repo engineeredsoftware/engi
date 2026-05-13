@@ -64,7 +64,7 @@ jest.mock('@/app/terminal/TerminalOpenAuxillariesButton', () => ({
   }: {
     label?: string;
   }) {
-    return <button type="button">{label || 'Open Connects'}</button>;
+    return <button type="button">{label || 'Open Externals'}</button>;
   },
 }));
 
@@ -141,7 +141,7 @@ describe('TerminalRepositoryContextPanel', () => {
       screen.getByText(/Bitcode can keep rereading stored repository inventory from Exchange/i),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /Reconnect Connects to restore live write admission/i }),
+      screen.getByRole('button', { name: /Reconnect Externals to restore live write admission/i }),
     ).toBeInTheDocument();
     expect(screen.getByText('bitcode/bitcode')).toBeInTheDocument();
     expect(

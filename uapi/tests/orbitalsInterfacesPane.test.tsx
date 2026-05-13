@@ -41,7 +41,7 @@ describe('AuxillariesInterfacesPane', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
   });
 

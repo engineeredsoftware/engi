@@ -71,7 +71,7 @@ describe('GET /api/auxillaries/data', () => {
     const profileData = {
       id: 'user-1',
       username: 'test',
-      onboarded_steps: '["profile","interfaces","btd"]',
+      onboarded_steps: '["profile","interfaces","wallet"]',
       settings: {
         bitcodeProfile: {
           companyName: 'Bitcode Labs',
@@ -177,8 +177,8 @@ describe('GET /api/auxillaries/data', () => {
       repositoryInventorySource: 'stored_repository_inventory',
       btdBalance: 50,
       modelPreferences: prefData.preferences,
-      onboardedPanes: ['profile', 'interfaces', 'btd'],
-      onboarded_steps: ['profile', 'interfaces', 'btd'],
+      onboardedPanes: ['profile', 'interfaces', 'wallet'],
+      onboarded_steps: ['profile', 'interfaces', 'wallet'],
       isOnboardingComplete: false,
     });
     // Ensure queries were scoped correctly

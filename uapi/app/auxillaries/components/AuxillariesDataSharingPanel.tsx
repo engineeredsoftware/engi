@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AfterOnboardingOverlay } from './shared/AfterOnboardingOverlay';
 
-// Re-use the existing interface from profile-step so we can share types.
+// Re-use the existing repository data-sharing shape across Externals and Wallet-adjacent reads.
 export interface DataShareRepo {
   fullName: string;
   branch: string;
@@ -124,7 +124,7 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
           {loading && <span className="text-sm text-slate-400">loading…</span>}
         </h3>
         <p className="text-sm text-slate-400 mb-4">
-          Set once whether Connects-approved repositories should keep contributing synchronized repository knowledge into Bitcode need-space.
+          Set once whether Externals-approved repositories should keep contributing synchronized repository knowledge into Bitcode need-space.
           This is the larger
           <span className="text-teal-300 font-semibold mx-1">$BTD</span>
           setting that governs ongoing connected-knowledge contribution after repository access is already approved.
@@ -152,11 +152,11 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
 
         {enableAll ? (
         <div className="text-sm text-yellow-300/80 font-medium bg-yellow-300/10 border border-yellow-300/20 rounded-lg px-4 py-3">
-          All current and future Connects-approved repositories will sync into need-space automatically.
+          All current and future Externals-approved repositories will sync into need-space automatically.
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
-          <table className="min-w-full text-sm whitespace-nowrap" data-testid="btd-data-share-repositories">
+          <table className="min-w-full text-sm whitespace-nowrap" data-testid="externals-data-share-repositories">
             <thead className="text-slate-300 font-semibold">
               <tr>
                 <th className="py-3 px-4 text-left">Repository</th>
@@ -169,7 +169,7 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
               {repos.map((repo, idx) => (
                 <tr
                   key={repo.fullName + repo.commit}
-                  data-testid="btd-data-share-repo-row"
+                  data-testid="externals-data-share-repo-row"
                   data-repo-full-name={repo.fullName}
                   className="border-t border-slate-700/60 hover:bg-[#1A2335] group transition-colors"
                 >

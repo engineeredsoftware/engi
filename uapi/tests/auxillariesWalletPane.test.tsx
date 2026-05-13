@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import OrbitalsBTDPane from '@/app/auxillaries/components/AuxillariesBTDPane';
+import AuxillariesWalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -46,7 +46,7 @@ jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('AuxillariesBTDPane', () => {
+describe('AuxillariesWalletPane', () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -92,7 +92,7 @@ describe('AuxillariesBTDPane', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
   });
 
@@ -104,7 +104,7 @@ describe('AuxillariesBTDPane', () => {
     const onSave = jest.fn();
 
     render(
-      <OrbitalsBTDPane
+      <AuxillariesWalletPane
         onSave={onSave}
         loading={false}
         isOnboardingComplete={false}
@@ -115,7 +115,7 @@ describe('AuxillariesBTDPane', () => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
     });
 
-    expect(screen.getByTestId('btd-step-badge')).toHaveTextContent('Auxillary step 4');
+    expect(screen.getByTestId('wallet-step-badge')).toHaveTextContent('Auxillary step 1');
     expect(screen.getByText(/Keep BTC fees, \$BTD holdings, identity, and membership readable together/i)).toBeTruthy();
     expect(screen.getByText('Access policy')).toBeInTheDocument();
     expect(screen.getByText('policy-main')).toBeInTheDocument();
@@ -191,11 +191,11 @@ describe('AuxillariesBTDPane', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
 
     render(
-      <OrbitalsBTDPane
+      <AuxillariesWalletPane
         onSave={jest.fn()}
         loading={false}
         isOnboardingComplete={false}

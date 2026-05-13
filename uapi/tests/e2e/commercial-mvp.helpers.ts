@@ -23,7 +23,7 @@ const COMMERCIAL_MVP_AUXILLARY_DATA = {
       boundAt: '2026-04-16T12:00:00.000Z',
     },
     btc_balance: 0.042,
-    onboarded_steps: ['profile', 'connects', 'interfaces', 'btd'],
+    onboarded_steps: ['profile', 'externals', 'interfaces', 'wallet'],
     mock_mode: true,
   },
   githubConnection: {
@@ -112,8 +112,8 @@ const COMMERCIAL_MVP_AUXILLARY_DATA = {
     max_tokens: 3200,
     review_profile: 'bitcode-terminal-demo',
   },
-  onboardedPanes: ['profile', 'connects', 'interfaces', 'btd'],
-  onboarded_steps: ['profile', 'connects', 'interfaces', 'btd'],
+  onboardedPanes: ['profile', 'externals', 'interfaces', 'wallet'],
+  onboarded_steps: ['profile', 'externals', 'interfaces', 'wallet'],
   isOnboardingComplete: true,
 };
 

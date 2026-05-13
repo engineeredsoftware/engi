@@ -588,7 +588,7 @@ export default function Nav() {
                     walletLabel={chromeWalletLabel}
                     walletAddress={chromeWalletAddress}
                     walletProvider={chromeWalletProvider}
-                    onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'btd')}
+                    onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'wallet')}
                   />
                 )}
 

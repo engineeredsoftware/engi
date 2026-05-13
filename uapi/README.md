@@ -1,7 +1,7 @@
 # `uapi/` Bitcode Commercial Surface
 
 `uapi/` is the active commercial interface owner for Bitcode.
-It carries the `/terminal` operator surface, `/exchange` activity master-detail, fullscreen conversations, canonical `/auxillaries` reads, redirect-only legacy route aliases where still explicitly retained, Bitcode API routes, and the shared UI systems used by the commercial protocol implementation.
+It carries the `/terminal` operator surface, canonical `/auxillaries` reads, redirect-only legacy route aliases where still explicitly retained, Bitcode API routes, and the shared UI systems used by the commercial protocol implementation.
 
 Active canon follows the top-level `BITCODE_SPEC.txt` pointer while the current draft hardens the commercial MVP experience.
 
@@ -17,20 +17,20 @@ Wallet state in top chrome is tri-state during QA: loading while shared auxillar
 - `/terminal`
   Main Bitcode operator surface. Give and Need are the primary write actions; recent Terminal activity is the focused read result surface.
 - `/exchange`
-  Exchange activity master-detail. The searchable activity table is the master; selected activity facts, proof posture, range evidence, and history are the detail.
+  Deferred beyond V35. Retained source must not contaminate V28 Terminal or Auxillaries behavior.
 - `/conversations`
-  Fullscreen conversation mode entered from `/terminal`.
+  Deferred beyond V35 as a website application surface.
 - `/executions`
   Retained execution route for Bitcode execution primitives, kept explicit as a fourth-gate promotion-boundary owner inside the broader activity family.
 - `/edgetimes`
   Fourth-gate storage/schema/package ownership read mounted as a docs-branded Bitcode route.
+- `/auxillaries/wallet`
+- `/auxillaries/externals`
 - `/auxillaries/profile`
-- `/auxillaries/connects`
 - `/auxillaries/interfaces`
-- `/auxillaries/btd`
   Canonical auxillary routes for direct auxillary reading without losing the commercial Bitcode framing.
 
-Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring naming model.
+Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` plus legacy `/auxillaries/btd` and `/auxillaries/connects` route segments are compatibility entry points and should not be treated as the enduring naming model.
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
 Selected `/terminal` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared auxillary metadata layer in `app/auxillaries/components/auxillary-pane-meta.ts` is the active owner for fullscreen auxillary-entry wording such as `Open Auxillaries fullscreen`, targeted auxillary-open actions, and the direct-route return action `Open transactions`.
@@ -42,13 +42,13 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 - `app/terminal/`
   `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, give/need workbench, and transaction detail.
 - `app/exchange/`
-  `/exchange` activity search, table, selected detail, and BTD intent entry surface.
+  Deferred Exchange activity source retained for V35+ work.
 - `app/auxillaries/`
-  Canonical focused auxillary routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
+  Canonical focused auxillary routes for `Wallet`, `Externals`, `Profile`, and `Interfaces`.
 - `app/orbitals/`
   Redirect-only route carriers preserving former deep links while `/auxillaries/*` remains canonical.
 - `app/conversations/`
-  Fullscreen conversation mode.
+  Deferred website conversation mode.
 - `app/executions/`
   Retained execution route owners kept explicit while AssetPack evidence and activity semantics converge into Terminal and Exchange reads.
 - `app/edgetimes/`
@@ -113,7 +113,7 @@ Fourth-gate retained `/executions` health also now depends on explicit support A
 - `app/api/auxillaries/template-preferences/route.ts`
   Saved template-preference support carrier for retained execution personalization.
 - `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/btd/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`
-  Canonical auxillary API owners for profile, Connects, $BTD balance history, BTD transaction history, and API-key management; active product code should prefer these over redirect `orbitals` API aliases.
+  Canonical auxillary API owners for Profile, Externals/GitHub, BTD balance history, BTD transaction history, and API-key management; active product code should prefer these over redirect `orbitals` API aliases.
 
 Those routes are not brochure support leftovers.
 They are current fourth-gate promotion-boundary owners and should stay fail-closed, tested, and documented until inward convergence removes the retained dependency.

@@ -2,10 +2,10 @@ import React from 'react';
 import '@testing-library/jest-dom';
 // Use the actual Testing Library implementation, not the virtual mock from setupTests
 const { render, screen, fireEvent, waitFor } = jest.requireActual('@testing-library/react');
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
 // Skipping interactive verify flow tests due to lack of full DOM in SSR test environment
-describe.skip('ConnectionsStep Verify Flow (interactive)', () => {
+describe.skip('ExternalsPane Verify Flow (interactive)', () => {
   beforeEach(() => {
     global.fetch = jest.fn();
   });
@@ -30,7 +30,7 @@ describe.skip('ConnectionsStep Verify Flow (interactive)', () => {
 
     const onSave = jest.fn();
     render(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={true}
         isDevMode={false}

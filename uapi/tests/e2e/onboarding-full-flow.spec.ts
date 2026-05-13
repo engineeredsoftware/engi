@@ -24,14 +24,14 @@ test.describe('Full Onboarding Flow', () => {
     await page.fill('[data-testid="profile-otp-input"]', '123456');
     await page.click('[data-testid="profile-verify-code"]');
     // Should auto-advance to Connections
-    await page.waitForSelector('[data-testid="connections-step-badge"]');
-    await expect(page.locator('[data-testid="connections-step-badge"]')).toHaveText('Step 2 of 4');
+    await page.waitForSelector('[data-testid="externals-step-badge"]');
+    await expect(page.locator('[data-testid="externals-step-badge"]')).toHaveText('Step 2 of 4');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-connections.png');
 
     // Connections Step
     // GitHub connect
-    await page.click('[data-testid="connections-github-button"]');
+    await page.click('[data-testid="externals-github-button"]');
     // Wait for repo chips and items
     await page.waitForSelector('[data-testid="connections-repo-chip-user/repo-1"]');
     await page.waitForSelector('[data-testid="connections-repo-item-user/repo-1"]');
@@ -42,8 +42,8 @@ test.describe('Full Onboarding Flow', () => {
 
     // Interfaces step auto-advances.
     // Wait for the BTD step.
-    await page.waitForSelector('[data-testid="btd-step-badge"]');
-    await expect(page.locator('[data-testid="btd-step-badge"]')).toHaveText('Step 4 of 4');
+    await page.waitForSelector('[data-testid="wallet-step-badge"]');
+    await expect(page.locator('[data-testid="wallet-step-badge"]')).toHaveText('Step 4 of 4');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-btd.png');
   });

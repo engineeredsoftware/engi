@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
+import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -17,7 +17,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('BtdStep interactions', () => {
+describe('WalletPane interactions', () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -56,7 +56,7 @@ describe('BtdStep interactions', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: false,
-      onboardedSteps: ['profile', 'connects', 'interfaces'],
+      onboardedSteps: ['profile', 'externals', 'interfaces'],
     } as any);
   });
 
@@ -69,7 +69,7 @@ describe('BtdStep interactions', () => {
     const onCompletionStatusChange = jest.fn();
 
     render(
-      <BtdStep
+      <WalletPane
         onSave={onSave}
         loading={false}
         onCompletionStatusChange={onCompletionStatusChange}

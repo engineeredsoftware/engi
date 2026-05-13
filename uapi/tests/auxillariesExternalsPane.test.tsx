@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import AuxillariesConnectsPane from '@/app/auxillaries/components/AuxillariesConnectsPane';
+import AuxillariesExternalsPane from '@/app/auxillaries/components/AuxillariesExternalsPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -20,17 +20,17 @@ jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
   },
 }));
 
-jest.mock('@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader', () => ({
+jest.mock('@/app/auxillaries/components/headers/AuxillariesExternalsPaneHeader', () => ({
   __esModule: true,
-  default: function MockAuxillariesConnectsPaneHeader() {
-    return <div data-testid="mock-connects-header">Connects header</div>;
+  default: function MockAuxillariesExternalsPaneHeader() {
+    return <div data-testid="mock-connects-header">Externals header</div>;
   },
 }));
 
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('AuxillariesConnectsPane', () => {
+describe('AuxillariesExternalsPane', () => {
   beforeEach(() => {
     mockUseAuth.mockReturnValue({
       user: {
@@ -86,13 +86,13 @@ describe('AuxillariesConnectsPane', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
   });
 
   it('surfaces the canonical repository inventory basis alongside connected scope', () => {
     render(
-      <AuxillariesConnectsPane
+      <AuxillariesExternalsPane
         onSave={jest.fn()}
         loading={false}
         isOnboardingComplete
@@ -152,11 +152,11 @@ describe('AuxillariesConnectsPane', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
 
     render(
-      <AuxillariesConnectsPane
+      <AuxillariesExternalsPane
         onSave={jest.fn()}
         loading={false}
         isOnboardingComplete
@@ -207,7 +207,7 @@ describe('AuxillariesConnectsPane', () => {
     } as any);
 
     render(
-      <AuxillariesConnectsPane
+      <AuxillariesExternalsPane
         onSave={jest.fn()}
         loading={false}
         isOnboardingComplete={false}
@@ -216,7 +216,7 @@ describe('AuxillariesConnectsPane', () => {
 
     expect(screen.getByText('Connect GitHub for source-bearing input')).toBeInTheDocument();
     expect(screen.getByTestId('mock-vcs-integration-panel')).toBeInTheDocument();
-    expect(screen.queryByText(/Sign in to open Connects/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Sign in to open Externals/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Connect Bitcoin wallet first/i)).not.toBeInTheDocument();
   });
 
@@ -261,11 +261,11 @@ describe('AuxillariesConnectsPane', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
 
     render(
-      <AuxillariesConnectsPane
+      <AuxillariesExternalsPane
         onSave={jest.fn()}
         loading={false}
         isOnboardingComplete

@@ -33,10 +33,10 @@ export const TERMINAL_COMMERCIAL_TESTNET_LAUNCH_MAP = [
     requiredPosture:
       'Wallet posture exposes BTC fee liquidity and non-fungible $BTD share/read-right holdings while refusing saved-signer-only settlement as launch-ready.',
     sourceBasis: [
-      'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+      'uapi/app/auxillaries/components/AuxillariesWalletPane.tsx',
       'uapi/app/api/auxillaries/data/route.ts',
       'uapi/app/terminal/bitcode-transaction-route-readiness.ts',
-      'uapi/tests/orbitalsBTDPane.test.tsx',
+      'uapi/tests/auxillariesWalletPane.test.tsx',
       'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
     ],
   },

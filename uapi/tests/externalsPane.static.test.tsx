@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
 jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   useAuth: () => ({ user: null }),
@@ -19,10 +19,10 @@ jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
   VCSIntegrationPanel: () => <div>GitHub panel</div>,
 }));
 
-describe('ConnectionsStep SSR Onboarding View', () => {
+describe('ExternalsPane SSR Onboarding View', () => {
   it('renders Bitcode connects access posture for signed-out readers', () => {
     const html = renderToString(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={true}
         isDevMode={false}
@@ -31,9 +31,9 @@ describe('ConnectionsStep SSR Onboarding View', () => {
         onSave={() => {}}
       />
     );
-    expect(html).toContain('Connects Auxillary');
+    expect(html).toContain('Externals Auxillary');
     expect(html).toContain('Auxillary step <!-- -->2');
-    expect(html).toContain('Sign in to open Connects');
+    expect(html).toContain('Sign in to open Externals');
     expect(html).toContain('need measurement');
     expect(html).toContain('Open Profile auxillary');
   });

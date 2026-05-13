@@ -12,10 +12,10 @@ The active orbital ring model is fixed:
 ## Route model
 
 Canonical direct routes:
-- `/auxillaries/connects`
+- `/auxillaries/externals`
 - `/auxillaries/interfaces`
 - `/auxillaries/profile`
-- `/auxillaries/btd`
+- `/auxillaries/wallet`
 
 Redirect-support paths may still exist for convergence:
 - `/orbitals/users` -> `profile`

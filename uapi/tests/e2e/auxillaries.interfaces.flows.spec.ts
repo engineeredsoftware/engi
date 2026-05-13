@@ -4,7 +4,7 @@ import { setOnboardingState } from './auxillaries.helpers';
 test.describe('Auxillaries - Interfaces Step', () => {
   test('auxillaries-interfaces-first-load', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'interfaces', ['profile', 'connects']);
+    await setOnboardingState(page, 'interfaces', ['profile', 'externals']);
     await page.reload();
     await page.waitForSelector('textarea#global-system-prompt');
     await page.waitForTimeout(300);
@@ -14,7 +14,7 @@ test.describe('Auxillaries - Interfaces Step', () => {
 
   test('auxillaries-interfaces-prompt-edited', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'interfaces', ['profile', 'connects']);
+    await setOnboardingState(page, 'interfaces', ['profile', 'externals']);
     await page.reload();
     const prompt = page.locator('textarea#global-system-prompt');
     await prompt.fill('Updated system prompt');
@@ -25,7 +25,7 @@ test.describe('Auxillaries - Interfaces Step', () => {
 
   test('auxillaries-interfaces-model-switch', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'interfaces', ['profile', 'connects']);
+    await setOnboardingState(page, 'interfaces', ['profile', 'externals']);
     await page.reload();
     const selector = page.locator('select').first();
     await selector.selectOption('gpt-3.5');

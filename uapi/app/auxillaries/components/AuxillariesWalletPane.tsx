@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm';
 
@@ -16,8 +15,8 @@ import {
 import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 
-import AuxillariesBTDPaneHeader from "@/app/auxillaries/components/headers/AuxillariesBTDPaneHeader";
-import AuxillariesDataSharingPanel from "@/app/auxillaries/components/AuxillariesDataSharingPanel";
+import AuxillariesWalletPaneHeader from "@/app/auxillaries/components/headers/AuxillariesWalletPaneHeader";
+import AuxillariesWalletConnectionPanel from "@/app/auxillaries/components/AuxillariesWalletConnectionPanel";
 import { auxillaryPaneExplainers } from "@/app/auxillaries/components/auxillary-pane-explainers";
 import AuxillariesPreferenceCards, {
   type AuxillariesPreferenceCardItem,
@@ -25,7 +24,7 @@ import AuxillariesPreferenceCards, {
 import AuxillariesStatGrid from "@/app/auxillaries/components/shared/AuxillariesStatGrid";
 import AuxillariesWorkspaceSection from "@/app/auxillaries/components/shared/AuxillariesWorkspaceSection";
 
-export interface AuxillariesBTDPaneProps {
+export interface AuxillariesWalletPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
   isOnboardingComplete?: boolean;
@@ -188,18 +187,19 @@ function resolveBtdAccessDisclosure(profile: Record<string, any> | null) {
   };
 }
 
-export default function AuxillariesBTDPane({
+export default function AuxillariesWalletPane({
   onSave,
   loading,
   isOnboardingComplete = false,
   onCompletionStatusChange,
-}: AuxillariesBTDPaneProps) {
+}: AuxillariesWalletPaneProps) {
   const { user } = useAuth();
   const {
     data,
     btdBalance = 0,
     btcFeeBalance = null,
     recentBtdAssetPacks = [],
+    hasWalletConnection,
     hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
   } = useUserData();
@@ -213,7 +213,6 @@ export default function AuxillariesBTDPane({
   const hasReadableBtcFeeBalance =
     typeof btcFeeBalanceSource === "number" ||
     (typeof btcFeeBalanceSource === "string" && Number.isFinite(Number(btcFeeBalanceSource)));
-  const teamMembers = Array.isArray(profile?.team_members) ? profile.team_members : [];
   const [defaults, setDefaults] = useState<BtdDefaults>(() => ({
     ...DEFAULT_BTD_DEFAULTS,
     ...(savedPreferences?.btdDefaults || {}),
@@ -231,9 +230,9 @@ export default function AuxillariesBTDPane({
   useEffect(() => {
     if (onCompletionStatusChange && !hasCalledCompletionRef.current) {
       hasCalledCompletionRef.current = true;
-      onCompletionStatusChange(Boolean(user));
+      onCompletionStatusChange(Boolean(hasWalletConnection || walletBinding?.address));
     }
-  }, [onCompletionStatusChange, user]);
+  }, [hasWalletConnection, onCompletionStatusChange, walletBinding?.address]);
 
   useEffect(() => {
     if (!savedPreferences?.btdDefaults) {
@@ -246,13 +245,6 @@ export default function AuxillariesBTDPane({
     }));
   }, [savedPreferences]);
 
-  const membershipSummary = useMemo(() => {
-    if (!teamMembers.length) {
-      return "Single operator";
-    }
-
-    return `${teamMembers.length + 1} active members`;
-  }, [teamMembers.length]);
   const ownedAssetPackCount = recentBtdAssetPacks.length;
   const ownedAssetPackSummary =
     ownedAssetPackCount === 1
@@ -446,35 +438,22 @@ export default function AuxillariesBTDPane({
   const resetActivityFilters = () => setActivityFilters({ ...DEFAULT_TRANSACTION_FILTERS });
 
   return (
-    <div data-testid="btd-pane-container">
-      <div className="orbital-step-content btd-step">
-        <AuxillariesBTDPaneHeader isOnboardingComplete={isOnboardingComplete} />
+    <div data-testid="wallet-pane-container">
+      <div className="orbital-step-content wallet-step">
+        <AuxillariesWalletPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
-        {!user ? (
-          <AuxillariesWorkspaceSection
-            kicker="Access posture"
-            title="Sign in before opening $BTD posture"
-            description="Open Profile first so wallet identity, team membership, and access posture are present before you work from the inner auxillary."
-            explainer={auxillaryPaneExplainers.btdWallet}
-            tone="amber"
-          >
-            <div className="space-y-4">
-              <p className="text-sm leading-7 text-white/70">
-                The innermost auxillary keeps balances, share posture, and advanced defaults in one place once your account is open.
-              </p>
-              <Link
-                href="/auxillaries/profile"
-                className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
-              >
-                Open Profile auxillary
-              </Link>
-            </div>
-          </AuxillariesWorkspaceSection>
-        ) : (
-          <div className="space-y-5">
+        <div className="space-y-5">
+            <AuxillariesWalletConnectionPanel
+              initialWalletAddress={walletBinding?.address ?? profile?.wallet_address ?? null}
+              initialWalletProvider={walletBinding?.provider ?? profile?.wallet_provider ?? null}
+              initialWalletBindingStatus={walletBinding?.status ?? profile?.wallet_binding_status ?? null}
+              initialWalletBoundAt={walletBinding?.boundAt ?? profile?.wallet_bound_at ?? null}
+              onWalletIdentityChange={onCompletionStatusChange}
+            />
+
             <AuxillariesWorkspaceSection
               kicker="Wallet posture"
-              title="Keep BTC fees, $BTD holdings, identity, and membership readable together"
+              title="Keep BTC fees, BTD holdings, and wallet identity readable together"
               description="$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture that should be visible before you return to transactions or closure."
               explainer={auxillaryPaneExplainers.btdWallet}
               tone="amber"
@@ -524,21 +503,13 @@ export default function AuxillariesBTDPane({
                   items={[
                     {
                       label: "Wallet address",
-                      value: resolveWalletAddress(profile, user.id),
+                      value: resolveWalletAddress(profile, user?.id),
                       detail: hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
                         ? "Saved verified signer posture is recorded, but the wallet provider must reconnect before Bitcode can rely on live signing again."
                         : walletBinding?.status === 'verified'
                         ? "The verified signer posture Bitcode will use for signed settlement follow-through."
                         : "The address posture Bitcode will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
                       tone: "violet",
-                    },
-                    {
-                      label: "Membership",
-                      value: membershipSummary,
-                      detail: teamMembers.length
-                        ? "Team and multi-party posture currently reflected in the active profile."
-                        : "Single-account posture until more roles join this Bitcode account.",
-                      tone: "emerald",
                     },
                     {
                       label: "Access policy",
@@ -574,8 +545,8 @@ export default function AuxillariesBTDPane({
 
             <AuxillariesWorkspaceSection
               kicker="BTD activity"
-              title="Read your BTD-relevant activity from the shared Exchange table"
-              description="Owned AssetPacks, Exchange trades, Gives, Needs, proof closures, and range-bearing activity should be inspected through the same table grammar used by Exchange."
+              title="Read your BTD-relevant activity from the shared activity table"
+              description="Owned AssetPacks, Gives, Needs, proof closures, and range-bearing activity should be inspected through the same table grammar used by Terminal."
               tone="emerald"
             >
               <TerminalTransactionsTable
@@ -619,72 +590,12 @@ export default function AuxillariesBTDPane({
               <AuxillariesPreferenceCards items={preferenceCards.slice(3)} />
             </AuxillariesWorkspaceSection>
 
-            <AuxillariesWorkspaceSection
-              kicker="Need-space knowledge"
-              title="Set it and forget it repository knowledge sharing"
-              description="Once Connects has authenticated GitHub and repository access, this setting decides whether connected repository activity continuously re-syncs into need-space by default."
-              tone="amber"
-            >
-              <div className="space-y-4">
-                <p className="text-sm leading-7 text-white/68">
-                  This is the larger $BTD-side consent setting for connected knowledge. Turn it on once when you want Connects-approved repositories to keep contributing their latest synced activity into Bitcode need-space without reopening per-repository review every time.
-                </p>
-                <AuxillariesDataSharingPanel overlayed={!isOnboardingComplete} />
-              </div>
-            </AuxillariesWorkspaceSection>
-
-            <AuxillariesWorkspaceSection
-              kicker="Team + multi-sig"
-              title="Keep role and multi-party posture visible"
-              description="Profile remains the owner of authentication and identity, but the $BTD orbital should still keep account participation visible before settlement and share reading."
-              tone="default"
-            >
-              <div className="grid gap-3 tablet:grid-cols-2">
-                <article className="rounded-[20px] border border-white/8 bg-black/20 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
-                    Active roles
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {teamMembers.length ? (
-                      teamMembers.map((member: Record<string, any>) => (
-                        <span
-                          key={`${member.id}-${member.role}`}
-                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/74"
-                        >
-                          {member.display_name || member.username || "member"} · {member.role || "member"}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/74">
-                        Account operator
-                      </span>
-                    )}
-                  </div>
-                </article>
-
-                <article className="rounded-[20px] border border-white/8 bg-black/20 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
-                    Authentication posture
-                  </p>
-                  <p className="mt-3 text-base font-semibold text-white">
-                    {user.email_confirmed_at ? "Email verified" : "Verification pending"}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-white/62">
-                    {user.email_confirmed_at
-                      ? "Account access is already authenticated and ready to carry BTD-side defaults."
-                      : "Verify the account before relying on BTD-side follow-through."}
-                  </p>
-                </article>
-              </div>
-            </AuxillariesWorkspaceSection>
-
             <div className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
                 Changes save automatically so the BTD posture reopens with the same share, replay, and wallet-facing defaults.
               </p>
             </div>
           </div>
-        )}
       </div>
     </div>
   );

@@ -385,7 +385,7 @@ export default function TerminalRepositoryContextPanel({
                   </div>
                   <p className="text-sm leading-6 text-neutral-300">
                     Bitcode can keep rereading stored repository inventory from Exchange so repository supply stays
-                    explicit inside the Terminal, but settlement-bearing writes remain fail-closed until Connects
+                    explicit inside the Terminal, but settlement-bearing writes remain fail-closed until Externals
                     restores a live {getProviderLabel(provider)} session.
                   </p>
                   <dl className="space-y-3 rounded-[1.2rem] border border-amber-400/20 bg-amber-400/10 px-4 py-4 text-sm">
@@ -409,8 +409,8 @@ export default function TerminalRepositoryContextPanel({
                     </div>
                   </dl>
                   <TerminalOpenAuxillariesButton
-                    step="connects"
-                    label="Reconnect Connects to restore live write admission"
+                    step="externals"
+                    label="Reconnect Externals to restore live write admission"
                     className="rounded-[1.2rem] border border-amber-300/24 bg-amber-400/12 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"
                   />
                 </div>
@@ -421,7 +421,7 @@ export default function TerminalRepositoryContextPanel({
                     context.
                   </p>
                   <TerminalOpenAuxillariesButton
-                    step="connects"
+                    step="externals"
                     className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                   />
                 </div>
@@ -450,7 +450,7 @@ export default function TerminalRepositoryContextPanel({
                   {connectionStatus?.connected && !connectionStatus.valid ? (
                     <p className="rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
                       Stored repository inventory remains readable from Exchange, but Bitcode will fail closed on
-                      settlement-bearing writes until Connects reconnects the live {getProviderLabel(provider)} session.
+                      settlement-bearing writes until Externals reconnects the live {getProviderLabel(provider)} session.
                     </p>
                   ) : null}
                   <div className="grid gap-3 sm:grid-cols-2">

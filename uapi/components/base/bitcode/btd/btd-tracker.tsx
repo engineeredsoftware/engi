@@ -276,7 +276,7 @@ export function BTDTracker({
           shareAsset: 'BTD',
           btdSemantics: 'non-fungible asset-pack share and read-right',
           paths: [
-            { mode: 'wallet-btd-auxillary', target: '/auxillaries/btd' },
+            { mode: 'wallet-auxillary', target: '/auxillaries/wallet' },
           ],
           createdAt: new Date().toISOString(),
         })
@@ -285,7 +285,7 @@ export function BTDTracker({
       if (onOpenBtdAuxillary) {
         onOpenBtdAuxillary();
       } else {
-        window.location.assign('/auxillaries/btd');
+        window.location.assign('/auxillaries/wallet');
       }
       window.setTimeout(() => setActionState('idle'), 600);
     } catch (err) {

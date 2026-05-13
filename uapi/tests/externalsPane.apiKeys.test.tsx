@@ -1,11 +1,11 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
-describe('ConnectionsStep API Keys UI (SSR)', () => {
+describe('ExternalsPane API Keys UI (SSR)', () => {
   it('renders Generate API Key section', () => {
     const html = renderToString(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         initialConnectionData={{}}
         isFirstTimeUser={false}

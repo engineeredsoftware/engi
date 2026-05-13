@@ -1,3 +1,3 @@
 "use client";
 
-export { default } from "@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader";
+export { default } from "@/app/auxillaries/components/headers/AuxillariesExternalsPaneHeader";

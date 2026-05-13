@@ -17,7 +17,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
   - `SignInWindow`: Authentication (login) surface.
   - `SignUpWindow`: Onboarding/account surface that contains the panes.
 - Panes (inside SignUpWindow):
-  - `profile`, `connects`, `interfaces`, `$BTD`
+  - `wallet`, `externals`, `profile`, `interfaces`
 - Headers: a singular auxillary header per pane for consistent title/copy.
   Retained `uapi/app/orbitals/components/headers/*` files are redirect-support re-exports only; canonical header ownership lives under `uapi/app/auxillaries/components/headers/*`.
 
@@ -25,7 +25,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 
 - Canonical route/overlay implementation now lives under: `uapi/app/auxillaries/components/*`
   - Overlay root: `AuxillariesSurface.tsx`, `AuxillariesContent.tsx`, `AuxillariesLoginPane.tsx`, `AuxillariesProvider.tsx`
-  - Pane owners: `AuxillariesProfilePane.tsx`, `AuxillariesConnectsPane.tsx`, `AuxillariesInterfacesPane.tsx`, `AuxillariesBTDPane.tsx`
+  - Pane owners: `AuxillariesWalletPane.tsx`, `AuxillariesExternalsPane.tsx`, `AuxillariesProfilePane.tsx`, `AuxillariesInterfacesPane.tsx`
   - Lower-level pane owners: `headers/*`, `shared/*`, `models/*`, `AuxillariesDataSharingPanel.tsx`, `auxillary-pane-explainers.ts`, `profile-pane.module.css`
 - Retained implementation internals still live under: `uapi/app/orbitals/components/*`
   - Redirect-support wrappers and re-exports only; canonical pane logic and lower-level helper ownership now live under `uapi/app/auxillaries/components/*`
@@ -41,9 +41,9 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
   - Open: `window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' | 'SignUpWindow', step?: AuxillaryPane } }))`
   - Close: `window.dispatchEvent(new CustomEvent('close-auxillaries'))`
 - Types:
-  - `type AuxillaryPane = 'profile' | 'connects' | 'interfaces' | 'btd' | null`
+  - `type AuxillaryPane = 'wallet' | 'externals' | 'profile' | 'interfaces' | null`
   - Overlay prop: `window?: 'SignInWindow' | 'SignUpWindow'`
-- Deep links: canonical `/auxillaries/(profile|connects|interfaces|btd)` open the focused contained read.
+- Deep links: canonical `/auxillaries/(wallet|externals|profile|interfaces)` open the focused contained read. Legacy `btd` and `connects` route segments normalize to `wallet` and `externals`.
 - Provider API: `openAuxillaries(window?: 'SignInWindow' | 'SignUpWindow', step?: AuxillaryPane)`, `closeAuxillaries()`, `prefetchAuxillaries()`
 
 4) HTTP and CSS Conventions
@@ -65,8 +65,8 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 ```ts
 import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 
-// Open onboarding (SignUp) directly to Connects pane
-openAuxillaries('SignUpWindow', 'connects');
+// Open onboarding (SignUp) directly to Externals pane
+openAuxillaries('SignUpWindow', 'externals');
 
 // Open SignIn window
 openAuxillaries('SignInWindow');

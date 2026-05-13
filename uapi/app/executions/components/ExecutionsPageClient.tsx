@@ -435,7 +435,7 @@ export function ExecutionsClient() {
             </button>
             <button
               type="button"
-              onClick={() => router.push('/auxillaries/connects')}
+              onClick={() => router.push('/auxillaries/externals')}
               className="inline-flex items-center rounded-full border border-white/12 bg-transparent px-5 py-3 text-sm font-medium text-[#d6e7f2] transition hover:border-white/30 hover:bg-white/5"
             >
               Open Auxillaries

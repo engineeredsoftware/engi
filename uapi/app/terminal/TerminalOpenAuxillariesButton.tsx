@@ -26,7 +26,7 @@ export default function TerminalOpenAuxillariesButton({
   if (FEATURE_FLAGS.DISABLE_AUXILLARIES) {
     return (
       <DisabledTooltipWrapper
-        tooltip="Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture."
+        tooltip="Disabled for launch mode. When enabled, Auxillaries opens Wallet, Externals, Profile, and interface defaults."
         className="block"
       >
         <button
@@ -44,7 +44,7 @@ export default function TerminalOpenAuxillariesButton({
   return (
     <button
       type="button"
-      onClick={() => openAuxillaries('login', step ?? 'connects')}
+      onClick={() => openAuxillaries('login', step ?? 'externals')}
       className={className}
     >
       {resolvedLabel}

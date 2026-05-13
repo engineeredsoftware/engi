@@ -1,8 +1,8 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
-describe('ConnectionsStep (SSR)', () => {
+describe('ExternalsPane (SSR)', () => {
   it('renders summary card with dynamic organization and repositories', () => {
     const initialConnectionData = {
       githubConnected: true,
@@ -21,7 +21,7 @@ describe('ConnectionsStep (SSR)', () => {
       sshKey: ''
     };
     const html = renderToString(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         initialConnectionData={initialConnectionData}
         isFirstTimeUser={false}

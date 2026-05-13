@@ -10,24 +10,24 @@ describe('AuxillariesWorkspacePanels', () => {
 
     render(
       <AuxillariesWorkspacePanels
-        steps={['connects', 'interfaces', 'profile', 'btd']}
+        steps={['externals', 'interfaces', 'profile', 'wallet']}
         currentStep="interfaces"
-        availableSteps={['connects', 'interfaces', 'profile']}
+        availableSteps={['externals', 'interfaces', 'profile']}
         onStepClick={onStepClick}
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Connects auxillary' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Externals auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Interfaces auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Profile auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: '$BTD auxillary' })).toBeDisabled();
     expect(screen.getByText('outer ring')).toBeTruthy();
     expect(screen.getByText('core ring')).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Connects auxillary' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Externals auxillary' }));
     fireEvent.click(screen.getByRole('button', { name: '$BTD auxillary' }));
 
     expect(onStepClick).toHaveBeenCalledTimes(1);
-    expect(onStepClick).toHaveBeenCalledWith('connects');
+    expect(onStepClick).toHaveBeenCalledWith('externals');
   });
 });

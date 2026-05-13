@@ -33,7 +33,7 @@ export default function AuxillariesLoginPane({
               Open {AUXILLARIES_LIST_LABEL}
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Authenticate a wallet to open the commercial profile, then connect GitHub when Give
+              Authenticate a wallet in Wallet, then connect GitHub in Externals when Give
               or Need work requires repository scope.
             </p>
           </div>
@@ -54,8 +54,8 @@ export default function AuxillariesLoginPane({
                 Required providers
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
-                Bitcoin wallet identity authenticates Profile. GitHub connects repository context
-                through Connects after access opens.
+                Bitcoin wallet identity authenticates Wallet. GitHub connects repository context
+                through Externals after access opens.
               </p>
             </div>
 
@@ -65,8 +65,8 @@ export default function AuxillariesLoginPane({
               </p>
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>
-                <li>Conversations reopen only when you need deeper writing or coordination.</li>
-                <li>Connects, Interfaces, Profile, and $BTD stay available as the four auxillaries.</li>
+                <li>Terminal stays focused while supporting panes remain one click away.</li>
+                <li>Wallet, Externals, Profile, and Interfaces stay available as the four auxillaries.</li>
               </ul>
             </div>
           </div>

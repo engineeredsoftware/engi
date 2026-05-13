@@ -15,9 +15,9 @@ const AUXILLARY_ROUTES = [
     container: 'profile-step-container',
   },
   {
-    step: 'connects',
-    path: '/auxillaries/connects',
-    heading: /Connects in one contained auxillary read/i,
+    step: 'externals',
+    path: '/auxillaries/externals',
+    heading: /Externals in one contained auxillary read/i,
     container: 'connects-pane-container',
   },
   {
@@ -27,10 +27,10 @@ const AUXILLARY_ROUTES = [
     container: 'interfaces-pane-container',
   },
   {
-    step: 'btd',
-    path: '/auxillaries/btd',
+    step: 'wallet',
+    path: '/auxillaries/wallet',
     heading: /\$BTD in one contained auxillary read/i,
-    container: 'btd-pane-container',
+    container: 'wallet-pane-container',
   },
 ] as const;
 
@@ -65,9 +65,9 @@ test.describe('commercial MVP Auxillaries experience', () => {
 
     await openCommercialRoute(page, '/auxillaries/profile', /Profile in one contained auxillary read/i);
 
-    await page.locator('a[href="/auxillaries/connects"]').first().click();
+    await page.locator('a[href="/auxillaries/externals"]').first().click();
     await expect(page).toHaveURL(/\/auxillaries\/connects$/);
-    await expectCommercialRouteReady(page, /Connects in one contained auxillary read/i);
+    await expectCommercialRouteReady(page, /Externals in one contained auxillary read/i);
 
     await page.getByRole('button', { name: /^Interfaces auxillary$/ }).click();
     await expect(page.getByTestId('interfaces-pane-container')).toBeVisible();
@@ -78,10 +78,10 @@ test.describe('commercial MVP Auxillaries experience', () => {
     ).toBeVisible();
 
     await page.getByRole('button', { name: /^\$BTD auxillary$/ }).click();
-    await expect(page.getByTestId('btd-pane-container')).toBeVisible();
+    await expect(page.getByTestId('wallet-pane-container')).toBeVisible();
     await expect(
       page
-        .getByTestId('btd-pane-container')
+        .getByTestId('wallet-pane-container')
         .getByRole('heading', { name: /^\$BTD Auxillary$/ }),
     ).toBeVisible();
 
@@ -106,7 +106,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await walletInput.fill('tb1qcommercialmvpqa0000000000000000000000');
     await expect(walletInput).toHaveValue('tb1qcommercialmvpqa0000000000000000000000');
     await expect(page.getByText(/Bitcoin wallet connection is the first Bitcode identity action/i)).toBeVisible();
-    await expect(page.getByText(/Connect GitHub in Connects/i)).toBeVisible();
+    await expect(page.getByText(/Connect GitHub in Externals/i)).toBeVisible();
     await expect(page.getByText(/Optional email notifications/i)).toBeVisible();
 
     await trap.assertClean();
@@ -249,12 +249,12 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await trap.assertClean();
   });
 
-  test('Connects, Interfaces, and BTD panes expose MVP configuration consequences', async ({
+  test('Externals, Interfaces, and BTD panes expose MVP configuration consequences', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/auxillaries/connects', /Connects in one contained auxillary read/i);
+    await openCommercialRoute(page, '/auxillaries/externals', /Externals in one contained auxillary read/i);
     await expect(page.getByText(/GitHub and verified wallet are ready/i)).toBeVisible();
     await expect(page.getByText(/GitHub plus wallet posture are the minimum live prerequisites/i)).toBeVisible();
 
@@ -272,9 +272,9 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await modelPreferenceSave;
     await expect(page.getByText('Global model', { exact: true }).first()).toBeVisible();
 
-    await page.goto('/auxillaries/btd');
+    await page.goto('/auxillaries/wallet');
     await expectCommercialRouteReady(page, /\$BTD in one contained auxillary read/i);
-    const btdPane = page.getByTestId('btd-pane-container');
+    const btdPane = page.getByTestId('wallet-pane-container');
     await expect(btdPane.getByText('1,200 BTD')).toBeVisible();
     await expect(btdPane.getByText(/0\.042 BTC/i)).toBeVisible();
     await expect(page.getByText(/BTC is the fee-liquidity posture/i)).toBeVisible();
@@ -291,11 +291,11 @@ test.describe('commercial MVP Auxillaries experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/auxillaries/btd', /\$BTD in one contained auxillary read/i);
+    await openCommercialRoute(page, '/auxillaries/wallet', /\$BTD in one contained auxillary read/i);
 
-    const btdPane = page.getByTestId('btd-pane-container');
+    const btdPane = page.getByTestId('wallet-pane-container');
     await expect(btdPane.getByText('Need-space knowledge sharing')).toBeVisible();
-    await expect(btdPane.getByText(/All current and future Connects-approved repositories/i)).toBeVisible();
+    await expect(btdPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
 
     const setAndForgetToggle = btdPane.getByText('Set it and forget it', { exact: true }).locator('..').locator('label');
     const disableAllRequest = page.waitForResponse((response) => (
@@ -312,8 +312,8 @@ test.describe('commercial MVP Auxillaries experience', () => {
     });
 
     const repoRow = btdPane
-      .getByTestId('btd-data-share-repositories')
-      .getByTestId('btd-data-share-repo-row')
+      .getByTestId('externals-data-share-repositories')
+      .getByTestId('externals-data-share-repo-row')
       .filter({ hasText: 'bitcode/bitcode' });
     await expect(repoRow).toBeVisible();
     await expect(repoRow.getByText('main')).toBeVisible();
@@ -333,7 +333,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
       commit: '8d4d0a7',
       enabled: true,
     });
-    await expect(btdPane.getByText(/All current and future Connects-approved repositories/i)).toBeVisible();
+    await expect(btdPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
 
     await trap.assertClean();
   });

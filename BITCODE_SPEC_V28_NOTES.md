@@ -205,19 +205,19 @@ The Profile onboarding order is now:
 2. GitHub repository connection follows and is required for Give and Need, but Exchange viewing can proceed from wallet identity alone.
 3. Email is optional and exists for notifications, Bitcode updates, and recovery/contact posture.
 
-Implementation must therefore keep wallet auth enabled and top-most in Profile, avoid the Ethereum provider path for Bitcoin identity, persist wallet-provider binding only through the wallet-auth route when backend session state is available, keep the generic Profile save route from accepting unverifiable provider-managed signer assertions, and surface staging prerequisites clearly.
-The live wallet selector must also be provider-explicit: the Profile pane should disclose detected Bitcoin wallets and expose direct Xverse and Leather actions when both are installed. This avoids the observed QA failure where a silent or stalled Xverse handoff could make the single generic connect button appear inert while Leather was also available.
+Implementation must therefore keep wallet auth enabled and top-most in Wallet, avoid the Ethereum provider path for Bitcoin identity, persist wallet-provider binding only through the wallet-auth route when backend session state is available, keep Profile from accepting unverifiable provider-managed signer assertions, and surface staging prerequisites clearly.
+The live wallet selector must also be provider-explicit: the Wallet pane should disclose detected Bitcoin wallets and expose direct Xverse and Leather actions when both are installed. This avoids the observed QA failure where a silent or stalled Xverse handoff could make the single generic connect button appear inert while Leather was also available.
 Non-mock QA requires a browser with Xverse and/or Leather installed and unlocked for the first pass; Xverse should be tested first on Testnet4, then Leather on its documented testnet lane. If only MetaMask's injected Ethereum provider is available, Bitcode must not open an Ethereum account prompt and may only stage the displayed Bitcoin address manually until a Bitcoin provider API is available. The `user_connections` provider-constraint migration and GitHub OAuth or GitHub personal-access-token credentials remain required for backend persistence and the second step.
 The contained Auxillaries product routes are not the progressive onboarding wizard.
-Wallet connection inside `/auxillaries/profile` must remain on Profile, must not auto-advance to Connects, and must not call `/api/auxillaries/onboarding` when the route is being used as the commercial contained settings surface.
+Wallet connection inside `/auxillaries/wallet` must remain on Wallet, must not auto-advance to Externals, and must not call `/api/auxillaries/onboarding` when the route is being used as the commercial contained settings surface.
 If Supabase staging credentials are missing or placeholder values, the wallet proof remains locally staged and the UI may show backend persistence pending, but the client must not emit noisy failed Supabase signup requests.
 
 The May 9 follow-up QA tightened the connected-wallet chrome and ownership boundaries.
-Profile must not render GitHub connection controls; it may point the operator to Connects after wallet identity exists.
-Connects owns GitHub because repository scope is shared by Terminal, Exchange rereads, conversations, and future interfaces.
+Profile must not render GitHub connection controls; it may point the operator to Externals after wallet identity exists.
+Externals owns GitHub because repository scope is shared by Terminal, future Exchange rereads, and future interfaces.
 The top chrome must use wallet identity as a sufficient signed posture for BTC/BTD balance display even before Supabase/email identity is present.
-The BTD tracker hover/action area now identifies the connected wallet and opens the `$BTD` auxillary pane.
-Connects must use that same wallet identity as a sufficient prerequisite to render GitHub connection controls; optional email/Supabase session state may improve persistence and notifications, but must not hide the second onboarding step after Bitcoin wallet identity is staged.
+The BTD tracker hover/action area now identifies the connected wallet and opens the Wallet auxillary pane.
+Externals must use that same wallet identity as a sufficient prerequisite to render GitHub connection controls; optional email/Supabase session state may improve persistence and notifications, but must not hide the second onboarding step after Bitcoin wallet identity is staged.
 Verbose QA telemetry is allowed behind explicit flags so local testnet passes can observe provider detection, Leather/Xverse signing, local wallet persistence, user-data merge, navigation identity, and BTD auxillary entry without making normal production consoles noisy.
 
 The May 12 Supabase auth correction makes signed Bitcoin wallet auth the session origin, not a post-hoc anonymous-session attachment.

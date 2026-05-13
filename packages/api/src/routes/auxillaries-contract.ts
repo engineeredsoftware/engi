@@ -1,8 +1,13 @@
-export const AUXILLARY_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
+export const AUXILLARY_FLOW_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
 
 export type ConcreteAuxillaryPane = (typeof AUXILLARY_FLOW_STEPS)[number];
 
 const CANONICAL_AUXILLARY_PANES = new Set<string>(AUXILLARY_FLOW_STEPS);
+const AUXILLARY_PANE_ALIASES: Record<string, ConcreteAuxillaryPane> = {
+  btd: 'wallet',
+  connects: 'externals',
+  external: 'externals',
+};
 
 export interface AuxillaryOnboardingPayload {
   completedPanes: ConcreteAuxillaryPane[];
@@ -43,6 +48,8 @@ export interface AuxillaryBtdAssetPackSummary {
 export function normalizeAuxillaryPane(value: string | null | undefined): ConcreteAuxillaryPane | null {
   if (!value) return null;
   const normalized = value.trim().toLowerCase();
+  const alias = AUXILLARY_PANE_ALIASES[normalized];
+  if (alias) return alias;
   return CANONICAL_AUXILLARY_PANES.has(normalized) ? (normalized as ConcreteAuxillaryPane) : null;
 }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
-describe('ConnectionsStep interactions', () => {
+describe('ExternalsPane interactions', () => {
   beforeAll(() => {
     jest.useFakeTimers();
   });
@@ -13,7 +13,7 @@ describe('ConnectionsStep interactions', () => {
 
   it('connects to Figma and displays project options', () => {
     render(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={false}
         isDevMode={false}
@@ -36,7 +36,7 @@ describe('ConnectionsStep interactions', () => {
   });
   it('connects to Notion and displays workspace options', () => {
     render(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={false}
         isDevMode={false}

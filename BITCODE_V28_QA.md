@@ -32,7 +32,7 @@ V28 closes when the commercial app can be used and understood at MVP level acros
 | Identity and authentication | Auth/profile/menu/notifications are reachable, legible, and do not block application orientation. | V31 deepens account, team, multi-sig, role, recovery, and organization controls. |
 | Terminal | Activity ledger, selected detail, Give/Need/Fit/proof/readiness/range signals are readable and route-stable at MVP level. | V29 deepens full Terminal transactions, wallet recovery, BTC lifecycle, journal diff, and reconciliation. |
 | Exchange | Not in V28; navigation is disabled/hidden and retained Exchange routes are deferred compatibility/future work. | V36+ owns Exchange MVP/deepening after V35. |
-| Auxillaries | Profile, Connects, Interfaces, and BTD panes are contained, selectable, legible, and free of active old orbital shell collision. | V31 deepens settings, provider readiness, diagnostics, policies, accessibility, and recovery flows. |
+| Auxillaries | Wallet, Externals, Profile, and Interfaces panes are contained, selectable, legible, and free of active old orbital shell collision. | V31 deepens settings, provider readiness, diagnostics, policies, accessibility, and recovery flows. |
 | MCP API and ChatGPT App | MVP interface ingress is present, registry-derived, fail-closed, and aligned with Terminal proof/read-right posture. | V33 deepens interfaces beyond the V28 MVP. |
 | Website Conversations | Not in V28; route/widget QA is deferred and must not block promotion. | V36+ owns website Conversations after V35. |
 | API/interfaces/docs | Docs and interface pages explain current MVP behavior without claiming Exchange or website Conversations readiness. | V33 deepens interfaces; V35 deepens documentation. |
@@ -222,17 +222,17 @@ Prerequisite pass stop conditions:
 
 | Lane | Stop condition |
 | --- | --- |
-| Mock | Profile shows wallet-first identity, Connects shows GitHub as the second prerequisite, BTD/top chrome show deterministic wallet facts, sign-out clears the signed-in mock posture, and no console errors appear. |
+| Mock | Wallet shows wallet-first identity, Externals shows GitHub as the second prerequisite, Wallet/top chrome show deterministic wallet facts, sign-out clears the signed-in mock posture, and no console errors appear. |
 | Testnet-readiness | A Bitcoin wallet proof either creates a Supabase session and persists through `/api/wallet/authenticate`, or fails at a named boundary: wallet provider unavailable, OAuth provider URL not reachable by Supabase, database schema missing, or GitHub App install/session missing. |
 
 V28 prerequisite report fields:
 
 1. Current URLs for both lanes and whether each route loaded at the top of `/terminal`.
-2. Mock Profile result: wallet-first copy, provider buttons, optional email position, BTC/BTD chrome, sign-out behavior, and console result.
-3. Testnet wallet result: provider clicked, wallet prompt seen, network/account selected, signed message approved/cancelled, final URL after Supabase callback, and whether Profile/top chrome show connected wallet.
+2. Mock Wallet/Profile result: wallet-first copy, provider buttons, optional email position, BTC/BTD chrome, sign-out behavior, and console result.
+3. Testnet wallet result: provider clicked, wallet prompt seen, network/account selected, signed message approved/cancelled, final URL after Supabase callback, and whether Wallet/top chrome show connected wallet.
 4. Testnet network/API result: any failed request URL/status/body for `/tps/wallet/authorize`, `/api/wallet/oauth/authorization-code`, Supabase `/auth/v1/token`, `/api/wallet/oauth/token`, `/api/wallet/oauth/userinfo`, `/api/wallet/authenticate`, `/api/auxillaries/data`, and GitHub callback/setup routes.
-5. Testnet sign-out result: whether Supabase session, local wallet identity, top chrome, Profile, BTD pane, and Connects prerequisite state all return to unauthenticated/unconnected.
-6. GitHub result: whether the install link opens `https://github.com/apps/bitcode-github-app-auxillary`, whether installation callback returns to Connects, and whether connected account/repository scope appears.
+5. Testnet sign-out result: whether Supabase session, local wallet identity, top chrome, Wallet, Profile, and Externals prerequisite state all return to unauthenticated/unconnected.
+6. GitHub result: whether the install link opens `https://github.com/apps/bitcode-github-app-auxillary`, whether installation callback returns to Externals, and whether connected account/repository scope appears.
 7. Screenshots of any blocked/failing state and all console errors/warnings except expected extension-injection noise.
 
 Manual findings from 2026-05-09:

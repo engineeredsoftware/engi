@@ -10,21 +10,22 @@ import { deriveBitcodeTransactionReadiness } from '@/app/terminal/bitcode-transa
 import { useUserData } from '@/hooks/useUserData';
 import { bitcodeQaTelemetry } from '../../../lib/bitcode-qa-telemetry';
 
-import AuxillariesConnectsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader';
+import AuxillariesExternalsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesExternalsPaneHeader';
+import AuxillariesDataSharingPanel from '@/app/auxillaries/components/AuxillariesDataSharingPanel';
 
-export interface AuxillariesConnectsPaneProps {
+export interface AuxillariesExternalsPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
   isOnboardingComplete?: boolean;
   onCompletionStatusChange?: (isComplete: boolean) => void;
 }
 
-export default function AuxillariesConnectsPane({
+export default function AuxillariesExternalsPane({
   onSave,
   loading: _loading,
   isOnboardingComplete = false,
   onCompletionStatusChange,
-}: AuxillariesConnectsPaneProps) {
+}: AuxillariesExternalsPaneProps) {
   const { user } = useAuth();
   const {
     hasGitHubConnection,
@@ -42,17 +43,17 @@ export default function AuxillariesConnectsPane({
     refresh,
   } = useUserData();
 
-  const hasConnectsIdentity = Boolean(user || hasWalletConnection);
+  const hasExternalsIdentity = Boolean(user || hasWalletConnection);
 
   useEffect(() => {
-    onCompletionStatusChange?.(Boolean(hasConnectsIdentity && hasValidGitHubConnection));
-  }, [hasConnectsIdentity, hasValidGitHubConnection, onCompletionStatusChange]);
+    onCompletionStatusChange?.(Boolean(hasExternalsIdentity && hasValidGitHubConnection));
+  }, [hasExternalsIdentity, hasValidGitHubConnection, onCompletionStatusChange]);
 
   useEffect(() => {
-    bitcodeQaTelemetry('info', 'auxillaries.connects', 'readiness', {
+    bitcodeQaTelemetry('info', 'auxillaries.externals', 'readiness', {
       hasEmailSession: Boolean(user),
       hasWalletConnection,
-      hasConnectsIdentity,
+      hasExternalsIdentity,
       hasGitHubConnection,
       hasValidGitHubConnection,
       walletBindingStatus,
@@ -61,7 +62,7 @@ export default function AuxillariesConnectsPane({
       repositoryValid: repositoryConnectionStatus?.valid ?? null,
     });
   }, [
-    hasConnectsIdentity,
+    hasExternalsIdentity,
     hasGitHubConnection,
     hasValidGitHubConnection,
     hasWalletConnection,
@@ -73,7 +74,7 @@ export default function AuxillariesConnectsPane({
   ]);
 
   const transactionReadiness = deriveBitcodeTransactionReadiness({
-    signedIn: hasConnectsIdentity,
+    signedIn: hasExternalsIdentity,
     hasRepositoryProvider: hasGitHubConnection,
     hasValidRepositoryProvider: hasValidGitHubConnection,
     hasWalletBinding: hasWalletConnection,
@@ -82,16 +83,16 @@ export default function AuxillariesConnectsPane({
   });
 
   return (
-    <div data-testid="connects-pane-container">
-      <div className="orbital-step-content connects-step">
-        <AuxillariesConnectsPaneHeader isOnboardingComplete={isOnboardingComplete} />
+    <div data-testid="externals-pane-container">
+      <div className="orbital-step-content externals-step">
+        <AuxillariesExternalsPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
-        {!hasConnectsIdentity ? (
+        {!hasExternalsIdentity ? (
           <div className="space-y-4 rounded-[24px] border border-white/10 bg-black/20 p-5 text-white/80">
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">Connect Bitcoin wallet first</h3>
               <p className="text-sm leading-7 text-white/68">
-                Connect a Bitcoin-capable wallet in Profile, then attach GitHub here so need
+                Connect a Bitcoin-capable wallet in Wallet, then attach GitHub here so need
                 measurement, asset-pack synthesis, and settlement follow-through can operate
                 against a live repository source.
               </p>
@@ -112,19 +113,19 @@ export default function AuxillariesConnectsPane({
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/72">
                   Current posture
                 </p>
-                <p className="mt-2 text-sm leading-7 text-white/74">
-                  Wallet authentication opens Bitcode access first. Connects then owns repository
-                  attachment, scope review, and external interface posture.
-                </p>
+                  <p className="mt-2 text-sm leading-7 text-white/74">
+                  Wallet authentication opens Bitcode access first. Externals then owns repository
+                  attachment, scope review, and non-wallet third-party posture.
+                  </p>
               </div>
             </div>
 
             <div>
               <Link
-                href="/auxillaries/profile"
+                href="/auxillaries/wallet"
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
-                Open Profile auxillary
+                Open Wallet auxillary
               </Link>
             </div>
           </div>
@@ -138,7 +139,7 @@ export default function AuxillariesConnectsPane({
                   </p>
                   <h3 className="text-lg font-semibold text-white">Connect GitHub for source-bearing input</h3>
                   <p className="text-sm leading-7 text-white/68">
-                    Manage the repository attachment that Bitcode reuses across need measurement, asset-pack synthesis, conversations, and settlement follow-through.
+                    Manage the repository attachment that Bitcode reuses across need measurement, asset-pack synthesis, and settlement follow-through.
                   </p>
                 </div>
 
@@ -164,7 +165,7 @@ export default function AuxillariesConnectsPane({
                   <div className="mt-3 rounded-2xl border border-white/8 bg-black/20 p-4">
                     <p className="text-sm font-medium text-white">
                       {isLoading
-                        ? 'Checking GitHub and wallet posture…'
+                          ? 'Checking GitHub and wallet posture...'
                         : transactionReadiness.canSettle
                           ? 'GitHub and verified wallet are ready'
                         : transactionReadiness.canTransact
@@ -175,19 +176,19 @@ export default function AuxillariesConnectsPane({
                       {transactionReadiness.canSettle
                         ? 'Bitcode can now reuse live repository context and verified wallet posture across need measurement, asset-pack synthesis, and signed settlement follow-through.'
                         : transactionReadiness.canTransact
-                        ? 'Bitcode can now reuse live repository context and Profile-owned wallet identity across need measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
-                        : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.`}
+                        ? 'Bitcode can now reuse live repository context and Wallet-owned identity across need measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
+                        : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Wallet before it should move from evaluation into asset-pack delivery.`}
                     </p>
                     {hasGitHubConnection && !hasValidGitHubConnection ? (
                       <p className="mt-2 text-xs leading-6 text-amber-200/82">
-                        Connects found a saved repository-provider attachment, but the live provider
+                        Externals found a saved repository-provider attachment, but the live provider
                         session is no longer valid. Reconnect before Bitcode writes, settles, or
                         signs source-to-shares activity.
                       </p>
                     ) : null}
                     {hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection ? (
                       <p className="mt-2 text-xs leading-6 text-amber-200/82">
-                        Connects found saved verified wallet-provider signer posture, but the live
+                        Wallet has saved verified wallet-provider signer posture, but the live
                         signer session is no longer available. Reconnect the wallet provider before
                         signed settlement resumes.
                       </p>
@@ -212,7 +213,7 @@ export default function AuxillariesConnectsPane({
                       </p>
                       <p className="mt-2 text-sm font-medium text-white">
                         {!hasWalletConnection
-                          ? 'Pending in Profile'
+                          ? 'Pending in Wallet'
                           : hasVerifiedWalletConnection
                             ? 'Verified signer'
                             : hasStoredVerifiedWalletConnection
@@ -248,10 +249,10 @@ export default function AuxillariesConnectsPane({
                   {!hasWalletConnection && (
                     <div className="mt-3">
                       <Link
-                        href="/auxillaries/profile"
+                        href="/auxillaries/wallet"
                         className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/82 transition-colors hover:border-white/20 hover:bg-white/10"
                       >
-                        Open Profile for wallet binding
+                        Open Wallet for wallet binding
                       </Link>
                     </div>
                   )}
@@ -312,14 +313,14 @@ export default function AuxillariesConnectsPane({
 
                 <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
-                    Additional connections
+                    Need-space knowledge sharing
                   </p>
-                  <ul className="mt-3 space-y-2 text-sm leading-7 text-white/68">
-                    <li>Wallet identity stays grouped in Profile while Connects owns repository attachment and interface scope.</li>
-                    <li>GitHub scope doubles as source-bearing inputability for need measurement, asset-pack synthesis, and proof follow-through.</li>
-                    <li>Connects now rereads repository scope through the same stored-first or live-fallback inventory contract that Bitcode write admission enforces.</li>
-                    <li>GitHub plus wallet posture are the minimum live prerequisites before Bitcode settles or writes.</li>
-                  </ul>
+                  <div className="mt-3 space-y-3 text-sm leading-7 text-white/68">
+                    <p>
+                      Externals owns the consent setting for connected source context. Wallet identity stays in Wallet, while GitHub scope becomes source-bearing inputability for Need and Give.
+                    </p>
+                    <AuxillariesDataSharingPanel overlayed={!isOnboardingComplete} />
+                  </div>
                 </div>
               </aside>
             </div>

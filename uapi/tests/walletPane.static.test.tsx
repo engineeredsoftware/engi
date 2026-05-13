@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
+import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -16,7 +16,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('BtdStep SSR Onboarding View', () => {
+describe('WalletPane SSR Onboarding View', () => {
   beforeEach(() => {
     mockUseAuth.mockReturnValue({
       user: null,
@@ -37,7 +37,7 @@ describe('BtdStep SSR Onboarding View', () => {
 
   it('renders the unauthenticated $BTD auxillary posture', () => {
     const html = renderToString(
-      <BtdStep
+      <WalletPane
         onSave={() => {}}
         loading={false}
         onCompletionStatusChange={() => {}}

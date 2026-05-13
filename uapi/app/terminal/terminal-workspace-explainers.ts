@@ -223,7 +223,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
       source: [
         ...TERMINAL_SOURCE_REFS,
         'uapi/app/terminal/TerminalExternalInterfacingPanel.tsx',
-        'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+        'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       ],
       canon: [
         ...TERMINAL_CANON_REFS,
@@ -460,7 +460,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
         'uapi/app/terminal/TerminalCommandDeck.tsx',
         'uapi/app/terminal/TerminalDepositComposer.tsx',
         'uapi/app/terminal/TerminalClosureControlDeck.tsx',
-        'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+        'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       ],
       canon: [
         ...TERMINAL_CANON_REFS,

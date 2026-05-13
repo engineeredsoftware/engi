@@ -11,10 +11,10 @@ describe('AuxillariesPaneTabs', () => {
     render(
       <AuxillariesPaneTabs
         mode="auxillaries"
-        steps={['connects', 'interfaces', 'profile', 'btd']}
-        currentStep="connects"
-        completedSteps={['connects']}
-        availableSteps={['connects', 'interfaces', 'profile']}
+        steps={['externals', 'interfaces', 'profile', 'wallet']}
+        currentStep="externals"
+        completedSteps={['externals']}
+        availableSteps={['externals', 'interfaces', 'profile']}
         onStepClick={onStepClick}
       />,
     );
@@ -22,7 +22,7 @@ describe('AuxillariesPaneTabs', () => {
     expect(screen.getByText('Auxillaries')).toBeTruthy();
     expect(screen.getByText(/Active auxillary:/i)).toBeTruthy();
     expect(screen.getByText('1/4 complete')).toBeTruthy();
-    expect(screen.getByRole('button', { name: /1 Connects/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /1 Externals/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /4 \$BTD/i })).toBeDisabled();
 
     fireEvent.click(screen.getByRole('button', { name: /2 Interfaces/i }));

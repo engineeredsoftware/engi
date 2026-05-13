@@ -14,7 +14,7 @@ export default function AuxillariesInterfacesPaneHeader({
       description={!isOnboardingComplete
         ? 'Choose interface defaults now or keep the standard Bitcode reading behavior.'
         : 'Set transaction, conversation, prompt, and default reading behavior in this auxillary.'}
-      stepNumber={3}
+      stepNumber={4}
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="interfaces-step-badge"
       showInfoBox

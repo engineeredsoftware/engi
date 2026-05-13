@@ -104,7 +104,7 @@ describe('deriveTerminalFlowGuide', () => {
     );
 
     expect(guide.readinessLabel).toBe('repository-reconnect-required');
-    expect(guide.statusSummary).toContain('Reconnect GitHub or equivalent repository scope in Connects');
+    expect(guide.statusSummary).toContain('Reconnect GitHub or equivalent repository scope in Externals');
   });
 
   it('keeps a draft-only posture when verified signing is still staged', () => {

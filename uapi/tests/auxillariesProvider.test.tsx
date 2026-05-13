@@ -56,7 +56,7 @@ describe('AuxillariesProvider', () => {
     expect(document.getElementById('auxillaries-portal')).toBeTruthy();
 
     act(() => {
-      openAuxillaries('auxillaries', 'connects');
+      openAuxillaries('auxillaries', 'externals');
     });
 
     expect(document.documentElement.classList.contains('auxillaries-open')).toBe(true);
@@ -77,7 +77,7 @@ describe('AuxillariesProvider', () => {
     );
 
     act(() => {
-      openAuxillaries('auxillaries', 'connects');
+      openAuxillaries('auxillaries', 'externals');
     });
 
     expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:connects');

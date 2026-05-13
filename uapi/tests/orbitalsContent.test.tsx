@@ -9,10 +9,10 @@ describe('OrbitalsContent', () => {
     render(
       <OrbitalsContent
         mode="onboarding"
-        steps={['profile', 'connects', 'interfaces', 'btd']}
-        currentStep="connects"
+        steps={['profile', 'externals', 'interfaces', 'wallet']}
+        currentStep="externals"
         completedSteps={['profile']}
-        availableSteps={['profile', 'connects']}
+        availableSteps={['profile', 'externals']}
         showContent
         showSuccessAnimation={false}
         navigationMode="tabs"
@@ -28,7 +28,7 @@ describe('OrbitalsContent', () => {
         /sign in once, then keep connects, interfaces, profile, and \$btd in one contained auxillary read/i,
       ),
     ).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Connects auxillary' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Externals auxillary' })).toBeTruthy();
     expect(screen.queryByText(/Ring 1/i)).toBeNull();
     expect(screen.getByText(/Active auxillary:/i)).toBeTruthy();
     expect(screen.getByText('Pane connects')).toBeTruthy();

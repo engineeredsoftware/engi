@@ -17,7 +17,7 @@ describe('OrbitalsLoginPane', () => {
   it('renders the terminal-owned orbital access shell', () => {
     render(<OrbitalsLoginPane />);
 
-    expect(screen.getByText('Open Connects, Interfaces, Profile, and $BTD')).toBeTruthy();
+    expect(screen.getByText('Open Externals, Interfaces, Profile, and $BTD')).toBeTruthy();
     expect(screen.getByText('Primary path')).toBeTruthy();
     expect(screen.getByText('Connected providers')).toBeTruthy();
     expect(screen.getByText('Auxillaries after sign-in')).toBeTruthy();

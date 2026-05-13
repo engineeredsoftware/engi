@@ -22,7 +22,7 @@ export const TERMINAL_EXPERIENCES = [
     label: 'Auxillaries',
     badge: 'dedicated mode',
     description:
-      'The dedicated Bitcode auxillary space for Connects, Interfaces, Profile, $BTD, and the rest of the connection, wallet, and interface-default surface.',
+      'The dedicated Bitcode auxillary space for Wallet, Externals, Profile, Interfaces, and the rest of the connection, wallet, and interface-default surface.',
     targetId: 'auxillaries',
   },
 ] as const;
@@ -140,10 +140,10 @@ export const TERMINAL_MVP_SURFACE_MAP = [
     requiredPosture:
       'Non-duplicative settings, preferences, connections, identity, BTC fee liquidity, and non-fungible $BTD read-right surfaces around the network core.',
     implementedBy: [
-      'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+      'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       'uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx',
       'uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
-      'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+      'uapi/app/auxillaries/components/AuxillariesWalletPane.tsx',
       'uapi/app/api/auxillaries/data/route.ts',
     ],
   },

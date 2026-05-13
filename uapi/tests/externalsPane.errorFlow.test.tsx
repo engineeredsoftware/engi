@@ -1,9 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
-describe('ConnectionsStep Error Handling', () => {
+describe('ExternalsPane Error Handling', () => {
   beforeEach(() => {
     // Stub global fetch in jsdom
     global.fetch = jest.fn();
@@ -16,7 +16,7 @@ describe('ConnectionsStep Error Handling', () => {
 
   it('shows format error when code missing dash', async () => {
     render(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={true}
         isDevMode={false}
@@ -37,7 +37,7 @@ describe('ConnectionsStep Error Handling', () => {
     (global.fetch as jest.Mock)
       .mockResolvedValueOnce({ ok: false, text: async () => 'Bad request' });
     render(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={true}
         isDevMode={false}
@@ -56,7 +56,7 @@ describe('ConnectionsStep Error Handling', () => {
   it('shows network error when fetch throws', async () => {
     (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('fail network'));
     render(
-      <ConnectionsStep
+      <ExternalsPane
         loading={false}
         isFirstTimeUser={true}
         isDevMode={false}

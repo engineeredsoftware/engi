@@ -56,12 +56,12 @@ const ProfilePane = dynamic(() => import("./AuxillariesProfilePane"), {
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const ConnectsPane = dynamic(() => import("./AuxillariesConnectsPane"), {
+const ExternalsPane = dynamic(() => import("./AuxillariesExternalsPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const BTDPane = dynamic(() => import("./AuxillariesBTDPane"), {
+const WalletPane = dynamic(() => import("./AuxillariesWalletPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
@@ -73,7 +73,7 @@ const InterfacesPane = dynamic(() => import("./AuxillariesInterfacesPane"), {
 
 function parseAuxillaryPath(pathname: string | null): ConcreteAuxillaryPane | null {
   if (!pathname) return null;
-  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|connects|interfaces|btd)\b/i);
+  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|connects|externals|interfaces|btd|wallet)\b/i);
   if (!match) return null;
   return normalizeAuxillaryPane(match[1]);
 }
@@ -115,14 +115,14 @@ export default function AuxillariesSurface({
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteAuxillaryPane>(
-    normalizeAuxillaryPane(initialStep) ?? routeStep ?? 'profile',
+    normalizeAuxillaryPane(initialStep) ?? routeStep ?? 'wallet',
   );
   const [completedSteps, setCompletedSteps] = useState<ConcreteAuxillaryPane[]>([]);
   const [stepCompletionStates, setStepCompletionStates] = useState<Record<ConcreteAuxillaryPane, boolean>>({
+    wallet: false,
+    externals: false,
     profile: false,
-    connects: false,
     interfaces: false,
-    btd: false,
   });
   const [isCompletingStep, setIsCompletingStep] = useState(false);
 
@@ -185,7 +185,7 @@ export default function AuxillariesSurface({
 
     const currentPane = onboardingData.currentPane ?? onboardingData.currentStep;
     if (!isAuxillariesSurface && currentPane && !initialStep && !routeStep) {
-      setCurrentStep(normalizeAuxillaryPane(currentPane) || 'profile');
+      setCurrentStep(normalizeAuxillaryPane(currentPane) || 'wallet');
     }
   }, [onboardingData, isAuxillariesSurface, initialStep, routeStep]);
 
@@ -202,25 +202,10 @@ export default function AuxillariesSurface({
       return visibleSteps;
     }
 
-    const available: ConcreteAuxillaryPane[] = [];
-
-    for (const step of completedSteps) {
-      if (step === 'interfaces') {
-        if (completedSteps.includes('connects')) {
-          available.push('interfaces');
-        }
-      } else {
-        available.push(step);
-      }
-    }
-
-    if (completedSteps.includes('connects')) {
-      if (!available.includes('interfaces')) {
-        available.push('interfaces');
-      }
-      if (!available.includes('btd')) {
-        available.push('btd');
-      }
+    const available = Array.from(new Set(completedSteps));
+    const nextStep = AUXILLARY_FLOW_STEPS.find((step) => !completedSteps.includes(step));
+    if (nextStep && !available.includes(nextStep)) {
+      available.push(nextStep);
     }
 
     if (!available.includes(currentStep)) {
@@ -317,14 +302,9 @@ export default function AuxillariesSurface({
     }
 
     if (!isAuxillariesSurface) {
-      if (!newCompletedSteps.includes('profile')) {
-        setCurrentStep('profile');
-      } else if (!newCompletedSteps.includes('connects')) {
-        setCurrentStep('connects');
-      } else if (!newCompletedSteps.includes('interfaces')) {
-        setCurrentStep('interfaces');
-      } else if (!newCompletedSteps.includes('btd')) {
-        setCurrentStep('btd');
+      const nextStep = AUXILLARY_FLOW_STEPS.find((entry) => !newCompletedSteps.includes(entry));
+      if (nextStep) {
+        setCurrentStep(nextStep);
       }
     }
   }, [
@@ -383,10 +363,6 @@ export default function AuxillariesSurface({
             initialAvatarUrl={profileData?.avatar_url}
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
-            initialWalletAddress={profileData?.wallet_address}
-            initialWalletProvider={profileData?.wallet_provider}
-            initialWalletBindingStatus={profileData?.wallet_binding_status}
-            initialWalletBoundAt={profileData?.wallet_bound_at}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
               shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('profile', isComplete) : undefined
@@ -401,26 +377,26 @@ export default function AuxillariesSurface({
             }}
           />
         );
-      case 'connects':
+      case 'externals':
         return (
-          <ConnectsPane
+          <ExternalsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('connects', isComplete) : undefined
+              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('externals', isComplete) : undefined
             }
             onSave={async () => {
-              await handleStepComplete('connects');
+              await handleStepComplete('externals');
             }}
           />
         );
-      case 'btd':
+      case 'wallet':
         return (
-          <BTDPane
+          <WalletPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('btd', isComplete) : undefined
+              shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('wallet', isComplete) : undefined
             }
             onSave={async (updated) => {
               try {
@@ -429,9 +405,9 @@ export default function AuxillariesSurface({
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(updated),
                 });
-                await handleStepComplete('btd');
+                await handleStepComplete('wallet');
               } catch (err) {
-                console.error('BTD defaults save error:', err);
+                console.error('Wallet defaults save error:', err);
               }
             }}
           />

@@ -26,7 +26,7 @@ describe('/api/auxillaries/onboarding', () => {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
       maybeSingle: jest.fn().mockResolvedValue({
-        data: { onboarded_steps: '["profile","connects","interfaces","btd"]' },
+        data: { onboarded_steps: '["profile","externals","interfaces","wallet"]' },
         error: null,
       }),
     };
@@ -38,9 +38,9 @@ describe('/api/auxillaries/onboarding', () => {
 
     expect(response.status).toBe(200);
     expect(payload).toEqual({
-      completedPanes: ['profile', 'connects', 'interfaces', 'btd'],
+      completedPanes: ['profile', 'externals', 'interfaces', 'wallet'],
       currentPane: null,
-      completedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      completedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
       currentStep: null,
       isOnboardingComplete: true,
     });
@@ -69,7 +69,7 @@ describe('/api/auxillaries/onboarding', () => {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
       maybeSingle: jest.fn().mockResolvedValue({
-        data: { onboarded_steps: '["profile","connects","interfaces"]' },
+        data: { onboarded_steps: '["profile","externals","interfaces"]' },
         error: null,
       }),
     };
@@ -86,7 +86,7 @@ describe('/api/auxillaries/onboarding', () => {
     const request = new Request('http://localhost/api/auxillaries/onboarding', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completedPane: 'btd' }),
+      body: JSON.stringify({ completedPane: 'wallet' }),
     });
 
     const response = await POST(request);
@@ -94,14 +94,14 @@ describe('/api/auxillaries/onboarding', () => {
 
     expect(updateBuilder.update).toHaveBeenCalledWith(
       expect.objectContaining({
-        onboarded_steps: JSON.stringify(['profile', 'connects', 'interfaces', 'btd']),
+        onboarded_steps: JSON.stringify(['profile', 'externals', 'interfaces', 'wallet']),
       }),
     );
     expect(response.status).toBe(200);
     expect(payload).toEqual({
-      completedPanes: ['profile', 'connects', 'interfaces', 'btd'],
+      completedPanes: ['profile', 'externals', 'interfaces', 'wallet'],
       currentPane: null,
-      completedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      completedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
       currentStep: null,
       isOnboardingComplete: true,
     });
@@ -113,7 +113,7 @@ describe('/api/auxillaries/onboarding', () => {
     const request = new Request('http://localhost/api/auxillaries/onboarding', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completedStep: 'connects' }),
+      body: JSON.stringify({ completedStep: 'externals' }),
     });
 
     const response = await POST(request);

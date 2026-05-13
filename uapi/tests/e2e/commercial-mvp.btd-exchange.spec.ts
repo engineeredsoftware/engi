@@ -51,7 +51,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await tracker.click();
 
     await expect(page).toHaveURL(/\/exchange$/);
-    await expect(page.getByTestId('btd-pane-container')).toBeVisible();
+    await expect(page.getByTestId('wallet-pane-container')).toBeVisible();
     await expect(page.getByText(/1,200 BTD/i)).toBeVisible();
 
     const btdIntent = await page.evaluate(() => window.sessionStorage.getItem('bitcode:btd-wallet-intent'));

@@ -29,7 +29,7 @@ export function generateMetadata({ params }: AuxillariesPanePageProps): Metadata
   if (!resolved) {
     return {
       title: 'Bitcode Auxillaries',
-      description: 'Contained Bitcode auxillary routes for identity, interfaces, connects, and $BTD.',
+      description: 'Contained Bitcode auxillary routes for wallet, externals, profile, and interfaces.',
     };
   }
 

@@ -50,8 +50,8 @@ function buildConnectsRedirect(
   request: Request,
   params: Record<string, string | number | boolean | null | undefined>,
 ) {
-  const redirectUrl = new URL('/auxillaries/connects', request.url);
-  redirectUrl.searchParams.set('pane', 'connects');
+  const redirectUrl = new URL('/auxillaries/externals', request.url);
+  redirectUrl.searchParams.set('pane', 'externals');
 
   for (const [key, value] of Object.entries(params)) {
     if (value === null || value === undefined || value === '') continue;

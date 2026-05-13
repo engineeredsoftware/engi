@@ -1,16 +1,16 @@
 # `/auxillaries` canonical Bitcode Auxillaries routes
 
-`/auxillaries/*` is the canonical V26 direct-route family for focused Bitcode auxillary reads.
+`/auxillaries/*` is the canonical direct-route family for focused Bitcode auxillary reads.
 It preserves the four-ring auxillary system while keeping the merged-world naming target explicit in route, metadata, and user-facing copy.
 
 ## Canonical routes
 
-- `/auxillaries/connects`
+- `/auxillaries/wallet`
+- `/auxillaries/externals`
 - `/auxillaries/interfaces`
 - `/auxillaries/profile`
-- `/auxillaries/btd`
 
-Those routes are the enduring V26 naming model.
+Legacy `/auxillaries/btd` and `/auxillaries/connects` links are accepted only as aliases and redirect to `/auxillaries/wallet` and `/auxillaries/externals`.
 Former `/orbitals/*` links are redirect-only and should resolve here without rendering canonical HTML.
 
 ## Ownership
@@ -25,14 +25,14 @@ Former `/orbitals/*` links are redirect-only and should resolve here without ren
   Canonical fullscreen auxillary overlay provider, event bridge, and portal owner.
 - `components/AuxillariesSurface.tsx`, `components/AuxillariesContent.tsx`, `components/AuxillariesLoginPane.tsx`
   Canonical auxillary shell, contained reading surface, and sign-in entry owners.
-- `components/Auxillaries{Profile,Connects,Interfaces,BTD}Pane.tsx`
+- `components/Auxillaries{Wallet,Externals,Profile,Interfaces}Pane.tsx`
   Canonical pane implementation owners imported by the auxillary surface. These files now hold the live pane logic and import canonical auxillary headers, shared carriers, explainer maps, data-share panels, and model sections directly.
 - `components/headers/*`, `components/shared/*`, `components/models/*`, `components/AuxillariesDataSharingPanel.tsx`, `components/auxillary-pane-explainers.ts`, `components/profile-pane.module.css`
   Canonical auxillary lower-level implementation carriers for pane headers, onboarding overlays, preference/stat sections, model defaults, data-share posture, explainer copy, and profile styling.
 - `../orbitals/components/*`
   Redirect-support route wrappers still being retired behind canonical auxillary ownership during fifth gate.
 - `../api/auxillaries/*`
-  Canonical auxillary API owners for profile, Connects, notifications, onboarding, model preferences, BTD balance history, BTD transaction history, API keys, and data-share posture.
+  Canonical auxillary API owners for profile, Externals, notifications, onboarding, model preferences, BTD balance history, BTD transaction history, API keys, and data-share posture.
 
 ## Canonical rule
 
@@ -44,9 +44,9 @@ Active product code should also prefer `/api/auxillaries/*`.
 
 Auxillaries is the V28 prerequisite control plane for Terminal:
 
-- Profile starts with Bitcoin wallet authentication. The wallet proof is the minimum identity origin for Supabase synchronization and local wallet readiness.
-- Connects comes second and owns GitHub App installation/source-provider scope needed for Give and Need.
-- Email/contact data is optional and must not appear as the primary identity requirement.
-- `$BTD` reflects wallet/range/share posture after the shared auxillary data read settles.
+- Wallet starts with Bitcoin wallet authentication. The wallet proof is the minimum identity origin for Supabase synchronization and local wallet readiness.
+- Externals comes second and owns GitHub App installation/source-provider scope needed for Give and Need.
+- Profile owns optional email/contact/admin data and must not appear as the primary identity requirement.
+- Wallet also reflects BTD range/share posture after the shared auxillary data read settles.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.

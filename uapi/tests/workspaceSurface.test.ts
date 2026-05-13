@@ -8,7 +8,7 @@ describe('workspaceSurface helpers', () => {
   it('classifies operator workspace routes consistently', () => {
     expect(getWorkspaceSurface('/terminal')).toBe('terminal');
     expect(getWorkspaceSurface('/terminal/detail')).toBe('terminal');
-    expect(getWorkspaceSurface('/auxillaries/connects')).toBe('auxillaries');
+    expect(getWorkspaceSurface('/auxillaries/externals')).toBe('auxillaries');
     expect(getWorkspaceSurface('/conversations/thread')).toBe('conversations');
     expect(getWorkspaceSurface('/')).toBeNull();
   });

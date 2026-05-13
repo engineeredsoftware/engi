@@ -25,26 +25,26 @@ test.describe('@profile UI Visual - Auth and Onboarding Flows', () => {
       .toMatchSnapshot('onboarding-profile-step.png');
   });
 
-  test('Onboarding - Connects step snapshot', async ({ page }) => {
+  test('Onboarding - Externals step snapshot', async ({ page }) => {
     // Navigate to the app and open onboarding.
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
-    // Navigate to the canonical connects step.
-    await page.click('[data-auxillaries-testid="auxillaries-label-connects"]');
-    // Wait for the connects-step elements.
-    await page.waitForSelector('[data-testid="connections-step-badge"]');
-    await page.waitForSelector('[data-testid="connections-github-button"]');
+    // Navigate to the canonical externals step.
+    await page.click('[data-auxillaries-testid="auxillaries-label-externals"]');
+    // Wait for the externals-step elements.
+    await page.waitForSelector('[data-testid="externals-step-badge"]');
+    await page.waitForSelector('[data-testid="externals-github-button"]');
     await page.waitForTimeout(500);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('onboarding-connects-step.png');
+      .toMatchSnapshot('onboarding-externals-step.png');
   });
 
   test('Onboarding - Interfaces step snapshot', async ({ page }) => {
     // Navigate to the app and open onboarding.
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
-    // Navigate through the canonical steps to Interfaces.
-    await page.click('[data-auxillaries-testid="auxillaries-label-connects"]');
+    // Navigate through the canonical steps to WalletInterfaces.
+    await page.click('[data-auxillaries-testid="auxillaries-label-externals"]');
     await page.click('[data-auxillaries-testid="auxillaries-label-interfaces"]');
     // Wait for the interfaces-step elements.
     await page.waitForSelector('[data-testid="interfaces-step-badge"]');
@@ -58,15 +58,15 @@ test.describe('@profile UI Visual - Auth and Onboarding Flows', () => {
     // Navigate to the app and open onboarding.
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
-    // Navigate through the canonical steps to $BTD.
-    await page.click('[data-auxillaries-testid="auxillaries-label-connects"]');
+    // Navigate through the canonical steps to Wallet$BTD.
+    await page.click('[data-auxillaries-testid="auxillaries-label-externals"]');
     await page.click('[data-auxillaries-testid="auxillaries-label-interfaces"]');
-    await page.click('[data-auxillaries-testid="auxillaries-label-btd"]');
-    // Wait for the BTD-step elements.
-    await page.waitForSelector('[data-testid="btd-step-badge"]');
-    await page.waitForSelector('[data-testid="btd-pane-container"]');
+    await page.click('[data-auxillaries-testid="auxillaries-label-wallet"]');
+    // Wait for the Wallet-step elements.
+    await page.waitForSelector('[data-testid="wallet-step-badge"]');
+    await page.waitForSelector('[data-testid="wallet-pane-container"]');
     await page.waitForTimeout(500);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('onboarding-btd-step.png');
+      .toMatchSnapshot('onboarding-wallet-step.png');
   });
 });

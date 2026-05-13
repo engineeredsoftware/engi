@@ -10,10 +10,11 @@ Bitcode is the protocol and the commercial source tree implements it in-place.
 The primary operator routes are:
 
 - `/terminal` for giving, needing, transaction work, and protocol follow-through.
-- `/exchange` for searchable activity master-detail, rights transfer, and market
-  review.
-- `/conversations` for conversational Bitcode interaction.
-- `/auxillaries` for Connects, Interfaces, Profile, and BTD support surfaces.
+- `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
+
+Exchange and website Conversations remain in source as deferred commercial work,
+but V28 closure focuses on Terminal, Auxillaries, wallet/BTC testnet, MCP API,
+and ChatGPT App MVP behavior.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration

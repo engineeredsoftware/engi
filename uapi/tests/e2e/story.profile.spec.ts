@@ -19,7 +19,7 @@ test.describe('User Story: Account Modal Navigation', () => {
     );
   });
 
-  test('navigate through Profile, Connects, Interfaces, and $BTD', async ({ page }) => {
+  test('navigate through Profile, Externals, Interfaces, and $BTD', async ({ page }) => {
     await page.goto('/');
     // Login modal
     await page.click('button:has-text("Login")');

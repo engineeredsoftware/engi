@@ -32,12 +32,12 @@ describe('TerminalFlowGuideCard', () => {
           status: 'repository-provider-pending',
           label: 'repository reconnect required',
           summary:
-            'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.',
-          nextAction: 'Open Connects and restore a valid repository-provider connection.',
+            'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Externals before you transact, settle, or sign Bitcode activity.',
+          nextAction: 'Open Externals and restore a valid repository-provider connection.',
           blockers: [
             {
               id: 'repository-provider',
-              label: 'Reconnect GitHub or equivalent repository scope in Connects',
+              label: 'Reconnect GitHub or equivalent repository scope in Externals',
             },
           ],
           canReview: true,
@@ -57,7 +57,7 @@ describe('TerminalFlowGuideCard', () => {
 
     expect(screen.getByText('repository-reconnect-required')).toBeInTheDocument();
     expect(
-      screen.getByText(/Reconnect GitHub or equivalent repository scope in Connects before you transact/i),
+      screen.getByText(/Reconnect GitHub or equivalent repository scope in Externals before you transact/i),
     ).toBeInTheDocument();
     expect(screen.getByText('Continue the active flow.')).toBeInTheDocument();
     expect(screen.getByText('1. Source')).toBeInTheDocument();
@@ -77,7 +77,7 @@ describe('TerminalFlowGuideCard', () => {
           status: 'wallet-verification-pending',
           label: 'wallet reconnect required',
           summary:
-            'Bitcode can reread the saved verified wallet signer posture in Profile, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.',
+            'Bitcode can reread the saved verified wallet signer posture in Wallet, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.',
           nextAction: 'Reconnect the wallet provider so verified signing access is live again.',
           blockers: [
             {

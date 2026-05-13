@@ -78,54 +78,54 @@ export function deriveBitcodeTransactionReadiness(
     status = 'sign-in-required';
     label = 'sign-in required';
     summary =
-      'Bitcode is in review-only mode. Sign in first, then bind wallet identity in Profile and repository scope in Connects before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Sign in, then open Profile and Connects.';
+      'Bitcode is in review-only mode. Sign in first, then bind wallet identity in Wallet and repository scope in Externals before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Sign in, then open Wallet and Externals.';
     blockers = [
       blocker('sign-in', 'Operator sign-in'),
-      blocker('wallet-binding', 'Wallet identity in Profile'),
-      blocker('repository-provider', 'Repository scope in Connects'),
+      blocker('wallet-binding', 'Wallet identity in Wallet'),
+      blocker('repository-provider', 'Repository scope in Externals'),
     ];
   } else if (!hasRepositoryProvider && !hasWalletBinding) {
     status = 'wallet-and-repository-pending';
     label = 'wallet + repository pending';
     summary =
-      'Bitcode is in review-only mode. Bind wallet identity in Profile and attach GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Open Profile for wallet binding, then Connects for repository scope.';
+      'Bitcode is in review-only mode. Bind wallet identity in Wallet and attach GitHub or equivalent repository scope in Externals before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Open Wallet for wallet binding, then Externals for repository scope.';
     blockers = [
-      blocker('wallet-binding', 'Wallet identity in Profile'),
-      blocker('repository-provider', 'GitHub or equivalent repository scope in Connects'),
+      blocker('wallet-binding', 'Wallet identity in Wallet'),
+      blocker('repository-provider', 'GitHub or equivalent repository scope in Externals'),
     ];
   } else if (!hasValidRepositoryProvider && !hasWalletBinding) {
     status = 'wallet-and-repository-pending';
     label = 'wallet + repository pending';
     summary =
-      'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects and bind wallet identity in Profile before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Reconnect repository scope in Connects, then confirm wallet identity in Profile.';
+      'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Externals and bind wallet identity in Wallet before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Reconnect repository scope in Externals, then confirm wallet identity in Wallet.';
     blockers = [
-      blocker('wallet-binding', 'Wallet identity in Profile'),
-      blocker('repository-provider', 'Reconnect GitHub or equivalent repository scope in Connects'),
+      blocker('wallet-binding', 'Wallet identity in Wallet'),
+      blocker('repository-provider', 'Reconnect GitHub or equivalent repository scope in Externals'),
     ];
   } else if (!hasRepositoryProvider) {
     status = 'repository-provider-pending';
     label = 'repository pending';
     summary =
-      'Bitcode is in review-only mode. Attach GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Open Connects and attach a repository provider.';
-    blockers = [blocker('repository-provider', 'GitHub or equivalent repository scope in Connects')];
+      'Bitcode is in review-only mode. Attach GitHub or equivalent repository scope in Externals before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Open Externals and attach a repository provider.';
+    blockers = [blocker('repository-provider', 'GitHub or equivalent repository scope in Externals')];
   } else if (!hasValidRepositoryProvider) {
     status = 'repository-provider-pending';
     label = 'repository reconnect required';
     summary =
-      'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Open Connects and restore a valid repository-provider connection.';
-    blockers = [blocker('repository-provider', 'Reconnect GitHub or equivalent repository scope in Connects')];
+      'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Externals before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Open Externals and restore a valid repository-provider connection.';
+    blockers = [blocker('repository-provider', 'Reconnect GitHub or equivalent repository scope in Externals')];
   } else if (!hasWalletBinding) {
     status = 'wallet-binding-pending';
     label = 'wallet pending';
     summary =
-      'Bitcode is in review-only mode. Bind wallet identity in Profile before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Open Profile and bind wallet identity.';
-    blockers = [blocker('wallet-binding', 'Wallet identity in Profile')];
+      'Bitcode is in review-only mode. Bind wallet identity in Wallet before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Open Wallet and bind wallet identity.';
+    blockers = [blocker('wallet-binding', 'Wallet identity in Wallet')];
   } else if (!hasRepositoryAnchor) {
     status = 'repository-anchor-pending';
     label = 'repository anchor pending';
@@ -137,15 +137,15 @@ export function deriveBitcodeTransactionReadiness(
     status = 'wallet-verification-pending';
     label = 'wallet reconnect required';
     summary =
-      'Bitcode can reread the saved verified wallet signer posture in Profile, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.';
+      'Bitcode can reread the saved verified wallet signer posture in Wallet, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.';
     nextAction = 'Reconnect the wallet provider so verified signing access is live again.';
     blockers = [blocker('wallet-verification', 'Reconnect verified wallet-provider signing access')];
   } else if (!hasVerifiedWalletBinding) {
     status = 'wallet-verification-pending';
     label = 'wallet verification pending';
     summary =
-      'Bitcode can draft transaction-bearing activity from the wallet identity saved in Profile, but signed settlement remains staged until a verified wallet provider is connected.';
-    nextAction = 'Keep drafting in the Bitcode Terminal or return to Profile when verified wallet-provider signing becomes available.';
+      'Bitcode can draft transaction-bearing activity from the wallet identity saved in Wallet, but signed settlement remains staged until a verified wallet provider is connected.';
+    nextAction = 'Keep drafting in the Bitcode Terminal or return to Wallet when verified wallet-provider signing becomes available.';
     blockers = [blocker('wallet-verification', 'Verified wallet-provider signing access')];
   }
 

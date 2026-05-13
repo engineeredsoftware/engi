@@ -5,7 +5,7 @@ test.describe('Auxillaries - $BTD Interval Button States', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     // Set state to the canonical BTD step.
-    await setOnboardingState(page, 'btd', ['profile', 'connects', 'interfaces']);
+    await setOnboardingState(page, 'wallet', ['profile', 'externals', 'interfaces']);
     await page.reload();
     await page.waitForSelector('span:has-text("Step 4 of 4")');
   });

@@ -24,7 +24,7 @@ describe('Models Pane uses centralized model catalog', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
   });
 

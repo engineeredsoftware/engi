@@ -20,7 +20,7 @@ test.describe.skip('@profile UI Visual - Account BTD Flow (skipped - focusing on
       })
     );
     // Open the canonical in-product BTD workspace directly.
-    await page.goto('/auxillaries/btd');
+    await page.goto('/auxillaries/wallet');
     await page.waitForSelector('span:has-text("Step 4 of 4")');
     await page.waitForSelector('canvas'); // usage chart
     await page.waitForTimeout(300);

@@ -8,9 +8,9 @@ describe('AuxillariesWorkspacePanels', () => {
   it('renders lane state as visual indicators instead of joined raw state text', () => {
     render(
       <AuxillariesWorkspacePanels
-        steps={['connects', 'interfaces', 'profile', 'btd']}
+        steps={['externals', 'interfaces', 'profile', 'wallet']}
         currentStep="profile"
-        availableSteps={['connects', 'interfaces', 'profile', 'btd']}
+        availableSteps={['externals', 'interfaces', 'profile', 'wallet']}
         onStepClick={jest.fn()}
       />,
     );

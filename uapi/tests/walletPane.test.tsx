@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
+import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -16,7 +16,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('BtdStep (SSR)', () => {
+describe('WalletPane (SSR)', () => {
   beforeEach(() => {
     mockUseAuth.mockReturnValue({
       user: {
@@ -49,13 +49,13 @@ describe('BtdStep (SSR)', () => {
       error: null,
       refresh: jest.fn(),
       isOnboardingComplete: true,
-      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+      onboardedSteps: ['profile', 'externals', 'interfaces', 'wallet'],
     } as any);
   });
 
-  it('renders the authenticated $BTD auxillary summary and need-space controls', () => {
+  it('renders the authenticated Wallet auxillary summary and wallet posture controls', () => {
     const html = renderToString(
-      <BtdStep
+      <WalletPane
         onSave={() => {}}
         loading={false}
         isOnboardingComplete
@@ -63,10 +63,10 @@ describe('BtdStep (SSR)', () => {
       />,
     );
 
-    expect(html).toContain('$BTD Auxillary');
-    expect(html).toContain('Keep balances, identity, and membership readable together');
+    expect(html).toContain('Wallet Auxillary');
+    expect(html).toContain('Keep BTC fees, BTD holdings, and wallet identity readable together');
     expect(html).toContain('250 BTD');
     expect(html).toContain('0.250 BTC');
-    expect(html).toContain('Set it and forget it repository knowledge sharing');
+    expect(html).toContain('Choose how $BTD detail should read back into transactions');
   });
 });

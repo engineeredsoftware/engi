@@ -3666,9 +3666,9 @@ to {
 .models-step .disabled-section::before,
 .interfaces-step .disabled-section::before,
 .profile-step .disabled-section::before,
-.connects-step .disabled-section::before,
-.btd-step .disabled-section::before,
-.btd-step .disabled-section::before {
+.externals-step .disabled-section::before,
+.wallet-step .disabled-section::before,
+.wallet-step .disabled-section::before {
   background: rgba(5, 10, 20, 0.65);
   /* Lighter overlay to reveal more beneath */
   backdrop-filter: blur(4px);

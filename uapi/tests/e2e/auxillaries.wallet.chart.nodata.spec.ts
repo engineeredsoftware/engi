@@ -17,7 +17,7 @@ test.describe('Auxillaries - $BTD Chart No-Data States', () => {
       status: 200, contentType: 'application/json', body: JSON.stringify([])
     }));
     // Open the canonical in-product BTD workspace directly.
-    await page.goto('/auxillaries/btd');
+    await page.goto('/auxillaries/wallet');
     await page.waitForSelector('span:has-text("Step 4 of 4")');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))

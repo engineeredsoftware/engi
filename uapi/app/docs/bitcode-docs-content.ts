@@ -393,24 +393,25 @@ const auxillariesSections = [
   {
     id: 'auxillary-model',
     eyebrow: 'Auxillaries',
-    title: 'Auxillaries are the identity, connection, interface, and $BTD layer',
+    title: 'Auxillaries are the wallet, externals, profile, and interface layer',
     summary:
-      'Auxillaries hold the context that changes how Terminal can operate: signed Bitcoin wallet identity, connected repositories, interface defaults, profile roles, and $BTD preferences.',
+      'Auxillaries hold the context that changes how Terminal can operate: signed Bitcoin wallet identity, connected repositories, optional profile metadata, interface defaults, and BTD preferences.',
     detail:
       'The auxillary shell should feel adjacent to Terminal, not detached from it. Opening Auxillaries changes readiness and configuration while the selected Terminal activity remains recoverable.',
     reason:
       'Configuration is commercially important only when users can understand which operational capability it unlocks or blocks.',
     points: [
-      'Profile owns the first identity step: a Bitcoin wallet proof that can back a Supabase session.',
-      'Connects owns GitHub and future source-provider bindings after wallet identity exists.',
+      'Wallet owns the first identity step: a Bitcoin wallet proof that can back a Supabase session.',
+      'Externals owns GitHub and future source-provider bindings after wallet identity exists.',
+      'Profile owns optional email, display identity, account role, and organization metadata.',
       'Interfaces owns default behavior and visual/product posture.',
-      '$BTD owns wallet-adjacent balances, range posture, and share-specific settings.',
+      'Wallet also owns BTD balances, range posture, and share-specific settings.',
     ],
   },
   {
     id: 'connects-profile-btd',
     eyebrow: 'Readiness',
-    title: 'Connects, Profile, Interfaces, and $BTD are readiness surfaces',
+    title: 'Wallet, Externals, Profile, and Interfaces are readiness surfaces',
     summary:
       'Wallet identity, repository scope, profile roles, interface defaults, and $BTD controls determine which writes can move from review to signed or connected execution.',
     detail:
@@ -421,19 +422,19 @@ const auxillariesSections = [
       'Connect and sign with a Bitcoin wallet first.',
       'Install the GitHub App or connect a source provider second.',
       'Add optional email/contact settings only after wallet and source readiness are clear.',
-      'Set profile identity, organization, and role posture.',
+      'Set profile identity, organization, and role posture only after required wallet and repository prerequisites are visible.',
       'Choose interface defaults for Terminal and connected surfaces.',
-      'Review $BTD and wallet-adjacent controls before settlement.',
+      'Review BTD and wallet-adjacent controls before settlement.',
     ],
   },
   {
     id: 'third-party-connections',
-    eyebrow: 'Connects',
+    eyebrow: 'Externals',
     title: 'Third-party connections are source-bearing ingress, not hidden account settings',
     summary:
-      'Connects owns GitHub and future provider bindings because repository scope becomes source-bearing input for Need measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
+      'Externals owns GitHub and future provider bindings because repository scope becomes source-bearing input for Need measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
     detail:
-      'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity starts in Profile, while repository attachment and provider scope stay in Connects.',
+      'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity stays in Wallet, while repository attachment and provider scope stay in Externals.',
     reason:
       'New users need to understand why a missing GitHub or wallet connection blocks live writes without blocking learning-mode Terminal review.',
     points: [
@@ -1761,27 +1762,27 @@ export const BITCODE_DOCS_PAGES = [
     slug: 'auxillaries',
     chapterId: 'modes',
     eyebrow: 'Auxillaries',
-    title: 'Configure Auxillaries for identity, interfaces, and $BTD',
+    title: 'Configure Auxillaries for wallet, externals, profile, and interfaces',
     summary:
-      'Auxillaries explain the optional but commercially important configuration layer around Terminal: Connects, Interfaces, Profile, and $BTD.',
+      'Auxillaries explain the commercially important configuration layer around Terminal: Wallet, Externals, Profile, and Interfaces.',
     detail:
-      'Use this page to understand what each auxillary pane changes and why Terminal may stay fail-closed until a connection, identity, or wallet posture is complete.',
+      'Use this page to understand what each auxillary pane changes and why Terminal may stay fail-closed until wallet, repository, or profile posture is complete.',
     learningOutcome:
-      'You can identify each auxillary pane and understand which Terminal or Exchange capability it unlocks.',
+      'You can identify each auxillary pane and understand which Terminal capability it unlocks.',
     primaryCta: { href: '/docs/configuration', label: 'Read configuration guide' },
     sections: auxillariesSections,
     embeddedUi: [
       {
         id: 'auxillary-ring',
         eyebrow: 'Auxillary shell',
-        title: 'Connects, Interfaces, Profile, $BTD',
+        title: 'Wallet, Externals, Profile, Interfaces',
         summary:
-          'The auxillary ring is configuration with product consequences: each pane changes readiness or defaults for Terminal and Exchange.',
+          'The auxillary rail is configuration with product consequences: each pane changes readiness or defaults for Terminal.',
         explainer: BITCODE_PUBLIC_EXPLAINERS.openOrbitals,
         signals: [
-          { label: 'Connects', value: 'Repository + providers', tone: 'emerald' },
-          { label: 'Profile', value: 'Identity + roles', tone: 'cyan' },
-          { label: '$BTD', value: 'Wallet-adjacent posture', tone: 'amber' },
+          { label: 'Wallet', value: 'Bitcoin identity + BTD posture', tone: 'amber' },
+          { label: 'Externals', value: 'Repository + providers', tone: 'emerald' },
+          { label: 'Profile', value: 'Email + roles', tone: 'cyan' },
         ],
       },
     ],

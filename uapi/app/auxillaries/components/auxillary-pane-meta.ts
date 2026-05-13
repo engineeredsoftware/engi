@@ -5,12 +5,12 @@ import {
   normalizeAuxillarySteps,
 } from '@bitcode/api/src/routes/auxillaries-contract';
 
-export const AUXILLARY_RING_STEPS = ['connects', 'interfaces', 'profile', 'btd'] as const;
+export const AUXILLARY_RING_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
 export const AUXILLARY_ROUTE_SEQUENCE = AUXILLARY_RING_STEPS;
 export const AUXILLARIES_ACCESS_LABEL = 'Auxillaries access';
 export const AUXILLARIES_LABEL = 'Auxillaries';
-export const AUXILLARIES_LIST_LABEL = 'Connects, Interfaces, Profile, and $BTD';
-export const AUXILLARIES_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $BTD';
+export const AUXILLARIES_LIST_LABEL = 'Wallet, Externals, Profile, and Interfaces';
+export const AUXILLARIES_LIST_COMPACT_LABEL = 'Wallet, Externals, Profile, Interfaces';
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
 export const OPEN_TRANSACTIONS_LABEL = 'Open Bitcode Terminal';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
@@ -31,38 +31,38 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
   profile: {
     label: 'Profile',
     routeSegment: 'profile',
-    ringIndex: 1,
-    labelPosition: 'left',
+    ringIndex: 2,
+    labelPosition: 'bottom',
     routeTitle: 'Profile Auxillary',
     routeDescription:
-      'Keep wallet identity, balances, team roles, multi-sig posture, and access state in one focused auxillary.',
+      'Manage optional email, display identity, admin role, and organization membership without mixing in wallet or third-party connection controls.',
   },
-  connects: {
-    label: 'Connects',
-    routeSegment: 'connects',
-    ringIndex: 3,
-    labelPosition: 'top',
-    routeTitle: 'Connects Auxillary',
+  externals: {
+    label: 'Externals',
+    routeSegment: 'externals',
+    ringIndex: 1,
+    labelPosition: 'right',
+    routeTitle: 'Externals Auxillary',
     routeDescription:
-      'Attach GitHub and the live repository or interface bindings Bitcode reuses across need measurement, asset-pack synthesis, settlement follow-through, and third-party interface behavior in one focused auxillary.',
+      'Attach GitHub and other non-wallet third-party bindings Bitcode reuses across need measurement, asset-pack synthesis, settlement follow-through, and external interface behavior.',
   },
   interfaces: {
     label: 'Interfaces',
     routeSegment: 'interfaces',
-    ringIndex: 2,
-    labelPosition: 'right',
+    ringIndex: 3,
+    labelPosition: 'left',
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
       'Shape how the Bitcode Terminal, conversations, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
   },
-  btd: {
-    label: '$BTD',
-    routeSegment: 'btd',
+  wallet: {
+    label: 'Wallet',
+    routeSegment: 'wallet',
     ringIndex: 0,
-    labelPosition: 'bottom',
-    routeTitle: '$BTD Auxillary',
+    labelPosition: 'top',
+    routeTitle: 'Wallet Auxillary',
     routeDescription:
-      'Review balances, share posture, and advanced $BTD defaults in the innermost auxillary.',
+      'Connect Bitcoin wallet providers, review BTC and BTD balances, and inspect wallet-bound source-share posture in one focused auxillary.',
   },
 };
 
@@ -108,14 +108,14 @@ export function getAuxillaryDescriptor(step: ConcreteAuxillaryPane) {
 
 export function getAuxillaryLayerLabel(step: ConcreteAuxillaryPane) {
   switch (step) {
-    case 'connects':
-      return 'connection lane';
+    case 'externals':
+      return 'externals lane';
     case 'interfaces':
       return 'interface lane';
     case 'profile':
-      return 'identity lane';
-    case 'btd':
-      return '$BTD lane';
+      return 'profile lane';
+    case 'wallet':
+      return 'wallet lane';
     default:
       return 'auxillary';
   }
@@ -134,8 +134,8 @@ export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
-    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: connections, interface defaults, wallet identity, balances, and follow-through stay one click apart without changing the Terminal context.'
-    : 'Open Bitcode access in a stable auxillary read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
+    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: wallet identity, external connections, optional profile data, interface defaults, and follow-through stay one click apart without changing the Terminal context.'
+    : 'Open Bitcode access in a stable auxillary read, then move between Wallet, Externals, Profile, and Interfaces without losing the active pane or route context.';
 }
 
 export function getAuxillariesTabsDescription(mode: 'onboarding' | 'auxillaries') {
