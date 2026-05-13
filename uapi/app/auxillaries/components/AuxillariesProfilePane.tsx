@@ -364,7 +364,7 @@ export default function AuxillariesProfilePane({
               </p>
               <h3 className="mt-2 text-xl font-semibold text-white">Email notifications</h3>
               <p className="mt-2 text-sm leading-7 text-white/66">
-                Email does not authenticate Bitcode in V28. It only adds notification and recovery contact after wallet identity exists.
+                Email does not authenticate Bitcode. It only adds notification and recovery contact after wallet identity exists.
               </p>
             </div>
 

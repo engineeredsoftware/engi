@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
+import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternalsPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -14,10 +14,16 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
+jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
+  VCSIntegrationPanel: function MockVCSIntegrationPanel() {
+    return <div data-testid="mock-vcs-integration-panel">VCS integration panel</div>;
+  },
+}));
+
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('WalletPane Promo Code Flow', () => {
+describe('ExternalsPane data-share flow', () => {
   beforeEach(() => {
     global.fetch = jest
       .fn()
@@ -58,6 +64,22 @@ describe('WalletPane Promo Code Flow', () => {
         modelPreferences: {},
       },
       hasGitHubConnection: true,
+      hasValidGitHubConnection: true,
+      hasWalletConnection: true,
+      hasStoredVerifiedWalletConnection: true,
+      hasVerifiedWalletConnection: true,
+      walletBindingStatus: 'verified',
+      walletConnectionStatus: {
+        connected: true,
+        provider: 'leather',
+        valid: true,
+        verificationState: 'verified',
+      },
+      repositoryConnectionStatus: {
+        connected: true,
+        provider: 'github',
+        valid: true,
+      },
       btdBalance: 1200,
       isLoading: false,
       error: null,
@@ -71,14 +93,14 @@ describe('WalletPane Promo Code Flow', () => {
     jest.restoreAllMocks();
   });
 
-  it('enables continuous need-space repository sharing from the $BTD alias', async () => {
-    render(<WalletPane onSave={() => {}} loading={false} isOnboardingComplete />);
+  it('enables continuous need-space repository sharing from Externals', async () => {
+    render(<ExternalsPane onSave={() => {}} loading={false} isOnboardingComplete />);
 
     await waitFor(() => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText('Need-space knowledge sharing')).toBeInTheDocument();
+    expect(screen.getAllByText('Need-space knowledge sharing').length).toBeGreaterThan(0);
     expect(screen.getByText('engineeredsoftware/bitcode')).toBeInTheDocument();
 
     const [toggle] = screen.getAllByRole('checkbox');

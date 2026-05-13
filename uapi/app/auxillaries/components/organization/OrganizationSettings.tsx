@@ -421,7 +421,7 @@ export default function OrganizationSettings({
                     Connected wallet
                   </div>
                   <p className="text-sm text-slate-600">
-                    BTC settlement and issued $BTD posture are reviewed from the $BTD auxillary.
+                    BTC settlement and issued BTD posture are reviewed from Wallet.
                   </p>
                 </div>
                 <div className="rounded-2xl border bg-slate-50 p-4">

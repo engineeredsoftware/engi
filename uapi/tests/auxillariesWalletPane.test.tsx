@@ -43,6 +43,13 @@ jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
   },
 }));
 
+jest.mock('@/app/auxillaries/components/AuxillariesWalletConnectionPanel', () => ({
+  __esModule: true,
+  default: function MockAuxillariesWalletConnectionPanel() {
+    return <div data-testid="mock-wallet-connection-panel">Wallet connection panel</div>;
+  },
+}));
+
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
@@ -116,7 +123,7 @@ describe('AuxillariesWalletPane', () => {
     });
 
     expect(screen.getByTestId('wallet-step-badge')).toHaveTextContent('Auxillary step 1');
-    expect(screen.getByText(/Keep BTC fees, \$BTD holdings, identity, and membership readable together/i)).toBeTruthy();
+    expect(screen.getByText(/Keep BTC fees, BTD holdings, and wallet identity readable together/i)).toBeTruthy();
     expect(screen.getByText('Access policy')).toBeInTheDocument();
     expect(screen.getByText('policy-main')).toBeInTheDocument();
     expect(screen.getByText('policy-has...567890')).toBeInTheDocument();

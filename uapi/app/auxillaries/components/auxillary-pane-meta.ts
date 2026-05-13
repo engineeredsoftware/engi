@@ -53,7 +53,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'left',
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
-      'Shape how the Bitcode Terminal, conversations, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
+      'Shape how the Bitcode Terminal, MCP API, ChatGPT App, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
   },
   wallet: {
     label: 'Wallet',

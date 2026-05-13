@@ -81,7 +81,7 @@ describe('TerminalLiveSummaryStrip', () => {
     expect(screen.getAllByText('Settlement posture').length).toBeGreaterThan(0);
     expect(screen.getAllByText('wallet reconnect required').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Repository posture').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('GitHub reconnect required · stored Exchange inventory').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('GitHub reconnect required · stored protocol inventory').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Repository anchor').length).toBeGreaterThan(0);
     expect(screen.getAllByText('bitcode/bitcode').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Active scenario').length).toBeGreaterThan(0);

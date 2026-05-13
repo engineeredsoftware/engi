@@ -20,10 +20,17 @@ jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
   },
 }));
 
+jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
+  __esModule: true,
+  default: function MockAuxillariesDataSharingPanel() {
+    return <div data-testid="mock-externals-data-sharing-panel">Need-space knowledge sharing</div>;
+  },
+}));
+
 jest.mock('@/app/auxillaries/components/headers/AuxillariesExternalsPaneHeader', () => ({
   __esModule: true,
   default: function MockAuxillariesExternalsPaneHeader() {
-    return <div data-testid="mock-connects-header">Externals header</div>;
+    return <div data-testid="mock-externals-header">Externals header</div>;
   },
 }));
 
@@ -100,16 +107,14 @@ describe('AuxillariesExternalsPane', () => {
     );
 
     expect(screen.getByText('Inventory source')).toBeInTheDocument();
-    expect(screen.getAllByText('stored Exchange inventory').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('stored protocol inventory').length).toBeGreaterThan(0);
     expect(
-      screen.getByText(/the current source of truth is stored Exchange inventory/i),
+      screen.getByText(/the current source of truth is stored protocol inventory/i),
     ).toBeInTheDocument();
     expect(screen.getByText('Connected Repositories (2)')).toBeInTheDocument();
     expect(screen.getByText('bitcode/bitcode')).toBeInTheDocument();
     expect(screen.getByText('bitcode/bitcode-core')).toBeInTheDocument();
-    expect(
-      screen.getByText(/same stored-first or live-fallback inventory contract/i),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('mock-externals-data-sharing-panel')).toBeInTheDocument();
   });
 
   it('treats an invalid saved provider session as reconnect-required readiness', () => {

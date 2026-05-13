@@ -131,7 +131,7 @@ describe('TerminalRepositoryContextPanel', () => {
       expect(global.fetch).toHaveBeenCalledWith('/api/vcs/github/repositories');
     });
     await waitFor(() => {
-      expect(screen.getAllByText('stored Exchange inventory').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('stored protocol inventory').length).toBeGreaterThan(0);
     });
 
     expect(

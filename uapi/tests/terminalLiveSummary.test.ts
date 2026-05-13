@@ -63,7 +63,7 @@ describe('normalizeTerminalLiveSummary', () => {
 
     expect(items).toEqual([
       { label: 'Settlement posture', value: 'wallet reconnect required' },
-      { label: 'Repository posture', value: 'GitHub reconnect required · stored Exchange inventory' },
+      { label: 'Repository posture', value: 'GitHub reconnect required · stored protocol inventory' },
       { label: 'Repository anchor', value: 'bitcode/bitcode' },
     ]);
   });

@@ -9,20 +9,16 @@ import {
 
 const RESPONSIVE_ROUTES = [
   {
-    path: '/exchange',
-    expected: /Search activity, select a row, and read Exchange state/i,
-  },
-  {
     path: '/terminal',
     expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
   },
   {
     path: '/auxillaries/wallet',
-    expected: /\$BTD in one contained auxillary read/i,
+    expected: /Wallet in one contained auxillary read/i,
   },
   {
-    path: '/conversations',
-    expected: /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
+    path: '/auxillaries/externals',
+    expected: /Externals in one contained auxillary read/i,
   },
 ] as const;
 
@@ -36,7 +32,7 @@ test.describe('commercial MVP responsive route health', () => {
       const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
       await page.setViewportSize({ width: 390, height: 844 });
-      const firstDataShareResponse = route.path === '/auxillaries/wallet'
+      const firstDataShareResponse = route.path === '/auxillaries/externals'
         ? page.waitForResponse((response) =>
           response.url().includes('/api/auxillaries/user/data-share'),
         )
@@ -46,7 +42,7 @@ test.describe('commercial MVP responsive route health', () => {
       await expect(page.locator('body')).toBeVisible();
 
       await page.setViewportSize({ width: 1440, height: 900 });
-      const reloadDataShareResponse = route.path === '/auxillaries/wallet'
+      const reloadDataShareResponse = route.path === '/auxillaries/externals'
         ? page.waitForResponse((response) =>
           response.url().includes('/api/auxillaries/user/data-share'),
         )
@@ -65,9 +61,8 @@ test.describe('commercial MVP responsive route health', () => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     await page.setViewportSize({ width: 1024, height: 768 });
-    await openCommercialRoute(page, '/exchange', /Search activity, select a row, and read Exchange state/i);
+    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Give and Need work/i);
 
-    await expect(page.getByRole('link', { name: /^Exchange$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Terminal$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Docs$/ })).toBeVisible();
     await expect(page.getByLabel(/Open BTD wallet auxillary/i)).toBeVisible();

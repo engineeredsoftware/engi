@@ -19,9 +19,9 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'Terminal',
   },
   {
-    path: '/exchange',
-    expected: /Search activity, select a row, and read Exchange state/i,
-    name: 'Exchange',
+    path: '/auxillaries/wallet',
+    expected: /Wallet in one contained auxillary read/i,
+    name: 'Wallet auxillary',
   },
   {
     path: '/auxillaries/profile',
@@ -39,16 +39,6 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'Interfaces auxillary',
   },
   {
-    path: '/auxillaries/wallet',
-    expected: /\$BTD in one contained auxillary read/i,
-    name: 'BTD auxillary',
-  },
-  {
-    path: '/conversations',
-    expected: /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
-    name: 'conversations',
-  },
-  {
     path: '/docs',
     expected: /Learn Bitcode from Source Shares to proof/i,
     name: 'docs home',
@@ -62,11 +52,6 @@ const ROUTE_SMOKE_MATRIX = [
     path: '/docs/source-shares',
     expected: /Source Shares and the Bitcode Exchange/i,
     name: 'source-shares docs',
-  },
-  {
-    path: '/docs/exchange',
-    expected: /Understand the Bitcode Exchange/i,
-    name: 'Exchange docs',
   },
   {
     path: '/docs/terminal',
@@ -87,11 +72,6 @@ const ROUTE_SMOKE_MATRIX = [
     path: '/docs/auxillaries',
     expected: /Configure Auxillaries for identity, interfaces, and \$BTD/i,
     name: 'Auxillaries docs',
-  },
-  {
-    path: '/docs/conversations',
-    expected: /Use Conversations as a rich Bitcode write surface/i,
-    name: 'Conversations docs',
   },
   {
     path: '/docs/configuration',
@@ -145,7 +125,7 @@ test.describe('commercial MVP route surfaces', () => {
     });
   }
 
-  test('public navigation keeps Exchange, Terminal, and Docs as first-class commercial routes', async ({
+  test('public navigation keeps Terminal and Docs as first-class commercial routes', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -155,10 +135,6 @@ test.describe('commercial MVP route surfaces', () => {
       page,
       /Bitcode is auditable market infrastructure for technical knowledge/i,
     );
-
-    await page.locator('a[href="/exchange"]').first().click();
-    await expect(page).toHaveURL(/\/exchange$/);
-    await expectCommercialRouteReady(page, /Search activity, select a row, and read Exchange state/i);
 
     await page.locator('a[href="/terminal"]').first().click();
     await expect(page).toHaveURL(/\/terminal$/);

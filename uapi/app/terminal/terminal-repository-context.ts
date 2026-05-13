@@ -75,7 +75,7 @@ export function getProviderLabel(provider: VCSProviderType) {
 export function getRepositoryInventorySourceLabel(
   source: TerminalRepositoryInventorySource | null | undefined,
 ) {
-  if (source === 'stored_repository_inventory') return 'stored Exchange inventory';
+  if (source === 'stored_repository_inventory') return 'stored protocol inventory';
   if (source === 'live_provider_inventory') return 'live provider inventory';
   if (source === 'mock_repository_inventory') return 'mock review inventory';
   return 'inventory pending';

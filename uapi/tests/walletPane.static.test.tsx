@@ -35,7 +35,7 @@ describe('WalletPane SSR Onboarding View', () => {
     } as any);
   });
 
-  it('renders the unauthenticated $BTD auxillary posture', () => {
+  it('renders the unauthenticated Wallet auxillary posture', () => {
     const html = renderToString(
       <WalletPane
         onSave={() => {}}
@@ -44,8 +44,8 @@ describe('WalletPane SSR Onboarding View', () => {
       />,
     );
 
-    expect(html).toContain('$BTD Auxillary');
-    expect(html).toContain('Sign in before opening $BTD posture');
-    expect(html).toContain('Open Profile auxillary');
+    expect(html).toContain('Wallet Auxillary');
+    expect(html).toContain('Connect Bitcoin wallet');
+    expect(html).toContain('Stage Bitcoin address');
   });
 });

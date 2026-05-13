@@ -171,7 +171,7 @@ The same 1A verification also found that simultaneous mock and testnet-readiness
 V28 QA therefore requires lane-specific `NEXT_DIST_DIR` values for local dual-lane runs, because the client bundle compiles public env values while the server routes read process env at request time.
 Without isolated artifacts, the testnet-readiness lane can appear mock-authenticated even while its `/api/auxillaries/data` response correctly returns anonymous zero-state.
 
-The next 1A Auxillaries/Profile/Connects slice exposed four MVP shell issues and closed them in source and tests.
+The next 1A Auxillaries/Profile/Externals slice exposed four MVP shell issues and closed them in source and tests.
 The active contained pane must own vertical scrolling; the overlay shell may constrain height, but it must not trap the operator above lower profile, wallet, or repository controls.
 Selector-card state must render as visual indicators rather than `laneactive` / `laneready` prose, while retaining accessible labels and machine-readable state for tests.
 Async profile props must hydrate into editable local fields after mock/live data arrives, so display name, bio, company, avatar, and team data do not remain blank after the email field has already loaded.

@@ -9,28 +9,28 @@ import {
 
 const AUXILLARY_ROUTES = [
   {
+    step: 'wallet',
+    path: '/auxillaries/wallet',
+    heading: /Wallet in one contained auxillary read/i,
+    container: 'wallet-pane-container',
+  },
+  {
+    step: 'externals',
+    path: '/auxillaries/externals',
+    heading: /Externals in one contained auxillary read/i,
+    container: 'externals-pane-container',
+  },
+  {
     step: 'profile',
     path: '/auxillaries/profile',
     heading: /Profile in one contained auxillary read/i,
     container: 'profile-step-container',
   },
   {
-    step: 'externals',
-    path: '/auxillaries/externals',
-    heading: /Externals in one contained auxillary read/i,
-    container: 'connects-pane-container',
-  },
-  {
     step: 'interfaces',
     path: '/auxillaries/interfaces',
     heading: /Interfaces in one contained auxillary read/i,
     container: 'interfaces-pane-container',
-  },
-  {
-    step: 'wallet',
-    path: '/auxillaries/wallet',
-    heading: /\$BTD in one contained auxillary read/i,
-    container: 'wallet-pane-container',
   },
 ] as const;
 
@@ -66,7 +66,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await openCommercialRoute(page, '/auxillaries/profile', /Profile in one contained auxillary read/i);
 
     await page.locator('a[href="/auxillaries/externals"]').first().click();
-    await expect(page).toHaveURL(/\/auxillaries\/connects$/);
+    await expect(page).toHaveURL(/\/auxillaries\/externals$/);
     await expectCommercialRouteReady(page, /Externals in one contained auxillary read/i);
 
     await page.getByRole('button', { name: /^Interfaces auxillary$/ }).click();
@@ -77,42 +77,39 @@ test.describe('commercial MVP Auxillaries experience', () => {
         .getByRole('heading', { name: /^Interfaces Auxillary$/ }),
     ).toBeVisible();
 
-    await page.getByRole('button', { name: /^\$BTD auxillary$/ }).click();
+    await page.getByRole('button', { name: /^Wallet auxillary$/ }).click();
     await expect(page.getByTestId('wallet-pane-container')).toBeVisible();
     await expect(
       page
         .getByTestId('wallet-pane-container')
-        .getByRole('heading', { name: /^\$BTD Auxillary$/ }),
+        .getByRole('heading', { name: /^Wallet Auxillary$/ }),
     ).toBeVisible();
 
     await trap.assertClean();
   });
 
-  test('Profile auxillary keeps wallet identity editable without leaving the contained route', async ({
+  test('Profile auxillary keeps optional identity editable without owning wallet or GitHub controls', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     await openCommercialRoute(page, '/auxillaries/profile', /Profile in one contained auxillary read/i);
 
-    const walletInput = page.getByTestId('profile-wallet-address-input');
     await expect(page.getByLabel('Display Name')).toHaveValue('Avery Mercer');
     await expect(page.getByLabel('Professional Bio')).toHaveValue(
       'Reviewing the Bitcode commercial surface in deterministic mock mode.',
     );
-    await expect(walletInput).toBeVisible();
-    await expect(walletInput).toHaveValue(/tb1qbitcodemockoperator/i);
-
-    await walletInput.fill('tb1qcommercialmvpqa0000000000000000000000');
-    await expect(walletInput).toHaveValue('tb1qcommercialmvpqa0000000000000000000000');
-    await expect(page.getByText(/Bitcoin wallet connection is the first Bitcode identity action/i)).toBeVisible();
-    await expect(page.getByText(/Connect GitHub in Externals/i)).toBeVisible();
-    await expect(page.getByText(/Optional email notifications/i)).toBeVisible();
+    await expect(page.getByLabel('Company')).toHaveValue('Bitcode Review Lab');
+    await expect(page.getByText(/Email does not authenticate Bitcode/i)).toBeVisible();
+    await expect(page.getByText(/Wallets live in Wallet; GitHub and other providers live in Externals/i)).toBeVisible();
+    await expect(page.getByTestId('profile-wallet-address-input')).toHaveCount(0);
+    await expect(page.getByTestId('profile-connect-leather')).toHaveCount(0);
+    await expect(page.getByText(/Connect GitHub for source-bearing input/i)).toHaveCount(0);
 
     await trap.assertClean();
   });
 
-  test('Profile wallet connection stays on Profile and does not run onboarding completion in contained Auxillaries', async ({
+  test('Wallet connection stays on Wallet and does not run onboarding completion in contained Auxillaries', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -163,21 +160,20 @@ test.describe('commercial MVP Auxillaries experience', () => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify({ completedPanes: ['profile'], isOnboardingComplete: false }),
+        body: JSON.stringify({ completedPanes: ['wallet'], isOnboardingComplete: false }),
       });
     });
 
-    await openCommercialRoute(page, '/auxillaries/profile', /Profile in one contained auxillary read/i);
-    await expect(page.getByTestId('profile-step-container')).toBeVisible();
-    await expect(page.getByTestId('profile-connect-leather')).toBeVisible();
+    await openCommercialRoute(page, '/auxillaries/wallet', /Wallet in one contained auxillary read/i);
+    await expect(page.getByTestId('wallet-pane-container')).toBeVisible();
+    await expect(page.getByTestId('wallet-connect-leather')).toBeVisible();
 
-    await page.getByTestId('profile-connect-leather').click();
-    await expect(page.getByTestId('profile-step-container')).toBeVisible();
+    await page.getByTestId('wallet-connect-leather').click();
+    await expect(page.getByTestId('wallet-pane-container')).toBeVisible();
     await expect(page.getByText(/Bitcoin provider connected/i)).toBeVisible();
-    await expect(page.getByTestId('profile-wallet-address-input')).toHaveValue(
-      'tb1pqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
-    );
-    await expect(page).toHaveURL(/\/auxillaries\/profile$/);
+    await expect(page.getByText(/Leather/i)).toBeVisible();
+    await expect(page.getByText(/tb1pqqqqqq/i)).toBeVisible();
+    await expect(page).toHaveURL(/\/auxillaries\/wallet$/);
     await expect.poll(() => Promise.resolve(onboardingRequests)).toBe(0);
 
     const calls = await page.evaluate(() => (window as any).__bitcodeWalletCalls ?? []);
@@ -249,7 +245,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await trap.assertClean();
   });
 
-  test('Externals, Interfaces, and BTD panes expose MVP configuration consequences', async ({
+  test('Externals, Interfaces, and Wallet panes expose MVP configuration consequences', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -261,7 +257,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await page.goto('/auxillaries/interfaces');
     await expectCommercialRouteReady(page, /Interfaces in one contained auxillary read/i);
     await expect(page.getByText(/Global Model Selection/i)).toBeVisible();
-    await expect(page.getByText(/Exchange detail and conversation defaults/i)).toBeVisible();
+    await expect(page.getByText(/Terminal detail and interface defaults/i)).toBeVisible();
     const modelPreferenceSave = page.waitForResponse((response) => {
       return (
         response.url().includes('/api/auxillaries/model-preferences') &&
@@ -273,31 +269,31 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await expect(page.getByText('Global model', { exact: true }).first()).toBeVisible();
 
     await page.goto('/auxillaries/wallet');
-    await expectCommercialRouteReady(page, /\$BTD in one contained auxillary read/i);
-    const btdPane = page.getByTestId('wallet-pane-container');
-    await expect(btdPane.getByText('1,200 BTD')).toBeVisible();
-    await expect(btdPane.getByText(/0\.042 BTC/i)).toBeVisible();
+    await expectCommercialRouteReady(page, /Wallet in one contained auxillary read/i);
+    const walletPane = page.getByTestId('wallet-pane-container');
+    await expect(walletPane.getByText('1,200 BTD')).toBeVisible();
+    await expect(walletPane.getByText(/0\.042 BTC/i)).toBeVisible();
     await expect(page.getByText(/BTC is the fee-liquidity posture/i)).toBeVisible();
-    await expect(page.getByText(/Read your BTD-relevant activity from the shared Exchange table/i)).toBeVisible();
-    await expect(page.getByText(/Searchable Exchange activity table/i)).toBeVisible();
+    await expect(page.getByText(/Read your BTD-relevant activity from the shared activity table/i)).toBeVisible();
+    await expect(page.getByText(/Searchable activity table/i)).toBeVisible();
     await expect(page.getByText(/Changes save automatically so the BTD posture/i)).toBeVisible();
-    await expect(page.getByRole('button', { name: /Save \$BTD auxillary/i })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /Save Wallet auxillary/i })).toHaveCount(0);
 
     await trap.assertClean();
   });
 
-  test('BTD auxillary data-share consent toggles persist through the contained pane API', async ({
+  test('Externals data-share consent toggles persist through the contained pane API', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/auxillaries/wallet', /\$BTD in one contained auxillary read/i);
+    await openCommercialRoute(page, '/auxillaries/externals', /Externals in one contained auxillary read/i);
 
-    const btdPane = page.getByTestId('wallet-pane-container');
-    await expect(btdPane.getByText('Need-space knowledge sharing')).toBeVisible();
-    await expect(btdPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
+    const externalsPane = page.getByTestId('externals-pane-container');
+    await expect(externalsPane.getByText('Need-space knowledge sharing')).toBeVisible();
+    await expect(externalsPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
 
-    const setAndForgetToggle = btdPane.getByText('Set it and forget it', { exact: true }).locator('..').locator('label');
+    const setAndForgetToggle = externalsPane.getByText('Set it and forget it', { exact: true }).locator('..').locator('label');
     const disableAllRequest = page.waitForResponse((response) => (
       response.url().includes('/api/auxillaries/user/data-share') &&
       response.request().method() === 'POST'
@@ -311,7 +307,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
       enabled: false,
     });
 
-    const repoRow = btdPane
+    const repoRow = externalsPane
       .getByTestId('externals-data-share-repositories')
       .getByTestId('externals-data-share-repo-row')
       .filter({ hasText: 'bitcode/bitcode' });
@@ -333,7 +329,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
       commit: '8d4d0a7',
       enabled: true,
     });
-    await expect(btdPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
+    await expect(externalsPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
 
     await trap.assertClean();
   });

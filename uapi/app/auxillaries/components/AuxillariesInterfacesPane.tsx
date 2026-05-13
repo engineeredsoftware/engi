@@ -35,23 +35,23 @@ interface ModelOption {
   outputLimit?: number;
 }
 
-type ExchangeDetailDensity = "signal" | "balanced" | "full";
-type ConversationLaunch = "overlay" | "focused" | "continuity";
+type TerminalDetailDensity = "signal" | "balanced" | "full";
+type ExternalInterfaceEntry = "mcp" | "chatgpt" | "terminal";
 type ProofMode = "visual" | "mixed" | "raw";
 type PromptTone = "bounded" | "formal" | "decisive";
 type ExecutionBias = "balanced" | "quality" | "throughput";
 
 interface InterfacesDefaults {
-  exchangeDetailDensity: ExchangeDetailDensity;
-  conversationLaunch: ConversationLaunch;
+  terminalDetailDensity: TerminalDetailDensity;
+  externalInterfaceEntry: ExternalInterfaceEntry;
   proofMode: ProofMode;
   promptTone: PromptTone;
   executionBias: ExecutionBias;
 }
 
 const DEFAULT_INTERFACES_DEFAULTS: InterfacesDefaults = {
-  exchangeDetailDensity: "balanced",
-  conversationLaunch: "continuity",
+  terminalDetailDensity: "balanced",
+  externalInterfaceEntry: "terminal",
   proofMode: "mixed",
   promptTone: "formal",
   executionBias: "balanced",
@@ -167,14 +167,14 @@ export default function AuxillariesInterfacesPane({
   const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
       {
-        id: "exchange-detail-density",
-        title: "Exchange detail density",
+        id: "terminal-detail-density",
+        title: "Terminal detail density",
         description: "Choose how much structured operator signal opens by default in transactions.",
-        value: defaults.exchangeDetailDensity,
+        value: defaults.terminalDetailDensity,
         onChange: (value) =>
           setDefaults((current) => ({
             ...current,
-            exchangeDetailDensity: value as ExchangeDetailDensity,
+            terminalDetailDensity: value as TerminalDetailDensity,
           })),
         options: [
           {
@@ -195,30 +195,30 @@ export default function AuxillariesInterfacesPane({
         ],
       },
       {
-        id: "conversation-launch",
-        title: "Conversation launch",
-        description: "Control how conversation work should re-enter Terminal when opened from operator context.",
-        value: defaults.conversationLaunch,
+        id: "external-interface-entry",
+        title: "External interface entry",
+        description: "Control which interface should receive work when Bitcode leaves the website surface.",
+        value: defaults.externalInterfaceEntry,
         onChange: (value) =>
           setDefaults((current) => ({
             ...current,
-            conversationLaunch: value as ConversationLaunch,
+            externalInterfaceEntry: value as ExternalInterfaceEntry,
           })),
         options: [
           {
-            value: "overlay",
-            label: "Overlay",
-            hint: "Open conversations as a dedicated surface anchored to the current flow.",
+            value: "mcp",
+            label: "MCP API",
+            hint: "Prefer the protocol API boundary when integrators invoke Bitcode.",
           },
           {
-            value: "focused",
-            label: "Focused",
-            hint: "Bias toward a narrower, decisive conversation launch posture.",
+            value: "chatgpt",
+            label: "ChatGPT App",
+            hint: "Prefer the integratable ChatGPT App path for conversational operators.",
           },
           {
-            value: "continuity",
-            label: "Continuity",
-            hint: "Preserve the current transaction and route context when entering chat.",
+            value: "terminal",
+            label: "Terminal",
+            hint: "Return to the website Terminal when the work should stay in-product.",
           },
         ],
       },
@@ -356,32 +356,32 @@ export default function AuxillariesInterfacesPane({
           <AuxillariesWorkspaceSection
             kicker="Interfaces posture"
             title="Shape transactions before you reopen them"
-            description="Interfaces is where you keep Exchange detail density, conversation entry, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
+            description="Interfaces is where you keep Terminal detail density, MCP API and ChatGPT App entry posture, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
             explainer={auxillaryPaneExplainers.interfacesDefaults}
             tone="emerald"
           >
             <AuxillariesStatGrid
               items={[
                 {
-                  label: "Exchange detail",
+                  label: "Terminal detail",
                   value:
-                    defaults.exchangeDetailDensity === "signal"
+                    defaults.terminalDetailDensity === "signal"
                       ? "Dense signal"
-                      : defaults.exchangeDetailDensity === "full"
+                      : defaults.terminalDetailDensity === "full"
                         ? "Full read"
                         : "Balanced read",
                   detail: "How much structured detail opens first in transactions.",
                   tone: "emerald",
                 },
                 {
-                  label: "Conversation entry",
+                  label: "Interface entry",
                   value:
-                    defaults.conversationLaunch === "overlay"
-                      ? "Overlay launch"
-                      : defaults.conversationLaunch === "focused"
-                        ? "Focused launch"
-                        : "Continuity launch",
-                  detail: "How conversation work should re-enter the live Bitcode frame.",
+                    defaults.externalInterfaceEntry === "mcp"
+                      ? "MCP API"
+                      : defaults.externalInterfaceEntry === "chatgpt"
+                        ? "ChatGPT App"
+                        : "Terminal",
+                  detail: "How external interface work should enter or return to Bitcode.",
                   tone: "sky",
                 },
                 {
@@ -409,8 +409,8 @@ export default function AuxillariesInterfacesPane({
           <form onSubmit={handleSubmit} className="space-y-5">
             <AuxillariesWorkspaceSection
               kicker="Interface defaults"
-              title="Exchange detail and conversation defaults"
-              description="Set the opening behavior the operator should see when moving between transactions, proofs, and dedicated conversation work."
+              title="Terminal detail and interface defaults"
+              description="Set the opening behavior the operator should see when moving between Terminal transactions, proofs, the MCP API, and the ChatGPT App."
               explainer={auxillaryPaneExplainers.interfacesDefaults}
             >
               <AuxillariesPreferenceCards items={preferenceCards} />
@@ -446,7 +446,7 @@ export default function AuxillariesInterfacesPane({
 
             <div className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
-                Changes save automatically so transactions, proofs, and conversations reopen with the same operator defaults.
+                Changes save automatically so Terminal transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same operator defaults.
               </p>
             </div>
           </form>

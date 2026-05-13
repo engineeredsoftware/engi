@@ -10,12 +10,12 @@ export const auxillaryPaneExplainers: Record<
     kicker: "Interfaces auxillary",
     title: "Interface defaults",
     summary:
-      "Keep the Bitcode Terminal, conversations, and proof reading aligned to one operator posture.",
+      "Keep the Bitcode Terminal, MCP API, ChatGPT App, and proof reading aligned to one operator posture.",
     detail:
       "These defaults shape how the Bitcode Terminal opens, how detail is emphasized, and how evidence is read before closure.",
     points: [
-      "Choose the Exchange detail density you want to read first",
-      "Keep conversation entry and continuity predictable",
+      "Choose the Terminal detail density you want to read first",
+      "Keep MCP API and ChatGPT App entry posture predictable",
       "Decide whether proofs open visually, mixed, or as raw evidence",
     ],
   },
@@ -25,7 +25,7 @@ export const auxillaryPaneExplainers: Record<
     summary:
       "The global prompt baseline carries the user-visible posture Bitcode should keep when it reasons or explains.",
     detail:
-      "Use a bounded baseline here when you want calmer, more exact Bitcode behavior without rewriting every transaction or conversation locally.",
+      "Use a bounded baseline here when you want calmer, more exact Bitcode behavior without rewriting every transaction or interface locally.",
     points: [
       "Keep formal or decisive tone consistent",
       "Bias toward throughput, quality, or balanced review",
@@ -38,7 +38,7 @@ export const auxillaryPaneExplainers: Record<
     summary:
       "Global model posture lets you decide what provider family should anchor the Bitcode Terminal by default.",
     detail:
-      "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across Terminal, Exchange, and conversation work.",
+      "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across Terminal, MCP API, and ChatGPT App work.",
     points: [
       "Apply one default model family to the Bitcode Terminal",
       "Review visible cost and context posture before switching",
@@ -46,7 +46,7 @@ export const auxillaryPaneExplainers: Record<
     ],
   },
   btdWallet: {
-    kicker: "$BTD auxillary",
+    kicker: "Wallet auxillary",
     title: "Wallet posture",
     summary:
       "Keep identity, BTC fee liquidity, $BTD holdings, account trust, and membership posture legible before you lean on heavier Bitcode throughput.",
@@ -59,7 +59,7 @@ export const auxillaryPaneExplainers: Record<
     ],
   },
   btdShares: {
-    kicker: "$BTD auxillary",
+    kicker: "Wallet auxillary",
     title: "Share posture",
     summary:
       "Share reading controls how you want ownership, settlement, and organization participation to surface in transactions.",
@@ -68,16 +68,16 @@ export const auxillaryPaneExplainers: Record<
     points: [
       "Choose the share lens that matches the current operating context",
       "Keep settlement reading explicit before closure",
-      "Control how BTD-specific detail re-enters Terminal and Exchange surfaces",
+      "Control how BTD-specific detail re-enters Terminal and interface surfaces",
     ],
   },
   btdAdvanced: {
-    kicker: "$BTD auxillary",
+    kicker: "Wallet auxillary",
     title: "Advanced defaults",
     summary:
       "Advanced $BTD defaults shape how the inner auxillary biases replay, automation, and settlement follow-through.",
     detail:
-      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking Terminal and Exchange reading posture.",
+      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking Terminal or interface reading posture.",
     points: [
       "Bias toward review-first or more decisive settlement handling",
       "Decide how BTD detail should open back into transaction views",
