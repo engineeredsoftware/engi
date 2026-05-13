@@ -1,4 +1,4 @@
-project_id = "jspazsjqaadfzllrgcns"
+project_id = "tkpyosihuouusyaxtbau"
 
 [api]
 port = 54321
@@ -53,16 +53,14 @@ minimum_password_length = 6
 password_requirements = ""
 rate_limit = { email_sent = 2, sms_sent = 30, anonymous_users = 30, token_refresh = 150 }
 
-# External OAuth providers
+# Built-in OAuth providers remain disabled for V28 staging-testnet.
+# Bitcoin wallet auth uses Bitcode's custom OAuth2 provider, and GitHub
+# repository access uses the GitHub App integration rather than Supabase SSO.
 [auth.external.google]
-enabled = true
-client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
-secret    = "env(SUPABASE_AUTH_GOOGLE_CLIENT_SECRET)"
+enabled = false
 
 [auth.external.github]
-enabled = true
-client_id = "env(SUPABASE_AUTH_GITHUB_CLIENT_ID)"
-secret    = "env(SUPABASE_AUTH_GITHUB_CLIENT_SECRET)"
+enabled = false
 
 [auth.email]
 enable_signup = true

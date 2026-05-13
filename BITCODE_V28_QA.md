@@ -328,11 +328,11 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Check | Result | Evidence |
 | --- | --- | --- |
 | Environment file posture | pass | Populated root and UAPI `.env` files were moved out of tracking into `.env.local`; root `.env.example` and `uapi/.env.example` now carry placeholder keys only. |
-| Supabase migrations | pass | Local and remote migration history align for `001`, `002`, `003`, and dashboard-origin RLS migration `20260510223914`; the RLS migration is now represented in `supabase/migrations/20260510223914_rls_auto_enable.sql`. |
-| UAPI unit/integration tests | pass | `pnpm -C uapi exec jest --runInBand --silent --forceExit`: 85 suites passed, 1 skipped; 245 tests passed, 1 skipped. The remaining warning is the known Jest open-handle/MaxListeners warning from the mock orchestrator suite, not a failed assertion. |
+| Supabase migrations | pass | CLI link was realigned to staging-testnet project `tkpyosihuouusyaxtbau`; `supabase db push --include-all` applied local migrations `001`, `002`, and `003` before the dashboard-origin RLS migration `20260510223914`; `supabase migration list` and `supabase db push --dry-run` report the remote database is up to date. |
+| UAPI unit/integration tests | pass | `pnpm -C uapi exec jest --runInBand --silent`: 85 suites passed, 1 skipped; 245 tests passed, 1 skipped. Jest now exits without `--forceExit` after moving ts-jest config out of deprecated `globals`, suppressing mock-orchestrator process hooks in Jest, and unref'ing conversation streaming timers. |
 | Package tests | pass | `pnpm -C packages/protocol test`, `pnpm -C packages/protocol run typecheck`, and `pnpm -C packages/orm test` pass. |
 | Lint/typecheck | pass | `pnpm run lint`, `pnpm -C uapi run lint`, and `pnpm -C uapi exec tsc --noEmit --pretty false` pass. |
-| Staging-testnet build | pass | `pnpm -C uapi run build` passes with staging-testnet flags, Exchange and website Conversations disabled, mocks off, and Next loading `uapi/.env.local`. Auxillaries data routes are dynamic and no longer emit build-time 500s. |
+| Staging-testnet build | pass | `pnpm -C uapi run build` passes with staging-testnet flags, Exchange and website Conversations disabled, mocks off, and Next loading `uapi/.env.local`. Auxillaries data routes are dynamic and no longer emit build-time 500s; local Tailwind JIT noise is gone after `DEBUG=false`, and Browserslist/caniuse stale-data warning is gone after the workspace `caniuse-lite` override/install refresh. |
 | Diff hygiene | pass | `git diff --check` passes. |
 
 ### 2026-05-09 Pass 3A Resume: Wallet Extension And Provider Prerequisites
@@ -816,38 +816,28 @@ Automated checks passed:
 
 Build warnings and interpretation:
 
-- Browserslist/caniuse data is stale. This is not a V28 deployment blocker but belongs in V34/V35 maintenance.
-- Tailwind/JIT logs emit repeated `JIT TOTAL` label warnings during build. This is not blocking because compilation succeeds, but it should be cleaned in telemetry/build-log hardening.
-- The production build logs `auxillaries-data:read-finish { status: 500, mockMode: false }` during static generation. This is a V28 live-staging blocker because Wallet/Profile/GitHub readiness depends on the same data route.
+- Browserslist/caniuse stale-data warning is closed by the workspace `caniuse-lite` override and refreshed install.
+- Tailwind/JIT `JIT TOTAL` label warnings are closed locally by keeping `DEBUG=false` in `uapi/.env.local`; Vercel should not set broad `DEBUG=true` for staging builds unless intentionally debugging Tailwind.
+- The production build no longer logs `auxillaries-data:read-finish { status: 500, mockMode: false }` during static generation; the data routes are dynamic and fail open to anonymous readiness during prerender.
 
 External Supabase readiness check:
 
-The staging Supabase REST API currently returns `PGRST205` / HTTP 404 for required V28 tables:
+The staging Supabase migration history now contains the required V28 tables from local migrations `001`, `002`, and `003`, followed by dashboard-origin RLS migration `20260510223914`.
+`supabase db push --dry-run` reports the remote database is up to date.
 
-- `public.user_profiles`
-- `public.user_connections`
-- `public.vcs_repositories`
-- `public.btd_asset_pack_ranges`
-- `public.btd_mint_receipts`
-- `public.btd_terminal_journal_entries`
-- `public.btd_crypto_telemetry_events`
+Required next validation before live onboarding QA:
 
-Required remediation before live onboarding QA:
-
-1. Apply `supabase/migrations/001_v26_production.sql` to the staging project.
-2. Apply `supabase/migrations/002_v27_btd_crypto_registry.sql`.
-3. Apply `supabase/migrations/003_user_connections_provider_scope.sql`.
-4. Re-run saved Supabase queries `v28_qa_01_*` through `v28_qa_05*`.
-5. Rebuild/redeploy if Vercel env changed after the build.
-6. Re-run Pass 1A from a fresh browser profile.
+1. Re-run saved Supabase queries `v28_qa_01_*` through `v28_qa_05*`.
+2. Rebuild/redeploy if Vercel env changed after the build.
+3. Re-run Pass 1A from a fresh browser profile.
 
 Deployment judgment:
 
 - Code/build readiness: pass.
 - Wallet/OAuth/GitHub source readiness in code: pass.
 - Formal protocol and ORM migration source readiness: pass.
-- Live staging data-plane readiness: blocked by unapplied Supabase migrations.
-- Manual first-run onboarding should not proceed as a V28 acceptance pass until the staging database schema exists.
+- Live staging data-plane readiness: migrations applied; pending saved-query verification and first-run onboarding QA.
+- Manual first-run onboarding may proceed after deployment env is confirmed and saved-query verification is captured.
 
 ## Issue Template
 

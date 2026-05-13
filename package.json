@@ -25,6 +25,7 @@
   },
   "pnpm": {
     "overrides": {
+      "caniuse-lite": "1.0.30001792",
       "canvas": "npm:@napi-rs/canvas@^0.1.53"
     }
   },

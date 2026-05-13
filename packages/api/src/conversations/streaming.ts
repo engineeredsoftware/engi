@@ -84,6 +84,7 @@ export class ConversationStreamingService {
   private userConnectionCounts: Map<string, number> = new Map();
   private config: Required<StreamConfig>;
   private encoder = new TextEncoder();
+  private cleanupTimer: ReturnType<typeof setInterval>;
 
   constructor(config: StreamConfig = {}) {
     this.config = {
@@ -93,8 +94,10 @@ export class ConversationStreamingService {
       maxConnections: config.maxConnections ?? 5
     };
 
-    // Cleanup stale connections every minute
-    setInterval(() => this.cleanupStaleConnections(), 60000);
+    // Cleanup stale connections every minute without keeping test or serverless
+    // processes alive after all active work has completed.
+    this.cleanupTimer = setInterval(() => this.cleanupStaleConnections(), 60000);
+    this.cleanupTimer.unref?.();
   }
 
   /**
@@ -134,6 +137,7 @@ export class ConversationStreamingService {
         connection.heartbeatTimer = setInterval(() => {
           this.sendHeartbeat(connectionId);
         }, this.config.heartbeatInterval);
+        connection.heartbeatTimer.unref?.();
 
         // Send initial connection event
         this.emitEvent(connectionId, {
@@ -409,6 +413,20 @@ export class ConversationStreamingService {
       userCounts: Object.fromEntries(this.userConnectionCounts),
       connectionDetails
     };
+  }
+
+  dispose(): void {
+    clearInterval(this.cleanupTimer);
+
+    for (const id of Array.from(this.connections.keys())) {
+      this.closeConnection(id);
+    }
+
+    for (const throttle of this.tokenThrottles.values()) {
+      clearTimeout(throttle);
+    }
+
+    this.tokenThrottles.clear();
   }
 }
 

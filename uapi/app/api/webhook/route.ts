@@ -160,7 +160,7 @@ async function triggerPipeline(trigger: string, userId: string, issueNumber: num
   });
 }
 
-export async function POST(request: Request | { json?: () => Promise<unknown>; text?: () => Promise<string>; headers?: { get?: (name: string) => string | null } }) {
+export async function POST(request: Request) {
   const parsed = await parsePayload(request);
   if (parsed.error) {
     return parsed.error;

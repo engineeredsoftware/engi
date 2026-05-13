@@ -1,14 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   preset: 'ts-jest',
-  // Use ts-jest with React JSX support
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        jsx: 'react'
-      }
-    }
-  },
   // Use jsdom environment for DOM-based component tests
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/tests'],
@@ -16,7 +8,11 @@ module.exports = {
   cacheDirectory: '<rootDir>/tmp/jest-cache',
   modulePaths: ['<rootDir>'],
   transform: {
-    '^.+\\.[jt]sx?$': 'ts-jest'
+    '^.+\\.[jt]sx?$': ['ts-jest', {
+      tsconfig: {
+        jsx: 'react'
+      }
+    }]
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {

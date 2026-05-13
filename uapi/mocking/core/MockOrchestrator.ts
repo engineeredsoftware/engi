@@ -85,8 +85,10 @@ export class MockOrchestrator {
     this.initializeDefaultScenarios();
     this.startPerformanceMonitoring();
     
-    // Cleanup on process exit
-    if (typeof process !== 'undefined') {
+    // Cleanup on process exit. Jest repeatedly reloads this module and owns
+    // process lifetime, so test runs dispose explicitly instead of attaching
+    // process-wide signal listeners on every import.
+    if (typeof process !== 'undefined' && process.env.JEST_WORKER_ID === undefined) {
       process.on('exit', this.handleProcessExit);
       process.on('SIGINT', this.handleProcessSigint);
       process.on('SIGTERM', this.handleProcessSigterm);
@@ -707,7 +709,7 @@ export class MockOrchestrator {
       this.metricsCollectionInterval = null;
     }
 
-    if (typeof process !== 'undefined') {
+    if (typeof process !== 'undefined' && process.env.JEST_WORKER_ID === undefined) {
       process.off('exit', this.handleProcessExit);
       process.off('SIGINT', this.handleProcessSigint);
       process.off('SIGTERM', this.handleProcessSigterm);
