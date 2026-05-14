@@ -30,6 +30,7 @@ import {
   Wallet,
   Waypoints,
 } from 'lucide-react'
+import { buildAuxillariesRoutePath, type ConcreteAuxillaryPane } from '@/app/auxillaries/components/auxillary-pane-meta'
 
 interface Organization {
   id: string
@@ -86,9 +87,9 @@ const operatingTiers = {
   },
 }
 
-function openAuxillaryRoute(path: '/auxillaries/wallet' | '/auxillaries/externals') {
+function openAuxillaryRoute(step: Extract<ConcreteAuxillaryPane, 'wallet' | 'externals'>) {
   if (typeof window !== 'undefined') {
-    window.location.assign(path)
+    window.location.assign(buildAuxillariesRoutePath(step))
   }
 }
 
@@ -445,11 +446,11 @@ export default function OrganizationSettings({
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Button onClick={() => openAuxillaryRoute('/auxillaries/wallet')}>
+                <Button onClick={() => openAuxillaryRoute('wallet')}>
                   <Wallet className="mr-2 h-4 w-4" />
                   Open Wallet Auxillary
                 </Button>
-                <Button variant="outline" onClick={() => openAuxillaryRoute('/auxillaries/externals')}>
+                <Button variant="outline" onClick={() => openAuxillaryRoute('externals')}>
                   <Github className="mr-2 h-4 w-4" />
                   Open Externals Auxillary
                 </Button>

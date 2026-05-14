@@ -100,7 +100,7 @@ describe('GitHub App callback handling', () => {
     const location = readHeader(response, 'location') || '';
 
     expect(response.status).toBeGreaterThanOrEqual(300);
-    expect(location).toContain('/auxillaries/externals');
+    expect(location).toContain('/terminal?auxillary-open-to=externals');
     expect(location).toContain('vcsConnection=installation_connected');
     expect(location).toContain('installation_id=131722518');
     expect(mockGetInstallation).toHaveBeenCalledWith(131722518);

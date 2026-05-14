@@ -18,6 +18,7 @@ import {
   Waypoints,
   ShieldCheck,
 } from 'lucide-react'
+import { buildAuxillariesRoutePath, type ConcreteAuxillaryPane } from '@/app/auxillaries/components/auxillary-pane-meta'
 
 interface BtdSummary {
   totalBalance: number
@@ -116,9 +117,9 @@ const transactionTypeConfig: Record<TreasuryTransactionType, {
   },
 }
 
-function openAuxillaryRoute(path: '/auxillaries/wallet' | '/auxillaries/externals') {
+function openAuxillaryRoute(step: Extract<ConcreteAuxillaryPane, 'wallet' | 'externals'>) {
   if (typeof window !== 'undefined') {
-    window.location.assign(path)
+    window.location.assign(buildAuxillariesRoutePath(step))
   }
 }
 
@@ -152,11 +153,11 @@ export default function BTDTreasuryManagement({
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
-          <Button variant="outline" onClick={() => openAuxillaryRoute('/auxillaries/externals')}>
+          <Button variant="outline" onClick={() => openAuxillaryRoute('externals')}>
             <Github className="mr-2 h-4 w-4" />
             Open Externals
           </Button>
-          <Button onClick={() => openAuxillaryRoute('/auxillaries/wallet')}>
+          <Button onClick={() => openAuxillaryRoute('wallet')}>
             <Wallet className="mr-2 h-4 w-4" />
             Open Wallet Auxillary
           </Button>
@@ -251,7 +252,7 @@ export default function BTDTreasuryManagement({
             <h3 className="text-lg font-semibold">Team $BTD Allocations</h3>
             {canManageTreasury ? (
               <Badge variant="secondary" className="px-3 py-1">
-                Review or adjust allocations from /auxillaries/wallet
+                Review or adjust allocations from the Wallet auxillary.
               </Badge>
             ) : null}
           </div>

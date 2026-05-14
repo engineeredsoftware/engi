@@ -12,6 +12,7 @@ import {
   BriefcaseIcon,
   ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/solid';
+import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
 //import { useWeb3 } from '@/hooks/useWeb3';
 //import { formatEther } from 'ethers';
 
@@ -65,7 +66,7 @@ export const DockContainer = ({ className }: DockContainerProps) => {
     {
       icon: <CogIcon className="w-6 h-6" />,
       label: "Auxillaries",
-      path: "/auxillaries/profile",
+      path: buildAuxillariesRoutePath('profile'),
       tooltip: account ? `Auxillaries • ${account.slice(0, 6)}...${account.slice(-4)}` : "Auxillaries"
     }
   ];

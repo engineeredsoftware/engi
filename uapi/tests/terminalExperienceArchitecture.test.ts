@@ -29,7 +29,7 @@ describe('Terminal MVP surface map', () => {
     });
     expect(getTerminalMvpSurface('auxillaries')).toMatchObject({
       role: 'network-adjacent-readiness-controls',
-      routeSurface: '/auxillaries',
+      routeSurface: '/terminal?auxillary-open-to=wallet',
       targetId: 'auxillaries',
     });
   });

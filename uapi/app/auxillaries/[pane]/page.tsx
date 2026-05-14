@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import AuxillariesRouteClient from '@/app/auxillaries/AuxillariesRouteClient';
 import {
   buildAuxillariesRoutePath,
   getAuxillaryDescriptor,
@@ -48,9 +47,5 @@ export default function AuxillariesPanePage({ params }: AuxillariesPanePageProps
     notFound();
   }
 
-  if (params.pane.toLowerCase() !== resolved.descriptor.routeSegment) {
-    redirect(buildAuxillariesRoutePath(resolved.step));
-  }
-
-  return <AuxillariesRouteClient step={resolved.step} />;
+  redirect(buildAuxillariesRoutePath(resolved.step));
 }

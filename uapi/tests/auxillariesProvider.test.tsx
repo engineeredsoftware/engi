@@ -33,6 +33,7 @@ import AuxillariesProvider, {
 
 describe('AuxillariesProvider', () => {
   beforeEach(() => {
+    window.history.replaceState({}, '', '/terminal');
     Object.defineProperty(window, '__auxillariesPrefetched', {
       configurable: true,
       value: true,
@@ -60,7 +61,7 @@ describe('AuxillariesProvider', () => {
     });
 
     expect(document.documentElement.classList.contains('auxillaries-open')).toBe(true);
-    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:connects');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:externals');
 
     act(() => {
       closeAuxillaries();
@@ -80,7 +81,7 @@ describe('AuxillariesProvider', () => {
       openAuxillaries('auxillaries', 'externals');
     });
 
-    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:connects');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:externals');
 
     act(() => {
       closeAuxillaries();
@@ -91,5 +92,17 @@ describe('AuxillariesProvider', () => {
     });
 
     expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignInWindow:none');
+  });
+
+  it('opens the requested pane from the overlay query parameter without rendering a route page', () => {
+    window.history.replaceState({}, '', '/terminal?auxillary-open-to=wallet');
+
+    render(
+      <AuxillariesProvider>
+        <div>Terminal</div>
+      </AuxillariesProvider>,
+    );
+
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:wallet');
   });
 });

@@ -12,6 +12,7 @@ import { bitcodeQaTelemetry } from '../../../lib/bitcode-qa-telemetry';
 
 import AuxillariesExternalsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesExternalsPaneHeader';
 import AuxillariesDataSharingPanel from '@/app/auxillaries/components/AuxillariesDataSharingPanel';
+import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
 
 export interface AuxillariesExternalsPaneProps {
   onSave: (data: any) => void;
@@ -122,7 +123,7 @@ export default function AuxillariesExternalsPane({
 
             <div>
               <Link
-                href="/auxillaries/wallet"
+                href={buildAuxillariesRoutePath('wallet')}
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
                 Open Wallet auxillary
@@ -249,7 +250,7 @@ export default function AuxillariesExternalsPane({
                   {!hasWalletConnection && (
                     <div className="mt-3">
                       <Link
-                        href="/auxillaries/wallet"
+                        href={buildAuxillariesRoutePath('wallet')}
                         className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/82 transition-colors hover:border-white/20 hover:bg-white/10"
                       >
                         Open Wallet for wallet binding

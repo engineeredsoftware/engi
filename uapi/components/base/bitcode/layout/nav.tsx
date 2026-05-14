@@ -512,9 +512,7 @@ export default function Nav() {
                   const isActiveRoute =
                     pathname === '/terminal' ||
                     pathname?.startsWith('/executions') ||
-                    pathname?.startsWith('/conversations') ||
-                    pathname?.startsWith('/auxillaries') ||
-                    pathname?.startsWith('/auxillaries');
+                    pathname?.startsWith('/conversations');
                   return (
                     <li key={href}
                       className={`${shouldAnimate ? 'nav-item-animated' : ''}`.trim()}

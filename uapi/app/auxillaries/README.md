@@ -1,26 +1,25 @@
-# `/auxillaries` canonical Bitcode Auxillaries routes
+# Bitcode Auxillaries Overlay
 
-`/auxillaries/*` is the canonical direct-route family for focused Bitcode auxillary reads.
-It preserves the four-ring auxillary system while keeping the merged-world naming target explicit in route, metadata, and user-facing copy.
+Auxillaries are an overlay, not an application page.
+The active product entry URL is `/terminal?auxillary-open-to=<pane>`, which opens the requested pane in the global Auxillaries portal while leaving Terminal as the application surface.
 
-## Canonical routes
+## Canonical overlay targets
 
-- `/auxillaries/wallet`
-- `/auxillaries/externals`
-- `/auxillaries/interfaces`
-- `/auxillaries/profile`
+- `/terminal?auxillary-open-to=wallet`
+- `/terminal?auxillary-open-to=externals`
+- `/terminal?auxillary-open-to=interfaces`
+- `/terminal?auxillary-open-to=profile`
 
-Legacy `/auxillaries/btd` and `/auxillaries/connects` links are accepted only as aliases and redirect to `/auxillaries/wallet` and `/auxillaries/externals`.
-Former `/orbitals/*` links are redirect-only and should resolve here without rendering canonical HTML.
+The `/auxillaries/*` and `/orbitals/*` route families are redirect-only support paths.
+They must never render standalone Auxillaries HTML or the retired left-sidebar workspace chrome.
+Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the Wallet and Externals overlay targets.
 
 ## Ownership
 
 - `[pane]/page.tsx`
-  Canonical direct-route owner, canonical metadata, and redirect normalization for pane aliases.
-- `AuxillariesRouteClient.tsx`
-  Canonical focused auxillary shell and direct-route owner for contained auxillary reads.
+  Redirect-only compatibility owner for pane aliases.
 - `components/auxillary-pane-meta.ts`
-  Canonical auxillary route builder, metadata owner, and support-path bridge.
+  Canonical auxillary overlay target builder, metadata owner, and support-path bridge.
 - `components/AuxillariesProvider.tsx`
   Canonical fullscreen auxillary overlay provider, event bridge, and portal owner.
 - `components/AuxillariesSurface.tsx`, `components/AuxillariesContent.tsx`, `components/AuxillariesLoginPane.tsx`
@@ -30,15 +29,15 @@ Former `/orbitals/*` links are redirect-only and should resolve here without ren
 - `components/headers/*`, `components/shared/*`, `components/models/*`, `components/AuxillariesDataSharingPanel.tsx`, `components/auxillary-pane-explainers.ts`, `components/profile-pane.module.css`
   Canonical auxillary lower-level implementation carriers for pane headers, onboarding overlays, preference/stat sections, model defaults, data-share posture, explainer copy, and profile styling.
 - `../orbitals/components/*`
-  Redirect-support route wrappers still being retired behind canonical auxillary ownership during fifth gate.
+  Redirect-support wrappers still being retired behind canonical auxillary ownership during V28 hardening.
 - `../api/auxillaries/*`
   Canonical auxillary API owners for profile, Externals, notifications, onboarding, model preferences, BTD balance history, BTD transaction history, API keys, and data-share posture.
 
 ## Canonical rule
 
-User-facing route and HTML posture should prefer `/auxillaries/*`.
+User-facing route and HTML posture should prefer `/terminal?auxillary-open-to=<pane>`.
 Active product code should also prefer `/api/auxillaries/*`.
-`/orbitals/*` and `/api/orbitals/*` are redirect-support carriers only and should be retired entirely by full V26 closure.
+`/auxillaries/*`, `/orbitals/*`, and `/api/orbitals/*` are redirect/support carriers only and should be retired entirely before fully commercial canon closure.
 
 ## V28 prerequisite posture
 

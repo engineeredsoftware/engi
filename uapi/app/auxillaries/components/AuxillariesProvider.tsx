@@ -1,7 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { isAuxillariesCompatPath, isAuxillariesPath, type AuxillaryPane } from './auxillary-pane-meta';
+import {
+  isAuxillariesCompatPath,
+  isAuxillariesPath,
+  readAuxillaryOverlayStep,
+  type AuxillaryPane,
+} from './auxillary-pane-meta';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 
@@ -72,6 +77,22 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     return () => {
       if (el.parentNode) el.parentNode.removeChild(el);
       setPortalContainer(null);
+    };
+  }, []);
+
+  useEffect(() => {
+    const openFromLocation = () => {
+      const step = readAuxillaryOverlayStep(new URLSearchParams(window.location.search));
+      if (!step || isDedicatedAuxillariesLocation()) return;
+      setWindowState('SignUpWindow');
+      setDeepLinkStep(step);
+      setIsOpen(true);
+    };
+
+    openFromLocation();
+    window.addEventListener('popstate', openFromLocation);
+    return () => {
+      window.removeEventListener('popstate', openFromLocation);
     };
   }, []);
 

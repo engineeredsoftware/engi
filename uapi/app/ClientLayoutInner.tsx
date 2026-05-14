@@ -61,11 +61,10 @@ const prefetchHeavyComponents = () => {
       }
     }, 2000);
     
-    // Prefetch sidebars after 3 seconds
+    // Prefetch the retained Conversations sidebar after 3 seconds.
     setTimeout(() => {
       if (!window.__sidebarsPrefetched) {
         window.__sidebarsPrefetched = true;
-        import('@/components/base/bitcode/layout/sidebars/left-sidebar').catch(() => {});
         import('@/components/base/bitcode/layout/sidebars/right-sidebar').catch(() => {});
       }
     }, 3000);
@@ -79,11 +78,6 @@ declare global {
   }
 }
 
-// Dynamically import sidebar components with lazy loading
-const LeftSidebar = dynamic(
-  () => import('@/components/base/bitcode/layout/sidebars/left-sidebar'),
-  { ssr: false, loading: () => null }
-)
 const RightSidebar = dynamic(
   () => import('@/components/base/bitcode/layout/sidebars/right-sidebar'),
   { ssr: false, loading: () => null }
@@ -235,11 +229,8 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         <PageContent>{children}</PageContent>
         {pathname !== '/' && !hideFooter && <Footer />}
         <React.Suspense fallback={null}>
-          {/* Sidebars on desktop (md+): left runs/items and right Conversations chat */}
+          {/* Desktop supporting overlays. Auxillaries stays portal-only for V28. */}
           <div className="hidden laptop:block">
-            {authLoaded && user && !mockMode && FEATURE_FLAGS.SIDEBAR_LEFT && (
-              <LeftSidebar />
-            )}
             {authLoaded && user && !mockMode && pathname !== '/terminal' && pathname !== '/conversations' && isOnboardingComplete && FEATURE_FLAGS.CONVERSATIONS_WIDGET && (
               <>
                 <Conversation

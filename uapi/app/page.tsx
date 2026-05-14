@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 
 import PublicShellFrame from './(root)/components/PublicShellFrame';
 import MarketingLandingPage from './(root)/components/MarketingLandingPage';
+import { buildAuxillariesRoutePath } from './auxillaries/components/auxillary-pane-meta';
 
 export const metadata: Metadata = {
   title: 'Bitcode',
@@ -35,7 +36,7 @@ export default function Home({ searchParams = {} }: { searchParams?: SearchParam
   if (hasSupabaseCallbackParams(searchParams)) {
     const params = new URLSearchParams();
     appendSearchParams(params, searchParams);
-    if (!params.has('next')) params.set('next', '/auxillaries/wallet');
+    if (!params.has('next')) params.set('next', buildAuxillariesRoutePath('wallet'));
     redirect(`/tps/supabase/callback?${params.toString()}`);
   }
 

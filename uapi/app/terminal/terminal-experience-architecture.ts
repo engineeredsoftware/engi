@@ -135,7 +135,7 @@ export const TERMINAL_MVP_SURFACE_MAP = [
     id: 'auxillaries',
     label: 'Auxillaries',
     role: 'network-adjacent-readiness-controls',
-    routeSurface: '/auxillaries',
+    routeSurface: '/terminal?auxillary-open-to=wallet',
     targetId: 'auxillaries',
     requiredPosture:
       'Non-duplicative settings, preferences, connections, identity, BTC fee liquidity, and non-fungible $BTD read-right surfaces around the network core.',

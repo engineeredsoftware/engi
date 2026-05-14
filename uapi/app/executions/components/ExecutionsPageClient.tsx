@@ -13,6 +13,7 @@ import { UrlAttachments } from '@/components/base/bitcode/execution/url-attachme
 import { IntegrationsSelector, IntegrationItem } from '@/components/base/bitcode/execution/integrations-selector';
 import { SelectedAttachments } from '@/components/base/bitcode/execution/selected-attachments';
 import { OrbitalBackground } from '@/components/base/bitcode/execution/orbital-background';
+import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
 import { useVCSData } from '@/hooks/useVCSData';
 import { useVCSSelections } from '@/hooks/useVCSSelections';
 import { VCSProviderType } from '@bitcode/vcs-core';
@@ -435,7 +436,7 @@ export function ExecutionsClient() {
             </button>
             <button
               type="button"
-              onClick={() => router.push('/auxillaries/externals')}
+              onClick={() => router.push(buildAuxillariesRoutePath('externals'))}
               className="inline-flex items-center rounded-full border border-white/12 bg-transparent px-5 py-3 text-sm font-medium text-[#d6e7f2] transition hover:border-white/30 hover:bg-white/5"
             >
               Open Auxillaries

@@ -13,6 +13,7 @@ import {
   readInstanceUrl,
   type ProviderRouteContext,
 } from '@/app/api/vcs/_shared';
+import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
 
 type OptionalUserContext = Awaited<ReturnType<typeof getRouteSupabaseUser>>;
 
@@ -50,7 +51,7 @@ function buildConnectsRedirect(
   request: Request,
   params: Record<string, string | number | boolean | null | undefined>,
 ) {
-  const redirectUrl = new URL('/auxillaries/externals', request.url);
+  const redirectUrl = new URL(buildAuxillariesRoutePath('externals'), request.url);
   redirectUrl.searchParams.set('pane', 'externals');
 
   for (const [key, value] of Object.entries(params)) {

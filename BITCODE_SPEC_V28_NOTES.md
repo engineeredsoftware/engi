@@ -74,6 +74,8 @@ Fresh-nuke onboarding then exposed a timing gap: Supabase Auth and the empty tri
 
 Live staging OAuth also exposed two callback hardening requirements. First, the custom wallet authorize page must not rely on a single provider scan at first render because browser wallet extensions can inject provider globals after the route has already hydrated; `/tps/wallet/authorize` must retry discovery, expose an explicit rescan, and preserve the provider hint fallback so Leather/Xverse can still open even when the first scan is empty. Second, the Supabase callback exchange must be idempotent: if the first exchange succeeds and hydration recovery or remount tries to exchange the same code again after the PKCE verifier was consumed, the callback must prefer the already-established session over redirecting to a false login error. Staging URL configuration must also allow both `https://bitcode.exchange` and `https://www.bitcode.exchange` callback routes until a single canonical host redirect is enforced.
 
+The same clean-deploy pass removed Auxillaries as a standalone page destination. Supabase and GitHub callbacks, retained `/auxillaries/*` compatibility paths, and retained `/orbitals/*` paths must land on `/terminal?auxillary-open-to=<pane>` so Auxillaries opens as the global overlay and never renders the retired late-Engi workspace page or left-sidebar navigation. The left execution sidebar and disabled AssetPacks tab are not part of the V28 website application surface; retained sidebar components may remain for future repurposing but must not be mounted by the active layout.
+
 ### Deterministic Model Boundary
 
 V28 must remove the idea that a user can choose ledgerized Bitcode synthesis models.
@@ -248,8 +250,8 @@ The Profile onboarding order is now:
 Implementation must therefore keep wallet auth enabled and top-most in Wallet, avoid the Ethereum provider path for Bitcoin identity, persist wallet-provider binding only through the wallet-auth route when backend session state is available, keep Profile from accepting unverifiable provider-managed signer assertions, and surface staging prerequisites clearly.
 The live wallet selector must also be provider-explicit: the Wallet pane should disclose detected Bitcoin wallets and expose direct Xverse and Leather actions when both are installed. This avoids the observed QA failure where a silent or stalled Xverse handoff could make the single generic connect button appear inert while Leather was also available.
 Non-mock QA requires a browser with Xverse and/or Leather installed and unlocked for the first pass; Xverse should be tested first on Testnet4, then Leather on its documented testnet lane. If only MetaMask's injected Ethereum provider is available, Bitcode must not open an Ethereum account prompt and may only stage the displayed Bitcoin address manually until a Bitcoin provider API is available. The `user_connections` provider-constraint migration and GitHub OAuth or GitHub personal-access-token credentials remain required for backend persistence and the second step.
-The contained Auxillaries product routes are not the progressive onboarding wizard.
-Wallet connection inside `/auxillaries/wallet` must remain on Wallet, must not auto-advance to Externals, and must not call `/api/auxillaries/onboarding` when the route is being used as the commercial contained settings surface.
+The contained Auxillaries overlay is not the progressive onboarding wizard.
+Wallet connection inside `/terminal?auxillary-open-to=wallet` must remain on Wallet, must not auto-advance to Externals, and must not call `/api/auxillaries/onboarding` when the overlay is being used as the commercial contained settings surface.
 If Supabase staging credentials are missing or placeholder values, the wallet proof remains locally staged and the UI may show backend persistence pending, but the client must not emit noisy failed Supabase signup requests.
 
 The May 9 follow-up QA tightened the connected-wallet chrome and ownership boundaries.
@@ -266,7 +268,7 @@ The provider authorization page is `/tps/wallet/authorize`; it detects Bitcoin-c
 The machine endpoints are `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo`.
 Token exchange validates the configured OAuth client secret, allowed Supabase callback origin, and PKCE challenge when present.
 UserInfo returns a stable Bitcoin subject and wallet claims (`bitcoin_address`, provider, network, auth/payment address, proof kind) with email optional.
-After Supabase creates the session, Profile synchronizes the captured local wallet proof into `/api/wallet/authenticate` so the Supabase data realm can project wallet identity from the ledger-facing signed proof.
+After Supabase creates the session, the global wallet session bridge synchronizes the captured local wallet proof into `/api/wallet/authenticate` so the Supabase data realm can project wallet identity from the ledger-facing signed proof even when the callback lands on Terminal.
 Sign-out clears both the Supabase auth session and the local staged wallet identity.
 
 The May 13 Leather documentation ingestion formalizes Leather as a tested first-class V28 wallet adapter.

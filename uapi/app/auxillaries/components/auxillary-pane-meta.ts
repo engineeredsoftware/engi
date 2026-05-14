@@ -15,6 +15,8 @@ export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
 export const OPEN_TRANSACTIONS_LABEL = 'Open Bitcode Terminal';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
 export const AUXILLARIES_COMPAT_ROUTE_ROOT = '/orbitals';
+export const AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal';
+export const AUXILLARY_OPEN_QUERY_PARAM = 'auxillary-open-to';
 
 export type AuxillaryPane = ConcreteAuxillaryPane | null;
 
@@ -83,7 +85,11 @@ export function buildAuxillariesRoutePath(stepOrSegment: ConcreteAuxillaryPane |
   const routeSegment = normalizedStep
     ? getAuxillaryRouteSegment(normalizedStep)
     : stepOrSegment.trim().toLowerCase();
-  return `${AUXILLARIES_ROUTE_ROOT}/${routeSegment}`;
+  return `${AUXILLARY_OVERLAY_ROUTE_ROOT}?${AUXILLARY_OPEN_QUERY_PARAM}=${encodeURIComponent(routeSegment)}`;
+}
+
+export function readAuxillaryOverlayStep(searchParams: URLSearchParams) {
+  return normalizeAuxillaryPane(searchParams.get(AUXILLARY_OPEN_QUERY_PARAM));
 }
 
 export function isAuxillariesPath(pathname: string | null | undefined) {

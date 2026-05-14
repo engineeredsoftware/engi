@@ -6,6 +6,7 @@ import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import Logo from '@/components/base/bitcode/branding/logo';
 import { motion, AnimatePresence } from 'framer-motion';
 import { bitcodeQaTelemetry, compactBitcodeAddress } from '../../../../lib/bitcode-qa-telemetry';
+import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
 
 interface BtdAssetPackSummary {
   assetPackId: string;
@@ -275,9 +276,7 @@ export function BTDTracker({
           feeAsset: 'BTC',
           shareAsset: 'BTD',
           btdSemantics: 'non-fungible asset-pack share and read-right',
-          paths: [
-            { mode: 'wallet-auxillary', target: '/auxillaries/wallet' },
-          ],
+          paths: [{ mode: 'wallet-auxillary', target: buildAuxillariesRoutePath('wallet') }],
           createdAt: new Date().toISOString(),
         })
       );
@@ -285,7 +284,7 @@ export function BTDTracker({
       if (onOpenBtdAuxillary) {
         onOpenBtdAuxillary();
       } else {
-        window.location.assign('/auxillaries/wallet');
+        window.location.assign(buildAuxillariesRoutePath('wallet'));
       }
       window.setTimeout(() => setActionState('idle'), 600);
     } catch (err) {

@@ -161,16 +161,17 @@ For every staging-testnet pass, paste back:
 
 ### Live Staging Host And Callback Checks
 
-For wallet onboarding on the deployed staging-testnet host, Supabase Auth must accept both hostnames until Bitcode enforces one canonical host:
+For wallet onboarding on the deployed staging-testnet host, Supabase Auth must accept both callback hostnames until Bitcode enforces one canonical host:
 
 - `https://bitcode.exchange/tps/supabase/callback`
 - `https://www.bitcode.exchange/tps/supabase/callback`
-- `https://bitcode.exchange/auxillaries/wallet`
-- `https://www.bitcode.exchange/auxillaries/wallet`
+
+The app-internal `next` target after the callback must be `/terminal?auxillary-open-to=wallet`.
+Auxillaries must never arrive as `/auxillaries/<pane>` in the active product. Retained `/auxillaries/*` and `/orbitals/*` paths are compatibility redirects into `/terminal?auxillary-open-to=<pane>`.
 
 When Wallet opens `/tps/wallet/authorize`, the page should show Leather and Xverse if both extensions are installed and unlocked. If it initially says no provider was detected, wait a few seconds or click `Rescan wallets`; provider injection after hydration is a V28-observed browser-extension timing behavior. The fallback button may still open the hinted provider, but the expected MVP state is explicit Leather/Xverse choices plus a working fallback.
 
-After signing, a transient root URL containing `loginError=server_error` and `both auth code and code verifier should be non-empty` is a callback idempotency failure if the session nevertheless exists. V28 expects the callback to treat an already-established Supabase session as success and continue to Wallet without showing a false login error.
+After signing, a transient root URL containing `loginError=server_error` and `both auth code and code verifier should be non-empty` is a callback idempotency failure if the session nevertheless exists. V28 expects the callback to treat an already-established Supabase session as success and continue to `/terminal?auxillary-open-to=wallet` without showing a false login error.
 
 ### Supabase SQL Checks
 
@@ -365,7 +366,7 @@ V28 distinction for this pass:
 | Finding type | V28 action |
 | --- | --- |
 | A visible `Connect Wallet` control opens an account/access pane but does not invoke a wallet extension or clearly say wallet-extension signing is staged. | V28 MVP bug: label/copy/action mismatch must be fixed before continuing deeper QA. |
-| A wallet extension prompt appears and connection succeeds, but BTC/BTD/top-chrome/Auxillaries/Profile/Wallet panes do not reflect the connected address or readiness. | V28 MVP bug: connected identity and readiness state are not coherent. |
+| A wallet extension prompt appears and connection succeeds, but BTC/BTD/top-chrome/Auxillaries Wallet does not reflect the connected address or readiness. | V28 MVP bug: connected identity and readiness state are not coherent. |
 | A wallet extension prompt appears but fails because testnet provider/network/permission is absent, while the app reports the blocker clearly and remains usable. | Acceptable V28 blocked-readiness outcome; V29/V34 may deepen live wallet and deployment operations. |
 | Source truth confirms wallet-provider signing is intentionally staged and only manual wallet identity is active. | V28 must make that explicit wherever `Connect Wallet` appears; actual extension integration becomes a near-term V29/V34-boundary requirement unless the user elevates it into V28. |
 
@@ -464,18 +465,18 @@ Non-mock prerequisites for the next QA3.1 pass:
 - GitHub OAuth callback configured for the staging origin, or a GitHub personal access token available for the VCS panel fallback.
 - Public mock flags disabled for the non-mock lane.
 
-QA3.1 Profile onboarding script:
+QA3.1 prerequisite onboarding script:
 
 | Lane | Step | Manual action | Expected V28 observation |
 | --- | --- | --- | --- |
-| Mock | 1 | Open `/terminal`, then open Auxillaries and select Profile. | The contained Auxillaries shell opens with the same selector order and visual language as non-mock. Profile shows Bitcoin wallet identity first, GitHub second, optional email third. Mock fields may already be populated, but the order must remain visible. |
-| Mock | 2 | Scroll Profile from first open without switching panes first. | The right pane scrolls immediately, no first-render scroll dead zone appears, and no visible Save/Continue controls are required for auxillary edits. |
+| Mock | 1 | Open `/terminal`, then open Auxillaries and select Wallet. | The contained Auxillaries shell opens with the same selector order and visual language as non-mock. Wallet owns Bitcoin wallet identity, Externals owns GitHub, and Profile owns optional email/account metadata. Mock fields may already be populated, but the order must remain visible. |
+| Mock | 2 | Scroll Wallet/Profile from first open without switching panes first. | The right pane scrolls immediately, no first-render scroll dead zone appears, and no visible Save/Continue controls are required for auxillary edits. |
 | Mock | 3 | Confirm Wallet pane and top chrome remain hydrated. | BTC/BTD values show the mock wallet posture after the loading state, BTD activity is visible through the shared Terminal/Protocol table grammar, and no console errors appear. |
-| Non-mock | 1 | Open `/terminal` on the staging/testnet lane with mock flags disabled. | Top chrome is anonymous until a wallet session exists. `Connect Wallet` or Auxillaries/Profile opens the contained Auxillaries shell, not the retired onboarding shell. |
-| Non-mock | 2 | In Profile with Xverse and Leather unlocked on Testnet4, confirm the provider status line says `Detected Xverse, Leather` or accurately names the installed Bitcoin wallets. Click `Connect Xverse` first. | Xverse/Sats Connect requests wallet connection for payment plus ordinals addresses and then requests a BIP322 message proof. The app must not ask for email first and must not open an Ethereum account prompt. If no prompt appears, capture the exact provider status line and inline message, then click `Rescan wallets`. |
+| Non-mock | 1 | Open `/terminal` on the staging/testnet lane with mock flags disabled. | Top chrome is anonymous until a wallet session exists. `Connect Wallet` or Auxillaries opens the contained Auxillaries overlay on Wallet, not the retired direct-route shell. |
+| Non-mock | 2 | In Wallet with Xverse and Leather unlocked on Testnet4, confirm the provider status line says `Detected Xverse, Leather` or accurately names the installed Bitcoin wallets. Click `Connect Xverse` first. | Xverse/Sats Connect requests wallet connection for payment plus ordinals addresses and then requests a BIP322 message proof. The app must not ask for email first and must not open an Ethereum account prompt. If no prompt appears, capture the exact provider status line and inline message, then click `Rescan wallets`. |
 | Non-mock | 3 | Approve the Xverse connection and proof. | The Wallet state becomes connected, the Taproot/ordinals auth address appears in the wallet field when available, refresh preserves website-side wallet state, and the console remains free of product errors. If backend persistence is unavailable, the UI should say server persistence is pending while local staging remains visible. Capture the exact inline message and Network response for `/api/wallet/authenticate` when a backend request occurs. |
-| Non-mock | 4 | Return to Profile and click `Connect Leather` directly. Do this even if Xverse is installed so the Leather path is verified independently. | Leather returns addresses through `getAddresses`, Bitcode selects the BTC Taproot address when present without relying on array indexes, signs with `signMessage`, and stores the Native SegWit payment address separately from the auth address. |
-| Non-mock | 5 | If only MetaMask BTC is available, paste the displayed `bc1...`/`tb1...` address and click `Stage Bitcoin address`. | No Ethereum prompt opens. Profile shows locally staged Bitcoin identity and clearly marks backend/provider proof as pending/manual. |
+| Non-mock | 4 | Return to Wallet and click `Connect Leather` directly. Do this even if Xverse is installed so the Leather path is verified independently. | Leather returns addresses through `getAddresses`, Bitcode selects the BTC Taproot address when present without relying on array indexes, signs with `signMessage`, and stores the Native SegWit payment address separately from the auth address. |
+| Non-mock | 5 | If only MetaMask BTC is available, paste the displayed `bc1...`/`tb1...` address in Wallet and click `Stage Bitcoin address`. | No Ethereum prompt opens. Wallet shows locally staged Bitcoin identity and clearly marks backend/provider proof as pending/manual. |
 | Non-mock | 6 | Connect GitHub from Externals using OAuth or the staging token fallback. | GitHub becomes connected for Give/Need readiness. Terminal read-only orientation must not be blocked by GitHub, but Terminal Give/Need actions should reflect repository scope once connected. |
 | Non-mock | 7 | Optionally add email from Profile. | Email is presented only as notifications/updates/recovery posture. It must not replace wallet authentication, and the user can leave it blank without breaking wallet, GitHub, or Terminal readiness. |
 
@@ -874,6 +875,7 @@ Deployment judgment:
 - The matching Bitcode application projection exists in `public.user_profiles` under `settings.bitcodeProfile.walletBinding`, with the same user UUID as `auth.users.id`, and `public.user_connections` has a matching `provider='leather'` wallet row.
 - The saved `v28_qa_03_user_profiles_wallet_binding` query was corrected to read wallet binding from JSON settings rather than nonexistent flat `wallet_address`, `wallet_provider`, and `wallet_binding_status` columns.
 - Fresh staging nuke/re-onboarding showed the intended first two Auth rows immediately but left `user_profiles.settings` empty until the app replayed the signed wallet proof from local storage. V28 now treats this as a first-run integrity gap: any active route must persist the signed local wallet proof once a Supabase session exists, so a callback-to-root landing still converges on `settings.bitcodeProfile.walletBinding` and `user_connections` before GitHub onboarding.
+- The next clean deploy showed correct wallet-provider discovery and data projection, but the callback still targeted `/auxillaries/wallet`. V28 now requires the callback `next` target and compatibility routes to use `/terminal?auxillary-open-to=wallet`; `/auxillaries/*` must only redirect and must never render the retired direct-route page, old Terminal navigation, or disabled AssetPacks sidebar tab.
 
 ## Issue Template
 
