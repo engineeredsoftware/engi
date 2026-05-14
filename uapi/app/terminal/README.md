@@ -69,8 +69,9 @@ scope. The first canonical repository anchor for this pass is
 
 The first MVP write/read checks are:
 
-- `Record need posture` writes `agentic-execution:need-measurement`.
 - `Record give posture` writes `agentic-execution:asset-pack` with give state.
+- `Record need posture` writes `agentic-execution:need-measurement` after
+  Give/source posture exists.
 - `Record fit posture` writes `agentic-execution:proof-refresh`.
 - `Make Bitcode branch` either writes branch/AssetPack follow-through or fails
   closed with an exact transaction-readiness blocker.

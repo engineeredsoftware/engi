@@ -118,6 +118,11 @@ reusable checks:
   `supabase/queries/v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`
   confirms Supabase Auth, wallet binding, GitHub installation, and repository
   inventory before Terminal Give/Need QA.
+- `v28_qa_01b_backfill_profile_wallet_projection_from_connection`:
+  `supabase/queries/v28_qa_01b_backfill_profile_wallet_projection_from_connection.sql`
+  is a targeted staging repair that copies non-secret wallet metadata from the
+  active wallet `user_connections` row back into the profile wallet binding
+  projection when a later profile write has dropped network/auth/payment fields.
 - `v28_qa_terminal_02_activity_after_write`:
   `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` checks
   Terminal activity, execution events, pipeline rows, stream logs, and errors

@@ -64,6 +64,25 @@ function normalizeTeamMembers(value: unknown): Json[] {
   return Array.isArray(value) ? (value as Json[]) : [];
 }
 
+function readRecordString(
+  primaryRecord: UnknownRecord | null,
+  fallbackRecord: UnknownRecord | null,
+  primaryKeys: string[],
+  fallbackKeys: string[] = [],
+) {
+  for (const key of primaryKeys) {
+    const value = normalizeString(primaryRecord?.[key]);
+    if (value) return value;
+  }
+
+  for (const key of fallbackKeys) {
+    const value = normalizeString(fallbackRecord?.[key]);
+    if (value) return value;
+  }
+
+  return null;
+}
+
 function normalizeWalletBinding(
   value: unknown,
   fallbackRecord: UnknownRecord | null,
@@ -102,12 +121,58 @@ function normalizeWalletBinding(
     return null;
   }
 
-  return {
+  const binding: BitcodeWalletBinding = {
     address,
     provider,
     status,
     boundAt,
   };
+
+  const network = readRecordString(
+    bindingRecord,
+    fallbackRecord,
+    ['network', 'wallet_network', 'walletNetwork'],
+    ['wallet_network', 'walletNetwork'],
+  );
+  const proofKind = readRecordString(
+    bindingRecord,
+    fallbackRecord,
+    ['proofKind', 'proof_kind', 'wallet_proof_kind', 'walletProofKind'],
+    ['wallet_proof_kind', 'walletProofKind'],
+  );
+  const paymentAddress = readRecordString(
+    bindingRecord,
+    fallbackRecord,
+    ['paymentAddress', 'payment_address', 'wallet_payment_address', 'walletPaymentAddress'],
+    ['wallet_payment_address', 'walletPaymentAddress'],
+  );
+  const authAddress = readRecordString(
+    bindingRecord,
+    fallbackRecord,
+    ['authAddress', 'auth_address', 'wallet_auth_address', 'walletAuthAddress'],
+    ['wallet_auth_address', 'walletAuthAddress'],
+  );
+  const addressType = readRecordString(
+    bindingRecord,
+    fallbackRecord,
+    ['addressType', 'address_type', 'wallet_address_type', 'walletAddressType'],
+    ['wallet_address_type', 'walletAddressType'],
+  );
+  const persistence = readRecordString(
+    bindingRecord,
+    fallbackRecord,
+    ['persistence', 'wallet_persistence', 'walletPersistence'],
+    ['wallet_persistence', 'walletPersistence'],
+  );
+
+  if (network) binding.network = network;
+  if (proofKind) binding.proofKind = proofKind;
+  if (paymentAddress) binding.paymentAddress = paymentAddress;
+  if (authAddress) binding.authAddress = authAddress;
+  if (addressType) binding.addressType = addressType;
+  if (persistence) binding.persistence = persistence;
+
+  return binding;
 }
 
 export function readBitcodeProfileSettings(settings: unknown): BitcodeProfileSettings {

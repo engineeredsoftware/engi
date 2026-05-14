@@ -10,7 +10,7 @@
 
 import { BaseModel } from './base';
 import { Tables, Insertable, Updatable, type Json } from '../types/database';
-import { mergeBitcodeProfileSettings } from '../profile-contract';
+import { mergeBitcodeProfileSettings, readBitcodeProfileSettings } from '../profile-contract';
 
 export type UserProfile = Tables<'user_profiles'>;
 export type UserProfileInsert = Insertable<'user_profiles'>;
@@ -88,6 +88,7 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
     const walletBoundAt =
       (profile.wallet_bound_at as string | null | undefined) ??
       (profile.walletBoundAt as string | null | undefined);
+    const existingWalletBinding = readBitcodeProfileSettings(existing?.settings).walletBinding;
     const nextSettings = mergeBitcodeProfileSettings(
       {
         ...((existing?.settings as Record<string, unknown> | null) || {}),
@@ -107,10 +108,11 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
             ? undefined
             : walletAddress
               ? {
+                  ...(existingWalletBinding?.address === walletAddress ? existingWalletBinding : {}),
                   address: walletAddress,
-                  provider: walletProvider ?? null,
-                  status: walletBindingStatus ?? 'manual',
-                  boundAt: walletBoundAt ?? new Date().toISOString(),
+                  provider: walletProvider ?? existingWalletBinding?.provider ?? null,
+                  status: walletBindingStatus ?? existingWalletBinding?.status ?? 'manual',
+                  boundAt: walletBoundAt ?? existingWalletBinding?.boundAt ?? new Date().toISOString(),
                 }
               : null,
       },

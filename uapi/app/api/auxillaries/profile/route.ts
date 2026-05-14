@@ -281,6 +281,7 @@ export async function POST(request: Request) {
       : normalized.wallet_address
         ? preservingProviderManagedWalletBinding
           ? {
+              ...existingWalletBinding,
               address: existingWalletBinding?.address ?? normalized.wallet_address,
               provider: existingWalletBinding?.provider ?? normalized.wallet_provider ?? null,
               status: existingWalletBinding?.status ?? normalized.wallet_binding_status ?? 'manual',

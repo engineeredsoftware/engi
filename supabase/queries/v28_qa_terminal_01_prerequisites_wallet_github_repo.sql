@@ -39,6 +39,8 @@ wallet_connections AS (
     c.is_active AS wallet_active,
     coalesce(c.connection_data ->> 'address', c.connection_data ->> 'wallet_address') AS wallet_connection_address,
     c.connection_data ->> 'network' AS wallet_connection_network,
+    coalesce(c.connection_data ->> 'authAddress', c.connection_data ->> 'auth_address') AS wallet_connection_auth_address,
+    coalesce(c.connection_data ->> 'paymentAddress', c.connection_data ->> 'payment_address') AS wallet_connection_payment_address,
     coalesce(c.connection_data ->> 'verification_state', c.connection_data ->> 'status') AS wallet_verification_state,
     c.updated_at AS wallet_connection_updated_at
   FROM public.user_connections c
@@ -117,12 +119,20 @@ SELECT
   w.wallet_active,
   w.wallet_connection_address,
   w.wallet_connection_network,
+  w.wallet_connection_auth_address,
+  w.wallet_connection_payment_address,
   w.wallet_verification_state,
   g.github_active,
   g.github_installation_id,
   g.github_account,
   g.repository_selection,
   g.token_expires_at,
+  CASE
+    WHEN g.token_expires_at IS NULL THEN null
+    WHEN g.token_expires_at::timestamptz <= now() THEN 'warning:github_installation_token_expired'
+    WHEN g.token_expires_at::timestamptz <= now() + interval '10 minutes' THEN 'warning:github_installation_token_expires_soon'
+    ELSE 'github_installation_token_fresh'
+  END AS github_token_freshness,
   coalesce(r.github_repository_count, 0) AS github_repository_count,
   coalesce(r.engi_repository_rows, 0) AS engi_repository_rows,
   CASE
@@ -134,6 +144,18 @@ SELECT
     WHEN coalesce(r.engi_repository_rows, 0) = 0 THEN 'warning:ENGI_repo_not_in_inventory'
     ELSE 'ready_for_terminal_give_need'
   END AS terminal_prerequisite_state,
+  CASE
+    WHEN p.wallet_network IS NULL AND w.wallet_connection_network IS NOT NULL THEN 'warning:profile_wallet_network_missing'
+    WHEN p.wallet_network IS NOT NULL
+      AND w.wallet_connection_network IS NOT NULL
+      AND p.wallet_network IS DISTINCT FROM w.wallet_connection_network THEN 'warning:wallet_network_drift'
+    ELSE 'wallet_network_aligned'
+  END AS wallet_network_projection_state,
+  CASE
+    WHEN p.auth_address IS NULL AND w.wallet_connection_auth_address IS NOT NULL THEN 'warning:profile_auth_address_missing'
+    WHEN p.payment_address IS NULL AND w.wallet_connection_payment_address IS NOT NULL THEN 'warning:profile_payment_address_missing'
+    ELSE 'wallet_address_projection_acceptable'
+  END AS wallet_address_projection_state,
   u.auth_created_at,
   u.last_sign_in_at,
   p.profile_updated_at,
