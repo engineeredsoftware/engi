@@ -853,6 +853,13 @@ Deployment judgment:
 - Live staging data-plane readiness: pass baseline. `pnpm db:data-health:daily` checked 24 and passed 24 against `tkpyosihuouusyaxtbau`; the advisor-style RLS probe returned zero rows; saved-query verification still belongs in the first-run onboarding QA evidence.
 - Manual first-run onboarding may proceed after deployment env is confirmed; capture saved-query evidence during the pass.
 
+2026-05-14 first live deployment onboarding evidence:
+
+- The first Leather-auth callback initially fell back to `http://localhost:3000/?code=...` because Supabase Auth URL Configuration still had localhost as the Site URL. V28 now treats `https://bitcode.exchange` as the staging deployment Site URL and keeps `/tps/supabase/callback` in the allowlist.
+- After correcting the Site URL, Supabase Auth created `auth.users` and `auth.identities` rows with `provider='custom:bitcode-bitcoin'` and the Bitcoin testnet subject.
+- The matching Bitcode application projection exists in `public.user_profiles` under `settings.bitcodeProfile.walletBinding`, with the same user UUID as `auth.users.id`, and `public.user_connections` has a matching `provider='leather'` wallet row.
+- The saved `v28_qa_03_user_profiles_wallet_binding` query was corrected to read wallet binding from JSON settings rather than nonexistent flat `wallet_address`, `wallet_provider`, and `wallet_binding_status` columns.
+
 ## Issue Template
 
 ```md
@@ -935,10 +942,13 @@ Saved query name: `v28_qa_03_user_profiles_wallet_binding`
 select
   id,
   username,
-  wallet_address,
-  wallet_provider,
-  wallet_binding_status,
-  settings->'bitcodeProfile'->'walletBinding' as wallet_binding,
+  settings #>> '{bitcodeProfile,walletBinding,address}' as wallet_address,
+  settings #>> '{bitcodeProfile,walletBinding,provider}' as wallet_provider,
+  settings #>> '{bitcodeProfile,walletBinding,status}' as wallet_binding_status,
+  settings #>> '{bitcodeProfile,walletBinding,network}' as wallet_network,
+  settings #>> '{bitcodeProfile,walletBinding,paymentAddress}' as payment_address,
+  settings #>> '{bitcodeProfile,walletBinding,authAddress}' as auth_address,
+  settings #> '{bitcodeProfile,walletBinding}' as wallet_binding,
   updated_at
 from public.user_profiles
 order by updated_at desc

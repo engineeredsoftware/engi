@@ -384,10 +384,18 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
       WITH profile_wallets AS (
         SELECT
           id AS user_id,
-          settings #>> '{walletBinding,provider}' AS provider,
-          settings #>> '{walletBinding,address}' AS address
+          coalesce(
+            settings #>> '{bitcodeProfile,walletBinding,provider}',
+            settings #>> '{walletBinding,provider}'
+          ) AS provider,
+          coalesce(
+            settings #>> '{bitcodeProfile,walletBinding,address}',
+            settings #>> '{walletBinding,address}'
+          ) AS address
         FROM public.user_profiles
-        WHERE settings ? 'walletBinding'
+        WHERE
+          settings #> '{bitcodeProfile,walletBinding}' IS NOT NULL
+          OR settings ? 'walletBinding'
       ),
       drift AS (
         SELECT

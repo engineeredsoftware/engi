@@ -7,6 +7,7 @@ import TypingAnimation from '@/components/base/bitcode/typing-animation';
 
 interface LoginCallbackClientProps {
   code: string;
+  codeKind?: 'oauth_code' | 'token_hash' | 'none';
   /** Where to redirect after session established ("/" by default) */
   nextPath?: string;
 }
@@ -15,13 +16,17 @@ interface LoginCallbackClientProps {
  * Client-side interactive UI for the login callback route.
  * Includes animation effects and copy-to-clipboard.
  */
-export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallbackClientProps) {
+export default function LoginCallbackClient({
+  code,
+  codeKind = 'none',
+  nextPath = '/',
+}: LoginCallbackClientProps) {
   const [copied, setCopied] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Determine if this is an OTP flow (magic-link) or an OAuth redirect
-  const isOtpFlow = Boolean(code && code.trim().length > 0);
+  const isOtpFlow = codeKind === 'token_hash' && Boolean(code && code.trim().length > 0);
 
   // Track mouse for subtle effect
   const mx = useMotionValue(0);
@@ -117,6 +122,19 @@ export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallb
       // `#access_token=…`).  Supabase doesn’t parse the hash automatically in
       // the browser SDK, so we do it manually and call `setSession()`.
       const hash = typeof window !== 'undefined' ? window.location.hash || '' : '';
+      if (codeKind === 'oauth_code' && code) {
+        try {
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) throw error;
+          complete();
+          return;
+        } catch (exchangeError) {
+          const message = exchangeError instanceof Error ? exchangeError.message : String(exchangeError);
+          window.location.href = `/?loginError=server_error&loginErrorDescription=${encodeURIComponent(message)}`;
+          return;
+        }
+      }
+
       if (hash.startsWith('#')) {
         const p = new URLSearchParams(hash.slice(1));
         const access_token = p.get('access_token');
@@ -154,7 +172,7 @@ export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallb
     return () => {
       cleanup?.();
     };
-  }, [nextPath]);
+  }, [code, codeKind, nextPath]);
 
   const handleCopy = () => {
     if (!code) return;

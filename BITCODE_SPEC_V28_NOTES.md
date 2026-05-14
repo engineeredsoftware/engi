@@ -68,6 +68,8 @@ Supabase/PostgreSQL data-health checks are part of the V28 acceptance apparatus,
 
 May 14 staging-testnet verification added the first repository-owned RLS repairs after the dashboard-origin RLS bootstrap. `20260514173000_enable_pipeline_runs_rls.sql` enables RLS on `public.pipeline_runs`, and `20260514175000_enable_pipeline_runtime_rls.sql` enables RLS on server-managed pipeline runtime tables reported by Supabase Security Advisor. These preserve existing service-role pipeline posture and move runtime internals to deny-by-default for browser roles unless a narrower policy is later specified. The live daily data-health suite now passes 24/24 checks against the staging Supabase project, live ORM E2E tests can load `.env.local` directly for local QA parity with the CLI runner, and the advisory-style RLS probe returns no public tables with policies/browser grants while RLS is disabled.
 
+May 14 live deployment QA proved the custom Bitcoin OAuth path through Supabase Auth after the project Site URL was corrected from localhost to `https://bitcode.exchange`. The Supabase custom provider created the expected `auth.users` and `auth.identities` rows for `custom:bitcode-bitcoin`; Bitcode then projected the same user into `public.user_profiles.settings.bitcodeProfile.walletBinding` and `public.user_connections.provider='leather'`. V28 QA SQL and data-health checks therefore read wallet binding through the canonical JSON settings path, not nonexistent flat `user_profiles.wallet_*` columns.
+
 ### Deterministic Model Boundary
 
 V28 must remove the idea that a user can choose ledgerized Bitcode synthesis models.

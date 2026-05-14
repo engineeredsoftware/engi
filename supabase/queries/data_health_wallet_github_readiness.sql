@@ -4,13 +4,27 @@
 WITH profile_wallets AS (
   SELECT
     id AS user_id,
-    settings #>> '{walletBinding,provider}' AS profile_wallet_provider,
-    settings #>> '{walletBinding,address}' AS profile_wallet_address,
-    settings #>> '{walletBinding,status}' AS profile_wallet_status,
-    settings #>> '{walletBinding,network}' AS profile_wallet_network,
+    coalesce(
+      settings #>> '{bitcodeProfile,walletBinding,provider}',
+      settings #>> '{walletBinding,provider}'
+    ) AS profile_wallet_provider,
+    coalesce(
+      settings #>> '{bitcodeProfile,walletBinding,address}',
+      settings #>> '{walletBinding,address}'
+    ) AS profile_wallet_address,
+    coalesce(
+      settings #>> '{bitcodeProfile,walletBinding,status}',
+      settings #>> '{walletBinding,status}'
+    ) AS profile_wallet_status,
+    coalesce(
+      settings #>> '{bitcodeProfile,walletBinding,network}',
+      settings #>> '{walletBinding,network}'
+    ) AS profile_wallet_network,
     updated_at AS profile_updated_at
   FROM public.user_profiles
-  WHERE settings ? 'walletBinding'
+  WHERE
+    settings #> '{bitcodeProfile,walletBinding}' IS NOT NULL
+    OR settings ? 'walletBinding'
 ),
 wallet_connections AS (
   SELECT

@@ -109,6 +109,11 @@ reusable checks:
   `supabase/queries/data_health_wallet_github_readiness.sql`
 - `Bitcode Data Health - BTD Ledger Reconciliation`:
   `supabase/queries/data_health_btd_ledger_reconciliation.sql`
+- `v28_qa_staging_hard_reset`:
+  `supabase/queries/v28_qa_staging_hard_reset.sql` is a destructive,
+  staging-only reset for early QA. It preserves schema/migrations, deletes
+  Supabase Auth users, truncates Bitcode-owned public projection data, and
+  reseeds `public.btd_supply_state`.
 
 The script runner is authoritative for pass/fail automation. The saved queries
 are for operator inspection and QA narration.

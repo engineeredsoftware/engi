@@ -19,7 +19,13 @@ export default function SupabaseCallbackPage({ searchParams }: { searchParams: S
   }
 
   const nextPath = firstParam(searchParams.next) || '/';
-  const code = firstParam(searchParams.code) || firstParam(searchParams.token_hash);
-  return <LoginCallbackClient code={code} nextPath={nextPath} />;
+  const authCode = firstParam(searchParams.code);
+  const tokenHash = firstParam(searchParams.token_hash);
+  return (
+    <LoginCallbackClient
+      code={authCode || tokenHash}
+      codeKind={authCode ? 'oauth_code' : tokenHash ? 'token_hash' : 'none'}
+      nextPath={nextPath}
+    />
+  );
 }
-
