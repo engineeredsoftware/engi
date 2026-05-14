@@ -281,6 +281,66 @@ export async function listLiveProviderRepositories(
   });
 }
 
+function serializeRepositoryData(repository: VCSRepository) {
+  return {
+    id: repository.id,
+    name: repository.name,
+    fullName: repository.fullName,
+    description: repository.description,
+    private: repository.private,
+    defaultBranch: repository.defaultBranch,
+    url: repository.url,
+    cloneUrl: repository.cloneUrl,
+    sshUrl: repository.sshUrl,
+    owner: repository.owner,
+    createdAt: repository.createdAt?.toISOString(),
+    updatedAt: repository.updatedAt?.toISOString(),
+    language: repository.language,
+    topics: repository.topics || [],
+    archived: repository.archived,
+    fork: repository.fork,
+    forksCount: repository.forksCount,
+    starsCount: repository.starsCount,
+    size: repository.size,
+  };
+}
+
+async function persistLiveRepositoryInventory(
+  supabase: SupabaseClient<any>,
+  userId: string,
+  provider: VCSProviderType,
+  repositories: VCSRepository[],
+) {
+  if (repositories.length === 0) return;
+
+  const rows = repositories.map((repository) => ({
+    user_id: userId,
+    provider,
+    provider_repo_id: repository.id || repository.fullName,
+    repo_name: repository.name,
+    repo_full_name: repository.fullName,
+    repo_owner: repository.owner.username,
+    repo_description: repository.description || null,
+    repo_language: repository.language || null,
+    repo_default_branch: repository.defaultBranch || 'main',
+    repo_private: repository.private,
+    repo_url: repository.url || null,
+    repo_data: serializeRepositoryData(repository),
+    repo_created_at: repository.createdAt?.toISOString() || null,
+    repo_updated_at: repository.updatedAt?.toISOString() || null,
+  }));
+
+  const { error } = await supabase
+    .from('vcs_repositories')
+    .upsert(rows, {
+      onConflict: 'user_id,provider,provider_repo_id',
+    });
+
+  if (error) {
+    throw error;
+  }
+}
+
 export async function listBitcodeRepositoriesForConnection({
   supabase,
   userId,
@@ -304,8 +364,11 @@ export async function listBitcodeRepositoriesForConnection({
     };
   }
 
+  const liveRepositories = await listLiveProviderRepositories(manager, provider, connection, instanceUrl);
+  await persistLiveRepositoryInventory(supabase, userId, provider, liveRepositories);
+
   return {
-    repositories: await listLiveProviderRepositories(manager, provider, connection, instanceUrl),
+    repositories: liveRepositories,
     inventorySource: 'live_provider_inventory' as RepositoryInventorySource,
   };
 }

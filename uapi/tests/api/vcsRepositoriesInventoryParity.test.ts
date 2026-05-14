@@ -24,6 +24,7 @@ type MockSupabaseBuilder = {
   select: jest.Mock;
   eq: jest.Mock;
   order: jest.Mock;
+  upsert: jest.Mock;
 };
 
 function createVcsRepositoriesBuilder(rows: unknown[]) {
@@ -31,11 +32,13 @@ function createVcsRepositoriesBuilder(rows: unknown[]) {
     select: jest.fn(),
     eq: jest.fn(),
     order: jest.fn(),
+    upsert: jest.fn(),
   } as MockSupabaseBuilder;
 
   builder.select.mockReturnValue(builder);
   builder.eq.mockReturnValue(builder);
   builder.order.mockResolvedValue({ data: rows, error: null });
+  builder.upsert.mockResolvedValue({ data: [], error: null });
   return builder;
 }
 
@@ -118,8 +121,8 @@ describe('/api/vcs/[provider]/repositories route inventory parity', () => {
     expect(mockCreateProviderFromEnvironment).not.toHaveBeenCalled();
   });
 
-  it('falls back to the live provider inventory when stored rows are absent', async () => {
-    installSupabaseRouteMocks([]);
+  it('falls back to the live provider inventory and persists it when stored rows are absent', async () => {
+    const { repositoriesBuilder } = installSupabaseRouteMocks([]);
     mockGetConnection.mockResolvedValue({
       id: 'connection-1',
       connectionData: { instance_url: 'https://github.example' },
@@ -167,6 +170,22 @@ describe('/api/vcs/[provider]/repositories route inventory parity', () => {
     expect(mockListRepositories).toHaveBeenCalledWith(
       { accessToken: 'token-1' },
       expect.objectContaining({ perPage: 100, type: 'all' }),
+    );
+    expect(repositoriesBuilder.upsert).toHaveBeenCalledWith(
+      [
+        expect.objectContaining({
+          user_id: 'user-1',
+          provider: 'github',
+          provider_repo_id: 'repo-2',
+          repo_name: 'bitcode-core',
+          repo_full_name: 'bitcode/bitcode-core',
+          repo_owner: 'bitcode',
+          repo_default_branch: 'main',
+          repo_private: true,
+          repo_url: 'https://github.com/bitcode/bitcode-core',
+        }),
+      ],
+      { onConflict: 'user_id,provider,provider_repo_id' },
     );
   });
 });
