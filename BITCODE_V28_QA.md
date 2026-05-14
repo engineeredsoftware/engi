@@ -567,9 +567,9 @@ Deferred to V29 from this pass:
 
 ## Current QA Queue
 
-1. Natural progression 1A in Mock lane, then Testnet-readiness lane.
-2. Natural progression 1B in Mock lane, then Testnet-readiness lane.
-3. Natural progression 1C in Mock lane, then Testnet-readiness lane.
+1. Live staging-testnet Pass 2A: Terminal Give/Need/Fit write-read parity after Wallet and GitHub prerequisites.
+2. Live staging-testnet branch/settlement blocked-readiness or branch-write proof from the Terminal command deck.
+3. Mock-lane regression parity for the same Terminal Give/Need/Fit actions after live behavior is clarified.
 4. MCP API and ChatGPT App MVP readiness in Mock lane, then Testnet-readiness lane.
 5. Docs sequence 00-04 in Mock lane, then Testnet-readiness lane where the route depends on live/provider state.
 
@@ -800,6 +800,70 @@ Paste back after each subpass:
 - Supabase SQL results from the required wallet/GitHub/Terminal queries;
 - a short note naming each issue as V28 blocker, V28 polish, or deferred version focus.
 
+### Pass 2A: Terminal Give/Need MVP Write-Read QA
+
+Run this pass from `https://www.bitcode.exchange/terminal` after Pass 1A and 1B are green.
+The current live staging baseline is the Leather-authenticated wallet plus GitHub App installation on `engineeredsoftware`, with `engineeredsoftware/ENGI` present in `public.vcs_repositories`.
+
+Before touching Terminal controls, run saved query `v28_qa_terminal_01_prerequisites_wallet_github_repo`.
+The row for the current user should report `terminal_prerequisite_state='ready_for_terminal_give_need'`.
+If it reports `warning:ENGI_repo_not_in_inventory`, continue only if another connected repository is intentionally selected in the UI and paste that repository name with the SQL result.
+If it reports any `blocker:*`, stop and repair that prerequisite before Terminal write QA.
+
+Need path:
+
+1. Hard refresh `/terminal` and wait for top chrome wallet state and Terminal sync to settle.
+2. Confirm the repository/source context is live GitHub inventory, not mock data. Prefer `engineeredsoftware/ENGI` for the first pass.
+3. Confirm no model picker can affect ledgerized Need/Fit/AssetPack synthesis.
+4. In `Give + need chain`, inspect the `need` card and capture the summary, scenario, parser, closure criteria count, target kinds count, and repository row.
+5. Click `Record need posture`.
+6. Confirm the UI reports that need-measurement posture was recorded.
+7. In Network, capture the `/api/executions/history` request and response. Expected status is `201`.
+8. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:need-measurement'`, `context_summary.source='terminal-need-scenario-panel'`, and the same scenario/repository shown in the UI.
+
+Give path:
+
+1. In `Give + need chain`, inspect the `give` card and capture selected source entries, artifact kinds, repository row, and profile row.
+2. Click `Record give posture`.
+3. Confirm the UI reports that give-side share posture was recorded.
+4. In Network, capture the `/api/executions/history` request and response. Expected status is `201`.
+5. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:asset-pack'`, `context_summary.source='terminal-give-need-workbench'`, `context_summary.workbench='give'`, and a non-empty `output_summary.give`.
+
+Fit and closure path:
+
+1. Inspect `Asset-pack fit and settlement intent`.
+2. Click `Record fit posture`.
+3. Confirm the UI reports that fit and settlement posture was recorded.
+4. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:proof-refresh'`, `context_summary.workbench='fit'`, and a non-empty `output_summary.fit`.
+5. In `Flow controls`, inspect `Transaction readiness`.
+6. If `Make Bitcode branch` is enabled, click it once and capture `/api/make-bitcode-branch` plus the follow-up `/api/executions/history` write. Then run `v28_qa_terminal_02_activity_after_write` and `v28_qa_terminal_03_btd_ledger_after_terminal`.
+7. If `Make Bitcode branch` is disabled, capture the disabled tooltip/readiness text. This is acceptable for V28 only when it names the exact missing capability and the Need/Give/Fit posture rows above still persisted and reread correctly.
+
+BTD/ledger readback:
+
+1. Run `v28_qa_terminal_03_btd_ledger_after_terminal` after any fit, branch, BTC fee, mint, or ledger action.
+2. For early V28 posture-only writes, empty `recent_measuremint_receipts`, `recent_asset_pack_ranges`, `recent_btc_fee_transactions`, and `recent_ledger_anchors` rows are acceptable if `consistency_summary` reports zero missing journals, zero missing anchors, and zero blocking repairs.
+3. If Terminal claims an AssetPack mint, BTC fee, ledger anchor, settlement, or reconciliation happened, the matching row must appear in the corresponding BTD section of query 03.
+
+Pass criteria:
+
+- Wallet/Auth/Profile/GitHub/repository prerequisites are ready in query 01.
+- Need, Give, and Fit record actions write user-scoped rows and reread in query 02.
+- The Terminal activity UI shows those rows after refresh or activity reload.
+- Branch/settlement either progresses with explicit network and SQL evidence or fails closed with a precise blocker.
+- No Terminal control routes through Exchange or website Conversations.
+- No user-facing model selection can change ledgerized Need/Fit/AssetPack synthesis.
+- Query 03 shows no ledger/database drift for any BTD state that Terminal claims.
+
+V28 blockers:
+
+- `/api/executions/history` returns 500 or query 02 reports `public.executions` missing after a Terminal write is expected to persist.
+- Terminal shows mock repository, mock wallet, or mock GitHub state in the deployed staging-testnet lane.
+- A recorded Need/Give/Fit row is not tied to the authenticated wallet user.
+- Terminal claims mint/settlement/anchor/finality without matching BTD projection rows.
+- GitHub access tokens or wallet signatures appear unredacted in browser-visible UI, query output intended for routine QA, or client telemetry.
+- A broad model selector can alter ledgerized Terminal/Fit/AssetPack synthesis.
+
 ## 2026-05-13 Staging Deployment Readiness Gate
 
 Purpose:
@@ -1024,6 +1088,25 @@ where provider = 'github'
 order by updated_at desc
 limit 10;
 ```
+
+Terminal Give/Need prerequisite consolidation:
+
+Saved query name: `v28_qa_terminal_01_prerequisites_wallet_github_repo`
+
+Use `supabase/queries/v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`.
+This is the preferred single-row readiness query before Terminal Give/Need QA. `v28_qa_05_vcs_repositories_recent` remains the direct repository inventory check, and `v28_qa_05b_github_connection_repository_payload` is only a fallback inspection when repository rows are unexpectedly absent.
+
+Terminal activity write/readback:
+
+Saved query name: `v28_qa_terminal_02_activity_after_write`
+
+Use `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` after every `Record need posture`, `Record give posture`, `Record fit posture`, or `Make Bitcode branch` action. This query reports optional runtime tables as missing instead of hard-erroring, so a missing `public.executions` or `public.execution_events` row becomes explicit QA evidence.
+
+BTD and ledger projection readback:
+
+Saved query name: `v28_qa_terminal_03_btd_ledger_after_terminal`
+
+Use `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` after any Terminal action that claims Fit closure, AssetPack minting, BTC fee payment, ledger anchoring, settlement, or reconciliation.
 
 ### Top Chrome Wallet Readiness
 

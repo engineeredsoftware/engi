@@ -58,6 +58,33 @@ Commercial MVP checkpoint confidence requires `/terminal` to be:
 No compatibility route should be added for this surface. Route continuity must
 come from current Terminal URLs and current product navigation.
 
+## Live staging-testnet QA
+
+Terminal Give/Need QA starts only after Wallet and Externals prerequisites are
+green in the live staging deployment. The minimum accepted starting state is a
+wallet-authenticated Supabase user, Bitcode wallet binding projection,
+GitHub App installation, and at least one `vcs_repositories` row for the source
+scope. The first canonical repository anchor for this pass is
+`engineeredsoftware/ENGI`.
+
+The first MVP write/read checks are:
+
+- `Record need posture` writes `agentic-execution:need-measurement`.
+- `Record give posture` writes `agentic-execution:asset-pack` with give state.
+- `Record fit posture` writes `agentic-execution:proof-refresh`.
+- `Make Bitcode branch` either writes branch/AssetPack follow-through or fails
+  closed with an exact transaction-readiness blocker.
+
+Reusable Supabase query files for this pass live in `supabase/queries/`:
+
+- `v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`
+- `v28_qa_terminal_02_activity_after_write.sql`
+- `v28_qa_terminal_03_btd_ledger_after_terminal.sql`
+
+Those queries are the operator evidence path for proving Terminal UI, API
+history, GitHub source inventory, and BTD ledger projections stay synchronized
+while the MVP is being QAed.
+
 ## Related shared systems
 
 - [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)

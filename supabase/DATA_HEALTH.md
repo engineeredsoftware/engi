@@ -114,6 +114,18 @@ reusable checks:
   staging-only reset for early QA. It preserves schema/migrations, deletes
   Supabase Auth users, truncates Bitcode-owned public projection data, and
   reseeds `public.btd_supply_state`.
+- `v28_qa_terminal_01_prerequisites_wallet_github_repo`:
+  `supabase/queries/v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`
+  confirms Supabase Auth, wallet binding, GitHub installation, and repository
+  inventory before Terminal Give/Need QA.
+- `v28_qa_terminal_02_activity_after_write`:
+  `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` checks
+  Terminal activity, execution events, pipeline rows, stream logs, and errors
+  after each Terminal write action.
+- `v28_qa_terminal_03_btd_ledger_after_terminal`:
+  `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` checks
+  BTD measuremint, ranges, BTC fee receipts, Terminal journal, ledger anchors,
+  reconciliation repairs, and crypto telemetry after Terminal closure actions.
 
 The script runner is authoritative for pass/fail automation. The saved queries
 are for operator inspection and QA narration.
