@@ -15,6 +15,64 @@ function base64url(str: string): string {
     .replace(/\//g, '_');
 }
 
+const PRIVATE_KEY_BEGIN = /-----BEGIN [A-Z ]*PRIVATE KEY-----/;
+const PRIVATE_KEY_END = /-----END [A-Z ]*PRIVATE KEY-----/;
+
+function stripWrappingQuotes(value: string): string {
+  if (value.length < 2) return value;
+
+  const first = value[0];
+  const last = value[value.length - 1];
+
+  if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
+    return value.slice(1, -1);
+  }
+
+  return value;
+}
+
+function decodeBase64Pem(value: string): string | null {
+  const compact = value.replace(/\s/g, '');
+  if (!compact || compact.length % 4 !== 0) return null;
+
+  try {
+    const decoded = Buffer.from(compact, 'base64').toString('utf8').trim();
+    return PRIVATE_KEY_BEGIN.test(decoded) && PRIVATE_KEY_END.test(decoded)
+      ? decoded
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+export function normalizeGitHubAppPrivateKey(privateKey: string): string {
+  let key = stripWrappingQuotes(privateKey.trim())
+    .replace(/\\r\\n/g, '\n')
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\n')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .trim();
+
+  if (!PRIVATE_KEY_BEGIN.test(key)) {
+    key = decodeBase64Pem(key) ?? key;
+  }
+
+  if (/^\/.*\.pem$/i.test(key) || /^[A-Z]:\\.*\.pem$/i.test(key)) {
+    throw new Error(
+      'GITHUB_PRIVATE_KEY contains a file path. Configure the deployed environment with the PEM contents or a base64-encoded PEM, not a local .pem path.'
+    );
+  }
+
+  if (!PRIVATE_KEY_BEGIN.test(key) || !PRIVATE_KEY_END.test(key)) {
+    throw new Error(
+      'GITHUB_PRIVATE_KEY must be an RSA private key PEM. Expected BEGIN/END PRIVATE KEY markers after env normalization.'
+    );
+  }
+
+  return key;
+}
+
 export function generateGitHubAppJWT(appId: string, privateKey: string): string {
   // Current time in seconds
   const now = Math.floor(Date.now() / 1000);
@@ -39,10 +97,7 @@ export function generateGitHubAppJWT(appId: string, privateKey: string): string 
   // Create signature
   const signatureInput = `${encodedHeader}.${encodedPayload}`;
   
-  // Parse the private key (handle both raw and escaped formats)
-  const privateKeyContent = privateKey
-    .replace(/\\n/g, '\n')
-    .trim();
+  const privateKeyContent = normalizeGitHubAppPrivateKey(privateKey);
   
   const sign = crypto.createSign('RSA-SHA256');
   sign.update(signatureInput);
