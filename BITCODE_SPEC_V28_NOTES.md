@@ -66,6 +66,8 @@ This recalibration means the QA document, parity matrix, and implementation work
 
 Supabase/PostgreSQL data-health checks are part of the V28 acceptance apparatus, not a separate operator convenience. The ORM package now owns reusable schema, identity, Terminal, ledger, and operational check manifests plus live runners for daily staging/production validation, CI E2E validation, local QA reports, and generated schema-type coverage. These checks must preserve the core boundary: Supabase rows are ledger-derived or Bitcode-canonical projections, while ledger anchors, signed wallet proofs, Terminal journal receipts, and canonical receipts remain the source of cryptographic truth.
 
+May 14 staging-testnet verification added the first repository-owned RLS repairs after the dashboard-origin RLS bootstrap. `20260514173000_enable_pipeline_runs_rls.sql` enables RLS on `public.pipeline_runs`, and `20260514175000_enable_pipeline_runtime_rls.sql` enables RLS on server-managed pipeline runtime tables reported by Supabase Security Advisor. These preserve existing service-role pipeline posture and move runtime internals to deny-by-default for browser roles unless a narrower policy is later specified. The live daily data-health suite now passes 24/24 checks against the staging Supabase project, live ORM E2E tests can load `.env.local` directly for local QA parity with the CLI runner, and the advisory-style RLS probe returns no public tables with policies/browser grants while RLS is disabled.
+
 ### Deterministic Model Boundary
 
 V28 must remove the idea that a user can choose ledgerized Bitcode synthesis models.

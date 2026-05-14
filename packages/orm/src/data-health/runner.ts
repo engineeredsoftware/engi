@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
 import { Client, type QueryResultRow } from 'pg';
 
 import {
@@ -82,14 +84,27 @@ export function resolveDataHealthConnectionString(env: NodeJS.ProcessEnv = proce
   );
 }
 
+export function loadDataHealthEnvFiles(cwd: string = process.cwd()): void {
+  const repoRoot = path.resolve(__dirname, '../../../..');
+  const candidates = [
+    path.join(repoRoot, '.env.local'),
+    path.join(repoRoot, 'uapi/.env.local'),
+    path.join(cwd, '.env.local'),
+  ];
+
+  for (const filePath of candidates) {
+    loadEnvFile(filePath);
+  }
+}
+
 export function redactConnectionString(connectionString: string): string {
   try {
     const url = new URL(connectionString);
     if (url.password) {
-      url.password = '[redacted]';
+      url.password = 'redacted';
     }
     if (url.username) {
-      url.username = url.username ? '[redacted]' : '';
+      url.username = url.username ? 'redacted' : '';
     }
     return url.toString();
   } catch {
@@ -98,9 +113,10 @@ export function redactConnectionString(connectionString: string): string {
 }
 
 export async function createDataHealthClient(connectionString: string): Promise<Client> {
+  const normalizedConnectionString = normalizePgConnectionString(connectionString);
   const client = new Client({
-    connectionString,
-    ssl: shouldUseSsl(connectionString) ? { rejectUnauthorized: false } : undefined,
+    connectionString: normalizedConnectionString,
+    ssl: shouldUseSsl(normalizedConnectionString) ? { rejectUnauthorized: false } : undefined,
   });
   await client.connect();
   return client;
@@ -231,6 +247,44 @@ function shouldUseSsl(connectionString: string): boolean {
   } catch {
     return true;
   }
+}
+
+function normalizePgConnectionString(connectionString: string): string {
+  try {
+    const url = new URL(connectionString);
+    url.searchParams.delete('sslmode');
+    return url.toString();
+  } catch {
+    return connectionString;
+  }
+}
+
+function loadEnvFile(filePath: string): void {
+  if (!existsSync(filePath)) return;
+
+  for (const line of readFileSync(filePath, 'utf8').split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+
+    const match = trimmed.match(/^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/);
+    if (!match) continue;
+
+    const key = match[1];
+    if (process.env[key] !== undefined) continue;
+
+    process.env[key] = stripEnvQuotes(match[2]);
+  }
+}
+
+function stripEnvQuotes(value: string): string {
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
 }
 
 async function inspectAvailableRelations(client: Queryable): Promise<Set<string>> {

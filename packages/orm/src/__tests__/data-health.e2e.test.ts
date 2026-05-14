@@ -1,5 +1,6 @@
 import {
   createDataHealthClient,
+  loadDataHealthEnvFiles,
   resolveDataHealthConnectionString,
   runDataHealthChecks,
 } from '../data-health/runner';
@@ -9,6 +10,7 @@ const maybeDescribe =
 
 maybeDescribe('Supabase data-health live E2E', () => {
   it('runs the CI health suite against the configured database', async () => {
+    loadDataHealthEnvFiles();
     const connectionString = resolveDataHealthConnectionString();
     expect(connectionString).toBeTruthy();
 

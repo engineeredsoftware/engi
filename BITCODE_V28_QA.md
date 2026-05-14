@@ -812,10 +812,12 @@ Automated checks passed:
 - `pnpm -C packages/protocol run typecheck`: pass.
 - `pnpm -C packages/orm test`: 19 passed, with live data-health E2E tests skipped unless enabled by env flags.
 - `pnpm -C packages/orm run test:data-health`: data-health contract tests passed; live DB and schema-type E2E tests are gated by env flags.
+- `BITCODE_RUN_DB_HEALTH_E2E=true BITCODE_RUN_SCHEMA_TYPES_E2E=true pnpm -C packages/orm run test:data-health:live`: 6 passed against the staging-testnet Supabase project.
 - `pnpm -C packages/orm run schema-types:check`: generated Supabase and ORM database types cover canonical public tables.
 - `pnpm -C packages/orm run build`: pass after generated type refresh.
 - `pnpm -C uapi run build` with the staging-testnet env block: Next.js production build passed.
 - `git diff --check`: pass.
+- Supabase Security Advisor RLS class probe: direct SQL returned zero public tables with policies or browser-role grants while RLS is disabled.
 
 Build warnings and interpretation:
 
@@ -825,8 +827,9 @@ Build warnings and interpretation:
 
 External Supabase readiness check:
 
-The staging Supabase migration history now contains the required V28 tables from local migrations `001`, `002`, and `003`, followed by dashboard-origin RLS migration `20260510223914`.
-`supabase db push --dry-run` reports the remote database is up to date.
+The staging Supabase migration history now contains the required V28 tables from local migrations `001`, `002`, and `003`, followed by dashboard-origin RLS migration `20260510223914` and repository RLS migrations `20260514173000_enable_pipeline_runs_rls.sql` and `20260514175000_enable_pipeline_runtime_rls.sql`.
+`scripts/supabase.sh migration list` reports local and remote migration history aligned.
+The added repository migrations enable RLS on `public.pipeline_runs`, `public.run_jobs`, `public.stream_logs`, and server-managed `public.deliverable_pipeline_*` runtime internals, closing the live data-health finding and the Supabase Security Advisor criticals shown during QA.
 
 Data-health tooling added for repeatable Supabase/PostgreSQL validation:
 
@@ -838,19 +841,17 @@ Data-health tooling added for repeatable Supabase/PostgreSQL validation:
 
 Required next validation before live onboarding QA:
 
-1. Run `SUPABASE_DB_URL='<postgres-connection-string>' pnpm db:data-health:daily` against staging-testnet.
-2. Run saved Supabase queries from `supabase/queries/` and paste result excerpts into this QA log.
-3. Run `pnpm db:schema-types:check` after generated Supabase types are refreshed from the staging database.
-4. Rebuild/redeploy if Vercel env changed after the build.
-5. Re-run Pass 1A from a fresh browser profile.
+1. Run saved Supabase queries from `supabase/queries/` and paste result excerpts into this QA log during first-run onboarding.
+2. Rebuild/redeploy if Vercel env changed after the build.
+3. Re-run Pass 1A from a fresh browser profile on `bitcode.exchange`.
 
 Deployment judgment:
 
 - Code/build readiness: pass.
 - Wallet/OAuth/GitHub source readiness in code: pass.
 - Formal protocol and ORM migration source readiness: pass.
-- Live staging data-plane readiness: migrations applied; pending saved-query verification and first-run onboarding QA.
-- Manual first-run onboarding may proceed after deployment env is confirmed and saved-query verification is captured.
+- Live staging data-plane readiness: pass baseline. `pnpm db:data-health:daily` checked 24 and passed 24 against `tkpyosihuouusyaxtbau`; the advisor-style RLS probe returned zero rows; saved-query verification still belongs in the first-run onboarding QA evidence.
+- Manual first-run onboarding may proceed after deployment env is confirmed; capture saved-query evidence during the pass.
 
 ## Issue Template
 

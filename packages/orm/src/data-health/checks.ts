@@ -34,8 +34,19 @@ export const CANONICAL_APPLICATION_TABLES = [
   'vcs_repositories',
   'notifications',
   'pipeline_runs',
+  'run_jobs',
+  'stream_logs',
   'deliverables',
   'deliverable_vectors',
+  'deliverable_pipeline_runs',
+  'deliverable_pipeline_events',
+  'deliverable_pipeline_generated_assets',
+  'deliverable_pipeline_phase_delegations',
+  'deliverable_pipeline_agent_steps',
+  'deliverable_pipeline_generations',
+  'deliverable_pipeline_otf_instructions',
+  'deliverable_pipeline_substeps',
+  'deliverable_pipeline_tool_executions',
   'error_logs',
   'events',
 ] as const;
@@ -607,7 +618,7 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
           count(*)::bigint AS range_count
         FROM public.btd_asset_pack_ranges
       ),
-      overlaps AS (
+      range_overlaps AS (
         SELECT a.asset_pack_id AS left_asset_pack_id, b.asset_pack_id AS right_asset_pack_id
         FROM public.btd_asset_pack_ranges a
         JOIN public.btd_asset_pack_ranges b ON a.id < b.id
@@ -626,10 +637,10 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
       SELECT
         coalesce((SELECT total_minted FROM state), -1) = coalesce((SELECT summed_token_count FROM range_stats), 0)
         AND coalesce((SELECT next_token_id FROM state), -1) = coalesce((SELECT max_range_end FROM range_stats), 0)
-        AND (SELECT count(*) FROM overlaps) = 0
+        AND (SELECT count(*) FROM range_overlaps) = 0
         AND (SELECT count(*) FROM invalid_ranges) = 0 AS ok,
         (
-          (SELECT count(*) FROM overlaps)
+          (SELECT count(*) FROM range_overlaps)
           + (SELECT count(*) FROM invalid_ranges)
           + CASE
               WHEN coalesce((SELECT total_minted FROM state), -1) <> coalesce((SELECT summed_token_count FROM range_stats), 0)
@@ -641,7 +652,7 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
           'state_total_minted', (SELECT total_minted FROM state),
           'state_next_token_id', (SELECT next_token_id FROM state),
           'range_stats', (SELECT to_jsonb(range_stats) FROM range_stats),
-          'overlaps', coalesce((SELECT jsonb_agg(to_jsonb(overlaps)) FROM overlaps), '[]'::jsonb),
+          'overlaps', coalesce((SELECT jsonb_agg(to_jsonb(range_overlaps)) FROM range_overlaps), '[]'::jsonb),
           'invalid_ranges', coalesce((SELECT jsonb_agg(asset_pack_id ORDER BY asset_pack_id) FROM invalid_ranges), '[]'::jsonb)
         ) AS details;
     `,

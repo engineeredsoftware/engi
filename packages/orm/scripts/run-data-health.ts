@@ -8,6 +8,7 @@ import {
 } from '../src/data-health/checks';
 import {
   createDataHealthClient,
+  loadDataHealthEnvFiles,
   readDataHealthConnectionInfo,
   redactConnectionString,
   resolveDataHealthConnectionString,
@@ -34,6 +35,7 @@ const DEFAULT_OPTIONS: CliOptions = {
 };
 
 async function main() {
+  loadDataHealthEnvFiles();
   const options = parseArgs(process.argv.slice(2));
 
   if (options.list) {
