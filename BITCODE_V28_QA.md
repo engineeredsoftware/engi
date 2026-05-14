@@ -850,7 +850,7 @@ Deployment judgment:
 - Code/build readiness: pass.
 - Wallet/OAuth/GitHub source readiness in code: pass.
 - Formal protocol and ORM migration source readiness: pass.
-- Live staging data-plane readiness: pass baseline. `pnpm db:data-health:daily` checked 24 and passed 24 against `tkpyosihuouusyaxtbau`; the advisor-style RLS probe returned zero rows; saved-query verification still belongs in the first-run onboarding QA evidence.
+- Live staging data-plane readiness: pass baseline. `pnpm db:data-health:daily` checked 25 and passed 25 against `tkpyosihuouusyaxtbau`; the advisor-style RLS probe returned zero rows; saved-query verification still belongs in the first-run onboarding QA evidence.
 - Manual first-run onboarding may proceed after deployment env is confirmed; capture saved-query evidence during the pass.
 
 2026-05-14 first live deployment onboarding evidence:
@@ -859,6 +859,7 @@ Deployment judgment:
 - After correcting the Site URL, Supabase Auth created `auth.users` and `auth.identities` rows with `provider='custom:bitcode-bitcoin'` and the Bitcoin testnet subject.
 - The matching Bitcode application projection exists in `public.user_profiles` under `settings.bitcodeProfile.walletBinding`, with the same user UUID as `auth.users.id`, and `public.user_connections` has a matching `provider='leather'` wallet row.
 - The saved `v28_qa_03_user_profiles_wallet_binding` query was corrected to read wallet binding from JSON settings rather than nonexistent flat `wallet_address`, `wallet_provider`, and `wallet_binding_status` columns.
+- Fresh staging nuke/re-onboarding showed the intended first two Auth rows immediately but left `user_profiles.settings` empty until the app replayed the signed wallet proof from local storage. V28 now treats this as a first-run integrity gap: any active route must persist the signed local wallet proof once a Supabase session exists, so a callback-to-root landing still converges on `settings.bitcodeProfile.walletBinding` and `user_connections` before GitHub onboarding.
 
 ## Issue Template
 

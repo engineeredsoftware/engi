@@ -90,7 +90,7 @@ pnpm db:schema-types:check
 | Suite | Purpose |
 | --- | --- |
 | `schema` | Required tables, required columns, extensions, migrations, RLS, provider-scope readiness. |
-| `identity` | Wallet profile/connection parity, signed Bitcoin wallet row shape, GitHub installation row shape, repository cache addressability. |
+| `identity` | Custom Bitcoin Auth projection, wallet profile/connection parity, signed Bitcoin wallet row shape, GitHub installation row shape, repository cache addressability. |
 | `terminal` | Terminal journal replay order and AssetPack mint journal coverage. |
 | `ledger` | BTD supply, measuremint receipts, AssetPack ranges, cells, anchors, BTC fees, revenue conservation, reconciliation repairs. |
 | `operational` | Recent critical crypto telemetry and application error rows. |

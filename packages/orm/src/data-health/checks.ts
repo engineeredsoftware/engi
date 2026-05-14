@@ -373,6 +373,85 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
     `,
   },
   {
+    id: 'identity.bitcoin-auth-users-projected',
+    title: 'Bitcoin Auth users are projected into Bitcode wallet state',
+    category: 'identity',
+    severity: 'critical',
+    description: 'Ensures every Supabase custom Bitcoin Auth identity has a matching Bitcode profile wallet binding and wallet connection projection.',
+    remediation: 'Reload the app after wallet authentication so the wallet session persistence bridge can write the profile and connection projection; if drift remains, inspect /api/wallet/authenticate logs.',
+    requires: ['public.user_profiles', 'public.user_connections'],
+    sql: `
+      WITH bitcoin_identities AS (
+        SELECT
+          user_id,
+          identity_data ->> 'sub' AS subject,
+          split_part(identity_data ->> 'sub', ':', 3) AS address,
+          updated_at
+        FROM auth.identities
+        WHERE provider = 'custom:bitcode-bitcoin'
+      ),
+      projected AS (
+        SELECT
+          i.user_id,
+          i.subject,
+          i.address,
+          coalesce(
+            p.settings #>> '{bitcodeProfile,walletBinding,address}',
+            p.settings #>> '{walletBinding,address}'
+          ) AS profile_address,
+          coalesce(
+            p.settings #>> '{bitcodeProfile,walletBinding,provider}',
+            p.settings #>> '{walletBinding,provider}'
+          ) AS profile_provider,
+          c.id AS connection_id,
+          coalesce(
+            c.connection_data ->> 'address',
+            c.connection_data ->> 'wallet_address',
+            c.connection_data ->> 'provider_user_id'
+          ) AS connection_address
+        FROM bitcoin_identities i
+        LEFT JOIN public.user_profiles p
+          ON p.id = i.user_id
+        LEFT JOIN public.user_connections c
+          ON c.user_id = i.user_id
+          AND c.provider IN ('bitcoin-wallet', 'unisat', 'leather', 'okx-bitcoin', 'xverse', 'manual-bitcoin')
+          AND coalesce(c.is_active, true) = true
+      ),
+      drift AS (
+        SELECT *
+        FROM projected
+        WHERE
+          nullif(trim(coalesce(address, '')), '') IS NULL
+          OR profile_address IS DISTINCT FROM address
+          OR nullif(trim(coalesce(profile_provider, '')), '') IS NULL
+          OR connection_id IS NULL
+          OR connection_address IS DISTINCT FROM address
+      )
+      SELECT
+        count(*) = 0 AS ok,
+        count(*)::bigint AS observed_count,
+        jsonb_build_object(
+          'unprojected_bitcoin_auth_identities',
+          coalesce(
+            jsonb_agg(
+              jsonb_build_object(
+                'user_id', user_id,
+                'subject', subject,
+                'address', address,
+                'profile_provider', profile_provider,
+                'profile_address', profile_address,
+                'connection_id', connection_id,
+                'connection_address', connection_address
+              )
+              ORDER BY user_id::text
+            ),
+            '[]'::jsonb
+          )
+        ) AS details
+      FROM drift;
+    `,
+  },
+  {
     id: 'identity.wallet-profile-connection-parity',
     title: 'Wallet profile bindings match connection rows',
     category: 'identity',

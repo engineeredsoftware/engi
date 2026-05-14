@@ -17,6 +17,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import AnalyticsEventsClient from '@/components/base/bitcode/analytics/AnalyticsEventsClient';
 import PageAnalyticsClient from '@/components/base/bitcode/analytics/PageAnalyticsClient';
+import WalletSessionPersistenceBridge from './WalletSessionPersistenceBridge';
 import { init as initSentry } from '@bitcode/sentry';
 
 initSentry({
@@ -78,6 +79,7 @@ export default function RootLayout({
         className={`${inter.className} z-20 overflow-x-hidden`}
       >
         {children}
+        <WalletSessionPersistenceBridge />
         <AnalyticsEventsClient />
         <Suspense fallback={null}>
           <PageAnalyticsClient />
