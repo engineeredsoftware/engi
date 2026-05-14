@@ -21,9 +21,11 @@ export default function LoginCallbackClient({
   codeKind = 'none',
   nextPath = '/',
 }: LoginCallbackClientProps) {
+  const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const callbackStartedRef = useRef(false);
 
   // Determine if this is an OTP flow (magic-link) or an OAuth redirect
   const isOtpFlow = codeKind === 'token_hash' && Boolean(code && code.trim().length > 0);
@@ -33,6 +35,11 @@ export default function LoginCallbackClient({
   const my = useMotionValue(0);
   const mxPx = useMotionTemplate`${mx}px`;
   const myPx = useMotionTemplate`${my}px`;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const node = containerRef.current;
     if (!node) return;
@@ -91,6 +98,9 @@ export default function LoginCallbackClient({
    * are never stranded on this screen.
    */
   useEffect(() => {
+    if (callbackStartedRef.current) return;
+    callbackStartedRef.current = true;
+
     let cleanup: (() => void) | undefined;
 
     (async () => {
@@ -116,6 +126,29 @@ export default function LoginCallbackClient({
         }, 600);
       };
 
+      const callbackKey =
+        codeKind === 'oauth_code' && code
+          ? `bitcode.supabase.callback.exchanged.${code.slice(0, 80)}`
+          : null;
+
+      const completeIfSessionExists = async () => {
+        let session;
+        try {
+          const { data } = await supabase.auth.getSession();
+          session = data.session;
+        } catch {
+          session = null;
+        }
+        if (!session) return false;
+        if (callbackKey) {
+          try {
+            window.sessionStorage.setItem(callbackKey, '1');
+          } catch {}
+        }
+        complete();
+        return true;
+      };
+
       // 1️⃣ First, attempt to capture the session from the URL fragment –
       // this is required for implicit/#access_token flows used by Google.
       // 1️⃣ Attempt to extract tokens from the URL hash (implicit flow
@@ -123,14 +156,31 @@ export default function LoginCallbackClient({
       // the browser SDK, so we do it manually and call `setSession()`.
       const hash = typeof window !== 'undefined' ? window.location.hash || '' : '';
       if (codeKind === 'oauth_code' && code) {
+        if (callbackKey) {
+          try {
+            if (window.sessionStorage.getItem(callbackKey) === '1' && await completeIfSessionExists()) {
+              return;
+            }
+          } catch {}
+        }
+
         try {
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) throw error;
+          if (callbackKey) {
+            try {
+              window.sessionStorage.setItem(callbackKey, '1');
+            } catch {}
+          }
           complete();
           return;
         } catch (exchangeError) {
+          if (await completeIfSessionExists()) return;
+          await new Promise((resolve) => setTimeout(resolve, 300));
+          if (await completeIfSessionExists()) return;
+
           const message = exchangeError instanceof Error ? exchangeError.message : String(exchangeError);
-          window.location.href = `/?loginError=server_error&loginErrorDescription=${encodeURIComponent(message)}`;
+          window.location.replace(`/?loginError=server_error&loginErrorDescription=${encodeURIComponent(message)}`);
           return;
         }
       }
@@ -191,6 +241,21 @@ export default function LoginCallbackClient({
     window.addEventListener('keydown', escHandler);
     return () => window.removeEventListener('keydown', escHandler);
   }, [nextPath]);
+
+  if (!mounted) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-gray-400">
+            Bitcode authentication
+          </p>
+          <h1 className="mt-4 text-4xl font-light text-[rgba(103,254,183,0.9)]">
+            Verifying…
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div

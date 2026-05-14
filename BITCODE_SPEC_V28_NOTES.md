@@ -72,6 +72,8 @@ May 14 live deployment QA proved the custom Bitcoin OAuth path through Supabase 
 
 Fresh-nuke onboarding then exposed a timing gap: Supabase Auth and the empty trigger-created profile existed immediately, while Bitcode's wallet projection appeared only after the app remounted the Wallet pane and replayed the locally signed proof. V28 now treats that gap as unacceptable for first-run readiness. A route-global wallet session persistence bridge must replay any locally signed Bitcoin wallet proof once a Supabase session exists, so callback-to-root, hard refresh, or Terminal landing all converge on the same `user_profiles.settings.bitcodeProfile.walletBinding` and `user_connections` projection before GitHub onboarding proceeds.
 
+Live staging OAuth also exposed two callback hardening requirements. First, the custom wallet authorize page must not rely on a single provider scan at first render because browser wallet extensions can inject provider globals after the route has already hydrated; `/tps/wallet/authorize` must retry discovery, expose an explicit rescan, and preserve the provider hint fallback so Leather/Xverse can still open even when the first scan is empty. Second, the Supabase callback exchange must be idempotent: if the first exchange succeeds and hydration recovery or remount tries to exchange the same code again after the PKCE verifier was consumed, the callback must prefer the already-established session over redirecting to a false login error. Staging URL configuration must also allow both `https://bitcode.exchange` and `https://www.bitcode.exchange` callback routes until a single canonical host redirect is enforced.
+
 ### Deterministic Model Boundary
 
 V28 must remove the idea that a user can choose ledgerized Bitcode synthesis models.

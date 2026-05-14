@@ -46,6 +46,8 @@ site_url = "https://bitcode.exchange"
 additional_redirect_urls = [
   "https://bitcode.exchange/tps/supabase/callback",
   "https://bitcode.exchange/auxillaries/wallet",
+  "https://www.bitcode.exchange/tps/supabase/callback",
+  "https://www.bitcode.exchange/auxillaries/wallet",
   "http://localhost:3000/tps/supabase/callback",
   "http://localhost:3001/tps/supabase/callback",
 ]

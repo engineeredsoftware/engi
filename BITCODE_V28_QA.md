@@ -17,6 +17,7 @@ Exchange and the website Conversations interface are no longer V28 QA surfaces.
 | Latest resume | 2026-05-13 |
 | Mock app URL | `http://127.0.0.1:3000` |
 | Testnet-readiness app URL | `http://127.0.0.1:3001` when a second dev server is running |
+| Live staging URL | `https://bitcode.exchange`; current QA may also enter through `https://www.bitcode.exchange` while host canonicalization is being settled |
 | Server mode | manual QA now prioritizes real staging-testnet with mocks off; mock mode remains a deterministic regression harness that must stay synchronized |
 | Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
 | Draft target | `V28` |
@@ -157,6 +158,19 @@ For every staging-testnet pass, paste back:
 5. Network failures, including URL, method, status, and response body when available.
 6. Supabase SQL results from the queries below.
 7. A short classification for each issue: V28 blocker, V29 Terminal depth, V31 Auxillaries depth, V32 provation/testing, V33 interfaces, V34 deployment, V35 telemetry/docs, or V36+ Exchange/Conversations.
+
+### Live Staging Host And Callback Checks
+
+For wallet onboarding on the deployed staging-testnet host, Supabase Auth must accept both hostnames until Bitcode enforces one canonical host:
+
+- `https://bitcode.exchange/tps/supabase/callback`
+- `https://www.bitcode.exchange/tps/supabase/callback`
+- `https://bitcode.exchange/auxillaries/wallet`
+- `https://www.bitcode.exchange/auxillaries/wallet`
+
+When Wallet opens `/tps/wallet/authorize`, the page should show Leather and Xverse if both extensions are installed and unlocked. If it initially says no provider was detected, wait a few seconds or click `Rescan wallets`; provider injection after hydration is a V28-observed browser-extension timing behavior. The fallback button may still open the hinted provider, but the expected MVP state is explicit Leather/Xverse choices plus a working fallback.
+
+After signing, a transient root URL containing `loginError=server_error` and `both auth code and code verifier should be non-empty` is a callback idempotency failure if the session nevertheless exists. V28 expects the callback to treat an already-established Supabase session as success and continue to Wallet without showing a false login error.
 
 ### Supabase SQL Checks
 

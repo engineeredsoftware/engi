@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import React from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   connectBitcoinWallet,
@@ -23,6 +24,13 @@ type BitcoinWalletAuthorizeClientProps = {
 };
 
 const supportedHints = new Set(['xverse', 'leather', 'unisat', 'okx-bitcoin']);
+const providerLabels: Record<BitcoinWalletProviderId, string> = {
+  xverse: 'Xverse',
+  leather: 'Leather',
+  unisat: 'UniSat',
+  'okx-bitcoin': 'OKX Bitcoin',
+};
+const providerScanRetryDelays = [0, 250, 1000, 2500] as const;
 
 function normalizeProviderHint(value: string): BitcoinWalletProviderId | undefined {
   const normalized = value.trim().toLowerCase();
@@ -50,32 +58,51 @@ export default function BitcoinWalletAuthorizeClient({
   const [scanState, setScanState] = useState<'checking' | 'ready' | 'none'>('checking');
   const [status, setStatus] = useState<'idle' | 'requesting' | 'redirecting'>('idle');
   const [error, setError] = useState<string | null>(null);
+  const mountedRef = useRef(true);
+  const latestProvidersRef = useRef<BitcoinWalletProviderSummary[]>([]);
 
   const preferredProvider = useMemo(() => normalizeProviderHint(walletProviderHint), [walletProviderHint]);
   const hasRequiredParams = Boolean(clientId && redirectUri && (!responseType || responseType === 'code'));
 
-  useEffect(() => {
-    let cancelled = false;
-    inspectBitcoinWalletProviders()
-      .then((detected) => {
-        if (cancelled) return;
-        setProviders(detected);
-        setScanState(detected.length > 0 ? 'ready' : 'none');
-        bitcodeQaTelemetry('info', 'wallet-oauth', 'provider-scan', detected);
-      })
-      .catch((scanError) => {
-        if (cancelled) return;
-        setProviders([]);
-        setScanState('none');
-        bitcodeQaTelemetry('warn', 'wallet-oauth', 'provider-scan-failed', {
-          message: scanError instanceof Error ? scanError.message : 'unknown',
-        });
+  const scanProviders = useCallback(async (reason: string) => {
+    if (reason === 'manual' || latestProvidersRef.current.length === 0) {
+      setScanState('checking');
+    }
+    try {
+      const detected = await inspectBitcoinWalletProviders();
+      if (!mountedRef.current) return;
+      const nextProviders = detected.length > 0 ? detected : latestProvidersRef.current;
+      latestProvidersRef.current = nextProviders;
+      setProviders(nextProviders);
+      setScanState(nextProviders.length > 0 ? 'ready' : 'none');
+      bitcodeQaTelemetry('info', 'wallet-oauth', 'provider-scan', {
+        reason,
+        detected,
+        retained: detected.length === 0 && nextProviders.length > 0,
       });
-
-    return () => {
-      cancelled = true;
-    };
+    } catch (scanError) {
+      if (!mountedRef.current) return;
+      setProviders(latestProvidersRef.current);
+      setScanState(latestProvidersRef.current.length > 0 ? 'ready' : 'none');
+      bitcodeQaTelemetry('warn', 'wallet-oauth', 'provider-scan-failed', {
+        reason,
+        message: scanError instanceof Error ? scanError.message : 'unknown',
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    const timers = providerScanRetryDelays.map((delay) =>
+      window.setTimeout(() => {
+        void scanProviders(delay === 0 ? 'mount' : `retry-${delay}ms`);
+      }, delay),
+    );
+    return () => {
+      mountedRef.current = false;
+      timers.forEach((timer) => window.clearTimeout(timer));
+    };
+  }, [scanProviders]);
 
   const authorize = async (providerId?: BitcoinWalletProviderId) => {
     setError(null);
@@ -154,6 +181,8 @@ export default function BitcoinWalletAuthorizeClient({
     return [preferred, ...providers.filter((provider) => provider.id !== preferredProvider)];
   }, [preferredProvider, providers]);
 
+  const fallbackProviderLabel = preferredProvider ? providerLabels[preferredProvider] : 'Bitcoin wallet';
+
   return (
     <main className="min-h-screen bg-[#050912] text-white">
       <section className="mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center px-6 py-12">
@@ -208,9 +237,19 @@ export default function BitcoinWalletAuthorizeClient({
                 disabled={status !== 'idle'}
                 className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
               >
-                {status === 'requesting' ? 'Opening Bitcoin wallet' : 'Continue with Bitcoin wallet'}
+                {status === 'requesting'
+                  ? `Opening ${fallbackProviderLabel}`
+                  : `Continue with ${fallbackProviderLabel}`}
               </button>
             )}
+            <button
+              type="button"
+              onClick={() => scanProviders('manual')}
+              disabled={status !== 'idle' || scanState === 'checking'}
+              className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
+            >
+              {scanState === 'checking' ? 'Scanning wallets' : 'Rescan wallets'}
+            </button>
           </div>
 
           {error ? (
@@ -228,4 +267,3 @@ export default function BitcoinWalletAuthorizeClient({
     </main>
   );
 }
-

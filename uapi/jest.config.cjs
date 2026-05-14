@@ -134,6 +134,7 @@ module.exports = {
     '<rootDir>/tests/walletPane.initialFlow.test.tsx',
     '<rootDir>/tests/walletPane.test.tsx',
     '<rootDir>/tests/walletSessionPersistenceBridge.test.tsx',
+    '<rootDir>/tests/bitcoinWalletAuthorizeClient.test.tsx',
     '<rootDir>/tests/externalsPane.dataShareFlow.test.tsx',
     '<rootDir>/tests/walletPane.integration.test.tsx',
     '<rootDir>/tests/navPublicShell.test.tsx',

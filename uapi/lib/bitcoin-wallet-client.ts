@@ -203,6 +203,22 @@ function readWindowRecord() {
   return window as typeof window & UnknownRecord;
 }
 
+function readProviderRegistryCandidates(value: unknown): UnknownRecord[] {
+  if (Array.isArray(value)) {
+    return value.flatMap((entry) => {
+      const record = asRecord(entry);
+      return record ? [record] : [];
+    });
+  }
+
+  const record = asRecord(value);
+  if (!record) return [];
+  return Object.values(record).flatMap((entry) => {
+    const candidate = asRecord(entry);
+    return candidate ? [candidate] : [];
+  });
+}
+
 function detectDirectBitcoinWalletProviders(): BitcoinWalletProvider[] {
   const windowRecord = readWindowRecord();
   if (!windowRecord) return [];
@@ -279,6 +295,27 @@ async function detectXverseProvider(): Promise<Extract<BitcoinWalletProvider, { 
   }
 
   const windowRecord = readWindowRecord();
+  const registryCandidates = [
+    ...readProviderRegistryCandidates(windowRecord?.btc_providers),
+    ...readProviderRegistryCandidates(windowRecord?.webbtc_providers),
+  ];
+  const registryProvider = registryCandidates.find((candidate) => {
+    const id = readString(candidate.id) ?? readString(candidate.providerId) ?? '';
+    const name = readString(candidate.name) ?? readString(candidate.label) ?? '';
+    return /xverse/i.test(id) || /xverse/i.test(name) || id === 'BitcoinProvider';
+  });
+  if (registryProvider) {
+    return {
+      id: 'xverse',
+      label: 'Xverse',
+      providerId:
+        readString(registryProvider.id) ??
+        readString(registryProvider.providerId) ??
+        'BitcoinProvider',
+      request: bindFunction(registryProvider, registryProvider.request),
+    };
+  }
+
   const xverseProvider = asRecord(asRecord(windowRecord?.XverseProviders)?.BitcoinProvider);
   if (xverseProvider) {
     return {
