@@ -32,6 +32,14 @@ describe('GitHub App JWT helpers', () => {
     expect(generateGitHubAppJWT('244206', base64PrivateKey).split('.')).toHaveLength(3);
   });
 
+  it('reconstructs single-line PEM values that preserve markers but lose line breaks', () => {
+    const privateKey = createPrivateKeyPem();
+    const singleLinePrivateKey = privateKey.replace(/\n/g, ' ');
+
+    expect(normalizeGitHubAppPrivateKey(singleLinePrivateKey)).toBe(privateKey.trim());
+    expect(generateGitHubAppJWT('244206', singleLinePrivateKey).split('.')).toHaveLength(3);
+  });
+
   it('rejects local private-key paths with an actionable configuration error', () => {
     expect(() =>
       normalizeGitHubAppPrivateKey('/Users/example/Downloads/bitcode.private-key.pem')

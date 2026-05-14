@@ -45,6 +45,20 @@ function decodeBase64Pem(value: string): string | null {
   }
 }
 
+function canonicalizePem(value: string): string {
+  const match = value.match(
+    /(-----BEGIN [A-Z ]*PRIVATE KEY-----)([\s\S]*?)(-----END [A-Z ]*PRIVATE KEY-----)/,
+  );
+  if (!match) return value;
+
+  const [, begin = '', body = '', end = ''] = match;
+  const compactBody = body.replace(/\s/g, '');
+  if (!compactBody) return value;
+
+  const wrappedBody = compactBody.match(/.{1,64}/g)?.join('\n') ?? compactBody;
+  return `${begin}\n${wrappedBody}\n${end}`;
+}
+
 export function normalizeGitHubAppPrivateKey(privateKey: string): string {
   let key = stripWrappingQuotes(privateKey.trim())
     .replace(/\\r\\n/g, '\n')
@@ -57,6 +71,8 @@ export function normalizeGitHubAppPrivateKey(privateKey: string): string {
   if (!PRIVATE_KEY_BEGIN.test(key)) {
     key = decodeBase64Pem(key) ?? key;
   }
+
+  key = canonicalizePem(key);
 
   if (/^\/.*\.pem$/i.test(key) || /^[A-Z]:\\.*\.pem$/i.test(key)) {
     throw new Error(
