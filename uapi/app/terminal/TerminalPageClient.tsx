@@ -116,6 +116,7 @@ export default function TerminalPageClient() {
         liveRuns,
         mockMode,
         mocksEnabled: showDemonstrationSurfaces,
+        allowExplicitMockSelection: showDemonstrationSurfaces,
         selectedTransactionId,
         projectedRun: showDemonstrationSurfaces ? projectedProtocolRun : null,
       }),

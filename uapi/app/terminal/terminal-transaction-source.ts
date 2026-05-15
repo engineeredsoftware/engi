@@ -12,6 +12,7 @@ type ReviewFallbackOptions = {
   selectedTransactionId?: string | null;
   mocksEnabled?: boolean;
   projectedRunPresent?: boolean;
+  allowExplicitMockSelection?: boolean;
 };
 
 export function shouldUseReviewFallbackTransactions({
@@ -20,8 +21,14 @@ export function shouldUseReviewFallbackTransactions({
   selectedTransactionId,
   mocksEnabled = ENABLE_MOCKS,
   projectedRunPresent = false,
+  allowExplicitMockSelection = true,
 }: ReviewFallbackOptions) {
-  return !mockMode && !projectedRunPresent && liveHistoryCount === 0 && (mocksEnabled || isMockWorkspaceRunId(selectedTransactionId));
+  return (
+    !mockMode &&
+    !projectedRunPresent &&
+    liveHistoryCount === 0 &&
+    (mocksEnabled || (allowExplicitMockSelection && isMockWorkspaceRunId(selectedTransactionId)))
+  );
 }
 
 type ResolveTransactionSourceOptions = {
@@ -30,6 +37,7 @@ type ResolveTransactionSourceOptions = {
   selectedTransactionId?: string | null;
   mocksEnabled?: boolean;
   projectedRun?: WorkspaceRun | null;
+  allowExplicitMockSelection?: boolean;
 };
 
 export function resolveTerminalTransactionSource({
@@ -38,6 +46,7 @@ export function resolveTerminalTransactionSource({
   selectedTransactionId,
   mocksEnabled = ENABLE_MOCKS,
   projectedRun = null,
+  allowExplicitMockSelection = true,
 }: ResolveTransactionSourceOptions): {
   dataMode: TerminalTransactionDataMode;
   runs: WorkspaceRun[];
@@ -58,6 +67,7 @@ export function resolveTerminalTransactionSource({
       selectedTransactionId,
       mocksEnabled,
       projectedRunPresent: Boolean(projectedRun),
+      allowExplicitMockSelection,
     })
   ) {
     return {

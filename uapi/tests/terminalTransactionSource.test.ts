@@ -75,6 +75,31 @@ describe('terminal-transaction-source', () => {
     });
   });
 
+  it('can suppress explicit mock run ids for live staging routes', () => {
+    expect(
+      shouldUseReviewFallbackTransactions({
+        liveHistoryCount: 0,
+        mockMode: false,
+        selectedTransactionId: 'mock-run-branch-remediation',
+        mocksEnabled: false,
+        allowExplicitMockSelection: false,
+      }),
+    ).toBe(false);
+
+    expect(
+      resolveTerminalTransactionSource({
+        liveRuns: [],
+        mockMode: false,
+        selectedTransactionId: 'mock-run-branch-remediation',
+        mocksEnabled: false,
+        allowExplicitMockSelection: false,
+      }),
+    ).toEqual({
+      dataMode: 'live',
+      runs: [],
+    });
+  });
+
   it('resolves live, review-fallback, and mock-review transaction sources distinctly', () => {
     const liveRuns: WorkspaceRun[] = [
       {
