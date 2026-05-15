@@ -26,9 +26,13 @@ import { jumpToShellSection } from './terminal-shell-reading';
 
 interface TerminalNeedScenarioPanelProps {
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
+  showDemonstrationScenarios?: boolean;
 }
 
-export default function TerminalNeedScenarioPanel({ onRecordActivity }: TerminalNeedScenarioPanelProps) {
+export default function TerminalNeedScenarioPanel({
+  onRecordActivity,
+  showDemonstrationScenarios = true,
+}: TerminalNeedScenarioPanelProps) {
   const { snapshot, runControl } = useTerminalShellBridge();
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -37,8 +41,8 @@ export default function TerminalNeedScenarioPanel({ onRecordActivity }: Terminal
   const [needFittingReview, setNeedFittingReview] = useState<TerminalNeedFittingReviewState | null>(null);
   const [reviewFeedback, setReviewFeedback] = useState('');
   const needState = useMemo<TerminalNeedScenariosState | null>(
-    () => normalizeTerminalNeedScenarios(snapshot),
-    [snapshot],
+    () => (showDemonstrationScenarios ? normalizeTerminalNeedScenarios(snapshot) : null),
+    [showDemonstrationScenarios, snapshot],
   );
 
   useEffect(() => {
@@ -169,7 +173,9 @@ export default function TerminalNeedScenarioPanel({ onRecordActivity }: Terminal
         summary="Reading the current needer demand frame, parser posture, and target structure."
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.needScenarios}
       >
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Loading need scenarios…</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">
+          {showDemonstrationScenarios ? 'Loading need scenarios…' : 'Waiting for live Need scenarios after Giving is recorded.'}
+        </p>
       </TerminalWorkspaceCard>
     );
   }

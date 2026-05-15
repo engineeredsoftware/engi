@@ -31,16 +31,22 @@ interface TerminalLiveSummaryStripProps {
     TerminalRepositoryContextState,
     'provider' | 'connectionStatus' | 'inventorySource' | 'selectedRepository'
   > | null;
+  showDemonstrationSignals?: boolean;
 }
 
 export default function TerminalLiveSummaryStrip({
   transactionReadiness,
   repositoryContext,
+  showDemonstrationSignals = true,
 }: TerminalLiveSummaryStripProps) {
   const { snapshot } = useTerminalShellBridge();
   const items = useMemo<TerminalLiveSummaryItem[]>(
-    () => buildTerminalLiveSummary(snapshot, { transactionReadiness, repositoryContext }),
-    [repositoryContext, snapshot, transactionReadiness],
+    () =>
+      buildTerminalLiveSummary(showDemonstrationSignals ? snapshot : null, {
+        transactionReadiness,
+        repositoryContext,
+      }),
+    [repositoryContext, showDemonstrationSignals, snapshot, transactionReadiness],
   );
 
   const pinnedItems = items.filter((item) => PINNED_LABELS.has(item.label));

@@ -79,7 +79,11 @@ export default function TerminalTransactionDetailSurface({
   const [actionError, setActionError] = useState<string | null>(null);
   const { snapshot, runControl, controls } = useTerminalShellBridge();
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
-  const witnessClosureState = useMemo(() => normalizeTerminalClosureState(snapshot), [snapshot]);
+  const showDemonstrationWitness = usesMockTransactions || selectedRun.sourceModel === 'protocol-projection';
+  const witnessClosureState = useMemo(
+    () => (showDemonstrationWitness ? normalizeTerminalClosureState(snapshot) : null),
+    [showDemonstrationWitness, snapshot],
+  );
   const closureState = witnessClosureState || detail?.closureState || null;
   const closureFollowThrough = useMemo(
     () =>

@@ -46,6 +46,7 @@ interface TerminalCommandDeckProps {
   repositoryAnchor?: string | null;
   repositoryProvider?: VCSProviderType | null;
   transactionReadiness: BitcodeTransactionReadiness;
+  showDemonstrationControls?: boolean;
 }
 
 export default function TerminalCommandDeck({
@@ -53,15 +54,19 @@ export default function TerminalCommandDeck({
   repositoryAnchor,
   repositoryProvider,
   transactionReadiness,
+  showDemonstrationControls = true,
 }: TerminalCommandDeckProps) {
   const { snapshot, runControl } = useTerminalShellBridge();
   const [isActing, setIsActing] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const commandState = useMemo<TerminalCommandState | null>(
-    () => normalizeTerminalCommandState(snapshot),
-    [snapshot],
+    () => (showDemonstrationControls ? normalizeTerminalCommandState(snapshot) : null),
+    [showDemonstrationControls, snapshot],
   );
-  const closureState = useMemo(() => normalizeTerminalClosureState(snapshot), [snapshot]);
+  const closureState = useMemo(
+    () => (showDemonstrationControls ? normalizeTerminalClosureState(snapshot) : null),
+    [showDemonstrationControls, snapshot],
+  );
 
   const scenarioOptions = commandState?.scenarioOptions || [];
   const projectionOptions = commandState?.projectionOptions || [];

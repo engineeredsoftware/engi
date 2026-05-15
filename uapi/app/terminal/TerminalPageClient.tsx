@@ -98,6 +98,7 @@ export default function TerminalPageClient() {
     () => readTerminalEnvironmentMode(routeSearchParams),
     [routeSearchParams],
   );
+  const showDemonstrationSurfaces = mockMode || environmentMode === 'mock';
   const debugEnabled = useMemo(
     () => readTerminalDebugEnabled(routeSearchParams),
     [routeSearchParams],
@@ -114,10 +115,11 @@ export default function TerminalPageClient() {
       resolveTerminalTransactionSource({
         liveRuns,
         mockMode,
+        mocksEnabled: showDemonstrationSurfaces,
         selectedTransactionId,
-        projectedRun: projectedProtocolRun,
+        projectedRun: showDemonstrationSurfaces ? projectedProtocolRun : null,
       }),
-    [liveRuns, mockMode, projectedProtocolRun, selectedTransactionId],
+    [liveRuns, mockMode, projectedProtocolRun, selectedTransactionId, showDemonstrationSurfaces],
   );
   const runs = transactionSource.runs;
   const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
@@ -216,7 +218,7 @@ export default function TerminalPageClient() {
   useEffect(() => {
     let disposed = false;
 
-    if (mockMode) {
+    if (!showDemonstrationSurfaces) {
       setProjectedProtocolRun(null);
       return () => {
         disposed = true;
@@ -244,7 +246,7 @@ export default function TerminalPageClient() {
       disposed = true;
       window.clearInterval(intervalId);
     };
-  }, [mockMode, repositoryContext]);
+  }, [repositoryContext, showDemonstrationSurfaces]);
 
   useEffect(() => {
     if (!runs.length) return;
@@ -426,10 +428,12 @@ export default function TerminalPageClient() {
                       repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
                       repositoryProvider={repositoryContext?.provider || null}
                       transactionReadiness={transactionReadiness}
+                      showDemonstrationControls={showDemonstrationSurfaces}
                     />
                     <TerminalLiveSummaryStrip
                       transactionReadiness={transactionReadiness}
                       repositoryContext={repositoryContext}
+                      showDemonstrationSignals={showDemonstrationSurfaces}
                     />
                   </div>
                   <div className="space-y-6">
@@ -437,7 +441,7 @@ export default function TerminalPageClient() {
                       environmentMode={environmentMode}
                       onRecordActivity={handleRecordActivity}
                     />
-                    <TerminalSectionAtlas />
+                    {showDemonstrationSurfaces ? <TerminalSectionAtlas /> : null}
                   </div>
                 </div>
               </TerminalSurfaceSection>
@@ -465,15 +469,33 @@ export default function TerminalPageClient() {
                       repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
                       repositoryProvider={repositoryContext?.provider || null}
                       transactionReadiness={transactionReadiness}
+                      showDemonstrationDraft={showDemonstrationSurfaces}
                     />
                   </div>
+                </div>
+              </TerminalSurfaceSection>
+
+              <TerminalSurfaceSection
+                id="terminalNeedSurface"
+                kicker={TERMINAL_SURFACE_COPY.need.kicker}
+                title={TERMINAL_SURFACE_COPY.need.title}
+                summary={TERMINAL_SURFACE_COPY.need.summary}
+              >
+                <div className="grid gap-6">
                   <div className="space-y-6">
-                    <TerminalNeedScenarioPanel onRecordActivity={handleRecordActivity} />
+                    <TerminalNeedScenarioPanel
+                      onRecordActivity={handleRecordActivity}
+                      showDemonstrationScenarios={showDemonstrationSurfaces}
+                    />
                     <TerminalGiveNeedWorkbench
                       repositoryContext={repositoryContext}
                       onRecordActivity={handleRecordActivity}
+                      showDemonstrationWorkbench={showDemonstrationSurfaces}
                     />
-                    <TerminalCoreNativeSections repositoryContext={repositoryContext} />
+                    <TerminalCoreNativeSections
+                      repositoryContext={repositoryContext}
+                      showDemonstrationPanels={showDemonstrationSurfaces}
+                    />
                   </div>
                 </div>
               </TerminalSurfaceSection>
@@ -487,9 +509,14 @@ export default function TerminalPageClient() {
                 <TerminalClosureControlDeck
                   onRecordActivity={handleRecordActivity}
                   transactionReadiness={transactionReadiness}
+                  showDemonstrationControls={showDemonstrationSurfaces}
                 />
-                <TerminalClosureNativeSections />
-                <TerminalPreservedShellSurface />
+                {showDemonstrationSurfaces ? (
+                  <>
+                    <TerminalClosureNativeSections />
+                    <TerminalPreservedShellSurface />
+                  </>
+                ) : null}
               </TerminalSurfaceSection>
             </div>
           </div>

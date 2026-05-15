@@ -6,7 +6,10 @@ import {
 
 describe('TERMINAL_SURFACE_COPY', () => {
   it('keeps Bitcode Terminal detail copy centered on activity, asset packs, and proof reading', () => {
-    expect(TERMINAL_SURFACE_COPY.supply.title).toContain('asset-pack posture');
+    expect(TERMINAL_SURFACE_COPY.frame.title).toContain('Overview');
+    expect(TERMINAL_SURFACE_COPY.supply.title).toContain('Giving');
+    expect(TERMINAL_SURFACE_COPY.need.title).toContain('Needing');
+    expect(TERMINAL_SURFACE_COPY.closure.title).toContain('Proofs');
     expect(TERMINAL_SURFACE_COPY.detail.emptySelection).toContain('asset pack');
     expect(TERMINAL_SURFACE_COPY.detail.transactionSummaryFallback).toContain('selected Terminal result');
   });

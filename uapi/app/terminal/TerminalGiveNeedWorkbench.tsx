@@ -32,18 +32,105 @@ function readRowValue(rows: Array<{ label: string; value: string }>, label: stri
 interface TerminalGiveNeedWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
+  showDemonstrationWorkbench?: boolean;
 }
 
 export default function TerminalGiveNeedWorkbench({
   repositoryContext = null,
   onRecordActivity,
+  showDemonstrationWorkbench = true,
 }: TerminalGiveNeedWorkbenchProps) {
   const { snapshot } = useTerminalShellBridge();
   const [recordingKey, setRecordingKey] = useState<'give' | 'need' | 'fit' | null>(null);
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
+  const workbenchSnapshot = useMemo(() => {
+    if (showDemonstrationWorkbench) return snapshot;
+
+    const selectedRepository = repositoryContext?.selectedRepository || null;
+    if (!selectedRepository) return null;
+
+    const providerAccount =
+      repositoryContext?.connectionStatus?.username ||
+      repositoryContext?.connectionStatus?.metadata?.account ||
+      selectedRepository.owner.username ||
+      'connected account';
+
+    return {
+      canonLabel: 'Live Bitcode staging posture',
+      selection: {
+        projectionPrincipal: 'buyer',
+        branchMode: 'patch',
+        scenarioId: '',
+        authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
+        selectedInventoryEntryIds: [selectedRepository.id],
+      },
+      repoSupplySummary: {
+        repoCount: repositoryContext?.repositories.length || 1,
+        inventoryEntryCount: repositoryContext?.repositories.length || 1,
+        scenarioCount: 0,
+        candidateAssetCount: 0,
+      },
+      scenario: {
+        scenarioId: '',
+        scenarioFamily: 'Need pending after Giving',
+        repo: selectedRepository.fullName,
+        task: '',
+        profileShortLabel: 'pending',
+      },
+      authSession: {
+        authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
+        repo: selectedRepository.fullName,
+        installationAccountLogin: providerAccount,
+        defaultRef: selectedRepository.defaultBranch || 'main',
+      },
+      inventory: {
+        activeCount: repositoryContext?.repositories.length || 1,
+        filteredCount: repositoryContext?.repositories.length || 1,
+        selectedCount: 1,
+        selectedEntries: [
+          {
+            inventoryEntryId: selectedRepository.id,
+            title: selectedRepository.fullName,
+            artifactKind: selectedRepository.language || 'repository',
+            originKind: 'repository',
+            sourcePath: selectedRepository.url,
+          },
+        ],
+      },
+      depositingSurface: {
+        depositIntentSummary:
+          'Live repository supply is selected for Giving before any measured Need or fit can be evaluated.',
+        depositProfile: 'pending',
+        repoSupplyRef: selectedRepository.fullName,
+        selectedInventoryRefs: [selectedRepository.id],
+        selectedArtifactKindCounts: { [selectedRepository.language || 'repository']: 1 },
+        selectedOriginKindCounts: { repository: 1 },
+        addressingRoot: `repository:${selectedRepository.id}`,
+        authRoot: `${providerAccount} · ${repositoryContext?.provider || 'github'}`,
+      },
+      needingSurface: {
+        parserKind: 'pending',
+        needId: '',
+        needSummary: 'Record Giving first, then measure a Need against the selected source supply.',
+        taskSummary: '',
+        closureCriteria: [],
+        failureModes: [],
+        targetArtifactKinds: [],
+      },
+      fitSurface: {
+        fitSummary: 'Fit remains pending until a Need has been measured after Giving.',
+        normalizationPressure: 'pending',
+        decisiveKinds: [],
+        overlapKinds: [],
+        branchIntentSummary: '',
+        proofIntentSummary: '',
+        settlementIntentSummary: '',
+      },
+    };
+  }, [repositoryContext, showDemonstrationWorkbench, snapshot]);
   const workbench = useMemo<TerminalGiveNeedWorkbenchState | null>(
-    () => normalizeTerminalGiveNeedWorkbench(snapshot, repositoryContext),
-    [repositoryContext, snapshot],
+    () => normalizeTerminalGiveNeedWorkbench(workbenchSnapshot, repositoryContext),
+    [repositoryContext, workbenchSnapshot],
   );
 
   const selectedEntryChips = useMemo(() => {

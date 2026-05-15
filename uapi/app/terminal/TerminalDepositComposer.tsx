@@ -35,6 +35,7 @@ interface TerminalDepositComposerProps {
   repositoryAnchor?: string | null;
   repositoryProvider?: VCSProviderType | null;
   transactionReadiness: BitcodeTransactionReadiness;
+  showDemonstrationDraft?: boolean;
 }
 
 export default function TerminalDepositComposer({
@@ -42,6 +43,7 @@ export default function TerminalDepositComposer({
   repositoryAnchor,
   repositoryProvider,
   transactionReadiness,
+  showDemonstrationDraft = true,
 }: TerminalDepositComposerProps) {
   const { snapshot, runControl } = useTerminalShellBridge();
   const [title, setTitle] = useState('');
@@ -57,12 +59,25 @@ export default function TerminalDepositComposer({
   const [tags, setTags] = useState('');
   const [content, setContent] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: 'idle' });
-  const composer = useMemo<TerminalDepositComposerState | null>(
-    () => normalizeTerminalDepositComposer(snapshot),
-    [snapshot],
-  );
   const repositoryAnchorValue = String(repositoryAnchor || '').trim();
   const usesLiveRepositoryAnchor = Boolean(repositoryAnchorValue);
+  const composer = useMemo<TerminalDepositComposerState | null>(
+    () => {
+      if (!showDemonstrationDraft && repositoryAnchorValue) {
+        return {
+          authSessionId: `${repositoryProvider || 'github'}:${repositoryAnchorValue}`,
+          sourceRepo: repositoryAnchorValue,
+          signerAddress: '',
+          selectedInventoryEntryIds: [],
+          selectedEntries: [],
+          selectedCount: 1,
+        };
+      }
+
+      return normalizeTerminalDepositComposer(showDemonstrationDraft ? snapshot : null);
+    },
+    [repositoryAnchorValue, repositoryProvider, showDemonstrationDraft, snapshot],
+  );
   const effectiveAuthSessionId = usesLiveRepositoryAnchor
     ? `${repositoryProvider || 'github'}:${repositoryAnchorValue}`
     : composer?.authSessionId || '';

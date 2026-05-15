@@ -23,7 +23,7 @@ test.describe('commercial MVP Terminal experience', () => {
 
     const terminalWorkspace = page.locator('#terminalTransactionWorkspace');
     await expect(page.getByText('Bitcode Terminal').first()).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Operator lanes' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Overview, Giving, Needing, Proofs' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent Terminal activity', exact: true })).toBeVisible();
     await expect(page.getByText('Selected result digest')).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();

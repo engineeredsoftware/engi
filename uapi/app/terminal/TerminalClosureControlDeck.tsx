@@ -78,22 +78,24 @@ function TerminalActionButton({
 interface TerminalClosureControlDeckProps {
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   transactionReadiness: BitcodeTransactionReadiness;
+  showDemonstrationControls?: boolean;
 }
 
 export default function TerminalClosureControlDeck({
   onRecordActivity,
   transactionReadiness,
+  showDemonstrationControls = true,
 }: TerminalClosureControlDeckProps) {
   const { snapshot, runControl } = useTerminalShellBridge();
   const [isActing, setIsActing] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const commandState = useMemo<TerminalCommandState | null>(
-    () => normalizeTerminalCommandState(snapshot),
-    [snapshot],
+    () => (showDemonstrationControls ? normalizeTerminalCommandState(snapshot) : null),
+    [showDemonstrationControls, snapshot],
   );
   const closureState = useMemo<TerminalClosureState | null>(
-    () => normalizeTerminalClosureState(snapshot),
-    [snapshot],
+    () => (showDemonstrationControls ? normalizeTerminalClosureState(snapshot) : null),
+    [showDemonstrationControls, snapshot],
   );
   const handleControlAction = async (
     callback: Parameters<typeof runControl>[0],

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ArrowUpRight, GitBranch, Lock, ShieldCheck } from 'lucide-react';
 
 import { toneForPanel, type NativePanel, jumpToShellSection } from './terminal-shell-reading';
@@ -17,15 +17,20 @@ import { normalizeTerminalCorePanels } from './terminal-core-surface';
 
 interface TerminalCoreNativeSectionsProps {
   repositoryContext?: TerminalRepositoryContextState | null;
+  showDemonstrationPanels?: boolean;
 }
 
 export default function TerminalCoreNativeSections({
   repositoryContext = null,
+  showDemonstrationPanels = true,
 }: TerminalCoreNativeSectionsProps) {
   const { snapshot } = useTerminalShellBridge();
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const connectionStatus = repositoryContext?.connectionStatus || null;
-  const panels = useMemo<NativePanel[]>(() => normalizeTerminalCorePanels(snapshot), [snapshot]);
+  const panels = useMemo<NativePanel[]>(
+    () => (showDemonstrationPanels ? normalizeTerminalCorePanels(snapshot) : []),
+    [showDemonstrationPanels, snapshot],
+  );
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">

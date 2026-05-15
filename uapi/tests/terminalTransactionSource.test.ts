@@ -52,6 +52,29 @@ describe('terminal-transaction-source', () => {
     ).toBe(false);
   });
 
+  it('keeps live staging empty instead of inventing review fallback rows when mock fallback is disabled', () => {
+    expect(
+      shouldUseReviewFallbackTransactions({
+        liveHistoryCount: 0,
+        mockMode: false,
+        selectedTransactionId: null,
+        mocksEnabled: false,
+      }),
+    ).toBe(false);
+
+    expect(
+      resolveTerminalTransactionSource({
+        liveRuns: [],
+        mockMode: false,
+        selectedTransactionId: null,
+        mocksEnabled: false,
+      }),
+    ).toEqual({
+      dataMode: 'live',
+      runs: [],
+    });
+  });
+
   it('resolves live, review-fallback, and mock-review transaction sources distinctly', () => {
     const liveRuns: WorkspaceRun[] = [
       {

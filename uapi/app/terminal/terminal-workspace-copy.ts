@@ -1,21 +1,27 @@
 export const TERMINAL_SURFACE_COPY = {
   frame: {
-    kicker: 'Operating picture',
-    title: 'Bitcode Terminal operating picture',
+    kicker: 'Overview',
+    title: 'Overview and recent activity',
     summary:
-      'Keep Give, Need, recent activity, proofs, and closure posture legible in one Terminal workflow.',
+      'Start from recent Terminal activity, readiness, and adjacent interfaces before moving into Giving, Needing, proofs, and finalities.',
   },
   supply: {
-    kicker: 'Give and need systems',
-    title: 'Supply, need, and asset-pack posture',
+    kicker: 'Giving',
+    title: 'Giving: source supply and deposit',
     summary:
-      'Move from searchable supply into measured need, fit, and asset-pack settlement posture without leaving the Bitcode Terminal.',
+      'Bind the live GitHub repository inventory, choose the source supply, and compose the give-side deposit before any Need match is evaluated.',
+  },
+  need: {
+    kicker: 'Needing',
+    title: 'Needing: measured demand and fit',
+    summary:
+      'Select the need frame after Giving is explicit, then read fit posture against the current repository supply.',
   },
   closure: {
-    kicker: 'Closure and provenance',
-    title: 'Closure, proofs, and provenance',
+    kicker: 'Proofs, finalities, and misc.',
+    title: 'Proofs, finalities, and provenance',
     summary:
-      'Review verification, branch artifacts, asset-pack settlement, and ledger continuity in one place, then continue into the exact closure stage only when you need deeper proof.',
+      'Review verification, branch artifacts, asset-pack settlement, ledger continuity, and deeper witness detail only after Giving and Needing are in place.',
   },
   detail: {
     emptySelection:

@@ -4,27 +4,27 @@ import { jumpToShellSection } from './terminal-shell-reading';
 
 const TERMINAL_MVP_STATIONS = [
   {
-    id: 'recent-activity',
-    label: 'Recent activity',
-    value: 'selected results',
+    id: 'overview',
+    label: 'Overview(s)',
+    value: 'readiness + activity',
     targetId: 'terminalTransactionWorkspace',
   },
   {
-    id: 'give',
-    label: 'Give',
-    value: 'source supply',
+    id: 'giving',
+    label: 'Giving',
+    value: 'repository + deposit',
     targetId: 'terminalSupplySelection',
   },
   {
-    id: 'need',
-    label: 'Need',
+    id: 'needing',
+    label: 'Needing',
     value: 'measurement + fit',
     targetId: 'terminalNeedScenarios',
   },
   {
-    id: 'closure',
-    label: 'Closure',
-    value: 'proof + settlement',
+    id: 'proofs-finalities',
+    label: 'Proofs + finalities',
+    value: 'proofs + ledger',
     targetId: 'terminalClosureControls',
   },
 ] as const;
@@ -35,10 +35,10 @@ export default function TerminalMvpMap() {
       <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <div>
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Terminal workflow</p>
-          <h2 className="mt-1.5 text-lg font-semibold text-white">Operator lanes</h2>
+          <h2 className="mt-1.5 text-lg font-semibold text-white">Overview, Giving, Needing, Proofs</h2>
         </div>
         <p className="max-w-2xl text-sm leading-6 text-neutral-300">
-          Jump between the recent result surface, source supply, measured Need, and closure controls.
+          Move from overview into Giving first, then Needing, then proof, settlement, ledger, and adjacent follow-through.
         </p>
       </div>
 
