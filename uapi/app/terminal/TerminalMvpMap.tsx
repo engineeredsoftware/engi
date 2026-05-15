@@ -12,7 +12,7 @@ const TERMINAL_MVP_STATIONS = [
   {
     id: 'giving',
     label: 'Giving',
-    value: 'repository + deposit',
+    value: 'repository + Giving',
     targetId: 'terminalSupplySelection',
   },
   {

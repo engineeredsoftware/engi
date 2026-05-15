@@ -89,10 +89,10 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     summary:
       'Give-side supply should be searchable, reviewable, and selectable without turning transactions into an infrastructure note.',
     detail:
-      'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active give draft before moving into deposit, fit, and closure.',
+      'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active give draft before moving into Giving, fit, and closure.',
     points: [
       'Keeps searchable supply inside the Bitcode Terminal',
-      'Makes selected inventory explicit before deposit drafting',
+      'Makes selected inventory explicit before Giving drafting',
       'Preserves continuity into the give draft instead of forcing context rebuilds',
     ],
     references: {
@@ -106,13 +106,13 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
   }),
   depositComposer: buildExplainer({
     kicker: 'Give-side intake',
-    title: 'Deposit flow and submission',
+    title: 'Giving flow and submission',
     summary:
-      'A give-side deposit should read like a resumable working draft built from selected supply, not like infrastructure plumbing.',
+      'Giving should read like a resumable working draft built from selected supply, not like infrastructure plumbing.',
     detail:
-      'Use this surface to bind selected supply, add issuer and provenance overrides where needed, and submit a deposit while keeping the rest of the working chain coherent.',
+      'Use this surface to bind selected supply, add issuer and provenance overrides where needed, and submit Giving while keeping the rest of the working chain coherent.',
     points: [
-      'Treats deposit as a resumable working draft',
+      'Treats Giving as a resumable working draft',
       'Keeps selected supply and issuer continuity visible',
       'Feeds directly into fit, proof, and settlement follow-through',
     ],
@@ -254,13 +254,13 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     kicker: 'Give-side source',
     title: 'Repository supply connection',
     summary:
-      'Repository connection and selection make searchable supply explicit before deposit, fit, and closure read the rest of the chain.',
+      'Repository connection and selection make searchable supply explicit before Giving, fit, and closure read the rest of the chain.',
     detail:
       'This is where you set the boundary for give-side supply. It should read as a clean source selection surface, not as infrastructure plumbing.',
     points: [
       'Anchors give-side supply to one repository boundary',
       'Keeps provider posture visible',
-      'Supports continuing straight into deposit and need',
+      'Supports continuing straight into Giving and Need',
     ],
     references: {
       source: [
@@ -453,7 +453,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'Transaction readiness is the shared operator contract for wallet identity, verified signing access, repository scope, and anchor posture.',
     detail:
-      'When readiness is incomplete, review continuity can stay open but branch, deposit, and closure should fail closed. Manual wallet identity can still support drafting, but signed settlement stays staged until verified wallet-provider access is present. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
+      'When readiness is incomplete, review continuity can stay open but branch, Giving, and closure should fail closed. Manual wallet identity can still support drafting, but signed settlement stays staged until verified wallet-provider access is present. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
     references: {
       source: [
         'uapi/app/terminal/bitcode-transaction-readiness.ts',
@@ -473,7 +473,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'This is the give-side boundary selector for the repository supply that Bitcode can actually work against.',
     detail:
-      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, deposit provenance, and later signed transaction follow-through, while third-party connections and attachments enter here as ingress/input context rather than redefining Bitcode outputs.',
+      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, Giving provenance, and later signed transaction follow-through, while third-party connections and attachments enter here as ingress/input context rather than redefining Bitcode outputs.',
     references: {
       source: [
         'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
@@ -501,7 +501,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'The auth session is the current repo-bound execution identity for give-side supply selection.',
     detail:
-      'Changing the session changes which authenticated inventory Bitcode can read and later cite in deposit and branch records.',
+      'Changing the session changes which authenticated inventory Bitcode can read and later cite in Giving and branch records.',
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -515,7 +515,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'Artifact kind narrows the give-side inventory to the kinds of share candidates you actually want to work with.',
     detail:
-      'It should help the operator shape the selected supply set before deposit, not act as hidden backend filtering.',
+      'It should help the operator shape the selected supply set before Giving, not act as hidden backend filtering.',
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -554,9 +554,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   sourceRepo: buildExplainer({
     title: 'Source repo',
     summary:
-      'Source repo keeps deposit provenance and repository anchor aligned when a draft needs an explicit repo override.',
+      'Source repo keeps Giving provenance and repository anchor aligned when a draft needs an explicit repo override.',
     detail:
-      'Use it only when the deposit must name a more exact repo boundary than the current selection already provides.',
+      'Use it only when Giving must name a more exact repo boundary than the current selection already provides.',
     references: {
       source: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
@@ -568,9 +568,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   sourceCommit: buildExplainer({
     title: 'Source commit / ref',
     summary:
-      'Source commit or ref pins the give-side deposit to a concrete revision when provenance must be exact.',
+      'Source commit or ref pins Giving to a concrete revision when provenance must be exact.',
     detail:
-      'This is one of the operator-visible bridges between repository posture, deposit materialization, and later proof or settlement follow-through.',
+      'This is one of the operator-visible bridges between repository posture, source materialization, and later proof or settlement follow-through.',
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
@@ -593,7 +593,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   signerAddress: buildExplainer({
     title: 'Signer address',
     summary:
-      'Signer address ties the deposit posture to the wallet-connected identity expected for signed Bitcode transactions.',
+      'Signer address ties Giving posture to the wallet-connected identity expected for signed Bitcode transactions.',
     detail:
       'It is a readiness-bearing field, not free metadata. Once signed transaction closure lands fully, this field remains part of the operator-visible provenance chain.',
     references: {
@@ -608,9 +608,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   depositSubmission: buildExplainer({
-    title: 'Deposit into Bitcode',
+    title: 'Submit Giving to Bitcode',
     summary:
-      'Deposit submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
+      'Giving submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
     detail:
       'The operator should be able to submit, reread the ledger row, and continue into fit and closure without leaving the Bitcode Terminal model.',
     references: {
@@ -619,6 +619,94 @@ export const TERMINAL_INLINE_EXPLAINERS = {
         'uapi/app/api/deposits/route.ts',
         'uapi/app/terminal/terminal-activity-history.ts',
       ],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  assetTitleOverride: buildExplainer({
+    title: 'Asset title override',
+    summary:
+      'Optional. Leave blank to use the selected repository and source revision as the Giving title.',
+    detail:
+      'Use this only when the visible title should be more specific than the selected repository, branch, and commit already make it.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  authorOverride: buildExplainer({
+    title: 'Author override',
+    summary:
+      'Optional. Leave blank to use the authenticated repository session and connected operator identity.',
+    detail:
+      'This field is for a human-readable issuer label when the default GitHub/account context is not enough.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  artifactType: buildExplainer({
+    title: 'Artifact type',
+    summary:
+      'Optional. Leave blank unless the selected source needs a format label such as markdown, yaml, ts, or bundle.',
+    detail:
+      'Artifact type helps later reads understand the shape of the provided source material without changing the selected repository snapshot.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  workflowRunId: buildExplainer({
+    title: 'Workflow run override',
+    summary:
+      'Optional. Leave blank unless Giving should cite a specific CI or workflow run id.',
+    detail:
+      'This is supporting provenance only; repository, branch, and commit remain the required source selector for materialization.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  visualPreview: buildExplainer({
+    title: 'Visual preview',
+    summary:
+      'Optional. Leave blank unless this Giving needs a short operator-facing preview summary.',
+    detail:
+      'The preview should help a reviewer scan the Giving record. It is not a replacement for the selected source revision.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  workingNote: buildExplainer({
+    title: 'Working note',
+    summary:
+      'Optional. Leave blank unless the active Giving draft needs an internal note for review continuity.',
+    detail:
+      'Working notes should explain operator intent or unusual context without weakening source, wallet, or repository requirements.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  tags: buildExplainer({
+    title: 'Tags',
+    summary:
+      'Optional. Leave blank or provide comma-separated labels for later filtering.',
+    detail:
+      'Tags are metadata for search and review. They do not change source selection or signing posture.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
+  rawFallbackContent: buildExplainer({
+    title: 'Raw fallback content',
+    summary:
+      'Optional when repository source is selected. Use only when manual content is needed in addition to or instead of inventory.',
+    detail:
+      'In the normal staging-testnet flow, repository, branch, and commit are the source of truth. Raw fallback content keeps the draft usable when repository inventory is unavailable.',
+    references: {
+      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),

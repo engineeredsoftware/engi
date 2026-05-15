@@ -36,12 +36,10 @@ export type TerminalRepositoryContextState = {
   sourceSelectionError?: string | null;
 };
 
-export const TERMINAL_REPOSITORY_PROVIDERS: VCSProviderType[] = ['github', 'gitlab', 'bitbucket'];
+export const TERMINAL_REPOSITORY_PROVIDERS: VCSProviderType[] = ['github'];
 
-export function normalizeRepositoryProvider(value?: string | null): VCSProviderType {
-  return TERMINAL_REPOSITORY_PROVIDERS.includes(value as VCSProviderType)
-    ? (value as VCSProviderType)
-    : 'github';
+export function normalizeRepositoryProvider(_value?: string | null): VCSProviderType {
+  return 'github';
 }
 
 export function deriveSelectedRepository(

@@ -445,7 +445,7 @@ export default function TerminalRepositoryContextPanel({
       id="terminalRepositorySupply"
       kicker="Repository supply"
       title="Connect and select searchable supply"
-      summary="Choose the provider and repository that will anchor give-side supply before you move deeper into deposit, need, and closure."
+      summary="Choose the GitHub repository that will anchor give-side supply before you move deeper into Giving, Need, and closure."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply}
       tone="emerald"
     >
@@ -697,7 +697,7 @@ export default function TerminalRepositoryContextPanel({
                     </div>
                     <div>
                       <dt className="text-amber-100/70">Write admission</dt>
-                      <dd className="mt-1 text-neutral-100">Reconnect required before deposit, branch, or closure writes.</dd>
+                      <dd className="mt-1 text-neutral-100">Reconnect required before Giving, branch, or closure writes.</dd>
                     </div>
                     <div>
                       <dt className="text-amber-100/70">Inventory source</dt>
@@ -742,7 +742,7 @@ export default function TerminalRepositoryContextPanel({
               {selectedRepository ? (
                 <div className="mt-4 space-y-4">
                   <p className="text-sm leading-6 text-neutral-300">
-                    The selected repository now anchors the give-side Terminal frame before the live Bitcode deposit
+                    The selected repository now anchors the give-side Terminal frame before live Bitcode Giving
                     surfaces below.
                   </p>
                   {connectionStatus?.connected && !connectionStatus.valid ? (
@@ -795,7 +795,7 @@ export default function TerminalRepositoryContextPanel({
                       onClick={() => jumpToShellSection('terminalDepositComposer')}
                       className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
                     >
-                      Open deposit draft
+                      Open Giving draft
                     </button>
                     <button
                       type="button"
@@ -831,7 +831,7 @@ export default function TerminalRepositoryContextPanel({
           <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Give-side guidance</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
-              Keep repository connection, repository selection, and deposit focus visible before you move deeper into
+              Keep repository connection, repository selection, and Giving focus visible before you move deeper into
               supply, need, and closure.
             </p>
             <div className="mt-4 grid gap-3">

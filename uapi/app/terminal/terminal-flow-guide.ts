@@ -107,9 +107,9 @@ export function deriveTerminalFlowGuide(
       ? transactionReadiness?.summary || 'The Bitcode Terminal is in review-only mode until transactional readiness is complete.'
     : draftOnly
       ? guideStep
-        ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}. ${transactionReadiness?.summary || 'Bitcode can keep drafting, but branch, deposit, and closure remain fail-closed until signed settlement readiness is complete.'}`
+        ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}. ${transactionReadiness?.summary || 'Bitcode can keep drafting, but branch, Giving, and closure remain fail-closed until signed settlement readiness is complete.'}`
         : transactionReadiness?.summary ||
-          'Bitcode can keep drafting, but branch, deposit, and closure remain fail-closed until signed settlement readiness is complete.'
+          'Bitcode can keep drafting, but branch, Giving, and closure remain fail-closed until signed settlement readiness is complete.'
     : guideStep
       ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
       : 'The Bitcode Terminal is ready for a fresh give-to-closure flow.';

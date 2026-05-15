@@ -35,17 +35,18 @@ jest.mock('@/lib/bitcode-app-context', () => ({
 describe('/api/external-realization GET', () => {
   const envBackup = { ...process.env };
 
-  beforeAll(() => {
+  beforeEach(() => {
+    process.env = { ...envBackup };
     delete process.env.BITCODE_V24_ENVIRONMENT_MODE;
+    delete process.env.NEXT_PUBLIC_BITCODE_ENV;
+    delete process.env.BITCODE_ENV;
+    delete process.env.VERCEL_ENV;
+    jest.resetModules();
+    mockGetExternalRealization.mockClear();
   });
 
   afterAll(() => {
     process.env = envBackup;
-  });
-
-  beforeEach(() => {
-    jest.resetModules();
-    mockGetExternalRealization.mockClear();
   });
 
   it('returns the app-owned external realization payload used by /terminal', async () => {
@@ -67,7 +68,20 @@ describe('/api/external-realization GET', () => {
     expect(mockGetExternalRealization).toHaveBeenCalledWith({ environmentMode: null });
   });
 
+  it('maps staging-testnet deployment env to staging when no route override is supplied', async () => {
+    process.env.NEXT_PUBLIC_BITCODE_ENV = 'staging-testnet';
+    const { GET } = await import('@/app/api/external-realization/route');
+
+    const response = await GET(new Request('http://localhost/api/external-realization'));
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(payload.activeRuntime.configuredEnvironmentMode).toBe('staging');
+    expect(mockGetExternalRealization).toHaveBeenCalledWith({ environmentMode: 'staging' });
+  });
+
   it('forwards explicit environment-mode overrides into the runtime context', async () => {
+    process.env.NEXT_PUBLIC_BITCODE_ENV = 'staging-testnet';
     const { GET } = await import('@/app/api/external-realization/route');
 
     const response = await GET(

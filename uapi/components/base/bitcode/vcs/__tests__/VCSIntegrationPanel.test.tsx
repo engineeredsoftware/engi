@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { VCSIntegrationPanel } from '../VCSIntegrationPanel';
 
@@ -19,7 +19,9 @@ jest.mock('../VCSConnectionCard', () => ({
 
 // Mock icons
 jest.mock('lucide-react', () => ({
-  Settings: () => <div data-testid="settings-icon" />
+  GitBranch: () => <div data-testid="git-branch-icon" />,
+  Server: () => <div data-testid="server-icon" />,
+  Info: () => <div data-testid="info-icon" />,
 }));
 
 describe('VCSIntegrationPanel', () => {
@@ -28,15 +30,15 @@ describe('VCSIntegrationPanel', () => {
   });
 
   describe('Rendering providers', () => {
-    test('renders all providers by default', () => {
+    test('renders GitHub by default', () => {
       render(<VCSIntegrationPanel />);
 
-      expect(screen.getByText('Version Control Integrations')).toBeInTheDocument();
-      expect(screen.getByText('Connect your repositories from GitHub, GitLab, or Bitbucket')).toBeInTheDocument();
+      expect(screen.getByText('Version Control System Integrations')).toBeInTheDocument();
+      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toBeInTheDocument();
       
       expect(screen.getByTestId('vcs-card-github')).toBeInTheDocument();
-      expect(screen.getByTestId('vcs-card-gitlab')).toBeInTheDocument();
-      expect(screen.getByTestId('vcs-card-bitbucket')).toBeInTheDocument();
+      expect(screen.queryByTestId('vcs-card-gitlab')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('vcs-card-bitbucket')).not.toBeInTheDocument();
     });
 
     test('renders only GitHub when specified', () => {
@@ -104,8 +106,7 @@ describe('VCSIntegrationPanel', () => {
         />
       );
 
-      // Should still show the header
-      expect(screen.getByText('Version Control Integrations')).toBeInTheDocument();
+      expect(screen.getByText('No VCS providers enabled')).toBeInTheDocument();
       
       // But no provider cards
       expect(screen.queryByTestId('vcs-card-github')).not.toBeInTheDocument();
@@ -119,7 +120,12 @@ describe('VCSIntegrationPanel', () => {
       const onConnectionChange = jest.fn();
       
       render(
-        <VCSIntegrationPanel onConnectionChange={onConnectionChange} />
+        <VCSIntegrationPanel
+          showGitHub={true}
+          showGitLab={false}
+          showBitbucket={false}
+          onConnectionChange={onConnectionChange}
+        />
       );
 
       fireEvent.click(screen.getByTestId('vcs-card-button-github'));
@@ -131,7 +137,12 @@ describe('VCSIntegrationPanel', () => {
       const onConnectionChange = jest.fn();
       
       render(
-        <VCSIntegrationPanel onConnectionChange={onConnectionChange} />
+        <VCSIntegrationPanel
+          showGitHub={false}
+          showGitLab={true}
+          showBitbucket={false}
+          onConnectionChange={onConnectionChange}
+        />
       );
 
       fireEvent.click(screen.getByTestId('vcs-card-button-gitlab'));
@@ -143,7 +154,12 @@ describe('VCSIntegrationPanel', () => {
       const onConnectionChange = jest.fn();
       
       render(
-        <VCSIntegrationPanel onConnectionChange={onConnectionChange} />
+        <VCSIntegrationPanel
+          showGitHub={false}
+          showGitLab={false}
+          showBitbucket={true}
+          onConnectionChange={onConnectionChange}
+        />
       );
 
       fireEvent.click(screen.getByTestId('vcs-card-button-bitbucket'));
@@ -156,8 +172,6 @@ describe('VCSIntegrationPanel', () => {
 
       // Should not throw error
       fireEvent.click(screen.getByTestId('vcs-card-button-github'));
-      fireEvent.click(screen.getByTestId('vcs-card-button-gitlab'));
-      fireEvent.click(screen.getByTestId('vcs-card-button-bitbucket'));
     });
   });
 
@@ -166,27 +180,29 @@ describe('VCSIntegrationPanel', () => {
       const { container } = render(<VCSIntegrationPanel />);
 
       const panel = container.firstChild;
-      expect(panel).toHaveClass('w-full', 'max-w-4xl', 'mx-auto', 'p-6');
+      expect(panel).toHaveClass('space-y-6');
 
-      const header = screen.getByText('Version Control Integrations').parentElement;
-      expect(header).toHaveClass('mb-8');
+      const header = screen.getByText('Version Control System Integrations').parentElement;
+      expect(header).not.toBeNull();
 
       const cardsContainer = screen.getByTestId('vcs-card-github').parentElement;
-      expect(cardsContainer).toHaveClass('space-y-4');
+      expect(cardsContainer).toHaveClass('grid', 'gap-4');
     });
 
-    test('renders header with icon', () => {
+    test('renders the recommended GitHub App guidance', () => {
       render(<VCSIntegrationPanel />);
 
-      const headerContainer = screen.getByText('Version Control Integrations').parentElement;
-      expect(within(headerContainer!).getByTestId('settings-icon')).toBeInTheDocument();
+      expect(screen.getByText('Recommended')).toBeInTheDocument();
+      const alert = screen.getByText('Recommended').closest('div');
+      expect(alert).not.toBeNull();
+      expect(within(alert!).getByTestId('info-icon')).toBeInTheDocument();
     });
 
     test('renders description text', () => {
       render(<VCSIntegrationPanel />);
 
-      expect(screen.getByText('Connect your repositories from GitHub, GitLab, or Bitbucket')).toBeInTheDocument();
-      expect(screen.getByText('Connect your repositories from GitHub, GitLab, or Bitbucket')).toHaveClass('text-muted-foreground');
+      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toBeInTheDocument();
+      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toHaveClass('text-muted-foreground');
     });
   });
 
@@ -195,11 +211,9 @@ describe('VCSIntegrationPanel', () => {
       const { container } = render(<VCSIntegrationPanel />);
 
       const cards = container.querySelectorAll('[data-testid^="vcs-card-"]');
-      expect(cards).toHaveLength(3);
+      expect(cards).toHaveLength(1);
       
       expect(cards[0]).toHaveAttribute('data-testid', 'vcs-card-github');
-      expect(cards[1]).toHaveAttribute('data-testid', 'vcs-card-gitlab');
-      expect(cards[2]).toHaveAttribute('data-testid', 'vcs-card-bitbucket');
     });
   });
 
@@ -208,19 +222,19 @@ describe('VCSIntegrationPanel', () => {
       render(<VCSIntegrationPanel />);
 
       // Check for heading
-      const heading = screen.getByRole('heading', { level: 2 });
-      expect(heading).toHaveTextContent('Version Control Integrations');
+      const heading = screen.getByRole('heading', { level: 3 });
+      expect(heading).toHaveTextContent('Version Control System Integrations');
 
       // Check for buttons within cards
       const buttons = screen.getAllByRole('button');
-      expect(buttons).toHaveLength(3);
+      expect(buttons.length).toBeGreaterThanOrEqual(1);
     });
 
     test('provides descriptive text for screen readers', () => {
       render(<VCSIntegrationPanel />);
 
       // Description should be associated with the panel
-      expect(screen.getByText('Connect your repositories from GitHub, GitLab, or Bitbucket')).toBeInTheDocument();
+      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toBeInTheDocument();
     });
   });
 
@@ -229,7 +243,12 @@ describe('VCSIntegrationPanel', () => {
       const onConnectionChange = jest.fn();
       
       render(
-        <VCSIntegrationPanel onConnectionChange={onConnectionChange} />
+        <VCSIntegrationPanel
+          showGitHub={true}
+          showGitLab={true}
+          showBitbucket={true}
+          onConnectionChange={onConnectionChange}
+        />
       );
 
       // Rapidly click multiple providers
@@ -255,10 +274,10 @@ describe('VCSIntegrationPanel', () => {
         />
       );
 
-      // Should default to showing all
+      // Should default to GitHub only.
       expect(screen.getByTestId('vcs-card-github')).toBeInTheDocument();
-      expect(screen.getByTestId('vcs-card-gitlab')).toBeInTheDocument();
-      expect(screen.getByTestId('vcs-card-bitbucket')).toBeInTheDocument();
+      expect(screen.queryByTestId('vcs-card-gitlab')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('vcs-card-bitbucket')).not.toBeInTheDocument();
     });
   });
 });

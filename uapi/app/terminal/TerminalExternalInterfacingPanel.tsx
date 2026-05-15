@@ -130,6 +130,9 @@ export default function TerminalExternalInterfacingPanel({
   };
 
   const counts = snapshot?.counts;
+  const hasMockRuntime =
+    snapshot?.configuredEnvironmentMode === 'mock' ||
+    Boolean(snapshot?.interfaces.some((entry) => entry.runtimeState === 'mock'));
 
   return (
     <TerminalWorkspaceCard
@@ -147,7 +150,7 @@ export default function TerminalExternalInterfacingPanel({
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Runtime scope</p>
-          <p className="mt-2 text-neutral-200">connected interfaces</p>
+          <p className="mt-2 text-neutral-200">{snapshot?.configuredEnvironmentMode || 'connected interfaces'}</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Read posture</p>
@@ -317,8 +320,9 @@ export default function TerminalExternalInterfacingPanel({
             )}
           </div>
           <div className="mt-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
-            Boundary truth remains explicit here: what is mocked, what is boundary-only, what is live-configured, and what
-            is misconfigured all stay visible from the Terminal surface.
+            {hasMockRuntime
+              ? 'Boundary truth remains explicit here: what is mocked, what is boundary-only, what is live-configured, and what is misconfigured all stay visible from the Terminal surface.'
+              : 'Boundary truth remains explicit here: what is boundary-only, what is live-configured, what is execution-disabled, and what is misconfigured all stay visible from the Terminal surface.'}
           </div>
         </div>
       </div>

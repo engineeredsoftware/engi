@@ -50,8 +50,8 @@ const providerInfo = {
 
 export function VCSIntegrationPanel({
   showGitHub = true,
-  showGitLab = true,
-  showBitbucket = true,
+  showGitLab = false,
+  showBitbucket = false,
   onConnectionChange
 }: VCSIntegrationPanelProps) {
   const [gitlabInstanceUrl, setGitlabInstanceUrl] = useState('');

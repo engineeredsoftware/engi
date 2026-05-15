@@ -122,7 +122,7 @@ export default function TerminalCoreNativeSections({
                 </div>
               ) : (
                 <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
-                  Connect and select a repository above to make Bitcode give-side supply explicit before the deposit chain.
+                  Connect and select a repository above to make Bitcode give-side supply explicit before the Giving chain.
                 </div>
               )
             ) : null}
@@ -189,7 +189,7 @@ export default function TerminalCoreNativeSections({
                       eyebrow: 'Selected repository supply',
                       subtitle:
                         selectedRepository.description ||
-                        'Selected repository supply is the current give-side source before deposit and fit.',
+                        'Selected repository supply is the current give-side source before Giving and fit.',
                       help:
                         connectionStatus?.connected && connectionStatus.valid
                           ? `Connected as ${connectionStatus.username || connectionStatus.metadata?.account || 'bitcode'}.`

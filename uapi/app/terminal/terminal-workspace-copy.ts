@@ -7,9 +7,9 @@ export const TERMINAL_SURFACE_COPY = {
   },
   supply: {
     kicker: 'Giving',
-    title: 'Giving: source supply and deposit',
+    title: 'Giving: source supply and submission',
     summary:
-      'Bind the live GitHub repository inventory, choose the source supply, and compose the give-side deposit before any Need match is evaluated.',
+      'Bind the live GitHub repository inventory, choose the source supply, and submit Giving before any Need match is evaluated.',
   },
   need: {
     kicker: 'Needing',

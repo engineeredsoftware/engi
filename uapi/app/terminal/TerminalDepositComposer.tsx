@@ -6,6 +6,8 @@ import type { VCSBranch, VCSCommit, VCSProviderType } from '@bitcode/vcs-core';
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import {
@@ -44,6 +46,32 @@ interface TerminalDepositComposerProps {
   onRepositorySourceCommitChange?: (commit: string) => void;
   transactionReadiness: BitcodeTransactionReadiness;
   showDemonstrationDraft?: boolean;
+  preferredSignerAddress?: string | null;
+  preferredSignerLabel?: string | null;
+}
+
+function FieldHeading({
+  children,
+  explainer,
+  badge,
+  className = 'text-neutral-400',
+}: {
+  children: React.ReactNode;
+  explainer?: BitcodeExplainer;
+  badge?: string;
+  className?: string;
+}) {
+  return (
+    <span className={`flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] ${className}`}>
+      <span>{children}</span>
+      {badge ? (
+        <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[0.54rem] tracking-[0.14em] text-current/70">
+          {badge}
+        </span>
+      ) : null}
+      {explainer ? <BitcodeInlineExplainer explainer={explainer} /> : null}
+    </span>
+  );
 }
 
 function formatCommitOption(commit: VCSCommit) {
@@ -66,6 +94,8 @@ export default function TerminalDepositComposer({
   onRepositorySourceCommitChange,
   transactionReadiness,
   showDemonstrationDraft = true,
+  preferredSignerAddress,
+  preferredSignerLabel,
 }: TerminalDepositComposerProps) {
   const { snapshot, runControl } = useTerminalShellBridge();
   const [title, setTitle] = useState('');
@@ -84,6 +114,8 @@ export default function TerminalDepositComposer({
   const repositoryAnchorValue = String(repositoryAnchor || '').trim();
   const repositoryBranchValue = String(repositoryBranch || '').trim();
   const repositoryCommitValue = String(repositoryCommit || '').trim();
+  const preferredSignerAddressValue = String(preferredSignerAddress || '').trim();
+  const signerAddressUsesWalletDefault = Boolean(preferredSignerAddressValue && signerAddress === preferredSignerAddressValue);
   const usesLiveRepositoryAnchor = Boolean(repositoryAnchorValue);
   const hasSelectedSourceRevision =
     !usesLiveRepositoryAnchor || Boolean(repositoryBranchValue && repositoryCommitValue);
@@ -113,19 +145,26 @@ export default function TerminalDepositComposer({
   const displayedSourceCommit = usesLiveRepositoryAnchor ? repositoryCommitValue : sourceCommit;
 
   useEffect(() => {
-    setSignerAddress((current) => current || composer?.signerAddress || '');
+    setSignerAddress((current) => {
+      if (preferredSignerAddressValue && (!current || current === composer?.signerAddress)) {
+        return preferredSignerAddressValue;
+      }
+      return current || composer?.signerAddress || '';
+    });
     if (repositoryAnchorValue) {
       setSourceRepo(repositoryAnchorValue);
       return;
     }
     setSourceRepo((current) => current || composer?.sourceRepo || '');
-  }, [composer?.signerAddress, composer?.sourceRepo, repositoryAnchorValue]);
+  }, [composer?.signerAddress, composer?.sourceRepo, preferredSignerAddressValue, repositoryAnchorValue]);
 
   const selectedEntryLabels = useMemo(() => {
     if (repositoryAnchorValue) return [repositoryAnchorValue];
     return composer?.selectedEntries.slice(0, 5).map((entry) => entry.title) || [];
   }, [composer, repositoryAnchorValue]);
   const settlementReady = transactionReadiness.canSettle;
+  const walletSigningRequired = transactionReadiness.blockers.some((entry) => entry.id === 'wallet-verification');
+  const repositoryReconnectRequired = transactionReadiness.blockers.some((entry) => entry.id === 'repository-provider');
 
   const canSubmit = Boolean(
     composer &&
@@ -177,7 +216,7 @@ export default function TerminalDepositComposer({
       });
 
       if (!response.ok) {
-        setSubmitState({ kind: 'error', message: await readTerminalRouteError(response, 'Deposit failed.') });
+        setSubmitState({ kind: 'error', message: await readTerminalRouteError(response, 'Giving failed.') });
         return;
       }
 
@@ -204,7 +243,7 @@ export default function TerminalDepositComposer({
           summary:
             payload.asset?.title ||
             title.trim() ||
-            `Deposited ${selectedSupplyCount || 1} candidate Bitcode asset pack${selectedSupplyCount === 1 ? '' : 's'}.`,
+            `Submitted ${selectedSupplyCount || 1} candidate Bitcode Giving asset pack${selectedSupplyCount === 1 ? '' : 's'}.`,
           context: {
             source: 'terminal-deposit-composer',
             authSessionId: effectiveAuthSessionId || null,
@@ -222,18 +261,18 @@ export default function TerminalDepositComposer({
       } catch (recordError) {
         const message =
           recordError instanceof Error
-            ? `${recordError.message} The deposit still landed in the Bitcode protocol state.`
-            : 'The deposit landed in the Bitcode protocol state, but the ledger row could not be recorded.';
+            ? `${recordError.message} The Giving still landed in the Bitcode protocol state.`
+            : 'The Giving landed in the Bitcode protocol state, but the ledger row could not be recorded.';
         setSubmitState({ kind: 'error', message });
         return;
       }
       setSubmitState({
         kind: 'success',
         message:
-          'Candidate asset deposited into the Bitcode repo-authenticated flow and recorded into the Bitcode activity ledger.',
+          'Candidate Giving submitted into the Bitcode repo-authenticated flow and recorded into the Bitcode activity ledger.',
       });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Deposit failed.';
+      const message = error instanceof Error ? error.message : 'Giving failed.';
       setSubmitState({ kind: 'error', message });
     }
   };
@@ -243,8 +282,8 @@ export default function TerminalDepositComposer({
       <TerminalWorkspaceCard
         id="terminalDepositComposer"
         kicker="Give intake"
-        title="Draft and submit a give-side deposit"
-        summary="Reading selected supply, issuer continuity, and the current deposit draft posture."
+        title="Draft and submit Giving"
+        summary="Reading selected supply, issuer continuity, and the current Giving draft posture."
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.depositComposer}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Loading the current give draft…</p>
@@ -256,8 +295,8 @@ export default function TerminalDepositComposer({
     <TerminalWorkspaceCard
       id="terminalDepositComposer"
       kicker="Give intake"
-      title="Draft and submit a give-side deposit"
-      summary="Build the deposit from selected supply, add provenance overrides where needed, and keep the working draft resumable before fit and closure."
+      title="Draft and submit Giving"
+      summary="Build Giving from selected supply, add provenance overrides where needed, and keep the working draft resumable before Need, fit, and closure."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.depositComposer}
       headerAside={
         <BitcodeMetricGrid
@@ -280,7 +319,9 @@ export default function TerminalDepositComposer({
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-4 lg:grid-cols-2">
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Asset title override</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.assetTitleOverride} badge="Optional">
+                Asset title override
+              </FieldHeading>
               <input
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
@@ -290,7 +331,9 @@ export default function TerminalDepositComposer({
             </label>
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Author override</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.authorOverride} badge="Optional">
+                Author override
+              </FieldHeading>
               <input
                 value={author}
                 onChange={(event) => setAuthor(event.target.value)}
@@ -300,7 +343,9 @@ export default function TerminalDepositComposer({
             </label>
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Artifact kind</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.artifactKind} badge="Optional">
+                Artifact kind
+              </FieldHeading>
               <input
                 value={artifactKind}
                 onChange={(event) => setArtifactKind(event.target.value)}
@@ -310,7 +355,9 @@ export default function TerminalDepositComposer({
             </label>
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Artifact type</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.artifactType} badge="Optional">
+                Artifact type
+              </FieldHeading>
               <input
                 value={artifactType}
                 onChange={(event) => setArtifactType(event.target.value)}
@@ -326,14 +373,13 @@ export default function TerminalDepositComposer({
                   : 'border-white/8 bg-black/20'
               }`}
             >
-              <span
-                className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] ${
-                  usesLiveRepositoryAnchor ? 'text-emerald-200/85' : 'text-neutral-400'
-                }`}
+              <FieldHeading
+                explainer={TERMINAL_INLINE_EXPLAINERS.sourceRepo}
+                badge={usesLiveRepositoryAnchor ? 'Selected' : 'Required'}
+                className={usesLiveRepositoryAnchor ? 'text-emerald-200/85' : 'text-neutral-400'}
               >
                 <span>{usesLiveRepositoryAnchor ? 'Selected source repo' : 'Source repo'}</span>
-                <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceRepo} />
-              </span>
+              </FieldHeading>
               <input
                 value={displayedSourceRepo}
                 onChange={(event) => setSourceRepo(event.target.value)}
@@ -353,20 +399,20 @@ export default function TerminalDepositComposer({
             </div>
 
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+              <FieldHeading
+                badge={usesLiveRepositoryAnchor ? 'Required' : 'Optional'}
+                explainer={
+                  usesLiveRepositoryAnchor
+                    ? TERMINAL_INLINE_EXPLAINERS.sourceBranch
+                    : TERMINAL_INLINE_EXPLAINERS.sourceCommit
+                }
+              >
                 <span>{usesLiveRepositoryAnchor ? 'Source branch' : 'Source commit / ref'}</span>
-                <BitcodeInlineExplainer
-                  explainer={
-                    usesLiveRepositoryAnchor
-                      ? TERMINAL_INLINE_EXPLAINERS.sourceBranch
-                      : TERMINAL_INLINE_EXPLAINERS.sourceCommit
-                  }
-                />
-              </span>
+              </FieldHeading>
               {usesLiveRepositoryAnchor ? (
                 <>
                   <select
-                    aria-label="Deposit source branch"
+                    aria-label="Giving source branch"
                     value={repositoryBranchValue}
                     disabled={isLoadingRepositoryBranches || repositoryBranches.length === 0}
                     onChange={(event) => onRepositorySourceBranchChange?.(event.target.value)}
@@ -395,12 +441,11 @@ export default function TerminalDepositComposer({
 
             {usesLiveRepositoryAnchor ? (
               <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-                <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.sourceCommit} badge="Required">
                   <span>Source commit / ref</span>
-                  <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceCommit} />
-                </span>
+                </FieldHeading>
                 <select
-                  aria-label="Deposit source commit"
+                  aria-label="Giving source commit"
                   value={repositoryCommitValue}
                   disabled={!repositoryBranchValue || isLoadingRepositoryCommits || repositoryCommits.length === 0}
                   onChange={(event) => onRepositorySourceCommitChange?.(event.target.value)}
@@ -420,7 +465,9 @@ export default function TerminalDepositComposer({
             ) : null}
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Workflow run override</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.workflowRunId} badge="Optional">
+                Workflow run override
+              </FieldHeading>
               <input
                 value={workflowRunId}
                 onChange={(event) => setWorkflowRunId(event.target.value)}
@@ -430,32 +477,48 @@ export default function TerminalDepositComposer({
             </label>
 
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+              <FieldHeading
+                explainer={TERMINAL_INLINE_EXPLAINERS.signerAddress}
+                badge={preferredSignerAddressValue ? 'Connected wallet' : 'Required'}
+              >
                 <span>Signer address</span>
-                <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.signerAddress} />
-              </span>
+              </FieldHeading>
               <input
                 value={signerAddress}
                 onChange={(event) => setSignerAddress(event.target.value)}
+                readOnly={Boolean(preferredSignerAddressValue)}
                 placeholder="signer address"
-                className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
+                className={`mt-3 w-full rounded-xl border px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 ${
+                  preferredSignerAddressValue
+                    ? 'border-emerald-300/20 bg-[rgba(10,15,30,0.92)]'
+                    : 'border-white/10 bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40'
+                }`}
               />
+              {signerAddressUsesWalletDefault ? (
+                <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-emerald-100/70">
+                  Defaulted from {preferredSignerLabel || 'connected wallet'}
+                </p>
+              ) : null}
             </div>
           </div>
 
           <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Visual preview</span>
+            <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.visualPreview} badge="Optional">
+              Visual preview
+            </FieldHeading>
             <textarea
               value={visualPreview}
               onChange={(event) => setVisualPreview(event.target.value)}
               rows={3}
-              placeholder="Compact preview text for the deposited asset"
+              placeholder="Compact preview text for the submitted Giving"
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
             />
           </label>
 
           <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Working note</span>
+            <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.workingNote} badge="Optional">
+              Working note
+            </FieldHeading>
             <textarea
               value={workingNote}
               onChange={(event) => setWorkingNote(event.target.value)}
@@ -467,7 +530,9 @@ export default function TerminalDepositComposer({
 
           <div className="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Tags</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.tags} badge="Optional">
+                Tags
+              </FieldHeading>
               <input
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
@@ -477,7 +542,9 @@ export default function TerminalDepositComposer({
             </label>
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Raw fallback content</span>
+              <FieldHeading explainer={TERMINAL_INLINE_EXPLAINERS.rawFallbackContent} badge="Optional">
+                Raw fallback content
+              </FieldHeading>
               <textarea
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
@@ -498,14 +565,33 @@ export default function TerminalDepositComposer({
               disabled={!canSubmit || submitState.kind === 'submitting'}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-5 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitState.kind === 'submitting' ? 'Depositing into Bitcode…' : 'Deposit into Bitcode'}
+              {submitState.kind === 'submitting' ? 'Submitting Giving to Bitcode…' : 'Submit Giving to Bitcode'}
             </button>
+            {!settlementReady && walletSigningRequired ? (
+              <button
+                type="button"
+                onClick={() => openAuxillaries('auxillaries', 'wallet')}
+                className="rounded-[1.4rem] border border-amber-300/30 bg-amber-300/10 px-5 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-300/50 hover:bg-amber-300/15"
+              >
+                Open Wallet signing
+              </button>
+            ) : null}
+            {!settlementReady && repositoryReconnectRequired ? (
+              <button
+                type="button"
+                onClick={() => openAuxillaries('auxillaries', 'externals')}
+                className="rounded-[1.4rem] border border-amber-300/30 bg-amber-300/10 px-5 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-300/50 hover:bg-amber-300/15"
+              >
+                Open GitHub connection
+              </button>
+            ) : null}
             <button
               type="button"
-              onClick={() => jumpToShellSection('panelDepositing')}
-              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
+              disabled={submitState.kind !== 'success'}
+              onClick={() => jumpToShellSection('terminalNeedSurface')}
+              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Continue in give
+              Continue to Need
             </button>
           </div>
 
@@ -519,7 +605,7 @@ export default function TerminalDepositComposer({
                     : 'border-white/10 bg-black/20 text-neutral-200'
               }`}
             >
-              {submitState.kind === 'submitting' ? 'Submitting the Bitcode deposit…' : submitState.message}
+              {submitState.kind === 'submitting' ? 'Submitting Giving to Bitcode…' : submitState.message}
             </div>
           ) : null}
         </form>
@@ -554,13 +640,13 @@ export default function TerminalDepositComposer({
             <p className="mt-3 text-sm leading-6 text-neutral-300">
               {selectedSupplyCount
                 ? usesLiveRepositoryAnchor
-                  ? `Bitcode will bind ${repositoryAnchorValue}${repositoryBranchValue ? ` on ${repositoryBranchValue}` : ''}${repositoryCommitValue ? ` at ${repositoryCommitValue.slice(0, 12)}` : ''} as the selected repository source for this deposit.`
-                  : `Bitcode will bind ${selectedSupplyCount} selected repo artifact${selectedSupplyCount === 1 ? '' : 's'} into this deposit.`
+                  ? `Bitcode will bind ${repositoryAnchorValue}${repositoryBranchValue ? ` on ${repositoryBranchValue}` : ''}${repositoryCommitValue ? ` at ${repositoryCommitValue.slice(0, 12)}` : ''} as the selected repository source for this Giving.`
+                  : `Bitcode will bind ${selectedSupplyCount} selected repo artifact${selectedSupplyCount === 1 ? '' : 's'} into this Giving.`
                 : 'No repo artifacts are currently selected. Use raw fallback content or select inventory above.'}
             </p>
             {usesLiveRepositoryAnchor && !hasSelectedSourceRevision ? (
               <p className="mt-3 rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
-                Select a branch and commit before depositing so source materialization can fetch an exact snapshot.
+                Select a branch and commit before submitting Giving so source materialization can fetch an exact snapshot.
               </p>
             ) : null}
             {selectedEntryLabels.length ? (
@@ -573,7 +659,7 @@ export default function TerminalDepositComposer({
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">After deposit</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">After Giving</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
               Submitting refreshes the working chain so selected supply, measured demand, fit, and later branch, proof,
               and settlement reads stay aligned in the same Bitcode Terminal.

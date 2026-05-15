@@ -21,11 +21,12 @@ const repositories = [
 ] as VCSRepository[];
 
 describe('Terminal repository context helpers', () => {
-  it('normalizes invalid providers back to github', () => {
+  it('normalizes all Terminal repository providers to GitHub', () => {
     expect(normalizeRepositoryProvider(null)).toBe('github');
     expect(normalizeRepositoryProvider(undefined)).toBe('github');
     expect(normalizeRepositoryProvider('not-real')).toBe('github');
-    expect(normalizeRepositoryProvider('gitlab')).toBe('gitlab');
+    expect(normalizeRepositoryProvider('gitlab')).toBe('github');
+    expect(normalizeRepositoryProvider('bitbucket')).toBe('github');
   });
 
   it('prefers a requested repository from the current route', () => {

@@ -71,11 +71,13 @@ const ConversationsOverlay = dynamic(() => import('@/app/conversations/component
 export default function TerminalPageClient() {
   const { user } = useAuth();
   const {
+    data: userData,
     hasGitHubConnection,
     hasValidGitHubConnection = hasGitHubConnection,
     hasWalletConnection,
     hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
+    walletConnectionStatus,
     repositoryConnectionStatus,
   } = useUserData();
   const router = useRouter();
@@ -154,6 +156,17 @@ export default function TerminalPageClient() {
       user,
     ],
   );
+  const preferredSignerAddress = useMemo(() => {
+    const profile = userData?.profile as Record<string, unknown> | null | undefined;
+    const profileAuthAddress = typeof profile?.auth_address === 'string' ? profile.auth_address.trim() : '';
+    const profileWalletAddress = typeof profile?.wallet_address === 'string' ? profile.wallet_address.trim() : '';
+    const walletAuthAddress = walletConnectionStatus?.metadata?.authAddress?.trim() || '';
+    const walletAddress = walletConnectionStatus?.address?.trim() || '';
+    return walletAuthAddress || walletAddress || profileAuthAddress || profileWalletAddress || null;
+  }, [userData?.profile, walletConnectionStatus]);
+  const preferredSignerLabel = walletConnectionStatus?.provider
+    ? `${walletConnectionStatus.provider} wallet`
+    : 'connected wallet';
   const replaceTerminalSearchParams = useCallback(
     (nextParams: URLSearchParams) => {
       if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
@@ -527,6 +540,8 @@ export default function TerminalPageClient() {
                       onRepositorySourceCommitChange={handleRepositorySourceCommitChange}
                       transactionReadiness={transactionReadiness}
                       showDemonstrationDraft={showDemonstrationSurfaces}
+                      preferredSignerAddress={preferredSignerAddress}
+                      preferredSignerLabel={preferredSignerLabel}
                     />
                   </div>
                 </div>

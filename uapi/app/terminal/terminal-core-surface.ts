@@ -37,9 +37,9 @@ type ShellSnapshot = {
 
 const CORE_PANEL_CONFIG = [
   { id: 'panelOperatingPicture', key: 'operatingPicture', fallbackLabel: 'Operating picture' },
-  { id: 'panelDepositing', key: 'depositing', fallbackLabel: 'Depositing' },
+  { id: 'panelDepositing', key: 'depositing', fallbackLabel: 'Giving' },
   { id: 'panelNeeding', key: 'needing', fallbackLabel: 'Needing + measured demand' },
-  { id: 'panelFit', key: 'fit', fallbackLabel: 'Depositing-to-needing fit' },
+  { id: 'panelFit', key: 'fit', fallbackLabel: 'Giving-to-Needing fit' },
 ] as const;
 
 function stringValue(value: string | number | null | undefined, fallback = '') {

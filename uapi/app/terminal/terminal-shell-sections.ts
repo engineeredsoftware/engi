@@ -1,6 +1,6 @@
 export const TERMINAL_SHELL_SECTIONS = [
   { id: 'panelOperatingPicture', label: 'Operating picture' },
-  { id: 'panelDepositing', label: 'Depositing' },
+  { id: 'panelDepositing', label: 'Giving' },
   { id: 'panelNeeding', label: 'Needing' },
   { id: 'panelFit', label: 'Fit' },
   { id: 'panelEvaluations', label: 'Verification' },

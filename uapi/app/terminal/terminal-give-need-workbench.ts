@@ -315,7 +315,7 @@ export function normalizeTerminalGiveNeedWorkbench(
     fit: {
       summary:
         String(snapshot.fitSurface?.fitSummary || '').trim() ||
-        'Depositing-to-needing fit stays the decisive Bitcode relation before branch, proof, and settlement are justified.',
+        'Giving-to-Needing fit stays the decisive Bitcode relation before branch, proof, and settlement are justified.',
       metrics: [
         {
           label: 'Pressure',

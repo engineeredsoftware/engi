@@ -22,6 +22,10 @@ jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
   },
 }));
 
+jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+  openAuxillaries: jest.fn(),
+}));
+
 jest.mock('@/components/base/bitcode/execution/BitcodeInlineExplainer', () => ({
   __esModule: true,
   default: function MockBitcodeInlineExplainer() {
@@ -48,12 +52,19 @@ jest.mock('@/app/terminal/terminal-workspace-explainers', () => ({
     depositComposer: [],
   },
   TERMINAL_INLINE_EXPLAINERS: {
+    assetTitleOverride: [],
+    authorOverride: [],
+    artifactKind: [],
+    artifactType: [],
     sourceRepo: [],
     sourceBranch: [],
     sourceCommit: [],
     workflowRunId: [],
     signerAddress: [],
     visualPreview: [],
+    workingNote: [],
+    tags: [],
+    rawFallbackContent: [],
     depositSubmission: [],
     transactionReadiness: [],
   },
@@ -141,10 +152,27 @@ describe('TerminalDepositComposer', () => {
     );
 
     expect(screen.getByDisplayValue('engineeredsoftware/ENGI')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Deposit source branch' })).toHaveValue('main');
-    expect(screen.getByRole('combobox', { name: 'Deposit source commit' })).toHaveValue('abc123456789');
+    expect(screen.getByRole('combobox', { name: 'Giving source branch' })).toHaveValue('main');
+    expect(screen.getByRole('combobox', { name: 'Giving source commit' })).toHaveValue('abc123456789');
     expect(screen.getByText('Selected from Give-side supply')).toBeInTheDocument();
     expect(screen.getByText(/Bitcode will bind engineeredsoftware\/ENGI on main at abc123456789/i)).toBeInTheDocument();
+  });
+
+  it('defaults the signer address from the connected wallet when available', () => {
+    render(
+      <TerminalDepositComposer
+        repositoryAnchor="engineeredsoftware/ENGI"
+        repositoryProvider="github"
+        repositoryBranch="main"
+        repositoryCommit="abc123456789"
+        preferredSignerAddress="tb1pwalletsigner"
+        preferredSignerLabel="Leather wallet"
+        transactionReadiness={baseTransactionReadiness}
+      />,
+    );
+
+    expect(screen.getByDisplayValue('tb1pwalletsigner')).toBeInTheDocument();
+    expect(screen.getByText('Defaulted from Leather wallet')).toBeInTheDocument();
   });
 
   it('keeps deposit submission disabled until settlement readiness is complete', () => {
@@ -176,7 +204,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeDisabled();
     expect(
       screen.getByText('Signed settlement remains staged until verified wallet-provider signing is present.'),
     ).toBeInTheDocument();
@@ -218,7 +246,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeEnabled();
   });
 
   it('keeps deposit submission disabled when repository scope must be reconnected', () => {
@@ -247,7 +275,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeDisabled();
     expect(
       screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Externals/i).length,
     ).toBeGreaterThan(0);
@@ -274,7 +302,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeDisabled();
     expect(screen.getAllByText(/Reconnect verified wallet-provider signing access/i).length).toBeGreaterThan(0);
   });
 });
