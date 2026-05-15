@@ -34,6 +34,9 @@ BEGIN
             'repo_snapshot', coalesce(output -> 'repo_snapshot', output #> '{asset_pack_completion,repoSnapshot}'),
             'bitcode_activity_state', output #> '{asset_pack_completion,bitcodeActivityState}',
             'deposit', output -> 'deposit',
+            'deposit_asset', output -> 'asset',
+            'deposit_asset_id', coalesce(output #>> '{asset,assetId}', context ->> 'candidateAssetId'),
+            'deposit_asset_title', output #>> '{asset,title}',
             'read_measurement', output -> 'readMeasurement',
             'fit', output -> 'fit',
             'repository_anchor', output -> 'repositoryAnchor'
@@ -42,7 +45,12 @@ BEGIN
             'source', context ->> 'source',
             'surface', context ->> 'surface',
             'workbench', context ->> 'workbench',
-            'repositoryFullName', context ->> 'repositoryFullName',
+            'repositoryFullName', coalesce(context ->> 'repositoryFullName', context ->> 'repositoryAnchor'),
+            'repositoryAnchor', context ->> 'repositoryAnchor',
+            'sourceBranch', context ->> 'sourceBranch',
+            'sourceCommit', context ->> 'sourceCommit',
+            'walletAuthorizationSigned', context ->> 'walletAuthorizationSigned',
+            'candidateAssetId', context ->> 'candidateAssetId',
             'scenarioLabel', context ->> 'scenarioLabel',
             'provider', context ->> 'provider'
           ) AS context_summary,

@@ -70,7 +70,11 @@ BEGIN
           e.created_at,
           e.context ->> 'source' AS source,
           e.context ->> 'repository' AS context_repository,
-          e.context ->> 'repositoryFullName' AS context_repository_full_name,
+          coalesce(e.context ->> 'repositoryFullName', e.context ->> 'repositoryAnchor') AS context_repository_full_name,
+          e.context ->> 'sourceBranch' AS source_branch,
+          e.context ->> 'sourceCommit' AS source_commit,
+          e.context ->> 'walletAuthorizationSigned' AS wallet_authorization_signed,
+          coalesce(e.output #>> '{asset,assetId}', e.context ->> 'candidateAssetId') AS candidate_asset_id,
           coalesce(e.output -> 'repo_snapshot', e.output #> '{asset_pack_completion,repoSnapshot}') AS repo_snapshot,
           coalesce(
             e.output #> '{asset_pack_completion,bitcodeActivityState,supplySelection,selectedEntries}',
@@ -82,6 +86,7 @@ BEGIN
         FROM public.executions e
         JOIN latest_user u ON u.user_id = e.user_id
         WHERE e.context ->> 'source' IN (
+          'terminal-deposit-composer',
           'terminal-supply-selection-panel',
           'terminal-deposit-read-workbench',
           'terminal-repository-context-panel'
