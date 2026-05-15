@@ -82,7 +82,6 @@ repo_inventory AS (
   SELECT
     r.user_id,
     count(*)::bigint AS github_repository_count,
-    count(*) FILTER (WHERE r.repo_full_name = 'engineeredsoftware/ENGI')::bigint AS engi_repository_rows,
     max(r.updated_at) AS repository_inventory_updated_at,
     coalesce(
       jsonb_agg(
@@ -134,14 +133,16 @@ SELECT
     ELSE 'github_installation_token_fresh'
   END AS github_token_freshness,
   coalesce(r.github_repository_count, 0) AS github_repository_count,
-  coalesce(r.engi_repository_rows, 0) AS engi_repository_rows,
+  CASE
+    WHEN coalesce(r.github_repository_count, 0) > 0 THEN 'github_repository_inventory_available'
+    ELSE 'github_repository_inventory_missing'
+  END AS github_repository_inventory_state,
   CASE
     WHEN p.user_id IS NULL THEN 'blocker:missing_user_profile'
     WHEN nullif(trim(coalesce(p.wallet_address, '')), '') IS NULL THEN 'blocker:missing_profile_wallet_binding'
     WHEN w.user_id IS NULL THEN 'blocker:missing_wallet_connection'
     WHEN g.user_id IS NULL THEN 'blocker:missing_github_connection'
     WHEN coalesce(r.github_repository_count, 0) = 0 THEN 'blocker:missing_vcs_repository_inventory'
-    WHEN coalesce(r.engi_repository_rows, 0) = 0 THEN 'warning:ENGI_repo_not_in_inventory'
     ELSE 'ready_for_terminal_deposit_read'
   END AS terminal_prerequisite_state,
   CASE

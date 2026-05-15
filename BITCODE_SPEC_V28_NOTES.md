@@ -82,6 +82,40 @@ Terminal Deposit/Read QA now starts from a real deployed staging-testnet prerequ
 
 The first Terminal prerequisite pass also exposed a profile round-trip drift: later Profile writes could preserve wallet address/provider/status while dropping `network`, `authAddress`, `paymentAddress`, `proofKind`, and `addressType` from `settings.bitcodeProfile.walletBinding`. V28 treats `user_connections` as the active provider connection record, but the profile projection must retain the same non-secret wallet metadata for UI/readiness parity. The profile contract and profile write path now preserve those fields, and `v28_qa_01b_backfill_profile_wallet_projection_from_connection` repairs existing staging rows from the active wallet connection before Terminal write QA continues.
 
+## May 15 Single-Deposit Reading/Fit QA Focus
+
+The first successful staging Deposit placed a live repository revision into the
+Bitcode data-space. That makes the next QA step commercially sharper: Reading
+must prove whether Bitcode can discover, rank, synthesize, and explain a worthy
+Fit from the only available deposited source, not from protocol-demo fixtures or
+broad mock state.
+
+The active QA fixture currently uses ENGI because that is the deposited source
+available in staging. That fixture must not become a commercial Terminal
+special case. Product logic must remain generic across user, provider,
+repository, branch, commit, and deposited source.
+
+The active QA scenario is therefore single-deposit:
+
+- data-space: the latest deposited repository revision row, currently exercised
+  with the `engineeredsoftware/ENGI` fixture, with repository, branch, commit,
+  signer, wallet authorization, and asset candidate evidence;
+- Read: determine whether the deposited repository contains a complete
+  Terminal-backed path from wallet/GitHub readiness through Deposit, Read/Fit,
+  AssetPack evidence, proof/finality readback, and Supabase/ledger
+  reconciliation;
+- expected positive outcome: a minimal, proof-bearing AssetPack fit that cites
+  exact deposited source revision evidence and names any settlement/finality
+  blockers honestly;
+- expected negative outcome: no-worthy-fit or clarification when the Read is
+  unrelated to ENGI's deposited source or too broad to measure.
+
+Saved query `v28_qa_terminal_06_read_fit_quality_after_read` is the QA readback
+for this focus. It is intentionally stricter than the generic activity query:
+it checks Deposit before Read, Read before Fit, repository/branch/commit
+alignment, frontier/mock leakage, and visibility of proof or measurement
+posture in the execution rows.
+
 ## May 15 Terminal Terminology Closure
 
 V28 now retires user-facing Deposit/Depositing and Read/Reading language in favor of Deposit/Depositing and Read/Reading.

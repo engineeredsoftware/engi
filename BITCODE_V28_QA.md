@@ -817,7 +817,7 @@ Deposit path:
 1. Hard refresh `/terminal` and wait for top chrome wallet state and Terminal sync to settle.
 2. In the top Terminal activity area, confirm there is no visible red or amber `Failed to fetch execution history` error. Empty activity is acceptable; a 500/error banner is not.
 3. In `Repository supply`, confirm `Connection posture` says GitHub is connected, `Mode` is `live connection`, and `Inventory source` is `stored protocol inventory` or `live provider inventory`.
-4. In the repository selector, choose `engineeredsoftware/ENGI` for the first pass unless intentionally testing another `engineeredsoftware/*` repository.
+4. In the repository selector, choose the repository intended for this Deposit. The current walkthrough fixture uses `engineeredsoftware/ENGI`, but the Terminal flow must not special-case that repository.
 5. In `Deposit-side supply`, confirm the auth/session label and inventory cards use `engineeredsoftware/*`. If any `frontier/*`, `gh_inst_bitcode_001`, or other protocol-demo repository appears in the live staging lane, stop and classify as a V28 blocker.
 6. In `Deposit-side supply`, use the search box only to filter connected repositories. Search must not replace live inventory with protocol demo artifacts. Select/confirm one repository card; the selected card should match the `Repository supply` selector.
 7. Click `Record deposit selection`. Confirm the UI reports that selected deposit-side supply was recorded.
@@ -883,6 +883,124 @@ V28 blockers:
 - Terminal claims mint/settlement/anchor/finality without matching BTD projection rows.
 - GitHub access tokens or wallet signatures appear unredacted in browser-visible UI, query output intended for routine QA, or client telemetry.
 - A broad model selector can alter ledgerized Terminal/Fit/AssetPack synthesis.
+
+### Pass 2B: Single-Deposit Commercial Read/Fit QA
+
+Purpose:
+Validate Bitcode's most commercially critical flow against the smallest real
+data-space now available in staging: a single deposited repository revision.
+This pass asks whether Reading can find a worthy Fit, synthesize the right
+AssetPack posture, and fail closed when evidence is not strong enough.
+The current walkthrough fixture is `engineeredsoftware/ENGI` because that is the
+repository already deposited, but Terminal code and operator flow must remain
+fully generic across repository owner, repository, branch, commit, signer, and
+source type.
+
+Starting condition:
+
+- Pass 2A Deposit submission has succeeded.
+- Query `v28_qa_terminal_02_activity_after_write` shows a completed
+  `agentic-execution:asset-pack` from `terminal-deposit-composer`.
+- Query `v28_qa_terminal_04_deposit_repository_alignment` shows the recent
+  deposit activity is for the selected deposited repository, with `source_branch` and
+  `source_commit` present, `wallet_authorization_signed='true'`, and
+  `frontier_reference_detected=false`.
+- Query `v28_qa_terminal_03_btd_ledger_after_terminal` still shows no claimed
+  mint/anchor/finality without matching projection rows.
+
+Commercial Read scenario:
+
+Use this as the first manual Read frame, whether entered directly or selected
+from the closest Terminal scenario:
+
+```text
+Read the deposited repository revision and determine whether it contains a
+complete, non-mock Terminal path from Bitcoin wallet identity and GitHub source
+scope through Deposit, Read/Fit, AssetPack evidence, proof/finality readback,
+and Supabase/ledger reconciliation. If there is a worthy fit, synthesize the
+minimal proof-bearing AssetPack. If there is not, return explicit no-worthy-fit
+or blocked-readiness evidence.
+```
+
+Positive-control expectation:
+
+- Candidate recall should point at deposited source surfaces that actually
+  explain the path, not generic product copy. Expected evidence families include
+  Terminal Deposit/Read components, repository/branch/commit source selection,
+  execution-history persistence, wallet/GitHub readiness, saved QA SQL, BTD
+  ledger readback, and proof/finality/admission primitives.
+- The Fit result must name why the selected ENGI evidence is decisive or why it
+  is insufficient. A decorative Fit summary with no source/proof linkage is a
+  failure.
+- The result must produce one of two honest outcomes:
+  - `worthy_fit`: a minimal AssetPack candidate with source revision, evidence
+    roots, proof/dedupe/materialization posture, and settlement/finality state;
+  - `no_worthy_fit` or `blocked_readiness`: explicit reasons such as source
+    materialization unavailable, no live branch materialization, missing ledger
+    anchor, no accepted Read review, or no settlement proof.
+
+Negative controls:
+
+1. Run or simulate a Read unrelated to the deposited ENGI source, such as
+   "Find a Solana wallet settlement AssetPack." Expected: no-worthy-fit or
+   clarification, not an ENGI AssetPack.
+2. Run or simulate an overly broad Read, such as "Make Bitcode better."
+   Expected: clarification or blocked measurement, not a confident Fit.
+3. Run or simulate a Read that would require unavailable source material outside
+   the deposited ENGI revision. Expected: no-worthy-fit or source-scope blocker.
+
+Manual steps:
+
+1. Hard refresh `/terminal`.
+2. Confirm the Activity area shows the successful ENGI Deposit row and no
+   execution-history error.
+3. Confirm the repository selector still shows the deposited repository, the
+   selected branch, and the selected commit from the successful Deposit.
+4. In the Read area, select or express the commercial Read scenario above.
+5. Record the Read posture. Capture the `/api/executions/history` request and
+   response; expected status is `201`.
+6. Accept the Read for fit search. Capture `/api/read-review`; expected response
+   has `fitSearchAdmission.admitted=true`. If it remains blocked, the blocker
+   must name the Read-review requirement or measurement deficiency.
+7. Record Fit posture. Capture the `/api/executions/history` request and
+   response; expected status is `201`.
+8. If a branch, AssetPack, BTC fee, ledger anchor, or settlement control becomes
+   enabled, inspect the preview first. Only click it if the preview names source
+   revision, proof/finality posture, wallet authorization, and expected database
+   readback.
+9. Run saved query `v28_qa_terminal_06_read_fit_quality_after_read`.
+10. Rerun `v28_qa_terminal_02_activity_after_write` and
+    `v28_qa_terminal_03_btd_ledger_after_terminal`.
+11. Paste screenshots, Network payload summaries, Vercel logs for the same
+    timestamps, and all three query outputs.
+
+Pass criteria:
+
+- `v28_qa_terminal_06_read_fit_quality_after_read` reports
+  `critical_read_gate_state='critical_read_fit_sequence_ready_for_result_review'`
+  for the positive-control run.
+- The observed repository matches the latest deposited repository.
+- Branch and commit are present on Deposit, Read, and Fit activity.
+- Deposit precedes Read, and Read precedes Fit.
+- No `frontier/*` repository or mock repository appears in staging-testnet
+  activity.
+- Fit evidence is source-bound and quality-explained, not just a summary.
+- Settlement, finality, BTC fee, BTD range, or ledger anchor claims appear only
+  when query 03 shows matching projection rows; otherwise the Terminal result
+  labels the exact blocked-readiness state.
+
+Commercial blockers:
+
+- Read/Fit runs against a repository other than the deposited repository revision.
+- Read/Fit produces a "fit" without source evidence, proof posture, rejection
+  reasons, or explicit blocker.
+- Negative controls produce a confident AssetPack instead of no-worthy-fit or
+  clarification.
+- Fit search proceeds before Read review/admission.
+- Terminal claims delivery, settlement, mint, anchor, or finality that SQL
+  readback cannot verify.
+- Any staging-testnet Read/Fit row contains `frontier/*`, mock provider, or
+  protocol-demo source as if it were live deposited ENGI source.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

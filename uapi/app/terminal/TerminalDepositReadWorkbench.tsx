@@ -15,6 +15,7 @@ import {
 import { TERMINAL_WORKSPACE_EXPLAINERS } from './terminal-workspace-explainers';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
 import {
+  buildLiveTerminalDepositReadWorkbenchSnapshot,
   normalizeTerminalDepositReadWorkbench,
   type TerminalDepositReadWorkbench as TerminalDepositReadWorkbenchState,
 } from './terminal-deposit-read-workbench';
@@ -45,88 +46,7 @@ export default function TerminalDepositReadWorkbench({
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const workbenchSnapshot = useMemo(() => {
     if (showDemonstrationWorkbench) return snapshot;
-
-    const selectedRepository = repositoryContext?.selectedRepository || null;
-    if (!selectedRepository) return null;
-
-    const providerAccount =
-      repositoryContext?.connectionStatus?.username ||
-      repositoryContext?.connectionStatus?.metadata?.account ||
-      selectedRepository.owner.username ||
-      'connected account';
-
-    return {
-      canonLabel: 'Live Bitcode staging posture',
-      selection: {
-        projectionPrincipal: 'buyer',
-        branchMode: 'patch',
-        scenarioId: '',
-        authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
-        selectedInventoryEntryIds: [selectedRepository.id],
-      },
-      repoSupplySummary: {
-        repoCount: repositoryContext?.repositories.length || 1,
-        inventoryEntryCount: repositoryContext?.repositories.length || 1,
-        scenarioCount: 0,
-        candidateAssetCount: 0,
-      },
-      scenario: {
-        scenarioId: '',
-        scenarioFamily: 'Read pending after deposit',
-        repo: selectedRepository.fullName,
-        task: '',
-        profileShortLabel: 'pending',
-      },
-      authSession: {
-        authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
-        repo: selectedRepository.fullName,
-        installationAccountLogin: providerAccount,
-        defaultRef: selectedRepository.defaultBranch || 'main',
-      },
-      inventory: {
-        activeCount: repositoryContext?.repositories.length || 1,
-        filteredCount: repositoryContext?.repositories.length || 1,
-        selectedCount: 1,
-        selectedEntries: [
-          {
-            inventoryEntryId: selectedRepository.id,
-            title: selectedRepository.fullName,
-            artifactKind: selectedRepository.language || 'repository',
-            originKind: 'repository',
-            sourcePath: selectedRepository.url,
-          },
-        ],
-      },
-      depositingSurface: {
-        depositIntentSummary:
-          'Live repository supply is selected for deposit before any measured Read or fit can be evaluated.',
-        depositProfile: 'pending',
-        repoSupplyRef: selectedRepository.fullName,
-        selectedInventoryRefs: [selectedRepository.id],
-        selectedArtifactKindCounts: { [selectedRepository.language || 'repository']: 1 },
-        selectedOriginKindCounts: { repository: 1 },
-        addressingRoot: `repository:${selectedRepository.id}`,
-        authRoot: `${providerAccount} · ${repositoryContext?.provider || 'github'}`,
-      },
-      readingSurface: {
-        parserKind: 'pending',
-        readId: '',
-        readSummary: 'Record the deposit first, then measure a Read against the selected source supply.',
-        taskSummary: '',
-        closureCriteria: [],
-        failureModes: [],
-        targetArtifactKinds: [],
-      },
-      fitSurface: {
-        fitSummary: 'Fit remains pending until a Read has been measured after deposit.',
-        normalizationPressure: 'pending',
-        decisiveKinds: [],
-        overlapKinds: [],
-        branchIntentSummary: '',
-        proofIntentSummary: '',
-        settlementIntentSummary: '',
-      },
-    };
+    return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext);
   }, [repositoryContext, showDemonstrationWorkbench, snapshot]);
   const workbench = useMemo<TerminalDepositReadWorkbenchState | null>(
     () => normalizeTerminalDepositReadWorkbench(workbenchSnapshot, repositoryContext),

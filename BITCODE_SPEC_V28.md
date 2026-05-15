@@ -318,6 +318,47 @@ Acceptance criteria:
 - access policy id/hash is shown before mint or licensed-read commitment.
 - ledgerized synthesis uses protocol-specified models and configuration; Terminal must not expose user-driven model selection for Fit, AssetPack, measurement, measuremint, proof, journal, or settlement behavior.
 
+#### Single-deposit commercial Reading QA
+
+The first commercially meaningful V28 Read/Fit QA scenario runs against the
+smallest real Bitcode data-space: one deposited repository revision.
+The current staging fixture happens to use `engineeredsoftware/ENGI`, but
+Terminal implementation must remain repository-, owner-, branch-, and
+commit-generic.
+
+The required Read is not "does anything exist?".
+It is:
+
+> Read the deposited repository revision and determine whether it contains
+> a worthy, proof-bearing path for Bitcode Terminal's wallet/GitHub readiness,
+> Deposit, Read/Fit, AssetPack evidence, settlement/finality readback, and
+> Supabase/ledger reconciliation flow. If the evidence is worthy, synthesize
+> the minimal AssetPack; if not, return explicit no-worthy-fit or blocked
+> readiness evidence.
+
+Acceptance criteria:
+
+- the Read cannot run until a Deposit row exists for the selected repository
+  with repository, branch, commit, signer, and wallet authorization posture;
+- the Read and Fit rows must carry the same repository, branch, and commit as
+  the deposited source revision;
+- candidate recall must prefer source and proof surfaces that explain the
+  product-critical path, including Terminal Deposit/Read components, execution
+  history persistence, repository source selection, wallet/GitHub readiness,
+  QA SQL, and BTD/ledger proof readback;
+- the Fit result must expose ranking quality, rejection reasons, proof roots,
+  dedupe/materialization roots where available, and finality/readiness status;
+- AssetPack synthesis must be protocol-specified and deterministic; if source
+  materialization, settlement, BTC fee broadcast, ledger anchor, or BTD range
+  issuance is not live, the result must state that blocker rather than imply
+  delivery or minting;
+- negative controls must return no-worthy-fit or clarification, not a decorative
+  AssetPack, when the Read is unrelated to ENGI's deposited source or too broad
+  to measure;
+- SQL readback must show Deposit before Read, Read before Fit, no
+  `frontier/*` or mock repository leakage, and no ledger/database drift for any
+  finality that Terminal claims.
+
 ### Gate 4: Terminal AssetPack Range Detail
 
 Purpose:

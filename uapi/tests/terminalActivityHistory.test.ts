@@ -121,11 +121,166 @@ describe('terminal-activity-history', () => {
     expect(request.context).toMatchObject({
       source: 'terminal-deposit-composer',
       surface: 'Bitcode Terminal',
+      repositoryFullName: 'bitcode/terminal',
+      repositoryAnchor: 'bitcode/terminal',
+      sourceBranch: 'release',
+      sourceCommit: 'abc123456789',
       repoSnapshot: {
         org: 'bitcode',
         repo: 'terminal',
         branch: 'release',
         commit: 'abc123456789',
+      },
+    });
+  });
+
+  it('carries the deposited repository revision through Read and Fit QA writes', () => {
+    const sourceRepositoryContext: TerminalRepositoryContextState = {
+      provider: 'github',
+      connectionStatus: {
+        connected: true,
+        valid: true,
+        provider: 'github',
+        username: 'source-org',
+        metadata: { mock_mode: false, repositories: 46 },
+      },
+      inventorySource: 'stored_repository_inventory',
+      repositories: [],
+      selectedRepository: {
+        id: 'repo-source-001',
+        name: 'source-repo',
+        fullName: 'source-org/source-repo',
+        private: false,
+        defaultBranch: 'main',
+        url: 'https://github.com/source-org/source-repo',
+        cloneUrl: 'https://github.com/source-org/source-repo.git',
+        owner: {
+          id: 'source-owner-001',
+          username: 'source-org',
+          type: 'organization',
+        },
+        language: 'TypeScript',
+        topics: [],
+      },
+      selectedBranch: 'main',
+      selectedCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      branches: [],
+      commits: [],
+    };
+    const workbench = {
+      canonLabel: 'Bitcode active posture',
+      projectionPrincipal: 'reader',
+      branchMode: 'patch',
+      scenarioLabel: 'terminal-critical-read',
+      profileLabel: 'Targeted deposit',
+      deposit: {
+        summary: 'Deposit the live repository revision before Reading for commercial fit.',
+        metrics: [{ label: 'Selected refs', value: '1' }],
+        rows: [{ label: 'Repository', value: 'source-org/source-repo' }],
+        selectedEntries: [{ id: 'repo-source-001', label: 'source-org/source-repo' }],
+        artifactKinds: ['TypeScript'],
+      },
+      read: {
+        summary:
+          'Read whether the deposited source repository can prove the Terminal Deposit to Read to Fit path without mock leakage.',
+        metrics: [
+          { label: 'Target kinds', value: '4' },
+          { label: 'Closure criteria', value: '5' },
+        ],
+        rows: [
+          { label: 'Scenario', value: 'terminal-critical-read' },
+          { label: 'Repository', value: 'source-org/source-repo' },
+          { label: 'Profile', value: 'Targeted deposit' },
+          { label: 'Parser', value: 'commercial-read-fit-parser' },
+        ],
+        closureCriteria: [
+          'deposit evidence is bound to repo, branch, and commit',
+          'read measurement is accepted before fit search',
+          'fit evidence references the deposited AssetPack candidate',
+          'no frontier or mock repository is present',
+          'settlement and finality are explicit or blocked with a reason',
+        ],
+        targetKinds: ['repository-revision', 'fit-quality-receipt', 'asset-pack-evidence', 'proof-root'],
+      },
+      fit: {
+        summary: 'Only a proof-bearing ENGI AssetPack fit is commercially admissible.',
+        metrics: [{ label: 'Pressure', value: 'critical' }],
+        rows: [
+          { label: 'Settlement intent', value: 'Deliver an AssetPack or fail closed with no-worthy-fit evidence.' },
+        ],
+      },
+    };
+
+    const depositRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalDepositWorkbenchDraft(workbench),
+      { repositoryContext: sourceRepositoryContext },
+    );
+    const readRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalReadMeasurementDraft({
+        selectedScenarioId: workbench.scenarioLabel,
+        parserKind: 'commercial-read-fit-parser',
+        closureCriteriaCount: workbench.read.closureCriteria.length,
+        targetKindCount: workbench.read.targetKinds.length,
+        scenarios: [
+          {
+            id: workbench.scenarioLabel,
+            label: workbench.scenarioLabel,
+            repo: 'source-org/source-repo',
+            profile: 'Targeted deposit',
+            selected: true,
+          },
+        ],
+      }),
+      { repositoryContext: sourceRepositoryContext },
+    );
+    const fitRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalFitWorkbenchDraft(workbench),
+      { repositoryContext: sourceRepositoryContext },
+    );
+
+    for (const request of [depositRequest, readRequest, fitRequest]) {
+      expect(request.context).toMatchObject({
+        repositoryFullName: 'source-org/source-repo',
+        repositoryAnchor: 'source-org/source-repo',
+        sourceBranch: 'main',
+        sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      });
+      expect(request.output).toMatchObject({
+        repo_snapshot: {
+          org: 'source-org',
+          repo: 'source-repo',
+          branch: 'main',
+          commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        },
+      });
+    }
+
+    expect(readRequest.output).toMatchObject({
+      readMeasurement: {
+        parserKind: 'commercial-read-fit-parser',
+        closureCriteriaCount: 5,
+        targetKindCount: 4,
+        scenario: {
+          repo: 'source-org/source-repo',
+        },
+      },
+    });
+    expect(fitRequest.output).toMatchObject({
+      asset_pack_completion: {
+        bitcodeActivityState: {
+          fitWorkbench: {
+            deposit: {
+              selectedEntries: [{ id: 'repo-source-001', label: 'source-org/source-repo' }],
+            },
+            read: {
+              closureCriteria: expect.arrayContaining([
+                'fit evidence references the deposited AssetPack candidate',
+                'settlement and finality are explicit or blocked with a reason',
+              ]),
+              targetKinds: expect.arrayContaining(['asset-pack-evidence', 'proof-root']),
+            },
+          },
+        },
       },
     });
   });

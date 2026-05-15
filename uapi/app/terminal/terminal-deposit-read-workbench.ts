@@ -81,6 +81,123 @@ type ShellSnapshot = {
   } | null;
 } | null;
 
+export function buildLiveTerminalDepositReadWorkbenchSnapshot(
+  repositoryContext?: TerminalRepositoryContextState | null,
+): ShellSnapshot {
+  const selectedRepository = repositoryContext?.selectedRepository || null;
+  if (!selectedRepository) return null;
+
+  const providerAccount =
+    repositoryContext?.connectionStatus?.username ||
+    repositoryContext?.connectionStatus?.metadata?.account ||
+    selectedRepository.owner.username ||
+    'connected account';
+  const selectedBranch =
+    repositoryContext?.selectedBranch || selectedRepository.defaultBranch || 'main';
+  const selectedCommit = repositoryContext?.selectedCommit || '';
+  const selectedRevisionLabel = selectedCommit
+    ? `${selectedRepository.fullName}@${selectedBranch}:${selectedCommit.slice(0, 12)}`
+    : `${selectedRepository.fullName}@${selectedBranch}`;
+  const readScenarioId = `terminal-commercial-read-fit:${selectedRepository.id}`;
+  const readScenarioFamily = `Terminal commercial Read/Fit QA for ${selectedRepository.fullName}`;
+  const readSummary =
+    `Read ${selectedRevisionLabel} for a non-mock Terminal path from wallet and GitHub readiness through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.`;
+  const closureCriteria = [
+    'Deposit evidence is bound to repository, branch, commit, and signer.',
+    'Read measurement is accepted before fit search or blocks with a precise reason.',
+    'Fit evidence references the deposited repository revision and candidate AssetPack.',
+    'AssetPack, proof, finality, and reconciliation posture are visible or explicitly blocked.',
+    'No mock, frontier, or protocol-demo repository is treated as live staging source.',
+  ];
+  const targetArtifactKinds = [
+    'repository-revision',
+    'fit-quality-receipt',
+    'asset-pack-evidence',
+    'proof-root',
+    'reconciliation-readback',
+  ];
+
+  return {
+    canonLabel: 'Live Bitcode staging posture',
+    selection: {
+      projectionPrincipal: 'buyer',
+      branchMode: 'patch',
+      scenarioId: readScenarioId,
+      authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
+      selectedInventoryEntryIds: [selectedRepository.id],
+    },
+    repoSupplySummary: {
+      repoCount: repositoryContext?.repositories.length || 1,
+      inventoryEntryCount: repositoryContext?.repositories.length || 1,
+      scenarioCount: 1,
+      candidateAssetCount: 1,
+    },
+    scenario: {
+      scenarioId: readScenarioId,
+      scenarioFamily: readScenarioFamily,
+      repo: selectedRepository.fullName,
+      task: readSummary,
+      profileShortLabel: 'Commercial Read/Fit QA',
+    },
+    authSession: {
+      authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
+      repo: selectedRepository.fullName,
+      installationAccountLogin: providerAccount,
+      defaultRef: selectedBranch,
+    },
+    inventory: {
+      activeCount: repositoryContext?.repositories.length || 1,
+      filteredCount: repositoryContext?.repositories.length || 1,
+      selectedCount: 1,
+      selectedEntries: [
+        {
+          inventoryEntryId: selectedRepository.id,
+          title: selectedRepository.fullName,
+          artifactKind: selectedRepository.language || 'repository',
+          originKind: 'repository',
+          sourcePath: selectedRepository.url,
+        },
+      ],
+    },
+    depositingSurface: {
+      depositIntentSummary:
+        'Live repository supply is selected for deposit before any measured Read or fit can be evaluated.',
+      depositProfile: 'Commercial Read/Fit QA',
+      repoSupplyRef: selectedRepository.fullName,
+      selectedInventoryRefs: [selectedRepository.id],
+      selectedArtifactKindCounts: { [selectedRepository.language || 'repository']: 1 },
+      selectedOriginKindCounts: { repository: 1 },
+      addressingRoot: `repository:${selectedRepository.id}`,
+      authRoot: `${providerAccount} · ${repositoryContext?.provider || 'github'}`,
+    },
+    readingSurface: {
+      parserKind: 'terminal-commercial-read-fit-parser',
+      readId: readScenarioId,
+      readSummary,
+      taskSummary: readSummary,
+      closureCriteria,
+      failureModes: [
+        'mock repository leakage',
+        'missing repository revision evidence',
+        'read review not admitted before fit search',
+        'AssetPack fit without proof or finality posture',
+        'ledger/database readback drift',
+      ],
+      targetArtifactKinds,
+    },
+    fitSurface: {
+      fitSummary:
+        'Only source-bound repository evidence can satisfy this Read; otherwise Bitcode must return no-worthy-fit or blocked-readiness evidence.',
+      normalizationPressure: 'critical',
+      decisiveKinds: targetArtifactKinds,
+      overlapKinds: ['repository-revision', 'asset-pack-evidence', 'proof-root'],
+      branchIntentSummary: 'Materialize only after the Read is admitted and source revision evidence remains aligned.',
+      proofIntentSummary: 'Prove repository revision, read measurement, fit quality, wallet authorization, and reconciliation posture.',
+      settlementIntentSummary: 'Settle only when AssetPack evidence and finality readback agree; otherwise show the blocking readiness condition.',
+    },
+  };
+}
+
 export type TerminalDepositReadWorkbench = {
   canonLabel: string;
   projectionPrincipal: string;

@@ -161,6 +161,7 @@ export function buildTerminalExecutionHistoryRequest(
 ) {
   const summary = normalizeWhitespace(draft.summary) || 'Bitcode activity recorded from the Bitcode Terminal.';
   const repoSnapshot = buildRepoSnapshot(options.repositoryContext, options.fallbackRun);
+  const repositoryFullName = repoSnapshot ? `${repoSnapshot.org}/${repoSnapshot.repo}` : null;
   const draftOutput = isRecord(draft.output) ? draft.output : null;
   const assetPackCompletionPatch = isRecord(draftOutput?.assetPackCompletion) ? draftOutput.assetPackCompletion : null;
   const outputWithoutAssetPackCompletion = draftOutput
@@ -180,7 +181,15 @@ export function buildTerminalExecutionHistoryRequest(
     source: 'terminal-terminal',
     surface: 'Bitcode Terminal',
     summary,
-    ...(repoSnapshot ? { repoSnapshot } : {}),
+    ...(repoSnapshot
+      ? {
+          repoSnapshot,
+          repositoryFullName,
+          repositoryAnchor: repositoryFullName,
+          sourceBranch: repoSnapshot.branch || null,
+          sourceCommit: repoSnapshot.commit || null,
+        }
+      : {}),
     ...(draft.context || {}),
   };
 

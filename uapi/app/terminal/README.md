@@ -64,8 +64,9 @@ Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites ar
 green in the live staging deployment. The minimum accepted starting state is a
 wallet-authenticated Supabase user, Bitcode wallet binding projection,
 GitHub App installation, and at least one `vcs_repositories` row for the source
-scope. The first canonical repository anchor for this pass is
-`engineeredsoftware/ENGI`.
+scope. The current walkthrough fixture uses `engineeredsoftware/ENGI`, but
+Terminal implementation remains generic across repository, branch, commit, and
+source type.
 
 The first MVP write/read checks are:
 

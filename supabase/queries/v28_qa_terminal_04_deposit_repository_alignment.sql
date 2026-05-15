@@ -31,7 +31,7 @@ BEGIN
             'private', r.repo_private,
             'updated_at', r.updated_at
           )
-          ORDER BY (r.repo_full_name = 'engineeredsoftware/ENGI') DESC, r.repo_full_name
+          ORDER BY r.repo_full_name
         ) FILTER (WHERE r.repo_full_name IS NOT NULL) AS repositories
       FROM public.vcs_repositories r
       JOIN latest_user u ON u.user_id = r.user_id

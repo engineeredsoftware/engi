@@ -1,4 +1,7 @@
-import { normalizeTerminalDepositReadWorkbench } from '@/app/terminal/terminal-deposit-read-workbench';
+import {
+  buildLiveTerminalDepositReadWorkbenchSnapshot,
+  normalizeTerminalDepositReadWorkbench,
+} from '@/app/terminal/terminal-deposit-read-workbench';
 
 describe('normalizeTerminalDepositReadWorkbench', () => {
   it('builds deposit, read, and fit sections from the shell snapshot', () => {
@@ -186,5 +189,47 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
       { id: '1094184056', label: 'engineeredsoftware/ENGI' },
     ]);
     expect(workbench?.deposit.metrics.find((metric) => metric.label === 'Authenticated repos')?.value).toBe('46');
+  });
+
+  it('builds a substantive live repository Read/Fit QA scenario instead of a pending placeholder', () => {
+    const snapshot = buildLiveTerminalDepositReadWorkbenchSnapshot({
+      provider: 'github',
+      connectionStatus: {
+        connected: true,
+        valid: true,
+        provider: 'github',
+        username: 'engineeredsoftware',
+        metadata: { mock_mode: false, repositories: 46 },
+      },
+      inventorySource: 'stored_repository_inventory',
+      repositories: [],
+      selectedBranch: 'main',
+      selectedCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      selectedRepository: {
+        id: '1094184056',
+        name: 'ENGI',
+        fullName: 'engineeredsoftware/ENGI',
+        private: false,
+        defaultBranch: 'main',
+        url: 'https://github.com/engineeredsoftware/ENGI',
+        cloneUrl: 'https://github.com/engineeredsoftware/ENGI.git',
+        owner: { id: '84343342', username: 'engineeredsoftware', type: 'organization' },
+        language: 'TypeScript',
+        topics: [],
+      },
+    });
+    const workbench = normalizeTerminalDepositReadWorkbench(snapshot);
+
+    expect(workbench?.scenarioLabel).toBe('Terminal commercial Read/Fit QA for engineeredsoftware/ENGI');
+    expect(workbench?.profileLabel).toBe('Commercial Read/Fit QA');
+    expect(workbench?.read.rows.find((row) => row.label === 'Repository')?.value).toBe('engineeredsoftware/ENGI');
+    expect(workbench?.read.rows.find((row) => row.label === 'Parser')?.value).toBe(
+      'terminal-commercial-read-fit-parser',
+    );
+    expect(workbench?.read.closureCriteria).toHaveLength(5);
+    expect(workbench?.read.targetKinds).toEqual(
+      expect.arrayContaining(['repository-revision', 'asset-pack-evidence', 'proof-root']),
+    );
+    expect(workbench?.fit.metrics.find((metric) => metric.label === 'Pressure')?.value).toBe('critical');
   });
 });
