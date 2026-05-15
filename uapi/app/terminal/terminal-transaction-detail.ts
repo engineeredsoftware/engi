@@ -195,7 +195,14 @@ export function buildTerminalTransactionIdentityRows(
   } else if (activityState?.repositoryAnchor?.repository) {
     rows.push(
       { label: 'Repository', value: activityState.repositoryAnchor.repository.fullName },
-      { label: 'Branch', value: activityState.repositoryAnchor.repository.defaultBranch || 'main' },
+      {
+        label: 'Branch',
+        value:
+          activityState.repositoryAnchor.repository.selectedBranch ||
+          activityState.repositoryAnchor.repository.defaultBranch ||
+          'main',
+      },
+      { label: 'Commit', value: activityState.repositoryAnchor.repository.selectedCommit || 'n/a' },
     );
   }
 

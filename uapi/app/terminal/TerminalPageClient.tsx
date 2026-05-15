@@ -1,11 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
-import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { useUserData } from '@/hooks/useUserData';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isAuxillariesMockMode } from '@/lib/mock-review-mode';
@@ -63,6 +63,11 @@ import { buildProtocolProjectedWorkspaceRun } from './terminal-protocol-projecti
 import { buildTerminalHref, TERMINAL_ROUTE } from './terminal-routes';
 import { readBitcodeDemonstrationShellSnapshot } from './demonstration-witness-runtime';
 
+const ConversationsOverlay = dynamic(() => import('@/app/conversations/components/ConversationsOverlay'), {
+  ssr: false,
+  loading: () => null,
+});
+
 export default function TerminalPageClient() {
   const { user } = useAuth();
   const {
@@ -109,6 +114,7 @@ export default function TerminalPageClient() {
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
   const [repositoryContext, setRepositoryContext] = useState<TerminalRepositoryContextState | null>(null);
   const [projectedProtocolRun, setProjectedProtocolRun] = useState<WorkspaceRun | null>(null);
+  const conversationsEnabled = !FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE && FEATURE_FLAGS.CONVERSATIONS_WIDGET;
 
   const transactionSource = useMemo(
     () =>
@@ -353,14 +359,48 @@ export default function TerminalPageClient() {
     [readCurrentTerminalSearchParams, replaceTerminalSearchParams],
   );
 
+  const handleRepositorySourceBranchChange = useCallback(
+    (branch: string) => {
+      const nextParams = readCurrentTerminalSearchParams();
+      if (repositoryContext?.provider) nextParams.set('provider', repositoryContext.provider);
+      if (repositoryContext?.selectedRepository?.fullName) {
+        nextParams.set('repo', repositoryContext.selectedRepository.fullName);
+      }
+      nextParams.set('sourceBranch', branch);
+      nextParams.delete('sourceCommit');
+      nextParams.delete('branch');
+      nextParams.delete('commit');
+      replaceTerminalSearchParams(nextParams);
+    },
+    [readCurrentTerminalSearchParams, replaceTerminalSearchParams, repositoryContext],
+  );
+
+  const handleRepositorySourceCommitChange = useCallback(
+    (commit: string) => {
+      const nextParams = readCurrentTerminalSearchParams();
+      if (repositoryContext?.provider) nextParams.set('provider', repositoryContext.provider);
+      if (repositoryContext?.selectedRepository?.fullName) {
+        nextParams.set('repo', repositoryContext.selectedRepository.fullName);
+      }
+      if (repositoryContext?.selectedBranch) nextParams.set('sourceBranch', repositoryContext.selectedBranch);
+      nextParams.set('sourceCommit', commit);
+      nextParams.delete('branch');
+      nextParams.delete('commit');
+      replaceTerminalSearchParams(nextParams);
+    },
+    [readCurrentTerminalSearchParams, replaceTerminalSearchParams, repositoryContext],
+  );
+
   return (
     <>
-      <ConversationsOverlay
-        forceOpen={isConversationOverlayOpen}
-        forceFullscreen={isConversationOverlayOpen}
-        onCloseRequest={() => setIsConversationOverlayOpen(false)}
-        showFloatingOrb={false}
-      />
+      {conversationsEnabled ? (
+        <ConversationsOverlay
+          forceOpen={isConversationOverlayOpen}
+          forceFullscreen={isConversationOverlayOpen}
+          onCloseRequest={() => setIsConversationOverlayOpen(false)}
+          showFloatingOrb={false}
+        />
+      ) : null}
       <TerminalShellBridgeProvider>
         <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
           <div className="mx-auto flex w-full max-w-none flex-col gap-6 px-4 pb-24 pt-32 tablet:px-6 desktop:px-8">
@@ -403,7 +443,10 @@ export default function TerminalPageClient() {
             </div>
             <aside className="min-w-0" aria-label="Terminal support controls">
               <TerminalWorkspaceRail
-                onOpenConversations={() => setIsConversationOverlayOpen(true)}
+                onOpenConversations={() => {
+                  if (conversationsEnabled) setIsConversationOverlayOpen(true);
+                }}
+                conversationsEnabled={conversationsEnabled}
                 runs={runs}
                 isLoadingRuns={isLoadingRuns}
                 runsError={runsError}
@@ -421,7 +464,12 @@ export default function TerminalPageClient() {
                 title={TERMINAL_SURFACE_COPY.frame.title}
                 summary={TERMINAL_SURFACE_COPY.frame.summary}
               >
-                <TerminalExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
+                <TerminalExperienceFrame
+                  onOpenConversations={() => {
+                    if (conversationsEnabled) setIsConversationOverlayOpen(true);
+                  }}
+                  conversationsEnabled={conversationsEnabled}
+                />
                 <div className="grid gap-6">
                   <div className="space-y-6">
                     <TerminalCommandDeck
@@ -469,6 +517,14 @@ export default function TerminalPageClient() {
                       onRecordActivity={handleRecordActivity}
                       repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
                       repositoryProvider={repositoryContext?.provider || null}
+                      repositoryBranch={repositoryContext?.selectedBranch || null}
+                      repositoryCommit={repositoryContext?.selectedCommit || null}
+                      repositoryBranches={repositoryContext?.branches || []}
+                      repositoryCommits={repositoryContext?.commits || []}
+                      isLoadingRepositoryBranches={repositoryContext?.isLoadingBranches || false}
+                      isLoadingRepositoryCommits={repositoryContext?.isLoadingCommits || false}
+                      onRepositorySourceBranchChange={handleRepositorySourceBranchChange}
+                      onRepositorySourceCommitChange={handleRepositorySourceCommitChange}
                       transactionReadiness={transactionReadiness}
                       showDemonstrationDraft={showDemonstrationSurfaces}
                     />

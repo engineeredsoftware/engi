@@ -71,6 +71,8 @@ function buildSupplySelectionState(selection: TerminalSupplySelectionState, auth
 function buildRepositoryAnchorState(repositoryContext: TerminalRepositoryContextState, providerAccount: string) {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;
+  const selectedBranch = repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
+  const selectedCommit = repositoryContext.selectedCommit || '';
   return {
     provider: repositoryContext.provider,
     providerAccount,
@@ -79,6 +81,8 @@ function buildRepositoryAnchorState(repositoryContext: TerminalRepositoryContext
           id: selectedRepository.id,
           fullName: selectedRepository.fullName,
           defaultBranch: selectedRepository.defaultBranch || 'main',
+          selectedBranch,
+          selectedCommit,
           private: Boolean(selectedRepository.private),
           language: selectedRepository.language || null,
           topics: selectedRepository.topics || [],
@@ -90,6 +94,15 @@ function buildRepositoryAnchorState(repositoryContext: TerminalRepositoryContext
       mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
       inventorySource: repositoryContext.inventorySource || null,
     },
+    sourceSelection: selectedRepository
+      ? {
+          repository: selectedRepository.fullName,
+          branch: selectedBranch,
+          commit: selectedCommit || null,
+          branchCount: repositoryContext.branches?.length || 0,
+          commitCount: repositoryContext.commits?.length || 0,
+        }
+      : null,
   };
 }
 
@@ -123,8 +136,8 @@ function buildRepoSnapshot(
     return {
       org: selectedRepositoryParts.org,
       repo: selectedRepositoryParts.repo,
-      branch: normalizeWhitespace(selectedRepository.defaultBranch) || 'main',
-      commit: '',
+      branch: normalizeWhitespace(repositoryContext?.selectedBranch) || normalizeWhitespace(selectedRepository.defaultBranch) || 'main',
+      commit: normalizeWhitespace(repositoryContext?.selectedCommit),
     };
   }
 
@@ -399,6 +412,8 @@ export function buildTerminalRepositoryAnchorDraft(
 ): TerminalActivityRecordDraft {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;
+  const selectedBranch = repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
+  const selectedCommit = repositoryContext.selectedCommit || '';
   const providerAccount =
     connectionStatus?.username || connectionStatus?.metadata?.account || selectedRepository?.owner.username || 'connected account';
 
@@ -414,6 +429,8 @@ export function buildTerminalRepositoryAnchorDraft(
               id: selectedRepository.id,
               fullName: selectedRepository.fullName,
               defaultBranch: selectedRepository.defaultBranch || 'main',
+              selectedBranch,
+              selectedCommit,
               private: Boolean(selectedRepository.private),
               language: selectedRepository.language || null,
               topics: selectedRepository.topics || [],
@@ -425,6 +442,15 @@ export function buildTerminalRepositoryAnchorDraft(
           mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
           inventorySource: repositoryContext.inventorySource || null,
         },
+        sourceSelection: selectedRepository
+          ? {
+              repository: selectedRepository.fullName,
+              branch: selectedBranch,
+              commit: selectedCommit || null,
+              branchCount: repositoryContext.branches?.length || 0,
+              commitCount: repositoryContext.commits?.length || 0,
+            }
+          : null,
       },
       assetPackCompletion: {
         bitcodeActivityState: {
@@ -438,6 +464,8 @@ export function buildTerminalRepositoryAnchorDraft(
       providerAccount,
       inventorySource: repositoryContext.inventorySource || null,
       repositoryFullName: selectedRepository?.fullName || null,
+      sourceBranch: selectedRepository ? selectedBranch : null,
+      sourceCommit: selectedRepository ? selectedCommit || null : null,
     },
   };
 }

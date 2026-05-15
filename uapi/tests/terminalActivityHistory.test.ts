@@ -36,6 +36,10 @@ describe('terminal-activity-history', () => {
         type: 'organization',
       },
     },
+    selectedBranch: 'release',
+    selectedCommit: 'abc123456789',
+    branches: [],
+    commits: [],
   };
 
   const closureState: TerminalClosureState = {
@@ -110,8 +114,8 @@ describe('terminal-activity-history', () => {
       repo_snapshot: {
         org: 'bitcode',
         repo: 'terminal',
-        branch: 'main',
-        commit: '',
+        branch: 'release',
+        commit: 'abc123456789',
       },
     });
     expect(request.context).toMatchObject({
@@ -120,8 +124,8 @@ describe('terminal-activity-history', () => {
       repoSnapshot: {
         org: 'bitcode',
         repo: 'terminal',
-        branch: 'main',
-        commit: '',
+        branch: 'release',
+        commit: 'abc123456789',
       },
     });
   });

@@ -96,4 +96,13 @@ describe('FEATURE_FLAGS', () => {
     expect(loadFeatureFlags('production', { disableExchangeRoute: 'false' })?.DISABLE_EXCHANGE_ROUTE).toBe(false);
     expect(loadFeatureFlags('development', { disableConversationsRoute: 'true' })?.DISABLE_CONVERSATIONS_ROUTE).toBe(true);
   });
+
+  it('uses the conversations route disable as a hard-disable for conversation widgets', () => {
+    const flags = loadFeatureFlags('production', {
+      disableConversationsRoute: 'true',
+    });
+
+    expect(flags?.DISABLE_CONVERSATIONS_ROUTE).toBe(true);
+    expect(flags?.CONVERSATIONS_WIDGET).toBe(false);
+  });
 });

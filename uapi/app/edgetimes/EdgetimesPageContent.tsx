@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import Footer from '@/components/base/bitcode/layout/footer';
+import { FEATURE_FLAGS } from '@/config/features';
 
 import { EDGETIMES_TOPOLOGY, getEdgetimesTopologySummary } from './edgetimes-topology';
 
@@ -149,12 +150,14 @@ export default function EdgetimesPageContent() {
           >
             Open Bitcode Terminal
           </Link>
-          <Link
-            href="/conversations"
-            className="inline-flex items-center rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition hover:border-white/20 hover:bg-white/10"
-          >
-            Open conversations
-          </Link>
+          {!FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE ? (
+            <Link
+              href="/conversations"
+              className="inline-flex items-center rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition hover:border-white/20 hover:bg-white/10"
+            >
+              Open conversations
+            </Link>
+          ) : null}
         </section>
       </main>
 

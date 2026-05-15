@@ -576,6 +576,20 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       canon: TERMINAL_CANON_REFS,
     },
   }),
+  sourceBranch: buildExplainer({
+    title: 'Source branch',
+    summary:
+      'Source branch scopes the commit list and keeps repository materialization tied to the branch the operator selected.',
+    detail:
+      'Terminal source selection is repository, branch, and commit together. Changing repository re-reads branches; changing branch re-reads commits so downstream materialization can fetch the exact source snapshot.',
+    references: {
+      source: [
+        'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
+        'uapi/app/terminal/TerminalDepositComposer.tsx',
+      ],
+      canon: TERMINAL_CANON_REFS,
+    },
+  }),
   signerAddress: buildExplainer({
     title: 'Signer address',
     summary:

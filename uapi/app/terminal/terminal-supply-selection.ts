@@ -124,17 +124,24 @@ export function normalizeTerminalRepositorySupplySelection(
       const visibility = repository.private ? 'private' : 'public';
       const language = repository.language || 'source';
       const defaultBranch = repository.defaultBranch || 'main';
+      const selectedBranch = repository.fullName === selectedRepository?.fullName
+        ? repositoryContext?.selectedBranch || defaultBranch
+        : defaultBranch;
+      const selectedCommit = repository.fullName === selectedRepository?.fullName
+        ? repositoryContext?.selectedCommit?.slice(0, 12)
+        : null;
 
       return {
         id: `repository:${repository.id}`,
         title: repository.fullName,
-        subtitle: `${language} repository · ${defaultBranch} · ${visibility}`,
+        subtitle: `${language} repository · ${selectedBranch}${selectedCommit ? ` @ ${selectedCommit}` : ''} · ${visibility}`,
         kind: 'repository',
         selected: isSelected,
         tags: [
           providerLabel,
           visibility,
-          defaultBranch,
+          selectedBranch,
+          selectedCommit,
           language,
           ...(repository.topics || []),
         ]

@@ -14,9 +14,13 @@ import { jumpToShellSection } from './terminal-shell-reading';
 
 interface TerminalExperienceFrameProps {
   onOpenConversations: () => void;
+  conversationsEnabled?: boolean;
 }
 
-export default function TerminalExperienceFrame({ onOpenConversations }: TerminalExperienceFrameProps) {
+export default function TerminalExperienceFrame({
+  onOpenConversations,
+  conversationsEnabled = true,
+}: TerminalExperienceFrameProps) {
   return (
     <TerminalWorkspaceCard
       kicker="Mode map"
@@ -63,7 +67,7 @@ export default function TerminalExperienceFrame({ onOpenConversations }: Termina
                 >
                   Focus activity ledger
                 </button>
-              ) : experience.id === 'conversations' ? (
+              ) : experience.id === 'conversations' && conversationsEnabled ? (
                 <TerminalOpenConversationsButton
                   onOpen={onOpenConversations}
                   className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"

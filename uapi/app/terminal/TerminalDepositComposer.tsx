@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import type { VCSProviderType } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSProviderType } from '@bitcode/vcs-core';
 
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
@@ -34,14 +34,36 @@ interface TerminalDepositComposerProps {
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   repositoryAnchor?: string | null;
   repositoryProvider?: VCSProviderType | null;
+  repositoryBranch?: string | null;
+  repositoryCommit?: string | null;
+  repositoryBranches?: VCSBranch[];
+  repositoryCommits?: VCSCommit[];
+  isLoadingRepositoryBranches?: boolean;
+  isLoadingRepositoryCommits?: boolean;
+  onRepositorySourceBranchChange?: (branch: string) => void;
+  onRepositorySourceCommitChange?: (commit: string) => void;
   transactionReadiness: BitcodeTransactionReadiness;
   showDemonstrationDraft?: boolean;
+}
+
+function formatCommitOption(commit: VCSCommit) {
+  const shortSha = commit.sha.slice(0, 7);
+  const title = commit.message.split('\n')[0]?.trim() || 'Commit';
+  return `${shortSha} - ${title}`;
 }
 
 export default function TerminalDepositComposer({
   onRecordActivity,
   repositoryAnchor,
   repositoryProvider,
+  repositoryBranch,
+  repositoryCommit,
+  repositoryBranches = [],
+  repositoryCommits = [],
+  isLoadingRepositoryBranches = false,
+  isLoadingRepositoryCommits = false,
+  onRepositorySourceBranchChange,
+  onRepositorySourceCommitChange,
   transactionReadiness,
   showDemonstrationDraft = true,
 }: TerminalDepositComposerProps) {
@@ -60,7 +82,11 @@ export default function TerminalDepositComposer({
   const [content, setContent] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: 'idle' });
   const repositoryAnchorValue = String(repositoryAnchor || '').trim();
+  const repositoryBranchValue = String(repositoryBranch || '').trim();
+  const repositoryCommitValue = String(repositoryCommit || '').trim();
   const usesLiveRepositoryAnchor = Boolean(repositoryAnchorValue);
+  const hasSelectedSourceRevision =
+    !usesLiveRepositoryAnchor || Boolean(repositoryBranchValue && repositoryCommitValue);
   const composer = useMemo<TerminalDepositComposerState | null>(
     () => {
       if (!showDemonstrationDraft && repositoryAnchorValue) {
@@ -84,6 +110,7 @@ export default function TerminalDepositComposer({
   const selectedSupplyCount = usesLiveRepositoryAnchor ? 1 : composer?.selectedCount || 0;
   const selectedInventoryEntryIds = usesLiveRepositoryAnchor ? [] : composer?.selectedInventoryEntryIds || [];
   const displayedSourceRepo = usesLiveRepositoryAnchor ? repositoryAnchorValue : sourceRepo;
+  const displayedSourceCommit = usesLiveRepositoryAnchor ? repositoryCommitValue : sourceCommit;
 
   useEffect(() => {
     setSignerAddress((current) => current || composer?.signerAddress || '');
@@ -105,6 +132,7 @@ export default function TerminalDepositComposer({
       (selectedSupplyCount > 0 || content.trim()) &&
       (title.trim() || selectedSupplyCount > 0) &&
       (author.trim() || effectiveAuthSessionId) &&
+      hasSelectedSourceRevision &&
       settlementReady,
   );
 
@@ -133,7 +161,9 @@ export default function TerminalDepositComposer({
           repositoryAnchor: repositoryAnchorValue || composer.sourceRepo || undefined,
           repositoryProvider: repositoryProvider || undefined,
           sourceRepo: displayedSourceRepo || undefined,
-          sourceCommit,
+          sourceBranch: repositoryBranchValue || undefined,
+          sourceRef: repositoryBranchValue || undefined,
+          sourceCommit: displayedSourceCommit || undefined,
           workflowRunId,
           signerAddress,
           visualPreview,
@@ -181,6 +211,8 @@ export default function TerminalDepositComposer({
             selectedInventoryEntryIds,
             selectedInventoryTitles: selectedEntryLabels,
             repositoryAnchor: repositoryAnchorValue || null,
+            sourceBranch: repositoryBranchValue || null,
+            sourceCommit: displayedSourceCommit || null,
             candidateAssetId: payload.asset?.assetId || null,
           },
           output: {
@@ -322,16 +354,70 @@ export default function TerminalDepositComposer({
 
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
               <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
-                <span>Source commit / ref</span>
-                <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceCommit} />
+                <span>{usesLiveRepositoryAnchor ? 'Source branch' : 'Source commit / ref'}</span>
+                <BitcodeInlineExplainer
+                  explainer={
+                    usesLiveRepositoryAnchor
+                      ? TERMINAL_INLINE_EXPLAINERS.sourceBranch
+                      : TERMINAL_INLINE_EXPLAINERS.sourceCommit
+                  }
+                />
               </span>
-              <input
-                value={sourceCommit}
-                onChange={(event) => setSourceCommit(event.target.value)}
-                placeholder="commit or branch override"
-                className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
-              />
+              {usesLiveRepositoryAnchor ? (
+                <>
+                  <select
+                    aria-label="Deposit source branch"
+                    value={repositoryBranchValue}
+                    disabled={isLoadingRepositoryBranches || repositoryBranches.length === 0}
+                    onChange={(event) => onRepositorySourceBranchChange?.(event.target.value)}
+                    className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {repositoryBranches.length ? null : <option value="">No branches loaded</option>}
+                    {repositoryBranches.map((branch) => (
+                      <option key={branch.name} value={branch.name}>
+                        {branch.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+                    {isLoadingRepositoryBranches ? 'Loading branches…' : 'Changing branch refreshes commit refs'}
+                  </p>
+                </>
+              ) : (
+                <input
+                  value={sourceCommit}
+                  onChange={(event) => setSourceCommit(event.target.value)}
+                  placeholder="commit or branch override"
+                  className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
+                />
+              )}
             </div>
+
+            {usesLiveRepositoryAnchor ? (
+              <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+                <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                  <span>Source commit / ref</span>
+                  <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceCommit} />
+                </span>
+                <select
+                  aria-label="Deposit source commit"
+                  value={repositoryCommitValue}
+                  disabled={!repositoryBranchValue || isLoadingRepositoryCommits || repositoryCommits.length === 0}
+                  onChange={(event) => onRepositorySourceCommitChange?.(event.target.value)}
+                  className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {repositoryCommits.length ? null : <option value="">No commits loaded</option>}
+                  {repositoryCommits.map((commit) => (
+                    <option key={commit.sha} value={commit.sha}>
+                      {formatCommitOption(commit)}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+                  {isLoadingRepositoryCommits ? 'Loading commits…' : 'Exact source materialization uses this commit SHA'}
+                </p>
+              </div>
+            ) : null}
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
               <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Workflow run override</span>
@@ -468,10 +554,15 @@ export default function TerminalDepositComposer({
             <p className="mt-3 text-sm leading-6 text-neutral-300">
               {selectedSupplyCount
                 ? usesLiveRepositoryAnchor
-                  ? `Bitcode will bind ${repositoryAnchorValue} as the selected repository source for this deposit.`
+                  ? `Bitcode will bind ${repositoryAnchorValue}${repositoryBranchValue ? ` on ${repositoryBranchValue}` : ''}${repositoryCommitValue ? ` at ${repositoryCommitValue.slice(0, 12)}` : ''} as the selected repository source for this deposit.`
                   : `Bitcode will bind ${selectedSupplyCount} selected repo artifact${selectedSupplyCount === 1 ? '' : 's'} into this deposit.`
                 : 'No repo artifacts are currently selected. Use raw fallback content or select inventory above.'}
             </p>
+            {usesLiveRepositoryAnchor && !hasSelectedSourceRevision ? (
+              <p className="mt-3 rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
+                Select a branch and commit before depositing so source materialization can fetch an exact snapshot.
+              </p>
+            ) : null}
             {selectedEntryLabels.length ? (
               <BitcodeChipCloud
                 chips={selectedEntryLabels}

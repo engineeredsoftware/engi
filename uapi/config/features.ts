@@ -60,6 +60,8 @@ const envFlag = (key: keyof typeof env, fallback: boolean = false): boolean => {
 const isQaOpenEnvironment =
   process.env.NODE_ENV !== 'production' ||
   env.NEXT_PUBLIC_BITCODE_ENV?.trim().toLowerCase() === 'testnet'
+const disableConversationsRoute = envFlag('NEXT_PUBLIC_DISABLE_CONVERSATIONS_ROUTE')
+const conversationsWidget = !disableConversationsRoute && envFlag('NEXT_PUBLIC_CONVERSATIONS_WIDGET', true)
 
 export const FEATURE_FLAGS = {
   MAINTENANCE_MODE: envFlag('NEXT_PUBLIC_MAINTENANCE_MODE'),
@@ -67,7 +69,7 @@ export const FEATURE_FLAGS = {
   // ——————————————————————————————————————————————————————————
   // Core widgets and UI chrome
   // Always enabled by default in local/dev unless explicitly disabled via env.
-  CONVERSATIONS_WIDGET: envFlag('NEXT_PUBLIC_CONVERSATIONS_WIDGET', true),
+  CONVERSATIONS_WIDGET: conversationsWidget,
 
   // Single left sidebar flag replacing the older split sidebar controls.
   SIDEBAR_LEFT:
@@ -110,7 +112,7 @@ export const FEATURE_FLAGS = {
   DISABLE_AUXILLARIES: envFlag('NEXT_PUBLIC_DISABLE_AUXILLARIES', !isQaOpenEnvironment),
   DISABLE_EXCHANGE_LINK: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', !isQaOpenEnvironment),
   DISABLE_EXCHANGE_ROUTE: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE', envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', !isQaOpenEnvironment)),
-  DISABLE_CONVERSATIONS_ROUTE: envFlag('NEXT_PUBLIC_DISABLE_CONVERSATIONS_ROUTE'),
+  DISABLE_CONVERSATIONS_ROUTE: disableConversationsRoute,
   DISABLE_TERMINAL_LINK: envFlag('NEXT_PUBLIC_DISABLE_TERMINAL_LINK', false),
   TERMINAL_DEBUG_WIDGET: envFlag('NEXT_PUBLIC_TERMINAL_DEBUG_WIDGET', process.env.NODE_ENV !== 'production'),
 

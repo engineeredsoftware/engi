@@ -41,6 +41,11 @@ function formatRepositoryOptionLabel(
   return `${repository.fullName} - ${providerLabel} source / ${branch} / ${visibility} / ${language}`;
 }
 
+function formatSelectedCommit(value?: string | null) {
+  const normalizedValue = value?.trim();
+  return normalizedValue ? normalizedValue.slice(0, 12) : 'commit pending';
+}
+
 export default function TerminalSupplySelectionPanel({
   repositoryContext = null,
   onRecordActivity,
@@ -104,6 +109,10 @@ export default function TerminalSupplySelectionPanel({
     const nextParams = new URLSearchParams(searchParams.toString());
     nextParams.set('provider', repositoryContext.provider);
     nextParams.set('repo', repository.fullName);
+    nextParams.delete('sourceBranch');
+    nextParams.delete('sourceCommit');
+    nextParams.delete('branch');
+    nextParams.delete('commit');
     router.replace(buildTerminalHref(nextParams), { scroll: false });
   };
 
@@ -185,10 +194,11 @@ export default function TerminalSupplySelectionPanel({
               {selectedRepository ? (
                 <div className="mt-4 rounded-[1.25rem] border border-emerald-300/15 bg-black/20 px-4 py-4">
                   <p className="text-base font-semibold text-white">{selectedRepository.fullName}</p>
-                  <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-4">
+                  <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-5">
                     {[
                       { label: 'Source', value: `${providerLabel} / ${inventorySourceLabel}` },
-                      { label: 'Branch', value: selectedRepository.defaultBranch || 'main' },
+                      { label: 'Branch', value: repositoryContext.selectedBranch || selectedRepository.defaultBranch || 'main' },
+                      { label: 'Commit', value: formatSelectedCommit(repositoryContext.selectedCommit) },
                       { label: 'Visibility', value: selectedRepository.private ? 'private' : 'public' },
                       { label: 'Language', value: selectedRepository.language || 'not specified' },
                     ].map((item) => (

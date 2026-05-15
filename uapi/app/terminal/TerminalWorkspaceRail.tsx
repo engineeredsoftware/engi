@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic-execution';
 import {
   getTransactionDataModeLabel,
@@ -35,6 +36,7 @@ function getRunStatusTone(status?: string | null) {
 
 interface TerminalWorkspaceRailProps {
   onOpenConversations: () => void;
+  conversationsEnabled?: boolean;
   runs: WorkspaceRun[];
   isLoadingRuns: boolean;
   runsError: string | null;
@@ -44,6 +46,7 @@ interface TerminalWorkspaceRailProps {
 
 export default function TerminalWorkspaceRail({
   onOpenConversations,
+  conversationsEnabled = true,
   runs,
   isLoadingRuns,
   runsError,
@@ -62,7 +65,7 @@ export default function TerminalWorkspaceRail({
         explainer={TERMINAL_SURFACE_EXPLAINERS.railModes}
       >
         <div className="mt-5 grid gap-3">
-          <TerminalOpenConversationsButton onOpen={onOpenConversations} />
+          {conversationsEnabled ? <TerminalOpenConversationsButton onOpen={onOpenConversations} /> : null}
           <TerminalOpenAuxillariesButton />
         </div>
       </TerminalWorkspaceRailCard>

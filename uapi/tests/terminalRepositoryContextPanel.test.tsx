@@ -176,4 +176,103 @@ describe('TerminalRepositoryContextPanel', () => {
     );
     expect(screen.queryByText(/Saved GitHub attachment found, but the live provider session must reconnect/i)).toBeNull();
   });
+
+  it('loads branch and commit selectors for the selected live repository source', async () => {
+    const onContextChange = jest.fn();
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => 'application/json' },
+        json: async () => ({
+          connected: true,
+          provider: 'github',
+          valid: true,
+          username: 'bitcode-operator',
+          metadata: { repositories: 1, status: 'connected' },
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => 'application/json' },
+        json: async () => ({
+          repositories: [
+            {
+              id: 'repo-1',
+              name: 'bitcode',
+              fullName: 'bitcode/bitcode',
+              defaultBranch: 'main',
+              private: true,
+              url: 'https://github.com/bitcode/bitcode',
+              language: 'TypeScript',
+              topics: ['shares'],
+              owner: {
+                username: 'bitcode',
+                id: 'org-1',
+              },
+            },
+          ],
+          inventorySource: 'live_provider_inventory',
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => 'application/json' },
+        json: async () => ({
+          defaultBranch: 'main',
+          branches: [
+            {
+              name: 'main',
+              commit: {
+                sha: 'abc123456789',
+                message: 'head',
+                author: { name: 'Dev', email: 'dev@example.com', date: '2026-05-14T00:00:00.000Z' },
+              },
+              protected: false,
+            },
+          ],
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => 'application/json' },
+        json: async () => ({
+          commits: [
+            {
+              sha: 'abc123456789',
+              message: 'feat: source selector',
+              author: { name: 'Dev', email: 'dev@example.com', date: '2026-05-14T00:00:00.000Z' },
+              parents: [],
+            },
+          ],
+        }),
+      }) as jest.Mock;
+
+    render(<TerminalRepositoryContextPanel onContextChange={onContextChange} />);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/vcs/github/connection');
+      expect(global.fetch).toHaveBeenCalledWith('/api/vcs/github/repositories');
+      expect(global.fetch).toHaveBeenCalledWith(
+        '/api/vcs?resource=branches&provider=github&owner=bitcode&repo=bitcode',
+      );
+      expect(global.fetch).toHaveBeenCalledWith(
+        '/api/vcs?resource=commits&provider=github&owner=bitcode&repo=bitcode&branch=main',
+      );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole('combobox', { name: 'Repository source branch' })).toHaveValue('main');
+      expect(screen.getByRole('combobox', { name: 'Repository source commit' })).toHaveValue('abc123456789');
+    });
+
+    await waitFor(() => {
+      expect(onContextChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          selectedBranch: 'main',
+          selectedCommit: 'abc123456789',
+        }),
+      );
+    });
+  });
 });

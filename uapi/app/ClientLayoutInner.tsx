@@ -53,9 +53,11 @@ const Conversation = dynamic(() => import('@/app/conversations/components/Conver
 // Prefetch heavy components for instant loading
 const prefetchHeavyComponents = () => {
   if (typeof window !== 'undefined') {
+    const conversationsEnabled = !FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE && FEATURE_FLAGS.CONVERSATIONS_WIDGET;
+
     // Prefetch Conversations after 2 seconds (lower priority than Orbital)
     setTimeout(() => {
-      if (!(window as any).__conversationsPrefetched) {
+      if (conversationsEnabled && !(window as any).__conversationsPrefetched) {
         (window as any).__conversationsPrefetched = true;
         import('@/app/conversations/components/ConversationsOverlay').catch(() => {});
       }
@@ -63,7 +65,7 @@ const prefetchHeavyComponents = () => {
     
     // Prefetch the retained Conversations sidebar after 3 seconds.
     setTimeout(() => {
-      if (!window.__sidebarsPrefetched) {
+      if (conversationsEnabled && !window.__sidebarsPrefetched) {
         window.__sidebarsPrefetched = true;
         import('@/components/base/bitcode/layout/sidebars/right-sidebar').catch(() => {});
       }
@@ -220,6 +222,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
   const { data: onboardingData } = useOnboarding();
   const isOnboardingComplete = onboardingData?.isOnboardingComplete ?? false;
   const hideFooter = shouldHideWorkspaceFooter(pathname);
+  const conversationsEnabled = !FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE && FEATURE_FLAGS.CONVERSATIONS_WIDGET;
 
   return (
     <AuthProvider>
@@ -231,7 +234,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         <React.Suspense fallback={null}>
           {/* Desktop supporting overlays. Auxillaries stays portal-only for V28. */}
           <div className="hidden laptop:block">
-            {authLoaded && user && !mockMode && pathname !== '/terminal' && pathname !== '/conversations' && isOnboardingComplete && FEATURE_FLAGS.CONVERSATIONS_WIDGET && (
+            {authLoaded && user && !mockMode && pathname !== '/terminal' && pathname !== '/conversations' && isOnboardingComplete && conversationsEnabled && (
               <>
                 <Conversation
                   position="bottom-right"

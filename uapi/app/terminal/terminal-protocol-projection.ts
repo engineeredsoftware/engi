@@ -113,6 +113,7 @@ export function buildProtocolProjectedWorkspaceRun(
     normalizeWhitespace(snapshot?.authSession?.installationAccountLogin) ||
     'connected account';
   const branch =
+    normalizeWhitespace(repositoryContext?.selectedBranch) ||
     normalizeWhitespace(repositoryContext?.selectedRepository?.defaultBranch) ||
     normalizeWhitespace(snapshot?.authSession?.defaultRef) ||
     'main';
@@ -158,9 +159,11 @@ export function buildProtocolProjectedRunDetail(
     normalizeWhitespace(snapshot?.authSession?.installationAccountLogin) ||
     'connected account';
   const branch =
+    normalizeWhitespace(repositoryContext?.selectedBranch) ||
     normalizeWhitespace(repositoryContext?.selectedRepository?.defaultBranch) ||
     normalizeWhitespace(snapshot?.authSession?.defaultRef) ||
     'main';
+  const commit = normalizeWhitespace(repositoryContext?.selectedCommit);
   const workbench = normalizeTerminalGiveNeedWorkbench(snapshot, repositoryContext);
   const needScenarios = normalizeTerminalNeedScenarios(snapshot);
   const activeScenario =
@@ -179,7 +182,7 @@ export function buildProtocolProjectedRunDetail(
           org: repository.org,
           repo: repository.repo,
           branch,
-          commit: '',
+          commit,
         }
       : null,
     processingStats: {
@@ -239,6 +242,8 @@ export function buildProtocolProjectedRunDetail(
                           id: repositoryContext?.selectedRepository?.id || repository.fullName,
                           fullName: repository.fullName,
                           defaultBranch: branch,
+                          selectedBranch: branch,
+                          selectedCommit: commit,
                           private: Boolean(repositoryContext?.selectedRepository?.private),
                           language: repositoryContext?.selectedRepository?.language || null,
                           topics: repositoryContext?.selectedRepository?.topics || [],

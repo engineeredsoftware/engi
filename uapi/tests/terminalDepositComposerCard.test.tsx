@@ -49,6 +49,7 @@ jest.mock('@/app/terminal/terminal-workspace-explainers', () => ({
   },
   TERMINAL_INLINE_EXPLAINERS: {
     sourceRepo: [],
+    sourceBranch: [],
     sourceCommit: [],
     workflowRunId: [],
     signerAddress: [],
@@ -114,19 +115,63 @@ describe('TerminalDepositComposer', () => {
       <TerminalDepositComposer
         repositoryAnchor="engineeredsoftware/ENGI"
         repositoryProvider="github"
+        repositoryBranch="main"
+        repositoryCommit="abc123456789"
+        repositoryBranches={[
+          {
+            name: 'main',
+            commit: {
+              sha: 'abc123456789',
+              message: 'head',
+              author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            },
+            protected: false,
+          },
+        ]}
+        repositoryCommits={[
+          {
+            sha: 'abc123456789',
+            message: 'feat: source selector',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            parents: [],
+          },
+        ]}
         transactionReadiness={baseTransactionReadiness}
       />,
     );
 
     expect(screen.getByDisplayValue('engineeredsoftware/ENGI')).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Deposit source branch' })).toHaveValue('main');
+    expect(screen.getByRole('combobox', { name: 'Deposit source commit' })).toHaveValue('abc123456789');
     expect(screen.getByText('Selected from Give-side supply')).toBeInTheDocument();
-    expect(screen.getByText(/Bitcode will bind engineeredsoftware\/ENGI/i)).toBeInTheDocument();
+    expect(screen.getByText(/Bitcode will bind engineeredsoftware\/ENGI on main at abc123456789/i)).toBeInTheDocument();
   });
 
   it('keeps deposit submission disabled until settlement readiness is complete', () => {
     const { rerender } = render(
       <TerminalDepositComposer
         repositoryAnchor="bitcode/bitcode"
+        repositoryBranch="main"
+        repositoryCommit="abc123456789"
+        repositoryBranches={[
+          {
+            name: 'main',
+            commit: {
+              sha: 'abc123456789',
+              message: 'head',
+              author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            },
+            protected: false,
+          },
+        ]}
+        repositoryCommits={[
+          {
+            sha: 'abc123456789',
+            message: 'feat: source selector',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            parents: [],
+          },
+        ]}
         transactionReadiness={baseTransactionReadiness}
       />,
     );
@@ -139,6 +184,27 @@ describe('TerminalDepositComposer', () => {
     rerender(
       <TerminalDepositComposer
         repositoryAnchor="bitcode/bitcode"
+        repositoryBranch="main"
+        repositoryCommit="abc123456789"
+        repositoryBranches={[
+          {
+            name: 'main',
+            commit: {
+              sha: 'abc123456789',
+              message: 'head',
+              author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            },
+            protected: false,
+          },
+        ]}
+        repositoryCommits={[
+          {
+            sha: 'abc123456789',
+            message: 'feat: source selector',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            parents: [],
+          },
+        ]}
         transactionReadiness={{
           ...baseTransactionReadiness,
           status: 'ready',

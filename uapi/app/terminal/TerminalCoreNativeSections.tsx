@@ -196,10 +196,11 @@ export default function TerminalCoreNativeSections({
                           : 'Repository connection posture is not currently validated.',
                       badge: connectionStatus?.metadata?.mock_mode ? 'mock' : 'connected',
                       metrics: [
-                        { label: 'Default branch', value: selectedRepository.defaultBranch || 'main' },
+                        { label: 'Selected branch', value: repositoryContext?.selectedBranch || selectedRepository.defaultBranch || 'main' },
                         { label: 'Visibility', value: selectedRepository.private ? 'private' : 'public' },
                       ],
                       rows: [
+                        { label: 'Commit', value: repositoryContext?.selectedCommit || 'commit pending' },
                         { label: 'Language', value: selectedRepository.language || 'n/a' },
                         {
                           label: 'Owner',

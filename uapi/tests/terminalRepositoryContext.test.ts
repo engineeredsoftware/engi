@@ -1,6 +1,8 @@
 import type { VCSRepository } from '@bitcode/vcs-core';
 
 import {
+  deriveSelectedBranch,
+  deriveSelectedCommit,
   deriveSelectedRepository,
   normalizeRepositoryProvider,
 } from '@/app/terminal/terminal-repository-context';
@@ -38,5 +40,48 @@ describe('Terminal repository context helpers', () => {
   it('falls back to the first surfaced repository when no explicit choice exists', () => {
     expect(deriveSelectedRepository(repositories, null, null)?.id).toBe('repo-1');
     expect(deriveSelectedRepository([], null, null)).toBeNull();
+  });
+
+  it('derives branch and commit selections from requested values then defaults', () => {
+    expect(
+      deriveSelectedBranch(
+        [
+          {
+            name: 'main',
+            commit: {
+              sha: 'abc123',
+              message: 'head',
+              author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            },
+            protected: false,
+          },
+          {
+            name: 'release',
+            commit: {
+              sha: 'def456',
+              message: 'release',
+              author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            },
+            protected: false,
+          },
+        ],
+        'release',
+        'main',
+      ),
+    ).toBe('release');
+
+    expect(
+      deriveSelectedCommit(
+        [
+          {
+            sha: 'abc123',
+            message: 'head',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            parents: [],
+          },
+        ],
+        null,
+      ),
+    ).toBe('abc123');
   });
 });

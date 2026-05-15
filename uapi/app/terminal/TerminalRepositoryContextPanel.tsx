@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
-import type { VCSRepository } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import { VCSRepositorySelector } from '@/components/base/bitcode/vcs/VCSRepositorySelector';
@@ -25,6 +25,8 @@ import {
   type TerminalRepositoryInventorySource,
   type TerminalRepositoryContextState,
   deriveSelectedRepository,
+  deriveSelectedBranch,
+  deriveSelectedCommit,
   getProviderLabel,
   normalizeRepositoryProvider,
 } from './terminal-repository-context';
@@ -38,6 +40,20 @@ async function readJsonResponse(response: Response) {
   }
 
   return response.json().catch(() => null);
+}
+
+function splitRepositoryFullName(fullName?: string | null) {
+  const normalizedFullName = fullName?.trim();
+  if (!normalizedFullName || !normalizedFullName.includes('/')) return null;
+  const [owner, repo] = normalizedFullName.split('/', 2);
+  if (!owner || !repo) return null;
+  return { owner, repo };
+}
+
+function formatCommitOption(commit: VCSCommit) {
+  const shortSha = commit.sha.slice(0, 7);
+  const title = commit.message.split('\n')[0]?.trim() || 'Commit';
+  return `${shortSha} - ${title}`;
 }
 
 interface TerminalRepositoryContextPanelProps {
@@ -56,14 +72,22 @@ export default function TerminalRepositoryContextPanel({
   const searchParams = useSearchParams();
   const requestedProvider = searchParams.get('provider');
   const requestedRepository = searchParams.get('repo');
+  const requestedBranch = searchParams.get('sourceBranch') || searchParams.get('branch');
+  const requestedCommit = searchParams.get('sourceCommit') || searchParams.get('commit');
   const provider = normalizeRepositoryProvider(requestedProvider);
 
   const [connectionStatus, setConnectionStatus] = useState<TerminalRepositoryConnectionStatus | null>(null);
   const [inventorySource, setInventorySource] = useState<TerminalRepositoryInventorySource | null>(null);
   const [repositories, setRepositories] = useState<VCSRepository[]>([]);
+  const [branches, setBranches] = useState<VCSBranch[]>([]);
+  const [commits, setCommits] = useState<VCSCommit[]>([]);
+  const [defaultBranch, setDefaultBranch] = useState<string | null>(null);
   const [isLoadingConnection, setIsLoadingConnection] = useState(true);
   const [isLoadingRepositories, setIsLoadingRepositories] = useState(false);
+  const [isLoadingBranches, setIsLoadingBranches] = useState(false);
+  const [isLoadingCommits, setIsLoadingCommits] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [sourceSelectionError, setSourceSelectionError] = useState<string | null>(null);
   const [refreshNonce, setRefreshNonce] = useState(0);
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -71,6 +95,14 @@ export default function TerminalRepositoryContextPanel({
   const selectedRepository = useMemo(
     () => deriveSelectedRepository(repositories, requestedRepository, preferredRepository),
     [preferredRepository, repositories, requestedRepository],
+  );
+  const selectedBranch = useMemo(
+    () => deriveSelectedBranch(branches, requestedBranch, defaultBranch || selectedRepository?.defaultBranch || null),
+    [branches, defaultBranch, requestedBranch, selectedRepository?.defaultBranch],
+  );
+  const selectedCommit = useMemo(
+    () => deriveSelectedCommit(commits, requestedCommit),
+    [commits, requestedCommit],
   );
 
   useEffect(() => {
@@ -109,7 +141,12 @@ export default function TerminalRepositoryContextPanel({
     if (!connectionStatus?.connected) {
       setRepositories([]);
       setInventorySource(null);
+      setBranches([]);
+      setCommits([]);
+      setDefaultBranch(null);
       setIsLoadingRepositories(false);
+      setIsLoadingBranches(false);
+      setIsLoadingCommits(false);
       return () => {
         disposed = true;
       };
@@ -149,14 +186,138 @@ export default function TerminalRepositoryContextPanel({
   }, [connectionStatus?.connected, connectionStatus?.valid, provider, refreshNonce]);
 
   useEffect(() => {
+    let disposed = false;
+    const coordinates = splitRepositoryFullName(selectedRepository?.fullName);
+
+    setBranches([]);
+    setCommits([]);
+    setDefaultBranch(selectedRepository?.defaultBranch || null);
+    setSourceSelectionError(null);
+
+    if (!coordinates || !connectionStatus?.connected || !connectionStatus.valid) {
+      setIsLoadingBranches(false);
+      setIsLoadingCommits(false);
+      return () => {
+        disposed = true;
+      };
+    }
+
+    setIsLoadingBranches(true);
+
+    fetch(
+      `/api/vcs?resource=branches&provider=${encodeURIComponent(provider)}&owner=${encodeURIComponent(
+        coordinates.owner,
+      )}&repo=${encodeURIComponent(coordinates.repo)}`,
+    )
+      .then(async (response) => {
+        const payload = await readJsonResponse(response);
+        if (!response.ok || !payload) {
+          throw new Error('Unable to load repository branches.');
+        }
+        if (!disposed) {
+          setBranches(Array.isArray(payload.branches) ? payload.branches : []);
+          setDefaultBranch(
+            typeof payload.defaultBranch === 'string' && payload.defaultBranch.trim()
+              ? payload.defaultBranch
+              : selectedRepository?.defaultBranch || null,
+          );
+        }
+      })
+      .catch((nextError) => {
+        if (disposed) return;
+        setBranches([]);
+        setDefaultBranch(selectedRepository?.defaultBranch || null);
+        setSourceSelectionError(
+          nextError instanceof Error ? nextError.message : 'Unable to load repository branches.',
+        );
+      })
+      .finally(() => {
+        if (!disposed) setIsLoadingBranches(false);
+      });
+
+    return () => {
+      disposed = true;
+    };
+  }, [connectionStatus?.connected, connectionStatus?.valid, provider, refreshNonce, selectedRepository]);
+
+  useEffect(() => {
+    let disposed = false;
+    const coordinates = splitRepositoryFullName(selectedRepository?.fullName);
+
+    setCommits([]);
+    setSourceSelectionError(null);
+
+    if (!coordinates || !selectedBranch || !connectionStatus?.connected || !connectionStatus.valid) {
+      setIsLoadingCommits(false);
+      return () => {
+        disposed = true;
+      };
+    }
+
+    setIsLoadingCommits(true);
+
+    fetch(
+      `/api/vcs?resource=commits&provider=${encodeURIComponent(provider)}&owner=${encodeURIComponent(
+        coordinates.owner,
+      )}&repo=${encodeURIComponent(coordinates.repo)}&branch=${encodeURIComponent(selectedBranch)}`,
+    )
+      .then(async (response) => {
+        const payload = await readJsonResponse(response);
+        if (!response.ok || !payload) {
+          throw new Error('Unable to load repository commits.');
+        }
+        if (!disposed) {
+          setCommits(Array.isArray(payload.commits) ? payload.commits : []);
+        }
+      })
+      .catch((nextError) => {
+        if (disposed) return;
+        setCommits([]);
+        setSourceSelectionError(
+          nextError instanceof Error ? nextError.message : 'Unable to load repository commits.',
+        );
+      })
+      .finally(() => {
+        if (!disposed) setIsLoadingCommits(false);
+      });
+
+    return () => {
+      disposed = true;
+    };
+  }, [connectionStatus?.connected, connectionStatus?.valid, provider, refreshNonce, selectedBranch, selectedRepository]);
+
+  useEffect(() => {
     onContextChange?.({
       provider,
       connectionStatus,
       inventorySource,
       repositories,
       selectedRepository,
+      branches,
+      commits,
+      defaultBranch,
+      selectedBranch,
+      selectedCommit,
+      isLoadingBranches,
+      isLoadingCommits,
+      sourceSelectionError,
     });
-  }, [connectionStatus, inventorySource, onContextChange, provider, repositories, selectedRepository]);
+  }, [
+    branches,
+    commits,
+    connectionStatus,
+    defaultBranch,
+    inventorySource,
+    isLoadingBranches,
+    isLoadingCommits,
+    onContextChange,
+    provider,
+    repositories,
+    selectedBranch,
+    selectedCommit,
+    selectedRepository,
+    sourceSelectionError,
+  ]);
 
   useEffect(() => {
     const hasRouteContext =
@@ -179,25 +340,77 @@ export default function TerminalRepositoryContextPanel({
     if (selectedRepository) {
       if (nextParams.get('repo') !== selectedRepository.fullName) {
         nextParams.set('repo', selectedRepository.fullName);
+        nextParams.delete('sourceBranch');
+        nextParams.delete('sourceCommit');
+        nextParams.delete('branch');
+        nextParams.delete('commit');
         changed = true;
       }
     } else if (nextParams.has('repo')) {
       nextParams.delete('repo');
+      nextParams.delete('sourceBranch');
+      nextParams.delete('sourceCommit');
+      nextParams.delete('branch');
+      nextParams.delete('commit');
+      changed = true;
+    }
+
+    if (selectedRepository && selectedBranch && !isLoadingBranches) {
+      if (nextParams.get('sourceBranch') !== selectedBranch) {
+        nextParams.set('sourceBranch', selectedBranch);
+        nextParams.delete('branch');
+        if (requestedBranch !== selectedBranch) {
+          nextParams.delete('sourceCommit');
+          nextParams.delete('commit');
+        }
+        changed = true;
+      }
+    } else if ((nextParams.has('sourceBranch') || nextParams.has('branch')) && !isLoadingBranches) {
+      nextParams.delete('sourceBranch');
+      nextParams.delete('branch');
+      changed = true;
+    }
+
+    if (selectedRepository && selectedBranch && selectedCommit && !isLoadingCommits) {
+      if (nextParams.get('sourceCommit') !== selectedCommit) {
+        nextParams.set('sourceCommit', selectedCommit);
+        nextParams.delete('commit');
+        changed = true;
+      }
+    } else if ((nextParams.has('sourceCommit') || nextParams.has('commit')) && !isLoadingCommits) {
+      nextParams.delete('sourceCommit');
+      nextParams.delete('commit');
       changed = true;
     }
 
     if (!changed) return;
     if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
     router.replace(buildTerminalHref(nextParams), { scroll: false });
-  }, [provider, router, searchParams, selectedRepository]);
+  }, [
+    isLoadingBranches,
+    isLoadingCommits,
+    provider,
+    requestedBranch,
+    router,
+    searchParams,
+    selectedBranch,
+    selectedCommit,
+    selectedRepository,
+  ]);
 
   const refreshRepositoryContext = () => {
     setConnectionStatus(null);
     setInventorySource(null);
     setRepositories([]);
+    setBranches([]);
+    setCommits([]);
+    setDefaultBranch(null);
     setError(null);
+    setSourceSelectionError(null);
     setIsLoadingConnection(true);
     setIsLoadingRepositories(false);
+    setIsLoadingBranches(false);
+    setIsLoadingCommits(false);
     setRefreshNonce((value) => value + 1);
   };
 
@@ -271,6 +484,10 @@ export default function TerminalRepositoryContextPanel({
                       const nextParams = new URLSearchParams(searchParams.toString());
                       nextParams.set('provider', option);
                       nextParams.delete('repo');
+                      nextParams.delete('sourceBranch');
+                      nextParams.delete('sourceCommit');
+                      nextParams.delete('branch');
+                      nextParams.delete('commit');
                       if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
                       router.replace(buildTerminalHref(nextParams), { scroll: false });
                     }}
@@ -300,6 +517,10 @@ export default function TerminalRepositoryContextPanel({
                   } else {
                     nextParams.delete('repo');
                   }
+                  nextParams.delete('sourceBranch');
+                  nextParams.delete('sourceCommit');
+                  nextParams.delete('branch');
+                  nextParams.delete('commit');
                   if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
                   router.replace(buildTerminalHref(nextParams), { scroll: false });
                 }}
@@ -332,6 +553,83 @@ export default function TerminalRepositoryContextPanel({
                 <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.repositoryAnchor} />
               </div>
             </div>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              <label className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+                <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
+                  <span>Branch</span>
+                  <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceBranch} />
+                </span>
+                <select
+                  aria-label="Repository source branch"
+                  value={selectedBranch || ''}
+                  disabled={!selectedRepository || isLoadingBranches || branches.length === 0}
+                  onChange={(event) => {
+                    const nextParams = new URLSearchParams(searchParams.toString());
+                    nextParams.set('provider', provider);
+                    if (selectedRepository) nextParams.set('repo', selectedRepository.fullName);
+                    nextParams.set('sourceBranch', event.target.value);
+                    nextParams.delete('sourceCommit');
+                    nextParams.delete('branch');
+                    nextParams.delete('commit');
+                    if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
+                    router.replace(buildTerminalHref(nextParams), { scroll: false });
+                  }}
+                  className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {branches.length ? null : <option value="">No branches loaded</option>}
+                  {branches.map((branch) => (
+                    <option key={branch.name} value={branch.name}>
+                      {branch.name}
+                      {branch.name === (defaultBranch || selectedRepository?.defaultBranch) ? ' · default' : ''}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+                  {isLoadingBranches ? 'Loading branches…' : 'Default branch is selected when available'}
+                </p>
+              </label>
+
+              <label className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+                <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
+                  <span>Commit / ref</span>
+                  <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceCommit} />
+                </span>
+                <select
+                  aria-label="Repository source commit"
+                  value={selectedCommit || ''}
+                  disabled={!selectedBranch || isLoadingCommits || commits.length === 0}
+                  onChange={(event) => {
+                    const nextParams = new URLSearchParams(searchParams.toString());
+                    nextParams.set('provider', provider);
+                    if (selectedRepository) nextParams.set('repo', selectedRepository.fullName);
+                    if (selectedBranch) nextParams.set('sourceBranch', selectedBranch);
+                    nextParams.set('sourceCommit', event.target.value);
+                    nextParams.delete('branch');
+                    nextParams.delete('commit');
+                    if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
+                    router.replace(buildTerminalHref(nextParams), { scroll: false });
+                  }}
+                  className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {commits.length ? null : <option value="">No commits loaded</option>}
+                  {commits.map((commit) => (
+                    <option key={commit.sha} value={commit.sha}>
+                      {formatCommitOption(commit)}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+                  {isLoadingCommits ? 'Loading commits…' : 'Latest branch commit is selected when available'}
+                </p>
+              </label>
+            </div>
+
+            {sourceSelectionError ? (
+              <p className="mt-4 rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+                {sourceSelectionError}
+              </p>
+            ) : null}
           </div>
 
           <div className="grid gap-4 xl:grid-cols-2">
@@ -455,10 +753,10 @@ export default function TerminalRepositoryContextPanel({
                   ) : null}
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4">
-                      <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Default branch</p>
+                      <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Selected branch</p>
                       <p className="mt-2 flex items-center gap-2 text-base font-semibold text-white">
                         <GitBranch className="h-4 w-4 text-emerald-200" />
-                        {selectedRepository.defaultBranch || 'main'}
+                        {selectedBranch || selectedRepository.defaultBranch || 'main'}
                       </p>
                     </div>
                     <div className="rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4">
@@ -471,6 +769,10 @@ export default function TerminalRepositoryContextPanel({
                   </div>
 
                   <dl className="space-y-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
+                    <div>
+                      <dt className="text-neutral-500">Selected commit</dt>
+                      <dd className="mt-1 break-all text-neutral-100">{selectedCommit || 'commit pending'}</dd>
+                    </div>
                     <div>
                       <dt className="text-neutral-500">Language</dt>
                       <dd className="mt-1 text-neutral-100">{selectedRepository.language || 'n/a'}</dd>

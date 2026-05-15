@@ -78,6 +78,8 @@ export interface TerminalRunDetailSnapshot {
         id: string;
         fullName: string;
         defaultBranch: string;
+        selectedBranch?: string | null;
+        selectedCommit?: string | null;
         private: boolean;
         language: string | null;
         topics: string[];
@@ -488,6 +490,8 @@ function coerceBitcodeActivityState(value: unknown): TerminalRunDetailSnapshot['
               id: coerceString(value.repositoryAnchor.repository.id) || '',
               fullName: coerceString(value.repositoryAnchor.repository.fullName) || '',
               defaultBranch: coerceString(value.repositoryAnchor.repository.defaultBranch) || 'main',
+              selectedBranch: coerceString(value.repositoryAnchor.repository.selectedBranch),
+              selectedCommit: coerceString(value.repositoryAnchor.repository.selectedCommit),
               private: Boolean(value.repositoryAnchor.repository.private),
               language: coerceString(value.repositoryAnchor.repository.language),
               topics: coerceChips(value.repositoryAnchor.repository.topics),

@@ -1,4 +1,4 @@
-import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 
 export type TerminalRepositoryInventorySource =
   | 'stored_repository_inventory'
@@ -26,6 +26,14 @@ export type TerminalRepositoryContextState = {
   inventorySource: TerminalRepositoryInventorySource | null;
   repositories: VCSRepository[];
   selectedRepository: VCSRepository | null;
+  branches?: VCSBranch[];
+  commits?: VCSCommit[];
+  defaultBranch?: string | null;
+  selectedBranch?: string | null;
+  selectedCommit?: string | null;
+  isLoadingBranches?: boolean;
+  isLoadingCommits?: boolean;
+  sourceSelectionError?: string | null;
 };
 
 export const TERMINAL_REPOSITORY_PROVIDERS: VCSProviderType[] = ['github', 'gitlab', 'bitbucket'];
@@ -64,6 +72,43 @@ export function deriveSelectedRepository(
   if (byPreferred) return byPreferred;
 
   return repositories[0];
+}
+
+export function deriveSelectedBranch(
+  branches: VCSBranch[],
+  requestedBranch?: string | null,
+  preferredBranch?: string | null,
+) {
+  if (!branches.length) return null;
+
+  const normalizedRequestedBranch = requestedBranch?.trim();
+  const byRequested =
+    normalizedRequestedBranch &&
+    branches.find((branch) => branch.name === normalizedRequestedBranch);
+  if (byRequested) return byRequested.name;
+
+  const normalizedPreferredBranch = preferredBranch?.trim();
+  const byPreferred =
+    normalizedPreferredBranch &&
+    branches.find((branch) => branch.name === normalizedPreferredBranch);
+  if (byPreferred) return byPreferred.name;
+
+  return branches[0]?.name || null;
+}
+
+export function deriveSelectedCommit(
+  commits: VCSCommit[],
+  requestedCommit?: string | null,
+) {
+  if (!commits.length) return null;
+
+  const normalizedRequestedCommit = requestedCommit?.trim();
+  const byRequested =
+    normalizedRequestedCommit &&
+    commits.find((commit) => commit.sha === normalizedRequestedCommit);
+  if (byRequested) return byRequested.sha;
+
+  return commits[0]?.sha || null;
 }
 
 export function getProviderLabel(provider: VCSProviderType) {
