@@ -60,7 +60,6 @@ test('@bitcode/protocol accepts live repository revision deposits without demo i
 
     const result = app.createDeposit({
       title: 'ENGI repository revision',
-      author: 'engineeredsoftware',
       sourceProvider: 'github',
       sourceRepo: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
@@ -76,6 +75,7 @@ test('@bitcode/protocol accepts live repository revision deposits without demo i
     });
 
     assert.equal(result.ok, true);
+    assert.equal(result.asset.metadata.author, 'engineeredsoftware');
     assert.equal(result.asset.artifactKind, 'repository-revision');
     assert.equal(result.asset.artifactType, 'vcs-source-anchor');
     assert.equal(result.asset.addressingSurface.repo, 'engineeredsoftware/ENGI');

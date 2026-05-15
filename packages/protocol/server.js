@@ -242,6 +242,15 @@ export function createAppContext({
   }
 
   /**
+   * @param {string | null | undefined} repo
+   * @returns {string}
+   */
+  function readRepositoryOwner(repo) {
+    const owner = String(repo || '').split('/')[0]?.trim();
+    return owner && owner !== String(repo || '').trim() ? owner : '';
+  }
+
+  /**
    * @param {unknown} principal
    * @returns {string | undefined}
    */
@@ -645,6 +654,8 @@ export function createAppContext({
     const author = String(body.author || '').trim()
       || authSession?.operatorLogin
       || authSession?.installationAccountLogin
+      || (hasRepositoryRevisionSelection ? readRepositoryOwner(sourceRepo) : '')
+      || signerAddress
       || '';
     if (!author) {
       /** @type {StatusError} */
