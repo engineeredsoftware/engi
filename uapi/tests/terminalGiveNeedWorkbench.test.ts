@@ -106,4 +106,85 @@ describe('normalizeTerminalGiveNeedWorkbench', () => {
     expect(workbench?.give.metrics.find((metric) => metric.label === 'Selected refs')?.value).toBe('0');
     expect(workbench?.fit.rows.find((row) => row.label === 'Projection')?.value).toBe('public');
   });
+
+  it('uses live connected repository context for give posture instead of demo snapshot entries', () => {
+    const workbench = normalizeTerminalGiveNeedWorkbench(
+      {
+        authSession: {
+          authSessionId: 'gh_inst_bitcode_001',
+          repo: 'frontier/demo-auth',
+          installationAccountLogin: 'frontier',
+        },
+        scenario: {
+          repo: 'frontier/demo-auth',
+        },
+        repoSupplySummary: {
+          repoCount: 6,
+          inventoryEntryCount: 24,
+          scenarioCount: 3,
+          candidateAssetCount: 8,
+        },
+        inventory: {
+          activeCount: 24,
+          filteredCount: 6,
+          selectedCount: 2,
+          selectedEntries: [
+            { inventoryEntryId: 'frontier-entry-1', title: 'frontier patch' },
+          ],
+        },
+        depositingSurface: {
+          selectedArtifactKindCounts: { patch: 1 },
+          selectedOriginKindCounts: { demo: 1 },
+          addressingRoot: 'sha256:frontier',
+          authRoot: 'sha256:frontier-auth',
+        },
+      },
+      {
+        provider: 'github',
+        connectionStatus: {
+          connected: true,
+          valid: true,
+          provider: 'github',
+          username: 'engineeredsoftware',
+          metadata: { mock_mode: false, repositories: 46 },
+        },
+        inventorySource: 'stored_repository_inventory',
+        repositories: [
+          {
+            id: '1094184056',
+            name: 'ENGI',
+            fullName: 'engineeredsoftware/ENGI',
+            private: false,
+            defaultBranch: 'main',
+            url: 'https://github.com/engineeredsoftware/ENGI',
+            cloneUrl: 'https://github.com/engineeredsoftware/ENGI.git',
+            owner: { id: '84343342', username: 'engineeredsoftware', type: 'organization' },
+            language: 'TypeScript',
+            topics: [],
+          },
+        ],
+        selectedRepository: {
+          id: '1094184056',
+          name: 'ENGI',
+          fullName: 'engineeredsoftware/ENGI',
+          private: false,
+          defaultBranch: 'main',
+          url: 'https://github.com/engineeredsoftware/ENGI',
+          cloneUrl: 'https://github.com/engineeredsoftware/ENGI.git',
+          owner: { id: '84343342', username: 'engineeredsoftware', type: 'organization' },
+          language: 'TypeScript',
+          topics: [],
+        },
+      },
+    );
+
+    expect(workbench?.give.rows.find((row) => row.label === 'Repository')?.value).toBe('engineeredsoftware/ENGI');
+    expect(workbench?.give.rows.find((row) => row.label === 'Auth session')?.value).toBe(
+      'github:engineeredsoftware:engineeredsoftware/ENGI',
+    );
+    expect(workbench?.give.selectedEntries).toEqual([
+      { id: '1094184056', label: 'engineeredsoftware/ENGI' },
+    ]);
+    expect(workbench?.give.metrics.find((metric) => metric.label === 'Authenticated repos')?.value).toBe('46');
+  });
 });

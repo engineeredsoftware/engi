@@ -127,6 +127,8 @@ module.exports = {
     '<rootDir>/tests/terminalExperienceArchitecture.test.ts',
     '<rootDir>/tests/terminalCommercialLaunchReadiness.test.ts',
     '<rootDir>/tests/terminalShellBridge.test.tsx',
+    '<rootDir>/tests/terminalSupplySelection.test.ts',
+    '<rootDir>/tests/terminalGiveNeedWorkbench.test.ts',
     '<rootDir>/tests/demonstrationWitnessMount.test.tsx',
     '<rootDir>/tests/protocolCommercialBoundary.test.ts',
     '<rootDir>/tests/demonstrationWitnessScopedStylesRoute.test.ts',

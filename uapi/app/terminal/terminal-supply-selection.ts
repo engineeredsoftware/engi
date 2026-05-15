@@ -1,3 +1,6 @@
+import type { TerminalRepositoryContextState } from './terminal-repository-context';
+import { getProviderLabel } from './terminal-repository-context';
+
 type ShellSnapshot = {
   authSessions?: Array<{
     authSessionId?: string | null;
@@ -53,7 +56,103 @@ function labelize(value: string) {
     .join(' ');
 }
 
-export function normalizeTerminalSupplySelection(snapshot: ShellSnapshot): TerminalSupplySelectionState | null {
+function shouldUseRepositoryContext(repositoryContext?: TerminalRepositoryContextState | null) {
+  return Boolean(
+    repositoryContext?.selectedRepository &&
+      repositoryContext.repositories.length > 0 &&
+      !repositoryContext.connectionStatus?.metadata?.mock_mode,
+  );
+}
+
+function repositoryMatchesSearch(
+  repository: TerminalRepositoryContextState['repositories'][number],
+  normalizedSearchTerm: string,
+) {
+  if (!normalizedSearchTerm) return true;
+
+  return [
+    repository.fullName,
+    repository.name,
+    repository.language,
+    repository.owner.username,
+    repository.defaultBranch,
+    ...(repository.topics || []),
+  ]
+    .map((value) => String(value || '').toLowerCase())
+    .some((value) => value.includes(normalizedSearchTerm));
+}
+
+export function normalizeTerminalRepositorySupplySelection(
+  repositoryContext?: TerminalRepositoryContextState | null,
+  searchTerm = '',
+): TerminalSupplySelectionState | null {
+  if (!shouldUseRepositoryContext(repositoryContext)) return null;
+
+  const selectedRepository = repositoryContext?.selectedRepository || null;
+  const providerLabel = getProviderLabel(repositoryContext?.provider || 'github');
+  const providerAccount =
+    repositoryContext?.connectionStatus?.username ||
+    repositoryContext?.connectionStatus?.metadata?.account ||
+    selectedRepository?.owner.username ||
+    'connected account';
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+  const filteredRepositories = (repositoryContext?.repositories || []).filter((repository) =>
+    repositoryMatchesSearch(repository, normalizedSearchTerm),
+  );
+  const selectedCount = selectedRepository ? 1 : 0;
+
+  return {
+    authSessions: [
+      {
+        value: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository?.fullName || 'repository'}`,
+        label: `${selectedRepository?.fullName || providerAccount} · ${providerLabel}`,
+        selected: true,
+      },
+    ],
+    selectedAuthSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository?.fullName || 'repository'}`,
+    kindOptions: [
+      { value: 'all', label: 'All supply', selected: false },
+      { value: 'repository', label: 'Repository', selected: true },
+    ],
+    selectedKind: 'repository',
+    searchTerm,
+    selectedCount,
+    filteredCount: filteredRepositories.length,
+    totalFilteredEntries: repositoryContext?.repositories.length || filteredRepositories.length,
+    filteredEntries: filteredRepositories.map((repository) => {
+      const isSelected = repository.fullName === selectedRepository?.fullName;
+      const visibility = repository.private ? 'private' : 'public';
+      const language = repository.language || 'source';
+      const defaultBranch = repository.defaultBranch || 'main';
+
+      return {
+        id: `repository:${repository.id}`,
+        title: repository.fullName,
+        subtitle: `${language} repository · ${defaultBranch} · ${visibility}`,
+        kind: 'repository',
+        selected: isSelected,
+        tags: [
+          providerLabel,
+          visibility,
+          defaultBranch,
+          language,
+          ...(repository.topics || []),
+        ]
+          .map((tag) => String(tag || '').trim())
+          .filter(Boolean)
+          .slice(0, 6),
+      };
+    }),
+  };
+}
+
+export function normalizeTerminalSupplySelection(
+  snapshot: ShellSnapshot,
+  repositoryContext?: TerminalRepositoryContextState | null,
+  searchTerm = '',
+): TerminalSupplySelectionState | null {
+  const repositorySelection = normalizeTerminalRepositorySupplySelection(repositoryContext, searchTerm);
+  if (repositorySelection) return repositorySelection;
   if (!snapshot) return null;
 
   const authSessions = (snapshot.authSessions || [])

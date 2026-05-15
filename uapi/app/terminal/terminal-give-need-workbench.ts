@@ -132,6 +132,19 @@ export function normalizeTerminalGiveNeedWorkbench(
 
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const connectionStatus = repositoryContext?.connectionStatus || null;
+  const usesRepositoryContext = Boolean(
+    selectedRepository &&
+      repositoryContext?.repositories.length &&
+      !connectionStatus?.metadata?.mock_mode,
+  );
+  const providerAccount =
+    String(
+      connectionStatus?.username ||
+        connectionStatus?.metadata?.account ||
+        selectedRepository?.owner.username ||
+        snapshot.authSession?.installationAccountLogin ||
+        '—',
+    ) || '—';
   const selectedEntries = (snapshot.inventory?.selectedEntries || [])
     .map((entry) => ({
       id: String(entry.inventoryEntryId || '').trim(),
@@ -156,6 +169,49 @@ export function normalizeTerminalGiveNeedWorkbench(
   const overlapKinds = (snapshot.fitSurface?.overlapKinds || [])
     .map((entry) => String(entry || '').trim())
     .filter(Boolean);
+  const repositorySelectedEntries =
+    usesRepositoryContext && selectedRepository
+      ? [{ id: selectedRepository.id, label: selectedRepository.fullName }]
+      : selectedEntries;
+  const repositoryArtifactKinds =
+    usesRepositoryContext && selectedRepository
+      ? [selectedRepository.language || 'repository']
+      : artifactKinds;
+  const repositoryOriginKinds =
+    usesRepositoryContext && selectedRepository
+      ? ['repository']
+      : originKinds;
+  const repositoryLabel =
+    selectedRepository?.fullName ||
+    String(snapshot.authSession?.repo || snapshot.scenario?.repo || snapshot.depositingSurface?.repoSupplyRef || '—');
+  const authSessionLabel =
+    usesRepositoryContext && selectedRepository
+      ? `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`
+      : String(snapshot.authSession?.authSessionId || snapshot.selection?.authSessionId || '—') || '—';
+  const addressingRoot =
+    usesRepositoryContext && selectedRepository
+      ? `repository:${selectedRepository.id}`
+      : String(snapshot.depositingSurface?.addressingRoot || '—');
+  const authRoot =
+    usesRepositoryContext && selectedRepository
+      ? `${providerAccount} · ${repositoryContext?.provider || 'github'}`
+      : String(snapshot.depositingSurface?.authRoot || '—');
+  const giveMetrics = usesRepositoryContext
+    ? [
+        { label: 'Selected refs', value: selectedRepository ? '1' : '0' },
+        { label: 'Active inventory', value: numberValue(repositoryContext?.repositories.length) },
+        { label: 'Repo supply entries', value: numberValue(repositoryContext?.repositories.length) },
+        {
+          label: 'Authenticated repos',
+          value: numberValue(connectionStatus?.metadata?.repositories || repositoryContext?.repositories.length),
+        },
+      ]
+    : [
+        { label: 'Selected refs', value: numberValue(snapshot.inventory?.selectedCount) },
+        { label: 'Active inventory', value: numberValue(snapshot.inventory?.activeCount) },
+        { label: 'Repo supply entries', value: numberValue(snapshot.repoSupplySummary?.inventoryEntryCount) },
+        { label: 'Authenticated repos', value: numberValue(snapshot.repoSupplySummary?.repoCount) },
+      ];
 
   return {
     canonLabel: String(snapshot.canonLabel || 'Bitcode active posture').trim(),
@@ -175,52 +231,39 @@ export function normalizeTerminalGiveNeedWorkbench(
       summary:
         String(snapshot.depositingSurface?.depositIntentSummary || '').trim() ||
         'Supply authenticated repository material into the Bitcode give-side before branch and proof closure.',
-      metrics: [
-        { label: 'Selected refs', value: numberValue(snapshot.inventory?.selectedCount) },
-        { label: 'Active inventory', value: numberValue(snapshot.inventory?.activeCount) },
-        { label: 'Repo supply entries', value: numberValue(snapshot.repoSupplySummary?.inventoryEntryCount) },
-        { label: 'Authenticated repos', value: numberValue(snapshot.repoSupplySummary?.repoCount) },
-      ],
+      metrics: giveMetrics,
       rows: [
         {
           label: 'Repository',
-          value:
-            selectedRepository?.fullName ||
-            String(snapshot.authSession?.repo || snapshot.scenario?.repo || snapshot.depositingSurface?.repoSupplyRef || '—'),
+          value: repositoryLabel,
         },
         {
           label: 'Auth session',
-          value: String(snapshot.authSession?.authSessionId || snapshot.selection?.authSessionId || '—') || '—',
+          value: authSessionLabel,
         },
         {
           label: 'Provider account',
-          value:
-            String(
-              connectionStatus?.username ||
-                connectionStatus?.metadata?.account ||
-                snapshot.authSession?.installationAccountLogin ||
-                '—',
-            ) || '—',
+          value: providerAccount,
         },
         {
           label: 'Artifact kinds',
-          value: listValue(artifactKinds),
+          value: listValue(repositoryArtifactKinds),
         },
         {
           label: 'Origin kinds',
-          value: listValue(originKinds),
+          value: listValue(repositoryOriginKinds),
         },
         {
           label: 'Addressing root',
-          value: String(snapshot.depositingSurface?.addressingRoot || '—'),
+          value: addressingRoot,
         },
         {
           label: 'Auth root',
-          value: String(snapshot.depositingSurface?.authRoot || '—'),
+          value: authRoot,
         },
       ],
-      selectedEntries,
-      artifactKinds,
+      selectedEntries: repositorySelectedEntries,
+      artifactKinds: repositoryArtifactKinds,
     },
     need: {
       summary:
@@ -239,7 +282,9 @@ export function normalizeTerminalGiveNeedWorkbench(
         },
         {
           label: 'Repository',
-          value: String(snapshot.scenario?.repo || selectedRepository?.fullName || '—'),
+          value: usesRepositoryContext && selectedRepository
+            ? selectedRepository.fullName
+            : String(snapshot.scenario?.repo || selectedRepository?.fullName || '—'),
         },
         {
           label: 'Profile',

@@ -127,6 +127,10 @@ reusable checks:
   `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` checks
   Terminal activity, execution events, pipeline rows, stream logs, and errors
   after each Terminal write action.
+- `v28_qa_terminal_03_give_repository_alignment`:
+  `supabase/queries/v28_qa_terminal_03_give_repository_alignment.sql` confirms
+  the Terminal Give source is the connected GitHub repository inventory and
+  flags any live-lane leakage from protocol demonstration `frontier/*` data.
 - `v28_qa_terminal_03_btd_ledger_after_terminal`:
   `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` checks
   BTD measuremint, ranges, BTC fee receipts, Terminal journal, ledger anchors,

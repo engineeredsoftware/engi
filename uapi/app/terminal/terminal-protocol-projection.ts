@@ -165,7 +165,7 @@ export function buildProtocolProjectedRunDetail(
   const needScenarios = normalizeTerminalNeedScenarios(snapshot);
   const activeScenario =
     needScenarios?.scenarios.find((scenario) => scenario.selected) || needScenarios?.scenarios[0] || null;
-  const supplySelection = normalizeTerminalSupplySelection(snapshot);
+  const supplySelection = normalizeTerminalSupplySelection(snapshot, repositoryContext);
   const selectedAuthSession =
     supplySelection?.authSessions.find((session) => session.selected) || supplySelection?.authSessions[0] || null;
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
@@ -16,28 +17,40 @@ import {
   TERMINAL_WORKSPACE_EXPLAINERS,
 } from './terminal-workspace-explainers';
 import { normalizeTerminalSupplySelection, type TerminalSupplySelectionState } from './terminal-supply-selection';
+import type { TerminalRepositoryContextState } from './terminal-repository-context';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
 import { jumpToShellSection } from './terminal-shell-reading';
+import { buildTerminalHref } from './terminal-routes';
 
 interface TerminalSupplySelectionPanelProps {
+  repositoryContext?: TerminalRepositoryContextState | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
 }
 
 export default function TerminalSupplySelectionPanel({
+  repositoryContext = null,
   onRecordActivity,
 }: TerminalSupplySelectionPanelProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { snapshot, runControl } = useTerminalShellBridge();
   const [searchValue, setSearchValue] = useState('');
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const usesRepositoryContext = Boolean(
+    repositoryContext?.selectedRepository &&
+      repositoryContext.repositories.length > 0 &&
+      !repositoryContext.connectionStatus?.metadata?.mock_mode,
+  );
   const selection = useMemo<TerminalSupplySelectionState | null>(
-    () => normalizeTerminalSupplySelection(snapshot),
-    [snapshot],
+    () => normalizeTerminalSupplySelection(snapshot, repositoryContext, usesRepositoryContext ? searchValue : ''),
+    [repositoryContext, searchValue, snapshot, usesRepositoryContext],
   );
 
   useEffect(() => {
+    if (usesRepositoryContext) return;
     setSearchValue(selection?.searchTerm || '');
-  }, [selection?.searchTerm]);
+  }, [selection?.searchTerm, usesRepositoryContext]);
 
   const selectedEntryLabels = useMemo(
     () => selection?.filteredEntries.filter((entry) => entry.selected).slice(0, 6).map((entry) => entry.title) || [],
@@ -58,6 +71,22 @@ export default function TerminalSupplySelectionPanel({
     } finally {
       setIsRecording(false);
     }
+  };
+
+  const selectRepositoryEntry = (entryId: string) => {
+    if (!usesRepositoryContext || !repositoryContext) {
+      void runControl((controls) => controls.toggleInventoryEntry?.(entryId));
+      return;
+    }
+
+    const repositoryId = entryId.replace(/^repository:/, '');
+    const repository = repositoryContext.repositories.find((candidate) => candidate.id === repositoryId);
+    if (!repository) return;
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.set('provider', repositoryContext.provider);
+    nextParams.set('repo', repository.fullName);
+    router.replace(buildTerminalHref(nextParams), { scroll: false });
   };
 
   if (!selection) {
@@ -86,8 +115,8 @@ export default function TerminalSupplySelectionPanel({
           metrics={[
             { label: 'Selected refs', value: String(selection.selectedCount) },
             { label: 'Filtered inventory', value: String(selection.filteredCount) },
-            { label: 'Auth sessions', value: String(selection.authSessions.length) },
-            { label: 'Artifact kinds', value: String(selection.kindOptions.length) },
+            { label: usesRepositoryContext ? 'Connected accounts' : 'Auth sessions', value: String(selection.authSessions.length) },
+            { label: usesRepositoryContext ? 'Supply kinds' : 'Artifact kinds', value: String(selection.kindOptions.length) },
           ]}
           columnsClassName="tablet:grid-cols-2"
           itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
@@ -112,8 +141,10 @@ export default function TerminalSupplySelectionPanel({
             <select
               value={selection.selectedAuthSessionId}
               onChange={(event) => {
+                if (usesRepositoryContext) return;
                 void runControl((controls) => controls.setAuthSession?.(event.target.value));
               }}
+              disabled={usesRepositoryContext || selection.authSessions.length <= 1}
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
             >
               {selection.authSessions.map((option) => (
@@ -126,14 +157,16 @@ export default function TerminalSupplySelectionPanel({
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
             <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
-              <span>Artifact kind</span>
+              <span>{usesRepositoryContext ? 'Supply kind' : 'Artifact kind'}</span>
               <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.artifactKind} />
             </span>
             <select
               value={selection.selectedKind}
               onChange={(event) => {
+                if (usesRepositoryContext) return;
                 void runControl((controls) => controls.setInventoryKind?.(event.target.value));
               }}
+              disabled={usesRepositoryContext}
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
             >
               {selection.kindOptions.map((option) => (
@@ -154,9 +187,10 @@ export default function TerminalSupplySelectionPanel({
               onChange={(event) => {
                 const nextValue = event.target.value;
                 setSearchValue(nextValue);
+                if (usesRepositoryContext) return;
                 void runControl((controls) => controls.setInventorySearch?.(nextValue));
               }}
-              placeholder="Search repo supply..."
+              placeholder={usesRepositoryContext ? 'Search connected repositories...' : 'Search repo supply...'}
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
             />
           </div>
@@ -204,7 +238,7 @@ export default function TerminalSupplySelectionPanel({
             key={entry.id}
             type="button"
             onClick={() => {
-              void runControl((controls) => controls.toggleInventoryEntry?.(entry.id));
+              selectRepositoryEntry(entry.id);
             }}
             className={`rounded-[1.35rem] border px-4 py-4 text-left transition ${
               entry.selected

@@ -456,7 +456,10 @@ export default function TerminalPageClient() {
                       onContextChange={setRepositoryContext}
                       onRecordActivity={handleRecordActivity}
                     />
-                    <TerminalSupplySelectionPanel onRecordActivity={handleRecordActivity} />
+                    <TerminalSupplySelectionPanel
+                      repositoryContext={repositoryContext}
+                      onRecordActivity={handleRecordActivity}
+                    />
                     <TerminalDepositComposer
                       onRecordActivity={handleRecordActivity}
                       repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
