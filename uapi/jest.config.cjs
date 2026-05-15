@@ -129,6 +129,8 @@ module.exports = {
     '<rootDir>/tests/terminalShellBridge.test.tsx',
     '<rootDir>/tests/terminalSupplySelection.test.ts',
     '<rootDir>/tests/terminalGiveNeedWorkbench.test.ts',
+    '<rootDir>/tests/terminalDepositComposer.test.ts',
+    '<rootDir>/tests/terminalDepositComposerCard.test.tsx',
     '<rootDir>/tests/demonstrationWitnessMount.test.tsx',
     '<rootDir>/tests/protocolCommercialBoundary.test.ts',
     '<rootDir>/tests/demonstrationWitnessScopedStylesRoute.test.ts',

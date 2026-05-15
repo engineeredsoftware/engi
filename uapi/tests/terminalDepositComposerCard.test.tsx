@@ -109,6 +109,20 @@ const baseTransactionReadiness = {
 };
 
 describe('TerminalDepositComposer', () => {
+  it('projects the live repository anchor into the visible give source', () => {
+    render(
+      <TerminalDepositComposer
+        repositoryAnchor="engineeredsoftware/ENGI"
+        repositoryProvider="github"
+        transactionReadiness={baseTransactionReadiness}
+      />,
+    );
+
+    expect(screen.getByDisplayValue('engineeredsoftware/ENGI')).toBeInTheDocument();
+    expect(screen.getByText('Selected from Give-side supply')).toBeInTheDocument();
+    expect(screen.getByText(/Bitcode will bind engineeredsoftware\/ENGI/i)).toBeInTheDocument();
+  });
+
   it('keeps deposit submission disabled until settlement readiness is complete', () => {
     const { rerender } = render(
       <TerminalDepositComposer

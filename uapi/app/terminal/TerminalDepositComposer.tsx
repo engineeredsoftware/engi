@@ -61,22 +61,35 @@ export default function TerminalDepositComposer({
     () => normalizeTerminalDepositComposer(snapshot),
     [snapshot],
   );
+  const repositoryAnchorValue = String(repositoryAnchor || '').trim();
+  const usesLiveRepositoryAnchor = Boolean(repositoryAnchorValue);
+  const effectiveAuthSessionId = usesLiveRepositoryAnchor
+    ? `${repositoryProvider || 'github'}:${repositoryAnchorValue}`
+    : composer?.authSessionId || '';
+  const selectedSupplyCount = usesLiveRepositoryAnchor ? 1 : composer?.selectedCount || 0;
+  const selectedInventoryEntryIds = usesLiveRepositoryAnchor ? [] : composer?.selectedInventoryEntryIds || [];
+  const displayedSourceRepo = usesLiveRepositoryAnchor ? repositoryAnchorValue : sourceRepo;
 
   useEffect(() => {
     setSignerAddress((current) => current || composer?.signerAddress || '');
+    if (repositoryAnchorValue) {
+      setSourceRepo(repositoryAnchorValue);
+      return;
+    }
     setSourceRepo((current) => current || composer?.sourceRepo || '');
-  }, [composer?.signerAddress, composer?.sourceRepo]);
+  }, [composer?.signerAddress, composer?.sourceRepo, repositoryAnchorValue]);
 
   const selectedEntryLabels = useMemo(() => {
+    if (repositoryAnchorValue) return [repositoryAnchorValue];
     return composer?.selectedEntries.slice(0, 5).map((entry) => entry.title) || [];
-  }, [composer]);
+  }, [composer, repositoryAnchorValue]);
   const settlementReady = transactionReadiness.canSettle;
 
   const canSubmit = Boolean(
     composer &&
-      (composer.selectedCount > 0 || content.trim()) &&
-      (title.trim() || composer.selectedCount > 0) &&
-      (author.trim() || composer.authSessionId) &&
+      (selectedSupplyCount > 0 || content.trim()) &&
+      (title.trim() || selectedSupplyCount > 0) &&
+      (author.trim() || effectiveAuthSessionId) &&
       settlementReady,
   );
 
@@ -100,11 +113,11 @@ export default function TerminalDepositComposer({
           author,
           artifactKind,
           artifactType,
-          authSessionId: composer.authSessionId || undefined,
-          inventoryEntryIds: composer.selectedInventoryEntryIds,
-          repositoryAnchor: repositoryAnchor || composer.sourceRepo || undefined,
+          authSessionId: effectiveAuthSessionId || undefined,
+          inventoryEntryIds: selectedInventoryEntryIds,
+          repositoryAnchor: repositoryAnchorValue || composer.sourceRepo || undefined,
           repositoryProvider: repositoryProvider || undefined,
-          sourceRepo: sourceRepo || undefined,
+          sourceRepo: displayedSourceRepo || undefined,
           sourceCommit,
           workflowRunId,
           signerAddress,
@@ -132,7 +145,7 @@ export default function TerminalDepositComposer({
       setAuthor('');
       setArtifactKind('');
       setArtifactType('');
-      setSourceRepo(composer.sourceRepo || '');
+      setSourceRepo(repositoryAnchorValue || composer.sourceRepo || '');
       setSourceCommit('');
       setWorkflowRunId('');
       setVisualPreview('');
@@ -146,12 +159,13 @@ export default function TerminalDepositComposer({
           summary:
             payload.asset?.title ||
             title.trim() ||
-            `Deposited ${composer.selectedCount || 1} candidate Bitcode asset pack${composer.selectedCount === 1 ? '' : 's'}.`,
+            `Deposited ${selectedSupplyCount || 1} candidate Bitcode asset pack${selectedSupplyCount === 1 ? '' : 's'}.`,
           context: {
             source: 'terminal-deposit-composer',
-            authSessionId: composer.authSessionId || null,
-            selectedInventoryEntryIds: composer.selectedInventoryEntryIds,
-            selectedInventoryTitles: composer.selectedEntries.map((entry) => entry.title),
+            authSessionId: effectiveAuthSessionId || null,
+            selectedInventoryEntryIds,
+            selectedInventoryTitles: selectedEntryLabels,
+            repositoryAnchor: repositoryAnchorValue || null,
             candidateAssetId: payload.asset?.assetId || null,
           },
           output: {
@@ -201,8 +215,11 @@ export default function TerminalDepositComposer({
       headerAside={
         <BitcodeMetricGrid
           metrics={[
-            { label: 'Session', value: composer.authSessionId || 'none bound' },
-            { label: 'Selected supply', value: String(composer.selectedCount) },
+            {
+              label: usesLiveRepositoryAnchor ? 'Repository' : 'Session',
+              value: usesLiveRepositoryAnchor ? repositoryAnchorValue : composer.authSessionId || 'none bound',
+            },
+            { label: 'Selected supply', value: String(selectedSupplyCount) },
           ]}
           columnsClassName="tablet:grid-cols-2"
           itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
@@ -255,17 +272,37 @@ export default function TerminalDepositComposer({
               />
             </label>
 
-            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
-                <span>Source repo</span>
+            <div
+              className={`rounded-[1.5rem] border px-4 py-4 ${
+                usesLiveRepositoryAnchor
+                  ? 'border-emerald-400/18 bg-emerald-400/10'
+                  : 'border-white/8 bg-black/20'
+              }`}
+            >
+              <span
+                className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] ${
+                  usesLiveRepositoryAnchor ? 'text-emerald-200/85' : 'text-neutral-400'
+                }`}
+              >
+                <span>{usesLiveRepositoryAnchor ? 'Selected source repo' : 'Source repo'}</span>
                 <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceRepo} />
               </span>
               <input
-                value={sourceRepo}
+                value={displayedSourceRepo}
                 onChange={(event) => setSourceRepo(event.target.value)}
+                readOnly={usesLiveRepositoryAnchor}
                 placeholder="repo boundary override"
-                className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
+                className={`mt-3 w-full rounded-xl border px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 ${
+                  usesLiveRepositoryAnchor
+                    ? 'border-emerald-300/20 bg-[rgba(10,15,30,0.92)]'
+                    : 'border-white/10 bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40'
+                }`}
               />
+              {usesLiveRepositoryAnchor ? (
+                <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-emerald-100/70">
+                  Selected from Give-side supply
+                </p>
+              ) : null}
             </div>
 
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
@@ -414,8 +451,10 @@ export default function TerminalDepositComposer({
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected supply</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
-              {composer.selectedCount
-                ? `Bitcode will bind ${composer.selectedCount} selected repo artifact${composer.selectedCount === 1 ? '' : 's'} into this deposit.`
+              {selectedSupplyCount
+                ? usesLiveRepositoryAnchor
+                  ? `Bitcode will bind ${repositoryAnchorValue} as the selected repository source for this deposit.`
+                  : `Bitcode will bind ${selectedSupplyCount} selected repo artifact${selectedSupplyCount === 1 ? '' : 's'} into this deposit.`
                 : 'No repo artifacts are currently selected. Use raw fallback content or select inventory above.'}
             </p>
             {selectedEntryLabels.length ? (
