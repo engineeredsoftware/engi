@@ -56,7 +56,7 @@ export type StreamEvent =
 export interface StreamToken {
   type:
     | 'asset_pack'
-    | 'need_measurement'
+    | 'read_measurement'
     | 'shippable'
     | 'measure'
     | 'attachment'

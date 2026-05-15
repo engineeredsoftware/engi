@@ -114,7 +114,7 @@ class ArchitectureReviewer {
         .join('\n');
       this.expectContains(
         specificText,
-        'comprehendneed',
+        'comprehendread',
         'Read-comprehension PromptParts are present.',
         'Read-comprehension PromptParts must be present.',
         details,
@@ -220,7 +220,7 @@ class ArchitectureReviewer {
       const assetPackGenerator = this.readText('scripts/generate-asset-pack-promptparts.ts');
       this.expectContains(
         assetPackGenerator,
-        'comprehendneed',
+        'comprehendread',
         'AssetPack generator emits read-comprehension PromptParts.',
         'AssetPack generator must emit read-comprehension PromptParts.',
         details,
@@ -241,7 +241,7 @@ class ArchitectureReviewer {
     this.withResult('Inference implementation specification density', (details, violations) => {
       const inferenceSpec = this.readText('protocol-demonstration/V26_INFERENCE_SYSTEMS.md');
       const requiredTerms = [
-        'canonicalNeed',
+        'canonicalRead',
         'promptImplementation',
         'toolImplementation',
         'agentImplementation',

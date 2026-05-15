@@ -1,7 +1,7 @@
 import { assertNonEmptyString } from './constants';
 
 export type TerminalTransactionKind =
-  | 'need_submission'
+  | 'read_submission'
   | 'fit_closure'
   | 'proof_admission'
   | 'asset_pack_mint'
@@ -17,7 +17,7 @@ export type TerminalTransactionKind =
   | 'ledger_database_reconciliation';
 
 export const REQUIRED_TERMINAL_TRANSACTION_KINDS = [
-  'need_submission',
+  'read_submission',
   'fit_closure',
   'proof_admission',
   'asset_pack_mint',

@@ -436,7 +436,7 @@ export type Database = {
           issued_at: string
           measurement_receipt_root: string
           minted_at_exchange_sequence: number
-          need_id: string
+          read_id: string
           normalized_bitcode_volume: number
           proof_root: string
           range_end_exclusive: number
@@ -457,7 +457,7 @@ export type Database = {
           issued_at: string
           measurement_receipt_root: string
           minted_at_exchange_sequence: number
-          need_id: string
+          read_id: string
           normalized_bitcode_volume: number
           proof_root: string
           range_end_exclusive: number
@@ -478,7 +478,7 @@ export type Database = {
           issued_at?: string
           measurement_receipt_root?: string
           minted_at_exchange_sequence?: number
-          need_id?: string
+          read_id?: string
           normalized_bitcode_volume?: number
           proof_root?: string
           range_end_exclusive?: number

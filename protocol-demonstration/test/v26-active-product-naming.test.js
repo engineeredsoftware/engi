@@ -2417,7 +2417,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(updateAssetPackAgentsScriptSource, /repo_root="\$\(cd "\$\(dirname "\$\{BASH_SOURCE\[0\]\}"\)\/\.\."/);
   assert.match(promptAuditScriptSource, /ASSET-PACK PIPELINE PROMPT AUDIT/);
   assert.match(promptAuditScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/);
-  assert.match(promptAuditScriptSource, /"comprehendneed"/);
+  assert.match(promptAuditScriptSource, /"comprehendread"/);
   assert.match(generateAssetPackPromptPartsTsSource, /raw_promptparts\/specific/);
   assert.match(generateAssetPackPromptPartsTsSource, /Comprehend Read/);
   assert.match(generateAssetPackPromptPartsTsSource, /AssetPack metadata/);

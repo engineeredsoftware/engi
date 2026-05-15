@@ -299,7 +299,7 @@ export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_capabili
 export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_identity_definition.d";
 export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_identity_definition";
 export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_output_attachments_spec";
-export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_output_needdefinitionanalysis_spec";
+export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_output_readdefinitionanalysis_spec";
 export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_output_types_spec";
 export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_plan_modality_audio_strategy";
 export * from "./promptpart_specific_agent_assetpacksetupcomprehendread_plan_modality_image_strategy.d";

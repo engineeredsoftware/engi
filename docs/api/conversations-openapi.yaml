@@ -714,7 +714,7 @@ paths:
         - `feedback` - Open feedback channels
         
         **Client Commands:**
-        - Pipeline commands (`asset_pack`, `need_measurement`) return execution instructions
+        - Pipeline commands (`asset_pack`, `read_measurement`) return execution instructions
         - Navigation commands (`history`, `runs`) return frontend routing info
         
       requestBody:
@@ -828,7 +828,7 @@ components:
       properties:
         type:
           type: string
-          enum: [asset_pack, need_measurement, attachment, source, command]
+          enum: [asset_pack, read_measurement, attachment, source, command]
           description: Token type determining how it's processed
         value:
           type: string

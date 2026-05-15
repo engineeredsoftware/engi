@@ -6,7 +6,7 @@ export const BITCODE_FEE_ASSET = 'BTC';
 export const BITCODE_PUBLIC_BITCOIN_PROOF_NETWORK = 'signet';
 export const BTD_MEASUREMINT_CURVE = 'hyperbolic_saturation';
 export const REQUIRED_TERMINAL_TRANSACTION_KINDS = [
-  'need_submission',
+  'read_submission',
   'fit_closure',
   'proof_admission',
   'asset_pack_mint',

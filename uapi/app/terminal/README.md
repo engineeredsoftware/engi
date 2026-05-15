@@ -81,7 +81,7 @@ Reusable Supabase query files for this pass live in `supabase/queries/`:
 - `v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`
 - `v28_qa_terminal_02_activity_after_write.sql`
 - `v28_qa_terminal_03_btd_ledger_after_terminal.sql`
-- `v28_qa_terminal_04_give_repository_alignment.sql`
+- `v28_qa_terminal_04_deposit_repository_alignment.sql`
 
 Those queries are the operator evidence path for proving Terminal UI, API
 history, GitHub source inventory, and BTD ledger projections stay synchronized

@@ -7,9 +7,9 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "bitcode_need_semantics", "test": "Uses read-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "bitcode_read_semantics", "test": "Uses read-first asset-pack written-asset language", "score": 0.95 },
  *   { "name": "support_ready", "test": "AssetPack setup corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDREAD_CAPABILITIES_LIST: PromptPart =
-  "Capabilities: translate expressed user needs into auditable read models; extract constraints, satisfaction criteria, written-asset expectations, attachment meaning, asset-pack context, and delivery-mechanism boundaries; preserve execution state for downstream Bitcode phases." as PromptPart;
+  "Capabilities: translate expressed user read requests into auditable read models; extract constraints, satisfaction criteria, written-asset expectations, attachment meaning, asset-pack context, and delivery-mechanism boundaries; preserve execution state for downstream Bitcode phases." as PromptPart;

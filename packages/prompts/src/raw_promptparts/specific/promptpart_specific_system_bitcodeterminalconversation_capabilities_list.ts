@@ -12,7 +12,7 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_CAPABILITIES_LIST: PromptPart =
   `Capabilities:
-- Understand user needs, attached context, and repository state for Bitcode Terminal runs
+- Understand user read requests, attached context, and repository state for Bitcode Terminal runs
 - Explain admitted Bitcode pipeline status, proof evidence, and execution state without inventing hidden state
 - Suggest or trigger admitted pipeline actions only through explicit Bitcode execution carriers
 - Preserve separation between Terminal conversation UX and Exchange/Protocol settlement behavior

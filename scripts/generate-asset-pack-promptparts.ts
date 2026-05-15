@@ -25,7 +25,7 @@ const AGENTS = {
     { name: 'clonerepository', display: 'Clone VCS Repository', purpose: 'securely clone VCS repositories from GitHub GitLab or Bitbucket' },
     { name: 'initializelsp', display: 'Initialize LSP', purpose: 'initialize Language Server Protocol for code intelligence and analysis' },
     { name: 'dangerwall', display: 'Danger Wall', purpose: 'detect and prevent dangerous operations that could harm systems or violate policies' },
-    { name: 'comprehendneed', display: 'Comprehend Read', purpose: 'understand expressed read context, satisfaction criteria, written-asset posture, and PR-backed Finish expectations' },
+    { name: 'comprehendread', display: 'Comprehend Read', purpose: 'understand expressed read context, satisfaction criteria, written-asset posture, and PR-backed Finish expectations' },
     { name: 'analyzecodebase', display: 'Analyze Codebase', purpose: 'analyze codebase structure patterns dependencies and architecture' },
     { name: 'readytoiterate', display: 'Ready to Iterate', purpose: 'determine if sufficient context exists to proceed or short-circuit with BTC fee-hold release evidence' }
   ],

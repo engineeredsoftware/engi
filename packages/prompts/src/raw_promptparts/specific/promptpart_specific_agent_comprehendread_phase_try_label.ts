@@ -7,7 +7,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "bitcode_need_alignment", "test": "Does it center expressed read and asset-pack semantics? Rate 0-1", "score": 0.96 },
+ *   { "name": "bitcode_read_alignment", "test": "Does it center expressed read and asset-pack semantics? Rate 0-1", "score": 0.96 },
  *   { "name": "delivery_mechanism_separation", "test": "Does it keep delivery mechanisms subordinate to written assets? Rate 0-1", "score": 0.95 }
  * ]
  */

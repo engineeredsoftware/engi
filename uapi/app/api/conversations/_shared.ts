@@ -198,7 +198,7 @@ function normalizeConversationExecutionType(token?: ConversationToken) {
     return 'agentic-execution:asset-pack';
   }
 
-  if (normalized === 'need_measurement') {
+  if (normalized === 'read_measurement') {
     return 'agentic-execution:read-measurement';
   }
 

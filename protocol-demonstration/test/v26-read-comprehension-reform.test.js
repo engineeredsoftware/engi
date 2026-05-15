@@ -73,15 +73,15 @@ test('V26 read-comprehension keeps canonical owners and removes noncanonical wra
   assert.match(canonicalPrimitivesTs, /commercial_accountability/u);
 
   assert.doesNotMatch(canonicalSchemasTs, /ReadComprehensionCompatibilityPrimaryTypeSchema/u);
-  assert.match(canonicalSchemasTs, /NeedRequirementSchema/u);
-  assert.match(canonicalSchemasTs, /NeedConstraintSchema/u);
+  assert.match(canonicalSchemasTs, /ReadRequirementSchema/u);
+  assert.match(canonicalSchemasTs, /ReadConstraintSchema/u);
   assert.match(canonicalSchemasTs, /ReadSatisfactionCriterionSchema/u);
 
   assert.match(indexTs, /AnalyzeReadSemanticsTool/u);
   assert.match(indexTs, /ReadComprehensionToolset/u);
   assert.match(indexTs, /read-comprehension-primitives/u);
   assert.match(indexTs, /read-comprehension-schemas/u);
-  assert.match(promptsIndexTs, /need_owner_only/u);
+  assert.match(promptsIndexTs, /read_owner_only/u);
   assert.doesNotMatch(indexTs, /AnalyzeTaskSemanticsTool|from '\.\/primitives'|from '\.\/schemas'/u);
   assert.doesNotMatch(
     `${indexTs}\n${promptsIndexTs}\n${toolsetTs}`,

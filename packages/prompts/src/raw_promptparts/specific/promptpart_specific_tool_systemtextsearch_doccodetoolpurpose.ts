@@ -14,4 +14,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLPURPOSE: PromptPart = 
-  'Collect line-level repository evidence with grep-backed recursive search so Bitcode agents can measure needs, inspect proof/source owners, and ground written-asset or AssetPack synthesis decisions' as PromptPart;
+  'Collect line-level repository evidence with grep-backed recursive search so Bitcode agents can measure reads, inspect proof/source owners, and ground written-asset or AssetPack synthesis decisions' as PromptPart;

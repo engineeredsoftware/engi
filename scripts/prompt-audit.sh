@@ -10,7 +10,7 @@ echo ""
 # Active AssetPack SDIVF agent PromptPart keys expected by V26.
 agents=(
   # Setup Phase
-  "comprehendneed"
+  "comprehendread"
   "dangerwall"
   "clonevcsrepository"
   "analyzecodebase"

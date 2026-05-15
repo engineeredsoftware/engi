@@ -169,7 +169,7 @@ function assetPackTraceMetadataIntent(filename) {
   if (lower.includes('comprehendtask')) {
     return `Bitcode comprehend-task trace PromptPart for canonical comprehend-read asset-pack synthesis: ${label}`;
   }
-  if (lower.includes('comprehendneed')) {
+  if (lower.includes('comprehendread')) {
     return `Bitcode canonical comprehend-read PromptPart for read-first written-asset / asset-pack synthesis: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_tool_')) {

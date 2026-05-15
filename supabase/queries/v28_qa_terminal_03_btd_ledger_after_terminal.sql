@@ -132,7 +132,7 @@ FROM (
     range_end_exclusive,
     token_count,
     normalized_bitcode_volume,
-    need_id,
+    read_id AS read_id,
     source_manifest_root,
     measurement_receipt_root,
     fit_receipt_root,

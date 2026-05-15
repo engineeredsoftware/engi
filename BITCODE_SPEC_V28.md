@@ -56,14 +56,14 @@ V28 answers that by specifying:
 ## V28 Terminal Terminology Contract
 
 V28 user-facing Terminal language is Deposit/Depositing and Read/Reading.
-The previous Deposit/Depositing and Read/Reading vocabulary is retired from operator-visible copy, QA instructions, public docs, Terminal labels, tooltip prose, test-visible assertions, and staging walkthroughs.
+Pre-V28 Terminal vocabulary is retired from operator-visible copy, QA instructions, public docs, Terminal labels, tooltip prose, test-visible assertions, staging walkthroughs, and active data-contract carriers.
 
 Deposit means source supply is selected, bound to a repository/branch/commit, signed where required, and submitted as the candidate supply side before any meaningful Read/Fit result is evaluated.
 Read means the demand/query/measurement side that reads against available deposited source posture, then proceeds into Fit, proofs, finalities, ledgerization, and reconciliation.
 
-Implementation may temporarily retain persisted/API compatibility carriers such as enum values, route names, schema fields, artifact IDs, component filenames, and canonical proof IDs containing `deposit`, `read`, or `read-measurement`.
-Those carriers are not operator vocabulary.
-Any active UI, documentation, QA query label, or test-visible copy that surfaces those carriers must translate them to Deposit/Read language until a separate bounded schema/API migration is specified.
+As of the V28 Deposit/Read data-contract closure, active database, ORM, API, QA-query, OpenAPI, demonstration, and protocol carriers use Deposit/Read naming where they are part of the current contract.
+Remaining strings containing `deposit`, `read`, or `read-measurement` are current V28 names, not compatibility vocabulary.
+The live staging migration may use bounded dynamic compatibility references only to upgrade already-deployed data without keeping retired identifiers in the active schema.
 
 ## Real-Deployed Staging-Testnet MVP Target
 

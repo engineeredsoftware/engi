@@ -142,7 +142,7 @@ SELECT
     WHEN g.user_id IS NULL THEN 'blocker:missing_github_connection'
     WHEN coalesce(r.github_repository_count, 0) = 0 THEN 'blocker:missing_vcs_repository_inventory'
     WHEN coalesce(r.engi_repository_rows, 0) = 0 THEN 'warning:ENGI_repo_not_in_inventory'
-    ELSE 'ready_for_terminal_give_need'
+    ELSE 'ready_for_terminal_deposit_read'
   END AS terminal_prerequisite_state,
   CASE
     WHEN p.wallet_network IS NULL AND w.wallet_connection_network IS NOT NULL THEN 'warning:profile_wallet_network_missing'

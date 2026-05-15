@@ -75,7 +75,7 @@ type ClosureSurfaceSnapshot = {
     label?: string | null;
     branchName?: string | null;
     branchMode?: string | null;
-    needLifecycle?: string | null;
+    readLifecycle?: string | null;
     confidentiality?: string | null;
     projectionPrincipal?: string | null;
     visibleArtifactCount?: number | null;
@@ -282,7 +282,7 @@ export function normalizeTerminalClosureState(snapshot: ShellSnapshot): Terminal
       rows: [
         { label: 'Branch', value: stringValue(branch.branchName) },
         { label: 'Branch mode', value: stringValue(branch.branchMode) },
-        { label: 'Read lifecycle', value: stringValue(branch.needLifecycle) },
+        { label: 'Read lifecycle', value: stringValue(branch.readLifecycle) },
         { label: 'Confidentiality', value: stringValue(branch.confidentiality) },
       ],
       chips: visibleArtifacts.slice(0, 8),

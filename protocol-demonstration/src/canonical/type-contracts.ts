@@ -1,6 +1,6 @@
 export type Brand<T, Name extends string> = T & { readonly __brand: Name };
 
-export type NeedId = Brand<string, 'NeedId'>;
+export type ReadId = Brand<string, 'ReadId'>;
 export type AssetId = Brand<string, 'AssetId'>;
 export type BranchName = Brand<string, 'BranchName'>;
 export type ContentRoot = Brand<string, 'ContentRoot'>;
@@ -24,7 +24,7 @@ export interface RealizationProfileDefinition {
   readonly shortLabel: string;
   readonly identity: RealizationIdentity;
   readonly depositMode: string;
-  readonly needMode: string;
+  readonly readMode: string;
   readonly assetPackShape: string;
   readonly settlementShape: string;
   readonly scenarioFamilies: readonly string[];
@@ -40,7 +40,7 @@ export interface BuiltRealizationProfile {
   readonly shortLabel: string;
   readonly identity: RealizationIdentity;
   readonly depositMode: string;
-  readonly needMode: string;
+  readonly readMode: string;
   readonly assetPackShape: string;
   readonly settlementShape: string;
   readonly scenarioFamilies: string[];

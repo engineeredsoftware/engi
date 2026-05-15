@@ -12,4 +12,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PURPOSE_CORESTATEMENT: PromptPart =
-  'Collect and structure bounded repository evidence so Bitcode agents can measure needs, inspect proof/source owners, and ground AssetPack or written-asset planning before downstream systems interpret, mutate, prove, or deliver.' as PromptPart;
+  'Collect and structure bounded repository evidence so Bitcode agents can measure reads, inspect proof/source owners, and ground AssetPack or written-asset planning before downstream systems interpret, mutate, prove, or deliver.' as PromptPart;

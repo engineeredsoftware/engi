@@ -1128,6 +1128,18 @@ Saved query name: `v28_qa_terminal_04_deposit_repository_alignment`
 
 Use `supabase/queries/v28_qa_terminal_04_deposit_repository_alignment.sql` after Terminal loads and after each Deposit recording. The query confirms live repository inventory belongs to the connected GitHub account and flags any protocol-demo `frontier/*` reference in recent Terminal Deposit activity.
 
+V28 Deposit/Read data-contract closure:
+
+Saved query name: `v28_qa_data_contract_deposit_read_migration`
+
+Use `supabase/queries/v28_qa_data_contract_deposit_read_migration.sql` after migrations or staging resets. Expected `data_contract_state` is `v28_deposit_read_data_contract_closed`.
+
+- Migration `20260515143000_v28_deposit_read_data_contract` is applied to the linked staging Supabase project.
+- `public.btd_asset_pack_ranges` now projects range linkage through `read_id`; the previous live column is absent after migration.
+- `public.btd_terminal_journal_entries` accepts `read_submission` as the Terminal journal transaction kind.
+- ORM schema types, data-health checks, saved QA SQL, OpenAPI conversation payload docs, protocol demonstration fixtures, and API conversation-stream internals use the current Deposit/Read contract.
+- `pnpm db:schema-types:check`, `pnpm db:data-health:daily`, ORM data-health tests, UAPI Terminal/conversation tests, UAPI lint/build, API build, and protocol demonstration V28 QA are the closure evidence for this rename pass.
+
 BTD and ledger projection readback:
 
 Saved query name: `v28_qa_terminal_03_btd_ledger_after_terminal`

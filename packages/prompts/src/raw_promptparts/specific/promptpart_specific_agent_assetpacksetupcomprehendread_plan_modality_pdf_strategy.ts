@@ -7,7 +7,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "bitcode_need_semantics", "test": "Uses read-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "bitcode_read_semantics", "test": "Uses read-first asset-pack written-asset language", "score": 0.95 },
  *   { "name": "support_ready", "test": "AssetPack setup corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */

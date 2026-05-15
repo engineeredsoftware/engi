@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS public.btd_asset_pack_ranges (
   range_end_exclusive integer NOT NULL,
   token_count integer NOT NULL,
   normalized_bitcode_volume numeric(38, 0) NOT NULL,
-  need_id text NOT NULL,
+  read_id text NOT NULL,
   source_manifest_root text NOT NULL,
   measurement_receipt_root text NOT NULL,
   fit_receipt_root text NOT NULL,
@@ -428,7 +428,7 @@ CREATE TABLE IF NOT EXISTS public.btd_terminal_journal_entries (
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT btd_terminal_journal_kind CHECK (
     transaction_kind IN (
-      'need_submission',
+      'read_submission',
       'fit_closure',
       'proof_admission',
       'asset_pack_mint',

@@ -33,7 +33,7 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
       audienceMeaning: 'The demo is proving decisive selection, narrow proof closure, and fast settlement explanation.'
     }),
     depositMode: 'Deposit one or a few decisive repo-authenticated artifacts so the asset pack can stay tight.',
-    needMode: 'Read is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
+    readMode: 'Read is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
     assetPackShape: 'Tight pack with minimal normalization and quick branch closure.',
     settlementShape: 'Positive settlement entries concentrate on the decisive assets; zero-credit participants should be rare and explicit.',
     scenarioFamilies: Object.freeze([
@@ -63,7 +63,7 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
       audienceMeaning: 'The demo is proving normalization, overlap handling, and source-to-shares closure rather than a single decisive pick.'
     }),
     depositMode: 'Deposit multiple overlapping artifacts across kinds so Bitcode can normalize contribution and provenance.',
-    needMode: 'Read stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
+    readMode: 'Read stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
     assetPackShape: 'Broader pack where normalization, tie-break rules, and overlap accounting matter.',
     settlementShape: 'Settlement makes source-to-shares normalization visible and may keep zero-credit participants explicit.',
     scenarioFamilies: Object.freeze([

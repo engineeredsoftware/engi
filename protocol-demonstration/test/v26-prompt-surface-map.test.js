@@ -114,7 +114,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);
   assert.match(inferenceSystemsSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
   assert.match(inferenceSystemsSource, /recordId/u);
-  assert.match(inferenceSystemsSource, /canonicalNeed/u);
+  assert.match(inferenceSystemsSource, /canonicalRead/u);
   assert.match(inferenceSystemsSource, /promptImplementation/u);
   assert.match(inferenceSystemsSource, /Registry primitive, registry path\/key structure, generic base PromptParts, specific implementation PromptParts/u);
   assert.match(inferenceSystemsSource, /toolImplementation/u);

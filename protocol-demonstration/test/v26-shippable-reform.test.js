@@ -634,7 +634,7 @@ test('asset-pack evidence search uses current Bitcode naming at the package boun
 
 test('AssetPack preprocess stores read and written-asset semantic mirrors alongside compatibility keys', () => {
   assert.match(assetPackPipelineSource, /resolveWrittenAssetType\(processedInput\)/u);
-  assert.match(assetPackPipelineSource, /resolveExpressedNeed/u);
+  assert.match(assetPackPipelineSource, /resolveExpressedRead/u);
   assert.match(assetPackPipelineSource, /execution\.store\('pipeline', 'writtenAssetType', writtenAssetType\);/u);
   assert.match(assetPackPipelineSource, /execution\.store\('pipeline', 'expressedRead', expressedRead\);/u);
   assert.match(assetPackPipelineSource, /execution\.store\('read', 'description', expressedRead\);/u);
@@ -679,7 +679,7 @@ test('setup comprehension path mirrors semantic read and written-asset keys for 
   assert.match(comprehendReadSource, /written_asset_types/u);
   assert.match(comprehendReadPromptSource, /DP_COMPREHEND_READ_SYSTEM_PROMPT/u);
   assert.match(comprehendReadPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDREAD_IDENTITY_DEFINITION/u);
-  assert.doesNotMatch(comprehendReadPromptSource, /DELIVERABLESETUPCOMPREHENDREAD|deliverablesetupcomprehendneed/u);
+  assert.doesNotMatch(comprehendReadPromptSource, /DELIVERABLESETUPCOMPREHENDREAD|deliverablesetupcomprehendread/u);
   assert.doesNotMatch(comprehendReadPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION/u);
   assert.doesNotMatch(comprehendReadPromptSource, /pipeline:compatibility/u);
   assert.match(comprehendReadPromptSource, /asset-pack-written-asset/u);
@@ -1119,7 +1119,7 @@ test('raw PromptPart benchmark metadata stays parseable after broad normalizatio
 test('retained maintenance scripts audit current Bitcode prompt and asset-pack-run semantics', () => {
   assert.match(promptAuditScriptSource, /ASSET-PACK PIPELINE PROMPT AUDIT/u);
   assert.match(promptAuditScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/u);
-  assert.match(promptAuditScriptSource, /"comprehendneed"/u);
+  assert.match(promptAuditScriptSource, /"comprehendread"/u);
   assert.match(promptAuditScriptSource, /"assetpacksynthesizeartifacts"/u);
   assert.match(promptAuditScriptSource, /"assetpackfinishcreatepullrequestdelivery"/u);
   assert.match(promptAuditScriptSource, /"try_directives"/u);

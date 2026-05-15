@@ -441,7 +441,7 @@ testAny('browser operator matrix covers every scenario, branch mode, and project
           await waitForSummaryValue(page, 'Active scenario', scenario.scenarioFamily);
 
           await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-          await waitForStatus(page, `Created bitcode/remediation-need_${scenario.scenarioId}`);
+          await waitForStatus(page, `Created bitcode/remediation-read_${scenario.scenarioId}`);
 
           const summary = await readSummary(page);
           assert.equal(summary['Projection'], principal, `${cellLabel} summary projection drift`);
@@ -483,7 +483,7 @@ testAny('browser flow can switch to normalization mode and surface source-to-sha
     assert.equal(selectedScenarioSummary['Active scenario'], 'many-asset-settlement-normalization');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_auth-many-asset-normalization');
+    await waitForStatus(page, 'Created bitcode/remediation-read_auth-many-asset-normalization');
 
     const settledSummary = await readSummary(page);
     assert.equal(settledSummary['Active deposit profile'], 'Normalization deposit');
@@ -508,7 +508,7 @@ testAny('browser flow surfaces identity/auth and proof/disclosure panels for pri
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_privacy-boundary-proof-export');
+    await waitForStatus(page, 'Created bitcode/remediation-read_privacy-boundary-proof-export');
 
     const settledSummary = await readSummary(page);
     assert.equal(settledSummary['Active scenario'], 'privacy-boundary-stress');
@@ -620,7 +620,7 @@ testAny('browser flow surfaces projection visibility and proof-family catalog fo
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_privacy-boundary-proof-export');
+    await waitForStatus(page, 'Created bitcode/remediation-read_privacy-boundary-proof-export');
 
     const reviewerSummary = await readSummary(page);
     assert.equal(reviewerSummary['Projection'], 'reviewer');
@@ -649,7 +649,7 @@ testAny('browser flow can run a second scenario without reset and refresh latest
     await loadDemo(page, baseUrl);
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_auth-issuer-rollback');
+    await waitForStatus(page, 'Created bitcode/remediation-read_auth-issuer-rollback');
 
     const firstSummary = await readSummary(page);
     assert.equal(firstSummary['Active scenario'], 'monorepo-auth-rollback');
@@ -658,7 +658,7 @@ testAny('browser flow can run a second scenario without reset and refresh latest
     await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_privacy-boundary-proof-export');
+    await waitForStatus(page, 'Created bitcode/remediation-read_privacy-boundary-proof-export');
 
     const secondSummary = await readSummary(page);
     assert.equal(secondSummary['Active scenario'], 'privacy-boundary-stress');
@@ -678,7 +678,7 @@ testAny('browser flow can inspect raw verification and proof JSON for a restrict
     await waitForStatus(page, 'Selected scenario unsafe-patch-review-recovery (Targeted deposit).');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_unsafe-patch-review-recovery');
+    await waitForStatus(page, 'Created bitcode/remediation-read_unsafe-patch-review-recovery');
 
     const verificationSurface = await surfaceByTitleInSection(page, 'evaluations', 'Verification report');
     await switchSurfaceToRaw(verificationSurface);
@@ -719,7 +719,7 @@ testAny('browser flow surfaces prompt and inference audit artifacts for internal
     await waitForStatus(page, 'Selected scenario auth-issuer-rollback');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_auth-issuer-rollback');
+    await waitForStatus(page, 'Created bitcode/remediation-read_auth-issuer-rollback');
 
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Prompt family registry') >= 1);
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Inference proofs') >= 1);
@@ -753,7 +753,7 @@ testAny('browser flow surfaces static, authorization, and settlement family proo
     await waitForStatus(page, 'Selected scenario auth-many-asset-normalization');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_auth-many-asset-normalization');
+    await waitForStatus(page, 'Created bitcode/remediation-read_auth-many-asset-normalization');
 
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Static measurement report') >= 1);
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Static code-analysis closure proof') >= 1);
@@ -799,7 +799,7 @@ testAny('browser flow can switch projections and keep proof visibility bounded b
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_privacy-boundary-proof-export');
+    await waitForStatus(page, 'Created bitcode/remediation-read_privacy-boundary-proof-export');
 
     const reviewerSummary = await readSummary(page);
     assert.equal(reviewerSummary['Projection'], 'reviewer');
@@ -829,7 +829,7 @@ testAny('browser flow can switch between internal and reviewer visibility withou
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
-    await waitForStatus(page, 'Created bitcode/remediation-need_privacy-boundary-proof-export');
+    await waitForStatus(page, 'Created bitcode/remediation-read_privacy-boundary-proof-export');
 
     const internalSummary = await readSummary(page);
     assert.equal(internalSummary['Projection'], 'internal');

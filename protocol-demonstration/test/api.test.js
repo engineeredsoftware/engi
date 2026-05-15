@@ -436,7 +436,7 @@ testAny('POST /api/make-bitcode-branch defaults to bounded public projection', a
 
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.ok, true);
-    assert.equal(response.json.latestRun.needLifecycle, 'settled');
+    assert.equal(response.json.latestRun.readLifecycle, 'settled');
     assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — targeted deposit / bounded read');
     assert.equal(response.json.latestRun.realizationProfile.shortLabel, 'Targeted deposit');
     assert.equal(response.json.latestRun.projectionPrincipal, 'public');

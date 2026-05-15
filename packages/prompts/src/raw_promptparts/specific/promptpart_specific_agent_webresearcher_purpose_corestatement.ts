@@ -12,4 +12,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PURPOSE_CORESTATEMENT: PromptPart =
-  'Research the web during Bitcode discovery to support read synthesis with source-attributed external evidence, so downstream agents can measure needs, form proof-gap questions, understand third-party interfaces, and plan AssetPacks before downstream systems interpret, mutate, prove, or deliver.' as PromptPart;
+  'Research the web during Bitcode discovery to support read synthesis with source-attributed external evidence, so downstream agents can measure reads, form proof-gap questions, understand third-party interfaces, and plan AssetPacks before downstream systems interpret, mutate, prove, or deliver.' as PromptPart;

@@ -5,7 +5,7 @@
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "query_need_alignment", "test": "Requires queries to be derived from Bitcode read context", "score": 1.00 }
+ *   { "name": "query_read_alignment", "test": "Requires queries to be derived from Bitcode read context", "score": 1.00 }
  * ]
  */
 

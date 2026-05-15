@@ -2,7 +2,7 @@
 
 export const V26_INFERENCE_IMPLEMENTATION_RECORD_REQUIRED_FIELDS = Object.freeze([
   'recordId',
-  'canonicalNeed',
+  'canonicalRead',
   'promptImplementation',
   'toolImplementation',
   'agentImplementation',
@@ -56,7 +56,7 @@ export const V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS = Object.freeze({
 export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   {
     recordId: 'prompt-primitives',
-    canonicalNeed: 'Provide the canonical prompt substrate that makes Bitcode inference describable, composable, executable, and replayable.',
+    canonicalRead: 'Provide the canonical prompt substrate that makes Bitcode inference describable, composable, executable, and replayable.',
     promptImplementation: {
       owners: [
         'packages/prompts/src/parts/PromptPart.ts',
@@ -102,7 +102,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'tool-prompt-infrastructure',
-    canonicalNeed: 'Attach tool descriptions, callable contracts, and tool execution evidence into Bitcode agentic runs without hidden prompt strings.',
+    canonicalRead: 'Attach tool descriptions, callable contracts, and tool execution evidence into Bitcode agentic runs without hidden prompt strings.',
     promptImplementation: {
       owners: [
         'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
@@ -155,7 +155,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'agent-infrastructure',
-    canonicalNeed: 'Represent Bitcode agent roles, steps, substeps, prompt overlays, tool registries, retries, and diagnostics as explicit execution-bearing infrastructure.',
+    canonicalRead: 'Represent Bitcode agent roles, steps, substeps, prompt overlays, tool registries, retries, and diagnostics as explicit execution-bearing infrastructure.',
     promptImplementation: {
       owners: [
         'packages/agent-generics/src/prompts/AgentPrompt.ts',
@@ -213,7 +213,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'execution-infrastructure',
-    canonicalNeed: 'Provide the canonical execution tree, prompt-aware execution ancestry, storage controls, streaming adapters, work updates, and typed store evidence for Bitcode inference runs.',
+    canonicalRead: 'Provide the canonical execution tree, prompt-aware execution ancestry, storage controls, streaming adapters, work updates, and typed store evidence for Bitcode inference runs.',
     promptImplementation: {
       owners: [
         'packages/execution-generics/src/prompts/ExecutionPrompt.ts'
@@ -267,7 +267,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'pipeline-infrastructure',
-    canonicalNeed: 'Represent Bitcode runs, phases, prompts, tool registries, streaming, resume, metrics, and phase orchestration as explicit pipeline execution infrastructure.',
+    canonicalRead: 'Represent Bitcode runs, phases, prompts, tool registries, streaming, resume, metrics, and phase orchestration as explicit pipeline execution infrastructure.',
     promptImplementation: {
       owners: [
         'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
@@ -321,7 +321,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'conversation-inference',
-    canonicalNeed: 'Provide the rich-input Bitcode write surface that binds conversation prompts, attachments, tool registration, streams, and ad hoc execution continuity.',
+    canonicalRead: 'Provide the rich-input Bitcode write surface that binds conversation prompts, attachments, tool registration, streams, and ad hoc execution continuity.',
     promptImplementation: {
       owners: [
         'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
@@ -368,7 +368,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'asset-pack-synthesis-compatibility',
-    canonicalNeed: 'Operate Bitcode AssetPack pipeline machinery as asset-pack written-asset synthesis plus delivery-mechanism compatibility.',
+    canonicalRead: 'Operate Bitcode AssetPack pipeline machinery as asset-pack written-asset synthesis plus delivery-mechanism compatibility.',
     promptImplementation: {
       owners: [
         'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
@@ -482,7 +482,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'read-comprehension-reform',
-    canonicalNeed: 'Provide setup-phase Bitcode Read comprehension over expressed reads, source-to-shares service questions, commercial accountability, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries with read-first tool, prompt, primitive, schema, and raw PromptPart owners.',
+    canonicalRead: 'Provide setup-phase Bitcode Read comprehension over expressed reads, source-to-shares service questions, commercial accountability, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries with read-first tool, prompt, primitive, schema, and raw PromptPart owners.',
     promptImplementation: {
       owners: [
         'packages/generic-agents/read-comprehension/src/index.ts',
@@ -586,7 +586,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'read-review-before-fit-search',
-    canonicalNeed: 'Review a synthesized Bitcode Read after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.',
+    canonicalRead: 'Review a synthesized Bitcode Read after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.',
     promptImplementation: {
       owners: [
         'protocol-demonstration/src/canonical/read-measurement.js',
@@ -631,7 +631,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'external-evidence-research-support',
-    canonicalNeed: 'Research the web during the discovery phase to support Bitcode read synthesis with source-attributed external evidence for read measurement, source-to-shares service questions, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical read interpretation, proof, delivery, mutation, or product ownership.',
+    canonicalRead: 'Research the web during the discovery phase to support Bitcode read synthesis with source-attributed external evidence for read measurement, source-to-shares service questions, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical read interpretation, proof, delivery, mutation, or product ownership.',
     promptImplementation: {
       owners: [
         'packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts',
@@ -742,7 +742,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'read-risk-admission-support',
-    canonicalNeed: 'Admit or block the next Bitcode pipeline phase by evaluating a read, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the danger-wall risk-admission corridor into canonical read, proof, mutation, delivery, or product ownership.',
+    canonicalRead: 'Admit or block the next Bitcode pipeline phase by evaluating a read, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the danger-wall risk-admission corridor into canonical read, proof, mutation, delivery, or product ownership.',
     promptImplementation: {
       owners: [
         'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts',
@@ -810,7 +810,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'mcp-external-ingress',
-    canonicalNeed: 'Admit Exchange-facing MCP and external interface operations as fail-closed ingress into Bitcode execution state, not as sibling product logic.',
+    canonicalRead: 'Admit Exchange-facing MCP and external interface operations as fail-closed ingress into Bitcode execution state, not as sibling product logic.',
     promptImplementation: {
       owners: [
         'packages/executions-mcp/README.md',
@@ -983,7 +983,7 @@ export function validateV26InferenceImplementationRecords(options = {}) {
 
     return {
       recordId: record.recordId,
-      canonicalNeed: record.canonicalNeed,
+      canonicalRead: record.canonicalRead,
       boundaryPosture: record.boundaryPosture,
       missingFields,
       invalidBoundaryPosture,

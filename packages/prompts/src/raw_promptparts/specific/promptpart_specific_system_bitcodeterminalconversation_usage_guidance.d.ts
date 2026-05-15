@@ -2,7 +2,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: system
- * intent: "Guidance for answering Bitcode Terminal conversation needs"
+ * intent: "Guidance for answering Bitcode Terminal conversation read requests"
  * current_version: "BITCODE_V26_CONVERSATION_SYSTEM_PROMPTPART.1"
  * versions: []
  * benchmarks: [

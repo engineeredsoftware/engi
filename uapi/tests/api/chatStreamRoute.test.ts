@@ -172,7 +172,7 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
               value: 'spec-v26.pdf',
               metadata: { attachment_id: 'file-1', category: 'file', type: 'pdf' },
             },
-            { type: 'need_measurement', value: 'fit review' },
+            { type: 'read_measurement', value: 'fit review' },
           ],
         }),
       }),
@@ -217,9 +217,9 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
                 token_type: 'attachment',
               }),
             ]),
-            need_measurement_intents: expect.arrayContaining([
+            read_measurement_intents: expect.arrayContaining([
               expect.objectContaining({
-                token_type: 'need_measurement',
+                token_type: 'read_measurement',
                 value: 'fit review',
               }),
             ]),
@@ -234,9 +234,9 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
                 token_type: 'attachment',
               }),
             ]),
-            need_measurement_intents: expect.arrayContaining([
+            read_measurement_intents: expect.arrayContaining([
               expect.objectContaining({
-                token_type: 'need_measurement',
+                token_type: 'read_measurement',
                 value: 'fit review',
               }),
             ]),

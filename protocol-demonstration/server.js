@@ -675,7 +675,7 @@ export function createAppContext({
     });
     const reviewDecision = /** @type {any} */ (readReview).reviewDecision || {};
     const historyEntry = {
-      reviewId: `need_review_${Date.now().toString(36)}`,
+      reviewId: `read_review_${Date.now().toString(36)}`,
       protocolFocus: 'source-to-shares',
       scenario: payload.scenario,
       measurement: payload.measurement,

@@ -73,7 +73,7 @@ type ConversationRichInputSummary = {
   source_attachments: ConversationAttachmentReference[];
   output_destinations: ConversationAttachmentReference[];
   asset_pack_references: ConversationRichInputReference[];
-  need_measurement_intents: ConversationRichInputReference[];
+  read_measurement_intents: ConversationRichInputReference[];
   token_counts: ReturnType<typeof countTokenTypes>;
 };
 
@@ -181,7 +181,7 @@ function tokenRequestsReadMeasurement(token: ConversationStreamToken) {
   const pipelineType =
     typeof token.metadata?.pipelineType === 'string' ? normalizeConversationText(token.metadata.pipelineType).toLowerCase() : '';
 
-  return tokenType === 'need_measurement' || tokenType === 'measure' || pipelineType.includes('measure');
+  return tokenType === 'read_measurement' || tokenType === 'measure' || pipelineType.includes('measure');
 }
 
 function buildConversationRichInputSummary(
@@ -198,7 +198,7 @@ function buildConversationRichInputSummary(
         return tokenType === 'asset_pack' || tokenType === 'shippable' || tokenType === 'evidence_document';
       })
       .map(buildRichInputReference),
-    need_measurement_intents: tokens.filter(tokenRequestsReadMeasurement).map(buildRichInputReference),
+    read_measurement_intents: tokens.filter(tokenRequestsReadMeasurement).map(buildRichInputReference),
     token_counts: countTokenTypes(tokens),
   };
 }
@@ -209,7 +209,7 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
       typeof token.metadata?.pipelineType === 'string' ? token.metadata.pipelineType : undefined;
     const candidate = metadataPipelineType || normalizeConversationTokenType(token) || resolveConversationTokenValue(token);
 
-    if (candidate === 'need_measurement' || candidate === 'measure') {
+    if (candidate === 'read_measurement' || candidate === 'measure') {
       return normalizeAgenticExecutionType(candidate);
     }
 
@@ -321,7 +321,7 @@ async function createConversationExecution(options: {
         source_attachments: options.richInput.source_attachments,
         output_destinations: options.richInput.output_destinations,
         asset_pack_references: options.richInput.asset_pack_references,
-        need_measurement_intents: options.richInput.need_measurement_intents,
+        read_measurement_intents: options.richInput.read_measurement_intents,
       } as any,
       started_at: nowIso,
       created_at: nowIso,
