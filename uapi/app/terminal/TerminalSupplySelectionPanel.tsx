@@ -56,6 +56,12 @@ export default function TerminalSupplySelectionPanel({
     () => selection?.filteredEntries.filter((entry) => entry.selected).slice(0, 6).map((entry) => entry.title) || [],
     [selection],
   );
+  const selectedRepositoryId = repositoryContext?.selectedRepository?.id || '';
+  const providerAccount =
+    repositoryContext?.connectionStatus?.username ||
+    repositoryContext?.connectionStatus?.metadata?.account ||
+    repositoryContext?.selectedRepository?.owner.username ||
+    'connected account';
 
   const handleRecordSelection = async () => {
     if (!selection || !onRecordActivity) return;
@@ -73,13 +79,8 @@ export default function TerminalSupplySelectionPanel({
     }
   };
 
-  const selectRepositoryEntry = (entryId: string) => {
-    if (!usesRepositoryContext || !repositoryContext) {
-      void runControl((controls) => controls.toggleInventoryEntry?.(entryId));
-      return;
-    }
-
-    const repositoryId = entryId.replace(/^repository:/, '');
+  const selectRepository = (repositoryId: string) => {
+    if (!usesRepositoryContext || !repositoryContext) return;
     const repository = repositoryContext.repositories.find((candidate) => candidate.id === repositoryId);
     if (!repository) return;
 
@@ -87,6 +88,15 @@ export default function TerminalSupplySelectionPanel({
     nextParams.set('provider', repositoryContext.provider);
     nextParams.set('repo', repository.fullName);
     router.replace(buildTerminalHref(nextParams), { scroll: false });
+  };
+
+  const selectRepositoryEntry = (entryId: string) => {
+    if (!usesRepositoryContext || !repositoryContext) {
+      void runControl((controls) => controls.toggleInventoryEntry?.(entryId));
+      return;
+    }
+
+    selectRepository(entryId.replace(/^repository:/, ''));
   };
 
   if (!selection) {
@@ -107,8 +117,12 @@ export default function TerminalSupplySelectionPanel({
     <TerminalWorkspaceCard
       id="terminalSupplySelection"
       kicker="Give-side supply"
-      title="Search and select supply for the current give draft"
-      summary="Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current give draft before moving into deposit and need."
+      title={usesRepositoryContext ? 'Choose the repository you are giving' : 'Search and select supply for the current give draft'}
+      summary={
+        usesRepositoryContext
+          ? 'Select one connected GitHub repository as the source boundary for this Give. The cards below are browseable inventory; the dropdown is the primary selection control.'
+          : 'Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current give draft before moving into deposit and need.'
+      }
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory}
       headerAside={
         <BitcodeMetricGrid
@@ -133,48 +147,82 @@ export default function TerminalSupplySelectionPanel({
 
       <div className="mt-6 grid gap-4">
         <div className="grid gap-4 lg:grid-cols-3">
-          <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
-              <span>Auth session</span>
-              <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.authSession} />
-            </span>
-            <select
-              value={selection.selectedAuthSessionId}
-              onChange={(event) => {
-                if (usesRepositoryContext) return;
-                void runControl((controls) => controls.setAuthSession?.(event.target.value));
-              }}
-              disabled={usesRepositoryContext || selection.authSessions.length <= 1}
-              className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-            >
-              {selection.authSessions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          {usesRepositoryContext && repositoryContext ? (
+            <div className="rounded-[1.5rem] border border-emerald-400/18 bg-emerald-400/10 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-emerald-200/85">
+                <span>Repository to give</span>
+                <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.providerRepository} />
+              </span>
+              <select
+                value={selectedRepositoryId}
+                onChange={(event) => selectRepository(event.target.value)}
+                className="mt-3 w-full rounded-xl border border-emerald-300/20 bg-[rgba(10,15,30,0.92)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-300/50"
+              >
+                {repositoryContext.repositories.map((repository) => (
+                  <option key={repository.id} value={repository.id}>
+                    {repository.fullName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Auth session</span>
+                <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.authSession} />
+              </span>
+              <select
+                value={selection.selectedAuthSessionId}
+                onChange={(event) => {
+                  void runControl((controls) => controls.setAuthSession?.(event.target.value));
+                }}
+                disabled={selection.authSessions.length <= 1}
+                className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
+              >
+                {selection.authSessions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
-              <span>{usesRepositoryContext ? 'Supply kind' : 'Artifact kind'}</span>
-              <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.artifactKind} />
-            </span>
-            <select
-              value={selection.selectedKind}
-              onChange={(event) => {
-                if (usesRepositoryContext) return;
-                void runControl((controls) => controls.setInventoryKind?.(event.target.value));
-              }}
-              disabled={usesRepositoryContext}
-              className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-            >
-              {selection.kindOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            {usesRepositoryContext ? (
+              <>
+                <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                  <span>Giving from</span>
+                  <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.authSession} />
+                </span>
+                <div className="mt-3 rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-neutral-100">
+                  <p>{providerAccount}</p>
+                  <p className="mt-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+                    GitHub · repository source
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                  <span>Artifact kind</span>
+                  <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.artifactKind} />
+                </span>
+                <select
+                  value={selection.selectedKind}
+                  onChange={(event) => {
+                    void runControl((controls) => controls.setInventoryKind?.(event.target.value));
+                  }}
+                  className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
+                >
+                  {selection.kindOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
@@ -202,8 +250,9 @@ export default function TerminalSupplySelectionPanel({
             <BitcodeInlineExplainer explainer={TERMINAL_WORKSPACE_EXPLAINERS.giveNeedChain} />
           </div>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            Selected supply stays attached to the current give flow. Continue into Give when you are ready to describe
-            issuer, provenance, and intent.
+            {usesRepositoryContext
+              ? 'The selected repository is the source boundary for this Give. Record the selection, then continue when you are ready to describe issuer, provenance, and intent.'
+              : 'Selected supply stays attached to the current give flow. Continue into Give when you are ready to describe issuer, provenance, and intent.'}
           </p>
           {selectedEntryLabels.length ? (
             <BitcodeChipCloud
@@ -232,6 +281,14 @@ export default function TerminalSupplySelectionPanel({
         </div>
       </div>
 
+      {usesRepositoryContext ? (
+        <div className="mt-6 flex items-center justify-between gap-3">
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-500">Connected repository inventory</p>
+          <p className="text-sm text-neutral-300">
+            {selection.filteredCount} of {selection.totalFilteredEntries} repositories
+          </p>
+        </div>
+      ) : null}
       <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {selection.filteredEntries.map((entry) => (
           <button
@@ -258,7 +315,7 @@ export default function TerminalSupplySelectionPanel({
                     : 'border-white/10 bg-white/5 text-neutral-200'
                 }`}
               >
-                {entry.selected ? 'selected' : 'available'}
+                {entry.selected ? (usesRepositoryContext ? 'selected for give' : 'selected') : (usesRepositoryContext ? 'choose repository' : 'available')}
               </span>
             </div>
             {entry.subtitle ? <p className="mt-3 text-sm leading-6 text-neutral-300">{entry.subtitle}</p> : null}

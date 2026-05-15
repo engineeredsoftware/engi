@@ -821,14 +821,14 @@ Give path:
 5. In `Give-side supply`, confirm the auth/session label and inventory cards use `engineeredsoftware/*`. If any `frontier/*`, `gh_inst_bitcode_001`, or other protocol-demo repository appears in the live staging lane, stop and classify as a V28 blocker.
 6. In `Give-side supply`, use the search box only to filter connected repositories. Search must not replace live inventory with protocol demo artifacts. Select/confirm one repository card; the selected card should match the `Repository supply` selector.
 7. Click `Record give selection`. Confirm the UI reports that selected give-side supply was recorded.
-8. Run `v28_qa_terminal_02_activity_after_write` and `v28_qa_terminal_03_give_repository_alignment`. Confirm query 03 reports `frontier_count=0` for current repository inventory and `frontier_reference_detected=false` for recent Terminal give activity.
+8. Run `v28_qa_terminal_02_activity_after_write` and `v28_qa_terminal_04_give_repository_alignment`. Confirm query 04 reports `frontier_count=0` for current repository inventory and `frontier_reference_detected=false` for recent Terminal give activity.
 9. Confirm no model picker can affect ledgerized Give/Fit/AssetPack synthesis.
 10. In `Give + need chain`, inspect the `give` card and capture selected source entries, artifact kinds, repository row, provider account, addressing root, and auth root.
 11. Click `Record give posture`.
 12. Confirm the UI reports that give-side share posture was recorded.
 13. In Network, capture the `/api/executions/history` request and response. Expected status is `201`.
 14. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:asset-pack'`, `context_summary.source='terminal-give-need-workbench'`, `context_summary.workbench='give'`, and a non-empty `output_summary.give`.
-15. Rerun `v28_qa_terminal_03_give_repository_alignment`; recent Give activity must reference the connected repository and must not reference `frontier/*`.
+15. Rerun `v28_qa_terminal_04_give_repository_alignment`; recent Give activity must reference the connected repository and must not reference `frontier/*`.
 
 Need path:
 
@@ -864,7 +864,7 @@ Pass criteria:
 - Terminal activity history loads without a visible `/api/executions/history` error.
 - Live Terminal Give inventory references connected `engineeredsoftware/*` repositories, not protocol-demo `frontier/*` repositories.
 - Give, Need, and Fit record actions write user-scoped rows in that order and reread in query 02.
-- Query `v28_qa_terminal_03_give_repository_alignment` shows no `frontier_reference_detected` rows for recorded Terminal Give activity.
+- Query `v28_qa_terminal_04_give_repository_alignment` shows no `frontier_reference_detected` rows for recorded Terminal Give activity.
 - The Terminal activity UI shows those rows after refresh or activity reload.
 - Branch/settlement either progresses with explicit network and SQL evidence or fails closed with a precise blocker.
 - No Terminal control routes through Exchange or website Conversations.
@@ -1124,9 +1124,9 @@ Use `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` after every `
 
 Terminal Give source alignment:
 
-Saved query name: `v28_qa_terminal_03_give_repository_alignment`
+Saved query name: `v28_qa_terminal_04_give_repository_alignment`
 
-Use `supabase/queries/v28_qa_terminal_03_give_repository_alignment.sql` after Terminal loads and after each Give recording. The query confirms live repository inventory belongs to the connected GitHub account and flags any protocol-demo `frontier/*` reference in recent Terminal Give activity.
+Use `supabase/queries/v28_qa_terminal_04_give_repository_alignment.sql` after Terminal loads and after each Give recording. The query confirms live repository inventory belongs to the connected GitHub account and flags any protocol-demo `frontier/*` reference in recent Terminal Give activity.
 
 BTD and ledger projection readback:
 

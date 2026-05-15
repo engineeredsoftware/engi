@@ -1,4 +1,4 @@
--- Saved query name: v28_qa_terminal_03_give_repository_alignment
+-- Saved query name: v28_qa_terminal_04_give_repository_alignment
 -- Purpose: run after the Terminal page loads, and again after "Record give
 -- selection" or "Record give posture". It verifies live GitHub repository
 -- inventory is the Give source and flags any protocol-demo frontier leakage.
