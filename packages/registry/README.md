@@ -283,7 +283,7 @@ Benefits:
 
 ### Perfect For:
 - **Dynamic configuration** that changes based on runtime context
-- **Capability management** where different contexts need different tools/features
+- **Capability management** where different contexts read different tools/features
 - **Progressive enhancement** building complex configs from simple parts
 - **Multi-source configuration** combining environment, user, and system settings
 

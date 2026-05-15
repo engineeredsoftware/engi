@@ -1,10 +1,10 @@
-export type AgenticExecutionLens = 'give' | 'need' | 'closure';
+export type AgenticExecutionLens = 'deposit' | 'read' | 'closure';
 
 export interface AgenticExecutionSummary {
   canonicalType: string;
   family:
     | 'asset-pack'
-    | 'need-measurement'
+    | 'read-measurement'
     | 'proof-refresh'
     | 'upgrade'
     | 'agentic-execution';
@@ -19,7 +19,7 @@ const DEFAULT_STORAGE_TYPE = DEFAULT_CANONICAL_TYPE;
 
 const CANONICAL_TO_STORAGE_TYPE = {
   'agentic-execution:asset-pack': 'agentic-execution:asset-pack',
-  'agentic-execution:need-measurement': 'pipeline:measure',
+  'agentic-execution:read-measurement': 'pipeline:measure',
   'agentic-execution:proof-refresh': 'pipeline:proof-refresh',
   'agentic-execution:upgrade': 'pipeline:upgrades',
 } as const;
@@ -42,7 +42,7 @@ export function normalizeAgenticExecutionType(value?: string | null) {
   }
   if (normalized.includes('upgrade')) return 'agentic-execution:upgrade';
   if (normalized.includes('proof')) return 'agentic-execution:proof-refresh';
-  if (normalized.includes('measure')) return 'agentic-execution:need-measurement';
+  if (normalized.includes('measure')) return 'agentic-execution:read-measurement';
   if (
     normalized.includes('asset-pack') ||
     normalized.includes('asset_pack') ||
@@ -84,8 +84,8 @@ export function formatAgenticExecutionLabel(value?: string | null) {
   const canonicalType = normalizeAgenticExecutionType(value);
 
   switch (canonicalType) {
-    case 'agentic-execution:need-measurement':
-      return 'need measurement execution';
+    case 'agentic-execution:read-measurement':
+      return 'read measurement execution';
     case 'agentic-execution:proof-refresh':
       return 'proof refresh execution';
     case 'agentic-execution:upgrade':
@@ -100,14 +100,14 @@ export function deriveAgenticExecutionLens(value?: string | null): AgenticExecut
   const canonicalType = normalizeAgenticExecutionType(value);
 
   switch (canonicalType) {
-    case 'agentic-execution:need-measurement':
-      return 'need';
+    case 'agentic-execution:read-measurement':
+      return 'read';
     case 'agentic-execution:proof-refresh':
     case 'agentic-execution:upgrade':
       return 'closure';
     case 'agentic-execution:asset-pack':
     default:
-      return 'give';
+      return 'deposit';
   }
 }
 
@@ -115,8 +115,8 @@ export function deriveAgenticExecutionClosureFocus(value?: string | null) {
   const canonicalType = normalizeAgenticExecutionType(value);
 
   switch (canonicalType) {
-    case 'agentic-execution:need-measurement':
-      return 'need measurement + verification posture';
+    case 'agentic-execution:read-measurement':
+      return 'read measurement + verification posture';
     case 'agentic-execution:proof-refresh':
       return 'proof-family refresh + operating posture';
     case 'agentic-execution:upgrade':
@@ -133,8 +133,8 @@ export function deriveAgenticExecutionProofStatus(value?: string | null, status?
 
   if (normalizedStatus === 'completed') {
     switch (canonicalType) {
-      case 'agentic-execution:need-measurement':
-        return 'need-measurement witness ready';
+      case 'agentic-execution:read-measurement':
+        return 'read-measurement witness ready';
       case 'agentic-execution:proof-refresh':
         return 'proof witness ready';
       case 'agentic-execution:upgrade':
@@ -150,8 +150,8 @@ export function deriveAgenticExecutionProofStatus(value?: string | null, status?
   }
 
   switch (canonicalType) {
-    case 'agentic-execution:need-measurement':
-      return 'need-measurement witness in flight';
+    case 'agentic-execution:read-measurement':
+      return 'read-measurement witness in flight';
     case 'agentic-execution:proof-refresh':
       return 'proof witness in flight';
     case 'agentic-execution:upgrade':

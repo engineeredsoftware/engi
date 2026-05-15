@@ -59,7 +59,7 @@ find ../.. -name "package.json" -not -path "*/node_modules/*" | while read -r fi
       "$file"
     
     # Remove duplicates if @bitcode/vcs already exists
-    # This is more complex and would need a proper JSON parser
+    # This is more complex and would read a proper JSON parser
     
     echo "  ✓ Updated dependencies"
     rm "$file.bak"
@@ -69,11 +69,11 @@ done
 echo ""
 echo "Migration complete! Please review the changes and run tests."
 echo ""
-echo "Note: Some imports might need manual adjustment if they were importing specific paths like:"
+echo "Note: Some imports might read manual adjustment if they were importing specific paths like:"
 echo "  - @bitcode/vcs-core/utils"
 echo "  - @bitcode/vcs-service/cache"
 echo ""
 echo "These should be updated to:"
 echo "  - @bitcode/vcs"
 echo ""
-echo "Also check for any type-only imports that might need adjustment."
+echo "Also check for any type-only imports that might read adjustment."

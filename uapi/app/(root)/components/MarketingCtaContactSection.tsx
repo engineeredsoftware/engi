@@ -114,7 +114,7 @@ const MarketingCtaContactSection: React.FC = () => {
                   </h2>
 
                   <p className="text-lg text-gray-300 mb-8">
-                    Measure a Need, review the fit, and open a PR-backed AssetPack.
+                    Measure a Read, review the fit, and open a PR-backed AssetPack.
                   </p>
 
                   {/* CTA buttons and BTD reference indicator wrapper */}
@@ -218,7 +218,7 @@ const MarketingCtaContactSection: React.FC = () => {
                     Questions About Bitcode?
                   </h4>
                   <p className="text-lg text-center text-gray-300">
-                    Tell us which Need, repository, or connected interface should be measured first.
+                    Tell us which Read, repository, or connected interface should be measured first.
                   </p>
 
                   {/* Inputs grid */}

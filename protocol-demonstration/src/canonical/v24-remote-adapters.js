@@ -192,7 +192,7 @@ function buildTelemetry(payload, overrides) {
     reconciliationState: overrides.reconciliationState || 'live-remote-adapter-reconciled',
     telemetryCoverageState: overrides.telemetryCoverageState || 'shape-complete-live-observed',
     requestId: overrides.requestId || telemetry.requestId || `req_remote_${shortId(`${payload.interfaceId}:${payload.branchName || payload.bundleId || 'default'}`, 16)}`,
-    executionId: overrides.executionId || telemetry.executionId || `exec_remote_${shortId(`${payload.interfaceId}:${payload.assetPackId || payload.needId || 'default'}`, 16)}`,
+    executionId: overrides.executionId || telemetry.executionId || `exec_remote_${shortId(`${payload.interfaceId}:${payload.assetPackId || payload.readId || 'default'}`, 16)}`,
     observationId: overrides.observationId || telemetry.observationId || `obs_remote_${shortId(`${payload.interfaceId}:${payload.paymentMode || payload.branchMode || 'default'}`, 16)}`,
     executionClass: overrides.executionClass || telemetry.executionClass || binding.executionClass || 'remote-protocol-adapter',
     environmentIdentityRef:
@@ -272,7 +272,7 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
       title: `${activeProjectLabel()} ${ACTIVE_CANON_VERSION} ${payload.bundleId || 'bundle'} review`,
       head: branchName,
       base: 'main',
-      body: `Need ${payload.needId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`
+      body: `Read ${payload.readId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`
     }
   });
 
@@ -425,7 +425,7 @@ async function executeGithubAppRestAdapter(payload, fetchImpl) {
       title: `${activeProjectLabel()} ${ACTIVE_CANON_VERSION} ${payload.bundleId || 'bundle'} review`,
       head: branchName,
       base: 'main',
-      body: `Need ${payload.needId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`
+      body: `Read ${payload.readId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`
     }
   });
 
@@ -674,7 +674,7 @@ async function executeLightningHttpAdapter(payload, fetchImpl) {
     headers,
     body: {
       bundleId: payload.bundleId || null,
-      needId: payload.needId || null,
+      readId: payload.readId || null,
       assetPackId: payload.assetPackId || null,
       amountBtc: amount,
       amountNgiMicroUnits: String(
@@ -688,7 +688,7 @@ async function executeLightningHttpAdapter(payload, fetchImpl) {
         || null
     }
   });
-  const invoiceId = String(ensureRecord(createResponse).invoiceId || `invoice_${shortId(`${payload.bundleId || payload.needId}:${amount}`, 16)}`);
+  const invoiceId = String(ensureRecord(createResponse).invoiceId || `invoice_${shortId(`${payload.bundleId || payload.readId}:${amount}`, 16)}`);
   const observeResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/v1/invoices/${invoiceId}`), {
     method: 'GET',
     headers
@@ -795,11 +795,11 @@ async function executeComputeHttpAdapter(payload, fetchImpl) {
     body: {
       manifestRef: manifest.manifestId || null,
       branchName: payload.branchName || null,
-      needId: payload.needId || null,
+      readId: payload.readId || null,
       assetPackId: payload.assetPackId || null
     }
   });
-  const runId = String(ensureRecord(createResponse).runId || `compute_${shortId(`${payload.branchName}:${payload.needId}`, 16)}`);
+  const runId = String(ensureRecord(createResponse).runId || `compute_${shortId(`${payload.branchName}:${payload.readId}`, 16)}`);
   const observeResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/runs/${runId}`), {
     method: 'GET',
     headers

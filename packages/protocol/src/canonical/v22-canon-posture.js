@@ -200,7 +200,7 @@ export function buildCanonPostureDriftReport({
       && appContent.includes('return canonPosture(state)')
       && !appContent.includes('V15 §')
       && !appContent.includes('v15-scenario-preview')
-      && !appContent.includes('v15-detailed-need-surface'),
+      && !appContent.includes('v15-detailed-read-surface'),
     'public/app.js renders canon posture from runtime state and omits stale V15 explainer keys.'
   );
   pushCheck(

@@ -70,13 +70,13 @@ describe('ExchangePageClient', () => {
   });
 
   it('honors an explicit Exchange transaction focus without rewriting the entry URL', async () => {
-    mockQuery = 'intent=buy-existing-btd&transactionId=mock-run-need-measurement-pass';
+    mockQuery = 'intent=buy-existing-btd&transactionId=mock-run-read-measurement-pass';
 
     render(<ExchangePageClient />);
 
     expect(screen.getByTestId('exchange-workspace')).toHaveAttribute(
       'data-selected-run',
-      'mock-run-need-measurement-pass',
+      'mock-run-read-measurement-pass',
     );
     expect(mockReplace).not.toHaveBeenCalled();
   });

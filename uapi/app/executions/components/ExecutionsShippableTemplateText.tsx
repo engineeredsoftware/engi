@@ -15,7 +15,7 @@ interface ShippableTemplateTextProps {
   text: string;
   templates?: ShippableTemplate[];
   defaultNeed: string;
-  onSelect: (need: string) => void;
+  onSelect: (read: string) => void;
   onTemplateSelect: (templateId: string) => void;
   onMouseEnter: () => void;
   duration: number;

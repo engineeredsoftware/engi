@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search result refinement"
+ * intent: "Bitcode read-synthesis web search result refinement"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT: PromptPart =
-  'Enhance findings with source class, quality score, contradiction notes, volatility risk, missing-primary-source warnings, and explicit evidence-use text for need synthesis.' as PromptPart;
+  'Enhance findings with source class, quality score, contradiction notes, volatility risk, missing-primary-source warnings, and explicit evidence-use text for read synthesis.' as PromptPart;

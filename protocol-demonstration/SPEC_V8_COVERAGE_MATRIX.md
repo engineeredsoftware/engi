@@ -53,10 +53,10 @@ The audit in this file is grounded in:
 
 | Area | V8 expectation | Repo coverage | Audit status | Remaining work for full V8 closure |
 |---|---|---|---|---|
-| Need measurement | GitHub-bound benchmark parsing, fail-closed validation, need descriptor closure | `src/bitcode-demo.js`, `test/core.test.js`, `test/api.test.js` | **Pass** | no material implementation gap found |
+| Read measurement | GitHub-bound benchmark parsing, fail-closed validation, read descriptor closure | `src/bitcode-demo.js`, `test/core.test.js`, `test/api.test.js` | **Pass** | no material implementation gap found |
 | Prompt surfaces | Prompt templates, interpolation, context lineage, downstream artifact bindings | `src/bitcode-demo.js` prompt surfaces, `public/app.js`, prompt-lineage tests | **Pass** | improve operator UX wording / layout if needed, but implementation surface is present |
 | Recall channels | lexical, symbolic, path, config, semantic/vector, artifact kind/type | `src/bitcode-demo.js` recall contracts + provenance tests | **Pass** | no material implementation gap found |
-| Ranking explainability | need match, benchmark impact, penalty mass visual/detail surfaces | `public/app.js`, evaluation tests | **Pass** | tighten live-demo readability if necessary; current semantics are present |
+| Ranking explainability | read match, benchmark impact, penalty mass visual/detail surfaces | `public/app.js`, evaluation tests | **Pass** | tighten live-demo readability if necessary; current semantics are present |
 | Verification separation | ranking separated from verification and use tiers | `src/bitcode-demo.js`, verification tests | **Pass** | no material implementation gap found |
 | Identity/auth separation | identity bindings and authorization decisions separate from settlement/proofs | branch artifact tests + UI surfaces | **Pass** | no material implementation gap found |
 | Signer separation | signer binding stays distinct from authz, GitHub, and settlement | asset creation tests + branch artifact surfaces | **Pass** | no material implementation gap found |
@@ -74,7 +74,7 @@ The audit in this file is grounded in:
 
 ## Detailed audit by V8 area
 
-### Need measurement
+### Read measurement
 **Audit status:** Pass
 
 Implemented strongly in Profile A:
@@ -86,11 +86,11 @@ Implemented strongly in Profile A:
 - inference proofs
 
 Main refs:
-- `measureNeedFromScenario()` in `src/bitcode-demo.js`
+- `measureReadFromScenario()` in `src/bitcode-demo.js`
 - `buildGithubActionsBenchmarkParser()` in `src/bitcode-demo.js`
 - tests:
-  - `buildNeedDescriptor carries canonical run evidence, parser failure contract, and V8 derivation closure`
-  - `measureNeedFromScenario fails closed when canonical benchmark outputs are malformed`
+  - `buildReadDescriptor carries canonical run evidence, parser failure contract, and V8 derivation closure`
+  - `measureReadFromScenario fails closed when canonical benchmark outputs are malformed`
 
 Design conclusion:
 - this area is implementation-complete for V8 Profile A
@@ -112,7 +112,7 @@ Implemented strongly in Profile A:
 
 Main refs:
 - `buildPromptSurface()`
-- `promptSurfaces` produced in `measureNeedFromScenario()`
+- `promptSurfaces` produced in `measureReadFromScenario()`
 - `.bitcode/prompt-surfaces.json`
 - `public/app.js` prompt visualizations
 - prompt-lineage tests in `test/core.test.js`
@@ -147,7 +147,7 @@ Design conclusion:
 **Audit status:** Pass
 
 Implemented strongly in Profile A:
-- need-match group
+- read-match group
 - benchmark-impact group
 - penalty-mass group
 - explicit sequence / accumulation / references
@@ -505,7 +505,7 @@ Goal: make the repo feel final, not merely correct.
 Planned edits:
 1. upgrade `README.md` to describe the repo as V8, not V7
 2. re-sequence `SCRIPT.md` / `SCRIPT_SHORT.md` to match V8 operator story:
-   1. measured need
+   1. measured read
    2. profile meaning
    3. prompt surfaces
    4. recall + score groups
@@ -540,7 +540,7 @@ Acceptance criteria:
 - state-write failure safety preserved
 
 ### Core tests
-- need descriptor carries parser contract + recall channel contracts
+- read descriptor carries parser contract + recall channel contracts
 - prompt surfaces materialize interpolation + lineage bindings
 - candidate assets carry upload precision + identity surfaces
 - signal extraction still covers symbols / paths / config / stacks

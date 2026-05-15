@@ -34,7 +34,7 @@ const sidebarOptions: [SidebarOption, SidebarOption] = [
   },
   {
     id: 'measure',
-    label: 'Need Measurement',
+    label: 'Read Measurement',
     icon: renderDocToggleIcon(),
   }
 ];
@@ -119,7 +119,7 @@ export default function LeftSidebar() {
               <div className="flex items-center gap-2">
                 {renderDocToggleIcon("w-4 h-4 text-gray-300 sidebar-text")}
                 <FlipText
-                  text={'Need Measurement Executions'}
+                  text={'Read Measurement Executions'}
                   className="text-sm font-semibold text-emerald-300 sidebar-text"
                 />
               </div>

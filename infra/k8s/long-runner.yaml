@@ -99,7 +99,7 @@ spec:
       targetPort: metrics
       name: metrics
 ---
-# Horizontal scaling based on queued jobs metric (placeholder).  You will need
+# Horizontal scaling based on queued jobs metric (placeholder).  You will read
 # to configure the external metric `queue_depth` via Prometheus Adapter.
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

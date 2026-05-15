@@ -12,20 +12,20 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 /**
- * Bitcode need risk-admission agent prompt.
+ * Bitcode read risk-admission agent prompt.
  * 
  * The danger-wall filename remains a retained stable support carrier. The
- * prompt's purpose is Bitcode need/AssetPack admission, not generic security
+ * prompt's purpose is Bitcode read/AssetPack admission, not generic security
  * scanning or content moderation.
  * 
  * @doc-code-prompt
- * purpose: Define structured documentation for Bitcode need risk-admission agent
+ * purpose: Define structured documentation for Bitcode read risk-admission agent
  * agent: danger-wall
- * pattern: Registry-backed risk admission for need, written assets, AssetPack, proof, and delivery boundaries
+ * pattern: Registry-backed risk admission for read, written assets, AssetPack, proof, and delivery boundaries
  *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode risk-admission support prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
+ * intent: "Bitcode risk-admission support prompt for deciding whether a read, written assets, AssetPack plan, and delivery mechanism may continue"
  * current_version: "V26"
  */
 
@@ -39,7 +39,7 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 
 export const DANGER_WALL_AGENT_PROMPT = new AgentPrompt({
-  name: 'Bitcode Need Risk Admission Agent',
+  name: 'Bitcode Read Risk Admission Agent',
   category: 'Bitcode Risk Admission',
   version: 'V26',
   specificity: 'Specific',

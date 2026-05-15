@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode judgment substep for need satisfaction, written-asset integrity, delivery-mechanism separation, and proof evidence: assetpackvalidationreadytofinish try substep judge"
+ * intent: "Bitcode judgment substep for read satisfaction, written-asset integrity, delivery-mechanism separation, and proof evidence: assetpackvalidationreadytofinish try substep judge"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode judgment substep for need satisfaction, written-asset integrity, delivery-mechanism separation, and proof evidence: assetpackvalidationreadytofinish try substep judge"
+ * intent: "Bitcode judgment substep for read satisfaction, written-asset integrity, delivery-mechanism separation, and proof evidence: assetpackvalidationreadytofinish try substep judge"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_TRY_SUBSTEP_JUDGE: PromptPart = 
-  'assetpackvalidationreadytofinish try substep judge: evaluate whether the output satisfies the Bitcode need, preserves written-asset integrity, separates delivery mechanisms, and records enough proof evidence for acceptance.' as PromptPart;
+  'assetpackvalidationreadytofinish try substep judge: evaluate whether the output satisfies the Bitcode read, preserves written-asset integrity, separates delivery mechanisms, and records enough proof evidence for acceptance.' as PromptPart;

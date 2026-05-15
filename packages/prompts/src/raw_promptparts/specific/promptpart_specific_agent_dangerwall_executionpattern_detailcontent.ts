@@ -12,7 +12,7 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT: PromptPart =
   `BITCODE_RISK_ADMISSION_PTRR - Admit or block the next pipeline phase through bounded evidence:
-1. Plan the need, written-asset, AssetPack, proof, likely-failure, and delivery-mechanism checks required for the current run
+1. Plan the read, written-asset, AssetPack, proof, likely-failure, and delivery-mechanism checks required for the current run
 2. Try concrete risk evaluation against repository evidence, external evidence, attachments, execution state, and requested delivery mechanism
 3. Refine false positives, unresolved ambiguity, proof gaps, and scope mismatches without claiming final proof
 4. Retry only to produce an admit, block, or manual-review decision for downstream Bitcode owners` as PromptPart;

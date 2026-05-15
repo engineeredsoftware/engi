@@ -257,7 +257,7 @@ export class FigmaConnections {
     }
 
     try {
-      // Note: We'd need client credentials for refresh, which might not be available here
+      // Note: We'd read client credentials for refresh, which might not be available here
       // In production, this should be done server-side with stored credentials
       const clientId = process.env.FIGMA_CLIENT_ID;
       const clientSecret = process.env.FIGMA_CLIENT_SECRET;

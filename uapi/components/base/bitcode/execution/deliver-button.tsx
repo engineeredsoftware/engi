@@ -10,7 +10,7 @@ interface DeliverButtonProps {
   disabled?: boolean;
   
   /** Intelligence layer */
-  needDefinitionQuality?: number; // 0-1 assessment of Definition of Need quality
+  readDefinitionQuality?: number; // 0-1 assessment of Definition of Read quality
   contextConfidence?: number; // 0-1 based on attachments and repository context
   measuredBtdEstimate?: number;
   estimatedDuration?: number; // in minutes
@@ -54,7 +54,7 @@ const DELIGHT_QUALITY_MULTIPLIER = (() => {
 export const DeliverButton = ({
   onDeliver,
   disabled = false,
-  needDefinitionQuality = 0,
+  readDefinitionQuality = 0,
   contextConfidence = 0,
   measuredBtdEstimate,
   estimatedDuration,
@@ -70,11 +70,11 @@ export const DeliverButton = ({
   
   // Calculate overall confidence
   const overallConfidence = useMemo(() => {
-    const baseConfidence = (needDefinitionQuality * 0.6 + contextConfidence * 0.4);
+    const baseConfidence = (readDefinitionQuality * 0.6 + contextConfidence * 0.4);
     const patternBonus = recognizedPatterns.length > 0 ? 
       recognizedPatterns.reduce((sum, p) => sum + p.confidence, 0) / recognizedPatterns.length * 0.2 : 0;
     return Math.min(baseConfidence + patternBonus, 1.0);
-  }, [needDefinitionQuality, contextConfidence, recognizedPatterns]);
+  }, [readDefinitionQuality, contextConfidence, recognizedPatterns]);
   
   // Determine confidence level for styling
   const confidenceLevel = useMemo(() => {
@@ -188,7 +188,7 @@ export const DeliverButton = ({
         onMouseLeave={() => setIsHovered(false)}
         disabledTooltip={
           overallConfidence < 0.3 ? 
-            'Add more context or improve Definition of Need quality' : 
+            'Add more context or improve Definition of Read quality' : 
             undefined
         }
       >

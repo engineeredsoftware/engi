@@ -75,12 +75,14 @@ let nextConfig = {
     '@bitcode/generic-agents-ready-to-short-circuit',
     '@bitcode/generic-agents-language',
     '@bitcode/generic-agents-vcs',
+    '@bitcode/generic-agents-read-comprehension',
     '@bitcode/generic-agents-text-search',
     '@bitcode/generic-agents-danger-wall',
     // Generic tools used by pipelines/agents
     '@bitcode/generic-tools-editing',
     '@bitcode/generic-tools-git',
     '@bitcode/generic-tools-lsp-query',
+    '@bitcode/generic-tools-read-comprehension',
     '@bitcode/generic-tools-multimodal-processing',
     '@bitcode/generic-tools-simple-system-text-search',
     '@bitcode/generic-tools-repository-setup',
@@ -370,6 +372,15 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
+      '@bitcode/generic-agents-read-comprehension': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-agents',
+        'read-comprehension',
+        'src',
+        'index.ts'
+      ),
       '@bitcode/generic-tools-files-maintaining': path.resolve(
         __dirname,
         '..',
@@ -394,6 +405,15 @@ let nextConfig = {
         'packages',
         'generic-tools',
         'lsp-query',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/generic-tools-read-comprehension': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'read-comprehension',
         'src',
         'index.ts'
       ),

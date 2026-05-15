@@ -185,7 +185,7 @@ registerPlugin(docPromptPlugin);
 ### Plugin Usage
 
 ```typescript
-// Import plugins you need - they auto-register
+// Import plugins you read - they auto-register
 import '@bitcode/prompts/doc-plugins';
 import '@bitcode/doc-typescript';
 

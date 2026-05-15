@@ -57,7 +57,7 @@ export async function filterFilesByTask(
      - Similar features or patterns
 
   3. Include files that:
-     - Will need direct modification
+     - Will read direct modification
      - Import/use the modified code
      - Define related types/interfaces
      - Configure affected features
@@ -70,7 +70,7 @@ CRITICAL REQUIREMENTS:
 2. Include files that:
    - Are directly related to the task
    - Contain similar functionality
-   - May need to be referenced
+   - May read to be referenced
    - Define related types/interfaces
    - Share common patterns
 3. Be generous - include files if unsure

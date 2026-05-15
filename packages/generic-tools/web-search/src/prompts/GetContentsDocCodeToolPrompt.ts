@@ -18,9 +18,9 @@ import { PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE3 } from '@bitco
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Bitcode discovery-phase source content retrieval for need-synthesis evidence"
+ * intent: "Bitcode discovery-phase source content retrieval for read-synthesis evidence"
  * 
- * Structured DocCodeToolPrompt for source content retrieval used by Bitcode need synthesis.
+ * Structured DocCodeToolPrompt for source content retrieval used by Bitcode read synthesis.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';

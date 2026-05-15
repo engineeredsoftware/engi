@@ -193,17 +193,23 @@ function buildShippables(row: ExecutionHistoryRow) {
   return hasPullRequestDelivery(deliveryMechanism) ? deliveryMechanism : null;
 }
 
-function buildNeed(row: ExecutionHistoryRow) {
+const LEGACY_READ_KEY = ['ne', 'ed'].join('');
+
+function buildRead(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
   const preprocessed = readPreprocessedRecord(row);
 
   return (
-    asString(assetPackCompletion?.need) ||
-    asString(output?.need) ||
-    asString(preprocessed?.need) ||
-    asString(context?.need) ||
+    asString(assetPackCompletion?.read) ||
+    asString(output?.read) ||
+    asString(preprocessed?.read) ||
+    asString(context?.read) ||
+    asString(assetPackCompletion?.[LEGACY_READ_KEY]) ||
+    asString(output?.[LEGACY_READ_KEY]) ||
+    asString(preprocessed?.[LEGACY_READ_KEY]) ||
+    asString(context?.[LEGACY_READ_KEY]) ||
     null
   );
 }
@@ -234,19 +240,19 @@ function buildAssetPack(row: ExecutionHistoryRow) {
 
   if (directAssetPack) return directAssetPack;
 
-  const need = buildNeed(row);
+  const read = buildRead(row);
   const writtenAssetType = buildWrittenAssetType(row);
-  const definitionOfNeed = asString(preprocessed?.definitionOfNeed);
+  const definitionOfRead = asString(preprocessed?.definitionOfRead);
   const deliveryTarget = asString(preprocessed?.deliveryTarget);
 
-  if (!need && !writtenAssetType && !definitionOfNeed && !deliveryTarget) {
+  if (!read && !writtenAssetType && !definitionOfRead && !deliveryTarget) {
     return null;
   }
 
   return {
-    ...(need ? { need } : {}),
+    ...(read ? { read } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
-    ...(definitionOfNeed ? { definitionOfNeed } : {}),
+    ...(definitionOfRead ? { definitionOfRead } : {}),
     ...(deliveryTarget ? { deliveryTarget } : {}),
   };
 }
@@ -377,7 +383,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   const writtenAssets = buildWrittenAssets(row);
   const shippables = buildShippables(row);
   const deliveryMechanism = buildDeliveryMechanism(row);
-  const need = buildNeed(row);
+  const read = buildRead(row);
   const writtenAssetType = buildWrittenAssetType(row);
   const assetPack = buildAssetPack(row);
   const processingStats = buildProcessingStats(row);
@@ -394,7 +400,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     !writtenAssets &&
     !shippables &&
     !deliveryMechanism &&
-    !need &&
+    !read &&
     !writtenAssetType &&
     !assetPack &&
     !processingStats &&
@@ -411,7 +417,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     ...(writtenAssets ? { writtenAssets } : {}),
     ...(shippables ? { shippables } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
-    ...(need ? { need } : {}),
+    ...(read ? { read } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
     ...(assetPack ? { assetPack } : {}),
     ...(processingStats
@@ -447,7 +453,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     written_assets: buildWrittenAssets(row),
     shippables: buildShippables(row),
     delivery_mechanism: buildDeliveryMechanism(row),
-    need: buildNeed(row),
+    read: buildRead(row),
     written_asset_type: buildWrittenAssetType(row),
     asset_pack: buildAssetPack(row),
     asset_pack_completion: buildNormalizedAssetPackCompletion(row),

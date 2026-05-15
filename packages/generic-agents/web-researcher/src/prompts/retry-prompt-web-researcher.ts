@@ -10,7 +10,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web research Retry prompt for bounded recovery and gap surfacing"
+ * intent: "Bitcode read-synthesis web research Retry prompt for bounded recovery and gap surfacing"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -19,9 +19,9 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  */
 /**
- * RETRY PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
+ * RETRY PROMPT COMPOSITION - BITCODE READ-SYNTHESIS WEB RESEARCH
  *
- * Composes recovery and gap-surfacing PromptParts for need-synthesis web research.
+ * Composes recovery and gap-surfacing PromptParts for read-synthesis web research.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

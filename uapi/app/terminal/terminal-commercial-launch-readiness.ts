@@ -73,10 +73,10 @@ export const TERMINAL_COMMERCIAL_TESTNET_LAUNCH_MAP = [
     label: 'Exchange, Terminal, Protocol alignment',
     launchAxis: 'interface-alignment',
     requiredPosture:
-      'Need review, source-to-shares fit, AssetPack execution, settlement evidence, and Terminal presentation align from deterministic Protocol into commercial Exchange and Terminal surfaces.',
+      'Read review, source-to-shares fit, AssetPack execution, settlement evidence, and Terminal presentation align from deterministic Protocol into commercial Exchange and Terminal surfaces.',
     sourceBasis: [
-      'protocol-demonstration/test/v26-need-review-source-to-shares.test.js',
-      'uapi/tests/api/needReviewProtocolParity.test.ts',
+      'protocol-demonstration/test/v26-read-review-source-to-shares.test.js',
+      'uapi/tests/api/readReviewProtocolParity.test.ts',
       'packages/pipelines/asset-pack/src/postprocess.ts',
       'packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts',
       'uapi/tests/e2e/terminal.flow.spec.ts',
@@ -101,7 +101,7 @@ export const TERMINAL_COMMERCIAL_TESTNET_LAUNCH_MAP = [
     label: 'Non-Bitcode fallback explanations retired',
     launchAxis: 'reform-completion',
     requiredPosture:
-      'Core user journeys explain Bitcode Need, source-to-shares, AssetPack, Shippable, BTC fee, and $BTD read-right behavior directly without non-Bitcode compatibility fallback semantics.',
+      'Core user journeys explain Bitcode Read, source-to-shares, AssetPack, Shippable, BTC fee, and $BTD read-right behavior directly without non-Bitcode compatibility fallback semantics.',
     sourceBasis: [
       'BITCODE_SPEC_V26_DELTA.md',
       'BITCODE_SPEC_V26_PARITY_MATRIX.md',

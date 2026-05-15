@@ -1,7 +1,7 @@
 /**
  * AssetPack synthesis implementation agent.
  *
- * V26 implementation phase is one canonical Need-to-AssetPack synthesis
+ * V26 implementation phase is one canonical Read-to-AssetPack synthesis
  * corridor. Pull requests, reviews, issues, and comments are Finish delivery
  * mechanisms, not implementation phase types.
  */
@@ -18,8 +18,8 @@ import { z } from 'zod';
 import { AssetPackWrittenAssetType } from '../../types/AssetPackWrittenAssetType';
 
 const AssetPackSynthesisInputSchema = z.object({
-  need: z.string().optional(),
-  definitionOfNeed: z.string().optional(),
+  read: z.string().optional(),
+  definitionOfRead: z.string().optional(),
   repository: z.any().optional(),
   requirements: z.any().optional(),
   discovery: z.any().optional(),
@@ -35,13 +35,13 @@ const AssetPackSynthesisArtifactsSchema = z.object({
 const AssetPackSynthesisOutputSchema = z.object({
   success: z.boolean().optional(),
   semanticKind: z.literal('asset-pack-written-asset').optional(),
-  writtenAssetType: z.literal(AssetPackWrittenAssetType.NeedSatisfactionAssetPack).optional(),
+  writtenAssetType: z.literal(AssetPackWrittenAssetType.ReadSatisfactionAssetPack).optional(),
   summary: z.string(),
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: AssetPackSynthesisArtifactsSchema.optional(),
   assetPack: z.object({
-    need: z.string().optional(),
-    writtenAssetType: z.literal(AssetPackWrittenAssetType.NeedSatisfactionAssetPack).optional(),
+    read: z.string().optional(),
+    writtenAssetType: z.literal(AssetPackWrittenAssetType.ReadSatisfactionAssetPack).optional(),
     deliveryMechanismTemplate: z.string().optional(),
     proofEvidence: z.array(z.string()).optional(),
   }),
@@ -68,7 +68,7 @@ export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
   z.infer<typeof AssetPackSynthesisOutputSchema>
 >({
   name: 'asset-pack-synthesize-artifacts-agent',
-  description: 'Synthesizes Need-satisfying AssetPack artifacts without selecting a delivery mechanism',
+  description: 'Synthesizes Read-satisfying AssetPack artifacts without selecting a delivery mechanism',
   outputSchema: AssetPackSynthesisOutputSchema,
   tools: [],
   prompt,
@@ -85,17 +85,17 @@ export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
 });
 
 export default async function assetPackSynthesizeArtifacts(input: any, execution: any) {
-  const need =
-    input?.need ??
-    input?.definitionOfNeed ??
-    execution?.get?.('need', 'description') ??
-    execution?.get?.('pipeline', 'expressedNeed') ??
+  const read =
+    input?.read ??
+    input?.definitionOfRead ??
+    execution?.get?.('read', 'description') ??
+    execution?.get?.('pipeline', 'expressedRead') ??
     '';
   const deliveryMechanismTemplate = execution?.get?.('pipeline', 'deliveryMechanismTemplate');
   const result = await AssetPackSynthesizeArtifactsAgent(
     {
       ...input,
-      need,
+      read,
       discovery: {
         context: execution?.get?.('discovery', 'context'),
         plan: execution?.get?.('discovery', 'plan'),
@@ -112,13 +112,13 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
     ...result,
     success: result?.success ?? true,
     semanticKind: 'asset-pack-written-asset' as const,
-    writtenAssetType: AssetPackWrittenAssetType.NeedSatisfactionAssetPack,
+    writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
     assetPackSynthesisArtifacts,
     writtenAssets: result?.writtenAssets ?? assetPackSynthesisArtifacts,
     assetPack: {
       ...(result?.assetPack || {}),
-      need,
-      writtenAssetType: AssetPackWrittenAssetType.NeedSatisfactionAssetPack,
+      read,
+      writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
       deliveryMechanismTemplate,
     },
   };

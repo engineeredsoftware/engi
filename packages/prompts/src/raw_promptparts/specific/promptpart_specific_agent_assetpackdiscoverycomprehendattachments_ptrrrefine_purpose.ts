@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Need and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrrefine purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Read and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Need and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrrefine purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Read and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYCOMPREHENDATTACHMENTS_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: tighten attachment-derived Need and AssetPack evidence using validation feedback' as PromptPart;
+  'PTRR Refine Step: tighten attachment-derived Read and AssetPack evidence using validation feedback' as PromptPart;

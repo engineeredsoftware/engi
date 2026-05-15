@@ -226,7 +226,7 @@ interface DeliveryTemplateSets {
 
 interface ExecutionPageHeaderProps {
   executionStatus: "execute" | "executing" | "executed";
-  onSelectShippableTemplateDefinitionOfNeed: (definitionOfNeed: string) => void;
+  onSelectShippableTemplateDefinitionOfNeed: (definitionOfRead: string) => void;
   /** If false, suppresses rendering of the summary/TL;DR doc area inside the header */
   renderDocInsideHeader?: boolean;
   /** If false, suppresses rendering of the cards panel inside the header */
@@ -546,16 +546,16 @@ export default function ExecutionsPageHeader({
     } else if (showEnhanceEdu) {
       const enhanceEdu = {
         title: "Enhance Writing",
-        subtitle: "Improve Definition of Need",
-        body: "Use AI to refine and elaborate your Definition of Need, making it more precise and informative."
+        subtitle: "Improve Definition of Read",
+        body: "Use AI to refine and elaborate your Definition of Read, making it more precise and informative."
       };
       setActiveEdu(enhanceEdu);
       setLastEduContent(enhanceEdu);
     } else if (showSaveTemplateEdu) {
       const saveTemplateEdu = {
         title: "Save as Template",
-        subtitle: "Save Definition of Need",
-        body: "Save your current Definition of Need as a reusable template for future AssetPack runs."
+        subtitle: "Save Definition of Read",
+        body: "Save your current Definition of Read as a reusable template for future AssetPack runs."
       };
       setActiveEdu(saveTemplateEdu);
       setLastEduContent(saveTemplateEdu);
@@ -574,7 +574,7 @@ export default function ExecutionsPageHeader({
             subtitle: "Efficiency Mode",
             body: (
               <div className="space-y-2 text-sm">
-                <div className="text-blue-300">Automatically determines minimum iterations needed to complete the Definition of Need.</div>
+                <div className="text-blue-300">Automatically determines minimum iterations needed to complete the Definition of Read.</div>
                 <ul className="list-disc list-inside space-y-1 text-gray-400">
                   <li><span className="text-white">Focus on efficiency</span>: Completes requirements with minimal processing</li>
                   <li><span className="text-white">Smart optimization</span>: Balances speed with correctness</li>
@@ -848,16 +848,16 @@ export default function ExecutionsPageHeader({
                   <div className="flex items-start">
                     <div className="flex-1">
                       <p className="text-gray-400 text-lg bg-transparent">
-                        Connect your codebase, attach multi-modal context, and describe your Need's{' '}
+                        Connect your codebase, attach multi-modal context, and describe your Read's{' '}
                         <span
                           className="text-gray-300 hover:border-b hover:border-purple-300/90 transition-all duration-150 cursor-help"
                           onMouseEnter={() => setActiveEdu({
-                            title: 'Definition of Need',
+                            title: 'Definition of Read',
                             subtitle: 'Success Criteria',
                             body: 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected AssetPack evidence and shippable result.'
                           })}
                         >
-                          Definition of Need
+                          Definition of Read
                         </span>.
                       </p>
                     </div>

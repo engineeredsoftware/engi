@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_TRY_SUBSTEP_CHUNK_THEN_SUM: PromptPart = 
-  'assetpackvalidationreadytofinish try substep chunk then sum: chunk large inputs by need, file, proof, and delivery-mechanism concern; summarize each chunk as written-asset constraints, risks, and acceptance evidence for asset-pack synthesis.' as PromptPart;
+  'assetpackvalidationreadytofinish try substep chunk then sum: chunk large inputs by read, file, proof, and delivery-mechanism concern; summarize each chunk as written-asset constraints, risks, and acceptance evidence for asset-pack synthesis.' as PromptPart;

@@ -546,7 +546,7 @@ export default function AuxillariesWalletPane({
             <AuxillariesWorkspaceSection
               kicker="BTD activity"
               title="Read your BTD-relevant activity from the shared activity table"
-              description="Owned AssetPacks, Gives, Needs, proof closures, and range-bearing activity should be inspected through the same table grammar used by Terminal."
+              description="Owned AssetPacks, Deposits, Reads, proof closures, and range-bearing activity should be inspected through the same table grammar used by Terminal."
               tone="emerald"
             >
               <TerminalTransactionsTable

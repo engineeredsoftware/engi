@@ -1,7 +1,7 @@
 /**
  * Bitcode canonical JSDoc typedefs.
  *
- * These do not yet replace a full TypeScript migration, but they give the
+ * These do not yet replace a full TypeScript migration, but they deposit the
  * codebase a stronger typed vocabulary and a clearer target for later
  * discriminated-union / enum-backed hardening.
  */
@@ -27,8 +27,8 @@
  */
 
 /**
- * @typedef {Object} NeedingSurface
- * @property {string} needId
+ * @typedef {Object} ReadingSurface
+ * @property {string} readId
  * @property {RealizationProfileValue} realizationProfile
  * @property {string} parserKind
  * @property {string} taskSummary
@@ -39,10 +39,10 @@
  */
 
 /**
- * @typedef {Object} DepositingToNeedingSurface
+ * @typedef {Object} DepositingToReadingSurface
  * @property {string} relationId
  * @property {string} depositSessionId
- * @property {string} needId
+ * @property {string} readId
  * @property {string} fitSummary
  * @property {string[]} decisiveKinds
  * @property {string[]} overlapKinds

@@ -11,7 +11,7 @@
 
 ### Sub-Review Focus Strategy
 1. **Pattern Changes**: Each major pattern change gets its own sub-review
-2. **Assumption Validation**: New architectural assumptions need dedicated validation
+2. **Assumption Validation**: New architectural assumptions read dedicated validation
 3. **Cross-Cutting Concerns**: Issues that affect multiple systems get combined review
 4. **Critical Path Analysis**: Focus on changes that affect the most important workflows
 
@@ -74,7 +74,7 @@ SUB-REVIEW A: Clear Title
     └── QUESTION 3 OF 3 - [exact question]
 ```
 
-### Progress Tracking Needs
+### Progress Tracking Reads
 - Clear sub-review boundaries (A, B, C, D, E)
 - Question progress within sub-review (1 of 3, 2 of 3, 3 of 3)
 - Overall review progress (Sub-review A of E)

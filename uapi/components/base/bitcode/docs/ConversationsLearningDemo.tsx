@@ -60,7 +60,7 @@ const LEARNING_LESSONS: LearningLesson[] = [
   {
     id: 'otf-instructions',
     title: 'On-The-Fly Instructions',
-    description: 'Learn to give live instructions to running pipelines',
+    description: 'Learn to deposit live instructions to running pipelines',
     prompt: 'Send to all pipelines: use TypeScript strict mode',
     expectedLearning: [
       'Active execution targeting',

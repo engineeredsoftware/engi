@@ -291,7 +291,7 @@
     },
     {
       "checkId": "uapi-client-asset-pack-execution-hook",
-      "label": "Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Need input names",
+      "label": "Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Read input names",
       "passed": true,
       "detail": "3 source evidence requirements satisfied",
       "requiredEvidence": [
@@ -302,8 +302,8 @@
         },
         {
           "file": "uapi/hooks/useExecutionState.ts",
-          "evidence": "definitionOfNeed",
-          "description": "TypeScript hook submits the canonical Definition of Need request shape"
+          "evidence": "definitionOfRead",
+          "description": "TypeScript hook submits the canonical Definition of Read request shape"
         },
         {
           "file": "uapi/hooks/useExecutionState.ts",

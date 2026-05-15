@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_ROLE: PromptPart =
-  'Provide repository source-grounding to downstream Bitcode need-comprehension, proof, AssetPack, mutation, and delivery owners without assuming their authority.' as PromptPart;
+  'Provide repository source-grounding to downstream Bitcode read-comprehension, proof, AssetPack, mutation, and delivery owners without assuming their authority.' as PromptPart;

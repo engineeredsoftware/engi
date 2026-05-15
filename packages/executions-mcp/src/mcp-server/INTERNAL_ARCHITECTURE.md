@@ -127,7 +127,7 @@ The Bitcode MCP Server represents a **controlled frontier system** - operating a
 
 #### **4. Business Logic Complexity**
 - **Domain-Specific Rules**: Complex business logic may require human expertise
-- **Regulatory Compliance**: Industry-specific regulations need manual verification
+- **Regulatory Compliance**: Industry-specific regulations read manual verification
 - **Organizational Context**: AI lacks knowledge of internal processes/decisions
 - **Strategic Decisions**: High-level architectural choices require human judgment
 

@@ -38,7 +38,7 @@ export default function MarketingHero() {
           Accelerate Technical Output with Bitcode
         </h1>
         <p className="mt-8 text-base phone:text-lg tablet:text-xl max-w-72 phone:max-w-80 tablet:max-w-3xl inline-block leading-6 phone:leading-7 tablet:leading-8 text-gray-600 dark:text-gray-200 font-light">
-          Convert measured Needs into PR-backed AssetPacks with reviewable source evidence, $BTD share/read-rights, and connected-interface delivery
+          Convert measured Reads into PR-backed AssetPacks with reviewable source evidence, $BTD share/read-rights, and connected-interface delivery
         </p>
         <div className="mt-10 desktop:mt-12 flex flex-col items-center w-full">
           <MarketingButtonShimmer large={true} className="relative w-fit border-green-primary pr-4" innerClassName='flex items-center'>

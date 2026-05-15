@@ -3,7 +3,7 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode LSP measurement tool name for replayable Need and AssetPack evidence"
+ * intent: "Bitcode LSP measurement tool name for replayable Read and AssetPack evidence"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -20,4 +20,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLNAME: PromptPart = 
-  'Bitcode LSP Need Measurement Query Tool' as PromptPart;
+  'Bitcode LSP Read Measurement Query Tool' as PromptPart;

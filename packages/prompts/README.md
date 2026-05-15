@@ -1,12 +1,12 @@
 # @bitcode/prompts
 
-The canonical Bitcode prompt-primitives package. It keeps the merged-world prompt system explicit as `PromptPart` + `Prompt` + `PromptExecution`, so retained agents, executions, conversations, and need-measurement flows all compose prompts through one typed contract.
+The canonical Bitcode prompt-primitives package. It keeps the merged-world prompt system explicit as `PromptPart` + `Prompt` + `PromptExecution`, so retained agents, executions, conversations, and read-measurement flows all compose prompts through one typed contract.
 
 ## Role In V26
 
 Fourth-gate keeps this package as the admitted owner for prompt abstraction.
 That means:
-- retained prompt parts stay active only where they are repurposed into Bitcode execution and need-measurement behavior
+- retained prompt parts stay active only where they are repurposed into Bitcode execution and read-measurement behavior
 - conversations, Jira ingestion, Git/GitHub settle-write tooling, and retained agents all consume one shared prompt contract
 - fifth-gate proving can verify the prompt space without first reopening package ownership
 
@@ -55,7 +55,7 @@ available through the explicit `@bitcode/prompts/raw_promptparts/*` subpath.
 
 Use this package when a Bitcode surface needs formal prompt ownership.
 Do not hide prompt composition in route-local strings or tool-local ad hoc templates when the resulting behavior is part of:
-- need measurement
+- read measurement
 - retained execution primitives
 - conversations
 - retained tool/agent ingestion
@@ -595,7 +595,7 @@ The dry run system enables mocking LLM calls with hardcoded responses:
  * @doc-comment-promptdryrun
  * scenario: "basic_tool_discovery"
  * response: {
- *   "thought": "I need to discover available tools",
+ *   "thought": "I read to discover available tools",
  *   "tools_found": ["text-editor", "file-search", "terminal"],
  *   "confidence": 0.95
  * }

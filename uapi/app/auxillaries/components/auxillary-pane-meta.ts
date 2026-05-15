@@ -46,7 +46,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'right',
     routeTitle: 'Externals Auxillary',
     routeDescription:
-      'Attach GitHub and other non-wallet third-party bindings Bitcode reuses across need measurement, asset-pack synthesis, settlement follow-through, and external interface behavior.',
+      'Attach GitHub and other non-wallet third-party bindings Bitcode reuses across read measurement, asset-pack synthesis, settlement follow-through, and external interface behavior.',
   },
   interfaces: {
     label: 'Interfaces',

@@ -60,7 +60,7 @@ The Bitcode interpretation is:
 - `uapi` becomes the Bitcode Terminal and Exchange-facing application/interface rail, with `/application`, conversations, auxillaries, APIs, and read/write admission routes carrying commercial product experience.
 - `packages/*` are no longer generic non-Bitcode inventory by default; each package must be direct-product, commercial infrastructure, ingress/support, compatibility, reference-only, cut, or deferred.
 - prompt, tool, agent, execution, pipeline, conversation, MCP, persistence, and proof corridors must be specified together because V26 claims Bitcode as a provable source-to-shares deployed financial system, not merely as a UI over a demo.
-- retained compatibility names may survive only when they are bounded carriers over Bitcode objects such as Need, AssetPack, written asset, delivery mechanism, fit quality, proof evidence, execution state, and settlement receipt.
+- retained compatibility names may survive only when they are bounded carriers over Bitcode objects such as Read, AssetPack, written asset, delivery mechanism, fit quality, proof evidence, execution state, and settlement receipt.
 
 This reformation is why fifth-gate is majority implementation work.
 The gate is not satisfied by proof-family improvements alone; it must make the commercial repository behave as Bitcode across packages, interfaces, prompts, agents, APIs, persistence, and proofs.
@@ -75,7 +75,7 @@ For every material retained corridor, the DELTA must make these facts recoverabl
 - former operational job:
   what the retained application, package, prompt, agent, tool, pipeline, storage, or proof corridor actually did before V26 reform;
 - current Bitcode object:
-  which Bitcode primitive or product behavior owns it now, such as Need measurement, Need review, fit-quality review, AssetPack synthesis, written-asset mutation, delivery mechanism, Exchange state, Terminal experience, connected-interface ingress, prompt infrastructure, execution evidence, or proof generation;
+  which Bitcode primitive or product behavior owns it now, such as Read measurement, Read review, fit-quality review, AssetPack synthesis, written-asset mutation, delivery mechanism, Exchange state, Terminal experience, connected-interface ingress, prompt infrastructure, execution evidence, or proof generation;
 - source owner:
   the package, interface, route, schema, generated artifact, or protocol-demonstration witness that now owns the behavior;
 - reform action:
@@ -105,12 +105,12 @@ It is not exhaustive; it fixes the expected descriptive density for later DELTA 
 | demonstration protocol runtime and proof shell | deterministic protocol witness and lower-rail proof reference | `protocol-demonstration/*` | reference implementation plus proof substrate | generated proof family, protocol tests, source-to-shares witnesses |
 | commercial application shell, routes, conversations, and auxillary panes | Terminal and Exchange operator experience | `uapi/app/application/*`, `uapi/app/api/*`, `uapi/app/auxillaries/*`, `packages/api/*` | direct-product and interface owner | app/API tests, route reread evidence, Terminal selected-detail persistence |
 | execution history and retained run surfaces | Exchange-readable activity, execution state, and Terminal transaction detail | `packages/api/src/routes/*`, `uapi/app/api/executions/*`, storage read models | direct-product persistence/interface corridor | persistence proof, API tests, execution-history reread |
-| former deliverable pipeline orchestration | Need-satisfying agentic pipeline run that synthesizes AssetPack synthesis artifacts, stores AssetPack evidence, then Finishes and Delivers a GitHub pull-request Shippable | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack`, `packages/pipelines-generics/*` | filesystem/package owner is AssetPack; old route/payload wrappers are removed from active V26, with old names admitted only as physical storage or bounded promptpart identifiers | pipeline finish reform tests, package-filesystem proof, inference records, runs-pipelines proof |
-| former task/deliverable comprehension tools | setup-phase Need comprehension, requirements, constraints, satisfaction criteria, validation, and implementation complexity | `packages/generic-tools/need-comprehension/*` | compatibility-only tool reservoir with canonical need-first exports | package typecheck, no source-co-located JS check, prompt boundary tests |
-| former task/deliverable comprehension agent behavior | setup/pre-danger-wall PTRR Need-comprehension composer | `packages/generic-agents/need-comprehension/*` | admitted setup agent | package typecheck, pipeline setup wiring, inference records |
-| danger-wall safety gate | Need/AssetPack risk admission before unsafe, private-data-exposing, proof-missing, delivery-mismatched, or likely-failing execution proceeds | `packages/generic-agents/danger-wall/*` | admitted support agent with compatibility aliases | danger-wall witness, prompt-system proof, likely-failure schema assertions |
-| web research and web search agents/tools | source-attributed discovery-phase Need-synthesis evidence | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | admitted support | web research/search witnesses, inference records, prompt-system proof |
-| LSP and grep search utilities | repository evidence for Need measurement, fit reasoning, proof inspection, and AssetPack planning | `packages/generic-tools/lsp-query/*`, `packages/system-grep/*`, `packages/generic-tools/simple-system-text-search/*` | admitted support | package witnesses, inference records, proof-source checks |
+| former deliverable pipeline orchestration | Read-satisfying agentic pipeline run that synthesizes AssetPack synthesis artifacts, stores AssetPack evidence, then Finishes and Delivers a GitHub pull-request Shippable | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack`, `packages/pipelines-generics/*` | filesystem/package owner is AssetPack; old route/payload wrappers are removed from active V26, with old names admitted only as physical storage or bounded promptpart identifiers | pipeline finish reform tests, package-filesystem proof, inference records, runs-pipelines proof |
+| former task/deliverable comprehension tools | setup-phase Read comprehension, requirements, constraints, satisfaction criteria, validation, and implementation complexity | `packages/generic-tools/read-comprehension/*` | compatibility-only tool reservoir with canonical read-first exports | package typecheck, no source-co-located JS check, prompt boundary tests |
+| former task/deliverable comprehension agent behavior | setup/pre-danger-wall PTRR Read-comprehension composer | `packages/generic-agents/read-comprehension/*` | admitted setup agent | package typecheck, pipeline setup wiring, inference records |
+| danger-wall safety gate | Read/AssetPack risk admission before unsafe, private-data-exposing, proof-missing, delivery-mismatched, or likely-failing execution proceeds | `packages/generic-agents/danger-wall/*` | admitted support agent with compatibility aliases | danger-wall witness, prompt-system proof, likely-failure schema assertions |
+| web research and web search agents/tools | source-attributed discovery-phase Read-synthesis evidence | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | admitted support | web research/search witnesses, inference records, prompt-system proof |
+| LSP and grep search utilities | repository evidence for Read measurement, fit reasoning, proof inspection, and AssetPack planning | `packages/generic-tools/lsp-query/*`, `packages/system-grep/*`, `packages/generic-tools/simple-system-text-search/*` | admitted support | package witnesses, inference records, proof-source checks |
 | doc-comment/doc-code prompt injection | build-time tool prompt descriptions for agentic Bitcode runs | `packages/doc-comment/*`, `packages/doc-code/*`, `packages/generic-doc-comment-plugins/*` | commercial infrastructure | doc-comment reform tests, prompt-system proof |
 | ChatGPT App, MCP, webhooks, and connected third-party APIs | connected-interface ingress or delivery mechanisms, never parallel Exchange ownership | `packages/chatgptapp/*`, `packages/executions-mcp/*`, `uapi/app/api/webhook/*`, provider packages | ingress/support or delivery mechanism | admission tests, MCP tests, write receipts, connected-interface proof rows |
 | Supabase/PostgreSQL/ORM state helpers | Exchange persistence, execution storage, profile/readiness, AssetPack and proof evidence | `supabase/*`, `packages/supabase/*`, `packages/orm/*` | commercial infrastructure | migrations, schema proof, ORM tests, generated database type evidence |
@@ -125,16 +125,16 @@ The following examples define how DELTA color should be read:
 | --- | --- | --- |
 | deterministic protocol witness | `protocol-demonstration/*` | retains the lower-level protocol behavior and proof model while commercial product rails move through `uapi` and packages |
 | commercial Terminal/Exchange application | `uapi/app/application/*`, `uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
-| execution-history ledger write/read loop | `uapi/app/application/application-activity-history.ts`, `uapi/app/api/executions/history/route.ts`, `packages/api/src/routes/executions.ts` | converts retained execution-history storage from a generic run log into the Bitcode Terminal activity ledger write/read seam, where give/need/closure writes persist as completed Bitcode activity and reread through the same Exchange route family |
-| Need-fitting Exchange/Terminal review seam | `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/application/ApplicationNeedScenarioPanel.tsx` | promotes the post-measurement/pre-fit review from a raw branch artifact into an Exchange `needFittingReview` payload that Terminal renders before candidate recall, fit search, AssetPack assembly, and present-fit settlement review |
-| product readiness auditing | `.bitcode/v26-product-readiness-audit.json`, `protocol-demonstration/src/canonical/v26-product-readiness-audit.js` | converts the parity matrix plus Exchange-lite/Terminal-lite/commercial source evidence into an explicit readiness map that proves fifth-gate closure and sixth-gate MVP readiness while refusing launch or V26 definition-of-need overclaims |
-| AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Needs, synthesize AssetPack contents, store Exchange evidence, Finish results, and use the GitHub pull-request delivery mechanism; old public route/payload wrappers are cut from active V26 |
+| execution-history ledger write/read loop | `uapi/app/application/application-activity-history.ts`, `uapi/app/api/executions/history/route.ts`, `packages/api/src/routes/executions.ts` | converts retained execution-history storage from a generic run log into the Bitcode Terminal activity ledger write/read seam, where deposit/read/closure writes persist as completed Bitcode activity and reread through the same Exchange route family |
+| Read-fitting Exchange/Terminal review seam | `protocol-demonstration/server.js`, `uapi/app/api/read-review/route.ts`, `uapi/app/application/ApplicationReadScenarioPanel.tsx` | promotes the post-measurement/pre-fit review from a raw branch artifact into an Exchange `readFittingReview` payload that Terminal renders before candidate recall, fit search, AssetPack assembly, and present-fit settlement review |
+| product readiness auditing | `.bitcode/v26-product-readiness-audit.json`, `protocol-demonstration/src/canonical/v26-product-readiness-audit.js` | converts the parity matrix plus Exchange-lite/Terminal-lite/commercial source evidence into an explicit readiness map that proves fifth-gate closure and sixth-gate MVP readiness while refusing launch or V26 definition-of-read overclaims |
+| AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Reads, synthesize AssetPack contents, store Exchange evidence, Finish results, and use the GitHub pull-request delivery mechanism; old public route/payload wrappers are cut from active V26 |
 | retained execution composer and template path | Shippable template selection plus AssetPack execution submission | active component, hook, style, streaming, `/api/templates/shippables`, and route-log names move to Shippable/AssetPack; retained database table/column names are translated at the storage edge only, and `/api/templates/deliverables` plus `/api/deliverables` are not active V26 mounts |
 | retained delivery/output wording across support rails | Shippable noun plus AssetPack execution owner | streams, MCP schemas/tools, branch execution, sidebars, Storybook, mock data, dry-run tests, and drymock scenarios now use AssetPack/Shippable source names first, while `deliver` stays only the Finish verb for connected-interface provision |
-| execution notification run types | AssetPack and Need-measurement execution notifications | notification payloads use `asset-pack` / `need-measurement`, Terminal `/executions/:runId` links, and user-facing execution copy instead of retained run-class nouns or stale execution URLs |
+| execution notification run types | AssetPack and Read-measurement execution notifications | notification payloads use `asset-pack` / `read-measurement`, Terminal `/executions/:runId` links, and user-facing execution copy instead of retained run-class nouns or stale execution URLs |
 | operational AssetPack evidence embedding script | `sync-asset-pack-evidence-embeddings` | package command, filesystem name, logs, and variables describe stored AssetPack evidence while literal retained Exchange table/column names remain bounded compatibility storage |
-| need-comprehension tools | `packages/generic-tools/need-comprehension/*` | individually defined generic-tools own callable Need semantics, requirements, constraints, satisfaction criteria, validation, and implementation-complexity tools; `NeedComprehensionToolset` only collects them |
-| need-comprehension agent | `packages/generic-agents/need-comprehension/*` | setup/pre-danger-wall PTRR agent composes the individual tools to emit a reviewable Need model and risk-admission input |
+| read-comprehension tools | `packages/generic-tools/read-comprehension/*` | individually defined generic-tools own callable Read semantics, requirements, constraints, satisfaction criteria, validation, and implementation-complexity tools; `ReadComprehensionToolset` only collects them |
+| read-comprehension agent | `packages/generic-agents/read-comprehension/*` | setup/pre-danger-wall PTRR agent composes the individual tools to emit a reviewable Read model and risk-admission input |
 | danger-wall | `packages/generic-agents/danger-wall/*` | retained name for Bitcode risk admission that short-circuits unsafe, impossible, likely-failing, or underspecified pipeline execution before mutation or delivery proceeds |
 | generated JavaScript beside TypeScript | build output outside package/source directories | commercial Bitcode implementations are TypeScript source; source-co-located generated JavaScript cannot be proof evidence for reformed packages or Terminal surfaces, with `packages/pipelines/asset-pack/src` and the `/application`/`/executions` Terminal execution surface now cleared as closure examples |
 | field-intelligence | `_legacy/field-intelligence` | removed from active Bitcode and retained only as historical idea material |
@@ -166,7 +166,7 @@ Its rule is:
 - port the strongest executions plus AssetPack/Shippable master-detail patterns inward to `/application`,
 - retain the pre-Bitcode navbar as the application navigation frame,
 - converge more of the page onto `uapi/components/base/*`,
-- lock the read experience onto a rich transactions master-detail workspace and the write experience onto Give/Need draft flow,
+- lock the read experience onto a rich transactions master-detail workspace and the write experience onto Deposit/Read draft flow,
 - keep live application copy user-facing rather than demo-facing, canon-facing, or source-path-facing,
 - keep preserved-runtime guidance user-facing as a `flow guide` rather than a visible `tutorial`,
 - fix the orbital model as `Connects`, `Interfaces`, `Profile`, and `$BTD`,
@@ -183,7 +183,7 @@ Its rule is:
 - refurbish the public website only after second-gate application work is stable,
 - avoid letting marketing-page changes blur application acceptance criteria,
 - preserve rich tooltip/help posture instead of flattening it during cleanup,
-- and keep public product language aligned to Give, Need, transactions, conversations, and Auxillaries rather than demo or gate narration.
+- and keep public product language aligned to Deposit, Read, transactions, conversations, and Auxillaries rather than demo or gate narration.
 
 The current V26 near-term checkpoint is explicitly earlier than third-gate closure:
 - first-gate and second-gate closure are carried by `.bitcode/v26-gate-checkpoint-report.json`,
@@ -222,7 +222,7 @@ Its rule is:
 Fifth-gate is the minimum-functional Bitcode Exchange/Terminal, source-to-shares, reform-baseline, proof-precision, schema-refinement, and closure-deepening gate after fourth-gate promoted closure.
 Its rule is:
 - enable make-shares and use-shares through Bitcode-owned interfaces and state,
-- preserve reviewable Needs before fit search and settlement AssetPack fit-quality receipts,
+- preserve reviewable Reads before fit search and settlement AssetPack fit-quality receipts,
 - close V26 only under explicit proof-family precision,
 - prove the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - prove migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries rather than leaving persistence informal,
@@ -285,7 +285,7 @@ The accepted V26 decisions are now:
 14. Fourth-gate merged-world naming now keeps `executions` explicit as executions primitives inside the broader `activity` family, where transactions, executions, and notifications can coexist precisely.
 15. Fourth-gate now also requires one shared Bitcode activity vocabulary so transactions, retained execution events, and user-facing notifications normalize through the same typed activity model before later activity classes are admitted.
 16. Fourth-gate merged-world naming now converges `orbitals` on `auxillaries`, keeping non-transactional, extra-network, still-proven preference/interface/identity/connection surfaces around the Bitcode core.
-17. Retained port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
+17. Retained port scope is now explicit: Jira is reader-first read ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
 18. `/application` is the only primary Bitcode destination in the finished V26 product posture.
 19. Auxillaries and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
 20. Auxillaries are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
@@ -322,7 +322,7 @@ Second-gate is now specified as:
 - route-local native application composition for `/application`,
 - `/application` as the only primary Bitcode destination,
 - `master detail`, `conversations`, and `orbitals` as the three main Bitcode application experiences,
-- `give` and `need` as the two main Bitcode actions,
+- `deposit` and `read` as the two main Bitcode actions,
 - fullscreen conversations and orbitals entered from within `/application`,
 - fixed orbital-ring ownership as `Connects`, `Interfaces`, `Profile`, and `$BTD`,
 - inward porting of executions plus AssetPack/Shippable master-detail reuse patterns,
@@ -341,8 +341,8 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationClosureControlDeck.tsx`
-- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
-- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
+- `uapi/app/application/ApplicationReadScenarioPanel.tsx`
+- `uapi/app/application/ApplicationDepositReadWorkbench.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
@@ -366,8 +366,8 @@ The current active second-gate source file additions are:
 - `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
-- `uapi/app/application/application-give-need-workbench.ts`
-- `uapi/app/application/application-need-scenarios.ts`
+- `uapi/app/application/application-deposit-read-workbench.ts`
+- `uapi/app/application/application-read-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-transaction-source.ts`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
@@ -423,11 +423,11 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationCoreSurface.test.ts`
 - `uapi/tests/applicationDepositComposer.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
-- `uapi/tests/applicationGiveNeedWorkbench.test.ts`
+- `uapi/tests/applicationDepositReadWorkbench.test.ts`
 - `uapi/tests/applicationSectionAtlas.test.ts`
 - `uapi/tests/applicationClosureState.test.ts`
 - `uapi/tests/applicationLiveSummary.test.ts`
-- `uapi/tests/applicationNeedScenarios.test.ts`
+- `uapi/tests/applicationReadScenarios.test.ts`
 - `uapi/tests/applicationTransactionActivity.test.ts`
 - `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
 - `uapi/tests/applicationTransactionDetail.test.ts`
@@ -467,16 +467,16 @@ Second-gate acceptance is reached only when:
 - selected-transaction rows, metric grids, and branch-artifact chips converge on reusable execution-level base carriers instead of being re-authored per card,
 - transaction master controls and payload inspection surfaces expose shared inline explainers plus stable accessible control names rather than relying on incidental browser `title` text or unlabeled form controls,
 - application workspace framing converges on shared route-local shell/help carriers instead of per-panel hero and stats markup,
-- application workspace framing now also includes the support rail and give-side supply terminal, so those surfaces no longer drift into bespoke section chrome outside the shared application shell/help system,
+- application workspace framing now also includes the support rail and deposit-side supply terminal, so those surfaces no longer drift into bespoke section chrome outside the shared application shell/help system,
 - live `/application` copy is fully user-referencing and does not narrate gates, route ownership, canon posture, or implementation mechanics to the user,
 - live `/application` copy also avoids shell-plumbing, mounted-state, source-path, or compatibility-console narration except where a bounded lower-level runtime view is intentionally entered,
-- stepwise workspace guidance reads as resumable give/need flow guidance and working-draft continuity rather than tutorial/demo residue,
+- stepwise workspace guidance reads as resumable deposit/read flow guidance and working-draft continuity rather than tutorial/demo residue,
 - signed-in orbitals now expose real `Interfaces` and `$BTD` panes through shared orbital workspace section, stat, and preference carriers rather than model or credits wrappers,
 - application-owned orbital preference persistence now lives at `/api/auxillaries/model-preferences` with authenticated read and lead/admin write posture,
 - application command normalization now uses flow-guide continuity while preserved-shell tutorial fields survive only as compatibility input,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
-- the give and need actions are explicit in the master-detail workspace,
-- the read experience clearly centers on the transactions master-detail window while the write experience moves through give, need, and orbitals/interfaces posture,
+- the deposit and read actions are explicit in the master-detail workspace,
+- the read experience clearly centers on the transactions master-detail window while the write experience moves through deposit, read, and orbitals/interfaces posture,
 - transactions, AssetPack/Shippables, proofs, and history are explicit master-detail substructures inside `/application`,
 - the transactions master surface supports direct transaction-field filtering, participant ownership filtering, and explicit sort posture,
 - the transactions master surface also supports route-owned pagination rather than component-local row-window state,
@@ -486,14 +486,14 @@ Second-gate acceptance is reached only when:
 - second-gate application health also includes keeping fullscreen orbitals renderable from `/application` rather than allowing missing overlay carriers to crash the app during orbital entry,
 - second-gate workspace chrome now replaces disabled marketing-era unauthenticated nav CTA behavior on `/application` and canonical `/auxillaries` with deliberate access/create-account actions that keep the operator shell clean, while `/orbitals/*` survives only as redirect-only compatibility,
 - shared workspace-route classification now governs navbar surface posture and footer suppression for `/application`, `/auxillaries`, and `/conversations`, so operator chrome cannot drift route-by-route,
-- stepwise workspace guidance now reads as a Give + Need flow guide and working-flow continuity rather than tutorial/demo residue,
+- stepwise workspace guidance now reads as a Deposit + Read flow guide and working-flow continuity rather than tutorial/demo residue,
 - contained orbital entry shells and focused orbital routes now read as orbitals access and contained orbital reads instead of generic workspace/settings/account furniture,
 - shared orbital-entry copy now flows from one orbital metadata layer so application buttons, notifications, the signed-in user menu, and direct orbital routes stay aligned on `Open Orbitals fullscreen`, `Open Connects fullscreen`, and `Open transactions`,
 - application-triggered orbital entry now holds a full-width contained operator shell instead of collapsing back to modal-width access furniture,
 - preserved-runtime help/reference rendering is now user-facing, using live-surface and reference-topic labels instead of canon/version self-reference in the visible runtime tooltip/footer layer,
 - preserved-runtime telemetry and diagnostics now use Bitcode-facing runtime labeling instead of `engi-demo`-era visible prefixes,
 - preserved-runtime HTML fallback copy now matches the React-owned closure-runtime and flow-guide wording instead of leaking prototype/tutorial text,
-- the mounted public shell has now started third-gate through one shared `bitcode-public-copy.ts` owner feeding the landing page, footer, `/docs`, and the compatibility `/demo-video` alias, so public entry copy inherits `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching posture from the application instead of preserving demo-era CTA language,
+- the mounted public shell has now started third-gate through one shared `bitcode-public-copy.ts` owner feeding the landing page, footer, `/docs`, and the compatibility `/demo-video` alias, so public entry copy inherits `Network`, `Transactions`, `Docs`, `Orbitals`, and deposit/read teaching posture from the application instead of preserving demo-era CTA language,
 - the mounted public shell now also owns live public-route chrome through `PublicShellFrame`, `nav.tsx`, and `NavBrand.tsx`, so `/`, `/docs`, and `/demo-video` expose explicit Bitcode navigation and orbital-entry behavior instead of rendering as copy-only pages,
 - the mounted public shell no longer relies on live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, and the dead access-gate shell has been removed from the active landing owner instead of being carried forward as dormant demo logic,
 - the mounted landing owner now delegates hero, guide, preview, and shared marketing-shell data into `app/(root)/components/landing/*` carriers instead of retaining a single oversized mixed-surface file,
@@ -510,18 +510,18 @@ Second-gate acceptance is reached only when:
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,
 - active `Interfaces` and `$BTD` panes now use live `interfaces`/`btd` naming and orbital-entry classing instead of exposing model/credits/settings residue in the active orbital surface,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
-- route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
+- route-local repository context makes provider connection posture and selected repository supply explicit inside the deposit-side application frame,
 - route-local command state/control is bridged from the mounted Bitcode shell into `ApplicationCommandDeck.tsx` rather than being read and driven through raw DOM queries,
 - route-local deposit submission is available through `ApplicationDepositComposer.tsx`, posting to the app-owned `/api/deposits` route while preserving selected-inventory and auth-session continuity from the mounted shell,
-- route-local need selection is available through `ApplicationNeedScenarioPanel.tsx`, driving active Bitcode scenario posture through the mounted shell bridge,
-- route-local give/need action detail reads the mounted Bitcode shell through a semantic snapshot bridge rather than generic shell markup and stays application-owned inside `/application`,
-- route-local give, need, deposit, closure, and workspace-map surfaces reuse one shared application shell/help system plus shared metric, row, and chip carriers instead of reauthoring local section chrome,
+- route-local read selection is available through `ApplicationReadScenarioPanel.tsx`, driving active Bitcode scenario posture through the mounted shell bridge,
+- route-local deposit/read action detail reads the mounted Bitcode shell through a semantic snapshot bridge rather than generic shell markup and stays application-owned inside `/application`,
+- route-local deposit, read, deposit, closure, and workspace-map surfaces reuse one shared application shell/help system plus shared metric, row, and chip carriers instead of reauthoring local section chrome,
 - route-local supply selection makes authenticated intake session, artifact filtering, search, and inventory selection explicit inside `/application`,
 - route-local external-runtime posture makes environment mode, actuality disposition, and per-interface blocking state explicit inside `/application`,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,
-- route-local native operating, deposit, need, and fit cards now read the live shell surfaces through application-owned composition,
+- route-local native operating, deposit, read, and fit cards now read the live shell surfaces through application-owned composition,
 - route-local application and canonical auxillary review surfaces now also converge on `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split delays until `2xl` so laptop-width reading stays centered on the main transactions column,
 - selected-run detail normalizes into one application-owned carrier and AssetPack/Shippable reading behavior is reachable in both live and mock posture within `/application`,
 - the page is composed through application-native route-local sections and current component-system carriers,
@@ -546,7 +546,7 @@ Fourth-gate is now specified as:
 - redefining old deliverable output meaning as AssetPack run, stored evidence, and PR Shippable semantics,
 - porting current executions plus AssetPack/Shippable master-detail and inspection patterns inward to `/application`,
 - routing retained prompt text through prompt abstraction and the proved prompt space,
-- reprompting retained tools and agents for Bitcode canonical use with reader-first fourth-gate scope such as Jira need ingestion,
+- reprompting retained tools and agents for Bitcode canonical use with reader-first fourth-gate scope such as Jira read ingestion,
 - keeping initial testnet-ready settle-write focused on Git/GH asset settlement while broader write surfaces stay later,
 - and retaining packages only when V26 explicitly admits and proves their role.
 
@@ -581,7 +581,7 @@ Fifth-gate acceptance is reached only when:
 - the Bitcode MCP write-admission slice proves accepted write receipts, queued write-admission metadata, third-party MCP ingress as input context, and asset-pack output meaning instead of thin non-Bitcode run-id residue,
 - the Bitcode MCP prompt-canon slice proves workflow/development prompts and the retained pipeline tool describe asset-pack pipeline execution over source-to-shares needs while preserving compatibility URI/subtype names only as compatibility surfaces,
 - the GitHub webhook ingress slice proves retained labels and `@bitcode-*` comments schedule asset-pack pipeline automation with `github_webhook` ingress, `asset_packs` output meaning, and ingress-only Exchange role while retaining the old trigger command only as compatibility implementation detail,
-- the UAPI client execution-hook slice proves active AssetPack submission is described as route-backed asset-pack pipeline execution through canonical `definitionOfNeed` input rather than old acceptance-field naming, and that `/api/deliverables` is no longer an active V26 mount,
+- the UAPI client execution-hook slice proves active AssetPack submission is described as route-backed asset-pack pipeline execution through canonical `definitionOfRead` input rather than old acceptance-field naming, and that `/api/deliverables` is no longer an active V26 mount,
 - the ChatGPT App write-admission slice proves GitHub/AWS/Vercel connected-interface writes reject unconfirmed payloads, accept only `confirmed: true`, declare schema-level confirmation requirements on every write carrier, and return delivery-mechanism receipts, including a target-bound GitHub repository-delivery receipt, instead of treating the ChatGPT App as a parallel Exchange owner,
 - the required proof families are generated,
 - their closure verdicts are explicit,

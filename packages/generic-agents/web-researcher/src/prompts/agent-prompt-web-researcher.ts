@@ -14,11 +14,11 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web research agent prompt for discovery-phase source context"
+ * intent: "Bitcode read-synthesis web research agent prompt for discovery-phase source context"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "bitcode_boundary", "test": "Keeps web research inside need synthesis rather than product or proof ownership", "score": 1.00 },
+ *   { "name": "bitcode_boundary", "test": "Keeps web research inside read synthesis rather than product or proof ownership", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Composes specific implementation PromptParts through a Prompt registry", "score": 1.00 }
  * ]
  */

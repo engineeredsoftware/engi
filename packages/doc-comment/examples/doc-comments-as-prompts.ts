@@ -77,15 +77,15 @@ export interface TypeScriptGenerationAgent {
 
 /**
  * @doc-prompt-pipeline
- * mission: Transform expressed Needs into AssetPack evidence and requested Shippables
+ * mission: Transform expressed Reads into AssetPack evidence and requested Shippables
  * phases: setup, discovery, implementation, validation, finish
  * coordination: Parallel discovery with sequential implementation
- * intelligence: ["need-measurement", "assetpack-synthesis", "finish-delivery-evidence"]
+ * intelligence: ["read-measurement", "assetpack-synthesis", "finish-delivery-evidence"]
  * phase_prompts: {
- *   "setup": "Normalize source, Need, and delivery-mechanism context",
- *   "discovery": "Measure the Need and gather source-grounded evidence",
- *   "implementation": "Synthesize Need-satisfaction AssetPack artifacts with PTRR methodology",
- *   "validation": "Validate AssetPack evidence against the Definition of Need",
+ *   "setup": "Normalize source, Read, and delivery-mechanism context",
+ *   "discovery": "Measure the Read and gather source-grounded evidence",
+ *   "implementation": "Synthesize Read-satisfaction AssetPack artifacts with PTRR methodology",
+ *   "validation": "Validate AssetPack evidence against the Definition of Read",
  *   "finish": "Store AssetPack evidence and deliver requested Shippables"
  * }
  */

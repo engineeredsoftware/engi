@@ -93,9 +93,9 @@ export const COMMON_REQUIRED_PROOF_FAMILY_MATRIX_HEADERS = [
 
 export const COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES = [
   'repo supply and depositing',
-  'needing and measured demand',
+  'reading and measured demand',
   'prompt/inference/evaluator ownership',
-  'depositing-to-needing fit',
+  'deposit-to-read fit',
   'recall and ranking',
   'verification decisions',
   'selection and materialization',
@@ -114,7 +114,7 @@ export const COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES = [
 
 export const COMMON_REQUIRED_SUBSYSTEM_SECTION_HEADINGS = [
   'Depositing and asset supply',
-  'Needing and prompt/inference ownership',
+  'Reading and prompt/inference ownership',
   'Fit, recall, ranking, and verification',
   'Selection and materialization',
   'Identity, authorization, and sensitive flow',
@@ -501,8 +501,8 @@ function buildV23Profile() {
     ],
     requiredSubsystemCoveragePhrases: [
       'authenticated repo supply',
-      'measured need',
-      'deposit-to-need fit',
+      'measured read',
+      'deposit-to-read fit',
       'recall, ranking, verification, and use-tiering',
       'exact source-to-shares settlement',
       'bounded-public and private commitment scopes',

@@ -126,7 +126,7 @@ function modeObservationState(paymentMode) {
 
 /**
  * @param {{
- *   need: { needId: string },
+ *   read: { readId: string },
  *   assetPack: { assetPackId: string },
  *   paymentMode: string,
  *   externalBoundaryManifest: { interfaces?: Array<{ interfaceId?: string }> | undefined },
@@ -136,7 +136,7 @@ function modeObservationState(paymentMode) {
  * @returns {Record<string, unknown>}
  */
 export function buildComputeRealityManifest({
-  need,
+  read,
   assetPack,
   paymentMode,
   externalBoundaryManifest,
@@ -145,8 +145,8 @@ export function buildComputeRealityManifest({
 }) {
   const externalBoundaryRefs = summarizeStrings((externalBoundaryManifest.interfaces || []).map((entry) => entry.interfaceId));
   return {
-    realityId: `compute_reality_${sha256(`${need.needId}:${assetPack.assetPackId}:${paymentMode}`).slice(0, 12)}`,
-    needId: need.needId,
+    realityId: `compute_reality_${sha256(`${read.readId}:${assetPack.assetPackId}:${paymentMode}`).slice(0, 12)}`,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     paymentMode,
     conformanceProfile: PROFILE_A,
@@ -279,7 +279,7 @@ export function buildBitcoinTreasuryPolicy({ paymentMode }) {
 /**
  * @param {{
  *   buyer: { buyerId: string },
- *   need: { needId: string },
+ *   read: { readId: string },
  *   assetPack: { assetPackId: string },
  *   settlementPreview: { bundleId: string, meteredMicroUnits?: string | undefined },
  *   sourceToSharesArtifact: { proofHash?: string | undefined },
@@ -290,7 +290,7 @@ export function buildBitcoinTreasuryPolicy({ paymentMode }) {
  */
 export function buildBitcoinSettlementIntent({
   buyer,
-  need,
+  read,
   assetPack,
   settlementPreview,
   sourceToSharesArtifact,
@@ -301,7 +301,7 @@ export function buildBitcoinSettlementIntent({
   const paymentCarrier = buildBitcoinDemonstrationPaymentCarrier({
     intentId,
     buyerId: buyer.buyerId,
-    needId: need.needId,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     bundleId: settlementPreview.bundleId,
     paymentMode,
@@ -311,7 +311,7 @@ export function buildBitcoinSettlementIntent({
   return {
     intentId,
     buyerId: buyer.buyerId,
-    needId: need.needId,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     bundleId: settlementPreview.bundleId,
     unitDenomination: 'BTD',
@@ -350,7 +350,7 @@ export function buildBitcoinSettlementObservation({
   const paymentCarrier = buildBitcoinDemonstrationPaymentCarrier({
     intentId: settlementIntent.intentId,
     buyerId: settlementIntent.buyerId || 'buyer-observed',
-    needId: settlementIntent.needId || 'need-observed',
+    readId: settlementIntent.readId || 'read-observed',
     assetPackId: settlementIntent.assetPackId || 'asset-pack-observed',
     bundleId: settlementPreview.bundleId,
     paymentMode: settlementIntent.paymentMode,
@@ -684,7 +684,7 @@ export function buildBitcoinAuditAnchorProof({
  *   settlementIntent: any,
  *   settlementObservation: any,
  *   treasuryPolicy: any,
- *   settlementPreview: { needId?: string | undefined, bundleId: string, meteredMicroUnits?: string | undefined },
+ *   settlementPreview: { readId?: string | undefined, bundleId: string, meteredMicroUnits?: string | undefined },
  *   sourceToSharesArtifact: { proofHash?: string | undefined },
  *   settlementProof: { proofHash?: string | undefined },
  *   journalDiff: { totals?: { debited?: string | undefined, credited?: string | undefined } | undefined },

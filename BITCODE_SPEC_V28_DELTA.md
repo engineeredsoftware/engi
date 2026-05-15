@@ -49,7 +49,7 @@ V28 must make all of these implementation-derivable:
 - route-level flags disable direct Exchange and website Conversations entry during V28 QA;
 - Terminal wallet readiness and signer-session review;
 - BTC fee transaction preparation, signing, broadcast, finality, and failure display;
-- Need review and Fit review as explicit pre-settlement boundaries;
+- Read review and Fit review as explicit pre-settlement boundaries;
 - realistic synthetic measurement receipts, BTD-AssetPack minting, ledgerized journal rows, and projection/reconciliation readback in testnet-ready lanes;
 - measureminting entitlement and zero-cell/refit posture in the operator flow;
 - AssetPack range details from registry state;
@@ -89,6 +89,8 @@ The BitVM/Taproot/BNB/Binance research is incorporated as V28 planning guidance:
 - UAPI route implementations remain unversioned.
 - Source implementation names remain unversioned and ungated unless explicitly required for a bounded compatibility artifact; V28 must not introduce route, file, stylesheet, constant, class, or test names such as `api/v1`, `v27-*`, `first-gate-*`, or `wip-*`.
 - value-bearing mainnet remains separately approval-gated.
+- User-facing Terminal vocabulary is now Deposit/Depositing and Read/Reading. Retired Deposit/Depositing and Read/Reading language may survive only in compatibility carriers such as persisted enum values, route names, schema fields, proof IDs, and filenames until a separately specified migration replaces those carriers.
+- V28 Terminal QA order is Deposit first, then Read/Fit. Read/Fit acceptance is not meaningful until a repository/branch/commit source deposit or equivalent source posture exists as candidate supply.
 
 ## Explicitly deferred
 
@@ -109,7 +111,7 @@ The BitVM/Taproot/BNB/Binance research is incorporated as V28 planning guidance:
 2. Close V28 Gate 1 by synchronizing SPEC, DELTA, NOTES, PARITY, posture carriers, and route scans.
 3. Close commercial Protocol/Terminal MVP QA baseline across primary routes.
 4. Clean Auxillaries active shell to the contained tabs-left model.
-5. Build Terminal wallet, BTC fee, Need/Fit, synthetic measurement, BTD-AssetPack minting, range, read-right, journal, ledgerization, and reconciliation surfaces to MVP.
+5. Build Terminal wallet, BTC fee, Read/Fit, synthetic measurement, BTD-AssetPack minting, range, read-right, journal, ledgerization, and reconciliation surfaces to MVP.
 6. Build MCP API and ChatGPT App MVP gates over registry-derived read/write authority.
 7. Build organization/access-policy and operational-health surfaces at MVP depth.
 8. Commercialize remaining demonstration-derived runtime dependencies into packages/UAPI and prove commercial code does not import `protocol-demonstration/`.
@@ -154,7 +156,7 @@ Adds primary-route QA, Auxillaries shell cleanup, Protocol/Terminal MVP hardenin
 The automated browser layer is the commercial-MVP Playwright suite: product-route readability, micro-interface assertions, stitched user flows, URL-addressable filter state, data-share consent persistence, public docs article coverage, responsive route health, and browser-error cleanliness are required before Gate 2 can close.
 The package runner is intentionally serial against one deterministic mock-mode dev server. Its mock harness must own Auxillaries data, model-preferences, data-share, notifications, Terminal activity, BTD mint/read state, and MCP/ChatGPT App readiness so V28 QA validates commercial Protocol/Terminal behavior rather than external account/session availability.
 
-### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
+### Gate 3: Terminal Wallet, BTC Fee, And Read-Fit-Measuremint Workflow
 
 Adds wallet, BTC fee, operator-visible measurement, Fit, proof, measuremint, and access-policy review.
 

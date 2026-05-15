@@ -22,13 +22,13 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     kicker: 'Bitcode Terminal operator model',
     title: 'Bitcode Terminal experience map',
     summary:
-      'The Bitcode Terminal is the primary operator surface for Give, Need, closure, and recent activity results, while Exchange owns the market-wide master-detail view.',
+      'The Bitcode Terminal is the primary operator surface for Deposit, Read, closure, and recent activity results, while Exchange owns the market-wide master-detail view.',
     detail:
-      'Use this map to keep the main Bitcode Terminal working surface stable: Give, Need, recent activity, and selected results stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
+      'Use this map to keep the main Bitcode Terminal working surface stable: Deposit, Read, recent activity, and selected results stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
     points: [
       'Keeps the ledger and selected activity central',
       'Treats conversations and Auxillaries as deliberate follow-through modes',
-      'Keeps Give and Need legible as the two primary actions',
+      'Keeps Deposit and Read legible as the two primary actions',
     ],
     references: {
       source: [
@@ -62,11 +62,11 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
       canon: TERMINAL_CANON_REFS,
     },
   }),
-  needScenarios: buildExplainer({
-    kicker: 'Need measurement',
-    title: 'Need measurement selection',
+  readScenarios: buildExplainer({
+    kicker: 'Read measurement',
+    title: 'Read measurement selection',
     summary:
-      'The active needer demand frame should be explicit and switchable before you judge fit, proof, or settlement posture.',
+      'The active reader demand frame should be explicit and switchable before you judge fit, proof, or settlement posture.',
     detail:
       'This surface keeps the currently measured demand visible as a first-class Bitcode choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into execution plumbing.',
     points: [
@@ -77,23 +77,23 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalNeedScenarioPanel.tsx',
-        'uapi/app/terminal/terminal-need-scenarios.ts',
+        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
+        'uapi/app/terminal/terminal-read-scenarios.ts',
       ],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   supplyInventory: buildExplainer({
-    kicker: 'Give-side inventory',
+    kicker: 'Deposit-side inventory',
     title: 'Search and select supply',
     summary:
-      'Give-side supply should be searchable, reviewable, and selectable without turning transactions into an infrastructure note.',
+      'Deposit-side supply should be searchable, reviewable, and selectable without turning transactions into an infrastructure note.',
     detail:
-      'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active give draft before moving into Giving, fit, and closure.',
+      'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active deposit draft before moving into Depositing, fit, and closure.',
     points: [
       'Keeps searchable supply inside the Bitcode Terminal',
-      'Makes selected inventory explicit before Giving drafting',
-      'Preserves continuity into the give draft instead of forcing context rebuilds',
+      'Makes selected inventory explicit before Depositing drafting',
+      'Preserves continuity into the deposit draft instead of forcing context rebuilds',
     ],
     references: {
       source: [
@@ -105,14 +105,14 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     },
   }),
   depositComposer: buildExplainer({
-    kicker: 'Give-side intake',
-    title: 'Giving flow and submission',
+    kicker: 'Deposit-side intake',
+    title: 'Depositing flow and submission',
     summary:
-      'Giving should read like a resumable working draft built from selected supply, not like infrastructure plumbing.',
+      'Depositing should read like a resumable working draft built from selected supply, not like infrastructure plumbing.',
     detail:
-      'Use this surface to bind selected supply, add issuer and provenance overrides where needed, and submit Giving while keeping the rest of the working chain coherent.',
+      'Use this surface to bind selected supply, add issuer and provenance overrides where needed, and submit Depositing while keeping the rest of the working chain coherent.',
     points: [
-      'Treats Giving as a resumable working draft',
+      'Treats Depositing as a resumable working draft',
       'Keeps selected supply and issuer continuity visible',
       'Feeds directly into fit, proof, and settlement follow-through',
     ],
@@ -125,22 +125,22 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
       canon: TERMINAL_CANON_REFS,
     },
   }),
-  giveNeedChain: buildExplainer({
+  depositReadChain: buildExplainer({
     kicker: 'Operating chain',
-    title: 'Give, need, and fit in one read',
+    title: 'Deposit, read, and fit in one read',
     summary:
-      'Supply, need measurement, and fit should read as one operating chain so you can judge why the current Bitcode activity is or is not moving forward.',
+      'Supply, read measurement, and fit should read as one operating chain so you can judge why the current Bitcode activity is or is not moving forward.',
     detail:
       'The Bitcode Terminal is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
     points: [
-      'Keeps give and need in one Bitcode Terminal read',
+      'Keeps Deposit and Read in one Bitcode Terminal read',
       'Makes asset-pack fit legible before proof and settlement',
       'Supports quick orientation before opening the exact proof view',
     ],
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalGiveNeedWorkbench.tsx',
+        'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
         'uapi/app/terminal/TerminalActionWorkbenchCard.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -156,7 +156,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     points: [
       'Keeps closure controls near the active activity',
       'Makes refresh and reset explicit instead of hidden',
-      'Preserves continuity into Need review, verification, branch, settlement, and ledger reads',
+      'Preserves continuity into Read review, verification, branch, settlement, and ledger reads',
     ],
     references: {
       source: [
@@ -169,13 +169,13 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
   }),
   closureMap: buildExplainer({
     kicker: 'Closure reading',
-    title: 'Need review, branch, settlement, and ledger map',
+    title: 'Read review, branch, settlement, and ledger map',
     summary:
-      'Closure should read as one sequence from reviewable Need admission through source-to-shares settlement and ledger continuity rather than as isolated panels.',
+      'Closure should read as one sequence from reviewable Read admission through source-to-shares settlement and ledger continuity rather than as isolated panels.',
     detail:
-      'Use this map to preview the review-to-settlement sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you need deeper proof.',
+      'Use this map to preview the review-to-settlement sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you read deeper proof.',
     points: [
-      'Keeps Need review and closure stages in one readable sequence',
+      'Keeps Read review and closure stages in one readable sequence',
       'Brings proof and history closer to the Bitcode Terminal',
       'Makes fit-quality and exact-detail reads deliberate instead of mandatory',
     ],
@@ -235,7 +235,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     kicker: 'Section navigation',
     title: 'Bitcode Terminal activity map',
     summary:
-      'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
+      'Preview the deeper deposit, read, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
       'The map should act like a readable table of contents for the lower Bitcode Terminal flow so you can move from recent activity results into Bitcode Protocol proof without losing context, not like an internal engineering note.',
     points: [
@@ -251,16 +251,16 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     },
   }),
   repositorySupply: buildExplainer({
-    kicker: 'Give-side source',
+    kicker: 'Deposit-side source',
     title: 'Repository supply connection',
     summary:
-      'Repository connection and selection make searchable supply explicit before Giving, fit, and closure read the rest of the chain.',
+      'Repository connection and selection make searchable supply explicit before Depositing, fit, and closure read the rest of the chain.',
     detail:
-      'This is where you set the boundary for give-side supply. It should read as a clean source selection surface, not as infrastructure plumbing.',
+      'This is where you set the boundary for deposit-side supply. It should read as a clean source selection surface, not as infrastructure plumbing.',
     points: [
-      'Anchors give-side supply to one repository boundary',
+      'Anchors deposit-side supply to one repository boundary',
       'Keeps provider posture visible',
-      'Supports continuing straight into Giving and Need',
+      'Supports continuing straight into Deposit and Read',
     ],
     references: {
       source: [
@@ -275,21 +275,21 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     },
   }),
   supplyFit: buildExplainer({
-    kicker: 'Give and need map',
-    title: 'Supply, need, and fit overview',
+    kicker: 'Deposit and read map',
+    title: 'Supply, read, and fit overview',
     summary:
-      'You should be able to read the live give-side source, measured need, and fit posture without dropping immediately into the exact proof view.',
+      'You should be able to read the live deposit-side source, measured read, and fit posture without dropping immediately into the exact proof view.',
     detail:
       'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active Bitcode Terminal.',
     points: [
-      'Give stays tied to searchable supply',
-      'Need stays tied to measured demand',
+      'Deposit stays tied to searchable supply',
+      'Read stays tied to measured demand',
       'Fit stays explicit before proof and settlement',
     ],
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalGiveNeedWorkbench.tsx',
+        'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -298,7 +298,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     kicker: 'Demonstration witness',
     title: 'Proof and settlement witness',
     summary:
-      'Open the demonstration witness when you need the dense give-to-settlement follow-through, proofs, or replay detail.',
+      'Open the demonstration witness when you read the dense deposit-to-settlement follow-through, proofs, or replay detail.',
     detail:
       'This demonstration witness remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
     points: [
@@ -385,7 +385,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'The main Bitcode Terminal read window is recent activity plus the selected Terminal result, not the Exchange master-detail table.',
     detail:
-      'Exchange owns the market-wide master-detail loop. Terminal keeps a focused read/write loop for recent Give, Need, proof, and closure results; deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
+      'Exchange owns the market-wide master-detail loop. Terminal keeps a focused read/write loop for recent Deposit, Read, proof, and closure results; deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
     references: {
       source: [
         'uapi/app/terminal/TerminalExperienceFrame.tsx',
@@ -397,9 +397,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   writePosture: buildExplainer({
     title: 'Write posture',
     summary:
-      'Give, need, and transactional follow-through are the active write posture of the Bitcode Terminal.',
+      'Deposit, read, and transactional follow-through are the active write posture of the Bitcode Terminal.',
     detail:
-      'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to give, need, deposit, branch, and closure so writes land in Bitcode Exchange and remain auditable against Bitcode Protocol canon.',
+      'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to deposit, read, deposit, branch, and closure so writes land in Bitcode Exchange and remain auditable against Bitcode Protocol canon.',
     references: {
       source: [
         'uapi/app/terminal/TerminalExperienceFrame.tsx',
@@ -412,13 +412,13 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   scenario: buildExplainer({
     title: 'Scenario',
     summary:
-      'Scenario chooses the currently measured need or operating frame that the rest of the Bitcode flow should honor.',
+      'Scenario chooses the currently measured read or operating frame that the rest of the Bitcode flow should honor.',
     detail:
-      'Changing the scenario should immediately change what give, fit, branch, and closure are reasoning against. It is not a cosmetic filter.',
+      'Changing the scenario should immediately change what deposit, fit, branch, and closure are reasoning against. It is not a cosmetic filter.',
     references: {
       source: [
         'uapi/app/terminal/TerminalCommandDeck.tsx',
-        'uapi/app/terminal/TerminalNeedScenarioPanel.tsx',
+        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -453,7 +453,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'Transaction readiness is the shared operator contract for wallet identity, verified signing access, repository scope, and anchor posture.',
     detail:
-      'When readiness is incomplete, review continuity can stay open but branch, Giving, and closure should fail closed. Manual wallet identity can still support drafting, but signed settlement stays staged until verified wallet-provider access is present. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
+      'When readiness is incomplete, review continuity can stay open but branch, Depositing, and closure should fail closed. Manual wallet identity can still support drafting, but signed settlement stays staged until verified wallet-provider access is present. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
     references: {
       source: [
         'uapi/app/terminal/bitcode-transaction-readiness.ts',
@@ -471,9 +471,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   providerRepository: buildExplainer({
     title: 'Provider and repository',
     summary:
-      'This is the give-side boundary selector for the repository supply that Bitcode can actually work against.',
+      'This is the deposit-side boundary selector for the repository supply that Bitcode can actually work against.',
     detail:
-      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, Giving provenance, and later signed transaction follow-through, while third-party connections and attachments enter here as ingress/input context rather than redefining Bitcode outputs.',
+      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, Depositing provenance, and later signed transaction follow-through, while third-party connections and attachments enter here as ingress/input context rather than redefining Bitcode outputs.',
     references: {
       source: [
         'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
@@ -487,7 +487,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'Recording the repository anchor writes the selected source perimeter into recent Bitcode Terminal activity.',
     detail:
-      'This keeps source posture rereadable in recent Terminal activity alongside give, need, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
+      'This keeps source posture rereadable in recent Terminal activity alongside deposit, read, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
     references: {
       source: [
         'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
@@ -499,9 +499,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   authSession: buildExplainer({
     title: 'Auth session',
     summary:
-      'The auth session is the current repo-bound execution identity for give-side supply selection.',
+      'The auth session is the current repo-bound execution identity for deposit-side supply selection.',
     detail:
-      'Changing the session changes which authenticated inventory Bitcode can read and later cite in Giving and branch records.',
+      'Changing the session changes which authenticated inventory Bitcode can read and later cite in Depositing and branch records.',
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -513,9 +513,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   artifactKind: buildExplainer({
     title: 'Artifact kind',
     summary:
-      'Artifact kind narrows the give-side inventory to the kinds of share candidates you actually want to work with.',
+      'Artifact kind narrows the deposit-side inventory to the kinds of share candidates you actually want to work with.',
     detail:
-      'It should help the operator shape the selected supply set before Giving, not act as hidden backend filtering.',
+      'It should help the operator shape the selected supply set before Depositing, not act as hidden backend filtering.',
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -529,7 +529,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     summary:
       'Inventory search is the fast path for narrowing repository supply inside the Bitcode Terminal.',
     detail:
-      'It should preserve continuity with repository anchor and selected supply so the operator can move from search straight into give without rebuilding context.',
+      'It should preserve continuity with repository anchor and selected supply so the operator can move from search straight into Deposit without rebuilding context.',
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -538,14 +538,14 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   activeNeed: buildExplainer({
-    title: 'Record active need',
+    title: 'Record active read',
     summary:
-      'Recording the active need writes the currently measured demand frame into recent Bitcode Terminal activity.',
+      'Recording the active read writes the currently measured demand frame into recent Bitcode Terminal activity.',
     detail:
-      'This makes the selected need rereadable from the same Terminal activity result path that later shows fit, proof, and settlement.',
+      'This makes the selected read rereadable from the same Terminal activity result path that later shows fit, proof, and settlement.',
     references: {
       source: [
-        'uapi/app/terminal/TerminalNeedScenarioPanel.tsx',
+        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
         'uapi/app/terminal/terminal-activity-history.ts',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -554,9 +554,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   sourceRepo: buildExplainer({
     title: 'Source repo',
     summary:
-      'Source repo keeps Giving provenance and repository anchor aligned when a draft needs an explicit repo override.',
+      'Source repo keeps deposit provenance and repository anchor aligned when a draft needs an explicit repo override.',
     detail:
-      'Use it only when Giving must name a more exact repo boundary than the current selection already provides.',
+      'Use it only when the deposit must name a more exact repo boundary than the current selection already provides.',
     references: {
       source: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
@@ -568,7 +568,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   sourceCommit: buildExplainer({
     title: 'Source commit / ref',
     summary:
-      'Source commit or ref pins Giving to a concrete revision when provenance must be exact.',
+      'Source commit or ref pins the deposit to a concrete revision when provenance must be exact.',
     detail:
       'This is one of the operator-visible bridges between repository posture, source materialization, and later proof or settlement follow-through.',
     references: {
@@ -593,7 +593,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   signerAddress: buildExplainer({
     title: 'Signer address',
     summary:
-      'Signer address ties Giving posture to the wallet-connected identity expected for signed Bitcode transactions.',
+      'Signer address ties deposit posture to the wallet-connected identity expected for signed Bitcode transactions.',
     detail:
       'It is a readiness-bearing field, not free metadata. Once signed transaction closure lands fully, this field remains part of the operator-visible provenance chain.',
     references: {
@@ -608,9 +608,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   depositSubmission: buildExplainer({
-    title: 'Submit Giving to Bitcode',
+    title: 'Submit deposit to Bitcode',
     summary:
-      'Giving submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
+      'Deposit submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
     detail:
       'The operator should be able to submit, reread the ledger row, and continue into fit and closure without leaving the Bitcode Terminal model.',
     references: {
@@ -625,7 +625,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   assetTitleOverride: buildExplainer({
     title: 'Asset title override',
     summary:
-      'Optional. Leave blank to use the selected repository and source revision as the Giving title.',
+      'Optional. Leave blank to use the selected repository and source revision as the deposit title.',
     detail:
       'Use this only when the visible title should be more specific than the selected repository, branch, and commit already make it.',
     references: {
@@ -658,7 +658,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   workflowRunId: buildExplainer({
     title: 'Workflow run override',
     summary:
-      'Optional. Leave blank unless Giving should cite a specific CI or workflow run id.',
+      'Optional. Leave blank unless the deposit should cite a specific CI or workflow run id.',
     detail:
       'This is supporting provenance only; repository, branch, and commit remain the required source selector for materialization.',
     references: {
@@ -669,9 +669,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   visualPreview: buildExplainer({
     title: 'Visual preview',
     summary:
-      'Optional. Leave blank unless this Giving needs a short operator-facing preview summary.',
+      'Optional. Leave blank unless this deposit needs a short operator-facing preview summary.',
     detail:
-      'The preview should help a reviewer scan the Giving record. It is not a replacement for the selected source revision.',
+      'The preview should help a reviewer scan the deposit record. It is not a replacement for the selected source revision.',
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
@@ -680,7 +680,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   workingNote: buildExplainer({
     title: 'Working note',
     summary:
-      'Optional. Leave blank unless the active Giving draft needs an internal note for review continuity.',
+      'Optional. Leave blank unless the active deposit draft needs an internal note for review continuity.',
     detail:
       'Working notes should explain operator intent or unusual context without weakening source, wallet, or repository requirements.',
     references: {
@@ -713,7 +713,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
   closureAction: buildExplainer({
     title: 'Closure action',
     summary:
-      'Closure action is the visible bridge from Need-review posture into verification, branch, settlement, and ledger follow-through.',
+      'Closure action is the visible bridge from Read-review posture into verification, branch, settlement, and ledger follow-through.',
     detail:
       'It should remain adjacent to status, readiness, and closure follow-through links so the operator always understands what the next write will do.',
     references: {

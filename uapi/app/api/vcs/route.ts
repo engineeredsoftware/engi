@@ -121,7 +121,7 @@ function buildMockPayload(resource: z.infer<typeof resourceSchema>, provider: VC
           {
             id: 101,
             number: 101,
-            title: 'Need ingestion proof for retained execution selectors',
+            title: 'Read ingestion proof for retained execution selectors',
             html_url: 'https://github.com/bitcode/bitcode/issues/101',
           },
           {

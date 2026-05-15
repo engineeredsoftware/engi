@@ -7,9 +7,9 @@ This document is a current, non-canonical operator guide for the shipping V26 re
 Bitcode V26 is the first commercial promotion of the source-to-shares system:
 
 - `protocol-demonstration/` is the deterministic protocol witness and proof substrate.
-- `uapi/app/application/*` is the Bitcode Terminal route for give, need, review, fit, settlement, and reread.
+- `uapi/app/application/*` is the Bitcode Terminal route for deposit, read, review, fit, settlement, and reread.
 - `packages/api/*`, `uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry Bitcode Exchange state.
-- `packages/pipelines/asset-pack/*` carries Need-satisfaction AssetPack synthesis and Finish delivery.
+- `packages/pipelines/asset-pack/*` carries Read-satisfaction AssetPack synthesis and Finish delivery.
 - MCP, ChatGPT App, GitHub/VCS, webhooks, and other connections are admitted interfaces, not separate product owners.
 
 ## Terminal
@@ -25,7 +25,7 @@ Transactions write-space lives under `/application`.
 Auxillaries live under `/auxillaries/*`.
 Shared execution update carrier: `uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`.
 
-The main operator actions are `give` and `need`. Repository choice, Need review, fit review, transaction readiness, proof follow-through, and closure rereads must all resolve through Bitcode-owned state rather than shell-only side effects.
+The main operator actions are `give` and `read`. Repository choice, Read review, fit review, transaction readiness, proof follow-through, and closure rereads must all resolve through Bitcode-owned state rather than shell-only side effects.
 
 ## Exchange
 
@@ -34,7 +34,7 @@ The Exchange stores and rereads:
 - source/provider connections and repository scope,
 - conversations, attachments, and normalized rich input,
 - execution rows, events, phases, and activity history,
-- Need review and fit-quality receipts,
+- Read review and fit-quality receipts,
 - AssetPack synthesis artifacts, written assets, Shippables, and delivery-mechanism evidence,
 - settlement, proof, and operational telemetry.
 

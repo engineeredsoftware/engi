@@ -26,7 +26,7 @@ BEGIN
   END IF;
 
   IF v_prev < p_amount THEN
-    RAISE EXCEPTION 'Insufficient credits: have %, need %', v_prev, p_amount USING ERRCODE = 'PAYS0';
+    RAISE EXCEPTION 'Insufficient credits: have %, read %', v_prev, p_amount USING ERRCODE = 'PAYS0';
   END IF;
 
   UPDATE public.user_credits

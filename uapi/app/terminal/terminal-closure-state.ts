@@ -20,9 +20,9 @@ type ClosureProofFamilySnapshot = {
   replayArtifactCount?: number | null;
 };
 
-type ClosureNeedReviewSnapshot = {
+type ClosureReadReviewSnapshot = {
   label?: string | null;
-  needId?: string | null;
+  readId?: string | null;
   protocolFocus?: string | null;
   reviewStage?: string | null;
   reviewAction?: string | null;
@@ -34,7 +34,7 @@ type ClosureNeedReviewSnapshot = {
   allowedActions?: string[] | null;
   measuredTask?: string | null;
   measurementHash?: string | null;
-  reviewableNeedRef?: string | null;
+  reviewableReadRef?: string | null;
 };
 
 type ClosureFitQualitySnapshot = {
@@ -60,7 +60,7 @@ type ClosureRunHistorySnapshot = {
 };
 
 type ClosureSurfaceSnapshot = {
-  needReview?: ClosureNeedReviewSnapshot | null;
+  readReview?: ClosureReadReviewSnapshot | null;
   verification?: {
     label?: string | null;
     candidateCount?: number | null;
@@ -143,7 +143,7 @@ export type TerminalClosureHistoryEntry = {
 };
 
 export type TerminalClosurePanel = {
-  id: 'need-review' | 'verification' | 'branch' | 'settlement' | 'ledger';
+  id: 'read-review' | 'verification' | 'branch' | 'settlement' | 'ledger';
   label: string;
   summary: string;
   metrics: Metric[];
@@ -157,7 +157,7 @@ export type TerminalClosurePanel = {
 
 export type TerminalClosureState = {
   canonLabel: string;
-  needReview: TerminalClosurePanel;
+  readReview: TerminalClosurePanel;
   verification: TerminalClosurePanel;
   branch: TerminalClosurePanel;
   settlement: TerminalClosurePanel;
@@ -181,14 +181,14 @@ function listValue(values: (string | null | undefined)[] | null | undefined, fal
 export function normalizeTerminalClosureState(snapshot: ShellSnapshot): TerminalClosureState | null {
   if (!snapshot?.closureSurface) return null;
 
-  const needReview = snapshot.closureSurface.needReview || {};
+  const readReview = snapshot.closureSurface.readReview || {};
   const verification = snapshot.closureSurface.verification || {};
   const branch = snapshot.closureSurface.branch || {};
   const settlement = snapshot.closureSurface.settlement || {};
   const ledger = snapshot.closureSurface.ledger || {};
   const proofFamilies = (settlement.proofFamilies || []).filter(Boolean);
   const fitQualities = (settlement.fitQualities || []).filter(Boolean);
-  const reviewActions = (needReview.allowedActions || []).map((entry) => String(entry || '').trim()).filter(Boolean);
+  const reviewActions = (readReview.allowedActions || []).map((entry) => String(entry || '').trim()).filter(Boolean);
   const receiptRefs = (settlement.receiptRefs || []).map((entry) => String(entry || '').trim()).filter(Boolean);
   const visibleArtifacts = (branch.visibleArtifacts || []).map((entry) => String(entry || '').trim()).filter(Boolean);
   const ledgerAccounts = (ledger.accounts || []).filter(Boolean);
@@ -196,31 +196,31 @@ export function normalizeTerminalClosureState(snapshot: ShellSnapshot): Terminal
 
   return {
     canonLabel: stringValue(snapshot.canonLabel, 'Bitcode active posture'),
-    needReview: {
-      id: 'need-review',
-      label: stringValue(needReview.label, 'Need review before fit search'),
+    readReview: {
+      id: 'read-review',
+      label: stringValue(readReview.label, 'Read review before fit search'),
       summary: stringValue(
-        needReview.admissionReason || needReview.measuredTask,
-        'Measured Need must be accepted, rejected, or sent back for remeasurement before Bitcode can search for fitting AssetPacks.',
+        readReview.admissionReason || readReview.measuredTask,
+        'Measured Read must be accepted, rejected, or sent back for remeasurement before Bitcode can search for fitting AssetPacks.',
       ),
       metrics: [
-        { label: 'Review action', value: stringValue(needReview.reviewAction) },
-        { label: 'Review status', value: stringValue(needReview.reviewStatus) },
-        { label: 'Fit search admitted', value: needReview.fitSearchAdmitted === true ? 'yes' : 'no' },
-        { label: 'Protocol focus', value: stringValue(needReview.protocolFocus, 'source-to-shares') },
+        { label: 'Review action', value: stringValue(readReview.reviewAction) },
+        { label: 'Review status', value: stringValue(readReview.reviewStatus) },
+        { label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' },
+        { label: 'Protocol focus', value: stringValue(readReview.protocolFocus, 'source-to-shares') },
       ],
       rows: [
-        { label: 'Need', value: stringValue(needReview.needId) },
-        { label: 'Review stage', value: stringValue(needReview.reviewStage, 'post-measurement-pre-fit') },
-        { label: 'Reviewer', value: stringValue(needReview.reviewer) },
-        { label: 'Decision mode', value: stringValue(needReview.decisionMode) },
+        { label: 'Read', value: stringValue(readReview.readId) },
+        { label: 'Review stage', value: stringValue(readReview.reviewStage, 'post-measurement-pre-fit') },
+        { label: 'Reviewer', value: stringValue(readReview.reviewer) },
+        { label: 'Decision mode', value: stringValue(readReview.decisionMode) },
         { label: 'Allowed actions', value: listValue(reviewActions) },
-        { label: 'Measurement hash', value: stringValue(needReview.measurementHash) },
-        { label: 'Reviewable Need ref', value: stringValue(needReview.reviewableNeedRef) },
+        { label: 'Measurement hash', value: stringValue(readReview.measurementHash) },
+        { label: 'Reviewable Read ref', value: stringValue(readReview.reviewableReadRef) },
       ],
       chips: [
-        stringValue(needReview.reviewStage, ''),
-        stringValue(needReview.protocolFocus, ''),
+        stringValue(readReview.reviewStage, ''),
+        stringValue(readReview.protocolFocus, ''),
         ...reviewActions,
       ].filter(Boolean),
     },
@@ -282,7 +282,7 @@ export function normalizeTerminalClosureState(snapshot: ShellSnapshot): Terminal
       rows: [
         { label: 'Branch', value: stringValue(branch.branchName) },
         { label: 'Branch mode', value: stringValue(branch.branchMode) },
-        { label: 'Need lifecycle', value: stringValue(branch.needLifecycle) },
+        { label: 'Read lifecycle', value: stringValue(branch.needLifecycle) },
         { label: 'Confidentiality', value: stringValue(branch.confidentiality) },
       ],
       chips: visibleArtifacts.slice(0, 8),

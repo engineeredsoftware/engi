@@ -5,21 +5,21 @@ describe('normalizeTerminalClosureState', () => {
     const closure = normalizeTerminalClosureState({
       canonLabel: 'production workspace posture',
       closureSurface: {
-        needReview: {
-          label: 'Need review before fit search',
-          needId: 'need-auth-rollback',
+        readReview: {
+          label: 'Read review before fit search',
+          readId: 'read-auth-rollback',
           protocolFocus: 'source-to-shares',
           reviewStage: 'post-measurement-pre-fit',
           reviewAction: 'accept',
           reviewStatus: 'accepted',
-          reviewer: 'bitcode-system:need-review',
+          reviewer: 'bitcode-system:read-review',
           decisionMode: 'deterministic-local-review',
           fitSearchAdmitted: true,
-          admissionReason: 'Measured Need accepted for source-to-shares fit search.',
+          admissionReason: 'Measured Read accepted for source-to-shares fit search.',
           allowedActions: ['accept', 'reject', 'remeasure-with-feedback'],
           measuredTask: 'Recover an auth rollback.',
           measurementHash: 'sha256:measurement',
-          reviewableNeedRef: 'sha256:reviewable',
+          reviewableReadRef: 'sha256:reviewable',
         },
         verification: {
           label: 'Verification + ranked candidates',
@@ -45,11 +45,11 @@ describe('normalizeTerminalClosureState', () => {
           label: 'Branch artifacts',
           branchName: 'bitcode/auth-rollback',
           branchMode: 'patch',
-          needLifecycle: 'ready',
+          readLifecycle: 'ready',
           confidentiality: 'bounded-public',
           projectionPrincipal: 'buyer',
           visibleArtifactCount: 7,
-          visibleArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+          visibleArtifacts: ['BITCODE_READ.md', '.bitcode/settlement-preview.json'],
           proofFamilyCount: 4,
           replayArtifactCount: 9,
           summary: 'Materialized closure bundle for the active projection.',
@@ -109,8 +109,8 @@ describe('normalizeTerminalClosureState', () => {
     });
 
     expect(closure?.verification.metrics.find((entry) => entry.label === 'Candidates')?.value).toBe('5');
-    expect(closure?.needReview.metrics.find((entry) => entry.label === 'Fit search admitted')?.value).toBe('yes');
-    expect(closure?.needReview.rows.find((entry) => entry.label === 'Allowed actions')?.value).toContain(
+    expect(closure?.readReview.metrics.find((entry) => entry.label === 'Fit search admitted')?.value).toBe('yes');
+    expect(closure?.readReview.rows.find((entry) => entry.label === 'Allowed actions')?.value).toContain(
       'remeasure-with-feedback',
     );
     expect(closure?.verification.candidates?.[0]?.rights).toContain('branch');

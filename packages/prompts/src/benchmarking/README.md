@@ -244,7 +244,7 @@ export class PromptBenchmarkTransformer {
  * @doc-comment-promptdryrun
  * scenario: "basic_tool_discovery"
  * response: {
- *   "thought": "I need to discover available tools",
+ *   "thought": "I read to discover available tools",
  *   "tools_found": ["text-editor", "file-search", "terminal"],
  *   "confidence": 0.95
  * }

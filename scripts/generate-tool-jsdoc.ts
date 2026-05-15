@@ -34,9 +34,9 @@ const TOOL_PROMPT_DESCRIPTIONS: Record<string, ToolPromptDescription> = {
     output:
       'Structured operation result with success status, changed paths, error details, and follow-up guidance for execution records',
     bestFor:
-      'Bitcode runs that need precise written-asset changes, repair patches, or repository-contained file updates',
+      'Bitcode runs that read precise written-asset changes, repair patches, or repository-contained file updates',
     strategicUsage:
-      'Use as a write primitive behind agentic execution phases after need, repository scope, and asset-pack intent are understood',
+      'Use as a write primitive behind agentic execution phases after read, repository scope, and asset-pack intent are understood',
     integrationPattern:
       'Pairs with repository, diff, prompt, and execution carriers so file changes stay auditable as written assets',
     contextAwareness:
@@ -57,7 +57,7 @@ const TOOL_PROMPT_DESCRIPTIONS: Record<string, ToolPromptDescription> = {
     bestFor:
       'Large refactors that must preserve source behavior while improving Bitcode package or interface boundaries',
     strategicUsage:
-      'Use when a need requires symbol-level reform rather than text-only replacement',
+      'Use when a read requires symbol-level reform rather than text-only replacement',
     integrationPattern:
       'Combines LSP/refactoring primitives with execution records and repository proof artifacts',
     contextAwareness:
@@ -76,7 +76,7 @@ const TOOL_PROMPT_DESCRIPTIONS: Record<string, ToolPromptDescription> = {
     output:
       'Repository operation result with status, stdout/stderr details, and errors or warnings',
     bestFor:
-      'Agentic execution phases that need source-state proof, branch context, or connected-interface delivery preparation',
+      'Agentic execution phases that read source-state proof, branch context, or connected-interface delivery preparation',
     strategicUsage:
       'Use as support infrastructure around stable asset-pack outputs, not as the definition of the output itself',
     integrationPattern:

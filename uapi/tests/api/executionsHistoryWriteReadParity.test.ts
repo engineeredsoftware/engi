@@ -12,8 +12,8 @@ import { GET as getHistory, POST as postHistory } from '@/app/api/executions/his
 import {
   buildTerminalClosureAssetPackCompletion,
   buildTerminalExecutionHistoryRequest,
-  buildTerminalGiveWorkbenchDraft,
-  buildTerminalNeedMeasurementDraft,
+  buildTerminalDepositWorkbenchDraft,
+  buildTerminalReadMeasurementDraft,
   mapExecutionHistoryRunToWorkspaceRun,
 } from '@/app/terminal/terminal-activity-history';
 import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
@@ -140,10 +140,10 @@ describe('Bitcode execution-history write/read parity', () => {
 
   const closureState: TerminalClosureState = {
     canonLabel: 'Bitcode active posture',
-    needReview: {
-      id: 'need-review',
-      label: 'Need review before fit search',
-      summary: 'Measured Need accepted for source-to-shares fit search.',
+    readReview: {
+      id: 'read-review',
+      label: 'Read review before fit search',
+      summary: 'Measured Read accepted for source-to-shares fit search.',
       metrics: [{ label: 'Fit search admitted', value: 'yes' }],
       rows: [{ label: 'Review stage', value: 'post-measurement-pre-fit' }],
       chips: ['source-to-shares'],
@@ -162,7 +162,7 @@ describe('Bitcode execution-history write/read parity', () => {
       summary: 'Branch summary.',
       metrics: [{ label: 'Visible artifacts', value: '4' }],
       rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
-      chips: ['BITCODE_NEED.md'],
+      chips: ['BITCODE_READ.md'],
     },
     settlement: {
       id: 'settlement',
@@ -195,17 +195,17 @@ describe('Bitcode execution-history write/read parity', () => {
     jest.resetAllMocks();
   });
 
-  it('round-trips give, need, and closure writes through the same Bitcode activity ledger', async () => {
+  it('round-trips deposit, read, and closure writes through the same Bitcode activity ledger', async () => {
     const { storedRows } = createExecutionHistoryStore();
 
-    const giveRequest = buildTerminalExecutionHistoryRequest(
-      buildTerminalGiveWorkbenchDraft({
+    const depositRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalDepositWorkbenchDraft({
         canonLabel: 'Bitcode active posture',
-        projectionPrincipal: 'giver',
+        projectionPrincipal: 'depositor',
         branchMode: 'patch',
         scenarioLabel: 'auth-remediation',
         profileLabel: 'Targeted deposit',
-        give: {
+        deposit: {
           summary: 'Record supply-bearing share posture.',
           metrics: [{ label: 'Selected refs', value: '2' }],
           rows: [{ label: 'Repository', value: 'bitcode/terminal' }],
@@ -215,8 +215,8 @@ describe('Bitcode execution-history write/read parity', () => {
           ],
           artifactKinds: ['runbook (1)', 'patch (1)'],
         },
-        need: {
-          summary: 'Need summary',
+        read: {
+          summary: 'Read summary',
           metrics: [],
           rows: [],
           closureCriteria: [],
@@ -230,15 +230,15 @@ describe('Bitcode execution-history write/read parity', () => {
       }),
       { repositoryContext },
     );
-    const needRequest = buildTerminalExecutionHistoryRequest(
-      buildTerminalNeedMeasurementDraft({
+    const readRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalReadMeasurementDraft({
         parserKind: 'benchmark-parser',
-        selectedScenarioId: 'need-auth',
+        selectedScenarioId: 'read-auth',
         closureCriteriaCount: 2,
         targetKindCount: 2,
         scenarios: [
           {
-            id: 'need-auth',
+            id: 'read-auth',
             label: 'auth-remediation',
             repo: 'bitcode/terminal',
             profile: 'Targeted deposit',
@@ -274,16 +274,16 @@ describe('Bitcode execution-history write/read parity', () => {
       { repositoryContext },
     );
 
-    const giveResponse = await postHistory(
+    const depositResponse = await postHistory(
       new Request('http://localhost/api/executions/history', {
         method: 'POST',
-        body: JSON.stringify(giveRequest),
+        body: JSON.stringify(depositRequest),
       }),
     );
-    const needResponse = await postHistory(
+    const readResponse = await postHistory(
       new Request('http://localhost/api/executions/history', {
         method: 'POST',
-        body: JSON.stringify(needRequest),
+        body: JSON.stringify(readRequest),
       }),
     );
     const closureResponse = await postHistory(
@@ -293,12 +293,12 @@ describe('Bitcode execution-history write/read parity', () => {
       }),
     );
 
-    expect(giveResponse.status).toBe(201);
-    expect(needResponse.status).toBe(201);
+    expect(depositResponse.status).toBe(201);
+    expect(readResponse.status).toBe(201);
     expect(closureResponse.status).toBe(201);
 
-    const givePayload = await giveResponse.json();
-    const needPayload = await needResponse.json();
+    const depositPayload = await depositResponse.json();
+    const readPayload = await readResponse.json();
     const closurePayload = await closureResponse.json();
 
     expect(storedRows).toHaveLength(3);
@@ -310,10 +310,10 @@ describe('Bitcode execution-history write/read parity', () => {
     expect(storedRows.every((row) => typeof row.started_at === 'string')).toBe(true);
     expect(storedRows.every((row) => typeof row.completed_at === 'string')).toBe(true);
 
-    expect(givePayload.execution).toEqual(
+    expect(depositPayload.execution).toEqual(
       expect.objectContaining({
         status: 'completed',
-        summary: 'Recorded give-side share posture for bitcode/terminal.',
+        summary: 'Recorded deposit-side share posture for bitcode/terminal.',
         repo_snapshot: {
           org: 'bitcode',
           repo: 'terminal',
@@ -322,15 +322,15 @@ describe('Bitcode execution-history write/read parity', () => {
         },
       }),
     );
-    expect(mapExecutionHistoryRunToWorkspaceRun(givePayload.execution).transactionLens).toBe('give');
+    expect(mapExecutionHistoryRunToWorkspaceRun(depositPayload.execution).transactionLens).toBe('deposit');
 
-    expect(needPayload.execution).toEqual(
+    expect(readPayload.execution).toEqual(
       expect.objectContaining({
         status: 'completed',
-        summary: 'Recorded need measurement for auth-remediation.',
+        summary: 'Recorded read measurement for auth-remediation.',
       }),
     );
-    expect(mapExecutionHistoryRunToWorkspaceRun(needPayload.execution).transactionLens).toBe('need');
+    expect(mapExecutionHistoryRunToWorkspaceRun(readPayload.execution).transactionLens).toBe('read');
 
     expect(closurePayload.execution).toEqual(
       expect.objectContaining({
@@ -359,15 +359,15 @@ describe('Bitcode execution-history write/read parity', () => {
     const historyPayload = await historyResponse.json();
     expect(historyPayload.map((row: any) => row.summary)).toEqual([
       'Recorded closure posture.',
-      'Recorded need measurement for auth-remediation.',
-      'Recorded give-side share posture for bitcode/terminal.',
+      'Recorded read measurement for auth-remediation.',
+      'Recorded deposit-side share posture for bitcode/terminal.',
     ]);
     expect(historyPayload[0]).toEqual(
       expect.objectContaining({
         asset_pack_completion: expect.objectContaining({
           closurePanels: expect.objectContaining({
-            needReview: expect.objectContaining({
-              label: 'Need review before fit search',
+            readReview: expect.objectContaining({
+              label: 'Read review before fit search',
             }),
           }),
         }),

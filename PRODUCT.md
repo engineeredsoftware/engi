@@ -2,7 +2,7 @@
 
 **Auditable market infrastructure for technical knowledge exchange**
 
-## I. CORE PARADIGM: GIVE -> NEED -> FIT -> FINISH
+## I. CORE PARADIGM: DEPOSIT -> READ -> FIT -> FINISH
 
 ### The Core Operating Chain
 
@@ -436,7 +436,7 @@ Every codebase becomes auditable technical knowledge.
 Every user makes it better for everyone.
 
 This is not a generic automation surface.
-This is the commercial Bitcode baseline for source, Need, fit, proof, settlement, and AssetPack reread.
+This is the commercial Bitcode baseline for source, Read, fit, proof, settlement, and AssetPack reread.
 
 ---
 
@@ -444,7 +444,7 @@ This is the commercial Bitcode baseline for source, Need, fit, proof, settlement
 **THE PROTOCOL IS PROVEN**
 **THE PROOF IS REPLAYABLE**
 
-Make every Need measurable.
+Make every Read measurable.
 Make every fit reviewable.
 Make every AssetPack auditable.
 Make every share traceable.

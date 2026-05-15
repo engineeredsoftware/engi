@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode LSP definition measurement capability for Need evidence"
+ * intent: "Bitcode LSP definition measurement capability for Read evidence"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_LSP_DEFINITION_CAPABILITIES: PromptPart =
-  'Resolve symbol definitions via LSP and return file path, replay position, symbol metadata, and provenance for Need measurement evidence.' as PromptPart;
+  'Resolve symbol definitions via LSP and return file path, replay position, symbol metadata, and provenance for Read measurement evidence.' as PromptPart;

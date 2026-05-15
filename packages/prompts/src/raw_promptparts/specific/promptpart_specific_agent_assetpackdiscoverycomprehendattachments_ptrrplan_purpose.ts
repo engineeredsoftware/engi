@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Need and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrplan purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Read and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrplan purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Need and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrplan purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Read and AssetPack evidence: agent assetpackdiscoverycomprehendattachments ptrrplan purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYCOMPREHENDATTACHMENTS_PTRRPLAN_PURPOSE: PromptPart = 
-  'PTRR Plan Step: map provided attachments to Need facts, ambiguity, constraints, acceptance criteria, and AssetPack evidence gaps' as PromptPart;
+  'PTRR Plan Step: map provided attachments to Read facts, ambiguity, constraints, acceptance criteria, and AssetPack evidence gaps' as PromptPart;

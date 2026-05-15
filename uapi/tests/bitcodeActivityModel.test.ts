@@ -12,8 +12,8 @@ describe('bitcode-activity-model', () => {
       event: {
         type: 'status',
         status: {
-          message: 'Need measurement prepared',
-          executionState: { phase: 'Need', agent: 'Analyzer' },
+          message: 'Read measurement prepared',
+          executionState: { phase: 'Read', agent: 'Analyzer' },
         },
       },
     });
@@ -24,8 +24,8 @@ describe('bitcode-activity-model', () => {
       scope: 'network',
       channel: 'execution-stream',
       title: 'Status update',
-      summary: 'Need measurement prepared',
-      state: 'Need',
+      summary: 'Read measurement prepared',
+      state: 'Read',
     });
   });
 

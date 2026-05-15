@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "paths": {
+      "@bitcode/prompts/parts/PromptPart": ["packages/generic-tools/read-comprehension/src/types/prompt-part.ts"],
+      "@bitcode/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*.ts"],
+      "@bitcode/tools-generics": ["packages/generic-tools/read-comprehension/src/types/tools-generics.ts"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}

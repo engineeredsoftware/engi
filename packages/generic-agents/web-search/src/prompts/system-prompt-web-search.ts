@@ -9,13 +9,13 @@ import { PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_IDENTITY } from '@bitcode/p
 import { PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_ROLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_web_search_system_role';
 import { PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_web_search_system_instructions';
 /**
- * Bitcode Need-Synthesis Web Search Agent - System Prompt
+ * Bitcode Read-Synthesis Web Search Agent - System Prompt
  * 
  * System-level configuration for discovery-phase web-search evidence support.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search system prompt"
+ * intent: "Bitcode read-synthesis web search system prompt"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

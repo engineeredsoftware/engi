@@ -105,7 +105,7 @@ function publishAgentStepWorkUpdate(
 // ==================== PLAN STEP ====================
 
 /**
- * Plan Step Factory - analyzes the Need and creates an execution plan.
+ * Plan Step Factory - analyzes the Read and creates an execution plan.
  * 
  * Uses failsafe parent architecture:
  * 1. PrepareConciseContext (parent) -> runs Reason-Judge-StructuredOutput (children)
@@ -185,7 +185,7 @@ export function factoryPlanStep<TInput, TOutput>(
 
   return Object.assign(wrapped, {
     type: AgentVariationStep.PLAN,
-    description: 'Analyze Need and create execution plan'
+    description: 'Analyze Read and create execution plan'
   }) as AgentStep<TInput, TOutput>;
 }
 

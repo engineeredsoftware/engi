@@ -2,8 +2,8 @@ import {
   buildTerminalClosureAssetPackCompletion,
   buildTerminalExternalInterfacingDraft,
   buildTerminalFitWorkbenchDraft,
-  buildTerminalGiveWorkbenchDraft,
-  buildTerminalNeedMeasurementDraft,
+  buildTerminalDepositWorkbenchDraft,
+  buildTerminalReadMeasurementDraft,
   buildTerminalRepositoryAnchorDraft,
   buildTerminalSupplySelectionDraft,
   buildTerminalExecutionHistoryRequest,
@@ -44,10 +44,10 @@ describe('terminal-activity-history', () => {
 
   const closureState: TerminalClosureState = {
     canonLabel: 'Bitcode active posture',
-    needReview: {
-      id: 'need-review',
-      label: 'Need review before fit search',
-      summary: 'Measured Need accepted for source-to-shares fit search.',
+    readReview: {
+      id: 'read-review',
+      label: 'Read review before fit search',
+      summary: 'Measured Read accepted for source-to-shares fit search.',
       metrics: [{ label: 'Fit search admitted', value: 'yes' }],
       rows: [{ label: 'Review stage', value: 'post-measurement-pre-fit' }],
       chips: ['source-to-shares'],
@@ -66,7 +66,7 @@ describe('terminal-activity-history', () => {
       summary: 'Branch summary.',
       metrics: [{ label: 'Visible artifacts', value: '4' }],
       rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
-      chips: ['BITCODE_NEED.md'],
+      chips: ['BITCODE_READ.md'],
     },
     settlement: {
       id: 'settlement',
@@ -158,9 +158,9 @@ describe('terminal-activity-history', () => {
         summary: 'Recorded closure posture.',
         closurePanels: {
           canonLabel: 'Bitcode active posture',
-          needReview: {
-            id: 'need-review',
-            label: 'Need review before fit search',
+          readReview: {
+            id: 'read-review',
+            label: 'Read review before fit search',
           },
           verification: {
             id: 'verification',
@@ -173,7 +173,7 @@ describe('terminal-activity-history', () => {
         },
         closureFollowThrough: {
           canonLabel: 'Bitcode active posture',
-          branchArtifacts: ['BITCODE_NEED.md'],
+          branchArtifacts: ['BITCODE_READ.md'],
           settlementMetrics: [{ label: 'Credited assets', value: '2' }],
           recentHistory: [{ label: 'run-001', summary: 'bitcode/terminal · completed · credited 2' }],
         },
@@ -198,7 +198,7 @@ describe('terminal-activity-history', () => {
       output: null,
       metadata: null,
       items: [],
-      summary: 'Measured a need and refreshed proof posture.',
+      summary: 'Measured a read and refreshed proof posture.',
       repo_snapshot: {
         org: 'bitcode',
         repo: 'terminal',
@@ -217,12 +217,12 @@ describe('terminal-activity-history', () => {
 
     expect(run).toMatchObject({
       id: 'run-1',
-      type: 'agentic-execution:need-measurement',
+      type: 'agentic-execution:read-measurement',
       repository: 'bitcode/terminal',
       branch: 'fit',
-      transactionLens: 'need',
-      proofStatus: 'need-measurement witness ready',
-      closureFocus: 'need measurement + verification posture',
+      transactionLens: 'read',
+      proofStatus: 'read-measurement witness ready',
+      closureFocus: 'read measurement + verification posture',
       tokenTotal: 300,
       measuredBtd: 21,
       btcFeeUsdEquivalent: 1.2,
@@ -286,14 +286,14 @@ describe('terminal-activity-history', () => {
     expect(nextRuns[0].created_at).toBe('2026-04-21T12:30:00.000Z');
   });
 
-  it('builds give-side workbench drafts as canonical AssetPack activity', () => {
-    const draft = buildTerminalGiveWorkbenchDraft({
+  it('builds deposit-side workbench drafts as canonical AssetPack activity', () => {
+    const draft = buildTerminalDepositWorkbenchDraft({
       canonLabel: 'Bitcode active posture',
-      projectionPrincipal: 'giver',
+      projectionPrincipal: 'depositor',
       branchMode: 'patch',
       scenarioLabel: 'auth-remediation',
       profileLabel: 'Targeted deposit',
-      give: {
+      deposit: {
         summary: 'Record supply-bearing share posture.',
         metrics: [{ label: 'Selected refs', value: '2' }],
         rows: [{ label: 'Repository', value: 'bitcode/terminal' }],
@@ -303,8 +303,8 @@ describe('terminal-activity-history', () => {
         ],
         artifactKinds: ['runbook (1)', 'patch (1)'],
       },
-      need: {
-        summary: 'Need summary',
+      read: {
+        summary: 'Read summary',
         metrics: [],
         rows: [],
         closureCriteria: [],
@@ -320,7 +320,7 @@ describe('terminal-activity-history', () => {
     expect(draft).toMatchObject({
       type: 'agentic-execution:asset-pack',
       detailSection: 'transaction',
-      summary: 'Recorded give-side share posture for bitcode/terminal.',
+      summary: 'Recorded deposit-side share posture for bitcode/terminal.',
     });
     expect(draft.input).toMatchObject({
       selectedEntryLabels: ['rollback runbook', 'issuer patch'],
@@ -329,9 +329,9 @@ describe('terminal-activity-history', () => {
     expect(draft.output).toMatchObject({
       assetPackCompletion: {
         bitcodeActivityState: {
-          giveWorkbench: {
+          depositWorkbench: {
             canonLabel: 'Bitcode active posture',
-            projectionPrincipal: 'giver',
+            projectionPrincipal: 'depositor',
             scenarioLabel: 'auth-remediation',
             profileLabel: 'Targeted deposit',
           },
@@ -340,8 +340,8 @@ describe('terminal-activity-history', () => {
     });
   });
 
-  it('builds need-measurement drafts from the active scenario state', () => {
-    const draft = buildTerminalNeedMeasurementDraft({
+  it('builds read-measurement drafts from the active scenario state', () => {
+    const draft = buildTerminalReadMeasurementDraft({
       selectedScenarioId: 'scenario-1',
       parserKind: 'benchmark-parser',
       closureCriteriaCount: 2,
@@ -358,19 +358,19 @@ describe('terminal-activity-history', () => {
     });
 
     expect(draft).toMatchObject({
-      type: 'agentic-execution:need-measurement',
+      type: 'agentic-execution:read-measurement',
       detailSection: 'activity',
-      summary: 'Recorded need measurement for auth-remediation.',
+      summary: 'Recorded read measurement for auth-remediation.',
     });
     expect(draft.output).toMatchObject({
-      needMeasurement: {
+      readMeasurement: {
         parserKind: 'benchmark-parser',
         closureCriteriaCount: 2,
         targetKindCount: 3,
       },
       assetPackCompletion: {
         bitcodeActivityState: {
-          needMeasurement: {
+          readMeasurement: {
             parserKind: 'benchmark-parser',
             closureCriteriaCount: 2,
             targetKindCount: 3,
@@ -414,18 +414,18 @@ describe('terminal-activity-history', () => {
     });
     const fitDraft = buildTerminalFitWorkbenchDraft({
       canonLabel: 'Bitcode active posture',
-      projectionPrincipal: 'needer',
+      projectionPrincipal: 'reader',
       branchMode: 'patch',
       scenarioLabel: 'auth-remediation',
       profileLabel: 'Targeted deposit',
-      give: {
+      deposit: {
         summary: '',
         metrics: [],
         rows: [],
         selectedEntries: [],
         artifactKinds: [],
       },
-      need: {
+      read: {
         summary: '',
         metrics: [],
         rows: [],
@@ -471,7 +471,7 @@ describe('terminal-activity-history', () => {
       assetPackCompletion: {
         bitcodeActivityState: {
           fitWorkbench: {
-            projectionPrincipal: 'needer',
+            projectionPrincipal: 'reader',
             scenarioLabel: 'auth-remediation',
           },
         },

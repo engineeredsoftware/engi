@@ -1,19 +1,19 @@
 /**
- * BITCODE NEED-SYNTHESIS WEB SEARCH TOOLS - admitted support package
+ * BITCODE READ-SYNTHESIS WEB SEARCH TOOLS - admitted support package
  * 
  * Tool implementations with doc-prompt integration for runtime documentation.
  * V26 admits these tools only as discovery-phase external evidence support for
- * Bitcode need synthesis. They can search, retrieve, and classify sources; they
+ * Bitcode read synthesis. They can search, retrieve, and classify sources; they
  * do not own proof closure, mutation, delivery, Exchange, or Terminal behavior.
  * 
  * @category Bitcode Discovery Evidence Tools
- * @priority High - Need-synthesis source evidence support
+ * @priority High - Read-synthesis source evidence support
  * 
  * @doc-ptrr
  * version: V26
  * sentience: runtime
- * intelligence: ["need-synthesis-web-search", "source-attributed-evidence", "url-intelligence"]
- * philosophy: "External web evidence supports Bitcode need synthesis; it is not proof by itself."
+ * intelligence: ["read-synthesis-web-search", "source-attributed-evidence", "url-intelligence"]
+ * philosophy: "External web evidence supports Bitcode read synthesis; it is not proof by itself."
  * 
  * CAPABILITIES:
  * - Source-attributed multi-provider search
@@ -75,7 +75,7 @@ export const findSimilar = factoryTool(
     return await _findSimilar(params.url, params.options);
   },
   {
-    description: `Find documents and content similar to a given source URL for Bitcode need-synthesis evidence.
+    description: `Find documents and content similar to a given source URL for Bitcode read-synthesis evidence.
     This tool may help identify related sources or corroborating references, but
     it remains auxiliary evidence and must not assert proof closure.`
   }
@@ -91,8 +91,8 @@ export const searchWithUrlIntelligence = factoryTool(
     return await _searchWithUrlIntelligence(params.query, params.urlAttachments, params.options);
   },
   {
-    description: `Perform Bitcode need-synthesis web search that uses URL attachments only to improve source targeting.
-    This tool gathers source-attributed external evidence for a declared need or
+    description: `Perform Bitcode read-synthesis web search that uses URL attachments only to improve source targeting.
+    This tool gathers source-attributed external evidence for a declared read or
     proof gap; it does not mutate state or decide canonical Bitcode meaning.`
   }
 );
@@ -119,7 +119,7 @@ export const productionMultiProviderSearch = factoryTool(
   {
     description: `Multi-provider search for Bitcode discovery-phase evidence collection.
     Provider failover and resilience exist only to improve source coverage for
-    need synthesis; this is not an independent production search product.`
+    read synthesis; this is not an independent production search product.`
   }
 );
 
@@ -135,7 +135,7 @@ export const extractDomain = factoryTool(
   {
     description: `Extract a domain name from a source URL.
     This utility supports source attribution, domain filtering, and source-class
-    review for Bitcode need-synthesis evidence.`
+    review for Bitcode read-synthesis evidence.`
   }
 );
 
@@ -159,7 +159,7 @@ export const classifyUrl = factoryTool(
   {
     description: `Classify a source URL and extract metadata useful for Bitcode evidence review.
     The classification supports source-quality assessment and discovery-phase
-    need synthesis only.`
+    read synthesis only.`
   }
 );
 
@@ -171,7 +171,7 @@ export const discoverRelatedDomains = factoryTool(
   {
     description: `Discover domains related to a source domain when source coverage is insufficient.
     Use only to corroborate or locate authoritative sources for the active
-    Bitcode need-synthesis question.`
+    Bitcode read-synthesis question.`
   }
 );
 
@@ -182,7 +182,7 @@ export const extractTechnologyContext = factoryTool(
   },
   {
     description: `Extract technology and source context from URLs for better Bitcode search targeting.
-    Output is auxiliary evidence for need synthesis and does not define product
+    Output is auxiliary evidence for read synthesis and does not define product
     or proof semantics.`
   }
 );
@@ -195,7 +195,7 @@ export const analyzeUrlAttachments = factoryTool(
   {
     description: `Analyze URL attachments for bounded Bitcode search enhancement.
     The analysis may improve query targeting, source-class selection, and
-    evidence traceability for discovery-phase need synthesis.`
+    evidence traceability for discovery-phase read synthesis.`
   }
 );
 

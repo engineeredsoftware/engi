@@ -44,9 +44,9 @@ Every issue should connect to at least one of these questions.
 | Area | Acceptance question |
 | --- | --- |
 | Spec alignment | Does the product behave like a commercial extension of `protocol-demonstration/`, not a separate product or old Engi flow? |
-| Inference | Do prompts, contexts, model/provider calls, and completion payloads use Need, AssetPack evidence, Finish, Shippables, BTC fees, and non-fungible `$BTD` precisely? |
+| Inference | Do prompts, contexts, model/provider calls, and completion payloads use Read, AssetPack evidence, Finish, Shippables, BTC fees, and non-fungible `$BTD` precisely? |
 | AssetPack pipeline | Are `assetPackSynthesisArtifacts` / `writtenAssets` evidence-only, while `shippables` / `deliveryMechanism` represent GitHub pull-request delivery only? |
-| Terminal | Can a user express a Need, anchor repository context, inspect activity, reread evidence, and understand closure without leaving `/terminal`? |
+| Terminal | Can a user express a Read, anchor repository context, inspect activity, reread evidence, and understand closure without leaving `/terminal`? |
 | Exchange | Are existing V26 Exchange surfaces minimum viable and scoped, without pretending V27/V28 tokenomics, Terminal, or market depth is complete? |
 | Wallet and balances | Does the top-right balance distinguish BTC fee liquidity from non-fungible `$BTD` share/read-right holdings? |
 | Providers | Do GitHub, wallet, MCP, ChatGPT App, and API surfaces fail closed when authorization or repository context is missing? |
@@ -68,7 +68,7 @@ Start at `/terminal?environmentMode=testnet&bitcodeDebug=1`.
 3. Inspect the top-right balance widget.
    - Confirm BTC fee liquidity and `$BTD` holdings are distinguishable.
    - Confirm `$BTD` reads as non-fungible AssetPack share/read-right, not a spendable currency token.
-   - Test "Acquire $BTD" and record whether it routes toward Terminal Need submission, Exchange preview, or both.
+   - Test "Acquire $BTD" and record whether it routes toward Terminal Read submission, Exchange preview, or both.
 
 4. Open auxillaries.
    - Check `Connects`, `Interfaces`, `Profile`, and `$BTD`.
@@ -79,14 +79,14 @@ Start at `/terminal?environmentMode=testnet&bitcodeDebug=1`.
    - Confirm Shippables view shows AssetPack evidence and PR delivery as distinct concepts.
    - Confirm proof, history, activity, and console sections remain coherent for the same selected activity.
 
-## Need And AssetPack Flow QA
+## Read And AssetPack Flow QA
 
 Use a small repository or safe test branch.
 
 | Step | Capture |
 | --- | --- |
-| Enter Need | Exact Need text, repository, branch, selected attachments/context |
-| Need review | Review summary, accept/reject/remeasure controls, missing context warnings |
+| Enter Read | Exact Read text, repository, branch, selected attachments/context |
+| Read review | Review summary, accept/reject/remeasure controls, missing context warnings |
 | Repository anchor | Provider, inventory source, selected repo, branch, reconnect state |
 | Run start | Request path, payload shape, run id, correlation id |
 | Setup/Discovery | Context shown, evidence documents, external evidence basis |
@@ -117,7 +117,7 @@ When a run uses model/provider infrastructure, capture:
 | Any old vocabulary | |
 
 Check for:
-- Need-first context, not generic task execution.
+- Read-first context, not generic task execution.
 - AssetPack synthesis, not generic deliverable generation.
 - Finish-delivered Shippables as PR delivery only.
 - BTC as fee asset and `$BTD` as measured non-fungible share/read-right.
@@ -133,7 +133,7 @@ Validate the minimum V26 interface set.
 | Wallet | signed wallet readiness, BTC fee liquidity display, reconnect-required states | screenshots, wallet provider, no secrets |
 | MCP API | admission receipt, repository/provider ingress, permission failure | tool response, redacted payload |
 | ChatGPT App | confirmation-gated writes, Bitcode naming, writeAdmission metadata | transcript excerpt, tool result |
-| API routes | `/api/executions/history`, `/api/need-review`, `/api/vcs/*`, `/api/auxillaries/data` | response shape, redacted JSON |
+| API routes | `/api/executions/history`, `/api/read-review`, `/api/vcs/*`, `/api/auxillaries/data` | response shape, redacted JSON |
 
 ## Storage And ORM QA
 
@@ -156,7 +156,7 @@ Compare commercial behavior to `protocol-demonstration/`:
 
 | Demonstration witness | Commercial expectation |
 | --- | --- |
-| Need expression | Same conceptual Need can be represented in Terminal |
+| Read expression | Same conceptual Read can be represented in Terminal |
 | Measurement | Commercial UI explains measured Bitcode / `$BTD` without changing semantics |
 | AssetPack evidence | Commercial pipeline stores richer evidence but does not change meaning |
 | Finish | Commercial Finish delivers PR Shippable when available |
@@ -200,7 +200,7 @@ Blocking / high / medium / low
 | Area | Pass / fail | Blocking issue ids |
 | --- | --- | --- |
 | Website product | | |
-| Need review | | |
+| Read review | | |
 | AssetPack run | | |
 | Finish PR delivery | | |
 | Activity reread | | |

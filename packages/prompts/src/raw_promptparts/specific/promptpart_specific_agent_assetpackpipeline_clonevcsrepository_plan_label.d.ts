@@ -2,7 +2,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack-native PromptPart for need-first written-asset / asset-pack execution: agent assetpackpipeline clonevcsrepository plan label"
+ * intent: "Bitcode AssetPack-native PromptPart for read-first written-asset / asset-pack execution: agent assetpackpipeline clonevcsrepository plan label"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

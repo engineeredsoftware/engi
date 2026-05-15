@@ -86,7 +86,7 @@ type BtdRouteOptions = {
 
 export interface BtdMintDraftInput {
   assetPackId: string;
-  needId: string;
+  readId: string;
   acceptedNeed: true;
   acceptedFit: true;
   sourceManifestRoot: string;
@@ -476,7 +476,7 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
   const issuedAt = input.issuedAt ?? new Date().toISOString();
   const measurementId = stableId('btd-semantic-volume', [
     input.assetPackId,
-    input.needId,
+    input.readId,
     input.semanticUnits.map((unit) => `${unit.unitId}:${unit.proofReceiptRoot}`).join('|'),
   ]);
   const measurement = measureProofAddressableSemanticVolume({
@@ -508,7 +508,7 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
           }),
           {
             assetPackId: input.assetPackId,
-            needId: input.needId,
+            readId: input.readId,
             acceptedNeed: input.acceptedNeed,
             acceptedFit: input.acceptedFit,
             sourceManifestRoot: input.sourceManifestRoot,
@@ -1548,7 +1548,7 @@ export const postBtdDeploymentReadiness = buildPostBtdDeploymentReadinessRoute()
 
 function assertMintDraftAdmission(input: BtdMintDraftInput): void {
   if (input.acceptedNeed !== true) {
-    throw new Error('V27 BTD mint draft requires accepted Need.');
+    throw new Error('V27 BTD mint draft requires accepted Read.');
   }
 
   if (input.acceptedFit !== true) {
@@ -1560,7 +1560,7 @@ function assertMintDraftAdmission(input: BtdMintDraftInput): void {
   }
 
   assertNonEmptyString(input.assetPackId, 'assetPackId');
-  assertNonEmptyString(input.needId, 'needId');
+  assertNonEmptyString(input.readId, 'readId');
   assertNonEmptyString(input.sourceManifestRoot, 'sourceManifestRoot');
   assertNonEmptyString(input.fitReceiptRoot, 'fitReceiptRoot');
   assertNonEmptyString(input.proofRoot, 'proofRoot');

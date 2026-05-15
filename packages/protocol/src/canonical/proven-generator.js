@@ -482,7 +482,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   {
     packageName: '@bitcode/jira-tools',
     primaryRole: 'ingress-or-support',
-    rationale: 'retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence',
+    rationale: 'retained Jira MCP tools remain admitted only as reader-first read-ingestion and read-measurement carriers during fourth-gate convergence',
     role: 'Jira read-first external work-tracker ingestion port',
     writeBoundary: 'default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate',
     proofObligation: 'retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership',
@@ -494,10 +494,10 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   {
     packageName: '@bitcode/generic-agents-jira',
     primaryRole: 'reference-only',
-    rationale: 'retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation',
+    rationale: 'retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode read context instead of generic project-management automation',
     role: 'Jira prompt-owned ingestion agent',
     writeBoundary: 'reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path',
-    proofObligation: 'prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted',
+    proofObligation: 'prompt and reform proofs must keep this agent as read-ingestion reference material until explicitly promoted',
     requiredFiles: [
       'packages/generic-agents/jira-processor/package.json',
       'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
@@ -565,7 +565,7 @@ const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
   },
   compatibility: {
     role: 'compatibility corridor retained during Bitcode reform',
-    rationale: 'package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning',
+    rationale: 'package keeps retained naming or behavior temporarily while its semantics are repurposed to read, asset-pack, or support meaning',
     writeBoundary: 'compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners',
     proofObligation: 'compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path'
   },
@@ -642,7 +642,7 @@ const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
   '@bitcode/firebase',
   '@bitcode/firecrawl',
   '@bitcode/generic-agents-danger-wall',
-  '@bitcode/generic-agents-need-comprehension',
+  '@bitcode/generic-agents-read-comprehension',
   '@bitcode/generic-agents-web-research',
   '@bitcode/generic-agents-web-search',
   '@bitcode/generic-tools-code-refactor',
@@ -690,7 +690,7 @@ const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
   '@bitcode/web-search'
 ]);
 const V26_COMPATIBILITY_PACKAGE_NAMES = new Set([
-  '@bitcode/generic-tools-need-comprehension',
+  '@bitcode/generic-tools-read-comprehension',
   '@bitcode/pipeline-asset-pack',
   '@bitcode/test-intelligence'
 ]);
@@ -1157,7 +1157,7 @@ function buildV26FourthGateReclosureReviewProof({
       'fourth-gate-criterion-10-retained-tools-repurposed',
       'Retained tools and agents are Bitcode-purposed with prompt ownership and reader-first scope',
       ['prompt-system-totality', 'inference-implementation-records', 'retained-package-admissibility'],
-      'Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as need ingestion and source-attributed support.'
+      'Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as read ingestion and source-attributed support.'
     ),
     criterion(
       'fourth-gate-criterion-11-git-gh-initial-settle-write',
@@ -1413,7 +1413,7 @@ function buildV26GateCheckpointReport({
       label: 'Fourth-gate inference implementation records proof',
       passed: inferenceImplementationRecordsProof?.passed === true,
       detail: inferenceImplementationRecordsProof?.passed === true
-        ? 'Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records'
+        ? 'Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP inference systems have source-visible implementation records'
         : 'Inference implementation record proof remains open'
     }
   ];
@@ -1469,7 +1469,7 @@ function buildV26GateCheckpointReport({
       label: 'Fifth-gate source-to-shares baseline proof',
       passed: fifthGateSourceToSharesPassed,
       detail: fifthGateSourceToSharesPassed
-        ? 'Need review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage.'
+        ? 'Read review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage.'
         : 'Fifth-gate source-to-shares baseline proof remains open.'
     },
     {
@@ -2311,13 +2311,13 @@ function buildV26PromptSystemTotalityProof({
         'packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts',
         'packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts',
         'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
-        'packages/generic-agents/need-comprehension/README.md',
-        'packages/generic-agents/need-comprehension/package.json',
-        'packages/generic-agents/need-comprehension/tsconfig.json',
-        'packages/generic-agents/need-comprehension/src/index.ts',
-        'packages/generic-tools/need-comprehension/README.md',
-        'packages/generic-tools/need-comprehension/package.json',
-        'packages/generic-tools/need-comprehension/tsconfig.json',
+        'packages/generic-agents/read-comprehension/README.md',
+        'packages/generic-agents/read-comprehension/package.json',
+        'packages/generic-agents/read-comprehension/tsconfig.json',
+        'packages/generic-agents/read-comprehension/src/index.ts',
+        'packages/generic-tools/read-comprehension/README.md',
+        'packages/generic-tools/read-comprehension/package.json',
+        'packages/generic-tools/read-comprehension/tsconfig.json',
         'packages/generic-tools/repository-setup/README.md',
         'packages/generic-tools/repository-setup/src/index.ts',
         'packages/generic-tools/repository-setup/src/prompts/RepositorySetupDocCodeToolPrompt.ts',
@@ -2362,30 +2362,30 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolexample1.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolexample2.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolexample3.ts',
-        'packages/generic-tools/need-comprehension/src/index.ts',
-        'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
-        'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
-        'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
-        'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
-        'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts',
-        'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts',
-        'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts',
-        'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
-        'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts',
-        'packages/generic-tools/need-comprehension/src/types/prompt-part.ts',
-        'packages/generic-tools/need-comprehension/src/types/tools-generics.ts',
-        'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
-        'packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
-        'packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
-        'packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
-        'packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
-        'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts',
+        'packages/generic-tools/read-comprehension/src/index.ts',
+        'packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts',
+        'packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts',
+        'packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts',
+        'packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts',
+        'packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts',
+        'packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts',
+        'packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts',
+        'packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts',
+        'packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts',
+        'packages/generic-tools/read-comprehension/src/types/prompt-part.ts',
+        'packages/generic-tools/read-comprehension/src/types/tools-generics.ts',
+        'packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts',
+        'packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts',
+        'packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts',
+        'packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts',
+        'packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts',
+        'packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_identity.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_role.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_plan_analysis.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_try_directives.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_refine_assessment.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_retry_errorhandling.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsatisfactionimplementationcomplexity_doccodetoolexample3.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validateneedcomprehension_doccodetoolpurpose.ts',
@@ -2403,8 +2403,8 @@ function buildV26PromptSystemTotalityProof({
       ]
     ),
     buildV26FilePresenceCheck(
-      'need-ingestion-and-shippable-prompt-ports',
-      'Need-ingestion and admitted shippable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors',
+      'read-ingestion-and-shippable-prompt-ports',
+      'Read-ingestion and admitted shippable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic read/written-asset mirrors',
       [
         'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
         'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
@@ -2419,17 +2419,17 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/asset-pack/src/postprocess.ts',
         'packages/pipelines/asset-pack/src/agents/prompts/understand-requirements-prompt.ts',
         'packages/pipelines/asset-pack/src/agents/prompts/plan-implementation-prompt.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_instructions.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_strategy.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_identity_definition.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_purpose_corestatement.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_output_needdefinitionanalysis_spec.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_output_types_spec.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
+        'packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_identity.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_instructions.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_plan_strategy.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_try_directives.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_identity_definition.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_purpose_corestatement.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_output_readdefinitionanalysis_spec.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_output_types_spec.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts',
@@ -2446,11 +2446,11 @@ function buildV26PromptSystemTotalityProof({
     ),
     buildV26FilePresenceCheck(
       'lsp-measurement-prompt-and-proof-boundary',
-      'Retained LSP tooling is specified as Bitcode static Need/AssetPack measurement infrastructure',
+      'Retained LSP tooling is specified as Bitcode static Read/AssetPack measurement infrastructure',
       [
         'protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md',
         'protocol-demonstration/src/bitcode-demo.js',
-        'protocol-demonstration/src/canonical/need-measurement.js',
+        'protocol-demonstration/src/canonical/read-measurement.js',
         'protocol-demonstration/test/v26-lsp-measurement-reform.test.js',
         'packages/lsp/src/index.ts',
         'packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts',
@@ -2486,8 +2486,8 @@ function buildV26PromptSystemTotalityProof({
       '@bitcode/tools-generics',
       '@bitcode/conversations-generics',
       '@bitcode/digest',
-      '@bitcode/generic-agents-need-comprehension',
-      '@bitcode/generic-tools-need-comprehension'
+      '@bitcode/generic-agents-read-comprehension',
+      '@bitcode/generic-tools-read-comprehension'
     ],
     checks
   };
@@ -2537,38 +2537,38 @@ function buildV26SourceToSharesFifthGateProof({
   const checks = [
     buildV26FilePresenceCheck(
       'source-to-shares-protocol-review-artifacts',
-      'Low-level protocol SPEC-IMPL emits reviewable Needs before fit search and carries source-to-shares artifacts into settlement receipts',
+      'Low-level protocol SPEC-IMPL emits reviewable Reads before fit search and carries source-to-shares artifacts into settlement receipts',
       [
-        'protocol-demonstration/src/canonical/need-measurement.js',
+        'protocol-demonstration/src/canonical/read-measurement.js',
         'protocol-demonstration/src/canonical/settlement.js',
         'protocol-demonstration/src/canonical/run-artifacts.js',
         'protocol-demonstration/src/bitcode-demo.js',
-        'protocol-demonstration/test/v26-need-review-source-to-shares.test.js'
+        'protocol-demonstration/test/v26-read-review-source-to-shares.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
-      'commercial-need-review-route-parity',
-      'Commercial production SPEC-IMPL preserves the protocol Need-review admission boundary and blocks fit search until accept',
+      'commercial-read-review-route-parity',
+      'Commercial production SPEC-IMPL preserves the protocol Read-review admission boundary and blocks fit search until accept',
       [
-        'uapi/app/api/need-review/route.ts',
+        'uapi/app/api/read-review/route.ts',
         'uapi/app/api/make-bitcode-branch/route.ts',
-        'uapi/app/terminal/TerminalNeedScenarioPanel.tsx',
-        'uapi/tests/api/needReviewRoute.test.ts',
-        'uapi/tests/api/needReviewProtocolParity.test.ts'
+        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
+        'uapi/tests/api/readReviewRoute.test.ts',
+        'uapi/tests/api/readReviewProtocolParity.test.ts'
       ]
     ),
     buildV26FilePresenceCheck(
       'commercial-state-route-reread-parity',
-      'Commercial production SPEC-IMPL rereads accepted Need review, source-to-shares artifacts, settlement preview, and quantized fit-quality evidence through the app-owned state route after branch materialization',
+      'Commercial production SPEC-IMPL rereads accepted Read review, source-to-shares artifacts, settlement preview, and quantized fit-quality evidence through the app-owned state route after branch materialization',
       [
         'uapi/app/api/state/route.ts',
         'uapi/app/api/make-bitcode-branch/route.ts',
-        'uapi/tests/api/needReviewProtocolParity.test.ts'
+        'uapi/tests/api/readReviewProtocolParity.test.ts'
       ]
     ),
     buildV26FileContentCheck(
       'commercial-state-route-reread-contract',
-      'Commercial route reread proof checks the exact state-route assertions for accepted Need review, quantized source-to-shares continuity, private-file redaction, and settlement-proof carry-through',
+      'Commercial route reread proof checks the exact state-route assertions for accepted Read review, quantized source-to-shares continuity, private-file redaction, and settlement-proof carry-through',
       [
         {
           file: 'uapi/app/api/state/route.ts',
@@ -2576,27 +2576,27 @@ function buildV26SourceToSharesFifthGateProof({
           description: 'state route delegates principal-scoped reread to the protocol-backed app context'
         },
         {
-          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
-          evidence: 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route',
+          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+          evidence: 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route',
           description: 'commercial parity test owns an explicit source-to-shares state-reread scenario'
         },
         {
-          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'http://localhost/api/state?principal=buyer',
           description: 'reread uses the buyer projection instead of inspecting only a branch response'
         },
         {
-          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash',
           description: 'reread asserts quantized source-to-shares fit-quality hash continuity'
         },
         {
-          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'statePayload.latestRun.branchArtifacts.files).toBeUndefined()',
           description: 'reread proves private raw branch files are not exposed through the buyer state projection'
         },
         {
-          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts',
           description: 'reread asserts settlement-source-to-shares proof carry-through'
         }
@@ -2604,7 +2604,7 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FilePresenceCheck(
       'commercial-activity-ledger-write-reread',
-      'Commercial production SPEC-IMPL records give, need, and closure writes into execution history and rereads them through the same Bitcode activity ledger',
+      'Commercial production SPEC-IMPL records deposit, read, and closure writes into execution history and rereads them through the same Bitcode activity ledger',
       [
         'uapi/app/api/executions/history/route.ts',
         'packages/api/src/routes/executions.ts',
@@ -2629,8 +2629,8 @@ function buildV26SourceToSharesFifthGateProof({
         },
         {
           file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
-          evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
-          description: 'commercial parity test proves give/need/closure writes reread through the same execution-history ledger'
+          evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
+          description: 'commercial parity test proves deposit/read/closure writes reread through the same execution-history ledger'
         },
         {
           file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
@@ -2641,7 +2641,7 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FilePresenceCheck(
       'terminal-source-to-shares-settlement-read',
-      'Bitcode Terminal reads Need review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
+      'Bitcode Terminal reads Read review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
       [
         'uapi/app/terminal/TerminalClosureNativeSections.tsx',
         'uapi/app/terminal/terminal-closure-state.ts',
@@ -2653,16 +2653,16 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FileContentCheck(
       'terminal-source-to-shares-settlement-contract',
-      'Bitcode Terminal read proof checks the native closure and selected-detail assertions for Need review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through',
+      'Bitcode Terminal read proof checks the native closure and selected-detail assertions for Read review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through',
       [
         {
           file: 'uapi/app/terminal/TerminalClosureNativeSections.tsx',
-          evidence: 'Read closure as one sequence from reviewable Need admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.',
+          evidence: 'Read closure as one sequence from reviewable Read admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.',
           description: 'native Terminal closure card teaches the complete review-to-settlement sequence'
         },
         {
           file: 'uapi/app/terminal/terminal-closure-state.ts',
-          evidence: "{ label: 'Fit search admitted', value: needReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
+          evidence: "{ label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
           description: 'closure-state normalization exposes fit-search admission as Terminal read state'
         },
         {
@@ -2736,7 +2736,7 @@ function buildV26SourceToSharesFifthGateProof({
     passed,
     closureClaim: false,
     proceduralGateClosure: false,
-    makeSharesContract: 'Measured Needs are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.',
+    makeSharesContract: 'Measured Reads are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.',
     useSharesContract: 'Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.',
     productionParityContract: 'protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review, route-level reread, and settlement contract.',
     openReason: 'This proof advances the fifth-gate source-to-shares baseline without itself claiming fourth-gate procedural closure or full fifth-gate closure.',
@@ -2858,7 +2858,7 @@ function buildV26FifthGateClosureDeepeningProof({
       'terminal-read-write-loop',
       'Bitcode Terminal read/write loop',
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
-      'Terminal-facing source-to-shares Need review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
+      'Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
       'Closed by the fifth-gate closure proof as a minimum-functional read/write baseline; sixth-gate and later harden wider browser/authenticated production coverage.'
     ),
     axis(
@@ -2872,7 +2872,7 @@ function buildV26FifthGateClosureDeepeningProof({
       'transactional-readiness-and-repository-scope',
       'Transactional readiness and repository scope',
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'retained-package-admissibility'],
-      'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, Terminal pulse plus Give + Need flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.',
+      'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, Terminal pulse plus Deposit + Read flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.',
       'Closed by the fifth-gate closure proof as an operative readiness baseline; live provider signing expansion remains later-gate hardening.'
     ),
     axis(
@@ -3057,16 +3057,16 @@ function buildV26FifthGateClosureProof({
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
       buildV26FileContentCheck(
         'terminal-read-write-loop-source-evidence',
-        'Terminal give, need, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests',
+        'Terminal deposit, read, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests',
         [
           {
             file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
-            evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
+            evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
             description: 'execution-history parity proves write/reread continuity'
           },
           {
-            file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
-            evidence: 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route',
+            file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+            evidence: 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route',
             description: 'state route rereads accepted source-to-shares branch materialization'
           },
           {
@@ -3491,7 +3491,7 @@ function buildV26SixthGateMvpClosureProof({
           },
           {
             file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
-            evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
+            evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
             description: 'write-through reread is route-tested'
           }
         ]
@@ -3578,8 +3578,8 @@ function buildV26SixthGateMvpClosureProof({
             description: 'ChatGPT App read tools are Exchange input evidence'
           },
           {
-            file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
-            evidence: 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route',
+            file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+            evidence: 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route',
             description: 'commercial API rereads protocol state'
           },
           {
@@ -3907,7 +3907,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
           },
           {
             file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
-            evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
+            evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
             description: 'activity ledger write-reread path is tested'
           },
           {
@@ -4067,7 +4067,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     promptSpaceRole: 'tool-prompt-injection',
     closureTier: 'fifth-gate-baseline',
     fifthGateUse: 'Preserves build/runtime tool prompt descriptions for agentic Bitcode runs without promoting examples or experiments.',
-    laterGateRemaining: 'Reference-only plugin/example reservoirs still need later pruning or promotion decisions if reused.',
+    laterGateRemaining: 'Reference-only plugin/example reservoirs still read later pruning or promotion decisions if reused.',
     requiredFiles: [
       'packages/doc-comment/package.json',
       'packages/doc-comment/src/base-plugin.ts',
@@ -4080,41 +4080,41 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     ]
   },
   {
-    checkId: 'asset-pack-need-comprehension-prompt-corridor',
-    label: 'Asset-pack and need-comprehension prompts expose Bitcode semantics',
-    promptSpaceRole: 'asset-pack-need-comprehension',
+    checkId: 'asset-pack-read-comprehension-prompt-corridor',
+    label: 'Asset-pack and read-comprehension prompts expose Bitcode semantics',
+    promptSpaceRole: 'asset-pack-read-comprehension',
     closureTier: 'fifth-gate-baseline',
-    fifthGateUse: 'Keeps request carriers mapped to Bitcode need, written asset, asset pack, and delivery mechanism meaning while proving noncanonical need-comprehension owners are removed after need-first owners exist.',
-    laterGateRemaining: 'Remaining work is broader raw PromptPart reservoir saturation outside the recut need-comprehension families.',
+    fifthGateUse: 'Keeps request carriers mapped to Bitcode read, written asset, asset pack, and delivery mechanism meaning while proving noncanonical read-comprehension owners are removed after read-first owners exist.',
+    laterGateRemaining: 'Remaining work is broader raw PromptPart reservoir saturation outside the recut read-comprehension families.',
     requiredFiles: [
-      'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',
-      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts',
+      'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
+      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts',
       'packages/pipelines/asset-pack/src/semantic-resolution.ts',
       'packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts',
       'packages/pipelines/asset-pack/src/tools/search.ts',
       'packages/pipelines/asset-pack/scripts/render-prompts.ts',
-      'packages/generic-agents/need-comprehension/README.md',
-      'packages/generic-agents/need-comprehension/package.json',
-      'packages/generic-agents/need-comprehension/tsconfig.json',
-      'packages/generic-agents/need-comprehension/src/index.ts',
-      'packages/generic-tools/need-comprehension/README.md',
-      'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
-      'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
-      'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
-      'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
-      'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts',
-      'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts',
-      'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts',
-      'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
-      'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts',
-      'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
-      'packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
-      'packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
-      'packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
-      'packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
-      'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts'
+      'packages/generic-agents/read-comprehension/README.md',
+      'packages/generic-agents/read-comprehension/package.json',
+      'packages/generic-agents/read-comprehension/tsconfig.json',
+      'packages/generic-agents/read-comprehension/src/index.ts',
+      'packages/generic-tools/read-comprehension/README.md',
+      'packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts',
+      'packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts',
+      'packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts',
+      'packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts',
+      'packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts',
+      'packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts',
+      'packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts',
+      'packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts',
+      'packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts',
+      'packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts',
+      'packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts',
+      'packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts',
+      'packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts',
+      'packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts',
+      'packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_identity.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_try_directives.ts'
     ]
   },
   {
@@ -4281,12 +4281,12 @@ function buildV26PromptSpaceCompletenessProof({
     witnessSetCount: checks.length,
     closureGate: 'eighth-gate',
     fifthGateBaseline: baselinePassed
-      ? 'Prompt primitives, active carriers, doc-code injection, asset-pack compatibility, need-comprehension need-first prompt owners, runtime carry-through, app/MCP ingress, and proof/spec witnesses are all source-visible for fifth-gate use.'
+      ? 'Prompt primitives, active carriers, doc-code injection, asset-pack compatibility, read-comprehension read-first prompt owners, runtime carry-through, app/MCP ingress, and proof/spec witnesses are all source-visible for fifth-gate use.'
       : 'One or more fifth-gate prompt-space witness sets is missing and blocks the prompt baseline.',
     closedCompletenessDimensions: passed ? V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS : [],
     openCompletenessDimensions: passed ? [] : V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS,
     closureReason: passed
-      ? 'Prompt-space completeness is closed because every retained prompt primitive, active inference carrier, doc-code injection path, AssetPack/Need-comprehension prompt corridor, raw PromptPart runtime path, app/MCP ingress path, and proof/spec witness is explicitly source-visible.'
+      ? 'Prompt-space completeness is closed because every retained prompt primitive, active inference carrier, doc-code injection path, AssetPack/Read-comprehension prompt corridor, raw PromptPart runtime path, app/MCP ingress path, and proof/spec witness is explicitly source-visible.'
       : null,
     openReason: passed
       ? null
@@ -4376,8 +4376,8 @@ function buildV26ConversationsContinuityProof({
         },
         {
           file: 'packages/api/src/routes/conversations.ts',
-          evidence: 'need_measurement_intents',
-          description: 'Need-measurement intent is first-class conversation execution evidence'
+          evidence: 'read_measurement_intents',
+          description: 'Read-measurement intent is first-class conversation execution evidence'
         },
         {
           file: 'packages/api/src/conversations/messages.ts',
@@ -4402,7 +4402,7 @@ function buildV26ConversationsContinuityProof({
         {
           file: 'uapi/tests/api/chatStreamRoute.test.ts',
           evidence: "rich_input: expect.objectContaining",
-          description: 'root conversation stream test asserts persisted Need-measurement rich input'
+          description: 'root conversation stream test asserts persisted Read-measurement rich input'
         },
         {
           file: 'uapi/tests/api/conversationThreadStreamRoute.test.ts',
@@ -4635,7 +4635,7 @@ function buildV26RunsPipelinesTotalityProof({
     ),
     buildV26FileContentCheck(
       'uapi-client-asset-pack-execution-hook',
-      'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Need input names',
+      'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Read input names',
       [
         {
           file: 'uapi/hooks/useExecutionState.ts',
@@ -4644,8 +4644,8 @@ function buildV26RunsPipelinesTotalityProof({
         },
         {
           file: 'uapi/hooks/useExecutionState.ts',
-          evidence: 'definitionOfNeed',
-          description: 'TypeScript hook submits the canonical Definition of Need request shape'
+          evidence: 'definitionOfRead',
+          description: 'TypeScript hook submits the canonical Definition of Read request shape'
         },
         {
           file: 'uapi/hooks/useExecutionState.ts',
@@ -4732,15 +4732,15 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     ]
   },
   {
-    checkId: 'computer-use-need-measurement-boundary',
-    label: 'Retained computer-use tooling is internal Need-measurement support only',
+    checkId: 'computer-use-read-measurement-boundary',
+    label: 'Retained computer-use tooling is internal Read-measurement support only',
     reformClass: 'ingress-or-support',
-    livePathRole: 'Computer use may supply server-flagged Need-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner.',
+    livePathRole: 'Computer use may supply server-flagged Read-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner.',
     requiredFiles: [
       'packages/generic-tools/use-computer/src/index.ts',
       'packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts',
-      'packages/pipelines/asset-pack/src/tools/BitcodeNeedMeasurementComputerUseTool.ts',
+      'packages/pipelines/asset-pack/src/tools/BitcodeReadMeasurementComputerUseTool.ts',
       'packages/pipelines/asset-pack/src/tools/index.ts',
       'packages/api/src/routes/shippables.ts',
       'packages/execution-generics/src/store/registry.ts',
@@ -4760,23 +4760,23 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     ]
   },
   {
-    checkId: 'lsp-measure-need-boundary',
-    label: 'Retained LSP infrastructure is repurposed as static Need/AssetPack measurement',
+    checkId: 'lsp-measure-read-boundary',
+    label: 'Retained LSP infrastructure is repurposed as static Read/AssetPack measurement',
     reformClass: 'ingress-or-support',
-    livePathRole: 'LSP tooling may remain only as replayable symbol/path/config/type evidence for Need measurement, AssetPack fit, and proof replay.',
+    livePathRole: 'LSP tooling may remain only as replayable symbol/path/config/type evidence for Read measurement, AssetPack fit, and proof replay.',
     requiredFiles: [
       'protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md',
       'protocol-demonstration/src/bitcode-demo.js',
-      'protocol-demonstration/src/canonical/need-measurement.js',
+      'protocol-demonstration/src/canonical/read-measurement.js',
       'packages/lsp/src/index.ts',
       'packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts'
     ]
   },
   {
     checkId: 'web-search-auxiliary-input-boundary',
-    label: 'Retained web-search carriers are Bitcode need-synthesis evidence support',
+    label: 'Retained web-search carriers are Bitcode read-synthesis evidence support',
     reformClass: 'ingress-or-support',
-    livePathRole: 'External search/research context may support discovery-phase need synthesis with source-attributed evidence, but it does not own canonical need, proof, mutation, delivery, Terminal, or Exchange truth.',
+    livePathRole: 'External search/research context may support discovery-phase read synthesis with source-attributed evidence, but it does not own canonical read, proof, mutation, delivery, Terminal, or Exchange truth.',
     requiredFiles: [
       'packages/generic-agents/web-search/README.md',
       'packages/generic-agents/web-search/src/index.ts',
@@ -4793,9 +4793,9 @@ const V26_SYSTEM_REFORM_DECISIONS = [
   },
   {
     checkId: 'danger-wall-risk-admission-boundary',
-    label: 'Retained danger-wall carrier is Bitcode need/AssetPack risk admission',
+    label: 'Retained danger-wall carrier is Bitcode read/AssetPack risk admission',
     reformClass: 'ingress-or-support',
-    livePathRole: 'Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical need, proof, mutation, delivery, or product semantics.',
+    livePathRole: 'Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical read, proof, mutation, delivery, or product semantics.',
     requiredFiles: [
       'packages/generic-agents/danger-wall/README.md',
       'packages/generic-agents/danger-wall/src/index.ts',
@@ -4944,7 +4944,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
         'uapi/tests/terminalCommercialLaunchReadiness.test.ts',
         'uapi/app/api/state/route.ts',
-        'uapi/app/api/need-review/route.ts',
+        'uapi/app/api/read-review/route.ts',
         'uapi/app/api/make-bitcode-branch/route.ts',
         'uapi/app/api/auxillaries/data/route.ts',
         'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
@@ -5301,7 +5301,7 @@ export function collectCanonicalProvenRuns({
   paymentModes = []
 } = {}) {
   const seededState = buildInitialStateFn();
-  const availableScenarioIds = seededState.needScenarios.map((/** @type {any} */ scenario) => String(scenario.scenarioId));
+  const availableScenarioIds = seededState.readScenarios.map((/** @type {any} */ scenario) => String(scenario.scenarioId));
   const requestedScenarioIds = scenarioIds?.length ? scenarioIds : availableScenarioIds;
   for (const scenarioId of requestedScenarioIds) {
     invariant(availableScenarioIds.includes(scenarioId), `Unknown scenario id ${scenarioId}.`);
@@ -5333,7 +5333,7 @@ export function collectCanonicalProvenRuns({
         const witnessManifest = parseArtifactJson(files, '.bitcode/proof-witness-manifest.json');
         const assetPackEvidenceManifest = parseArtifactJson(files, '.bitcode/asset-pack-evidence.json');
         const policyRelease = parseArtifactJson(files, '.bitcode/policy-release.json');
-        const need = parseArtifactJson(files, '.bitcode/need.json');
+        const read = parseArtifactJson(files, '.bitcode/read.json');
 
         /** @type {Record<string, any>} */
         const familyProofsByName = {};
@@ -5350,7 +5350,7 @@ export function collectCanonicalProvenRuns({
           branchMode,
           paymentMode: paymentMode || null,
           branchName: String(assetPackEvidenceManifest?.branchName || latestRun?.branchName || ''),
-          needId: String(bundle?.needId || need?.needId || ''),
+          readId: String(bundle?.readId || read?.readId || ''),
           assetPackId: String(bundle?.assetPackId || latestRun?.assetPack?.assetPackId || ''),
           branchArtifacts: files,
           systemProofBundle: bundle,
@@ -5490,7 +5490,7 @@ function validateAndNormalizeRun(run) {
     branchMode: run.branchMode,
     paymentMode: run.paymentMode || null,
     branchName: run.branchName,
-    needId: run.needId,
+    readId: run.readId,
     assetPackId: run.assetPackId,
     bundleProofHash: String(bundle?.proofContract?.proofHash || bundle?.proofHash || ''),
     proofContractHash: String(run.familyProofsByName['proof-contract']?.proofHash || ''),
@@ -5632,7 +5632,7 @@ export function buildCanonicalProvenData(collected, {
     branchMode: run.branchMode,
     paymentMode: run.paymentMode,
     branchName: run.branchName,
-    needId: run.needId,
+    readId: run.readId,
     assetPackId: run.assetPackId,
     familyCount: run.familyCount,
     allFamiliesPassed: run.allFamiliesPassed,
@@ -7047,14 +7047,14 @@ export function renderCanonicalProvenMarkdown(data) {
   lines.push('');
   lines.push('## Scenario and Run Matrix');
   lines.push('');
-  const runMatrixHeaders = ['scenarioId', 'branchMode', ...(Array.isArray(data.paymentModes) && data.paymentModes.length ? ['paymentMode'] : []), 'needId', 'branchName', 'assetPackId', 'familyCount', 'allFamiliesPassed', 'proofContractPassed', 'requiredArtifactPathCount', 'artifactDigestCount', 'fullyProven'];
+  const runMatrixHeaders = ['scenarioId', 'branchMode', ...(Array.isArray(data.paymentModes) && data.paymentModes.length ? ['paymentMode'] : []), 'readId', 'branchName', 'assetPackId', 'familyCount', 'allFamiliesPassed', 'proofContractPassed', 'requiredArtifactPathCount', 'artifactDigestCount', 'fullyProven'];
   lines.push(renderMarkdownTable(
     runMatrixHeaders,
     data.runMatrix.map((run) => [
       markdownCode(run.scenarioId),
       markdownCode(run.branchMode),
       ...(Array.isArray(data.paymentModes) && data.paymentModes.length ? [markdownCode(run.paymentMode || 'default')] : []),
-      markdownCode(run.needId),
+      markdownCode(run.readId),
       markdownCode(run.branchName),
       markdownCode(run.assetPackId),
       run.familyCount,
@@ -7082,7 +7082,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`### ${formatRunId(run)}`);
     lines.push('');
     lines.push(`- branchName: ${markdownCode(run.branchName)}`);
-    lines.push(`- needId: ${markdownCode(run.needId)}`);
+    lines.push(`- readId: ${markdownCode(run.readId)}`);
     lines.push(`- assetPackId: ${markdownCode(run.assetPackId)}`);
     if (run.paymentMode) {
       lines.push(`- paymentMode: ${markdownCode(run.paymentMode)}`);

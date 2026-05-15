@@ -17,11 +17,11 @@ import { DocCodeToolPrompt } from '@bitcode/tools-generics';
 import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
- * Use Computer tool-specific DocCodeToolPrompt for internal Need measurement
+ * Use Computer tool-specific DocCodeToolPrompt for internal Read measurement
  *
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Internal feature-flagged Bitcode Need-measurement computer-use tool documentation for runtime attachment via doc-code"
+ * intent: "Internal feature-flagged Bitcode Read-measurement computer-use tool documentation for runtime attachment via doc-code"
  * current_version: "V26.50.0"
  * versions: []
  * dependencies: {

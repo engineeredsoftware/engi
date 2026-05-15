@@ -84,7 +84,7 @@ export function buildProjectionPolicy(policyRelease, branchArtifacts, defaultPri
 
 /**
  * @param {{
- *   need: { needId: string },
+ *   read: { readId: string },
  *   assetPack: { selectedAssets: string[] },
  *   settlement: {
  *     bundleId: string,
@@ -99,9 +99,9 @@ export function buildProjectionPolicy(policyRelease, branchArtifacts, defaultPri
  * }} input
  * @returns {Record<string, unknown>}
  */
-export function buildBoundedPublicProofArtifact({ need, assetPack, settlement, proofContract, branchName, promptCompletenessProof, staticMeasurementReport }) {
+export function buildBoundedPublicProofArtifact({ read, assetPack, settlement, proofContract, branchName, promptCompletenessProof, staticMeasurementReport }) {
   return {
-    needId: need.needId,
+    readId: read.readId,
     bundleId: settlement.bundleId,
     branchName,
     conformanceProfile: PROFILE_A,

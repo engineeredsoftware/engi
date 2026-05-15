@@ -113,7 +113,7 @@ function buildActivitySubstructures(
         summary:
           detail?.summary ||
           selectedRun.summary ||
-          'This selected Bitcode activity is the active Terminal result, scoped to the Give, Need, proof, and closure work performed here.',
+          'This selected Bitcode activity is the active Terminal result, scoped to the Deposit, Read, proof, and closure work performed here.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
@@ -239,7 +239,7 @@ export default function TerminalTransactionWorkspace({
     : 'Recent Terminal activity and selected result';
   const surfaceSummary = isExchangeSurface
     ? 'Search Exchange activity across the market or your own rows, select from the master table, and inspect AssetPack evidence, proof posture, history, and execution detail from the Exchange state layer.'
-    : 'Terminal keeps recent Give, Need, proof, and closure activity near the top of the workflow. Select a row to read the result here, then use the Give and Need workspace below for the next write.';
+    : 'Terminal keeps recent Deposit, Read, proof, and closure activity near the top of the workflow. Select a row to read the result here, then use the Deposit and Read workspace below for the next write.';
   const loadingLabel = isExchangeSurface ? 'Loading Bitcode Exchange…' : 'Loading Bitcode Terminal…';
   const selectedActivityReadLabel = isExchangeSurface
     ? 'selected Bitcode activity detail'

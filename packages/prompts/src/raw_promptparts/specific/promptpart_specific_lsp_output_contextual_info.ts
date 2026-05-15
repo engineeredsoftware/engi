@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Bitcode LSP output field for contextual Need evidence"
+ * intent: "Bitcode LSP output field for contextual Read evidence"
  * current_version: "0.50.0"
  * versions: []
   * benchmarks: [

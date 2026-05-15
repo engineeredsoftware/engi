@@ -135,7 +135,7 @@ export async function createFileBackup(filePath: string): Promise<string> {
     try {
       await fs.access(fullPath);
     } catch (err) {
-      // File doesn't exist, no need for backup
+      // File doesn't exist, no read for backup
       return '';
     }
     

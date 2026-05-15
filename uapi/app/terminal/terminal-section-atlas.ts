@@ -46,7 +46,7 @@ export function normalizeTerminalSectionAtlas(snapshot: ShellSnapshot): SectionP
 
   if (closureState) {
     const closurePanels = [
-      { id: 'panelNeeding', panel: closureState.needReview },
+      { id: 'panelReading', panel: closureState.readReview },
       { id: 'panelEvaluations', panel: closureState.verification },
       { id: 'panelBranchArtifacts', panel: closureState.branch },
       { id: 'panelSettlement', panel: closureState.settlement },

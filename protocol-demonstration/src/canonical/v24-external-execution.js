@@ -132,7 +132,7 @@ export function buildV24BitcoinNetworkArtifacts({
     paymentMode: activePaymentMode || null,
     modeApplicability: mainchainActive ? 'active' : 'inactive-no-payment-mode',
     bundleId: settlementPreview.bundleId || null,
-    needId: settlementPreview.needId || null,
+    readId: settlementPreview.readId || null,
     assetPackId: assetPack.assetPackId,
     unitDenomination: bitcoinSettlementIntent?.unitDenomination || 'BTD',
     meteredMicroUnits: bitcoinSettlementIntent?.meteredMicroUnits || settlementPreview.meteredMicroUnits || null,
@@ -177,7 +177,7 @@ export function buildV24BitcoinNetworkArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     bundleId: settlementPreview.bundleId || null,
-    needId: settlementPreview.needId || null,
+    readId: settlementPreview.readId || null,
     observationId: bitcoinSettlementObservation?.observationId || mainchainSummary.observationId || null,
     executionId: mainchainSummary.executionId || null,
     observationState: !mainchainActive
@@ -206,7 +206,7 @@ export function buildV24BitcoinNetworkArtifacts({
     paymentMode: activePaymentMode || null,
     modeApplicability: repeatedReadActive ? 'active' : 'inactive-for-mode',
     bundleId: settlementPreview.bundleId || null,
-    needId: settlementPreview.needId || null,
+    readId: settlementPreview.readId || null,
     assetPackId: assetPack.assetPackId,
     unitDenomination: bitcoinSettlementIntent?.unitDenomination || 'BTD',
     meteredMicroUnits: bitcoinSettlementIntent?.meteredMicroUnits || settlementPreview.meteredMicroUnits || null,
@@ -255,7 +255,7 @@ export function buildV24BitcoinNetworkArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     bundleId: settlementPreview.bundleId || null,
-    needId: settlementPreview.needId || null,
+    readId: settlementPreview.readId || null,
     observationId: repeatedReadSummary.observationId || null,
     executionId: repeatedReadSummary.executionId || null,
     observationState: !repeatedReadActive
@@ -323,7 +323,7 @@ export function buildV24BitcoinNetworkArtifacts({
  *   computeRealityManifest?: Record<string, unknown> | null,
  *   storageRealityManifest?: Record<string, unknown> | null,
  *   branchName: string,
- *   need: { needId: string },
+ *   read: { readId: string },
  *   assetPack: { assetPackId: string }
  * }} input
  */
@@ -333,7 +333,7 @@ export function buildV24ContainerArtifacts({
   computeRealityManifest = null,
   storageRealityManifest = null,
   branchName,
-  need,
+  read,
   assetPack
 }) {
   const configuredEnvironmentMode = String(externalEnvironmentProfile.configuredEnvironmentMode || 'mock');
@@ -346,12 +346,12 @@ export function buildV24ContainerArtifacts({
   const storageRuntimeState = String(storageSummary.runtimeState || '');
 
   const computeContainerManifest = {
-    manifestId: `v24_compute_container_manifest_${shortId(`${branchName}:${need.needId}`, 16)}`,
+    manifestId: `v24_compute_container_manifest_${shortId(`${branchName}:${read.readId}`, 16)}`,
     interfaceId: COMPUTE_INTERFACE_ID,
     configuredEnvironmentMode,
     actualityDisposition,
     branchName,
-    needId: need.needId,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     registryRef: computeBinding.registryRef || null,
     executionIdentityRef: computeBinding.executionIdentityRef || null,
@@ -383,7 +383,7 @@ export function buildV24ContainerArtifacts({
       registryRef: computeBinding.registryRef || null,
       executionIdentityRef: computeBinding.executionIdentityRef || null,
       branchName,
-      needId: need.needId
+      readId: read.readId
     }),
     environmentIdentityRef: computeSummary.environmentIdentityRef || computeBinding.executionIdentityRef || null,
     environmentResourceRef: computeSummary.environmentResourceRef || computeBinding.registryRef || null,
@@ -399,7 +399,7 @@ export function buildV24ContainerArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     branchName,
-    needId: need.needId,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     namespaceRef: storageBinding.namespaceRef || null,
     bucketRef: storageBinding.bucketRef || null,

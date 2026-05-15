@@ -11,7 +11,7 @@
 
 - [ ] Implement adaptive iteration strategy based on validation feedback
 - [ ] Add support for multiple repository providers (GitLab, Bitbucket)
-- [ ] Create specialized variations for common Need classes (bug fixes, features, refactoring)
+- [ ] Create specialized variations for common Read classes (bug fixes, features, refactoring)
 - [ ] Add partial success handling (some files succeed, others fail)
 
 ## Medium Term (v1.2)
@@ -36,7 +36,7 @@
 4. Large repository performance
 5. Concurrent pipeline execution
 
-## Documentation Needs
+## Documentation Reads
 
 - [ ] AssetPack pipeline customization guide
 - [ ] Agent replacement/extension guide

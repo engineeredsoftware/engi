@@ -46,7 +46,7 @@ describe('terminal-transaction-query', () => {
   it('reads transaction filters from route query params', () => {
     const filters = readTerminalTransactionFilters(
       new URLSearchParams(
-        'transactionSearch=proof%20ready&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-btc-fee-basis',
+        'transactionSearch=proof%20ready&transactionStatus=completed&transactionOwnership=mine&transactionLens=deposit&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-btc-fee-basis',
       ),
     );
 
@@ -54,7 +54,7 @@ describe('terminal-transaction-query', () => {
       searchTerm: 'proof ready',
       status: 'completed',
       ownership: 'mine',
-      transactionLens: 'give',
+      transactionLens: 'deposit',
       repository: 'bitcode/bitcode',
       participant: 'garrett',
       proofStatus: 'bounded proof ready',
@@ -131,10 +131,10 @@ describe('terminal-transaction-query', () => {
     const nextParams = writeTerminalTransactionFilters(
       new URLSearchParams('transactionId=tx-789&provider=github'),
       {
-        searchTerm: 'need pressure',
+        searchTerm: 'read pressure',
         status: 'running',
         ownership: 'network',
-        transactionLens: 'need',
+        transactionLens: 'read',
         repository: 'bitcode/research',
         participant: 'research-partner',
         proofStatus: 'verification in flight',
@@ -144,10 +144,10 @@ describe('terminal-transaction-query', () => {
 
     expect(nextParams.toString()).toContain('transactionId=tx-789');
     expect(nextParams.toString()).toContain('provider=github');
-    expect(nextParams.toString()).toContain('transactionSearch=need+pressure');
+    expect(nextParams.toString()).toContain('transactionSearch=read+pressure');
     expect(nextParams.toString()).toContain('transactionStatus=running');
     expect(nextParams.toString()).toContain('transactionOwnership=network');
-    expect(nextParams.toString()).toContain('transactionLens=need');
+    expect(nextParams.toString()).toContain('transactionLens=read');
     expect(nextParams.toString()).toContain('transactionRepository=bitcode%2Fresearch');
     expect(nextParams.toString()).toContain('transactionParticipant=research-partner');
     expect(nextParams.toString()).toContain('transactionProof=verification+in+flight');
@@ -157,7 +157,7 @@ describe('terminal-transaction-query', () => {
   it('resets all transaction filter query params while preserving selection and external params', () => {
     const resetParams = resetTerminalTransactionFilters(
       new URLSearchParams(
-        'transactionId=tx-123&transactionSearch=proof&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-btc-fee-basis&transactionPage=3&provider=github',
+        'transactionId=tx-123&transactionSearch=proof&transactionStatus=completed&transactionOwnership=mine&transactionLens=deposit&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-btc-fee-basis&transactionPage=3&provider=github',
       ),
     );
 

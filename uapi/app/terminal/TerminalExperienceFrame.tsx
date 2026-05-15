@@ -24,8 +24,8 @@ export default function TerminalExperienceFrame({
   return (
     <TerminalWorkspaceCard
       kicker="Mode map"
-      title="Keep Terminal focused on Give, Need, and recent results"
-      summary="Terminal stays focused on writing Give and Need work, reading recent activity results, and continuing closure from the selected result."
+      title="Keep Terminal focused on Deposit, Read, and recent results"
+      summary="Terminal stays focused on writing Deposit and Read work, reading recent activity results, and continuing closure from the selected result."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -41,7 +41,7 @@ export default function TerminalExperienceFrame({
             <p className="text-emerald-300/85">Write posture</p>
             <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.writePosture} />
           </div>
-          <p className="mt-2 text-neutral-200">give + need + closure</p>
+          <p className="mt-2 text-neutral-200">deposit + read + closure</p>
         </div>
       </div>
 

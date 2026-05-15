@@ -358,7 +358,7 @@ export const downloadRepository = async (
     repo: `${repository.owner.login}/${repository.name}` 
   });
   
-  // For download, we still need to use GitHub API directly
+  // For download, we still read to use GitHub API directly
   // VCS abstraction doesn't cover file downloads
   const downloadUrl = `https://api.github.com/repos/${repository.owner.login}/${repository.name}/zipball/main`;
   

@@ -50,8 +50,8 @@ export function buildCanonPosture() {
     draftParityPath: DRAFT_PARITY_PATH,
     inheritedCanonSurfaceLabel: 'V16/V17/V18/V19/V20/V21/V22/V23/V24/V25/V26/V27',
     heroEyebrow: `${CURRENT_PROJECT_LABEL} transactions and activity`,
-    heroLede: 'Set the active scenario, select supply, and follow the flow from give through settlement.',
-    heroTip: 'Use the guide and lower runtime surfaces when you need exact replay, proof, or settlement detail.'
+    heroLede: 'Set the active scenario, select supply, and follow the flow from deposit through settlement.',
+    heroTip: 'Use the guide and lower runtime surfaces when you read exact replay, proof, or settlement detail.'
   };
 }
 

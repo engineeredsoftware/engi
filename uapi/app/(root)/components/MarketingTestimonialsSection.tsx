@@ -74,7 +74,7 @@ const MarketingTestimonialsSection: React.FC = () => {
 
           {/* Subtitle */}
           <p className={subtitleClass}>
-            Teams of all backgrounds use Bitcode to measure Needs, prepare AssetPacks, and deliver reviewable software changes.
+            Teams of all backgrounds use Bitcode to measure Reads, prepare AssetPacks, and deliver reviewable software changes.
           </p>
 
           {/* Marquee of company logos – temporarily hidden */}

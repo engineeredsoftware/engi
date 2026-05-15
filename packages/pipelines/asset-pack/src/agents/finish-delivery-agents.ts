@@ -96,7 +96,7 @@ const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
   deliveryResults: z.any(), // From the selected Finish Delivering mechanism agent
   validationResults: z.any(),
   discoveryMetrics: z.any(),
-  need: z.string().optional(),
+  read: z.string().optional(),
   writtenAssetType: z.string().optional()
 });
 

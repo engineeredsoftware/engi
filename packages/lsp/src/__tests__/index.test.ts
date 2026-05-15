@@ -348,7 +348,7 @@ describe('Enhanced LSP Package', () => {
           isDisposed: false,
         };
 
-        // We'll need to mock the internal functions, but for now test validation
+        // We'll read to mock the internal functions, but for now test validation
         await expect(
           renameSymbolLsp({ ...params, newName: 'invalid-name' })
         ).rejects.toThrow('Invalid identifier name');

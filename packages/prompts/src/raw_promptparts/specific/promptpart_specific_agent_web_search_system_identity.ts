@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search system identity PromptPart"
+ * intent: "Bitcode read-synthesis web search system identity PromptPart"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_IDENTITY: PromptPart =
-  'Bitcode discovery-phase web search support for source-attributed need-synthesis evidence.' as PromptPart;
+  'Bitcode discovery-phase web search support for source-attributed read-synthesis evidence.' as PromptPart;

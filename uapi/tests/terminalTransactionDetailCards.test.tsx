@@ -24,7 +24,7 @@ describe('Terminal transaction detail cards', () => {
             { label: 'Credited assets', value: '2' },
             { label: 'Participating assets', value: '3' },
           ]}
-          branchArtifacts={['BITCODE_NEED.md']}
+          branchArtifacts={['BITCODE_READ.md']}
           payload={{
             closure: {
               rows: [
@@ -35,7 +35,7 @@ describe('Terminal transaction detail cards', () => {
                 { label: 'Credited assets', value: '2' },
                 { label: 'Participating assets', value: '3' },
               ],
-              branchArtifacts: ['BITCODE_NEED.md'],
+              branchArtifacts: ['BITCODE_READ.md'],
             },
           }}
           onOpenVerification={onOpenVerification}

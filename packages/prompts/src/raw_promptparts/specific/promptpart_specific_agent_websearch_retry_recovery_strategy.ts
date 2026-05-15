@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search retry strategy"
+ * intent: "Bitcode read-synthesis web search retry strategy"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

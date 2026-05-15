@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CLONEVCSREPOSITORY_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle clone failures by categorizing errors: network timeouts requiring connection reestablishment, authentication failures needing credential refresh, permission denials requiring access scope validation, repository corruption needing integrity verification, storage exhaustion requiring cleanup operations, rate limiting requiring backoff adjustment, protocol incompatibilities requiring version negotiation' as PromptPart;
+  'Handle clone failures by categorizing errors: network timeouts requiring connection reestablishment, authentication failures reading credential refresh, permission denials requiring access scope validation, repository corruption reading integrity verification, storage exhaustion requiring cleanup operations, rate limiting requiring backoff adjustment, protocol incompatibilities requiring version negotiation' as PromptPart;

@@ -151,9 +151,9 @@ export class CredentialExpirationChecker {
   }
 
   /**
-   * Get credentials that need attention (expiring or expired)
+   * Get credentials that read attention (expiring or expired)
    */
-  async getCredentialsNeedingAttention(
+  async getCredentialsReadingAttention(
     credentials: Array<{
       id: string;
       type: string;
@@ -481,17 +481,17 @@ export class CredentialMonitoringService {
       // For now, simulate with empty array
       const credentials: any[] = [];
       
-      const needingAttention = await this.expirationChecker.getCredentialsNeedingAttention(credentials);
+      const readingAttention = await this.expirationChecker.getCredentialsReadingAttention(credentials);
       
-      if (needingAttention.length > 0) {
-        log(`Found ${needingAttention.length} credentials needing attention`, 'warn', {
-          highPriority: needingAttention.filter(c => c.priority === 'high').length,
-          mediumPriority: needingAttention.filter(c => c.priority === 'medium').length,
-          lowPriority: needingAttention.filter(c => c.priority === 'low').length
+      if (readingAttention.length > 0) {
+        log(`Found ${readingAttention.length} credentials reading attention`, 'warn', {
+          highPriority: readingAttention.filter(c => c.priority === 'high').length,
+          mediumPriority: readingAttention.filter(c => c.priority === 'medium').length,
+          lowPriority: readingAttention.filter(c => c.priority === 'low').length
         });
 
         // Process high-priority credentials first
-        for (const { credential, status, priority } of needingAttention) {
+        for (const { credential, status, priority } of readingAttention) {
           if (priority === 'high') {
             await this.handleExpiringCredential(credential, status);
           }

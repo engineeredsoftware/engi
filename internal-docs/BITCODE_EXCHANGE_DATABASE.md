@@ -9,7 +9,7 @@ The database supports Bitcode Exchange and Bitcode Terminal state:
 - source connections,
 - conversations and attachments,
 - executions and event streams,
-- Need review state,
+- Read review state,
 - AssetPack outputs,
 - proof and settlement receipts,
 - BTC fee accounting and non-fungible `$BTD` holding reads,
@@ -40,16 +40,16 @@ Some physical table names still preserve compatibility vocabulary at the storage
 The Exchange state model must support:
 - immediate reread of Terminal writes,
 - one activity ledger for source-to-shares events,
-- selected-detail reconstruction of Need, fit, AssetPack, proof, history, and delivery evidence,
-- explicit accept/reject/remeasure decisions for measured Needs,
+- selected-detail reconstruction of Read, fit, AssetPack, proof, history, and delivery evidence,
+- explicit accept/reject/remeasure decisions for measured Reads,
 - settlement receipts with quantized fit-quality rows,
-- fail-closed write admission when wallet, repository, provider, or accepted-Need readiness is absent.
+- fail-closed write admission when wallet, repository, provider, or accepted-Read readiness is absent.
 
 ## Schema Reform Requirements
 
 Remaining database work should prioritize:
 - eliminating stale null-key drift,
-- naming new columns/tables after Need, AssetPack, fit, settlement, Finish, and Exchange activity,
+- naming new columns/tables after Read, AssetPack, fit, settlement, Finish, and Exchange activity,
 - keeping storage-edge table names hidden behind ORM or route adapters,
 - generating proof artifacts that show schema, ORM, route, and UI all describe the same Bitcode state.
 

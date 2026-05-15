@@ -111,14 +111,14 @@ const whatIsBitcodeSections = [
     eyebrow: 'Plain model',
     title: 'Bitcode is a market system for source-backed technical intelligence',
     summary:
-      'A Source Share is not a file upload, a tokenized repo, or a generic AI answer. It is a measured claim that a piece of technical source can satisfy a Need under auditable proof and settlement rules.',
+      'A Source Share is not a file upload, a tokenized repo, or a generic AI answer. It is a measured claim that a piece of technical source can satisfy a Read under auditable proof and settlement rules.',
     detail:
       'Bitcode starts with source: code, docs, diagrams, architecture notes, issue context, commits, proofs, and metadata. The Exchange measures that source against demand, keeps the evidence, and lets the Terminal operator read what happened before trusting a result.',
     reason:
       'This framing keeps first-time readers from thinking Bitcode is only a developer tool. The product is the measured market path from source to accepted shares.',
     points: [
-      'Give means placing source-backed supply into the Bitcode operating chain.',
-      'Need means making demand measurable before source is selected or settled.',
+      'Deposit means placing source-backed supply into the Bitcode operating chain.',
+      'Read means making demand measurable before source is selected or settled.',
       'Proof and settlement decide whether the source can become attributable value.',
     ],
   },
@@ -131,21 +131,21 @@ const whatIsBitcodeSections = [
     detail:
       'The important rule is that none of the interfaces become separate products. They must read and write the same Exchange state, follow the same Protocol boundaries, and leave the same proof posture that Terminal can reread.',
     reason:
-      'New users need one map before learning details. Otherwise Exchange, Terminal, MCP, ChatGPT App, and Auxillaries can look like separate products instead of coordinated surfaces over Source Shares.',
+      'New users read one map before learning details. Otherwise Exchange, Terminal, MCP, ChatGPT App, and Auxillaries can look like separate products instead of coordinated surfaces over Source Shares.',
     points: [
       'Exchange owns persisted activity, ledger, proof, interface, and settlement state.',
-      'Terminal owns the give, need, read, write, proof, and history experience.',
+      'Terminal owns the deposit, read, read, write, proof, and history experience.',
       'Protocol owns semantics, proof families, fail-closed rules, and promotion truth.',
     ],
   },
   {
     id: 'operator-path',
     eyebrow: 'Operator path',
-    title: 'The simplest path is give, need, fit, prove, settle, issue',
+    title: 'The simplest path is deposit, read, fit, prove, settle, issue',
     summary:
-      'A first-time operator should understand Bitcode as a short path: give source, measure Need, inspect fit, produce proof, settle attribution, and issue/read Source Shares.',
+      'A first-time operator should understand Bitcode as a short path: deposit source, measure Read, inspect fit, produce proof, settle attribution, and issue/read Source Shares.',
     detail:
-      'The Terminal keeps the path visible as a focused Give/Need read/write loop. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, Exchange master-detail, or connected-interface delivery.',
+      'The Terminal keeps the path visible as a focused Deposit/Read read/write loop. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, Exchange master-detail, or connected-interface delivery.',
     reason:
       'The product becomes easier to learn when every button is read as part of the value path rather than as miscellaneous dashboard furniture.',
     steps: [
@@ -165,12 +165,12 @@ const sourceSharesSections = [
     summary:
       'Bitcode turns source material into tradable, measured technical intelligence rather than treating files as inert attachments.',
     detail:
-      'Code, docs, diagrams, PDFs, notes, commits, citations, authorship, and metadata enter as source supply. The Exchange measures that supply against Need, fit, quality, provenance, and proof posture so useful technical intelligence can become Source Shares.',
+      'Code, docs, diagrams, PDFs, notes, commits, citations, authorship, and metadata enter as source supply. The Exchange measures that supply against Read, fit, quality, provenance, and proof posture so useful technical intelligence can become Source Shares.',
     reason:
       'The share is only credible when the source, demand, proof, and settlement can be reread together.',
     points: [
-      'Supply is deposited as give-side source.',
-      'Demand is expressed as a measured Need.',
+      'Supply is deposited as deposit-side source.',
+      'Demand is expressed as a measured Read.',
       'Fit and proof decide whether source can move toward settlement.',
     ],
   },
@@ -187,16 +187,16 @@ const sourceSharesSections = [
   {
     id: 'value-flow',
     eyebrow: 'Value flow',
-    title: 'Give -> Need -> Fit -> Prove -> Settle -> Issue',
+    title: 'Deposit -> Read -> Fit -> Prove -> Settle -> Issue',
     summary:
-      'The market path is intentionally linear for a new reader: source is given, Need is measured, fit is reviewed, proofs are produced, settlement is read, and $BTD issuance becomes attributable.',
+      'The market path is intentionally linear for a new reader: source is given, Read is measured, fit is reviewed, proofs are produced, settlement is read, and $BTD issuance becomes attributable.',
     detail:
       'The Terminal exposes each stage so an operator can see both the write action that changes state and the read surface that proves what happened next.',
     reason:
       'The linear path is a teaching model. The under-the-hood system remains richer, but every advanced interface still has to preserve this chain.',
     points: [
-      'Give writes searchable supply.',
-      'Need writes measured demand.',
+      'Deposit writes searchable supply.',
+      'Read writes measured demand.',
       'Settlement reads proof-backed attribution and issuance posture.',
     ],
   },
@@ -208,7 +208,7 @@ const exchangeSections = [
     eyebrow: 'Exchange',
     title: 'Exchange is the state, API, persistence, and market-reading layer',
     summary:
-      'The Exchange is where Bitcode activity becomes durable: repository scope, Need measurement, fit review, AssetPack evidence, proof rows, settlement receipts, and interface admissions all land here.',
+      'The Exchange is where Bitcode activity becomes durable: repository scope, Read measurement, fit review, AssetPack evidence, proof rows, settlement receipts, and interface admissions all land here.',
     detail:
       'Terminal is the main operator product, but it should not own the source of truth by itself. Exchange state is what the Terminal, connected apps, MCP, ChatGPT App, and future commercial surfaces must reread.',
     reason:
@@ -224,7 +224,7 @@ const exchangeSections = [
     eyebrow: 'Ledger',
     title: 'The activity ledger is the main Exchange read window',
     summary:
-      'Exchange activity records give-side deposits, measured Needs, AssetPack executions, proof posture, settlement, and history in one searchable ledger.',
+      'Exchange activity records deposit-side deposits, measured Reads, AssetPack executions, proof posture, settlement, and history in one searchable ledger.',
     detail:
       'The ledger is not just a table. It is the readable index of what happened, why it happened, and which exact detail surface should be opened next.',
     reason:
@@ -299,7 +299,7 @@ const terminalSections = [
     summary: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.summary,
     detail: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.detail ?? '',
     reason:
-      'Repository scope is the give-side boundary; every deposit and downstream proof depends on it staying explicit.',
+      'Repository scope is the deposit-side boundary; every deposit and downstream proof depends on it staying explicit.',
     points: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.points,
   },
 ] as const satisfies readonly DocsGuideCard[];
@@ -342,7 +342,7 @@ const terminalActionSections = [
     summary: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.summary,
     detail: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.detail ?? '',
     reason:
-      'Closure is where reviewable Need, verification, branch materialization, proof, and settlement become one consequence chain.',
+      'Closure is where reviewable Read, verification, branch materialization, proof, and settlement become one consequence chain.',
     points: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.points,
   },
 ] as const satisfies readonly DocsGuideCard[];
@@ -435,11 +435,11 @@ const auxillariesSections = [
     eyebrow: 'Externals',
     title: 'Third-party connections are source-bearing ingress, not hidden account settings',
     summary:
-      'Externals owns GitHub and future provider bindings because repository scope becomes source-bearing input for Need measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
+      'Externals owns GitHub and future provider bindings because repository scope becomes source-bearing input for Read measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
     detail:
       'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity stays in Wallet, while repository attachment and provider scope stay in Externals.',
     reason:
-      'New users need to understand why a missing GitHub or wallet connection blocks live writes without blocking learning-mode Terminal review.',
+      'New users read to understand why a missing GitHub or wallet connection blocks live writes without blocking learning-mode Terminal review.',
     points: [
       'GitHub scope defines which repositories Bitcode can read for source supply.',
       'Stored inventory can support reread, but live write admission fails closed until the provider is restored.',
@@ -470,13 +470,13 @@ const conversationsSections = [
     eyebrow: 'Conversations',
     title: 'Conversations are the rich write surface, not a separate product',
     summary:
-      'The conversational workspace lets users draft Needs, attach source context, reference AssetPacks, choose destinations, and coordinate outputs while still writing back into Exchange state.',
+      'The conversational workspace lets users draft Reads, attach source context, reference AssetPacks, choose destinations, and coordinate outputs while still writing back into Exchange state.',
     detail:
-      'V26 treats conversations as a first-class interface because many high-quality technical Needs begin in natural language. The important boundary is that messages must normalize into Exchange evidence rather than remaining unstructured chat history.',
+      'V26 treats conversations as a first-class interface because many high-quality technical Reads begin in natural language. The important boundary is that messages must normalize into Exchange evidence rather than remaining unstructured chat history.',
     reason:
       'This is how Bitcode can support ChatGPT-like workflows without losing protocol-grade auditability.',
     points: [
-      'Source attachments, output destinations, AssetPack references, and Need-measurement intent should be structured.',
+      'Source attachments, output destinations, AssetPack references, and Read-measurement intent should be structured.',
       'Conversation-started executions should become Exchange-readable rows.',
       'Branching should preserve attachments and execution references.',
     ],
@@ -486,7 +486,7 @@ const conversationsSections = [
     eyebrow: 'Continuity',
     title: 'Conversation history must remain persisted and branchable',
     summary:
-      'A conversation that changes Need, source context, or AssetPack intent must be recoverable by later Terminal and Exchange reads.',
+      'A conversation that changes Read, source context, or AssetPack intent must be recoverable by later Terminal and Exchange reads.',
     detail:
       'The user should be able to start a conversation, attach source, receive a response, continue later, branch the thread, and still have the resulting execution evidence appear in the activity system.',
     reason:
@@ -502,9 +502,9 @@ const protocolSections = [
     summary:
       'V26 turns the retained repository into a Bitcode-owned product system through eight gates: ownership migration, application hardening, public teaching, retained-system convergence, minimum-functional Exchange and Terminal closure, MVP, commercial testnet readiness, and whole-repository provation.',
     detail:
-      'The docs do not replace the canon. They teach it in product order, using the same object flow: source supply, measured Need, fit, proof, settlement, reads, interfaces, and promotion evidence.',
+      'The docs do not replace the canon. They teach it in product order, using the same object flow: source supply, measured Read, fit, proof, settlement, reads, interfaces, and promotion evidence.',
     reason:
-      'New users need a simpler path, while experienced readers need to know where the simplified story maps back to V26.',
+      'New users read a simpler path, while experienced readers read to know where the simplified story maps back to V26.',
     points: [
       'Fifth gate is still open until minimum-functional Exchange and Terminal closure is proven.',
       'Sixth through eighth gates remain later V26 work.',
@@ -516,7 +516,7 @@ const protocolSections = [
     eyebrow: 'Domain model',
     title: 'Every V26 subsystem must be learnable from source to proof',
     summary:
-      'The protocol covers repo supply, depositing, Need measurement, prompt and inference ownership, fit, recall, verification, selection, AssetPacks, identity, disclosure, settlement, proof families, telemetry, persistence, live interfaces, validation, and generated artifacts.',
+      'The protocol covers repo supply, depositing, Read measurement, prompt and inference ownership, fit, recall, verification, selection, AssetPacks, identity, disclosure, settlement, proof families, telemetry, persistence, live interfaces, validation, and generated artifacts.',
     detail:
       'Docs readers should be able to move from the high-level product story into any subsystem and understand what it owns, what can fail closed, and what evidence proves it.',
     reason:
@@ -545,7 +545,7 @@ const proofSections = [
     detail:
       'Each family has members, theorem IDs, replay step IDs, witness artifact paths, artifact bindings, and fail-closed conditions. The product hides most of that detail until the user needs an exact read.',
     reason:
-      'The docs need enough proof vocabulary that users understand why a green result is stronger than a UI success state.',
+      'The docs read enough proof vocabulary that users understand why a green result is stronger than a UI success state.',
     points: [
       'Families explain what kind of claim was proven.',
       'Witness artifacts explain what evidence backs the claim.',
@@ -618,7 +618,7 @@ const commercialInterfaceSections = [
     reason:
       'This prevents interface sprawl from diluting the Bitcode source-to-shares contract.',
     points: [
-      'Ingress surfaces attach source, Need, or destination context.',
+      'Ingress surfaces attach source, Read, or destination context.',
       'Delivery surfaces provide Shippables backed by AssetPack evidence.',
       'Every interface must preserve proof, disclosure, and fail-closed boundaries.',
     ],
@@ -641,7 +641,7 @@ const commercialInterfaceSections = [
     summary:
       'Compute-container execution, storage publication/retrieval, telemetry, and reconciliation must be visible when they affect proof, source, settlement, or disclosure posture.',
     detail:
-      'Users do not need every runtime detail by default. They do need to know what is live, what is modeled, what is boundary-only, and what is blocked.',
+      'Users do not read every runtime detail by default. They do read to know what is live, what is modeled, what is boundary-only, and what is blocked.',
     reason:
       'Runtime honesty is the difference between a trusted commercial interface and a black-box automation demo.',
   },
@@ -653,7 +653,7 @@ const mcpSections = [
     eyebrow: 'MCP',
     title: 'Bitcode MCP is a connected Exchange interface',
     summary:
-      'MCP tools should expose current Bitcode actions and reads: attach source, express Need, admit AssetPack intent, read activity, inspect proof posture, and return write-admission evidence.',
+      'MCP tools should expose current Bitcode actions and reads: attach source, express Read, admit AssetPack intent, read activity, inspect proof posture, and return write-admission evidence.',
     detail:
       'The MCP surface should be narrow and explicit. Non-admitted generic tools are support or reference surfaces until the Protocol, Exchange, and Terminal can read their effects.',
     reason:
@@ -661,7 +661,7 @@ const mcpSections = [
     points: [
       'Tool calls must be confirmation-gated when they write.',
       'Tool results must point back to Exchange-readable activity.',
-      'PromptPart and attachment structures preserve source and Need context.',
+      'PromptPart and attachment structures preserve source and Read context.',
     ],
   },
   {
@@ -683,14 +683,14 @@ const chatGptAppSections = [
     eyebrow: 'ChatGPT App',
     title: 'The ChatGPT App is a guided Bitcode interface, not a separate assistant',
     summary:
-      'A ChatGPT App can help users express Needs, attach source, ask for proof explanations, draft Shippables, and operate through confirmation-gated writes.',
+      'A ChatGPT App can help users express Reads, attach source, ask for proof explanations, draft Shippables, and operate through confirmation-gated writes.',
     detail:
       'Its answers should map back to Exchange records and Terminal reads. The app may be conversational, but the proof and state contract remains Bitcode.',
     reason:
       'This keeps a familiar commercial interface aligned with Protocol-grade evidence instead of drifting into untracked chat output.',
     points: [
       'Confirm writes before changing Exchange state.',
-      'Attach source, output destinations, Need intent, and AssetPack references as structured context.',
+      'Attach source, output destinations, Read intent, and AssetPack references as structured context.',
       'Return Terminal links or activity IDs for reread.',
     ],
   },
@@ -1342,9 +1342,9 @@ export const TERMINAL_ACTION_GUIDES = [
     action: 'Choose the active scenario',
     location: 'Command deck',
     write:
-      'Select the measured Need or operating frame the Terminal should honor before fit, branch, and closure work continues.',
+      'Select the measured Read or operating frame the Terminal should honor before fit, branch, and closure work continues.',
     expectedRead:
-      'The Terminal rereads give, need, fit, and closure against the selected scenario rather than treating it as a cosmetic filter.',
+      'The Terminal rereads deposit, read, fit, and closure against the selected scenario rather than treating it as a cosmetic filter.',
     proofSignal: TERMINAL_INLINE_EXPLAINERS.scenario.summary,
   },
   {
@@ -1372,7 +1372,7 @@ export const TERMINAL_ACTION_GUIDES = [
     action: 'Select provider and repository',
     location: 'Repository context',
     write:
-      'Bind the give-side boundary to the provider and repository whose source supply the Terminal may search and cite.',
+      'Bind the deposit-side boundary to the provider and repository whose source supply the Terminal may search and cite.',
     expectedRead:
       'Repository supply, deposit provenance, and later closure reads should all stay attached to that selected source perimeter.',
     proofSignal: TERMINAL_INLINE_EXPLAINERS.providerRepository.summary,
@@ -1384,53 +1384,53 @@ export const TERMINAL_ACTION_GUIDES = [
     write:
       'Write the selected source perimeter into Bitcode activity so it survives navigation and later rereads.',
     expectedRead:
-      'Recent Terminal activity shows repository posture beside give, need, proof, and settlement records.',
+      'Recent Terminal activity shows repository posture beside deposit, read, proof, and settlement records.',
     proofSignal: TERMINAL_INLINE_EXPLAINERS.repositoryAnchor.summary,
   },
   {
     id: 'supply-selection',
     action: 'Search, filter, and select supply',
-    location: 'Give-side supply',
+    location: 'Deposit-side supply',
     write:
       'Use auth session, artifact kind, and inventory search to narrow the supply set before drafting a deposit.',
     expectedRead:
-      'Selected inventory remains explicit and can be carried directly into give, deposit, fit, and closure.',
+      'Selected inventory remains explicit and can be carried directly into deposit, deposit, fit, and closure.',
     proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.summary,
   },
   {
-    id: 'give-posture',
-    action: 'Record give-side posture',
-    location: 'Give + need workbench',
+    id: 'deposit-posture',
+    action: 'Record deposit-side posture',
+    location: 'Deposit + read workbench',
     write:
-      'Record the current give-side summary into the Bitcode activity ledger when supply posture is ready to be reread.',
+      'Record the current deposit-side summary into the Bitcode activity ledger when supply posture is ready to be reread.',
     expectedRead:
       'The selected activity can show what was offered, where it came from, and how it relates to later fit.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.giveNeedChain.summary,
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.depositReadChain.summary,
   },
   {
-    id: 'active-need',
-    action: 'Record active Need',
-    location: 'Need measurement',
+    id: 'active-read',
+    action: 'Record active Read',
+    location: 'Read measurement',
     write:
       'Write the currently measured demand frame into the Bitcode activity ledger before fit and closure read against it.',
     expectedRead:
-      'The Terminal activity result can reopen the exact Need frame with parser posture, scenario, and review state intact.',
+      'The Terminal activity result can reopen the exact Read frame with parser posture, scenario, and review state intact.',
     proofSignal: TERMINAL_INLINE_EXPLAINERS.activeNeed.summary,
   },
   {
-    id: 'need-review',
-    action: 'Accept, reject, or remeasure Need',
-    location: 'Need measurement',
+    id: 'read-review',
+    action: 'Accept, reject, or remeasure Read',
+    location: 'Read measurement',
     write:
-      'Choose whether the measured Need is admitted for fit search, rejected, or sent back for remeasurement with feedback.',
+      'Choose whether the measured Read is admitted for fit search, rejected, or sent back for remeasurement with feedback.',
     expectedRead:
-      'Fit search stays blocked until Need review is accepted, and the closure map shows the current review posture.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.needScenarios.summary,
+      'Fit search stays blocked until Read review is accepted, and the closure map shows the current review posture.',
+    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.readScenarios.summary,
   },
   {
     id: 'deposit-draft',
     action: 'Complete deposit provenance',
-    location: 'Give intake',
+    location: 'Deposit intake',
     write:
       'Set source repo, source commit or ref, signer address, selected supply, and optional raw content where exact provenance is required.',
     expectedRead:
@@ -1440,7 +1440,7 @@ export const TERMINAL_ACTION_GUIDES = [
   {
     id: 'deposit-submit',
     action: 'Deposit into Bitcode',
-    location: 'Give intake',
+    location: 'Deposit intake',
     write:
       'Submit selected supply, provenance, and content into the Bitcode activity chain.',
     expectedRead:
@@ -1462,7 +1462,7 @@ export const TERMINAL_ACTION_GUIDES = [
     action: 'Run closure and branch follow-through',
     location: 'Closure controls',
     write:
-      'Run the closure path from Need review through verification, branch materialization, settlement, and proof.',
+      'Run the closure path from Read review through verification, branch materialization, settlement, and proof.',
     expectedRead:
       'Verification, branch artifacts, AssetPack settlement, ledger continuity, and history should read as one consequence chain.',
     proofSignal: TERMINAL_INLINE_EXPLAINERS.closureAction.summary,
@@ -1505,7 +1505,7 @@ export const TERMINAL_READ_GUIDES = [
     read: 'Terminal activity results',
     location: 'Bitcode Terminal',
     tellsYou:
-      'Which Bitcode activity is selected, how it is typed, and whether it reads as give, Need, closure, proof, or history posture.',
+      'Which Bitcode activity is selected, how it is typed, and whether it reads as deposit, Read, closure, proof, or history posture.',
     expectedResult:
       'You can search, filter, page, and reopen activity without losing the selected detail read.',
   },
@@ -1545,10 +1545,10 @@ export const TERMINAL_READ_GUIDES = [
   {
     id: 'supply-fit',
     read: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit.title,
-    location: 'Give and need overview',
+    location: 'Deposit and read overview',
     tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit.summary,
     expectedResult:
-      'Repository supply, measured Need, and fit posture can be read together before exact proof inspection.',
+      'Repository supply, measured Read, and fit posture can be read together before exact proof inspection.',
   },
   {
     id: 'closure-map',
@@ -1556,7 +1556,7 @@ export const TERMINAL_READ_GUIDES = [
     location: 'Closure and provenance',
     tellsYou: TERMINAL_WORKSPACE_EXPLAINERS.closureMap.summary,
     expectedResult:
-      'Need review, verification, branch artifacts, AssetPack settlement, and ledger continuity read as one sequence.',
+      'Read review, verification, branch artifacts, AssetPack settlement, and ledger continuity read as one sequence.',
   },
   {
     id: 'proof-runtime',
@@ -1587,7 +1587,7 @@ export const BITCODE_DOCS_PAGES = [
     detail:
       'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before introducing the deeper Terminal, Exchange, proof, and interface pages.',
     learningOutcome:
-      'You can explain Bitcode as source-to-shares market infrastructure and name the major product surfaces without needing implementation history.',
+      'You can explain Bitcode as source-to-shares market infrastructure and name the major product surfaces without reading implementation history.',
     primaryCta: { href: '/docs/source-shares', label: 'Continue to Source Shares' },
     sections: whatIsBitcodeSections,
     embeddedUi: [
@@ -1604,8 +1604,8 @@ export const BITCODE_DOCS_PAGES = [
           { label: 'Protocol', value: 'Rules and proofs', tone: 'amber' },
         ],
         steps: [
-          { label: 'Give', body: 'Source enters with provenance and repository context.' },
-          { label: 'Need', body: 'Demand becomes measurable before fit or settlement.' },
+          { label: 'Deposit', body: 'Source enters with provenance and repository context.' },
+          { label: 'Read', body: 'Demand becomes measurable before fit or settlement.' },
           { label: 'Read', body: 'Every write must produce an Exchange-readable result.' },
         ],
       },
@@ -1619,7 +1619,7 @@ export const BITCODE_DOCS_PAGES = [
     summary:
       'Learn the value model first: Bitcode measures technical source into Source Shares, then lets Terminal users read and operate the market path.',
     detail:
-      'This guide is for first-time readers who need the simple model before using Terminal: source supply comes in, demand is measured, fit and proofs decide what can move, and settlement makes attribution readable.',
+      'This guide is for first-time readers who read the simple model before using Terminal: source supply comes in, demand is measured, fit and proofs decide what can move, and settlement makes attribution readable.',
     learningOutcome:
       'You can describe a Source Share, identify what gets measured, and understand why proof-backed settlement matters.',
     primaryCta: { href: '/docs/exchange', label: 'Read Exchange guide' },
@@ -1630,11 +1630,11 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Terminal specimen',
         title: 'Source-to-shares status card',
         summary:
-          'This mirrors the compact status cards used around Terminal: a reader should see supply, Need, fit, and proof as related signals.',
+          'This mirrors the compact status cards used around Terminal: a reader should see supply, Read, fit, and proof as related signals.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit,
         signals: [
           { label: 'Supply', value: 'Repository-backed', tone: 'emerald' },
-          { label: 'Need', value: 'Measured and reviewable', tone: 'cyan' },
+          { label: 'Read', value: 'Measured and reviewable', tone: 'cyan' },
           { label: 'Settlement', value: '$BTD attribution staged', tone: 'amber' },
         ],
       },
@@ -1675,9 +1675,9 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Terminal map',
     title: 'Orient inside the Bitcode Terminal',
     summary:
-      'Understand the Terminal as one focused Give/Need operator surface with recent activity results, support rails, and exact proof follow-through.',
+      'Understand the Terminal as one focused Deposit/Read operator surface with recent activity results, support rails, and exact proof follow-through.',
     detail:
-      'Use this page when you need to know where to read, where to write, and when to open deeper modes such as Conversations or Auxillaries.',
+      'Use this page when you read to know where to read, where to write, and when to open deeper modes such as Conversations or Auxillaries.',
     learningOutcome:
       'You can open Terminal and identify the read window, write posture, repository supply, support rail, and deeper modes.',
     primaryCta: { href: '/docs/terminal-actions', label: 'Read action guide' },
@@ -1691,7 +1691,7 @@ export const BITCODE_DOCS_PAGES = [
           'Terminal control cards pair plain labels with explainers because every control changes how the Exchange interprets work.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.controls,
         signals: [
-          { label: 'Scenario', value: 'Need frame', tone: 'emerald' },
+          { label: 'Scenario', value: 'Read frame', tone: 'emerald' },
           { label: 'Projection', value: 'Read posture', tone: 'cyan' },
           { label: 'Branch mode', value: 'AssetPack execution', tone: 'amber' },
         ],
@@ -1796,7 +1796,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Conversations',
     title: 'Use Conversations as a rich Bitcode write surface',
     summary:
-      'Conversations provide ChatGPT-like drafting and coordination while preserving Exchange-backed source attachments, output destinations, AssetPack references, and Need-measurement intent.',
+      'Conversations provide ChatGPT-like drafting and coordination while preserving Exchange-backed source attachments, output destinations, AssetPack references, and Read-measurement intent.',
     detail:
       'This page explains how natural-language work stays compatible with source-to-shares proof instead of becoming untracked chat residue.',
     learningOutcome:
@@ -1809,11 +1809,11 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Rich input',
         title: 'Conversation input should become Exchange evidence',
         summary:
-          'Chat can be expressive, but Bitcode needs normalized context so Terminal can reread the outcome.',
+          'Chat can be expressive, but Bitcode reads normalized context so Terminal can reread the outcome.',
         explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Source', value: 'Attachment tokens', tone: 'emerald' },
-          { label: 'Need', value: 'Measurement intent', tone: 'cyan' },
+          { label: 'Read', value: 'Measurement intent', tone: 'cyan' },
           { label: 'Output', value: 'Destination refs', tone: 'amber' },
         ],
       },
@@ -1870,7 +1870,7 @@ export const BITCODE_DOCS_PAGES = [
     summary:
       'Proof docs explain the families, witness artifacts, replay steps, projection rules, generated appendices, and fail-closed posture behind Source Shares.',
     detail:
-      'Use this page when you need to understand why a Terminal read is proof-bearing and how V26 prevents stale or missing evidence from becoming product truth.',
+      'Use this page when you read to understand why a Terminal read is proof-bearing and how V26 prevents stale or missing evidence from becoming product truth.',
     learningOutcome:
       'You can name the proof families and explain why witness artifacts, replay, and projection boundaries matter.',
     primaryCta: { href: '/docs/settlement-btd', label: 'Read settlement guide' },
@@ -1899,7 +1899,7 @@ export const BITCODE_DOCS_PAGES = [
     summary:
       'Settlement docs connect Source Shares to $BTD-denominated accounting, fit-quality receipts, journal completeness, wallet readiness, and payment-mode posture.',
     detail:
-      'Use this page when you need to understand how accepted source-to-shares evidence becomes attributable settlement rather than just a successful analysis run.',
+      'Use this page when you read to understand how accepted source-to-shares evidence becomes attributable settlement rather than just a successful analysis run.',
     learningOutcome:
       'You can explain how Bitcode moves from measured source and fit into exact accounting and staged or live payment posture.',
     primaryCta: { href: '/docs/commercial-interfaces', label: 'Read interface guide' },
@@ -1922,7 +1922,7 @@ export const BITCODE_DOCS_PAGES = [
       {
         id: 'interface-readiness',
         eyebrow: 'Boundary specimen',
-        title: 'Connected interfaces need admission and reread',
+        title: 'Connected interfaces read admission and reread',
         summary:
           'Interface cards should tell users what is connected, what is staged, and where to verify effects in Terminal.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime,
@@ -1970,7 +1970,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'ChatGPT App',
     title: 'Use the ChatGPT App as a connected Bitcode interface',
     summary:
-      'ChatGPT App docs explain conversational Bitcode operation: expressing Needs, attaching source, confirming writes, returning Terminal links, and preserving proof boundaries.',
+      'ChatGPT App docs explain conversational Bitcode operation: expressing Reads, attaching source, confirming writes, returning Terminal links, and preserving proof boundaries.',
     detail:
       'Use this page when the user experience is conversational but the outcome still has to be Exchange-readable and Protocol-bound.',
     learningOutcome:
@@ -1982,7 +1982,7 @@ export const BITCODE_DOCS_PAGES = [
       {
         id: 'chat-confirmation',
         eyebrow: 'Confirmation',
-        title: 'Conversational writes still need proof-aware confirmation',
+        title: 'Conversational writes still read proof-aware confirmation',
         summary:
           'The app can help a user draft, but state changes should clearly say what will be written and where to verify it.',
         explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,

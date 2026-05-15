@@ -26,7 +26,7 @@ export const parameters: Preview['parameters'] = {
     ],
   },
   // Remove Storybook's default 1rem padding around the preview iframe
-  // so that components can render edge-to-edge when they need the
+  // so that components can render edge-to-edge when they read the
   // full available width/height.
   layout: 'fullscreen',
 };

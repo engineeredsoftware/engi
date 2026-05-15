@@ -69,7 +69,8 @@ test('V28 BTD tracker opens wallet-owned BTD auxillary posture', () => {
   assert.match(btdTrackerSource, /Open BTD wallet auxillary/u);
   assert.match(btdTrackerSource, /walletActionLabel/u);
   assert.match(btdTrackerSource, /bitcode:btd-wallet-intent/u);
-  assert.match(btdTrackerSource, /wallet-btd-auxillary/u);
+  assert.match(btdTrackerSource, /buildAuxillariesRoutePath\('wallet'\)/u);
+  assert.match(btdTrackerSource, /wallet-auxillary/u);
   assert.doesNotMatch(btdTrackerSource, /Acquire BTD/u);
   assert.doesNotMatch(btdTrackerSource, /Acquire \$BTD/u);
   assert.doesNotMatch(btdTrackerSource, /acquire-btd/u);
@@ -121,9 +122,9 @@ test('V28 commercial MVP Playwright suite covers product-experiential route and 
   assert.match(suiteSource, /\/terminal/u);
   assert.match(suiteSource, /\/exchange/u);
   assert.match(suiteSource, /\/auxillaries\/profile/u);
-  assert.match(suiteSource, /\/auxillaries\/connects/u);
+  assert.match(suiteSource, /\/auxillaries\/externals/u);
   assert.match(suiteSource, /\/auxillaries\/interfaces/u);
-  assert.match(suiteSource, /\/auxillaries\/btd/u);
+  assert.match(suiteSource, /\/auxillaries\/wallet/u);
   assert.match(suiteSource, /\/btd\/asset-pack-run-branch-remediation/u);
   assert.match(suiteSource, /\/conversations/u);
   assert.match(suiteSource, /\/docs/u);
@@ -132,7 +133,7 @@ test('V28 commercial MVP Playwright suite covers product-experiential route and 
   assert.match(suiteSource, /transactionStatus/u);
   assert.match(suiteSource, /transactionOwnership/u);
   assert.match(suiteSource, /Clear all filters/u);
-  assert.match(suiteSource, /Need-space knowledge sharing/u);
+  assert.match(suiteSource, /Read-space knowledge sharing/u);
   assert.match(suiteSource, /data-share/u);
   assert.match(suiteSource, /Add split pane/u);
   assert.match(suiteSource, /\/docs\/mcp-api/u);

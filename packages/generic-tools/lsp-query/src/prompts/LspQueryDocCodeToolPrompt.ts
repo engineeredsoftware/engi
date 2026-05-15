@@ -41,7 +41,7 @@ import { PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLEXAMPLE3 } from '@bitcode/
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Bitcode LSP query DocCodeTool prompt for replayable static Need measurement and AssetPack evidence"
+ * intent: "Bitcode LSP query DocCodeTool prompt for replayable static Read measurement and AssetPack evidence"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLNAME": "0.50.0",

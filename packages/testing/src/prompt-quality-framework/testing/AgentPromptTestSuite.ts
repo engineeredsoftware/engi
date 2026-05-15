@@ -706,7 +706,7 @@ export class AgentPromptTestSuite {
         category: 'reliability',
         priority: 'high',
         issue: 'High percentage of tests with low quality scores',
-        recommendation: 'Systematic review of prompt templates and validation criteria needed',
+        recommendation: 'Systematic review of prompt templates and validation criteria readed',
         estimatedEffort: 'high',
         expectedBenefit: 0.20,
       });

@@ -53,7 +53,7 @@ The current real local program usage includes:
 
 - serving the Terminal-owned `/terminal` route,
 - serving Terminal-owned JSON contract routes under `uapi/app/api/*`,
-- deterministic need derivation and state transitions inside `protocol-demonstration`,
+- deterministic read derivation and state transitions inside `protocol-demonstration`,
 - proof/materialization/accounting artifact assembly,
 - and the Node-based regression/test stack.
 
@@ -166,7 +166,7 @@ Current repo truth relevant to host safety:
 
 Operational implication:
 
-- the host does not need secret production credentials to review first-gate Terminal behavior,
+- the host does not read secret production credentials to review first-gate Terminal behavior,
 - and the package-local runtime path should be described as validation posture rather than primary product carriage.
 
 ## Remote assumptions and boundaries

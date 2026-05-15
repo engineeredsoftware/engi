@@ -11,7 +11,7 @@ In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/executions` compatibility and pipeline-run APIs
 - `/executions/history` route-orchestration and normalization ownership
 - `/edgetimes` storage/schema witness APIs
-- retained need-ingestion and settle-write boundaries
+- retained read-ingestion and settle-write boundaries
 
 ## Core Functionality
 

@@ -57,12 +57,12 @@ export interface AssetPackOutput {
   metrics?: Partial<AssetPackMetrics>;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
-  need?: string;
+  read?: string;
   semanticKind?: 'asset-pack-written-asset';
 }
 
 export type AssetPackWrittenAssetTypeValue =
-  | 'need-satisfaction-asset-pack';
+  | 'read-satisfaction-asset-pack';
 export type WrittenAssetTypeValue = AssetPackWrittenAssetTypeValue;
 export type AssetPackDeliveryMechanismTemplateValue = AssetPackDeliveryMechanismTemplate;
 
@@ -81,9 +81,9 @@ export interface AssetPackPostprocessed {
   artifacts?: Partial<AssetPackArtifacts> | null;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
-  need?: string;
+  read?: string;
   assetPack?: {
-    need?: string;
+    read?: string;
     writtenAssetType?: AssetPackWrittenAssetType;
     deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   };
@@ -107,8 +107,8 @@ export interface AssetPackRequirements {
 }
 
 export interface AssetPackInput {
-  definitionOfNeed?: string;
-  need?: string;
+  definitionOfRead?: string;
+  read?: string;
   repository: AssetPackRepositoryRef;
   requirements?: AssetPackRequirements;
   deliveryTarget?: 'pr';

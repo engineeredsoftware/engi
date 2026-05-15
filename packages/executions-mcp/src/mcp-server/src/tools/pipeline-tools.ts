@@ -381,7 +381,7 @@ export function registerPipelineTools(): MCPTool[] {
     // AssetPack pipeline tool.
     {
       name: 'bitcode://pipelines/asset-pack/create',
-      description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering needs.
+      description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.
 
 This is Bitcode's most powerful pipeline, capable of:
 • Feature implementation with written assets and optional pull request delivery
@@ -394,7 +394,7 @@ This is Bitcode's most powerful pipeline, capable of:
 • Code refactoring proposals with impact analysis
 
 Supports multimodal inputs including Figma designs, documents, images, audio, and video.
-Real-time streaming provides live updates during need measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
+Real-time streaming provides live updates during read measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
 
 Admitted subtypes:
 • pull_request - Complete feature implementation with PR

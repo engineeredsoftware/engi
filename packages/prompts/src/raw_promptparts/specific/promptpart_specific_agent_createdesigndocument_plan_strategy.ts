@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_PLAN_STRATEGY: PromptPart = 
-  'Plan the design-document written asset from Need, satisfaction criteria, source evidence, constraints, risks, dependencies, and proof obligations before Finish' as PromptPart;
+  'Plan the design-document written asset from Read, satisfaction criteria, source evidence, constraints, risks, dependencies, and proof obligations before Finish' as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine Finish using pipeline evidence: tighten AssetPack receipt wording, remove unsupported claims, improve proof references, clarify Shippable boundaries, align delivery-mechanism metadata with destination requirements, and preserve reusable Need-satisfaction learnings for future source-to-shares runs' as PromptPart;
+  'Refine Finish using pipeline evidence: tighten AssetPack receipt wording, remove unsupported claims, improve proof references, clarify Shippable boundaries, align delivery-mechanism metadata with destination requirements, and preserve reusable Read-satisfaction learnings for future source-to-shares runs' as PromptPart;

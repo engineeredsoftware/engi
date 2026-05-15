@@ -28,7 +28,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode discovery prompt for planning implementation from Need, writtenAssetType, and AssetPack criteria"
+ * intent: "Bitcode discovery prompt for planning implementation from Read, writtenAssetType, and AssetPack criteria"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

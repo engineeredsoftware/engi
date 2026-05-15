@@ -86,7 +86,7 @@ Observed in the local demo:
 
 - the user can select repo artifacts,
 - create candidate assets,
-- run need measurement, ranking, branch materialization, proof generation, and settlement,
+- run read measurement, ranking, branch materialization, proof generation, and settlement,
 - but the flow is not yet summarized as a stage-by-stage operating path.
 
 Result:
@@ -134,7 +134,7 @@ Requirements:
 
 Requirements:
 
-- make the path from repo selection -> need -> asset -> branch -> proof -> settlement visible as a default surface,
+- make the path from repo selection -> read -> asset -> branch -> proof -> settlement visible as a default surface,
 - preserve deep artifact inspection without making it the only way to understand the system.
 
 ## Recommended first implementation slice

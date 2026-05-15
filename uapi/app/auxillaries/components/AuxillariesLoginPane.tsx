@@ -33,8 +33,8 @@ export default function AuxillariesLoginPane({
               Open {AUXILLARIES_LIST_LABEL}
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Authenticate a wallet in Wallet, then connect GitHub in Externals when Give
-              or Need work requires repository scope.
+              Authenticate a wallet in Wallet, then connect GitHub in Externals when Deposit
+              or Read work requires repository scope.
             </p>
           </div>
 

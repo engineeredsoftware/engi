@@ -14,7 +14,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search support prompt for source-attributed discovery evidence"
+ * intent: "Bitcode read-synthesis web search support prompt for source-attributed discovery evidence"
  * current_version: "V26"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PURPOSE_CORESTATEMENT": "V26",
@@ -26,9 +26,9 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  * 
  * @doc-code-prompt
- * purpose: Define structured documentation for Bitcode need-synthesis web search support
+ * purpose: Define structured documentation for Bitcode read-synthesis web search support
  * agent: web-search
- * pattern: Source-attributed discovery evidence for need synthesis
+ * pattern: Source-attributed discovery evidence for read synthesis
  */
 
 import { AgentPrompt } from '@bitcode/agent-generics';
@@ -42,7 +42,7 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 export const WEB_SEARCH_AGENT_PROMPT = new AgentPrompt({
   // Metadata
-  name: 'Bitcode Need-Synthesis Web Search Agent',
+  name: 'Bitcode Read-Synthesis Web Search Agent',
   category: 'Bitcode Discovery Evidence',
   version: 'V26',
   specificity: 'Bitcode-compatible',

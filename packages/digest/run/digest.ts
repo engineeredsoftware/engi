@@ -2364,7 +2364,7 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
 
     logInfo(`Caching summary:`);
     logInfo(`- ${cachedDigests.length} files loaded from cache`);
-    logInfo(`- ${uncachedFiles.length} files need new summaries`);
+    logInfo(`- ${uncachedFiles.length} files read new summaries`);
 
     if (cachedDigests.length > 0) {
       logInfo(`Cache hit details:`);

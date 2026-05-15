@@ -43,7 +43,7 @@ Perfect for security audits, penetration testing preparation, and compliance rev
     complianceStandards: z.array(z.enum(['OWASP', 'GDPR', 'HIPAA', 'SOX', 'PCI-DSS', 'ISO-27001']))
       .optional().default(['OWASP']).describe('Compliance standards to evaluate against'),
     criticalAssets: z.array(z.string()).optional().default([])
-      .describe('Critical assets or data that need special attention'),
+      .describe('Critical assets or data that read special attention'),
     threatModel: z.string().optional()
       .describe('Specific threat model or attack scenarios to consider'),
     environment: z.enum(['development', 'staging', 'production', 'all']).default('production')
@@ -53,7 +53,7 @@ Perfect for security audits, penetration testing preparation, and compliance rev
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need a comprehensive security audit for the following application:
+      content: `I read a comprehensive security audit for the following application:
 
 ## Security Audit Context
 - **Repository**: ${args.repository.owner}/${args.repository.name}
@@ -196,7 +196,7 @@ Ideal for technical debt audits, refactoring planning, and code quality initiati
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need a comprehensive technical debt analysis for the following codebase:
+      content: `I read a comprehensive technical debt analysis for the following codebase:
 
 ## Analysis Context
 - **Repository**: ${args.repository.owner}/${args.repository.name}
@@ -337,7 +337,7 @@ Perfect for security audits, compliance reviews, and dependency management.`,
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need a comprehensive dependency analysis for the following repository:
+      content: `I read a comprehensive dependency analysis for the following repository:
 
 ## Dependency Analysis Context
 - **Repository**: ${args.repository.owner}/${args.repository.name}

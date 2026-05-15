@@ -32,12 +32,12 @@ export const paintedMotionStyle: React.CSSProperties = {
 export const productPillars = [
   {
     title: 'Deposit',
-    description: 'Give contributes code, docs, and context into searchable supply.',
+    description: 'Deposit contributes code, docs, and context into searchable supply.',
     Icon: CubeTransparentIcon,
   },
   {
     title: 'Measure',
-    description: 'Need reads against measurable quality, fit, and proof-bearing context.',
+    description: 'Read reads against measurable quality, fit, and proof-bearing context.',
     Icon: ScaleIcon,
   },
   {
@@ -144,18 +144,18 @@ export const verificationRows = [
 export const compactPreviewCards = [
   {
     title: 'Exchange',
-    body: 'Live give, need, and settlement posture',
+    body: 'Live deposit, read, and settlement posture',
     detail: 'Read the public market frame before you open a specific transaction.',
   },
   {
     title: 'Terminal',
     body: 'Proofs • history • conversations • closure',
-    detail: 'Move into the full Terminal route when you need exact give-to-settle detail.',
+    detail: 'Move into the full Terminal route when you read exact deposit-to-settle detail.',
   },
   {
     title: 'Auxillaries',
     body: 'Profile • connects • interfaces • $BTD',
-    detail: 'Open Auxillaries when you need identity, interface, or account posture.',
+    detail: 'Open Auxillaries when you read identity, interface, or account posture.',
   },
 ] as const;
 

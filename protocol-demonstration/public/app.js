@@ -4,14 +4,14 @@
  * @typedef {any} LooseRecord
  * @typedef {any[]} LooseRecordArray
  * @typedef {import('../src/demo-shell-state.js').AssetSummaryShape & LooseRecord} AssetSummaryShape
- * @typedef {import('../src/demo-shell-state.js').NeedPreviewShape & {
+ * @typedef {import('../src/demo-shell-state.js').ReadPreviewShape & {
  *   realizationProfile?: { shortLabel?: string, label?: string, profileId?: string } | undefined,
  *   targetArtifactKinds?: string[] | undefined,
  *   parserKind?: string | undefined
- * } & LooseRecord} NeedPreviewShape
- * @typedef {import('../src/demo-shell-state.js').NeedScenarioShape & {
+ * } & LooseRecord} ReadPreviewShape
+ * @typedef {import('../src/demo-shell-state.js').ReadScenarioShape & {
  *   realizationProfile?: { shortLabel?: string, label?: string, profileId?: string } | undefined,
- *   needingSurface?: NeedPreviewShape | null | undefined
+ *   readingSurface?: ReadPreviewShape | null | undefined
  * } & LooseRecord} ScenarioShape
  * @typedef {import('../src/demo-shell-state.js').SessionShape & {
  *   tokenBoundary?: {
@@ -31,7 +31,7 @@
  *   realizationProfile?: { shortLabel?: string, label?: string, profileId?: string } | undefined,
  *   boundedPublicProof?: { bundleId?: string | undefined } | undefined,
  *   journalDiff?: { bundleId?: string | undefined } | undefined,
- *   needingSurface?: NeedPreviewShape | null | undefined,
+ *   readingSurface?: ReadPreviewShape | null | undefined,
  *   evaluatedCandidates?: LatestRunCandidateShape[] | undefined
  * } & LooseRecord} LatestRunShape
  * @typedef {{
@@ -62,7 +62,7 @@
  *   buyers?: unknown[] | undefined,
  *   githubAppSessions?: SessionShape[] | undefined,
  *   repoArtifactInventory?: InventoryEntryShape[] | undefined,
- *   needScenarios?: ScenarioShape[] | undefined,
+ *   readScenarios?: ScenarioShape[] | undefined,
  *   assets?: AssetSummaryShape[] | undefined,
  *   ledger?: { accounts?: Record<string, string> | undefined, history?: unknown[] | undefined } | undefined,
  *   latestRun?: LatestRunShape | null | undefined,
@@ -83,7 +83,7 @@
  * @typedef {{
  *   relationId: string,
  *   depositSessionId: string,
- *   needId: string,
+ *   readId: string,
  *   fitSummary: string,
  *   decisiveKinds: string[],
  *   overlapKinds: string[],
@@ -91,7 +91,7 @@
  *   branchIntentSummary: string,
  *   proofIntentSummary: string,
  *   settlementIntentSummary: string
- * }} PreviewDepositingToNeedingSurfaceShape
+ * }} PreviewDepositingToReadingSurfaceShape
  * @typedef {{
  *   code?: string[] | undefined,
  *   spec?: string[] | undefined
@@ -213,10 +213,10 @@ function canonPosture(state) {
     resolved.heroEyebrow = resolved.heroEyebrow || 'Bitcode transactions';
     resolved.heroLede =
       resolved.heroLede ||
-      'Set the working scenario, select supply, and follow the flow from give through settlement.';
+      'Set the working scenario, select supply, and follow the flow from deposit through settlement.';
     resolved.heroTip =
       resolved.heroTip ||
-      'The flow guide and closure runtime stay available here whenever you need lower-level inspection.';
+      'The flow guide and closure runtime stay available here whenever you read lower-level inspection.';
     return resolved;
   }
   return {
@@ -224,8 +224,8 @@ function canonPosture(state) {
     documentTitle: 'Bitcode Demonstration',
     inheritedCanonSurfaceLabel: 'live Bitcode surfaces',
     heroEyebrow: 'Bitcode transactions',
-    heroLede: 'Set the working scenario, select supply, and follow the flow from give through settlement.',
-    heroTip: 'The flow guide and closure runtime stay available here whenever you need lower-level inspection.'
+    heroLede: 'Set the working scenario, select supply, and follow the flow from deposit through settlement.',
+    heroTip: 'The flow guide and closure runtime stay available here whenever you read lower-level inspection.'
   };
 }
 
@@ -307,7 +307,7 @@ function compactRunHistoryEntry(entry, index) {
     repo: entry.repo || entry.repoRef || '',
     branchName: entry.branchName || entry.branch || '',
     bundleId: entry.bundleId || '',
-    status: entry.status || entry.runStatus || entry.needLifecycle || '',
+    status: entry.status || entry.runStatus || entry.readLifecycle || '',
     creditedAssetCount:
       Array.isArray(entry.creditedAssetIds)
         ? entry.creditedAssetIds.length
@@ -375,33 +375,33 @@ function compactDemonstrationPanel(panel, fallbackLabel) {
   };
 }
 
-function compactNeedReviewSurface(run) {
-  const needReview = /** @type {LooseRecord} */ (run.needReview || {});
-  const reviewDecision = /** @type {LooseRecord} */ (needReview.reviewDecision || {});
-  const fitSearchAdmission = /** @type {LooseRecord} */ (needReview.fitSearchAdmission || reviewDecision.fitSearchAdmission || {});
-  const measuredNeedSnapshot = /** @type {LooseRecord} */ (needReview.measuredNeedSnapshot || {});
-  const measurementRefs = /** @type {LooseRecord} */ (needReview.measurementRefs || {});
+function compactReadReviewSurface(run) {
+  const readReview = /** @type {LooseRecord} */ (run.readReview || {});
+  const reviewDecision = /** @type {LooseRecord} */ (readReview.reviewDecision || {});
+  const fitSearchAdmission = /** @type {LooseRecord} */ (readReview.fitSearchAdmission || reviewDecision.fitSearchAdmission || {});
+  const measuredReadSnapshot = /** @type {LooseRecord} */ (readReview.measuredReadSnapshot || {});
+  const measurementRefs = /** @type {LooseRecord} */ (readReview.measurementRefs || {});
   const allowedActions = Array.isArray(reviewDecision.allowedActions)
     ? reviewDecision.allowedActions
-    : Array.isArray(needReview.allowedActions)
-      ? needReview.allowedActions
+    : Array.isArray(readReview.allowedActions)
+      ? readReview.allowedActions
       : [];
 
   return {
-    label: 'Need review before fit search',
-    needId: needReview.needId || run.need?.needId || '',
-    protocolFocus: needReview.protocolFocus || reviewDecision.protocolFocus || 'source-to-shares',
-    reviewStage: needReview.reviewStage || reviewDecision.reviewStage || 'post-measurement-pre-fit',
+    label: 'Read review before fit search',
+    readId: readReview.readId || run.read?.readId || '',
+    protocolFocus: readReview.protocolFocus || reviewDecision.protocolFocus || 'source-to-shares',
+    reviewStage: readReview.reviewStage || reviewDecision.reviewStage || 'post-measurement-pre-fit',
     reviewAction: reviewDecision.action || '',
-    reviewStatus: reviewDecision.status || needReview.status || '',
+    reviewStatus: reviewDecision.status || readReview.status || '',
     reviewer: reviewDecision.actorId || '',
     decisionMode: reviewDecision.decisionMode || '',
     fitSearchAdmitted: fitSearchAdmission.admitted === true,
     admissionReason: fitSearchAdmission.admissionReason || '',
     allowedActions: allowedActions.map((entry) => String(entry || '').trim()).filter(Boolean),
-    measuredTask: measuredNeedSnapshot.task || run.need?.task || '',
+    measuredTask: measuredReadSnapshot.task || run.read?.task || '',
     measurementHash: reviewDecision.measurementHash || measurementRefs.measurementHash || '',
-    reviewableNeedRef: reviewDecision.reviewableNeedRef || needReview.reviewableNeedHash || ''
+    reviewableReadRef: reviewDecision.reviewableReadRef || readReview.reviewableReadHash || ''
   };
 }
 
@@ -454,15 +454,15 @@ function compactClosureSurface(state) {
   const journalDiff = /** @type {LooseRecord} */ (run.journalDiff || {});
   const ledgerAccounts = /** @type {Record<string, string>} */ (state.ledger?.accounts || {});
   const runHistory = /** @type {LooseRecordArray} */ (state.runHistory || []);
-  const fitSurface = activeDepositingToNeedingSurface(state);
+  const fitSurface = activeDepositingToReadingSurface(state);
   const participatingAssetIds = Array.isArray(settlementParticipationArtifact.participatingAssetIds)
     ? settlementParticipationArtifact.participatingAssetIds
     : [];
-  const needReview = compactNeedReviewSurface(run);
+  const readReview = compactReadReviewSurface(run);
   const fitQualitySurface = compactSettlementFitQualitySurface(settlementPreview);
 
   return {
-    needReview,
+    readReview,
     verification: {
       label: 'Verification + ranked candidates',
       candidateCount: evaluatedCandidates.length,
@@ -484,7 +484,7 @@ function compactClosureSurface(state) {
       label: 'Branch artifacts',
       branchName: run.branchArtifacts?.branchName || run.branchName || '',
       branchMode: run.branchMode || activeBranchMode(state),
-      needLifecycle: run.needLifecycle || '',
+      readLifecycle: run.readLifecycle || '',
       confidentiality: run.branchArtifacts?.confidentiality || '',
       projectionPrincipal: activeProjectionPrincipal(state),
       visibleArtifactCount: visibleArtifacts.length,
@@ -546,8 +546,8 @@ function buildDemonstrationCoreSurface(state) {
   const scenario = currentScenario(state);
   const authSession = activeAuthSession(state);
   const depositingSurface = activeDepositingSurface(state);
-  const needingSurface = activeNeedingSurface(state);
-  const fitSurface = activeDepositingToNeedingSurface(state);
+  const readingSurface = activeReadingSurface(state);
+  const fitSurface = activeDepositingToReadingSurface(state);
   const proofCatalog = buildProofFamilyCatalogSummary(run.systemProofBundle);
   const visibleArtifacts = run.branchArtifacts?.files
     ? Object.keys(run.branchArtifacts.files).length
@@ -574,14 +574,14 @@ function buildDemonstrationCoreSurface(state) {
     || 'No run yet';
   const selectedArtifactKinds = compactDemonstrationCountMap(depositingSurface?.selectedArtifactKindCounts);
   const selectedOriginKinds = compactDemonstrationCountMap(depositingSurface?.selectedOriginKindCounts);
-  const closureCriteria = Array.isArray(needingSurface?.closureCriteria)
-    ? needingSurface.closureCriteria.map((entry) => String(entry || '').trim()).filter(Boolean)
+  const closureCriteria = Array.isArray(readingSurface?.closureCriteria)
+    ? readingSurface.closureCriteria.map((entry) => String(entry || '').trim()).filter(Boolean)
     : [];
-  const failureModes = Array.isArray(needingSurface?.failureModes)
-    ? needingSurface.failureModes.map((entry) => String(entry || '').trim()).filter(Boolean)
+  const failureModes = Array.isArray(readingSurface?.failureModes)
+    ? readingSurface.failureModes.map((entry) => String(entry || '').trim()).filter(Boolean)
     : [];
-  const targetKinds = Array.isArray(needingSurface?.targetArtifactKinds)
-    ? needingSurface.targetArtifactKinds.map((entry) => String(entry || '').trim()).filter(Boolean)
+  const targetKinds = Array.isArray(readingSurface?.targetArtifactKinds)
+    ? readingSurface.targetArtifactKinds.map((entry) => String(entry || '').trim()).filter(Boolean)
     : [];
   const decisiveKinds = Array.isArray(fitSurface?.decisiveKinds)
     ? fitSurface.decisiveKinds.map((entry) => String(entry || '').trim()).filter(Boolean)
@@ -599,12 +599,12 @@ function buildDemonstrationCoreSurface(state) {
           title: 'Repo supply',
           eyebrow: 'Transactions surface',
           subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-          help: 'Transactions start from repo supply, then immediately read the active deposit, need, and fit before deeper closure surfaces.',
+          help: 'Transactions start from repo supply, then immediately read the active deposit, read, and fit before deeper closure surfaces.',
           badge: `${state.repoSupplySurface?.repoCount || 0} repos`,
           metrics: [
             compactDemonstrationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0),
             compactDemonstrationMetric('Repo supply entries', state.repoSupplySurface?.inventoryEntryCount || 0),
-            compactDemonstrationMetric('Need scenarios', state.needScenarios?.length || 0),
+            compactDemonstrationMetric('Read scenarios', state.readScenarios?.length || 0),
             compactDemonstrationMetric('Candidate assets', state.assets?.length || 0)
           ],
           rows: [
@@ -620,7 +620,7 @@ function buildDemonstrationCoreSurface(state) {
           subtitle: 'Depositing to settlement as one staged operating path',
           help: run.repoToSettlementSurface
             ? 'The active run has already staged the operating path from deposit through settlement.'
-            : 'Pick repo artifacts from authenticated supply, confirm the measured need, inspect the deposit-to-need fit, then run the branch flow to stage proof and settlement.',
+            : 'Pick repo artifacts from authenticated supply, confirm the measured read, inspect the deposit-to-read fit, then run the branch flow to stage proof and settlement.',
           badge: run.repoToSettlementSurface ? 'staged' : 'ready',
           metrics: [
             compactDemonstrationMetric('Selected assets in latest pack', run.assetPack?.selectedAssets?.length || 0),
@@ -639,7 +639,7 @@ function buildDemonstrationCoreSurface(state) {
           title: 'Boundary honesty',
           eyebrow: 'Support surface',
           subtitle: 'What is modeled here, what executes here, and what remains external',
-          help: 'Boundary truth stays explicit so the main Bitcode story can stay centered on give, need, fit, proof, and settlement.',
+          help: 'Boundary truth stays explicit so the main Bitcode story can stay centered on deposit, read, fit, proof, and settlement.',
           badge: boundaryStages ? `${boundaryStages} stages` : 'support surface',
           metrics: [
             compactDemonstrationMetric('Boundary stages', boundaryStages),
@@ -682,15 +682,15 @@ function buildDemonstrationCoreSurface(state) {
         },
         {
           title: 'Selection profile',
-          eyebrow: 'Give action',
-          subtitle: 'What the active give posture is selecting from authenticated supply.',
+          eyebrow: 'Deposit action',
+          subtitle: 'What the active deposit posture is selecting from authenticated supply.',
           help: 'Selection turns repository supply into an actual Bitcode deposit candidate before verification and closure rights are evaluated.',
           badge: authSession?.authSessionId ? 'repo-authenticated' : 'selection pending',
           metrics: [
             compactDemonstrationMetric('Active inventory', activeInventoryEntries(state).length),
             compactDemonstrationMetric('Filtered inventory', filteredInventoryEntries(state).length),
             compactDemonstrationMetric('Selected inventory', selectedInventoryEntries(state).length),
-            compactDemonstrationMetric('Scenario coverage', state.needScenarios?.length || 0)
+            compactDemonstrationMetric('Scenario coverage', state.readScenarios?.length || 0)
           ],
           rows: [
             compactDemonstrationRow('Selected refs', compactDemonstrationList(depositingSurface?.selectedInventoryRefs)),
@@ -701,41 +701,41 @@ function buildDemonstrationCoreSurface(state) {
         }
       ]
     }, 'Depositing'),
-    needing: compactDemonstrationPanel({
-      label: 'Needing + measured demand',
-      badge: scenario?.realizationProfile?.shortLabel || needingSurface?.realizationProfile?.shortLabel || 'Needing',
+    reading: compactDemonstrationPanel({
+      label: 'Reading + measured demand',
+      badge: scenario?.realizationProfile?.shortLabel || readingSurface?.realizationProfile?.shortLabel || 'Reading',
       cards: [
         {
-          title: 'Needing surface',
-          eyebrow: run.needingSurface ? 'Run surface' : 'Scenario preview',
+          title: 'Reading surface',
+          eyebrow: run.readingSurface ? 'Run surface' : 'Scenario preview',
           subtitle: 'The active measured demand surface',
           help:
-            needingSurface?.needSummary
-            || needingSurface?.taskSummary
+            readingSurface?.readSummary
+            || readingSurface?.taskSummary
             || scenario?.task
-            || 'This is the measured need the deposit has to justify before proof and settlement carry the story forward.',
-          badge: needingSurface?.parserKind || 'measured demand',
+            || 'This is the measured read the deposit has to justify before proof and settlement carry the story forward.',
+          badge: readingSurface?.parserKind || 'measured demand',
           metrics: [
             compactDemonstrationMetric('Target kinds', targetKinds.length),
             compactDemonstrationMetric('Closure criteria', closureCriteria.length),
             compactDemonstrationMetric('Failure modes', failureModes.length),
-            compactDemonstrationMetric('Need scenarios', state.needScenarios?.length || 0)
+            compactDemonstrationMetric('Read scenarios', state.readScenarios?.length || 0)
           ],
           rows: [
-            compactDemonstrationRow('Need ID', needingSurface?.needId || '—'),
+            compactDemonstrationRow('Read ID', readingSurface?.readId || '—'),
             compactDemonstrationRow('Scenario', scenario?.scenarioFamily || scenario?.scenarioId || '—'),
             compactDemonstrationRow('Repository', scenario?.repo || authSession?.repo || '—'),
-            compactDemonstrationRow('Parser', needingSurface?.parserKind || '—'),
+            compactDemonstrationRow('Parser', readingSurface?.parserKind || '—'),
             compactDemonstrationRow('Target kinds', compactDemonstrationList(targetKinds))
           ]
         },
         {
-          title: 'Need closure posture',
-          eyebrow: 'Need action',
-          subtitle: 'What must be satisfied before the current need counts as closed.',
+          title: 'Read closure posture',
+          eyebrow: 'Read action',
+          subtitle: 'What must be satisfied before the current read counts as closed.',
           help: closureCriteria.length
             ? 'Closure criteria and failure modes keep Bitcode from settling on vague relevance.'
-            : 'Closure detail will become more explicit once the active need carries criterion-bearing measurement payloads.',
+            : 'Closure detail will become more explicit once the active read carries criterion-bearing measurement payloads.',
           badge: closureCriteria.length ? 'criteria surfaced' : 'criteria pending',
           metrics: [
             compactDemonstrationMetric('Failure modes', failureModes.length),
@@ -747,22 +747,22 @@ function buildDemonstrationCoreSurface(state) {
             compactDemonstrationRow('Closure criteria', compactDemonstrationList(closureCriteria)),
             compactDemonstrationRow('Failure modes', compactDemonstrationList(failureModes)),
             compactDemonstrationRow('Profile', scenario?.realizationProfile?.shortLabel || scenario?.realizationProfile?.label || '—'),
-            compactDemonstrationRow('Task summary', needingSurface?.taskSummary || scenario?.task || '—')
+            compactDemonstrationRow('Task summary', readingSurface?.taskSummary || scenario?.task || '—')
           ]
         }
       ]
-    }, 'Needing + measured demand'),
+    }, 'Reading + measured demand'),
     fit: compactDemonstrationPanel({
-      label: 'Depositing-to-needing fit',
+      label: 'Depositing-to-reading fit',
       badge: fitSurface?.normalizationPressure || 'pending',
       cards: [
         {
-          title: 'Depositing-to-needing surface',
-          eyebrow: run.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
-          subtitle: 'Why this deposit fits this need before deeper closure inspection',
+          title: 'Depositing-to-reading surface',
+          eyebrow: run.depositingToReadingSurface ? 'Run surface' : 'Shell preview',
+          subtitle: 'Why this deposit fits this read before deeper closure inspection',
           help:
             fitSurface?.fitSummary
-            || 'Transactions make the deposit-to-need fit explicit before deeper proof and settlement sections.',
+            || 'Transactions make the deposit-to-read fit explicit before deeper proof and settlement sections.',
           badge: fitSurface?.normalizationPressure || 'pending',
           metrics: [
             compactDemonstrationMetric('Decisive kinds', decisiveKinds.length),
@@ -797,7 +797,7 @@ function buildDemonstrationCoreSurface(state) {
           ]
         }
       ]
-    }, 'Depositing-to-needing fit')
+    }, 'Depositing-to-reading fit')
   };
 }
 
@@ -814,8 +814,8 @@ function buildDemonstrationSummarySurface(state) {
   const repoCount = state.repoSupplySurface?.repoCount || 0;
   const supplyEntries = state.repoSupplySurface?.inventoryEntryCount || 0;
   const depositSurface = activeDepositingSurface(state);
-  const needingSurface = activeNeedingSurface(state);
-  const fitSurface = activeDepositingToNeedingSurface(state);
+  const readingSurface = activeReadingSurface(state);
+  const fitSurface = activeDepositingToReadingSurface(state);
   const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
   const externalInterfaces = latestRun?.externalRealizationSummary?.interfaceSummaries || latestRun?.externalRealizationSummary?.interfaceStates || [];
   const liveObservedInterfaces = externalInterfaces.filter((entry) => String(entry.runtimeState || '') === 'live-observed').length;
@@ -832,8 +832,8 @@ function buildDemonstrationSummarySurface(state) {
     { label: 'Repo supply entries', value: String(supplyEntries) },
     { label: 'Active deposit profile', value: String(activeProfile?.shortLabel || activeProfile?.label || '—') },
     { label: 'Candidate assets', value: String(state.assets?.length || 0) },
-    { label: 'Need scenarios', value: String(state.needScenarios?.length || 0) },
-    { label: 'Need parser', value: String(needingSurface?.parserKind || '—') },
+    { label: 'Read scenarios', value: String(state.readScenarios?.length || 0) },
+    { label: 'Read parser', value: String(readingSurface?.parserKind || '—') },
     { label: 'Active scenario', value: String(activeScenario?.scenarioFamily || '—') },
     { label: 'Branch mode', value: String(activeBranchMode(state)) },
     { label: 'Projection', value: String(activeProjectionPrincipal(state)) },
@@ -898,7 +898,7 @@ function getBitcodeDemonstrationShellSnapshot() {
     repoSupplySummary: {
       repoCount: state.repoSupplySurface?.repoCount || 0,
       inventoryEntryCount: state.repoSupplySurface?.inventoryEntryCount || 0,
-      scenarioCount: state.needScenarios?.length || 0,
+      scenarioCount: state.readScenarios?.length || 0,
       candidateAssetCount: state.assets?.length || 0
     },
     scenario: scenario
@@ -912,7 +912,7 @@ function getBitcodeDemonstrationShellSnapshot() {
           profileShortLabel: scenario.realizationProfile?.shortLabel || null
         }
       : null,
-    scenarios: (state.needScenarios || []).map((entry) => ({
+    scenarios: (state.readScenarios || []).map((entry) => ({
       scenarioId: entry.scenarioId,
       scenarioFamily: entry.scenarioFamily,
       repo: entry.repo,
@@ -964,8 +964,8 @@ function getBitcodeDemonstrationShellSnapshot() {
     summarySurface: buildDemonstrationSummarySurface(state),
     coreSurface: buildDemonstrationCoreSurface(state),
     depositingSurface: activeDepositingSurface(state),
-    needingSurface: activeNeedingSurface(state),
-    fitSurface: activeDepositingToNeedingSurface(state),
+    readingSurface: activeReadingSurface(state),
+    fitSurface: activeDepositingToReadingSurface(state),
     closureSurface: compactClosureSurface(state)
   };
 }
@@ -1133,7 +1133,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Repo supply',
     summary: 'The authenticated inventory Bitcode can legally draw from for the current repository.',
-    detail: 'Supply means "available to select", not "already proven useful". It becomes a deposit only after you bind selected artifacts to the active need.',
+    detail: 'Supply means "available to select", not "already proven useful". It becomes a deposit only after you bind selected artifacts to the active read.',
     points: [
       'Built from GitHub App sessions plus repo artifact inventory',
       'Can span multiple artifact kinds and origins inside one repo boundary'
@@ -1142,18 +1142,18 @@ const EXPLAINERS = {
   depositing: {
     kicker: 'Glossary',
     title: 'Depositing',
-    summary: 'Depositing is the act of presenting source material to Bitcode as candidate supply for a need.',
+    summary: 'Depositing is the act of presenting source material to Bitcode as candidate supply for a read.',
     detail: 'A deposit says "these are the artifacts I want Bitcode to consider". It does not by itself guarantee fit, proof, or settlement credit.',
     points: [
       'Starts from selected repo artifacts or raw fallback content',
       'Carries addressing, signing, and auth roots forward into later proofs'
     ]
   },
-  needing: {
+  reading: {
     kicker: 'Glossary',
-    title: 'Need / needing',
+    title: 'Read / reading',
     summary: 'The measured engineering demand Bitcode is trying to close.',
-    detail: 'A need is derived from benchmark evidence, parser rules, failure modes, and closure criteria. Deposits are judged against that measured surface.',
+    detail: 'A read is derived from benchmark evidence, parser rules, failure modes, and closure criteria. Deposits are judged against that measured surface.',
     points: [
       'Defines what must improve or be explained',
       'Determines which artifact kinds and proofs matter'
@@ -1161,8 +1161,8 @@ const EXPLAINERS = {
   },
   'deposit-fit': {
     kicker: 'Glossary',
-    title: 'Deposit-to-need fit',
-    summary: 'The explicit relation between the active deposit and the active need before deeper proof or settlement.',
+    title: 'Deposit-to-read fit',
+    summary: 'The explicit relation between the active deposit and the active read before deeper proof or settlement.',
     detail: 'This answers the first question in transactions: why should these selected artifacts matter for this measured demand at all?',
     points: [
       'Surfaces overlap in artifact kinds and evidence coverage',
@@ -1172,18 +1172,18 @@ const EXPLAINERS = {
   'targeted-deposit': {
     kicker: 'Profile A',
     title: 'Targeted deposit',
-    summary: 'A narrow deposit meant to decisively close one bounded need.',
+    summary: 'A narrow deposit meant to decisively close one bounded read.',
     detail: 'Profile A prefers fewer, high-signal artifacts whose relevance is easy to explain end to end.',
     points: [
       'Usually one tight repo slice or a small set of closely related artifacts',
-      'Best when the need is narrow and the closure story should stay direct'
+      'Best when the read is narrow and the closure story should stay direct'
     ]
   },
-  'bounded-need': {
+  'bounded-read': {
     kicker: 'Profile A',
-    title: 'Bounded need',
-    summary: 'A need whose closure can be read as one crisp remediation target.',
-    detail: 'The audience should understand what counts as fixed without needing a broad normalization story across many sources.',
+    title: 'Bounded read',
+    summary: 'A read whose closure can be read as one crisp remediation target.',
+    detail: 'The audience should understand what counts as fixed without reading a broad normalization story across many sources.',
     points: [
       'Closure criteria are narrow and legible',
       'Proof reads as decisive rather than compositional'
@@ -1192,17 +1192,17 @@ const EXPLAINERS = {
   'normalization-deposit': {
     kicker: 'Profile B',
     title: 'Normalization deposit',
-    summary: 'A broader deposit where multiple artifacts jointly contribute to a composite need.',
+    summary: 'A broader deposit where multiple artifacts jointly contribute to a composite read.',
     detail: 'Profile B expects overlap, partial contributions, and a later normalization step to turn source contributions into final settlement shares.',
     points: [
       'Useful when one artifact alone is not enough',
       'Explains why several artifacts can participate but receive different credit'
     ]
   },
-  'composite-need': {
+  'composite-read': {
     kicker: 'Profile B',
-    title: 'Composite need',
-    summary: 'A need with several coupled dimensions that must be satisfied together.',
+    title: 'Composite read',
+    summary: 'A read with several coupled dimensions that must be satisfied together.',
     detail: 'Composite needs create pressure to normalize partial contributions across several artifacts instead of forcing a one-asset closure story.',
     points: [
       'Often spans multiple failure modes or target artifact kinds',
@@ -1225,15 +1225,15 @@ const EXPLAINERS = {
     summary: 'The staged operating path from repo selection through branch artifacts, proof closure, and final accounting.',
     detail: 'This compresses the whole transaction path into one timeline so you can see where a run currently is and what each stage means.',
     points: [
-      'Starts with deposit + need + fit',
+      'Starts with deposit + read + fit',
       'Ends with proof-backed settlement and replayable accounting'
     ]
   },
   'operating-picture': {
     kicker: 'Transactions surface',
     title: 'Operating picture',
-    summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
-    detail: 'This panel is the high-level demonstration map for how repo supply, need, fit, proof, settlement, and boundary posture connect end to end.',
+    summary: 'The top-level shell read that compresses repo supply, deposit, read, fit, proof, settlement, and boundary truth into one operating chain.',
+    detail: 'This panel is the high-level demonstration map for how repo supply, read, fit, proof, settlement, and boundary posture connect end to end.',
     points: [
       'Keeps the thesis legible before deep artifacts',
       'Keeps every later section anchored in one readable chain'
@@ -1243,10 +1243,10 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Boundary reality',
     summary: 'The explicit split between what is modeled locally, what runs locally, and what remains a real external dependency.',
-    detail: 'This keeps Bitcode honest. The demonstration can center deposit, need, and fit without pretending external systems disappeared.',
+    detail: 'This keeps Bitcode honest. The demonstration can center deposit, read, and fit without pretending external systems disappeared.',
     points: [
       'Prevents profile semantics from being confused with integration truth',
-      'Shows where a live system would still need real external execution'
+      'Shows where a live system would still read real external execution'
     ]
   },
   'external-realization': {
@@ -1262,10 +1262,10 @@ const EXPLAINERS = {
   'proof-closure': {
     kicker: 'Glossary',
     title: 'Proof / proof closure',
-    summary: 'The evidence-bound explanation that the selected artifacts, authorities, and accounting steps really close the need.',
+    summary: 'The evidence-bound explanation that the selected artifacts, authorities, and accounting steps really close the read.',
     detail: 'Proof closure is where Bitcode stops hand-waving and binds the story to artifacts, roots, theorem checks, and closure criteria.',
     points: [
-      'Connects deposit, need, authorization, and settlement into one evidence chain',
+      'Connects deposit, read, authorization, and settlement into one evidence chain',
       'Separates public bounded proof from deeper private artifacts'
     ]
   },
@@ -1342,7 +1342,7 @@ const EXPLAINERS = {
   'target-artifact-kind': {
     kicker: 'Glossary',
     title: 'Target artifact kind',
-    summary: 'The artifact kinds the need expects to be relevant for closure.',
+    summary: 'The artifact kinds the read expects to be relevant for closure.',
     detail: 'These are the first kinds Bitcode looks for when asking whether a deposit plausibly addresses the active demand.',
     points: [
       'Creates the opening overlap test for fit',
@@ -1352,42 +1352,42 @@ const EXPLAINERS = {
   'closure-criteria': {
     kicker: 'Glossary',
     title: 'Closure criteria',
-    summary: 'The concrete conditions that must be satisfied before the need counts as closed.',
+    summary: 'The concrete conditions that must be satisfied before the read counts as closed.',
     detail: 'Closure criteria keep Bitcode from settling on vibes. They say what the proof and settlement story must actually demonstrate.',
     points: [
       'Can include benchmark outcomes, policy gates, or evidence coverage',
-      'Give proof closure a concrete finish line'
+      'Deposit proof closure a concrete finish line'
     ]
   },
   'normalization-pressure': {
     kicker: 'Glossary',
     title: 'Normalization pressure',
     summary: 'How much the current fit is pushing Bitcode toward a compositional, source-to-shares settlement story.',
-    detail: 'Low pressure usually means a targeted deposit can close the need directly. Higher pressure means several overlapping artifacts need to be normalized together.',
+    detail: 'Low pressure usually means a targeted deposit can close the read directly. Higher pressure means several overlapping artifacts read to be normalized together.',
     points: [
-      'Rises when multiple kinds or partial contributions overlap the need',
+      'Rises when multiple kinds or partial contributions overlap the read',
       'Signals whether Profile B-style settlement semantics are becoming important'
     ]
   },
   'profile-a': {
     kicker: 'Profile A',
     title: 'Profile A summary',
-    summary: 'Targeted deposit plus bounded need. The story should read as direct closure with minimal normalization.',
+    summary: 'Targeted deposit plus bounded read. The story should read as direct closure with minimal normalization.',
     detail: 'Use Profile A when one artifact or a tight cluster can plainly fix the measured problem and proof should feel decisive.',
     points: [
       'Tight deposit',
-      'Bounded need',
+      'Bounded read',
       'Direct settlement story'
     ]
   },
   'profile-b': {
     kicker: 'Profile B',
     title: 'Profile B summary',
-    summary: 'Normalization deposit plus composite need. The story should explain partial contribution and deterministic share normalization.',
-    detail: 'Use Profile B when the need spans several coupled dimensions and settlement has to justify why multiple sources participated or received different credit.',
+    summary: 'Normalization deposit plus composite read. The story should explain partial contribution and deterministic share normalization.',
+    detail: 'Use Profile B when the read spans several coupled dimensions and settlement has to justify why multiple sources participated or received different credit.',
     points: [
       'Broader deposit',
-      'Composite need',
+      'Composite read',
       'Source-to-shares aware settlement'
     ]
   },
@@ -1407,7 +1407,7 @@ const EXPLAINERS = {
     summary: 'Which seeded scenario families the current repo supply is meant to support in the active Bitcode corpus.',
     detail: 'This is derived from the scenario fixture set matched to the repo, not from the currently selected deposit.',
     points: [
-      'Shows which need families are represented for this repo',
+      'Shows which read families are represented for this repo',
       'Useful for understanding why a repo appears in both targeted and normalization flows'
     ]
   },
@@ -1545,10 +1545,10 @@ const EXPLAINERS = {
     kicker: 'Transactions surface',
     title: 'Supporting surfaces',
     summary: 'Secondary boundary, policy, or lineage surfaces that support the main transaction read without becoming the headline.',
-    detail: 'Transactions keep deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
+    detail: 'Transactions keep deposit, read, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
     points: [
       'Important for honesty and depth',
-      'Intentionally downstream of the main deposit-to-need read'
+      'Intentionally downstream of the main deposit-to-read read'
     ]
   },
   'coverage-tags': {
@@ -1562,13 +1562,13 @@ const EXPLAINERS = {
     ]
   },
   'benchmark-workflow': {
-    kicker: 'Need measurement',
+    kicker: 'Read measurement',
     title: 'Benchmark workflow',
-    summary: 'The GitHub Actions workflow or run surface that produced benchmark evidence for the need.',
-    detail: 'This ties the measured need back to a concrete parser and benchmark execution context.',
+    summary: 'The GitHub Actions workflow or run surface that produced benchmark evidence for the read.',
+    detail: 'This ties the measured read back to a concrete parser and benchmark execution context.',
     points: [
       'Connects benchmark run ID, workflow path, and parser behavior',
-      'Important when proof and verification need to bind back to a specific run'
+      'Important when proof and verification read to bind back to a specific run'
     ]
   },
   'artifact-kind-filter': {
@@ -1694,7 +1694,7 @@ const EXPLAINERS = {
   'branch-artifacts': {
     kicker: 'Branch stack',
     title: 'Asset pack and branch artifacts',
-    summary: 'The exact private artifact stack materialized behind the high-level deposit/need/fit story.',
+    summary: 'The exact private artifact stack materialized behind the high-level deposit/read/fit story.',
     detail: 'This is where the dense manifests, proofs, policy surfaces, and deterministic files that justify the run remain available.',
     points: [
       'Materialized locally in this transactions read',
@@ -1745,7 +1745,7 @@ const EXPLAINERS = {
     kicker: 'Post-settlement',
     title: 'Ledger and policy surfaces',
     summary: 'Balances, run history, and policy-oriented surfaces that remain after settlement closes.',
-    detail: 'These surfaces show durable consequences and governance context without reopening the primary deposit-to-need story.',
+    detail: 'These surfaces show durable consequences and governance context without reopening the primary deposit-to-read story.',
     points: [
       'Includes ledger state and prior run history',
       'Complements proof and settlement with downstream accounting context'
@@ -1764,10 +1764,10 @@ const EXPLAINERS = {
   'run-history': {
     kicker: 'History surface',
     title: 'Run history',
-    summary: 'The public projection of prior runs: which need closed, which branch was staged, and which bundle was produced.',
+    summary: 'The public projection of prior runs: which read closed, which branch was staged, and which bundle was produced.',
     detail: 'Run history is the durable record of what this transactions read has already materialized and settled, without reopening every private artifact.',
     points: [
-      'Shows prior need lifecycle and bundle progression',
+      'Shows prior read lifecycle and bundle progression',
       'Keeps history readable without exposing private branch payloads'
     ]
   },
@@ -1791,14 +1791,14 @@ const EXPLAINERS = {
       'Keeps scenario meaning legible even without a latest run'
     ]
   },
-  'detailed-need-surface': {
-    kicker: 'Need surface',
-    title: 'Detailed need surface',
-    summary: 'The full need and measurement read that expands the compact needing surface into task, parser, failure, derivation, and closure detail.',
-    detail: 'This is the deeper need-facing artifact for inspecting exactly how the active demand was measured.',
+  'detailed-read-surface': {
+    kicker: 'Read surface',
+    title: 'Detailed read surface',
+    summary: 'The full read and measurement read that expands the compact reading surface into task, parser, failure, derivation, and closure detail.',
+    detail: 'This is the deeper read-facing artifact for inspecting exactly how the active demand was measured.',
     points: [
-      'Builds on the compact needing surface rather than replacing it',
-      'Preserves the exact need object in raw mode for inspection'
+      'Builds on the compact reading surface rather than replacing it',
+      'Preserves the exact read object in raw mode for inspection'
     ]
   },
   'settlement-participation': {
@@ -1847,7 +1847,7 @@ const EXPLAINERS = {
     summary: 'Marks an artifact or tag as proof-bearing or proof-oriented, not merely implementation code.',
     detail: 'In this runtime proof surfaces include witness manifests, formal logs, redaction proofs, disclosure proofs, and settlement proof artifacts.',
     points: [
-      'Proof closure binds deposit, need, rights, and settlement together',
+      'Proof closure binds deposit, read, rights, and settlement together',
       'A proof tag usually signals evidence-heavy rather than code-only material'
     ]
   },
@@ -1875,7 +1875,7 @@ const EXPLAINERS = {
     kicker: 'Run status',
     title: 'Awaiting run',
     summary: 'The repo-to-settlement closure path has not been materialized yet for the current selection.',
-    detail: 'You can already inspect supply, deposit, need, and fit. Running the branch flow stages branch artifacts, proof, and settlement.',
+    detail: 'You can already inspect supply, deposit, read, and fit. Running the branch flow stages branch artifacts, proof, and settlement.',
     points: [
       'Pre-run state, not an error state',
       'Useful when the shell is ready but deeper closure artifacts do not exist yet'
@@ -1898,7 +1898,7 @@ const EXPLAINERS = {
     detail: 'In current source this usually means a small Profile A-style selection that should settle directly once proof closure lands.',
     points: [
       'Usually paired with targeted deposit semantics',
-      'Signals less need for multi-asset normalization'
+      'Signals less read for multi-asset normalization'
     ]
   },
   'normalization-pressure-medium': {
@@ -1923,13 +1923,13 @@ const EXPLAINERS = {
   }
 };
 
-const NEED_CAPSULE_REFERENCES = {
+const READ_CAPSULE_REFERENCES = {
   code: [
     'public/app.js -> chipList()',
-    'public/app.js -> renderNeedVisual()',
+    'public/app.js -> renderReadVisual()',
     'public/app.js -> renderScenarioCorpusVisual()'
   ],
-  spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Generated proof, branch, and settlement artifacts']
+  spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Generated proof, branch, and settlement artifacts']
 };
 
 const ASSET_CAPSULE_REFERENCES = {
@@ -1974,13 +1974,13 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Closure staging',
     title: 'Before proof',
     summary: 'This surface is intentionally upstream of proof inspection.',
-    detail: 'Bitcode requires deposit-to-need fit to be legible before you are asked to read deeper proof bundles or exact accounting internals.',
+    detail: 'Bitcode requires deposit-to-read fit to be legible before you are asked to read deeper proof bundles or exact accounting internals.',
     points: [
       'Makes the fit story obvious first',
       'Keeps proof and settlement as downstream closure rather than upfront burden'
     ],
     references: {
-      code: ['public/app.js -> renderDepositingToNeedingVisual()'],
+      code: ['public/app.js -> renderDepositingToReadingVisual()'],
       spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -1994,21 +1994,21 @@ const EXTRA_EXPLAINERS = {
       'Connects fit intent to later branch, proof, and settlement artifacts'
     ],
     references: {
-      code: ['public/app.js -> renderDepositingToNeedingVisual()', 'public/app.js -> renderRepoToSettlementVisual()'],
+      code: ['public/app.js -> renderDepositingToReadingVisual()', 'public/app.js -> renderRepoToSettlementVisual()'],
       spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'branch-intent': {
     kicker: 'Fit-to-closure',
     title: 'Branch intent',
-    summary: 'Why the current deposit-to-need fit should materialize a private remediation branch at all.',
+    summary: 'Why the current deposit-to-read fit should materialize a private remediation branch at all.',
     detail: 'This is the forward-looking statement that turns a persuasive fit into a branch plan before any proof bundle or settlement report exists.',
     points: [
       'Upstream of proof closure',
       'Should read as a consequence of fit, not as separate infrastructure trivia'
     ],
     references: {
-      code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/bitcode-runtime.js -> buildDepositingToNeedingSurface()'],
+      code: ['public/app.js -> renderDepositingToReadingVisual()', 'src/bitcode-runtime.js -> buildDepositingToReadingSurface()'],
       spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -2047,7 +2047,7 @@ const EXTRA_EXPLAINERS = {
     detail: 'This is the compact content identity that lets Bitcode keep previews, addressing, signing, and later proofs tied to the same payload.',
     points: [
       'Different from repo path or commit identity',
-      'Becomes useful whenever operators need to confirm payload sameness'
+      'Becomes useful whenever operators read to confirm payload sameness'
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
@@ -2069,17 +2069,17 @@ const EXTRA_EXPLAINERS = {
     }
   },
   constraints: {
-    kicker: 'Need / asset guardrail',
+    kicker: 'Read / asset guardrail',
     title: 'Constraints',
-    summary: 'Hard rules the current asset or measured need expects Bitcode to preserve while closing the scenario.',
+    summary: 'Hard rules the current asset or measured read expects Bitcode to preserve while closing the scenario.',
     detail: 'Constraints keep the active transaction from reading like “fix it however you want.” They state what must stay true while the branch, proof, and settlement path proceeds.',
     points: [
-      'Can be declared on assets or on the measured need',
+      'Can be declared on assets or on the measured read',
       'Different from closure criteria, which describe what counts as closed'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Generated proof, branch, and settlement artifacts']
+      code: ['public/app.js -> renderAssetVisual()', 'public/app.js -> renderReadVisual()'],
+      spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'signing-algorithm': {
@@ -2114,7 +2114,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Signing field',
     title: 'Payload hash',
     summary: 'The hash over the payload the signer is attesting to.',
-    detail: 'This is the compact integrity handle that later proof surfaces can reference when they need to show the attested payload has not drifted.',
+    detail: 'This is the compact integrity handle that later proof surfaces can reference when they read to show the attested payload has not drifted.',
     points: [
       'Different from content root and different from auth payload hash',
       'Lets later proofs bind back to one exact attested payload'
@@ -2128,13 +2128,13 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Profile meaning',
     title: 'Settlement shape',
     summary: 'The characteristic economic closure pattern the active profile is supposed to produce.',
-    detail: 'Profile A and Profile B should feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
+    detail: 'Profile A and Profile B should feel different first through deposit mode, read mode, and settlement shape rather than through infrastructure trivia.',
     points: [
       'Profile A should read as concentrated and direct',
       'Profile B should read as normalized and source-to-shares aware'
     ],
     references: {
-      code: ['public/app.js -> renderProfileCompositionVisual()', 'public/app.js -> renderNeedVisual()'],
+      code: ['public/app.js -> renderProfileCompositionVisual()', 'public/app.js -> renderReadVisual()'],
       spec: ['V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -2142,7 +2142,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Profile meaning',
     title: 'Scenario anchors',
     summary: 'The seeded scenario families that best anchor what a profile is trying to demonstrate.',
-    detail: 'These anchors show which recurring need shapes in the corpus make a profile’s deposit, need, and closure posture easiest to understand.',
+    detail: 'These anchors show which recurring read shapes in the corpus make a profile’s deposit, read, and closure posture easiest to understand.',
     points: [
       'Acts as corpus grounding for profile semantics',
       'Useful when one profile spans several scenario families'
@@ -2156,7 +2156,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Profile meaning',
     title: 'Composition',
     summary: 'The short list of characteristics that make the current profile operationally distinct.',
-    detail: 'Composition is the compact read of why a profile exists: deposit shape, need posture, proof burden, and settlement story.',
+    detail: 'Composition is the compact read of why a profile exists: deposit shape, read posture, proof burden, and settlement story.',
     points: [
       'Should make Profile A and Profile B feel different immediately',
       'Keeps profile semantics readable without opening raw source fixtures'
@@ -2167,53 +2167,53 @@ const EXTRA_EXPLAINERS = {
     }
   },
   'failing-cases': {
-    kicker: 'Need measurement',
+    kicker: 'Read measurement',
     title: 'Failing cases',
-    summary: 'The concrete benchmark or parser failure slices the active need still carries.',
+    summary: 'The concrete benchmark or parser failure slices the active read still carries.',
     detail: 'These chips are the exact visible failure names Bitcode wants you to understand before you start reading branch artifacts.',
     points: [
       'Upstream of proof closure',
-      'One of the clearest ways needing stays consequential in the shell'
+      'One of the clearest ways reading stays consequential in the shell'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'weak-dimensions': {
-    kicker: 'Need measurement',
+    kicker: 'Read measurement',
     title: 'Weak dimensions',
     summary: 'Cross-cutting quality dimensions where the current scenario remains weak even if one narrow failing case improves.',
-    detail: 'Weak dimensions keep the need from collapsing into a single bug label when the real closure burden still spans safety, auditability, or resilience concerns.',
+    detail: 'Weak dimensions keep the read from collapsing into a single bug label when the real closure burden still spans safety, auditability, or resilience concerns.',
     points: [
       'Usually broader than one failing case',
       'Helpful for reading composite or normalization-heavy needs'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'field-derivations': {
-    kicker: 'Need lineage',
+    kicker: 'Read lineage',
     title: 'Field derivations',
-    summary: 'The source lineage for how the need object’s important fields were derived.',
+    summary: 'The source lineage for how the read object’s important fields were derived.',
     detail: 'This is the explanation layer that keeps measured demand from feeling like opaque parser magic.',
     points: [
       'Shows which fields came from seeded inputs versus deterministic synthesis',
-      'Useful when validating why the need reads the way it does'
+      'Useful when validating why the read reads the way it does'
     ],
     references: {
-      code: ['public/app.js -> renderNeedVisual()', 'src/bitcode-runtime.js -> buildNeedDescriptor()'],
-      spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Identity, authority, signing, and addressing']
+      code: ['public/app.js -> renderReadVisual()', 'src/bitcode-runtime.js -> buildReadDescriptor()'],
+      spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
   'recall-channels': {
-    kicker: 'Need hand-off',
+    kicker: 'Read hand-off',
     title: 'Recall channels + hand-offs',
     summary: 'The search and retrieval contracts that move measured demand into candidate recall and later ranking.',
-    detail: 'These are the current need-to-recall bridge surfaces that explain how the need becomes search queries, channel contributions, and downstream evidence use.',
+    detail: 'These are the current read-to-recall bridge surfaces that explain how the read becomes search queries, channel contributions, and downstream evidence use.',
     points: [
-      'Connects need measurement to retrieval behavior',
+      'Connects read measurement to retrieval behavior',
       'Useful for understanding why later ranking surfaces saw certain assets'
     ],
     references: {
-      code: ['public/app.js -> renderNeedVisual()', 'src/bitcode-runtime.js -> buildNeedDescriptor()', 'src/bitcode-runtime.js -> recallCandidates()'],
-      spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
+      code: ['public/app.js -> renderReadVisual()', 'src/bitcode-runtime.js -> buildReadDescriptor()', 'src/bitcode-runtime.js -> recallCandidates()'],
+      spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
     }
   },
   'modeled-local-stages': {
@@ -2253,7 +2253,7 @@ const EXTRA_EXPLAINERS = {
       'A demand or asset domain tag',
       'Often upstream of identity/auth spine and proof closure'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'session-validity': {
     kicker: 'Capsule term',
@@ -2264,7 +2264,7 @@ const EXTRA_EXPLAINERS = {
       'Common in auth rollback scenarios',
       'Often paired with rollback or issuer constraints'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   rollback: {
     kicker: 'Capsule term',
@@ -2275,7 +2275,7 @@ const EXTRA_EXPLAINERS = {
       'Often paired with audit receipts or session-preservation constraints',
       'Common in both auth and deployment scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   auditability: {
     kicker: 'Capsule term',
@@ -2283,21 +2283,21 @@ const EXTRA_EXPLAINERS = {
     summary: 'The requirement that remediation, proof, and settlement remain replayable and inspectable.',
     detail: 'Auditability capsules usually imply receipts, policy traces, or proof artifacts that must stay bound to the remediation path.',
     points: [
-      'Useful for both need constraints and asset tags',
+      'Useful for both read constraints and asset tags',
       'Often accompanies proof, policy, or receipt-binding surfaces'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   benchmark: {
     kicker: 'Capsule term',
     title: 'Benchmark',
     summary: 'Marks evidence that comes from or must remain tied to benchmark execution and measured outputs.',
-    detail: 'Benchmark capsules keep the need grounded in observed failure or regression evidence instead of only narrative intent.',
+    detail: 'Benchmark capsules keep the read grounded in observed failure or regression evidence instead of only narrative intent.',
     points: [
-      'Central to measured needing',
+      'Central to measured reading',
       'Often paired with workflow-artifact or proof surfaces'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'workflow-artifact': {
     kicker: 'Capsule term',
@@ -2319,7 +2319,7 @@ const EXTRA_EXPLAINERS = {
       'Useful when receipts must link back to one run',
       'Common in benchmark- and proof-heavy scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'receipt-binding': {
     kicker: 'Capsule term',
@@ -2330,13 +2330,13 @@ const EXTRA_EXPLAINERS = {
       'Often paired with auditability and workflow binding',
       'Can show up in both constraints and closure criteria'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   config: {
     kicker: 'Capsule term',
     title: 'Config',
-    summary: 'Marks configuration-bearing source material or a need whose closure depends on configuration correctness.',
-    detail: 'Config capsules usually point to policy files, environment declarations, or runtime settings that need to move in lockstep with code and proof.',
+    summary: 'Marks configuration-bearing source material or a read whose closure depends on configuration correctness.',
+    detail: 'Config capsules usually point to policy files, environment declarations, or runtime settings that read to move in lockstep with code and proof.',
     points: [
       'Different from code patch semantics',
       'Important when policy or deployment drift is in scope'
@@ -2352,7 +2352,7 @@ const EXTRA_EXPLAINERS = {
       'Often paired with session-validity or replay-window concerns',
       'Useful for validator- and auth-heavy flows'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   creusot: {
     kicker: 'Capsule term',
@@ -2374,7 +2374,7 @@ const EXTRA_EXPLAINERS = {
       'Often pairs with TypeScript, Python, and Rust tags',
       'Useful for Profile B-style deposits'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   typescript: {
     kicker: 'Stack tag',
@@ -2413,12 +2413,12 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Cross-language parity',
     summary: 'Marks scenarios where several language or runtime slices have to stay aligned through the remediation.',
-    detail: 'This is one of the clearest signals that the need is composite and may push toward normalization-heavy closure.',
+    detail: 'This is one of the clearest signals that the read is composite and may push toward normalization-heavy closure.',
     points: [
       'Often implies broader proof or settlement burden',
       'Common in Profile B scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   deployment: {
     kicker: 'Capsule term',
@@ -2429,7 +2429,7 @@ const EXTRA_EXPLAINERS = {
       'Often paired with infra, helm, terraform, or policy concerns',
       'Can shift the scenario toward broader operational proof'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   infra: {
     kicker: 'Capsule term',
@@ -2440,7 +2440,7 @@ const EXTRA_EXPLAINERS = {
       'Often paired with deployment or config work',
       'Common in rollout and parity scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   terraform: {
     kicker: 'Stack tag',
@@ -2468,7 +2468,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Stack tag',
     title: 'Kubernetes',
     summary: 'Marks Kubernetes-bearing deployment material in the current corpus.',
-    detail: 'Kubernetes tags usually show up when environment topology or rollout safety is part of the need.',
+    detail: 'Kubernetes tags usually show up when environment topology or rollout safety is part of the read.',
     points: [
       'Signals live-system deployment context',
       'Often paired with infra or policy controls'
@@ -2484,7 +2484,7 @@ const EXTRA_EXPLAINERS = {
       'Common in Profile B flows',
       'Directly connected to normalization pressure and settlement participation'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   normalization: {
     kicker: 'Capsule term',
@@ -2495,7 +2495,7 @@ const EXTRA_EXPLAINERS = {
       'Signals broader proof and settlement burden',
       'Often paired with source-to-shares and many-asset semantics'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'many-asset': {
     kicker: 'Capsule term',
@@ -2506,7 +2506,7 @@ const EXTRA_EXPLAINERS = {
       'Common in Profile B flows',
       'Often pairs with source-to-shares explanation'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   privacy: {
     kicker: 'Capsule term',
@@ -2517,7 +2517,7 @@ const EXTRA_EXPLAINERS = {
       'Often pairs with redaction or disclosure tags',
       'Lives close to bounded public proof surfaces'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'privacy-boundary': {
     kicker: 'Capsule term',
@@ -2528,18 +2528,18 @@ const EXTRA_EXPLAINERS = {
       'A stronger signal than generic privacy',
       'Often paired with branch privacy and public proof boundaries'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   projection: {
     kicker: 'Capsule term',
     title: 'Projection',
     summary: 'Marks public-facing projections derived from deeper private artifacts.',
-    detail: 'Projection capsules matter whenever Bitcode needs to show bounded public inspection without exposing the private branch payloads.',
+    detail: 'Projection capsules matter whenever Bitcode reads to show bounded public inspection without exposing the private branch payloads.',
     points: [
       'Closely tied to bounded public proof',
       'Useful for privacy-boundary scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   redaction: {
     kicker: 'Capsule term',
@@ -2550,7 +2550,7 @@ const EXTRA_EXPLAINERS = {
       'Useful for understanding public/private proof splits',
       'Often paired with privacy-boundary tags'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   disclosure: {
     kicker: 'Capsule term',
@@ -2561,7 +2561,7 @@ const EXTRA_EXPLAINERS = {
       'Close to privacy and bounded-public-proof concerns',
       'Useful in redaction-heavy scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   containment: {
     kicker: 'Capsule term',
@@ -2572,7 +2572,7 @@ const EXTRA_EXPLAINERS = {
       'Signals bounded remediation scope',
       'Often pairs with disclosure or incident controls'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   governance: {
     kicker: 'Capsule term',
@@ -2581,9 +2581,9 @@ const EXTRA_EXPLAINERS = {
     detail: 'Governance capsules keep transactions focused on operator-quality closure instead of treating process controls as optional garnish.',
     points: [
       'Often pairs with policy, review, or auditability',
-      'Can appear in both need constraints and asset metadata'
+      'Can appear in both read constraints and asset metadata'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   issuer: {
     kicker: 'Capsule term',
@@ -2594,7 +2594,7 @@ const EXTRA_EXPLAINERS = {
       'A narrower auth-domain signal',
       'Useful in compatibility and rollback scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   gateway: {
     kicker: 'Capsule term',
@@ -2616,13 +2616,13 @@ const EXTRA_EXPLAINERS = {
       'Useful for policy and privacy scenarios',
       'Often paired with governance and proof concerns'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   'formal-methods': {
     kicker: 'Capsule term',
     title: 'Formal methods',
     summary: 'Marks proof-heavy material that leans on formal reasoning rather than only runtime checks.',
-    detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may need to read theorem or validator surfaces.',
+    detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may read to read theorem or validator surfaces.',
     points: [
       'Often paired with validator, Creusot, or Rust tags',
       'Important in proof-heavy Bitcode scenarios'
@@ -2638,12 +2638,12 @@ const EXTRA_EXPLAINERS = {
       'Often paired with governance and config',
       'Common in incident and deployment scenarios'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   patch: {
     kicker: 'Capsule term',
     title: 'Patch',
-    summary: 'Marks code-patch-bearing material or a need that expects code changes as part of closure.',
+    summary: 'Marks code-patch-bearing material or a read that expects code changes as part of closure.',
     detail: 'Patch capsules help operators distinguish implementation-carrying assets from proof-only or runbook-only deposits.',
     points: [
       'One of the core artifact-kind-native signals',
@@ -2671,7 +2671,7 @@ const EXTRA_EXPLAINERS = {
       'A broad risk-domain signal',
       'Often pairs with rollback or proof requirements'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   monorepo: {
     kicker: 'Capsule term',
@@ -2682,7 +2682,7 @@ const EXTRA_EXPLAINERS = {
       'Useful for mixed-bundle scenarios',
       'Can increase artifact-kind diversity and normalization pressure'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   migration: {
     kicker: 'Capsule term',
@@ -2693,18 +2693,18 @@ const EXTRA_EXPLAINERS = {
       'Common in auth and deployment scenarios',
       'Usually paired with rollback or session-validity concerns'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   review: {
     kicker: 'Capsule term',
     title: 'Review',
     summary: 'Marks review posture, approval requirements, or code-review-bound evidence in the current corpus.',
-    detail: 'Review capsules matter whenever Bitcode needs to show why a change is allowed, explained, or justified before it closes.',
+    detail: 'Review capsules matter whenever Bitcode reads to show why a change is allowed, explained, or justified before it closes.',
     points: [
       'Often pairs with governance or policy',
       'Can show up in constraints, failing cases, or asset tags'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   escalation: {
     kicker: 'Capsule term',
@@ -2715,18 +2715,18 @@ const EXTRA_EXPLAINERS = {
       'Useful in incident and governance-heavy flows',
       'Can appear beside runbook or review material'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   drift: {
     kicker: 'Capsule term',
     title: 'Drift',
     summary: 'Marks parity or configuration drift that the remediation path has to close.',
-    detail: 'Drift capsules matter when the need is about previously aligned surfaces falling out of sync across repos, stacks, or environments.',
+    detail: 'Drift capsules matter when the read is about previously aligned surfaces falling out of sync across repos, stacks, or environments.',
     points: [
       'Often pairs with deployment, config, or cross-language signals',
       'A common reason Profile B-style normalization becomes relevant'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   },
   enterprise: {
     kicker: 'Capsule term',
@@ -2770,7 +2770,7 @@ const EXTRA_EXPLAINERS = {
       'Lives close to privacy-boundary and disclosure concerns',
       'A useful tag for public inspection surfaces'
     ],
-    references: NEED_CAPSULE_REFERENCES
+    references: READ_CAPSULE_REFERENCES
   }
 };
 
@@ -2779,12 +2779,12 @@ Object.assign(EXPLAINERS, EXTRA_EXPLAINERS);
 const EXPLAINER_REFERENCE_GROUPS = {
   'repo-supply': ['repo-supply'],
   depositing: ['depositing'],
-  needing: ['needing'],
+  reading: ['reading'],
   'deposit-fit': ['fit'],
   'targeted-deposit': ['depositing', 'profiles'],
-  'bounded-need': ['needing', 'profiles'],
+  'bounded-read': ['reading', 'profiles'],
   'normalization-deposit': ['depositing', 'profiles'],
-  'composite-need': ['needing', 'profiles'],
+  'composite-read': ['reading', 'profiles'],
   'identity-auth-spine': ['identity'],
   'repo-to-settlement': ['operating-picture'],
   'operating-picture': ['operating-picture'],
@@ -2797,8 +2797,8 @@ const EXPLAINER_REFERENCE_GROUPS = {
   'github-app-auth': ['identity', 'repo-supply'],
   'artifact-kind': ['artifact-kinds'],
   'origin-kind': ['artifact-kinds'],
-  'target-artifact-kind': ['artifact-kinds', 'needing'],
-  'closure-criteria': ['needing'],
+  'target-artifact-kind': ['artifact-kinds', 'reading'],
+  'closure-criteria': ['reading'],
   'normalization-pressure': ['fit', 'profiles'],
   'profile-a': ['profiles'],
   'profile-b': ['profiles'],
@@ -2819,7 +2819,7 @@ const EXPLAINER_REFERENCE_GROUPS = {
   'local-boundary': ['boundary'],
   'supporting-surfaces': ['boundary', 'operating-picture'],
   'coverage-tags': ['scenario-preview', 'candidate-asset'],
-  'benchmark-workflow': ['needing', 'detailed-need'],
+  'benchmark-workflow': ['reading', 'detailed-read'],
   'artifact-kind-filter': ['inventory', 'artifact-kinds'],
   'inventory-search': ['inventory'],
   'deposit-title-override': ['depositing', 'candidate-asset'],
@@ -2827,7 +2827,7 @@ const EXPLAINER_REFERENCE_GROUPS = {
   'artifact-type': ['artifact-kinds', 'candidate-asset'],
   'source-repo-override': ['depositing', 'identity'],
   'source-commit-override': ['depositing', 'identity'],
-  'workflow-run-override': ['depositing', 'detailed-need'],
+  'workflow-run-override': ['depositing', 'detailed-read'],
   'visual-preview': ['candidate-asset'],
   'operator-note': ['candidate-asset', 'depositing'],
   'raw-fallback': ['candidate-asset', 'depositing'],
@@ -2842,7 +2842,7 @@ const EXPLAINER_REFERENCE_GROUPS = {
   'run-history': ['run-history', 'ledger'],
   'candidate-asset': ['candidate-asset'],
   'scenario-preview': ['scenario-preview'],
-  'detailed-need-surface': ['detailed-need'],
+  'detailed-read-surface': ['detailed-read'],
   'settlement-participation': ['settlement', 'exact-accounting'],
   'journal-diff': ['exact-accounting'],
   'exact-accounting': ['exact-accounting'],
@@ -2872,17 +2872,17 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     ],
     spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
-  needing: {
+  reading: {
     code: [
-      'public/app.js -> renderNeedingSurfaceVisual()',
-      'src/bitcode-runtime.js -> buildNeedingSurface()'
+      'public/app.js -> renderReadingSurfaceVisual()',
+      'src/bitcode-runtime.js -> buildReadingSurface()'
     ],
-    spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
+    spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   fit: {
     code: [
-      'public/app.js -> renderDepositingToNeedingVisual()',
-      'src/bitcode-runtime.js -> buildDepositingToNeedingSurface()'
+      'public/app.js -> renderDepositingToReadingVisual()',
+      'src/bitcode-runtime.js -> buildDepositingToReadingSurface()'
     ],
     spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
@@ -2963,7 +2963,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderSettlementPreviewVisual()',
       'public/app.js -> renderSettlementParticipationVisual()',
-      'src/bitcode-runtime.js -> settleNeedEvent()',
+      'src/bitcode-runtime.js -> settleReadEvent()',
       'src/bitcode-runtime.js -> buildSettlementParticipationArtifact()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
@@ -2981,7 +2981,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderAccountingPrecisionVisual()',
       'public/app.js -> renderJournalDiffVisual()',
       'src/bitcode-runtime.js -> buildAccountingPrecisionReport()',
-      'src/bitcode-runtime.js -> settleNeedEvent()'
+      'src/bitcode-runtime.js -> settleReadEvent()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
@@ -3022,17 +3022,17 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderScenario()',
       'public/app.js -> renderScenarioCorpusVisual()',
       'src/bitcode-runtime.js -> publicState()',
-      'src/bitcode-runtime.js -> buildNeedDescriptor()'
+      'src/bitcode-runtime.js -> buildReadDescriptor()'
     ],
-    spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape']
+    spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape']
   },
-  'detailed-need': {
+  'detailed-read': {
     code: [
-      'public/app.js -> renderNeedVisual()',
-      'public/app.js -> renderNeedMeasurementVisual()',
-      'src/bitcode-runtime.js -> buildNeedDescriptor()'
+      'public/app.js -> renderReadVisual()',
+      'public/app.js -> renderReadMeasurementVisual()',
+      'src/bitcode-runtime.js -> buildReadDescriptor()'
     ],
-    spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Generated proof, branch, and settlement artifacts']
+    spec: ['V21 canon -> Reading and prompt/inference ownership', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   }
 };
 
@@ -3143,7 +3143,7 @@ const LABEL_EXPLAINER_KEYS = {
   'Supplier pending claims': 'ledger-accounts',
   'Tie-break order': 'source-to-shares',
   'Unique bundles': 'run-history',
-  'Detailed need surface': 'detailed-need-surface',
+  'Detailed read surface': 'detailed-read-surface',
   'Scenario preview': 'scenario-preview',
   'Proof logs': 'proof-logs',
   'Workflow': 'benchmark-workflow',
@@ -3451,23 +3451,23 @@ function buildDynamicExplainer(label = '', domainKey = '') {
 
   if (/^clear\b/.test(normalized)) {
     kicker = 'Closure target';
-    summary = 'This capsule names an exact condition that must be satisfied before the active need counts as closed.';
+    summary = 'This capsule names an exact condition that must be satisfied before the active read counts as closed.';
     detail = `${domainTitle} is the main domain behind this closure target, so Bitcode keeps the phrase specific while still grounding it in the broader scenario semantics.`;
   } else if (/^improve\b/.test(normalized)) {
     kicker = 'Weak dimension';
     summary = 'This capsule marks a quality dimension the remediation still has to improve before closure is convincing.';
     detail = `${domainTitle} is the underlying domain, but the chip stays phrase-specific so the operator can see exactly what is weak right now.`;
   } else if (/^(preserve|keep|require|block|emit|bind|rerun|restore|replay|no)\b/.test(normalized)) {
-    kicker = 'Need constraint';
-    summary = 'This capsule is a hard rule the remediation, proof, or settlement path must respect while the need closes.';
+    kicker = 'Read constraint';
+    summary = 'This capsule is a hard rule the remediation, proof, or settlement path must respect while the read closes.';
     detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because Bitcode wants constraints to read concretely instead of abstractly.`;
   } else if (/\b(regression|gap|mismatch|bypass|drift|skip|divergence)\b/.test(normalized)) {
     kicker = 'Failing case';
-    summary = 'This capsule names one concrete failing slice currently present in the measured need.';
-    detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the needing surface before deeper proof inspection.`;
+    summary = 'This capsule names one concrete failing slice currently present in the measured read.';
+    detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the reading surface before deeper proof inspection.`;
   } else if (normalized.includes('-')) {
     kicker = 'Scenario / corpus capsule';
-    summary = 'This capsule is part of the seeded Bitcode corpus vocabulary used to keep the active need and asset surfaces legible at a glance.';
+    summary = 'This capsule is part of the seeded Bitcode corpus vocabulary used to keep the active read and asset surfaces legible at a glance.';
     detail = `${domainTitle} is the closest domain anchor for this phrase in the current corpus.`;
   }
 
@@ -3478,7 +3478,7 @@ function buildDynamicExplainer(label = '', domainKey = '') {
     summary,
     detail,
     points: [
-      'Phrase-specific capsule from seeded need, profile, or asset metadata',
+      'Phrase-specific capsule from seeded read, profile, or asset metadata',
       `Domain focus: ${domainTitle}`
     ],
     references: base.references || {}
@@ -3536,15 +3536,15 @@ function formatExplainerReference(ref) {
 
   const friendlyReference = {
     'public/app.js -> renderRunHistoryVisual()': 'Run history surface',
-    'public/app.js -> renderDepositingToNeedingVisual()': 'Give and need surface',
+    'public/app.js -> renderDepositingToReadingVisual()': 'Deposit and read surface',
     'public/app.js -> renderRepoToSettlementVisual()': 'Repo supply to settlement surface',
     'public/app.js -> renderAssetVisual()': 'Asset detail surface',
-    'public/app.js -> renderNeedVisual()': 'Need detail surface',
+    'public/app.js -> renderReadVisual()': 'Read detail surface',
     'public/app.js -> renderProfileCompositionVisual()': 'Profile composition surface',
     'public/app.js -> renderBoundaryRealityVisual()': 'Boundary reality surface',
-    'src/bitcode-runtime.js -> buildDepositingToNeedingSurface()': 'Give and need runtime',
+    'src/bitcode-runtime.js -> buildDepositingToReadingSurface()': 'Deposit and read runtime',
     'src/bitcode-runtime.js -> makeCandidateAsset()': 'Asset addressing runtime',
-    'src/bitcode-runtime.js -> buildNeedDescriptor()': 'Need measurement runtime',
+    'src/bitcode-runtime.js -> buildReadDescriptor()': 'Read measurement runtime',
     'src/bitcode-runtime.js -> recallCandidates()': 'Recall channel runtime',
     'src/bitcode-runtime.js -> buildBoundaryRealitySurface()': 'Boundary reality runtime',
     'src/demo-shell-state.js -> buildProfileCompositions()': 'Seeded profile compositions',
@@ -3699,18 +3699,18 @@ function explainerCallout(key, options = {}) {
 
 /**
  * @param {string | null | undefined} profileId
- * @returns {{ profile: string, deposit: string, need: string }}
+ * @returns {{ profile: string, deposit: string, read: string }}
  */
 function profileModeExplainers(profileId) {
   return String(profileId || '').toUpperCase() === 'B'
-    ? { profile: 'profile-b', deposit: 'normalization-deposit', need: 'composite-need' }
-    : { profile: 'profile-a', deposit: 'targeted-deposit', need: 'bounded-need' };
+    ? { profile: 'profile-b', deposit: 'normalization-deposit', read: 'composite-read' }
+    : { profile: 'profile-a', deposit: 'targeted-deposit', read: 'bounded-read' };
 }
 
 const REPO_TO_SETTLEMENT_STAGE_EXPLAINERS = {
   depositing: 'depositing',
-  needing: 'needing',
-  'deposit-to-need-fit': 'deposit-fit',
+  reading: 'reading',
+  'deposit-to-read-fit': 'deposit-fit',
   'asset-pack': 'asset-pack',
   branch: 'private-remediation-branch',
   proof: 'proof-closure',
@@ -3778,7 +3778,7 @@ function api(path, options = {}) {
  * @returns {void}
  */
 function syncScenarioPicker(state) {
-  const scenarios = state.needScenarios || [];
+  const scenarios = state.readScenarios || [];
   const firstScenario = scenarios[0];
   if (!firstScenario) return;
   const desiredScenarioId = state.latestRun?.scenarioId || selectedScenarioId || firstScenario.scenarioId;
@@ -3812,7 +3812,7 @@ function syncBranchModePicker(state) {
  * @returns {ScenarioShape | null}
  */
 function currentScenario(state) {
-  const scenarios = state.needScenarios || [];
+  const scenarios = state.readScenarios || [];
   return scenarios.find((scenario) => scenario.scenarioId === (selectedScenarioId || scenarioPickerEl?.value)) || scenarios[0] || null;
 }
 
@@ -3970,10 +3970,10 @@ function buildPreviewDepositingSurface(state) {
 
 /**
  * @param {AppState} state
- * @returns {NeedPreviewShape | null}
+ * @returns {ReadPreviewShape | null}
  */
-function activeNeedingSurface(state) {
-  return state.latestRun?.needingSurface || currentScenario(state)?.needingSurface || null;
+function activeReadingSurface(state) {
+  return state.latestRun?.readingSurface || currentScenario(state)?.readingSurface || null;
 }
 
 /**
@@ -3989,7 +3989,7 @@ function activeDepositingSurface(state) {
  * @returns {{
  *   relationId: string,
  *   depositSessionId: string,
- *   needId: string,
+ *   readId: string,
  *   fitSummary: string,
  *   decisiveKinds: string[],
  *   overlapKinds: string[],
@@ -3999,25 +3999,25 @@ function activeDepositingSurface(state) {
  *   settlementIntentSummary: string
  * } | null}
  */
-function buildPreviewDepositingToNeedingSurface(state) {
+function buildPreviewDepositingToReadingSurface(state) {
   const depositingSurface = buildPreviewDepositingSurface(state);
-  const needingSurface = activeNeedingSurface(state);
-  if (!needingSurface) return null;
+  const readingSurface = activeReadingSurface(state);
+  if (!readingSurface) return null;
   const selectedKinds = Object.keys(depositingSurface.selectedArtifactKindCounts || {});
-  const overlapKinds = selectedKinds.filter((kind) => (needingSurface.targetArtifactKinds || []).includes(kind));
-  const profileId = needingSurface.realizationProfile?.profileId || 'A';
+  const overlapKinds = selectedKinds.filter((kind) => (readingSurface.targetArtifactKinds || []).includes(kind));
+  const profileId = readingSurface.realizationProfile?.profileId || 'A';
   const normalizationPressure = profileId === 'B'
     ? selectedKinds.length > 1 ? 'high' : 'medium'
     : 'low';
   const fitKinds = overlapKinds.length ? overlapKinds : selectedKinds;
 
   return {
-    relationId: `preview-fit:${depositingSurface.depositSessionId}:${needingSurface.needId}`,
+    relationId: `preview-fit:${depositingSurface.depositSessionId}:${readingSurface.readId}`,
     depositSessionId: depositingSurface.depositSessionId,
-    needId: needingSurface.needId,
+    readId: readingSurface.readId,
     fitSummary: selectedKinds.length
-      ? `Preview overlap in ${fitKinds.join(', ')} against the active need. Run the branch flow to prove the fit and close settlement.`
-      : 'Select a deposit to make the active deposit-to-need fit visible before branch, proof, and settlement.',
+      ? `Preview overlap in ${fitKinds.join(', ')} against the active read. Run the branch flow to prove the fit and close settlement.`
+      : 'Select a deposit to make the active deposit-to-read fit visible before branch, proof, and settlement.',
     decisiveKinds: fitKinds,
     overlapKinds,
     normalizationPressure,
@@ -4025,8 +4025,8 @@ function buildPreviewDepositingToNeedingSurface(state) {
       ? `The next branch run will materialize a ${profileId === 'B' ? 'normalization-aware' : 'tight'} closure path around ${fitKinds.join(', ')} coverage.`
       : 'No branch intent until a deposit is selected.',
     proofIntentSummary: profileId === 'B'
-      ? 'Proof should explain how overlapping deposits normalize across the composite need.'
-      : 'Proof should explain why the selected deposit is decisive for the bounded need.',
+      ? 'Proof should explain how overlapping deposits normalize across the composite read.'
+      : 'Proof should explain why the selected deposit is decisive for the bounded read.',
     settlementIntentSummary: profileId === 'B'
       ? 'Settlement should stay source-to-shares aware once the fit is proven.'
       : 'Settlement should read as the direct closure of the decisive fit.'
@@ -4035,10 +4035,10 @@ function buildPreviewDepositingToNeedingSurface(state) {
 
 /**
  * @param {AppState} state
- * @returns {LatestRunShape['depositingToNeedingSurface'] | ReturnType<typeof buildPreviewDepositingToNeedingSurface>}
+ * @returns {LatestRunShape['depositingToReadingSurface'] | ReturnType<typeof buildPreviewDepositingToReadingSurface>}
  */
-function activeDepositingToNeedingSurface(state) {
-  return state.latestRun?.depositingToNeedingSurface || buildPreviewDepositingToNeedingSurface(state);
+function activeDepositingToReadingSurface(state) {
+  return state.latestRun?.depositingToReadingSurface || buildPreviewDepositingToReadingSurface(state);
 }
 
 /**
@@ -4173,7 +4173,7 @@ function flowGuideSteps(state) {
       selector: '#panelOperatingPicture',
       kicker: 'Flow step 3',
       title: 'Orient the working chain',
-      body: 'This panel is the compressed operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole Bitcode path before you dive into any one artifact family.',
+      body: 'This panel is the compressed operating map: repo supply -> deposit -> read -> fit -> proof -> settlement. Use it to explain the whole Bitcode path before you dive into any one artifact family.',
       targetHint: 'If someone is lost, come back here first and then continue stepwise.'
     },
     {
@@ -4184,18 +4184,18 @@ function flowGuideSteps(state) {
       targetHint: 'This panel answers: what did we present to Bitcode, from which repo/auth boundary, and in what artifact shape?'
     },
     {
-      selector: '#panelNeeding',
+      selector: '#panelReading',
       kicker: 'Flow step 5',
-      title: 'Measure the need before proving anything',
-      body: 'Need comes before proof. This panel is the measured demand surface: task, failure modes, closure criteria, parser contract, and scenario corpus.',
+      title: 'Measure the read before proving anything',
+      body: 'Read comes before proof. This panel is the measured demand surface: task, failure modes, closure criteria, parser contract, and scenario corpus.',
       targetHint: 'Use this step to explain why the problem is bounded or composite before you justify any candidate asset.'
     },
     {
       selector: '#panelFit',
       kicker: 'Flow step 6',
-      title: 'Make deposit-to-need fit explicit',
-      body: 'This is the first decisive checkpoint. Bitcode should say why the active deposit matters for the active need before ranking, proof, or settlement start carrying weight.',
-      targetHint: 'The fit panel should answer “why these artifacts for this need?” in one readable pass.'
+      title: 'Make deposit-to-read fit explicit',
+      body: 'This is the first decisive checkpoint. Bitcode should say why the active deposit matters for the active read before ranking, proof, or settlement start carrying weight.',
+      targetHint: 'The fit panel should answer “why these artifacts for this read?” in one readable pass.'
     },
     {
       selector: '#panelEvaluations',
@@ -4917,7 +4917,7 @@ function renderProfileCompositionVisual(profileState) {
       </div>
       <div class="callout">
         <strong>Operational profile semantics</strong>
-        <span>${escapeHtml(guidance.audienceMeaning || 'The profiles distinguish how Bitcode deposits supply against need, not whether GitHub is live.')}</span>
+        <span>${escapeHtml(guidance.audienceMeaning || 'The profiles distinguish how Bitcode deposits supply against read, not whether GitHub is live.')}</span>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
@@ -4945,7 +4945,7 @@ function renderProfileCompositionVisual(profileState) {
               ${kvRow('How to use it', profile.identity?.operatorRole || '—')}
               ${kvRow('Audience should understand', profile.identity?.audienceMeaning || '—')}
               ${kvRow('Deposit mode', profile.depositMode || profile.metadata?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
-              ${kvRow('Need mode', profile.needMode || profile.metadata?.needMode || '—', { explainerKey: modeExplainers.need })}
+              ${kvRow('Read mode', profile.readMode || profile.metadata?.readMode || '—', { explainerKey: modeExplainers.read })}
               ${kvRow('Asset-pack shape', profile.assetPackShape || profile.metadata?.assetPackShape || '—')}
               ${kvRow('Settlement shape', profile.settlementShape || profile.metadata?.settlementShape || '—')}
               ${kvRow('Scenario anchors', formatList(profile.scenarioFamilies || []), { html: true })}
@@ -5036,28 +5036,28 @@ function renderDepositingSurfaceVisual(surface) {
 }
 
 /**
- * @param {NeedPreviewShape | null | undefined} surface
+ * @param {ReadPreviewShape | null | undefined} surface
  * @returns {string}
  */
-function renderNeedingSurfaceVisual(surface) {
+function renderReadingSurfaceVisual(surface) {
   return `
     <div class="visual-stack">
       <div class="highlight-card">
         <div class="row wrap-gap">
-          <strong>${escapeHtml(surface?.taskSummary || 'Measured need')}</strong>
-          <div class="badge-row">${statusBadge(surface?.realizationProfile?.shortLabel || surface?.realizationProfile?.label || 'need')}</div>
+          <strong>${escapeHtml(surface?.taskSummary || 'Measured read')}</strong>
+          <div class="badge-row">${statusBadge(surface?.realizationProfile?.shortLabel || surface?.realizationProfile?.label || 'read')}</div>
         </div>
         <p>${escapeHtml(surface?.boundednessSummary || 'No boundedness summary available.')}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Need ID', surface?.needId || '—', '', { explainerKey: 'needing' })}
-        ${metricTile('Parser', surface?.parserKind || '—', '', { explainerKey: 'needing' })}
-        ${metricTile('Failure modes', surface?.failureModeSummary?.length || 0, '', { explainerKey: 'needing' })}
+        ${metricTile('Read ID', surface?.readId || '—', '', { explainerKey: 'reading' })}
+        ${metricTile('Parser', surface?.parserKind || '—', '', { explainerKey: 'reading' })}
+        ${metricTile('Failure modes', surface?.failureModeSummary?.length || 0, '', { explainerKey: 'reading' })}
         ${metricTile('Target kinds', surface?.targetArtifactKinds?.length || 0, '', { explainerKey: 'target-artifact-kind' })}
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Demand shape', 'needing')}</h4><span class="badge">Measured need</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Demand shape', 'reading')}</h4><span class="badge">Measured read</span></div>
           <div class="kv-grid">
             ${kvRow('Failure modes', formatList(surface?.failureModeSummary || []), { html: true })}
             ${kvRow('Target artifact kinds', formatList(surface?.targetArtifactKinds || []), { html: true, explainerKey: 'target-artifact-kind' })}
@@ -5073,15 +5073,15 @@ function renderNeedingSurfaceVisual(surface) {
 }
 
 /**
- * @param {LooseRecord | PreviewDepositingToNeedingSurfaceShape | null | undefined} surface
+ * @param {LooseRecord | PreviewDepositingToReadingSurfaceShape | null | undefined} surface
  * @returns {string}
  */
-function renderDepositingToNeedingVisual(surface) {
+function renderDepositingToReadingVisual(surface) {
   return `
     <div class="visual-stack">
       <div class="highlight-card">
         <div class="row wrap-gap">
-          <strong>${escapeHtml(surface?.fitSummary || 'Depositing-to-needing fit')}</strong>
+          <strong>${escapeHtml(surface?.fitSummary || 'Depositing-to-reading fit')}</strong>
           <div class="badge-row">${statusBadge(surface?.normalizationPressure || 'pending')}</div>
         </div>
         <p class="meta">${escapeHtml(surface?.relationId || 'No fit relation yet.')}</p>
@@ -5113,77 +5113,77 @@ function renderDepositingToNeedingVisual(surface) {
 }
 
 /**
- * @param {LooseRecord | null | undefined} need
+ * @param {LooseRecord | null | undefined} read
  * @returns {string}
  */
-function renderNeedVisual(need) {
-  const parser = need.benchmarkParserContract || {};
+function renderReadVisual(read) {
+  const parser = read.benchmarkParserContract || {};
   const parserFailure = parser.parserFailureContract || {};
-  const benchmarkTarget = need.benchmarkTarget || {};
-  const realizationProfile = need.realizationProfile || {};
+  const benchmarkTarget = read.benchmarkTarget || {};
+  const realizationProfile = read.realizationProfile || {};
   const modeExplainers = profileModeExplainers(realizationProfile.profileId);
   return `
     <div class="visual-stack">
       <div class="highlight-card">
         <div class="row wrap-gap">
-          <strong>${escapeHtml(need.task || need.taskSeed || 'Measured engineering need')}</strong>
+          <strong>${escapeHtml(read.task || read.taskSeed || 'Measured engineering read')}</strong>
           <div class="badge-row">
-            ${statusBadge(realizationProfile.shortLabel || realizationProfile.label || need.conformanceProfile || need.profileAStatus)}
+            ${statusBadge(realizationProfile.shortLabel || realizationProfile.label || read.conformanceProfile || read.profileAStatus)}
           </div>
         </div>
-        <p class="meta">${escapeHtml(need.repo || '')} · buyer branch ${escapeHtml(need.baseRef || need.buyerBranch || '—')} · benchmark run ${escapeHtml(need.benchmarkRunId || benchmarkTarget.runId || '—')}</p>
+        <p class="meta">${escapeHtml(read.repo || '')} · buyer branch ${escapeHtml(read.baseRef || read.buyerBranch || '—')} · benchmark run ${escapeHtml(read.benchmarkRunId || benchmarkTarget.runId || '—')}</p>
       </div>
       <div class="mini-grid three-up">
-        ${metricTile('Need ID', need.needId || '—')}
-        ${metricTile('Workflow', need.benchmarkWorkflowPath || parser.expectedCanonicalOutputs?.workflowPath || '—')}
-        ${metricTile('Parser', `${parser.parserKind || need.parserKind || '—'} ${parser.parserVersion || need.parserVersion || ''}`.trim())}
+        ${metricTile('Read ID', read.readId || '—')}
+        ${metricTile('Workflow', read.benchmarkWorkflowPath || parser.expectedCanonicalOutputs?.workflowPath || '—')}
+        ${metricTile('Parser', `${parser.parserKind || read.parserKind || '—'} ${parser.parserVersion || read.parserVersion || ''}`.trim())}
       </div>
       <div class="section-card">
         <div class="section-head"><h4>${labelWithExplainer('Profile semantics', modeExplainers.profile)}</h4><span class="badge">${escapeHtml(realizationProfile.label || 'Scenario profile')}</span></div>
         <div class="kv-grid">
           ${kvRow('Deposit mode', realizationProfile.depositMode || '—', { explainerKey: modeExplainers.deposit })}
-          ${kvRow('Need mode', realizationProfile.needMode || '—', { explainerKey: modeExplainers.need })}
+          ${kvRow('Read mode', realizationProfile.readMode || '—', { explainerKey: modeExplainers.read })}
           ${kvRow('Asset-pack shape', realizationProfile.assetPackShape || '—')}
           ${kvRow('Settlement shape', realizationProfile.settlementShape || '—')}
         </div>
       </div>
       <div class="section-card">
         <div class="section-head">
-          <h4>${labelWithExplainer('Measured target', 'needing')}</h4>
+          <h4>${labelWithExplainer('Measured target', 'reading')}</h4>
           ${boolBadge(parserFailure.failClosed, 'Fail-closed', 'Open failure mode')}
         </div>
         <div class="kv-grid">
-          ${kvRow('Benchmark harness', benchmarkTarget.harnessPath || need.benchmarkHarnessPath || '—')}
+          ${kvRow('Benchmark harness', benchmarkTarget.harnessPath || read.benchmarkHarnessPath || '—')}
           ${kvRow('Parser on missing outputs', parserFailure.onMissingCanonicalOutputs || '—')}
           ${kvRow('Parser on malformed outputs', parserFailure.onMalformedOutputs || '—')}
-          ${kvRow('Target artifact kinds', formatList(need.targetArtifactKinds || []), { html: true, explainerKey: 'target-artifact-kind' })}
+          ${kvRow('Target artifact kinds', formatList(read.targetArtifactKinds || []), { html: true, explainerKey: 'target-artifact-kind' })}
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Failing cases', 'failing-cases')}</h4><span class="badge">${(need.failingCases || []).length}</span></div>
-          <div class="badge-row">${chipList(need.failingCases || [], 'warn', { allowDynamic: true })}</div>
+          <div class="section-head"><h4>${labelWithExplainer('Failing cases', 'failing-cases')}</h4><span class="badge">${(read.failingCases || []).length}</span></div>
+          <div class="badge-row">${chipList(read.failingCases || [], 'warn', { allowDynamic: true })}</div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Weak dimensions', 'weak-dimensions')}</h4><span class="badge">${(need.weakDimensions || []).length}</span></div>
-          <div class="badge-row">${chipList(need.weakDimensions || [], 'warn', { allowDynamic: true })}</div>
+          <div class="section-head"><h4>${labelWithExplainer('Weak dimensions', 'weak-dimensions')}</h4><span class="badge">${(read.weakDimensions || []).length}</span></div>
+          <div class="badge-row">${chipList(read.weakDimensions || [], 'warn', { allowDynamic: true })}</div>
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
           <div class="section-head"><h4>${labelWithExplainer('Constraints', 'constraints')}</h4>${badgeWithExplainer('Governance', { explainerKey: 'constraints' })}</div>
-          <div class="badge-row">${chipList(need.constraints || [], '', { allowDynamic: true })}</div>
+          <div class="badge-row">${chipList(read.constraints || [], '', { allowDynamic: true })}</div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Closure criteria', 'closure-criteria')}</h4><span class="badge">Need closure</span></div>
-          <div class="badge-row">${chipList(need.closureCriteria || [], '', { allowDynamic: true })}</div>
+          <div class="section-head"><h4>${labelWithExplainer('Closure criteria', 'closure-criteria')}</h4><span class="badge">Read closure</span></div>
+          <div class="badge-row">${chipList(read.closureCriteria || [], '', { allowDynamic: true })}</div>
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
           <div class="section-head"><h4>${labelWithExplainer('Field derivations', 'field-derivations')}</h4>${badgeWithExplainer('Lineage', { explainerKey: 'field-derivations' })}</div>
           <div class="object-list nested">
-            ${Object.entries(need.fieldDerivations || {}).slice(0, 6).map(([field, spec]) => `
+            ${Object.entries(read.fieldDerivations || {}).slice(0, 6).map(([field, spec]) => `
               <div class="mini-card">
                 <strong>${escapeHtml(labelize(field))}</strong>
                 <p class="meta wrap-anywhere">${escapeHtml(spec.source || 'derived')}</p>
@@ -5196,7 +5196,7 @@ function renderNeedVisual(need) {
       <div class="section-card">
         <div class="section-head"><h4>${labelWithExplainer('Recall channels + hand-offs', 'recall-channels')}</h4>${badgeWithExplainer('V8 contracts', { explainerKey: 'recall-channels' })}</div>
         <div class="detail-table">
-          ${(need.recallChannelContracts || []).map((/** @type {any} */ channel) => `
+          ${(read.recallChannelContracts || []).map((/** @type {any} */ channel) => `
             <div class="detail-row">
               <strong>${escapeHtml(channel.channelId)}</strong>
               <span>${escapeHtml(channel.signalFamily)}</span>
@@ -5214,11 +5214,11 @@ function renderNeedVisual(need) {
  * @param {LooseRecord | null | undefined} payload
  * @returns {string}
  */
-function renderNeedMeasurementVisual(payload) {
+function renderReadMeasurementVisual(payload) {
   return `
     <div class="visual-stack">
       <div class="section-card">
-        <div class="section-head"><h4>Measurement package</h4><span class="badge">Need + parser validation</span></div>
+        <div class="section-head"><h4>Measurement package</h4><span class="badge">Read + parser validation</span></div>
         <div class="mini-grid three-up">
           ${metricTile('Inference proofs', (payload.inferenceProofs || []).length)}
           ${metricTile('Field derivations', Object.keys(payload.fieldDerivations || {}).length)}
@@ -5366,7 +5366,7 @@ function renderEvaluationVisual(item) {
         <p>${escapeHtml((strongestScoreDrivers[0]?.label || 'Top driver') + (strongestScoreDrivers[0] ? `: ${strongestScoreDrivers[0].value}` : ''))}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Need match', scoreBar(item.ranking.needMatch.finalScore), 'metric', { html: true })}
+        ${metricTile('Read match', scoreBar(item.ranking.readMatch.finalScore), 'metric', { html: true })}
         ${metricTile('Benchmark impact', scoreBar(item.ranking.benchmarkImpact.finalScore), 'metric', { html: true })}
         ${metricTile('Actionability', scoreBar(item.ranking.actionability.finalScore), 'metric', { html: true })}
         ${metricTile('Penalty mass', scoreBar(item.ranking.penaltyMass || 0), penalties.length ? 'warn' : '', { html: true })}
@@ -5376,7 +5376,7 @@ function renderEvaluationVisual(item) {
           <div class="section-head"><h4>Recall + strongest signals</h4><span class="badge">Why it ranked</span></div>
           <div class="kv-grid">
             ${kvRow('Recall score', item.recall?.recallScore ?? '—')}
-            ${kvRow('Whole asset need score', item.ranking.wholeAssetNeedScore ?? '—')}
+            ${kvRow('Whole asset read score', item.ranking.wholeAssetReadScore ?? '—')}
             ${kvRow('Recall channels', formatList((item.recall?.fusion?.contributingChannels || []).map((/** @type {any} */ entry) => entry.channelId || entry)), { html: true })}
             ${kvRow('Artifact type', item.uploadSurface?.artifactType || item.artifactType || '—')}
           </div>
@@ -5395,7 +5395,7 @@ function renderEvaluationVisual(item) {
         </div>
       </div>
       <div class="mini-grid three-up">
-        ${renderScoreGroupVisual(item.ranking.scoreGroups?.needMatch, 'accent-blue')}
+        ${renderScoreGroupVisual(item.ranking.scoreGroups?.readMatch, 'accent-blue')}
         ${renderScoreGroupVisual(item.ranking.scoreGroups?.benchmarkImpact, 'accent-green')}
         ${renderScoreGroupVisual(item.ranking.scoreGroups?.penaltyMass, penalties.length ? 'accent-orange' : 'accent-slate')}
       </div>
@@ -5472,7 +5472,7 @@ function renderAssetPackVisual(lock) {
           <div class="kv-grid">
             ${kvRow('Locked content roots', formatCount((lock.lockedContentRoots || []).length, 'root'))}
             ${kvRow('Locked attestations', formatCount((lock.lockedAttestationHashes || []).length, 'hash'))}
-            ${kvRow('Need ID', lock.needId || '—')}
+            ${kvRow('Read ID', lock.readId || '—')}
             ${kvRow('Allowed tiers', formatList(lock.allowedUseTiers || []), { html: true })}
           </div>
         </div>
@@ -5683,7 +5683,7 @@ function renderSettlementPreviewVisual(preview) {
           <strong>${escapeHtml(preview.bundleId || 'Settlement preview')}</strong>
           <div class="badge-row">${statusBadge(preview.branchMode)} ${statusBadge(preview.assetPackLockHash ? 'asset-pack-lock bound' : 'unbound')}</div>
         </div>
-        <p class="meta">Need ${escapeHtml(preview.needId || '—')} · ${formatCount(participatingAssetIds.length, 'participating asset')} · ${formatCount(creditedAssetIds.length, 'credited asset')}</p>
+        <p class="meta">Read ${escapeHtml(preview.readId || '—')} · ${formatCount(participatingAssetIds.length, 'participating asset')} · ${formatCount(creditedAssetIds.length, 'credited asset')}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Metered micro-units', preview.meteredMicroUnits || '—', '', { explainerKey: 'settlement' })}
@@ -5771,7 +5771,7 @@ function renderSourceToSharesVisual(sourceToShares) {
                 ${kvRow('Clipped contribution units', entry.clippedContributionUnits || '0')}
                 ${kvRow('Clipping receipt', entry.clippingReceiptId || '—')}
                 ${kvRow('Selected unit refs', formatList(entry.selectedUnitRefs || []), { html: true })}
-                ${kvRow('Need evidence', formatList([...(entry.coveredNeedEvidence?.failureModes || []), ...(entry.coveredNeedEvidence?.constraints || []), ...(entry.coveredNeedEvidence?.touchedPaths || [])], 'None'), { html: true })}
+                ${kvRow('Read evidence', formatList([...(entry.coveredReadEvidence?.failureModes || []), ...(entry.coveredReadEvidence?.constraints || []), ...(entry.coveredReadEvidence?.touchedPaths || [])], 'None'), { html: true })}
               </div>
             </div>
           `).join('')}
@@ -5950,7 +5950,7 @@ function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
           <p>${escapeHtml(scenario.taskSeed || '—')}</p>
           <div class="kv-grid">
             ${kvRow('Deposit mode', scenario.realizationProfile?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
-            ${kvRow('Need mode', scenario.realizationProfile?.needMode || '—', { explainerKey: modeExplainers.need })}
+            ${kvRow('Read mode', scenario.realizationProfile?.readMode || '—', { explainerKey: modeExplainers.read })}
             ${kvRow('Coverage tags', chipList(scenario.coverageTags || []), { html: true })}
             ${kvRow('Failing cases', formatList(scenario.failingCases || []), { html: true })}
             ${kvRow('Weak dimensions', formatList(scenario.weakDimensions || []), { html: true })}
@@ -6006,7 +6006,7 @@ function renderSystemProofBundleVisual(bundle) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Need ID', bundle.needId || '—')}
+        ${metricTile('Read ID', bundle.readId || '—')}
         ${metricTile('Asset pack ID', bundle.assetPackId || '—')}
         ${metricTile('Measurement proofs', (bundle.assetMeasurementProofs || []).length)}
         ${metricTile('Inferred outputs', (bundle.promptImplementationSurface?.inferredOutputs || []).length)}
@@ -6200,7 +6200,7 @@ function renderBoundedProofVisual(proof) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Need ID', proof.needId || '—', '', { explainerKey: 'proof-closure' })}
+        ${metricTile('Read ID', proof.readId || '—', '', { explainerKey: 'proof-closure' })}
         ${metricTile('Bundle ID', proof.bundleId || '—', '', { explainerKey: 'settlement' })}
         ${metricTile('Selected assets', (proof.selectedAssets || []).length)}
         ${metricTile('Redaction status', proof.redactionStatus || '—')}
@@ -6249,7 +6249,7 @@ function renderRunHistoryVisual(history) {
     <div class="visual-stack">
       <div class="mini-grid three-up compact-metrics">
         ${metricTile('Runs', history.length)}
-        ${metricTile('Settled runs', history.filter((entry) => entry.needLifecycle === 'settled').length)}
+        ${metricTile('Settled runs', history.filter((entry) => entry.readLifecycle === 'settled').length)}
         ${metricTile('Unique bundles', new Set(history.map((entry) => entry.bundleId).filter(Boolean)).size)}
       </div>
       <div class="object-list">
@@ -6257,10 +6257,10 @@ function renderRunHistoryVisual(history) {
           <div class="section-card">
             <div class="row wrap-gap">
               <strong>${escapeHtml(entry.branchName || 'Run')}</strong>
-              <div class="badge-row">${statusBadge(entry.needLifecycle)} ${statusBadge(entry.redactionStatus)}</div>
+              <div class="badge-row">${statusBadge(entry.readLifecycle)} ${statusBadge(entry.redactionStatus)}</div>
             </div>
             <div class="kv-grid">
-              ${kvRow('Need ID', entry.needId || '—')}
+              ${kvRow('Read ID', entry.readId || '—')}
               ${kvRow('Bundle ID', entry.bundleId || '—')}
               ${kvRow('Selected assets', formatList(entry.selectedAssets || []), { html: true })}
             </div>
@@ -6332,7 +6332,7 @@ function renderRepoToSettlementVisual(surface) {
           <strong>${escapeHtml(surface?.branchName || 'Repo-to-settlement path')}</strong>
           <div class="badge-row">${statusBadge(realizationProfile.shortLabel || surface?.scenarioId || 'scenario')} ${statusBadge(stages.at(-1)?.status || 'ready')}</div>
         </div>
-        <p class="meta">${escapeHtml(realizationProfile.label || 'Repo selection -> need -> asset -> branch -> proof -> settlement')}.</p>
+        <p class="meta">${escapeHtml(realizationProfile.label || 'Repo selection -> read -> asset -> branch -> proof -> settlement')}.</p>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
@@ -6340,8 +6340,8 @@ function renderRepoToSettlementVisual(surface) {
           <p>${escapeHtml(surface?.depositMode || realizationProfile.depositMode || '—')}</p>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Need mode', modeExplainers.need)}</h4><span class="badge">Profile</span></div>
-          <p>${escapeHtml(surface?.needMode || realizationProfile.needMode || '—')}</p>
+          <div class="section-head"><h4>${labelWithExplainer('Read mode', modeExplainers.read)}</h4><span class="badge">Profile</span></div>
+          <p>${escapeHtml(surface?.readMode || realizationProfile.readMode || '—')}</p>
         </div>
       </div>
       <div class="timeline">
@@ -6442,14 +6442,14 @@ function renderOperatingPicture(state) {
   if (!operatingPictureEl) return;
   const surfaces = [];
   const depositingSurface = activeDepositingSurface(state);
-  const needingSurface = activeNeedingSurface(state);
-  const fitSurface = activeDepositingToNeedingSurface(state);
+  const readingSurface = activeReadingSurface(state);
+  const fitSurface = activeDepositingToReadingSurface(state);
 
   surfaces.push(renderJsonSurface({
     title: 'Repo supply',
     subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
     eyebrow: 'Transactions surface',
-    help: 'Transactions start from repo supply, then immediately read the active deposit, need, and fit before deeper closure surfaces.',
+    help: 'Transactions start from repo supply, then immediately read the active deposit, read, and fit before deeper closure surfaces.',
     explainerKey: 'repo-supply',
     data: state.repoSupplySurface,
     visual: renderRepoSupplyVisual,
@@ -6467,27 +6467,27 @@ function renderOperatingPicture(state) {
       accent: 'accent-green'
     }));
   }
-  if (needingSurface) {
+  if (readingSurface) {
     surfaces.push(renderJsonSurface({
-      title: 'Needing surface',
+      title: 'Reading surface',
       subtitle: 'The active measured demand surface',
-      eyebrow: state.latestRun?.needingSurface ? 'Run surface' : 'Scenario preview',
-      help: 'This is the measured need that the deposit has to justify before proof and settlement carry the story forward.',
-      explainerKey: 'needing',
-      data: needingSurface,
-      visual: renderNeedingSurfaceVisual,
+      eyebrow: state.latestRun?.readingSurface ? 'Run surface' : 'Scenario preview',
+      help: 'This is the measured read that the deposit has to justify before proof and settlement carry the story forward.',
+      explainerKey: 'reading',
+      data: readingSurface,
+      visual: renderReadingSurfaceVisual,
       accent: 'accent-blue'
     }));
   }
   if (fitSurface) {
     surfaces.push(renderJsonSurface({
-      title: 'Depositing-to-needing surface',
-      subtitle: 'Why this deposit fits this need before deeper closure inspection',
-      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
-      help: 'Transactions make the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      title: 'Depositing-to-reading surface',
+      subtitle: 'Why this deposit fits this read before deeper closure inspection',
+      eyebrow: state.latestRun?.depositingToReadingSurface ? 'Run surface' : 'Shell preview',
+      help: 'Transactions make the deposit-to-read fit explicit before deeper proof and settlement sections.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
-      visual: renderDepositingToNeedingVisual,
+      visual: renderDepositingToReadingVisual,
       accent: 'accent-orange'
     }));
   }
@@ -6496,7 +6496,7 @@ function renderOperatingPicture(state) {
       title: 'Repo-to-settlement path',
       subtitle: 'Depositing to settlement as one staged operating path',
       eyebrow: 'Run surface',
-      help: 'Once deposit, need, and fit are legible, this surface walks the closure path through asset pack, branch, proof, and settlement.',
+      help: 'Once deposit, read, and fit are legible, this surface walks the closure path through asset pack, branch, proof, and settlement.',
       explainerKey: 'repo-to-settlement',
       data: state.latestRun.repoToSettlementSurface,
       visual: renderRepoToSettlementVisual,
@@ -6509,7 +6509,7 @@ function renderOperatingPicture(state) {
           <strong>Repo-to-settlement path is ready to execute</strong>
           <div class="badge-row">${statusBadge('awaiting run')}</div>
         </div>
-        <p class="meta">Pick repo artifacts from authenticated supply, confirm the measured need, inspect the deposit-to-need fit, then run the branch flow to stage proof and settlement.</p>
+        <p class="meta">Pick repo artifacts from authenticated supply, confirm the measured read, inspect the deposit-to-read fit, then run the branch flow to stage proof and settlement.</p>
       </div>
     `);
   }
@@ -6529,7 +6529,7 @@ function renderOperatingPicture(state) {
     title: 'Boundary reality',
     subtitle: 'What is modeled here, what executes here, and what remains external',
     eyebrow: 'Support surface',
-    help: 'Boundary truth stays explicit here so the primary story can stay centered on depositing, needing, and their fit.',
+    help: 'Boundary truth stays explicit here so the primary story can stay centered on depositing, reading, and their fit.',
     explainerKey: 'boundary-reality',
     data: state.boundaryRealitySurface,
     visual: renderBoundaryRealityVisual,
@@ -6568,8 +6568,8 @@ function renderSummary(state) {
   const repoCount = state.repoSupplySurface?.repoCount || 0;
   const supplyEntries = state.repoSupplySurface?.inventoryEntryCount || 0;
   const depositSurface = activeDepositingSurface(state);
-  const needingSurface = activeNeedingSurface(state);
-  const fitSurface = activeDepositingToNeedingSurface(state);
+  const readingSurface = activeReadingSurface(state);
+  const fitSurface = activeDepositingToReadingSurface(state);
   const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
   const externalInterfaces = latestRun?.externalRealizationSummary?.interfaceSummaries || latestRun?.externalRealizationSummary?.interfaceStates || [];
   const liveObservedInterfaces = externalInterfaces.filter((entry) => String(entry.runtimeState || '') === 'live-observed').length;
@@ -6586,8 +6586,8 @@ function renderSummary(state) {
     summaryTile('Repo supply entries', supplyEntries, 'repo-supply'),
     summaryTile('Active deposit profile', activeProfile?.shortLabel || activeProfile?.label || '—', activeProfile?.profileId === 'B' ? 'profile-b' : 'profile-a'),
     summaryTile('Candidate assets', state.assets?.length || 0, 'candidate-asset'),
-    summaryTile('Need scenarios', state.needScenarios?.length || 0, 'needing'),
-    summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
+    summaryTile('Read scenarios', state.readScenarios?.length || 0, 'reading'),
+    summaryTile('Read parser', readingSurface?.parserKind || '—', 'reading'),
     summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'scenario-preview'),
     summaryTile('Branch mode', activeBranchMode(state), 'branch-artifacts'),
     summaryTile('Projection', activeProjectionPrincipal(state), 'projection'),
@@ -6609,18 +6609,18 @@ function renderSummary(state) {
  * @returns {void}
  */
 function renderScenario(state) {
-  const scenarios = state.needScenarios || [];
+  const scenarios = state.readScenarios || [];
   const activeScenarioId = selectedScenarioId || state.latestRun?.scenarioId || scenarios[0]?.scenarioId;
   const scenario = scenarios.find((entry) => entry.scenarioId === activeScenarioId) || scenarios[0] || null;
-  const latestNeed = state.latestRun?.need;
+  const latestNeed = state.latestRun?.read;
   const source = /** @type {LooseRecord} */ (latestNeed || scenario || {});
-  const needingSurface = activeNeedingSurface(state);
-  const measurementPayload = state.latestRun?.needMeasurement ? {
-    ...state.latestRun.needMeasurement,
+  const readingSurface = activeReadingSurface(state);
+  const measurementPayload = state.latestRun?.readMeasurement ? {
+    ...state.latestRun.readMeasurement,
     benchmarkTarget: state.latestRun.benchmarkTarget,
     parserValidation: state.latestRun.parserValidation,
     inferenceProofs: state.latestRun.inferenceProofs,
-    fieldDerivations: state.latestRun.need?.fieldDerivations
+    fieldDerivations: state.latestRun.read?.fieldDerivations
   } : null;
 
   scenarioEl.innerHTML = `
@@ -6633,28 +6633,28 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">The current transactions read foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
+      <p class="meta">The current transactions read foregrounds measured reading before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
-    ${needingSurface ? renderJsonSurface({
-      title: 'Needing surface',
+    ${readingSurface ? renderJsonSurface({
+      title: 'Reading surface',
       subtitle: 'Measured demand before deeper proof and settlement inspection',
-      eyebrow: state.latestRun?.needingSurface ? 'Run surface' : 'Scenario preview',
-      eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'scenario-preview',
+      eyebrow: state.latestRun?.readingSurface ? 'Run surface' : 'Scenario preview',
+      eyebrowExplainerKey: state.latestRun?.readingSurface ? 'reading' : 'scenario-preview',
       help: 'This is the compact read of what is needed, why it matters, and what closure should look like.',
-      explainerKey: 'needing',
-      data: needingSurface,
-      visual: renderNeedingSurfaceVisual,
+      explainerKey: 'reading',
+      data: readingSurface,
+      visual: renderReadingSurfaceVisual,
       accent: 'accent-blue'
     }) : ''}
     ${renderJsonSurface({
-      title: latestNeed ? 'Measured need' : 'Seed need scenario',
-      subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'Detailed need surface',
-      eyebrowExplainerKey: 'detailed-need-surface',
-      help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
-      explainerKey: 'needing',
+      title: latestNeed ? 'Measured read' : 'Seed read scenario',
+      subtitle: 'Read / measurement / benchmark target surface',
+      eyebrow: 'Detailed read surface',
+      eyebrowExplainerKey: 'detailed-read-surface',
+      help: 'Visual groups the GitHub-bound read into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
+      explainerKey: 'reading',
       data: source,
-      visual: renderNeedVisual,
+      visual: renderReadVisual,
       accent: 'accent-blue'
     })}
     ${renderJsonSurface({
@@ -6670,7 +6670,7 @@ function renderScenario(state) {
       title: 'Operational profiles + deposit semantics',
       subtitle: 'Targeted deposit versus normalization deposit',
       eyebrow: 'Profile surface',
-      help: 'The profile distinction is about how Bitcode deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
+      help: 'The profile distinction is about how Bitcode deposits against read. Boundary reality remains explicit in the supporting boundary surfaces.',
       explainerKey: source.realizationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: {
         ...(state.profileCompositions || state.conformanceProfiles?.profileCompositions || {}),
@@ -6683,18 +6683,18 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'Bitcode keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
+      help: 'Bitcode keeps prompts first-class, but they now support the deposit/read/fit story instead of competing with it.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
     }) : ''}
     ${measurementPayload ? renderJsonSurface({
-      title: 'Need derivation + parser validation',
+      title: 'Read derivation + parser validation',
       subtitle: 'Benchmark target, parser validation, and inference proof package',
       eyebrow: 'Measurement artifact',
       help: 'This is where fail-closed parsing, benchmark targeting, and derivation proofs become legible without losing access to the underlying JSON.',
       data: measurementPayload,
-      visual: renderNeedMeasurementVisual,
+      visual: renderReadMeasurementVisual,
       accent: 'accent-purple'
     }) : ''}
     ${state.latestRun?.canonicalRunEvidence ? renderJsonSurface({
@@ -6744,21 +6744,21 @@ function renderAssets(state) {
  */
 function renderFit(state) {
   if (!fitEl) return;
-  const fitSurface = activeDepositingToNeedingSurface(state);
+  const fitSurface = activeDepositingToReadingSurface(state);
   if (!fitSurface) {
-    fitEl.innerHTML = '<div class="card"><p class="meta">No deposit-to-need fit surface is available yet.</p></div>';
+    fitEl.innerHTML = '<div class="card"><p class="meta">No deposit-to-read fit surface is available yet.</p></div>';
     return;
   }
 
   const sections = [
     renderJsonSurface({
-      title: 'Depositing-to-needing surface',
-      subtitle: 'Why the active deposit fits the active need before deeper proof/settlement sections',
-      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
-      help: 'This is the primary deposit-to-need relation surface. It should answer why the selected deposit is right for the measured need.',
+      title: 'Depositing-to-reading surface',
+      subtitle: 'Why the active deposit fits the active read before deeper proof/settlement sections',
+      eyebrow: state.latestRun?.depositingToReadingSurface ? 'Run surface' : 'Shell preview',
+      help: 'This is the primary deposit-to-read relation surface. It should answer why the selected deposit is right for the measured read.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
-      visual: renderDepositingToNeedingVisual,
+      visual: renderDepositingToReadingVisual,
       accent: 'accent-orange'
     })
   ];
@@ -6859,21 +6859,21 @@ function renderBranchArtifacts(state) {
       accent: 'accent-green'
     },
     {
-      title: 'Needing surface',
-      subtitle: '.bitcode/needing-surface.json',
-      explainerKey: 'needing',
-      data: run.needingSurface,
-      raw: branchFiles['.bitcode/needing-surface.json'],
-      visual: renderNeedingSurfaceVisual,
+      title: 'Reading surface',
+      subtitle: '.bitcode/reading-surface.json',
+      explainerKey: 'reading',
+      data: run.readingSurface,
+      raw: branchFiles['.bitcode/reading-surface.json'],
+      visual: renderReadingSurfaceVisual,
       accent: 'accent-blue'
     },
     {
-      title: 'Depositing-to-needing surface',
-      subtitle: '.bitcode/depositing-to-needing-surface.json',
+      title: 'Depositing-to-reading surface',
+      subtitle: '.bitcode/deposit-to-read-surface.json',
       explainerKey: 'deposit-fit',
-      data: run.depositingToNeedingSurface,
-      raw: branchFiles['.bitcode/depositing-to-needing-surface.json'],
-      visual: renderDepositingToNeedingVisual,
+      data: run.depositingToReadingSurface,
+      raw: branchFiles['.bitcode/deposit-to-read-surface.json'],
+      visual: renderDepositingToReadingVisual,
       accent: 'accent-orange'
     },
     {
@@ -7227,7 +7227,7 @@ function renderBranchArtifacts(state) {
         <strong>${escapeHtml(run.branchArtifacts.branchName)}</strong>
         <div class="badge-row">
           ${statusBadge(run.branchMode)}
-          ${statusBadge(run.needLifecycle)}
+          ${statusBadge(run.readLifecycle)}
           ${statusBadge(`projection ${activeProjectionPrincipal(state)}`)}
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
@@ -7245,9 +7245,9 @@ function renderBranchArtifacts(state) {
       visual: artifact.visual,
       accent: artifact.accent || ''
     })).join('')}
-    ${(branchFiles['BITCODE_NEED.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.bitcode/source-material/'))) ? `<div class="card">
+    ${(branchFiles['BITCODE_READ.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.bitcode/source-material/'))) ? `<div class="card">
       <div class="section-head"><h3>Materialized markdown artifacts</h3><span class="badge">Non-JSON reference</span></div>
-      ${detailsSection('BITCODE_NEED.md', `<pre>${escapeHtml(branchFiles['BITCODE_NEED.md'] || '')}</pre>`, true)}
+      ${detailsSection('BITCODE_READ.md', `<pre>${escapeHtml(branchFiles['BITCODE_READ.md'] || '')}</pre>`, true)}
       ${Object.entries(branchFiles).filter(([path]) => path.startsWith('.bitcode/source-material/')).map(([path, content]) => detailsSection(path, `<pre>${escapeHtml(content)}</pre>`)).join('')}
     </div>` : ''}
   `;
@@ -7500,7 +7500,7 @@ document.addEventListener('click', (event) => {
 
 makeBranchButtonEl.addEventListener('click', async () => {
   try {
-    setStatus('Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…');
+    setStatus('Measuring read, resolving the active deposit/read profile, staging branch artifacts, and settling journal diff…');
     const result = /** @type {AppState} */ (await api('/api/make-bitcode-branch', {
       method: 'POST',
       body: JSON.stringify({
@@ -7555,7 +7555,7 @@ scenarioPickerEl?.addEventListener('change', () => {
     syncExplainerAlignment();
     renderFlowGuideOverlay(lastLoadedState);
   }
-  const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
+  const selectedScenario = lastLoadedState?.readScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
   setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.realizationProfile?.shortLabel || 'profile pending'}).`);
 }, eventListenerOptions);
 
@@ -7700,7 +7700,7 @@ depositFormEl.addEventListener('submit', async (event) => {
     selectedInventoryKind = 'all';
     formEl.reset();
     await refresh();
-    setStatus('Candidate asset deposited into the repo-authenticated flow. Re-run “Make Bitcode branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
+    setStatus('Candidate asset deposited into the repo-authenticated flow. Re-run “Make Bitcode branch” to see whether it sharpens a bounded read or broadens normalization for a composite one.');
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -7715,7 +7715,7 @@ window.addEventListener('resize', () => {
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. The closure runtime stays available below when you need deeper proof, replay, or settlement follow-through. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-read closure path. The closure runtime stays available below when you read deeper proof, replay, or settlement follow-through. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   const demonstrationRootEl = document.getElementById('bitcodeDemonstrationRoot');
   (demonstrationRootEl || document.body).innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;

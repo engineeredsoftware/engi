@@ -6,7 +6,7 @@ tokenomics and cryptographic-commercialization gate set.
 V27 defines `$BTD` as a capped 21,000,000-cell non-fungible
 source-share/read-right registry, with AssetPack ranges as the commercial
 transfer object and BTC as the fee asset. It implements fixed-supply
-measureminting decay, zero-cell/refit tail receipts, Need-Fit-Prove-Settle
+measureminting decay, zero-cell/refit tail receipts, Read-Fit-Prove-Settle
 mint admission, replayable mint receipts, contributor allocation, owner-read
 versus licensed-read access, licensed-read revenue routing, and late-bound
 non-supply ancestry.
@@ -60,7 +60,7 @@ Promotes the specification family:
 
 Updates product and route surfaces:
 
-- marks Terminal Need minting and minimal Exchange range acquisition as V27;
+- marks Terminal Read minting and minimal Exchange range acquisition as V27;
 - adds unversioned `/btd/[assetPackId]` AssetPack range disclosure for range,
   access policy id/hash, read branch, proof root, and source manifest root;
 - removes versioned UAPI API route paths and ports external-realization plus

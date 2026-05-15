@@ -18,7 +18,7 @@ Specialized analysis agent for technology stack identification and classificatio
 - Lightweight wrapper implementation around the canonical `@bitcode/tech-types` package
 - Minimal agent interface for integration with pipeline systems
 - Focuses on deterministic analysis of static file content
-- Provides structured output for downstream consumption that should align with the canonical `technologyProfile` emitted by Bitcode need-measurement
+- Provides structured output for downstream consumption that should align with the canonical `technologyProfile` emitted by Bitcode read-measurement
 - Keeps the `technologyProfile` contract in a package-local contract module so downstream proofs can validate the canonical envelope without loading the full PTRR agent body
 - Carries a direct package-local contract proof in `src/__tests__/technology-profile-contract.test.ts`
 

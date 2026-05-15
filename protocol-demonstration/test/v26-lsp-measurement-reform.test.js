@@ -5,7 +5,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 const reformSpec = readFileSync(new URL('../V26_LSP_MEASUREMENT_REFORM.md', import.meta.url), 'utf8');
 const canonicalSpec = readFileSync(new URL('../../BITCODE_SPEC_V26.md', import.meta.url), 'utf8');
 const bitcodeDemoSource = readFileSync(new URL('../src/bitcode-demo.js', import.meta.url), 'utf8');
-const needMeasurementSource = readFileSync(new URL('../src/canonical/need-measurement.js', import.meta.url), 'utf8');
+const readMeasurementSource = readFileSync(new URL('../src/canonical/read-measurement.js', import.meta.url), 'utf8');
 const provenGeneratorSource = readFileSync(new URL('../src/canonical/proven-generator.js', import.meta.url), 'utf8');
 const lspIndexSource = readFileSync(new URL('../../packages/lsp/src/index.ts', import.meta.url), 'utf8');
 const lspQueryIndexSource = readFileSync(new URL('../../packages/generic-tools/lsp-query/src/index.ts', import.meta.url), 'utf8');
@@ -33,23 +33,23 @@ const lspRawPromptpartSources = readdirSync(rawPromptpartsDirectory)
     source: readFileSync(new URL(fileName, rawPromptpartsDirectory), 'utf8')
   }));
 
-test('V26 specifies LSP as static Need and AssetPack measurement infrastructure', () => {
-  assert.match(reformSpec, /bitcode\.lsp\.measure-need-static\.v26/);
-  assert.match(reformSpec, /NeedDescriptor\.staticMeasurements/);
+test('V26 specifies LSP as static Read and AssetPack measurement infrastructure', () => {
+  assert.match(reformSpec, /bitcode\.lsp\.measure-read-static\.v26/);
+  assert.match(reformSpec, /ReadDescriptor\.staticMeasurements/);
   assert.match(reformSpec, /AssetPack fit/);
   assert.match(reformSpec, /Former-name trace flags are acceptable only as reform discovery aids/);
-  assert.match(canonicalSpec, /retained LSP infrastructure is admitted as static Need\/AssetPack measurement evidence/);
-  assert.match(canonicalSpec, /bitcode\.lsp\.measure-need-static\.v26/);
+  assert.match(canonicalSpec, /retained LSP infrastructure is admitted as static Read\/AssetPack measurement evidence/);
+  assert.match(canonicalSpec, /bitcode\.lsp\.measure-read-static\.v26/);
 });
 
-test('Need measurement runtime records LSP evidence and receipt provenance', () => {
-  assert.match(bitcodeDemoSource, /receiptKind: 'lsp-need-static-measurement'/);
+test('Read measurement runtime records LSP evidence and receipt provenance', () => {
+  assert.match(bitcodeDemoSource, /receiptKind: 'lsp-read-static-measurement'/);
   assert.match(bitcodeDemoSource, /stageId: 'lsp\.semantic-measurement\.v26'/);
-  assert.match(bitcodeDemoSource, /toolId: 'bitcode\.lsp\.measure-need-static\.v26'/);
-  assert.match(bitcodeDemoSource, /measuredFields: \['need\.touchedPaths', 'need\.extractedSymbols', 'need\.configKeys', 'need\.stackHints'\]/);
-  assert.match(needMeasurementSource, /measurementTrace\(\s*'static',\s*'bitcode\.lsp\.measure-need-static\.v26'/s);
-  assert.match(needMeasurementSource, /lspMeasurement: repoCodeAnalysis\.lspMeasurement/);
-  assert.match(needMeasurementSource, /staticExecuted: \['canonicalBenchmarkOutputs', 'buildRepoStaticCodeAnalysis', 'bitcode\.lsp\.measure-need-static\.v26'\]/);
+  assert.match(bitcodeDemoSource, /toolId: 'bitcode\.lsp\.measure-read-static\.v26'/);
+  assert.match(bitcodeDemoSource, /measuredFields: \['read\.touchedPaths', 'read\.extractedSymbols', 'read\.configKeys', 'read\.stackHints'\]/);
+  assert.match(readMeasurementSource, /measurementTrace\(\s*'static',\s*'bitcode\.lsp\.measure-read-static\.v26'/s);
+  assert.match(readMeasurementSource, /lspMeasurement: repoCodeAnalysis\.lspMeasurement/);
+  assert.match(readMeasurementSource, /staticExecuted: \['canonicalBenchmarkOutputs', 'buildRepoStaticCodeAnalysis', 'bitcode\.lsp\.measure-read-static\.v26'\]/);
 });
 
 test('LSP package and tool prompt surfaces teach measurement, not generic navigation product semantics', () => {
@@ -77,10 +77,10 @@ test('LSP package and tool prompt surfaces teach measurement, not generic naviga
   }
 
   assert.match(lspIndexSource, /Bitcode static measurement/);
-  assert.match(lspIndexSource, /Need\/AssetPack evidence/);
-  assert.match(lspQueryIndexSource, /Need measurement/);
-  assert.match(lspPurposePromptPartSource, /Language Server Protocol static measurement for Bitcode Need and AssetPack evidence/);
-  assert.match(lspLocationPromptPartSource, /Need measurement, AssetPack fit, and proof replay/);
+  assert.match(lspIndexSource, /Read\/AssetPack evidence/);
+  assert.match(lspQueryIndexSource, /Read measurement/);
+  assert.match(lspPurposePromptPartSource, /Language Server Protocol static measurement for Bitcode Read and AssetPack evidence/);
+  assert.match(lspLocationPromptPartSource, /Read measurement, AssetPack fit, and proof replay/);
   assert.doesNotMatch(lspQueryIndexSource, /Intelligence Suite/);
   assert.doesNotMatch(lspContextFooterPromptPartSource, /intelligent code operations/);
   assert.doesNotMatch(lspCapabilityFooterPromptPartSource, /accelerate development workflows/);
@@ -108,6 +108,6 @@ test('all LSP raw PromptParts are Bitcode measurement promptparts instead of gen
 
 test('generated proof sources include LSP measurement reform witnesses', () => {
   assert.match(provenGeneratorSource, /lsp-measurement-prompt-and-proof-boundary/);
-  assert.match(provenGeneratorSource, /lsp-measure-need-boundary/);
+  assert.match(provenGeneratorSource, /lsp-measure-read-boundary/);
   assert.match(provenGeneratorSource, /protocol-demonstration\/V26_LSP_MEASUREMENT_REFORM\.md/);
 });

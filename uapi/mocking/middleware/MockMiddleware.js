@@ -90,7 +90,7 @@ const mockAssetPacks = (handler) => withMocking({
     performanceTracking: true
 }, handler);
 exports.mockAssetPacks = mockAssetPacks;
-// Need-measurement pipeline placeholder reuses assetPacks mocks until GA-2
+// Read-measurement pipeline placeholder reuses assetPacks mocks until GA-2
 const mockGitHub = (feature) => (handler) => withMocking({
     feature,
     performanceTracking: true,

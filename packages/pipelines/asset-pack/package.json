@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/pipeline-asset-pack",
   "version": "1.0.0",
-  "description": "Bitcode AssetPack pipeline for need-satisfying written-asset synthesis with Finish/Delivering delivery mechanisms",
+  "description": "Bitcode AssetPack pipeline for read-satisfying written-asset synthesis with Finish/Delivering delivery mechanisms",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
@@ -22,7 +22,7 @@
     "@bitcode/generic-agents-digesting": "workspace:*",
     "@bitcode/generic-agents-tech-types-identifier": "workspace:*",
     "@bitcode/generic-agents-file-pick": "workspace:*",
-    "@bitcode/generic-agents-need-comprehension": "workspace:*",
+    "@bitcode/generic-agents-read-comprehension": "workspace:*",
     "@bitcode/generic-agents-danger-wall": "workspace:*",
     "@bitcode/llm-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",

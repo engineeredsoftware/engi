@@ -47,7 +47,7 @@ const tech: UniqueTech =
 // Version management
 const version = getTechVersion(tech); // '13.4.0'
 
-// Parse the identifier back into need-measurement parts
+// Parse the identifier back into read-measurement parts
 const parsed = parseUniqueTechIdentifier(tech);
 // {
 //   umbrella: 'Vercel',
@@ -57,9 +57,9 @@ const parsed = parseUniqueTechIdentifier(tech);
 // }
 ```
 
-## Need-Measurement Signal Normalization
+## Read-Measurement Signal Normalization
 
-`technologyProfile` is the canonical V26 envelope for normalized stack evidence. Package consumers and preserved-protocol need measurement should emit that name directly instead of inventing adjacent shapes.
+`technologyProfile` is the canonical V26 envelope for normalized stack evidence. Package consumers and preserved-protocol read measurement should emit that name directly instead of inventing adjacent shapes.
 
 ```typescript
 import { inferTechnologySignals } from '@bitcode/tech-types';
@@ -81,7 +81,7 @@ console.log(technologyProfile);
 
 ## Use Cases
 
-- Need-measurement normalization for technical requests and market-facing demand
+- Read-measurement normalization for technical requests and market-facing demand
 - Technology stack analysis and reporting
 - Project dependency identification
 - Framework compatibility checking
@@ -91,6 +91,6 @@ console.log(technologyProfile);
 
 ## Architecture
 
-Provides standardized technology taxonomy and signal normalization for consistent identification across the Bitcode platform. In V26, this package is part of the Bitcode need-measurement spine: the preserved protocol defines the measurement realities, while productized dependents use these types and helpers to classify stacks, requests, assets, and execution contexts without semantic drift.
+Provides standardized technology taxonomy and signal normalization for consistent identification across the Bitcode platform. In V26, this package is part of the Bitcode read-measurement spine: the preserved protocol defines the measurement realities, while productized dependents use these types and helpers to classify stacks, requests, assets, and execution contexts without semantic drift.
 
-Current dependent surfaces include the `tech-types-identifier` generic agent package and the AssetPack setup chain, both of which rely on this package to keep inferred stack labels aligned with the preserved protocol's measured-need semantics.
+Current dependent surfaces include the `tech-types-identifier` generic agent package and the AssetPack setup chain, both of which rely on this package to keep inferred stack labels aligned with the preserved protocol's measured-read semantics.

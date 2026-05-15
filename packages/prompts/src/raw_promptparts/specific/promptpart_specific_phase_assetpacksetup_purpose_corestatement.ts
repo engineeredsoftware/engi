@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: phase
- * intent: "Bitcode AssetPack Setup phase PromptPart for need-first repository, interface, and execution-state preparation"
+ * intent: "Bitcode AssetPack Setup phase PromptPart for read-first repository, interface, and execution-state preparation"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_ASSETPACKSETUP_PURPOSE_CORESTATEMENT: PromptPart =
-  'Initialize repository workspace, understand the expressed need, establish connected-interface constraints, and prepare file tracking state for written-asset synthesis' as PromptPart;
+  'Initialize repository workspace, understand the expressed read, establish connected-interface constraints, and prepare file tracking state for written-asset synthesis' as PromptPart;

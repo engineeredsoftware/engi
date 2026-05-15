@@ -34,7 +34,7 @@ export const GET = mockAreas.pipelines.evidenceDocuments.main()(originalHandler)
 export const POST = mockAreas.pipelines.evidenceDocuments.stream()(originalHandler);
 ```
 
-### The 4 Toggles (Enhance Definition of Need/IoI etc.)
+### The 4 Toggles (Enhance Definition of Read/IoI etc.)
 ```typescript
 // All toggles automatically work with mock data:
 // V26 no longer exposes old execution-option controls.
@@ -202,13 +202,13 @@ function Header() {
 }
 ```
 
-### Need Input & File Attachments
+### Read Input & File Attachments
 ```typescript
-function NeedInput() {
+function ReadInput() {
   const { data: templates } = useMockData('ASSET_PACK_TEMPLATES');
   const { data: repos } = useMockData('GITHUB_REPOS');
   
-  // Your existing Need input component
+  // Your existing Read input component
   // Mock provides rich template and repo suggestions
 }
 ```

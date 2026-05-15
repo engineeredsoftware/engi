@@ -69,8 +69,8 @@ describe('MCP prompt asset-pack canon', () => {
     const prompts = registerDevelopmentPrompts();
     const contents = await Promise.all([
       renderPromptContent(prompts[0], {
-        apiName: 'Need Review API',
-        description: 'Accept, reject, or remeasure measured Needs before fit search.',
+        apiName: 'Read Review API',
+        description: 'Accept, reject, or remeasure measured Reads before fit search.',
         repository,
         apiType: 'rest',
         authentication: 'jwt',
@@ -79,7 +79,7 @@ describe('MCP prompt asset-pack canon', () => {
       }),
       renderPromptContent(prompts[1], {
         projectName: 'Bitcode Terminal Review Surface',
-        description: 'Show reviewable Needs and settlement fit qualities.',
+        description: 'Show reviewable Reads and settlement fit qualities.',
         repository,
         framework: 'react',
         typescript: true,

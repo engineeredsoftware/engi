@@ -54,7 +54,7 @@ Perfect for new feature development, enhancement requests, and product improveme
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need to implement a new feature called "${args.featureName}" with the following requirements:
+      content: `I read to implement a new feature called "${args.featureName}" with the following requirements:
 
 ## Feature Requirements
 ${args.requirements}
@@ -133,7 +133,7 @@ Ideal for bug reports, production issues, and quality improvements.`,
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need to analyze and fix a bug in the following repository:
+      content: `I read to analyze and fix a bug in the following repository:
 
 ## Bug Report
 **Repository**: ${args.repository.owner}/${args.repository.name}
@@ -235,7 +235,7 @@ Perfect for PR reviews, code audits, and quality assurance.`,
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need a comprehensive code review for the following repository:
+      content: `I read a comprehensive code review for the following repository:
 
 ## Review Context
 - **Repository**: ${args.repository.owner}/${args.repository.name}
@@ -337,7 +337,7 @@ Perfect for architecture decisions, modernization planning, and design reviews.`
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need a comprehensive architecture review for the following system:
+      content: `I read a comprehensive architecture review for the following system:
 
 ## System Context
 - **Repository**: ${args.repository.owner}/${args.repository.name}
@@ -446,7 +446,7 @@ Ideal for performance issues, optimization requests, and efficiency improvements
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need to optimize the performance of the following application:
+      content: `I read to optimize the performance of the following application:
 
 ## Application Context
 - **Repository**: ${args.repository.owner}/${args.repository.name}

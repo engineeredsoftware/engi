@@ -52,7 +52,7 @@ import { PipelineTestOrchestrator } from '@bitcode/prompt-quality-framework';
 // Configure pipeline testing
 const orchestrator = new PipelineTestOrchestrator({
   pipelineId: 'asset-pack-execution',
-  pipelineName: 'AssetPack Need-Satisfaction Pipeline',
+  pipelineName: 'AssetPack Read-Satisfaction Pipeline',
   execution: {
     strategy: 'hybrid', // dependency-aware parallel execution
     maxConcurrency: 4,

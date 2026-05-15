@@ -33,7 +33,7 @@ V28 makes the commercial Protocol implementation and Terminal experience exact e
 
 The central V28 product and protocol question is:
 
-> Can an operator use Bitcode's commercial Protocol implementation and Terminal to move through readiness, Auxillaries setup, Need/Fit work, synthetic measurement, BTD-AssetPack minting, BTC fee/testnet authorization, ledgerized journaling, `$BTD` range disclosure, licensed-read state, journal diffing, and reconciliation without relying on demonstration code or reading package internals?
+> Can an operator use Bitcode's commercial Protocol implementation and Terminal to move through readiness, Auxillaries setup, Deposit, Read/Fit work, synthetic measurement, BTD-AssetPack minting, BTC fee/testnet authorization, ledgerized journaling, `$BTD` range disclosure, licensed-read state, journal diffing, and reconciliation without relying on demonstration code or reading package internals?
 
 V28 answers that by specifying:
 
@@ -42,7 +42,7 @@ V28 answers that by specifying:
 - Auxillaries contained tabs-left cleanup, removing old orbital layout conflicts from the active auth/profile/readiness experience;
 - Terminal wallet connection and signer-session review over V27 wallet primitives;
 - BTC fee preparation, PSBT handoff, signature status, broadcast status, confirmation/replacement/reorg readout, and failure recovery;
-- Need submission and Fit closure with visible source roots, proof roots, semantic volume, measuremint entitlement, zero-cell/refit posture, and access-policy binding;
+- Read submission and Fit closure with visible source roots, proof roots, semantic volume, measuremint entitlement, zero-cell/refit posture, and access-policy binding;
 - Terminal AssetPack range details derived from the registry, not aggregate compatibility balances;
 - owner-read and licensed-read state visible from policy and registry evidence;
 - Terminal journal rows and ledger/database reconciliation repairs as ordinary operator-readable transaction details;
@@ -53,10 +53,22 @@ V28 answers that by specifying:
 - honest provider readiness where GitHub is the implemented VCS provider and broader provider rollout is later external-connection work;
 - V28 promotion proof after implementation, tests, builds, and route scans close.
 
+## V28 Terminal Terminology Contract
+
+V28 user-facing Terminal language is Deposit/Depositing and Read/Reading.
+The previous Deposit/Depositing and Read/Reading vocabulary is retired from operator-visible copy, QA instructions, public docs, Terminal labels, tooltip prose, test-visible assertions, and staging walkthroughs.
+
+Deposit means source supply is selected, bound to a repository/branch/commit, signed where required, and submitted as the candidate supply side before any meaningful Read/Fit result is evaluated.
+Read means the demand/query/measurement side that reads against available deposited source posture, then proceeds into Fit, proofs, finalities, ledgerization, and reconciliation.
+
+Implementation may temporarily retain persisted/API compatibility carriers such as enum values, route names, schema fields, artifact IDs, component filenames, and canonical proof IDs containing `deposit`, `read`, or `read-measurement`.
+Those carriers are not operator vocabulary.
+Any active UI, documentation, QA query label, or test-visible copy that surfaces those carriers must translate them to Deposit/Read language until a separate bounded schema/API migration is specified.
+
 ## Real-Deployed Staging-Testnet MVP Target
 
 V28 closure is now judged primarily by one real staging-testnet operator path with mocks disabled.
-Mock mode remains a deterministic regression harness, but manual acceptance must prove that the deployed staging-testnet application is honest and minimally usable from first onboarding through Terminal Give and Need results.
+Mock mode remains a deterministic regression harness, but manual acceptance must prove that the deployed staging-testnet application is honest and minimally usable from first onboarding through Terminal Deposit and Read results.
 
 The V28 staging-testnet target path is:
 
@@ -64,14 +76,14 @@ The V28 staging-testnet target path is:
 2. Open the Wallet auxillary pane and connect a Bitcoin-capable browser wallet on the configured testnet lane.
 3. Capture a signed Bitcoin identity proof, bind payment/auth address facts, and project the wallet session into Supabase through Bitcode's custom Bitcoin-auth boundary.
 4. Return to top chrome and verify that wallet identity, BTC fee posture, and BTD posture replace anonymous `Connect Wallet` state only after wallet status is known.
-5. Open Externals and install or connect the GitHub App so repository inventory and source scope are available for Give and Need.
+5. Open Externals and install or connect the GitHub App so repository inventory and source scope are available for Deposit and Read.
 6. Keep Profile limited to optional email/contact/admin posture; email may improve notifications, but it is not the primary identity primitive.
-7. In Terminal, perform the simplest Need path: select or express a Need, produce Fit-finding evidence, show review/proof/dedupe roots, and read the Fit result without leaving Terminal.
-8. Synthesize the resulting AssetPack through protocol-specified model and pipeline configuration, not user-selected ledgerized synthesis preferences.
-9. Emit or simulate the BTC fee/testnet ledger path with user-controlled signing, explicit blocked-readiness receipts when broadcast is unavailable, and no server custody.
-10. Record synthetic measurement, measuremint result, AssetPack range or zero-cell receipt, access-policy hash, ledger anchor or ledger-observed placeholder, Terminal journal entry, and database projection.
-11. Reconcile ledger/journal/database state and expose any drift as a blocking or repairable Terminal read.
-12. Perform the simplest Give path against a GitHub repository/source scope and read earning, settlement, or blocked-readiness state from the same Terminal/protocol readback grammar.
+7. In Terminal, perform the simplest Deposit path against a GitHub repository/source scope, binding repository, branch, commit, signer, and selected source supply before any Read/Fit result is evaluated.
+8. Select or express the simplest Read against the deposited source posture, produce Fit-finding evidence, show review/proof/dedupe roots, and read the Fit result without leaving Terminal.
+9. Synthesize the resulting AssetPack through protocol-specified model and pipeline configuration, not user-selected ledgerized synthesis preferences.
+10. Emit or simulate the BTC fee/testnet ledger path with user-controlled signing, explicit blocked-readiness receipts when broadcast is unavailable, and no server custody.
+11. Record synthetic measurement, measuremint result, AssetPack range or zero-cell receipt, access-policy hash, ledger anchor or ledger-observed placeholder, Terminal journal entry, and database projection.
+12. Reconcile ledger/journal/database state and expose any drift as a blocking or repairable Terminal read while reading earning, settlement, or blocked-readiness state from the same Terminal/protocol readback grammar.
 
 V28 does not require value-bearing mainnet behavior.
 Regtest, signet, public testnet, and staging-testnet readiness may be used, but value-bearing mainnet requires a separate approval root.
@@ -158,7 +170,7 @@ BTD_MAX_MINTABLE_SUPPLY = 21_000_000
 
 One $BTD = one unique non-fungible source-share cell.
 One AssetPack = one contiguous range of $BTD cells.
-Only proof-backed Need-Fit settlement can mint $BTD.
+Only proof-backed Read-Fit settlement can mint $BTD.
 BTC is the fee asset.
 $BTD is not a spend token.
 Measureminting decays toward the fixed supply ceiling.
@@ -191,9 +203,9 @@ The V28 Terminal must present the Bitcode transaction path as a single operator 
 
 ```text
 Readiness
-  -> Need submission
-  -> Need measurement
-  -> Need review
+  -> Read submission
+  -> Read measurement
+  -> Read review
   -> Fit review
   -> proof and dedupe
   -> measuremint entitlement
@@ -226,7 +238,7 @@ Required read models:
 
 - `TerminalWalletReadiness`: wallet provider, address, network, signer-session state, authorization proof kind, expiry, and fail-closed reason.
 - `TerminalBtcFeeReadiness`: fee purpose, sats, PSBT or unsigned transaction handoff state, txid, finality state, confirmations, replacement/reorg/failure reason.
-- `TerminalNeedFitRead`: Need id, source scope, semantic-volume receipt, Need review decision, Fit review qualities, proof root, dedupe root, settlement journal root.
+- `TerminalReadFitRead`: Read id, source scope, semantic-volume receipt, Read review decision, Fit review qualities, proof root, dedupe root, settlement journal root.
 - `TerminalMeasuremintRead`: cumulative measurement before/after, target minted before/after, residual credit, token count, zero-cell reason, range projection if minted.
 - `TerminalAssetPackRangeRead`: AssetPack id, range start/end, cells summary, owner, policy id/hash, source manifest root, proof root, ledger anchor state.
 - `TerminalReadRightRead`: owner-read, licensed-read, denied reason, license scope, expiry, policy hash, derivative and redistribution flags when policy-bound.
@@ -269,7 +281,7 @@ Acceptance criteria:
 - Auxillaries selector cards use centered pane names plus visual state indicators, not duplicate lane-title prose, and hover movement must not clip the first selector card.
 - Auxillaries profile panes must be scrollable on first render, including unauthenticated and non-mock contained portal entry.
 - Auxillaries settings panes auto-save edits; visible pane-level Save buttons are not part of the commercial MVP shell.
-- the Wallet auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes a Protocol/Terminal activity table for BTD-relevant owned packs, Gives, Needs, proof closures, ledger anchors, synthetic measurements, and range-bearing activity.
+- the Wallet auxillary shows BTD as the primary large balance, shows owned AssetPack count and BTC wallet liquidity as secondary stats, moves explanatory system copy into tooltips/accessibility labels, avoids long-identifier overflow, and includes a Protocol/Terminal activity table for BTD-relevant owned packs, Deposits, Reads, proof closures, ledger anchors, synthetic measurements, and range-bearing activity.
 - notification dropdowns remain legible and do not include redundant Auxillaries footer launchers when top chrome and profile menu already provide that entry.
 - route QA covers `/`, `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, MCP API routes, ChatGPT App entrypoints, and protocol routes; Exchange and website Conversations are disabled or hidden for V28 QA, and the prior generic workspace route is verified absent from active source.
 - Exchange navigation is disabled for V28 and must not be required by any V28 acceptance criterion; any retained Exchange route/API behavior is treated as deferred compatibility or future work.
@@ -287,7 +299,7 @@ Acceptance criteria:
 - the commercial-MVP Playwright runner executes serially against one deterministic mock-mode dev server, including mocked Auxillaries profile, non-ledgerized interface preferences, data-share, notifications, Terminal activity, BTD mint/read state, and MCP/ChatGPT App readiness paths, so failures represent product regressions rather than local wallet/session availability.
 - visual QA proves no framework overlay, blank page, major content overlap, or unreadable primary controls.
 
-### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow
+### Gate 3: Terminal Wallet, BTC Fee, And Read-Fit-Measuremint Workflow
 
 Purpose:
 Make user-controlled signing, BTC fee state, V27 measurement, and mint-admission law visible before the operator commits.
@@ -299,10 +311,10 @@ Acceptance criteria:
 - Terminal exposes BTC fee prepared, signed, broadcast, confirmed, replaced, reorged, and failed states.
 - PSBT or wallet-native unsigned handoff is visible where applicable.
 - `$BTD` is never displayed as fee liquidity.
-- Need measurement evidence and review decision are visible before Fit review.
+- Read measurement evidence and review decision are visible before Fit review.
 - Fit review displays qualities and roots needed for settlement review.
 - semantic volume, cumulative measurement, measuremint target, residual credit, token count, zero-cell reason, and refit posture are visible.
-- source deposit, Need discovery, preliminary Fit, and uncommitted proof never imply minting.
+- source deposit, Read discovery, preliminary Fit, and uncommitted proof never imply minting.
 - access policy id/hash is shown before mint or licensed-read commitment.
 - ledgerized synthesis uses protocol-specified models and configuration; Terminal must not expose user-driven model selection for Fit, AssetPack, measurement, measuremint, proof, journal, or settlement behavior.
 
@@ -450,8 +462,8 @@ V28 keeps these layer boundaries:
 
 The V28 domain model is:
 
-- Need: measured demand reviewed before Fit.
-- Fit: accepted source-to-Need match with reviewable quality.
+- Read: measured demand reviewed before Fit.
+- Fit: accepted source-to-Read match with reviewable quality.
 - AssetPack: source-bearing output and commercial registry range object.
 - `$BTD` cell: non-fungible source-share/read-right registry cell.
 - AssetPack range: contiguous commercial transfer object.
@@ -462,7 +474,7 @@ The V28 domain model is:
 
 ## whole Bitcode operator chain
 
-The V28 operator chain is Readiness -> Need -> Fit -> Proof -> Measuremint -> Fee -> Anchor -> Range -> Read -> Journal -> Reconcile -> Protocol readback.
+The V28 operator chain is Readiness -> Read -> Fit -> Proof -> Measuremint -> Fee -> Anchor -> Range -> Read -> Journal -> Reconcile -> Protocol readback.
 Every link must make proof or readiness state visible.
 
 ## canonical subsystem surfaces
@@ -470,17 +482,17 @@ Every link must make proof or readiness state visible.
 ### Depositing and asset supply
 
 Current canonical objects and emitted artifacts: source roots, source manifests, AssetPack evidence, `.bitcode/selected-source-material.json`.
-Current algorithms and derivation rules: source is admitted only through Need/Fit/proof and does not mint by deposit alone.
+Current algorithms and derivation rules: source is admitted only through Read/Fit/proof and does not mint by deposit alone.
 Current invariants and fail-closed conditions: invalid deposit blocks downstream commitment.
 Current proof obligations: show repository/source scope and manifest roots.
 Current source-bearing implementation basis: Terminal source selectors, execution source evidence, protocol-demonstration source witnesses.
 Current validating commands and parity basis: protocol-demonstration tests and Terminal route checks.
 Current accepted boundaries: V28 does not complete every external provider.
 
-### Needing and prompt/inference ownership
+### Reading and prompt/inference ownership
 
-Current canonical objects and emitted artifacts: Need text, Need measurement receipt, prompt trace, inference receipt.
-Current algorithms and derivation rules: needing and measured demand are reviewed before fit.
+Current canonical objects and emitted artifacts: Read text, Read measurement receipt, prompt trace, inference receipt.
+Current algorithms and derivation rules: reading and measured demand are reviewed before fit.
 Current invariants and fail-closed conditions: prompt contract incompleteness blocks proof-bearing settlement.
 Current proof obligations: bind prompt, model/provider, source scope, and measurement evidence.
 Current source-bearing implementation basis: `uapi/app/terminal`, `uapi/app/executions`, prompt system notes.
@@ -490,10 +502,10 @@ Current accepted boundaries: V28 productizes Terminal reads without redefining i
 ### Fit, recall, ranking, and verification
 
 Current canonical objects and emitted artifacts: Fit review rows, recall candidates, verification decisions.
-Current algorithms and derivation rules: depositing-to-needing fit, recall and ranking, and verification decisions are explicit before settlement.
+Current algorithms and derivation rules: deposit-to-read fit, recall and ranking, and verification decisions are explicit before settlement.
 Current invariants and fail-closed conditions: no-survivor asset pack blocks range commitment.
 Current proof obligations: prove candidate qualities and rejection reasons.
-Current source-bearing implementation basis: protocol-demonstration Need/Fit witnesses and UAPI execution components.
+Current source-bearing implementation basis: protocol-demonstration Read/Fit witnesses and UAPI execution components.
 Current validating commands and parity basis: demonstration tests and UAPI route tests.
 Current accepted boundaries: V28 does not add broad market discovery.
 
@@ -596,7 +608,7 @@ V28 is complete only when commercial Protocol/Terminal MVP QA, Terminal readines
 
 ## Appendix A. Canonical type and surface catalog
 
-Canonical types include TerminalWalletReadiness, TerminalBtcFeeReadiness, TerminalNeedFitRead, TerminalMeasuremintRead, TerminalAssetPackRangeRead, TerminalReadRightRead, TerminalJournalDiffRead, TerminalOrganizationBtdRead, and TerminalOperationalHealthRead.
+Canonical types include TerminalWalletReadiness, TerminalBtcFeeReadiness, TerminalReadFitRead, TerminalMeasuremintRead, TerminalAssetPackRangeRead, TerminalReadRightRead, TerminalJournalDiffRead, TerminalOrganizationBtdRead, and TerminalOperationalHealthRead.
 
 Canonical V28 surfaces include `/terminal`, `/auxillaries/*`, `/btd/[assetPackId]`, unversioned `/api/btd/*` routes, MCP API routes, ChatGPT App entrypoints, and the protocol-demonstration witness runtime. Exchange and website Conversations are deferred beyond V35. the prior generic workspace route is fully retired and must redirect to `/terminal`.
 
@@ -606,8 +618,8 @@ Canonical V28 surfaces include `/terminal`, `/auxillaries/*`, `/btd/[assetPackId
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v28-inference-synthesis-proof.json` | terminal-need-measurement | v28-terminal-need-proof | replay-terminal-need | prompt traces, source roots | Terminal Need/Fit reads |
-| Prompt-completeness | `.bitcode/v28-prompt-completeness-proof.json` | terminal-prompt-contract | v28-prompt-contract-proof | replay-prompt-contract | prompt inventory | prompt system and Need measurement |
+| Inference-synthesis | `.bitcode/v28-inference-synthesis-proof.json` | terminal-read-measurement | v28-terminal-read-proof | replay-terminal-read | prompt traces, source roots | Terminal Read/Fit reads |
+| Prompt-completeness | `.bitcode/v28-prompt-completeness-proof.json` | terminal-prompt-contract | v28-prompt-contract-proof | replay-prompt-contract | prompt inventory | prompt system and Read measurement |
 | Static-code-analysis | `.bitcode/v28-static-code-analysis-proof.json` | terminal-source-scan | v28-source-scan-proof | replay-source-scan | source manifests | source and package audits |
 | Verification-decisions | `.bitcode/v28-verification-decisions-proof.json` | fit-review-quality | v28-fit-quality-proof | replay-fit-quality | verification reports | Fit/verification routes |
 | Selection-and-materialization | `.bitcode/v28-selection-materialization-proof.json` | assetpack-range-detail | v28-range-detail-proof | replay-range-detail | AssetPack evidence | range and evidence surfaces |
@@ -619,15 +631,15 @@ Canonical V28 surfaces include `/terminal`, `/auxillaries/*`, `/btd/[assetPackId
 ### Inference-synthesis
 
 proofArtifactPath: `.bitcode/v28-inference-synthesis-proof.json`
-members: terminal Need measurement, Fit read, operator synthesis context.
-theoremIds: v28-terminal-need-proof.
-replayStepIds: replay-terminal-need.
+members: terminal Read measurement, Fit read, operator synthesis context.
+theoremIds: v28-terminal-read-proof.
+replayStepIds: replay-terminal-read.
 witnessArtifactPaths: prompt traces, source roots.
-current member closure criteria: Terminal shows Need evidence and inference posture.
+current member closure criteria: Terminal shows Read evidence and inference posture.
 current member verdict shape: closed, blocked, or needs-review.
-current theorem-by-theorem closure reading: every synthesized Need must bind source and prompt evidence.
-current theorem-to-replay grouping: Need, Fit, and synthesis replay are grouped by Terminal transaction.
-minimum artifact/replay binding set: Need text, source root, prompt root, inference receipt.
+current theorem-by-theorem closure reading: every synthesized Read must bind source and prompt evidence.
+current theorem-to-replay grouping: Read, Fit, and synthesis replay are grouped by Terminal transaction.
+minimum artifact/replay binding set: Read text, source root, prompt root, inference receipt.
 current proof-object fields: proofId, memberId, theoremIds, replayStepIds, sourceRoots.
 generated-artifact and test bindings: protocol-demonstration and UAPI route tests.
 fail-closed conditions: prompt contract incompleteness or missing source root.
@@ -635,11 +647,11 @@ fail-closed conditions: prompt contract incompleteness or missing source root.
 ### Prompt-completeness
 
 proofArtifactPath: `.bitcode/v28-prompt-completeness-proof.json`
-members: Need prompts, Fit prompts, operator review prompts.
+members: Read prompts, Fit prompts, operator review prompts.
 theoremIds: v28-prompt-contract-proof.
 replayStepIds: replay-prompt-contract.
 witnessArtifactPaths: prompt inventory.
-current member closure criteria: prompt renders all required Need/Fit fields.
+current member closure criteria: prompt renders all required Read/Fit fields.
 current member verdict shape: complete or incomplete.
 current theorem-by-theorem closure reading: every prompt owns its output contract.
 current theorem-to-replay grouping: prompt and parsed output replay together.
@@ -833,7 +845,7 @@ Current canonical source map:
 
 ## Appendix F. Subsystem totality and derivability matrix
 
-Subsystem totality covers repo supply and depositing; needing and measured demand; prompt/inference/evaluator ownership; depositing-to-needing fit; recall and ranking; verification decisions; selection and materialization; branch artifacts and assetPackEvidence; identity, authority, signing, and policy; sensitive data and confidentiality flows; projection, disclosure, and redaction; proof families, members, theorems, witnesses, and replay; settlement, source-to-shares, journals, and exact accounting; telemetry, persistence, state, and failure semantics; host/runtime capability truth; operator experience and pedagogy; validation and test stack; generated artifacts and canonical promotion.
+Subsystem totality covers repo supply and depositing; reading and measured demand; prompt/inference/evaluator ownership; deposit-to-read fit; recall and ranking; verification decisions; selection and materialization; branch artifacts and assetPackEvidence; identity, authority, signing, and policy; sensitive data and confidentiality flows; projection, disclosure, and redaction; proof families, members, theorems, witnesses, and replay; settlement, source-to-shares, journals, and exact accounting; telemetry, persistence, state, and failure semantics; host/runtime capability truth; operator experience and pedagogy; validation and test stack; generated artifacts and canonical promotion.
 
 ## Appendix G. Canonical file-family and promotion contract catalog
 
@@ -843,7 +855,7 @@ Promotion updates `BITCODE_SPEC.txt` only after V28 proof closure.
 
 ## Appendix H. Operator surface and quality contract catalog
 
-Operator surfaces must render Terminal wallet, BTC fee, Need, Fit, AssetPack range, read-right, journal, reconciliation, and operational-health state with scan-readable quality.
+Operator surfaces must render Terminal wallet, BTC fee, Read, Fit, AssetPack range, read-right, journal, reconciliation, and operational-health state with scan-readable quality.
 
 ## Appendix I. Scenario, workflow, and cross-product contract catalog
 

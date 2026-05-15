@@ -1,8 +1,8 @@
 import { buildAgenticExecutionSummary, normalizeAgenticExecutionType } from '@bitcode/api/src/executions/agentic-execution';
 
 import type { BitcodeTerminalShellSnapshot } from './terminal-shell-bridge';
-import { normalizeTerminalGiveNeedWorkbench } from './terminal-give-need-workbench';
-import { normalizeTerminalNeedScenarios } from './terminal-need-scenarios';
+import { normalizeTerminalDepositReadWorkbench } from './terminal-deposit-read-workbench';
+import { normalizeTerminalReadScenarios } from './terminal-read-scenarios';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
 import type { WorkspaceRun } from './terminal-run-data';
 import { normalizeTerminalSupplySelection } from './terminal-supply-selection';
@@ -44,11 +44,11 @@ function readType(snapshot: BitcodeTerminalShellSnapshot) {
   }
 
   if (
-    normalizeWhitespace(snapshot?.needingSurface?.needSummary) ||
-    normalizeWhitespace(snapshot?.needingSurface?.taskSummary) ||
-    normalizeWhitespace(snapshot?.needingSurface?.parserKind)
+    normalizeWhitespace(snapshot?.readingSurface?.readSummary) ||
+    normalizeWhitespace(snapshot?.readingSurface?.taskSummary) ||
+    normalizeWhitespace(snapshot?.readingSurface?.parserKind)
   ) {
-    return 'agentic-execution:need-measurement';
+    return 'agentic-execution:read-measurement';
   }
 
   return 'agentic-execution:asset-pack';
@@ -61,15 +61,15 @@ function readSummary(snapshot: BitcodeTerminalShellSnapshot, repositoryLabel: st
   if (normalizeWhitespace(snapshot?.fitSurface?.fitSummary)) {
     return normalizeWhitespace(snapshot?.fitSurface?.fitSummary);
   }
-  if (normalizeWhitespace(snapshot?.needingSurface?.needSummary)) {
-    return normalizeWhitespace(snapshot?.needingSurface?.needSummary);
+  if (normalizeWhitespace(snapshot?.readingSurface?.readSummary)) {
+    return normalizeWhitespace(snapshot?.readingSurface?.readSummary);
   }
   if (normalizeWhitespace(snapshot?.depositingSurface?.depositIntentSummary)) {
     return normalizeWhitespace(snapshot?.depositingSurface?.depositIntentSummary);
   }
 
-  if (canonicalType === 'agentic-execution:need-measurement') {
-    return `Live Bitcode need measurement for ${scenarioLabel}.`;
+  if (canonicalType === 'agentic-execution:read-measurement') {
+    return `Live Bitcode read measurement for ${scenarioLabel}.`;
   }
   if (canonicalType === 'agentic-execution:proof-refresh') {
     return `Live Bitcode fit, proof, and settlement posture for ${scenarioLabel}.`;
@@ -164,10 +164,10 @@ export function buildProtocolProjectedRunDetail(
     normalizeWhitespace(snapshot?.authSession?.defaultRef) ||
     'main';
   const commit = normalizeWhitespace(repositoryContext?.selectedCommit);
-  const workbench = normalizeTerminalGiveNeedWorkbench(snapshot, repositoryContext);
-  const needScenarios = normalizeTerminalNeedScenarios(snapshot);
+  const workbench = normalizeTerminalDepositReadWorkbench(snapshot, repositoryContext);
+  const readScenarios = normalizeTerminalReadScenarios(snapshot);
   const activeScenario =
-    needScenarios?.scenarios.find((scenario) => scenario.selected) || needScenarios?.scenarios[0] || null;
+    readScenarios?.scenarios.find((scenario) => scenario.selected) || readScenarios?.scenarios[0] || null;
   const supplySelection = normalizeTerminalSupplySelection(snapshot, repositoryContext);
   const selectedAuthSession =
     supplySelection?.authSessions.find((session) => session.selected) || supplySelection?.authSessions[0] || null;
@@ -200,14 +200,14 @@ export function buildProtocolProjectedRunDetail(
       workbench || activeScenario || supplySelection || repository
         ? {
             ...(workbench && canonicalType === 'agentic-execution:proof-refresh' ? { fitWorkbench: workbench } : {}),
-            ...(workbench && canonicalType !== 'agentic-execution:proof-refresh' ? { giveWorkbench: workbench } : {}),
-            ...(needScenarios && activeScenario
+            ...(workbench && canonicalType !== 'agentic-execution:proof-refresh' ? { depositWorkbench: workbench } : {}),
+            ...(readScenarios && activeScenario
               ? {
-                  needMeasurement: {
+                  readMeasurement: {
                     scenario: activeScenario,
-                    parserKind: needScenarios.parserKind,
-                    closureCriteriaCount: needScenarios.closureCriteriaCount,
-                    targetKindCount: needScenarios.targetKindCount,
+                    parserKind: readScenarios.parserKind,
+                    closureCriteriaCount: readScenarios.closureCriteriaCount,
+                    targetKindCount: readScenarios.targetKindCount,
                   },
                 }
               : {}),

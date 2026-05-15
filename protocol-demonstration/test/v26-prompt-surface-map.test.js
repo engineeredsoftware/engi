@@ -20,7 +20,7 @@ const promptSpaceCompletenessProof = JSON.parse(
 test('V26 prompt surface map keeps active, support, and reference corridors explicit', () => {
   assert.match(promptSurfaceSource, /## Public prompt contract/u);
   assert.match(promptSurfaceSource, /V26_INFERENCE_SYSTEMS\.md/u);
-  assert.match(promptSurfaceSource, /need, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, and verification/u);
+  assert.match(promptSurfaceSource, /read, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, and verification/u);
   assert.match(promptSurfaceSource, /`Prompt` defines the registry\/composition shape of inference by extending `RegistryImpl<PromptPart>`/u);
   assert.match(promptSurfaceSource, /Registry primitives are therefore required knowledge for prompt work/u);
   assert.match(promptSurfaceSource, /`RegistryImpl` provides priority resolution, hierarchical path composition, multi-path merging/u);
@@ -68,24 +68,24 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);
-  assert.match(promptSurfaceSource, /`need-comprehension` is now the canonical generic-tool package boundary/u);
-  assert.match(promptSurfaceSource, /Bitcode need-comprehension, written-asset, AssetPack, and delivery-mechanism analysis/u);
+  assert.match(promptSurfaceSource, /`read-comprehension` is now the canonical generic-tool package boundary/u);
+  assert.match(promptSurfaceSource, /Bitcode read-comprehension, written-asset, AssetPack, and delivery-mechanism analysis/u);
   assert.match(promptSurfaceSource, /protocol-demonstration\/V26_DOC_COMMENT_REFORM\.md/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/prompts\/prompt` and `@bitcode\/prompts\/parts\/PromptPart`/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/execution-generics\/Execution` and `@bitcode\/execution-generics\/prompts\/ExecutionPrompt`/u);
   assert.match(promptSurfaceSource, /broader active execution-bearing runtime carriers/u);
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
-  assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
+  assert.match(promptSurfaceSource, /Jira remains reader-first read-ingestion\/reference posture/u);
   assert.match(promptSurfaceSource, /runtime JavaScript carry-through files must stay content-equivalent/u);
   assert.match(promptSurfaceSource, /active AssetPack substep PromptParts/u);
   assert.match(promptSurfaceSource, /broad prompt normalization must be idempotent/u);
   assert.match(promptSurfaceSource, /runtime `\.js` PromptPart strings must synchronize from canonical `\.ts` PromptPart source/u);
   assert.match(promptSurfaceSource, /doc-comment metadata must also be Bitcode-native/u);
   assert.match(promptSurfaceSource, /`current_version` cannot preserve pre-Bitcode lineage/u);
-  assert.match(promptSurfaceSource, /every active substep `intent` must name the need-first written-asset \/ asset-pack \/ proof \/ Shippable delivery-mechanism role/u);
+  assert.match(promptSurfaceSource, /every active substep `intent` must name the read-first written-asset \/ asset-pack \/ proof \/ Shippable delivery-mechanism role/u);
   assert.match(promptSurfaceSource, /whole active AssetPack raw PromptPart corpus/u);
   assert.match(promptSurfaceSource, /agent, phase, pipeline, tool, setup, discovery, implementation, validation, and Finish-delivery PromptParts/u);
-  assert.match(promptSurfaceSource, /doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset \/ asset-pack execution and Shippable delivery/u);
+  assert.match(promptSurfaceSource, /doc-comment `intent` and `current_version` metadata must describe Bitcode read-first written-asset \/ asset-pack execution and Shippable delivery/u);
   assert.match(promptSurfaceSource, /deliverable\{impl,implementation,validation\}\*/u);
   assert.match(promptSurfaceSource, /non-PR `assetpackfinish\{submitreview,createissue,addissuecomment\}delivery_\*` raw PromptParts are removed/u);
   assert.match(promptSurfaceSource, /The remaining prompt closure work must also prove Registry-layer understanding/u);
@@ -103,13 +103,13 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
 
 test('V26 inference systems spec binds prompts, tools, agents, and executions together', () => {
   assert.match(inferenceSystemsSource, /No prompt, tool, agent, phase, pipeline, MCP operation, or execution carrier/u);
-  assert.match(inferenceSystemsSource, /Need \| Name the Bitcode need/u);
+  assert.match(inferenceSystemsSource, /Read \| Name the Bitcode read/u);
   assert.match(inferenceSystemsSource, /Prompt ownership \| Identify the exact prompt class, Registry primitive, registry path\/key structure, generic base PromptParts, specific implementation PromptParts/u);
   assert.match(inferenceSystemsSource, /Tool ownership \| Identify callable tools/u);
   assert.match(inferenceSystemsSource, /Agent ownership \| Identify agent role/u);
   assert.match(inferenceSystemsSource, /Execution ownership \| Identify where runtime state is stored/u);
-  assert.match(inferenceSystemsSource, /`packages\/generic-tools\/need-comprehension\/\*`/u);
-  assert.match(inferenceSystemsSource, /individually owned Bitcode need-comprehension prompt\/tool primitives/u);
+  assert.match(inferenceSystemsSource, /`packages\/generic-tools\/read-comprehension\/\*`/u);
+  assert.match(inferenceSystemsSource, /individually owned Bitcode read-comprehension prompt\/tool primitives/u);
   assert.match(inferenceSystemsSource, /## Inference Implementation Record/u);
   assert.match(inferenceSystemsSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);
   assert.match(inferenceSystemsSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
@@ -127,7 +127,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Agent infrastructure \| `AgentPrompt`, `AgentStepPrompt`/u);
   assert.match(inferenceSystemsSource, /Pipeline infrastructure \| `PipelinePrompt`/u);
   assert.match(inferenceSystemsSource, /Conversation inference \| `BitcodeTerminalConversationSystemPrompt` and `uapi\/prompts\/bitcode-terminal-system-prompt\.ts`/u);
-  assert.match(inferenceSystemsSource, /Need-comprehension support/u);
+  assert.match(inferenceSystemsSource, /Read-comprehension support/u);
   assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
   assert.match(inferenceSystemsSource, /## Prompt-Space Witness Baseline/u);
   assert.match(inferenceSystemsSource, /terminal conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
@@ -180,7 +180,7 @@ test('V26 prompt-space proof closes the eighth-gate completeness verdict', () =>
       'primitive-contract',
       'active-inference-carriers',
       'tool-prompt-injection',
-      'asset-pack-need-comprehension',
+      'asset-pack-read-comprehension',
       'raw-promptpart-carry-through',
       'app-mcp-ingress',
       'proof-and-specification'

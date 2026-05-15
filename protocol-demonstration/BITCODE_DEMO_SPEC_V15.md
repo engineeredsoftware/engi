@@ -30,9 +30,9 @@ It means the demo is one realization rather than the whole system.
 
 The local deterministic prototype realizes the Bitcode operating chain as:
 1. repo supply and modeled GitHub App-authenticated inventory,
-2. depositing candidate supply against a measured need,
-3. needing as benchmark/parser/repo-derived demand,
-4. explicit deposit-to-need fit before deep proof inspection,
+2. depositing candidate supply against a measured read,
+3. reading as benchmark/parser/repo-derived demand,
+4. explicit deposit-to-read fit before deep proof inspection,
 5. ranked candidates plus separate verification and use-tiering,
 6. asset-pack assembly and private branch artifact materialization,
 7. proof closure, bounded public proof, and disclosure/redaction policy,
@@ -40,7 +40,7 @@ The local deterministic prototype realizes the Bitcode operating chain as:
 
 The demo is intentionally centered on:
 - depositing,
-- needing,
+- reading,
 - fit,
 - identity/auth as spine,
 - repo-to-settlement closure,
@@ -68,8 +68,8 @@ Those surfaces are represented deterministically in local state and called out e
 The current browser shell organizes operator understanding through the following panel order:
 1. Operating picture
 2. Depositing plus candidate assets
-3. Needing plus measured demand
-4. Depositing-to-needing fit
+3. Reading plus measured demand
+4. Depositing-to-reading fit
 5. Ranked candidates plus verification determinisms
 6. Asset pack plus branch artifacts
 7. Settlement plus journal diff
@@ -111,9 +111,9 @@ They do not, by themselves, define the whole of system canon.
 
 Current module-boundary reading for the demo:
 - `src/canonical/enums.js` and `src/canonical/types.js` now own closed-case vocabulary and typed intent for the extracted canonical layer.
-- `src/canonical/surfaces.js` now owns the primary operating surfaces: repo supply, depositing, needing, deposit-to-need fit, repo-to-settlement, identity/auth spine, boundary reality, and GitHub boundary.
+- `src/canonical/surfaces.js` now owns the primary operating surfaces: repo supply, depositing, reading, deposit-to-read fit, repo-to-settlement, identity/auth spine, boundary reality, and GitHub boundary.
 - `src/canonical/run-artifacts.js` now owns run-level telemetry, manifest, bundle, and coverage-report builders.
-- `src/bitcode-demo.js` remains the orchestration reservoir and still owns the next extraction seams: need measurement/inference, evaluation/materialization, proof/settlement artifact emission, and projection/disclosure.
+- `src/bitcode-demo.js` remains the orchestration reservoir and still owns the next extraction seams: read measurement/inference, evaluation/materialization, proof/settlement artifact emission, and projection/disclosure.
 
 ---
 
@@ -193,8 +193,8 @@ Main API:
 # 10. Demo-local artifact families
 
 The latest run emits branch-scoped artifacts under `.bitcode/`, including:
-- need and need-measurement artifacts,
-- depositing, needing, and fit surfaces,
+- read and read-measurement artifacts,
+- depositing, reading, and fit surfaces,
 - match, verification, and eval manifests,
 - asset-pack lock and selected source material manifest,
 - identity, policy, authz, and GitHub boundary artifacts,
@@ -203,7 +203,7 @@ The latest run emits branch-scoped artifacts under `.bitcode/`, including:
 - source-to-shares, settlement participation, accounting precision, settlement proof, and journal diff,
 - projection policy, bounded public proof, redaction proof, and disclosure proof,
 - deliverables manifest,
-- `BITCODE_NEED.md`.
+- `BITCODE_READ.md`.
 
 These artifacts are current demo-realization output.
 The root system spec defines the broader canonical meaning of those families.

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for Need-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation identity definition"
+ * intent: "Bitcode AssetPack discovery PromptPart for Read-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for Need-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation identity definition"
+ * intent: "Bitcode AssetPack discovery PromptPart for Read-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYPLANIMPLEMENTATION_IDENTITY_DEFINITION: PromptPart = 
-  'You are the AssetPackPipelineDiscoveryPhasePlanImplementationAgent responsible for planning Need-satisfying AssetPack synthesis with validation evidence and Finish boundaries' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhasePlanImplementationAgent responsible for planning Read-satisfying AssetPack synthesis with validation evidence and Finish boundaries' as PromptPart;

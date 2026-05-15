@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search purpose"
+ * intent: "Bitcode read-synthesis web search purpose"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PURPOSE_CORESTATEMENT: PromptPart =
-  'Gather source-attributed external web evidence during Bitcode discovery-phase need synthesis so downstream need, proof, interface, and AssetPack owners can make better bounded decisions without treating web results as canonical proof.' as PromptPart;
+  'Gather source-attributed external web evidence during Bitcode discovery-phase read synthesis so downstream read, proof, interface, and AssetPack owners can make better bounded decisions without treating web results as canonical proof.' as PromptPart;

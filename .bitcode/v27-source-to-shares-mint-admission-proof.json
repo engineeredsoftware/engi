@@ -5,7 +5,7 @@
   "activeCanonicalPointer": "V27",
   "state": "draft-target-source-to-shares-mint-binding",
   "scope": [
-    "Need-Fit-Prove-Settle mint admission binding",
+    "Read-Fit-Prove-Settle mint admission binding",
     "source-to-shares semantic measurement root",
     "minted AssetPack range root",
     "supply replay root",
@@ -13,7 +13,7 @@
   ],
   "assetPackMintBinding": {
     "assetPackId": "asset-pack-api-1",
-    "needId": "need-api-1",
+    "readId": "need-api-1",
     "acceptedNeed": true,
     "acceptedFit": true,
     "sourceManifestRoot": "source-root",
@@ -42,10 +42,10 @@
   },
   "admissionLaw": [
     "source deposit alone cannot mint",
-    "Need discovery alone cannot mint",
+    "Read discovery alone cannot mint",
     "candidate Fit alone cannot mint",
     "uncommitted proof cannot mint",
-    "accepted Need, accepted Fit, source root, proof root, dedupe root, settlement root, access policy, Exchange receipt root, and positive Exchange sequence are required before a mint draft may allocate a range"
+    "accepted Read, accepted Fit, source root, proof root, dedupe root, settlement root, access policy, Exchange receipt root, and positive Exchange sequence are required before a mint draft may allocate a range"
   ],
   "nonPromotionAssertions": [
     "BITCODE_SPEC.txt remained V26 until Gate 16 promotion",

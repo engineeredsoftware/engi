@@ -3,8 +3,8 @@ import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agenti
 import type { PipelineExecution } from '@/types/api';
 
 import type { TerminalClosureState } from './terminal-closure-state';
-import type { TerminalGiveNeedWorkbench } from './terminal-give-need-workbench';
-import type { TerminalNeedScenariosState } from './terminal-need-scenarios';
+import type { TerminalDepositReadWorkbench } from './terminal-deposit-read-workbench';
+import type { TerminalReadScenariosState } from './terminal-read-scenarios';
 import type { TerminalExternalRuntimeSnapshot } from './terminal-external-runtime';
 import type { WorkspaceRun } from './terminal-run-data';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
@@ -23,22 +23,22 @@ export interface TerminalActivityRecordDraft {
   items?: unknown[];
 }
 
-function buildBitcodeWorkbenchState(workbench: TerminalGiveNeedWorkbench) {
+function buildBitcodeWorkbenchState(workbench: TerminalDepositReadWorkbench) {
   return {
     canonLabel: workbench.canonLabel,
     projectionPrincipal: workbench.projectionPrincipal,
     branchMode: workbench.branchMode,
     scenarioLabel: workbench.scenarioLabel,
     profileLabel: workbench.profileLabel,
-    give: workbench.give,
-    need: workbench.need,
+    deposit: workbench.deposit,
+    read: workbench.read,
     fit: workbench.fit,
   };
 }
 
-function buildNeedMeasurementState(
-  needState: TerminalNeedScenariosState,
-  scenario: TerminalNeedScenariosState['scenarios'][number],
+function buildReadMeasurementState(
+  needState: TerminalReadScenariosState,
+  scenario: TerminalReadScenariosState['scenarios'][number],
 ) {
   return {
     scenario,
@@ -238,7 +238,7 @@ export function buildTerminalClosureAssetPackCompletion(
       ? {
           closurePanels: {
             canonLabel: closureState.canonLabel,
-            needReview: closureState.needReview,
+            readReview: closureState.readReview,
             verification: closureState.verification,
             branch: closureState.branch,
             settlement: closureState.settlement,
@@ -250,35 +250,35 @@ export function buildTerminalClosureAssetPackCompletion(
   };
 }
 
-export function buildTerminalGiveWorkbenchDraft(
-  workbench: TerminalGiveNeedWorkbench,
+export function buildTerminalDepositWorkbenchDraft(
+  workbench: TerminalDepositReadWorkbench,
 ): TerminalActivityRecordDraft {
-  const repository = readRowValue(workbench.give.rows, 'Repository');
-  const selectedEntryLabels = workbench.give.selectedEntries.map((entry) => entry.label);
+  const repository = readRowValue(workbench.deposit.rows, 'Repository');
+  const selectedEntryLabels = workbench.deposit.selectedEntries.map((entry) => entry.label);
 
   return {
     type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
-    summary: `Recorded give-side share posture for ${repository}.`,
+    summary: `Recorded deposit-side share posture for ${repository}.`,
     input: {
       selectedEntryLabels,
-      artifactKinds: workbench.give.artifactKinds,
+      artifactKinds: workbench.deposit.artifactKinds,
     },
     output: {
-      give: {
-        summary: workbench.give.summary,
-        metrics: workbench.give.metrics,
-        rows: workbench.give.rows,
+      deposit: {
+        summary: workbench.deposit.summary,
+        metrics: workbench.deposit.metrics,
+        rows: workbench.deposit.rows,
       },
       assetPackCompletion: {
         bitcodeActivityState: {
-          giveWorkbench: buildBitcodeWorkbenchState(workbench),
+          depositWorkbench: buildBitcodeWorkbenchState(workbench),
         },
       },
     },
     context: {
-      source: 'terminal-give-need-workbench',
-      workbench: 'give',
+      source: 'terminal-deposit-read-workbench',
+      workbench: 'deposit',
       canonLabel: workbench.canonLabel,
       projectionPrincipal: workbench.projectionPrincipal,
       branchMode: workbench.branchMode,
@@ -289,9 +289,9 @@ export function buildTerminalGiveWorkbenchDraft(
   };
 }
 
-export function buildTerminalNeedMeasurementDraft(
-  needState: TerminalNeedScenariosState,
-  scenarioOverride?: TerminalNeedScenariosState['scenarios'][number],
+export function buildTerminalReadMeasurementDraft(
+  needState: TerminalReadScenariosState,
+  scenarioOverride?: TerminalReadScenariosState['scenarios'][number],
 ): TerminalActivityRecordDraft {
   const scenario =
     scenarioOverride ||
@@ -306,11 +306,11 @@ export function buildTerminalNeedMeasurementDraft(
     };
 
   return {
-    type: 'agentic-execution:need-measurement',
+    type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
-    summary: `Recorded need measurement for ${scenario.label}.`,
+    summary: `Recorded read measurement for ${scenario.label}.`,
     output: {
-      needMeasurement: {
+      readMeasurement: {
         parserKind: needState.parserKind,
         closureCriteriaCount: needState.closureCriteriaCount,
         targetKindCount: needState.targetKindCount,
@@ -318,12 +318,12 @@ export function buildTerminalNeedMeasurementDraft(
       },
       assetPackCompletion: {
         bitcodeActivityState: {
-          needMeasurement: buildNeedMeasurementState(needState, scenario),
+          readMeasurement: buildReadMeasurementState(needState, scenario),
         },
       },
     },
     context: {
-      source: 'terminal-need-scenario-panel',
+      source: 'terminal-read-scenario-panel',
       scenarioId: scenario.id,
       scenarioLabel: scenario.label,
       scenarioRepository: scenario.repo,
@@ -349,7 +349,7 @@ export function buildTerminalSupplySelectionDraft(
   return {
     type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
-    summary: `Recorded give-side selection with ${selection.selectedCount} supply reference${selection.selectedCount === 1 ? '' : 's'}.`,
+    summary: `Recorded deposit-side selection with ${selection.selectedCount} supply reference${selection.selectedCount === 1 ? '' : 's'}.`,
     input: {
       selectedCount: selection.selectedCount,
       selectedEntries,
@@ -357,7 +357,7 @@ export function buildTerminalSupplySelectionDraft(
       searchTerm: selection.searchTerm,
     },
     output: {
-      giveSelection: {
+      depositSelection: {
         authSessionLabel,
         filteredCount: selection.filteredCount,
         totalFilteredEntries: selection.totalFilteredEntries,
@@ -378,7 +378,7 @@ export function buildTerminalSupplySelectionDraft(
 }
 
 export function buildTerminalFitWorkbenchDraft(
-  workbench: TerminalGiveNeedWorkbench,
+  workbench: TerminalDepositReadWorkbench,
 ): TerminalActivityRecordDraft {
   return {
     type: 'agentic-execution:proof-refresh',
@@ -397,7 +397,7 @@ export function buildTerminalFitWorkbenchDraft(
       },
     },
     context: {
-      source: 'terminal-give-need-workbench',
+      source: 'terminal-deposit-read-workbench',
       workbench: 'fit',
       projectionPrincipal: workbench.projectionPrincipal,
       branchMode: workbench.branchMode,

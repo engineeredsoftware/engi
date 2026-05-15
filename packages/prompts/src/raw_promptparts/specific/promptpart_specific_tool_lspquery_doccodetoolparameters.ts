@@ -3,7 +3,7 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode LSP measurement parameters for deterministic Need evidence replay"
+ * intent: "Bitcode LSP measurement parameters for deterministic Read evidence replay"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

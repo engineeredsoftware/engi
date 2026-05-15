@@ -86,7 +86,7 @@ __bitcodeMockSystem.clearCache()
 - **Marketplace:** Featured listings and order history
 - **BTD holdings:** Realistic BTD holding and settlement history
 
-## 🆘 Need Help?
+## 🆘 Read Help?
 
 - **Documentation:** `/mocking/README.md`
 - **Integration Guide:** `/mocking/INTEGRATION_GUIDE.md`

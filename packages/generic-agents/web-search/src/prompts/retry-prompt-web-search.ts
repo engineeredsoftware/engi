@@ -10,7 +10,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_RECOVERY_STRATEGY } from '@bi
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search retry prompt for bounded recovery and unresolved-gap handoff"
+ * intent: "Bitcode read-synthesis web search retry prompt for bounded recovery and unresolved-gap handoff"
  * current_version: "V26"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_FAILURE_ANALYSIS": "V26",

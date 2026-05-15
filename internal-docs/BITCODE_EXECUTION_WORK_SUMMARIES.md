@@ -8,8 +8,8 @@ Work summaries make Bitcode executions inspectable while they run and after they
 
 Summary types should describe:
 - phase progress,
-- Need measurement evidence,
-- Need review state,
+- Read measurement evidence,
+- Read review state,
 - fit review status,
 - implementation changes,
 - validation issues,

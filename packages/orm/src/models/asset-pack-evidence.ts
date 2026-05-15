@@ -175,9 +175,9 @@ export class AssetPackEvidenceModel extends BaseModel<'deliverables'> {
   }
 
   /**
-   * Get AssetPack evidence needing attention.
+   * Get AssetPack evidence reading attention.
    */
-  async getNeedingAttention(): Promise<AssetPackEvidenceRecord[]> {
+  async getReadingAttention(): Promise<AssetPackEvidenceRecord[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')

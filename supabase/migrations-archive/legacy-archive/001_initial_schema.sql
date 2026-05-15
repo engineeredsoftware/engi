@@ -276,7 +276,7 @@ begin
   end if;
 
   if prev_balance < p_amount then
-    raise exception 'Insufficient credits: have %, need %', prev_balance, p_amount;
+    raise exception 'Insufficient credits: have %, read %', prev_balance, p_amount;
   end if;
 
   new_balance := prev_balance - p_amount;

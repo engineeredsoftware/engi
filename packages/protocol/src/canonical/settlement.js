@@ -4,11 +4,11 @@
  * @typedef {import('./type-contracts.js').SourceContributionDisposition} SourceContributionDisposition
  *
  * @typedef {{
- *   needId: string,
+ *   readId: string,
   *   failureModes?: string[] | undefined,
  *   constraints?: string[] | undefined,
  *   touchedPaths?: string[] | undefined
- * }} NeedShape
+ * }} ReadShape
  *
  * @typedef {{
  *   unitId: string
@@ -149,7 +149,7 @@ export function createSettlementRuntime({
    *     constraintCoverageUnits: bigint,
    *     touchedPathCoverageUnits: bigint
    *   },
-   *   coveredNeedEvidence: Record<string, unknown>,
+   *   coveredReadEvidence: Record<string, unknown>,
    *   bundleScoreHash: string
    * }} bundleScore
    */
@@ -169,7 +169,7 @@ export function createSettlementRuntime({
         weightBp: 2000,
         quantizedUnits: bundleScore.componentShareScoreUnits.failureModeCoverageUnits.toString(),
         quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.failureModeCoverageUnits),
-        evidenceClass: 'measured-need-failure-modes'
+        evidenceClass: 'measured-read-failure-modes'
       },
       {
         qualityId: 'constraint-coverage-fit',
@@ -177,7 +177,7 @@ export function createSettlementRuntime({
         weightBp: 1000,
         quantizedUnits: bundleScore.componentShareScoreUnits.constraintCoverageUnits.toString(),
         quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.constraintCoverageUnits),
-        evidenceClass: 'measured-need-constraints'
+        evidenceClass: 'measured-read-constraints'
       },
       {
         qualityId: 'touched-path-coverage-fit',
@@ -185,7 +185,7 @@ export function createSettlementRuntime({
         weightBp: 1000,
         quantizedUnits: bundleScore.componentShareScoreUnits.touchedPathCoverageUnits.toString(),
         quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.touchedPathCoverageUnits),
-        evidenceClass: 'measured-need-touched-paths'
+        evidenceClass: 'measured-read-touched-paths'
       },
       {
         qualityId: 'bundle-share-score',
@@ -213,7 +213,7 @@ export function createSettlementRuntime({
         }
       },
       qualities,
-      coveredNeedEvidence: bundleScore.coveredNeedEvidence,
+      coveredReadEvidence: bundleScore.coveredReadEvidence,
       bundleScoreHash: bundleScore.bundleScoreHash,
       fitQualityHash: stableHashObject({
         objectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
@@ -237,13 +237,13 @@ export function createSettlementRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} candidates
    */
-  function scoreSourceBundleForShares(need, candidates) {
-    const failureModes = need.failureModes || [];
-    const constraints = need.constraints || [];
-    const touchedPaths = need.touchedPaths || [];
+  function scoreSourceBundleForShares(read, candidates) {
+    const failureModes = read.failureModes || [];
+    const constraints = read.constraints || [];
+    const touchedPaths = read.touchedPaths || [];
     if (!candidates.length) {
       return {
         bundleShareScoreUnits: 0n,
@@ -254,7 +254,7 @@ export function createSettlementRuntime({
           constraintCoverageUnits: 0n,
           touchedPathCoverageUnits: 0n
         },
-        coveredNeedEvidence: {
+        coveredReadEvidence: {
           failureModes: [],
           constraints: [],
           touchedPaths: []
@@ -295,7 +295,7 @@ export function createSettlementRuntime({
         constraintCoverageUnits,
         touchedPathCoverageUnits
       },
-      coveredNeedEvidence: {
+      coveredReadEvidence: {
         failureModes: coveredFailureModes,
         constraints: coveredConstraints,
         touchedPaths: coveredTouchedPaths
@@ -444,22 +444,22 @@ export function createSettlementRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} settlementCandidates
    */
-  function buildSourceToSharesArtifact(need, settlementCandidates) {
-    const fullBundleScore = scoreSourceBundleForShares(need, settlementCandidates);
+  function buildSourceToSharesArtifact(read, settlementCandidates) {
+    const fullBundleScore = scoreSourceBundleForShares(read, settlementCandidates);
     const quantizedFitQualities = buildQuantizedSourceToSharesFitQualities(fullBundleScore);
     const sourceContributionEntries = settlementCandidates.map((candidate) => {
       const bundleWithoutCandidate = scoreSourceBundleForShares(
-        need,
+        read,
         settlementCandidates.filter((entry) => entry.assetId !== candidate.assetId)
       );
       const rawContributionUnits = fullBundleScore.bundleShareScoreUnits - bundleWithoutCandidate.bundleShareScoreUnits;
       const clippedContributionUnits = rawContributionUnits > 0n ? rawContributionUnits : 0n;
       const clipped = rawContributionUnits <= 0n;
       const contributionDisposition = buildSourceContributionDisposition({ clipped });
-      const clippingReceiptId = `clip_receipt_${sha256(`${need.needId}:${candidate.assetId}:${rawContributionUnits}`).slice(0, 12)}`;
+      const clippingReceiptId = `clip_receipt_${sha256(`${read.readId}:${candidate.assetId}:${rawContributionUnits}`).slice(0, 12)}`;
       return {
         entryKind: SOURCE_CONTRIBUTION_ENTRY_KIND,
         assetId: candidate.assetId,
@@ -484,10 +484,10 @@ export function createSettlementRuntime({
               `fullBundleScoreUnits=${fullBundleScore.bundleShareScoreUnits.toString()}`,
               `bundleWithoutAssetScoreUnits=${bundleWithoutCandidate.bundleShareScoreUnits.toString()}`
             ],
-        coveredNeedEvidence: {
-          failureModes: (need.failureModes || []).filter((value) => String(candidate.asset.metadata.privateContent || '').includes(value)),
-          constraints: (candidate.asset.metadata.declaredConstraints || []).filter((value) => (need.constraints || []).includes(value)),
-          touchedPaths: (candidate.asset.metadata.sourcePaths || []).filter((value) => (need.touchedPaths || []).includes(value))
+        coveredReadEvidence: {
+          failureModes: (read.failureModes || []).filter((value) => String(candidate.asset.metadata.privateContent || '').includes(value)),
+          constraints: (candidate.asset.metadata.declaredConstraints || []).filter((value) => (read.constraints || []).includes(value)),
+          touchedPaths: (candidate.asset.metadata.sourcePaths || []).filter((value) => (read.touchedPaths || []).includes(value))
         },
         candidateRankingScoreUnits: toFixedPointUnits(candidate.ranking.finalRankingScore)
       };
@@ -511,7 +511,7 @@ export function createSettlementRuntime({
     const { normalizedShares, normalizationTrace } = normalizeContributionUnitsToBasisPoints(sourceContributionEntries);
     const rawShareByAssetId = new Map(normalizedShares.map((entry) => [entry.assetId, entry]));
     return {
-      needId: need.needId,
+      readId: read.readId,
       protocolFocus: BITCODE_PROTOCOL_FOCUS,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
@@ -531,7 +531,7 @@ export function createSettlementRuntime({
         componentShareScoreUnits: Object.fromEntries(
           Object.entries(fullBundleScore.componentShareScoreUnits).map(([key, value]) => [key, value.toString()])
         ),
-        coveredNeedEvidence: fullBundleScore.coveredNeedEvidence
+        coveredReadEvidence: fullBundleScore.coveredReadEvidence
       },
       quantizedFitQualities,
       sourceContributionEntries: sourceContributionEntries.map((entry) => ({
@@ -556,7 +556,7 @@ export function createSettlementRuntime({
           clipped: entry.clipped,
           clippingReceiptId: entry.clippingReceiptId
         },
-        coveredNeedEvidence: entry.coveredNeedEvidence,
+        coveredReadEvidence: entry.coveredReadEvidence,
         reasons: entry.reasons,
         rawShareBp: rawShareByAssetId.get(entry.assetId)?.shareBp || 0,
         normalizationRemainderUnits: rawShareByAssetId.get(entry.assetId)?.normalizationRemainderUnits || '0'
@@ -566,7 +566,7 @@ export function createSettlementRuntime({
       normalizationLedger: normalizationTrace.provisionalShares || [],
       rawShares: normalizedShares,
       proofHash: stableHashObject({
-        needId: need.needId,
+        readId: read.readId,
         sourceContributionEntries: sourceContributionEntries.map((entry) => ({
           assetId: entry.assetId,
           rawContributionUnits: entry.rawContributionUnits.toString(),
@@ -918,7 +918,7 @@ export function createSettlementRuntime({
    * @param {SettlementState} state
    * @param {{
    *   buyer: BuyerShape,
-   *   need: NeedShape,
+   *   read: ReadShape,
    *   assetPack: AssetPackShape,
    *   assetPackLock: AssetPackLockShape,
    *   evaluatedCandidates: EvaluatedCandidate[],
@@ -927,13 +927,13 @@ export function createSettlementRuntime({
    *   branchMode: string
    * }} input
    */
-  function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
+  function settleReadEvent(state, { buyer, read, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
     const settlementCandidates = selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible');
     if (!settlementCandidates.length) {
       throw new Error('No settlement-eligible assets available for Bitcode settlement.');
     }
 
-    const sourceToSharesArtifact = buildSourceToSharesArtifact(need, settlementCandidates);
+    const sourceToSharesArtifact = buildSourceToSharesArtifact(read, settlementCandidates);
     const rawShares = sourceToSharesArtifact.rawShares.map((entry) => ({
       assetId: entry.assetId,
       shareBp: entry.shareBp,
@@ -956,8 +956,8 @@ export function createSettlementRuntime({
       throw new Error('Buyer license pool is insufficient for the fixed metered event.');
     }
 
-    const eventId = `event_${sha256(`${need.needId}:${assetPack.assetPackId}:${branchName}`).slice(0, 12)}`;
-    const bundleId = `bundle_${sha256(`${need.needId}:${assetPack.assetPackId}:${branchMode}`).slice(0, 12)}`;
+    const eventId = `event_${sha256(`${read.readId}:${assetPack.assetPackId}:${branchName}`).slice(0, 12)}`;
+    const bundleId = `bundle_${sha256(`${read.readId}:${assetPack.assetPackId}:${branchMode}`).slice(0, 12)}`;
     const issuanceReceiptId = `receipt_${sha256(`${bundleId}:issuance`).slice(0, 12)}`;
     const allocationReceiptId = `receipt_${sha256(`${bundleId}:allocation`).slice(0, 12)}`;
     const fitQualityReceiptId = `receipt_${sha256(`${bundleId}:fit-quality`).slice(0, 12)}`;
@@ -972,7 +972,7 @@ export function createSettlementRuntime({
         receiptId: issuanceReceiptId,
         receiptKind: 'issuance',
         bundleId,
-        needId: need.needId,
+        readId: read.readId,
         assetPackId: assetPack.assetPackId,
         protocolFocus: BITCODE_PROTOCOL_FOCUS,
         presentStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
@@ -980,13 +980,13 @@ export function createSettlementRuntime({
         quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
         quantizedFitQualities: sourceToSharesArtifact.quantizedFitQualities,
         meteredMicroUnits: METERED_MICRO_UNITS,
-        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'issuance', ...fitQualityReceiptPayload })
+        receiptHash: stableHashObject({ bundleId, readId: read.readId, kind: 'issuance', ...fitQualityReceiptPayload })
       },
       {
         receiptId: allocationReceiptId,
         receiptKind: 'allocation',
         bundleId,
-        needId: need.needId,
+        readId: read.readId,
         assetPackId: assetPack.assetPackId,
         protocolFocus: BITCODE_PROTOCOL_FOCUS,
         presentStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
@@ -994,19 +994,19 @@ export function createSettlementRuntime({
         quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
         quantizedFitQualities: sourceToSharesArtifact.quantizedFitQualities,
         allocations,
-        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'allocation', allocations, ...fitQualityReceiptPayload })
+        receiptHash: stableHashObject({ bundleId, readId: read.readId, kind: 'allocation', allocations, ...fitQualityReceiptPayload })
       },
       {
         receiptId: fitQualityReceiptId,
         receiptKind: 'settlement-asset-pack-fit-quality',
         bundleId,
-        needId: need.needId,
+        readId: read.readId,
         assetPackId: assetPack.assetPackId,
         protocolFocus: BITCODE_PROTOCOL_FOCUS,
         presentStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
         settlementCandidateAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
         ...fitQualityReceiptPayload,
-        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'settlement-asset-pack-fit-quality', ...fitQualityReceiptPayload })
+        receiptHash: stableHashObject({ bundleId, readId: read.readId, kind: 'settlement-asset-pack-fit-quality', ...fitQualityReceiptPayload })
       }
     ];
 
@@ -1017,7 +1017,7 @@ export function createSettlementRuntime({
       reason: 'licensed_bundle_debit',
       eventId,
       bundleId,
-      needId: need.needId,
+      readId: read.readId,
       receiptRef: issuanceReceiptId,
       explanation: 'Debit buyer license pool for licensed Bitcode remediation branch settlement.'
     }];
@@ -1029,7 +1029,7 @@ export function createSettlementRuntime({
       reason: 'contribution_credit',
       eventId,
       bundleId,
-      needId: need.needId,
+      readId: read.readId,
       assetId: allocation.assetId,
       unitRefs: assetPackLock.units.filter((unit) => unit.assetId === allocation.assetId).map((unit) => unit.unitId),
       receiptRef: allocationReceiptId,
@@ -1055,7 +1055,7 @@ export function createSettlementRuntime({
     const receiptIds = new Set(receipts.map((receipt) => receipt.receiptId));
     const journalDiff = {
       eventId,
-      needId: need.needId,
+      readId: read.readId,
       bundleId,
       beforeRoot,
       afterRoot,
@@ -1097,7 +1097,7 @@ export function createSettlementRuntime({
       branchMode
     });
     const accountingPrecisionReport = buildAccountingPrecisionReport({
-      need,
+      read,
       assetPack,
       branchMode,
       sourceToSharesArtifact,
@@ -1107,7 +1107,7 @@ export function createSettlementRuntime({
     });
 
     const settlementPreview = {
-      needId: need.needId,
+      readId: read.readId,
       bundleId,
       branchMode,
       protocolFocus: BITCODE_PROTOCOL_FOCUS,
@@ -1186,6 +1186,6 @@ export function createSettlementRuntime({
     buildJournalCompletenessProof,
     buildSettlementProof,
     buildSettlementParticipationArtifact,
-    settleNeedEvent
+    settleReadEvent
   };
 }

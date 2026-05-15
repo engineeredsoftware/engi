@@ -2,7 +2,7 @@
   "name": "@bitcode/mcp-server",
   "version": "0.0.1", 
   "private": true,
-  "description": "Bitcode Exchange-facing Model Context Protocol interface for need measurement, activity continuation, repository workflows, and asset-pack outputs",
+  "description": "Bitcode Exchange-facing Model Context Protocol interface for read measurement, activity continuation, repository workflows, and asset-pack outputs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

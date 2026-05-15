@@ -13,15 +13,15 @@ const rawPromptpartsRoot = path.join(repoRoot, 'packages/prompts/src/raw_promptp
 const substepSemantics = new Map([
   [
     'reason',
-    'ground the step in the expressed Bitcode need, current execution state, written-asset target, proof obligations, and delivery-mechanism limits before selecting the next action'
+    'ground the step in the expressed Bitcode read, current execution state, written-asset target, proof obligations, and delivery-mechanism limits before selecting the next action'
   ],
   [
     'prepare_concise_context',
-    'extract only need-relevant repository, attachment, execution, and proof context required to synthesize or validate the written asset; exclude noise that does not affect asset-pack acceptance'
+    'extract only read-relevant repository, attachment, execution, and proof context required to synthesize or validate the written asset; exclude noise that does not affect asset-pack acceptance'
   ],
   [
     'chunk_then_sum',
-    'chunk large inputs by need, file, proof, and delivery-mechanism concern; summarize each chunk as written-asset constraints, risks, and acceptance evidence for asset-pack synthesis'
+    'chunk large inputs by read, file, proof, and delivery-mechanism concern; summarize each chunk as written-asset constraints, risks, and acceptance evidence for asset-pack synthesis'
   ],
   [
     'tools_execution',
@@ -29,7 +29,7 @@ const substepSemantics = new Map([
   ],
   [
     'structured_output',
-    'return structured output with need satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when a pull-request Shippable is required'
+    'return structured output with read satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when a pull-request Shippable is required'
   ],
   [
     'stitch_until_complete',
@@ -37,18 +37,18 @@ const substepSemantics = new Map([
   ],
   [
     'judge',
-    'evaluate whether the output satisfies the Bitcode need, preserves written-asset integrity, separates delivery mechanisms, and records enough proof evidence for acceptance'
+    'evaluate whether the output satisfies the Bitcode read, preserves written-asset integrity, separates delivery mechanisms, and records enough proof evidence for acceptance'
   ]
 ]);
 
 const substepIntentSemantics = new Map([
   [
     'reason',
-    'Bitcode need-grounding substep for written-asset / asset-pack execution'
+    'Bitcode read-grounding substep for written-asset / asset-pack execution'
   ],
   [
     'prepare_concise_context',
-    'Bitcode context-selection substep for need-relevant written-asset evidence'
+    'Bitcode context-selection substep for read-relevant written-asset evidence'
   ],
   [
     'chunk_then_sum',
@@ -60,7 +60,7 @@ const substepIntentSemantics = new Map([
   ],
   [
     'structured_output',
-    'Bitcode structured-output substep for need satisfaction, writtenAssets, assetPack, and deliveryMechanism fields'
+    'Bitcode structured-output substep for read satisfaction, writtenAssets, assetPack, and deliveryMechanism fields'
   ],
   [
     'stitch_until_complete',
@@ -68,7 +68,7 @@ const substepIntentSemantics = new Map([
   ],
   [
     'judge',
-    'Bitcode judgment substep for need satisfaction, written-asset integrity, delivery-mechanism separation, and proof evidence'
+    'Bitcode judgment substep for read satisfaction, written-asset integrity, delivery-mechanism separation, and proof evidence'
   ]
 ]);
 
@@ -167,34 +167,34 @@ function assetPackTraceMetadataIntent(filename) {
   const lower = filename.toLowerCase();
 
   if (lower.includes('comprehendtask')) {
-    return `Bitcode comprehend-task trace PromptPart for canonical comprehend-need asset-pack synthesis: ${label}`;
+    return `Bitcode comprehend-task trace PromptPart for canonical comprehend-read asset-pack synthesis: ${label}`;
   }
   if (lower.includes('comprehendneed')) {
-    return `Bitcode canonical comprehend-need PromptPart for need-first written-asset / asset-pack synthesis: ${label}`;
+    return `Bitcode canonical comprehend-read PromptPart for read-first written-asset / asset-pack synthesis: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_tool_')) {
-    return `Bitcode AssetPack trace tool PromptPart for need-first asset-pack setup and written-asset evidence: ${label}`;
+    return `Bitcode AssetPack trace tool PromptPart for read-first asset-pack setup and written-asset evidence: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_phase_')) {
-    return `Bitcode AssetPack trace phase PromptPart for need-first asset-pack execution: ${label}`;
+    return `Bitcode AssetPack trace phase PromptPart for read-first asset-pack execution: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_pipeline_')) {
-    return `Bitcode AssetPack trace pipeline PromptPart for need-first asset-pack execution and delivery-mechanism separation: ${label}`;
+    return `Bitcode AssetPack trace pipeline PromptPart for read-first asset-pack execution and delivery-mechanism separation: ${label}`;
   }
   if (lower.includes('validation')) {
-    return `Bitcode AssetPack trace PromptPart for need satisfaction, written-asset validation, and proof evidence: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for read satisfaction, written-asset validation, and proof evidence: ${label}`;
   }
   if (lower.includes('implementation') || lower.includes('implexecute') || lower.includes('impl')) {
     return `Bitcode AssetPack trace PromptPart for written-asset synthesis from asset-pack execution: ${label}`;
   }
   if (lower.includes('discovery') || lower.includes('disc')) {
-    return `Bitcode AssetPack trace PromptPart for need discovery and asset-pack planning: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for read discovery and asset-pack planning: ${label}`;
   }
   if (lower.includes('setup')) {
-    return `Bitcode AssetPack trace PromptPart for need-first asset-pack setup: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for read-first asset-pack setup: ${label}`;
   }
 
-  return `Bitcode AssetPack trace PromptPart for need-first written-asset / asset-pack execution: ${label}`;
+  return `Bitcode AssetPack trace PromptPart for read-first written-asset / asset-pack execution: ${label}`;
 }
 
 function normalizeAssetPackTracePromptpartDocComments() {

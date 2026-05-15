@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLEXAMPLE1 } from
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Bitcode discovery-phase multi-provider search for corroborated need-synthesis evidence"
+ * intent: "Bitcode discovery-phase multi-provider search for corroborated read-synthesis evidence"
  * 
  * Structured DocCodeToolPrompt for multi-provider source evidence search.
  */
@@ -43,7 +43,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Multi-Provider Search tool-specific DocCodeToolPrompt. Provider failover and
  * result aggregation are admitted only to improve source coverage for Bitcode
- * need synthesis.
+ * read synthesis.
  */
 export class MultiProviderSearchDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

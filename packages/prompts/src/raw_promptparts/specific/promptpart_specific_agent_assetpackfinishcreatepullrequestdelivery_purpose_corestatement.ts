@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery purpose corestatement"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Read-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery purpose corestatement"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Read-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHCREATEPULLREQUESTDELIVERY_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: create a pull-request delivery-mechanism artifact from validated Need-satisfaction AssetPack synthesis artifacts on the VCS platform, with title, description, and metadata preserving stored evidence links' as PromptPart;
+  'Core purpose: create a pull-request delivery-mechanism artifact from validated Read-satisfaction AssetPack synthesis artifacts on the VCS platform, with title, description, and metadata preserving stored evidence links' as PromptPart;

@@ -111,7 +111,7 @@ export const EXECUTION_NAMESPACES = {
     'description',   // string
   ],
   config: [
-    'computerUseNeedMeasurementEnabled', // boolean — internal V26 feature flag
+    'computerUseReadMeasurementEnabled', // boolean — internal V26 feature flag
     'iterationCount',                    // number
     'mcpConfig',                         // object (Evidence Documents / Measure overlay only)
   ],
@@ -131,7 +131,7 @@ export const EXECUTION_NAMESPACES = {
     'processingStats',  // { time, tokens?, measuredBtd?, feeAsset?, btcFeesPaid? }
     'repoSnapshot',     // { org, repo, branch, commit }
     'writtenAssets',    // semantic written-asset rollups
-    'need',             // semantic expressed need
+    'read',             // semantic expressed read
     'writtenAssetType', // semantic written-asset type
   ],
   postprocessed: [

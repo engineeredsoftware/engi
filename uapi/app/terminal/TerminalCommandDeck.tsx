@@ -143,7 +143,7 @@ export default function TerminalCommandDeck({
         await onRecordActivity?.({
           type: 'agentic-execution:asset-pack',
           detailSection: 'activity',
-          summary: `Materialized an AssetPack activity from the ${currentScenarioLabel} give/need posture.`,
+          summary: `Materialized an AssetPack activity from the ${currentScenarioLabel} deposit/read posture.`,
           context: {
             source: 'terminal-command-deck',
             scenarioId: scenario,
@@ -178,7 +178,7 @@ export default function TerminalCommandDeck({
     <TerminalWorkspaceCard
       id="terminalCommandDeck"
       kicker="Flow controls"
-      title="Give, need, and closure controls"
+      title="Deposit, read, and closure controls"
       summary="Set scenario, projection, and branch mode, then run closure or resume the working flow from the same Bitcode Terminal you use to read the ledger."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.controls}
       tone="emerald"

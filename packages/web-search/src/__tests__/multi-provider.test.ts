@@ -424,7 +424,7 @@ describe('Multi-Provider Search System', () => {
             {
               question_id: 12345,
               title: 'How to implement React authentication?',
-              body: 'I need help with React authentication...',
+              body: 'I read help with React authentication...',
               link: 'https://stackoverflow.com/questions/12345',
               score: 25,
               view_count: 1500,

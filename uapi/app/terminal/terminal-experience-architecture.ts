@@ -6,7 +6,7 @@ export const TERMINAL_EXPERIENCES = [
     label: 'Bitcode Terminal',
     badge: 'operator surface',
     description:
-      'The Give and Need operator surface: recent Terminal activity rows open into AssetPack results, proofs, and history without replacing the Exchange market-wide activity view.',
+      'The Deposit and Read operator surface: recent Terminal activity rows open into AssetPack results, proofs, and history without replacing the Exchange market-wide activity view.',
     targetId: 'terminalTransactionWorkspace',
   },
   {
@@ -29,20 +29,20 @@ export const TERMINAL_EXPERIENCES = [
 
 export const TERMINAL_ACTIONS = [
   {
-    id: 'give',
-    label: 'Give',
+    id: 'deposit',
+    label: 'Deposit',
     badge: 'repo supply',
     description:
-      'Contribute searchable supply into Bitcode so a future Need can satisfy against it, even where the immediate return is deferred, thin, or absent.',
+      'Contribute searchable supply into Bitcode so a future Read can satisfy against it, even where the immediate return is deferred, thin, or absent.',
     targetId: 'terminalSupplySelection',
   },
   {
-    id: 'need',
-    label: 'Need',
+    id: 'read',
+    label: 'Read',
     badge: 'measured demand',
     description:
-      'Frame scenario demand, measured need, and fit pressure so Bitcode can verify, satisfy, settle, and prove against it.',
-    targetId: 'terminalNeedScenarios',
+      'Frame scenario demand, measured read, and fit pressure so Bitcode can verify, satisfy, settle, and prove against it.',
+    targetId: 'terminalReadScenarios',
   },
 ] as const;
 
@@ -89,7 +89,7 @@ export const TERMINAL_MVP_SURFACE_MAP = [
     routeSurface: '/terminal',
     targetId: 'terminalTransactionWorkspace',
     requiredPosture:
-      'Focused searchable, filterable, live-updating Terminal activity table for recent Give, Need, proof, closure, and selected result reading.',
+      'Focused searchable, filterable, live-updating Terminal activity table for recent Deposit, Read, proof, closure, and selected result reading.',
     implementedBy: [
       'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
       'uapi/app/terminal/TerminalTransactionsTable.tsx',
@@ -105,13 +105,13 @@ export const TERMINAL_MVP_SURFACE_MAP = [
     routeSurface: '/terminal',
     targetId: 'terminalCommandDeck',
     requiredPosture:
-      'Write-space for give, need, need measurement, transaction creation, deposit, branch, and closure operations.',
+      'Write-space for deposit, read, read measurement, transaction creation, deposit, branch, and closure operations.',
     implementedBy: [
       'uapi/app/terminal/TerminalCommandDeck.tsx',
-      'uapi/app/terminal/TerminalGiveNeedWorkbench.tsx',
+      'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
       'uapi/app/terminal/TerminalDepositComposer.tsx',
       'uapi/app/terminal/TerminalClosureControlDeck.tsx',
-      'uapi/app/api/need-review/route.ts',
+      'uapi/app/api/read-review/route.ts',
       'uapi/app/api/make-bitcode-branch/route.ts',
     ],
   },
@@ -152,15 +152,15 @@ export const TERMINAL_MVP_SURFACE_MAP = [
 export const CORE_PANEL_EXPERIENCE: Record<string, (typeof TERMINAL_EXPERIENCES)[number]['id']> = {
   panelOperatingPicture: 'terminal-activity',
   panelDepositing: 'terminal-activity',
-  panelNeeding: 'terminal-activity',
+  panelReading: 'terminal-activity',
   panelFit: 'terminal-activity',
 };
 
 export const CORE_PANEL_ACTION: Record<string, (typeof TERMINAL_ACTIONS)[number]['id'] | null> = {
   panelOperatingPicture: null,
-  panelDepositing: 'give',
-  panelNeeding: 'need',
-  panelFit: 'need',
+  panelDepositing: 'deposit',
+  panelReading: 'read',
+  panelFit: 'read',
 };
 
 export const CLOSURE_PANEL_SUBSTRUCTURE: Record<

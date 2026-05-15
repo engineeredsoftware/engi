@@ -2,8 +2,8 @@
 
 /**
  * @typedef {import('./types.js').DepositingSurface} DepositingSurface
- * @typedef {import('./types.js').NeedingSurface} NeedingSurface
- * @typedef {import('./types.js').DepositingToNeedingSurface} DepositingToNeedingSurface
+ * @typedef {import('./types.js').ReadingSurface} ReadingSurface
+ * @typedef {import('./types.js').DepositingToReadingSurface} DepositingToReadingSurface
  *
  * @typedef {{
  *   authSessionId: string,
@@ -31,12 +31,12 @@
  *   benchmarkRunId?: string | undefined,
  *   benchmarkWorkflowPath?: string | undefined,
  *   coverageTags?: string[] | undefined
- * }} NeedScenarioShape
+ * }} ReadScenarioShape
  *
  * @typedef {{
  *   githubAppSessions?: SessionShape[] | undefined,
  *   repoArtifactInventory?: RepoArtifactInventoryEntryShape[] | undefined,
- *   needScenarios?: NeedScenarioShape[] | undefined
+ *   readScenarios?: ReadScenarioShape[] | undefined
  * }} RepoSupplyStateShape
  *
  * @typedef {{
@@ -139,7 +139,7 @@
  * }} BuyerShape
  *
  * @typedef {{
- *   needId: string,
+ *   readId: string,
  *   benchmarkRunId?: string | undefined,
  *   benchmarkWorkflowPath?: string | undefined,
  *   task: string,
@@ -150,7 +150,7 @@
  *   failingCases?: string[] | undefined,
  *   constraints?: string[] | undefined,
  *   realizationProfile?: import('./type-contracts.js').BuiltRealizationProfile | undefined
- * }} NeedShape
+ * }} ReadShape
  */
 
 import crypto from 'node:crypto';
@@ -287,7 +287,7 @@ function buildRepoIdentity(repo) {
 function buildRepoSupplySurface(state) {
   const sessions = state.githubAppSessions || [];
   const inventory = state.repoArtifactInventory || [];
-  const scenarios = state.needScenarios || [];
+  const scenarios = state.readScenarios || [];
   const repos = sessions.map((session) => {
     const repoInventory = inventory.filter((entry) => entry.repo === session.repo);
     const repoScenarios = scenarios.filter((scenario) => scenario.repo === session.repo);
@@ -332,14 +332,14 @@ function buildRepoSupplySurface(state) {
 /**
  * @param {{
  *   buyer: BuyerShape,
- *   need: NeedShape,
+ *   read: ReadShape,
  *   assetPack: AssetPackShape,
  *   selectedCandidates: SelectedCandidateShape[]
  * }} input
  * @returns {DepositingSurface}
  */
-function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }) {
-  const realizationProfile = need.realizationProfile || buildRealizationProfile('A');
+function buildDepositingSurface({ buyer, read, assetPack, selectedCandidates }) {
+  const realizationProfile = read.realizationProfile || buildRealizationProfile('A');
   const selectedInventoryEntries = selectedCandidates.flatMap((candidate) =>
     /** @type {Array<{ inventoryEntryId?: string | undefined, originKind?: string | undefined }>} */
     (candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || [])
@@ -370,30 +370,30 @@ function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }) 
     signingRoot: aggregateRootRef('signing', signingRoots),
     authRoot: aggregateRootRef('auth', authRoots),
     depositIntentSummary: selectedCandidates.length
-      ? `Deposit ${selectedCandidates.length} repo-authenticated ${selectedCandidates.length === 1 ? 'asset' : 'assets'} from ${buyer.repo} with ${selectedKinds.join(', ')} coverage so Bitcode can ${realizationProfile.profileId === 'A' ? 'close a bounded need decisively.' : 'normalize overlapping contribution across a composite need.'}`
+      ? `Deposit ${selectedCandidates.length} repo-authenticated ${selectedCandidates.length === 1 ? 'asset' : 'assets'} from ${buyer.repo} with ${selectedKinds.join(', ')} coverage so Bitcode can ${realizationProfile.profileId === 'A' ? 'close a bounded read decisively.' : 'normalize overlapping contribution across a composite read.'}`
       : `No deposited assets are currently bound for ${buyer.repo}.`
   };
 }
 
 /**
- * @param {NeedShape} need
- * @returns {NeedingSurface}
+ * @param {ReadShape} read
+ * @returns {ReadingSurface}
  */
-function buildNeedingSurface(need) {
-  const realizationProfile = need.realizationProfile || buildRealizationProfile('A');
+function buildReadingSurface(read) {
+  const realizationProfile = read.realizationProfile || buildRealizationProfile('A');
   return {
-    needId: need.needId,
+    readId: read.readId,
     realizationProfile,
-    parserKind: need.benchmarkParserContract?.parserKind || 'unknown-parser',
-    taskSummary: need.task,
-    failureModeSummary: need.failureModes || [],
-    targetArtifactKinds: need.targetArtifactKinds || [],
-    boundednessSummary: realizationProfile.needMode || 'Need boundedness not specified.',
-    closureCriteria: need.closureCriteria?.length
-      ? need.closureCriteria
+    parserKind: read.benchmarkParserContract?.parserKind || 'unknown-parser',
+    taskSummary: read.task,
+    failureModeSummary: read.failureModes || [],
+    targetArtifactKinds: read.targetArtifactKinds || [],
+    boundednessSummary: realizationProfile.readMode || 'Read boundedness not specified.',
+    closureCriteria: read.closureCriteria?.length
+      ? read.closureCriteria
       : summarizeStrings([
-        ...(need.failingCases || []).slice(0, 2).map((item) => `clear ${item.replace(/-/g, ' ')}`),
-        ...(need.constraints || []).slice(0, 2)
+        ...(read.failingCases || []).slice(0, 2).map((item) => `clear ${item.replace(/-/g, ' ')}`),
+        ...(read.constraints || []).slice(0, 2)
       ])
   };
 }
@@ -401,44 +401,44 @@ function buildNeedingSurface(need) {
 /**
  * @param {{
  *   depositingSurface: DepositingSurface,
- *   needingSurface: NeedingSurface,
+ *   readingSurface: ReadingSurface,
  *   selectedCandidates: SelectedCandidateShape[],
  *   assetPack: AssetPackShape,
  *   settlementPreview: SettlementPreviewShape | null | undefined
  * }} input
- * @returns {DepositingToNeedingSurface}
+ * @returns {DepositingToReadingSurface}
  */
-function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, selectedCandidates, assetPack, settlementPreview }) {
+function buildDepositingToReadingSurface({ depositingSurface, readingSurface, selectedCandidates, assetPack, settlementPreview }) {
   const selectedKinds = Object.keys(depositingSurface.selectedArtifactKindCounts || {});
-  const overlapKinds = intersection(selectedKinds, needingSurface.targetArtifactKinds || []);
+  const overlapKinds = intersection(selectedKinds, readingSurface.targetArtifactKinds || []);
   const decisiveKinds = summarizeStrings(
     selectedCandidates
       .slice()
       .sort((left, right) => right.ranking.finalRankingScore - left.ranking.finalRankingScore || left.assetId.localeCompare(right.assetId))
       .map((candidate) => candidate.asset.artifactKind)
   ).slice(0, 3);
-  const profileId = needingSurface.realizationProfile?.profileId || 'A';
+  const profileId = readingSurface.realizationProfile?.profileId || 'A';
   const normalizationPressure = profileId === 'B'
     ? selectedCandidates.length > 1 ? NormalizationPressure.HIGH : NormalizationPressure.MEDIUM
     : selectedCandidates.length > 2 ? NormalizationPressure.MEDIUM : NormalizationPressure.LOW;
   const fitKinds = overlapKinds.length ? overlapKinds.join(', ') : selectedKinds.join(', ');
-  const failureFocus = needingSurface.failureModeSummary.slice(0, 2).join('; ') || needingSurface.taskSummary;
+  const failureFocus = readingSurface.failureModeSummary.slice(0, 2).join('; ') || readingSurface.taskSummary;
   const settlementParticipants = settlementPreview?.settlementParticipatingAssetIds?.length || selectedCandidates.length;
   const creditedAssets = settlementPreview?.creditedAssetIds?.length || selectedCandidates.length;
 
   return {
-    relationId: `deposit_need_fit_${sha256(`${depositingSurface.depositSessionId}:${needingSurface.needId}:${assetPack.assetPackId}`).slice(0, 12)}`,
+    relationId: `deposit_read_fit_${sha256(`${depositingSurface.depositSessionId}:${readingSurface.readId}:${assetPack.assetPackId}`).slice(0, 12)}`,
     depositSessionId: depositingSurface.depositSessionId,
-    needId: needingSurface.needId,
+    readId: readingSurface.readId,
     fitSummary: profileId === 'B'
-      ? `Deposited ${selectedKinds.length} artifact kind${selectedKinds.length === 1 ? '' : 's'} against a composite need; overlap in ${fitKinds || 'selected coverage'} keeps normalization pressure ${normalizationPressure} before proof and settlement.`
-      : `Deposited ${fitKinds || 'selected coverage'} fits a bounded need: ${failureFocus}.`,
+      ? `Deposited ${selectedKinds.length} artifact kind${selectedKinds.length === 1 ? '' : 's'} against a composite read; overlap in ${fitKinds || 'selected coverage'} keeps normalization pressure ${normalizationPressure} before proof and settlement.`
+      : `Deposited ${fitKinds || 'selected coverage'} fits a bounded read: ${failureFocus}.`,
     decisiveKinds: decisiveKinds.length ? decisiveKinds : overlapKinds,
     overlapKinds,
     normalizationPressure,
-    branchIntentSummary: `Materialize a ${assetPack.branchMode} branch around ${selectedCandidates.length} selected ${selectedCandidates.length === 1 ? 'asset' : 'assets'} so ${fitKinds || 'the deposited coverage'} can close the active need.`,
+    branchIntentSummary: `Materialize a ${assetPack.branchMode} branch around ${selectedCandidates.length} selected ${selectedCandidates.length === 1 ? 'asset' : 'assets'} so ${fitKinds || 'the deposited coverage'} can close the active read.`,
     proofIntentSummary: profileId === 'B'
-      ? `Proof must show that overlapping ${fitKinds || 'selected'} deposits normalize cleanly across the composite need without losing provenance.`
+      ? `Proof must show that overlapping ${fitKinds || 'selected'} deposits normalize cleanly across the composite read without losing provenance.`
       : `Proof must show that the decisive ${fitKinds || 'selected'} deposit closes ${failureFocus}.`,
     settlementIntentSummary: normalizationPressure === NormalizationPressure.HIGH
       ? `Settlement should replay source-to-shares normalization across ${settlementParticipants} participating assets before final crediting.`
@@ -461,8 +461,8 @@ function allowedActionsForPrincipal(authorizationDecisions = [], principalId = '
  * @param {{
  *   scenarioId: string,
  *   depositingSurface: DepositingSurface,
- *   needingSurface: NeedingSurface,
- *   depositingToNeedingSurface: DepositingToNeedingSurface,
+ *   readingSurface: ReadingSurface,
+ *   depositingToReadingSurface: DepositingToReadingSurface,
  *   assetPack: AssetPackShape,
  *   branchArtifacts: BranchArtifactsShape | null | undefined,
  *   selectedCandidates: SelectedCandidateShape[],
@@ -474,8 +474,8 @@ function allowedActionsForPrincipal(authorizationDecisions = [], principalId = '
 function buildRepoToSettlementSurface({
   scenarioId,
   depositingSurface,
-  needingSurface,
-  depositingToNeedingSurface,
+  readingSurface,
+  depositingToReadingSurface,
   assetPack,
   branchArtifacts,
   selectedCandidates,
@@ -490,7 +490,7 @@ function buildRepoToSettlementSurface({
   const settlementParticipantCount = settlementPreview?.settlementParticipatingAssetIds?.length || 0;
   const creditedAssetCount = settlementPreview?.creditedAssetIds?.length || 0;
   const fitQualityCount = settlementPreview?.quantizedFitQualities?.qualities?.length || 0;
-  const realizationProfile = needingSurface.realizationProfile || buildRealizationProfile('A');
+  const realizationProfile = readingSurface.realizationProfile || buildRealizationProfile('A');
 
   return {
     flowId: `flow_${sha256(`${scenarioId}:${assetPack.assetPackId}:${settlementPreview?.bundleId || 'pending'}`).slice(0, 12)}`,
@@ -498,7 +498,7 @@ function buildRepoToSettlementSurface({
     branchName: branchArtifacts?.branchName || null,
     realizationProfile,
     depositMode: realizationProfile.depositMode,
-    needMode: realizationProfile.needMode,
+    readMode: realizationProfile.readMode,
     stages: [
       {
         stageId: RealizationStage.DEPOSITING,
@@ -515,34 +515,34 @@ function buildRepoToSettlementSurface({
         }
       },
       {
-        stageId: RealizationStage.NEEDING,
-        label: 'Needing',
+        stageId: RealizationStage.READING,
+        label: 'Reading',
         status: 'measured from benchmark evidence',
         boundaryClass: ExecutionReality.EXECUTED_LOCAL,
-        summary: `Need ${needingSurface.needId} was measured as ${needingSurface.taskSummary}`,
-        refs: [needingSurface.needId, needingSurface.parserKind, ...needingSurface.targetArtifactKinds].filter(Boolean),
+        summary: `Read ${readingSurface.readId} was measured as ${readingSurface.taskSummary}`,
+        refs: [readingSurface.readId, readingSurface.parserKind, ...readingSurface.targetArtifactKinds].filter(Boolean),
         metrics: {
-          parserKind: needingSurface.parserKind,
-          failureModes: needingSurface.failureModeSummary.length,
-          closureCriteria: needingSurface.closureCriteria.length,
-          targetArtifactKinds: needingSurface.targetArtifactKinds.length
+          parserKind: readingSurface.parserKind,
+          failureModes: readingSurface.failureModeSummary.length,
+          closureCriteria: readingSurface.closureCriteria.length,
+          targetArtifactKinds: readingSurface.targetArtifactKinds.length
         }
       },
       {
-        stageId: RealizationStage.DEPOSIT_TO_NEED_FIT,
-        label: 'Deposit-to-need fit',
+        stageId: RealizationStage.DEPOSIT_TO_READ_FIT,
+        label: 'Deposit-to-read fit',
         status: 'fit surfaced before deeper closure',
         boundaryClass: ExecutionReality.EXECUTED_LOCAL,
-        summary: depositingToNeedingSurface.fitSummary,
+        summary: depositingToReadingSurface.fitSummary,
         refs: [
-          depositingToNeedingSurface.relationId,
-          ...depositingToNeedingSurface.decisiveKinds,
-          ...depositingToNeedingSurface.overlapKinds
+          depositingToReadingSurface.relationId,
+          ...depositingToReadingSurface.decisiveKinds,
+          ...depositingToReadingSurface.overlapKinds
         ],
         metrics: {
-          decisiveKinds: depositingToNeedingSurface.decisiveKinds.length,
-          overlapKinds: depositingToNeedingSurface.overlapKinds.length,
-          normalizationPressure: depositingToNeedingSurface.normalizationPressure
+          decisiveKinds: depositingToReadingSurface.decisiveKinds.length,
+          overlapKinds: depositingToReadingSurface.overlapKinds.length,
+          normalizationPressure: depositingToReadingSurface.normalizationPressure
         }
       },
       {
@@ -729,10 +729,10 @@ function buildBoundaryRealitySurface() {
         externalRequirement: 'Exchange a real GitHub App JWT for an installation token and refresh repo supply directly from GitHub APIs.'
       }),
       buildBoundaryRealityStage({
-        stageId: 'need-measurement-and-ranking',
-        label: 'Need + ranking',
+        stageId: 'read-measurement-and-ranking',
+        label: 'Read + ranking',
         localStatus: ExecutionReality.EXECUTED_LOCAL,
-        localDescription: 'Need measurement, prompt lineage, ranking, and verification execute deterministically inside this repository.',
+        localDescription: 'Read measurement, prompt lineage, ranking, and verification execute deterministically inside this repository.',
         externalRequirement: 'Bind those same stages to live repo evidence refresh, remote evaluators as needed, and production policy controls.'
       }),
       buildBoundaryRealityStage({
@@ -762,10 +762,10 @@ function buildBoundaryRealitySurface() {
 
 /**
  * @param {BuyerShape} buyer
- * @param {NeedShape} need
+ * @param {ReadShape} read
  * @param {SelectedCandidateShape[]} selectedCandidates
  */
-function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
+function buildGithubBoundarySurface(buyer, read, selectedCandidates) {
   const selectedSessionBindings = [...new Map(
     selectedCandidates
       .flatMap((candidate) => {
@@ -793,8 +793,8 @@ function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
       repo: buyer.repo,
       repositoryId: buildRepoIdentity(buyer.repo).repositoryId,
       repositoryNodeId: buildRepoIdentity(buyer.repo).repositoryNodeId,
-      benchmarkRunId: need.benchmarkRunId,
-      benchmarkWorkflowPath: need.benchmarkWorkflowPath,
+      benchmarkRunId: read.benchmarkRunId,
+      benchmarkWorkflowPath: read.benchmarkWorkflowPath,
       selectedAssetGithubBindings: selectedCandidates.map((candidate) => candidate.asset.githubBoundary),
       selectedAssetAuthBindings: selectedCandidates.map((candidate) => ({
         assetId: candidate.assetId,
@@ -834,8 +834,8 @@ function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
 export {
   buildRepoSupplySurface,
   buildDepositingSurface,
-  buildNeedingSurface,
-  buildDepositingToNeedingSurface,
+  buildReadingSurface,
+  buildDepositingToReadingSurface,
   buildRepoToSettlementSurface,
   buildIdentityAuthSpineSurface,
   buildBoundaryRealitySurface,

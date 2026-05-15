@@ -9,7 +9,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_SEARCH_STRATEGY } from '@bitco
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search plan prompt for source selection and query scope"
+ * intent: "Bitcode read-synthesis web search plan prompt for source selection and query scope"
  * current_version: "V26"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_QUERY_ANALYSIS": "V26",

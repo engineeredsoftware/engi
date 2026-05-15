@@ -8,7 +8,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
   network: buildExplainer({
     kicker: 'Bitcode Exchange',
     title: 'Exchange',
-    summary: 'Read the public Bitcode exchange frame where source supply, measured need, settlement posture, and teaching surfaces meet.',
+    summary: 'Read the public Bitcode exchange frame where source supply, measured read, settlement posture, and teaching surfaces meet.',
     detail:
       'Use this route when you want the highest-level public view of how Source Shares become measurable technical intelligence before you dive into full detail.',
     points: [
@@ -19,9 +19,9 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
   transactions: buildExplainer({
     kicker: 'Live Terminal',
     title: 'Terminal',
-    summary: 'Open the full Terminal for proofs, history, and give-to-settle detail.',
+    summary: 'Open the full Terminal for proofs, history, and deposit-to-settle detail.',
     detail:
-      'This is the main operator-grade surface. Use it when you want to prepare Give and Need work, then read recent Terminal activity results, proofs, and history.',
+      'This is the main operator-grade surface. Use it when you want to prepare Deposit and Read work, then read recent Terminal activity results, proofs, and history.',
     points: [
       'Loads selected execution detail, proofs, history, and closure posture',
       'Keeps mocked launch-mode state readable without requiring live external connectivity',

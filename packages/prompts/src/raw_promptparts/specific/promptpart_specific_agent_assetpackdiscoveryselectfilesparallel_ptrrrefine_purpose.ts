@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Need satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrrefine purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Read satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Need satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrrefine purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Read satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYSELECTFILESPARALLEL_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: remove weak file candidates and strengthen selected-file rationale against Need acceptance criteria' as PromptPart;
+  'PTRR Refine Step: remove weak file candidates and strengthen selected-file rationale against Read acceptance criteria' as PromptPart;

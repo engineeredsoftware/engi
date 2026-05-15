@@ -29,7 +29,7 @@ describe('ExecutionDetailsView work updates', () => {
     (usePipelineExecution as jest.Mock).mockReturnValue({
       execution: { id: 'run-42', created_at: new Date().toISOString(), items: [], context: {} },
       events: [],
-      latestWorkUpdate: { id: 'wu-1', prose: 'Needs instruction', iteration: 3 },
+      latestWorkUpdate: { id: 'wu-1', prose: 'Reads instruction', iteration: 3 },
       iterationUpdates: [
         { id: 'iter-1', iteration: 1, prose: 'Iteration 1 summary' },
         { id: 'iter-2', iteration: 2, prose: 'Iteration 2 summary' },

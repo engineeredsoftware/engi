@@ -279,18 +279,18 @@ const genericCategories: PromptCategory[] = [
 
 const assetPackCategories: PromptCategory[] = [
   {
-    name: 'need_comprehension',
+    name: 'read_comprehension',
     parts: [
       {
-        suffix: 'need_semantics',
-        description: 'Need semantics for AssetPack runs',
-        content: 'NEED SEMANTICS:\nPreserve the expressed need exactly.\nSeparate need facts from implementation guesses.\nRecord assumptions as evidence for Finish reread.',
+        suffix: 'read_semantics',
+        description: 'Read semantics for AssetPack runs',
+        content: 'READ SEMANTICS:\nPreserve the expressed read exactly.\nSeparate read facts from implementation guesses.\nRecord assumptions as evidence for Finish reread.',
         priority: 'high'
       },
       {
         suffix: 'satisfaction_criteria',
-        description: 'Need-satisfaction criteria',
-        content: 'NEED-SATISFACTION CRITERIA:\nState measurable acceptance criteria.\nTie each criterion to source evidence.\nKeep delivery-mechanism preferences subordinate to need satisfaction.'
+        description: 'Read-satisfaction criteria',
+        content: 'READ-SATISFACTION CRITERIA:\nState measurable acceptance criteria.\nTie each criterion to source evidence.\nKeep delivery-mechanism preferences subordinate to read satisfaction.'
       },
       {
         suffix: 'delivery_boundary',
@@ -305,13 +305,13 @@ const assetPackCategories: PromptCategory[] = [
       {
         suffix: 'synthesis_plan',
         description: 'AssetPack synthesis plan',
-        content: 'ASSETPACK SYNTHESIS PLAN:\nDerive implementation work from the expressed need.\nPreserve written-asset intent.\nName source files, proof hooks, and verification commands before mutation.',
+        content: 'ASSETPACK SYNTHESIS PLAN:\nDerive implementation work from the expressed read.\nPreserve written-asset intent.\nName source files, proof hooks, and verification commands before mutation.',
         priority: 'high'
       },
       {
         suffix: 'written_asset_integrity',
         description: 'Written-asset integrity',
-        content: 'WRITTEN-ASSET INTEGRITY:\nKeep generated changes coherent as AssetPack synthesis artifacts.\nVerify changed files against need-satisfaction criteria.\nAvoid support aliases once canonical Bitcode names exist.'
+        content: 'WRITTEN-ASSET INTEGRITY:\nKeep generated changes coherent as AssetPack synthesis artifacts.\nVerify changed files against read-satisfaction criteria.\nAvoid support aliases once canonical Bitcode names exist.'
       },
       {
         suffix: 'proof_evidence',
@@ -332,7 +332,7 @@ const assetPackCategories: PromptCategory[] = [
       {
         suffix: 'asset_pack_completion',
         description: 'AssetPack completion payload',
-        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, shippables, deliveryMechanism, need, writtenAssetType, and repoSnapshot.\nReplace pre-V26 final-summary semantics completely.'
+        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, shippables, deliveryMechanism, read, writtenAssetType, and repoSnapshot.\nReplace pre-V26 final-summary semantics completely.'
       },
       {
         suffix: 'terminal_reread',
@@ -410,7 +410,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
  * name: "assetpack_${category.name}_${part.suffix}"
  * category: "assetpack_${category.name}"
  * description: "${part.description}"
- * usage: "Bitcode AssetPack ${category.name} guidance for need-satisfaction, stored evidence, and PR Shippables"
+ * usage: "Bitcode AssetPack ${category.name} guidance for read-satisfaction, stored evidence, and PR Shippables"
  * priority: "${priority}"
  * version: "1.0.0"
  */

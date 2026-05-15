@@ -28,8 +28,8 @@ type ValidationOutput = AssetPackOutput;
 // ==================== SETUP PHASE ====================
 
 /**
- * Setup Phase - repository context, need comprehension, and risk admission.
- * Danger-wall performs Bitcode Need/AssetPack admission before iteration.
+ * Setup Phase - repository context, read comprehension, and risk admission.
+ * Danger-wall performs Bitcode Read/AssetPack admission before iteration.
  */
 // Use the Setup phase runner (executor pattern)
 export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegator<AssetPackInput, SetupOutput>;

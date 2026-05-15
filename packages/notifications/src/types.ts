@@ -14,7 +14,7 @@
 // ---------------------------------------------------------------------------
 
 export type RunLifecycle = 'STARTED' | 'SUCCESS' | 'ERROR';
-export type BitcodeRunNotificationType = 'asset-pack' | 'need-measurement';
+export type BitcodeRunNotificationType = 'asset-pack' | 'read-measurement';
 
 export interface RunEvent {
   kind: 'RUN';

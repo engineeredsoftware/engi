@@ -1,11 +1,11 @@
 /**
- * Bitcode Need Risk Admission Agent - Setup Phase Admission Check
+ * Bitcode Read Risk Admission Agent - Setup Phase Admission Check
  * 
  * Retained AssetPack pipeline wrapper that adds short-circuit signaling when
  * Bitcode risk admission blocks the next phase.
  */
 
-import { bitcodeNeedRiskAdmissionAgent } from '@bitcode/generic-agents-danger-wall';
+import { bitcodeReadRiskAdmissionAgent } from '@bitcode/generic-agents-danger-wall';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
@@ -27,19 +27,19 @@ const DangerWallWithSignalSchema = z.object({
  * Bitcode risk-admission wrapper with short-circuit capability.
  */
 export default async function dangerWallWithShortCircuit(input: any, execution: any) {
-  const riskAdmissionInput = execution?.get?.('setup/need-comprehension', 'riskAdmissionInput');
-  const needModel = execution?.get?.('setup/need', 'model');
-  const needComprehension = execution?.get?.('setup/need', 'comprehension');
-  const result = await bitcodeNeedRiskAdmissionAgent({
+  const riskAdmissionInput = execution?.get?.('setup/read-comprehension', 'riskAdmissionInput');
+  const readModel = execution?.get?.('setup/read', 'model');
+  const readComprehension = execution?.get?.('setup/read', 'comprehension');
+  const result = await bitcodeReadRiskAdmissionAgent({
     ...input,
     ...riskAdmissionInput,
-    need:
-      riskAdmissionInput?.need ??
-      input?.need ??
-      input?.expressedNeed ??
-      input?.definitionOfNeed ??
-      needModel?.expressed_need ??
-      needComprehension?.intent ??
+    read:
+      riskAdmissionInput?.read ??
+      input?.read ??
+      input?.expressedRead ??
+      input?.definitionOfRead ??
+      readModel?.expressed_read ??
+      readComprehension?.intent ??
       '',
     assetPackIntent:
       riskAdmissionInput?.assetPackIntent ??
@@ -56,7 +56,7 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
       input?.deliveryMechanism,
     repositoryEvidence:
       riskAdmissionInput?.repositoryEvidence ??
-      execution?.get?.('setup/need-comprehension', 'toolEvidence')
+      execution?.get?.('setup/read-comprehension', 'toolEvidence')
   }, execution);
   try {
     execution.store('setup/danger-wall', 'result', result);
@@ -77,7 +77,7 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
         confidence: result.finalAssessment.confidence,
         metadata: {
           phase: 'setup',
-          agent: 'bitcode-need-risk-admission',
+          agent: 'bitcode-read-risk-admission',
           severity: result.finalAssessment.maxSeverity,
           flags: result.finalAssessment.verdict.flags
         }

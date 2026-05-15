@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Need satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel purpose corestatement"
+ * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Read satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Need satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel purpose corestatement"
+ * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Read satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYSELECTFILESPARALLEL_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: select source files whose contents can satisfy the Need, bound AssetPack scope, or supply proof evidence' as PromptPart;
+  'Core purpose: select source files whose contents can satisfy the Read, bound AssetPack scope, or supply proof evidence' as PromptPart;

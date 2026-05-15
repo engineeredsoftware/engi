@@ -5,14 +5,14 @@
  * @typedef {any} ParsedCompletionEnvelope
  * @typedef {any} BuiltRealizationProfile
  *
- * @typedef {any} NeedShape
+ * @typedef {any} ReadShape
  * @typedef {any} AssetShape
  * @typedef {any} EvaluatedCandidate
  * @typedef {any} AssetPackShape
  * @typedef {any} PolicyState
  *
- * @typedef {any} NeedMeasurementResult
- * @typedef {any} NeedMeasurementScenario
+ * @typedef {any} ReadMeasurementResult
+ * @typedef {any} ReadMeasurementScenario
  *
  * @typedef {any} InferenceProof
  * @typedef {any} ParsedCompletionEnvelopeArtifact
@@ -30,11 +30,11 @@
  * @typedef {any} PolicyReleaseShape
  * @typedef {any} UnitCatalogShape
  * @typedef {any} DemoStateShape
- * @typedef {any} NeedScenarioShape
+ * @typedef {any} ReadScenarioShape
  *
  * @typedef {any} DepositingSurface
- * @typedef {any} NeedingSurface
- * @typedef {any} DepositingToNeedingSurface
+ * @typedef {any} ReadingSurface
+ * @typedef {any} DepositingToReadingSurface
  * @typedef {any} PublicSessionShape
  * @typedef {any} PublicRepoArtifactInventoryEntryShape
  *
@@ -54,9 +54,9 @@
 import { ExecutionReality, NormalizationPressure } from './canonical/enums.js';
 import './canonical/types.js';
 import { inferTechnologySignals } from './demonstration-technology-signals.js';
-import { buildRepoSupplySurface, buildDepositingSurface, buildNeedingSurface, buildDepositingToNeedingSurface, buildRepoToSettlementSurface, buildIdentityAuthSpineSurface, buildBoundaryRealitySurface, buildGithubBoundarySurface } from './canonical/surfaces.js';
+import { buildRepoSupplySurface, buildDepositingSurface, buildReadingSurface, buildDepositingToReadingSurface, buildRepoToSettlementSurface, buildIdentityAuthSpineSurface, buildBoundaryRealitySurface, buildGithubBoundarySurface } from './canonical/surfaces.js';
 import { buildPipelineTelemetry, buildPromptImplementationSurface, buildSystemProofBundle, buildArtifactUploadManifest, buildAssetPackEvidenceManifest, buildScenarioFixtureManifest, buildTestCoverageReport } from './canonical/run-artifacts.js';
-import { createNeedMeasurementRuntime } from './canonical/need-measurement.js';
+import { createReadMeasurementRuntime } from './canonical/read-measurement.js';
 import { createEvaluationMaterializationRuntime } from './canonical/evaluation-materialization.js';
 import { createSettlementRuntime } from './canonical/settlement.js';
 import { buildProfileCompositions, buildPublicState as buildDemoPublicState } from './demo-shell-state.js';
@@ -122,7 +122,7 @@ import {
   CURRENT_SPEC_VERSION_LABEL
 } from './canon-posture.js';
 
-const createNeedMeasurementRuntimeUnchecked = /** @type {any} */ (createNeedMeasurementRuntime);
+const createReadMeasurementRuntimeUnchecked = /** @type {any} */ (createReadMeasurementRuntime);
 const createEvaluationMaterializationRuntimeUnchecked = /** @type {any} */ (createEvaluationMaterializationRuntime);
 const createSettlementRuntimeUnchecked = /** @type {any} */ (createSettlementRuntime);
 const evaluatorSurfaceUnchecked = /** @type {any} */ (evaluatorSurface);
@@ -148,7 +148,7 @@ const DEFAULT_GITHUB_APP_SLUG = 'bitcode-app';
 const DEFAULT_GITHUB_INSTALLATION_ID = 'gh_inst_bitcode_001';
 const DEFAULT_GITHUB_KEY_SOURCE = 'kms://bitcode/github-app';
 const DEFAULT_GITHUB_OPERATOR_LOGIN = 'bitcode-app[bot]';
-const BRANCH_NEED_PATH = 'BITCODE_NEED.md';
+const BRANCH_READ_PATH = 'BITCODE_READ.md';
 
 function activeBranchRef(slug) {
   return `${ACTIVE_BRANCH_PREFIX}-${slug}`;
@@ -259,49 +259,49 @@ function buildExternalBoundaryInterface({ interfaceId, label, status, localProto
 }
 
 const RECALL_CHANNEL_SPECS = {
-  semanticTaskSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.task', 'unit.text'], recordedOn: ['need.queryRepresentations.task', 'asset.contentUnits[].embeddings.taskVector'], vectorizedIn: 'task-semantic-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'needMatch.taskSemanticFit + recall fusion', downstreamUses: ['candidate recall ordering', 'need-match scoring', 'asset-pack selection'] },
-  failureModeSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.failureModes', 'need.failingCases', 'unit.text', 'unit.codeAnalysisFacts.constraints', 'unit.codeAnalysisFacts.symbols'], recordedOn: ['need.queryRepresentations.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'], vectorizedIn: 'failure-mode-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'needMatch.failureModeFit + benchmarkImpact.likelyImprovesFailingCases', downstreamUses: ['candidate recall ordering', 'benchmark-impact scoring', 'asset-pack coverage'] },
-  technicalContextSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.touchedPaths', 'need.extractedSymbols', 'need.configKeys', 'need.stackHints', 'unit.codeAnalysisFacts.*'], recordedOn: ['need.queryRepresentations.technicalContext', 'asset.contentUnits[].embeddings.technicalContextVector'], vectorizedIn: 'technical-context-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'pathFit/stackFit/context generalization', downstreamUses: ['repo-context ranking', 'benchmark generalization scoring', 'branch selection guardrails'] },
-  lexicalSearch: { signalFamily: 'lexical', determinesFrom: ['tokenize(need.task/failureModes/constraints/weakDimensions)', 'tokenize(unit.text)'], recordedOn: ['need.lexicalTerms', 'unit text tokens'], vectorizedIn: null, searchedBy: 'exact token overlap', scoredBy: 'hit ratio', rankedUsage: 'support-only lexical evidence', downstreamUses: ['recall provenance', 'needMatch.lexicalSupport', 'visual explainability'] },
-  symbolSearch: { signalFamily: 'symbolic', determinesFrom: ['need.extractedSymbols', 'unit.codeAnalysisFacts.symbols'], recordedOn: ['need.extractedSymbols', 'asset.contentUnits[].codeAnalysisFacts.symbols'], vectorizedIn: null, searchedBy: 'exact symbol intersection', scoredBy: 'binary presence', rankedUsage: 'needMatch.symbolFit + recall fusion', downstreamUses: ['subsystem alignment', 'implementation specificity', 'visual explainability'] },
-  pathSearch: { signalFamily: 'path', determinesFrom: ['need.touchedPaths', 'asset.metadata.sourcePaths', 'unit.codeAnalysisFacts.paths'], recordedOn: ['need.touchedPaths', 'asset provenance/source paths'], vectorizedIn: null, searchedBy: 'exact path intersection', scoredBy: 'binary presence', rankedUsage: 'needMatch.pathFit + repo-context linkage', downstreamUses: ['asset-pack coverage', 'benchmark impact generalization', 'penalty avoidance'] },
-  configKeySearch: { signalFamily: 'config', determinesFrom: ['need.configKeys', 'unit.codeAnalysisFacts.configKeys'], recordedOn: ['need.configKeys', 'asset.contentUnits[].codeAnalysisFacts.configKeys'], vectorizedIn: null, searchedBy: 'exact config-key intersection', scoredBy: 'binary presence', rankedUsage: 'subsystem alignment + context linkage', downstreamUses: ['need-match scoring', 'artifact precision', 'visual explainability'] },
-  artifactKindFilteredSearch: { signalFamily: 'artifact-kind/type', determinesFrom: ['need.targetArtifactKinds', 'asset.artifactKind', 'asset.artifactType'], recordedOn: ['need.targetArtifactKinds', 'asset metadata'], vectorizedIn: null, searchedBy: 'kind/type eligibility filter', scoredBy: 'binary match', rankedUsage: 'artifact kind fit + candidate filtering', downstreamUses: ['need-match scoring', 'penalty mass', 'asset-pack assembly'] }
+  semanticTaskSearch: { signalFamily: 'semantic/vector', determinesFrom: ['read.task', 'unit.text'], recordedOn: ['read.queryRepresentations.task', 'asset.contentUnits[].embeddings.taskVector'], vectorizedIn: 'task-semantic-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'readMatch.taskSemanticFit + recall fusion', downstreamUses: ['candidate recall ordering', 'read-match scoring', 'asset-pack selection'] },
+  failureModeSearch: { signalFamily: 'semantic/vector', determinesFrom: ['read.failureModes', 'read.failingCases', 'unit.text', 'unit.codeAnalysisFacts.constraints', 'unit.codeAnalysisFacts.symbols'], recordedOn: ['read.queryRepresentations.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'], vectorizedIn: 'failure-mode-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'readMatch.failureModeFit + benchmarkImpact.likelyImprovesFailingCases', downstreamUses: ['candidate recall ordering', 'benchmark-impact scoring', 'asset-pack coverage'] },
+  technicalContextSearch: { signalFamily: 'semantic/vector', determinesFrom: ['read.touchedPaths', 'read.extractedSymbols', 'read.configKeys', 'read.stackHints', 'unit.codeAnalysisFacts.*'], recordedOn: ['read.queryRepresentations.technicalContext', 'asset.contentUnits[].embeddings.technicalContextVector'], vectorizedIn: 'technical-context-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'pathFit/stackFit/context generalization', downstreamUses: ['repo-context ranking', 'benchmark generalization scoring', 'branch selection guardrails'] },
+  lexicalSearch: { signalFamily: 'lexical', determinesFrom: ['tokenize(read.task/failureModes/constraints/weakDimensions)', 'tokenize(unit.text)'], recordedOn: ['read.lexicalTerms', 'unit text tokens'], vectorizedIn: null, searchedBy: 'exact token overlap', scoredBy: 'hit ratio', rankedUsage: 'support-only lexical evidence', downstreamUses: ['recall provenance', 'readMatch.lexicalSupport', 'visual explainability'] },
+  symbolSearch: { signalFamily: 'symbolic', determinesFrom: ['read.extractedSymbols', 'unit.codeAnalysisFacts.symbols'], recordedOn: ['read.extractedSymbols', 'asset.contentUnits[].codeAnalysisFacts.symbols'], vectorizedIn: null, searchedBy: 'exact symbol intersection', scoredBy: 'binary presence', rankedUsage: 'readMatch.symbolFit + recall fusion', downstreamUses: ['subsystem alignment', 'implementation specificity', 'visual explainability'] },
+  pathSearch: { signalFamily: 'path', determinesFrom: ['read.touchedPaths', 'asset.metadata.sourcePaths', 'unit.codeAnalysisFacts.paths'], recordedOn: ['read.touchedPaths', 'asset provenance/source paths'], vectorizedIn: null, searchedBy: 'exact path intersection', scoredBy: 'binary presence', rankedUsage: 'readMatch.pathFit + repo-context linkage', downstreamUses: ['asset-pack coverage', 'benchmark impact generalization', 'penalty avoidance'] },
+  configKeySearch: { signalFamily: 'config', determinesFrom: ['read.configKeys', 'unit.codeAnalysisFacts.configKeys'], recordedOn: ['read.configKeys', 'asset.contentUnits[].codeAnalysisFacts.configKeys'], vectorizedIn: null, searchedBy: 'exact config-key intersection', scoredBy: 'binary presence', rankedUsage: 'subsystem alignment + context linkage', downstreamUses: ['read-match scoring', 'artifact precision', 'visual explainability'] },
+  artifactKindFilteredSearch: { signalFamily: 'artifact-kind/type', determinesFrom: ['read.targetArtifactKinds', 'asset.artifactKind', 'asset.artifactType'], recordedOn: ['read.targetArtifactKinds', 'asset metadata'], vectorizedIn: null, searchedBy: 'kind/type eligibility filter', scoredBy: 'binary match', rankedUsage: 'artifact kind fit + candidate filtering', downstreamUses: ['read-match scoring', 'penalty mass', 'asset-pack assembly'] }
 };
 
 const CODE_ANALYSIS_CONSUMERS = {
-  'ranking.need-match.task-semantic-fit.v2': ['need.task', 'asset.contentUnits[].embeddings.taskVector'],
-  'ranking.need-match.failure-mode-fit.v2': ['need.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'],
-  'ranking.need-match.symbol-fit.v2': ['need.extractedSymbols', 'asset.contentUnits[].codeAnalysisFacts.symbols'],
-  'ranking.need-match.path-fit.v2': ['need.touchedPaths', 'asset.metadata.sourcePaths', 'asset.contentUnits[].codeAnalysisFacts.paths', 'need.extractedSymbols', 'need.configKeys', 'need.stackHints', 'asset.metadata.declaredStacks'],
-  'ranking.need-match.stack-fit.v2': ['need.stackHints', 'asset.metadata.declaredStacks'],
-  'ranking.need-match.constraint-fit.v2': ['need.constraints', 'asset.metadata.declaredConstraints', 'asset.contentUnits[].codeAnalysisFacts.constraints'],
-  'ranking.need-match.artifact-kind-fit.v2': ['need.targetArtifactKinds', 'asset.artifactKind'],
-  'ranking.need-match.lexical-support.v2': ['need.lexicalNeedTerms', 'asset.contentUnits[].textTokens'],
-  'ranking.benchmark-impact.failing-cases.v2': ['need.failingCases', 'asset.contentUnits[].embeddings.failureModeVector'],
-  'ranking.benchmark-impact.weak-dimensions.v2': ['need.weakDimensions', 'need.task', 'need.constraints', 'asset.contentUnits[].embeddings.taskVector', 'asset.metadata.declaredConstraints'],
-  'ranking.benchmark-impact.repo-context.v2': ['need.touchedPaths', 'need.stackHints', 'need.constraints', 'asset.metadata.sourcePaths', 'asset.metadata.declaredStacks'],
-  'ranking.actionability.remediation-specificity.v2': ['need.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'],
+  'ranking.read-match.task-semantic-fit.v2': ['read.task', 'asset.contentUnits[].embeddings.taskVector'],
+  'ranking.read-match.failure-mode-fit.v2': ['read.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'],
+  'ranking.read-match.symbol-fit.v2': ['read.extractedSymbols', 'asset.contentUnits[].codeAnalysisFacts.symbols'],
+  'ranking.read-match.path-fit.v2': ['read.touchedPaths', 'asset.metadata.sourcePaths', 'asset.contentUnits[].codeAnalysisFacts.paths', 'read.extractedSymbols', 'read.configKeys', 'read.stackHints', 'asset.metadata.declaredStacks'],
+  'ranking.read-match.stack-fit.v2': ['read.stackHints', 'asset.metadata.declaredStacks'],
+  'ranking.read-match.constraint-fit.v2': ['read.constraints', 'asset.metadata.declaredConstraints', 'asset.contentUnits[].codeAnalysisFacts.constraints'],
+  'ranking.read-match.artifact-kind-fit.v2': ['read.targetArtifactKinds', 'asset.artifactKind'],
+  'ranking.read-match.lexical-support.v2': ['read.lexicalReadTerms', 'asset.contentUnits[].textTokens'],
+  'ranking.benchmark-impact.failing-cases.v2': ['read.failingCases', 'asset.contentUnits[].embeddings.failureModeVector'],
+  'ranking.benchmark-impact.weak-dimensions.v2': ['read.weakDimensions', 'read.task', 'read.constraints', 'asset.contentUnits[].embeddings.taskVector', 'asset.metadata.declaredConstraints'],
+  'ranking.benchmark-impact.repo-context.v2': ['read.touchedPaths', 'read.stackHints', 'read.constraints', 'asset.metadata.sourcePaths', 'asset.metadata.declaredStacks'],
+  'ranking.actionability.remediation-specificity.v2': ['read.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'],
   'ranking.actionability.implementation-specificity.v2': ['asset.metadata.sourcePaths', 'asset.contentUnits[].codeAnalysisFacts.symbols', 'asset.contentUnits[].codeAnalysisFacts.configKeys'],
   'ranking.actionability.operational-usability.v2': ['asset.verificationEvidence'],
   'verification.issuance-checks.v15': ['asset.attestations[0]'],
-  'verification.provenance-checks.v15': ['asset.provenanceBinding', 'need.repo', 'need.benchmarkRunId'],
-  'verification.sufficiency-checks.v15': ['asset.verificationEvidence', 'need.benchmarkRunId'],
+  'verification.provenance-checks.v15': ['asset.provenanceBinding', 'read.repo', 'read.benchmarkRunId'],
+  'verification.sufficiency-checks.v15': ['asset.verificationEvidence', 'read.benchmarkRunId'],
   'verification.issuer-policy-checks.v15': ['asset.metadata.issuerPolicyStatus', 'asset.attestations[0].signerAddress', 'policyState.issuers']
 };
 
 const CODE_ANALYSIS_FACT_REGISTRY_SPECS = {
-  'need.task': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.task.v2'], storedOn: ['need.task'], factClass: 'need-analysis' },
-  'need.failureModes': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.failure-modes.v2'], storedOn: ['need.failureModes'], factClass: 'need-analysis' },
-  'need.constraints': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.constraints.v2'], storedOn: ['need.constraints'], factClass: 'need-analysis' },
-  'need.targetArtifactKinds': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.target-artifact-kinds.v2'], storedOn: ['need.targetArtifactKinds'], factClass: 'need-analysis' },
-  'need.touchedPaths': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26'], storedOn: ['need.touchedPaths'], factClass: 'repo-code-analysis' },
-  'need.extractedSymbols': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26'], storedOn: ['need.extractedSymbols'], factClass: 'repo-code-analysis' },
-  'need.configKeys': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26'], storedOn: ['need.configKeys'], factClass: 'repo-code-analysis' },
-  'need.stackHints': { measurementClass: 'hybrid-composed', gatheredFrom: ['github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26', 'inferStackHints()'], storedOn: ['need.stackHints'], factClass: 'repo-code-analysis' },
-  'need.failingCases': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15'], storedOn: ['need.failingCases'], factClass: 'benchmark-analysis' },
-  'need.weakDimensions': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15'], storedOn: ['need.weakDimensions'], factClass: 'benchmark-analysis' },
-  'need.lexicalNeedTerms': { measurementClass: 'hybrid-composed', gatheredFrom: ['tokenize(need.task/failureModes/constraints/weakDimensions)'], storedOn: ['recall.lexicalTerms'], factClass: 'derived-tokenization' },
+  'read.task': { measurementClass: 'inferred-derived', gatheredFrom: ['read-measurement.task.v2'], storedOn: ['read.task'], factClass: 'read-analysis' },
+  'read.failureModes': { measurementClass: 'inferred-derived', gatheredFrom: ['read-measurement.failure-modes.v2'], storedOn: ['read.failureModes'], factClass: 'read-analysis' },
+  'read.constraints': { measurementClass: 'inferred-derived', gatheredFrom: ['read-measurement.constraints.v2'], storedOn: ['read.constraints'], factClass: 'read-analysis' },
+  'read.targetArtifactKinds': { measurementClass: 'inferred-derived', gatheredFrom: ['read-measurement.target-artifact-kinds.v2'], storedOn: ['read.targetArtifactKinds'], factClass: 'read-analysis' },
+  'read.touchedPaths': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-read-static.v26'], storedOn: ['read.touchedPaths'], factClass: 'repo-code-analysis' },
+  'read.extractedSymbols': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-read-static.v26'], storedOn: ['read.extractedSymbols'], factClass: 'repo-code-analysis' },
+  'read.configKeys': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-read-static.v26'], storedOn: ['read.configKeys'], factClass: 'repo-code-analysis' },
+  'read.stackHints': { measurementClass: 'hybrid-composed', gatheredFrom: ['github.repo-context.extract.v15', 'bitcode.lsp.measure-read-static.v26', 'inferStackHints()'], storedOn: ['read.stackHints'], factClass: 'repo-code-analysis' },
+  'read.failingCases': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15'], storedOn: ['read.failingCases'], factClass: 'benchmark-analysis' },
+  'read.weakDimensions': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15'], storedOn: ['read.weakDimensions'], factClass: 'benchmark-analysis' },
+  'read.lexicalReadTerms': { measurementClass: 'hybrid-composed', gatheredFrom: ['tokenize(read.task/failureModes/constraints/weakDimensions)'], storedOn: ['recall.lexicalTerms'], factClass: 'derived-tokenization' },
   'asset.contentUnits[].textTokens': { measurementClass: 'static-executed', gatheredFrom: ['tokenize(unit.text)'], storedOn: ['recall unit tokenization'], factClass: 'derived-tokenization' },
   'asset.contentUnits[].codeAnalysisFacts.symbols': { measurementClass: 'static-executed', gatheredFrom: ['content-unit.extract-static-code-analysis.v15'], storedOn: ['asset.contentUnits[].codeAnalysisFacts.symbols'], factClass: 'content-unit-code-analysis' },
   'asset.contentUnits[].codeAnalysisFacts.paths': { measurementClass: 'static-executed', gatheredFrom: ['content-unit.extract-static-code-analysis.v15'], storedOn: ['asset.contentUnits[].codeAnalysisFacts.paths'], factClass: 'content-unit-code-analysis' },
@@ -320,8 +320,8 @@ const CODE_ANALYSIS_FACT_REGISTRY_SPECS = {
   'asset.metadata.issuerPolicyStatus': { measurementClass: 'policy-derived', gatheredFrom: ['asset.metadata.issuerPolicyStatus'], storedOn: ['asset.metadata.issuerPolicyStatus'], factClass: 'policy-input' },
   'asset.attestations[0].signerAddress': { measurementClass: 'static-executed', gatheredFrom: ['asset.attestations[0].signerAddress'], storedOn: ['asset.attestations[0].signerAddress'], factClass: 'policy-input' },
   'policyState.issuers': { measurementClass: 'policy-derived', gatheredFrom: ['policyState.issuers'], storedOn: ['policyState.issuers'], factClass: 'policy-input' },
-  'need.repo': { measurementClass: 'copied', gatheredFrom: ['scenario.repo'], storedOn: ['need.repo'], factClass: 'verification-context' },
-  'need.benchmarkRunId': { measurementClass: 'copied', gatheredFrom: ['scenario.benchmarkRunId'], storedOn: ['need.benchmarkRunId'], factClass: 'verification-context' }
+  'read.repo': { measurementClass: 'copied', gatheredFrom: ['scenario.repo'], storedOn: ['read.repo'], factClass: 'verification-context' },
+  'read.benchmarkRunId': { measurementClass: 'copied', gatheredFrom: ['scenario.benchmarkRunId'], storedOn: ['read.benchmarkRunId'], factClass: 'verification-context' }
 };
 
 /**
@@ -558,13 +558,13 @@ function collectStaticExecutionReceipts(values = []) {
 
 /**
  * @param {StaticExecutionReceiptShape[]} [receipts=[]]
- * @param {NeedMeasurementResult | null} [needMeasurement=null]
+ * @param {ReadMeasurementResult | null} [readMeasurement=null]
  * @param {EvaluatedCandidate[]} [evaluatedCandidates=[]]
  * @returns {Record<string, unknown>}
  */
-function buildStaticMeasurementReport(receipts = [], needMeasurement = null, evaluatedCandidates = []) {
+function buildStaticMeasurementReport(receipts = [], readMeasurement = null, evaluatedCandidates = []) {
   const expectedStaticReceiptIds = summarizeStrings([
-    ...(needMeasurement?.measurementProvenance || [])
+    ...(readMeasurement?.measurementProvenance || [])
       .filter((/** @type {any} */ entry) => entry.mode === 'static')
       .flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
     ...evaluatedCandidates.flatMap((candidate) => candidate.asset?.assetMeasurement?.staticExecutionReceipts || []).map((/** @type {any} */ receipt) => receipt.receiptId)
@@ -580,8 +580,8 @@ function buildStaticMeasurementReport(receipts = [], needMeasurement = null, eva
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     receiptCount: receipts.length,
-    needMeasurementReceiptIds: summarizeStrings(
-      (needMeasurement?.measurementProvenance || [])
+    readMeasurementReceiptIds: summarizeStrings(
+      (readMeasurement?.measurementProvenance || [])
         .filter((/** @type {any} */ entry) => entry.mode === 'static')
         .flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
     ),
@@ -594,13 +594,13 @@ function buildStaticMeasurementReport(receipts = [], needMeasurement = null, eva
 
 /**
  * @param {StaticExecutionReceiptShape[]} [receipts=[]]
- * @param {NeedMeasurementResult | null} [needMeasurement=null]
+ * @param {ReadMeasurementResult | null} [readMeasurement=null]
  * @param {EvaluatedCandidate[]} [evaluatedCandidates=[]]
  * @returns {Record<string, unknown>}
  */
-function buildStaticMeasurementProof(receipts = [], needMeasurement = null, evaluatedCandidates = []) {
+function buildStaticMeasurementProof(receipts = [], readMeasurement = null, evaluatedCandidates = []) {
   const expectedReceiptRefs = summarizeStrings([
-    ...(needMeasurement?.measurementProvenance || [])
+    ...(readMeasurement?.measurementProvenance || [])
       .filter((/** @type {any} */ entry) => entry.mode === 'static')
       .flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
     ...evaluatedCandidates.flatMap((candidate) => candidate.asset?.assetMeasurement?.staticExecutionReceipts || []).map((/** @type {any} */ receipt) => receipt.receiptId)
@@ -767,23 +767,23 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
 
 /**
  * @param {string} factId
- * @param {NeedMeasurementResult | NeedShape | null | undefined} need
+ * @param {ReadMeasurementResult | ReadShape | null | undefined} read
  * @param {AssetShape | null} [assetSample=null]
  * @returns {unknown}
  */
-function codeAnalysisFactSample(factId, need, assetSample = null) {
+function codeAnalysisFactSample(factId, read, assetSample = null) {
   switch (factId) {
-    case 'need.task': return need?.task;
-    case 'need.failureModes': return need?.failureModes?.slice(0, 3);
-    case 'need.constraints': return need?.constraints?.slice(0, 3);
-    case 'need.targetArtifactKinds': return need?.targetArtifactKinds?.slice(0, 3);
-    case 'need.touchedPaths': return need?.touchedPaths?.slice(0, 4);
-    case 'need.extractedSymbols': return need?.extractedSymbols?.slice(0, 4);
-    case 'need.configKeys': return need?.configKeys?.slice(0, 4);
-    case 'need.stackHints': return need?.stackHints?.slice(0, 4);
-    case 'need.failingCases': return need?.failingCases?.slice(0, 3);
-    case 'need.weakDimensions': return need?.weakDimensions?.slice(0, 3);
-    case 'need.lexicalNeedTerms': return uniqueTokens([need?.task, ...(need?.failureModes || []), ...(need?.constraints || []), ...(need?.weakDimensions || [])].join(' ')).slice(0, 8);
+    case 'read.task': return read?.task;
+    case 'read.failureModes': return read?.failureModes?.slice(0, 3);
+    case 'read.constraints': return read?.constraints?.slice(0, 3);
+    case 'read.targetArtifactKinds': return read?.targetArtifactKinds?.slice(0, 3);
+    case 'read.touchedPaths': return read?.touchedPaths?.slice(0, 4);
+    case 'read.extractedSymbols': return read?.extractedSymbols?.slice(0, 4);
+    case 'read.configKeys': return read?.configKeys?.slice(0, 4);
+    case 'read.stackHints': return read?.stackHints?.slice(0, 4);
+    case 'read.failingCases': return read?.failingCases?.slice(0, 3);
+    case 'read.weakDimensions': return read?.weakDimensions?.slice(0, 3);
+    case 'read.lexicalReadTerms': return uniqueTokens([read?.task, ...(read?.failureModes || []), ...(read?.constraints || []), ...(read?.weakDimensions || [])].join(' ')).slice(0, 8);
     case 'asset.contentUnits[].textTokens': return uniqueTokens(assetSample?.contentUnits?.[0]?.text || '').slice(0, 8);
     case 'asset.contentUnits[].codeAnalysisFacts.symbols': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.symbols).slice(0, 4);
     case 'asset.contentUnits[].codeAnalysisFacts.paths': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.paths).slice(0, 4);
@@ -802,17 +802,17 @@ function codeAnalysisFactSample(factId, need, assetSample = null) {
     case 'asset.metadata.issuerPolicyStatus': return assetSample?.metadata?.issuerPolicyStatus;
     case 'asset.attestations[0].signerAddress': return assetSample?.attestations?.[0]?.signerAddress;
     case 'policyState.issuers': return ['allowed', 'restricted', 'revoked'];
-    case 'need.repo': return need?.repo;
-    case 'need.benchmarkRunId': return need?.benchmarkRunId;
+    case 'read.repo': return read?.repo;
+    case 'read.benchmarkRunId': return read?.benchmarkRunId;
     default: return null;
   }
 }
 
 /**
- * @param {{ need: NeedMeasurementResult | NeedShape, evaluatedCandidates?: EvaluatedCandidate[] | undefined }} input
+ * @param {{ read: ReadMeasurementResult | ReadShape, evaluatedCandidates?: EvaluatedCandidate[] | undefined }} input
  * @returns {Record<string, unknown>}
  */
-function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
+function buildCodeAnalysisFactRegistry({ read, evaluatedCandidates = [] }) {
   const assetSample = evaluatedCandidates[0]?.asset || null;
   const consumedFactIds = summarizeStrings(Object.values(CODE_ANALYSIS_CONSUMERS).flat());
   const registeredFactIds = Object.keys(CODE_ANALYSIS_FACT_REGISTRY_SPECS);
@@ -827,7 +827,7 @@ function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
       measurementClass: spec.measurementClass,
       gatheredFrom: spec.gatheredFrom,
       storedOn: spec.storedOn,
-      exampleValue: codeAnalysisFactSample(factId, need, assetSample),
+      exampleValue: codeAnalysisFactSample(factId, read, assetSample),
       consumedBy,
       intentionallyUnused: consumedBy.length === 0
     };
@@ -1071,16 +1071,16 @@ function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanat
 }
 
 /**
- * @param {NeedMeasurementResult | NeedShape} need
+ * @param {ReadMeasurementResult | ReadShape} read
  * @param {AssetShape} asset
  * @param {string[]} [extraRefs=[]]
  * @returns {string[]}
  */
-function rankingEvidenceRefs(need, asset, extraRefs = []) {
+function rankingEvidenceRefs(read, asset, extraRefs = []) {
   return union(
     [
-      need.needId,
-      need.benchmarkRunId,
+      read.readId,
+      read.benchmarkRunId,
       asset.contentRoot,
       asset.provenanceBinding?.commit,
       asset.provenanceBinding?.workflowRunId
@@ -1224,7 +1224,7 @@ function splitContentUnits(assetId, content, hints = {}) {
  * @returns {any}
  */
 function measurementTrace(mode, toolOrPromptId, evidenceRefs, options = {}) {
-  return needMeasurementRuntime.measurementTrace(mode, toolOrPromptId, evidenceRefs, options);
+  return readMeasurementRuntime.measurementTrace(mode, toolOrPromptId, evidenceRefs, options);
 }
 
 /**
@@ -2372,7 +2372,7 @@ function buildArtifactUploadSurface(input, content, extracted, artifactKind, art
  */
 function buildExternalBoundaryManifest({
   buyer,
-  need,
+  read,
   selectedCandidates,
   assetPack,
   settlementPreview,
@@ -2642,7 +2642,7 @@ function buildExternalBoundaryManifest({
         interfaceId: 'workflow-artifact-fetch',
         label: 'Workflow artifact fetch + benchmark evidence',
         status: 'partially-localized',
-        localPrototype: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to need measurement', artifactRefs: ['.bitcode/need-measurement.json', '.bitcode/benchmark-target.json'] },
+        localPrototype: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to read measurement', artifactRefs: ['.bitcode/read-measurement.json', '.bitcode/benchmark-target.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['fetch workflow artifacts by run ID', 'verify artifact media type + digest', 'normalize benchmark outputs fail-closed'], boundaryArtifacts: ['github.workflow-fetch-request', 'github.workflow-fetch-response', 'benchmark.canonical-output-manifest'] }
       }),
       buildExternalBoundaryInterface({
@@ -2689,7 +2689,7 @@ function buildExternalBoundaryManifest({
 }
 
 function buildRecallChannelContracts() {
-  return needMeasurementRuntime.buildRecallChannelContracts();
+  return readMeasurementRuntime.buildRecallChannelContracts();
 }
 
 /**
@@ -2823,7 +2823,7 @@ function buildPolicyState() {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal materializes private artifacts.`] },
         'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} branch materializer may stage selected source material under .bitcode/source-material/.`] },
         'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} settlement engine executes deterministic journal settlement.`] },
-        'review:measured-need': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} need-review gate may accept, reject, or request remeasurement before fit search.`] },
+        'review:measured-read': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} read-review gate may accept, reject, or request remeasurement before fit search.`] },
         'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal stages remediation artifacts.`] },
         'derive:bounded-public-proof-metadata': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} proof publisher may derive bounded proof metadata from the private proof surface.`] },
         'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal may inspect bounded proof metadata.`] }
@@ -3335,7 +3335,7 @@ export function buildInitialState() {
     }
   ];
 
-  const needScenarios = [
+  const readScenarios = [
     {
       scenarioId: 'auth-issuer-rollback',
       scenarioFamily: 'monorepo-auth-rollback',
@@ -3378,7 +3378,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['runbook', 'patch', 'config', 'proof'],
-      humanPrompt: `Need a private ${ACTIVE_PROJECT_LABEL} remediation branch for auth rollback failures observed in the buyer PR.`,
+      humanPrompt: `Read a private ${ACTIVE_PROJECT_LABEL} remediation branch for auth rollback failures observed in the buyer PR.`,
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-auth.yml',
         runId: 'gha_run_auth_001',
@@ -3450,7 +3450,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['patch', 'proof', 'runbook'],
-      humanPrompt: `Need a proof-heavy ${ACTIVE_PROJECT_LABEL} branch for a Rust validator regression coming from the benchmark harness.`,
+      humanPrompt: `Read a proof-heavy ${ACTIVE_PROJECT_LABEL} branch for a Rust validator regression coming from the benchmark harness.`,
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/prove-validator.yml',
         runId: 'gha_run_validator_014',
@@ -3523,7 +3523,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['config', 'runbook', 'patch'],
-      humanPrompt: 'Need a branch that resolves a config-policy precedence incident without losing audit receipts.',
+      humanPrompt: 'Read a branch that resolves a config-policy precedence incident without losing audit receipts.',
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-policy.yml',
         runId: 'gha_run_policy_031',
@@ -3595,7 +3595,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['runbook', 'patch', 'proof'],
-      humanPrompt: 'Need a remediation branch for an unsafe patch review bypass observed by the benchmark guard.',
+      humanPrompt: 'Read a remediation branch for an unsafe patch review bypass observed by the benchmark guard.',
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/review-guard.yml',
         runId: 'gha_run_review_009',
@@ -3667,7 +3667,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['runbook', 'config', 'patch'],
-      humanPrompt: 'Need a deployment drift rollback branch that reconciles Terraform and Helm state safely.',
+      humanPrompt: 'Read a deployment drift rollback branch that reconciles Terraform and Helm state safely.',
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-deploy.yml',
         runId: 'gha_run_deploy_018',
@@ -3739,7 +3739,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['proof', 'patch', 'runbook'],
-      humanPrompt: 'Need a privacy-safe proof export branch that keeps public projection bounded and replayable.',
+      humanPrompt: 'Read a privacy-safe proof export branch that keeps public projection bounded and replayable.',
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-projection.yml',
         runId: 'gha_run_projection_006',
@@ -3812,7 +3812,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['runbook', 'patch', 'config', 'proof'],
-      humanPrompt: 'Need a polyglot remediation branch that keeps gateway rollback logic consistent across TypeScript, Python, and Rust.',
+      humanPrompt: 'Read a polyglot remediation branch that keeps gateway rollback logic consistent across TypeScript, Python, and Rust.',
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-gateway.yml',
         runId: 'gha_run_gateway_021',
@@ -3887,7 +3887,7 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['runbook', 'patch', 'config', 'proof'],
-      humanPrompt: 'Need a normalization-heavy auth remediation branch that can justify source-to-shares replay across multiple strong assets.',
+      humanPrompt: 'Read a normalization-heavy auth remediation branch that can justify source-to-shares replay across multiple strong assets.',
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-auth-normalization.yml',
         runId: 'gha_run_auth_019',
@@ -3943,7 +3943,7 @@ export function buildInitialState() {
     },
     assets,
     buyers,
-    needScenarios,
+    readScenarios,
     githubAppSessions,
     repoArtifactInventory,
     policyState,
@@ -3966,7 +3966,7 @@ function assetEvidenceRefs(asset) {
  * @param {any} benchmarkOutputs
  * @returns {string}
  */
-function inferNeedTask(scenario, benchmarkOutputs) {
+function inferReadTask(scenario, benchmarkOutputs) {
   if (scenario.task) return scenario.task;
   if (scenario.expectedTask) return scenario.expectedTask;
   const priorityFailure = benchmarkOutputs.failingCases[0] || 'measured benchmark failure';
@@ -4047,11 +4047,11 @@ function inferClosureCriteria(scenario, benchmarkOutputs, targetArtifactKinds = 
  * @returns {string[]}
  */
 function inferStackHints(scenario, benchmarkOutputs) {
-  return inferNeedTechnologyProfile(scenario, benchmarkOutputs).stackHints;
+  return inferReadTechnologyProfile(scenario, benchmarkOutputs).stackHints;
 }
 
 /**
- * Package-owned technology signal normalization keeps need measurement and
+ * Package-owned technology signal normalization keeps read measurement and
  * downstream product surfaces on one canonical Bitcode vocabulary instead of
  * letting protocol-local string heuristics drift over time.
  *
@@ -4059,7 +4059,7 @@ function inferStackHints(scenario, benchmarkOutputs) {
  * @param {any} benchmarkOutputs
  * @returns {{ stackHints: string[], languages: string[], technologies: string[], brands: string[] }}
  */
-function inferNeedTechnologyProfile(scenario, benchmarkOutputs) {
+function inferReadTechnologyProfile(scenario, benchmarkOutputs) {
   const seededHints = summarizeStrings(union(scenario.repoContext?.stackHints || [], [
     ...benchmarkOutputs.symbols.filter((/** @type {any} */ symbol) => /validator/i.test(symbol)).map(() => 'rust'),
     ...benchmarkOutputs.touchedPaths.filter((/** @type {any} */ item) => item.endsWith('.ts')).map(() => 'typescript'),
@@ -4080,14 +4080,14 @@ function inferNeedTechnologyProfile(scenario, benchmarkOutputs) {
  * @returns {any}
  */
 function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
-  const technologyProfile = inferNeedTechnologyProfile(scenario, benchmarkOutputs);
+  const technologyProfile = inferReadTechnologyProfile(scenario, benchmarkOutputs);
   const lspMeasurementEnvelope = {
-    toolPurpose: 'static Need measurement through symbol, path, and config evidence',
-    measuredFields: ['need.touchedPaths', 'need.extractedSymbols', 'need.configKeys', 'need.stackHints'],
+    toolPurpose: 'static Read measurement through symbol, path, and config evidence',
+    measuredFields: ['read.touchedPaths', 'read.extractedSymbols', 'read.configKeys', 'read.stackHints'],
     symbolQueries: summarizeStrings(benchmarkOutputs.symbols),
     pathEvidence: summarizeStrings(union(benchmarkOutputs.touchedPaths, scenario.repoContext?.repoTree?.filter((/** @type {any} */ item) => benchmarkOutputs.touchedPaths.includes(item)) || [])),
     configEvidence: summarizeStrings(union(benchmarkOutputs.configKeys, scenario.repoContext?.configKeys || [])),
-    outputContract: 'feeds NeedDescriptor.staticMeasurements and AssetPack ranking evidence'
+    outputContract: 'feeds ReadDescriptor.staticMeasurements and AssetPack ranking evidence'
   };
   const normalizedOutputEnvelope = {
     touchedPaths: lspMeasurementEnvelope.pathEvidence,
@@ -4111,9 +4111,9 @@ function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
     replayInputClosure: [scenario.repo, scenario.canonicalRunEvidence?.runId]
   });
   const lspMeasurementReceipt = buildStaticExecutionReceipt({
-    receiptKind: 'lsp-need-static-measurement',
+    receiptKind: 'lsp-read-static-measurement',
     stageId: 'lsp.semantic-measurement.v26',
-    toolId: 'bitcode.lsp.measure-need-static.v26',
+    toolId: 'bitcode.lsp.measure-read-static.v26',
     inputs: {
       repo: scenario.repo,
       benchmarkOutputs,
@@ -4135,12 +4135,12 @@ function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
   };
 }
 
-const needMeasurementRuntime = createNeedMeasurementRuntimeUnchecked({
+const readMeasurementRuntime = createReadMeasurementRuntimeUnchecked({
   RECALL_CHANNEL_SPECS,
   buildGithubActionsBenchmarkParser,
   buildStaticExecutionReceipt,
   buildRepoStaticCodeAnalysis,
-  inferNeedTask,
+  inferReadTask,
   inferFailureModes,
   inferConstraints,
   inferTargetArtifactKinds,
@@ -4156,25 +4156,25 @@ const needMeasurementRuntime = createNeedMeasurementRuntimeUnchecked({
  * @param {any} scenario
  * @returns {any}
  */
-export function measureNeedFromScenario(scenario) {
-  return needMeasurementRuntime.measureNeedFromScenario(scenario);
+export function measureReadFromScenario(scenario) {
+  return readMeasurementRuntime.measureReadFromScenario(scenario);
 }
 
 /**
  * @param {any} scenario
  * @returns {any}
  */
-export function buildNeedDescriptor(scenario) {
-  return needMeasurementRuntime.buildNeedDescriptor(scenario);
+export function buildReadDescriptor(scenario) {
+  return readMeasurementRuntime.buildReadDescriptor(scenario);
 }
 
 /**
- * @param {any} reviewableNeed
+ * @param {any} reviewableRead
  * @param {any} [input={}]
  * @returns {any}
  */
-export function reviewNeedForFitSearch(reviewableNeed, input = {}) {
-  return needMeasurementRuntime.reviewNeedForFitSearch(reviewableNeed, input);
+export function reviewReadForFitSearch(reviewableRead, input = {}) {
+  return readMeasurementRuntime.reviewReadForFitSearch(reviewableRead, input);
 }
 
 const evaluationMaterializationRuntime = createEvaluationMaterializationRuntimeUnchecked({
@@ -4203,72 +4203,72 @@ const evaluationMaterializationRuntime = createEvaluationMaterializationRuntimeU
 });
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} assets
  * @returns {any}
  */
-export function recallCandidates(need, assets) {
-  return evaluationMaterializationRuntime.recallCandidates(need, assets);
+export function recallCandidates(read, assets) {
+  return evaluationMaterializationRuntime.recallCandidates(read, assets);
 }
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} assets
  * @param {any} [policyState=buildPolicyState()]
  * @returns {any}
  */
-export function evaluateCandidates(need, assets, policyState = buildPolicyState()) {
-  return evaluationMaterializationRuntime.evaluateCandidates(need, assets, policyState);
+export function evaluateCandidates(read, assets, policyState = buildPolicyState()) {
+  return evaluationMaterializationRuntime.evaluateCandidates(read, assets, policyState);
 }
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} evaluatedCandidates
  * @param {any} [branchMode=DEFAULT_BRANCH_MODE]
  * @returns {any}
  */
-export function assembleAssetPack(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
-  return evaluationMaterializationRuntime.assembleAssetPack(need, evaluatedCandidates, branchMode);
+export function assembleAssetPack(read, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
+  return evaluationMaterializationRuntime.assembleAssetPack(read, evaluatedCandidates, branchMode);
 }
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} evaluatedCandidates
  * @param {any} assetPack
  * @returns {any}
  */
-function buildMatchReport(need, evaluatedCandidates, assetPack) {
-  return evaluationMaterializationRuntime.buildMatchReport(need, evaluatedCandidates, assetPack);
+function buildMatchReport(read, evaluatedCandidates, assetPack) {
+  return evaluationMaterializationRuntime.buildMatchReport(read, evaluatedCandidates, assetPack);
 }
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} evaluatedCandidates
  * @param {any} [branchMode=DEFAULT_BRANCH_MODE]
  * @returns {any}
  */
-function buildVerificationReport(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
-  return evaluationMaterializationRuntime.buildVerificationReport(need, evaluatedCandidates, branchMode);
+function buildVerificationReport(read, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
+  return evaluationMaterializationRuntime.buildVerificationReport(read, evaluatedCandidates, branchMode);
 }
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any[]} [evaluatedCandidates=[]]
  * @returns {any}
  */
-function buildVerificationReceiptsArtifact(need, evaluatedCandidates = []) {
-  return evaluationMaterializationRuntime.buildVerificationReceiptsArtifact(need, evaluatedCandidates);
+function buildVerificationReceiptsArtifact(read, evaluatedCandidates = []) {
+  return evaluationMaterializationRuntime.buildVerificationReceiptsArtifact(read, evaluatedCandidates);
 }
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} evaluatedCandidates
  * @param {any[]} [promptSurfaces=[]]
  * @param {any[]} [parsedCompletionEnvelopes=[]]
  * @returns {any}
  */
-function buildEvalManifest(need, evaluatedCandidates, promptSurfaces = [], parsedCompletionEnvelopes = []) {
-  return evaluationMaterializationRuntime.buildEvalManifest(need, evaluatedCandidates, promptSurfaces, parsedCompletionEnvelopes);
+function buildEvalManifest(read, evaluatedCandidates, promptSurfaces = [], parsedCompletionEnvelopes = []) {
+  return evaluationMaterializationRuntime.buildEvalManifest(read, evaluatedCandidates, promptSurfaces, parsedCompletionEnvelopes);
 }
 
 /**
@@ -4300,12 +4300,12 @@ const settlementRuntime = createSettlementRuntimeUnchecked({
 });
 
 /**
- * @param {any} need
+ * @param {any} read
  * @param {any} settlementCandidates
  * @returns {any}
  */
-function buildSourceToSharesArtifact(need, settlementCandidates) {
-  return settlementRuntime.buildSourceToSharesArtifact(need, settlementCandidates);
+function buildSourceToSharesArtifact(read, settlementCandidates) {
+  return settlementRuntime.buildSourceToSharesArtifact(read, settlementCandidates);
 }
 
 /**
@@ -4348,16 +4348,16 @@ function buildIdentityBindings(buyer, selectedCandidates) {
       boundRefs: [buyer.installationId, buyer.repo, buyer.buyerBranch, buildRepoIdentity(buyer.repo).repositoryId]
     },
     {
-      principalId: 'bitcode-system:need-measurement',
+      principalId: 'bitcode-system:read-measurement',
       principalClass: 'bitcode-system-principal',
       authSource: 'policy',
-      boundRefs: ['need-measurement']
+      boundRefs: ['read-measurement']
     },
     {
-      principalId: 'bitcode-system:need-review',
+      principalId: 'bitcode-system:read-review',
       principalClass: 'bitcode-system-principal',
       authSource: 'policy',
-      boundRefs: ['need-review', 'post-measurement-pre-fit']
+      boundRefs: ['read-review', 'post-measurement-pre-fit']
     },
     {
       principalId: 'bitcode-system:branch-materializer',
@@ -4441,7 +4441,7 @@ function buildAuthorizationDecisions(policyState, bindings, buyer, branchName, a
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.bitcode/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
-    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:need-review'), 'review:measured-need', `${assetPack.assetPackId}#need-review`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:read-review'), 'review:measured-read', `${assetPack.assetPackId}#read-review`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'write:private-branch', branchName, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.bitcode/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:settlement-engine'), 'settle:journal-event', assetPack.assetPackId, policyState),
@@ -4466,9 +4466,9 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       recordId: `flow_${sha256(`${branchName}:repo-source`).slice(0, 10)}`,
       dataClass: 'repo-private-source',
       fromSurface: `${buyer.repo}@${buyer.buyerBranch}`,
-      toSurface: 'bitcode.need-measurement.activity',
-      transformation: 'benchmark-need-measurement',
-      authorizedPrincipals: [`buyer:${buyer.buyerId}`, 'bitcode-system:need-measurement'],
+      toSurface: 'bitcode.read-measurement.activity',
+      transformation: 'benchmark-read-measurement',
+      authorizedPrincipals: [`buyer:${buyer.buyerId}`, 'bitcode-system:read-measurement'],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
       proofRefs: [assetPack.assetPackId]
@@ -4479,18 +4479,18 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       fromSurface: `${buyer.repo}@${buyer.buyerBranch}`,
       toSurface: `${branchName}/.bitcode/verification-report.json`,
       transformation: 'verification-report-materialization',
-      authorizedPrincipals: ['bitcode-system:need-measurement', 'bitcode-system:branch-materializer'],
+      authorizedPrincipals: ['bitcode-system:read-measurement', 'bitcode-system:branch-materializer'],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
       proofRefs: selectedCandidates.map((/** @type {any} */ candidate) => candidate.assetId)
     },
     {
-      recordId: `flow_${sha256(`${branchName}:need-review`).slice(0, 10)}`,
+      recordId: `flow_${sha256(`${branchName}:read-review`).slice(0, 10)}`,
       dataClass: 'private-proof-artifact',
-      fromSurface: `${branchName}/.bitcode/need-measurement.json`,
-      toSurface: `${branchName}/.bitcode/need-review.json`,
-      transformation: 'post-measurement-pre-fit-need-review',
-      authorizedPrincipals: ['bitcode-system:need-review'],
+      fromSurface: `${branchName}/.bitcode/read-measurement.json`,
+      toSurface: `${branchName}/.bitcode/read-review.json`,
+      transformation: 'post-measurement-pre-fit-read-review',
+      authorizedPrincipals: ['bitcode-system:read-review'],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
       proofRefs: [assetPack.assetPackId, 'source-to-shares']
@@ -4510,12 +4510,12 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       recordId: `flow_${sha256(`${branchName}:branch-artifacts`).slice(0, 10)}`,
       dataClass: 'private-branch-derived-artifact',
       fromSurface: branchName,
-      toSurface: `${branchName}/${BRANCH_NEED_PATH}`,
+      toSurface: `${branchName}/${BRANCH_READ_PATH}`,
       transformation: 'human-readable-branch-briefing',
       authorizedPrincipals: ['bitcode-system:branch-materializer', `buyer:${buyer.buyerId}`],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
-      proofRefs: [assetPack.assetPackId, BRANCH_NEED_PATH]
+      proofRefs: [assetPack.assetPackId, BRANCH_READ_PATH]
     },
     {
       recordId: `flow_${sha256(`${branchName}:settlement-preview`).slice(0, 10)}`,
@@ -4588,11 +4588,11 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
     productionIntentProfile: PROFILE_B,
     confidentialityDefault: 'private-required',
     artifactClasses: [
-      { path: '.bitcode/need.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
-      { path: '.bitcode/need-review.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.bitcode/read.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
+      { path: '.bitcode/read-review.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.bitcode/depositing-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/needing-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/depositing-to-needing-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.bitcode/reading-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.bitcode/deposit-to-read-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.bitcode/match-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.bitcode/verification-report.json', sensitiveDataClass: 'verification-evidence', disclosable: false },
       { path: '.bitcode/authorization-decisions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
@@ -4647,14 +4647,14 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.bitcode/proof-contract.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.bitcode/system-proof-bundle.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       ...v23ArtifactClasses,
-      { path: BRANCH_NEED_PATH, sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false }
+      { path: BRANCH_READ_PATH, sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false }
     ],
     retentionRules: [
       {
         retentionPolicyId: 'retention/private-remediation-30d',
         appliesTo: [
           '.bitcode/source-material/',
-          '.bitcode/need-review.json',
+          '.bitcode/read-review.json',
           '.bitcode/settlement-preview.json',
           '.bitcode/settlement-proof.json',
           '.bitcode/compute-reality-manifest.json',
@@ -4666,7 +4666,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
           '.bitcode/bitcoin-settlement-observation.json',
           '.bitcode/bitcoin-audit-anchor-proof.json',
           '.bitcode/bitcoin-settlement-interface-proof.json',
-          BRANCH_NEED_PATH
+          BRANCH_READ_PATH
         ],
         ttlDays: 30
       },
@@ -4705,7 +4705,7 @@ function buildJournalCompletenessProof(eventId, journalDiff) {
 function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bindings, selectedCandidates = []) {
   const inventoryBackedCandidates = selectedCandidates.filter((/** @type {any} */ candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
   const allAccessBoundToKnownPrincipals = authorizationDecisions.every((/** @type {any} */ decision) => bindings.some((/** @type {any} */ binding) => binding.principalId === decision.principalId));
-  const allStateChangingActionsAuthorized = authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material' || decision.action === 'review:measured-need').every((/** @type {any} */ decision) => decision.decision === 'allow');
+  const allStateChangingActionsAuthorized = authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material' || decision.action === 'review:measured-read').every((/** @type {any} */ decision) => decision.decision === 'allow');
   const witnessArtifactPaths = ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/identity-authorization-proof.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
@@ -5209,7 +5209,7 @@ function buildAssetMeasurementProofs(selectedCandidates) {
  * @returns {any}
  */
 export function buildProofContract({
-  needId,
+  readId,
   assetPackId,
   branchName,
   selectedCandidates,
@@ -5235,10 +5235,10 @@ export function buildProofContract({
     ...(v23BitcoinEnabled ? ['bitcoin-audit-anchor', 'bitcoin-settlement-interface'] : [])
   ];
   const evidenceChain = [
-    { stage: 'need-measurement-and-review', artifactRefs: ['.bitcode/need.json', '.bitcode/need-measurement.json', '.bitcode/need-review.json', '.bitcode/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence and accepted before any fit search begins.' },
+    { stage: 'read-measurement-and-review', artifactRefs: ['.bitcode/read.json', '.bitcode/read-measurement.json', '.bitcode/read-review.json', '.bitcode/benchmark-target.json'], claim: 'The engineering read is derived fail-closed from canonical benchmark evidence and accepted before any fit search begins.' },
     { stage: 'ranking-and-verification', artifactRefs: ['.bitcode/match-report.json', '.bitcode/verification-report.json', '.bitcode/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
     { stage: 'identity-and-boundaries', artifactRefs: ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/github-boundary.json', '.bitcode/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
-    { stage: 'materialization', artifactRefs: ['.bitcode/asset-pack.lock.json', '.bitcode/selected-source-material.json', '.bitcode/materialization-visibility-proof.json', BRANCH_NEED_PATH], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
+    { stage: 'materialization', artifactRefs: ['.bitcode/asset-pack.lock.json', '.bitcode/selected-source-material.json', '.bitcode/materialization-visibility-proof.json', BRANCH_READ_PATH], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
     { stage: 'settlement-and-proof', artifactRefs: ['.bitcode/settlement-preview.json', '.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/accounting-precision-report.json', '.bitcode/settlement-proof.json', '.bitcode/journal-diff.json', '.bitcode/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable from source contribution to journal entry.' },
     ...(v23BitcoinEnabled
       ? [{
@@ -5278,7 +5278,7 @@ export function buildProofContract({
       stepId: 'proof-contract.contract-materialization',
       theoremIds: ['proof_contract.contract_materialization'],
       requiredArtifactPaths: ['.bitcode/proof-contract.json'],
-      instruction: 'Replay proof-contract materialization from need, asset pack, and branch identity.'
+      instruction: 'Replay proof-contract materialization from read, asset pack, and branch identity.'
     }),
     buildReplayStep({
       stepId: 'proof-contract.evidence-chain',
@@ -5318,7 +5318,7 @@ export function buildProofContract({
     buildArtifactBinding({ artifactPath: '.bitcode/system-proof-bundle.json', role: 'bundle', theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.replay_closure'] }),
     buildArtifactBinding({ artifactPath: '.bitcode/proof-witness-manifest.json', role: 'witness-manifest', theoremIds: ['proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'] })
   ];
-  const contractMaterializationClosed = !!needId && !!assetPackId && !!branchName;
+  const contractMaterializationClosed = !!readId && !!assetPackId && !!branchName;
   const evidenceChainClosed = evidenceChain.length === (v23BitcoinEnabled ? 6 : 5) && evidenceChain.every((entry) => (entry.artifactRefs || []).length > 0 && !!entry.claim);
   const theoremCheckBindingClosed = theoremChecks.length >= 6
     && artifactBindings.some((binding) => binding.artifactPath === '.bitcode/proof-contract.json' && binding.role === 'primary-proof')
@@ -5393,8 +5393,8 @@ export function buildProofContract({
     })
   ];
   return {
-    contractId: `proof_contract_${sha256(`${needId}:${assetPackId}:${branchName}`).slice(0, 12)}` ,
-    needId,
+    contractId: `proof_contract_${sha256(`${readId}:${assetPackId}:${branchName}`).slice(0, 12)}` ,
+    readId,
     assetPackId,
     branchName,
     evidenceChain,
@@ -5435,7 +5435,7 @@ export function buildProofContract({
       proofWitnessManifestSummary
     },
     proofHash: stableHashObject({
-      needId,
+      readId,
       assetPackId,
       branchName,
       theoremChecks,
@@ -5679,10 +5679,10 @@ function buildUnitCatalog(selectedCandidates) {
  * @param {any} __0
  * @returns {any}
  */
-export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
-  return settlementRuntime.settleNeedEvent(state, {
+export function settleReadEvent(state, { buyer, read, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
+  return settlementRuntime.settleReadEvent(state, {
     buyer,
-    need,
+    read,
     assetPack,
     assetPackLock,
     evaluatedCandidates,
@@ -5704,17 +5704,17 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
  * @param {any} __0
  * @returns {any}
  */
-function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, assetPackEvidenceManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
+function buildBranchArtifacts({ read, readMeasurement, readReview, benchmarkTarget, branchMode, branchName, depositingSurface, readingSurface, depositingToReadingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, assetPackEvidenceManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
-    need,
-    needMeasurement,
-    needReview,
+    read,
+    readMeasurement,
+    readReview,
     benchmarkTarget,
     branchMode,
     branchName,
     depositingSurface,
-    needingSurface,
-    depositingToNeedingSurface,
+    readingSurface,
+    depositingToReadingSurface,
     matchReport,
     verificationReport,
     evalManifest,
@@ -5825,9 +5825,9 @@ export function runMakeBitcodeBranch(state, input = {}) {
   const paymentMode = normalizeBitcoinPaymentMode(input.paymentMode);
   const v23BitcoinEnabled = !!paymentMode;
   const buyer = state.buyers.find((/** @type {any} */ entry) => entry.buyerId === (buyerId || state.buyers[0]?.buyerId));
-  const scenario = state.needScenarios.find((/** @type {any} */ entry) => entry.scenarioId === (scenarioId || state.needScenarios[0]?.scenarioId));
+  const scenario = state.readScenarios.find((/** @type {any} */ entry) => entry.scenarioId === (scenarioId || state.readScenarios[0]?.scenarioId));
   if (!buyer) throw new Error('Buyer not found.');
-  if (!scenario) throw new Error('Need scenario not found.');
+  if (!scenario) throw new Error('Read scenario not found.');
   const scenarioBoundBuyer = {
     ...buyer,
     repo: scenario.repo,
@@ -5836,9 +5836,9 @@ export function runMakeBitcodeBranch(state, input = {}) {
   };
 
   const policyState = state.policyState || buildPolicyState();
-  const needMeasurement = measureNeedFromScenario(scenario);
+  const readMeasurement = measureReadFromScenario(scenario);
   const {
-    needDescriptor: need,
+    readDescriptor: read,
     benchmarkTarget,
     benchmarkParserContract,
     canonicalBenchmarkOutputs,
@@ -5852,42 +5852,42 @@ export function runMakeBitcodeBranch(state, input = {}) {
     inferenceMomentContracts,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
-    reviewableNeed
-  } = needMeasurement;
-  const needReview = reviewNeedForFitSearch(reviewableNeed, {
-    action: input.needReviewAction || input.reviewAction || 'accept',
-    feedback: input.needReviewFeedback || input.reviewFeedback || [],
-    actorId: input.needReviewActorId || input.actorId || 'bitcode-system:need-review',
-    decisionMode: input.needReviewDecisionMode || input.decisionMode || 'deterministic-fifth-gate-local-review'
+    reviewableRead
+  } = readMeasurement;
+  const readReview = reviewReadForFitSearch(reviewableRead, {
+    action: input.readReviewAction || input.reviewAction || 'accept',
+    feedback: input.readReviewFeedback || input.reviewFeedback || [],
+    actorId: input.readReviewActorId || input.actorId || 'bitcode-system:read-review',
+    decisionMode: input.readReviewDecisionMode || input.decisionMode || 'deterministic-fifth-gate-local-review'
   });
-  if (!needReview.fitSearchAdmission?.admitted) {
-    throw new Error('Bitcode fit search cannot proceed before the measured Need is accepted for source-to-shares review.');
+  if (!readReview.fitSearchAdmission?.admitted) {
+    throw new Error('Bitcode fit search cannot proceed before the measured Read is accepted for source-to-shares review.');
   }
-  const reviewedNeedMeasurement = {
-    ...needMeasurement,
-    needReview
+  const reviewedReadMeasurement = {
+    ...readMeasurement,
+    readReview
   };
-  const evaluatedCandidates = evaluateCandidates(need, state.assets, policyState);
-  const assetPack = assembleAssetPack(need, evaluatedCandidates, branchMode);
+  const evaluatedCandidates = evaluateCandidates(read, state.assets, policyState);
+  const assetPack = assembleAssetPack(read, evaluatedCandidates, branchMode);
   const selectedCandidates = evaluatedCandidates.filter((/** @type {any} */ candidate) => assetPack.selectedAssets.includes(candidate.assetId));
   if (!selectedCandidates.length) throw new Error('No candidates survived into the asset pack.');
   const depositingSurface = buildDepositingSurface({
     buyer: scenarioBoundBuyer,
-    need,
+    read,
     assetPack,
     selectedCandidates
   });
-  const needingSurface = buildNeedingSurface(need);
+  const readingSurface = buildReadingSurface(read);
 
-  const branchName = `bitcode/remediation-${need.needId}-${toSlug(scenario.scenarioId)}`;
-  const matchReport = buildMatchReport(need, evaluatedCandidates, assetPack);
-  const verificationReport = buildVerificationReport(need, evaluatedCandidates, branchMode);
-  const evalManifest = buildEvalManifest(need, evaluatedCandidates, promptSurfaces, parsedCompletionEnvelopes);
+  const branchName = `bitcode/remediation-${read.readId}-${toSlug(scenario.scenarioId)}`;
+  const matchReport = buildMatchReport(read, evaluatedCandidates, assetPack);
+  const verificationReport = buildVerificationReport(read, evaluatedCandidates, branchMode);
+  const evalManifest = buildEvalManifest(read, evaluatedCandidates, promptSurfaces, parsedCompletionEnvelopes);
   const assetPackLock = buildAssetPackLock(assetPack, selectedCandidates);
   const selectedSourceMaterialManifest = buildSelectedSourceMaterialManifest(assetPack, selectedCandidates);
-  const settlement = settleNeedEvent(state, {
+  const settlement = settleReadEvent(state, {
     buyer: scenarioBoundBuyer,
-    need,
+    read,
     assetPack,
     assetPackLock,
     evaluatedCandidates,
@@ -5905,7 +5905,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
   });
   const journalCompletenessProof = buildJournalCompletenessProof(settlement.eventId, settlement.journalDiff);
   const identityBindings = buildIdentityBindings(scenarioBoundBuyer, selectedCandidates);
-  const githubBoundarySurface = buildGithubBoundarySurface(scenarioBoundBuyer, need, selectedCandidates);
+  const githubBoundarySurface = buildGithubBoundarySurface(scenarioBoundBuyer, read, selectedCandidates);
   const artifactUploadManifest = buildArtifactUploadManifest(selectedCandidates);
   const profileCompositionSurface = /** @type {any} */ (buildProfileCompositions());
   const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, scenarioBoundBuyer, branchName, assetPack);
@@ -5914,36 +5914,36 @@ export function runMakeBitcodeBranch(state, input = {}) {
   const sensitiveDataFlowProof = buildSensitiveDataFlowProof(sensitiveDataFlowRecords);
   const assetMeasurementProofs = buildAssetMeasurementProofs(selectedCandidates);
   const settlementProof = buildSettlementProof(settlement.journalDiff, assetPackLock);
-  const depositingToNeedingSurface = buildDepositingToNeedingSurface({
+  const depositingToReadingSurface = buildDepositingToReadingSurface({
     depositingSurface,
-    needingSurface,
+    readingSurface,
     selectedCandidates,
     assetPack,
     settlementPreview: settlement.settlementPreview
   });
   const promptImplementationSurface = buildPromptImplementationSurfaceUnchecked(inferenceProofs, promptSurfaces, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact);
-  let proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
+  let proofContract = buildProofContract({ readId: read.readId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates, { v23BitcoinEnabled });
   const unitCatalog = buildUnitCatalog(selectedCandidates);
   const scenarioFixtureManifest = buildScenarioFixtureManifest(state, scenario.scenarioId);
   const measurementReceipts = collectStaticExecutionReceipts([
-    needMeasurement.staticExecutionReceipts,
+    readMeasurement.staticExecutionReceipts,
     evaluatedCandidates.map((/** @type {any} */ candidate) => candidate.staticExecutionReceipts),
     state.assets.map((/** @type {any} */ asset) => asset.assetMeasurement?.staticExecutionReceipts)
   ]).filter((receipt) => !String(receipt.stageId || '').startsWith('verification.'));
-  const codeAnalysisFactRegistry = buildCodeAnalysisFactRegistry({ need, evaluatedCandidates });
+  const codeAnalysisFactRegistry = buildCodeAnalysisFactRegistry({ read, evaluatedCandidates });
   const staticHeuristicsRegistry = buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry);
-  const staticMeasurementReport = buildStaticMeasurementReport(measurementReceipts, needMeasurement, evaluatedCandidates);
-  const staticMeasurementProof = buildStaticMeasurementProof(measurementReceipts, needMeasurement, evaluatedCandidates);
-  const verificationReceiptsArtifact = buildVerificationReceiptsArtifact(need, evaluatedCandidates);
+  const staticMeasurementReport = buildStaticMeasurementReport(measurementReceipts, readMeasurement, evaluatedCandidates);
+  const staticMeasurementProof = buildStaticMeasurementProof(measurementReceipts, readMeasurement, evaluatedCandidates);
+  const verificationReceiptsArtifact = buildVerificationReceiptsArtifact(read, evaluatedCandidates);
   const verificationDecisionsProof = buildVerificationDecisionsProof(verificationReport, verificationReceiptsArtifact);
   const pipelineTelemetry = buildPipelineTelemetry({
-    need,
+    read,
     evaluatedCandidates,
     assetPack,
     selectedCandidates,
     verificationReport,
-    needReview,
+    readReview,
     settlementPreview: settlement.settlementPreview,
     journalDiff: settlement.journalDiff
   });
@@ -5964,7 +5964,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
   });
   const externalBoundaryManifest = buildExternalBoundaryManifest({
     buyer: scenarioBoundBuyer,
-    need,
+    read,
     selectedCandidates,
     assetPack,
     settlementPreview: settlement.settlementPreview,
@@ -5985,11 +5985,11 @@ export function runMakeBitcodeBranch(state, input = {}) {
   });
   const assetPackEvidenceManifest = buildAssetPackEvidenceManifest({
     branchName,
-    need,
+    read,
     benchmarkTarget,
     depositingSurface,
-    needingSurface,
-    depositingToNeedingSurface,
+    readingSurface,
+    depositingToReadingSurface,
     assetPack,
     assetPackLock,
     settlementPreview: settlement.settlementPreview,
@@ -6013,7 +6013,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     v24ExternalRealizationEnabled: Boolean(externalEnvironmentProfile)
   });
   const provisionalBoundedPublicProof = buildBoundedPublicProofArtifactUnchecked({
-    need,
+    read,
     assetPack,
     settlement,
     proofContract,
@@ -6135,7 +6135,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     githubAppBinding
   });
   let systemProofBundle = buildSystemProofBundleUnchecked(
-    need.needId,
+    read.readId,
     assetPack.assetPackId,
     inferenceProofs,
     promptFamilyRegistry,
@@ -6170,15 +6170,15 @@ export function runMakeBitcodeBranch(state, input = {}) {
     proofContract
   );
   let branchArtifacts = buildBranchArtifacts({
-    need,
-    needMeasurement: reviewedNeedMeasurement,
-    needReview,
+    read,
+    readMeasurement: reviewedReadMeasurement,
+    readReview,
     benchmarkTarget,
     branchMode,
     branchName,
     depositingSurface,
-    needingSurface,
-    depositingToNeedingSurface,
+    readingSurface,
+    depositingToReadingSurface,
     matchReport,
     verificationReport,
     evalManifest,
@@ -6242,7 +6242,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     proofContract
   });
   const boundedPublicProof = buildBoundedPublicProofArtifactUnchecked({
-    need,
+    read,
     assetPack,
     settlement,
     proofContract,
@@ -6295,7 +6295,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     finalizedDisclosureProof
   );
   proofContract = buildProofContract({
-    needId: need.needId,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     branchName,
     selectedCandidates,
@@ -6361,7 +6361,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     proofContract
   });
   systemProofBundle = buildSystemProofBundleUnchecked(
-    need.needId,
+    read.readId,
     assetPack.assetPackId,
     inferenceProofs,
     promptFamilyRegistry,
@@ -6427,7 +6427,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
   let githubLiveInterfaceProof = null;
   if (v23BitcoinEnabled) {
     computeRealityManifest = buildComputeRealityManifest({
-      need,
+      read,
       assetPack,
       paymentMode,
       externalBoundaryManifest,
@@ -6456,7 +6456,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     bitcoinTreasuryPolicy = buildBitcoinTreasuryPolicy({ paymentMode });
     bitcoinSettlementIntent = buildBitcoinSettlementIntent({
       buyer: scenarioBoundBuyer,
-      need,
+      read,
       assetPack,
       settlementPreview: settlement.settlementPreview,
       sourceToSharesArtifact: settlement.sourceToSharesArtifact,
@@ -6518,7 +6518,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     bitcoinCommitmentManifest = buildBitcoinCommitmentManifest({
       artifactMetadataByPath,
       proofContractRef: proofContract.contractId,
-      systemProofBundleRef: `system-proof-bundle:${need.needId}:${assetPack.assetPackId}:v23`,
+      systemProofBundleRef: `system-proof-bundle:${read.readId}:${assetPack.assetPackId}:v23`,
       proofWitnessRef: `proof-witness-manifest:${proofWitnessManifest.proofHash}`
     });
     ({ bitcoinAnchor, bitcoinBoundedPublicAnchor } = buildBitcoinAnchorArtifacts({
@@ -6609,7 +6609,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
       bitcoinSettlementInterfaceProof
     });
     systemProofBundle = buildSystemProofBundleUnchecked(
-      need.needId,
+      read.readId,
       assetPack.assetPackId,
       inferenceProofs,
       promptFamilyRegistry,
@@ -6654,7 +6654,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
       bitcoinSettlementInterfaceProof
     );
     proofContract = buildProofContract({
-      needId: need.needId,
+      readId: read.readId,
       assetPackId: assetPack.assetPackId,
       branchName,
       selectedCandidates,
@@ -6731,7 +6731,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
       bitcoinSettlementInterfaceProof
     });
     systemProofBundle = buildSystemProofBundleUnchecked(
-      need.needId,
+      read.readId,
       assetPack.assetPackId,
       inferenceProofs,
       promptFamilyRegistry,
@@ -6808,7 +6808,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     computeRealityManifest,
     storageRealityManifest,
     branchName,
-    need,
+    read,
     assetPack
   }));
   ({
@@ -6857,15 +6857,15 @@ export function runMakeBitcodeBranch(state, input = {}) {
     githubPrUpdateReceipt
   });
   branchArtifacts = buildBranchArtifacts({
-    need,
-    needMeasurement: reviewedNeedMeasurement,
-    needReview,
+    read,
+    readMeasurement: reviewedReadMeasurement,
+    readReview,
     benchmarkTarget,
     branchMode,
     branchName,
     depositingSurface,
-    needingSurface,
-    depositingToNeedingSurface,
+    readingSurface,
+    depositingToReadingSurface,
     matchReport,
     verificationReport,
     evalManifest,
@@ -6968,8 +6968,8 @@ export function runMakeBitcodeBranch(state, input = {}) {
   const repoToSettlementSurface = buildRepoToSettlementSurface({
     scenarioId: scenario.scenarioId,
     depositingSurface,
-    needingSurface,
-    depositingToNeedingSurface,
+    readingSurface,
+    depositingToReadingSurface,
     assetPack,
     branchArtifacts,
     selectedCandidates,
@@ -6994,16 +6994,16 @@ export function runMakeBitcodeBranch(state, input = {}) {
     scenarioId: scenario.scenarioId,
     branchMode,
     paymentMode: paymentMode || null,
-    conformanceProfile: need.conformanceProfile,
-    productionIntentProfile: need.productionIntentProfile,
-    realizationProfile: need.realizationProfile,
-    needLifecycle: 'settled',
-    need,
+    conformanceProfile: read.conformanceProfile,
+    productionIntentProfile: read.productionIntentProfile,
+    realizationProfile: read.realizationProfile,
+    readLifecycle: 'settled',
+    read,
     depositingSurface,
-    needingSurface,
-    depositingToNeedingSurface,
-    needMeasurement: reviewedNeedMeasurement,
-    needReview,
+    readingSurface,
+    depositingToReadingSurface,
+    readMeasurement: reviewedReadMeasurement,
+    readReview,
     benchmarkTarget,
     benchmarkParserContract,
     canonicalBenchmarkOutputs,
@@ -7027,11 +7027,11 @@ export function runMakeBitcodeBranch(state, input = {}) {
       recall: candidate.recall,
       ranking: {
         ...candidate.ranking,
-        wholeAssetNeedScore: Number((/** @type {number} */ (candidate.ranking['wholeAssetNeedScore'])).toFixed(4)),
+        wholeAssetReadScore: Number((/** @type {number} */ (candidate.ranking['wholeAssetReadScore'])).toFixed(4)),
         finalRankingScore: Number(candidate.ranking.finalRankingScore.toFixed(4)),
-        needMatch: {
-          ...candidate.ranking.needMatch,
-          finalScore: Number(candidate.ranking.needMatch.finalScore.toFixed(4))
+        readMatch: {
+          ...candidate.ranking.readMatch,
+          finalScore: Number(candidate.ranking.readMatch.finalScore.toFixed(4))
         },
         benchmarkImpact: {
           ...candidate.ranking.benchmarkImpact,
@@ -7153,8 +7153,8 @@ export function runMakeBitcodeBranch(state, input = {}) {
     runHistory: [...state.runHistory, {
       createdAt: latestRun.createdAt,
       scenarioId: scenario.scenarioId,
-      needId: need.needId,
-      needLifecycle: latestRun.needLifecycle,
+      readId: read.readId,
+      readLifecycle: latestRun.readLifecycle,
       branchName,
       branchMode,
       paymentMode: latestRun.paymentMode,
@@ -7180,8 +7180,8 @@ export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
     buildBoundaryRealitySurface,
     buildPolicyState,
     buildPolicyRelease,
-    buildNeedDescriptor,
-    buildNeedingSurface,
+    buildReadDescriptor,
+    buildReadingSurface,
     nowIso
   });
 }

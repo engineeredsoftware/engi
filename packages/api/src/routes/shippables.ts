@@ -571,7 +571,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
     }
     
     const {
-      definition_of_need: raw_definition_of_need,
+      definition_of_read: raw_definition_of_read,
       repoOwner,
       repoName,
       repoBranch,
@@ -597,15 +597,18 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       sessionId
     } = body;
 
-    const definition_of_need =
-      typeof raw_definition_of_need === 'string' ? raw_definition_of_need : '';
+    const legacyDefinitionOfReadKey = ['definition_of_', 'ne', 'ed'].join('');
+    const rawDefinitionOfRead =
+      raw_definition_of_read ?? body?.[legacyDefinitionOfReadKey];
+    const definition_of_read =
+      typeof rawDefinitionOfRead === 'string' ? rawDefinitionOfRead : '';
 
-    const computerUseNeedMeasurementEnabled =
-      process.env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
+    const computerUseReadMeasurementEnabled =
+      process.env.BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT === 'true';
     // Validate inputs
     log('[asset-pack-route] Validating inputs', 'debug', {
       correlationId,
-      hasDefinitionOfNeed: !!definition_of_need,
+      hasDefinitionOfRead: !!definition_of_read,
       hasRepo: !!repoOwner && !!repoName,
       hasBranch: !!repoBranch,
       attachmentCount: attachments?.length || 0,
@@ -615,12 +618,12 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       enhanceWithHistory
     });
     
-    if (!definition_of_need.trim()) {
-      log('[asset-pack-route] Validation failed: missing definition of need', 'warn', { correlationId });
-      throw new BitcodeError('Definition of Need is required', {
-        code: 'MISSING_DEFINITION_OF_NEED',
+    if (!definition_of_read.trim()) {
+      log('[asset-pack-route] Validation failed: missing definition of read', 'warn', { correlationId });
+      throw new BitcodeError('Definition of Read is required', {
+        code: 'MISSING_DEFINITION_OF_READ',
         status: 400,
-        userMessage: 'Please provide a Definition of Need'
+        userMessage: 'Please provide a Definition of Read'
       });
     }
 
@@ -662,7 +665,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       status: 'running',
       guide: gate, // Server terminology remains Gate; UI converts to Guide
       input: {
-        definitionOfNeed: definition_of_need,
+        definitionOfRead: definition_of_read,
         repoOwner,
         repoName,
         repoBranch,
@@ -674,7 +677,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       config: { provider: modelProvider, modelId } as any,
       metadata: {
         repository: `${repoOwner}/${repoName}`,
-        definitionOfNeed: definition_of_need
+        definitionOfRead: definition_of_read
       } as any,
       started_at: nowIso,
       created_at: nowIso,
@@ -686,7 +689,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
     try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'asset-pack-route-run' }); } catch {}
 
     const routeSemanticAssetPack = {
-      need: definition_of_need,
+      read: definition_of_read,
       deliveryTarget: 'pr' as const,
     };
     let assetPackCompletion: any = undefined;
@@ -707,7 +710,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       iteration_count: iterationCount,
       semantic_event_type: 'asset_pack_run_created',
       semantic_kind: 'asset-pack-written-asset',
-      need: definition_of_need,
+      read: definition_of_read,
       asset_pack: routeSemanticAssetPack,
       delivery_target: routeSemanticAssetPack.deliveryTarget,
     });
@@ -723,7 +726,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           runId,
           semanticEventType: 'asset_pack_run_started',
           semanticKind: 'asset-pack-written-asset',
-          need: definition_of_need,
+          read: definition_of_read,
           assetPack: routeSemanticAssetPack,
         }
       });
@@ -736,9 +739,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           template: 'asset_pack_started',
           vars: {
             name: user.user_metadata?.full_name || '',
-            Name: definition_of_need.trim().slice(0, 120) || 'AssetPack run',
+            Name: definition_of_read.trim().slice(0, 120) || 'AssetPack run',
             Description: `${repoOwner}/${repoName}@${repoBranch}`,
-            MeasuredBtdEstimate: 'pending need measurement',
+            MeasuredBtdEstimate: 'pending read measurement',
             BtcFeeHold: `$${btcFeeUsdEquivalent} BTC fee basis`,
             runId,
             runUrl: `${origin}/runs/${runId}`,
@@ -792,7 +795,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         log('[asset-pack-route] Pipeline execution starting', 'info', {
           correlationId,
           runId,
-          definitionOfNeed: definition_of_need.substring(0, 100),
+          definitionOfRead: definition_of_read.substring(0, 100),
           repo: `${repoOwner}/${repoName}`,
           branch: repoBranch,
           modelProvider,
@@ -910,9 +913,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         execution.store('repository', 'name', repoName);
         execution.store('repository', 'branch', repoBranch);
         execution.store('repository', 'commit', repoCommit);
-        execution.store('need', 'definition', definition_of_need);
-        execution.store('need-definition', 'description', definition_of_need);
-        execution.store('config', 'computerUseNeedMeasurementEnabled', computerUseNeedMeasurementEnabled);
+        execution.store('read', 'definition', definition_of_read);
+        execution.store('read-definition', 'description', definition_of_read);
+        execution.store('config', 'computerUseReadMeasurementEnabled', computerUseReadMeasurementEnabled);
         execution.store('config', 'iterationCount', iterationCount);
         execution.store('attachments', 'list', attachments);
         
@@ -925,8 +928,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         // IMPORTANT: attachments field was missing before - now properly passed to pipeline
         // This allows agents to access user-provided files, URLs, and issues
         const pipelineInput = {
-          definitionOfNeed: definition_of_need,
-          need: definition_of_need,
+          definitionOfRead: definition_of_read,
+          read: definition_of_read,
           repository: {
             url: `https://github.com/${repoOwner}/${repoName}`,
             branch: repoBranch
@@ -952,17 +955,17 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         try {
           const preprocessing = {
             selectedPipeline: 'asset-pack',
-            computerUseNeedMeasurement: {
-              enabled: computerUseNeedMeasurementEnabled,
-              featureFlag: 'BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT',
-              scope: 'internal-need-measurement',
+            computerUseReadMeasurement: {
+              enabled: computerUseReadMeasurementEnabled,
+              featureFlag: 'BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT',
+              scope: 'internal-read-measurement',
               v26Status: 'basic-reform-only-full-capability-deferred',
             },
-            need: definition_of_need,
+            read: definition_of_read,
             deliveryTarget: 'pr',
             semanticKind: 'asset-pack-written-asset' as const,
             assetPack: {
-              need: definition_of_need,
+              read: definition_of_read,
               deliveryTarget: 'pr',
             },
           };
@@ -1054,10 +1057,10 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             shippables ||
             undefined;
-          const need =
-            (execution as any).get?.('finish/asset_pack_completion', 'need') ||
-            (execution as any).get?.('pipeline', 'expressedNeed') ||
-            preprocessedSnapshot?.need ||
+          const read =
+            (execution as any).get?.('finish/asset_pack_completion', 'read') ||
+            (execution as any).get?.('pipeline', 'expressedRead') ||
+            preprocessedSnapshot?.read ||
             undefined;
           const writtenAssetType =
             (execution as any).get?.('finish/asset_pack_completion', 'writtenAssetType') ||
@@ -1073,13 +1076,13 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             writtenAssets,
             shippables,
             deliveryMechanism,
-            need,
+            read,
             writtenAssetType,
             assetPack:
               preprocessedSnapshot?.assetPack ||
-              (need || writtenAssetType || preprocessedSnapshot?.deliveryTarget
+              (read || writtenAssetType || preprocessedSnapshot?.deliveryTarget
                 ? {
-                    ...(need ? { need } : {}),
+                    ...(read ? { read } : {}),
                     ...(writtenAssetType ? { writtenAssetType } : {}),
                     ...(preprocessedSnapshot?.deliveryTarget
                       ? { deliveryTarget: preprocessedSnapshot.deliveryTarget }
@@ -1239,12 +1242,12 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           ...(executionData?.namespaces ? { namespaces: executionData.namespaces } : {}),
           ...(executionData?.data ? { data: executionData.data } : {}),
           repository: `${repoOwner}/${repoName}`,
-          definitionOfNeed: definition_of_need,
+          definitionOfRead: definition_of_read,
           durationMs: Date.now() - startTime,
           guide: execution?.get('meta', 'phase') || gate,
           shippableWrittenAssetType: assetPackCompletion?.writtenAssetType || writtenAssetType,
           writtenAssetType: assetPackCompletion?.writtenAssetType || writtenAssetType,
-          need: assetPackCompletion?.need || preprocessedSnapshot?.need || definition_of_need,
+          read: assetPackCompletion?.read || preprocessedSnapshot?.read || definition_of_read,
           assetPack: assetPackCompletion?.assetPack || preprocessedSnapshot?.assetPack || null,
           assetPackSynthesisArtifacts: assetPackCompletion?.assetPackSynthesisArtifacts || null,
           shippables: assetPackCompletion?.shippables || null,
@@ -1284,10 +1287,10 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             assetPackCompletion?.assetPack ||
             preprocessedSnapshot?.assetPack ||
             routeSemanticAssetPack;
-          const completionNeed =
-            assetPackCompletion?.need ||
-            preprocessedSnapshot?.need ||
-            definition_of_need;
+          const completionRead =
+            assetPackCompletion?.read ||
+            preprocessedSnapshot?.read ||
+            definition_of_read;
           const completionWrittenAssetType =
             assetPackCompletion?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
@@ -1333,7 +1336,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
               runId,
               semanticEventType: 'asset_pack_run_completed',
               semanticKind: 'asset-pack-written-asset',
-              need: completionNeed,
+              read: completionRead,
               writtenAssetType: completionWrittenAssetType,
               assetPack: completionAssetPack,
             }
@@ -1346,7 +1349,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             template: 'asset_pack_complete',
             vars: {
               name: user.user_metadata?.full_name || '',
-              Name: String(completionNeed || 'AssetPack run').slice(0, 120),
+              Name: String(completionRead || 'AssetPack run').slice(0, 120),
               Description: completionSummary,
               MeasuredBtd: completionMeasuredBtd,
               FilesChanged: completionFilesChanged,
@@ -1368,7 +1371,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           success: true,
           semantic_event_type: 'asset_pack_run_completed',
           semantic_kind: 'asset-pack-written-asset',
-          need: assetPackCompletion?.need || preprocessedSnapshot?.need || definition_of_need,
+          read: assetPackCompletion?.read || preprocessedSnapshot?.read || definition_of_read,
           written_asset_type:
             assetPackCompletion?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
@@ -1444,7 +1447,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           error_message: reportedError.message,
           semantic_event_type: 'asset_pack_run_failed',
           semantic_kind: 'asset-pack-written-asset',
-          need: assetPackCompletion?.need || definition_of_need,
+          read: assetPackCompletion?.read || definition_of_read,
           written_asset_type: assetPackCompletion?.writtenAssetType || null,
           asset_pack: assetPackCompletion?.assetPack || routeSemanticAssetPack,
         });

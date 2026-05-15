@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode PromptPart for asset-pack need LSP measurement: requirements context"
+ * intent: "Bitcode PromptPart for asset-pack read LSP measurement: requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode PromptPart for asset-pack need LSP measurement: requirements context"
+ * intent: "Bitcode PromptPart for asset-pack read LSP measurement: requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_REQUIREMENTS_CONTEXT: PromptPart = 
-  'Requirements: measured Need context from prior phases, user Need description, repository metadata, AssetPack fit criteria, validation criteria, and proof-replay evidence thresholds' as PromptPart;
+  'Requirements: measured Read context from prior phases, user Read description, repository metadata, AssetPack fit criteria, validation criteria, and proof-replay evidence thresholds' as PromptPart;

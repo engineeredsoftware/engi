@@ -7,7 +7,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "fallback_clarity", "test": "Gives actionable fallback guidance", "score": 0.47 }
+ *   { "name": "fallback_clarity", "test": "Deposits actionable fallback guidance", "score": 0.47 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_UNKNOWN_REQUIREMENTS: PromptPart = (

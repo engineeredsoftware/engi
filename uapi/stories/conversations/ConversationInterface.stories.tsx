@@ -50,7 +50,7 @@ const mockMessages = [
   {
     id: 'msg-2',
     role: 'assistant' as const,
-    content: "I'll help you implement OAuth authentication for your React app. Based on your source code and specification document, I can see you need:\n\n1. **OAuth Integration** - Google, GitHub, and Apple ID sign-in\n2. **JWT Token Management** - Secure token handling with proper expiry\n3. **Role-Based Access Control** - User roles and permission matrix\n4. **Route Protection** - Secure routing based on user roles\n\nI'm starting a shippable pipeline to implement this complete authentication system.",
+    content: "I'll help you implement OAuth authentication for your React app. Based on your source code and specification document, I can see you read:\n\n1. **OAuth Integration** - Google, GitHub, and Apple ID sign-in\n2. **JWT Token Management** - Secure token handling with proper expiry\n3. **Role-Based Access Control** - User roles and permission matrix\n4. **Route Protection** - Secure routing based on user roles\n\nI'm starting a shippable pipeline to implement this complete authentication system.",
     created_at: '2024-01-15T10:31:00Z',
     shippable_id: 'del-456'
   },

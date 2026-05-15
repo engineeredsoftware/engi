@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-grounding substep for written-asset / asset-pack execution: assetpacksetupdangerwall plan substep reason"
+ * intent: "Bitcode read-grounding substep for written-asset / asset-pack execution: assetpacksetupdangerwall plan substep reason"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-grounding substep for written-asset / asset-pack execution: assetpacksetupdangerwall plan substep reason"
+ * intent: "Bitcode read-grounding substep for written-asset / asset-pack execution: assetpacksetupdangerwall plan substep reason"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPDANGERWALL_PLAN_SUBSTEP_REASON: PromptPart = 
-  'assetpacksetupdangerwall plan substep reason: ground the step in the expressed Bitcode need, current execution state, written-asset target, proof obligations, and delivery-mechanism limits before selecting the next action.' as PromptPart;
+  'assetpacksetupdangerwall plan substep reason: ground the step in the expressed Bitcode read, current execution state, written-asset target, proof obligations, and delivery-mechanism limits before selecting the next action.' as PromptPart;

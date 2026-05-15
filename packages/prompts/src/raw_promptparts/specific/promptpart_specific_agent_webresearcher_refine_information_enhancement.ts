@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent-refine
- * intent: "Bitcode need-synthesis web research refine information enhancement"
+ * intent: "Bitcode read-synthesis web research refine information enhancement"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

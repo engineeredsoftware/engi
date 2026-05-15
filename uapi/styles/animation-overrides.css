@@ -10,67 +10,67 @@
 
 /* Shine Animation Specific Overrides */
 .shine-text-hero-custom {
-  /* Hero text might need different shine width */
+  /* Hero text might read different shine width */
   --shine-width: 600%;
 }
 
 .shine-text-marketing-custom {
-  /* Marketing text might need faster transitions */
+  /* Marketing text might read faster transitions */
   --shine-width: 400%;
 }
 
 .shine-button-hover-custom {
-  /* Buttons might need shorter shine width for better visibility */
+  /* Buttons might read shorter shine width for better visibility */
   --shine-width: 300%;
 }
 
 /* Orbital Glow Specific Overrides */
 .orbital-glow-hero-custom {
-  /* Hero elements might need stronger glow */
+  /* Hero elements might read stronger glow */
   /* Override base: '0 0 15px rgba(103, 254, 183, 0.4)' to '0 0 25px rgba(103, 254, 183, 0.6)' */
 }
 
 .orbital-glow-button-custom {
-  /* Buttons might need subtler glow */
+  /* Buttons might read subtler glow */
   /* Override base with more subtle values */
 }
 
 .orbital-glow-quantum-custom {
-  /* Quantum elements might need different glow colors */
+  /* Quantum elements might read different glow colors */
   /* Override base with purple or orange variants */
 }
 
 /* Pulse Specific Overrides */
 .pulse-text-subtle-custom {
-  /* Text might need different scale values */
+  /* Text might read different scale values */
 }
 
 .pulse-button-hover-custom {
-  /* Buttons might need different opacity ranges */
+  /* Buttons might read different opacity ranges */
 }
 
 .pulse-notification-custom {
-  /* Notifications might need attention-grabbing pulses */
+  /* Notifications might read attention-grabbing pulses */
 }
 
 /* Shimmer Specific Overrides */
 .shimmer-button-emerald-custom {
-  /* Emerald buttons might need specific shimmer properties */
+  /* Emerald buttons might read specific shimmer properties */
   --shimmer-width: 200%;
 }
 
 .shimmer-button-purple-custom {
-  /* Purple buttons might need different shimmer timing */
+  /* Purple buttons might read different shimmer timing */
   --shimmer-width: 250%;
 }
 
 .shimmer-button-orange-custom {
-  /* Orange buttons might need different shimmer intensity */
+  /* Orange buttons might read different shimmer intensity */
   --shimmer-width: 180%;
 }
 
 .shimmer-text-shiny-custom {
-  /* Shiny text might need broader shimmer */
+  /* Shiny text might read broader shimmer */
   --shimmer-width: 500%;
 }
 

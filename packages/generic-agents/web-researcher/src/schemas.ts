@@ -3,11 +3,11 @@ import { z } from 'zod';
 /**
  * V26 schemas for the retained web-researcher package.
  *
- * The package is a Bitcode need-synthesis web research support carrier in the
+ * The package is a Bitcode read-synthesis web research support carrier in the
  * discovery phase. Its contracts collect source-attributed
- * outside context for need measurement, proof-gap question formation,
+ * outside context for read measurement, proof-gap question formation,
  * third-party interface planning, and AssetPack planning; they never claim
- * canonical need ownership, proof ownership, mutation, or delivery authority.
+ * canonical read ownership, proof ownership, mutation, or delivery authority.
  */
 
 export const BitcodeExternalEvidenceDepthSchema = z.enum(['shallow', 'moderate', 'deep']);
@@ -31,13 +31,13 @@ export const BitcodeExternalEvidenceTemporalRiskSchema = z.enum([
 ]);
 
 export const BitcodeExternalEvidenceResearchInputSchema = z.object({
-  need: z.string().describe('Bitcode need or proof gap that requires external context'),
-  discoveryPhase: z.literal('need-synthesis').default('need-synthesis').describe('Canonical Bitcode discovery phase this web research supports'),
-  query: z.string().optional().describe('Query text when the caller has not separated need from search terms'),
+  read: z.string().describe('Bitcode read or proof gap that requires external context'),
+  discoveryPhase: z.literal('read-synthesis').default('read-synthesis').describe('Canonical Bitcode discovery phase this web research supports'),
+  query: z.string().optional().describe('Query text when the caller has not separated read from search terms'),
   sources: z.array(z.string()).optional().describe('Preferred domains, URLs, or source classes to inspect'),
   evidenceDepth: BitcodeExternalEvidenceDepthSchema.default('moderate').describe('Bounded evidence collection depth'),
   maxResults: z.number().min(1).max(50).default(20).describe('Maximum external evidence items to return'),
-  includeSynthesis: z.boolean().default(true).describe('Include bounded need-synthesis support that remains separate from proof closure'),
+  includeSynthesis: z.boolean().default(true).describe('Include bounded read-synthesis support that remains separate from proof closure'),
   timeframe: z.string().optional().describe('Optional publication or retrieval timeframe constraint'),
   language: z.string().default('en').describe('Preferred source language'),
   requirePrimarySources: z.boolean().default(true).describe('Prefer official, primary, or protocol-owner sources before commentary'),
@@ -60,13 +60,13 @@ export const BitcodeExternalEvidenceFindingSchema = z.object({
   publishedDate: z.string().optional(),
   author: z.string().optional(),
   provider: z.string().optional(),
-  evidenceUse: z.string().describe('How this finding may support the active Bitcode need without becoming proof by itself')
+  evidenceUse: z.string().describe('How this finding may support the active Bitcode read without becoming proof by itself')
 }).describe('BitcodeExternalEvidenceFinding');
 
 export const BitcodeExternalEvidenceSynthesisSchema = z.object({
   summary: z.string(),
-  discoveryPhaseUse: z.array(z.string()).describe('How the evidence supports discovery-phase need synthesis'),
-  needRelevance: z.array(z.string()),
+  discoveryPhaseUse: z.array(z.string()).describe('How the evidence supports discovery-phase read synthesis'),
+  readRelevance: z.array(z.string()),
   sourceBackedClaims: z.array(z.string()),
   contradictions: z.array(z.string()),
   unresolvedGaps: z.array(z.string())
@@ -114,13 +114,13 @@ export const BitcodeExternalEvidenceResearchRefineSchema = z.object({
 
 export const BitcodeExternalEvidenceResearchResultSchema = z.object({
   findings: z.array(BitcodeExternalEvidenceFindingSchema).describe('Traceable external evidence with source-quality boundaries'),
-  synthesis: BitcodeExternalEvidenceSynthesisSchema.describe('Bounded discovery-phase need-synthesis support for downstream Bitcode owners'),
+  synthesis: BitcodeExternalEvidenceSynthesisSchema.describe('Bounded discovery-phase read-synthesis support for downstream Bitcode owners'),
   quality: BitcodeExternalEvidenceQualitySchema.describe('External evidence quality and volatility metrics'),
-  recommendations: z.array(z.string()).describe('Downstream actions for need, proof, AssetPack, or interface owners'),
+  recommendations: z.array(z.string()).describe('Downstream actions for read, proof, AssetPack, or interface owners'),
   useTools: z.array(BitcodeExternalEvidenceToolRequestSchema).optional().describe('External evidence tools requested by the PTRR steps'),
   processingTime: z.number().describe('Processing time in milliseconds'),
   success: z.boolean().default(true),
-  completionMessage: z.string().default('Bitcode need-synthesis web research completed')
+  completionMessage: z.string().default('Bitcode read-synthesis web research completed')
 }).describe('BitcodeExternalEvidenceResearchResult');
 
 export const ResearchInputSchema = BitcodeExternalEvidenceResearchInputSchema;

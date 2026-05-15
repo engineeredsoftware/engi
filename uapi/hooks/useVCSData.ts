@@ -32,7 +32,7 @@ export interface VCSData {
 }
 
 /**
- * VCS data hook with issues/PRs and files support for Need measurement,
+ * VCS data hook with issues/PRs and files support for Read measurement,
  * AssetPack synthesis evidence, and Shippable delivery mechanisms.
  */
 export const useVCSData = () => {

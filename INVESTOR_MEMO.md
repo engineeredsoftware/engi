@@ -2,7 +2,7 @@
 
 > Bitcode is auditable market infrastructure for engineering knowledge.
 
-Engineering knowledge is valuable, but today it is still difficult to measure, difficult to permission, and difficult to compensate with auditability. Bitcode is building auditable market infrastructure for engineering knowledge: a proof-bearing operating system for engineering assetizing that ingests repo-authenticated technical supply, measures it against concrete engineering need, selects and verifies asset packs, discloses outputs by principal, and settles contribution consequences through exact source-to-shares accounting.
+Engineering knowledge is valuable, but today it is still difficult to measure, difficult to permission, and difficult to compensate with auditability. Bitcode is building auditable market infrastructure for engineering knowledge: a proof-bearing operating system for engineering assetizing that ingests repo-authenticated technical supply, measures it against concrete engineering read, selects and verifies asset packs, discloses outputs by principal, and settles contribution consequences through exact source-to-shares accounting.
 
 Earlier V22 already carried that system through a proof-bearing runtime, API, browser shell, tests, generated proof artifacts, and source promotion workflow. The V22 package-local realization identified itself as the `V22 canonical deterministic local prototype`, and the historical V22 canon said runtime, API, browser shell, tests, demo-local docs, and generated canon had to stay aligned. ([GitHub][1])
 
@@ -41,13 +41,13 @@ Frame the problem as missing market structure, not missing productivity software
 
 **Useable facts to write from**
 
-- V22's canonical chain starts with authenticated repo supply and candidate deposits, then measured need, explicit deposit-to-need fit, recall/ranking/verification, artifact materialization, projection/disclosure policy, and exact source-to-shares settlement. ([GitHub][2])
-- The demo README says the prototype is intentionally centered on depositing, needing, fit, identity/auth as spine, repo-to-settlement closure, proof and settlement as necessary consequences, and explicit boundary honesty. ([GitHub][1])
+- V22's canonical chain starts with authenticated repo supply and candidate deposits, then measured read, explicit deposit-to-read fit, recall/ranking/verification, artifact materialization, projection/disclosure policy, and exact source-to-shares settlement. ([GitHub][2])
+- The demo README says the prototype is intentionally centered on depositing, reading, fit, identity/auth as spine, repo-to-settlement closure, proof and settlement as necessary consequences, and explicit boundary honesty. ([GitHub][1])
 - V22 names fail-closed states rather than hiding them: public projection overexposure is blocking, settlement conservation drift is blocking, and canon-posture drift is explicitly audited. ([GitHub][2])
 
 **Drafting cues**
 
-- "The problem is not only producing engineering artifacts. It is making them measurable against need, disclosable by right, and compensable with auditability."
+- "The problem is not only producing engineering artifacts. It is making them measurable against read, disclosable by right, and compensable with auditability."
 - "Bitcode closes those functions into one operating system."
 
 ---
@@ -62,7 +62,7 @@ Define Bitcode first as infrastructure, then mention the product wedge later.
 
 - V22 says Bitcode remains a `proof-bearing operating system for engineering assetizing`. ([GitHub][2])
 - V22 names a seven-layer system: deterministic primitives, canonical runtime builders, whole-run composition, projection shaping, HTTP/API and persistence shell, operator browser shell, and validation/promotion. ([GitHub][2])
-- The README says the main implementation surfaces already cover core state, need measurement, evaluation, proof, settlement, projection, branch artifact builders, deterministic API, and operator shell. ([GitHub][1])
+- The README says the main implementation surfaces already cover core state, read measurement, evaluation, proof, settlement, projection, branch artifact builders, deterministic API, and operator shell. ([GitHub][1])
 
 **Drafting cues**
 
@@ -82,21 +82,21 @@ This is the memo's main systems page. Keep the sequence stable each time you exp
 **Useable facts to write from**
 
 - The operator shell starts with `Repo supply`, described as "authenticated repo sessions and artifact-kind-native supply." ([GitHub][4])
-- The shell summary tracks authenticated repos, repo supply entries, active deposit profile, need scenarios, selected assets, settlement-credited assets, and visible proof families. ([GitHub][4])
+- The shell summary tracks authenticated repos, repo supply entries, active deposit profile, read scenarios, selected assets, settlement-credited assets, and visible proof families. ([GitHub][4])
 
-### 3.2 Measured need
+### 3.2 Measured read
 
 **Useable facts to write from**
 
-- The shell describes the `Needing surface` as "the active measured demand surface" and says the deposit has to justify itself against that measured need before proof and settlement carry the story forward. ([GitHub][4])
-- The README defines needing as `benchmark/parser/repo-derived demand`. ([GitHub][1])
+- The shell describes the `Reading surface` as "the active measured demand surface" and says the deposit has to justify itself against that measured read before proof and settlement carry the story forward. ([GitHub][4])
+- The README defines reading as `benchmark/parser/repo-derived demand`. ([GitHub][1])
 
 ### 3.3 Explicit fit before deeper closure
 
 **Useable facts to write from**
 
-- The shell renders a `Depositing-to-needing surface` and says the canonical system makes deposit-to-need fit explicit before deeper proof and settlement sections. ([GitHub][4])
-- The README lists explicit deposit-to-need fit before deep proof inspection as one of the prototype's demonstrated behaviors. ([GitHub][1])
+- The shell renders a `Depositing-to-reading surface` and says the canonical system makes deposit-to-read fit explicit before deeper proof and settlement sections. ([GitHub][4])
+- The README lists explicit deposit-to-read fit before deep proof inspection as one of the prototype's demonstrated behaviors. ([GitHub][1])
 
 ### 3.4 Recall, ranking, verification, and use-tiering
 
@@ -135,7 +135,7 @@ This is the memo's main systems page. Keep the sequence stable each time you exp
 
 **Exhibit to pair**
 
-Supply -> need -> fit -> ranking/verification -> asset pack -> branch/proof/witness artifacts -> principal-scoped disclosure -> source-to-shares settlement. ([GitHub][2])
+Supply -> read -> fit -> ranking/verification -> asset pack -> branch/proof/witness artifacts -> principal-scoped disclosure -> source-to-shares settlement. ([GitHub][2])
 
 ---
 
@@ -254,7 +254,7 @@ This is where you explain how buyers actually pay and how Bitcode share/read flo
 
 - "Base-layer BTC + PSBT is the right interface for larger, reviewable Bitcode purchases and treasury-governed settlement."
 - "Lightning is the right interface for smaller, repeated, read-like payments."
-- "MuSig2 is attractive for compact joint control, while Miniscript/tapscript policies are better when Bitcode needs richer threshold, fallback, or timeout logic." ([BIPs][12])
+- "MuSig2 is attractive for compact joint control, while Miniscript/tapscript policies are better when Bitcode reads richer threshold, fallback, or timeout logic." ([BIPs][12])
 
 ### 6.4 Ledger provability
 
@@ -288,14 +288,14 @@ This section should stay disciplined. Use Bitcode's own settlement language firs
 
 **Useable facts to write from**
 
-- V22's workflow-stage catalog already distinguishes `Openly writable`, `Measurably readable`, `Provable`, and `Valuable`, and says the `Measurably readable` stage runs the licensed query for the buyer need and shows measured bundle assembly. ([GitHub][2])
+- V22's workflow-stage catalog already distinguishes `Openly writable`, `Measurably readable`, `Provable`, and `Valuable`, and says the `Measurably readable` stage runs the licensed query for the buyer read and shows measured bundle assembly. ([GitHub][2])
 - The shell already renders `metered micro-units`, preview allocations, settled share basis points, credited micro-units, and bundle IDs inside the settlement preview. ([GitHub][4])
 - V22 requires normalized shares to preserve exact micro-units and makes journal completeness and settlement-proof coherence theorem-level obligations. ([GitHub][2])
 - Liquid is a Bitcoin sidechain that offers LBTC via a verifiable 1:1 peg, one-minute blocks, issued assets, and asset issuance support, but it is a sidechain with its own federation/trust model rather than Bitcoin mainchain itself. ([Liquid Developer Docs][16])
 
 **Drafting cues**
 
-- "Bitcode's tokenomic primitive does not need to begin as a generic token. It can begin as a BTC-settled read right over a proof-bearing bundle."
+- "Bitcode's tokenomic primitive does not read to begin as a generic token. It can begin as a BTC-settled read right over a proof-bearing bundle."
 - "The first economic unit in Bitcode can be the metered, provable read: a BTC-denominated purchase that yields a licensed bundle access event, a bundle ID, a proof receipt, and exact downstream source-to-shares settlement."
 - "Transferable or sidechain-issued units can come later, but the core claim is stronger if it begins with auditable BTC spend and auditable BTC-anchored receipts." ([GitHub][2])
 
@@ -321,7 +321,7 @@ Keep this section explicit. It protects credibility.
 
 **Useable facts to write from**
 
-- The README says the prototype already demonstrates repo supply and modeled GitHub App-authenticated inventory, depositing against a measured need, needing as benchmark/parser/repo-derived demand, explicit fit, ranked candidates plus separate verification and use-tiering, asset-pack assembly and private branch artifact materialization, proof closure and bounded public proof, disclosure/redaction policy, and exact source-to-shares settlement with journal diff conservation. ([GitHub][1])
+- The README says the prototype already demonstrates repo supply and modeled GitHub App-authenticated inventory, depositing against a measured read, reading as benchmark/parser/repo-derived demand, explicit fit, ranked candidates plus separate verification and use-tiering, asset-pack assembly and private branch artifact materialization, proof closure and bounded public proof, disclosure/redaction policy, and exact source-to-shares settlement with journal diff conservation. ([GitHub][1])
 
 ### 7.2 Still modeled rather than live
 
@@ -343,7 +343,7 @@ Keep this structural.
 
 **Useable facts to write from**
 
-- Bitcode's shell is organized around repo supply, deposit, need, fit, repo-to-settlement path, identity/auth spine, boundary reality, proof, and settlement. ([GitHub][4])
+- Bitcode's shell is organized around repo supply, deposit, read, fit, repo-to-settlement path, identity/auth spine, boundary reality, proof, and settlement. ([GitHub][4])
 - V22's disclosure model enforces principal-bounded surfaces and blocks public overexposure. ([GitHub][2])
 - Settlement is canonically exact and replayable, not a vague attribution layer. ([GitHub][2])
 - With Bitcoin added as infrastructure, Bitcode's distinction becomes even sharper: BTC is not there for branding; it is there to harden receipts, payment flows, and public verifiability. ([Bitcoin Developer Documentation][5])
@@ -380,9 +380,9 @@ This section still needs your market, demand, and financing specifics, but the t
 
 **Useable facts to write from**
 
-- Bitcode already joins authenticated supply, measured need, explicit fit, ranked/verified selection, artifact materialization, principal-scoped disclosure, and exact settlement in one system. ([GitHub][2])
+- Bitcode already joins authenticated supply, measured read, explicit fit, ranked/verified selection, artifact materialization, principal-scoped disclosure, and exact settlement in one system. ([GitHub][2])
 - Bitcoin gives Bitcode a credible path for public anchoring, auditable spend, and staged proof verification without pretending Bitcoin is a bulk compute or bulk storage layer. ([Bitcoin Developer Documentation][5])
-- Lightning and Liquid give Bitcode practical near-term rails for low-friction BTC payments and, if needed later, Bitcoin-adjacent issued assets with different trust/performance trade-offs. ([Builder's Guide to the LND Galaxy][14])
+- Lightning and Liquid deposit Bitcode practical near-term rails for low-friction BTC payments and, if needed later, Bitcoin-adjacent issued assets with different trust/performance trade-offs. ([Builder's Guide to the LND Galaxy][14])
 
 **Drafting cue**
 
@@ -409,7 +409,7 @@ Engineering knowledge becomes more valuable when it can be measured. It becomes 
 Use:
 
 - repo-authenticated supply
-- measured need
+- measured read
 - explicit fit
 - ranking and verification
 - asset-pack assembly

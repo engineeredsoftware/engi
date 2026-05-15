@@ -28,7 +28,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode AssetPack discovery prompt for converting attachments into Need and AssetPack context evidence"
+ * intent: "Bitcode AssetPack discovery prompt for converting attachments into Read and AssetPack context evidence"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

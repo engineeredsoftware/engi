@@ -4,7 +4,7 @@ import { Execution } from '@bitcode/execution-generics';
 
 describe('AssetPack pipeline - Finish/Delivering and validation variants (test-mode stubs)', () => {
   const base = {
-    definitionOfNeed: 'Finish feature Z',
+    definitionOfRead: 'Finish feature Z',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     deliveryTarget: 'pr' as const,
   };

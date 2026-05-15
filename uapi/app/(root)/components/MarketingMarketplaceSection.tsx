@@ -663,8 +663,8 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
               {[
                 {
                   icon: ArrowTrendingUpIcon,
-                  title: 'Need Gap Procurement',
-                  body: 'Bitcode identifies persistent and severe gaps and purchases the expertise required to unblock a Need.',
+                  title: 'Read Gap Procurement',
+                  body: 'Bitcode identifies persistent and severe gaps and purchases the expertise required to unblock a Read.',
                 },
                 {
                   icon: GlobeAltIcon,
@@ -679,7 +679,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                 {
                   icon: ChartBarIcon,
                   title: 'Visible Impactfulness',
-                  body: 'Procured evidence documents are benchmarked as usage in subsequent Needs and AssetPacks.',
+                  body: 'Procured evidence documents are benchmarked as usage in subsequent Reads and AssetPacks.',
                 },
               ].map(({ icon: IconC, title, body }) => (
                 <div

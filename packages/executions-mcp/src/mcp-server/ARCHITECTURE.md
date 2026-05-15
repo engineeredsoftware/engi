@@ -128,7 +128,7 @@ interface PipelineToolExecution {
 ```
 
 **Supported Pipelines:**
-- **AssetPack**: Need-satisfaction execution that can Finish by delivering Shippables such as pull requests, reviews, issues, or comments.
+- **AssetPack**: Read-satisfaction execution that can Finish by delivering Shippables such as pull requests, reviews, issues, or comments.
 - The MCP server currently exposes AssetPack execution. Other pipeline families are not exposed via MCP.
 - **Ad-hoc**: Custom engineering tasks and investigations
 

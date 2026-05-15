@@ -66,9 +66,9 @@ test('V26 inference implementation registry names every current fifth-gate infer
     'execution-infrastructure',
     'external-evidence-research-support',
     'mcp-external-ingress',
-    'need-comprehension-reform',
-    'need-review-before-fit-search',
-    'need-risk-admission-support',
+    'read-comprehension-reform',
+    'read-review-before-fit-search',
+    'read-risk-admission-support',
     'pipeline-infrastructure',
     'prompt-primitives',
     'tool-prompt-infrastructure'
@@ -88,18 +88,18 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['conversation-inference'].canonicalNeed, /rich-input Bitcode write surface/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /delivery-mechanism compatibility/u);
-  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /setup-phase Bitcode Need comprehension/u);
-  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /source-to-shares service questions/u);
-  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /commercial accountability/u);
-  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /written-asset expectations/u);
-  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /AssetPack context/u);
-  assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /before any candidate recall/u);
-  assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /source-to-shares settlement review/u);
+  assert.match(recordsById['read-comprehension-reform'].canonicalNeed, /setup-phase Bitcode Read comprehension/u);
+  assert.match(recordsById['read-comprehension-reform'].canonicalNeed, /source-to-shares service questions/u);
+  assert.match(recordsById['read-comprehension-reform'].canonicalNeed, /commercial accountability/u);
+  assert.match(recordsById['read-comprehension-reform'].canonicalNeed, /written-asset expectations/u);
+  assert.match(recordsById['read-comprehension-reform'].canonicalNeed, /AssetPack context/u);
+  assert.match(recordsById['read-review-before-fit-search'].canonicalNeed, /before any candidate recall/u);
+  assert.match(recordsById['read-review-before-fit-search'].canonicalNeed, /source-to-shares settlement review/u);
   assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /discovery phase/u);
-  assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /need synthesis/u);
-  assert.match(recordsById['need-risk-admission-support'].canonicalNeed, /pipeline phase/u);
-  assert.match(recordsById['need-risk-admission-support'].canonicalNeed, /AssetPack/u);
-  assert.match(recordsById['need-risk-admission-support'].canonicalNeed, /risk/u);
+  assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /read synthesis/u);
+  assert.match(recordsById['read-risk-admission-support'].canonicalNeed, /pipeline phase/u);
+  assert.match(recordsById['read-risk-admission-support'].canonicalNeed, /AssetPack/u);
+  assert.match(recordsById['read-risk-admission-support'].canonicalNeed, /risk/u);
   assert.match(recordsById['mcp-external-ingress'].canonicalNeed, /fail-closed ingress/u);
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /Prompt extends RegistryImpl<PromptPart>/u);
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/generic holds reusable base PromptPart layers/u);
@@ -112,7 +112,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['pipeline-infrastructure'].agentImplementation.contract, /Finish/u);
   assert.doesNotMatch(recordsById['pipeline-infrastructure'].agentImplementation.contract, /shipping/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /Generic PTRR and formatting PromptParts form base layers/u);
-  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific setup, validation, Finish, and delivery-mechanism PromptParts implement Bitcode need/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific setup, validation, Finish, and delivery-mechanism PromptParts implement Bitcode read/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.rawPromptPartBoundary, /SYSTEMTEXTSEARCH PromptParts/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.rawPromptPartBoundary, /TEXTSEARCHER/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].toolImplementation.contract, /repository-evidence search tools are bounded grep-backed support/u);
@@ -136,48 +136,48 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
       'packages/generic-tools/simple-system-text-search/src/index.ts'
     )
   );
-  assert.deepEqual(recordsById['need-comprehension-reform'].toolImplementation.owners, [
-    'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
-    'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
-    'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
-    'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts',
-    'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts',
-    'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts',
-    'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
-    'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
-    'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'
+  assert.deepEqual(recordsById['read-comprehension-reform'].toolImplementation.owners, [
+    'packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts',
+    'packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts',
+    'packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts',
+    'packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts',
+    'packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts',
+    'packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts',
+    'packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts',
+    'packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts',
+    'packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts'
   ]);
-  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /Canonical need-first tools are individually defined/u);
-  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /collected by NeedComprehensionToolset/u);
-  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /callable capabilities, not agents/u);
-  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /source-to-shares service questions/u);
-  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /commercial accountability evidence/u);
-  assert.doesNotMatch(recordsById['need-comprehension-reform'].toolImplementation.contract, /noncanonical.*retained|compatibility/u);
+  assert.match(recordsById['read-comprehension-reform'].toolImplementation.contract, /Canonical read-first tools are individually defined/u);
+  assert.match(recordsById['read-comprehension-reform'].toolImplementation.contract, /collected by ReadComprehensionToolset/u);
+  assert.match(recordsById['read-comprehension-reform'].toolImplementation.contract, /callable capabilities, not agents/u);
+  assert.match(recordsById['read-comprehension-reform'].toolImplementation.contract, /source-to-shares service questions/u);
+  assert.match(recordsById['read-comprehension-reform'].toolImplementation.contract, /commercial accountability evidence/u);
+  assert.doesNotMatch(recordsById['read-comprehension-reform'].toolImplementation.contract, /noncanonical.*retained|compatibility/u);
   assert.ok(
-    recordsById['need-comprehension-reform'].agentImplementation.owners.includes(
-      'packages/generic-agents/need-comprehension/src/index.ts'
+    recordsById['read-comprehension-reform'].agentImplementation.owners.includes(
+      'packages/generic-agents/read-comprehension/src/index.ts'
     )
   );
   assert.ok(
-    recordsById['need-comprehension-reform'].agentImplementation.owners.includes(
-      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts'
+    recordsById['read-comprehension-reform'].agentImplementation.owners.includes(
+      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts'
     )
   );
-  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /bitcodeSetupNeedComprehensionAgent/u);
-  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /setup\/pre-danger-wall PTRR agent/u);
-  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /generic-tools Need-comprehension toolset/u);
-  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /service-question/u);
-  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /commercial-accountability/u);
-  assert.match(recordsById['need-review-before-fit-search'].executionImplementation.carriers.join(' '), /\.bitcode\/need-review\.json/u);
-  assert.match(recordsById['need-review-before-fit-search'].toolImplementation.contract, /blocked unless the measured Need review admits it/u);
-  assert.equal(recordsById['need-review-before-fit-search'].boundaryPosture, 'active');
+  assert.match(recordsById['read-comprehension-reform'].agentImplementation.contract, /bitcodeSetupReadComprehensionAgent/u);
+  assert.match(recordsById['read-comprehension-reform'].agentImplementation.contract, /setup\/pre-danger-wall PTRR agent/u);
+  assert.match(recordsById['read-comprehension-reform'].agentImplementation.contract, /generic-tools Read-comprehension toolset/u);
+  assert.match(recordsById['read-comprehension-reform'].agentImplementation.contract, /service-question/u);
+  assert.match(recordsById['read-comprehension-reform'].agentImplementation.contract, /commercial-accountability/u);
+  assert.match(recordsById['read-review-before-fit-search'].executionImplementation.carriers.join(' '), /\.bitcode\/read-review\.json/u);
+  assert.match(recordsById['read-review-before-fit-search'].toolImplementation.contract, /blocked unless the measured Read review admits it/u);
+  assert.equal(recordsById['read-review-before-fit-search'].boundaryPosture, 'active');
   assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /WEBRESEARCHER.*PromptParts/u);
   assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /WEBSEARCH/u);
   assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /GETCONTENTS_DOCCODE/u);
-  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /need-synthesis web research/u);
-  assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeNeedSynthesisWebResearcher/u);
-  assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeNeedSynthesisWebSearch/u);
-  assert.match(recordsById['external-evidence-research-support'].toolImplementation.contract, /discovery-phase need synthesis/u);
+  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /read-synthesis web research/u);
+  assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeReadSynthesisWebResearcher/u);
+  assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeReadSynthesisWebSearch/u);
+  assert.match(recordsById['external-evidence-research-support'].toolImplementation.contract, /discovery-phase read synthesis/u);
   assert.ok(
     recordsById['external-evidence-research-support'].promptImplementation.owners.includes(
       'packages/generic-agents/web-search/src/prompts/agent-prompt-web-search.ts'
@@ -193,16 +193,16 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
       'packages/generic-agents/web-search/src/index.ts'
     )
   );
-  assert.match(recordsById['need-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /DANGERWALL PromptParts/u);
-  assert.match(recordsById['need-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /risk-admission/u);
-  assert.match(recordsById['need-risk-admission-support'].promptImplementation.registryLayering, /delivery-mechanism/u);
-  assert.match(recordsById['need-risk-admission-support'].promptImplementation.registryLayering, /likely-execution-failure/u);
-  assert.match(recordsById['need-risk-admission-support'].agentImplementation.contract, /bitcodeNeedRiskAdmissionAgent/u);
-  assert.match(recordsById['need-risk-admission-support'].toolImplementation.contract, /admission ambiguity/u);
+  assert.match(recordsById['read-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /DANGERWALL PromptParts/u);
+  assert.match(recordsById['read-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /risk-admission/u);
+  assert.match(recordsById['read-risk-admission-support'].promptImplementation.registryLayering, /delivery-mechanism/u);
+  assert.match(recordsById['read-risk-admission-support'].promptImplementation.registryLayering, /likely-execution-failure/u);
+  assert.match(recordsById['read-risk-admission-support'].agentImplementation.contract, /bitcodeReadRiskAdmissionAgent/u);
+  assert.match(recordsById['read-risk-admission-support'].toolImplementation.contract, /admission ambiguity/u);
 
   assert.equal(recordsById['asset-pack-synthesis-compatibility'].boundaryPosture, 'compatibility');
-  assert.equal(recordsById['need-comprehension-reform'].boundaryPosture, 'active');
+  assert.equal(recordsById['read-comprehension-reform'].boundaryPosture, 'active');
   assert.equal(recordsById['external-evidence-research-support'].boundaryPosture, 'admitted support');
-  assert.equal(recordsById['need-risk-admission-support'].boundaryPosture, 'admitted support');
+  assert.equal(recordsById['read-risk-admission-support'].boundaryPosture, 'admitted support');
   assert.equal(recordsById['mcp-external-ingress'].boundaryPosture, 'ingress');
 });

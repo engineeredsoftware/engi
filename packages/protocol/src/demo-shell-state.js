@@ -90,10 +90,10 @@
  *   expectedTask?: string | undefined,
  *   realizationProfileId?: string | undefined,
  *   canonicalRunEvidence?: { extractedOutputs?: { parserKind?: string | undefined } | undefined } | undefined
- * }} NeedScenarioShape
+ * }} ReadScenarioShape
  *
  * @typedef {{
- *   needId: string,
+ *   readId: string,
  *   repo: string,
  *   benchmarkRunId?: string | undefined,
  *   benchmarkHarnessPath?: string | undefined,
@@ -111,7 +111,7 @@
  *   conformanceProfile?: string | undefined,
  *   productionIntentProfile?: string | undefined,
  *   realizationProfile?: unknown
- * }} NeedPreviewShape
+ * }} ReadPreviewShape
  *
  * @typedef {{
  *   assetId: string,
@@ -132,11 +132,11 @@
  *   conformanceProfile?: string | undefined,
  *   productionIntentProfile?: string | undefined,
  *   realizationProfile?: unknown,
- *   needLifecycle?: unknown,
- *   need?: NeedPreviewShape | null | undefined,
+ *   readLifecycle?: unknown,
+ *   read?: ReadPreviewShape | null | undefined,
  *   depositingSurface?: unknown,
- *   needingSurface?: unknown,
- *   depositingToNeedingSurface?: unknown,
+ *   readingSurface?: unknown,
+ *   depositingToReadingSurface?: unknown,
  *   matchReport?: unknown,
  *   assetPack?: { assetPackId?: string | undefined, branchMode?: string | undefined, selectedAssets?: string[] | undefined } | undefined,
  *   evaluatedCandidates?: LatestRunCandidateShape[] | undefined,
@@ -163,8 +163,8 @@
  *   projectionPolicy?: { publicArtifactPaths?: string[] | undefined, privateArtifactPaths?: string[] | undefined } | undefined,
  *   redactionProof?: unknown,
  *   disclosureProof?: unknown,
- *   needMeasurement?: unknown,
- *   needReview?: unknown,
+ *   readMeasurement?: unknown,
+ *   readReview?: unknown,
  *   promptContracts?: unknown,
  *   promptSurfaces?: unknown,
  *   promptFamilyRegistry?: unknown,
@@ -216,7 +216,7 @@
  *   buyers: unknown[],
  *   githubAppSessions?: SessionShape[] | undefined,
  *   repoArtifactInventory?: RepoArtifactInventoryEntryShape[] | undefined,
- *   needScenarios: NeedScenarioShape[],
+ *   readScenarios: ReadScenarioShape[],
  *   assets: AssetSummaryShape[],
  *   ledger: unknown,
  *   latestRun?: LatestRunShape | null | undefined,
@@ -235,8 +235,8 @@
  *   buildBoundaryRealitySurface: () => unknown,
  *   buildPolicyState: () => unknown,
  *   buildPolicyRelease: (policyState: unknown) => unknown,
- *   buildNeedDescriptor: (scenario: NeedScenarioShape) => NeedPreviewShape,
- *   buildNeedingSurface: (needPreview: Record<string, unknown>) => unknown,
+ *   buildReadDescriptor: (scenario: ReadScenarioShape) => ReadPreviewShape,
+ *   buildReadingSurface: (readPreview: Record<string, unknown>) => unknown,
  *   nowIso: () => string
  * }} PublicStateBuilderOptions
  */
@@ -269,7 +269,7 @@ export function buildProfileCompositions() {
       switchableInDemo: true,
       metadata: {
         depositMode: profile.depositMode,
-        needMode: profile.needMode,
+        readMode: profile.readMode,
         assetPackShape: profile.assetPackShape,
         settlementShape: profile.settlementShape,
         boundaryTruthNote: profile.boundaryRealityNote
@@ -279,49 +279,49 @@ export function buildProfileCompositions() {
 
   return {
     activeProfile: 'A',
-    distinctionBasis: 'deposit-and-need',
+    distinctionBasis: 'deposit-and-read',
     demoOperatorGuidance: {
-      audienceMeaning: 'The current realization profiles distinguish how Bitcode deposits supply against need. They are not a local-vs-GitHub toggle.',
-      boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode, need mode, and fit first.',
+      audienceMeaning: 'The current realization profiles distinguish how Bitcode deposits supply against read. They are not a local-vs-GitHub toggle.',
+      boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode, read mode, and fit first.',
       recommendedWalkthrough: [
-        'Start with repo supply and pick a targeted-deposit scenario to show a bounded need.',
+        'Start with repo supply and pick a targeted-deposit scenario to show a bounded read.',
         'Deposit or inspect a small decisive asset set, then run the branch flow to show tight closure.',
         'Switch to a normalization-heavy scenario to show overlapping deposits and broader settlement logic.',
-        'Use boundary reality and GitHub boundary surfaces only after the deposit/need contrast is clear.',
+        'Use boundary reality and GitHub boundary surfaces only after the deposit/read contrast is clear.',
         'Close on proof bundle, source-to-shares, and settlement invariants.'
       ]
     },
     profiles,
     boundaryTruthSurfaces: ['boundaryRealitySurface', 'githubBoundarySurface', 'externalBoundaryManifest'],
-    comparisonAxes: ['deposit mode', 'need mode', 'asset-pack shape', 'settlement shape', 'boundary hand-off']
+    comparisonAxes: ['deposit mode', 'read mode', 'asset-pack shape', 'settlement shape', 'boundary hand-off']
   };
 }
 
 /**
- * @param {NeedPreviewShape | null | undefined} need
- * @returns {NeedPreviewShape | null}
+ * @param {ReadPreviewShape | null | undefined} read
+ * @returns {ReadPreviewShape | null}
  */
-function minimalNeedProjection(need) {
-  if (!need) return null;
+function minimalReadProjection(read) {
+  if (!read) return null;
   return {
-    needId: need.needId,
-    repo: need.repo,
-    benchmarkRunId: need.benchmarkRunId,
-    benchmarkHarnessPath: need.benchmarkHarnessPath,
-    benchmarkWorkflowPath: need.benchmarkWorkflowPath,
-    benchmarkParserContract: need.benchmarkParserContract,
-    task: need.task,
-    failureModes: need.failureModes,
-    constraints: need.constraints,
-    closureCriteria: need.closureCriteria,
-    targetArtifactKinds: need.targetArtifactKinds,
-    touchedPaths: need.touchedPaths,
-    failingCases: need.failingCases,
-    weakDimensions: need.weakDimensions,
-    fieldDerivations: need.fieldDerivations,
-    conformanceProfile: need.conformanceProfile,
-    productionIntentProfile: need.productionIntentProfile,
-    realizationProfile: need.realizationProfile
+    readId: read.readId,
+    repo: read.repo,
+    benchmarkRunId: read.benchmarkRunId,
+    benchmarkHarnessPath: read.benchmarkHarnessPath,
+    benchmarkWorkflowPath: read.benchmarkWorkflowPath,
+    benchmarkParserContract: read.benchmarkParserContract,
+    task: read.task,
+    failureModes: read.failureModes,
+    constraints: read.constraints,
+    closureCriteria: read.closureCriteria,
+    targetArtifactKinds: read.targetArtifactKinds,
+    touchedPaths: read.touchedPaths,
+    failingCases: read.failingCases,
+    weakDimensions: read.weakDimensions,
+    fieldDerivations: read.fieldDerivations,
+    conformanceProfile: read.conformanceProfile,
+    productionIntentProfile: read.productionIntentProfile,
+    realizationProfile: read.realizationProfile
   };
 }
 
@@ -357,11 +357,11 @@ function buildPublicProjection(latestRun) {
     conformanceProfile: latestRun.conformanceProfile,
     productionIntentProfile: latestRun.productionIntentProfile,
     realizationProfile: latestRun.realizationProfile,
-    needLifecycle: latestRun.needLifecycle,
-    need: minimalNeedProjection(latestRun.need),
+    readLifecycle: latestRun.readLifecycle,
+    read: minimalReadProjection(latestRun.read),
     depositingSurface: latestRun.depositingSurface,
-    needingSurface: latestRun.needingSurface,
-    depositingToNeedingSurface: latestRun.depositingToNeedingSurface,
+    readingSurface: latestRun.readingSurface,
+    depositingToReadingSurface: latestRun.depositingToReadingSurface,
     matchReport: latestRun.matchReport,
     assetPack: {
       assetPackId: latestRun.assetPack?.assetPackId,
@@ -393,8 +393,8 @@ function buildPublicProjection(latestRun) {
     publicArtifacts: {
       '.bitcode/bounded-public-proof.json': latestRun.boundedPublicProof,
       ...(latestRun.bitcoinBoundedPublicAnchor ? { '.bitcode/bitcoin-bounded-public-anchor.json': latestRun.bitcoinBoundedPublicAnchor } : {}),
-      '.bitcode/needing-surface.json': latestRun.needingSurface,
-      '.bitcode/depositing-to-needing-surface.json': latestRun.depositingToNeedingSurface,
+      '.bitcode/reading-surface.json': latestRun.readingSurface,
+      '.bitcode/deposit-to-read-surface.json': latestRun.depositingToReadingSurface,
       '.bitcode/match-report.json': latestRun.matchReport,
       '.bitcode/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
       '.bitcode/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
@@ -517,8 +517,8 @@ function buildBuyerProjection(latestRun) {
   return {
     ...buildPublicProjection(latestRun),
     projectionPrincipal: 'buyer',
-    needMeasurement: latestRun.needMeasurement,
-    needReview: latestRun.needReview,
+    readMeasurement: latestRun.readMeasurement,
+    readReview: latestRun.readReview,
     promptFamilyRegistry: latestRun.promptFamilyRegistry,
     inferenceMomentContracts: latestRun.inferenceMomentContracts,
     inferenceProofs: latestRun.inferenceProofs,
@@ -814,8 +814,8 @@ export function buildPublicState(
     buildBoundaryRealitySurface,
     buildPolicyState,
     buildPolicyRelease,
-    buildNeedDescriptor,
-    buildNeedingSurface,
+    buildReadDescriptor,
+    buildReadingSurface,
     nowIso
   } = /** @type {PublicStateBuilderOptions} */ ({})
 ) {
@@ -851,14 +851,14 @@ export function buildPublicState(
     githubAppSessions: (state.githubAppSessions || []).map(buildPublicGitHubAppSession),
     repoArtifactInventory: (state.repoArtifactInventory || []).map(buildPublicRepoArtifactInventoryEntry),
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
-    needScenarios: state.needScenarios.map((scenario) => {
-      const needPreview = buildNeedDescriptor(scenario);
-      const needingSurface = buildNeedingSurface(needPreview);
+    readScenarios: state.readScenarios.map((scenario) => {
+      const readPreview = buildReadDescriptor(scenario);
+      const readingSurface = buildReadingSurface(readPreview);
       const realizationProfile = buildRealizationProfile(scenario);
       return {
         realizationProfile,
-        needId: needPreview.needId,
-        needingSurface,
+        readId: readPreview.readId,
+        readingSurface,
         scenarioId: scenario.scenarioId,
         scenarioFamily: scenario.scenarioFamily || 'unspecified',
         coverageTags: scenario.coverageTags || [],

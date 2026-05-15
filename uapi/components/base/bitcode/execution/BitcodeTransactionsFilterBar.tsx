@@ -104,8 +104,8 @@ export default function BitcodeTransactionsFilterBar({
           className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
         >
           <option value="all">All lenses</option>
-          <option value="give">Give</option>
-          <option value="need">Need</option>
+          <option value="deposit">Deposit</option>
+          <option value="read">Read</option>
           <option value="closure">Closure</option>
         </select>
       </label>

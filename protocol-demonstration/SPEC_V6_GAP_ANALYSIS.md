@@ -12,7 +12,7 @@ It modeled:
 - optional buyer-value evidence.
 
 Spec V6 instead requires a much more explicit pipeline:
-1. measure a GitHub-bound engineering need,
+1. measure a GitHub-bound engineering read,
 2. rank candidate assets with named subscores,
 3. apply separate verification determinisms,
 4. derive final use tiers,
@@ -22,12 +22,12 @@ Spec V6 instead requires a much more explicit pipeline:
 
 ## Major gaps in the original demo
 
-### 1. Need measurement gap
-**Spec V6:** `GitHubNeedDescriptor` built from repo context + benchmark / CI evidence.
+### 1. Read measurement gap
+**Spec V6:** `GitHubReadDescriptor` built from repo context + benchmark / CI evidence.
 
 **Original demo:** free-text buyer query only.
 
-**Change needed:** replace free-text-first retrieval with a seeded deterministic GitHub need scenario and explicit `need.json` shape.
+**Change needed:** replace free-text-first retrieval with a seeded deterministic GitHub read scenario and explicit `read.json` shape.
 
 ---
 
@@ -47,7 +47,7 @@ Spec V6 instead requires a much more explicit pipeline:
 
 ### 3. Ranking model gap
 **Spec V6:** final ranking score =
-- need match
+- read match
 - benchmark impact likelihood
 - actionability
 - penalties
@@ -86,13 +86,13 @@ Spec V6 instead requires a much more explicit pipeline:
 
 **Original demo:** licensed query and separate utility receipt flow.
 
-**Change needed:** shift UI/API from “issue bundle for query” to “make Bitcode branch” from a measured need.
+**Change needed:** shift UI/API from “issue bundle for query” to “make Bitcode branch” from a measured read.
 
 ---
 
 ### 7. Deliverables gap
 **Spec V6:** remediation branch must contain:
-- `.bitcode/need.json`
+- `.bitcode/read.json`
 - `.bitcode/match-report.json`
 - `.bitcode/verification-report.json`
 - `.bitcode/eval-manifest.json`
@@ -100,7 +100,7 @@ Spec V6 instead requires a much more explicit pipeline:
 - `.bitcode/settlement-preview.json`
 - `.bitcode/system-proof-bundle.json`
 - `.bitcode/source-material/`
-- `BITCODE_NEED.md`
+- `BITCODE_READ.md`
 
 **Original demo:** receipts, proof log, schemas, and a private bundle payload.
 
@@ -136,12 +136,12 @@ Spec V6 instead requires a much more explicit pipeline:
 ### Data model
 - replace old asset commitment shape with Spec-like `CandidateAsset`
 - add explicit `contentUnits`
-- add mocked GitHub need scenarios
+- add mocked GitHub read scenarios
 - add buyer account / ledger state in micro-units
 - persist latest run + run history
 
 ### Core pipeline
-- implement `buildNeedDescriptor()`
+- implement `buildReadDescriptor()`
 - implement candidate recall
 - implement `computeNeedMatch()`
 - implement `computeBenchmarkImpact()`
@@ -163,13 +163,13 @@ Spec V6 instead requires a much more explicit pipeline:
 
 ### UI
 - change hero and primary CTA to **Make Bitcode branch**
-- replace licensed-query story with measured need -> ranking -> verification -> branch -> settlement
+- replace licensed-query story with measured read -> ranking -> verification -> branch -> settlement
 - show asset pack, branch files, journal diff, and ledger accounts
 - keep deposit capability for live demo mutation
 
 ### Testing
 - update API tests to assert:
-  - seeded need scenario presence
+  - seeded read scenario presence
   - Spec V6 branch creation endpoint
   - use-tiered evaluated candidates
   - branch artifacts exist

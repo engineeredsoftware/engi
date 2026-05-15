@@ -11,12 +11,12 @@
     <div class="page">
       <header class="hero" id="hero">
         <p class="eyebrow" id="heroEyebrow">Bitcode closure runtime</p>
-        <h1>Inspect the live Bitcode runtime from give through settlement.</h1>
-        <p class="lede" id="heroLede">Use this view when you need deterministic follow-through beyond the main transactions surface.</p>
+        <h1>Inspect the live Bitcode runtime from deposit through settlement.</h1>
+        <p class="lede" id="heroLede">Use this view when you read deterministic follow-through beyond the main transactions surface.</p>
         <p class="meta hero-tip" id="heroTip">Transactions stay primary. This view is for exact inspection, replay, and closure follow-through.</p>
         <div class="hero-actions">
           <label>
-            <span data-explainer-key="needing" data-explainer-side="bottom">Scenario</span>
+            <span data-explainer-key="reading" data-explainer-side="bottom">Scenario</span>
             <select id="scenarioPicker"></select>
           </label>
           <label>
@@ -48,14 +48,14 @@
         <section class="panel wide" id="panelOperatingPicture">
           <div class="panel-head">
             <h2 data-explainer-key="operating-picture">0. Operating picture</h2>
-            <span class="badge" data-explainer-key="repo-to-settlement">give -> settlement</span>
+            <span class="badge" data-explainer-key="repo-to-settlement">deposit -> settlement</span>
           </div>
           <div id="operatingPicture" class="stack"></div>
         </section>
 
         <section class="panel" id="panelDepositing">
           <div class="panel-head">
-            <h2 data-explainer-key="depositing">1. Give draft + selected supply</h2>
+            <h2 data-explainer-key="depositing">1. Deposit draft + selected supply</h2>
             <span class="badge" data-explainer-key="candidate-asset">artifact-kind-native deposit</span>
           </div>
           <form id="depositForm" class="stack compact">
@@ -74,7 +74,7 @@
                 <h4 data-explainer-key="repo-supply">Repo Artifact Inventory</h4>
                 <span class="badge">Selection-first</span>
               </div>
-              <p class="meta">Selections here define the deposit side of the active profile: either a tight decisive deposit for a bounded need or a broader normalization deposit for a composite need.</p>
+              <p class="meta">Selections here define the deposit side of the active profile: either a tight decisive deposit for a bounded read or a broader normalization deposit for a composite read.</p>
               <div class="mini-grid two-up">
                 <label class="field-stack">
                   <span data-explainer-key="inventory-search">Artifact inventory search</span>
@@ -142,9 +142,9 @@
           <div id="assets" class="stack"></div>
         </section>
 
-        <section class="panel" id="panelNeeding">
+        <section class="panel" id="panelReading">
           <div class="panel-head">
-            <h2 data-explainer-key="needing">2. Need draft + measured demand</h2>
+            <h2 data-explainer-key="reading">2. Read draft + measured demand</h2>
             <span class="badge" data-explainer-key="scenario-preview">scenario preview</span>
           </div>
           <div id="scenario" class="stack"></div>
@@ -152,7 +152,7 @@
 
         <section class="panel wide" id="panelFit">
           <div class="panel-head">
-            <h2 data-explainer-key="deposit-fit">3. Give-to-need fit</h2>
+            <h2 data-explainer-key="deposit-fit">3. Deposit-to-read fit</h2>
             <span class="badge" data-explainer-key="deposit-fit">fit before proof</span>
           </div>
           <div id="fit" class="stack"></div>
@@ -205,8 +205,8 @@
           <span id="flowGuideStepCounter" class="badge">Flow step 1 of 10</span>
           <button id="flowGuideCloseButton" class="ghost flow-guide-button" type="button">Pause</button>
         </div>
-        <p id="flowGuideKicker" class="flow-guide-kicker">Give + Need flow guide</p>
-        <h2 id="flowGuideTitle">Start with the active give and need context</h2>
+        <p id="flowGuideKicker" class="flow-guide-kicker">Deposit + Read flow guide</p>
+        <h2 id="flowGuideTitle">Start with the active deposit and read context</h2>
         <p id="flowGuideBody" class="flow-guide-body"></p>
         <p id="flowGuideTargetHint" class="flow-guide-target-hint"></p>
         <div class="flow-guide-actions">

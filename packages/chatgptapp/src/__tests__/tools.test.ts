@@ -293,14 +293,14 @@ This product delivers voice-first social conversations for builders.
       latestBehavior: string;
       metadata: { digestUsed?: boolean; digestError?: string };
     }>('improve_developing_behavior', {
-      behaviorImprovement: 'Record when successors need live narration.',
+      behaviorImprovement: 'Record when successors read live narration.',
       regenerateFromDigest: true,
     });
 
     expect(result.metadata.digestUsed).toBe(false);
     expect(result.metadata.digestError).toBe('agents digest unavailable');
     expect(result.latestBehavior).toContain('### Behavior Improvement');
-    expect(result.latestBehavior).toContain('Record when successors need live narration.');
+    expect(result.latestBehavior).toContain('Record when successors read live narration.');
     expect(result.latestBehavior).toContain('# AGENTS\' INSTRUCTIONS:\n\n- []');
   });
 });

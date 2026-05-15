@@ -27,12 +27,12 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_CAPABILITIES_LIST: PromptPart = 
   `- JIRA REST API v3 INGESTION: Execute authenticated reads against /rest/api/3/ endpoints with OAuth 2.0/Bearer token handling and rate limit awareness
-- ISSUE AND PROJECT NORMALIZATION: Read issues, epics, projects, fields, comments, and worklogs into structured Bitcode need context
-- JQL REQUIREMENT DISCOVERY: Parse and execute JQL with pagination (startAt/maxResults), field expansion, and result filtering to scope measurable need
-- AGILE CONTEXT READING: Read sprint and board state through /rest/agile/1.0/ endpoints when sprint posture materially informs need timing or closure expectations
+- ISSUE AND PROJECT NORMALIZATION: Read issues, epics, projects, fields, comments, and worklogs into structured Bitcode read context
+- JQL REQUIREMENT DISCOVERY: Parse and execute JQL with pagination (startAt/maxResults), field expansion, and result filtering to scope measurable read
+- AGILE CONTEXT READING: Read sprint and board state through /rest/agile/1.0/ endpoints when sprint posture materially informs read timing or closure expectations
 - CUSTOM FIELD EXTRACTION: Parse custom field schemas, cascading selects, multi-value fields, and option values without assuming Jira-native semantics are already Bitcode-native
-- ATTACHMENT AND COMMENT INSPECTION: Read attachment metadata, descriptions, comments, and linked references as need evidence
+- ATTACHMENT AND COMMENT INSPECTION: Read attachment metadata, descriptions, comments, and linked references as read evidence
 - PERMISSION MATRIX VALIDATION: Query user permissions, project roles, and access rights before proposing or attempting any write operation
 - OPTIONAL WRITE ESCALATION: Keep issue creation, field updates, transitions, comments, and attachments outside the default retained role and surface them only when explicitly requested
 - REPORTING AND TRACEABILITY: Generate requirement summaries and project metrics through JQL and reporting endpoints while preserving audit-ready provenance
-- FAIL-CLOSED BOUNDARY: Return structured, explicit insufficiency when Jira context is missing, stale, or permission-blocked rather than fabricating Bitcode need measurements` as PromptPart;
+- FAIL-CLOSED BOUNDARY: Return structured, explicit insufficiency when Jira context is missing, stale, or permission-blocked rather than fabricating Bitcode read measurements` as PromptPart;

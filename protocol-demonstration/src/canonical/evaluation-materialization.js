@@ -16,7 +16,7 @@
  * }} BenchmarkParserContract
  *
  * @typedef {{
- *   needId: string,
+ *   readId: string,
  *   repo: string,
  *   benchmarkRunId: string,
  *   benchmarkWorkflowPath: string,
@@ -33,7 +33,7 @@
  *   closureCriteria?: string[] | undefined,
  *   baselineMetrics: Record<string, unknown>,
  *   benchmarkParserContract: BenchmarkParserContract
- * }} NeedShape
+ * }} ReadShape
  *
  * @typedef {{
  *   symbols: string[],
@@ -178,7 +178,7 @@
  *
  * @typedef {{
  *   assetPackId: string,
- *   needId: string,
+ *   readId: string,
  *   branchMode: string,
  *   acceptedUseTiers: string[],
  *   selectedAssets: string[]
@@ -191,7 +191,7 @@
   *   githubBoundary?: Record<string, unknown> | undefined,
   *   identitySurface?: Record<string, unknown> | undefined,
   *   uploadSurface?: Record<string, unknown> | undefined,
- *   ranking: Record<string, unknown> & { finalRankingScore: number, needMatch: { finalScore: number }, benchmarkImpact: { finalScore: number }, actionability: { finalScore: number }, scoreGroups?: ScoreGroups | undefined },
+ *   ranking: Record<string, unknown> & { finalRankingScore: number, readMatch: { finalScore: number }, benchmarkImpact: { finalScore: number }, actionability: { finalScore: number }, scoreGroups?: ScoreGroups | undefined },
  *   verification: CandidateVerification,
   *   useTier: string,
   *   rights: Record<string, unknown>,
@@ -222,7 +222,7 @@
  *     artifactKindFit: MeasurementDetailShape,
  *     lexicalSupport: MeasurementDetailShape
  *   }
- * }} NeedMatchShape
+ * }} ReadMatchShape
  *
  * @typedef {{
  *   likelyImprovesFailingCases: number,
@@ -301,7 +301,7 @@
  *   hasPinnedEnvironment: boolean,
  *   scoreTrace: { score: number, thresholdApplied: number },
  *   recommendedUseTier: string,
- *   evidenceCoverage: { matchedNeedRun: boolean, proofLogCount: number, reproStepCount: number },
+ *   evidenceCoverage: { matchedReadRun: boolean, proofLogCount: number, reproStepCount: number },
  *   reasons: string[]
  * }} VerificationSufficiency
  *
@@ -327,7 +327,7 @@
  * }} CandidateVerification
  *
  * @typedef {{
- *   needMatch: {
+ *   readMatch: {
  *     groupId: string,
  *     finalScore: number,
  *     verifiedInputs: Record<string, unknown>,
@@ -357,15 +357,15 @@
  * @typedef {{ files: Record<string, string> }} BranchArtifacts
  *
  * @typedef {{
- *   need: NeedShape,
- *   needMeasurement: unknown,
- *   needReview: unknown,
+ *   read: ReadShape,
+ *   readMeasurement: unknown,
+ *   readReview: unknown,
  *   benchmarkTarget: unknown,
  *   branchMode: string,
  *   branchName: string,
  *   depositingSurface: unknown,
- *   needingSurface: unknown,
- *   depositingToNeedingSurface: unknown,
+ *   readingSurface: unknown,
+ *   depositingToReadingSurface: unknown,
  *   matchReport: unknown,
  *   verificationReport: unknown,
  *   evalManifest: unknown,
@@ -456,7 +456,7 @@ import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
  *   clamp01: (value: number) => number,
  *   summarizeScore: (value: number) => number,
  *   measurementDetail: (input: Record<string, unknown>) => MeasurementDetailShape,
- *   rankingEvidenceRefs: (need: NeedShape, asset: AssetShape, refs: readonly unknown[]) => string[],
+ *   rankingEvidenceRefs: (read: ReadShape, asset: AssetShape, refs: readonly unknown[]) => string[],
  *   CODE_ANALYSIS_CONSUMERS: Record<string, unknown>,
  *   buildStaticExecutionReceipt: (input: Record<string, unknown>) => StaticExecutionReceipt,
  *   countValues: (values: string[]) => Record<string, number>,
@@ -466,13 +466,13 @@ import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
  * @returns {{
  *   allowedUseTiersForBranchMode: (branchMode?: string) => Set<string>,
  *   useTierRights: (useTier: string, branchMode: string) => Record<string, unknown>,
- *   recallCandidates: (need: NeedShape, assets: AssetShape[]) => RecallEntry[],
- *   evaluateCandidates: (need: NeedShape, assets: AssetShape[], policyState: PolicyState) => EvaluatedCandidate[],
- *   assembleAssetPack: (need: NeedShape, evaluatedCandidates: EvaluatedCandidate[], branchMode?: string) => AssetPackShape & Record<string, unknown>,
- *   buildMatchReport: (need: NeedShape, evaluatedCandidates: EvaluatedCandidate[], assetPack: AssetPackShape) => Record<string, unknown>,
- *   buildVerificationReport: (need: NeedShape, evaluatedCandidates: EvaluatedCandidate[], branchMode?: string) => Record<string, unknown>,
- *   buildVerificationReceiptsArtifact: (need: NeedShape, evaluatedCandidates?: EvaluatedCandidate[]) => Record<string, unknown>,
- *   buildEvalManifest: (need: NeedShape, evaluatedCandidates: EvaluatedCandidate[], promptSurfaces?: BuiltPromptSurface[], parsedCompletionEnvelopes?: ParsedCompletionEnvelope[]) => Record<string, unknown>,
+ *   recallCandidates: (read: ReadShape, assets: AssetShape[]) => RecallEntry[],
+ *   evaluateCandidates: (read: ReadShape, assets: AssetShape[], policyState: PolicyState) => EvaluatedCandidate[],
+ *   assembleAssetPack: (read: ReadShape, evaluatedCandidates: EvaluatedCandidate[], branchMode?: string) => AssetPackShape & Record<string, unknown>,
+ *   buildMatchReport: (read: ReadShape, evaluatedCandidates: EvaluatedCandidate[], assetPack: AssetPackShape) => Record<string, unknown>,
+ *   buildVerificationReport: (read: ReadShape, evaluatedCandidates: EvaluatedCandidate[], branchMode?: string) => Record<string, unknown>,
+ *   buildVerificationReceiptsArtifact: (read: ReadShape, evaluatedCandidates?: EvaluatedCandidate[]) => Record<string, unknown>,
+ *   buildEvalManifest: (read: ReadShape, evaluatedCandidates: EvaluatedCandidate[], promptSurfaces?: BuiltPromptSurface[], parsedCompletionEnvelopes?: ParsedCompletionEnvelope[]) => Record<string, unknown>,
  *   buildAssetPackLock: (assetPack: AssetPackShape, selectedCandidates: EvaluatedCandidate[]) => Record<string, unknown>,
  *   buildSelectedSourceMaterialManifest: (assetPack: AssetPackShape, selectedCandidates: EvaluatedCandidate[]) => Record<string, unknown>,
  *   assertRequiredBranchArtifacts: (branchArtifacts: { files: Record<string, string> }) => void,
@@ -521,26 +521,26 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape[]} assets
    * @returns {RecallEntry[]}
    */
-  function recallCandidates(need, assets) {
+  function recallCandidates(read, assets) {
     const queryRepresentations = {
-      task: buildEmbeddingArtifact('task-semantic-space.v8', need.task),
-      failureModes: buildEmbeddingArtifact('failure-mode-space.v8', need.failureModes.join(' ')),
+      task: buildEmbeddingArtifact('task-semantic-space.v8', read.task),
+      failureModes: buildEmbeddingArtifact('failure-mode-space.v8', read.failureModes.join(' ')),
       technicalContext: buildEmbeddingArtifact('technical-context-space.v8', [
-        ...need.touchedPaths,
-        ...need.extractedSymbols,
-        ...need.configKeys,
-        ...need.stackHints
+        ...read.touchedPaths,
+        ...read.extractedSymbols,
+        ...read.configKeys,
+        ...read.stackHints
       ].join(' '))
     };
     const lexicalTerms = uniqueTokens([
-      need.task,
-      ...need.failureModes,
-      ...need.constraints,
-      ...need.weakDimensions
+      read.task,
+      ...read.failureModes,
+      ...read.constraints,
+      ...read.weakDimensions
     ].join(' '));
 
     const channelEntries = {
@@ -560,10 +560,10 @@ export function createEvaluationMaterializationRuntime({
       for (const unit of asset.contentUnits) {
         const unitKey = `${asset.assetId}:${unit.unitId}`;
         const lexicalHits = intersection(lexicalTerms, uniqueTokens(unit.text));
-        const symbolHits = intersection(need.extractedSymbols, unit.codeAnalysisFacts.symbols);
-        const pathHits = intersection(need.touchedPaths, union(asset.metadata.sourcePaths || [], unit.codeAnalysisFacts.paths));
-        const configHits = intersection(need.configKeys, unit.codeAnalysisFacts.configKeys);
-        const artifactKindMatch = need.targetArtifactKinds.includes(asset.artifactKind) ? 1 : 0;
+        const symbolHits = intersection(read.extractedSymbols, unit.codeAnalysisFacts.symbols);
+        const pathHits = intersection(read.touchedPaths, union(asset.metadata.sourcePaths || [], unit.codeAnalysisFacts.paths));
+        const configHits = intersection(read.configKeys, unit.codeAnalysisFacts.configKeys);
+        const artifactKindMatch = read.targetArtifactKinds.includes(asset.artifactKind) ? 1 : 0;
 
         channelEntries.semanticTaskSearch.push({
           channelId: 'semanticTaskSearch',
@@ -571,7 +571,7 @@ export function createEvaluationMaterializationRuntime({
           unitId: unit.unitId,
           unitKey,
           score: cosineSimilarity(queryRepresentations.task, unit.embeddings.taskVector),
-          evidenceRefs: [need.needId, asset.contentRoot, unit.unitHash],
+          evidenceRefs: [read.readId, asset.contentRoot, unit.unitHash],
           matchedValues: lexicalHits
         });
         channelEntries.failureModeSearch.push({
@@ -580,8 +580,8 @@ export function createEvaluationMaterializationRuntime({
           unitId: unit.unitId,
           unitKey,
           score: cosineSimilarity(queryRepresentations.failureModes, unit.embeddings.failureModeVector),
-          evidenceRefs: [need.needId, ...need.failingCases, unit.unitHash],
-          matchedValues: intersection(need.failureModes, uniqueTokens(unit.text))
+          evidenceRefs: [read.readId, ...read.failingCases, unit.unitHash],
+          matchedValues: intersection(read.failureModes, uniqueTokens(unit.text))
         });
         channelEntries.technicalContextSearch.push({
           channelId: 'technicalContextSearch',
@@ -589,7 +589,7 @@ export function createEvaluationMaterializationRuntime({
           unitId: unit.unitId,
           unitKey,
           score: cosineSimilarity(queryRepresentations.technicalContext, unit.embeddings.technicalContextVector),
-          evidenceRefs: [need.needId, ...(asset.metadata.sourcePaths || []), unit.unitHash],
+          evidenceRefs: [read.readId, ...(asset.metadata.sourcePaths || []), unit.unitHash],
           matchedValues: union(pathHits, configHits)
         });
         channelEntries.lexicalSearch.push({
@@ -598,7 +598,7 @@ export function createEvaluationMaterializationRuntime({
           unitId: unit.unitId,
           unitKey,
           score: lexicalHits.length / Math.max(1, lexicalTerms.length),
-          evidenceRefs: [need.needId, unit.unitHash],
+          evidenceRefs: [read.readId, unit.unitHash],
           matchedValues: lexicalHits
         });
         channelEntries.symbolSearch.push({
@@ -634,7 +634,7 @@ export function createEvaluationMaterializationRuntime({
           unitId: unit.unitId,
           unitKey,
           score: artifactKindMatch,
-          evidenceRefs: [need.needId, asset.assetId, asset.artifactKind],
+          evidenceRefs: [read.readId, asset.assetId, asset.artifactKind],
           matchedValues: artifactKindMatch ? [asset.artifactKind] : []
         });
       }
@@ -711,12 +711,12 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape} asset
    * @param {RecallEntry} recall
-   * @returns {NeedMatchShape}
+   * @returns {ReadMatchShape}
    */
-  function computeNeedMatch(need, asset, recall) {
+  function computeReadMatch(read, asset, recall) {
     const corpus = buildAssetCorpus(asset);
     const unitSignals = asset.contentUnits.flatMap((unit) => [
       ...unit.codeAnalysisFacts.symbols,
@@ -725,27 +725,27 @@ export function createEvaluationMaterializationRuntime({
       ...unit.codeAnalysisFacts.stackTags,
       ...unit.codeAnalysisFacts.constraints
     ]);
-    const matchedPaths = intersection(need.touchedPaths, asset.metadata.sourcePaths || []);
-    const matchedMentionedPaths = intersection(need.touchedPaths, asset.contentUnits.flatMap((unit) => unit.codeAnalysisFacts.paths));
-    const sourcePathPrecision = overlapScore(need.touchedPaths, asset.metadata.sourcePaths || []);
-    const mentionedPathSupport = overlapScore(need.touchedPaths, asset.contentUnits.flatMap((unit) => unit.codeAnalysisFacts.paths));
+    const matchedPaths = intersection(read.touchedPaths, asset.metadata.sourcePaths || []);
+    const matchedMentionedPaths = intersection(read.touchedPaths, asset.contentUnits.flatMap((unit) => unit.codeAnalysisFacts.paths));
+    const sourcePathPrecision = overlapScore(read.touchedPaths, asset.metadata.sourcePaths || []);
+    const mentionedPathSupport = overlapScore(read.touchedPaths, asset.contentUnits.flatMap((unit) => unit.codeAnalysisFacts.paths));
     const subsystemAlignment = clamp01(Math.max(
-      overlapScore(need.extractedSymbols, unitSignals),
-      overlapScore(need.configKeys, unitSignals),
-      overlapScore(need.stackHints, [...(asset.metadata.declaredStacks || []), ...(asset.metadata.tags || [])])
+      overlapScore(read.extractedSymbols, unitSignals),
+      overlapScore(read.configKeys, unitSignals),
+      overlapScore(read.stackHints, [...(asset.metadata.declaredStacks || []), ...(asset.metadata.tags || [])])
     ));
     const pathFit = clamp01((0.50 * sourcePathPrecision) + (0.25 * mentionedPathSupport) + (0.25 * subsystemAlignment));
-    const taskSemanticFit = overlapScore(need.task, corpus);
-    const failureModeFit = overlapScore(need.failureModes, corpus);
-    const symbolFit = clamp01(Math.max(overlapScore(need.extractedSymbols, unitSignals), overlapScore(need.extractedSymbols, corpus)));
-    const stackFit = overlapScore(need.stackHints, [...(asset.metadata.declaredStacks || []), ...(asset.metadata.tags || [])]);
-    const constraintFit = clamp01(Math.max(overlapScore(need.constraints, corpus), overlapScore(need.constraints, asset.metadata.declaredConstraints)));
-    const artifactKindFit = need.targetArtifactKinds.includes(asset.artifactKind)
+    const taskSemanticFit = overlapScore(read.task, corpus);
+    const failureModeFit = overlapScore(read.failureModes, corpus);
+    const symbolFit = clamp01(Math.max(overlapScore(read.extractedSymbols, unitSignals), overlapScore(read.extractedSymbols, corpus)));
+    const stackFit = overlapScore(read.stackHints, [...(asset.metadata.declaredStacks || []), ...(asset.metadata.tags || [])]);
+    const constraintFit = clamp01(Math.max(overlapScore(read.constraints, corpus), overlapScore(read.constraints, asset.metadata.declaredConstraints)));
+    const artifactKindFit = read.targetArtifactKinds.includes(asset.artifactKind)
       ? 1
-      : (asset.artifactKind === 'incident-note' && need.targetArtifactKinds.includes('runbook'))
+      : (asset.artifactKind === 'incident-note' && read.targetArtifactKinds.includes('runbook'))
         ? 0.62
         : (asset.artifactKind === 'mixed' ? 0.72 : 0.18);
-    const lexicalSupport = overlapScore(uniqueTokens(need.task).slice(0, 12), corpus);
+    const lexicalSupport = overlapScore(uniqueTokens(read.task).slice(0, 12), corpus);
 
     const score = (
       0.22 * taskSemanticFit +
@@ -762,74 +762,74 @@ export function createEvaluationMaterializationRuntime({
       taskSemanticFit: measurementDetail({
         value: taskSemanticFit,
         mode: 'hybrid',
-        toolOrPromptId: 'ranking.need-match.task-semantic-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, [need.task]),
+        toolOrPromptId: 'ranking.read-match.task-semantic-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, [read.task]),
         unitRefs: recall?.unitIds || [],
         explanation: 'Deterministic semantic overlap over task text with recall-conditioned unit support.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.task-semantic-fit.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.task-semantic-fit.v2']
       }),
       failureModeFit: measurementDetail({
         value: failureModeFit,
         mode: 'hybrid',
-        toolOrPromptId: 'ranking.need-match.failure-mode-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, need.failureModes),
+        toolOrPromptId: 'ranking.read-match.failure-mode-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, read.failureModes),
         unitRefs: recall?.unitIds || [],
         explanation: 'Failure-mode fit uses benchmark failing cases, weak dimensions, and recalled unit text.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.failure-mode-fit.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.failure-mode-fit.v2']
       }),
       symbolFit: measurementDetail({
         value: symbolFit,
         mode: 'static',
-        toolOrPromptId: 'ranking.need-match.symbol-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, need.extractedSymbols),
+        toolOrPromptId: 'ranking.read-match.symbol-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, read.extractedSymbols),
         unitRefs: recall?.unitIds || [],
         explanation: 'Exact or aliased symbol overlap from extracted repo symbols against asset units.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.symbol-fit.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.symbol-fit.v2']
       }),
       pathFit: measurementDetail({
         value: pathFit,
         mode: 'hybrid',
-        toolOrPromptId: 'ranking.need-match.path-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, need.touchedPaths),
+        toolOrPromptId: 'ranking.read-match.path-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, read.touchedPaths),
         unitRefs: recall?.unitIds || [],
         explanation: 'Path fit blends provenance-bound source paths, mentioned paths, and subsystem alignment.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.path-fit.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.path-fit.v2']
       }),
       stackFit: measurementDetail({
         value: stackFit,
         mode: 'hybrid',
-        toolOrPromptId: 'ranking.need-match.stack-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, need.stackHints),
+        toolOrPromptId: 'ranking.read-match.stack-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, read.stackHints),
         unitRefs: recall?.unitIds || [],
         explanation: 'Stack fit normalizes declared stack hints, tags, and inferred technical context.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.stack-fit.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.stack-fit.v2']
       }),
       constraintFit: measurementDetail({
         value: constraintFit,
         mode: 'hybrid',
-        toolOrPromptId: 'ranking.need-match.constraint-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, need.constraints),
+        toolOrPromptId: 'ranking.read-match.constraint-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, read.constraints),
         unitRefs: recall?.unitIds || [],
         explanation: 'Constraint fit checks whether the asset preserves buyer safety and remediation constraints.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.constraint-fit.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.constraint-fit.v2']
       }),
       artifactKindFit: measurementDetail({
         value: artifactKindFit,
         mode: 'static',
-        toolOrPromptId: 'ranking.need-match.artifact-kind-fit.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, need.targetArtifactKinds),
+        toolOrPromptId: 'ranking.read-match.artifact-kind-fit.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, read.targetArtifactKinds),
         unitRefs: recall?.unitIds || [],
-        explanation: 'Artifact-kind fit keeps need match grounded in the required remediation format.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.artifact-kind-fit.v2']
+        explanation: 'Artifact-kind fit keeps read match grounded in the required remediation format.',
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.artifact-kind-fit.v2']
       }),
       lexicalSupport: measurementDetail({
         value: lexicalSupport,
         mode: 'static',
-        toolOrPromptId: 'ranking.need-match.lexical-support.v2',
-        evidenceRefs: rankingEvidenceRefs(need, asset, uniqueTokens(need.task).slice(0, 12)),
+        toolOrPromptId: 'ranking.read-match.lexical-support.v2',
+        evidenceRefs: rankingEvidenceRefs(read, asset, uniqueTokens(read.task).slice(0, 12)),
         unitRefs: recall?.unitIds || [],
         explanation: 'Lexical support is retained as a support-only signal, never the primary rank driver.',
-        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.need-match.lexical-support.v2']
+        consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.read-match.lexical-support.v2']
       })
     };
 
@@ -855,17 +855,17 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape} asset
-   * @param {NeedMatchShape} needMatch
+   * @param {ReadMatchShape} readMatch
    * @param {RecallEntry} recall
    * @returns {BenchmarkImpactShape}
    */
-  function computeBenchmarkImpact(need, asset, needMatch, recall) {
+  function computeBenchmarkImpact(read, asset, readMatch, recall) {
     const corpus = buildAssetCorpus(asset);
-    const likelyImprovesFailingCases = clamp01(Math.max(overlapScore(need.failingCases, corpus), needMatch.failureModeFit * 0.95));
-    const likelyImprovesWeakDimensions = clamp01(Math.max(overlapScore(need.weakDimensions, corpus), (needMatch.taskSemanticFit + needMatch.constraintFit) / 2));
-    const likelyGeneralizesToRepoContext = clamp01((needMatch.pathFit * 0.45) + (needMatch.stackFit * 0.30) + (needMatch.constraintFit * 0.25));
+    const likelyImprovesFailingCases = clamp01(Math.max(overlapScore(read.failingCases, corpus), readMatch.failureModeFit * 0.95));
+    const likelyImprovesWeakDimensions = clamp01(Math.max(overlapScore(read.weakDimensions, corpus), (readMatch.taskSemanticFit + readMatch.constraintFit) / 2));
+    const likelyGeneralizesToRepoContext = clamp01((readMatch.pathFit * 0.45) + (readMatch.stackFit * 0.30) + (readMatch.constraintFit * 0.25));
     const score = (
       0.45 * likelyImprovesFailingCases +
       0.35 * likelyImprovesWeakDimensions +
@@ -882,7 +882,7 @@ export function createEvaluationMaterializationRuntime({
           value: likelyImprovesFailingCases,
           mode: 'hybrid',
           toolOrPromptId: 'ranking.benchmark-impact.failing-cases.v2',
-          evidenceRefs: rankingEvidenceRefs(need, asset, need.failingCases),
+          evidenceRefs: rankingEvidenceRefs(read, asset, read.failingCases),
           unitRefs: recall?.unitIds || [],
           explanation: 'Measures exact failing-case remediation likelihood against benchmark-linked cases.',
           consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.benchmark-impact.failing-cases.v2']
@@ -891,7 +891,7 @@ export function createEvaluationMaterializationRuntime({
           value: likelyImprovesWeakDimensions,
           mode: 'hybrid',
           toolOrPromptId: 'ranking.benchmark-impact.weak-dimensions.v2',
-          evidenceRefs: rankingEvidenceRefs(need, asset, need.weakDimensions),
+          evidenceRefs: rankingEvidenceRefs(read, asset, read.weakDimensions),
           unitRefs: recall?.unitIds || [],
           explanation: 'Measures likely improvement across weak benchmark dimensions, not just single cases.',
           consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.benchmark-impact.weak-dimensions.v2']
@@ -900,7 +900,7 @@ export function createEvaluationMaterializationRuntime({
           value: likelyGeneralizesToRepoContext,
           mode: 'hybrid',
           toolOrPromptId: 'ranking.benchmark-impact.repo-context.v2',
-          evidenceRefs: rankingEvidenceRefs(need, asset, need.touchedPaths),
+          evidenceRefs: rankingEvidenceRefs(read, asset, read.touchedPaths),
           unitRefs: recall?.unitIds || [],
           explanation: 'Measures whether the candidate generalizes safely to the buyer repo context.',
           consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.benchmark-impact.repo-context.v2']
@@ -922,15 +922,15 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape} asset
-   * @param {NeedMatchShape} needMatch
+   * @param {ReadMatchShape} readMatch
    * @param {RecallEntry} recall
    * @returns {ActionabilityShape}
    */
-  function computeActionability(need, asset, needMatch, recall) {
+  function computeActionability(read, asset, readMatch, recall) {
     const source = `${asset.title}\n${asset.metadata.privateContent}`;
-    const remediationSpecificity = clamp01((countImperatives(source) / 8) * 0.7 + needMatch.failureModeFit * 0.3);
+    const remediationSpecificity = clamp01((countImperatives(source) / 8) * 0.7 + readMatch.failureModeFit * 0.3);
     const implementationSpecificity = clamp01(((asset.metadata.sourcePaths?.length || 0) / 3) * 0.45 + ((asset.contentUnits.flatMap((unit) => unit.codeAnalysisFacts.symbols).length) / 10) * 0.25 + ((asset.contentUnits.flatMap((unit) => unit.codeAnalysisFacts.configKeys).length) / 5) * 0.30);
     const operationalUsability = clamp01((asset.verificationEvidence.reproSteps?.length ? 0.45 : 0) + (asset.verificationEvidence.pinnedEnvironment ? 0.20 : 0) + (asset.verificationEvidence.testsPassed ? 0.20 : 0) + (asset.verificationEvidence.benchmarkRan ? 0.15 : 0));
     const score = (
@@ -949,16 +949,16 @@ export function createEvaluationMaterializationRuntime({
           value: remediationSpecificity,
           mode: 'hybrid',
           toolOrPromptId: 'ranking.actionability.remediation-specificity.v2',
-          evidenceRefs: rankingEvidenceRefs(need, asset, need.failureModes),
+          evidenceRefs: rankingEvidenceRefs(read, asset, read.failureModes),
           unitRefs: recall?.unitIds || [],
-          explanation: 'Measures whether the asset presents concrete corrective steps for the measured need.',
+          explanation: 'Measures whether the asset presents concrete corrective steps for the measured read.',
           consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.actionability.remediation-specificity.v2']
         }),
         implementationSpecificity: measurementDetail({
           value: implementationSpecificity,
           mode: 'static',
           toolOrPromptId: 'ranking.actionability.implementation-specificity.v2',
-          evidenceRefs: rankingEvidenceRefs(need, asset, asset.metadata.sourcePaths || []),
+          evidenceRefs: rankingEvidenceRefs(read, asset, asset.metadata.sourcePaths || []),
           unitRefs: recall?.unitIds || [],
           explanation: 'Measures concrete code/config surface area: paths, symbols, config keys, and test targets.',
           consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.actionability.implementation-specificity.v2']
@@ -967,7 +967,7 @@ export function createEvaluationMaterializationRuntime({
           value: operationalUsability,
           mode: 'hybrid',
           toolOrPromptId: 'ranking.actionability.operational-usability.v2',
-          evidenceRefs: rankingEvidenceRefs(need, asset, asset.verificationEvidence.reproSteps || []),
+          evidenceRefs: rankingEvidenceRefs(read, asset, asset.verificationEvidence.reproSteps || []),
           unitRefs: recall?.unitIds || [],
           explanation: 'Measures bounded-scope usability inside a remediation branch and rerun workflow.',
           consumedCodeAnalysisFacts: CODE_ANALYSIS_CONSUMERS['ranking.actionability.operational-usability.v2']
@@ -977,12 +977,12 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape} asset
-   * @param {{ needMatch: NeedMatchShape, benchmarkImpact: BenchmarkImpactShape, actionability: ActionabilityShape }} ranking
+   * @param {{ readMatch: ReadMatchShape, benchmarkImpact: BenchmarkImpactShape, actionability: ActionabilityShape }} ranking
    * @returns {PenaltyInfo}
    */
-  function computePenaltyMass(need, asset, ranking) {
+  function computePenaltyMass(read, asset, ranking) {
     /** @type {RankingPenalty[]} */
     const penalties = [];
     let penaltyMass = 0;
@@ -1006,12 +1006,12 @@ export function createEvaluationMaterializationRuntime({
       });
     }
 
-    if (ranking.needMatch.artifactKindFit < 0.4) addPenalty('artifact-kind-mismatch', 0.04, [asset.assetId, asset.title]);
-    if (ranking.needMatch.pathFit < 0.25 && asset.artifactKind !== 'runbook' && asset.artifactKind !== 'incident-note') addPenalty('repo-context-mismatch', 0.05, [asset.assetId, ...(asset.metadata.sourcePaths || [])], true);
-    if (ranking.benchmarkImpact.likelyImprovesFailingCases < 0.35) addPenalty('weak-benchmark-linkage', 0.03, [need.needId, asset.assetId]);
+    if (ranking.readMatch.artifactKindFit < 0.4) addPenalty('artifact-kind-mismatch', 0.04, [asset.assetId, asset.title]);
+    if (ranking.readMatch.pathFit < 0.25 && asset.artifactKind !== 'runbook' && asset.artifactKind !== 'incident-note') addPenalty('repo-context-mismatch', 0.05, [asset.assetId, ...(asset.metadata.sourcePaths || [])], true);
+    if (ranking.benchmarkImpact.likelyImprovesFailingCases < 0.35) addPenalty('weak-benchmark-linkage', 0.03, [read.readId, asset.assetId]);
     if (ranking.actionability.implementationSpecificity < 0.30) addPenalty('generic-content', 0.04, [asset.assetId]);
     if (asset.metadata.sourceCommit && asset.metadata.sourceCommit.startsWith('stale-')) addPenalty('stale-version-mismatch', 0.03, [asset.metadata.sourceCommit]);
-    if ((asset.metadata.declaredConstraints || []).includes('public disclosure allowed') && need.constraints.some((constraint) => /private/i.test(constraint))) addPenalty('constraint-conflict', 0.07, [asset.assetId], true);
+    if ((asset.metadata.declaredConstraints || []).includes('public disclosure allowed') && read.constraints.some((constraint) => /private/i.test(constraint))) addPenalty('constraint-conflict', 0.07, [asset.assetId], true);
 
     return {
       rankingPenalties: penalties,
@@ -1053,17 +1053,17 @@ export function createEvaluationMaterializationRuntime({
 
   /**
    * @param {AssetShape} asset
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @returns {ProvenanceVerification}
    */
-  function checkProvenanceVerification(asset, need) {
+  function checkProvenanceVerification(asset, read) {
     const provenance = asset.provenanceBinding || {};
     const repoBindingPresent = !!provenance.repo;
-    const workflowRunVerifiable = provenance.workflowRunId ? provenance.workflowRunId === need.benchmarkRunId : false;
+    const workflowRunVerifiable = provenance.workflowRunId ? provenance.workflowRunId === read.benchmarkRunId : false;
     /** @type {string[]} */
     const contradictions = [];
     if (provenance.sourceProvider && provenance.sourceProvider !== 'github') contradictions.push('source provider is not GitHub');
-    if (repoBindingPresent && provenance.repo !== need.repo) contradictions.push('repo binding does not match buyer repo');
+    if (repoBindingPresent && provenance.repo !== read.repo) contradictions.push('repo binding does not match buyer repo');
     if (provenance.workflowRunId && !workflowRunVerifiable) contradictions.push('workflow run does not bind to benchmark run');
     if (asset.metadata.sourceRepo && provenance.repo && asset.metadata.sourceRepo !== provenance.repo) contradictions.push('metadata/provenance mismatch');
     /** @type {string[]} */
@@ -1111,12 +1111,12 @@ export function createEvaluationMaterializationRuntime({
 
   /**
    * @param {AssetShape} asset
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @returns {VerificationSufficiency}
    */
-  function checkVerificationSufficiency(asset, need) {
+  function checkVerificationSufficiency(asset, read) {
     const evidence = asset.verificationEvidence || {};
-    const benchmarkEvidenceBoundToGitHubRun = !!evidence.benchmarkRunId && evidence.benchmarkRunId === need.benchmarkRunId;
+    const benchmarkEvidenceBoundToGitHubRun = !!evidence.benchmarkRunId && evidence.benchmarkRunId === read.benchmarkRunId;
     const score = (
       (evidence.testsPassed ? 0.20 : 0) +
       (evidence.typecheckPassed ? 0.15 : 0) +
@@ -1145,7 +1145,7 @@ export function createEvaluationMaterializationRuntime({
       },
       recommendedUseTier,
       evidenceCoverage: {
-        matchedNeedRun: benchmarkEvidenceBoundToGitHubRun,
+        matchedReadRun: benchmarkEvidenceBoundToGitHubRun,
         proofLogCount: evidence.proofLogs?.length || 0,
         reproStepCount: evidence.reproSteps?.length || 0
       },
@@ -1238,23 +1238,23 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape} asset
    * @param {RecallEntry} recall
-   * @param {NeedMatchShape} needMatch
+   * @param {ReadMatchShape} readMatch
    * @param {BenchmarkImpactShape} benchmarkImpact
    * @param {ActionabilityShape} actionability
    * @param {PenaltyInfo} penaltyInfo
    * @param {number} finalRankingScore
    * @returns {ScoreGroups}
    */
-  function buildScoreGroups(need, asset, recall, needMatch, benchmarkImpact, actionability, penaltyInfo, finalRankingScore) {
+  function buildScoreGroups(read, asset, recall, readMatch, benchmarkImpact, actionability, penaltyInfo, finalRankingScore) {
     const running = [];
     let cumulative = 0;
     const steps = [
-      { groupId: 'need-match', label: 'Need match', value: needMatch.finalScore, weight: 0.65, refs: rankingEvidenceRefs(need, asset, [need.task, ...need.touchedPaths.slice(0, 3)]) },
-      { groupId: 'benchmark-impact', label: 'Benchmark impact', value: benchmarkImpact.finalScore, weight: 0.25, refs: rankingEvidenceRefs(need, asset, [...need.failingCases.slice(0, 3), ...need.weakDimensions.slice(0, 2)]) },
-      { groupId: 'actionability', label: 'Actionability', value: actionability.finalScore, weight: 0.10, refs: rankingEvidenceRefs(need, asset, asset.metadata.sourcePaths || []) }
+      { groupId: 'read-match', label: 'Read match', value: readMatch.finalScore, weight: 0.65, refs: rankingEvidenceRefs(read, asset, [read.task, ...read.touchedPaths.slice(0, 3)]) },
+      { groupId: 'benchmark-impact', label: 'Benchmark impact', value: benchmarkImpact.finalScore, weight: 0.25, refs: rankingEvidenceRefs(read, asset, [...read.failingCases.slice(0, 3), ...read.weakDimensions.slice(0, 2)]) },
+      { groupId: 'actionability', label: 'Actionability', value: actionability.finalScore, weight: 0.10, refs: rankingEvidenceRefs(read, asset, asset.metadata.sourcePaths || []) }
     ];
     for (const step of steps) {
       const contribution = Number((step.value * step.weight).toFixed(4));
@@ -1273,40 +1273,40 @@ export function createEvaluationMaterializationRuntime({
       });
     }
     return {
-      needMatch: {
-        groupId: 'need-match',
-        finalScore: needMatch.finalScore,
+      readMatch: {
+        groupId: 'read-match',
+        finalScore: readMatch.finalScore,
         verifiedInputs: {
-          task: need.task,
-          failureModes: need.failureModes,
-          touchedPaths: need.touchedPaths,
-          extractedSymbols: need.extractedSymbols,
-          configKeys: need.configKeys,
-          stackHints: need.stackHints,
-          targetArtifactKinds: need.targetArtifactKinds,
+          task: read.task,
+          failureModes: read.failureModes,
+          touchedPaths: read.touchedPaths,
+          extractedSymbols: read.extractedSymbols,
+          configKeys: read.configKeys,
+          stackHints: read.stackHints,
+          targetArtifactKinds: read.targetArtifactKinds,
           recallUnitIds: recall.unitIds
         },
         sequence: [
-          { step: 1, label: 'Task semantic fit', value: needMatch.taskSemanticFit, refs: needMatch.detail['taskSemanticFit'].evidenceRefs },
-          { step: 2, label: 'Failure mode fit', value: needMatch.failureModeFit, refs: needMatch.detail['failureModeFit'].evidenceRefs },
-          { step: 3, label: 'Symbol fit', value: needMatch.symbolFit, refs: needMatch.detail['symbolFit'].evidenceRefs },
-          { step: 4, label: 'Path fit', value: needMatch.pathFit, refs: needMatch.detail['pathFit'].evidenceRefs },
-          { step: 5, label: 'Constraint + artifact precision', value: Number(((needMatch.constraintFit + needMatch.artifactKindFit) / 2).toFixed(4)), refs: [...needMatch.detail['constraintFit'].evidenceRefs, ...needMatch.detail['artifactKindFit'].evidenceRefs] }
+          { step: 1, label: 'Task semantic fit', value: readMatch.taskSemanticFit, refs: readMatch.detail['taskSemanticFit'].evidenceRefs },
+          { step: 2, label: 'Failure mode fit', value: readMatch.failureModeFit, refs: readMatch.detail['failureModeFit'].evidenceRefs },
+          { step: 3, label: 'Symbol fit', value: readMatch.symbolFit, refs: readMatch.detail['symbolFit'].evidenceRefs },
+          { step: 4, label: 'Path fit', value: readMatch.pathFit, refs: readMatch.detail['pathFit'].evidenceRefs },
+          { step: 5, label: 'Constraint + artifact precision', value: Number(((readMatch.constraintFit + readMatch.artifactKindFit) / 2).toFixed(4)), refs: [...readMatch.detail['constraintFit'].evidenceRefs, ...readMatch.detail['artifactKindFit'].evidenceRefs] }
         ],
-        accumulation: running.filter((entry) => entry.groupId === 'need-match'),
-        references: rankingEvidenceRefs(need, asset, recall.unitIds)
+        accumulation: running.filter((entry) => entry.groupId === 'read-match'),
+        references: rankingEvidenceRefs(read, asset, recall.unitIds)
       },
       benchmarkImpact: {
         groupId: 'benchmark-impact',
         finalScore: benchmarkImpact.finalScore,
-        verifiedInputs: { failingCases: need.failingCases, weakDimensions: need.weakDimensions, baselineMetrics: need.baselineMetrics, recallChannels: recall.fusion.contributingChannels },
+        verifiedInputs: { failingCases: read.failingCases, weakDimensions: read.weakDimensions, baselineMetrics: read.baselineMetrics, recallChannels: recall.fusion.contributingChannels },
         sequence: [
           { step: 1, label: 'Improves failing cases', value: benchmarkImpact.likelyImprovesFailingCases, refs: benchmarkImpact.detail['likelyImprovesFailingCases'].evidenceRefs },
           { step: 2, label: 'Improves weak dimensions', value: benchmarkImpact.likelyImprovesWeakDimensions, refs: benchmarkImpact.detail['likelyImprovesWeakDimensions'].evidenceRefs },
           { step: 3, label: 'Generalizes to repo context', value: benchmarkImpact.likelyGeneralizesToRepoContext, refs: benchmarkImpact.detail['likelyGeneralizesToRepoContext'].evidenceRefs }
         ],
         accumulation: running.filter((entry) => entry.groupId === 'benchmark-impact'),
-        references: rankingEvidenceRefs(need, asset, [...need.failingCases, ...need.weakDimensions])
+        references: rankingEvidenceRefs(read, asset, [...read.failingCases, ...read.weakDimensions])
       },
       penaltyMass: {
         groupId: 'penalty-mass',
@@ -1314,7 +1314,7 @@ export function createEvaluationMaterializationRuntime({
         verifiedInputs: { penalties: penaltyInfo.rankingPenalties.map((p) => p.code), artifactKind: asset.artifactKind, artifactType: asset.artifactType, sourcePaths: asset.metadata.sourcePaths },
         sequence: penaltyRunning.map((entry, index) => ({ step: index + 1, label: entry.code, value: entry.mass, refs: entry.evidenceRefs })),
         accumulation: penaltyRunning,
-        references: rankingEvidenceRefs(need, asset, penaltyInfo.rankingPenalties.flatMap((penalty) => penalty.evidenceRefs || []))
+        references: rankingEvidenceRefs(read, asset, penaltyInfo.rankingPenalties.flatMap((penalty) => penalty.evidenceRefs || []))
       },
       finalRank: { prePenalty: cumulative, penaltyMass: penaltyInfo.penaltyMass, finalRankingScore }
     };
@@ -1367,7 +1367,7 @@ export function createEvaluationMaterializationRuntime({
 
   /**
    * @param {{
-   *   need: NeedShape,
+   *   read: ReadShape,
    *   asset: AssetShape,
    *   verification: CandidateVerification,
    *   useTier: string,
@@ -1375,12 +1375,12 @@ export function createEvaluationMaterializationRuntime({
    * }} input
    * @returns {{ receipts: StaticExecutionReceipt[], decisionSurface: VerificationDecisionSurface }}
    */
-  function buildVerificationDecisionReceipts({ need, asset, verification, useTier, policyState }) {
+  function buildVerificationDecisionReceipts({ read, asset, verification, useTier, policyState }) {
     const claimedEvidence = verificationClaimedEvidence(asset);
     const measuredEvidence = verificationMeasuredEvidence(asset, verification);
     const policyRestrictions = verificationPolicyRestrictions(verification);
     const receiptInputs = {
-      needId: need.needId,
+      readId: read.readId,
       assetId: asset.assetId,
       contentRoot: asset.contentRoot
     };
@@ -1393,32 +1393,32 @@ export function createEvaluationMaterializationRuntime({
         status: shouldRejectIssuance(verification.issuanceVerification) ? 'fail' : 'pass',
         issuanceVerification: verification.issuanceVerification
       },
-      evidenceRefs: [need.needId, asset.assetId, asset.attestations?.[0]?.attestationHash].filter(Boolean),
-      replayInputClosure: [need.needId, asset.assetId, asset.contentRoot]
+      evidenceRefs: [read.readId, asset.assetId, asset.attestations?.[0]?.attestationHash].filter(Boolean),
+      replayInputClosure: [read.readId, asset.assetId, asset.contentRoot]
     });
     const provenanceReceipt = buildStaticExecutionReceipt({
       receiptKind: 'verification-provenance-check',
       stageId: 'verification.provenance-checks.v15',
       toolId: 'verification.provenance-checks.v15',
-      inputs: { ...receiptInputs, provenanceBinding: asset.provenanceBinding, repo: need.repo, benchmarkRunId: need.benchmarkRunId },
+      inputs: { ...receiptInputs, provenanceBinding: asset.provenanceBinding, repo: read.repo, benchmarkRunId: read.benchmarkRunId },
       normalizedOutputEnvelope: {
         status: shouldRejectProvenance(verification.provenanceVerification) ? 'fail' : 'pass',
         provenanceVerification: verification.provenanceVerification
       },
-      evidenceRefs: [need.repo, need.benchmarkRunId, asset.assetId, ...(asset.metadata?.sourcePaths || [])],
-      replayInputClosure: [need.needId, asset.assetId, asset.contentRoot]
+      evidenceRefs: [read.repo, read.benchmarkRunId, asset.assetId, ...(asset.metadata?.sourcePaths || [])],
+      replayInputClosure: [read.readId, asset.assetId, asset.contentRoot]
     });
     const sufficiencyReceipt = buildStaticExecutionReceipt({
       receiptKind: 'verification-sufficiency-check',
       stageId: 'verification.sufficiency-checks.v15',
       toolId: 'verification.sufficiency-checks.v15',
-      inputs: { ...receiptInputs, verificationEvidence: asset.verificationEvidence, benchmarkRunId: need.benchmarkRunId },
+      inputs: { ...receiptInputs, verificationEvidence: asset.verificationEvidence, benchmarkRunId: read.benchmarkRunId },
       normalizedOutputEnvelope: {
         recommendedUseTier: verification.verificationSufficiency.recommendedUseTier,
         verificationSufficiency: verification.verificationSufficiency
       },
-      evidenceRefs: [need.needId, asset.assetId, need.benchmarkRunId, ...(asset.verificationEvidence?.reproSteps || [])],
-      replayInputClosure: [need.needId, asset.assetId, asset.contentRoot]
+      evidenceRefs: [read.readId, asset.assetId, read.benchmarkRunId, ...(asset.verificationEvidence?.reproSteps || [])],
+      replayInputClosure: [read.readId, asset.assetId, asset.contentRoot]
     });
     const policyReceipt = buildStaticExecutionReceipt({
       receiptKind: 'verification-policy-check',
@@ -1431,7 +1431,7 @@ export function createEvaluationMaterializationRuntime({
         finalUseTier: useTier
       },
       evidenceRefs: [asset.attestations?.[0]?.signerAddress, asset.metadata?.issuerPolicyStatus].filter(Boolean),
-      replayInputClosure: [need.needId, asset.assetId, asset.contentRoot]
+      replayInputClosure: [read.readId, asset.assetId, asset.contentRoot]
     });
 
     return {
@@ -1480,13 +1480,13 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetShape[]} assets
    * @param {PolicyState} policyState
    * @returns {EvaluatedCandidate[]}
    */
-  function evaluateCandidates(need, assets, policyState) {
-    const recalled = recallCandidates(need, assets);
+  function evaluateCandidates(read, assets, policyState) {
+    const recalled = recallCandidates(read, assets);
     const recallByAssetId = new Map(recalled.map((entry) => [entry.assetId, entry]));
 
     return assets
@@ -1496,17 +1496,17 @@ export function createEvaluationMaterializationRuntime({
         if (!recall) {
           throw new Error(`Bitcode recall closure failed for ${asset.assetId}.`);
         }
-        const needMatch = computeNeedMatch(need, asset, recall);
-        const benchmarkImpact = computeBenchmarkImpact(need, asset, needMatch, recall);
-        const actionability = computeActionability(need, asset, needMatch, recall);
-        const wholeAssetNeedScore = clamp01((0.72 * needMatch.finalScore) + (0.18 * actionability.implementationSpecificity) + (0.10 * Math.min(1, recall.recallScore / 6)));
-        const penaltyInfo = computePenaltyMass(need, asset, { needMatch, benchmarkImpact, actionability });
-        const finalRankingScore = clamp01((0.65 * needMatch.finalScore) + (0.25 * benchmarkImpact.finalScore) + (0.10 * actionability.finalScore) - penaltyInfo.penaltyMass);
+        const readMatch = computeReadMatch(read, asset, recall);
+        const benchmarkImpact = computeBenchmarkImpact(read, asset, readMatch, recall);
+        const actionability = computeActionability(read, asset, readMatch, recall);
+        const wholeAssetReadScore = clamp01((0.72 * readMatch.finalScore) + (0.18 * actionability.implementationSpecificity) + (0.10 * Math.min(1, recall.recallScore / 6)));
+        const penaltyInfo = computePenaltyMass(read, asset, { readMatch, benchmarkImpact, actionability });
+        const finalRankingScore = clamp01((0.65 * readMatch.finalScore) + (0.25 * benchmarkImpact.finalScore) + (0.10 * actionability.finalScore) - penaltyInfo.penaltyMass);
         /** @type {CandidateVerification} */
         const verification = {
           issuanceVerification: checkIssuanceVerification(asset),
-          provenanceVerification: checkProvenanceVerification(asset, need),
-          verificationSufficiency: checkVerificationSufficiency(asset, need),
+          provenanceVerification: checkProvenanceVerification(asset, read),
+          verificationSufficiency: checkVerificationSufficiency(asset, read),
           issuerPolicyStatus: checkIssuerPolicyStatus(asset, policyState)
         };
         let useTier = decideCandidateUseTier(verification);
@@ -1517,7 +1517,7 @@ export function createEvaluationMaterializationRuntime({
           stageId: 'verification.determinisms.v15',
           toolId: 'verification.determinisms.v15',
           inputs: {
-            needId: need.needId,
+            readId: read.readId,
             assetId: asset.assetId,
             verificationEvidence: asset.verificationEvidence,
             issuerPolicyStatus: verification.issuerPolicyStatus
@@ -1529,13 +1529,13 @@ export function createEvaluationMaterializationRuntime({
             issuerPolicyStatus: verification.issuerPolicyStatus,
             useTier
           },
-          evidenceRefs: rankingEvidenceRefs(need, asset, recall.unitIds),
-          replayInputClosure: [need.needId, asset.assetId, asset.contentRoot]
+          evidenceRefs: rankingEvidenceRefs(read, asset, recall.unitIds),
+          replayInputClosure: [read.readId, asset.assetId, asset.contentRoot]
         });
-        const verificationDecision = buildVerificationDecisionReceipts({ need, asset, verification, useTier, policyState });
+        const verificationDecision = buildVerificationDecisionReceipts({ read, asset, verification, useTier, policyState });
         verification.decisionSurface = verificationDecision.decisionSurface;
 
-        const scoreGroups = buildScoreGroups(need, asset, recall, needMatch, benchmarkImpact, actionability, penaltyInfo, finalRankingScore);
+        const scoreGroups = buildScoreGroups(read, asset, recall, readMatch, benchmarkImpact, actionability, penaltyInfo, finalRankingScore);
 
         return {
           assetId: asset.assetId,
@@ -1545,8 +1545,8 @@ export function createEvaluationMaterializationRuntime({
           identitySurface: asset.identitySurface,
           uploadSurface: asset.uploadSurface,
           ranking: {
-            wholeAssetNeedScore,
-            needMatch,
+            wholeAssetReadScore,
+            readMatch,
             benchmarkImpact,
             actionability,
             rankingPenalties: penaltyInfo.rankingPenalties,
@@ -1555,8 +1555,8 @@ export function createEvaluationMaterializationRuntime({
             scoreGroups,
             explainability: {
               strongestScoreDrivers: [
-                { label: 'taskSemanticFit', value: Number(needMatch.taskSemanticFit.toFixed(4)) },
-                { label: 'failureModeFit', value: Number(needMatch.failureModeFit.toFixed(4)) },
+                { label: 'taskSemanticFit', value: Number(readMatch.taskSemanticFit.toFixed(4)) },
+                { label: 'failureModeFit', value: Number(readMatch.failureModeFit.toFixed(4)) },
                 { label: 'likelyImprovesFailingCases', value: Number(benchmarkImpact.likelyImprovesFailingCases.toFixed(4)) },
                 { label: 'implementationSpecificity', value: Number(actionability.implementationSpecificity.toFixed(4)) }
               ].sort((a, b) => b.value - a.value),
@@ -1569,11 +1569,11 @@ export function createEvaluationMaterializationRuntime({
           useTier,
           rights: useTierRights(useTier, DEFAULT_BRANCH_MODE),
           measurementProvenance: [
-            measurementTrace('hybrid', 'ranking.recall-fusion.v2', rankingEvidenceRefs(need, asset, recall.unitIds)),
-            measurementTrace('hybrid', 'ranking.need-match.v2', rankingEvidenceRefs(need, asset, recall.unitIds)),
-            measurementTrace('hybrid', 'ranking.benchmark-impact.v2', rankingEvidenceRefs(need, asset, recall.unitIds)),
-            measurementTrace('hybrid', 'ranking.actionability.v2', rankingEvidenceRefs(need, asset, recall.unitIds)),
-            measurementTrace('static', 'verification.determinisms.v2', rankingEvidenceRefs(need, asset, recall.unitIds), { receiptRefs: [verificationReceipt.receiptId] })
+            measurementTrace('hybrid', 'ranking.recall-fusion.v2', rankingEvidenceRefs(read, asset, recall.unitIds)),
+            measurementTrace('hybrid', 'ranking.read-match.v2', rankingEvidenceRefs(read, asset, recall.unitIds)),
+            measurementTrace('hybrid', 'ranking.benchmark-impact.v2', rankingEvidenceRefs(read, asset, recall.unitIds)),
+            measurementTrace('hybrid', 'ranking.actionability.v2', rankingEvidenceRefs(read, asset, recall.unitIds)),
+            measurementTrace('static', 'verification.determinisms.v2', rankingEvidenceRefs(read, asset, recall.unitIds), { receiptRefs: [verificationReceipt.receiptId] })
           ],
           staticExecutionReceipts: [verificationReceipt, ...verificationDecision.receipts]
         };
@@ -1582,12 +1582,12 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} evaluatedCandidates
    * @param {string} [branchMode=DEFAULT_BRANCH_MODE]
    * @returns {AssetPackShape & Record<string, unknown>}
    */
-  function assembleAssetPack(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
+  function assembleAssetPack(read, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
     const allowedTiers = allowedUseTiersForBranchMode(branchMode);
 
     const selected = evaluatedCandidates
@@ -1601,8 +1601,8 @@ export function createEvaluationMaterializationRuntime({
     const estimatedBundleScore = Number((selected.reduce((sum, candidate) => sum + candidate.ranking.finalRankingScore, 0) / Math.max(1, selected.length)).toFixed(4));
 
     return {
-      assetPackId: `asset_pack_${sha256(`${need.needId}:${selectedAssets.join(':')}`).slice(0, 12)}`,
-      needId: need.needId,
+      assetPackId: `asset_pack_${sha256(`${read.readId}:${selectedAssets.join(':')}`).slice(0, 12)}`,
+      readId: read.readId,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
       selectedAssets,
@@ -1613,23 +1613,23 @@ export function createEvaluationMaterializationRuntime({
       branchMode,
       acceptedUseTiers: [...allowedTiers],
       coverage: {
-        failingCasesCovered: summarizeStrings(selected.flatMap((candidate) => intersection(need.failingCases, uniqueTokens(String(candidate.asset.metadata.privateContent || ''))))),
-        weakDimensionsCovered: summarizeStrings(selected.flatMap((candidate) => intersection(need.weakDimensions, uniqueTokens(String(candidate.asset.metadata.privateContent || ''))))),
-        touchedPathsCovered: summarizeStrings(selected.flatMap((candidate) => intersection(need.touchedPaths, candidate.asset.metadata.sourcePaths || [])))
+        failingCasesCovered: summarizeStrings(selected.flatMap((candidate) => intersection(read.failingCases, uniqueTokens(String(candidate.asset.metadata.privateContent || ''))))),
+        weakDimensionsCovered: summarizeStrings(selected.flatMap((candidate) => intersection(read.weakDimensions, uniqueTokens(String(candidate.asset.metadata.privateContent || ''))))),
+        touchedPathsCovered: summarizeStrings(selected.flatMap((candidate) => intersection(read.touchedPaths, candidate.asset.metadata.sourcePaths || [])))
       }
     };
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} evaluatedCandidates
    * @param {AssetPackShape} assetPack
    * @returns {Record<string, unknown>}
    */
-  function buildMatchReport(need, evaluatedCandidates, assetPack) {
+  function buildMatchReport(read, evaluatedCandidates, assetPack) {
     const selectedSet = new Set(assetPack.selectedAssets);
     return {
-      needId: need.needId,
+      readId: read.readId,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
       branchMode: assetPack.branchMode,
@@ -1641,7 +1641,7 @@ export function createEvaluationMaterializationRuntime({
           useTier: candidate.useTier,
           rights: useTierRights(candidate.useTier, assetPack.branchMode),
           reasons: [
-            `needMatch=${candidate.ranking.needMatch.finalScore.toFixed(4)}`,
+            `readMatch=${candidate.ranking.readMatch.finalScore.toFixed(4)}`,
             `benchmarkImpact=${candidate.ranking.benchmarkImpact.finalScore.toFixed(4)}`,
             `actionability=${candidate.ranking.actionability.finalScore.toFixed(4)}`
           ]
@@ -1658,12 +1658,12 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} evaluatedCandidates
    * @param {string} [branchMode=DEFAULT_BRANCH_MODE]
    * @returns {Record<string, unknown>}
    */
-  function buildVerificationReport(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
+  function buildVerificationReport(read, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
     const assetVerification = evaluatedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
       title: candidate.asset.title,
@@ -1680,7 +1680,7 @@ export function createEvaluationMaterializationRuntime({
       receiptRefs: summarizeStrings((candidate.staticExecutionReceipts || []).filter((receipt) => receipt.stageId.startsWith('verification.')).map((receipt) => receipt.receiptId))
     }));
     return {
-      needId: need.needId,
+      readId: read.readId,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
       branchMode,
@@ -1691,13 +1691,13 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} [evaluatedCandidates=[]]
    * @returns {Record<string, unknown>}
    */
-  function buildVerificationReceiptsArtifact(need, evaluatedCandidates = []) {
+  function buildVerificationReceiptsArtifact(read, evaluatedCandidates = []) {
     return {
-      needId: need.needId,
+      readId: read.readId,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
       verificationReceipts: evaluatedCandidates.flatMap((candidate) => (candidate.staticExecutionReceipts || []).filter((receipt) => receipt.stageId.startsWith('verification.'))),
@@ -1711,26 +1711,26 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {EvaluatedCandidate[]} evaluatedCandidates
    * @param {BuiltPromptSurface[]} [promptSurfaces=[]]
    * @param {ParsedCompletionEnvelope[]} [parsedCompletionEnvelopes=[]]
    * @returns {Record<string, unknown>}
    */
-  function buildEvalManifest(need, evaluatedCandidates, promptSurfaces = [], parsedCompletionEnvelopes = []) {
+  function buildEvalManifest(read, evaluatedCandidates, promptSurfaces = [], parsedCompletionEnvelopes = []) {
     const evaluatorInterfaces = [
-      evaluatorSurface({ evaluatorId: 'need-measurement.task.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.task.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId, need.benchmarkRunId], standIn: true }),
-      evaluatorSurface({ evaluatorId: 'need-measurement.failure-modes.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.failure-modes.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
-      evaluatorSurface({ evaluatorId: 'need-measurement.constraints.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.constraints.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
-      evaluatorSurface({ evaluatorId: 'need-measurement.target-artifact-kinds.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.target-artifact-kinds.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
-      evaluatorSurface({ evaluatorId: 'need-measurement.closure-criteria.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.closure-criteria.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
-      evaluatorSurface({ evaluatorId: 'candidate-recall.hybrid.v2', evaluatorKind: 'hybrid-pipeline-stage', measurementClass: 'hybrid-evaluation', mode: 'hybrid', toolId: 'candidate-recall.hybrid.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
-      evaluatorSurface({ evaluatorId: 'verification.determinisms.v2', evaluatorKind: 'deterministic-static-command', measurementClass: 'static-analysis', mode: 'static', toolId: 'verification.determinisms.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: false })
+      evaluatorSurface({ evaluatorId: 'read-measurement.task.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'read-measurement.task.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId, read.benchmarkRunId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'read-measurement.failure-modes.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'read-measurement.failure-modes.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'read-measurement.constraints.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'read-measurement.constraints.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'read-measurement.target-artifact-kinds.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'read-measurement.target-artifact-kinds.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'read-measurement.closure-criteria.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'read-measurement.closure-criteria.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'candidate-recall.hybrid.v2', evaluatorKind: 'hybrid-pipeline-stage', measurementClass: 'hybrid-evaluation', mode: 'hybrid', toolId: 'candidate-recall.hybrid.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'verification.determinisms.v2', evaluatorKind: 'deterministic-static-command', measurementClass: 'static-analysis', mode: 'static', toolId: 'verification.determinisms.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [read.readId], standIn: false })
     ];
 
     return {
-      needId: need.needId,
-      benchmarkRunId: need.benchmarkRunId,
+      readId: read.readId,
+      benchmarkRunId: read.benchmarkRunId,
       promptsVersion: 'spec-v15-demo-deterministic.v1',
       modelsUsed: [DEFAULT_MODEL_ID],
       deterministicFeatureVersion: 'spec-v15-demo-static.v1',
@@ -1760,7 +1760,7 @@ export function createEvaluationMaterializationRuntime({
   function buildAssetPackLock(assetPack, selectedCandidates) {
     return {
       assetPackId: assetPack.assetPackId,
-      needId: assetPack.needId,
+      readId: assetPack.readId,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
       branchMode: assetPack.branchMode,
@@ -1848,18 +1848,18 @@ export function createEvaluationMaterializationRuntime({
   }
 
   /**
-   * @param {NeedShape} need
+   * @param {ReadShape} read
    * @param {AssetPackShape} assetPack
    * @param {EvaluatedCandidate[]} selectedCandidates
    * @param {{ bundleId: string, totals: { debited: string, credited: string }, rawShares: Array<{ shareBp: number }>, credits: Array<{ delta: string }> }} journalDiff
    * @param {{ releaseId?: string | undefined, releasePolicyId?: string | undefined }} policyRelease
    * @returns {string}
    */
-  function buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease) {
+  function buildReadMarkdown(read, assetPack, selectedCandidates, journalDiff, policyRelease) {
     const selectedList = selectedCandidates.map((candidate) => `- ${candidate.asset.title} (${candidate.useTier}) — score ${candidate.ranking.finalRankingScore.toFixed(4)}`).join('\n');
     const creditedAssetCount = journalDiff.credits.filter((entry) => BigInt(entry.delta) > 0n).length;
     const zeroCreditAssetCount = journalDiff.credits.filter((entry) => BigInt(entry.delta) === 0n).length;
-    return `# Bitcode Need\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Failure modes\n- ${need.failureModes.join('\n- ')}\n\n## Constraints\n- ${need.constraints.join('\n- ')}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Closure criteria\n- ${(need.closureCriteria || []).join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}\n- credited settlement asset count: ${creditedAssetCount}\n- zero-credit settlement asset count: ${zeroCreditAssetCount}`;
+    return `# Bitcode Read\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${read.failingCases.join('\n- ')}\n\n## Measured read\n${read.task}\n\n## Failure modes\n- ${read.failureModes.join('\n- ')}\n\n## Constraints\n- ${read.constraints.join('\n- ')}\n\n## Benchmark parser contract\n- parserKind: ${read.benchmarkParserContract.parserKind}\n- parserVersion: ${read.benchmarkParserContract.parserVersion}\n- failClosed: ${read.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${read.targetArtifactKinds.join('\n- ')}\n\n## Closure criteria\n- ${(read.closureCriteria || []).join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${read.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${read.benchmarkWorkflowPath}\n- Re-run failing cases: ${read.failingCases.join(', ')}\n- Recheck weak dimensions: ${read.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}\n- credited settlement asset count: ${creditedAssetCount}\n- zero-credit settlement asset count: ${zeroCreditAssetCount}`;
   }
 
   /**
@@ -1868,12 +1868,12 @@ export function createEvaluationMaterializationRuntime({
    */
   function assertRequiredBranchArtifacts(branchArtifacts) {
     const requiredPaths = [
-      '.bitcode/need.json',
-      '.bitcode/need-measurement.json',
-      '.bitcode/need-review.json',
+      '.bitcode/read.json',
+      '.bitcode/read-measurement.json',
+      '.bitcode/read-review.json',
       '.bitcode/depositing-surface.json',
-      '.bitcode/needing-surface.json',
-      '.bitcode/depositing-to-needing-surface.json',
+      '.bitcode/reading-surface.json',
+      '.bitcode/deposit-to-read-surface.json',
       '.bitcode/match-report.json',
       '.bitcode/verification-report.json',
       '.bitcode/eval-manifest.json',
@@ -1930,7 +1930,7 @@ export function createEvaluationMaterializationRuntime({
       '.bitcode/disclosure-boundary-proof.json',
       '.bitcode/proof-contract.json',
       '.bitcode/asset-pack-evidence.json',
-      'BITCODE_NEED.md'
+      'BITCODE_READ.md'
     ];
     if (branchArtifacts.files['.bitcode/bitcoin-settlement-intent.json']) {
       requiredPaths.push(
@@ -1984,15 +1984,15 @@ export function createEvaluationMaterializationRuntime({
    * @param {BuildBranchArtifactsInput} input
    * @returns {{ branchName: string, branchMode: string, confidentiality: string, files: Record<string, string> }}
    */
-  function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, assetPackEvidenceManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
+  function buildBranchArtifacts({ read, readMeasurement, readReview, benchmarkTarget, branchMode, branchName, depositingSurface, readingSurface, depositingToReadingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, assetPackEvidenceManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
     const files = {
-      '.bitcode/need.json': JSON.stringify(need, null, 2),
-      '.bitcode/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
-      '.bitcode/need-review.json': JSON.stringify(needReview, null, 2),
+      '.bitcode/read.json': JSON.stringify(read, null, 2),
+      '.bitcode/read-measurement.json': JSON.stringify(readMeasurement, null, 2),
+      '.bitcode/read-review.json': JSON.stringify(readReview, null, 2),
       '.bitcode/benchmark-target.json': JSON.stringify(benchmarkTarget, null, 2),
       '.bitcode/depositing-surface.json': JSON.stringify(depositingSurface, null, 2),
-      '.bitcode/needing-surface.json': JSON.stringify(needingSurface, null, 2),
-      '.bitcode/depositing-to-needing-surface.json': JSON.stringify(depositingToNeedingSurface, null, 2),
+      '.bitcode/reading-surface.json': JSON.stringify(readingSurface, null, 2),
+      '.bitcode/deposit-to-read-surface.json': JSON.stringify(depositingToReadingSurface, null, 2),
       '.bitcode/match-report.json': JSON.stringify(matchReport, null, 2),
       '.bitcode/verification-report.json': JSON.stringify(verificationReport, null, 2),
       '.bitcode/eval-manifest.json': JSON.stringify(evalManifest, null, 2),
@@ -2087,7 +2087,7 @@ export function createEvaluationMaterializationRuntime({
       ...(externalRealizationProof ? { '.bitcode/external-realization-proof.json': JSON.stringify(externalRealizationProof, null, 2) } : {}),
       ...(containerRealityProof ? { '.bitcode/container-reality-proof.json': JSON.stringify(containerRealityProof, null, 2) } : {}),
       ...(githubLiveInterfaceProof ? { '.bitcode/github-live-interface-proof.json': JSON.stringify(githubLiveInterfaceProof, null, 2) } : {}),
-      'BITCODE_NEED.md': buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease)
+      'BITCODE_READ.md': buildReadMarkdown(read, assetPack, selectedCandidates, journalDiff, policyRelease)
     };
 
     return {

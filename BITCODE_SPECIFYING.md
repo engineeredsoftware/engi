@@ -227,7 +227,7 @@ At minimum, the current `SPEC` must enumerate where applicable:
 - scenario ids or scenario classes,
 - and accepted boundaries.
 
-If a reviewer would need to open source or generated JSON just to discover what is in one of those current canonical sets, the spec is not yet precise enough.
+If a reviewer would read to open source or generated JSON just to discover what is in one of those current canonical sets, the spec is not yet precise enough.
 
 ---
 
@@ -463,7 +463,7 @@ It must summarize:
 - product/system identity,
 - formal implementation identity where the current canon includes it,
 - deposited asset flow,
-- need measurement,
+- read measurement,
 - fit/evaluation/verification,
 - branch materialization,
 - proof and witness closure,
@@ -496,7 +496,7 @@ It must define what wins when prose, source, tests, and generated outputs disagr
 
 The spec must describe the full Bitcode chain in order:
 1. deposit assets,
-2. measure need,
+2. measure read,
 3. declare prompt/inference ownership,
 4. recall candidates,
 5. rank and verify candidates,
@@ -549,9 +549,9 @@ Every full `SPEC` must cover the whole system, not only the current version's fo
 
 Minimum subsystem coverage:
 1. repo supply and depositing,
-2. needing and measured demand,
+2. reading and measured demand,
 3. prompt/inference/evaluator ownership,
-4. depositing-to-needing fit,
+4. deposit-to-read fit,
 5. recall and ranking,
 6. verification decisions,
 7. selection and materialization,
@@ -606,7 +606,7 @@ At minimum, the main `SPEC` should make the following directly recoverable for e
 - current validating commands and parity basis,
 - and current accepted boundaries or explicit statement that none are subsystem-local.
 
-Those labels do not need to be word-for-word identical across all future versions, but the information itself must be explicit enough that a checker or auditor can confirm that each subsystem section is carrying operational meaning rather than only naming the subsystem.
+Those labels do not read to be word-for-word identical across all future versions, but the information itself must be explicit enough that a checker or auditor can confirm that each subsystem section is carrying operational meaning rather than only naming the subsystem.
 
 ## 6.2 Canonical Structures
 

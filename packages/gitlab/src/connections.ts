@@ -301,7 +301,7 @@ export class GitLabConnections {
     }
 
     try {
-      // Note: We'd need client credentials for refresh
+      // Note: We'd read client credentials for refresh
       const clientId = process.env.GITLAB_CLIENT_ID;
       const clientSecret = process.env.GITLAB_CLIENT_SECRET;
       

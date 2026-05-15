@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_PTRRREFINE_PURPOSE: PromptPart =
-  'PTRR Refine Step: improve the Finish readiness decision based on validation feedback, written-asset risk, proof gaps, and need-satisfaction evidence' as PromptPart;
+  'PTRR Refine Step: improve the Finish readiness decision based on validation feedback, written-asset risk, proof gaps, and read-satisfaction evidence' as PromptPart;

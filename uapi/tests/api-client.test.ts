@@ -5,7 +5,7 @@ describe('callAssetPackExecutionsAPI', () => {
     global.fetch = jest.fn();
   });
 
-  it('sends the AssetPack execution payload with canonical need and pipeline fields', async () => {
+  it('sends the AssetPack execution payload with canonical read and pipeline fields', async () => {
     const mockResponse = { ok: true, body: 'STREAM_BODY' };
     (global.fetch as jest.Mock).mockResolvedValue(mockResponse);
     const stream = await callAssetPackExecutionsAPI(
@@ -40,7 +40,7 @@ describe('callAssetPackExecutionsAPI', () => {
       repoBranch: 'main',
       repoCommit: 'abcd',
       issueNumber: null,
-      definition_of_need: 'do work',
+      definition_of_read: 'do work',
       modelProvider: 'mcp',
       modelId: 'model-id',
       iterationCount: 2,
@@ -52,7 +52,7 @@ describe('callAssetPackExecutionsAPI', () => {
 
   it('sends multipart form data when files are present', async () => {
     const mockResponse = { ok: true, body: 'STREAM_BODY' };
-    const file = new File(['content'], 'need.txt', { type: 'text/plain' });
+    const file = new File(['content'], 'read.txt', { type: 'text/plain' });
     (global.fetch as jest.Mock).mockResolvedValue(mockResponse);
 
     await callAssetPackExecutionsAPI(

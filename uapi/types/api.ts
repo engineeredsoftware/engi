@@ -24,9 +24,9 @@ export interface RepoFile {
 
 export interface AgenticExecutionSummary {
   canonicalType: string;
-  family: 'asset-pack' | 'need-measurement' | 'proof-refresh' | 'upgrade' | 'agentic-execution';
+  family: 'asset-pack' | 'read-measurement' | 'proof-refresh' | 'upgrade' | 'agentic-execution';
   label: string;
-  lens: 'give' | 'need' | 'closure';
+  lens: 'deposit' | 'read' | 'closure';
   proofStatus: string;
   closureFocus: string;
 }
@@ -85,12 +85,12 @@ export interface CompletionData {
   /** Delivery mechanism projected onto connected interfaces. */
   deliveryMechanism?: AssetPackSurface | null;
   semanticKind?: 'asset-pack-written-asset';
-  need?: string | null;
+  read?: string | null;
   writtenAssetType?: string | null;
   assetPack?: {
-    need?: string | null;
+    read?: string | null;
     writtenAssetType?: string | null;
-    definitionOfNeed?: string | null;
+    definitionOfRead?: string | null;
     deliveryTarget?: string | null;
   } | null;
   /** Total time in milliseconds */
@@ -197,12 +197,12 @@ export interface PipelineExecution {
   shippables?: AssetPackSurface | null;
   /** Delivery mechanism projected onto the connected pull-request interface. */
   delivery_mechanism?: AssetPackSurface | null;
-  need?: string | null;
+  read?: string | null;
   written_asset_type?: string | null;
   asset_pack?: {
-    need?: string | null;
+    read?: string | null;
     writtenAssetType?: string | null;
-    definitionOfNeed?: string | null;
+    definitionOfRead?: string | null;
     deliveryTarget?: string | null;
   } | null;
 
@@ -217,12 +217,12 @@ export interface PipelineExecution {
     writtenAssets?: AssetPackSurface;
     /** Delivery mechanism projected onto connected interfaces. */
     deliveryMechanism?: AssetPackSurface;
-    need?: string | null;
+    read?: string | null;
     writtenAssetType?: string | null;
     assetPack?: {
-      need?: string | null;
+      read?: string | null;
       writtenAssetType?: string | null;
-      definitionOfNeed?: string | null;
+      definitionOfRead?: string | null;
       deliveryTarget?: string | null;
     };
     processingStats?: {
@@ -289,12 +289,12 @@ export interface EvidenceDocumentRun {
   asset_pack_synthesis_artifacts?: { summary?: string | null } | null;
   written_assets?: { summary?: string | null } | null;
   shippables?: { summary?: string | null } | null;
-  need?: string | null;
+  read?: string | null;
   written_asset_type?: string | null;
   asset_pack?: {
-    need?: string | null;
+    read?: string | null;
     writtenAssetType?: string | null;
-    definitionOfNeed?: string | null;
+    definitionOfRead?: string | null;
     deliveryTarget?: string | null;
   } | null;
   asset_pack_completion?: {
@@ -302,12 +302,12 @@ export interface EvidenceDocumentRun {
     shippables?: { summary?: string | null };
     assetPackSynthesisArtifacts?: { summary?: string | null };
     writtenAssets?: { summary?: string | null };
-    need?: string | null;
+    read?: string | null;
     writtenAssetType?: string | null;
     assetPack?: {
-      need?: string | null;
+      read?: string | null;
       writtenAssetType?: string | null;
-      definitionOfNeed?: string | null;
+      definitionOfRead?: string | null;
       deliveryTarget?: string | null;
     };
     processingStats?: {

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Demonstrates finding need and AssetPack source references before Bitcode synthesis"
+ * intent: "Demonstrates finding read and AssetPack source references before Bitcode synthesis"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -14,4 +14,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Find need and AssetPack source references: simpleSystemTextSearch({ pattern: ["needDescription", "assetPack"], cwd: "/repo", maxResults: 50 })' as PromptPart;
+  'Example 1 - Find read and AssetPack source references: simpleSystemTextSearch({ pattern: ["readDescription", "assetPack"], cwd: "/repo", maxResults: 50 })' as PromptPart;

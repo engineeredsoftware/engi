@@ -151,26 +151,26 @@ function extractJsPromptPart(source, name) {
   return extractFirstPromptLiteral(source, assignment.index + assignment[0].length);
 }
 
-test('V26 web-search package exposes Bitcode need-synthesis support exports and dependencies', () => {
+test('V26 web-search package exposes Bitcode read-synthesis support exports and dependencies', () => {
   assert.equal(webSearchAgentManifest.dependencies['@bitcode/agent-generics'], 'workspace:*');
   assert.equal(webSearchAgentManifest.dependencies['@bitcode/prompts'], 'workspace:*');
   assert.equal(webSearchAgentManifest.dependencies['@bitcode/generic-tools-web-search'], 'workspace:*');
   assert.equal(webSearchAgentManifest.dependencies.zod, '^3.22.4');
-  assert.match(webSearchAgentIndex, /bitcodeNeedSynthesisWebSearch/u);
-  assert.match(webSearchAgentIndex, /webSearch = bitcodeNeedSynthesisWebSearchAgent/u);
-  assert.match(webSearchAgentIndex, /quickWebSearch = quickBitcodeNeedSynthesisWebSearchAgent/u);
-  assert.match(webSearchAgentIndex, /does not own canonical need interpretation/u);
+  assert.match(webSearchAgentIndex, /bitcodeReadSynthesisWebSearch/u);
+  assert.match(webSearchAgentIndex, /webSearch = bitcodeReadSynthesisWebSearchAgent/u);
+  assert.match(webSearchAgentIndex, /quickWebSearch = quickBitcodeReadSynthesisWebSearchAgent/u);
+  assert.match(webSearchAgentIndex, /does not own canonical read interpretation/u);
   assert.doesNotMatch(webSearchAgentIndex, oldWorldSearchResiduePattern);
 });
 
 test('V26 web-search package and tool docs state admitted discovery-phase evidence semantics', () => {
-  assert.match(webSearchAgentReadme, /Bitcode Need-Synthesis Web Search Agent/u);
+  assert.match(webSearchAgentReadme, /Bitcode Read-Synthesis Web Search Agent/u);
   assert.match(webSearchAgentReadme, /discovery-phase support agent/u);
   assert.match(webSearchAgentReadme, /source-attributed external evidence/u);
-  assert.match(webSearchToolReadme, /Bitcode Need-Synthesis Web Search Tools/u);
+  assert.match(webSearchToolReadme, /Bitcode Read-Synthesis Web Search Tools/u);
   assert.match(webSearchToolReadme, /discovery-phase external evidence support/u);
   assert.match(webSearchToolReadme, /not proof closure/u);
-  assert.match(webSearchToolIndex, /External web evidence supports Bitcode need synthesis/u);
+  assert.match(webSearchToolIndex, /External web evidence supports Bitcode read synthesis/u);
   assert.match(webSearchToolIndex, /not an independent production search product/u);
 
   for (const filePath of packageSourceFilePaths) {
@@ -178,11 +178,11 @@ test('V26 web-search package and tool docs state admitted discovery-phase eviden
   }
 });
 
-test('V26 web-search prompt wrappers carry V26 Bitcode need-synthesis metadata', () => {
+test('V26 web-search prompt wrappers carry V26 Bitcode read-synthesis metadata', () => {
   for (const filePath of promptFilePaths) {
     const source = readRepoFile(filePath);
 
-    assert.match(source, /V26|Bitcode|need-synthesis|source evidence|source-attributed|discovery-phase/u, filePath);
+    assert.match(source, /V26|Bitcode|read-synthesis|source evidence|source-attributed|discovery-phase/u, filePath);
     assert.doesNotMatch(source, oldWorldSearchResiduePattern, filePath);
   }
 });
@@ -192,7 +192,7 @@ test('V26 web-search raw PromptParts are Bitcode-native evidence support carrier
     const source = readRepoFile(filePath);
 
     assert.match(source, /current_version: "V26"/u, filePath);
-    assert.match(source, /Bitcode|need synthesis|need-synthesis|discovery-phase|source-attributed|source evidence|proof|AssetPack|external evidence|downstream/u, filePath);
+    assert.match(source, /Bitcode|read synthesis|read-synthesis|discovery-phase|source-attributed|source evidence|proof|AssetPack|external evidence|downstream/u, filePath);
     assert.doesNotMatch(source, oldWorldSearchResiduePattern, filePath);
   }
 });

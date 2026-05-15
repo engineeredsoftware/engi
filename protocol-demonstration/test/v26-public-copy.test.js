@@ -18,7 +18,7 @@ test('V26 public workspace copy stays user-facing and avoids demo-era tooltip la
   assert.doesNotMatch(publicAppSource, /Profile B demonstrations/u);
   assert.doesNotMatch(publicAppSource, /proof-heavy Bitcode demonstrations/u);
   assert.doesNotMatch(publicAppSource, /mixed-bundle demonstrations/u);
-  assert.doesNotMatch(publicAppSource, /demo’s need and asset surfaces/u);
+  assert.doesNotMatch(publicAppSource, /demo’s read and asset surfaces/u);
 });
 
 test('V26 preserved runtime prefers flow-guide naming on the direct package surface', () => {

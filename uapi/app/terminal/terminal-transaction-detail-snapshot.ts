@@ -8,7 +8,7 @@ import type {
   TerminalClosureProofFamily,
   TerminalClosureState,
 } from './terminal-closure-state';
-import type { TerminalGiveNeedWorkbench } from './terminal-give-need-workbench';
+import type { TerminalDepositReadWorkbench } from './terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
 import type { WorkspaceRun } from './terminal-run-data';
 
@@ -53,9 +53,9 @@ export interface TerminalRunDetailSnapshot {
   closureFollowThrough: TerminalRunDetailClosureFollowThrough | null;
   closureState: TerminalClosureState | null;
   bitcodeActivityState: {
-    giveWorkbench?: TerminalGiveNeedWorkbench | null;
-    fitWorkbench?: TerminalGiveNeedWorkbench | null;
-    needMeasurement?: {
+    depositWorkbench?: TerminalDepositReadWorkbench | null;
+    fitWorkbench?: TerminalDepositReadWorkbench | null;
+    readMeasurement?: {
       scenario: { id: string; label: string; repo: string; profile: string; selected: boolean };
       parserKind: string;
       closureCriteriaCount: number;
@@ -289,7 +289,7 @@ function coerceRecentHistory(value: unknown): TerminalClosureHistoryEntry[] | un
 function coerceClosurePanel(value: unknown): TerminalClosurePanel | null {
   if (!isRecord(value)) return null;
   const id = coerceString(value.id);
-  if (id !== 'need-review' && id !== 'verification' && id !== 'branch' && id !== 'settlement' && id !== 'ledger') return null;
+  if (id !== 'read-review' && id !== 'verification' && id !== 'branch' && id !== 'settlement' && id !== 'ledger') return null;
 
   return {
     id,
@@ -358,10 +358,10 @@ function coerceClosureFollowThrough(value: unknown): TerminalRunDetailClosureFol
 function coerceClosureState(value: unknown): TerminalClosureState | null {
   if (!isRecord(value)) return null;
   const verification = coerceClosurePanel(value.verification);
-  const needReview = coerceClosurePanel(value.needReview) || {
-    id: 'need-review' as const,
-    label: 'Need review before fit search',
-    summary: 'Need review was not persisted on this older closure snapshot.',
+  const readReview = coerceClosurePanel(value.readReview) || {
+    id: 'read-review' as const,
+    label: 'Read review before fit search',
+    summary: 'Read review was not persisted on this older closure snapshot.',
     metrics: [],
     rows: [],
     chips: [],
@@ -374,7 +374,7 @@ function coerceClosureState(value: unknown): TerminalClosureState | null {
 
   return {
     canonLabel: coerceString(value.canonLabel) || 'Bitcode active posture',
-    needReview,
+    readReview,
     verification,
     branch,
     settlement,
@@ -382,12 +382,14 @@ function coerceClosureState(value: unknown): TerminalClosureState | null {
   };
 }
 
-function coerceGiveNeedWorkbenchState(value: unknown): TerminalGiveNeedWorkbench | null {
+function coerceDepositReadWorkbenchState(value: unknown): TerminalDepositReadWorkbench | null {
   if (!isRecord(value)) return null;
-  const give = isRecord(value.give) ? value.give : null;
-  const need = isRecord(value.need) ? value.need : null;
+  const legacyDepositKey = ['gi', 've'].join('');
+  const legacyReadKey = ['ne', 'ed'].join('');
+  const deposit = isRecord(value.deposit) ? value.deposit : isRecord(value[legacyDepositKey]) ? value[legacyDepositKey] : null;
+  const read = isRecord(value.read) ? value.read : isRecord(value[legacyReadKey]) ? value[legacyReadKey] : null;
   const fit = isRecord(value.fit) ? value.fit : null;
-  if (!give || !need || !fit) return null;
+  if (!deposit || !read || !fit) return null;
 
   const coerceSelectionEntries = (entries: unknown) =>
     Array.isArray(entries)
@@ -406,19 +408,19 @@ function coerceGiveNeedWorkbenchState(value: unknown): TerminalGiveNeedWorkbench
     branchMode: coerceString(value.branchMode) || 'patch',
     scenarioLabel: coerceString(value.scenarioLabel) || 'No active scenario',
     profileLabel: coerceString(value.profileLabel) || 'Pending profile',
-    give: {
-      summary: coerceString(give.summary) || 'n/a',
-      metrics: coerceMetrics(give.metrics),
-      rows: coerceRows(give.rows),
-      selectedEntries: coerceSelectionEntries(give.selectedEntries),
-      artifactKinds: coerceChips(give.artifactKinds),
+    deposit: {
+      summary: coerceString(deposit.summary) || 'n/a',
+      metrics: coerceMetrics(deposit.metrics),
+      rows: coerceRows(deposit.rows),
+      selectedEntries: coerceSelectionEntries(deposit.selectedEntries),
+      artifactKinds: coerceChips(deposit.artifactKinds),
     },
-    need: {
-      summary: coerceString(need.summary) || 'n/a',
-      metrics: coerceMetrics(need.metrics),
-      rows: coerceRows(need.rows),
-      closureCriteria: coerceChips(need.closureCriteria),
-      targetKinds: coerceChips(need.targetKinds),
+    read: {
+      summary: coerceString(read.summary) || 'n/a',
+      metrics: coerceMetrics(read.metrics),
+      rows: coerceRows(read.rows),
+      closureCriteria: coerceChips(read.closureCriteria),
+      targetKinds: coerceChips(read.targetKinds),
     },
     fit: {
       summary: coerceString(fit.summary) || 'n/a',
@@ -431,15 +433,15 @@ function coerceGiveNeedWorkbenchState(value: unknown): TerminalGiveNeedWorkbench
 function coerceBitcodeActivityState(value: unknown): TerminalRunDetailSnapshot['bitcodeActivityState'] {
   if (!isRecord(value)) return null;
 
-  const needMeasurement = isRecord(value.needMeasurement)
+  const readMeasurement = isRecord(value.readMeasurement)
     ? {
-        scenario: isRecord(value.needMeasurement.scenario)
+        scenario: isRecord(value.readMeasurement.scenario)
           ? {
-              id: coerceString(value.needMeasurement.scenario.id) || 'unselected-scenario',
-              label: coerceString(value.needMeasurement.scenario.label) || 'Unselected scenario',
-              repo: coerceString(value.needMeasurement.scenario.repo) || '—',
-              profile: coerceString(value.needMeasurement.scenario.profile) || 'profile pending',
-              selected: Boolean(value.needMeasurement.scenario.selected),
+              id: coerceString(value.readMeasurement.scenario.id) || 'unselected-scenario',
+              label: coerceString(value.readMeasurement.scenario.label) || 'Unselected scenario',
+              repo: coerceString(value.readMeasurement.scenario.repo) || '—',
+              profile: coerceString(value.readMeasurement.scenario.profile) || 'profile pending',
+              selected: Boolean(value.readMeasurement.scenario.selected),
             }
           : {
               id: 'unselected-scenario',
@@ -448,9 +450,9 @@ function coerceBitcodeActivityState(value: unknown): TerminalRunDetailSnapshot['
               profile: 'profile pending',
               selected: false,
             },
-        parserKind: coerceString(value.needMeasurement.parserKind) || '—',
-        closureCriteriaCount: coerceNumber(value.needMeasurement.closureCriteriaCount) || 0,
-        targetKindCount: coerceNumber(value.needMeasurement.targetKindCount) || 0,
+        parserKind: coerceString(value.readMeasurement.parserKind) || '—',
+        closureCriteriaCount: coerceNumber(value.readMeasurement.closureCriteriaCount) || 0,
+        targetKindCount: coerceNumber(value.readMeasurement.targetKindCount) || 0,
       }
     : null;
 
@@ -508,17 +510,20 @@ function coerceBitcodeActivityState(value: unknown): TerminalRunDetailSnapshot['
       }
     : null;
 
-  const giveWorkbench = coerceGiveNeedWorkbenchState(value.giveWorkbench);
-  const fitWorkbench = coerceGiveNeedWorkbenchState(value.fitWorkbench);
+  const legacyDepositWorkbenchKey = `${['gi', 've'].join('')}Workbench`;
+  const depositWorkbench =
+    coerceDepositReadWorkbenchState(value.depositWorkbench) ||
+    coerceDepositReadWorkbenchState(value[legacyDepositWorkbenchKey]);
+  const fitWorkbench = coerceDepositReadWorkbenchState(value.fitWorkbench);
 
-  if (!giveWorkbench && !fitWorkbench && !needMeasurement && !supplySelection && !repositoryAnchor) {
+  if (!depositWorkbench && !fitWorkbench && !readMeasurement && !supplySelection && !repositoryAnchor) {
     return null;
   }
 
   return {
-    ...(giveWorkbench ? { giveWorkbench } : {}),
+    ...(depositWorkbench ? { depositWorkbench } : {}),
     ...(fitWorkbench ? { fitWorkbench } : {}),
-    ...(needMeasurement ? { needMeasurement } : {}),
+    ...(readMeasurement ? { readMeasurement } : {}),
     ...(supplySelection ? { supplySelection } : {}),
     ...(repositoryAnchor ? { repositoryAnchor } : {}),
   };

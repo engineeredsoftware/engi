@@ -24,7 +24,7 @@ jest.mock('@/hooks/usePipelineExecution', () => ({
 const selectedRun: WorkspaceRun = {
   id: 'tx-activity-001',
   created_at: '2026-04-16T12:00:00.000Z',
-  type: 'agentic-execution:need-measurement',
+  type: 'agentic-execution:read-measurement',
   status: 'completed',
 };
 
@@ -55,21 +55,21 @@ const detail: TerminalRunDetailSnapshot = {
         mode: 'live connection',
       },
     },
-    giveWorkbench: {
+    depositWorkbench: {
       canonLabel: 'Bitcode active posture',
-      projectionPrincipal: 'giver',
+      projectionPrincipal: 'depositor',
       branchMode: 'patch',
       scenarioLabel: 'auth-remediation',
       profileLabel: 'Targeted deposit',
-      give: {
-        summary: 'Give summary.',
+      deposit: {
+        summary: 'Deposit summary.',
         metrics: [],
         rows: [],
         selectedEntries: [{ id: 'entry-1', label: 'rollback runbook' }],
         artifactKinds: ['runbook (1)'],
       },
-      need: {
-        summary: 'Need summary.',
+      read: {
+        summary: 'Read summary.',
         metrics: [],
         rows: [],
         closureCriteria: ['bound issuer auth'],
@@ -81,7 +81,7 @@ const detail: TerminalRunDetailSnapshot = {
         rows: [],
       },
     },
-    needMeasurement: {
+    readMeasurement: {
       scenario: {
         id: 'scenario-1',
         label: 'auth-remediation',
@@ -121,8 +121,8 @@ describe('TerminalTransactionActivitySurface', () => {
     expect(screen.getByText('Persisted Bitcode posture')).toBeTruthy();
     expect(screen.getByText('Repository anchor')).toBeTruthy();
     expect(screen.getByText('bitcode/bitcode')).toBeTruthy();
-    expect(screen.getByText('Give posture')).toBeTruthy();
-    expect(screen.getByText('Give summary.')).toBeTruthy();
+    expect(screen.getByText('Deposit posture')).toBeTruthy();
+    expect(screen.getByText('Deposit summary.')).toBeTruthy();
     expect(screen.getByText('runbook (1)')).toBeTruthy();
     expect(screen.queryByText('Execution activity and work updates')).toBeNull();
   });

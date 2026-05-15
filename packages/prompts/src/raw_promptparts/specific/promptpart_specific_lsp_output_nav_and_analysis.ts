@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_OUTPUT_NAV_AND_ANALYSIS: PromptPart =
-  'static measurement operations for Need evidence and AssetPack fit' as PromptPart;
+  'static measurement operations for Read evidence and AssetPack fit' as PromptPart;

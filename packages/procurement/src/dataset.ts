@@ -460,7 +460,7 @@ export class GlobalDatasetManager {
       documentation: hasDocumentation ? 85 : 50,
       testCoverage: hasTests ? 80 : 30,
       maintainability: codeLength < 1000 ? 90 : codeLength < 5000 ? 75 : 60,
-      performance: 75 // Default - would need actual performance testing
+      performance: 75 // Default - would read actual performance testing
     };
   }
 

@@ -227,10 +227,10 @@ export default function MarketingPipelineShowcase() {
       <div className="text-center mb-16">
         {/* Increased bottom margin for better separation from the subtitle */}
         <h2 className="text-2xl laptop:text-3xl font-bold text-white mb-4 tracking-tight block super-shiny-text">
-          Under the Hood: Need-to-AssetPack Pipeline
+          Under the Hood: Read-to-AssetPack Pipeline
         </h2>
         <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto">
-          Explore how Bitcode measures Needs, searches for fit, synthesizes AssetPacks, validates evidence, and delivers reviewable PR-backed work through connected interfaces.
+          Explore how Bitcode measures Reads, searches for fit, synthesizes AssetPacks, validates evidence, and delivers reviewable PR-backed work through connected interfaces.
         </p>
       </div>
 

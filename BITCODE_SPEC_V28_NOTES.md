@@ -42,8 +42,8 @@ Exchange and the website Conversations interface are removed from V28 acceptance
 
 This means:
 
-- V28 QA does not need Exchange route, Exchange master-detail, order-book, bid/ask/buy/sell, range trading, wrapper liquidity, or Exchange acquisition behavior.
-- V28 QA does not need the website Conversations route, conversation stream UI, fullscreen conversation editor, or conversation-to-Terminal handoff.
+- V28 QA does not read Exchange route, Exchange master-detail, order-book, bid/ask/buy/sell, range trading, wrapper liquidity, or Exchange acquisition behavior.
+- V28 QA does not read the website Conversations route, conversation stream UI, fullscreen conversation editor, or conversation-to-Terminal handoff.
 - V28 keeps Terminal, Auxillaries readiness, BTD range disclosure, wallet/BTC/testnet, synthetic measurement, BTD-AssetPack minting, ledgerized journals, database projection, reconciliation, MCP API, and ChatGPT App MVP.
 - any retained Exchange or Conversations code is compatibility/future source and must not be a V28 promotion blocker unless it contaminates active Terminal/Protocol/MCP/ChatGPT behavior.
 
@@ -55,10 +55,10 @@ Mock mode remains important for deterministic regression testing, but manual acc
 The V28 natural path is:
 
 1. Wallet first: detect Xverse/Leather/other Bitcoin-capable providers, sign the Bitcode Bitcoin challenge, persist the wallet-backed session through Bitcode's custom Bitcoin-auth boundary, and reflect wallet identity in top chrome and the Wallet pane.
-2. Externals second: connect the GitHub App, capture installation/callback state, and read repository inventory needed by Give and Need.
+2. Externals second: connect the GitHub App, capture installation/callback state, and read repository inventory needed by Deposit and Read.
 3. Profile third: collect optional email/contact/admin posture without treating email as the primary identity primitive.
-4. Give path: contribute source from the connected repository scope first, synthesize or stage the AssetPack/source-share posture with protocol-specified model and pipeline configuration, and read earning, settlement, or blocked-readiness state.
-5. Need/Fit path: express or select the simplest Need after Give/source posture exists, run Fit-finding against that available source posture, expose source/proof/dedupe roots, and read the Fit result.
+4. Deposit path: contribute source from the connected repository scope first, synthesize or stage the AssetPack/source-share posture with protocol-specified model and pipeline configuration, and read earning, settlement, or blocked-readiness state.
+5. Read/Fit path: express or select the simplest Read after Deposit/source posture exists, run Fit-finding against that available source posture, expose source/proof/dedupe roots, and read the Fit result.
 6. AssetPack/journal path: inspect the staged AssetPack/Fit result, synthetic measurement, measuremint/range or zero-cell receipt, access policy, ledger anchor/readiness, and Terminal journal state.
 7. Reconciliation path: query Supabase/PostgreSQL projections and compare them to Terminal journal, ledger anchor, wallet, GitHub, AssetPack, and telemetry state.
 
@@ -78,9 +78,19 @@ The same clean-deploy pass removed Auxillaries as a standalone page destination.
 
 May 14 GitHub App onboarding then closed the second live prerequisite. The first staging callback failed because Vercel received an unsupported private-key representation; the GitHub JWT helper now accepts PEM with real newlines, escaped-newline PEM, base64-encoded PEM, or a single-line PEM with markers, and rejects local `.pem` file paths as deployment misconfiguration. The follow-up pass connected installation `132358627` for `engineeredsoftware`, persisted the provider-scoped `user_connections.provider='github'` row, and backfilled `public.vcs_repositories` from live GitHub inventory when the connection payload carried an empty repository array. For V28 Terminal QA, `public.vcs_repositories` is the authoritative GitHub source inventory projection; `connection_data.repositories=[]` is not a blocker once `vcs_repositories` contains the installed repositories.
 
-Terminal Give/Need QA now starts from a real deployed staging-testnet prerequisite state: Leather wallet-authenticated Supabase user, Bitcode wallet binding projection, GitHub App installation, and repository inventory containing `engineeredsoftware/ENGI`. The next acceptance step is write/read parity for Terminal Give, Need, Fit, and branch/settlement posture, in that order, because Need/Fit cannot be meaningfully validated until a Give/source posture exists as candidate supply. Saved Supabase queries `v28_qa_terminal_01_prerequisites_wallet_github_repo`, `v28_qa_terminal_02_activity_after_write`, and `v28_qa_terminal_03_btd_ledger_after_terminal` are the current operator evidence set for this phase.
+Terminal Deposit/Read QA now starts from a real deployed staging-testnet prerequisite state: Leather wallet-authenticated Supabase user, Bitcode wallet binding projection, GitHub App installation, and repository inventory containing `engineeredsoftware/ENGI`. The next acceptance step is write/read parity for Terminal Deposit, Read, Fit, and branch/settlement posture, in that order, because Read/Fit cannot be meaningfully validated until a Deposit/source posture exists as candidate supply. Saved Supabase queries `v28_qa_terminal_01_prerequisites_wallet_github_repo`, `v28_qa_terminal_02_activity_after_write`, and `v28_qa_terminal_03_btd_ledger_after_terminal` are the current operator evidence set for this phase.
 
 The first Terminal prerequisite pass also exposed a profile round-trip drift: later Profile writes could preserve wallet address/provider/status while dropping `network`, `authAddress`, `paymentAddress`, `proofKind`, and `addressType` from `settings.bitcodeProfile.walletBinding`. V28 treats `user_connections` as the active provider connection record, but the profile projection must retain the same non-secret wallet metadata for UI/readiness parity. The profile contract and profile write path now preserve those fields, and `v28_qa_01b_backfill_profile_wallet_projection_from_connection` repairs existing staging rows from the active wallet connection before Terminal write QA continues.
+
+## May 15 Terminal Terminology Closure
+
+V28 now retires user-facing Deposit/Depositing and Read/Reading language in favor of Deposit/Depositing and Read/Reading.
+Deposit is the source-supply act: repository inventory, branch, commit, signer, selected source, and candidate AssetPack posture.
+Read is the demand/measurement act: the demand frame that reads against deposited source posture before Fit, proofs, finalities, ledgerization, and reconciliation.
+
+Implementation parity is judged at the visible copy boundary.
+Persisted/API compatibility carriers containing `deposit`, `read`, or `read-measurement` remain acceptable only when they are route names, schema fields, enum values, proof IDs, artifact IDs, component filenames, or test fixture IDs whose immediate rename would require a separate schema/API migration.
+Active Terminal UI, public docs, QA instructions, tooltip prose, and test-visible assertions must translate those carriers to Deposit/Read language.
 
 ### Deterministic Model Boundary
 
@@ -156,29 +166,29 @@ Manual QA resumed on May 7, 2026 as a big-picture commercial application MVP pas
 The running collaborative QA document is `BITCODE_V28_QA.md`.
 This pass explicitly de-scopes marketing-page critique except for navigation-entry regressions and now focuses on identity/auth, Terminal, Protocol/BTD, Auxillaries, MCP API, ChatGPT App, docs/API/interface claims, and testnet-readiness honesty.
 The first resumed pass confirmed the top navigation, notifications, profile menu, logo/page indicator, BTD/BTC balance posture, Auxillaries opening, pane selectability, no console errors, and no old orbital shell collision.
-It also opened an Auxillaries V28 polish issue: selector cards must replace visible `lane ready` / `lane active` prose with clearer indicators, and the overlay/panes need minor hierarchy, legibility, spacing, and border cleanup before Auxillaries shell closure.
+It also opened an Auxillaries V28 polish issue: selector cards must replace visible `lane ready` / `lane active` prose with clearer indicators, and the overlay/panes read minor hierarchy, legibility, spacing, and border cleanup before Auxillaries shell closure.
 The first Terminal big-picture pass found the Terminal acceptable as the primary operator surface for V28 MVP orientation and reported no console errors.
-Detailed checks for activity ledger comprehension, selected detail, support panels, Give/Need/Fit/proof/AssetPack/BTC/BTD visibility, row selection, and detail-tab stability remain in the V28 QA queue.
+Detailed checks for activity ledger comprehension, selected detail, support panels, Deposit/Read/Fit/proof/AssetPack/BTC/BTD visibility, row selection, and detail-tab stability remain in the V28 QA queue.
 Terminal prose clarity and deeper copy refinement are explicitly deferred to V29 unless a wording issue blocks basic V28 use.
 
 The next Terminal pass refined that judgment: Terminal is acceptable as the primary operator surface, but the master-detail concept was assigned to the wrong product surface in current copy and visible structure.
 V28 must correct this before closure.
 Exchange owns the master-detail experience: the master is the searchable activity table over whole-Exchange or user-owned activity, and detail is the selected activity state.
-Terminal owns Give, Need, closure, and operator transaction work; it may reuse the same activity table, but it must frame that table as recent/scoped Terminal activity and executed Give/Need results rather than the whole Exchange master.
+Terminal owns Deposit, Read, closure, and operator transaction work; it may reuse the same activity table, but it must frame that table as recent/scoped Terminal activity and executed Deposit/Read results rather than the whole Exchange master.
 The pass also opened V28 issues for dead or ambiguous click targets, static capsules that visually resemble buttons, and Terminal grouping/legibility that is dense enough to slow judgment.
 V28 should fix the architectural copy, obvious no-op targets, and clickable/static affordance boundary now; V29 should deepen Terminal transaction sequencing, prose, and full workflow organization.
 
-Exchange master-detail is now specified more precisely for V28 QA: the master is the searchable/filterable activity table containing all Exchange-visible activity types, including Needs, Gives, closures, proof refreshes, and later marketplace events.
+Exchange master-detail is now specified more precisely for V28 QA: the master is the searchable/filterable activity table containing all Exchange-visible activity types, including Reads, Deposits, closures, proof refreshes, and later marketplace events.
 Selecting a master row opens rich selected-activity detail.
-The detail must carry all facts from the master row plus relevant non-column facts that belong to the activity: summary, status, participant, ownership, repository/branch, action lens, proof posture, closure focus, timing, measured BTD, BTC fee basis, token/latency/accounting metrics, payload, proofs, AssetPack evidence, history, and any activity-specific Give/Need/closure state available at MVP depth.
-V28 does not need V30-level market depth, but it must be sufficiently complete to QA the activity system as a real commercial primitive rather than a decorative table.
+The detail must carry all facts from the master row plus relevant non-column facts that belong to the activity: summary, status, participant, ownership, repository/branch, action lens, proof posture, closure focus, timing, measured BTD, BTC fee basis, token/latency/accounting metrics, payload, proofs, AssetPack evidence, history, and any activity-specific Deposit/Read/closure state available at MVP depth.
+V28 does not read V30-level market depth, but it must be sufficiently complete to QA the activity system as a real commercial primitive rather than a decorative table.
 
 Implementation refinement after the clarified Exchange master-detail design:
 
 - Exchange now renders the activity table/search/filter controls as the master pane and the selected activity detail as a named detail pane.
 - Exchange selected detail includes the identity/payload card on every detail focus so table-column facts and non-column facts remain visible while the operator reads Shippables, proofs, closure, history, or execution-stream detail.
 - Exchange route synchronization is guarded against stale route writes so generic entry, BTD widget entry, row selection, and detail tab focus do not unexpectedly redirect or scroll.
-- Terminal no longer presents itself as the Exchange master-detail surface. It uses the shared activity table as a recent/scoped Terminal result surface and adds a compact operator-lane map for Recent Activity, Give, Need, and Closure.
+- Terminal no longer presents itself as the Exchange master-detail surface. It uses the shared activity table as a recent/scoped Terminal result surface and adds a compact operator-lane map for Recent Activity, Deposit, Read, and Closure.
 - Terminal result digest actions now change the active detail section before scrolling, which closes the known no-op detail-card action class found in manual QA.
 - Static overview badges were visually quieted relative to actionable chips/buttons so clickability is more apparent during the next manual QA pass.
 - Bare `/terminal` no longer writes default provider/repository/transaction query state during route load. Explicit route context and user selections remain URL-addressable, the old Terminal route redirects to `/terminal`, and public navigation can move Terminal -> Docs without being overwritten by hydration-time route synchronization.
@@ -202,7 +212,7 @@ V28 treats this as a commercial MVP blocker: formal protocol package imports mus
 The repository now explicitly unignores the `@bitcode/protocol` runtime JS source and package-boundary tests, the commercial protocol boundary test asserts required protocol runtime files are present and not ignored, and clean-repro builds pass after those runtime files are present in the clone.
 
 Manual QA was re-ordered on May 8, 2026 into two directionalities and narrowed again on May 11, 2026.
-The first is natural operator progression: connect wallet/GitHub/identity prerequisites, perform the fastest simple Need through Fit/settlement/delivery readback, then perform the fastest simple Give through measurement/earning/settlement readback.
+The first is natural operator progression: connect wallet/GitHub/identity prerequisites, perform the fastest simple Read through Fit/settlement/delivery readback, then perform the fastest simple Deposit through measurement/earning/settlement readback.
 The second follows public documentation order: Start Here, Terminal and Protocol, Operator Modes, Protocol and Proof, and Commercial Interfaces.
 This is now the V28 workshop roadmap because it tests the application the way a user learns it while also validating the docs against the product.
 Surface-by-surface QA still matters, but it is subordinate to these flows: every issue should name the flow that revealed it, the product surface that owns it, and whether V28 must fix it or a later focused version owns it.
@@ -250,7 +260,7 @@ Email is no longer allowed to present as the primary Profile authentication path
 The Profile onboarding order is now:
 
 1. Bitcoin wallet authentication connects a Bitcoin-capable wallet provider, captures a Bitcode Bitcoin authentication proof when available, and establishes wallet identity for the staging profile. Xverse is preferred through Sats Connect provider discovery and `wallet_connect`; Leather is supported through `window.LeatherProvider.request('getAddresses')` plus `signMessage`; UniSat/OKX remain fallback providers; MetaMask BTC remains manual-staging-only until a documented Bitcoin dapp provider or Snap bridge is implemented.
-2. GitHub repository connection follows and is required for Give and Need; V28 Terminal read-only orientation may proceed from wallet identity alone, but repository/source-scope actions must stay blocked until GitHub is connected.
+2. GitHub repository connection follows and is required for Deposit and Read; V28 Terminal read-only orientation may proceed from wallet identity alone, but repository/source-scope actions must stay blocked until GitHub is connected.
 3. Email is optional and exists for notifications, Bitcode updates, and recovery/contact posture.
 
 Implementation must therefore keep wallet auth enabled and top-most in Wallet, avoid the Ethereum provider path for Bitcoin identity, persist wallet-provider binding only through the wallet-auth route when backend session state is available, keep Profile from accepting unverifiable provider-managed signer assertions, and surface staging prerequisites clearly.
@@ -321,8 +331,8 @@ They are V28 inputs because V27 closed the protocol law and minimum crypto-comme
 | Mainnet value-bearing launch is still separate operational approval | V27 intentionally blocks value-bearing mainnet without approval root | Keep V28 testnet/signet by default; prepare but do not silently enable value-bearing mainnet |
 | Terminal journal and reconciliation primitives are implemented but not yet the ordinary operator workflow | V27 proves receipt and API boundaries | Make journal diffs, stale projections, private/metaphysical facts, and repair receipts readable in Terminal transaction detail |
 | Organization BTD usage remains outside core tokenomics | V27 closed tokenomics law without broad organization product usage | Define organization read-license usage, team wallet posture, treasury reads, and role-based Terminal decisions |
-| MCP holding gates still need registry-derived read-right checks | V27 bounded the aggregate compatibility carrier and closed core registry law | Replace aggregate holding gates with AssetPack range/read-license/policy checks when Terminal work touches MCP-triggered actions |
-| Physical compatibility carriers such as `user_credits`, `user_credit_usages`, and storage-edge `deliverables` still exist | V27 bounds them as noncanonical storage/read corridors | Hide them behind registry/AssetPack/Need/Fit abstractions in Terminal-facing routes and generated types |
+| MCP holding gates still read registry-derived read-right checks | V27 bounded the aggregate compatibility carrier and closed core registry law | Replace aggregate holding gates with AssetPack range/read-license/policy checks when Terminal work touches MCP-triggered actions |
+| Physical compatibility carriers such as `user_credits`, `user_credit_usages`, and storage-edge `deliverables` still exist | V27 bounds them as noncanonical storage/read corridors | Hide them behind registry/AssetPack/Read/Fit abstractions in Terminal-facing routes and generated types |
 | `shippable` remains as a Finish-delivered PR/asset-pack-output term in some UI/tests/stories | V27 route/tokenomics work does not require renaming every UI/styling/test fixture term | Reconfirm in V28 whether Terminal product language should keep `Shippable` for PR delivery only or replace it with AssetPack delivery/range language |
 | Legal/access-policy templates remain incomplete | V27 proves policy id/hash and rights separation, not final legal forms | Draft Terminal-visible access-policy templates for owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture |
 | Product telemetry sinks are configured as receipt/event boundaries, not production alert dashboards | V27 closes taxonomy and persistence | Add operator-facing Terminal health panels and alert sink integration for wallet, fee, ledger, journal, database, access, settlement, and upgrade failures |
@@ -356,10 +366,10 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
    - Run each manual QA pass through Mock and Testnet-readiness lanes; record whether failures are product bugs, missing live credentials, or deferred deployment readiness.
    - Capture desktop/mobile visual proof for sign-in, create-account, signed-in profile, Terminal, Auxillaries, BTD range disclosure, MCP API readiness, and ChatGPT App readiness.
 
-3. **Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow**
+3. **Gate 3: Terminal Wallet, BTC Fee, And Read-Fit-Measuremint Workflow**
    - Terminal wallet connection and signer-session review.
    - BTC fee preparation, PSBT handoff, signature status, broadcast status, confirmation/replacement/reorg readout.
-   - Need submission and Fit closure make synthetic measurement, measuremint entitlement, zero-cell/refit receipt, source roots, proof roots, and access policy visible.
+   - Read submission and Fit closure make synthetic measurement, measuremint entitlement, zero-cell/refit receipt, source roots, proof roots, and access policy visible.
    - BTD-AssetPack minting is testnet-ready and journaled even when ledger anchors are mocked or blocked.
 
 4. **Gate 4: Terminal AssetPack Range Detail**

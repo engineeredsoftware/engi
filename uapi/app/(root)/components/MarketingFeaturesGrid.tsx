@@ -23,7 +23,7 @@ const features = [
   {
     id: 'recursive-improvement',
     title: 'Reusable Proof Improvement',
-    description: 'Bitcode records measured patterns from accepted AssetPacks so future Needs can reuse stronger evidence and implementation paths.',
+    description: 'Bitcode records measured patterns from accepted AssetPacks so future Reads can reuse stronger evidence and implementation paths.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" />
@@ -41,8 +41,8 @@ const features = [
   },
   {
     id: 'measurement-evidence',
-    title: 'Need Measurement Evidence',
-    description: 'Bind source, benchmarks, static analysis, and reviewable Need evidence before Bitcode searches for source-to-shares fit.',
+    title: 'Read Measurement Evidence',
+    description: 'Bind source, benchmarks, static analysis, and reviewable Read evidence before Bitcode searches for source-to-shares fit.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -107,7 +107,7 @@ const features = [
   {
     id: 'economic-impact',
     title: 'Economic Settlement',
-    description: 'Bitcode connects software work to measurable source, Need, Fit, proof, BTC fees, and non-fungible $BTD share/read-right accounting.',
+    description: 'Bitcode connects software work to measurable source, Read, Fit, proof, BTC fees, and non-fungible $BTD share/read-right accounting.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 1V23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -263,15 +263,15 @@ const MarketingFeaturesGrid = () => {
             {activeFeature === 'measurement-evidence' && (
               <div className="space-y-3">
                 <div className={infoCardClass}>
-                  <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Measured Need</h4>
+                  <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Measured Read</h4>
                   <p className="text-xs text-gray-400">
-                    Bitcode synthesizes a reviewable Need from repository evidence before any fit search or AssetPack settlement begins.
+                    Bitcode synthesizes a reviewable Read from repository evidence before any fit search or AssetPack settlement begins.
                   </p>
                 </div>
                 <div className={infoCardClass}>
                   <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Proof-Carrying Inputs</h4>
                   <p className="text-xs text-gray-400">
-                    Static and inferred measurement receipts make the Need inspectable before Bitcode accepts it for source-to-shares settlement.
+                    Static and inferred measurement receipts make the Read inspectable before Bitcode accepts it for source-to-shares settlement.
                   </p>
                 </div>
               </div>
@@ -339,7 +339,7 @@ const MarketingFeaturesGrid = () => {
                 <div className={infoCardClass}>
                   <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Model Selection</h4>
                   <p className="text-xs text-gray-400">
-                    Choose from the latest foundation models and optimize settings for your specific engineering needs and quality requirements.
+                    Choose from the latest foundation models and optimize settings for your specific engineering reads and quality requirements.
                   </p>
                 </div>
               </div>

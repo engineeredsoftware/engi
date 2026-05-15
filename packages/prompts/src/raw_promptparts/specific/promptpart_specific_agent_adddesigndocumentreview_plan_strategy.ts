@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_PLAN_STRATEGY: PromptPart = 
-  'Plan the design-review written asset around Need satisfaction, document completeness, source evidence, unresolved risks, validation obligations, and proof gaps before Finish' as PromptPart;
+  'Plan the design-review written asset around Read satisfaction, document completeness, source evidence, unresolved risks, validation obligations, and proof gaps before Finish' as PromptPart;

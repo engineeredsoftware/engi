@@ -249,7 +249,7 @@
         "checkId": "fourth-gate-inference-implementation-records",
         "label": "Fourth-gate inference implementation records proof",
         "passed": true,
-        "detail": "Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records"
+        "detail": "Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP inference systems have source-visible implementation records"
       },
       {
         "checkId": "fourth-gate-reclosure-review",
@@ -287,7 +287,7 @@
         "checkId": "fifth-gate-source-to-shares-baseline",
         "label": "Fifth-gate source-to-shares baseline proof",
         "passed": true,
-        "detail": "Need review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage."
+        "detail": "Read review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage."
       },
       {
         "checkId": "fifth-gate-closure-deepening-proof",

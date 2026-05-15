@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_RETRY_STRATEGY: PromptPart =
-  'Retry admission by narrowing the need boundary, requesting missing evidence, separating delivery-mechanism concerns from AssetPack content, identifying likely execution failure, and producing admit, block, or manual-review output without proof-closure claims.' as PromptPart;
+  'Retry admission by narrowing the read boundary, requesting missing evidence, separating delivery-mechanism concerns from AssetPack content, identifying likely execution failure, and producing admit, block, or manual-review output without proof-closure claims.' as PromptPart;

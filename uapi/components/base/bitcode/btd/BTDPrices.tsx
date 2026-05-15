@@ -61,7 +61,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
 }) => {
   /* ------------------------------------------------------------------
    * Slider bounds for a BTC-fee reference amount. V27 owns both Terminal
-   * Need minting and the minimal Exchange path for existing AssetPack ranges.
+   * Read minting and the minimal Exchange path for existing AssetPack ranges.
    * Broader market depth remains later-version work.
    * ------------------------------------------------------------------ */
   const EXCHANGE_REFERENCE_USD_PER_BTD = 0.22;
@@ -82,14 +82,14 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
     ? EXCHANGE_REFERENCE_BTD
     : Math.round(btcFeeReferenceUsd / referenceUsdPerBtd);
 
-  const planLabel = isExchangePreview ? 'Exchange Range' : 'Terminal Need';
-  const planId = isExchangePreview ? 'exchange-existing-btd' : 'terminal-need';
+  const planLabel = isExchangePreview ? 'Exchange Range' : 'Terminal Read';
+  const planId = isExchangePreview ? 'exchange-existing-btd' : 'terminal-read';
   const accent = isExchangePreview ? 'purple' : 'emerald';
   const accentColor = accent;
 
   const segmentText = isExchangePreview
     ? 'Acquire existing $BTD AssetPack range rights through the minimal V27 Exchange path'
-    : 'Submit a Need so a future Fit can mint $BTD in Terminal V27';
+    : 'Submit a Read so a future Fit can mint $BTD in Terminal V27';
 
   /* ------------------------------------------------------------------
    * Exchange-preview advisory logic

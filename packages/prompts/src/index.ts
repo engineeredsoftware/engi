@@ -165,11 +165,11 @@ export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_D
 export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL } from './raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_retry_label';
 export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_DETAILS } from './raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_retry_details';
 
-// AssetPack Agent PromptParts (Comprehend Need primary)
+// AssetPack Agent PromptParts (Comprehend Read primary)
 export { PROMPTPART_SPECIFIC_AGENT_COMPREHENDATTACHMENTS_PLAN_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_comprehendattachments_plan_strategy';
-export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDNEED_IDENTITY_DEFINITION } from './raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_identity_definition';
-export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDNEED_PTRRPLAN_PURPOSE } from './raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_ptrrplan_purpose';
-export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDNEED_PLAN_MODALITY_IMAGE_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_plan_modality_image_strategy';
+export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDREAD_IDENTITY_DEFINITION } from './raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_identity_definition';
+export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDREAD_PTRRPLAN_PURPOSE } from './raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_ptrrplan_purpose';
+export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDREAD_PLAN_MODALITY_IMAGE_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_plan_modality_image_strategy';
 
 // Hoist all PromptParts to root for monorepo consumers
 // Raw promptparts re-exports removed. Import PromptParts via deep paths:

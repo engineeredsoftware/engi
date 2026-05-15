@@ -16,7 +16,7 @@ jest.mock('@/app/conversations/components/pickers/pipeline-run-picker', () => ({
           onSelect({
             conversationId: 'conv-destination',
             pipelineId: 'run-settlement-1',
-            conversationTitle: 'Need board',
+            conversationTitle: 'Read board',
             pipelineTitle: 'Settlement lane',
             pipelineType: 'pipeline:asset-pack',
             type: 'settlement_target',
@@ -54,11 +54,11 @@ describe('ConversationsEnhancedRichTextInput', () => {
     fireEvent.click(container.querySelector('.send-button') as HTMLButtonElement);
 
     expect(onSend).toHaveBeenCalledWith(
-      expect.stringContaining('Need board:Settlement lane'),
+      expect.stringContaining('Read board:Settlement lane'),
       [
         expect.objectContaining({
           type: 'destination',
-          value: 'Need board:Settlement lane',
+          value: 'Read board:Settlement lane',
           metadata: expect.objectContaining({
             attachment_id: 'run-settlement-1',
             category: 'integration',

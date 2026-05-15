@@ -93,7 +93,7 @@ export default function AuxillariesExternalsPane({
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">Connect Bitcoin wallet first</h3>
               <p className="text-sm leading-7 text-white/68">
-                Connect a Bitcoin-capable wallet in Wallet, then attach GitHub here so need
+                Connect a Bitcoin-capable wallet in Wallet, then attach GitHub here so read
                 measurement, asset-pack synthesis, and settlement follow-through can operate
                 against a live repository source.
               </p>
@@ -106,7 +106,7 @@ export default function AuxillariesExternalsPane({
                   </p>
                   <p className="mt-2 text-sm leading-7 text-white/74">
                     GitHub plus a connected wallet are the minimum live prerequisites before Bitcode
-                    should measure need, synthesize asset packs, settle, and deliver.
+                    should measure read, synthesize asset packs, settle, and deliver.
                   </p>
                 </div>
 
@@ -140,7 +140,7 @@ export default function AuxillariesExternalsPane({
                   </p>
                   <h3 className="text-lg font-semibold text-white">Connect GitHub for source-bearing input</h3>
                   <p className="text-sm leading-7 text-white/68">
-                    Manage the repository attachment that Bitcode reuses across need measurement, asset-pack synthesis, and settlement follow-through.
+                    Manage the repository attachment that Bitcode reuses across read measurement, asset-pack synthesis, and settlement follow-through.
                   </p>
                 </div>
 
@@ -175,9 +175,9 @@ export default function AuxillariesExternalsPane({
                     </p>
                     <p className="mt-2 text-sm leading-7 text-white/68">
                       {transactionReadiness.canSettle
-                        ? 'Bitcode can now reuse live repository context and verified wallet posture across need measurement, asset-pack synthesis, and signed settlement follow-through.'
+                        ? 'Bitcode can now reuse live repository context and verified wallet posture across read measurement, asset-pack synthesis, and signed settlement follow-through.'
                         : transactionReadiness.canTransact
-                        ? 'Bitcode can now reuse live repository context and Wallet-owned identity across need measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
+                        ? 'Bitcode can now reuse live repository context and Wallet-owned identity across read measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
                         : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Wallet before it should move from evaluation into asset-pack delivery.`}
                     </p>
                     {hasGitHubConnection && !hasValidGitHubConnection ? (
@@ -266,7 +266,7 @@ export default function AuxillariesExternalsPane({
                     </p>
                     <p className="mt-3 text-sm leading-7 text-white/68">
                       These repository attachments define the live scope Bitcode can read when it
-                      measures need, synthesizes asset packs, and prepares settlement follow-through.
+                      measures read, synthesizes asset packs, and prepares settlement follow-through.
                       The current source of truth is {getRepositoryInventorySourceLabel(repositoryInventorySource)}.
                     </p>
 
@@ -314,11 +314,11 @@ export default function AuxillariesExternalsPane({
 
                 <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
-                    Need-space knowledge sharing
+                    Read-space knowledge sharing
                   </p>
                   <div className="mt-3 space-y-3 text-sm leading-7 text-white/68">
                     <p>
-                      Externals owns the consent setting for connected source context. Wallet identity stays in Wallet, while GitHub scope becomes source-bearing inputability for Need and Give.
+                      Externals owns the consent setting for connected source context. Wallet identity stays in Wallet, while GitHub scope becomes source-bearing inputability for Read and Deposit.
                     </p>
                     <AuxillariesDataSharingPanel overlayed={!isOnboardingComplete} />
                   </div>

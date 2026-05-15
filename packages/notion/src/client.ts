@@ -147,7 +147,7 @@ export class NotionClient {
 
   private extractRateLimit(): { remaining: number; reset_time: string } | undefined {
     // Notion doesn't expose rate limit headers in SDK responses
-    // This would need to be implemented if using direct HTTP requests
+    // This would read to be implemented if using direct HTTP requests
     return undefined;
   }
 

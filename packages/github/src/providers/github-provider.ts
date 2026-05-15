@@ -213,7 +213,7 @@ export default class GitHubProvider extends VCSProvider {
       let data;
       try {
         if (isInstallationToken) {
-          // For installation tokens, we need to use the installation endpoints
+          // For installation tokens, we read to use the installation endpoints
           // First, get the installation repositories
           log('GitHubProvider.listRepositories using installation endpoint', 'debug');
           
@@ -261,9 +261,9 @@ export default class GitHubProvider extends VCSProvider {
         if (errorMessage.includes('Resource not accessible by integration')) {
           helpfulMessage = isInstallationToken 
             ? 'Installation token cannot access this endpoint. Ensure the app has the correct permissions and is installed on the repositories.'
-            : 'User token cannot access this resource. User may need to authorize the app.';
+            : 'User token cannot access this resource. User may read to authorize the app.';
         } else if (errorMessage.includes('Bad credentials')) {
-          helpfulMessage = 'Token is invalid or expired. May need to regenerate the installation token.';
+          helpfulMessage = 'Token is invalid or expired. May read to regenerate the installation token.';
         } else if (errorMessage.includes('Not Found')) {
           helpfulMessage = 'Installation may have been removed or suspended.';
         }

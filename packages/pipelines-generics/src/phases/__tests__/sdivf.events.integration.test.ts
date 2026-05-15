@@ -26,7 +26,7 @@ describe('SDIVF pipeline event emission (integration)', () => {
       iterationStrategy: 'sequential',
     });
 
-    const output = await pipeline({ need: 'do' }, root);
+    const output = await pipeline({ read: 'do' }, root);
     expect(output).toBeDefined();
 
     const keys = events.map(e => e.type + (e.status ? ':'+e.status : ''));

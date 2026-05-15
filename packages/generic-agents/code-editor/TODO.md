@@ -36,7 +36,7 @@
 4. Syntax validation accuracy
 5. Error recovery paths
 
-## Documentation Needs
+## Documentation Reads
 
 - [ ] Advanced usage patterns guide
 - [ ] Integration with other agents cookbook

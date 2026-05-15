@@ -4,8 +4,8 @@ export interface BitcodeAppContext {
   resetState(): unknown;
   getBitcoinDemonstrationService(): unknown;
   getExternalRealization(input?: Record<string, unknown>): unknown;
-  getNeedReview(input?: Record<string, unknown>): unknown;
-  reviewNeed(input?: Record<string, unknown>): unknown;
+  getReadReview(input?: Record<string, unknown>): unknown;
+  reviewRead(input?: Record<string, unknown>): unknown;
   createDeposit(input?: Record<string, unknown>): unknown;
   makeBitcodeBranch(input?: Record<string, unknown>): Promise<unknown>;
   executeLocalExecutorById(interfaceId: string, input?: Record<string, unknown>): Promise<unknown>;

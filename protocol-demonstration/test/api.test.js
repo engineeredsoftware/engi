@@ -214,13 +214,13 @@ testAny('GET /api/state returns seeded active-canon public state', async (t) => 
     assert.equal(state.canonPosture.activeCanonVersion, CURRENT_CANON_POSTURE.activeCanonVersion);
     assert.equal(state.canonPosture.draftTargetVersion, CURRENT_CANON_POSTURE.draftTargetVersion);
     assert.equal(state.assets.length, 11);
-    assert.equal(state.needScenarios.length, 8);
-    assert.equal(state.needScenarios[0].scenarioId, 'auth-issuer-rollback');
-    assert.equal(state.needScenarios[1].scenarioFamily, 'proof-heavy-rust-validator');
-    assert.equal(state.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-    assert.ok(state.needScenarios[0].needingSurface.needId);
-    assert.ok(state.needScenarios[0].needingSurface.closureCriteria.length >= 1);
-    assert.equal(state.conformanceProfiles.active, 'Profile A — targeted deposit / bounded need');
+    assert.equal(state.readScenarios.length, 8);
+    assert.equal(state.readScenarios[0].scenarioId, 'auth-issuer-rollback');
+    assert.equal(state.readScenarios[1].scenarioFamily, 'proof-heavy-rust-validator');
+    assert.equal(state.readScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
+    assert.ok(state.readScenarios[0].readingSurface.readId);
+    assert.ok(state.readScenarios[0].readingSurface.closureCriteria.length >= 1);
+    assert.equal(state.conformanceProfiles.active, 'Profile A — targeted deposit / bounded read');
     assert.equal(state.projectionPrincipal, 'public');
     assert.ok(state.githubAppSessions.length >= 1);
     assert.ok(state.repoArtifactInventory.length >= 1);
@@ -239,32 +239,32 @@ testAny('GET / returns the app shell', async (t) => {
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /<title>Bitcode Demonstration<\/title>/);
     assert.match(response.text, /Bitcode closure runtime/);
-    assert.match(response.text, /Inspect the live Bitcode runtime from give through settlement\./);
+    assert.match(response.text, /Inspect the live Bitcode runtime from deposit through settlement\./);
     assert.match(response.text, /id="heroLede"/);
     assert.match(response.text, /id="heroTip"/);
     assert.match(response.text, /Transactions stay primary\. This view is for exact inspection, replay, and closure follow-through\./);
     assert.match(response.text, /Make Bitcode branch/);
-    assert.match(response.text, /1\. Give draft \+ selected supply/);
-    assert.match(response.text, /2\. Need draft \+ measured demand/);
-    assert.match(response.text, /3\. Give-to-need fit/);
-    assert.ok(response.text.indexOf('1. Give draft + selected supply') < response.text.indexOf('2. Need draft + measured demand'));
-    assert.ok(response.text.indexOf('2. Need draft + measured demand') < response.text.indexOf('3. Give-to-need fit'));
+    assert.match(response.text, /1\. Deposit draft \+ selected supply/);
+    assert.match(response.text, /2\. Read draft \+ measured demand/);
+    assert.match(response.text, /3\. Deposit-to-read fit/);
+    assert.ok(response.text.indexOf('1. Deposit draft + selected supply') < response.text.indexOf('2. Read draft + measured demand'));
+    assert.ok(response.text.indexOf('2. Read draft + measured demand') < response.text.indexOf('3. Deposit-to-read fit'));
   });
 });
 
-testAny('GET /api/state exposes canonical profile labels, task seed, and needing surface before any run', async (t) => {
+testAny('GET /api/state exposes canonical profile labels, task seed, and reading surface before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     const state = readProjectedState(response);
     assert.equal(response.statusCode, 200);
-    assert.equal(state.needScenarios[0].taskSeed, 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.');
-    assert.equal(state.needScenarios[0].profileAStatus, 'Profile A — targeted deposit / bounded need');
-    assert.equal(state.needScenarios[0].profileBStatus, 'Profile B — normalization deposit / composite need');
-    assert.equal(state.needScenarios[0].realizationProfile.shortLabel, 'Targeted deposit');
-    assert.equal(state.needScenarios[0].realizationProfile.profileKind, 'realization-profile');
-    assert.equal('canonicalNames' in state.needScenarios[0].realizationProfile, false);
-    assert.equal(state.needScenarios[0].needingSurface.targetArtifactKinds.includes('patch'), true);
-    assert.equal(state.needScenarios.at(-1).realizationProfile.shortLabel, 'Normalization deposit');
+    assert.equal(state.readScenarios[0].taskSeed, 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.');
+    assert.equal(state.readScenarios[0].profileAStatus, 'Profile A — targeted deposit / bounded read');
+    assert.equal(state.readScenarios[0].profileBStatus, 'Profile B — normalization deposit / composite read');
+    assert.equal(state.readScenarios[0].realizationProfile.shortLabel, 'Targeted deposit');
+    assert.equal(state.readScenarios[0].realizationProfile.profileKind, 'realization-profile');
+    assert.equal('canonicalNames' in state.readScenarios[0].realizationProfile, false);
+    assert.equal(state.readScenarios[0].readingSurface.targetArtifactKinds.includes('patch'), true);
+    assert.equal(state.readScenarios.at(-1).realizationProfile.shortLabel, 'Normalization deposit');
   });
 });
 
@@ -437,23 +437,23 @@ testAny('POST /api/make-bitcode-branch defaults to bounded public projection', a
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.ok, true);
     assert.equal(response.json.latestRun.needLifecycle, 'settled');
-    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — targeted deposit / bounded need');
+    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — targeted deposit / bounded read');
     assert.equal(response.json.latestRun.realizationProfile.shortLabel, 'Targeted deposit');
     assert.equal(response.json.latestRun.projectionPrincipal, 'public');
-    assert.ok(response.json.latestRun.need.needId);
+    assert.ok(response.json.latestRun.read.readId);
     assert.ok(response.json.latestRun.depositingSurface.depositSessionId);
-    assert.ok(response.json.latestRun.needingSurface.needId);
-    assert.equal(response.json.latestRun.depositingToNeedingSurface.depositSessionId, response.json.latestRun.depositingSurface.depositSessionId);
+    assert.ok(response.json.latestRun.readingSurface.readId);
+    assert.equal(response.json.latestRun.depositingToReadingSurface.depositSessionId, response.json.latestRun.depositingSurface.depositSessionId);
     assert.ok(response.json.latestRun.assetPack.assetPackId);
     assert.deepEqual(
       response.json.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((/** @type {any} */ stage) => stage.stageId),
-      ['depositing', 'needing', 'deposit-to-need-fit']
+      ['depositing', 'reading', 'deposit-to-read-fit']
     );
     assert.ok(response.json.latestRun.repoToSettlementSurface.stages.length === 7);
     assert.ok(response.json.latestRun.boundedPublicProof.bundleId);
     assert.ok(response.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/needing-surface.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/depositing-to-needing-surface.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/reading-surface.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/deposit-to-read-surface.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.bitcode/match-report.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.bitcode/code-analysis-fact-registry.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.bitcode/static-heuristics-registry.json']);
@@ -493,7 +493,7 @@ testAny('POST /api/make-bitcode-branch can run a non-default seeded scenario', a
 
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.latestRun.scenarioId, 'infra-deployment-mismatch');
-    assert.equal(response.json.latestRun.need.repo, 'frontier/deploy-orchestrator');
+    assert.equal(response.json.latestRun.read.repo, 'frontier/deploy-orchestrator');
     assert.ok(response.json.latestRun.settlementParticipationArtifact.records.some((/** @type {any} */ entry) => entry.assetId === response.json.latestRun.assetPack.selectedAssets[0]));
     assert.equal(response.json.latestRun.accountingPrecisionReport.exactAccountingInvariants.debitsEqualCredits, true);
   });
@@ -1774,7 +1774,7 @@ testAny('POST /api/make-bitcode-branch rejects unsupported principal, branch mod
       body: JSON.stringify({ scenarioId: 'missing-scenario' })
     });
     assert.equal(badScenario.statusCode, 400);
-    assert.match(badScenario.json.error, /Need scenario not found/i);
+    assert.match(badScenario.json.error, /Read scenario not found/i);
   });
 });
 

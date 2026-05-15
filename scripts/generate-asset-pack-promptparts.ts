@@ -25,21 +25,21 @@ const AGENTS = {
     { name: 'clonerepository', display: 'Clone VCS Repository', purpose: 'securely clone VCS repositories from GitHub GitLab or Bitbucket' },
     { name: 'initializelsp', display: 'Initialize LSP', purpose: 'initialize Language Server Protocol for code intelligence and analysis' },
     { name: 'dangerwall', display: 'Danger Wall', purpose: 'detect and prevent dangerous operations that could harm systems or violate policies' },
-    { name: 'comprehendneed', display: 'Comprehend Need', purpose: 'understand expressed need context, satisfaction criteria, written-asset posture, and PR-backed Finish expectations' },
+    { name: 'comprehendneed', display: 'Comprehend Read', purpose: 'understand expressed read context, satisfaction criteria, written-asset posture, and PR-backed Finish expectations' },
     { name: 'analyzecodebase', display: 'Analyze Codebase', purpose: 'analyze codebase structure patterns dependencies and architecture' },
     { name: 'readytoiterate', display: 'Ready to Iterate', purpose: 'determine if sufficient context exists to proceed or short-circuit with BTC fee-hold release evidence' }
   ],
   discovery: [
     { name: 'comprehendattachments', display: 'Comprehend Attachments', purpose: 'parse and understand all attached files images and documentation' },
     { name: 'selectfilesparallel', display: 'Select Files Parallel', purpose: 'identify relevant files for modification in parallel across codebase' },
-    { name: 'understandrequirements', display: 'Understand Requirements', purpose: 'extract functional and non-functional requirements from the expressed Need' },
+    { name: 'understandrequirements', display: 'Understand Requirements', purpose: 'extract functional and non-functional requirements from the expressed Read' },
     { name: 'analyzeparallel', display: 'Analyze Parallel', purpose: 'analyze selected files in parallel for patterns dependencies and constraints' },
     { name: 'planimplementation', display: 'Plan Implementation', purpose: 'create detailed implementation plan with steps milestones and validation criteria' },
     { name: 'assesscomplexity', display: 'Assess Complexity', purpose: 'evaluate technical business integration and testing complexity metrics' }
   ],
   implementation: [
     { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'plan code written assets that can later finish through a pull request Shippable' },
-    { name: 'applyfile', display: 'Apply File', purpose: 'apply planned changes in individual files according to Need-satisfaction evidence' },
+    { name: 'applyfile', display: 'Apply File', purpose: 'apply planned changes in individual files according to Read-satisfaction evidence' },
     { name: 'correctpullrequest', display: 'Correct Pull Request', purpose: 'validate and correct code written assets for consistency and quality before Finish' },
     { name: 'reviewcodechanges', display: 'Review Code Changes', purpose: 'perform comprehensive review of code written assets before PR-backed Finish' }
   ],
@@ -47,7 +47,7 @@ const AGENTS = {
     { name: 'validatecodechanges', display: 'Validate Code Changes', purpose: 'validate all code changes meet requirements and quality standards' },
     { name: 'validatereview', display: 'Validate Review', purpose: 'ensure code review feedback is comprehensive and actionable' },
     { name: 'validatedocument', display: 'Validate Document', purpose: 'verify design document completeness accuracy and clarity' },
-    { name: 'readytofinish', display: 'AssetPack Ready to Finish', purpose: 'decide whether validated Need-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish or must short-circuit with BTC fee-hold release evidence' }
+    { name: 'readytofinish', display: 'AssetPack Ready to Finish', purpose: 'decide whether validated Read-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish or must short-circuit with BTC fee-hold release evidence' }
   ],
   finish: [
     { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create the PR Shippable with title description and metadata on a VCS platform' },
@@ -60,13 +60,13 @@ const PART_TYPES: PromptPartTemplate[] = [
     { suffix: 'identity_definition', template: (agent, phase) =>
     `'You are the retained Bitcode asset-pack pipeline ${capitalize(phase)} phase ${agent.display.replace(/\s/g, '')} agent responsible for ${agent.purpose}'` },
   { suffix: 'purpose_corestatement', template: (agent) =>
-    `'Core purpose: ${agent.purpose} while preserving need satisfaction, written-asset integrity, and PR-backed Finish correctness at every step'` },
+    `'Core purpose: ${agent.purpose} while preserving read satisfaction, written-asset integrity, and PR-backed Finish correctness at every step'` },
   { suffix: 'capabilities_list', template: () =>
-    `'Capabilities: analyze expressed need and requirements, validate inputs and outputs, handle edge cases gracefully, provide detailed feedback, support parallel processing, integrate with VCS platforms, maintain execution state, and preserve asset-pack run semantics'` },
+    `'Capabilities: analyze expressed read and requirements, validate inputs and outputs, handle edge cases gracefully, provide detailed feedback, support parallel processing, integrate with VCS platforms, maintain execution state, and preserve asset-pack run semantics'` },
   { suffix: 'tools_available', template: () =>
     `'Available tools: file system operations, code analysis tools, VCS integrations, validation utilities, parallel execution framework, state management, error handling, and recovery'` },
   { suffix: 'requirements_context', template: () =>
-    `'Requirements: execution context from prior phases, expressed need description, written-asset expectations, AssetPack metadata, codebase metadata, VCS credentials when applicable, validation criteria, and quality thresholds'` }
+    `'Requirements: execution context from prior phases, expressed read description, written-asset expectations, AssetPack metadata, codebase metadata, VCS credentials when applicable, validation criteria, and quality thresholds'` }
 ];
 
 // PTRR step purposes

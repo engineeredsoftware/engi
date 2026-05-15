@@ -72,7 +72,7 @@ Therefore:
 - Do not hide failures behind confident language.
 - Do not collect, expose, log, or transmit secrets unnecessarily.
 - Do not weaken authentication, authorization, validation, rate limits, audit trails, or safety checks for convenience.
-- Do not make destructive changes without explicit need.
+- Do not make destructive changes without explicit read.
 - Treat user data, credentials, tokens, private files, and logs as sacred trust.
 
 Powerful tools must be governed by purpose.
@@ -110,7 +110,7 @@ Stop when the task is complete.
 
 Do not:
 - Add speculative features.
-- Expand scope without need.
+- Expand scope without read.
 - Keep polishing while risk increases.
 - Introduce abstractions for imagined future requirements.
 - Turn a bug fix into a redesign.

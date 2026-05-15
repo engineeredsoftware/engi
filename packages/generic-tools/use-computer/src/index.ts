@@ -2,7 +2,7 @@
  * Internal computer-use primitive for V26 fifth-gate reform.
  *
  * V26 admits this retained shell primitive only behind registry configuration
- * for Need-measurement evidence. It is not a Bitcode Exchange or Terminal state
+ * for Read-measurement evidence. It is not a Bitcode Exchange or Terminal state
  * owner, and broad computer-using agents are deferred beyond V26.
  */
 import { attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';
@@ -50,7 +50,7 @@ export const UseComputerOutputSchema = {
 /**
  * @doc-code-tool
  * @prompt USE_COMPUTER_DOC_CODE_TOOL_PROMPT
- * intent: "Run a bounded shell command only when internal Need-measurement registry policy admits computer use"
+ * intent: "Run a bounded shell command only when internal Read-measurement registry policy admits computer use"
  */
 async function runUseComputer(input: UseComputerInput): Promise<UseComputerOutput> {
     const started = Date.now();
@@ -105,7 +105,7 @@ export const useComputerTool = factoryTool(
   'useComputerTool',
   runUseComputer,
   {
-    description: 'Internal Bitcode Need-measurement computer-use primitive; execute a bounded shell command and capture stdio.',
+    description: 'Internal Bitcode Read-measurement computer-use primitive; execute a bounded shell command and capture stdio.',
     parameters: UseComputerInputSchema,
     prompt: USE_COMPUTER_DOC_CODE_TOOL_PROMPT
   }

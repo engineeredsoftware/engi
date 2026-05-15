@@ -76,7 +76,7 @@ export declare function factoryAgentWithPTRR<TInput, TOutput>(config: BitcodePTR
  * Create Agent with Single Step - Creates a minimal agent implementation
  *
  * This factory creates an Agent with a single execution step.
- * For simple agents that don't need full PTRR.
+ * For simple agents that don't read full PTRR.
  */
 export declare function factoryAgentWithSingleStep<TInput, TOutput>(config: {
     name: string;

@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search integration boundary"
+ * intent: "Bitcode read-synthesis web search integration boundary"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -12,7 +12,7 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_INTEGRATION_DETAILCONTENT: PromptPart =
   `Integrates as admitted discovery-phase support:
-- consumes web-search and content retrieval tools only to gather external evidence for need synthesis
-- passes source-attributed findings to downstream need, proof, interface, and AssetPack owners
+- consumes web-search and content retrieval tools only to gather external evidence for read synthesis
+- passes source-attributed findings to downstream read, proof, interface, and AssetPack owners
 - keeps stable web-search names as import and registry carriers
-- does not own canonical need interpretation, proof generation, source mutation, delivery mechanism selection, or live Exchange/Terminal product semantics` as PromptPart;
+- does not own canonical read interpretation, proof generation, source mutation, delivery mechanism selection, or live Exchange/Terminal product semantics` as PromptPart;

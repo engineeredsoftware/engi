@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRPLAN_PURPOSE: PromptPart =
-  'Plan the Bitcode Terminal response by classifying the user need, required repository context, and whether an admitted pipeline trigger is warranted.' as PromptPart;
+  'Plan the Bitcode Terminal response by classifying the user read, required repository context, and whether an admitted pipeline trigger is warranted.' as PromptPart;

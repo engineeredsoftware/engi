@@ -67,7 +67,7 @@ export function MarketingLandingPillarCard({
           <div className="relative">
             <div className="relative min-h-[58px] pr-16 text-violet-100 phone:min-h-[68px] phone:pr-20">
               <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
-                give
+                deposit
               </span>
               <div className="flex min-w-0 items-start gap-2">
                 <Icon className="h-4 w-4 text-purple-300" />
@@ -76,7 +76,7 @@ export function MarketingLandingPillarCard({
                     {title}
                   </p>
                   <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-violet-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                    give-side intake
+                    deposit-side intake
                   </p>
                 </div>
               </div>
@@ -162,7 +162,7 @@ export function MarketingLandingPillarCard({
                     {title}
                   </p>
                   <p className="mt-1 max-w-[16ch] text-[9px] uppercase tracking-[0.16em] text-emerald-100/52 phone:max-w-[18ch] phone:text-[10px]">
-                    need fit + quality + valence
+                    read fit + quality + valence
                   </p>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export function MarketingLandingPillarCard({
             </div>
             <div className="mt-4 rounded-2xl border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
               <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-emerald-200/62">
-                active need
+                active read
               </p>
               <p className="mt-1 font-mono text-[10px] leading-4 text-emerald-50/84 phone:text-[11px]">
                 {measureCardReadNeed}

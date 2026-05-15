@@ -120,11 +120,11 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
     <AfterOnboardingOverlay disabled={overlayed} className={className}>
       <div className="relative w-full">
         <h3 className="text-lg font-heading mb-2 text-white flex items-center gap-2">
-          Need-space knowledge sharing
+          Read-space knowledge sharing
           {loading && <span className="text-sm text-slate-400">loading…</span>}
         </h3>
         <p className="text-sm text-slate-400 mb-4">
-          Set once whether Externals-approved repositories should keep contributing synchronized repository knowledge into Bitcode need-space.
+          Set once whether Externals-approved repositories should keep contributing synchronized repository knowledge into Bitcode read-space.
           This is the larger
           <span className="text-teal-300 font-semibold mx-1">$BTD</span>
           setting that governs ongoing connected-knowledge contribution after repository access is already approved.
@@ -152,7 +152,7 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
 
         {enableAll ? (
         <div className="text-sm text-yellow-300/80 font-medium bg-yellow-300/10 border border-yellow-300/20 rounded-lg px-4 py-3">
-          All current and future Externals-approved repositories will sync into need-space automatically.
+          All current and future Externals-approved repositories will sync into read-space automatically.
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">

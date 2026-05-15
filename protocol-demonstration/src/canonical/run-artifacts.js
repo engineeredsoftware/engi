@@ -44,7 +44,7 @@
  * }} EvaluatedCandidate
  * @typedef {{ assetPackId: string, branchMode: string, acceptedUseTiers: string[], selectedAssets: string[] }} AssetPackShape
  * @typedef {{ assetVerification: Array<{ assetId: string, useTier: string, rights: unknown, verificationSufficiency: { recommendedUseTier: string } }> }} VerificationReportShape
- * @typedef {{ needId: string, fieldDerivations?: Record<string, unknown> | undefined, failingCases?: string[] | undefined, weakDimensions?: string[] | undefined }} NeedShape
+ * @typedef {{ readId: string, fieldDerivations?: Record<string, unknown> | undefined, failingCases?: string[] | undefined, weakDimensions?: string[] | undefined }} ReadShape
  * @typedef {{
  *   scenarioId: string,
  *   scenarioFamily?: string | undefined,
@@ -64,8 +64,8 @@
  *       weakDimensions?: string[] | undefined
  *     } | undefined
  *   } | undefined
- * }} NeedScenarioShape
- * @typedef {{ needScenarios: NeedScenarioShape[], assets: Array<{ assetId: string }> }} DemoStateShape
+ * }} ReadScenarioShape
+ * @typedef {{ readScenarios: ReadScenarioShape[], assets: Array<{ assetId: string }> }} DemoStateShape
  */
 
 import crypto from 'node:crypto';
@@ -194,34 +194,34 @@ function countValues(values = []) {
 
 /**
  * @param {{
- *   need: NeedShape,
+ *   read: ReadShape,
  *   evaluatedCandidates: EvaluatedCandidate[],
  *   assetPack: AssetPackShape,
  *   selectedCandidates: EvaluatedCandidate[],
  *   verificationReport: VerificationReportShape,
- *   needReview?: Record<string, unknown> | undefined,
+ *   readReview?: Record<string, unknown> | undefined,
  *   settlementPreview: SettlementPreviewShape,
  *   journalDiff: JournalDiffShape
  * }} input
  */
-function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selectedCandidates, verificationReport, needReview, settlementPreview, journalDiff }) {
+function buildPipelineTelemetry({ read, evaluatedCandidates, assetPack, selectedCandidates, verificationReport, readReview, settlementPreview, journalDiff }) {
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     events: [
-      telemetryEvent('need-measurement', {
-        needId: need.needId,
-        derivationFields: Object.keys(need.fieldDerivations || {}),
-        failingCases: need.failingCases,
-        weakDimensions: need.weakDimensions
+      telemetryEvent('read-measurement', {
+        readId: read.readId,
+        derivationFields: Object.keys(read.fieldDerivations || {}),
+        failingCases: read.failingCases,
+        weakDimensions: read.weakDimensions
       }),
-      telemetryEvent('need-review', {
-        needId: need.needId,
-        protocolFocus: needReview?.['protocolFocus'] || 'source-to-shares',
-        reviewStage: needReview?.['reviewStage'] || 'post-measurement-pre-fit',
-        action: needReview?.['reviewDecision']?.['action'] || needReview?.['action'] || null,
-        status: needReview?.['status'] || null,
-        fitSearchAdmitted: needReview?.['fitSearchAdmission']?.['admitted'] === true
+      telemetryEvent('read-review', {
+        readId: read.readId,
+        protocolFocus: readReview?.['protocolFocus'] || 'source-to-shares',
+        reviewStage: readReview?.['reviewStage'] || 'post-measurement-pre-fit',
+        action: readReview?.['reviewDecision']?.['action'] || readReview?.['action'] || null,
+        status: readReview?.['status'] || null,
+        fitSearchAdmitted: readReview?.['fitSearchAdmission']?.['admitted'] === true
       }),
       telemetryEvent('content-unit-semantics', {
         assetCount: selectedCandidates.length,
@@ -332,7 +332,7 @@ function buildPromptImplementationSurface(
 }
 
 /**
- * @param {string} needId
+ * @param {string} readId
  * @param {string} assetPackId
  * @param {InferenceProof[]} inferenceProofs
  * @param {Record<string, unknown>} promptFamilyRegistry
@@ -367,7 +367,7 @@ function buildPromptImplementationSurface(
  * @param {Record<string, unknown>} proofContract
  */
 function buildSystemProofBundle(
-  needId,
+  readId,
   assetPackId,
   inferenceProofs,
   promptFamilyRegistry,
@@ -430,7 +430,7 @@ function buildSystemProofBundle(
     ...((entry.replaySteps || []).flatMap((step) => step.requiredArtifactPaths || []))
   ]));
   return {
-    needId,
+    readId,
     assetPackId,
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
@@ -537,11 +537,11 @@ function buildArtifactUploadManifest(selectedCandidates) {
 /**
  * @param {{
  *   branchName: string,
- *   need: NeedShape,
+ *   read: ReadShape,
  *   benchmarkTarget: unknown,
  *   depositingSurface: unknown,
- *   needingSurface: unknown,
- *   depositingToNeedingSurface: unknown,
+ *   readingSurface: unknown,
+ *   depositingToReadingSurface: unknown,
  *   assetPack: AssetPackShape,
  *   assetPackLock: { assets: unknown[] },
  *   settlementPreview: SettlementPreviewShape,
@@ -566,11 +566,11 @@ function buildArtifactUploadManifest(selectedCandidates) {
  */
 function buildAssetPackEvidenceManifest({
   branchName,
-  need,
+  read,
   benchmarkTarget,
   depositingSurface,
-  needingSurface,
-  depositingToNeedingSurface,
+  readingSurface,
+  depositingToReadingSurface,
   assetPack,
   assetPackLock,
   settlementPreview,
@@ -834,30 +834,30 @@ function buildAssetPackEvidenceManifest({
     : [];
   return {
     branchName,
-    needId: need.needId,
+    readId: read.readId,
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     assetPackEvidence: [
       {
-        path: '.bitcode/need.json',
+        path: '.bitcode/read.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-branch-derived-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['need-measurement', 'benchmark-parser']
+        dependsOn: ['read-measurement', 'benchmark-parser']
       },
       {
-        path: '.bitcode/need-measurement.json',
+        path: '.bitcode/read-measurement.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['need-measurement', 'prompt-lineage', 'static-measurement']
+        dependsOn: ['read-measurement', 'prompt-lineage', 'static-measurement']
       },
       {
-        path: '.bitcode/need-review.json',
+        path: '.bitcode/read-review.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['need-measurement', 'need-review', 'pre-fit-admission']
+        dependsOn: ['read-measurement', 'read-review', 'pre-fit-admission']
       },
       {
         path: '.bitcode/depositing-surface.json',
@@ -867,18 +867,18 @@ function buildAssetPackEvidenceManifest({
         dependsOn: ['repo-supply-selection', 'github-binding']
       },
       {
-        path: '.bitcode/needing-surface.json',
+        path: '.bitcode/reading-surface.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
-        dependsOn: ['need-measurement', 'benchmark-parser']
+        dependsOn: ['read-measurement', 'benchmark-parser']
       },
       {
-        path: '.bitcode/depositing-to-needing-surface.json',
+        path: '.bitcode/deposit-to-read-surface.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
-        dependsOn: ['repo-supply-selection', 'need-measurement', 'asset-pack-assembly']
+        dependsOn: ['repo-supply-selection', 'read-measurement', 'asset-pack-assembly']
       },
       {
         path: '.bitcode/benchmark-target.json',
@@ -1039,14 +1039,14 @@ function buildAssetPackEvidenceManifest({
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
-        dependsOn: ['need-measurement', 'ranking', 'verification']
+        dependsOn: ['read-measurement', 'ranking', 'verification']
       },
       {
         path: '.bitcode/static-heuristics-registry.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
-        dependsOn: ['need-measurement', 'ranking', 'verification']
+        dependsOn: ['read-measurement', 'ranking', 'verification']
       },
       {
         path: '.bitcode/external-boundary-manifest.json',
@@ -1228,7 +1228,7 @@ function buildAssetPackEvidenceManifest({
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['need-measurement', 'candidate-recall', 'ranking', 'verification', RealizationStage.SETTLEMENT]
+        dependsOn: ['read-measurement', 'candidate-recall', 'ranking', 'verification', RealizationStage.SETTLEMENT]
       },
       {
         path: '.bitcode/projection-policy.json',
@@ -1279,7 +1279,7 @@ function buildAssetPackEvidenceManifest({
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
-        dependsOn: ['need-measurement', 'profile-semantics']
+        dependsOn: ['read-measurement', 'profile-semantics']
       },
       {
         path: '.bitcode/test-coverage-report.json',
@@ -1296,11 +1296,11 @@ function buildAssetPackEvidenceManifest({
         dependsOn: ['asset-pack-evidence-manifest', RealizationStage.BRANCH]
       },
       {
-        path: 'BITCODE_NEED.md',
+        path: 'BITCODE_READ.md',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-branch-derived-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['need.json', 'match-report.json', 'verification-report.json']
+        dependsOn: ['read.json', 'match-report.json', 'verification-report.json']
       }
     ],
     summary: {
@@ -1339,7 +1339,7 @@ function buildScenarioFixtureManifest(state, activeScenarioId = null) {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     activeScenarioId,
-    selectableScenarioCount: state.needScenarios.length,
+    selectableScenarioCount: state.readScenarios.length,
     candidateAssetCount: state.assets.length,
     fixtureFamilies: [
       'GitHub workflow run envelopes',
@@ -1351,7 +1351,7 @@ function buildScenarioFixtureManifest(state, activeScenarioId = null) {
       'Cross-language repo slices',
       'Source-to-shares normalization ledgers'
     ],
-    scenarioFamilies: state.needScenarios.map((scenario) => ({
+    scenarioFamilies: state.readScenarios.map((scenario) => ({
       scenarioId: scenario.scenarioId,
       scenarioFamily: scenario.scenarioFamily || 'unspecified',
       coverageTags: scenario.coverageTags || [],
@@ -1371,7 +1371,7 @@ function buildScenarioFixtureManifest(state, activeScenarioId = null) {
     negativeFixtures: [
       {
         fixtureId: 'malformed-canonical-benchmark-output',
-        expectedOutcome: 'parser validation fails closed before need materialization',
+        expectedOutcome: 'parser validation fails closed before read materialization',
         basedOnScenarioId: 'auth-issuer-rollback'
       },
       {
@@ -1382,7 +1382,7 @@ function buildScenarioFixtureManifest(state, activeScenarioId = null) {
       {
         fixtureId: 'zero-credit-source-to-shares',
         expectedOutcome: 'zero-credit participation remains explicit and receipt-backed',
-        basedOnScenarioId: activeScenarioId || state.needScenarios[0]?.scenarioId
+        basedOnScenarioId: activeScenarioId || state.readScenarios[0]?.scenarioId
       },
       {
         fixtureId: 'polyglot-cross-language-parity-gap',
@@ -1397,7 +1397,7 @@ function buildScenarioFixtureManifest(state, activeScenarioId = null) {
     ],
     proofHash: stableHashObject({
       activeScenarioId,
-      scenarioIds: state.needScenarios.map((scenario) => scenario.scenarioId),
+      scenarioIds: state.readScenarios.map((scenario) => scenario.scenarioId),
       candidateAssetIds: state.assets.map((asset) => asset.assetId)
     })
   };
@@ -1487,10 +1487,10 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
     },
     adversarialCoverage: {
       malformedGithubArtifactFixturePresent: scenarioFixtureManifest.negativeFixtures.some((fixture) => fixture.fixtureId === 'malformed-canonical-benchmark-output'),
-      privacyBoundaryScenarioPresent: state.needScenarios.some((scenario) => (scenario.coverageTags || []).includes('privacy-boundary') || scenario.scenarioFamily === 'privacy-boundary-stress'),
-      proofHeavyScenarioPresent: state.needScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'),
-      polyglotRepoScenarioPresent: state.needScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'),
-      manyAssetNormalizationScenarioPresent: state.needScenarios.some((scenario) => scenario.scenarioFamily === 'many-asset-settlement-normalization'),
+      privacyBoundaryScenarioPresent: state.readScenarios.some((scenario) => (scenario.coverageTags || []).includes('privacy-boundary') || scenario.scenarioFamily === 'privacy-boundary-stress'),
+      proofHeavyScenarioPresent: state.readScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'),
+      polyglotRepoScenarioPresent: state.readScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'),
+      manyAssetNormalizationScenarioPresent: state.readScenarios.some((scenario) => scenario.scenarioFamily === 'many-asset-settlement-normalization'),
       manyAssetSettlementCorpusPresent: state.assets.length >= 6,
       zeroCreditParticipationObservedInLatestRun: (settlementParticipationArtifact?.records || []).some((record) => record.zeroCreditParticipating)
     },
@@ -1499,7 +1499,7 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
       settlementParticipatingCount: settlementParticipationArtifact?.settlementParticipatingCount || 0,
       zeroCreditParticipatingCount: settlementParticipationArtifact?.zeroCreditParticipatingCount || 0,
       scenarioFamilyCount: scenarioFixtureManifest.scenarioFamilies.length,
-      coverageTagCount: new Set(state.needScenarios.flatMap((scenario) => scenario.coverageTags || [])).size
+      coverageTagCount: new Set(state.readScenarios.flatMap((scenario) => scenario.coverageTags || [])).size
     },
     reportHash: stableHashObject({
       activeScenarioId,

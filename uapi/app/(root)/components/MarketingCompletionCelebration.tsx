@@ -520,7 +520,7 @@ export const MarketingCompletionCelebration = ({
             transition={{ delay: 1.2 }}
             onClick={onDismiss}
           >
-            Continue to next Need →
+            Continue to next Read →
           </motion.button>
         </motion.div>
       </motion.div>

@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_CONTEXT: PromptPart =
-  'Operating as admitted support in Bitcode pipeline setup and need synthesis, using execution evidence to decide whether the next phase may proceed while proof, mutation, AssetPack finalization, and delivery remain owned elsewhere.' as PromptPart;
+  'Operating as admitted support in Bitcode pipeline setup and read synthesis, using execution evidence to decide whether the next phase may proceed while proof, mutation, AssetPack finalization, and delivery remain owned elsewhere.' as PromptPart;

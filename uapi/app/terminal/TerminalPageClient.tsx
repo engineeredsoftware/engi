@@ -20,9 +20,9 @@ import TerminalDepositComposer from './TerminalDepositComposer';
 import TerminalExperienceFrame from './TerminalExperienceFrame';
 import TerminalExternalInterfacingPanel from './TerminalExternalInterfacingPanel';
 import TerminalFloatingDebugWidget from './TerminalFloatingDebugWidget';
-import TerminalGiveNeedWorkbench from './TerminalGiveNeedWorkbench';
+import TerminalDepositReadWorkbench from './TerminalDepositReadWorkbench';
 import TerminalLiveSummaryStrip from './TerminalLiveSummaryStrip';
-import TerminalNeedScenarioPanel from './TerminalNeedScenarioPanel';
+import TerminalReadScenarioPanel from './TerminalReadScenarioPanel';
 import TerminalPreservedShellSurface from './TerminalPreservedShellSurface';
 import TerminalRepositoryContextPanel from './TerminalRepositoryContextPanel';
 import TerminalSectionAtlas from './TerminalSectionAtlas';
@@ -422,10 +422,10 @@ export default function TerminalPageClient() {
               <div className="max-w-4xl">
                 <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode Terminal</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
-                  Give, Need, and read recent Bitcode activity
+                  Deposit, Read, and read recent Bitcode activity
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  The Bitcode Terminal is where operators prepare Give and Need work, then read
+                  The Bitcode Terminal is where operators prepare Deposit and Read work, then read
                   the recent activity, AssetPack results, proofs, and closure history produced by
                   that work. Use Exchange for market-wide activity search and deeper activity records.
                 </p>
@@ -549,17 +549,17 @@ export default function TerminalPageClient() {
 
               <TerminalSurfaceSection
                 id="terminalNeedSurface"
-                kicker={TERMINAL_SURFACE_COPY.need.kicker}
-                title={TERMINAL_SURFACE_COPY.need.title}
-                summary={TERMINAL_SURFACE_COPY.need.summary}
+                kicker={TERMINAL_SURFACE_COPY.read.kicker}
+                title={TERMINAL_SURFACE_COPY.read.title}
+                summary={TERMINAL_SURFACE_COPY.read.summary}
               >
                 <div className="grid gap-6">
                   <div className="space-y-6">
-                    <TerminalNeedScenarioPanel
+                    <TerminalReadScenarioPanel
                       onRecordActivity={handleRecordActivity}
                       showDemonstrationScenarios={showDemonstrationSurfaces}
                     />
-                    <TerminalGiveNeedWorkbench
+                    <TerminalDepositReadWorkbench
                       repositoryContext={repositoryContext}
                       onRecordActivity={handleRecordActivity}
                       showDemonstrationWorkbench={showDemonstrationSurfaces}

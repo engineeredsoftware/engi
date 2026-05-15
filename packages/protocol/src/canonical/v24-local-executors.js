@@ -83,7 +83,7 @@ function buildTelemetry(payload, overrides) {
     reconciliationState: overrides.reconciliationState || 'live-demonstration-reconciled',
     telemetryCoverageState: overrides.telemetryCoverageState || 'shape-complete-live-observed',
     requestId: overrides.requestId || telemetry.requestId || `req_local_${shortId(`${payload.interfaceId}:${payload.branchName || payload.bundleId || 'default'}`, 16)}`,
-    executionId: overrides.executionId || telemetry.executionId || `exec_local_${shortId(`${payload.interfaceId}:${payload.assetPackId || payload.needId || 'default'}`, 16)}`,
+    executionId: overrides.executionId || telemetry.executionId || `exec_local_${shortId(`${payload.interfaceId}:${payload.assetPackId || payload.readId || 'default'}`, 16)}`,
     observationId: overrides.observationId || telemetry.observationId || `obs_local_${shortId(`${payload.interfaceId}:${payload.paymentMode || payload.branchMode || 'default'}`, 16)}`,
     executionClass: overrides.executionClass || telemetry.executionClass || binding.executionClass || 'built-in-demonstration-adapter',
     environmentIdentityRef:
@@ -130,7 +130,7 @@ function bitcoinMainchainExecutor(payload) {
       '.bitcode/bitcoin-network-observation.json'
     ]
   });
-  const networkRef = settlementObservation.networkRef || execution.networkRef || `btc://${binding.network || 'bitcoin-testnet4'}/${shortId(payload.bundleId || payload.needId || 'default', 16)}`;
+  const networkRef = settlementObservation.networkRef || execution.networkRef || `btc://${binding.network || 'bitcoin-testnet4'}/${shortId(payload.bundleId || payload.readId || 'default', 16)}`;
   const anchorRef = anchor.anchorRef || observation.anchorRef || `anchor://${shortId(payload.bundleId || payload.branchName || 'default', 16)}`;
   return {
     interfaceId: String(payload.interfaceId || 'bitcoin-mainchain-execution'),
@@ -195,7 +195,7 @@ function repeatedReadPaymentExecutor(payload) {
     priorObservation.invoiceRef
     || priorExecution.invoiceRef
     || settlementIntent.paymentCarrier?.invoice
-    || `ln-invoice://${shortId(`${payload.bundleId || payload.needId || 'default'}:${payload.branchName || 'branch'}`, 16)}`;
+    || `ln-invoice://${shortId(`${payload.bundleId || payload.readId || 'default'}:${payload.branchName || 'branch'}`, 16)}`;
   const paymentHash =
     priorObservation.paymentHash
     || priorExecution.paymentHash

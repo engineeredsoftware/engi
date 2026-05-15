@@ -12,7 +12,7 @@ curl -s -o /dev/null -w "%{http_code}\n" "http://localhost:3000/api/executions?t
 echo "Testing POST /api/executions?type=agentic-execution:asset-pack (should return 401 without auth):"
 curl -s -o /dev/null -w "%{http_code}\n" -X POST \
   -H "Content-Type: application/json" \
-  -d '{"need":"test AssetPack","definition_of_need":"test AssetPack execution","repoOwner":"test","repoName":"test","repoBranch":"main"}' \
+  -d '{"read":"test AssetPack","definition_of_read":"test AssetPack execution","repoOwner":"test","repoName":"test","repoBranch":"main"}' \
   "http://localhost:3000/api/executions?type=agentic-execution:asset-pack"
 
 echo "AssetPack API endpoints are responding correctly."

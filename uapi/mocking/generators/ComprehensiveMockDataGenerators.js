@@ -256,7 +256,7 @@ class ComprehensiveMockDataGenerator {
                 created_at: this.generateTimestamp(),
                 updated_at: this.generateTimestamp(),
                 summary: 'Implement user authentication system with OAuth2 support',
-                need_description: 'Create a comprehensive authentication system that supports multiple OAuth providers including GitHub, Google, and Microsoft. The system should include secure session management, role-based access control, and proper token handling.',
+                read_description: 'Create a comprehensive authentication system that supports multiple OAuth providers including GitHub, Google, and Microsoft. The system should include secure session management, role-based access control, and proper token handling.',
                 repository: 'bitcode-labs/auth-service',
                 status: this.pickRandom(['pending', 'in_progress', 'completed', 'failed']),
                 items: this.generateAssetPackItems(),
@@ -277,7 +277,7 @@ class ComprehensiveMockDataGenerator {
                 created_at: this.generateTimestamp(-1),
                 updated_at: this.generateTimestamp(-1),
                 summary: 'Optimize database query performance for user analytics',
-                need_description: 'Analyze and optimize slow-running database queries in the analytics service. Focus on user engagement metrics, conversion funnels, and reporting dashboards.',
+                read_description: 'Analyze and optimize slow-running database queries in the analytics service. Focus on user engagement metrics, conversion funnels, and reporting dashboards.',
                 repository: 'bitcode-labs/analytics-service',
                 status: 'completed',
                 items: this.generateAssetPackItems(),
@@ -301,7 +301,7 @@ class ComprehensiveMockDataGenerator {
                 current_agent: 'AssetPackSynthesisAgent',
                 estimated_completion: this.generateTimestamp(0, 15), // 15 minutes from now
                 context: {
-                    need: 'Add real-time notifications to the dashboard',
+                    read: 'Add real-time notifications to the dashboard',
                     repository: 'bitcode-labs/dashboard-ui',
                     branch: 'feature/notifications',
                     attachments: [],

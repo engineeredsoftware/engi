@@ -67,10 +67,10 @@ describe('GET /api/executions/history/[runId]', () => {
                 deliveryMechanism: {
                   comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
                 },
-                need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+                read: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
                 writtenAssetType: 'proof-refresh',
                 assetPack: {
-                  need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+                  read: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
                   writtenAssetType: 'proof-refresh',
                   deliveryTarget: 'proof',
                 },
@@ -173,19 +173,19 @@ describe('GET /api/executions/history/[runId]', () => {
           fileChanges: { edited: 3, created: 1, deleted: 0 },
           proofEvidence: ['history-detail-primary-artifacts'],
         },
-        need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+        read: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
-          need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+          read: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
           writtenAssetType: 'proof-refresh',
           deliveryTarget: 'proof',
         },
         asset_pack_completion: expect.objectContaining({
           summary: 'Persisted closure posture.',
-          need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+          read: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
           writtenAssetType: 'proof-refresh',
           assetPack: {
-            need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+            read: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
             writtenAssetType: 'proof-refresh',
             deliveryTarget: 'proof',
           },

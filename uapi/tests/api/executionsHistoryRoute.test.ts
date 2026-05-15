@@ -64,10 +64,10 @@ describe('GET /api/executions/history', () => {
             deliveryMechanism: {
               comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
             },
-            need: 'Refresh fifth-gate proof posture and closure evidence.',
+            read: 'Refresh fifth-gate proof posture and closure evidence.',
             writtenAssetType: 'proof-refresh',
             assetPack: {
-              need: 'Refresh fifth-gate proof posture and closure evidence.',
+              read: 'Refresh fifth-gate proof posture and closure evidence.',
               writtenAssetType: 'proof-refresh',
               deliveryTarget: 'proof',
             },
@@ -110,10 +110,10 @@ describe('GET /api/executions/history', () => {
         input: {},
         output: {
           preprocessed: {
-            need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+            read: 'Materialize a branch-ready asset pack for settlement follow-through.',
             writtenAssetType: 'branch-artifact',
             assetPack: {
-              need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+              read: 'Materialize a branch-ready asset pack for settlement follow-through.',
               writtenAssetType: 'branch-artifact',
               deliveryTarget: 'pr',
             },
@@ -197,10 +197,10 @@ describe('GET /api/executions/history', () => {
           summary: 'Recorded closure posture.',
         },
         shippables: null,
-        need: 'Refresh fifth-gate proof posture and closure evidence.',
+        read: 'Refresh fifth-gate proof posture and closure evidence.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
-          need: 'Refresh fifth-gate proof posture and closure evidence.',
+          read: 'Refresh fifth-gate proof posture and closure evidence.',
           writtenAssetType: 'proof-refresh',
           deliveryTarget: 'proof',
         },
@@ -217,10 +217,10 @@ describe('GET /api/executions/history', () => {
           deliveryMechanism: {
             summary: 'Recorded closure posture.',
           },
-          need: 'Refresh fifth-gate proof posture and closure evidence.',
+          read: 'Refresh fifth-gate proof posture and closure evidence.',
           writtenAssetType: 'proof-refresh',
           assetPack: {
-            need: 'Refresh fifth-gate proof posture and closure evidence.',
+            read: 'Refresh fifth-gate proof posture and closure evidence.',
             writtenAssetType: 'proof-refresh',
             deliveryTarget: 'proof',
           },
@@ -259,10 +259,10 @@ describe('GET /api/executions/history', () => {
           summary: 'Branch artifact persisted.',
         },
         shippables: null,
-        need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+        read: 'Materialize a branch-ready asset pack for settlement follow-through.',
         written_asset_type: 'branch-artifact',
         asset_pack: {
-          need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+          read: 'Materialize a branch-ready asset pack for settlement follow-through.',
           writtenAssetType: 'branch-artifact',
           deliveryTarget: 'pr',
         },
@@ -279,10 +279,10 @@ describe('GET /api/executions/history', () => {
           deliveryMechanism: {
             summary: 'Branch artifact persisted.',
           },
-          need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+          read: 'Materialize a branch-ready asset pack for settlement follow-through.',
           writtenAssetType: 'branch-artifact',
           assetPack: {
-            need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+            read: 'Materialize a branch-ready asset pack for settlement follow-through.',
             writtenAssetType: 'branch-artifact',
             deliveryTarget: 'pr',
           },

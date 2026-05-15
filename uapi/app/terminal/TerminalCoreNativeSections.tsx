@@ -36,19 +36,19 @@ export default function TerminalCoreNativeSections({
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Give and need overview</p>
+          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Deposit and read overview</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Supply, need, and fit map
+            Supply, read, and fit map
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Keep the live give-side source, measured need, and fit posture readable without leaving the Bitcode Terminal.
+            Keep the live deposit-side source, measured read, and fit posture readable without leaving the Bitcode Terminal.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Primary actions</p>
-            <p className="mt-2 text-neutral-200">give + need</p>
+            <p className="mt-2 text-neutral-200">deposit + read</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Source</p>
@@ -70,7 +70,7 @@ export default function TerminalCoreNativeSections({
               </span>
             </div>
             <p className="mt-3 text-sm leading-6 text-neutral-300">{action.description}</p>
-            {action.id === 'give' ? (
+            {action.id === 'deposit' ? (
               selectedRepository ? (
                 <div className="mt-4 rounded-[1.2rem] border border-emerald-400/20 bg-emerald-400/10 px-4 py-4">
                   <div className="flex items-start justify-between gap-3">
@@ -122,7 +122,7 @@ export default function TerminalCoreNativeSections({
                 </div>
               ) : (
                 <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
-                  Connect and select a repository above to make Bitcode give-side supply explicit before the Giving chain.
+                  Connect and select a repository above to make Bitcode deposit-side supply explicit before the Depositing chain.
                 </div>
               )
             ) : null}
@@ -189,7 +189,7 @@ export default function TerminalCoreNativeSections({
                       eyebrow: 'Selected repository supply',
                       subtitle:
                         selectedRepository.description ||
-                        'Selected repository supply is the current give-side source before Giving and fit.',
+                        'Selected repository supply is the current deposit-side source before Depositing and fit.',
                       help:
                         connectionStatus?.connected && connectionStatus.valid
                           ? `Connected as ${connectionStatus.username || connectionStatus.metadata?.account || 'bitcode'}.`

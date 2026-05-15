@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Defines Bitcode need-measurement and asset-pack source-grounding purpose for grep-backed repository evidence search"
+ * intent: "Defines Bitcode read-measurement and asset-pack source-grounding purpose for grep-backed repository evidence search"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

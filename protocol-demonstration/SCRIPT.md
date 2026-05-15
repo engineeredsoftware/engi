@@ -6,7 +6,7 @@ This is the live presentation / interactive QA script for the current Bitcode V8
 
 ## One-sentence thesis
 
-Bitcode measures a GitHub-bound engineering need, matches the right technical intelligence supply to it, materializes an inspectable private remediation branch artifact set, and proves exactly how value moves through the system.
+Bitcode measures a GitHub-bound engineering read, matches the right technical intelligence supply to the read, materializes an inspectable private remediation branch artifact set, and proves exactly how value moves through the system.
 
 ---
 
@@ -15,7 +15,7 @@ Bitcode measures a GitHub-bound engineering need, matches the right technical in
 This demo is **Profile A — local deterministic prototype** behavior for Bitcode Spec V8.
 
 It is meant to demonstrate:
-- need measurement from GitHub-bound benchmark evidence,
+- read measurement from GitHub-bound benchmark evidence,
 - candidate recall and hybrid matching,
 - ranking vs verification separation,
 - use-tier propagation and branch-mode rights,
@@ -41,7 +41,7 @@ Say something like:
 
 > Bitcode is a system for turning technical knowledge into an inspectable remediation pipeline.
 >
-> In Spec V8, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound need, selecting the right technical intelligence supply for that need, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
+> In Spec V8, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound read, selecting the right technical intelligence supply for that read, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
 
 Then point out:
 - Spec V8
@@ -56,29 +56,29 @@ Important line:
 
 ## Gold-path walkthrough
 
-### 1. GitHub-bound need measurement
+### 1. GitHub-bound read measurement
 
 #### Where to look
 
-- scenario / need section
+- scenario / read section
 - parser / benchmark evidence surface
 - conformance profile labeling
 
 #### What to say
 
-> The demo begins with a buyer need that is GitHub-bound. A buyer branch and GitHub Actions benchmark run define the operational context.
+> The demo begins with a buyer read that is GitHub-bound. A buyer branch and GitHub Actions benchmark run define the operational context.
 >
-> Bitcode does not treat the task as a loose prompt. It normalizes workflow evidence through a declared parser contract and derives a canonical need descriptor.
+> Bitcode does not treat the task as a loose prompt. It normalizes workflow evidence through a declared parser contract and derives a canonical read descriptor.
 
 Point out:
 - canonical run evidence
 - parser contract
-- need field derivations / normalization closure
+- read field derivations / normalization closure
 - benchmark targets / failure modes / constraints
 
 Important line:
 
-> The need descriptor is a measured object, not just a text box.
+> The read descriptor is a measured object, not just a text box.
 
 Operator note:
 
@@ -96,7 +96,7 @@ Operator note:
 
 #### What to say
 
-> Once the need is measured, Bitcode recalls candidate assets through multiple channels: task alignment, failure-mode overlap, technical-context overlap, lexical/symbol/path/config matching, and artifact-kind compatibility.
+> Once the read is measured, Bitcode recalls candidate assets through multiple channels: task alignment, failure-mode overlap, technical-context overlap, lexical/symbol/path/config matching, and artifact-kind compatibility.
 >
 > In the local prototype, embeddings and higher-dimensional retrieval are deterministic stand-ins, but the interface is already codified so Profile B can replace them cleanly later.
 
@@ -108,7 +108,7 @@ Point out:
 
 Important line:
 
-> The point is not “search found a document.” The point is “the system can explain why this technical asset is a fit for this engineering need.”
+> The point is not “search found a document.” The point is “the system can explain why this technical asset is a fit for this engineering read.”
 
 ---
 
@@ -124,12 +124,12 @@ Important line:
 
 > Ranking and verification are intentionally separate.
 >
-> Ranking asks: how useful is this asset for the need?
+> Ranking asks: how useful is this asset for the read?
 >
 > Verification asks: what is this asset actually allowed to do downstream? Can it be ranked only, used for context, materialized into a branch, or participate in settlement?
 
 Point out:
-- need match
+- read match
 - benchmark impact
 - actionability
 - penalties
@@ -158,10 +158,10 @@ Important line:
 >
 > That lock then drives the private remediation branch artifact set.
 >
-> The branch is the buyer-facing delivery surface: measured need, selected source material, authorization decisions, policy release, telemetry, and settlement preview all travel together.
+> The branch is the buyer-facing delivery surface: measured read, selected source material, authorization decisions, policy release, telemetry, and settlement preview all travel together.
 
 Point out artifacts such as:
-- `.bitcode/need.json`
+- `.bitcode/read.json`
 - `.bitcode/verification-report.json`
 - `.bitcode/asset-pack.lock.json`
 - `.bitcode/authorization-decisions.json`
@@ -170,7 +170,7 @@ Point out artifacts such as:
 - `.bitcode/unit-catalog.json`
 - `.bitcode/pipeline-telemetry.json`
 - `.bitcode/system-proof-bundle.json`
-- `BITCODE_NEED.md`
+- `BITCODE_READ.md`
 
 Important line:
 
@@ -239,7 +239,7 @@ Important line:
 
 > Bitcode turns technical knowledge into a measurable, governable, inspectable remediation pipeline.
 >
-> In this V8 prototype, the system measures a GitHub-bound need, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
+> In this V8 prototype, the system measures a GitHub-bound read, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
 
 ---
 

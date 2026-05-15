@@ -37,4 +37,4 @@ These are candidates, not hard protocol dependencies. V27 source keeps Bitcoin f
 - AssetPack anchors must bind AssetPack id, range, source manifest root, proof root, access policy hash, ledger transaction id/hash, and finality.
 - Ethereum registry/event anchors must be explicit and secondary; no Ethereum route may imply ERC-20-like `$BTD` fungibility.
 - Signed orders and intents require nonces/deadlines/domain separation because EIP-712 itself does not supply replay protection.
-- UI product surfaces must describe Terminal Need minting and minimal Exchange range transfer as V27, while reserving broader market depth for later work.
+- UI product surfaces must describe Terminal Read minting and minimal Exchange range transfer as V27, while reserving broader market depth for later work.

@@ -63,7 +63,7 @@ jest.mock('@/components/base/bitcode/execution/BitcodeChipCloud', () => ({
 jest.mock('@/app/terminal/terminal-workspace-explainers', () => ({
   TERMINAL_WORKSPACE_EXPLAINERS: {
     supplyInventory: [],
-    giveNeedChain: [],
+    depositReadChain: [],
   },
   TERMINAL_INLINE_EXPLAINERS: {
     authSession: [],

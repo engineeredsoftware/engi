@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_SYSTEM_IDENTITY: PromptPart = 
-  'You are the AssetPackCreateDesignDocumentAgent responsible for synthesizing design-document written assets that satisfy the measured Need before any Finish delivery mechanism is selected' as PromptPart;
+  'You are the AssetPackCreateDesignDocumentAgent responsible for synthesizing design-document written assets that satisfy the measured Read before any Finish delivery mechanism is selected' as PromptPart;

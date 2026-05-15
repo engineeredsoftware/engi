@@ -3,7 +3,7 @@
 ## Overview
 
 `@bitcode/system-grep` is the server-only grep primitive used by Bitcode repository-evidence search.
-It performs bounded recursive text search from a caller-provided working directory and returns line-level source evidence for need measurement, prompt/tool grounding, proof inspection, and AssetPack planning.
+It performs bounded recursive text search from a caller-provided working directory and returns line-level source evidence for read measurement, prompt/tool grounding, proof inspection, and AssetPack planning.
 
 This package does not own product semantics.
 It is a low-level support primitive consumed by prompt-bearing generic-tool wrappers and higher Bitcode inference corridors.
@@ -14,7 +14,7 @@ It is a low-level support primitive consumed by prompt-bearing generic-tool wrap
 import { simpleSystemTextSearch } from '@bitcode/system-grep';
 
 const matches = await simpleSystemTextSearch({
-  pattern: ['needDescription', 'assetPack'],
+  pattern: ['readDescription', 'assetPack'],
   cwd: process.cwd(),
   maxResults: 100,
   ignoreCase: false
@@ -56,9 +56,9 @@ interface GrepMatch {
 
 Use this primitive to collect repository evidence before another owner acts:
 
-- need-comprehension tools can inspect source wording before deriving satisfaction criteria;
+- read-comprehension tools can inspect source wording before deriving satisfaction criteria;
 - asset-pack synthesis agents can locate local prompt, schema, package, or proof owners;
 - proof writers can cite source-bearing implementation lines;
 - validation agents can check whether expected terminology is present.
 
-Do not use this package as a replacement for proof generation, file mutation, delivery mechanisms, or canonical need interpretation.
+Do not use this package as a replacement for proof generation, file mutation, delivery mechanisms, or canonical read interpretation.

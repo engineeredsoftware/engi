@@ -81,7 +81,7 @@ const readyToInstructPrompt = (() => {
   );
   prompt.set(
     'agent/constraints',
-    createPromptPart('Prefer honest operator review over false progress; do not promote a run toward Finish when missing evidence, unresolved implementation issues, or unclear Need alignment remain.')
+    createPromptPart('Prefer honest operator review over false progress; do not promote a run toward Finish when missing evidence, unresolved implementation issues, or unclear Read alignment remain.')
   );
   prompt.set('ptrr/plan/purpose', createPromptPart('Plan the self-instruction decision from validation issue counts, iteration bounds, file-change evidence, and run complexity.'));
   prompt.set('ptrr/try/purpose', createPromptPart('Calculate confidence factors and decide whether operator instruction is needed before the next iteration.'));
@@ -95,7 +95,7 @@ const readyToInstructPrompt = (() => {
 
 const readyToInstructStepPrompts = {
   plan: () => createReadyToInstructStepPrompt('Plan the Bitcode self-instruction decision from validation state and remaining proof obligations.'),
-  try: () => createReadyToInstructStepPrompt('Compute confidence factors, instruction need, continuation posture, and a concise operator-facing summary.'),
+  try: () => createReadyToInstructStepPrompt('Compute confidence factors, instruction read, continuation posture, and a concise operator-facing summary.'),
   refine: () => createReadyToInstructStepPrompt('Tighten the confidence judgment against unresolved issues and source-to-shares closure risk.'),
   retry: () => createReadyToInstructStepPrompt('Return conservative instruction suggestions when confidence evidence is incomplete.'),
 };

@@ -1,5 +1,5 @@
 -- Saved query name: v28_qa_terminal_02_activity_after_write
--- Purpose: run after each Terminal Give/Need/Fit/branch action. It reports
+-- Purpose: run after each Terminal Deposit/Read/Fit/branch action. It reports
 -- recent Terminal activity rows, runtime rows, and errors. Optional runtime
 -- tables are reported as missing instead of making the whole query fail.
 
@@ -33,8 +33,8 @@ BEGIN
             'summary', coalesce(output ->> 'summary', output #>> '{asset_pack_completion,summary}'),
             'repo_snapshot', coalesce(output -> 'repo_snapshot', output #> '{asset_pack_completion,repoSnapshot}'),
             'bitcode_activity_state', output #> '{asset_pack_completion,bitcodeActivityState}',
-            'give', output -> 'give',
-            'need_measurement', output -> 'needMeasurement',
+            'deposit', output -> 'deposit',
+            'read_measurement', output -> 'readMeasurement',
             'fit', output -> 'fit',
             'repository_anchor', output -> 'repositoryAnchor'
           ) AS output_summary,
@@ -55,7 +55,7 @@ BEGIN
           created_at > now() - interval '24 hours'
           OR type IN (
             'agentic-execution:asset-pack',
-            'agentic-execution:need-measurement',
+            'agentic-execution:read-measurement',
             'agentic-execution:proof-refresh'
           )
         ORDER BY created_at DESC

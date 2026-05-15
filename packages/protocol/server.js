@@ -63,7 +63,7 @@
  *   latestRun?: unknown,
  *   runHistory?: unknown[],
  *   specVersion?: string,
- *   needScenarios?: unknown[],
+ *   readScenarios?: unknown[],
  *   policyState?: unknown,
  *   conformanceProfiles?: unknown
  * }} AppState
@@ -104,10 +104,10 @@
  *   scenarioId?: string | undefined,
  *   branchMode?: string | undefined,
  *   paymentMode?: string | undefined,
- *   needReviewAction?: string | undefined,
- *   needReviewFeedback?: string[] | string | undefined,
- *   needReviewActorId?: string | undefined,
- *   needReviewDecisionMode?: string | undefined,
+ *   readReviewAction?: string | undefined,
+ *   readReviewFeedback?: string[] | string | undefined,
+ *   readReviewActorId?: string | undefined,
+ *   readReviewDecisionMode?: string | undefined,
  *   reviewAction?: string | undefined,
  *   reviewFeedback?: string[] | string | undefined,
  *   actorId?: string | undefined,
@@ -122,9 +122,9 @@ import { fileURLToPath } from 'node:url';
 import {
   buildInitialState,
   makeCandidateAsset,
-  measureNeedFromScenario,
+  measureReadFromScenario,
   publicState as buildPublicState,
-  reviewNeedForFitSearch,
+  reviewReadForFitSearch,
   runMakeBitcodeBranch,
   SPEC_VERSION
 } from './src/bitcode-runtime.js';
@@ -274,11 +274,11 @@ export function createAppContext({
    * @param {unknown} scenarioId
    * @returns {any}
    */
-  function resolveNeedReviewScenario(state, scenarioId) {
+  function resolveReadReviewScenario(state, scenarioId) {
     const normalizedScenarioId = String(scenarioId || '').trim();
-    const scenario = state.needScenarios?.find((entry) => String(/** @type {any} */ (entry)?.scenarioId || '') === normalizedScenarioId)
-      || (!normalizedScenarioId ? state.needScenarios?.[0] : null);
-    if (!scenario) throw badRequest('Need scenario not found.');
+    const scenario = state.readScenarios?.find((entry) => String(/** @type {any} */ (entry)?.scenarioId || '') === normalizedScenarioId)
+      || (!normalizedScenarioId ? state.readScenarios?.[0] : null);
+    if (!scenario) throw badRequest('Read scenario not found.');
     return scenario;
   }
 
@@ -287,16 +287,16 @@ export function createAppContext({
    * @param {RequestBodyShape} body
    * @returns {Record<string, unknown>}
    */
-  function buildNeedReviewPayload(state, body = {}) {
-    const scenario = resolveNeedReviewScenario(state, body.scenarioId);
-    const measurement = measureNeedFromScenario(scenario);
-    const reviewableNeed = measurement.reviewableNeed;
-    const fitSearchAdmission = reviewableNeed.fitSearchAdmission;
+  function buildReadReviewPayload(state, body = {}) {
+    const scenario = resolveReadReviewScenario(state, body.scenarioId);
+    const measurement = measureReadFromScenario(scenario);
+    const reviewableRead = measurement.reviewableRead;
+    const fitSearchAdmission = reviewableRead.fitSearchAdmission;
     return {
       ok: true,
       specVersion: SPEC_VERSION,
       protocolFocus: 'source-to-shares',
-      reviewStage: reviewableNeed.reviewStage,
+      reviewStage: reviewableRead.reviewStage,
       scenario: {
         scenarioId: scenario.scenarioId,
         scenarioFamily: scenario.scenarioFamily,
@@ -304,25 +304,25 @@ export function createAppContext({
         baseRef: scenario.baseRef
       },
       measurement: {
-        needId: measurement.needDescriptor.needId,
-        task: measurement.needDescriptor.task,
-        failureModes: measurement.needDescriptor.failureModes,
-        constraints: measurement.needDescriptor.constraints,
-        targetArtifactKinds: measurement.needDescriptor.targetArtifactKinds,
-        closureCriteria: measurement.needDescriptor.closureCriteria,
-        measurementHash: reviewableNeed.measurementRefs?.measurementHash || null,
-        reviewableNeedRef: reviewableNeed.reviewableNeedHash || null
+        readId: measurement.readDescriptor.readId,
+        task: measurement.readDescriptor.task,
+        failureModes: measurement.readDescriptor.failureModes,
+        constraints: measurement.readDescriptor.constraints,
+        targetArtifactKinds: measurement.readDescriptor.targetArtifactKinds,
+        closureCriteria: measurement.readDescriptor.closureCriteria,
+        measurementHash: reviewableRead.measurementRefs?.measurementHash || null,
+        reviewableReadRef: reviewableRead.reviewableReadHash || null
       },
-      reviewableNeed,
-      allowedActions: reviewableNeed.allowedActions,
+      reviewableRead,
+      allowedActions: reviewableRead.allowedActions,
       fitSearchAdmission,
-      needFittingReview: buildNeedFittingReviewPayload({
+      readFittingReview: buildReadFittingReviewPayload({
         scenario,
         measurement,
-        reviewableNeed,
+        reviewableRead,
         fitSearchAdmission
       }),
-      nextProtocolAction: 'POST /api/need-review with action=accept|reject|remeasure-with-feedback'
+      nextProtocolAction: 'POST /api/read-review with action=accept|reject|remeasure-with-feedback'
     };
   }
 
@@ -330,41 +330,41 @@ export function createAppContext({
    * @param {{
    *   scenario: unknown,
    *   measurement: Record<string, any>,
-   *   reviewableNeed: Record<string, any>,
+   *   reviewableRead: Record<string, any>,
    *   fitSearchAdmission?: Record<string, any> | undefined,
    *   reviewDecision?: Record<string, any> | null | undefined
    * }} input
    * @returns {Record<string, unknown>}
    */
-  function buildNeedFittingReviewPayload({
+  function buildReadFittingReviewPayload({
     scenario,
     measurement,
-    reviewableNeed,
-    fitSearchAdmission = reviewableNeed.fitSearchAdmission,
+    reviewableRead,
+    fitSearchAdmission = reviewableRead.fitSearchAdmission,
     reviewDecision = null
   }) {
     const scenarioRecord = /** @type {any} */ (scenario || {});
-    const needDescriptor = /** @type {any} */ (measurement.needDescriptor || {});
-    const measuredNeedSnapshot = /** @type {any} */ (reviewableNeed.measuredNeedSnapshot || {});
-    const blockedStages = fitSearchAdmission?.blockedStages || reviewableNeed.fitSearchAdmission?.blockedStages || [];
+    const readDescriptor = /** @type {any} */ (measurement.readDescriptor || {});
+    const measuredReadSnapshot = /** @type {any} */ (reviewableRead.measuredReadSnapshot || {});
+    const blockedStages = fitSearchAdmission?.blockedStages || reviewableRead.fitSearchAdmission?.blockedStages || [];
     const admittedStages = fitSearchAdmission?.admittedStages || [];
     return {
-      artifactKind: 'bitcode-need-fitting-review',
+      artifactKind: 'bitcode-read-fitting-review',
       protocolFocus: 'source-to-shares',
       scenarioId: scenarioRecord.scenarioId || null,
       scenarioFamily: scenarioRecord.scenarioFamily || null,
-      needId: reviewableNeed.needId || needDescriptor.needId || null,
-      task: measuredNeedSnapshot.task || needDescriptor.task || null,
-      reviewStage: reviewableNeed.reviewStage || 'post-measurement-pre-fit',
-      status: reviewDecision?.status || reviewableNeed.status || null,
+      readId: reviewableRead.readId || readDescriptor.readId || null,
+      task: measuredReadSnapshot.task || readDescriptor.task || null,
+      reviewStage: reviewableRead.reviewStage || 'post-measurement-pre-fit',
+      status: reviewDecision?.status || reviewableRead.status || null,
       action: reviewDecision?.action || null,
-      requiredAfter: reviewableNeed.requiredAfter || 'need-measurement-synthesized',
-      requiredBefore: reviewableNeed.requiredBefore || 'find-fitting-settlement',
-      allowedActions: reviewableNeed.allowedActions || [],
-      actionContracts: reviewableNeed.actionContracts || {},
-      reviewQuestions: reviewableNeed.reviewQuestions || [],
-      measurementHash: reviewableNeed.measurementRefs?.measurementHash || null,
-      reviewableNeedRef: reviewableNeed.reviewableNeedHash || null,
+      requiredAfter: reviewableRead.requiredAfter || 'read-measurement-synthesized',
+      requiredBefore: reviewableRead.requiredBefore || 'find-fitting-settlement',
+      allowedActions: reviewableRead.allowedActions || [],
+      actionContracts: reviewableRead.actionContracts || {},
+      reviewQuestions: reviewableRead.reviewQuestions || [],
+      measurementHash: reviewableRead.measurementRefs?.measurementHash || null,
+      reviewableReadRef: reviewableRead.reviewableReadHash || null,
       fitSearchAdmission: {
         admitted: fitSearchAdmission?.admitted === true,
         admissionReason: fitSearchAdmission?.admissionReason || null,
@@ -393,13 +393,13 @@ export function createAppContext({
         ],
         blockedStages,
         admittedStages,
-        blockedUntil: fitSearchAdmission?.admitted === true ? null : 'Need review action=accept'
+        blockedUntil: fitSearchAdmission?.admitted === true ? null : 'Read review action=accept'
       },
-      measuredNeedSnapshot: {
-        failureModes: measuredNeedSnapshot.failureModes || needDescriptor.failureModes || [],
-        constraints: measuredNeedSnapshot.constraints || needDescriptor.constraints || [],
-        targetArtifactKinds: measuredNeedSnapshot.targetArtifactKinds || needDescriptor.targetArtifactKinds || [],
-        closureCriteria: measuredNeedSnapshot.closureCriteria || needDescriptor.closureCriteria || []
+      measuredReadSnapshot: {
+        failureModes: measuredReadSnapshot.failureModes || readDescriptor.failureModes || [],
+        constraints: measuredReadSnapshot.constraints || readDescriptor.constraints || [],
+        targetArtifactKinds: measuredReadSnapshot.targetArtifactKinds || readDescriptor.targetArtifactKinds || [],
+        closureCriteria: measuredReadSnapshot.closureCriteria || readDescriptor.closureCriteria || []
       }
     };
   }
@@ -654,69 +654,69 @@ export function createAppContext({
    * @param {RequestBodyShape} body
    * @returns {Record<string, unknown>}
    */
-  function getNeedReview(body = {}) {
-    return buildNeedReviewPayload(readState(), body);
+  function getReadReview(body = {}) {
+    return buildReadReviewPayload(readState(), body);
   }
 
   /**
    * @param {RequestBodyShape} body
    * @returns {Record<string, unknown>}
    */
-  function reviewNeed(body = {}) {
+  function reviewRead(body = {}) {
     const state = readState();
-    const payload = buildNeedReviewPayload(state, body);
-    const action = String(body.needReviewAction || body.reviewAction || 'accept').trim() || 'accept';
-    const feedback = normalizeReviewFeedback(body.needReviewFeedback || body.reviewFeedback || []);
-    const needReview = reviewNeedForFitSearch(/** @type {any} */ (payload.reviewableNeed), {
+    const payload = buildReadReviewPayload(state, body);
+    const action = String(body.readReviewAction || body.reviewAction || 'accept').trim() || 'accept';
+    const feedback = normalizeReviewFeedback(body.readReviewFeedback || body.reviewFeedback || []);
+    const readReview = reviewReadForFitSearch(/** @type {any} */ (payload.reviewableRead), {
       action,
       feedback,
-      actorId: body.needReviewActorId || body.actorId || 'bitcode-terminal:need-review',
-      decisionMode: body.needReviewDecisionMode || body.decisionMode || 'operator-review-api'
+      actorId: body.readReviewActorId || body.actorId || 'bitcode-terminal:read-review',
+      decisionMode: body.readReviewDecisionMode || body.decisionMode || 'operator-review-api'
     });
-    const reviewDecision = /** @type {any} */ (needReview).reviewDecision || {};
+    const reviewDecision = /** @type {any} */ (readReview).reviewDecision || {};
     const historyEntry = {
       reviewId: `need_review_${Date.now().toString(36)}`,
       protocolFocus: 'source-to-shares',
       scenario: payload.scenario,
       measurement: payload.measurement,
       action: reviewDecision.action,
-      status: needReview.status,
-      fitSearchAdmission: needReview.fitSearchAdmission,
+      status: readReview.status,
+      fitSearchAdmission: readReview.fitSearchAdmission,
       actorId: reviewDecision.actorId,
       decisionMode: reviewDecision.decisionMode,
       feedback,
-      needReview,
+      readReview,
       createdAt: new Date().toISOString()
     };
     const stateRecord = /** @type {any} */ (state);
     writeState({
       ...state,
-      latestNeedReview: historyEntry,
-      needReviewHistory: [...(Array.isArray(stateRecord.needReviewHistory) ? stateRecord.needReviewHistory : []), historyEntry].slice(-20)
+      latestReadReview: historyEntry,
+      readReviewHistory: [...(Array.isArray(stateRecord.readReviewHistory) ? stateRecord.readReviewHistory : []), historyEntry].slice(-20)
     });
 
     return {
       ...payload,
       ok: true,
-      needReview,
+      readReview,
       reviewDecision,
-      fitSearchAdmission: needReview.fitSearchAdmission,
-      needFittingReview: buildNeedFittingReviewPayload({
+      fitSearchAdmission: readReview.fitSearchAdmission,
+      readFittingReview: buildReadFittingReviewPayload({
         scenario: payload.scenario,
-        measurement: { needDescriptor: payload.measurement },
-        reviewableNeed: /** @type {any} */ (payload.reviewableNeed),
-        fitSearchAdmission: needReview.fitSearchAdmission,
+        measurement: { readDescriptor: payload.measurement },
+        reviewableRead: /** @type {any} */ (payload.reviewableRead),
+        fitSearchAdmission: readReview.fitSearchAdmission,
         reviewDecision
       }),
       stateWrite: {
-        latestNeedReviewRef: historyEntry.reviewId,
-        fitSearchAdmitted: needReview.fitSearchAdmission?.admitted === true
+        latestReadReviewRef: historyEntry.reviewId,
+        fitSearchAdmitted: readReview.fitSearchAdmission?.admitted === true
       },
-      nextProtocolAction: needReview.fitSearchAdmission?.admitted
+      nextProtocolAction: readReview.fitSearchAdmission?.admitted
         ? 'POST /api/make-bitcode-branch'
         : action === 'remeasure-with-feedback'
-          ? 'GET /api/need-review after revising the Need measurement input'
-          : 'Select a different Need or reject this source-to-shares fit search'
+          ? 'GET /api/read-review after revising the Read measurement input'
+          : 'Select a different Read or reject this source-to-shares fit search'
     };
   }
 
@@ -748,18 +748,18 @@ export function createAppContext({
     if (buyerId && !state.buyers.some((buyer) => String(/** @type {any} */ (buyer)?.buyerId || '') === buyerId)) {
       throw badRequest('Buyer not found.');
     }
-    if (scenarioId && !state.needScenarios?.some((scenario) => String(/** @type {any} */ (scenario)?.scenarioId || '') === scenarioId)) {
-      throw badRequest('Need scenario not found.');
+    if (scenarioId && !state.readScenarios?.some((scenario) => String(/** @type {any} */ (scenario)?.scenarioId || '') === scenarioId)) {
+      throw badRequest('Read scenario not found.');
     }
     const branchRequest = {
       buyerId,
       scenarioId,
       branchMode,
       paymentMode,
-      needReviewAction: body.needReviewAction || body.reviewAction,
-      needReviewFeedback: body.needReviewFeedback || body.reviewFeedback,
-      needReviewActorId: body.needReviewActorId || body.actorId,
-      needReviewDecisionMode: body.needReviewDecisionMode || body.decisionMode
+      readReviewAction: body.readReviewAction || body.reviewAction,
+      readReviewFeedback: body.readReviewFeedback || body.reviewFeedback,
+      readReviewActorId: body.readReviewActorId || body.actorId,
+      readReviewDecisionMode: body.readReviewDecisionMode || body.decisionMode
     };
     const { nextState, latestRun } = runMakeBitcodeBranch(state, branchRequest);
     const stateRecord = /** @type {any} */ (state);
@@ -879,16 +879,16 @@ export function createAppContext({
         return sendJson(res, 200, await makeBitcodeBranch(body));
       }
 
-      if (req.method === 'GET' && req.url?.startsWith('/api/need-review')) {
+      if (req.method === 'GET' && req.url?.startsWith('/api/read-review')) {
         const url = new URL(req.url, 'http://127.0.0.1');
-        return sendJson(res, 200, getNeedReview({
+        return sendJson(res, 200, getReadReview({
           scenarioId: url.searchParams.get('scenarioId') || undefined
         }));
       }
 
-      if (req.method === 'POST' && req.url === '/api/need-review') {
+      if (req.method === 'POST' && req.url === '/api/read-review') {
         const body = await readBody(req);
-        return sendJson(res, 200, reviewNeed(body));
+        return sendJson(res, 200, reviewRead(body));
       }
 
       if (req.method === 'POST' && req.url === '/api/reset') {
@@ -949,8 +949,8 @@ export function createAppContext({
     writeState,
     publicState: buildPublicState,
     getState,
-    getNeedReview,
-    reviewNeed,
+    getReadReview,
+    reviewRead,
     createDeposit,
     makeBitcodeBranch,
     resetState,

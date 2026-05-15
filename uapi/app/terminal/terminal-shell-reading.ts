@@ -34,7 +34,7 @@ export function jumpToShellSection(id: string) {
 export function toneForPanel(id: string) {
   if (id === 'panelOperatingPicture') return 'border-cyan-400/20 bg-cyan-400/5';
   if (id === 'panelDepositing') return 'border-emerald-400/20 bg-emerald-400/5';
-  if (id === 'panelNeeding') return 'border-sky-400/20 bg-sky-400/5';
+  if (id === 'panelReading') return 'border-sky-400/20 bg-sky-400/5';
   if (id === 'panelFit') return 'border-amber-400/20 bg-amber-400/5';
   if (id === 'panelEvaluations') return 'border-lime-400/20 bg-lime-400/5';
   if (id === 'panelBranchArtifacts') return 'border-violet-400/20 bg-violet-400/5';

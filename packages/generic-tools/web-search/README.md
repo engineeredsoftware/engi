@@ -1,20 +1,20 @@
-# Bitcode Need-Synthesis Web Search Tools
+# Bitcode Read-Synthesis Web Search Tools
 
 This package keeps the retained `@bitcode/generic-tools-web-search` path while
 V26 reforms its purpose: callable web search and content retrieval are admitted
-only as discovery-phase external evidence support for Bitcode need synthesis.
+only as discovery-phase external evidence support for Bitcode read synthesis.
 
 The tools can gather source-attributed evidence, retrieve cited source content,
 compare providers, classify URLs, and expose provider health when that improves
-source coverage. They do not own canonical need interpretation, proof closure,
+source coverage. They do not own canonical read interpretation, proof closure,
 source mutation, delivery-mechanism choice, Bitcode Exchange behavior, or
 Bitcode Terminal behavior. Search output is not proof closure.
 
 ## Admitted Tools
 
-- `search`: source-attributed web search for a declared Bitcode need or proof
+- `search`: source-attributed web search for a declared Bitcode read or proof
   gap.
-- `searchWithUrlIntelligence`: URL-assisted query targeting for the active need
+- `searchWithUrlIntelligence`: URL-assisted query targeting for the active read
   only.
 - `multiProviderSearch`: provider comparison when corroboration or source
   coverage matters.

@@ -20,7 +20,7 @@ This file remains an internal specification note, not a cited public paper.
 The May 6, 2026 web deep-research report sharpens V27 from open tokenomics research into implementation preparation.
 The following conclusions are now draft-target guidance:
 
-- keep `$BTD` compact at the base layer: finite cap, non-fungible cell, AssetPack range, Need-Fit-Prove-Settle minting;
+- keep `$BTD` compact at the base layer: finite cap, non-fungible cell, AssetPack range, Read-Fit-Prove-Settle minting;
 - make the AssetPack range the commercial unit and keep individual cells as proof/accounting units;
 - define normalized Bitcode volume as proof-addressable semantic volume, not raw bytes or tokenizer counts;
 - use BTC as fee asset through actual wallet-authorized transactions, with PSBT-style signing and no server custody of user private keys;
@@ -39,9 +39,9 @@ V27 should formalize `$BTD` as a capped, non-fungible, proof-backed source-share
 
 Bitcode already frames Source Shares as measured technical intelligence moving through:
 
-1. Give source.
-2. Express or measure a Need.
-3. Fit source to that Need.
+1. Deposit source.
+2. Express or measure a Read.
+3. Fit source to that Read.
 4. Prove provenance, dedupe, admissibility, and value.
 5. Settle contribution and rights.
 6. Issue `$BTD` only after closure.
@@ -49,7 +49,7 @@ Bitcode already frames Source Shares as measured technical intelligence moving t
 
 The strongest V27 formalization is:
 
-> `$BTD` is a finite non-fungible registry of source-measurement-backed cells, minted only when source becomes fit to a Need, proves out, and settles into an AssetPack.
+> `$BTD` is a finite non-fungible registry of source-measurement-backed cells, minted only when source becomes fit to a Read, proves out, and settles into an AssetPack.
 
 Each AssetPack should occupy exactly one contiguous range of `$BTD` cells.
 The individual cell preserves provenance and non-fungibility.
@@ -71,7 +71,7 @@ V27 should open from the following core law:
 ```text
 One $BTD = one unique cell in a finite global Bitcode source-share registry.
 One AssetPack = one contiguous range of $BTD cells.
-Minting occurs only at Need -> Fit -> Prove -> Settle closure.
+Minting occurs only at Read -> Fit -> Prove -> Settle closure.
 Licensed reads, not optional marketplace royalties, are the main recurring revenue source.
 Ancestor participation is evidence-based, not age-based.
 ```
@@ -98,7 +98,7 @@ V27 owns tokenomics law and the minimum crypto-commercial implementation path.
 
 V27 owns:
 
-- Terminal Need/Fit minting as the canonical mint path.
+- Terminal Read/Fit minting as the canonical mint path.
 - minimal Exchange existing-`$BTD` acquisition, bid/ask, and rights transfer.
 - wallet/provider signing posture sufficient for user-authorized transactions.
 - actual BTC fee transaction receipts.
@@ -222,7 +222,7 @@ export interface AssetPackRange {
   rangeEndExclusive: BtdTokenId;
   tokenCount: number;
   normalizedBitcodeVolume: bigint;
-  needId: string;
+  readId: string;
   fitReceiptRoot: string;
   proofRoot: string;
   sourceManifestRoot: string;
@@ -268,11 +268,11 @@ Minimum receipt fields:
 ## Lifecycle
 
 V27 should make issuance downstream of proof and settlement.
-Source deposit or Need discovery alone must not mint `$BTD`.
+Source deposit or Read discovery alone must not mint `$BTD`.
 
 ```text
-Give source plus context
-  -> Need is measured
+Deposit source plus context
+  -> Read is measured
   -> Fit evaluates utility, quality, valence, provenance, and dedupe
   -> Proof validates provenance, dedupe, admissibility, and replay
   -> Settlement allocates contributors, rights, policy, and revenue posture
@@ -284,10 +284,10 @@ Normative issuance rule:
 
 ```text
 Source deposit does not mint $BTD.
-Need discovery does not mint $BTD.
+Read discovery does not mint $BTD.
 Candidate fit does not mint $BTD.
 Uncommitted proof does not mint $BTD.
-Only proof-backed Need-Fit settlement mints $BTD.
+Only proof-backed Read-Fit settlement mints $BTD.
 ```
 
 ## Quantity, Allocation, And Revenue
@@ -331,7 +331,7 @@ Required semantic-volume properties:
 Measureminting-specific invariants:
 
 - settlement order is Exchange-sequence order;
-- cumulative measurement advances only after Need-Fit-Prove-Settle;
+- cumulative measurement advances only after Read-Fit-Prove-Settle;
 - duplicate normalized source cannot increase cumulative measurement;
 - splitting or merging equivalent source cannot improve total minted count;
 - residual mint credit is deterministic and replayable;
@@ -417,7 +417,7 @@ V27 should use fixed-supply measureminting decay as the primary issuance law and
 
 ```text
 Before tail:
-  Need-Fit-Prove-Settle events mint cells according to decayed cumulative measurement.
+  Read-Fit-Prove-Settle events mint cells according to decayed cumulative measurement.
 
 During tail:
   valid events may mint zero or one cells depending on deterministic residual entitlement.
@@ -435,7 +435,7 @@ Rejected policies:
 - age-based rent to old token IDs after exhaustion.
 
 Whole-cell indivisibility means infinite nonzero minting from 21,000,000 cells is impossible.
-V27 therefore treats infinite future Need-Fit activity as infinite possible receipts, not infinite possible cell mints.
+V27 therefore treats infinite future Read-Fit activity as infinite possible receipts, not infinite possible cell mints.
 
 ## Ancestry Finding
 
@@ -602,7 +602,7 @@ V27 must repeat a small rigid rule set across spec, packages, receipts, database
 | Invariant | Required expression |
 | --- | --- |
 | hard cap | `totalMinted + tokenCount <= 21_000_000` |
-| Need-Fit-only issuance | mint fails before proof-backed settlement |
+| Read-Fit-only issuance | mint fails before proof-backed settlement |
 | range contiguity | `rangeStart === previous.nextTokenId` |
 | range validity | `rangeEndExclusive > rangeStart` |
 | no overlap | no two AssetPack ranges overlap |
@@ -701,7 +701,7 @@ V27 should adopt a proof-and-review discipline closer to utility-proof systems t
 - newly allocated value may carry a dispute holdback;
 - weak ancestor edges are recorded but unpaid;
 - age-based premiums are prohibited;
-- broad foundational claims need concrete downstream dependency evidence.
+- broad foundational claims read concrete downstream dependency evidence.
 
 ## Legal And Product Disclosures
 
@@ -725,7 +725,7 @@ The access-right matrix should distinguish at least:
 UI must show:
 
 - AssetPack range;
-- minted from Need-Fit settlement;
+- minted from Read-Fit settlement;
 - normalized volume;
 - owner-read/licensed-read/no-read posture;
 - ancestry routes when present;
@@ -753,10 +753,10 @@ V27 must answer these before promotion:
 5. What legal rights does `$BTD` convey, and which rights require a separate license?
 6. How are source-right disputes filed, bonded, reviewed, and resolved?
 7. How strong should the anti-game layer be at launch?
-8. Which reviewer/prover roles need reputation or bond requirements?
+8. Which reviewer/prover roles read reputation or bond requirements?
 9. What is the exact minimal V27 Exchange boundary for buy, sell, bid, ask, cancellation, settlement, and rights transfer before broader V28+ market depth begins?
 10. Should wrapper slices exist in V27 tests only, or be postponed until the base range registry has live evidence?
-11. How does zero-cell/refit tail value routing work when a new Need depends on a practically exhausted registry?
+11. How does zero-cell/refit tail value routing work when a new Read depends on a practically exhausted registry?
 
 ## Implementation Priority
 
@@ -795,7 +795,7 @@ Minimum V27 crypto surfaces:
 - actual BTC fee transactions for mint, anchor, license, transfer, Exchange, and Terminal operations;
 - ledgerized AssetPack anchors that bind range, source root, proof root, and access policy hash without exposing private source;
 - minimal Exchange order flow for buy, sell, bid, ask, cancellation, acceptance, settlement, and rights transfer;
-- Terminal transaction journals for Need, Fit, proof, mint, fee, anchor, license, order, transfer, dispute, and settlement finalization;
+- Terminal transaction journals for Read, Fit, proof, mint, fee, anchor, license, order, transfer, dispute, and settlement finalization;
 - ledgerized journal diffing across Terminal intent, Exchange settlement, external ledger observation, database projection, proof roots, and telemetry;
 - database synchronization where external ledgers are source of truth for cryptographic finality and the database is ledger-derived plus metaphysical canonical state;
 - testnet and mainnet-ready deployment lanes;
@@ -862,7 +862,7 @@ Gate 15 closes the draft-target testnet/mainnet-ready, telemetry, and upgrade im
 
 Gate 16 closes product-surface, research, and promotion proof readiness:
 
-- Terminal Need minting and minimal Exchange range-right acquisition are both V27 product surfaces;
+- Terminal Read minting and minimal Exchange range-right acquisition are both V27 product surfaces;
 - broader Exchange market depth and broader Terminal product workflows remain later-version work;
 - `/btd/[assetPackId]` is the unversioned AssetPack range disclosure route for range, access policy, read branch, proof root, and source manifest root;
 - `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds official-source crypto research to V27 choices without freezing candidate adapter libraries as protocol law;
@@ -888,7 +888,7 @@ The first V27 commercial API boundary should remain intentionally narrow:
 authenticated registry snapshots can expose supply and AssetPack range projections, and authenticated mint drafts can compute semantic volume, measureminting, range, mint receipt, allocation, and Terminal journal projections.
 Those draft routes are not committing mint APIs until Exchange persistence, wallet/BTC fee, ledger anchor, and replay proofs are closed.
 
-Metaphysical canonical database facts include private source metadata, encrypted storage pointers, Need/Fit records before ledgerization, access policy documents, proof bundles, disputes, telemetry, pending settlement state, and user-experience state that cannot be a public ledger fact.
+Metaphysical canonical database facts include private source metadata, encrypted storage pointers, Read/Fit records before ledgerization, access policy documents, proof bundles, disputes, telemetry, pending settlement state, and user-experience state that cannot be a public ledger fact.
 
 V27 must treat value-bearing mainnet launch as an operational approval event after V27 proves mainnet-ready controls.
 Spec promotion is not itself permission to move real value on mainnet.
@@ -968,7 +968,7 @@ export interface AssetPackExchangeOrder {
 
 ## Web Research Deep-Study Agenda
 
-Before V27 promotes any normative crypto/library choices, the following agenda needs current web research rebound to primary sources, official docs, BIPs/EIPs, implementation docs, or audited library documentation.
+Before V27 promotes any normative crypto/library choices, the following agenda reads current web research rebound to primary sources, official docs, BIPs/EIPs, implementation docs, or audited library documentation.
 
 Research outputs should answer: what is the current standard, what libraries are production-grade, what failure modes matter, what licensing/security constraints exist, and how the choice maps to V27 proof requirements.
 
@@ -1070,7 +1070,7 @@ The research result should come back as source-bound findings with explicit impl
 
 ## Working Definition
 
-> `$BTD` is Bitcode's finite 21,000,000-cell non-fungible source-share registry. Each cell is minted only at proof-backed Need-Fit settlement. Each AssetPack occupies a contiguous `$BTD` range whose length is derived from normalized Bitcode volume. Holding `$BTD` grants source-share owner-read/audit rights for the associated cell or range under an immutable access policy, while licensed reads route revenue to current holders and, when proven after child fit, knowledge ancestors through Exchange receipts. V27 makes this commercially real through wallet-authorized BTC fee transactions, ledgerized AssetPack anchors, minimal Exchange rights transfers, Terminal journals, and ledger/database reconciliation.
+> `$BTD` is Bitcode's finite 21,000,000-cell non-fungible source-share registry. Each cell is minted only at proof-backed Read-Fit settlement. Each AssetPack occupies a contiguous `$BTD` range whose length is derived from normalized Bitcode volume. Holding `$BTD` grants source-share owner-read/audit rights for the associated cell or range under an immutable access policy, while licensed reads route revenue to current holders and, when proven after child fit, knowledge ancestors through Exchange receipts. V27 makes this commercially real through wallet-authorized BTC fee transactions, ledgerized AssetPack anchors, minimal Exchange rights transfers, Terminal journals, and ledger/database reconciliation.
 
 ## V27 Closure Target
 
@@ -1079,7 +1079,7 @@ V27 should be closable only when all of the following are true:
 - SPEC, DELTA, NOTES, PARITY, and PROVEN files exist for V27.
 - `BTD_MAX_MINTABLE_SUPPLY` is a package, proof, receipt, DB, and UI invariant.
 - AssetPack range minting is the only canonical issuance path.
-- Need-Fit settlement is the only mint admission point.
+- Read-Fit settlement is the only mint admission point.
 - `$BTD` is rejected as a fungible spend token everywhere.
 - owner-read and licensed-read are distinct and tested.
 - the canonical receipt replay reconstructs supply state and allocation state.

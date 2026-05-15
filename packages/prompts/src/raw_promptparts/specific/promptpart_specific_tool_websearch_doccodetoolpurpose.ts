@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
- * intent: "Bitcode need-synthesis web search tool purpose"
+ * intent: "Bitcode read-synthesis web search tool purpose"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLPURPOSE: PromptPart =
-  'Search the web for source-attributed external evidence that supports Bitcode discovery-phase need synthesis; the results are auxiliary context for downstream need and proof owners, not proof closure by themselves' as PromptPart;
+  'Search the web for source-attributed external evidence that supports Bitcode discovery-phase read synthesis; the results are auxiliary context for downstream read and proof owners, not proof closure by themselves' as PromptPart;

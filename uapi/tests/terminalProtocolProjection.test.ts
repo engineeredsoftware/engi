@@ -54,13 +54,13 @@ describe('terminal-protocol-projection', () => {
         },
       ],
       selection: {
-        projectionPrincipal: 'giver',
+        projectionPrincipal: 'depositor',
         branchMode: 'patch',
         authSessionId: 'session-1',
         selectedInventoryEntryIds: ['entry-1'],
       },
-      needingSurface: {
-        needSummary: 'Measure issuer-auth drift against the active repository boundary.',
+      readingSurface: {
+        readSummary: 'Measure issuer-auth drift against the active repository boundary.',
         parserKind: 'benchmark-parser',
         closureCriteria: ['bound issuer auth'],
         targetArtifactKinds: ['runbook'],
@@ -114,7 +114,7 @@ describe('terminal-protocol-projection', () => {
     const projectedRun = buildProtocolProjectedWorkspaceRun(snapshot, repositoryContext);
 
     expect(projectedRun).toMatchObject({
-      type: 'agentic-execution:need-measurement',
+      type: 'agentic-execution:read-measurement',
       status: 'running',
       sourceModel: 'protocol-projection',
       repository: 'bitcode/terminal',
@@ -132,10 +132,10 @@ describe('terminal-protocol-projection', () => {
       },
       bitcodeActivityState: {
         giveWorkbench: {
-          projectionPrincipal: 'giver',
+          projectionPrincipal: 'depositor',
           scenarioLabel: 'auth-remediation',
         },
-        needMeasurement: {
+        readMeasurement: {
           parserKind: 'benchmark-parser',
           targetKindCount: 1,
         },
@@ -172,11 +172,11 @@ describe('terminal-protocol-projection', () => {
           },
         ],
         selection: {
-          projectionPrincipal: 'needer',
+          projectionPrincipal: 'reader',
           branchMode: 'patch',
         },
-        needingSurface: {
-          needSummary: 'Measure issuer-auth drift against the active repository boundary.',
+        readingSurface: {
+          readSummary: 'Measure issuer-auth drift against the active repository boundary.',
           parserKind: 'benchmark-parser',
           closureCriteria: ['bound issuer auth'],
           targetArtifactKinds: ['runbook'],
@@ -202,10 +202,10 @@ describe('terminal-protocol-projection', () => {
 
     expect(projectedDetail).toMatchObject({
       summary: 'Measure issuer-auth drift against the active repository boundary.',
-      proofStatus: 'need-measurement witness in flight',
-      closureFocus: 'need measurement + verification posture',
+      proofStatus: 'read-measurement witness in flight',
+      closureFocus: 'read measurement + verification posture',
       bitcodeActivityState: {
-        needMeasurement: {
+        readMeasurement: {
           parserKind: 'benchmark-parser',
           closureCriteriaCount: 1,
         },

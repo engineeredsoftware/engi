@@ -11,7 +11,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PLAN_SEARCH_STRATEGY } from '@bi
  *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Plan repository evidence collection for Bitcode need measurement and AssetPack source-grounding"
+ * intent: "Plan repository evidence collection for Bitcode read measurement and AssetPack source-grounding"
  * current_version: "V26"
  */
 

@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PURPOSE_CORESTATEMENT: PromptPart =
-  'Provide Bitcode risk admission for a need, candidate written assets, AssetPack intent, proof gaps, and delivery mechanism before the retained pipeline proceeds.' as PromptPart;
+  'Provide Bitcode risk admission for a read, candidate written assets, AssetPack intent, proof gaps, and delivery mechanism before the retained pipeline proceeds.' as PromptPart;

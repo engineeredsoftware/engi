@@ -284,7 +284,7 @@ describe('Bitcode transaction write routes', () => {
     const response = await postMakeBitcodeBranch(
       new Request('http://localhost/api/make-bitcode-branch', {
         method: 'POST',
-        body: JSON.stringify({ scenarioId: 'need-1', branchMode: 'patch', principal: 'reviewer' }),
+        body: JSON.stringify({ scenarioId: 'read-1', branchMode: 'patch', principal: 'reviewer' }),
       }),
     );
     const payload = await response.json();
@@ -329,7 +329,7 @@ describe('Bitcode transaction write routes', () => {
         method: 'POST',
         body: JSON.stringify({
           repositoryAnchor: 'bitcode/bitcode',
-          scenarioId: 'need-1',
+          scenarioId: 'read-1',
           branchMode: 'patch',
           principal: 'reviewer',
         }),

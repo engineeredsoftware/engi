@@ -3,7 +3,7 @@
  *
  * Creates the Setup-[Discovery-Implementation-Validation]*-Finish
  * pattern with automatic iteration support. Finish is the broad final phase:
- * save the run result, preserve useful Need/AssetPack state, and optionally
+ * save the run result, preserve useful Read/AssetPack state, and optionally
  * deliver AssetPacks or AssetPackPartials to third-party destinations.
  *
  */

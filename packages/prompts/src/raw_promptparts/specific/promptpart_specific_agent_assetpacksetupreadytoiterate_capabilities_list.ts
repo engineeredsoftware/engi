@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack-native PromptPart for need-first asset-pack setup: agent assetpacksetupreadytoiterate capabilities list"
+ * intent: "Bitcode AssetPack-native PromptPart for read-first asset-pack setup: agent assetpacksetupreadytoiterate capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack-native PromptPart for need-first asset-pack setup: agent assetpacksetupreadytoiterate capabilities list"
+ * intent: "Bitcode AssetPack-native PromptPart for read-first asset-pack setup: agent assetpacksetupreadytoiterate capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

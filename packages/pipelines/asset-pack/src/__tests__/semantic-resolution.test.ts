@@ -3,9 +3,9 @@ import { Execution } from '@bitcode/execution-generics';
 import {
   resolveDeliveryMechanismTemplate,
   resolveDeliveryMechanismTemplateFromExecution,
-  resolveExpressedNeed,
-  resolveExpressedNeedFromExecution,
-  resolveNeedComprehensionFromExecution,
+  resolveExpressedRead,
+  resolveExpressedReadFromExecution,
+  resolveReadComprehensionFromExecution,
   resolveWrittenAssetType,
   resolveWrittenAssetTypeFromExecution,
 } from '../semantic-resolution';
@@ -16,7 +16,7 @@ describe('AssetPack semantic resolution', () => {
       resolveWrittenAssetType({
         writtenAssetType: 'design-document-review',
       })
-    ).toBe('need-satisfaction-asset-pack');
+    ).toBe('read-satisfaction-asset-pack');
   });
 
   it('keeps written-asset labels out of delivery-mechanism selection', () => {
@@ -39,10 +39,10 @@ describe('AssetPack semantic resolution', () => {
 
   it('reads delivery-mechanism templates from execution without changing written-asset kind', () => {
     const exec = new Execution('pipeline:asset-pack');
-    exec.store('pipeline', 'writtenAssetType', ['need-satisfaction-asset-pack']);
+    exec.store('pipeline', 'writtenAssetType', ['read-satisfaction-asset-pack']);
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
 
-    expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('need-satisfaction-asset-pack');
+    expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('read-satisfaction-asset-pack');
     expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('pull-request');
   });
 
@@ -54,23 +54,23 @@ describe('AssetPack semantic resolution', () => {
     expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('pull-request');
   });
 
-  it('prefers semantic need over Definition of Need mirror fields', () => {
+  it('prefers semantic read over Definition of Read mirror fields', () => {
     expect(
-      resolveExpressedNeed({
-        need: 'Need a review-ready asset pack',
-        definitionOfNeed: 'Definition of Need mirror',
+      resolveExpressedRead({
+        read: 'Read a review-ready asset pack',
+        definitionOfRead: 'Definition of Read mirror',
       })
-    ).toBe('Need a review-ready asset pack');
+    ).toBe('Read a review-ready asset pack');
   });
 
-  it('reads semantic need and need comprehension from execution mirrors first', () => {
+  it('reads semantic read and read comprehension from execution mirrors first', () => {
     const exec = new Execution('pipeline:asset-pack');
-    exec.store('pipeline', 'expressedNeed', 'Pipeline need fallback');
-    exec.store('need', 'description', 'Need a repository-bound written asset');
-    exec.store('setup/need-comprehension', 'comprehension', { intent: 'need-model' });
-    exec.store('setup/need', 'comprehension', { intent: 'semantic-need' });
+    exec.store('pipeline', 'expressedRead', 'Pipeline read fallback');
+    exec.store('read', 'description', 'Read a repository-bound written asset');
+    exec.store('setup/read-comprehension', 'comprehension', { intent: 'read-model' });
+    exec.store('setup/read', 'comprehension', { intent: 'semantic-read' });
 
-    expect(resolveExpressedNeedFromExecution(exec)).toBe('Need a repository-bound written asset');
-    expect(resolveNeedComprehensionFromExecution(exec)).toEqual({ intent: 'semantic-need' });
+    expect(resolveExpressedReadFromExecution(exec)).toBe('Read a repository-bound written asset');
+    expect(resolveReadComprehensionFromExecution(exec)).toEqual({ intent: 'semantic-read' });
   });
 });

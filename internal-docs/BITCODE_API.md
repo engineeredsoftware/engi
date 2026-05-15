@@ -9,8 +9,8 @@ The Bitcode API is the server-owned admission layer for Bitcode Exchange state. 
 API surfaces must:
 - bind identity, wallet/readiness, and repository scope,
 - accept source and attachment evidence,
-- expose measured Need review,
-- fail closed before fit search when Need review rejects or requests remeasurement,
+- expose measured Read review,
+- fail closed before fit search when Read review rejects or requests remeasurement,
 - write AssetPack, proof, and settlement outputs,
 - stream execution state to Terminal and admitted interfaces,
 - support MCP and ChatGPT-style connected interfaces without letting those interfaces own Exchange state.
@@ -21,7 +21,7 @@ Current Bitcode API families:
 - `/api/state`
 - `/api/activity`
 - `/api/deposits`
-- `/api/need-review`
+- `/api/read-review`
 - `/api/make-bitcode-branch`
 - `/api/conversations/*`
 - `/api/executions/*`
@@ -39,16 +39,16 @@ Route behavior must preserve:
 - source/repository binding,
 - execution id and correlation id storage,
 - SSE events for Terminal reread,
-- Need-measurement evidence admission,
+- Read-measurement evidence admission,
 - AssetPack written-asset snapshots,
 - Finish result summaries and delivery evidence.
 
-## Need Review Boundary
+## Read Review Boundary
 
-`/api/need-review` is the pre-fit admission boundary:
-- `GET` presents the measured Need and source-to-shares context.
+`/api/read-review` is the pre-fit admission boundary:
+- `GET` presents the measured Read and source-to-shares context.
 - `POST` records accept, reject, or remeasure-with-feedback.
-- downstream fit or branch materialization must fail closed unless the Need is accepted.
+- downstream fit or branch materialization must fail closed unless the Read is accepted.
 
 ## Connected Interfaces
 
@@ -67,6 +67,6 @@ Current Bitcode keys include:
 - `BITCODE_LLM_MODEL`
 - `BITCODE_LOG_TO_FILE`
 - `BITCODE_ENABLE_NOTIFICATIONS`
-- `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
+- `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`
 
 Removed compute and orchestration toggle keys are not admitted API contract.

@@ -134,7 +134,7 @@ module.exports = {
     '<rootDir>/tests/terminalRepositoryContextPanel.test.tsx',
     '<rootDir>/tests/terminalSupplySelection.test.ts',
     '<rootDir>/tests/terminalSupplySelectionPanel.test.tsx',
-    '<rootDir>/tests/terminalGiveNeedWorkbench.test.ts',
+    '<rootDir>/tests/terminalDepositReadWorkbench.test.ts',
     '<rootDir>/tests/terminalCoreNativeSections.test.tsx',
     '<rootDir>/tests/terminalDepositComposer.test.ts',
     '<rootDir>/tests/terminalDepositComposerCard.test.tsx',

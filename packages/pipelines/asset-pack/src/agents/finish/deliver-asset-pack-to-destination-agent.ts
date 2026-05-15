@@ -37,7 +37,7 @@ const stepPrompts = {
     const p = new Prompt();
     p.set('step:purpose', 'Execute Delivering actions through VCS tools after AssetPack synthesis artifacts are already saved.' as any);
     // Instruction for tool selection
-    p.set('tools:policy', 'Use vcs_create_pull_request after the AssetPack is synthesized. Computer use is reserved for internal Need-measurement evidence and is not a V26 Delivering tool.' as any);
+    p.set('tools:policy', 'Use vcs_create_pull_request after the AssetPack is synthesized. Computer use is reserved for internal Read-measurement evidence and is not a V26 Delivering tool.' as any);
     return p;
   },
   refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust pull-request delivery actions if initial attempts failed, such as an existing branch.' as any); return p; },

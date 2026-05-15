@@ -43,7 +43,7 @@ describe('GET /api/auxillaries/transactions', () => {
             created_at: '2026-04-19T11:00:00.000Z',
             amount: 2,
             operation_type: 'usage',
-            metadata: { description: 'Measured need' },
+            metadata: { description: 'Measured read' },
           },
         ],
         error: null,
@@ -64,7 +64,7 @@ describe('GET /api/auxillaries/transactions', () => {
       }),
       expect.objectContaining({
         id: 'usage-2',
-        description: 'Measured need',
+        description: 'Measured read',
         change: -2,
       }),
     ]);

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search techniques"
+ * intent: "Bitcode read-synthesis web search techniques"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES: PromptPart =
-  'Use source-class filters, official-domain queries, date constraints, exact phrase checks, and URL content retrieval only when they improve traceable evidence for the current Bitcode need-synthesis question.' as PromptPart;
+  'Use source-class filters, official-domain queries, date constraints, exact phrase checks, and URL content retrieval only when they improve traceable evidence for the current Bitcode read-synthesis question.' as PromptPart;

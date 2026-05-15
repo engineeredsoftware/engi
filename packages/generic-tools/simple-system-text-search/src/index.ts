@@ -1,7 +1,7 @@
 /**
  * Bitcode repository-evidence search support backed by the retained grep primitive.
  *
- * @purpose Need-directed repository evidence search for measurement, source-grounding, and asset-pack synthesis context inside Bitcode agentic runs.
+ * @purpose Read-directed repository evidence search for measurement, source-grounding, and asset-pack synthesis context inside Bitcode agentic runs.
  * @capabilities Recursive grep-backed pattern search with bounded results, repository-root targeting, case-insensitive matching, and line-level evidence for written-asset planning.
  * @specificity Admitted Bitcode support
  */

@@ -11,11 +11,11 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web research system prompt for discovery-phase source context"
+ * intent: "Bitcode read-synthesis web research system prompt for discovery-phase source context"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "system_boundary", "test": "Rejects scraping-product, proof, mutation, delivery, and canonical-need authority", "score": 1.00 },
+ *   { "name": "system_boundary", "test": "Rejects scraping-product, proof, mutation, delivery, and canonical-read authority", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Composes specific implementation PromptParts through a Prompt registry", "score": 1.00 }
  * ]
  */

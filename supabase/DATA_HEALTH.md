@@ -10,7 +10,7 @@ They are designed for three uses:
 
 - Daily staging/production checks against live Supabase databases.
 - CI/CD checks for schema, ORM, generated type, and projection parity.
-- Local QA validation while manually testing onboarding, Terminal Give/Need, Fit
+- Local QA validation while manually testing onboarding, Terminal Deposit/Read, Fit
   admission, synthetic measurement, AssetPack minting, and ledger anchoring.
 
 ## Connection
@@ -117,7 +117,7 @@ reusable checks:
 - `v28_qa_terminal_01_prerequisites_wallet_github_repo`:
   `supabase/queries/v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`
   confirms Supabase Auth, wallet binding, GitHub installation, and repository
-  inventory before Terminal Give/Need QA.
+  inventory before Terminal Deposit/Read QA.
 - `v28_qa_01b_backfill_profile_wallet_projection_from_connection`:
   `supabase/queries/v28_qa_01b_backfill_profile_wallet_projection_from_connection.sql`
   is a targeted staging repair that copies non-secret wallet metadata from the
@@ -129,7 +129,7 @@ reusable checks:
   after each Terminal write action.
 - `v28_qa_terminal_04_give_repository_alignment`:
   `supabase/queries/v28_qa_terminal_04_give_repository_alignment.sql` confirms
-  the Terminal Give source is the connected GitHub repository inventory and
+  the Terminal Deposit source is the connected GitHub repository inventory and
   flags any live-lane leakage from protocol demonstration `frontier/*` data.
 - `v28_qa_terminal_03_btd_ledger_after_terminal`:
   `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` checks

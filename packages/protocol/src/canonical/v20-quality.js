@@ -81,8 +81,8 @@ const REQUIRED_PERFORMANCE_OPERATIONS = [
 const PANEL_ORDER_SIGNATURE = [
   '0. Operating picture',
   '1. Depositing + candidate assets',
-  '2. Needing + measured demand',
-  '3. Depositing-to-needing fit',
+  '2. Reading + measured demand',
+  '3. Depositing-to-reading fit',
   '4. Ranked candidates + verification determinisms',
   '5. Asset pack + branch artifacts',
   '6. Settlement + journal diff',

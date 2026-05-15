@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: phase
- * intent: "Bitcode AssetPack Implementation phase PromptPart for need-satisfying synthesis artifacts"
+ * intent: "Bitcode AssetPack Implementation phase PromptPart for read-satisfying synthesis artifacts"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

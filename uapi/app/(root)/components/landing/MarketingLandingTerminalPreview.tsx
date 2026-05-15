@@ -110,7 +110,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     key={surface}
                     className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/84"
                   >
-                    {renderOrbitalBullet('scale-100', surface === 'Give + Need' ? 'green' : 'purple')}
+                    {renderOrbitalBullet('scale-100', surface === 'Deposit + Read' ? 'green' : 'purple')}
                     {surface}
                   </span>
                 ))}
@@ -174,7 +174,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     >
                       {renderOrbitalBullet(
                         'scale-110 tablet:scale-[1.25] laptop:scale-100',
-                        surface === 'Give + Need' ? 'green' : 'purple',
+                        surface === 'Deposit + Read' ? 'green' : 'purple',
                       )}
                       <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-[13px]">
                         {surface}
@@ -315,7 +315,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   </span>
                 </div>
                 <p className="mt-3 text-[14px] leading-6 text-emerald-100/72">
-                  Commits, citations, authorship, and metadata stay attached as give-side context for later proof and settlement.
+                  Commits, citations, authorship, and metadata stay attached as deposit-side context for later proof and settlement.
                 </p>
                 <div className="mt-4 rounded-[20px] border border-emerald-300/12 bg-emerald-400/6 p-3">
                   <div className="grid gap-3">

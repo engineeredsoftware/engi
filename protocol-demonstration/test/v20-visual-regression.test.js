@@ -36,8 +36,8 @@ test('V20 visual regression report covers required operator states with stable s
   assert.deepEqual(seededShell.signature.requiredPanelOrder, [
     '0. Operating picture',
     '1. Depositing + candidate assets',
-    '2. Needing + measured demand',
-    '3. Depositing-to-needing fit',
+    '2. Reading + measured demand',
+    '3. Depositing-to-reading fit',
     '4. Ranked candidates + verification determinisms',
     '5. Asset pack + branch artifacts',
     '6. Settlement + journal diff',

@@ -10,16 +10,16 @@ const TERMINAL_MVP_STATIONS = [
     targetId: 'terminalTransactionWorkspace',
   },
   {
-    id: 'giving',
-    label: 'Giving',
-    value: 'repository + Giving',
+    id: 'depositing',
+    label: 'Depositing',
+    value: 'repository + deposit',
     targetId: 'terminalSupplySelection',
   },
   {
-    id: 'needing',
-    label: 'Needing',
+    id: 'reading',
+    label: 'Reading',
     value: 'measurement + fit',
-    targetId: 'terminalNeedScenarios',
+    targetId: 'terminalReadScenarios',
   },
   {
     id: 'proofs-finalities',
@@ -35,10 +35,10 @@ export default function TerminalMvpMap() {
       <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <div>
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Terminal workflow</p>
-          <h2 className="mt-1.5 text-lg font-semibold text-white">Overview, Giving, Needing, Proofs</h2>
+          <h2 className="mt-1.5 text-lg font-semibold text-white">Overview, Deposit, Read, Proofs</h2>
         </div>
         <p className="max-w-2xl text-sm leading-6 text-neutral-300">
-          Move from overview into Giving first, then Needing, then proof, settlement, ledger, and adjacent follow-through.
+          Move from overview into Deposit first, then Read, then proof, settlement, ledger, and adjacent follow-through.
         </p>
       </div>
 

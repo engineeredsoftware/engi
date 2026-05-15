@@ -431,7 +431,7 @@ export default function OrganizationSettings({
                     GitHub before transacting
                   </div>
                   <p className="text-sm text-slate-600">
-                    Needs, asset packs, and repository delivery stay blocked until GitHub posture is connected.
+                    Reads, asset packs, and repository delivery stay blocked until GitHub posture is connected.
                   </p>
                 </div>
                 <div className="rounded-2xl border bg-slate-50 p-4">

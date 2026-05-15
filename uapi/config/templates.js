@@ -13,7 +13,7 @@ exports.templates = {
             name: 'New Feature PR',
             text: `# Feature: __[FEATURE_NAME]__
 
-## Definition of Need
+## Definition of Read
 - [ ] Implemented __[CORE_FUNCTIONALITY]__ that solves __[BUSINESS_NEED]__
 - [ ] Added tests covering critical paths
 - [ ] Updated relevant documentation
@@ -30,7 +30,7 @@ exports.templates = {
             name: 'Code Refactor PR',
             text: `# Refactor: __[AREA]__
 
-## Definition of Need
+## Definition of Read
 - [ ] Improved __[CODE_QUALITY_ASPECT]__ without changing external behavior
 - [ ] Before/after metrics: __[METRICS]__
 - [ ] All tests pass with same coverage
@@ -47,7 +47,7 @@ exports.templates = {
             name: 'Bug Fix PR',
             text: `# Fix: __[BUG_TITLE]__
 
-## Definition of Need
+## Definition of Read
 - [ ] Root cause identified: __[ROOT_CAUSE]__
 - [ ] Fix implemented in __[LOCATION]__
 - [ ] Added regression test that would have caught this bug

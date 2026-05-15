@@ -20,7 +20,7 @@ def fix_prompt_naming():
     # Track all renames for import updates
     renames = {}
     
-    # First pass: Find all exports in raw/ files that need renaming
+    # First pass: Find all exports in raw/ files that read renaming
     raw_path = packages_path / "prompts/src/raw"
     for ts_file in raw_path.rglob("*.ts"):
         if ts_file.name == "index.ts":
@@ -29,7 +29,7 @@ def fix_prompt_naming():
         content = ts_file.read_text()
         original = content
         
-        # Find exports that need PROMPT_ prefix
+        # Find exports that read PROMPT_ prefix
         # Match: export const SOMETHING = 
         # But not: export const PROMPT_SOMETHING =
         pattern = r'export const ([A-Z][A-Z0-9_]*?)(\s*:\s*(?:PromptPart|Prompt|string))?\s*='

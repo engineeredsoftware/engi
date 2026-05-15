@@ -2,7 +2,7 @@
  * ReadyToFinish Agent - Final Validation Phase Decision
  * 
  * Final AssetPack validation go/no-go decision before the canonical Finish phase.
- * Can short-circuit with partial refund if the need-satisfying written assets
+ * Can short-circuit with partial refund if the read-satisfying written assets
  * are not safe or complete enough to finish.
  */
 

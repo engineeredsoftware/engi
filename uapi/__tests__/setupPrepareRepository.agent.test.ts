@@ -59,7 +59,7 @@ describe('AssetPack Clone VCS Repository Agent', () => {
       repoOwner: 'owner',
       repoBranch: 'main',
       repoCommit: 'HEAD',
-      need: 'Clone repo',
+      read: 'Clone repo',
     });
   });
 

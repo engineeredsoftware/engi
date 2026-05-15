@@ -10,7 +10,7 @@ V27 closes the `$BTD` tokenomics and cryptographic implementation gate set:
 
 - `$BTD` is a capped 21,000,000-cell non-fungible source-share/read-right registry.
 - AssetPack ranges are the primary commercial transfer object.
-- Minting is admitted only through Need-Fit-Prove-Settle.
+- Minting is admitted only through Read-Fit-Prove-Settle.
 - Measureminting decays from cumulative admitted semantic volume toward the fixed supply ceiling and emits zero-cell/refit receipts in the tail.
 - BTC is the fee asset; `$BTD` is not a spend token.
 - Wallet signing is user-controlled and fails closed without authorization proof.

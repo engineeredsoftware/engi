@@ -20,7 +20,7 @@ That distinction matters:
 
 ## Core capabilities
 
-- Need measurement and activity continuation through standardized tool calls
+- Read measurement and activity continuation through standardized tool calls
 - Repository-scoped operations using authenticated source context
 - Multi-modal ingress using attachments, documents, images, audio, video, and design references
 - Output normalization toward Bitcode asset packs, proofs, history, and settlement follow-through
@@ -28,12 +28,12 @@ That distinction matters:
 
 ## Usage pattern
 
-Bitcode MCP is for machine clients that need to interoperate with Bitcode Exchange without becoming a parallel product surface.
+Bitcode MCP is for machine clients that read to interoperate with Bitcode Exchange without becoming a parallel product surface.
 
 Typical pattern:
 
 1. bind repository and connection context
-2. submit need/give/activity intent
+2. submit read/deposit/activity intent
 3. stream or poll execution progress
 4. reread Bitcode Exchange outputs such as asset packs, proofs, history, and settlement posture
 
@@ -44,7 +44,7 @@ Human: "Create a settlement-ready asset pack for a wallet-gated Bitcode transact
         using the connected repository and attached design files."
 
 Bitcode MCP: reads repository scope, attachments, and readiness posture
-Bitcode MCP: measures need and continues Bitcode activity through the admitted interface
+Bitcode MCP: measures read and continues Bitcode activity through the admitted interface
 Bitcode MCP: returns asset-pack, proof, history, and settlement-facing outputs
 ```
 
@@ -84,7 +84,7 @@ const client = new BitcodeMCPClient({
 });
 
 const result = await client.createAssetPack({
-  need: 'Build user authentication system',
+  read: 'Build user authentication system',
   repository: { owner: 'myorg', name: 'myapp' },
   options: { createPR: true, runTests: true }
 });

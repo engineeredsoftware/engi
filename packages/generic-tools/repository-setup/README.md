@@ -2,7 +2,7 @@
 
 ## Overview
 
-Production-grade repository preparation and analysis framework implementing VCS-integrated operations across GitHub, GitLab, and Bitbucket providers. Delivers comprehensive repository cloning, structure analysis, health validation, and expressed-need-aware file filtering for enterprise pipeline integration.
+Production-grade repository preparation and analysis framework implementing VCS-integrated operations across GitHub, GitLab, and Bitbucket providers. Delivers comprehensive repository cloning, structure analysis, health validation, and expressed-read-aware file filtering for enterprise pipeline integration.
 
 ## Core Capabilities
 
@@ -101,15 +101,15 @@ Primary repository cloning and setup orchestration tool.
 
 ### filterRelevantFilesTool
 
-Intelligent file filtering based on architectural patterns and expressed-need relevance. `taskDescription` remains a stable support carrier only.
+Intelligent file filtering based on architectural patterns and expressed-read relevance. `taskDescription` remains a stable support carrier only.
 
 **Input Schema:**
 ```typescript
 {
   allFiles: string[];
-  needDescription?: string;
-  expressedNeed?: string;
-  taskDescription?: string; // stable support carrier for the expressed need
+  readDescription?: string;
+  expressedRead?: string;
+  taskDescription?: string; // stable support carrier for the expressed read
   maxFiles: number;
   patterns?: {
     include?: string[];
@@ -328,8 +328,8 @@ async function executeFileFiltering(params: FileFilterParams) {
     )
   };
   
-  // Extract expressed-need keywords. taskDescription remains a stable support carrier.
-  const keywords = (params.expressedNeed ?? params.needDescription ?? params.taskDescription ?? '')
+  // Extract expressed-read keywords. taskDescription remains a stable support carrier.
+  const keywords = (params.expressedRead ?? params.readDescription ?? params.taskDescription ?? '')
     .toLowerCase()
     .replace(/[^\w\s]/g, ' ')
     .split(/\s+/)
@@ -426,7 +426,7 @@ import { filterRelevantFilesTool } from '@bitcode/repository-setup';
 
 const filterResult = await filterRelevantFilesTool.use({
   allFiles: repositoryAnalysis.files,
-  needDescription: 'Implement responsive dashboard component with TypeScript and React',
+  readDescription: 'Implement responsive dashboard component with TypeScript and React',
   maxFiles: 25,
   patterns: {
     include: ['**/*.tsx', '**/*.ts', '**/*.json'],
@@ -484,7 +484,7 @@ export const prepareRepositoryWorkspace = factoryTool(
   'prepareRepositoryWorkspace',
   async (params: {
     repositories: RepositoryTarget[];
-    taskContext: string; // stable support carrier for the expressed need
+    taskContext: string; // stable support carrier for the expressed read
     maxFilesPerRepo: number;
   }) => {
     // Clone repositories
@@ -501,7 +501,7 @@ export const prepareRepositoryWorkspace = factoryTool(
         .map(async (repoResult) => {
           const filterResult = await filterRelevantFilesTool.use({
             allFiles: repoResult.analysis.files,
-            needDescription: params.taskContext,
+            readDescription: params.taskContext,
             maxFiles: params.maxFilesPerRepo
           });
           

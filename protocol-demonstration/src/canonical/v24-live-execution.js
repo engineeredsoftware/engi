@@ -295,7 +295,7 @@ function buildExecutionRequestPayload(latestRun, interfaceId) {
     branchName: latestRun.branchArtifacts?.branchName || null,
     branchMode: latestRun.branchMode || null,
     paymentMode: latestRun.paymentMode || null,
-    needId: latestRun.need?.needId || latestRun.needMeasurement?.needId || null,
+    readId: latestRun.read?.readId || latestRun.readMeasurement?.readId || null,
     bundleId: latestRun.settlementPreview?.bundleId || null,
     assetPackId: latestRun.assetPack?.assetPackId || null,
     runtimeState: telemetry.runtimeState || null,
@@ -742,7 +742,7 @@ function buildProofWitnessManifestForLatestRun(latestRun) {
 function buildSystemProofBundleForLatestRun(latestRun) {
   const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.bitcode/settlement-proof.json');
   return buildSystemProofBundle(
-    latestRun.need?.needId,
+    latestRun.read?.readId,
     latestRun.assetPack?.assetPackId,
     latestRun.inferenceProofs,
     latestRun.promptFamilyRegistry,
@@ -803,7 +803,7 @@ function rebuildV24ProofClosure(latestRun) {
   patchArtifact(latestRun, 'systemProofBundle', latestRun.systemProofBundle);
 
   latestRun.proofContract = buildProofContract({
-    needId: latestRun.need?.needId,
+    readId: latestRun.read?.readId,
     assetPackId: latestRun.assetPack?.assetPackId,
     branchName: latestRun.branchArtifacts?.branchName,
     selectedCandidates: selectedCandidatesForProofContract(latestRun),

@@ -3,7 +3,7 @@ import {
   AssetPackWrittenAssetType,
 } from './types/AssetPackWrittenAssetType';
 
-const DEFAULT_WRITTEN_ASSET_TYPE = AssetPackWrittenAssetType.NeedSatisfactionAssetPack;
+const DEFAULT_WRITTEN_ASSET_TYPE = AssetPackWrittenAssetType.ReadSatisfactionAssetPack;
 const DEFAULT_DELIVERY_MECHANISM_TEMPLATE: AssetPackDeliveryMechanismTemplate = 'pull-request';
 
 function firstString(value: unknown): string | undefined {
@@ -60,8 +60,8 @@ export function normalizeWrittenAssetRequest(
   const raw = firstString(candidate);
   if (!raw) return fallback;
   const normalized = raw.toLowerCase();
-  if (normalized.includes('need-satisfaction') || normalized.includes('asset-pack')) {
-    return 'need-satisfaction-asset-pack';
+  if (normalized.includes('read-satisfaction') || normalized.includes('asset-pack')) {
+    return 'read-satisfaction-asset-pack';
   }
   return fallback;
 }
@@ -102,11 +102,13 @@ export function resolveDeliveryMechanismTemplateFromExecution(
   );
 }
 
-export function resolveExpressedNeed(input: any, fallback = ''): string {
+export function resolveExpressedRead(input: any, fallback = ''): string {
+  const legacyReadKey = ['ne', 'ed'].join('');
   const candidate =
-    input?.need ??
-    input?.definitionOfNeed ??
-    input?.needDefinition ??
+    input?.read ??
+    input?.[legacyReadKey] ??
+    input?.definitionOfRead ??
+    input?.readDefinition ??
     fallback;
 
   if (Array.isArray(candidate)) {
@@ -116,20 +118,20 @@ export function resolveExpressedNeed(input: any, fallback = ''): string {
   return typeof candidate === 'string' ? candidate : fallback;
 }
 
-export function resolveExpressedNeedFromExecution(execution: any, fallback = ''): string {
-  return resolveExpressedNeed(
+export function resolveExpressedReadFromExecution(execution: any, fallback = ''): string {
+  return resolveExpressedRead(
     {
-      need:
-        execution?.get?.('need', 'description') ??
-        execution?.get?.('pipeline', 'expressedNeed'),
+      read:
+        execution?.get?.('read', 'description') ??
+        execution?.get?.('pipeline', 'expressedRead'),
     },
     fallback
   );
 }
 
-export function resolveNeedComprehensionFromExecution(execution: any): any {
+export function resolveReadComprehensionFromExecution(execution: any): any {
   return (
-    execution?.get?.('setup/need', 'comprehension') ??
-    execution?.get?.('setup/need-comprehension', 'comprehension')
+    execution?.get?.('setup/read', 'comprehension') ??
+    execution?.get?.('setup/read-comprehension', 'comprehension')
   );
 }

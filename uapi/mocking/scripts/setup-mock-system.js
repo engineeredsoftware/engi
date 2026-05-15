@@ -243,7 +243,7 @@ __bitcodeMockSystem.clearCache()
 
 ${getScenarioFeatures(scenario)}
 
-## 🆘 Need Help?
+## 🆘 Read Help?
 
 - **Documentation:** \`/mocking/README.md\`
 - **Integration Guide:** \`/mocking/INTEGRATION_GUIDE.md\`

@@ -105,7 +105,7 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
         data: {
           id: 'conv-new-1',
           user_id: 'user-1',
-          title: 'Measure fit for an attached repo against the current need posture.',
+          title: 'Measure fit for an attached repo against the current read posture.',
         },
         error: null,
       }),
@@ -157,7 +157,7 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
     process.env = envBackup;
   });
 
-  it('creates a new conversation and mounts a canonical need-measurement execution', async () => {
+  it('creates a new conversation and mounts a canonical read-measurement execution', async () => {
     const { POST } = await import('@/app/api/conversations/stream/route');
 
     const res = await POST(
@@ -165,7 +165,7 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: 'Measure fit for an attached repo against the current need posture.',
+          message: 'Measure fit for an attached repo against the current read posture.',
           tokens: [
             {
               type: 'attachment',
@@ -182,7 +182,7 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
     expect(conversationCreateBuilder.insert).toHaveBeenCalledWith(
       expect.objectContaining({
         user_id: 'user-1',
-        title: 'Measure fit for an attached repo against the current need posture.',
+        title: 'Measure fit for an attached repo against the current read posture.',
       }),
     );
     expect(userMessageBuilder.insert).toHaveBeenCalledWith(
@@ -226,7 +226,7 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
           }),
         }),
         metadata: expect.objectContaining({
-          canonical_type: 'agentic-execution:need-measurement',
+          canonical_type: 'agentic-execution:read-measurement',
           rich_input: expect.objectContaining({
             source_attachments: expect.arrayContaining([
               expect.objectContaining({

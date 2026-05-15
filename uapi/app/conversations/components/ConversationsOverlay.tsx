@@ -166,7 +166,7 @@ function formatConversationExecutionLabel(value?: string) {
   const normalized = String(value || '').trim().toLowerCase();
 
   if (!normalized) return 'agentic execution';
-  if (normalized.includes('measure')) return 'need-measurement execution';
+  if (normalized.includes('measure')) return 'read-measurement execution';
   if (normalized.includes('asset-pack') || normalized.includes('shippable') || normalized.includes('artifact')) {
     return 'AssetPack execution';
   }

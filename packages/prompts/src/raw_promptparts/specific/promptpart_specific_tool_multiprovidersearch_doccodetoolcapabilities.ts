@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLCAPABILITIES: PromptPart =
-  'Provider comparison, failover, result deduplication, source attribution, source-class coverage, URL attachment targeting, and source-quality metadata for Bitcode discovery-phase need-synthesis evidence' as PromptPart;
+  'Provider comparison, failover, result deduplication, source attribution, source-class coverage, URL attachment targeting, and source-quality metadata for Bitcode discovery-phase read-synthesis evidence' as PromptPart;

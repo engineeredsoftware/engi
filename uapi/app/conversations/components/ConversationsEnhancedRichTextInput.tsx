@@ -67,7 +67,7 @@ export default function RichTextInput({
     const newText = e.target.value;
     const currentCursorPosition = e.target.selectionStart || 0;
 
-    // Check if we need to adjust spacing around tokens
+    // Check if we read to adjust spacing around tokens
     const adjustedText = adjustTokenSpacing(newText);
 
     // Store the cursor position before any text adjustments
@@ -325,7 +325,7 @@ export default function RichTextInput({
       case 'destination':
       case 'pipeline_run':
         if (!token.data?.pipelineType) return '';
-        if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'need-measurement';
+        if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'read-measurement';
         if (
           String(token.data.pipelineType).toLowerCase().includes('asset-pack') ||
           String(token.data.pipelineType).toLowerCase().includes('shippable') ||

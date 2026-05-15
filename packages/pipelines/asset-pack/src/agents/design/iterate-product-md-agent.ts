@@ -47,13 +47,13 @@ const iterateProductMdPrompt = (() => {
   );
   prompt.set(
     'agent/purpose',
-    createPromptPart('Convert measured requirements, current PRODUCT.md context, and operator feedback into a reviewable product-spec draft without bypassing Need review or AssetPack proof obligations.')
+    createPromptPart('Convert measured requirements, current PRODUCT.md context, and operator feedback into a reviewable product-spec draft without bypassing Read review or AssetPack proof obligations.')
   );
   prompt.set(
     'agent/constraints',
     createPromptPart('Preserve operator-gated iteration, report open questions explicitly, and treat PRODUCT.md as a written asset carried by Bitcode AssetPacks rather than as a generic output bundle.')
   );
-  prompt.set('ptrr/plan/purpose', createPromptPart('Plan the PRODUCT.md revision around the accepted Need, missing evidence, and reviewable product-spec sections.'));
+  prompt.set('ptrr/plan/purpose', createPromptPart('Plan the PRODUCT.md revision around the accepted Read, missing evidence, and reviewable product-spec sections.'));
   prompt.set('ptrr/try/purpose', createPromptPart('Draft precise PRODUCT.md changes and explain why each change advances the Bitcode source-to-shares requirement.'));
   prompt.set('ptrr/refine/purpose', createPromptPart('Refine the draft against operator feedback, completeness, and unresolved specification gaps.'));
   prompt.set('ptrr/retry/purpose', createPromptPart('Recover from ambiguity by emitting conservative edits, open questions, and a clear readiness judgment.'));
@@ -64,7 +64,7 @@ const iterateProductMdPrompt = (() => {
 })();
 
 const iterateProductMdStepPrompts = {
-  plan: () => createIterateProductMdStepPrompt('Plan reviewable PRODUCT.md written-asset revisions from the measured Bitcode Need.'),
+  plan: () => createIterateProductMdStepPrompt('Plan reviewable PRODUCT.md written-asset revisions from the measured Bitcode Read.'),
   try: () => createIterateProductMdStepPrompt('Produce the PRODUCT.md draft, changes list, completeness score, and open questions.'),
   refine: () => createIterateProductMdStepPrompt('Tighten the PRODUCT.md draft against feedback and AssetPack proof criteria.'),
   retry: () => createIterateProductMdStepPrompt('Return a bounded recovery draft and readiness assessment when prior attempts are incomplete.'),

@@ -77,18 +77,18 @@ const RepositorySetupParamsSchema = z.object({
 
 const FileFilterParamsSchema = z.object({
   allFiles: z.array(z.string()),
-  needDescription: z.string().optional().describe('Canonical expressed Bitcode need used to prioritize repository files'),
-  expressedNeed: z.string().optional().describe('Canonical alias for the expressed Bitcode need'),
-  taskDescription: z.string().optional().describe('Stable support carrier for the expressed Bitcode need'),
+  readDescription: z.string().optional().describe('Canonical expressed Bitcode read used to prioritize repository files'),
+  expressedRead: z.string().optional().describe('Canonical alias for the expressed Bitcode read'),
+  taskDescription: z.string().optional().describe('Stable support carrier for the expressed Bitcode read'),
   maxFiles: z.number().default(50),
   patterns: z.object({
     include: z.array(z.string()).optional(),
     exclude: z.array(z.string()).optional()
   }).optional()
 }).refine(
-  (params) => Boolean(params.needDescription || params.expressedNeed || params.taskDescription),
+  (params) => Boolean(params.readDescription || params.expressedRead || params.taskDescription),
   {
-    message: 'One of needDescription, expressedNeed, or taskDescription is required'
+    message: 'One of readDescription, expressedRead, or taskDescription is required'
   }
 );
 
@@ -338,9 +338,9 @@ async function executeRepositorySetup(params: z.infer<typeof RepositorySetupPara
  */
 async function executeFileFiltering(params: z.infer<typeof FileFilterParamsSchema>) {
   try {
-    const expressedNeed = (
-      params.expressedNeed ||
-      params.needDescription ||
+    const expressedRead = (
+      params.expressedRead ||
+      params.readDescription ||
       params.taskDescription ||
       ''
     ).trim();
@@ -348,7 +348,7 @@ async function executeFileFiltering(params: z.infer<typeof FileFilterParamsSchem
     log('Starting file filtering', 'info', {
       totalFiles: params.allFiles.length,
       maxFiles: params.maxFiles,
-      expressedNeedLength: expressedNeed.length
+      expressedReadLength: expressedRead.length
     });
 
     // Implement architectural pattern recognition
@@ -377,9 +377,9 @@ async function executeFileFiltering(params: z.infer<typeof FileFilterParamsSchem
       )
     };
 
-    // Extract keywords from the expressed need. taskDescription remains only as
+    // Extract keywords from the expressed read. taskDescription remains only as
     // a stable support carrier when callers have not yet migrated.
-    const keywords = expressedNeed
+    const keywords = expressedRead
       .toLowerCase()
       .replace(/[^\w\s]/g, ' ')
       .split(/\s+/)

@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PLAN_SEARCH_STRATEGY: PromptPart =
-  'Choose minimal grep-compatible patterns, target paths, and result limits that can ground the Bitcode need; prefer exact package, prompt, proof, and AssetPack identifiers before broad terms.' as PromptPart;
+  'Choose minimal grep-compatible patterns, target paths, and result limits that can ground the Bitcode read; prefer exact package, prompt, proof, and AssetPack identifiers before broad terms.' as PromptPart;

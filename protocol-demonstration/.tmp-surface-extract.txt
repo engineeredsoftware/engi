@@ -2,7 +2,7 @@
 function buildRepoSupplySurface(state) {
   const sessions = state.githubAppSessions || [];
   const inventory = state.repoArtifactInventory || [];
-  const scenarios = state.needScenarios || [];
+  const scenarios = state.readScenarios || [];
   const repos = sessions.map((session) => {
     const repoInventory = inventory.filter((entry) => entry.repo === session.repo);
     const repoScenarios = scenarios.filter((scenario) => scenario.repo === session.repo);
@@ -47,28 +47,28 @@ function buildRepoSupplySurface(state) {
 ===== buildDepositingSurface =====
 function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }
 
-===== buildNeedingSurface =====
-function buildNeedingSurface(need) {
-  const demonstrationProfile = need.demonstrationProfile || buildDemonstrationProfile('A');
+===== buildReadingSurface =====
+function buildReadingSurface(need) {
+  const demonstrationProfile = read.demonstrationProfile || buildDemonstrationProfile('A');
   return {
-    needId: need.needId,
+    readId: read.readId,
     demonstrationProfile,
-    parserKind: need.benchmarkParserContract?.parserKind || 'unknown-parser',
-    taskSummary: need.task,
-    failureModeSummary: need.failureModes || [],
-    targetArtifactKinds: need.targetArtifactKinds || [],
-    boundednessSummary: demonstrationProfile.needMode || 'Need boundedness not specified.',
-    closureCriteria: need.closureCriteria?.length
-      ? need.closureCriteria
+    parserKind: read.benchmarkParserContract?.parserKind || 'unknown-parser',
+    taskSummary: read.task,
+    failureModeSummary: read.failureModes || [],
+    targetArtifactKinds: read.targetArtifactKinds || [],
+    boundednessSummary: demonstrationProfile.needMode || 'Read boundedness not specified.',
+    closureCriteria: read.closureCriteria?.length
+      ? read.closureCriteria
       : summarizeStrings([
-        ...(need.failingCases || []).slice(0, 2).map((item) => `clear ${item.replace(/-/g, ' ')}`),
-        ...(need.constraints || []).slice(0, 2)
+        ...(read.failingCases || []).slice(0, 2).map((item) => `clear ${item.replace(/-/g, ' ')}`),
+        ...(read.constraints || []).slice(0, 2)
       ])
   };
 }
 
-===== buildDepositingToNeedingSurface =====
-function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, selectedCandidates, assetPack, settlementPreview }
+===== buildDepositingToReadingSurface =====
+function buildDepositingToReadingSurface({ depositingSurface, readingSurface, selectedCandidates, assetPack, settlementPreview }
 
 ===== buildIdentityAuthSpineSurface =====
 function buildIdentityAuthSpineSurface({
@@ -86,8 +86,8 @@ function buildIdentityAuthSpineSurface({
 function buildRepoToSettlementSurface({
   scenarioId,
   depositingSurface,
-  needingSurface,
-  depositingToNeedingSurface,
+  readingSurface,
+  depositingToReadingSurface,
   assetPack,
   branchArtifacts,
   selectedCandidates,
@@ -111,10 +111,10 @@ function buildBoundaryRealitySurface() {
         externalRequirement: 'Exchange a real GitHub App JWT for an installation token and refresh repo supply directly from GitHub APIs.'
       }),
       buildBoundaryRealityStage({
-        stageId: 'need-measurement-and-ranking',
-        label: 'Need + ranking',
+        stageId: 'read-measurement-and-ranking',
+        label: 'Read + ranking',
         localStatus: 'executed-local',
-        localDescription: 'Need measurement, prompt lineage, ranking, and verification execute deterministically inside this repository.',
+        localDescription: 'Read measurement, prompt lineage, ranking, and verification execute deterministically inside this repository.',
         externalRequirement: 'Bind those same stages to live repo evidence refresh, remote evaluators as needed, and production policy controls.'
       }),
       buildBoundaryRealityStage({

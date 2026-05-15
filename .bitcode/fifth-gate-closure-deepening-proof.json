@@ -85,7 +85,7 @@
       "label": "Bitcode Terminal read/write loop",
       "baselineAdvanced": true,
       "closurePassed": true,
-      "currentDeepening": "Terminal-facing source-to-shares Need review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.",
+      "currentDeepening": "Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.",
       "remainingClosure": "Closed by the fifth-gate closure proof as a minimum-functional read/write baseline; sixth-gate and later harden wider browser/authenticated production coverage.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",
@@ -112,7 +112,7 @@
       "label": "Transactional readiness and repository scope",
       "baselineAdvanced": true,
       "closurePassed": true,
-      "currentDeepening": "Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, Terminal pulse plus Give + Need flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.",
+      "currentDeepening": "Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, Terminal pulse plus Deposit + Read flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.",
       "remainingClosure": "Closed by the fifth-gate closure proof as an operative readiness baseline; live provider signing expansion remains later-gate hardening.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",

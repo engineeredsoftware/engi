@@ -187,7 +187,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
   addAI: {
     label: "Add Another AI Feature",
     steps: [
-      { title: 'Need AI Endpoint', desc: 'Product needs /summaries that returns concise JSON.', Icon: CursorArrowRaysIcon },
+      { title: 'Read AI Endpoint', desc: 'Product needs /summaries that returns concise JSON.', Icon: CursorArrowRaysIcon },
       { title: 'Describe in Chat', desc: 'Select Node repo; paste spec & sample Jest assertions.', Icon: AcademicCapIcon },
       { title: 'Bitcode Designs & Builds', desc: 'Benchmarks models, codes route & vector store, writes docs, unit + contract tests, ensures zero regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Feature PR Ready', desc: 'Production-grade endpoint delivered & documented above-and-beyond quality.', Icon: ArrowRightIcon },
@@ -232,7 +232,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
   pricingAPI: {
     label: "Ship Pricing API Fast",
     steps: [
-      { title: 'Need Pricing API', desc: 'Launch requires /calculate endpoint ASAP.', Icon: CursorArrowRaysIcon },
+      { title: 'Read Pricing API', desc: 'Launch requires /calculate endpoint ASAP.', Icon: CursorArrowRaysIcon },
       { title: 'Specify in Chat', desc: 'Select repo; paste schema & golden-path tests.', Icon: AcademicCapIcon },
       { title: 'Bitcode Codes & Validates', desc: 'Scrapes competitors, writes Go handler, migrations, OpenAPI, load & unit tests—ensures zero regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Production-Ready API', desc: 'Fully tested, documented API PR—above-and-beyond quality.', Icon: ArrowRightIcon },
@@ -333,7 +333,7 @@ const SCENARIOS = {
     steps: [
       {
         title: "Define Question",
-        desc: "Describe what you need to learn or design.",
+        desc: "Describe what you read to learn or design.",
         Icon: CursorArrowRaysIcon,
       },
       {
@@ -477,7 +477,7 @@ const SCENARIOS = {
       },
       {
         title: "Push – Auto-Run",
-        desc: "Every admitted Need finishes as a PR-backed AssetPack.",
+        desc: "Every admitted Read finishes as a PR-backed AssetPack.",
         Icon: ArrowRightIcon,
       },
     ],
@@ -657,7 +657,7 @@ export default function MarketingWalkthroughSection() {
     >
       <div className="mx-auto max-w-6xl text-center mb-12">
         <h2 className="text-3xl laptop:text-4xl font-extrabold mb-5 tracking-tight super-shiny-text">
-          Need-to-AssetPack Workflows for Reliable Software Change
+          Read-to-AssetPack Workflows for Reliable Software Change
         </h2>
         <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
           Every accepted AssetPack strengthens Bitcode’s <span className="font-semibold text-white">source-to-shares evidence</span>&nbsp;for faster, higher-quality technical work.

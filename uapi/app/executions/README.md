@@ -3,7 +3,7 @@
 `/executions` remains the retained execution route during V26 fourth-gate convergence.
 
 It is not the final Bitcode product topology.
-Merged-world V26 keeps this retained route explicit as `executions`, where Bitcode execution primitives, pipelines, and measured-need follow-through remain inspectable while the broader `activity` family grows around transactions, executions, and notifications.
+Merged-world V26 keeps this retained route explicit as `executions`, where Bitcode execution primitives, pipelines, and measured-read follow-through remain inspectable while the broader `activity` family grows around transactions, executions, and notifications.
 The retained execution route must remain explicit and healthy while the strongest execution, Shippable, and inspection patterns continue porting inward to `/terminal`.
 
 Current owners:
@@ -29,7 +29,7 @@ Current owners:
   Retained support storage carrier for saved Shippable-template preferences used by the execution composer.
 
 This route should stay explicit about:
-- retained executions, measured-need runs, pipeline continuity, and execution-primitives naming,
+- retained executions, measured-read runs, pipeline continuity, and execution-primitives naming,
 - the broader `activity` family above transactions, executions, and notifications,
 - Shippable, AssetPack evidence, and execution inspection semantics,
 - retained support API ownership required to keep the route healthy during inward convergence,

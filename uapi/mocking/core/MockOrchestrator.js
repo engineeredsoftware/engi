@@ -173,9 +173,9 @@ class MockOrchestrator {
         return {
             system: {
                 memoryUsageMB: this.memoryUsageBytes / (1024 * 1024),
-                cpuUsagePercent: 0, // Would need additional monitoring
-                diskUsageMB: 0, // Would need additional monitoring
-                networkBytesPerSec: 0 // Would need additional monitoring
+                cpuUsagePercent: 0, // Would read additional monitoring
+                diskUsageMB: 0, // Would read additional monitoring
+                networkBytesPerSec: 0 // Would read additional monitoring
             },
             mocking: {
                 dataGenerationTimeMs: 0, // Average from operations

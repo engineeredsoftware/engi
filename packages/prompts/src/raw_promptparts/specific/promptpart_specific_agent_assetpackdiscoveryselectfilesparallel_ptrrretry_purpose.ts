@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Need satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrretry purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Read satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrretry purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Need satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrretry purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for selecting source files relevant to Read satisfaction and AssetPack scope: agent assetpackdiscoveryselectfilesparallel ptrrretry purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

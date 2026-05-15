@@ -6,12 +6,12 @@ Status: non-canonical internal note.
 
 Bitcode is the source-to-shares protocol for technical intelligence.
 
-From source, Bitcode measures Needs, finds fit, synthesizes AssetPacks, records proof, and enables settlement through Exchange and Terminal surfaces.
+From source, Bitcode measures Reads, finds fit, synthesizes AssetPacks, records proof, and enables settlement through Exchange and Terminal surfaces.
 
 ## Product Commitments
 
 - Source evidence must be bound before inference.
-- Needs must be reviewable before fit search.
+- Reads must be reviewable before fit search.
 - Fit qualities must be explicit before settlement.
 - AssetPacks are the stable output structure.
 - Delivery mechanisms are wrappers over AssetPacks.

@@ -93,7 +93,7 @@ test.describe('Bitcode Terminal browser flow', () => {
           closureFollowThrough: {
             canonLabel: 'Bitcode active posture',
             settlementMetrics: [{ label: 'Credited assets', value: '2' }],
-            branchArtifacts: ['BITCODE_NEED.md'],
+            branchArtifacts: ['BITCODE_READ.md'],
             proofFamilies: [
               {
                 label: 'selection-materialization',
@@ -112,24 +112,24 @@ test.describe('Bitcode Terminal browser flow', () => {
         },
       },
       {
-        id: 'run-need',
+        id: 'run-read',
         created_at: '2026-04-22T13:20:00.000Z',
         status: 'completed',
-        type: 'agentic-execution:need-measurement',
-        summary: 'Recorded need measurement for auth-remediation.',
+        type: 'agentic-execution:read-measurement',
+        summary: 'Recorded read measurement for auth-remediation.',
         repo_snapshot: {
           org: 'bitcode',
           repo: 'terminal',
           branch: 'fit',
           commit: 'def456',
         },
-        items: [{ id: 'artifact-need' }],
+        items: [{ id: 'artifact-read' }],
         agentic_execution: {
-          canonicalType: 'agentic-execution:need-measurement',
-          label: 'Need measurement execution',
-          lens: 'need',
-          proofStatus: 'need-measurement witness ready',
-          closureFocus: 'need measurement + verification posture',
+          canonicalType: 'agentic-execution:read-measurement',
+          label: 'Read measurement execution',
+          lens: 'read',
+          proofStatus: 'read-measurement witness ready',
+          closureFocus: 'read measurement + verification posture',
         },
         processing_stats: {
           time: '55s',
@@ -139,14 +139,14 @@ test.describe('Bitcode Terminal browser flow', () => {
           averageLatencyMs: 480,
         },
         asset_pack_completion: {
-          summary: 'Recorded need measurement for auth-remediation.',
+          summary: 'Recorded read measurement for auth-remediation.',
           repoSnapshot: {
             org: 'bitcode',
             repo: 'terminal',
             branch: 'fit',
             commit: 'def456',
           },
-          needMeasurement: {
+          readMeasurement: {
             parserKind: 'benchmark-parser',
             closureCriteriaCount: 2,
             targetKindCount: 3,
@@ -190,17 +190,17 @@ test.describe('Bitcode Terminal browser flow', () => {
           },
         ],
       },
-      'run-need': {
+      'run-read': {
         run: historyRows[1],
         events: [
           {
-            id: 'need-phase-1',
-            run_id: 'run-need',
+            id: 'read-phase-1',
+            run_id: 'run-read',
             event_type: 'phase',
             created_at: '2026-04-22T13:19:00.000Z',
             event: {
               type: 'phase',
-              phase: 'Need measurement refresh',
+              phase: 'Read measurement refresh',
               status: 'running',
             },
           },
@@ -304,7 +304,7 @@ test.describe('Bitcode Terminal browser flow', () => {
           agentic_execution: {
             canonicalType: 'agentic-execution:asset-pack',
             label: 'AssetPack execution',
-            lens: 'give',
+            lens: 'deposit',
             proofStatus: 'repository-anchor witness recorded',
             closureFocus: 'repository supply boundary',
           },
@@ -376,14 +376,14 @@ test.describe('Bitcode Terminal browser flow', () => {
     await expect(page.getByText('Connected as bitcode')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Record repository anchor' })).toBeEnabled();
 
-    const needDetailResponse = page.waitForResponse((response) =>
-      response.url().includes('/api/executions/history/run-need') && response.request().method() === 'GET',
+    const readDetailResponse = page.waitForResponse((response) =>
+      response.url().includes('/api/executions/history/run-read') && response.request().method() === 'GET',
     );
-    await page.getByRole('button', { name: /Need measurement execution/i }).click();
-    await needDetailResponse;
+    await page.getByRole('button', { name: /Read measurement execution/i }).click();
+    await readDetailResponse;
 
-    await expect(page).toHaveURL(/transactionId=run-need/);
-    await expect(page.getByText(/Recorded need measurement for auth-remediation\./)).toBeVisible();
+    await expect(page).toHaveURL(/transactionId=run-read/);
+    await expect(page.getByText(/Recorded read measurement for auth-remediation\./)).toBeVisible();
 
     const postRequest = page.waitForRequest((request) =>
       request.url().endsWith('/api/executions/history') && request.method() === 'POST',

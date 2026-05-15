@@ -87,7 +87,7 @@
   transform: translate(-50%, -50%);
 }
 
-/* Override for the rings themselves which need different positioning */
+/* Override for the rings themselves which read different positioning */
 .marketing-orbital-container .marketing-orbital-ring {
   left: 50%;
   top: 50%;

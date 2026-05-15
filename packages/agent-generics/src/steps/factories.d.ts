@@ -17,7 +17,7 @@ type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 import { AgentVariationStep } from '../types';
 import { z } from 'zod';
 /**
- * Plan Step Factory - analyzes the Need and creates an execution plan.
+ * Plan Step Factory - analyzes the Read and creates an execution plan.
  *
  * Uses failsafe parent architecture:
  * 1. PrepareConciseContext (parent) -> runs Reason-Judge-StructuredOutput (children)

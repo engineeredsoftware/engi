@@ -299,7 +299,7 @@
           },
           {
             "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-            "evidence": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+            "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
             "description": "activity ledger write-reread path is tested"
           },
           {

@@ -15,7 +15,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
 
   // Map type to human-readable label (used for accessibility & tooltip)
   const labelMap: Record<ExecutionOptionToggleProps['type'], string> = {
-    'computer-use-measurement': 'Computer-use Need measurement',
+    'computer-use-measurement': 'Computer-use Read measurement',
     'fit-review': 'Fit review',
   };
 

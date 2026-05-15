@@ -40,7 +40,7 @@ const CARDS: Card[] = [
   {
     icon: CommandLineIcon,
     title: "Beyond the Terminal",
-    desc: "Need Chrome for UI tests or a custom debugger? Bitcode can run GUI apps or prepare helper tools when a Need requires workstation evidence.",
+    desc: "Read Chrome for UI tests or a custom debugger? Bitcode can run GUI apps or prepare helper tools when a Read requires workstation evidence.",
   },
 ];
 

@@ -163,7 +163,7 @@ describe(SearchCodeTool, () => {
 
 ### 🎯 Critical Path
 
-1. **Tool discovery mechanism** - Agents need to find tools
+1. **Tool discovery mechanism** - Agents read to find tools
 2. **Standardized categories** - Consistent tool organization
 3. **Complete test patterns** - Ensure reliability
 4. **Registry integration** - Work with execution system
@@ -241,4 +241,4 @@ describe(SearchCodeTool, () => {
 3. Analytics and versioning
 4. Visual builders
 
-The tools-generics architecture is solid and minimal. The main gap is tool discovery - agents need a way to find and select appropriate tools. Focus on registry integration and standardized patterns for V26.
+The tools-generics architecture is solid and minimal. The main gap is tool discovery - agents read a way to find and select appropriate tools. Focus on registry integration and standardized patterns for V26.

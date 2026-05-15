@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_PURPOSE_CORESTATEMENT: PromptPart =
-  'Core purpose: decide whether validated Need-satisfaction AssetPack synthesis artifacts satisfy the Need and are safe to enter Finish, or short-circuit with refund and proof evidence' as PromptPart;
+  'Core purpose: decide whether validated Read-satisfaction AssetPack synthesis artifacts satisfy the Read and are safe to enter Finish, or short-circuit with refund and proof evidence' as PromptPart;

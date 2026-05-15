@@ -13,7 +13,7 @@ export default function TerminalPreservedShellSurface() {
       id="terminalDemonstrationWitness"
       kicker="Demonstration witness"
       title="Open the proof and settlement witness only when deeper closure detail is required"
-      summary="Stay in the Bitcode Terminal for normal reading and drafting. Open this witness only when you need replay detail, mount-level verification, or dense proof follow-through."
+      summary="Stay in the Bitcode Terminal for normal reading and drafting. Open this witness only when you read replay detail, mount-level verification, or dense proof follow-through."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.sourcePath}
       className="min-w-0"
       childrenClassName="space-y-5"

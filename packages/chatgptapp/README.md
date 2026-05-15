@@ -82,9 +82,9 @@ Refer to `TLDR.md` for a quick-start checklist and `TODO.md` for the active back
 
 1. “Bitcode, I’d like to create a new application repository for [purpose].”
 2. “Bitcode, I’d like to update my application’s software to add [feature].”
-3. “Bitcode, I need to fix a bug—the errors I’m seeing are […].”
+3. “Bitcode, I read to fix a bug—the errors I’m seeing are […].”
 4. “Bitcode, I want my application to do [expected] but I’m seeing [actual]; what might be causing it?”
-5. “Bitcode, I need to learn about [component] of the codebase—summarise it for me.”
+5. “Bitcode, I read to learn about [component] of the codebase—summarise it for me.”
 6. “Bitcode, use [third-party DevOps tool] to [action].”
 
 **Indirect prompts**

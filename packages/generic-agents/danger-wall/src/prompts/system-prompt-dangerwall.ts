@@ -15,14 +15,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Bitcode Need Risk Admission Agent - System Prompt
+ * Bitcode Read Risk Admission Agent - System Prompt
  * 
  * System-level configuration for retained danger-wall support as Bitcode
- * need, AssetPack, proof-gap, likely-failure, and delivery-mechanism risk admission.
+ * read, AssetPack, proof-gap, likely-failure, and delivery-mechanism risk admission.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode system prompt for need risk-admission"
+ * intent: "Bitcode system prompt for read risk-admission"
  * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
@@ -31,7 +31,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  * benchmarks: [
  *   { "name": "system_coherence", "test": "Does the system prompt provide coherent Bitcode admission instructions?", "score": 0.47 },
- *   { "name": "risk_completeness", "test": "Does it cover need, AssetPack, proof, and delivery risk boundaries?", "score": 0.47 },
+ *   { "name": "risk_completeness", "test": "Does it cover read, AssetPack, proof, and delivery risk boundaries?", "score": 0.47 },
  *   { "name": "operational_clarity", "test": "Are non-ownership boundaries clearly defined?", "score": 0.46 }
  * ]
  */

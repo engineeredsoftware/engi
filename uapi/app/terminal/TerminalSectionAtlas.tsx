@@ -28,7 +28,7 @@ export default function TerminalSectionAtlas() {
     <TerminalWorkspaceCard
       kicker="Section map"
       title="Preview the deeper flow"
-      summary="Scan give, need, fit, verification, artifacts, settlement, and ledger sections before you open the next deeper stage."
+      summary="Scan deposit, read, fit, verification, artifacts, settlement, and ledger sections before you open the next deeper stage."
       explainer={TERMINAL_SURFACE_EXPLAINERS.activityMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">

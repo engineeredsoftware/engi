@@ -2,7 +2,7 @@ import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import {
-  resolveExpressedNeedFromExecution,
+  resolveExpressedReadFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
@@ -52,7 +52,7 @@ export const AssetPackCompletionOutputSchema = z.object({
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: WrittenAssetsSchema.optional(),
   deliveryMechanism: DeliveryMechanismSchema.optional(),
-  need: z.string().optional(),
+  read: z.string().optional(),
   writtenAssetType: z.string().optional(),
   processingStats: z.object({
     time: z.string(),
@@ -83,7 +83,7 @@ function formatDuration(ms: number): string {
  * AssetPackCompletion Quick Agent (single-step)
  *
  * Prepares the final AssetPack completion for a written-asset execution
- * by reading the execution state (repository, need, phase timings, basic metrics)
+ * by reading the execution state (repository, read, phase timings, basic metrics)
  * and producing a concise markdown summary plus structured metadata. Stores the
  * result under `finish/asset_pack_completion/*` in the execution store for API
  * layers to persist into `executions.output`.
@@ -112,8 +112,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     const commit = (execution as any).get?.('repository', 'commit') || '';
     const repoSnapshot = { org, repo, branch, commit };
 
-    // Expressed need
-    const need = resolveExpressedNeedFromExecution(execution);
+    // Expressed read
+    const read = resolveExpressedReadFromExecution(execution);
 
     // Phase timings (derive total duration best-effort)
     const phases = ['setup', 'discovery', 'implementation', 'validation', 'finish'];
@@ -137,8 +137,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     // Compose a minimal markdown summary
     const lines: string[] = [];
     lines.push(`# AssetPack Completion`);
-    if (need) {
-      lines.push('', `## Need`, need.trim());
+    if (read) {
+      lines.push('', `## Read`, read.trim());
     }
     lines.push('', `## Repository`, `${org}/${repo} (${branch}@${commit ? commit.slice(0,7) : 'HEAD'})`);
     lines.push('', `## Processing`, `Total time: ${processingStats.time}`);
@@ -154,7 +154,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
     try {
       const prUrl = (execution as any).get?.('finish', 'pullRequestUrl') || '';
-      const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (need || 'Pull Request');
+      const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (read || 'Pull Request');
       const prNumber = (execution as any).get?.('finish', 'pullRequestNumber');
       pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
     } catch {}
@@ -189,7 +189,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       assetPackSynthesisArtifacts,
       writtenAssets,
       deliveryMechanism,
-      need: need || undefined,
+      read: read || undefined,
       writtenAssetType: dtype || undefined,
       processingStats,
       repoSnapshot,
@@ -203,7 +203,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).store?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssets', writtenAssets as any);
       (execution as any).store?.('finish/asset_pack_completion', 'deliveryMechanism', deliveryMechanism as any);
-      (execution as any).store?.('finish/asset_pack_completion', 'need', need || undefined);
+      (execution as any).store?.('finish/asset_pack_completion', 'read', read || undefined);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssetType', dtype || undefined);
       (execution as any).store?.('finish/asset_pack_completion', 'processingStats', processingStats as any);
       (execution as any).store?.('finish/asset_pack_completion', 'repoSnapshot', repoSnapshot as any);

@@ -21,7 +21,7 @@ export default function TerminalTransactionIdentityCard({
     <BitcodePayloadRowsCard
       kicker="Selected activity"
       title="Activity identity and payload"
-      summary="Read the Bitcode activity identity in one compact card, then switch straight into the raw payload when you need the underlying shape."
+      summary="Read the Bitcode activity identity in one compact card, then switch straight into the raw payload when you read the underlying shape."
       payload={payload}
       rawLabel="Activity payload"
       rows={identityRows}

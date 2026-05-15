@@ -9,7 +9,7 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   participant?: string | null;
   sourceModel?: 'execution-history' | 'protocol-projection' | 'mock-review';
   isOwnTransaction?: boolean;
-  transactionLens?: 'give' | 'need' | 'closure';
+  transactionLens?: 'deposit' | 'read' | 'closure';
   itemCount?: number;
   tokenTotal?: number | null;
   measuredBtd?: number | null;
@@ -31,7 +31,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     branch: 'bitcode/terminal-refit',
     participant: 'garrett',
     isOwnTransaction: true,
-    transactionLens: 'give',
+    transactionLens: 'deposit',
     itemCount: 6,
     tokenTotal: 18420,
     measuredBtd: 148.4,
@@ -41,23 +41,23 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     closureFocus: 'AssetPack evidence + Finish PR mechanism',
   },
   {
-    id: 'mock-run-need-measurement-pass',
+    id: 'mock-run-read-measurement-pass',
     created_at: '2026-04-16T11:12:00.000Z',
-    type: 'agentic-execution:need-measurement',
+    type: 'agentic-execution:read-measurement',
     status: 'completed',
-    summary: 'Ran a need-measurement pass, surfaced ranked verification evidence, and refreshed ledger posture.',
+    summary: 'Ran a read-measurement pass, surfaced ranked verification evidence, and refreshed ledger posture.',
     repository: 'bitcode/bitcode',
     branch: 'fit-pressure/review',
     participant: 'research-partner',
     isOwnTransaction: false,
-    transactionLens: 'need',
+    transactionLens: 'read',
     itemCount: 4,
     tokenTotal: 10980,
     measuredBtd: 82.1,
     btcFeeUsdEquivalent: 3.11,
     averageLatencyMs: 920,
     proofStatus: 'verification witness refreshed',
-    closureFocus: 'need measurement + ledger refresh',
+    closureFocus: 'read measurement + ledger refresh',
   },
   {
     id: 'mock-run-proof-refresh',
@@ -104,7 +104,7 @@ export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, ShippablesDoc> = {
     summary:
       'The branch remediation pack now reads as one Bitcode Terminal surface. You can inspect the proposed pull request and written AssetPack evidence without abandoning the main ledger window.',
   },
-  'mock-run-need-measurement-pass': {
+  'mock-run-read-measurement-pass': {
     pullRequest: null,
     summary:
       'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the Bitcode Terminal.',
@@ -184,29 +184,29 @@ export const MOCK_RUN_ACTIVITY: Record<
     isStreamingComplete: true,
     generationCount: 2,
   },
-  'mock-run-need-measurement-pass': {
-    output: ['[pipeline:running]', '[phase:running] Need measurement refresh', '[completion]'].join('\n'),
+  'mock-run-read-measurement-pass': {
+    output: ['[pipeline:running]', '[phase:running] Read measurement refresh', '[completion]'].join('\n'),
     outputDetails: {
       '[pipeline:running]': { type: 'pipeline', status: 'running', timestamp: '2026-04-16T11:12:04.000Z' },
-      '[phase:running] Need measurement refresh': {
+      '[phase:running] Read measurement refresh': {
         type: 'phase',
         status: 'running',
-        phase: 'Need measurement refresh',
+        phase: 'Read measurement refresh',
         timestamp: '2026-04-16T11:12:20.000Z',
       },
       '[completion]': { type: 'completion', timestamp: '2026-04-16T11:13:02.000Z' },
     },
     executionState: {
-      phase: 'Need measurement refresh',
-      agent: 'Need analyzer',
+      phase: 'Read measurement refresh',
+      agent: 'Read analyzer',
       step: 'chunk_then_sum',
-      generation: 'need verification update',
+      generation: 'read verification update',
     },
     latestWorkUpdate: {
       id: 'wu-3',
       iteration: 1,
       confidence: 0.88,
-      prose: 'Need-measurement normalization and decisive fit tiers were refreshed for the selected scenario.',
+      prose: 'Read-measurement normalization and decisive fit tiers were refreshed for the selected scenario.',
       timestamp: '2026-04-16T11:12:48.000Z',
     },
     iterationUpdates: [
@@ -214,7 +214,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-3',
         iteration: 1,
         confidence: 0.88,
-        prose: 'Need-measurement normalization and decisive fit tiers were refreshed for the selected scenario.',
+        prose: 'Read-measurement normalization and decisive fit tiers were refreshed for the selected scenario.',
         timestamp: '2026-04-16T11:12:48.000Z',
       },
     ],

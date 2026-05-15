@@ -60,7 +60,7 @@ jest.mock('@/app/terminal/terminal-shell-bridge', () => ({
 
 jest.mock('@/app/terminal/terminal-command-state', () => ({
   normalizeTerminalCommandState: () => ({
-    scenario: 'need-1',
+    scenario: 'read-1',
     branchMode: 'patch',
     shellReady: true,
   }),
@@ -77,7 +77,7 @@ jest.mock('@/app/terminal/terminal-closure-controls', () => ({
     primaryActionLabel: 'Run closure',
     primaryActionSummary: 'Close and settle the active Bitcode branch.',
     statusTone: 'settled',
-    scenario: 'need-1',
+    scenario: 'read-1',
     branchMode: 'patch',
     visibleArtifactCount: 3,
     proofFamilyCount: 2,

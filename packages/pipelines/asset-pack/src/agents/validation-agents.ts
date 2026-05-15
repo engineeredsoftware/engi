@@ -21,7 +21,7 @@ function createValidationPrompt(identity: string, requirement: string): Prompt {
   const prompt = new Prompt();
   prompt.set('agent:identity', createPromptPart(identity));
   prompt.set('agent:requirements', createPromptPart(requirement));
-  prompt.set('ptrr:plan', createPromptPart('Plan validation against Need, source evidence, AssetPack content, and proof obligations.'));
+  prompt.set('ptrr:plan', createPromptPart('Plan validation against Read, source evidence, AssetPack content, and proof obligations.'));
   prompt.set('ptrr:try', createPromptPart('Return concrete issues only when evidence shows AssetPack incompleteness or unsafe Finish readiness.'));
   prompt.set('ptrr:refine', createPromptPart('Refine findings to remove delivery-mechanism assumptions and preserve proof traceability.'));
   prompt.set('ptrr:retry', createPromptPart('Recover by validating the available AssetPack state and explicitly naming missing evidence.'));
@@ -33,12 +33,12 @@ function createValidationPrompt(identity: string, requirement: string): Prompt {
 
 const lastValidationPrompt = createValidationPrompt(
   'You validate the prior AssetPack validation iteration for regressions or unresolved proof gaps.',
-  'Treat prior validation as evidence over the same Need-to-AssetPack corridor, not as a separate delivery-template pipeline.'
+  'Treat prior validation as evidence over the same Read-to-AssetPack corridor, not as a separate delivery-template pipeline.'
 );
 
 const discoveryValidationPrompt = createValidationPrompt(
-  'You validate discovery evidence for the measured Bitcode Need and AssetPack synthesis plan.',
-  'Discovery is sufficient only when it explains Need satisfaction, source evidence, risk, and proof requirements for AssetPack synthesis.'
+  'You validate discovery evidence for the measured Bitcode Read and AssetPack synthesis plan.',
+  'Discovery is sufficient only when it explains Read satisfaction, source evidence, risk, and proof requirements for AssetPack synthesis.'
 );
 
 const assetPackValidationPrompt = createValidationPrompt(
@@ -66,7 +66,7 @@ export const AssetPackValidationPhaseValidateDiscoveryAgent = factoryAgentWithPT
   z.infer<typeof ValidateIssuesOutputSchema>
 >({
   name: 'asset-pack-validate-discovery-phase-agent',
-  description: 'Validates discovery evidence for Need-to-AssetPack synthesis',
+  description: 'Validates discovery evidence for Read-to-AssetPack synthesis',
   outputSchema: ValidateIssuesOutputSchema,
   prompt: discoveryValidationPrompt,
   stepPrompts: { plan: () => discoveryValidationPrompt, try: () => discoveryValidationPrompt, refine: () => discoveryValidationPrompt, retry: () => discoveryValidationPrompt },

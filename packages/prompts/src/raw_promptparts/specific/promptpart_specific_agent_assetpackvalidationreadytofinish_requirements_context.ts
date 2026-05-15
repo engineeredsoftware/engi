@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_REQUIREMENTS_CONTEXT: PromptPart =
-  'Requirements: validation evidence from prior phases, expressed Need description, written-asset metadata, repository context, proof obligations, delivery-mechanism boundaries, and quality thresholds' as PromptPart;
+  'Requirements: validation evidence from prior phases, expressed Read description, written-asset metadata, repository context, proof obligations, delivery-mechanism boundaries, and quality thresholds' as PromptPart;

@@ -7,7 +7,7 @@ const api_client_1 = require("../networking/api-client");
 const DEFAULT_ASSET_PACK_EXECUTION_TYPE = 'agentic-execution:asset-pack';
 // Initial default state for execution processing
 const initialExecutionState = {
-    definitionOfNeed: '',
+    definitionOfRead: '',
     isProcessing: false,
     output: '',
     generationCount: 0,
@@ -48,12 +48,12 @@ const useExecutionState = () => {
         }
         catch { }
     } };
-    const setDefinitionOfNeed = (definitionOfNeed) => {
-        setState(prev => ({ ...prev, definitionOfNeed }));
+    const setDefinitionOfNeed = (definitionOfRead) => {
+        setState(prev => ({ ...prev, definitionOfRead }));
     };
     /**
      * Triggers the Bitcode asset-pack pipeline and returns final completion data (or null on error).
-     * `definitionOfNeed` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
+     * `definitionOfRead` is bounded to the input key while downstream receipts mirror Bitcode Read and AssetPack semantics.
      */
     const submitAssetPackPipeline = (0, react_1.useCallback)(async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, userHasScrolled, logContainerRef, userTimezone, modelProvider, modelId, 
     /** Optional attachments provided by the user */
@@ -79,7 +79,7 @@ const useExecutionState = () => {
         try {
             dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, iterationCount });
             const pipelineType = options?.pipelineType || DEFAULT_ASSET_PACK_EXECUTION_TYPE;
-            const stream = await (0, api_client_1.callAssetPackExecutionsAPI)(connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, state.definitionOfNeed, userTimezone, modelProvider, modelId, attachments, iterationCount, files, pipelineType);
+            const stream = await (0, api_client_1.callAssetPackExecutionsAPI)(connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, state.definitionOfRead, userTimezone, modelProvider, modelId, attachments, iterationCount, files, pipelineType);
             if (!stream) {
                 dlog('No stream returned from API');
                 throw new Error('No stream returned from API');
@@ -231,7 +231,7 @@ const useExecutionState = () => {
             isStreamingComplete: !hasError
         }));
         return finalCompletion;
-    }, [state.definitionOfNeed]);
+    }, [state.definitionOfRead]);
     /**
      * Append a user instruction to the pipeline log immediately
      */

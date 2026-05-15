@@ -8,7 +8,7 @@ Bitcode agentic execution is source-to-shares inference over explicit phases, re
 
 The V26 execution baseline is:
 - Setup: bind source, repository, attachments, model/tool defaults, and execution state.
-- Discovery: gather source-grounded evidence, including web research when useful for Need synthesis.
+- Discovery: gather source-grounded evidence, including web research when useful for Read synthesis.
 - Implementation: synthesize the AssetPack or connected-interface written asset.
 - Validation: assess implementation, evidence, and readiness.
 - Finish: save results, write proof/state, and deliver AssetPack outputs through selected delivery mechanisms.
@@ -31,11 +31,11 @@ Prompt-type implementation practice:
 
 ## Computer-Use Boundary
 
-Computer-use support is only admitted as internal Need-measurement evidence in V26.
+Computer-use support is only admitted as internal Read-measurement evidence in V26.
 
 Implementation rule:
-- The only server flag is `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`.
-- Registry admission is scoped to `need-measurement:computer-use-evidence-agent`.
+- The only server flag is `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`.
+- Registry admission is scoped to `read-measurement:computer-use-evidence-agent`.
 - Implementation, validation, Finish, and Terminal action controls must not expose computer-use as a general execution option.
 
 Full computer-using agent ability is beyond V26.
@@ -49,7 +49,7 @@ The following old execution ideas are not live V26 product concepts:
 - pre-Finish final-phase naming,
 - work-item-first product naming.
 
-If compatibility code paths remain, they must read as AssetPack, Need, fit, settlement, Finish, and delivery-mechanism implementations.
+If compatibility code paths remain, they must read as AssetPack, Read, fit, settlement, Finish, and delivery-mechanism implementations.
 
 ## State Namespaces
 
@@ -57,7 +57,7 @@ Preferred active namespaces:
 - `execution`: id, correlation id, stream carrier.
 - `pipeline`: normalized input and written-asset type.
 - `source`: provider, owner, repository, branch, commit, connection id.
-- `need`: measured and accepted Need state.
+- `read`: measured and accepted Read state.
 - `config`: iteration count, MCP config, internal computer-use measurement flag.
 - `attachments`: source evidence.
 - `route/preprocessed`: route-owned snapshot and AssetPack written-asset snapshot.

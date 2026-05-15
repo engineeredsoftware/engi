@@ -4,7 +4,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Bitcode LSP context-awareness composition for replayable Need and AssetPack measurement"
+ * intent: "Bitcode LSP context-awareness composition for replayable Read and AssetPack measurement"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_HEADER": "0.50.0",
@@ -35,7 +35,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/
  * Compose LSP context awareness description
  * 
  * PATTERN: [ACTION] [TECHNOLOGY] [INFINITIVE] [VERB] [CAPABILITY_LIST] [PURPOSE]
- * EXAMPLE: "Measures repository context with LSP evidence across symbols, paths, config keys, and code patterns for Need measurement, AssetPack fit, and proof replay"
+ * EXAMPLE: "Measures repository context with LSP evidence across symbols, paths, config keys, and code patterns for Read measurement, AssetPack fit, and proof replay"
  */
 export function composeLspContextAwareness(): string {
   return [

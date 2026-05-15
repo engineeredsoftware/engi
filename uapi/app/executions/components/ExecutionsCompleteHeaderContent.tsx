@@ -81,12 +81,12 @@ export type HeaderAssetPackCompletion = {
   assetPackSynthesisArtifacts?: HeaderShippables;
   writtenAssets?: HeaderShippables;
   deliveryMechanism?: HeaderShippables;
-  need?: string | null;
+  read?: string | null;
   writtenAssetType?: string | null;
   assetPack?: {
-    need?: string | null;
+    read?: string | null;
     writtenAssetType?: string | null;
-    definitionOfNeed?: string | null;
+    definitionOfRead?: string | null;
     deliveryTarget?: string | null;
   };
   processingStats?: HeaderProcessingStats;
@@ -96,8 +96,8 @@ export type HeaderAssetPackCompletion = {
 
 const formatWrittenAssetType = (type?: string | null) => {
   switch (type) {
-    case 'need-satisfaction-asset-pack':
-      return 'Need-Satisfaction AssetPack';
+    case 'read-satisfaction-asset-pack':
+      return 'Read-Satisfaction AssetPack';
     default:
       return undefined;
   }

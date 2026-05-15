@@ -45,7 +45,7 @@ const result = await codeEditorAgent({
       ]
     }
   ],
-  taskDescription: 'Implement JWT validation',  // Edit intent supplied from a measured Bitcode Need.
+  taskDescription: 'Implement JWT validation',  // Edit intent supplied from a measured Bitcode Read.
   transactional: true,
   validateSyntax: true
 }, execution);
@@ -58,7 +58,7 @@ const result = await codeEditorAgent({
     oldStr: 'old text',
     newStr: 'new text'
   },
-  taskDescription: 'Update documentation'  // Edit intent supplied from a measured Bitcode Need.
+  taskDescription: 'Update documentation'  // Edit intent supplied from a measured Bitcode Read.
 }, execution);
 ```
 

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for need discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryassesscomplexity identity definition"
+ * intent: "Bitcode AssetPack discovery PromptPart for read discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryassesscomplexity identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for need discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryassesscomplexity identity definition"
+ * intent: "Bitcode AssetPack discovery PromptPart for read discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryassesscomplexity identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYASSESSCOMPLEXITY_IDENTITY_DEFINITION: PromptPart = 
-  'You are the AssetPackPipelineDiscoveryPhaseAssessComplexityAgent responsible for estimating Need satisfaction complexity, AssetPack scope risk, integration cost, and proof burden' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseAssessComplexityAgent responsible for estimating Read satisfaction complexity, AssetPack scope risk, integration cost, and proof burden' as PromptPart;

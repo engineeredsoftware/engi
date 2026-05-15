@@ -18,11 +18,11 @@ import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLEXAMPLE3 } from '@b
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Bitcode repository-preparation support prompt for provider-agnostic cloning, expressed-need-aware file filtering, and setup evidence"
+ * intent: "Bitcode repository-preparation support prompt for provider-agnostic cloning, expressed-read-aware file filtering, and setup evidence"
  * 
  * Structured DocCodeToolPrompt for repository setup tool runtime documentation.
  * This tool provides provider-agnostic repository cloning and analysis
- * capabilities in support of Bitcode need understanding and written-asset
+ * capabilities in support of Bitcode read understanding and written-asset
  * synthesis.
  */
 

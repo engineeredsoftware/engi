@@ -97,7 +97,7 @@ begin
     end if;
     
     if v_user_balance < v_topup_amount then
-      raise exception 'PAYS0' using message = format('Insufficient balance for top-up: have %s, need %s', v_user_balance, v_topup_amount);
+      raise exception 'PAYS0' using message = format('Insufficient balance for top-up: have %s, read %s', v_user_balance, v_topup_amount);
     end if;
     
     -- Deduct credits for top-up

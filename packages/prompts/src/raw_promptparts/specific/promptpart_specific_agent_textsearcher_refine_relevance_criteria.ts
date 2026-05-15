@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_RELEVANCE_CRITERIA: PromptPart =
-  'Prioritize matches that name the active Bitcode need, prompt registry, proof file, package owner, schema field, written asset, AssetPack, or delivery-mechanism boundary; deprioritize generic wording without source ownership value.' as PromptPart;
+  'Prioritize matches that name the active Bitcode read, prompt registry, proof file, package owner, schema field, written asset, AssetPack, or delivery-mechanism boundary; deprioritize generic wording without source ownership value.' as PromptPart;

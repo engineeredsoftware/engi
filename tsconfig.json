@@ -31,8 +31,9 @@
       "@bitcode/agent-generics": ["packages/agent-generics/src/index.ts"],
       "@bitcode/agent-generics/*": ["packages/agent-generics/src/*"],
       "@bitcode/generic-agents-language": ["packages/generic-agents/language/src/index.ts"],
-      "@bitcode/generic-agents-need-comprehension": ["packages/generic-agents/need-comprehension/src/index.ts"],
+      "@bitcode/generic-agents-read-comprehension": ["packages/generic-agents/read-comprehension/src/index.ts"],
       "@bitcode/generic-agents-ready-to-short-circuit": ["packages/generic-agents/ready-to-short-circuit/src/index.ts"],
+      "@bitcode/generic-tools-read-comprehension": ["packages/generic-tools/read-comprehension/src/index.ts"],
       "@bitcode/types": ["packages/tech-types/src/index.ts"],
       "@bitcode/tools-generics": ["packages/tools-generics/src/index.ts"],
       "@bitcode/tools-generics/*": ["packages/tools-generics/src/*"],
@@ -56,7 +57,7 @@
       // Map any @bitcode/generic-tools-foo style package name to the corresponding
       // source index file within packages/generic-tools/<foo>/src. This allows
       // us to keep the package directories nested under the generic-tools
-      // umbrella without needing individual path entries for every tool.
+      // umbrella without reading individual path entries for every tool.
       "@bitcode/generic-tools-*": ["packages/generic-tools/*/src/index.ts"],
       // Map new @bitcode/generic-tools/<tool> style imports to the individual
       // tool packages living under packages/generic-tools/<tool>/src.

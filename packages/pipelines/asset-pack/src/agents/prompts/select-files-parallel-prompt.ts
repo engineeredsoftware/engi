@@ -29,7 +29,7 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYSELECTFILESPARALLEL_PTRRRET
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode discovery prompt for selecting source files relevant to Need satisfaction and AssetPack scope"
+ * intent: "Bitcode discovery prompt for selecting source files relevant to Read satisfaction and AssetPack scope"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

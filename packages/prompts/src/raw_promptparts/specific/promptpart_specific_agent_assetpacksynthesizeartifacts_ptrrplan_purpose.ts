@@ -11,4 +11,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRPLAN_PURPOSE: PromptPart =
-  'Plan AssetPack synthesis artifacts from the measured Need, repository evidence, constraints, and proof obligations.' as PromptPart;
+  'Plan AssetPack synthesis artifacts from the measured Read, repository evidence, constraints, and proof obligations.' as PromptPart;

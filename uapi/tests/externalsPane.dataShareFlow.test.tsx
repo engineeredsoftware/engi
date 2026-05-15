@@ -93,14 +93,14 @@ describe('ExternalsPane data-share flow', () => {
     jest.restoreAllMocks();
   });
 
-  it('enables continuous need-space repository sharing from Externals', async () => {
+  it('enables continuous read-space repository sharing from Externals', async () => {
     render(<ExternalsPane onSave={() => {}} loading={false} isOnboardingComplete />);
 
     await waitFor(() => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
     });
 
-    expect(screen.getAllByText('Need-space knowledge sharing').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Read-space knowledge sharing').length).toBeGreaterThan(0);
     expect(screen.getByText('engineeredsoftware/bitcode')).toBeInTheDocument();
 
     const [toggle] = screen.getAllByRole('checkbox');

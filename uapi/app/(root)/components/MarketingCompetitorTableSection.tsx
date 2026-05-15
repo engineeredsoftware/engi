@@ -57,7 +57,7 @@ const COLUMNS = [
 ] as const;
 
 // The columns are re-ordered further down once the competitor matrix is in
-// scope (we need the data to calculate presence counts).  Keep the base array
+// scope (we read the data to calculate presence counts).  Keep the base array
 // here for type-safety only.
 
 // Copy for EducationCard per column
@@ -88,15 +88,15 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
   },
   "Shepherding at Scale": {
     title: "Source-to-Shares Control",
-    subtitle: "Need to Settlement",
+    subtitle: "Read to Settlement",
     description:
-      "Review measured Needs, inspect fit qualities, and follow AssetPack settlement artifacts through the same source-to-shares control plane.",
+      "Review measured Reads, inspect fit qualities, and follow AssetPack settlement artifacts through the same source-to-shares control plane.",
   },
   "Auto Agent Sequencing": {
     title: "Specified Phases",
-    subtitle: "Need Through Finish",
+    subtitle: "Read Through Finish",
     description:
-      "Bitcode runs explicit Need, fit, implementation, review, and Finish phases so operators can inspect the execution boundary instead of trusting hidden orchestration.",
+      "Bitcode runs explicit Read, fit, implementation, review, and Finish phases so operators can inspect the execution boundary instead of trusting hidden orchestration.",
   },
   "Deep Evolution": {
     title: "Deep Evolution",
@@ -108,7 +108,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     title: "Knowledge Procurement",
     subtitle: "Premium Data",
     description:
-      "When knowledge is missing, Bitcode performs source-attributed discovery and binds findings into reviewable Need evidence before fitting begins.",
+      "When knowledge is missing, Bitcode performs source-attributed discovery and binds findings into reviewable Read evidence before fitting begins.",
   },
   "Data-Share Compensation": {
     title: "Data-Share Compensation",
@@ -183,7 +183,7 @@ const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
   "Parallel Workflows": {
     headline: "Bounded Inference",
     points: [
-      "Need-first inference stages",
+      "Read-first inference stages",
       "Proof-visible execution records",
       "No unbounded agent claims",
     ],
@@ -191,7 +191,7 @@ const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
   "Shepherding at Scale": {
     headline: "Source-to-Shares Control",
     points: [
-      "Reviewable Need measurement",
+      "Reviewable Read measurement",
       "Live, step-level visibility",
       "Settlement-bound AssetPacks",
     ],
@@ -631,7 +631,7 @@ export default function MarketingCompetitorTableSection() {
           The Autonomous, Self-Improving Software Factory
         </h2>
         <p className="text-base laptop:text-lg text-gray-300 max-w-3xl mx-auto">
-          Source-to-shares execution measures Needs, reviews fit, and produces AssetPacks with proof-visible settlement evidence.
+          Source-to-shares execution measures Reads, reviews fit, and produces AssetPacks with proof-visible settlement evidence.
         </p>
       </div>
 

@@ -214,7 +214,7 @@ test('AssetPack prompt-builder doc-comments use Bitcode-specific labels', () => 
       assert.doesNotMatch(intent, /^Deliverables\b/u, `${name} intent starts from removed deliverables vocabulary: ${intent}`);
       assert.match(
         intent,
-        /\b(Need|AssetPack|Finish|Delivering|written-asset|proof|repository|LSP|review|document|delivery)\b/u,
+        /\b(Read|AssetPack|Finish|Delivering|written-asset|proof|repository|LSP|review|document|delivery)\b/u,
         `${name} intent lacks object/evidence specificity: ${intent}`
       );
     }

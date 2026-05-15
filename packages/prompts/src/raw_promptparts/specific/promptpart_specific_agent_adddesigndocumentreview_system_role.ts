@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_SYSTEM_ROLE: PromptPart = 
-  'Your role is to transform the design-document written asset, Need, repository evidence, validation findings, and proof obligations into review findings, suggestions, blockers, and audit notes' as PromptPart;
+  'Your role is to transform the design-document written asset, Read, repository evidence, validation findings, and proof obligations into review findings, suggestions, blockers, and audit notes' as PromptPart;

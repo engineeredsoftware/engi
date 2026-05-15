@@ -157,7 +157,7 @@
       "label": "Retained tools and agents are Bitcode-purposed with prompt ownership and reader-first scope",
       "status": "closed",
       "passed": true,
-      "detail": "Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as need ingestion and source-attributed support.",
+      "detail": "Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as read ingestion and source-attributed support.",
       "evidenceArtifactPaths": [
         ".bitcode/prompt-system-totality-proof.json",
         ".bitcode/inference-implementation-records-proof.json",

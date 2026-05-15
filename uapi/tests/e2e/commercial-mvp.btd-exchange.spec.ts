@@ -98,16 +98,16 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await expect(page.getByText('same state, read-only here')).toBeVisible();
     await expect(page.getByText('Searchable Exchange activity table')).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /mock-run-need-measurement-pass/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /mock-run-read-measurement-pass/i })).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-proof-refresh/i })).toBeVisible();
 
-    await page.getByLabel('Search transactions').fill('need-measurement');
-    await expect(page).toHaveURL(/transactionSearch=need-measurement/);
-    await expect(page.getByText('mock-run-need-measurement-pass')).toBeVisible();
+    await page.getByLabel('Search transactions').fill('read-measurement');
+    await expect(page).toHaveURL(/transactionSearch=read-measurement/);
+    await expect(page.getByText('mock-run-read-measurement-pass')).toBeVisible();
 
-    await page.getByRole('button', { name: /mock-run-need-measurement-pass/i }).click();
+    await page.getByRole('button', { name: /mock-run-read-measurement-pass/i }).click();
 
-    await expect(page).toHaveURL(/transactionId=mock-run-need-measurement-pass/);
+    await expect(page).toHaveURL(/transactionId=mock-run-read-measurement-pass/);
     await expect(page.getByText('Exchange selected activity detail')).toBeVisible();
     await expect(page.getByLabel('Selected Exchange activity detail')).toBeVisible();
     await expect(page.getByText('Selected activity', { exact: true })).toBeVisible();
@@ -117,14 +117,14 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
         .locator('dt')
         .filter({ hasText: new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`) })
         .locator('xpath=following-sibling::dd[1]');
-    await expect(selectedFactValue('Activity id')).toHaveText('mock-run-need-measurement-pass');
-    await expect(selectedFactValue('Action lens')).toHaveText('need');
+    await expect(selectedFactValue('Activity id')).toHaveText('mock-run-read-measurement-pass');
+    await expect(selectedFactValue('Action lens')).toHaveText('read');
     await expect(selectedFactValue('Participant')).toHaveText('research-partner');
     await expect(selectedFactValue('Ownership')).toHaveText('network');
     await expect(selectedFactValue('Repository')).toHaveText('bitcode/bitcode');
     await expect(selectedFactValue('Branch')).toHaveText('fit-pressure/review');
     await expect(selectedFactValue('Proof posture')).toHaveText('verification witness refreshed');
-    await expect(selectedFactValue('Closure focus')).toHaveText('need measurement + ledger refresh');
+    await expect(selectedFactValue('Closure focus')).toHaveText('read measurement + ledger refresh');
     await expect(selectedFactValue('Measured BTD')).toHaveText('82.1');
     await expect(selectedFactValue('BTC fee basis')).toHaveText('$3.11');
     await page.getByRole('button', { name: /^Proofs$/ }).click();
@@ -153,11 +153,11 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await page.getByLabel('Ownership', { exact: true }).selectOption('network');
     await expectRouteParam(page, 'transactionOwnership', 'network');
     await expect(page.getByText('Ownership: Exchange transactions')).toBeVisible();
-    await expect(page.getByRole('button', { name: /mock-run-need-measurement-pass/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /mock-run-read-measurement-pass/i })).toBeVisible();
 
-    await page.getByLabel('Action lens', { exact: true }).selectOption('need');
-    await expectRouteParam(page, 'transactionLens', 'need');
-    await expect(page.getByText('Lens: Need')).toBeVisible();
+    await page.getByLabel('Action lens', { exact: true }).selectOption('read');
+    await expectRouteParam(page, 'transactionLens', 'read');
+    await expect(page.getByText('Lens: Read')).toBeVisible();
     await expect(page.getByText('same state, read-only here')).toBeVisible();
 
     await page.getByRole('button', { name: /Clear all filters/i }).click();

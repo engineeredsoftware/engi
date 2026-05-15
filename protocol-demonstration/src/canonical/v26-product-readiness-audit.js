@@ -16,9 +16,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'Source-to-shares fifth-gate proof',
     requiredEvidence: [
       ['protocol-demonstration/src/bitcode-demo.js', 'runMakeBitcodeBranch'],
-      ['protocol-demonstration/src/canonical/need-measurement.js', 'reviewNeedForFitSearch'],
+      ['protocol-demonstration/src/canonical/read-measurement.js', 'reviewReadForFitSearch'],
       ['protocol-demonstration/src/canonical/settlement.js', 'quantizedFitQualities'],
-      ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
+      ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
     ],
     closureNotes: [
@@ -32,11 +32,11 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'App-owned protocol/API ownership',
     requiredEvidence: [
       ['protocol-demonstration/server.js', 'createAppContext'],
-      ['protocol-demonstration/server.js', 'needFittingReview'],
+      ['protocol-demonstration/server.js', 'readFittingReview'],
       ['uapi/app/api/state/route.ts', 'getBitcodeAppContext().getState(principal)'],
-      ['uapi/app/api/need-review/route.ts', 'getBitcodeAppContext().getNeedReview'],
+      ['uapi/app/api/read-review/route.ts', 'getBitcodeAppContext().getReadReview'],
       ['uapi/app/api/make-bitcode-branch/route.ts', 'makeBitcodeBranch'],
-      ['uapi/tests/api/needReviewProtocolParity.test.ts', 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route'],
+      ['uapi/tests/api/readReviewProtocolParity.test.ts', 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'App-owned protocol/API ownership']
     ],
     closureNotes: [
@@ -52,7 +52,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['protocol-demonstration/public/app.js', '__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__'],
       ['protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js', 'TypeScript-only'],
-      ['uapi/app/terminal/TerminalPageClient.tsx', 'TerminalNeedScenarioPanel'],
+      ['uapi/app/terminal/TerminalPageClient.tsx', 'TerminalReadScenarioPanel'],
       ['uapi/app/terminal/TerminalPageClient.tsx', 'TerminalLiveSummaryStrip'],
       ['uapi/app/terminal/terminal-transaction-readiness-source.ts', 'route_repository_context'],
       ['uapi/app/terminal/TerminalRepositoryContextPanel.tsx', 'Inventory source'],
@@ -62,16 +62,16 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/app/terminal/TerminalFlowGuideCard.tsx', 'repository-reconnect-required'],
       ['uapi/app/terminal/TerminalFlowGuideCard.tsx', 'wallet-reconnect-required'],
       ['uapi/app/terminal/terminal-activity-history.ts', "status: draft.status || 'completed'"],
-      ['uapi/app/terminal/TerminalNeedScenarioPanel.tsx', 'Need-fitting Exchange review'],
-      ['uapi/app/terminal/TerminalClosureNativeSections.tsx', 'Read closure as one sequence from reviewable Need admission'],
+      ['uapi/app/terminal/TerminalReadScenarioPanel.tsx', 'Read-fitting Exchange review'],
+      ['uapi/app/terminal/TerminalClosureNativeSections.tsx', 'Read closure as one sequence from reviewable Read admission'],
       ['uapi/app/terminal/terminal-transaction-detail-snapshot.ts', 'fitQualities: coerceFitQualities'],
       ['uapi/tests/api/vcsRepositoriesInventoryParity.test.ts', 'stored repository inventory and skips live provider reads'],
-      ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
+      ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger'],
       ['uapi/tests/terminalLiveSummaryStrip.test.tsx', 'GitHub reconnect required · stored Exchange inventory'],
       ['uapi/tests/terminalFlowGuideCard.test.tsx', 'repository-reconnect-required'],
       ['uapi/tests/terminalTransactionReadinessSource.test.ts', 'route_repository_context'],
       ['uapi/tests/terminalRepositoryContextPanel.test.tsx', 'Saved GitHub attachment found, but the live provider session must reconnect'],
-      ['uapi/tests/terminalNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
+      ['uapi/tests/terminalReadScenarios.test.ts', 'normalizes Exchange Read-fitting review state for Terminal review controls'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],
     closureNotes: [
@@ -80,20 +80,20 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     ]
   },
   {
-    productId: 'source-to-shares-need-fitting',
-    productName: 'Need-fitting and settlement review',
+    productId: 'source-to-shares-read-fitting',
+    productName: 'Read-fitting and settlement review',
     baselineReadiness: 'implemented-fifth-gate-slice',
-    parityMatrixAnchor: 'Need review before fit search',
+    parityMatrixAnchor: 'Read review before fit search',
     requiredEvidence: [
-      ['protocol-demonstration/server.js', 'bitcode-need-fitting-review'],
-      ['uapi/app/terminal/terminal-need-scenarios.ts', 'normalizeTerminalNeedFittingReview'],
-      ['uapi/tests/api/needReviewRoute.test.ts', 'presents a reviewable Need before fit search'],
-      ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Need review before fit search']
+      ['protocol-demonstration/server.js', 'bitcode-read-fitting-review'],
+      ['uapi/app/terminal/terminal-read-scenarios.ts', 'normalizeTerminalReadFittingReview'],
+      ['uapi/tests/api/readReviewRoute.test.ts', 'presents a reviewable Read before fit search'],
+      ['uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
+      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Read review before fit search']
     ],
     closureNotes: [
       'fit-candidate marketplace UX remains V28-style Exchange expansion work',
-      'eighth-gate total provation is closed for the V26 Need-fitting and settlement baseline'
+      'eighth-gate total provation is closed for the V26 Read-fitting and settlement baseline'
     ]
   },
   {
@@ -215,8 +215,8 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof']
   ],
   'bitcode-exchange': [
-    ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
-    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route'],
+    ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger'],
+    ['uapi/tests/api/readReviewProtocolParity.test.ts', 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route'],
     ['uapi/tests/api/activityRoute.test.ts', 'returns live activity with persisted execution reread and notification aggregation']
   ],
   'bitcode-terminal': [
@@ -224,10 +224,10 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
     ['uapi/tests/terminalExperienceArchitecture.test.ts', 'locks the Terminal map to activity, transactions, conversations, and auxillaries'],
     ['uapi/tests/e2e/terminal.flow.spec.ts', 'Terminal route keeps read, selection, and repository-anchor write-through in one Terminal surface']
   ],
-  'source-to-shares-need-fitting': [
-    ['uapi/tests/api/needReviewRoute.test.ts', 'presents a reviewable Need before fit search'],
-    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
-    ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities']
+  'source-to-shares-read-fitting': [
+    ['uapi/tests/api/readReviewRoute.test.ts', 'presents a reviewable Read before fit search'],
+    ['uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
+    ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities']
   ],
   'assetpack-execution': [
     ['packages/pipelines/asset-pack/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
@@ -263,8 +263,8 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof']
   ],
   'bitcode-exchange': [
-    ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
-    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route'],
+    ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger'],
+    ['uapi/tests/api/readReviewProtocolParity.test.ts', 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route'],
     ['uapi/tests/api/activityRoute.test.ts', 'returns live activity with persisted execution reread and notification aggregation']
   ],
   'bitcode-terminal': [
@@ -272,10 +272,10 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
     ['uapi/tests/terminalCommercialLaunchReadiness.test.ts', 'locks the launch-readiness rows required after MVP closure'],
     ['uapi/tests/e2e/terminal.flow.spec.ts', 'Terminal route keeps read, selection, and repository-anchor write-through in one Terminal surface']
   ],
-  'source-to-shares-need-fitting': [
-    ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
-    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
-    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'source-to-shares settlement artifacts']
+  'source-to-shares-read-fitting': [
+    ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
+    ['uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
+    ['uapi/tests/api/readReviewProtocolParity.test.ts', 'source-to-shares settlement artifacts']
   ],
   'assetpack-execution': [
     ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates'],

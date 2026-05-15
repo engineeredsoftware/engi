@@ -129,7 +129,7 @@ export const FEATURE_FLAGS = {
   INVISIBLE_INTERFACES_GROUP: envFlag('NEXT_PUBLIC_INVISIBLE_INTERFACES_GROUP'),
 
   // ------------------------------------------------------------
-  // Backend – Definition of Need / Intent of Improvement (Definition of Need/IoI)
+  // Backend – Definition of Read / Intent of Improvement (Definition of Read/IoI)
   // enhancement route. When true (default) the API will attempt to
   // generate a repository digest and include it in the prompt sent to
   // the LLM. Set `ENHANCE_WITH_DIGEST=false` to skip digest generation

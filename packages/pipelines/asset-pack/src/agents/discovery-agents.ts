@@ -30,8 +30,8 @@ import {
 // ==================== UNDERSTAND REQUIREMENTS AGENT ====================
 
 const UnderstandRequirementsInputSchema = z.object({
-  needDescription: z.string().optional(),
-  need: z.string().optional(),
+  readDescription: z.string().optional(),
+  read: z.string().optional(),
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any(), // From setup phase
   attachments: z.array(z.any()).optional()
@@ -82,7 +82,7 @@ export const AssetPackDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWi
 
 const ResearchApproachInputSchema = z.object({
   requirements: z.any(), // From understand requirements
-  need: z.string().optional(),
+  read: z.string().optional(),
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
@@ -173,7 +173,7 @@ export async function AssetPackDiscoveryPhaseResearchApproachAgent(
 const PlanImplementationInputSchema = z.object({
   requirements: z.any(),
   approach: z.any(),
-  need: z.string().optional(),
+  read: z.string().optional(),
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
@@ -198,8 +198,8 @@ const PlanImplementationOutputSchema = z.object({
     coverage: z.string()
   }),
   validationCriteria: z.array(z.string()),
-  definitionOfNeed: z.array(z.string()).optional(),
-  needSatisfactionCriteria: z.array(z.string()).optional()
+  definitionOfRead: z.array(z.string()).optional(),
+  readSatisfactionCriteria: z.array(z.string()).optional()
 });
 
 export function applyPlanImplementationSemanticMirrors(
@@ -207,7 +207,7 @@ export function applyPlanImplementationSemanticMirrors(
 ): z.infer<typeof PlanImplementationOutputSchema> {
   return {
     ...output,
-    needSatisfactionCriteria: output.needSatisfactionCriteria ?? output.definitionOfNeed,
+    readSatisfactionCriteria: output.readSatisfactionCriteria ?? output.definitionOfRead,
   };
 }
 
@@ -247,8 +247,8 @@ export async function AssetPackDiscoveryPhasePlanImplementationAgent(
 
 // --- GATHER CONTEXT AGENT (RUNS FIRST) ---
 const GatherContextInputSchema = z.object({
-  needDescription: z.string().optional(),
-  need: z.string().optional(),
+  readDescription: z.string().optional(),
+  read: z.string().optional(),
   codebaseAnalysis: z.any(),
   attachments: z.array(z.any()).optional(),
   writtenAssetType: z.string().optional()
@@ -300,7 +300,7 @@ const AssessComplexityInputSchema = z.object({
   approach: z.any(),
   implementationPlan: z.any(),
   context: z.any(),
-  need: z.string().optional(),
+  read: z.string().optional(),
   writtenAssetType: z.string().optional()
 });
 

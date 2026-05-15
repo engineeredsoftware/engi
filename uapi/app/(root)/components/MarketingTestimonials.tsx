@@ -89,7 +89,7 @@ const reviews: Review[] = [
   {
     name: 'Jordan Lee',
     username: '@jordanl',
-    body: 'Before Bitcode, every time I hopped between feature work, bug fixes, and PR reviews I lost all momentum. Now each need ends in a PR-backed AssetPack, and Bitcode quietly keeps the repo state coherent. The moment I introduce a regression, it builds a permanent fix right into the branch.',
+    body: 'Before Bitcode, every time I hopped between feature work, bug fixes, and PR reviews I lost all momentum. Now each read ends in a PR-backed AssetPack, and Bitcode quietly keeps the repo state coherent. The moment I introduce a regression, it builds a permanent fix right into the branch.',
     img: 'https://avatar.vercel.sh/jordanl',
     rating: 5,
     jobTitle: 'Senior Software Engineer',
@@ -253,7 +253,7 @@ const MarketingTestimonials = () => {
        * Use a slightly slower speed (~45 s per full loop) so visitors have
        * enough time to read each testimonial without feeling rushed. We also
        * pause the animation on hover to improve accessibility for users who
-       * need more time to take in the content.
+       * read more time to take in the content.
        */}
       <Marquee
         className="[--review-marquee-duration:180s]"

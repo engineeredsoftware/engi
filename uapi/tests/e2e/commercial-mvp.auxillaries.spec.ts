@@ -290,7 +290,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
     await openCommercialRoute(page, '/auxillaries/externals', /Externals in one contained auxillary read/i);
 
     const externalsPane = page.getByTestId('externals-pane-container');
-    await expect(externalsPane.getByText('Need-space knowledge sharing')).toBeVisible();
+    await expect(externalsPane.getByText('Read-space knowledge sharing')).toBeVisible();
     await expect(externalsPane.getByText(/All current and future Externals-approved repositories/i)).toBeVisible();
 
     const setAndForgetToggle = externalsPane.getByText('Set it and forget it', { exact: true }).locator('..').locator('label');

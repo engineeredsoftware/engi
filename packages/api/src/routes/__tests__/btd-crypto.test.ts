@@ -62,7 +62,7 @@ function walletSessionInput() {
 function mintDraftInput() {
   return {
     assetPackId: 'asset-pack-api-1',
-    needId: 'need-api-1',
+    readId: 'read-api-1',
     acceptedNeed: true as const,
     acceptedFit: true as const,
     sourceManifestRoot: 'source-root',
@@ -125,7 +125,7 @@ function mintDraftRequestBody(overrides: Record<string, unknown> = {}) {
 }
 
 describe('BTD crypto API builders', () => {
-  it('builds a deterministic mint draft from accepted Need-Fit semantic units', () => {
+  it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {
     const draft = buildBtdMintDraft(mintDraftInput());
 
     expect(draft.kind).toBe('btd_mint_draft');
@@ -179,7 +179,7 @@ describe('BTD crypto API builders', () => {
     expect(body.terminalJournalEntry.exchangeSequence).toBe('1');
   });
 
-  it('fails mint drafts closed when Need admission is absent', async () => {
+  it('fails mint drafts closed when Read admission is absent', async () => {
     const route = buildPostBtdMintDraftRoute({
       resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
     });
@@ -192,7 +192,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires accepted Need.');
+    expect(body.error).toBe('V27 BTD mint draft requires accepted Read.');
   });
 
   it('fails mint drafts closed when Fit admission is absent', async () => {
@@ -670,7 +670,7 @@ describe('BTD crypto API builders', () => {
       action: 'coverage',
       coverageId: 'terminal-coverage-api-1',
       entries: [
-        'need_submission',
+        'read_submission',
         'fit_closure',
         'proof_admission',
         'asset_pack_mint',

@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Tool name for internal Bitcode Need-measurement computer-use shell primitive"
+ * intent: "Tool name for internal Bitcode Read-measurement computer-use shell primitive"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [

@@ -121,7 +121,7 @@ const baseTransactionReadiness = {
 };
 
 describe('TerminalDepositComposer', () => {
-  it('projects the live repository anchor into the visible give source', () => {
+  it('projects the live repository anchor into the visible deposit source', () => {
     render(
       <TerminalDepositComposer
         repositoryAnchor="engineeredsoftware/ENGI"
@@ -152,9 +152,9 @@ describe('TerminalDepositComposer', () => {
     );
 
     expect(screen.getByDisplayValue('engineeredsoftware/ENGI')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Giving source branch' })).toHaveValue('main');
-    expect(screen.getByRole('combobox', { name: 'Giving source commit' })).toHaveValue('abc123456789');
-    expect(screen.getByText('Selected from Give-side supply')).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Depositing source branch' })).toHaveValue('main');
+    expect(screen.getByRole('combobox', { name: 'Depositing source commit' })).toHaveValue('abc123456789');
+    expect(screen.getByText('Selected from Deposit-side supply')).toBeInTheDocument();
     expect(screen.getByText(/Bitcode will bind engineeredsoftware\/ENGI on main at abc123456789/i)).toBeInTheDocument();
   });
 
@@ -204,7 +204,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Submit Depositing to Bitcode' })).toBeDisabled();
     expect(
       screen.getByText('Signed settlement remains staged until verified wallet-provider signing is present.'),
     ).toBeInTheDocument();
@@ -246,7 +246,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Submit Depositing to Bitcode' })).toBeEnabled();
   });
 
   it('keeps deposit submission disabled when repository scope must be reconnected', () => {
@@ -275,7 +275,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Submit Depositing to Bitcode' })).toBeDisabled();
     expect(
       screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Externals/i).length,
     ).toBeGreaterThan(0);
@@ -302,7 +302,7 @@ describe('TerminalDepositComposer', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Submit Giving to Bitcode' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Submit Depositing to Bitcode' })).toBeDisabled();
     expect(screen.getAllByText(/Reconnect verified wallet-provider signing access/i).length).toBeGreaterThan(0);
   });
 });

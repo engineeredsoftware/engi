@@ -11,7 +11,7 @@ Required proof areas:
 - active product naming checks,
 - TypeScript compilation for admitted app/package corridors,
 - route parity tests,
-- Need review and fit review tests,
+- Read review and fit review tests,
 - prompt-system and prompt-space proof generation,
 - schema/ORM/persistence proof generation,
 - generated `.bitcode/*` proof artifacts.
@@ -29,7 +29,7 @@ Required proof areas:
 
 Verification is insufficient if it only proves names. Fifth-gate proof must also show:
 - Terminal and Exchange read/write coherence,
-- Need review before fit search,
+- Read review before fit search,
 - AssetPack and settlement receipt persistence,
 - connected-interface write admission,
 - removed execution control proof,

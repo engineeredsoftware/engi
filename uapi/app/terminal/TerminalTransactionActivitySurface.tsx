@@ -66,7 +66,7 @@ export default function TerminalTransactionActivitySurface({
       <BitcodePayloadDetailCard
         kicker="Bitcode activity"
         title="Persisted Bitcode posture"
-        summary="Live execution updates are unavailable for this selected activity, so the Bitcode Terminal is rereading the saved give, need, fit, and selection posture directly from the ledger."
+        summary="Live execution updates are unavailable for this selected activity, so the Bitcode Terminal is rereading the saved deposit, read, fit, and selection posture directly from the ledger."
         payload={persistedActivity.payload}
         rawLabel="Persisted activity payload"
       >

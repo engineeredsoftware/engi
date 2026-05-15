@@ -94,7 +94,7 @@ const MarketingScreenshotSection: React.FC = () => {
       src: '/screenshots/asset-pack-page-minimal-state.png',
       alt: 'Create an AssetPack request',
       revealingSoon: true,
-      description: 'Open a new Need describing the AssetPack you want finished.'
+      description: 'Open a new Read describing the AssetPack you want finished.'
     },
     {
       id: 'execution-kickoff',

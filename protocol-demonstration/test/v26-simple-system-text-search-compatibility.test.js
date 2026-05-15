@@ -34,7 +34,7 @@ const rawPromptPartRuntimePaths = rawPromptPartPaths.map((filePath) => filePath.
 test('V26 simple-system-text-search has a canonical Bitcode repository-evidence prompt owner', () => {
   assert.equal(packageManifest.dependencies['@bitcode/prompts'], 'workspace:*');
   assert.match(wrapperSource, /BITCODE_REPOSITORY_EVIDENCE_SEARCH_DOC_CODE_TOOL_PROMPT/u);
-  assert.match(wrapperSource, /Need-directed repository evidence search/u);
+  assert.match(wrapperSource, /Read-directed repository evidence search/u);
   assert.match(canonicalPromptSource, /class BitcodeRepositoryEvidenceSearchDocCodeToolPrompt/u);
   assert.match(canonicalPromptSource, /metadata:category', 'repository-evidence-search'/u);
   assert.match(canonicalPromptSource, /metadata:version', 'V26'/u);
@@ -45,7 +45,7 @@ test('V26 simple-system-text-search has a canonical Bitcode repository-evidence 
 
 test('V26 simple-system-text-search docs state bounded support semantics', () => {
   assert.match(packageReadme, /Bitcode repository-evidence search support/u);
-  assert.match(packageReadme, /need measurement/u);
+  assert.match(packageReadme, /read measurement/u);
   assert.match(packageReadme, /AssetPack synthesis/u);
   assert.match(packageReadme, /not generic codebase intelligence/u);
   assert.match(packageReadme, /compatibility filenames/u);
@@ -66,7 +66,7 @@ test('V26 system-text-search raw PromptParts carry Bitcode repository-evidence s
     const source = readRepoFile(filePath);
 
     assert.match(source, /current_version: "V26"/u, filePath);
-    assert.match(source, /repository[- ]evidence|Need|AssetPack|written-asset|proof/u, filePath);
+    assert.match(source, /repository[- ]evidence|Read|AssetPack|written-asset|proof/u, filePath);
     assert.doesNotMatch(source, /G[A]1/u, filePath);
     assert.doesNotMatch(source, /TODO comments|class definitions|dependency analysis|codebase analysis/u, filePath);
   }

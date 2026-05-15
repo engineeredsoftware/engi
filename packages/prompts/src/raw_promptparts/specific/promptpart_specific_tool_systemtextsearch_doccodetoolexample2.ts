@@ -7,7 +7,7 @@
  * benchmarks: [
  *   { "name": "regex_accuracy", "test": "Does '{{content}}' show accurate regex pattern usage? Rate 0-1", "score": 0.50 },
  *   { "name": "owner_grounding", "test": "Is the pattern effective for finding prompt/tool owners? Rate 0-1", "score": 0.50 },
- *   { "name": "evidence_value", "test": "Does the example teach need-grounding evidence collection? Rate 0-1", "score": 0.50 }
+ *   { "name": "evidence_value", "test": "Does the example teach read-grounding evidence collection? Rate 0-1", "score": 0.50 }
  * ]
  */
 

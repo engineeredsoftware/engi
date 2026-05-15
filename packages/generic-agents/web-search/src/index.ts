@@ -1,10 +1,10 @@
 /**
- * Bitcode Need-Synthesis Web Search Agent - admitted support package.
+ * Bitcode Read-Synthesis Web Search Agent - admitted support package.
  *
- * V26 semantics are bounded discovery-phase web search for Bitcode need synthesis:
+ * V26 semantics are bounded discovery-phase web search for Bitcode read synthesis:
  * collect source-attributed external evidence, score source quality, surface
- * volatility, and hand unresolved questions to downstream need/proof owners.
- * This package does not own canonical need interpretation, proof generation,
+ * volatility, and hand unresolved questions to downstream read/proof owners.
+ * This package does not own canonical read interpretation, proof generation,
  * mutation, delivery, Exchange product behavior, or Terminal product behavior.
  */
 
@@ -23,27 +23,27 @@ import {
 } from '@bitcode/generic-tools-web-search';
 import { z } from 'zod';
 
-export const BitcodeNeedSynthesisWebSearchInputSchema = z.object({
-  need: z.string().describe('Bitcode need or proof gap requiring external source context'),
-  query: z.string().optional().describe('Search query when the caller has not separated need from query text'),
+export const BitcodeReadSynthesisWebSearchInputSchema = z.object({
+  read: z.string().describe('Bitcode read or proof gap requiring external source context'),
+  query: z.string().optional().describe('Search query when the caller has not separated read from query text'),
   sourceScope: z.enum(['primary-first', 'official-first', 'broad-context']).default('primary-first'),
   maxResults: z.number().min(1).max(50).default(10),
   dateFilter: z.enum(['any', 'day', 'week', 'month', 'year']).default('any'),
-  domainFilter: z.string().optional().describe('Specific source domain to inspect when need synthesis is source-constrained'),
+  domainFilter: z.string().optional().describe('Specific source domain to inspect when read synthesis is source-constrained'),
   language: z.string().default('en').describe('Preferred source language'),
   includeSnippets: z.boolean().default(true).describe('Include snippets as traceable source-attributed context'),
   evidenceDepth: z.enum(['surface', 'moderate', 'deep']).default('surface'),
   requirePrimarySources: z.boolean().default(true).describe('Prefer primary, official, standards, repository, or protocol-owner sources'),
-  urlAttachments: z.array(z.string()).optional().describe('URLs used only to improve need-synthesis search targeting')
-}).describe('BitcodeNeedSynthesisWebSearchInput');
+  urlAttachments: z.array(z.string()).optional().describe('URLs used only to improve read-synthesis search targeting')
+}).describe('BitcodeReadSynthesisWebSearchInput');
 
-export const BitcodeNeedSynthesisWebSearchToolRequestSchema = z.object({
+export const BitcodeReadSynthesisWebSearchToolRequestSchema = z.object({
   name: z.string(),
   input: z.any(),
   reason: z.string()
-}).describe('BitcodeNeedSynthesisWebSearchToolRequest');
+}).describe('BitcodeReadSynthesisWebSearchToolRequest');
 
-export const BitcodeNeedSynthesisWebSearchResultSchema = z.object({
+export const BitcodeReadSynthesisWebSearchResultSchema = z.object({
   title: z.string(),
   url: z.string().url(),
   snippet: z.string(),
@@ -53,38 +53,38 @@ export const BitcodeNeedSynthesisWebSearchResultSchema = z.object({
   sourceClass: z.enum(['primary', 'official', 'standard', 'repository', 'paper', 'vendor', 'commentary', 'unknown']),
   relevanceScore: z.number().min(0).max(1),
   sourceQualityScore: z.number().min(0).max(1),
-  evidenceUse: z.string().describe('How this result may support Bitcode need synthesis without becoming proof by itself')
-}).describe('BitcodeNeedSynthesisWebSearchResult');
+  evidenceUse: z.string().describe('How this result may support Bitcode read synthesis without becoming proof by itself')
+}).describe('BitcodeReadSynthesisWebSearchResult');
 
-export const BitcodeNeedSynthesisWebSearchPlanSchema = z.object({
+export const BitcodeReadSynthesisWebSearchPlanSchema = z.object({
   normalizedNeed: z.string(),
   plannedQueries: z.array(z.string()),
   preferredSourceClasses: z.array(z.string()),
   sourceSelectionRationale: z.array(z.string()),
   volatilityQuestions: z.array(z.string()),
   boundaryWarnings: z.array(z.string()),
-  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
+  useTools: z.array(BitcodeReadSynthesisWebSearchToolRequestSchema).optional(),
   confidence: z.number().min(0).max(1),
   searchComplexity: z.enum(['simple', 'moderate', 'complex'])
-}).describe('BitcodeNeedSynthesisWebSearchPlan');
+}).describe('BitcodeReadSynthesisWebSearchPlan');
 
-export const BitcodeNeedSynthesisWebSearchTrySchema = z.object({
+export const BitcodeReadSynthesisWebSearchTrySchema = z.object({
   attemptedQueries: z.array(z.string()),
   enginesUsed: z.array(z.string()),
   totalResultsFound: z.number(),
   searchDuration: z.number(),
-  searchResults: z.array(BitcodeNeedSynthesisWebSearchResultSchema),
+  searchResults: z.array(BitcodeReadSynthesisWebSearchResultSchema),
   rejectedResults: z.array(z.object({
     url: z.string(),
     reason: z.string()
   })).default([]),
-  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
+  useTools: z.array(BitcodeReadSynthesisWebSearchToolRequestSchema).optional(),
   searchComplete: z.boolean(),
   errors: z.array(z.string()).optional()
-}).describe('BitcodeNeedSynthesisWebSearchTry');
+}).describe('BitcodeReadSynthesisWebSearchTry');
 
-export const BitcodeNeedSynthesisWebSearchRefineSchema = z.object({
-  refinedResults: z.array(BitcodeNeedSynthesisWebSearchResultSchema),
+export const BitcodeReadSynthesisWebSearchRefineSchema = z.object({
+  refinedResults: z.array(BitcodeReadSynthesisWebSearchResultSchema),
   quality: z.object({
     totalSources: z.number(),
     primarySourceCount: z.number(),
@@ -93,19 +93,19 @@ export const BitcodeNeedSynthesisWebSearchRefineSchema = z.object({
     temporalRisk: z.enum(['low', 'medium', 'high', 'unknown'])
   }),
   synthesisSupport: z.object({
-    needRelevance: z.array(z.string()),
+    readRelevance: z.array(z.string()),
     sourceBackedClaims: z.array(z.string()),
     contradictions: z.array(z.string()),
     unresolvedGaps: z.array(z.string())
   }),
   proofBoundaryWarnings: z.array(z.string()),
-  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
+  useTools: z.array(BitcodeReadSynthesisWebSearchToolRequestSchema).optional(),
   confidence: z.number().min(0).max(1)
-}).describe('BitcodeNeedSynthesisWebSearchRefine');
+}).describe('BitcodeReadSynthesisWebSearchRefine');
 
-export const BitcodeNeedSynthesisWebSearchRetrySchema = z.object({
+export const BitcodeReadSynthesisWebSearchRetrySchema = z.object({
   searchResults: z.object({
-    topResults: z.array(BitcodeNeedSynthesisWebSearchResultSchema),
+    topResults: z.array(BitcodeReadSynthesisWebSearchResultSchema),
     totalResults: z.number(),
     searchSummary: z.string(),
     keyInsights: z.array(z.string())
@@ -123,46 +123,46 @@ export const BitcodeNeedSynthesisWebSearchRetrySchema = z.object({
     finalResultCount: z.number(),
     confidenceScore: z.number().min(0).max(1)
   }),
-  downstreamNeedSynthesisActions: z.array(z.string()),
+  downstreamReadSynthesisActions: z.array(z.string()),
   proofBoundaryWarnings: z.array(z.string()),
-  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
+  useTools: z.array(BitcodeReadSynthesisWebSearchToolRequestSchema).optional(),
   success: z.boolean(),
   completionMessage: z.string()
-}).describe('BitcodeNeedSynthesisWebSearchRetry');
+}).describe('BitcodeReadSynthesisWebSearchRetry');
 
-export const WebSearchInputSchema = BitcodeNeedSynthesisWebSearchInputSchema;
-export const WebSearchPlanSchema = BitcodeNeedSynthesisWebSearchPlanSchema;
-export const WebSearchTrySchema = BitcodeNeedSynthesisWebSearchTrySchema;
-export const WebSearchRefineSchema = BitcodeNeedSynthesisWebSearchRefineSchema;
-export const WebSearchRetrySchema = BitcodeNeedSynthesisWebSearchRetrySchema;
+export const WebSearchInputSchema = BitcodeReadSynthesisWebSearchInputSchema;
+export const WebSearchPlanSchema = BitcodeReadSynthesisWebSearchPlanSchema;
+export const WebSearchTrySchema = BitcodeReadSynthesisWebSearchTrySchema;
+export const WebSearchRefineSchema = BitcodeReadSynthesisWebSearchRefineSchema;
+export const WebSearchRetrySchema = BitcodeReadSynthesisWebSearchRetrySchema;
 
-export const bitcodeNeedSynthesisWebSearchPrompt = new AgentPrompt({
-  name: 'bitcode-need-synthesis-web-search' as PromptPart,
-  identity: 'Bitcode discovery-phase web search support for need synthesis' as PromptPart
+export const bitcodeReadSynthesisWebSearchPrompt = new AgentPrompt({
+  name: 'bitcode-read-synthesis-web-search' as PromptPart,
+  identity: 'Bitcode discovery-phase web search support for read synthesis' as PromptPart
 });
 
-export const bitcodeNeedSynthesisWebSearchStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Plan source-bounded web search for Bitcode need synthesis' as PromptPart }),
+export const bitcodeReadSynthesisWebSearchStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan source-bounded web search for Bitcode read synthesis' as PromptPart }),
   try: new AgentStepPrompt({ purpose: 'Collect source-attributed external evidence without claiming proof closure' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Refine search results into source quality, volatility, and need-relevance context' as PromptPart }),
+  refine: new AgentStepPrompt({ purpose: 'Refine search results into source quality, volatility, and read-relevance context' as PromptPart }),
   retry: new AgentStepPrompt({ purpose: 'Finalize web-search evidence support and expose unresolved downstream questions' as PromptPart })
 };
 
-export const webSearchPrompt = bitcodeNeedSynthesisWebSearchPrompt;
-export const webSearchStepPrompts = bitcodeNeedSynthesisWebSearchStepPrompts;
+export const webSearchPrompt = bitcodeReadSynthesisWebSearchPrompt;
+export const webSearchStepPrompts = bitcodeReadSynthesisWebSearchStepPrompts;
 
-const bitcodeNeedSynthesisWebSearchAgent = factoryAgentWithPTRR<
-  z.infer<typeof BitcodeNeedSynthesisWebSearchInputSchema>,
-  z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>
+const bitcodeReadSynthesisWebSearchAgent = factoryAgentWithPTRR<
+  z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
+  z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({
-  name: 'bitcode-need-synthesis-web-search',
-  description: 'Discovery-phase web search for source-attributed Bitcode need-synthesis evidence',
-  prompt: bitcodeNeedSynthesisWebSearchPrompt,
+  name: 'bitcode-read-synthesis-web-search',
+  description: 'Discovery-phase web search for source-attributed Bitcode read-synthesis evidence',
+  prompt: bitcodeReadSynthesisWebSearchPrompt,
   stepPrompts: {
-    plan: () => bitcodeNeedSynthesisWebSearchStepPrompts.plan,
-    try: () => bitcodeNeedSynthesisWebSearchStepPrompts.try,
-    refine: () => bitcodeNeedSynthesisWebSearchStepPrompts.refine,
-    retry: () => bitcodeNeedSynthesisWebSearchStepPrompts.retry
+    plan: () => bitcodeReadSynthesisWebSearchStepPrompts.plan,
+    try: () => bitcodeReadSynthesisWebSearchStepPrompts.try,
+    refine: () => bitcodeReadSynthesisWebSearchStepPrompts.refine,
+    retry: () => bitcodeReadSynthesisWebSearchStepPrompts.retry
   },
   tools: [
     search,
@@ -170,7 +170,7 @@ const bitcodeNeedSynthesisWebSearchAgent = factoryAgentWithPTRR<
     multiProviderSearch,
     getContents
   ],
-  outputSchema: BitcodeNeedSynthesisWebSearchRetrySchema,
+  outputSchema: BitcodeReadSynthesisWebSearchRetrySchema,
   plan: {
     chunkThreshold: 500
   },
@@ -187,21 +187,21 @@ const bitcodeNeedSynthesisWebSearchAgent = factoryAgentWithPTRR<
   }
 });
 
-const quickBitcodeNeedSynthesisWebSearchAgent = factoryAgentWithSingleStep<
-  z.infer<typeof BitcodeNeedSynthesisWebSearchInputSchema>,
-  z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>
+const quickBitcodeReadSynthesisWebSearchAgent = factoryAgentWithSingleStep<
+  z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
+  z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({
-  name: 'quick-bitcode-need-synthesis-web-search',
-  description: 'Fast stable web-search evidence support for Bitcode need synthesis',
+  name: 'quick-bitcode-read-synthesis-web-search',
+  description: 'Fast stable web-search evidence support for Bitcode read synthesis',
   execute: async (input, execution) => {
-    execution.store('variation', 'mode', 'quick-bitcode-need-synthesis-web-search');
+    execution.store('variation', 'mode', 'quick-bitcode-read-synthesis-web-search');
 
     return {
       searchResults: {
         topResults: [],
         totalResults: 0,
-        searchSummary: `Quick Bitcode need-synthesis web search queued for: ${input.need || input.query || 'unspecified need'}`,
-        keyInsights: ['Quick mode records the search need; use PTRR mode for source-attributed evidence.']
+        searchSummary: `Quick Bitcode read-synthesis web search queued for: ${input.read || input.query || 'unspecified read'}`,
+        keyInsights: ['Quick mode records the search read; use PTRR mode for source-attributed evidence.']
       },
       searchAnalysis: {
         queryEffectiveness: 0.5,
@@ -216,27 +216,27 @@ const quickBitcodeNeedSynthesisWebSearchAgent = factoryAgentWithSingleStep<
         finalResultCount: 0,
         confidenceScore: 0.5
       },
-      downstreamNeedSynthesisActions: ['Run full Bitcode need-synthesis web search before relying on external evidence.'],
+      downstreamReadSynthesisActions: ['Run full Bitcode read-synthesis web search before relying on external evidence.'],
       proofBoundaryWarnings: ['Quick web-search output is not source-attributed proof evidence.'],
       success: true,
-      completionMessage: 'Quick Bitcode need-synthesis web search support output completed'
+      completionMessage: 'Quick Bitcode read-synthesis web search support output completed'
     };
   }
 });
 
-export const bitcodeNeedSynthesisWebSearch = bitcodeNeedSynthesisWebSearchAgent;
-export const quickBitcodeNeedSynthesisWebSearch = quickBitcodeNeedSynthesisWebSearchAgent;
-export const webSearch = bitcodeNeedSynthesisWebSearchAgent;
-export const quickWebSearch = quickBitcodeNeedSynthesisWebSearchAgent;
+export const bitcodeReadSynthesisWebSearch = bitcodeReadSynthesisWebSearchAgent;
+export const quickBitcodeReadSynthesisWebSearch = quickBitcodeReadSynthesisWebSearchAgent;
+export const webSearch = bitcodeReadSynthesisWebSearchAgent;
+export const quickWebSearch = quickBitcodeReadSynthesisWebSearchAgent;
 
-export type BitcodeNeedSynthesisWebSearchInput = z.infer<typeof BitcodeNeedSynthesisWebSearchInputSchema>;
-export type BitcodeNeedSynthesisWebSearchPlanOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchPlanSchema>;
-export type BitcodeNeedSynthesisWebSearchTryOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchTrySchema>;
-export type BitcodeNeedSynthesisWebSearchRefineOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchRefineSchema>;
-export type BitcodeNeedSynthesisWebSearchRetryOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>;
+export type BitcodeReadSynthesisWebSearchInput = z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>;
+export type BitcodeReadSynthesisWebSearchPlanOutput = z.infer<typeof BitcodeReadSynthesisWebSearchPlanSchema>;
+export type BitcodeReadSynthesisWebSearchTryOutput = z.infer<typeof BitcodeReadSynthesisWebSearchTrySchema>;
+export type BitcodeReadSynthesisWebSearchRefineOutput = z.infer<typeof BitcodeReadSynthesisWebSearchRefineSchema>;
+export type BitcodeReadSynthesisWebSearchRetryOutput = z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>;
 
-export type WebSearchInput = BitcodeNeedSynthesisWebSearchInput;
-export type WebSearchPlanOutput = BitcodeNeedSynthesisWebSearchPlanOutput;
-export type WebSearchTryOutput = BitcodeNeedSynthesisWebSearchTryOutput;
-export type WebSearchRefineOutput = BitcodeNeedSynthesisWebSearchRefineOutput;
-export type WebSearchRetryOutput = BitcodeNeedSynthesisWebSearchRetryOutput;
+export type WebSearchInput = BitcodeReadSynthesisWebSearchInput;
+export type WebSearchPlanOutput = BitcodeReadSynthesisWebSearchPlanOutput;
+export type WebSearchTryOutput = BitcodeReadSynthesisWebSearchTryOutput;
+export type WebSearchRefineOutput = BitcodeReadSynthesisWebSearchRefineOutput;
+export type WebSearchRetryOutput = BitcodeReadSynthesisWebSearchRetryOutput;

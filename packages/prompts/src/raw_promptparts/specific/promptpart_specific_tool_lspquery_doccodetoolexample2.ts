@@ -8,4 +8,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * versions: []
  */
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLEXAMPLE2: PromptPart =
-  'Measure AssetPack reference evidence: findReferences({ symbol: "NeedDescriptor", file, position })' as PromptPart;
+  'Measure AssetPack reference evidence: findReferences({ symbol: "ReadDescriptor", file, position })' as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_PLAN_ANALYSIS: PromptPart = 
-  'Analyze Need comprehension, discovery findings, architecture evidence, feasibility constraints, stakeholder context, and proof gaps needed by the design-document written asset' as PromptPart;
+  'Analyze Read comprehension, discovery findings, architecture evidence, feasibility constraints, stakeholder context, and proof gaps needed by the design-document written asset' as PromptPart;

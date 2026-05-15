@@ -115,8 +115,8 @@ class ArchitectureReviewer {
       this.expectContains(
         specificText,
         'comprehendneed',
-        'Need-comprehension PromptParts are present.',
-        'Need-comprehension PromptParts must be present.',
+        'Read-comprehension PromptParts are present.',
+        'Read-comprehension PromptParts must be present.',
         details,
         violations
       );
@@ -221,8 +221,8 @@ class ArchitectureReviewer {
       this.expectContains(
         assetPackGenerator,
         'comprehendneed',
-        'AssetPack generator emits need-comprehension PromptParts.',
-        'AssetPack generator must emit need-comprehension PromptParts.',
+        'AssetPack generator emits read-comprehension PromptParts.',
+        'AssetPack generator must emit read-comprehension PromptParts.',
         details,
         violations
       );
@@ -248,7 +248,7 @@ class ArchitectureReviewer {
         'executionImplementation',
         'assetPackImplementation',
         'Prompt primitives',
-        'Need-comprehension compatibility'
+        'Read-comprehension compatibility'
       ];
 
       for (const term of requiredTerms) {

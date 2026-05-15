@@ -18,7 +18,7 @@ import { PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLEXAMPLE3 } from '@
  * @doc-comment-developing-promptdevelopment
  * versions: ["V26"]
  * domain: tool
- * intent: "Bitcode repository-evidence search prompt for need measurement, source-grounding, and asset-pack synthesis context"
+ * intent: "Bitcode repository-evidence search prompt for read measurement, source-grounding, and asset-pack synthesis context"
  *
  * Structured DocCodeToolPrompt for the retained grep-backed search primitive.
  */

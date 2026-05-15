@@ -13,9 +13,9 @@
       "criterion": "Terminal/Exchange/acquire surfaces reflect V27 tokenomics and minimal crypto functionality without claiming V28 market depth",
       "status": "closed",
       "evidence": [
-        "uapi/components/base/bitcode/btd/BTDPrices.tsx labels Terminal Need and minimal Exchange range acquisition as V27",
+        "uapi/components/base/bitcode/btd/BTDPrices.tsx labels Terminal Read and minimal Exchange range acquisition as V27",
         "uapi/app/(root)/components/MarketingPricingSection.tsx stores both Terminal and Exchange acquisition paths as V27 while preserving later-version market-depth boundaries",
-        "uapi/components/base/bitcode/btd/btd-tracker.tsx routes acquisition intent through Terminal Need minting or minimal Exchange range transfer"
+        "uapi/components/base/bitcode/btd/btd-tracker.tsx routes acquisition intent through Terminal Read minting or minimal Exchange range transfer"
       ]
     },
     {

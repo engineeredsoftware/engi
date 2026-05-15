@@ -22,9 +22,9 @@ describe('parseStreamChunk completion mapping', () => {
         deliveryMechanism: {
           pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
         },
-        need: 'Deliver the audited auth refactor.',
-        writtenAssetType: 'need-satisfaction-asset-pack',
-        assetPack: { need: 'Deliver the audited auth refactor.', writtenAssetType: 'need-satisfaction-asset-pack', deliveryTarget: 'pr' },
+        read: 'Deliver the audited auth refactor.',
+        writtenAssetType: 'read-satisfaction-asset-pack',
+        assetPack: { read: 'Deliver the audited auth refactor.', writtenAssetType: 'read-satisfaction-asset-pack', deliveryTarget: 'pr' },
         processingStats: {
           time: '2m 05s',
           tokens: { input: 100, output: 50, total: 150 },
@@ -64,8 +64,8 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.writtenAssets?.summary).toBe('Stable asset-pack summary.');
     expect(parsed.completion?.writtenAssets?.fileChanges?.edited).toBe(2);
     expect(parsed.completion?.deliveryMechanism?.pullRequest?.url).toContain('/pull/1');
-    expect(parsed.completion?.need).toBe('Deliver the audited auth refactor.');
-    expect(parsed.completion?.writtenAssetType).toBe('need-satisfaction-asset-pack');
+    expect(parsed.completion?.read).toBe('Deliver the audited auth refactor.');
+    expect(parsed.completion?.writtenAssetType).toBe('read-satisfaction-asset-pack');
     expect(parsed.completion?.assetPack?.deliveryTarget).toBe('pr');
     expect(parsed.completion?.semanticKind).toBe('asset-pack-written-asset');
   });

@@ -21,7 +21,7 @@ Exchange and the website Conversations interface are no longer V28 QA surfaces.
 | Server mode | manual QA now prioritizes real staging-testnet with mocks off; mock mode remains a deterministic regression harness that must stay synchronized |
 | Active canon pointer | `BITCODE_SPEC.txt` -> `V27` |
 | Draft target | `V28` |
-| Manual QA focus | real staging-testnet natural progression from wallet-backed onboarding to Terminal Need/Fit and Give settlement readback, with MCP/ChatGPT parity and docs-sequenced validation |
+| Manual QA focus | real staging-testnet natural progression from wallet-backed onboarding to Terminal Read/Fit and Deposit settlement readback, with MCP/ChatGPT parity and docs-sequenced validation |
 | Marketing page status | intentionally de-scoped except for navigation-entry regressions |
 
 ## V28 MVP Scope
@@ -31,7 +31,7 @@ V28 closes when the commercial app can be used and understood at MVP level acros
 | Surface | V28 MVP expectation | Later deepening |
 | --- | --- | --- |
 | Identity and authentication | Auth/profile/menu/notifications are reachable, legible, and do not block application orientation. | V31 deepens account, team, multi-sig, role, recovery, and organization controls. |
-| Terminal | Activity ledger, selected detail, Give/Need/Fit/proof/readiness/range signals are readable and route-stable at MVP level. | V29 deepens full Terminal transactions, wallet recovery, BTC lifecycle, journal diff, and reconciliation. |
+| Terminal | Activity ledger, selected detail, Deposit/Read/Fit/proof/readiness/range signals are readable and route-stable at MVP level. | V29 deepens full Terminal transactions, wallet recovery, BTC lifecycle, journal diff, and reconciliation. |
 | Exchange | Not in V28; navigation is disabled/hidden and retained Exchange routes are deferred compatibility/future work. | V36+ owns Exchange MVP/deepening after V35. |
 | Auxillaries | Wallet, Externals, Profile, and Interfaces panes are contained, selectable, legible, and free of active old orbital shell collision. | V31 deepens settings, provider readiness, diagnostics, policies, accessibility, and recovery flows. |
 | MCP API and ChatGPT App | MVP interface ingress is present, registry-derived, fail-closed, and aligned with Terminal proof/read-right posture. | V33 deepens interfaces beyond the V28 MVP. |
@@ -62,8 +62,8 @@ It intentionally starts with prerequisites because unclear readiness blocks ever
 | Step | User progression | V28 MVP questions | Primary surfaces | Later-version boundary |
 | --- | --- | --- | --- | --- |
 | 1A | Connect wallet, GitHub, identity/profile, and required provider prerequisites. | Can the user see what is connected, what is mocked/testnet, what is missing, and what actions remain blocked? | Auxillaries, nav/profile, Terminal readiness, BTD widget | V31 deepens account/provider recovery; V34 deepens deployment/runtime readiness. |
-| 1B | Perform the fastest simple Need and read the Fit/settlement/delivery result. | Can a user express or select a Need, trigger the simplest path, and read back Fit, proof, synthetic measurement, BTD-AssetPack mint/read state, BTC fee posture, ledger journal, and delivery state without guessing? | Terminal, BTD range pages, protocol readback | V29 deepens Terminal transaction choreography; V36+ deepens Exchange market detail. |
-| 1C | Perform the fastest simple Give and read the earning/settlement result. | Can a user contribute source, see admissibility/readiness, and understand what was earned or why earning is blocked/staged? | Terminal Give, Auxillaries Externals, BTD settlement reads, journal/reconciliation | V29 deepens Give workflows; V36+ deepens sale/bid/ask/settlement history. |
+| 1B | Perform the fastest simple Read and read the Fit/settlement/delivery result. | Can a user express or select a Read, trigger the simplest path, and read back Fit, proof, synthetic measurement, BTD-AssetPack mint/read state, BTC fee posture, ledger journal, and delivery state without guessing? | Terminal, BTD range pages, protocol readback | V29 deepens Terminal transaction choreography; V36+ deepens Exchange market detail. |
+| 1C | Perform the fastest simple Deposit and read the earning/settlement result. | Can a user contribute source, see admissibility/readiness, and understand what was earned or why earning is blocked/staged? | Terminal Deposit, Auxillaries Externals, BTD settlement reads, journal/reconciliation | V29 deepens Deposit workflows; V36+ deepens sale/bid/ask/settlement history. |
 
 ### Track 2: Docs-Sequenced Product Validation
 
@@ -72,8 +72,8 @@ The objective is not marketing critique; it is whether docs, routes, labels, con
 
 | Docs sequence | Public docs route(s) | Product validation focus | Expected V28 disposition |
 | --- | --- | --- | --- |
-| 00 Start Here | `/docs/what-is-bitcode`, `/docs/source-shares` | Can a new user connect Source Shares, Exchange, Terminal, Protocol, Give, Need, and Read to what the app actually shows? | V28 fixes contradictions; deeper explanatory polish can move to V35. |
-| 01 Terminal And Protocol | `/docs/terminal`, `/docs/terminal-actions`, `/docs/read-results`, `/docs/protocol-v26` | Does Terminal own bounded Give/Need/operator actions with expected protocol readbacks and no Exchange dependency? | V28 blocker when product/docs disagree about ownership or action consequences. |
+| 00 Start Here | `/docs/what-is-bitcode`, `/docs/source-shares` | Can a new user connect Source Shares, Exchange, Terminal, Protocol, Deposit, Read, and Read to what the app actually shows? | V28 fixes contradictions; deeper explanatory polish can move to V35. |
+| 01 Terminal And Protocol | `/docs/terminal`, `/docs/terminal-actions`, `/docs/read-results`, `/docs/protocol-v26` | Does Terminal own bounded Deposit/Read/operator actions with expected protocol readbacks and no Exchange dependency? | V28 blocker when product/docs disagree about ownership or action consequences. |
 | 02 Operator Modes | `/docs/auxillaries`, `/docs/configuration` | Do Auxillaries and configuration/readiness copy match the visible app and fail-closed states? | V28 fixes MVP confusion; V31/V33 deepen feature sets. Website Conversations docs are deferred beyond V35. |
 | 03 Protocol And Proof | `/docs/protocol-v26`, `/docs/proofs`, `/docs/settlement-btd` | Do proof, settlement, BTD, BTC, owner/licensed read, and fail-closed claims match visible reads and V27 law? | V28 fixes overclaims and missing MVP proof posture; V32/V35 deepen provation/docs. |
 | 04 Commercial Interfaces | `/docs/commercial-interfaces`, `/docs/mcp-api`, `/docs/chatgpt-app` | Are API/MCP/ChatGPT/interface claims honest about V28 MVP readiness and where users verify results? | V28 fixes false commercial claims for MCP API and ChatGPT App MVP; V33 owns interface deepening beyond MVP. |
@@ -86,9 +86,9 @@ Each pass should be small enough to produce actionable screenshots, console obse
 | Pass | Track | Scope | Stop condition |
 | --- | --- | --- | --- |
 | 3A | Natural progression 1A | Wallet, GitHub, profile, notifications, nav balance, Auxillaries Externals/Profile/BTD readiness. | Mock passes deterministic readiness; testnet-readiness either works live or records precise blocked provider/credential states; no console errors. |
-| 3A-prereq | Natural progression 1A | Sign-up/sign-in, signed Bitcoin wallet authentication, BTC/BTD chrome, GitHub App installation, and prerequisite clarity before Give/Need. | Mock proves the intended prerequisite model; testnet proves or precisely blocks Supabase custom Bitcoin OAuth, wallet proof capture, profile persistence, sign-out clearing, and GitHub installation visibility. |
-| 3B | Natural progression 1B | Simplest Give path: attach or select source first, run/inspect Give flow, and establish source posture before Need/Fit. | User can explain what source was contributed, how it was measured, and whether earning/BTD posture is live, mocked, or blocked. |
-| 3C | Natural progression 1C | Simplest Need path after Give source posture exists: select/express Need, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what matched, which Terminal/protocol readbacks were produced, what is mocked, and what remains staged or blocked in testnet-readiness. |
+| 3A-prereq | Natural progression 1A | Sign-up/sign-in, signed Bitcoin wallet authentication, BTC/BTD chrome, GitHub App installation, and prerequisite clarity before Deposit/Read. | Mock proves the intended prerequisite model; testnet proves or precisely blocks Supabase custom Bitcoin OAuth, wallet proof capture, profile persistence, sign-out clearing, and GitHub installation visibility. |
+| 3B | Natural progression 1B | Simplest Deposit path: attach or select source first, run/inspect Deposit flow, and establish source posture before Read/Fit. | User can explain what source was contributed, how it was measured, and whether earning/BTD posture is live, mocked, or blocked. |
+| 3C | Natural progression 1C | Simplest Read path after Deposit source posture exists: select/express Read, run or inspect fastest Fit path, read settlement/delivery/result state. | User can explain what matched, which Terminal/protocol readbacks were produced, what is mocked, and what remains staged or blocked in testnet-readiness. |
 | 4A | Docs sequence 00 | Docs overview and Source Shares against nav, Terminal, BTD widget, MCP/ChatGPT readiness. | Contradictions between docs and product are logged in both lanes. |
 | 4B | Docs sequence 01 | Terminal and Protocol docs against Terminal action/read flows and protocol readback. | Ownership of product patterns is clear in mock and still honest when live/testnet dependencies are absent. |
 | 4C | Docs sequence 02 | Auxillaries and Configuration docs against app modes. | MVP readiness and fail-closed states are honest in both lanes; website Conversations is deferred. |
@@ -103,14 +103,14 @@ The objective is to prove the smallest real commercial Bitcode loop:
 ```text
 Wallet identity
   -> GitHub source scope
-  -> Terminal Need
+  -> Terminal Read
   -> Fit result
   -> AssetPack synthesis
   -> BTC/testnet ledger or blocked-readiness receipt
   -> Terminal journal
   -> Supabase/PostgreSQL projection
   -> Terminal readback
-  -> Terminal Give
+  -> Terminal Deposit
   -> earning/settlement or blocked-readiness readback
 ```
 
@@ -120,9 +120,9 @@ Every testnet finding must be classified against one of these source-of-truth ar
 | Area | What QA must prove or precisely block |
 | --- | --- |
 | BTC/D identity | Bitcoin wallet provider detection, signed challenge, payment/auth address distinction, wallet-backed Supabase session/projection, top-chrome hydration, sign-out clearing. |
-| GitHub | GitHub App install/callback, provider-scoped connection persistence, repository inventory, repository selection usable by Give and Need. |
+| GitHub | GitHub App install/callback, provider-scoped connection persistence, repository inventory, repository selection usable by Deposit and Read. |
 | PSQL data realm | Auth users, profiles, provider connections, repository cache, BTD registry projections, Terminal journals, telemetry, and reconciliation rows match visible UI state. |
-| Fit-finding | Terminal Need produces readable candidate/quality/rejection state and proof/dedupe roots before settlement. |
+| Fit-finding | Terminal Read produces readable candidate/quality/rejection state and proof/dedupe roots before settlement. |
 | AssetPack synthesis | AssetPack evidence, source manifest, semantic volume, access policy, measuremint/range or zero-cell receipt are generated or blocked with an explicit reason. |
 | Ledgerized journaling | BTC fee, ledger anchor, Terminal journal, and reconciliation state are recorded as journal/projection facts rather than local-only UI decoration. |
 | Pipeline runtime deployment | Runtime lane, GitHub authority, external realization, branch/source write posture, and deployment blockers are visible. |
@@ -141,9 +141,9 @@ Deterministic model rule for this QA:
 | --- | --- | --- |
 | 0. Environment readiness | Load `/terminal` with mock flags off, Exchange disabled, website Conversations disabled, verbose QA logging on, and Supabase/GitHub credentials configured. | Top chrome waits for wallet-state resolution before showing `Connect Wallet` or BTC/BTD facts; console has no product errors; server logs identify staging-testnet lane. |
 | 1. Wallet identity | Open Wallet, connect Leather or Xverse on testnet/testnet4, approve Bitcode signing, return to app. | Wallet pane shows provider, network, payment/auth addresses, signature/proof state, BTC/BTD readout, and persistence state; top chrome replaces anonymous `Connect Wallet`. |
-| 2. GitHub source scope | Open Externals, install/connect GitHub App, return from callback/setup, choose or inspect repositories. | Externals shows connected GitHub identity/installation/repository scope; Terminal can read repository inventory for Give/Need. |
-| 3. Simple Give | In Terminal, attach/select source from GitHub and run the simplest Give path first. | Terminal shows admissibility, source root, synthetic measurement posture, earning/settlement/readiness state, journal row, and any database projection. |
-| 4. Simple Need and Fit | In Terminal, use the simplest available Need path against the established Give/source posture. | Terminal shows Need text/scope, Fit candidate or blocker, review/proof/dedupe roots, semantic volume, and next commitment action/state. |
+| 2. GitHub source scope | Open Externals, install/connect GitHub App, return from callback/setup, choose or inspect repositories. | Externals shows connected GitHub identity/installation/repository scope; Terminal can read repository inventory for Deposit/Read. |
+| 3. Simple Deposit | In Terminal, attach/select source from GitHub and run the simplest Deposit path first. | Terminal shows admissibility, source root, synthetic measurement posture, earning/settlement/readiness state, journal row, and any database projection. |
+| 4. Simple Read and Fit | In Terminal, use the simplest available Read path against the established Deposit/source posture. | Terminal shows Read text/scope, Fit candidate or blocker, review/proof/dedupe roots, semantic volume, and next commitment action/state. |
 | 5. AssetPack and journal | Commit or inspect the staged AssetPack/Fit result. | AssetPack range or zero-cell receipt, access policy hash, BTC fee/ledger readiness, Terminal journal row, and Supabase projection are visible and diffable. |
 | 6. Interface parity | Query MCP API and ChatGPT App MVP entrypoints for the same wallet/source/AssetPack/read-right state. | Interfaces read the same state as Terminal and fail closed when prerequisites are missing. |
 
@@ -152,7 +152,7 @@ Deterministic model rule for this QA:
 For every staging-testnet pass, paste back:
 
 1. The exact URL and route state.
-2. Screenshots for Wallet, Externals, Terminal Need result, Terminal Give result, and any AssetPack/BTD range readback.
+2. Screenshots for Wallet, Externals, Terminal Read result, Terminal Deposit result, and any AssetPack/BTD range readback.
 3. Browser console logs, excluding known wallet-extension injection warnings unless they block Bitcode behavior.
 4. Server logs for the same actions, with secrets redacted.
 5. Network failures, including URL, method, status, and response body when available.
@@ -268,7 +268,7 @@ Open V28 issue from this pass:
 | Issue | Severity | V28 disposition |
 | --- | --- | --- |
 | Auxillaries selector cards render `lane ready` / `lane active` as visible prose. These should become clearer readiness/active indicators rather than text labels. | medium | V28 MVP polish blocker for Auxillaries shell quality. |
-| Auxillaries overlay and panes need minor hierarchy, legibility, spacing, and border cleanup. | medium | V28 MVP polish blocker if it impairs commercial readability; deeper settings expansion remains V31. |
+| Auxillaries overlay and panes read minor hierarchy, legibility, spacing, and border cleanup. | medium | V28 MVP polish blocker if it impairs commercial readability; deeper settings expansion remains V31. |
 
 Evidence:
 
@@ -280,11 +280,11 @@ Evidence:
 | Check | Result | Notes |
 | --- | --- | --- |
 | Terminal reads as the primary operator surface | pass for V28 MVP | Acceptable at current V28 depth. Deeper Terminal clarity and operational polish belong to V29 unless a finding blocks basic V28 use. |
-| Terminal owns current V28 operator flow | fail at the time | The current Terminal copy/architecture overstated master-detail and Exchange ownership. After the May 11 scope reduction, V28 keeps only the Terminal-side correction: Terminal must frame activity as recent Give/Need/protocol readback, not whole-Exchange market state. |
-| Terminal activity table focuses Terminal results | partial | Terminal should show results of Give/Need/closure activity, but limited and framed around recent Terminal activity rather than whole-Exchange master state. |
+| Terminal owns current V28 operator flow | fail at the time | The current Terminal copy/architecture overstated master-detail and Exchange ownership. After the May 11 scope reduction, V28 keeps only the Terminal-side correction: Terminal must frame activity as recent Deposit/Read/protocol readback, not whole-Exchange market state. |
+| Terminal activity table focuses Terminal results | partial | Terminal should show results of Deposit/Read/closure activity, but limited and framed around recent Terminal activity rather than whole-Exchange master state. |
 | Activity ledger, selected activity detail, and support panels | partial | Support panels are broadly acceptable, but Terminal organization needs MVP cleanup before deeper manual QA can judge the dense surface confidently. |
-| Give / Need / Fit / proof / AssetPack / BTC / BTD concepts | pending deeper manual check | Need to verify that concepts are visible enough for MVP while not claiming V29 transaction depth. |
-| Activity search, row selection, and detail tabs | pending deeper manual check | Need to verify route stability, selected context, no confusing state transitions, and that table behavior feels Terminal/protocol-scoped. Exchange-wide behavior is deferred beyond V35. |
+| Deposit / Read / Fit / proof / AssetPack / BTC / BTD concepts | pending deeper manual check | Read to verify that concepts are visible enough for MVP while not claiming V29 transaction depth. |
+| Activity search, row selection, and detail tabs | pending deeper manual check | Read to verify route stability, selected context, no confusing state transitions, and that table behavior feels Terminal/protocol-scoped. Exchange-wide behavior is deferred beyond V35. |
 | Clickable affordance and dead-click audit | fail | Some Terminal objects appear clickable without action, while others click correctly. V28 must fix known dead targets and distinguish clickable controls from static badges/chips consistently. |
 | Dense Terminal organization | partial | Density is expected, but V28 MVP must improve grouping and visual hierarchy enough that the Terminal is digestible before V29 deepens workflows. |
 | Console after Terminal pass | pass | No console errors reported by manual QA. |
@@ -293,8 +293,8 @@ Open V28 issues from this pass:
 
 | Issue | Severity | V28 disposition |
 | --- | --- | --- |
-| Terminal incorrectly presents itself as the master-detail surface. | high | V28 blocker only for Terminal wording/structure. Correct product architecture, copy, tests, and visible labels so Terminal is a Give/Need operator surface with recent activity results. Exchange product ownership is deferred beyond V35. |
-| Terminal activity table should be shared infrastructure but scoped/framed to recent Terminal activity and executed Give/Need results. | high | V28 blocker for MVP comprehension. Deeper Terminal transaction flow remains V29. |
+| Terminal incorrectly presents itself as the master-detail surface. | high | V28 blocker only for Terminal wording/structure. Correct product architecture, copy, tests, and visible labels so Terminal is a Deposit/Read operator surface with recent activity results. Exchange product ownership is deferred beyond V35. |
+| Terminal activity table should be shared infrastructure but scoped/framed to recent Terminal activity and executed Deposit/Read results. | high | V28 blocker for MVP comprehension. Deeper Terminal transaction flow remains V29. |
 | Some Terminal click targets do not visibly perform an action, and static capsules can look too similar to clickable controls. | high | V28 blocker until known no-op jump targets and control/static styling are audited and corrected. |
 | Terminal density and grouping are not yet digestible enough to judge deeper behavior confidently. | medium | V28 MVP polish blocker for organization only; full Terminal workflow polish is V29. |
 | Active `orbitals` naming remains in source/UI/test carriers around Auxillaries. | medium | V28 cleanup target for active commercial surfaces. Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until explicitly removed, but active UX copy, mock helpers, tests, and component names should converge on Auxillaries where touched. |
@@ -308,7 +308,7 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Exchange master-detail now uses the table/search/filter pane as master and a named selected activity detail pane as detail. | Historical implementation note only; no longer part of V28 proof after May 11. |
 | Exchange selected detail keeps table facts and non-column facts visible through the identity/payload card on every focus. | Historical implementation note only; deferred beyond V35. |
 | Terminal no longer claims master-detail; it presents recent/scoped activity plus selected result. | Focused Playwright Terminal spec passes after copy/structure update. |
-| Terminal adds compact operator lanes for Recent activity, Give, Need, and Closure. | Focused Playwright Terminal spec checks the lane map. |
+| Terminal adds compact operator lanes for Recent activity, Deposit, Read, and Closure. | Focused Playwright Terminal spec checks the lane map. |
 | Terminal digest actions now change selected detail focus before scrolling, closing the visible no-op class found in QA. | Focused Playwright Terminal spec clicks `Open proof detail` and verifies `transactionDetail=proofs`. |
 | `/terminal` is the canonical Terminal route and the prior generic workspace route is fully retired. | Unit and E2E route expectations now point to `/terminal`; active source scans verify the prior generic workspace route is absent rather than retained as a compatibility route. |
 | Active demonstration witness stylesheet source uses unversioned names. | `uapi/app/terminal/demonstration-witness-*`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace the explicit gate-named stylesheet route carriers. |
@@ -380,8 +380,8 @@ Manual evidence requested for this pass:
 
 ### 2026-05-12 Pass 3A-prereq: Sign-up, Sign-in, Wallet, And GitHub Prerequisites
 
-This pass focuses only on prerequisite reality before Terminal Give/Need QA continues.
-It validates the V28 rule that signed Bitcoin wallet authentication is the origin point for Supabase user data synchronization, and that GitHub App installation is the next required prerequisite for Giving and Needing.
+This pass focuses only on prerequisite reality before Terminal Deposit/Read QA continues.
+It validates the V28 rule that signed Bitcoin wallet authentication is the origin point for Supabase user data synchronization, and that GitHub App installation is the next required prerequisite for Depositing and Reading.
 
 Run the same checklist first in mock, then in testnet-readiness.
 Mock establishes the intended product language and visual state.
@@ -413,8 +413,8 @@ Manual findings from 2026-05-09:
 | Mock | Auxillaries save model | fail | Visible Save buttons remain in Profile, Wallet, and Interfaces. V28 must use autosave for auxillary edits and remove explicit save buttons from the contained application experience. |
 | Mock | Auxillaries selector cards | fail | Cards duplicate the pane title through a top lane label plus centered title. V28 should keep the centered pane name and top-right state indicator only. |
 | Mock | Auxillaries controls/layout | fail | Close and Sign Out controls should read as top-right overlay controls, not left-edge controls. The selector-side self-explainer text is unnecessary. |
-| Mock | Wallet pane stats | partial | Text overflows in balance and identity cards; BTD/BTC balances need stronger visual emphasis. |
-| Mock | BTD activity | missing | The Wallet pane should include the shared Terminal/Protocol activity table filtered for the user's BTD-relevant owned packs, Gives, Needs, proof closures, ledger anchors, and synthetic measurements. |
+| Mock | Wallet pane stats | partial | Text overflows in balance and identity cards; BTD/BTC balances read stronger visual emphasis. |
+| Mock | BTD activity | missing | The Wallet pane should include the shared Terminal/Protocol activity table filtered for the user's BTD-relevant owned packs, Deposits, Reads, proof closures, ledger anchors, and synthetic measurements. |
 | Mock | Console | pass | Manual QA reports clean console. |
 | Non-mock/testnet-readiness | Top chrome | pass | Non-mock chrome is acceptable before interaction. |
 | Non-mock/testnet-readiness | Connect Wallet entry | fail | `Connect Wallet` opens the broken legacy late-orbital onboarding shell. V28 blocker: all unauthenticated auxillaries portal entry must use the new contained Auxillaries shell and honest staged/live wallet copy. |
@@ -424,7 +424,7 @@ Profile onboarding order refined after this finding:
 | Order | Required action | V28 rule |
 | --- | --- | --- |
 | 1 | Connect Bitcoin wallet | This is the first and minimum Bitcode identity/authentication action. It must use a Bitcoin-capable wallet provider when available, capture a Bitcode Bitcoin authentication proof when available, bind the Bitcoin address, and persist wallet-provider posture without opening an Ethereum account prompt. |
-| 2 | Connect GitHub | Required for Give and Need because those flows need repository/source context. Terminal read-only orientation can proceed from wallet identity alone, but repository/source-scope actions must stay blocked until GitHub is connected. GitHub may be connected through OAuth when configured or through a personal access token in staging. |
+| 2 | Connect GitHub | Required for Deposit and Read because those flows read repository/source context. Terminal read-only orientation can proceed from wallet identity alone, but repository/source-scope actions must stay blocked until GitHub is connected. GitHub may be connected through OAuth when configured or through a personal access token in staging. |
 | 3 | Add email | Optional. Email is for notifications, updates, and recovery/contact posture. It must not present as the primary V28 identity gate. |
 
 Implemented after the 2026-05-09 findings, pending manual reconfirmation:
@@ -477,7 +477,7 @@ QA3.1 prerequisite onboarding script:
 | Non-mock | 3 | Approve the Xverse connection and proof. | The Wallet state becomes connected, the Taproot/ordinals auth address appears in the wallet field when available, refresh preserves website-side wallet state, and the console remains free of product errors. If backend persistence is unavailable, the UI should say server persistence is pending while local staging remains visible. Capture the exact inline message and Network response for `/api/wallet/authenticate` when a backend request occurs. |
 | Non-mock | 4 | Return to Wallet and click `Connect Leather` directly. Do this even if Xverse is installed so the Leather path is verified independently. | Leather returns addresses through `getAddresses`, Bitcode selects the BTC Taproot address when present without relying on array indexes, signs with `signMessage`, and stores the Native SegWit payment address separately from the auth address. |
 | Non-mock | 5 | If only MetaMask BTC is available, paste the displayed `bc1...`/`tb1...` address in Wallet and click `Stage Bitcoin address`. | No Ethereum prompt opens. Wallet shows locally staged Bitcoin identity and clearly marks backend/provider proof as pending/manual. |
-| Non-mock | 6 | Connect GitHub from Externals using OAuth or the staging token fallback. | GitHub becomes connected for Give/Need readiness. Terminal read-only orientation must not be blocked by GitHub, but Terminal Give/Need actions should reflect repository scope once connected. |
+| Non-mock | 6 | Connect GitHub from Externals using OAuth or the staging token fallback. | GitHub becomes connected for Deposit/Read readiness. Terminal read-only orientation must not be blocked by GitHub, but Terminal Deposit/Read actions should reflect repository scope once connected. |
 | Non-mock | 7 | Optionally add email from Profile. | Email is presented only as notifications/updates/recovery posture. It must not replace wallet authentication, and the user can leave it blank without breaking wallet, GitHub, or Terminal readiness. |
 
 QA3.1 reply template:
@@ -530,9 +530,9 @@ Automated verification after this implementation pass:
 - May 9 live Leather QA: wallet connection persisted, but follow-up findings required V28 fixes for wallet-authenticated nav chrome, Wallet/Profile/Externals ownership, robust connected-wallet readout, Sign Out button styling, BTD tracker wallet identity action, and verbose console telemetry. Source now treats local Bitcoin wallet identity as sufficient chrome identity while backend persistence catches up; Wallet owns crypto wallet identity and BTD/BTC posture; Profile owns optional email/contact/admin posture; Externals owns GitHub; the BTD tracker opens the Wallet auxillary pane; and verbose QA logs are gated behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
 - May 9 follow-up QA found Externals still showing the old signed-in blocker after the Bitcoin wallet was correctly connected. V28 fixes Externals to render GitHub controls from wallet identity or email session, so Wallet completion can progress directly into repository connection without waiting on optional email/Supabase persistence.
 - May 11 externality-readiness check validates the provided GitHub App identity without writing secrets to source: the private key parses, GitHub API returns App ID `244206`, app slug `engi-software-agents`, and the supplied client ID matches the app record. The app can list installations and create an installation token for at least one installation. Initial check found it was not installed on `engineeredsoftware/ENGI`.
-- May 12 externality-readiness recheck confirms the GitHub App is now installed on `engineeredsoftware/ENGI`: `GET /repos/engineeredsoftware/ENGI/installation` returns 200, installation token creation returns 201, `engineeredsoftware/ENGI` is readable, default branch is `main`, and `BITCODE_SPEC.txt` is readable through the app installation token. GitHub App externality is ready for V28 Terminal Give/Need QA against ENGI.
+- May 12 externality-readiness recheck confirms the GitHub App is now installed on `engineeredsoftware/ENGI`: `GET /repos/engineeredsoftware/ENGI/installation` returns 200, installation token creation returns 201, `engineeredsoftware/ENGI` is readable, default branch is `main`, and `BITCODE_SPEC.txt` is readable through the app installation token. GitHub App externality is ready for V28 Terminal Deposit/Read QA against ENGI.
 - May 12 Supabase readiness resolves project reachability and key acceptance but remains blocked on database schema. The project URL is reachable, auth settings return 200 with the supplied publishable key, and the secret key is accepted by the Supabase API gateway. Core Bitcode tables including `user_profiles`, `user_connections`, `vcs_repositories`, `btd_asset_pack_ranges`, and `btd_mint_receipts` return `PGRST205` table-not-found responses, so migrations have not been applied to this testnet project yet. Source now accepts both the older `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` names and the newer `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SECRET_KEY` names so the provided testnet variables can be used directly after migration.
-- May 12 GitHub App setup/callback hardening: the active install link is now `https://github.com/apps/bitcode-github-app-auxillary` in Auxillaries and docs-facing surfaces. The retained public callback route `/github/callback` redirects to `/tps/github/callback`, and the retained setup route `/github/setup` redirects to `/tps/github/app-install`, preserving query fields. The callback handler collects GitHub App installation fields including `installation_id`, `setup_action`, `state`, `target_id`, and `target_type`; when a Supabase user session exists it exchanges the installation for an installation token and stores the GitHub connection as installation-scoped metadata without exposing tokens in client connection status. The GitHub App description copy for the registration form is: `Connect GitHub repositories to Bitcode so Terminal can measure Needs, synthesize BTD-backed AssetPacks, and return proof-bound delivery status.`
+- May 12 GitHub App setup/callback hardening: the active install link is now `https://github.com/apps/bitcode-github-app-auxillary` in Auxillaries and docs-facing surfaces. The retained public callback route `/github/callback` redirects to `/tps/github/callback`, and the retained setup route `/github/setup` redirects to `/tps/github/app-install`, preserving query fields. The callback handler collects GitHub App installation fields including `installation_id`, `setup_action`, `state`, `target_id`, and `target_type`; when a Supabase user session exists it exchanges the installation for an installation token and stores the GitHub connection as installation-scoped metadata without exposing tokens in client connection status. The GitHub App description copy for the registration form is: `Connect GitHub repositories to Bitcode so Terminal can measure Reads, synthesize BTD-backed AssetPacks, and return proof-bound delivery status.`
 - Recommended GitHub App URLs for production registration: homepage `https://bitcode.exchange`, callback URL `https://bitcode.exchange/github/callback`, setup URL `https://bitcode.exchange/github/setup`, public app link `https://github.com/apps/bitcode-github-app-auxillary`. For local callback QA, add a temporary allowed callback/setup pair for the active local port or use the deployed staging domain; GitHub App setup redirects do not inherit the browser's local origin automatically.
 - `pnpm -C uapi exec jest --runInBand tests/api/vcsRoutes.test.ts tests/api/vcsGithubCallbackRoute.test.ts tests/auxillariesConnectsPane.test.tsx tests/publicDocsPageContent.test.tsx`: 11 passed after GitHub App install-link and callback/setup handling.
 - `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/userConnectionsGithubRoute.test.ts'`: 6 passed after GitHub connection-status token redaction.
@@ -541,7 +541,7 @@ Automated verification after this implementation pass:
 - May 12 Bitcoin wallet auth formalization: V28 no longer uses anonymous Supabase sign-in as the wallet persistence origin. Wallet starts Supabase custom OAuth through `custom:bitcode-bitcoin`, `/tps/wallet/authorize` captures the signed wallet proof, `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo` let Supabase create the user session, and Wallet then synchronizes the same wallet proof into `/api/wallet/authenticate`.
 - Supabase custom provider dashboard values for testnet: provider type `OAuth2`, identifier `custom:bitcode-bitcoin`, name `Bitcode Bitcoin Wallet`, authorization URL `<public staging-or-tunnel origin>/tps/wallet/authorize`, token URL `<public staging-or-tunnel origin>/api/wallet/oauth/token`, userinfo URL `<public staging-or-tunnel origin>/api/wallet/oauth/userinfo`, scopes `profile wallet:bitcoin`, PKCE enabled, and email optional enabled. Cloud Supabase cannot call `127.0.0.1` token/userinfo URLs, so local QA needs either a deployed preview/staging origin or a tunnel that uses the same OAuth client secret as the local lane.
 - Required matching app env for testnet lane: `BITCODE_BITCOIN_OAUTH_CLIENT_ID=<same client id configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same client secret configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co`, and `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback` if the Supabase URL env is unavailable, plus the existing Supabase publishable/secret keys.
-- May 13 Leather reconnect QA classified the wallet provider path as working but the Supabase custom-OAuth exchange as blocked: Bitcode issued `wallet-oauth:authorization-code-issued` for Leather on testnet, local wallet identity hydrated in top chrome, but Supabase returned `server_error: Unable to exchange external code` and no `wallet-oauth:token-issued` telemetry appeared. Do not rerun Leather until the Supabase provider token/userinfo URLs are confirmed public-reachable from Supabase and configured with the same Bitcoin OAuth client secret. V28 now surfaces the full `loginErrorDescription` toast and adds a Wallet-pane `Disconnect wallet` action that clears the Bitcode-local wallet/session state while accurately noting that Leather/Xverse extension permissions may need revocation inside the wallet.
+- May 13 Leather reconnect QA classified the wallet provider path as working but the Supabase custom-OAuth exchange as blocked: Bitcode issued `wallet-oauth:authorization-code-issued` for Leather on testnet, local wallet identity hydrated in top chrome, but Supabase returned `server_error: Unable to exchange external code` and no `wallet-oauth:token-issued` telemetry appeared. Do not rerun Leather until the Supabase provider token/userinfo URLs are confirmed public-reachable from Supabase and configured with the same Bitcoin OAuth client secret. V28 now surfaces the full `loginErrorDescription` toast and adds a Wallet-pane `Disconnect wallet` action that clears the Bitcode-local wallet/session state while accurately noting that Leather/Xverse extension permissions may read revocation inside the wallet.
 - May 13 Leather documentation ingestion closes the adapter contract for V28 implementation preparation. Leather support is through `window.LeatherProvider.request`, with `getAddresses` selected by BTC `symbol`/`type` rather than index, Taproot `p2tr` preferred for Bitcode auth, Native SegWit `p2wpkh` retained for payment, account derived from the returned derivation path, and explicit `signMessage` parameters. V28 source now also exposes tested Leather utilities for `open`, hex `signPsbt`, and `sendTransfer`; Terminal BTC-fee/PSBT work can call those utilities later without redefining the wallet provider contract.
 - `pnpm -C uapi exec jest --runInBand tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts`: 9 passed after Bitcoin wallet custom OAuth implementation.
 - `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after Bitcoin wallet custom OAuth implementation.
@@ -550,7 +550,7 @@ Automated verification after this implementation pass:
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v27-crypto`: 9 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v28-commercial-mvp-qa`: 8 passed after adding the boundary-separation checks.
-- `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/needReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
+- `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/readReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
 - `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`: 2 passed after the formal package split.
 - `pnpm -C packages/protocol test`: 2 passed after the formal package split and protocol runtime-source deployment fix.
 - `pnpm -C packages/protocol run typecheck`: pass after adding the formal package typecheck config.
@@ -563,13 +563,13 @@ Deferred to V29 from this pass:
 | Finding | V29 disposition |
 | --- | --- |
 | Terminal prose clarity can improve while maintaining technical accuracy. | V29 Terminal-focused version should rewrite and refine Terminal copy, explainers, labels, and read/write guidance as part of deeper Terminal workflows. |
-| Terminal transaction sequencing, dense workflow hierarchy, and deeper Give/Need/Fit/settlement ergonomics need a dedicated version. | V29 owns full Terminal workflow deepening after V28 fixes MVP architecture and obvious clickability/organization problems. |
+| Terminal transaction sequencing, dense workflow hierarchy, and deeper Deposit/Read/Fit/settlement ergonomics read a dedicated version. | V29 owns full Terminal workflow deepening after V28 fixes MVP architecture and obvious clickability/organization problems. |
 
 ## Current QA Queue
 
-1. Live staging-testnet Pass 2A: Terminal Give/Need/Fit write-read parity after Wallet and GitHub prerequisites.
+1. Live staging-testnet Pass 2A: Terminal Deposit/Read/Fit write-read parity after Wallet and GitHub prerequisites.
 2. Live staging-testnet branch/settlement blocked-readiness or branch-write proof from the Terminal command deck.
-3. Mock-lane regression parity for the same Terminal Give/Need/Fit actions after live behavior is clarified.
+3. Mock-lane regression parity for the same Terminal Deposit/Read/Fit actions after live behavior is clarified.
 4. MCP API and ChatGPT App MVP readiness in Mock lane, then Testnet-readiness lane.
 5. Docs sequence 00-04 in Mock lane, then Testnet-readiness lane where the route depends on live/provider state.
 
@@ -771,23 +771,23 @@ Expected evidence:
 - Vercel logs show GitHub setup/callback handling with installation fields preserved.
 - Supabase `user_connections.provider='github'` and repository inventory rows or connection metadata match the UI.
 
-### Pass 1C: Terminal Readiness For Give, Need, And Fit
+### Pass 1C: Terminal Readiness For Deposit, Read, And Fit
 
 Only continue after Wallet and GitHub are stable across a hard refresh.
 
 1. Return to `/terminal` at the top of the page.
-2. Identify the primary Need/Give work area.
+2. Identify the primary Read/Deposit work area.
 3. Confirm no model picker can affect ledgerized Terminal/Fit/AssetPack synthesis.
 4. Confirm repository/source scope is visible or selectable from GitHub-derived data.
-5. Attempt the simplest Give path available without leaving Terminal.
+5. Attempt the simplest Deposit path available without leaving Terminal.
 6. Record the first blocker, source root, measurement state, earning state, or settlement state.
-7. Attempt the simplest Need path available against that Give/source posture without leaving Terminal.
+7. Attempt the simplest Read path available against that Deposit/source posture without leaving Terminal.
 8. Record the first blocker or Fit result.
 
 Expected evidence:
 
 - Terminal uses Wallet/GitHub readiness rather than mock success.
-- Give and Need either progress to source/Fit/measurement readback or fail closed with exact missing capability.
+- Deposit and Read either progress to source/Fit/measurement readback or fail closed with exact missing capability.
 - Any AssetPack, BTD range, zero-cell receipt, BTC fee, ledger anchor, Terminal journal, or reconciliation state is internally consistent with Supabase rows.
 - If a pipeline/runtime/deployment prerequisite is missing, the blocker is named and belongs to V34 or later only when the V28 MVP readback remains truthful.
 
@@ -800,57 +800,57 @@ Paste back after each subpass:
 - Supabase SQL results from the required wallet/GitHub/Terminal queries;
 - a short note naming each issue as V28 blocker, V28 polish, or deferred version focus.
 
-### Pass 2A: Terminal Give/Need MVP Write-Read QA
+### Pass 2A: Terminal Deposit/Read MVP Write-Read QA
 
 Run this pass from `https://www.bitcode.exchange/terminal` after Pass 1A and 1B are green.
 The current live staging baseline is the Leather-authenticated wallet plus GitHub App installation on `engineeredsoftware`, with `engineeredsoftware/ENGI` present in `public.vcs_repositories`.
 
 Before touching Terminal controls, run saved query `v28_qa_terminal_01_prerequisites_wallet_github_repo`.
-The row for the current user should report `terminal_prerequisite_state='ready_for_terminal_give_need'`.
+The row for the current user should report `terminal_prerequisite_state='ready_for_terminal_deposit_read'`.
 If it reports `warning:ENGI_repo_not_in_inventory`, continue only if another connected repository is intentionally selected in the UI and paste that repository name with the SQL result.
 If wallet profile projection warnings report missing `network`, `authAddress`, or `paymentAddress` while the active wallet `user_connections` row contains those values, run `v28_qa_01b_backfill_profile_wallet_projection_from_connection` once and rerun query 01 before continuing.
 If it reports any `blocker:*`, stop and repair that prerequisite before Terminal write QA.
-If Terminal visibly reports `Failed to fetch execution history`, `/api/executions/history` is not green. Run the execution-history migration in `supabase/migrations/20260515010000_terminal_execution_history.sql`, redeploy or rerun the app against the migrated database, then refresh Terminal before recording Give.
+If Terminal visibly reports `Failed to fetch execution history`, `/api/executions/history` is not green. Run the execution-history migration in `supabase/migrations/20260515010000_terminal_execution_history.sql`, redeploy or rerun the app against the migrated database, then refresh Terminal before recording Deposit.
 
-Give path:
+Deposit path:
 
 1. Hard refresh `/terminal` and wait for top chrome wallet state and Terminal sync to settle.
 2. In the top Terminal activity area, confirm there is no visible red or amber `Failed to fetch execution history` error. Empty activity is acceptable; a 500/error banner is not.
 3. In `Repository supply`, confirm `Connection posture` says GitHub is connected, `Mode` is `live connection`, and `Inventory source` is `stored protocol inventory` or `live provider inventory`.
 4. In the repository selector, choose `engineeredsoftware/ENGI` for the first pass unless intentionally testing another `engineeredsoftware/*` repository.
-5. In `Give-side supply`, confirm the auth/session label and inventory cards use `engineeredsoftware/*`. If any `frontier/*`, `gh_inst_bitcode_001`, or other protocol-demo repository appears in the live staging lane, stop and classify as a V28 blocker.
-6. In `Give-side supply`, use the search box only to filter connected repositories. Search must not replace live inventory with protocol demo artifacts. Select/confirm one repository card; the selected card should match the `Repository supply` selector.
-7. Click `Record give selection`. Confirm the UI reports that selected give-side supply was recorded.
-8. Run `v28_qa_terminal_02_activity_after_write` and `v28_qa_terminal_04_give_repository_alignment`. Confirm query 04 reports `frontier_count=0` for current repository inventory and `frontier_reference_detected=false` for recent Terminal give activity.
-9. Confirm no model picker can affect ledgerized Give/Fit/AssetPack synthesis.
-10. In `Give + need chain`, inspect the `give` card and capture selected source entries, artifact kinds, repository row, provider account, addressing root, and auth root.
-11. Click `Record give posture`.
-12. Confirm the UI reports that give-side share posture was recorded.
+5. In `Deposit-side supply`, confirm the auth/session label and inventory cards use `engineeredsoftware/*`. If any `frontier/*`, `gh_inst_bitcode_001`, or other protocol-demo repository appears in the live staging lane, stop and classify as a V28 blocker.
+6. In `Deposit-side supply`, use the search box only to filter connected repositories. Search must not replace live inventory with protocol demo artifacts. Select/confirm one repository card; the selected card should match the `Repository supply` selector.
+7. Click `Record deposit selection`. Confirm the UI reports that selected deposit-side supply was recorded.
+8. Run `v28_qa_terminal_02_activity_after_write` and `v28_qa_terminal_04_deposit_repository_alignment`. Confirm query 04 reports `frontier_count=0` for current repository inventory and `frontier_reference_detected=false` for recent Terminal deposit activity.
+9. Confirm no model picker can affect ledgerized Deposit/Fit/AssetPack synthesis.
+10. In `Deposit + read chain`, inspect the `deposit` card and capture selected source entries, artifact kinds, repository row, provider account, addressing root, and auth root.
+11. Click `Record deposit posture`.
+12. Confirm the UI reports that deposit-side share posture was recorded.
 13. In Network, capture the `/api/executions/history` request and response. Expected status is `201`.
-14. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:asset-pack'`, `context_summary.source='terminal-give-need-workbench'`, `context_summary.workbench='give'`, and a non-empty `output_summary.give`.
-15. Rerun `v28_qa_terminal_04_give_repository_alignment`; recent Give activity must reference the connected repository and must not reference `frontier/*`.
+14. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:asset-pack'`, `context_summary.source='terminal-deposit-read-workbench'`, `context_summary.workbench='deposit'`, and a non-empty `output_summary.deposit`.
+15. Rerun `v28_qa_terminal_04_deposit_repository_alignment`; recent Deposit activity must reference the connected repository and must not reference `frontier/*`.
 
-Need path:
+Read path:
 
-1. Continue only after the Give selection and Give posture rows above exist. Need/Fit QA requires an established Give/source posture first.
-2. Keep the same Terminal session and the same repository/source posture used for Give.
-3. In `Give + need chain`, inspect the `need` card and capture the summary, scenario, parser, closure criteria count, target kinds count, and repository row.
-4. Confirm the Need repository row matches the Give repository. If it falls back to `frontier/*`, stop before recording Need.
-5. Click `Record need posture`.
-6. Confirm the UI reports that need-measurement posture was recorded.
+1. Continue only after the Deposit selection and Deposit posture rows above exist. Read/Fit QA requires an established Deposit/source posture first.
+2. Keep the same Terminal session and the same repository/source posture used for Deposit.
+3. In `Deposit + read chain`, inspect the `read` card and capture the summary, scenario, parser, closure criteria count, target kinds count, and repository row.
+4. Confirm the Read repository row matches the Deposit repository. If it falls back to `frontier/*`, stop before recording Read.
+5. Click `Record read posture`.
+6. Confirm the UI reports that read-measurement posture was recorded.
 7. In Network, capture the `/api/executions/history` request and response. Expected status is `201`.
-8. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:need-measurement'`, `context_summary.source='terminal-need-scenario-panel'`, and the same scenario/repository shown in the UI.
+8. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:read-measurement'`, `context_summary.source='terminal-read-scenario-panel'`, and the same scenario/repository shown in the UI.
 
 Fit and closure path:
 
 1. Inspect `Asset-pack fit and settlement intent`.
-2. Confirm the Fit surface is evaluating against the recorded Give/source posture and the recorded Need posture.
+2. Confirm the Fit surface is evaluating against the recorded Deposit/source posture and the recorded Read posture.
 3. Click `Record fit posture`.
 4. Confirm the UI reports that fit and settlement posture was recorded.
 5. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:proof-refresh'`, `context_summary.workbench='fit'`, and a non-empty `output_summary.fit`.
 6. In `Flow controls`, inspect `Transaction readiness`.
 7. If `Make Bitcode branch` is enabled, click it once and capture `/api/make-bitcode-branch` plus the follow-up `/api/executions/history` write. Then run `v28_qa_terminal_02_activity_after_write` and `v28_qa_terminal_03_btd_ledger_after_terminal`.
-8. If `Make Bitcode branch` is disabled, capture the disabled tooltip/readiness text. This is acceptable for V28 only when it names the exact missing capability and the Give/Need/Fit posture rows above still persisted and reread correctly.
+8. If `Make Bitcode branch` is disabled, capture the disabled tooltip/readiness text. This is acceptable for V28 only when it names the exact missing capability and the Deposit/Read/Fit posture rows above still persisted and reread correctly.
 
 BTD/ledger readback:
 
@@ -862,20 +862,20 @@ Pass criteria:
 
 - Wallet/Auth/Profile/GitHub/repository prerequisites are ready in query 01.
 - Terminal activity history loads without a visible `/api/executions/history` error.
-- Live Terminal Give inventory references connected `engineeredsoftware/*` repositories, not protocol-demo `frontier/*` repositories.
-- Give, Need, and Fit record actions write user-scoped rows in that order and reread in query 02.
-- Query `v28_qa_terminal_04_give_repository_alignment` shows no `frontier_reference_detected` rows for recorded Terminal Give activity.
+- Live Terminal Deposit inventory references connected `engineeredsoftware/*` repositories, not protocol-demo `frontier/*` repositories.
+- Deposit, Read, and Fit record actions write user-scoped rows in that order and reread in query 02.
+- Query `v28_qa_terminal_04_deposit_repository_alignment` shows no `frontier_reference_detected` rows for recorded Terminal Deposit activity.
 - The Terminal activity UI shows those rows after refresh or activity reload.
 - Branch/settlement either progresses with explicit network and SQL evidence or fails closed with a precise blocker.
 - No Terminal control routes through Exchange or website Conversations.
-- No user-facing model selection can change ledgerized Need/Fit/AssetPack synthesis.
+- No user-facing model selection can change ledgerized Read/Fit/AssetPack synthesis.
 - Query 03 shows no ledger/database drift for any BTD state that Terminal claims.
 
 V28 blockers:
 
 - `/api/executions/history` returns 500 or query 02 reports `public.executions` missing after a Terminal write is expected to persist.
 - Terminal shows mock repository, mock wallet, or mock GitHub state in the deployed staging-testnet lane.
-- A recorded Give/Need/Fit row is not tied to the authenticated wallet user.
+- A recorded Deposit/Read/Fit row is not tied to the authenticated wallet user.
 - Terminal claims mint/settlement/anchor/finality without matching BTD projection rows.
 - GitHub access tokens or wallet signatures appear unredacted in browser-visible UI, query output intended for routine QA, or client telemetry.
 - A broad model selector can alter ledgerized Terminal/Fit/AssetPack synthesis.
@@ -1105,12 +1105,12 @@ order by updated_at desc
 limit 10;
 ```
 
-Terminal Give/Need prerequisite consolidation:
+Terminal Deposit/Read prerequisite consolidation:
 
 Saved query name: `v28_qa_terminal_01_prerequisites_wallet_github_repo`
 
 Use `supabase/queries/v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`.
-This is the preferred single-row readiness query before Terminal Give/Need QA. `v28_qa_05_vcs_repositories_recent` remains the direct repository inventory check, and `v28_qa_05b_github_connection_repository_payload` is only a fallback inspection when repository rows are unexpectedly absent.
+This is the preferred single-row readiness query before Terminal Deposit/Read QA. `v28_qa_05_vcs_repositories_recent` remains the direct repository inventory check, and `v28_qa_05b_github_connection_repository_payload` is only a fallback inspection when repository rows are unexpectedly absent.
 
 Saved query name: `v28_qa_01b_backfill_profile_wallet_projection_from_connection`
 
@@ -1120,13 +1120,13 @@ Terminal activity write/readback:
 
 Saved query name: `v28_qa_terminal_02_activity_after_write`
 
-Use `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` after every `Record give posture`, `Record need posture`, `Record fit posture`, or `Make Bitcode branch` action. This query reports optional runtime tables as missing instead of hard-erroring, so a missing `public.executions` or `public.execution_events` row becomes explicit QA evidence.
+Use `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` after every `Record deposit posture`, `Record read posture`, `Record fit posture`, or `Make Bitcode branch` action. This query reports optional runtime tables as missing instead of hard-erroring, so a missing `public.executions` or `public.execution_events` row becomes explicit QA evidence.
 
-Terminal Give source alignment:
+Terminal Deposit source alignment:
 
-Saved query name: `v28_qa_terminal_04_give_repository_alignment`
+Saved query name: `v28_qa_terminal_04_deposit_repository_alignment`
 
-Use `supabase/queries/v28_qa_terminal_04_give_repository_alignment.sql` after Terminal loads and after each Give recording. The query confirms live repository inventory belongs to the connected GitHub account and flags any protocol-demo `frontier/*` reference in recent Terminal Give activity.
+Use `supabase/queries/v28_qa_terminal_04_deposit_repository_alignment.sql` after Terminal loads and after each Deposit recording. The query confirms live repository inventory belongs to the connected GitHub account and flags any protocol-demo `frontier/*` reference in recent Terminal Deposit activity.
 
 BTD and ledger projection readback:
 

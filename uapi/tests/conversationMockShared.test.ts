@@ -18,14 +18,14 @@ describe('conversation mock stream shared helpers', () => {
     );
   });
 
-  it('accepts canonical need-measurement tokens in mock stream execution events', () => {
+  it('accepts canonical read-measurement tokens in mock stream execution events', () => {
     const envelope = buildMockConversationStreamEnvelope({
-      tokens: [{ type: 'need_measurement', value: 'measure the current need' }],
+      tokens: [{ type: 'need_measurement', value: 'measure the current read' }],
     });
 
-    expect(envelope.pipeline?.pipelineType).toBe('agentic-execution:need-measurement');
+    expect(envelope.pipeline?.pipelineType).toBe('agentic-execution:read-measurement');
     expect(envelope.assistantReply).toMatch(
-      /Ask for need measurement, AssetPack execution, source attachment, or settlement-bound output/i,
+      /Ask for read measurement, AssetPack execution, source attachment, or settlement-bound output/i,
     );
   });
 });

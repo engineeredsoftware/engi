@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode InitializeLSP identity for static Need measurement setup"
+ * intent: "Bitcode InitializeLSP identity for static Read measurement setup"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_IDENTITY: PromptPart = 
-  'Language Server Protocol orchestrator for Bitcode static Need measurement, AssetPack fit evidence, and proof replay receipts' as PromptPart;
+  'Language Server Protocol orchestrator for Bitcode static Read measurement, AssetPack fit evidence, and proof replay receipts' as PromptPart;

@@ -29,7 +29,7 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPDANGERWALL_PTRRRETRY_PURPOSE } 
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode setup safety prompt for blocking unsafe Need and AssetPack execution before repository mutation"
+ * intent: "Bitcode setup safety prompt for blocking unsafe Read and AssetPack execution before repository mutation"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

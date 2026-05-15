@@ -15,7 +15,7 @@ Wallet state in top chrome is tri-state during QA: loading while shared auxillar
 - `/demo-video`
   Mounted Bitcode public shell, docs hub, and docs walkthrough alias.
 - `/terminal`
-  Main Bitcode operator surface. Give and Need are the primary write actions; recent Terminal activity is the focused read result surface.
+  Main Bitcode operator surface. Deposit and Read are the primary write actions; recent Terminal activity is the focused read result surface.
 - `/exchange`
   Deferred beyond V35. Retained source must not contaminate V28 Terminal or Auxillaries behavior.
 - `/conversations`
@@ -40,7 +40,7 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 ## Main route systems
 
 - `app/terminal/`
-  `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, give/need workbench, and transaction detail.
+  `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, Deposit/Read workbench, and transaction detail.
 - `app/exchange/`
   Deferred Exchange activity source retained for V35+ work.
 - `app/auxillaries/`
@@ -69,7 +69,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/(root)/components/landing/MarketingLandingHero.tsx`
   Hero copy, pillar cards, and primary public entry actions.
 - `app/(root)/components/landing/MarketingLandingPillarCard.tsx`
-  Individual Bitcode give/measure/$BTD pillar card owner.
+  Individual Bitcode deposit/read/$BTD pillar card owner.
 - `app/(root)/components/landing/MarketingLandingGuideCard.tsx`
   Resumable guide posture card inside the landing hero.
 - `app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
@@ -91,7 +91,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `components/base/bitcode/layout/footer.tsx`
   Shared public footer CTA and public-route link posture.
 - `components/base/bitcode/layout/bitcode-public-copy.ts`
-  Shared public-shell vocabulary for `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching posture.
+  Shared public-shell vocabulary for `Network`, `Transactions`, `Docs`, `Auxillaries`, and Deposit/Read teaching posture.
 - `components/base/bitcode/layout/bitcode-public-explainers.ts`
   Shared public-shell explainer content for key entry links and the protocol reference.
 

@@ -29,7 +29,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode AssetPack discovery prompt for estimating Need and AssetPack implementation complexity plus proof risk"
+ * intent: "Bitcode AssetPack discovery prompt for estimating Read and AssetPack implementation complexity plus proof risk"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

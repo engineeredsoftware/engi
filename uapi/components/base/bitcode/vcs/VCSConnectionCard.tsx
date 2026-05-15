@@ -40,7 +40,7 @@ const providerConfig = {
   github: {
     icon: GitHubLogoIcon,
     label: 'GitHub',
-    description: 'Install the Bitcode GitHub App to grant repository scope for Terminal Need and Give work.',
+    description: 'Install the Bitcode GitHub App to grant repository scope for Terminal Read and Deposit work.',
     color: 'bg-gray-900',
     features: ['Installation-scoped repository access', 'Source inventory reads', 'Pull requests', 'Webhooks']
   },
@@ -254,7 +254,7 @@ export function VCSConnectionCard({
                   <AlertDialogHeader>
                     <AlertDialogTitle>Disconnect {config.label}?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This will remove your {config.label} connection. You'll need to reconnect
+                      This will remove your {config.label} connection. You'll read to reconnect
                       to access your repositories again.
                     </AlertDialogDescription>
                   </AlertDialogHeader>

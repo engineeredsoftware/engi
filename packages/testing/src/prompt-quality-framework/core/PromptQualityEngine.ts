@@ -489,7 +489,7 @@ export class PromptQualityEngine {
     const grade = this.scoreToGrade(overallScore);
     const status = overallScore >= 0.8 ? 'Excellent' : 
                   overallScore >= 0.7 ? 'Good' : 
-                  overallScore >= 0.6 ? 'Fair' : 'Needs Improvement';
+                  overallScore >= 0.6 ? 'Fair' : 'Reads Improvement';
     
     return `${status} quality (Grade ${grade}) - Overall score: ${overallScore.toFixed(2)}`;
   }

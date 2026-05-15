@@ -37,21 +37,21 @@ describe('normalizeTerminalCorePanels', () => {
             },
           ],
         },
-        needing: {
-          label: 'Needing + measured demand',
+        reading: {
+          label: 'Reading + measured demand',
           cards: [
             {
-              title: 'Needing surface',
+              title: 'Reading surface',
               badge: 'benchmark-parser',
-              rows: [{ label: 'Need ID', value: 'need-auth-rollback' }],
+              rows: [{ label: 'Read ID', value: 'read-auth-rollback' }],
             },
           ],
         },
         fit: {
-          label: 'Depositing-to-needing fit',
+          label: 'Depositing-to-reading fit',
           cards: [
             {
-              title: 'Depositing-to-needing surface',
+              title: 'Depositing-to-reading surface',
               metrics: [{ label: 'Pressure', value: 'low' }],
               rows: [{ label: 'Decisive kinds', value: 'runbook, patch' }],
             },

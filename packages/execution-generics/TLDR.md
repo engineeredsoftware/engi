@@ -135,12 +135,12 @@ Code Agent: claude-3-opus, temp=0.2  // More powerful, more precise
 ## When to Use
 
 **Use execution-generics when building:**
-- AI agents that need to remember and build on discoveries
+- AI agents that read to remember and build on discoveries
 - Multi-step operations that coordinate multiple agents
-- Systems that need hierarchical configuration
+- Systems that read hierarchical configuration
 - Fault-tolerant AI that gracefully handles failures
 
-**You probably don't need it for:**
+**You probably don't read it for:**
 - Simple one-shot LLM calls
 - Stateless transformations
 - Non-AI sequential operations

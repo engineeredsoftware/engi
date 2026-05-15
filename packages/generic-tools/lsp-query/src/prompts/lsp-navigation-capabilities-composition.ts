@@ -4,7 +4,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER } from '@bitcode/promp
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Bitcode LSP navigation composition for static symbol evidence in Need measurement"
+ * intent: "Bitcode LSP navigation composition for static symbol evidence in Read measurement"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_HEADER": "0.50.0",
@@ -12,7 +12,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER } from '@bitcode/promp
  *   "PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER": "0.50.0"
  * }
  * benchmarks: [
- *   { "name": "measurement_specificity", "test": "Names symbol evidence and Need measurement", "score": 0.82 },
+ *   { "name": "measurement_specificity", "test": "Names symbol evidence and Read measurement", "score": 0.82 },
  *   { "name": "implementation_ready", "test": "Usable by DocCodeToolPrompt formatter", "score": 0.66 }
  * ]
  */
@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER } from '@bitcode/promp
  * Composes atomic prompt parts for LSP measurement capabilities.
  * 
  * The retained navigation operations are useful because they produce evidence
- * that can be replayed into Need, AssetPack, and proof decisions.
+ * that can be replayed into Read, AssetPack, and proof decisions.
  */
 
 

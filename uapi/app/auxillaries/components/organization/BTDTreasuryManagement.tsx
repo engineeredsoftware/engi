@@ -191,7 +191,7 @@ export default function BTDTreasuryManagement({
               GitHub required before transacting
             </div>
             <p className="text-sm text-slate-600">
-              Need delivery and asset-pack execution require a connected repository surface before heavier activity runs.
+              Read delivery and asset-pack execution require a connected repository surface before heavier activity runs.
             </p>
           </div>
           <div className="rounded-2xl border border-emerald-200 bg-white/80 p-4">

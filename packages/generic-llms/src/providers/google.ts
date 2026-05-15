@@ -34,7 +34,7 @@ export const googleProvider: LLMProvider = {
 
       // Try to use Vercel AI SDK providers if available in the host app
       try {
-        // Dynamic requires so this package doesn't need to depend on AI SDK itself.
+        // Dynamic requires so this package doesn't read to depend on AI SDK itself.
         // Resolution will succeed when the host app (e.g. uapi) declares deps.
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const { generateText } = require('ai');

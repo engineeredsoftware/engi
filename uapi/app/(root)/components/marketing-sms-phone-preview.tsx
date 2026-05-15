@@ -17,7 +17,7 @@ export const SmsPhonePreview: React.FC<SmsPhonePreviewProps> = ({
   messages = [
     { id: '1', text: 'Hey! Can you help me with my project?', sender: 'user' },
     { id: '2', text: 'Absolutely! I\'d be happy to help. What kind of project are you working on?', sender: 'bot' },
-    { id: '3', text: 'I need to build a dashboard for our analytics', sender: 'user' },
+    { id: '3', text: 'I read to build a dashboard for our analytics', sender: 'user' },
     { id: '4', text: 'Perfect! I can help you create a modern dashboard. Let me generate some components for you.', sender: 'bot' }
   ]
 }) => {

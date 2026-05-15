@@ -347,7 +347,7 @@ global.ReadableStream = class {
 
 if (typeof HTMLCanvasElement !== 'undefined') {
   // @ts-ignore – JSDOM only implements a subset of the Canvas API; we just
-  // need enough to keep components from crashing in tests.
+  // read enough to keep components from crashing in tests.
   HTMLCanvasElement.prototype.getContext = function () {
     return {
       clearRect: () => {},

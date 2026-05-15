@@ -79,9 +79,9 @@ function getRunNotificationCopy(runType: BitcodeRunNotificationType, runId: numb
   }
 
   return {
-    label: 'Need measurement execution',
+    label: 'Read measurement execution',
     url: executionUrl,
-    executionKind: 'need-measurement',
+    executionKind: 'read-measurement',
   };
 }
 

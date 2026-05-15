@@ -22,9 +22,9 @@ describe('TerminalActionWorkbenchCard', () => {
 
     render(
       <TerminalActionWorkbenchCard
-        badge="give"
+        badge="deposit"
         title="Repository supply and deposit posture"
-        summary="Selected supply is bound to the current give-side path."
+        summary="Selected supply is bound to the current deposit-side path."
         metrics={[
           { label: 'Selected supply', value: '3' },
           { label: 'Auth session', value: 'connected' },
@@ -34,7 +34,7 @@ describe('TerminalActionWorkbenchCard', () => {
           { label: 'Issuer', value: 'producer' },
         ]}
         chips={['runbook', 'patch']}
-        actionLabel="Open give path"
+        actionLabel="Open deposit path"
         actionTarget="panelDepositing"
       />,
     );
@@ -47,7 +47,7 @@ describe('TerminalActionWorkbenchCard', () => {
     expect(screen.getByText('runbook')).toBeTruthy();
     expect(screen.getByText('patch')).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Open give path' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Open deposit path' }));
 
     expect(target.scrollIntoView).toHaveBeenCalled();
   });

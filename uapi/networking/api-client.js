@@ -88,7 +88,7 @@ const fetchFiles = async (owner, repo, path = '') => {
     return data.files;
 };
 exports.fetchFiles = fetchFiles;
-const callAssetPackExecutionsAPI = async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, definitionOfNeed, userTimezone, modelProvider, modelId, 
+const callAssetPackExecutionsAPI = async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, definitionOfRead, userTimezone, modelProvider, modelId, 
 /** Optional attachments provided by user */
 attachments, 
 /** Number of iterations for the pipeline */
@@ -112,7 +112,7 @@ pipelineType = 'agentic-execution:asset-pack') => {
             repoBranch,
             repoCommit: commitSha,
             issueNumber,
-            definition_of_need: definitionOfNeed,
+            definition_of_read: definitionOfRead,
             modelProvider,
             modelId,
             attachments,
@@ -136,7 +136,7 @@ pipelineType = 'agentic-execution:asset-pack') => {
             repoBranch,
             repoCommit: commitSha,
             issueNumber,
-            definition_of_need: definitionOfNeed,
+            definition_of_read: definitionOfRead,
             modelProvider,
             modelId,
             attachments,

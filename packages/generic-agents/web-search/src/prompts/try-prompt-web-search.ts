@@ -10,7 +10,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES } from '@bitc
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search try prompt for collecting traceable external evidence"
+ * intent: "Bitcode read-synthesis web search try prompt for collecting traceable external evidence"
  * current_version: "V26"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS": "V26",

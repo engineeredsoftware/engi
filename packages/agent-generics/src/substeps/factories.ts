@@ -367,8 +367,8 @@ export function factoryPrepareConciseContext<T>(
     const fullContext = {
       repository: toObject(greatestParent.getAll('repository')),
       source: toObject(greatestParent.getAll('source')),
-      need: toObject(greatestParent.getAll('need')),
-      needDefinition: toObject(greatestParent.getAll('need-definition')),
+      read: toObject(greatestParent.getAll('read')),
+      readDefinition: toObject(greatestParent.getAll('read-definition')),
       config: toObject(greatestParent.getAll('config')),
       attachments,
       instructions,
@@ -380,8 +380,8 @@ export function factoryPrepareConciseContext<T>(
       [
         { namespace: 'repository', data: greatestParent.getAll('repository') },
         { namespace: 'source', data: greatestParent.getAll('source') },
-        { namespace: 'need', data: greatestParent.getAll('need') },
-        { namespace: 'need-definition', data: greatestParent.getAll('need-definition') },
+        { namespace: 'read', data: greatestParent.getAll('read') },
+        { namespace: 'read-definition', data: greatestParent.getAll('read-definition') },
         { namespace: 'config', data: greatestParent.getAll('config') }
       ],
       [
@@ -574,7 +574,7 @@ export function factoryStitchUntilComplete<T>(
         }
       }
 
-      // Check if we need to stitch due to apparent truncation/overflow
+      // Check if we read to stitch due to apparent truncation/overflow
       const needsStitching = checkTruncation(currentResult);
 
       if (!needsStitching) {

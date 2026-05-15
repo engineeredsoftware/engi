@@ -67,7 +67,7 @@ function walletAuthorizationProof(label: string) {
 function rangeInput(overrides: Record<string, unknown> = {}) {
   return {
     assetPackId: 'asset-pack-range',
-    needId: 'need-1',
+    readId: 'read-1',
     acceptedNeed: true as const,
     acceptedFit: true as const,
     sourceManifestRoot: 'source-root',
@@ -282,7 +282,7 @@ describe('V27 supply, range, and mint receipt primitives', () => {
           acceptedNeed: false,
         }) as any,
       ),
-    ).toThrow(/accepted Need/);
+    ).toThrow(/accepted Read/);
 
     expect(() =>
       allocateAssetPackRange(
@@ -1404,7 +1404,7 @@ describe('V27 Terminal journal and ledger/database reconciliation primitives', (
 
     expect(coverage.blocking).toBe(false);
     expect(coverage.missingTransactionKinds).toEqual([]);
-    expect(coverage.observedTransactionKinds).toContain('need_submission');
+    expect(coverage.observedTransactionKinds).toContain('read_submission');
     expect(coverage.observedTransactionKinds).toContain('rights_transfer');
     expect(missing.blocking).toBe(true);
     expect(missing.missingTransactionKinds).toEqual(['rights_transfer']);
@@ -1512,7 +1512,7 @@ describe('V27 Terminal journal and ledger/database reconciliation primitives', (
         metaphysicalFacts: [
           {
             factId: 'public-private-fact',
-            factKind: 'need_fit_context',
+            factKind: 'read_fit_context',
             canonicalRoot: 'root',
             private: false,
           },

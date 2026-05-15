@@ -42,13 +42,13 @@ export const BITCODE_PUBLIC_COPY = {
   terminalPreview: {
     pill: 'Exchange',
     kicker: 'Terminal preview',
-    rail: ['give', 'need', 'settle'],
+    rail: ['deposit', 'read', 'settle'],
   },
   operatorFrame: {
     title: 'Bitcode Terminal',
     subtitle: 'proofs, conversations, and auxillaries around one flow',
     badge: 'full detail',
-    modes: ['Proofs', 'Conversations', 'Auxillaries', 'Give + Need'],
+    modes: ['Proofs', 'Conversations', 'Auxillaries', 'Deposit + Read'],
   },
   giveContribution: {
     title: 'Exchange supply',
@@ -58,8 +58,8 @@ export const BITCODE_PUBLIC_COPY = {
     subtitle: 'auditable market path',
     badge: '6 stages',
     stages: [
-      { number: '01', stage: 'give' },
-      { number: '02', stage: 'need' },
+      { number: '01', stage: 'deposit' },
+      { number: '02', stage: 'read' },
       { number: '03', stage: 'fit' },
       { number: '04', stage: 'prove' },
       { number: '05', stage: 'settle' },
@@ -67,7 +67,7 @@ export const BITCODE_PUBLIC_COPY = {
     ],
   },
   footer: {
-    steps: ['Give', 'Need', 'Settle'],
+    steps: ['Deposit', 'Read', 'Settle'],
     guestCta: 'Open Auxillaries',
     userCta: 'Open Auxillaries',
     links: {

@@ -26,7 +26,7 @@
       "protocol-demonstration/public/styles.css"
     ],
     "machineLocalAssembly": [
-      "deterministic need derivation",
+      "deterministic read derivation",
       "proof and materialization assembly",
       "source-to-shares accounting assembly",
       "app-owned JSON contract serving"

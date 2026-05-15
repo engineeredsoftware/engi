@@ -17,7 +17,7 @@ export interface GrepMatch {
 
 /**
  * Executes bounded recursive grep search starting from `cwd` (defaults to the process root).
- * Callers use this as evidence collection for need measurement and asset-pack context,
+ * Callers use this as evidence collection for read measurement and asset-pack context,
  * not as an independent product or inference owner.
  */
 export async function simpleSystemTextSearch(params: {

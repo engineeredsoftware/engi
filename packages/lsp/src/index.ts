@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------------------------------------
  * Production-grade LSP helper wrappers around vscode-languageserver-node for Bitcode static measurement.
- * Retained LSP behavior is admitted when it produces replayable Need/AssetPack evidence such as
+ * Retained LSP behavior is admitted when it produces replayable Read/AssetPack evidence such as
  * symbols, definitions, references, paths, diagnostics, and type context.
  *
  * Features:
@@ -11,7 +11,7 @@
  * - Timeout handling and cancellation support
  * - Detailed logging and metrics
  *
- * NOTE: Uses in-memory Language Server for deterministic performance in Bitcode Need measurement
+ * NOTE: Uses in-memory Language Server for deterministic performance in Bitcode Read measurement
  * and AssetPack pipeline tasks.
  * ------------------------------------------------------------------------------------------------- */
 

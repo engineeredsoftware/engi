@@ -2,7 +2,7 @@
  * LSP QUERY TOOLS - Bitcode static measurement carrier
  * 
  * Retained Language Server Protocol operations provide replayable symbols,
- * definitions, references, locations, and diagnostics for Need measurement,
+ * definitions, references, locations, and diagnostics for Read measurement,
  * AssetPack fit, and proof evidence.
  */
 

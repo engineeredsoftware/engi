@@ -33,10 +33,10 @@ test.describe('commercial MVP conversations and docs experiences', () => {
 
     const input = page.locator('textarea.rich-text-input').last();
     await expect(input).toBeVisible();
-    await input.fill('Summarize the selected Need and keep the result Exchange-readable.');
+    await input.fill('Summarize the selected Read and keep the result Exchange-readable.');
     await input.press('Enter');
 
-    await expect(page.getByText(/Summarize the selected Need/i).first()).toBeVisible();
+    await expect(page.getByText(/Summarize the selected Read/i).first()).toBeVisible();
     await expect(page.getByText(/Bitcode mock mode received/i).first()).toBeVisible();
     await expect(page.getByText('2 messages').first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Close split' })).toHaveCount(2);
@@ -88,7 +88,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
 
     await page.getByRole('link', { name: /^Use Terminal$/ }).click();
     await expect(page).toHaveURL(/\/terminal$/);
-    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
 
     await trap.assertClean();
   });

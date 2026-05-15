@@ -4,53 +4,53 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usePatternRecognition = void 0;
 const react_1 = require("react");
 // Simulated AI pattern recognition (replace with real API in production)
-const simulatePatternRecognition = async (needDefinition, context, attachments, history) => {
+const simulatePatternRecognition = async (readDefinition, context, attachments, history) => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400));
     const patterns = [];
-    const needDefinitionLower = needDefinition.toLowerCase();
+    const readDefinitionLower = readDefinition.toLowerCase();
     // Component pattern detection
-    if (needDefinitionLower.includes('component') || needDefinitionLower.includes('ui') || needDefinitionLower.includes('interface')) {
+    if (readDefinitionLower.includes('component') || readDefinitionLower.includes('ui') || readDefinitionLower.includes('interface')) {
         const componentKeywords = ['react', 'vue', 'props', 'state', 'render', 'jsx', 'tsx'];
-        const keywordCount = componentKeywords.filter(k => needDefinitionLower.includes(k)).length;
+        const keywordCount = componentKeywords.filter(k => readDefinitionLower.includes(k)).length;
         patterns.push({
             type: 'component',
             confidence: Math.min(0.6 + (keywordCount * 0.1) + (context?.language === 'TypeScript' ? 0.2 : 0), 0.95),
             previousOccurrences: history?.filter(h => h.pattern.type === 'component').length || 0,
             averageSuccess: history?.filter(h => h.pattern.type === 'component' && h.success).length / Math.max(1, history?.filter(h => h.pattern.type === 'component').length || 1) || 0.8,
-            estimatedComplexity: needDefinition.length > 300 ? 'complex' : needDefinition.length > 150 ? 'moderate' : 'simple',
+            estimatedComplexity: readDefinition.length > 300 ? 'complex' : readDefinition.length > 150 ? 'moderate' : 'simple',
             suggestedApproach: context?.architecture === 'hexagonal' ? 'Clean architecture with dependency injection' : 'Standard React component pattern',
-            keywords: componentKeywords.filter(k => needDefinitionLower.includes(k)),
+            keywords: componentKeywords.filter(k => readDefinitionLower.includes(k)),
             architecturalFit: context?.architecture ? 0.9 : 0.7,
             testabilityScore: context?.testCoverage ? context.testCoverage / 100 : 0.8,
-            riskLevel: needDefinition.length > 400 ? 'high' : needDefinition.length > 200 ? 'medium' : 'low'
+            riskLevel: readDefinition.length > 400 ? 'high' : readDefinition.length > 200 ? 'medium' : 'low'
         });
     }
     // Service pattern detection
-    if (needDefinitionLower.includes('service') || needDefinitionLower.includes('api') || needDefinitionLower.includes('endpoint') || needDefinitionLower.includes('backend')) {
+    if (readDefinitionLower.includes('service') || readDefinitionLower.includes('api') || readDefinitionLower.includes('endpoint') || readDefinitionLower.includes('backend')) {
         const serviceKeywords = ['api', 'endpoint', 'service', 'repository', 'database', 'crud'];
-        const keywordCount = serviceKeywords.filter(k => needDefinitionLower.includes(k)).length;
+        const keywordCount = serviceKeywords.filter(k => readDefinitionLower.includes(k)).length;
         patterns.push({
             type: 'service',
             confidence: Math.min(0.7 + (keywordCount * 0.08), 0.93),
             previousOccurrences: history?.filter(h => h.pattern.type === 'service').length || 0,
             averageSuccess: history?.filter(h => h.pattern.type === 'service' && h.success).length / Math.max(1, history?.filter(h => h.pattern.type === 'service').length || 1) || 0.85,
-            estimatedComplexity: needDefinitionLower.includes('microservice') || needDefinitionLower.includes('distributed') ? 'complex' : 'moderate',
+            estimatedComplexity: readDefinitionLower.includes('microservice') || readDefinitionLower.includes('distributed') ? 'complex' : 'moderate',
             suggestedApproach: 'Domain-driven design with clear boundaries',
-            keywords: serviceKeywords.filter(k => needDefinitionLower.includes(k)),
+            keywords: serviceKeywords.filter(k => readDefinitionLower.includes(k)),
             architecturalFit: context?.architecture === 'microservices' ? 0.95 : 0.8,
             testabilityScore: 0.9, // Services are typically easier to test
-            riskLevel: needDefinitionLower.includes('database') || needDefinitionLower.includes('migration') ? 'high' : 'medium'
+            riskLevel: readDefinitionLower.includes('database') || readDefinitionLower.includes('migration') ? 'high' : 'medium'
         });
     }
     // Test pattern detection
-    if (needDefinitionLower.includes('test') || needDefinitionLower.includes('spec') || needDefinitionLower.includes('coverage')) {
+    if (readDefinitionLower.includes('test') || readDefinitionLower.includes('spec') || readDefinitionLower.includes('coverage')) {
         patterns.push({
             type: 'test',
             confidence: 0.9,
             previousOccurrences: history?.filter(h => h.pattern.type === 'test').length || 0,
             averageSuccess: 0.95, // Tests usually succeed
-            estimatedComplexity: needDefinitionLower.includes('integration') || needDefinitionLower.includes('e2e') ? 'complex' : 'simple',
+            estimatedComplexity: readDefinitionLower.includes('integration') || readDefinitionLower.includes('e2e') ? 'complex' : 'simple',
             keywords: ['test', 'spec', 'coverage', 'unit', 'integration'],
             architecturalFit: 0.95,
             testabilityScore: 1.0,
@@ -58,21 +58,21 @@ const simulatePatternRecognition = async (needDefinition, context, attachments, 
         });
     }
     // Refactor pattern detection
-    if (needDefinitionLower.includes('refactor') || needDefinitionLower.includes('improve') || needDefinitionLower.includes('optimize') || needDefinitionLower.includes('clean')) {
+    if (readDefinitionLower.includes('refactor') || readDefinitionLower.includes('improve') || readDefinitionLower.includes('optimize') || readDefinitionLower.includes('clean')) {
         patterns.push({
             type: 'refactor',
             confidence: 0.8,
             previousOccurrences: history?.filter(h => h.pattern.type === 'refactor').length || 0,
             averageSuccess: 0.75, // Refactors can be tricky
-            estimatedComplexity: needDefinitionLower.includes('architecture') || needDefinitionLower.includes('restructure') ? 'complex' : 'moderate',
+            estimatedComplexity: readDefinitionLower.includes('architecture') || readDefinitionLower.includes('restructure') ? 'complex' : 'moderate',
             keywords: ['refactor', 'improve', 'optimize', 'clean', 'restructure'],
             architecturalFit: 0.8,
             testabilityScore: context?.testCoverage ? context.testCoverage / 100 : 0.6,
-            riskLevel: needDefinitionLower.includes('breaking') ? 'high' : 'medium'
+            riskLevel: readDefinitionLower.includes('breaking') ? 'high' : 'medium'
         });
     }
     // Documentation pattern detection
-    if (needDefinitionLower.includes('document') || needDefinitionLower.includes('readme') || needDefinitionLower.includes('guide') || needDefinitionLower.includes('docs')) {
+    if (readDefinitionLower.includes('document') || readDefinitionLower.includes('readme') || readDefinitionLower.includes('guide') || readDefinitionLower.includes('docs')) {
         patterns.push({
             type: 'documentation',
             confidence: 0.85,
@@ -90,7 +90,7 @@ const simulatePatternRecognition = async (needDefinition, context, attachments, 
 // Local storage keys for pattern learning
 const PATTERN_HISTORY_KEY = 'bitcode_pattern_history';
 const PATTERN_INSIGHTS_KEY = 'bitcode_pattern_insights';
-const usePatternRecognition = (needDefinitionText, attachments = [], repositoryContext, options = {}) => {
+const usePatternRecognition = (readDefinitionText, attachments = [], repositoryContext, options = {}) => {
     const { minLength = 50, debounceMs = 1000, enableLearning = true, mockMode = false } = options;
     const [patterns, setPatterns] = (0, react_1.useState)([]);
     const [isAnalyzing, setIsAnalyzing] = (0, react_1.useState)(false);
@@ -130,17 +130,17 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
         }
     }, [enableLearning]);
     // Main pattern analysis function
-    const analyzePatterns = (0, react_1.useCallback)(async (needDefinition) => {
-        if (needDefinition === lastAnalyzedRef.current || needDefinition.length < minLength) {
+    const analyzePatterns = (0, react_1.useCallback)(async (readDefinition) => {
+        if (readDefinition === lastAnalyzedRef.current || readDefinition.length < minLength) {
             return;
         }
-        lastAnalyzedRef.current = needDefinition;
+        lastAnalyzedRef.current = readDefinition;
         setIsAnalyzing(true);
         setError(null);
         try {
             let recognizedPatterns;
             if (mockMode) {
-                recognizedPatterns = await simulatePatternRecognition(needDefinition, repositoryContext, attachments, patternHistory);
+                recognizedPatterns = await simulatePatternRecognition(readDefinition, repositoryContext, attachments, patternHistory);
             }
             else {
                 // Real API call would go here
@@ -148,7 +148,7 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        needDefinition,
+                        readDefinition,
                         repositoryContext,
                         attachments: attachments.map(a => ({ type: a.type, metadata: a.metadata })),
                         patternHistory: patternHistory.slice(-20) // Send recent history for context
@@ -178,7 +178,7 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
     }, [minLength, mockMode, repositoryContext, attachments, patternHistory, enableLearning]);
     // Debounced analysis trigger
     (0, react_1.useEffect)(() => {
-        if (needDefinitionText.length < minLength) {
+        if (readDefinitionText.length < minLength) {
             setPatterns([]);
             return;
         }
@@ -186,14 +186,14 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
             clearTimeout(debounceRef.current);
         }
         debounceRef.current = setTimeout(() => {
-            analyzePatterns(needDefinitionText);
+            analyzePatterns(readDefinitionText);
         }, debounceMs);
         return () => {
             if (debounceRef.current) {
                 clearTimeout(debounceRef.current);
             }
         };
-    }, [needDefinitionText, minLength, debounceMs, analyzePatterns]);
+    }, [readDefinitionText, minLength, debounceMs, analyzePatterns]);
     // Record pattern success
     const recordPatternSuccess = (0, react_1.useCallback)((pattern, metrics) => {
         const historyEntry = {

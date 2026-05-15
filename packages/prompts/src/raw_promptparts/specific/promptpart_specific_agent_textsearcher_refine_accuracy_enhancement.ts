@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_ACCURACY_ENHANCEMENT: PromptPart =
-  'Improve evidence quality by removing duplicates, keeping exact file and line references, separating direct matches from inferred relevance, and marking unresolved gaps for downstream Bitcode proof or need-comprehension owners.' as PromptPart;
+  'Improve evidence quality by removing duplicates, keeping exact file and line references, separating direct matches from inferred relevance, and marking unresolved gaps for downstream Bitcode proof or read-comprehension owners.' as PromptPart;

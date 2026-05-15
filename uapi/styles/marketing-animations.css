@@ -238,7 +238,7 @@
  * GPU-accelerated while reducing the amount of work the compositor has to do
  * every frame – it only updates the transform matrix ~30× per cycle instead
  * of 1000+.  Visually this still appears buttery-smooth because each step is
- * smaller than 1°.  If we ever need even lighter load we can further lower the
+ * smaller than 1°.  If we ever read even lighter load we can further lower the
  * step count.
  */
 /*

@@ -1,11 +1,11 @@
 /**
- * Bitcode Need Risk Admission Agent - retained danger-wall support path.
+ * Bitcode Read Risk Admission Agent - retained danger-wall support path.
  *
  * The package name and dangerWall aliases remain for retained callers. V26
- * semantics are narrower: this agent decides whether a Bitcode need,
+ * semantics are narrower: this agent decides whether a Bitcode read,
  * candidate written assets, AssetPack intent, and delivery mechanism are safe
  * enough to continue through the next measured pipeline phase. It does not own
- * canonical need interpretation, proof closure, delivery, or mutation.
+ * canonical read interpretation, proof closure, delivery, or mutation.
  */
 
 import {
@@ -23,7 +23,7 @@ const BitcodeThreatLevelSchema = z.enum(['minimal', 'low', 'moderate', 'high', '
 const BitcodeRiskEvidenceSchema = z.object({
   sourceType: z.string().describe('Repository, attachment, external evidence, execution state, or operator input source class'),
   path: z.string().optional().describe('Optional source path or interface reference'),
-  concern: z.string().describe('Specific risk concern tied to the Bitcode need or AssetPack plan'),
+  concern: z.string().describe('Specific risk concern tied to the Bitcode read or AssetPack plan'),
   evidence: z.array(z.string()).describe('Traceable observations supporting the concern')
 });
 
@@ -33,20 +33,20 @@ const BitcodeRiskToolRequestSchema = z.object({
   reason: z.string()
 });
 
-export const BitcodeNeedRiskAdmissionInputSchema = z.object({
-  need: z.string().describe('Expressed Bitcode need being measured or synthesized'),
+export const BitcodeReadRiskAdmissionInputSchema = z.object({
+  read: z.string().describe('Expressed Bitcode read being measured or synthesized'),
   assetPackIntent: z.string().optional().describe('Candidate AssetPack purpose or synthesis plan'),
   writtenAssetType: z.string().optional().describe('Candidate written-asset type under consideration'),
   writtenAssets: z.array(z.unknown()).optional().describe('Candidate written assets or partials to admit for downstream work'),
   repositoryEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Source-grounded evidence already collected for risk admission'),
-  externalEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Discovery-phase external evidence already collected for need synthesis'),
+  externalEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Discovery-phase external evidence already collected for read synthesis'),
   deliveryMechanism: z.string().optional().describe('Requested delivery mechanism such as GitHub pull request, Jira comment, or local artifact'),
   strictMode: z.boolean().default(false).describe('Require manual review for unresolved high-impact ambiguity'),
   riskCategories: z.array(z.string()).optional().describe('Specific Bitcode risk categories to evaluate'),
   admissionThreshold: z.number().default(0.8).describe('Minimum confidence for admitting the next pipeline step')
 });
 
-export const BitcodeNeedRiskAdmissionPlanSchema = z.object({
+export const BitcodeReadRiskAdmissionPlanSchema = z.object({
   admissionPlan: z.object({
     evidenceSources: z.array(z.object({
       sourceType: z.string(),
@@ -66,7 +66,7 @@ export const BitcodeNeedRiskAdmissionPlanSchema = z.object({
     })
   }),
   bitcodeRiskStrategy: z.object({
-    checkNeedLegality: z.boolean(),
+    checkReadLegality: z.boolean(),
     checkUnsafeMutation: z.boolean(),
     checkSecretOrPrivateDataExposure: z.boolean(),
     checkProofOrEvidenceGap: z.boolean(),
@@ -79,7 +79,7 @@ export const BitcodeNeedRiskAdmissionPlanSchema = z.object({
   admissionScope: z.array(z.string())
 });
 
-export const BitcodeNeedRiskAdmissionTrySchema = z.object({
+export const BitcodeReadRiskAdmissionTrySchema = z.object({
   riskResults: z.array(z.object({
     admitted: z.boolean(),
     flags: z.object({
@@ -105,7 +105,7 @@ export const BitcodeNeedRiskAdmissionTrySchema = z.object({
     requiresManualReview: z.boolean()
   }).describe('Overall admission assessment for the next Bitcode phase'),
   evidenceCoverage: z.object({
-    needChecked: z.boolean(),
+    readChecked: z.boolean(),
     repositoryEvidenceChecked: z.boolean(),
     externalEvidenceChecked: z.boolean(),
     writtenAssetsChecked: z.boolean(),
@@ -118,7 +118,7 @@ export const BitcodeNeedRiskAdmissionTrySchema = z.object({
   errors: z.array(z.string()).optional()
 });
 
-export const BitcodeNeedRiskAdmissionRefineSchema = z.object({
+export const BitcodeReadRiskAdmissionRefineSchema = z.object({
   refinedAssessment: z.object({
     safe: z.boolean(),
     maxSeverity: BitcodeRiskSeveritySchema,
@@ -140,14 +140,14 @@ export const BitcodeNeedRiskAdmissionRefineSchema = z.object({
     completenessScore: z.number(),
     overallQuality: z.number()
   }),
-  improvements: z.array(z.string()).describe('Suggested improvements to make the need, AssetPack plan, or delivery mechanism admissible'),
+  improvements: z.array(z.string()).describe('Suggested improvements to make the read, AssetPack plan, or delivery mechanism admissible'),
   admissionEnhancements: z.array(z.string()),
   useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Risk-refinement tool requests'),
   refinementActions: z.array(z.string()),
   confidence: z.number()
 });
 
-export const BitcodeNeedRiskAdmissionResultSchema = z.object({
+export const BitcodeReadRiskAdmissionResultSchema = z.object({
   finalAssessment: z.object({
     safe: z.boolean(),
     maxSeverity: BitcodeRiskSeveritySchema,
@@ -172,9 +172,9 @@ export const BitcodeNeedRiskAdmissionResultSchema = z.object({
     proofObligations: z.array(z.string()),
     admissionBoundary: z.string()
   }),
-  needAlignment: z.object({
+  readAlignment: z.object({
     alignmentScore: z.number(),
-    needSafeToMeasure: z.boolean(),
+    readSafeToMeasure: z.boolean(),
     assetPackSafeToSynthesize: z.boolean(),
     deliveryMechanismSafeToAttempt: z.boolean()
   }),
@@ -185,52 +185,52 @@ export const BitcodeNeedRiskAdmissionResultSchema = z.object({
   validationMessage: z.string()
 });
 
-export type BitcodeNeedRiskAdmissionInput = z.infer<typeof BitcodeNeedRiskAdmissionInputSchema>;
-export type BitcodeNeedRiskAdmissionPlanOutput = z.infer<typeof BitcodeNeedRiskAdmissionPlanSchema>;
-export type BitcodeNeedRiskAdmissionTryOutput = z.infer<typeof BitcodeNeedRiskAdmissionTrySchema>;
-export type BitcodeNeedRiskAdmissionRefineOutput = z.infer<typeof BitcodeNeedRiskAdmissionRefineSchema>;
-export type BitcodeNeedRiskAdmissionResult = z.infer<typeof BitcodeNeedRiskAdmissionResultSchema>;
-export type DangerWallInput = BitcodeNeedRiskAdmissionInput;
-export type DangerWallPlanOutput = BitcodeNeedRiskAdmissionPlanOutput;
-export type DangerWallTryOutput = BitcodeNeedRiskAdmissionTryOutput;
-export type DangerWallRefineOutput = BitcodeNeedRiskAdmissionRefineOutput;
-export type SecurityResult = BitcodeNeedRiskAdmissionResult;
+export type BitcodeReadRiskAdmissionInput = z.infer<typeof BitcodeReadRiskAdmissionInputSchema>;
+export type BitcodeReadRiskAdmissionPlanOutput = z.infer<typeof BitcodeReadRiskAdmissionPlanSchema>;
+export type BitcodeReadRiskAdmissionTryOutput = z.infer<typeof BitcodeReadRiskAdmissionTrySchema>;
+export type BitcodeReadRiskAdmissionRefineOutput = z.infer<typeof BitcodeReadRiskAdmissionRefineSchema>;
+export type BitcodeReadRiskAdmissionResult = z.infer<typeof BitcodeReadRiskAdmissionResultSchema>;
+export type DangerWallInput = BitcodeReadRiskAdmissionInput;
+export type DangerWallPlanOutput = BitcodeReadRiskAdmissionPlanOutput;
+export type DangerWallTryOutput = BitcodeReadRiskAdmissionTryOutput;
+export type DangerWallRefineOutput = BitcodeReadRiskAdmissionRefineOutput;
+export type SecurityResult = BitcodeReadRiskAdmissionResult;
 
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode risk-admission support prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
+ * intent: "Bitcode risk-admission support prompt for deciding whether a read, written assets, AssetPack plan, and delivery mechanism may continue"
  * current_version: "V26"
  */
-export const bitcodeNeedRiskAdmissionPrompt = new AgentPrompt({
-  name: 'bitcode-need-risk-admission' as PromptPart,
-  identity: 'Bitcode risk-admission agent for need, AssetPack, proof, and delivery-boundary safety' as PromptPart
+export const bitcodeReadRiskAdmissionPrompt = new AgentPrompt({
+  name: 'bitcode-read-risk-admission' as PromptPart,
+  identity: 'Bitcode risk-admission agent for read, AssetPack, proof, and delivery-boundary safety' as PromptPart
 });
 
-export const bitcodeNeedRiskAdmissionStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Plan Bitcode risk-admission checks for a need and candidate AssetPack path' as PromptPart }),
+export const bitcodeReadRiskAdmissionStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan Bitcode risk-admission checks for a read and candidate AssetPack path' as PromptPart }),
   try: new AgentStepPrompt({ purpose: 'Evaluate concrete risk evidence without mutating source or claiming proof closure' as PromptPart }),
   refine: new AgentStepPrompt({ purpose: 'Refine false positives, unresolved ambiguity, and proof-gap boundaries' as PromptPart }),
   retry: new AgentStepPrompt({ purpose: 'Finalize admit/block/manual-review decision for the next Bitcode pipeline phase' as PromptPart })
 };
 
-export const dangerWallPrompt = bitcodeNeedRiskAdmissionPrompt;
-export const dangerWallStepPrompts = bitcodeNeedRiskAdmissionStepPrompts;
+export const dangerWallPrompt = bitcodeReadRiskAdmissionPrompt;
+export const dangerWallStepPrompts = bitcodeReadRiskAdmissionStepPrompts;
 
-export const bitcodeNeedRiskAdmissionVariation = factoryAgentWithPTRR<
-  BitcodeNeedRiskAdmissionInput,
-  BitcodeNeedRiskAdmissionResult
+export const bitcodeReadRiskAdmissionVariation = factoryAgentWithPTRR<
+  BitcodeReadRiskAdmissionInput,
+  BitcodeReadRiskAdmissionResult
 >({
-  name: 'bitcode-need-risk-admission',
-  description: 'Bitcode need, AssetPack, proof-gap, and delivery-mechanism risk admission for retained pipeline setup',
-  prompt: bitcodeNeedRiskAdmissionPrompt,
+  name: 'bitcode-read-risk-admission',
+  description: 'Bitcode read, AssetPack, proof-gap, and delivery-mechanism risk admission for retained pipeline setup',
+  prompt: bitcodeReadRiskAdmissionPrompt,
   stepPrompts: {
-    plan: () => bitcodeNeedRiskAdmissionStepPrompts.plan,
-    try: () => bitcodeNeedRiskAdmissionStepPrompts.try,
-    refine: () => bitcodeNeedRiskAdmissionStepPrompts.refine,
-    retry: () => bitcodeNeedRiskAdmissionStepPrompts.retry
+    plan: () => bitcodeReadRiskAdmissionStepPrompts.plan,
+    try: () => bitcodeReadRiskAdmissionStepPrompts.try,
+    refine: () => bitcodeReadRiskAdmissionStepPrompts.refine,
+    retry: () => bitcodeReadRiskAdmissionStepPrompts.retry
   },
-  outputSchema: BitcodeNeedRiskAdmissionResultSchema,
+  outputSchema: BitcodeReadRiskAdmissionResultSchema,
   plan: {
     chunkThreshold: 1000
   },
@@ -247,14 +247,14 @@ export const bitcodeNeedRiskAdmissionVariation = factoryAgentWithPTRR<
   }
 });
 
-export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep<
-  BitcodeNeedRiskAdmissionInput,
-  BitcodeNeedRiskAdmissionResult
+export const quickBitcodeReadRiskAdmissionVariation = factoryAgentWithSingleStep<
+  BitcodeReadRiskAdmissionInput,
+  BitcodeReadRiskAdmissionResult
 >({
-  name: 'quick-bitcode-need-risk-admission',
-  description: 'Fast Bitcode risk-admission pass for already bounded need and AssetPack inputs',
+  name: 'quick-bitcode-read-risk-admission',
+  description: 'Fast Bitcode risk-admission pass for already bounded read and AssetPack inputs',
   execute: async (input, execution) => {
-    execution.store('variation', 'mode', 'quick-bitcode-need-risk-admission');
+    execution.store('variation', 'mode', 'quick-bitcode-read-risk-admission');
 
     return {
       finalAssessment: {
@@ -263,16 +263,16 @@ export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep
         confidence: 0.8,
         verdict: {
           approved: true,
-          reason: 'Quick Bitcode risk admission passed for the provided need boundary',
+          reason: 'Quick Bitcode risk admission passed for the provided read boundary',
           flags: [],
-          recommendations: ['Continue only if downstream phases preserve need, AssetPack, proof, and delivery boundaries']
+          recommendations: ['Continue only if downstream phases preserve read, AssetPack, proof, and delivery boundaries']
         },
         auditTrail: [
           {
             check: 'Quick Bitcode risk admission',
             result: true,
             details: [
-              `Need boundary checked: ${input.need || 'unspecified need'}`,
+              `Read boundary checked: ${input.read || 'unspecified read'}`,
               'No high-severity admission concern was provided to this quick pass'
             ],
             severity: 'none' as const
@@ -284,11 +284,11 @@ export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep
         threatLevel: 'minimal' as const,
         riskRecommendations: ['Use the PTRR risk-admission variation for high-impact writes, delivery mechanisms, likely execution failure, or unresolved proof gaps'],
         proofObligations: ['Downstream proof owners must still verify evidence and closure before promotion'],
-        admissionBoundary: 'Quick pass admits the next phase; it does not prove the need or produce stable written assets'
+        admissionBoundary: 'Quick pass admits the next phase; it does not prove the read or produce stable written assets'
       },
-      needAlignment: {
+      readAlignment: {
         alignmentScore: 0.9,
-        needSafeToMeasure: true,
+        readSafeToMeasure: true,
         assetPackSafeToSynthesize: true,
         deliveryMechanismSafeToAttempt: true
       },
@@ -299,20 +299,20 @@ export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep
   }
 });
 
-export const bitcodeNeedRiskAdmissionAgent = bitcodeNeedRiskAdmissionVariation;
-export const quickBitcodeNeedRiskAdmissionAgent = quickBitcodeNeedRiskAdmissionVariation;
+export const bitcodeReadRiskAdmissionAgent = bitcodeReadRiskAdmissionVariation;
+export const quickBitcodeReadRiskAdmissionAgent = quickBitcodeReadRiskAdmissionVariation;
 
-export const dangerWall = bitcodeNeedRiskAdmissionAgent;
-export const quickDangerWall = quickBitcodeNeedRiskAdmissionAgent;
-export const dangerWallAgent = bitcodeNeedRiskAdmissionAgent;
-export const quickDangerWallAgent = quickBitcodeNeedRiskAdmissionAgent;
+export const dangerWall = bitcodeReadRiskAdmissionAgent;
+export const quickDangerWall = quickBitcodeReadRiskAdmissionAgent;
+export const dangerWallAgent = bitcodeReadRiskAdmissionAgent;
+export const quickDangerWallAgent = quickBitcodeReadRiskAdmissionAgent;
 
-export const BITCODE_NEED_RISK_ADMISSION_AGENT = {
-  riskCheck: bitcodeNeedRiskAdmissionAgent,
-  quickRiskCheck: quickBitcodeNeedRiskAdmissionAgent
+export const BITCODE_READ_RISK_ADMISSION_AGENT = {
+  riskCheck: bitcodeReadRiskAdmissionAgent,
+  quickRiskCheck: quickBitcodeReadRiskAdmissionAgent
 };
 
 export const DANGER_WALL_AGENT = {
-  dangerCheck: bitcodeNeedRiskAdmissionAgent,
-  quickDangerCheck: quickBitcodeNeedRiskAdmissionAgent
+  dangerCheck: bitcodeReadRiskAdmissionAgent,
+  quickDangerCheck: quickBitcodeReadRiskAdmissionAgent
 };

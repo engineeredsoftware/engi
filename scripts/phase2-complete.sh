@@ -28,7 +28,7 @@ echo "✅ Import paths fixed!"
 echo ""
 echo "📦 Step 2: Checking for files to update exports..."
 
-# Count files needing PROMPT_ prefix
+# Count files reading PROMPT_ prefix
 RAW_FILES_COUNT=$(find $PACKAGES_PATH/prompts/src/raw -name "*.ts" -type f | wc -l | tr -d ' ')
 echo "  Found $RAW_FILES_COUNT raw prompt files to check"
 

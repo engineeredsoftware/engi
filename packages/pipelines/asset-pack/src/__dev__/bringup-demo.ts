@@ -36,7 +36,7 @@ async function main() {
   });
 
   const input = {
-    definitionOfNeed: 'Demo bring-up',
+    definitionOfRead: 'Demo bring-up',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     deliveryTarget: 'pr' as const,
   };

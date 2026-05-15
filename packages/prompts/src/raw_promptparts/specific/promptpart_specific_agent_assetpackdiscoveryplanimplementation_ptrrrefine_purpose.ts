@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for Need-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation ptrrrefine purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for Read-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for Need-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation ptrrrefine purpose"
+ * intent: "Bitcode AssetPack discovery PromptPart for Read-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYPLANIMPLEMENTATION_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: tighten the plan against Need criteria, repository constraints, proof gaps, and validation feedback' as PromptPart;
+  'PTRR Refine Step: tighten the plan against Read criteria, repository constraints, proof gaps, and validation feedback' as PromptPart;

@@ -29,7 +29,7 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYANALYZEPARALLEL_PTRRRETRY_P
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode discovery prompt for parallel repository analysis feeding Need and AssetPack scope"
+ * intent: "Bitcode discovery prompt for parallel repository analysis feeding Read and AssetPack scope"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

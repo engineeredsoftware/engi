@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle synthesis failures by preserving Need traceability, reconstructing missing sections, surfacing blockers, and avoiding connected-interface side effects' as PromptPart;
+  'Handle synthesis failures by preserving Read traceability, reconstructing missing sections, surfacing blockers, and avoiding connected-interface side effects' as PromptPart;

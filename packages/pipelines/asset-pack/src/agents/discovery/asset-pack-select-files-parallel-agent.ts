@@ -2,7 +2,7 @@
  * Select Files Parallel Agent - Discovery Phase
  * 
  * Parallel file selection combining filtering and picking.
- * Identifies relevant files for the expressed need and its written-asset shape.
+ * Identifies relevant files for the expressed read and its written-asset shape.
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
@@ -10,7 +10,7 @@ import { createAssetPackDiscoveryPhaseSelectFilesParallelAgentPrompt, AssetPackD
 import { getAssetPackPipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
 import {
-  resolveExpressedNeedFromExecution,
+  resolveExpressedReadFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
@@ -23,7 +23,7 @@ const SelectFilesInputSchema = z.object({
     functions: z.array(z.string()),
     concepts: z.array(z.string())
   }),
-  need: z.string().optional(),
+  read: z.string().optional(),
   codebaseStructure: z.object({
     directories: z.array(z.object({
       path: z.string(),
@@ -106,8 +106,8 @@ const selectFilesAgent = factoryAgentWithPTRR<
 export default async function selectFilesParallel(input: any, execution: any) {
   // Prepare input from prior phases
   const selectionInput = {
-    needEntities: execution.get('setup/need', 'entities'),
-    need: resolveExpressedNeedFromExecution(execution),
+    readEntities: execution.get('setup/read', 'entities'),
+    read: resolveExpressedReadFromExecution(execution),
     codebaseStructure: {
       directories: execution.get('setup/codebase', 'structure.directories'),
       relevantFiles: execution.get('setup/codebase', 'relevantFiles')
@@ -124,7 +124,7 @@ export default async function selectFilesParallel(input: any, execution: any) {
   execution.store('discovery/files', 'groups', result.fileGroups);
   execution.store('discovery/files', 'strategy', result.selectionStrategy);
 
-  // Store files that need changes for implementation phase
+  // Store files that read changes for implementation phase
   const filesToChange = result.selectedFiles.filter(f => f.requiresChange);
   execution.store('discovery/files', 'toChange', filesToChange);
 

@@ -58,7 +58,7 @@ export function extractNodeIdFromUrl(figmaUrl: string): string | null {
   const match = figmaUrl.match(/node-id=([^&]+)/);
   if (!match) return null;
   
-  // Figma URLs encode node IDs, need to decode
+  // Figma URLs encode node IDs, read to decode
   return decodeURIComponent(match[1]);
 }
 

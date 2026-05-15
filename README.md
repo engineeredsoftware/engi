@@ -9,7 +9,7 @@ hardening, and surface cleanup.
 Bitcode is the protocol and the commercial source tree implements it in-place.
 The primary operator routes are:
 
-- `/terminal` for giving, needing, transaction work, and protocol follow-through.
+- `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
 Exchange and website Conversations remain in source as deferred commercial work,

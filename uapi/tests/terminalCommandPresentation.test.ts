@@ -14,10 +14,10 @@ describe('deriveTerminalCommandPresentation', () => {
 
   it('derives user-facing working draft and guide copy from the current control state', () => {
     const state: TerminalCommandState = {
-      scenario: 'need-1',
+      scenario: 'read-1',
       projection: 'reviewer',
       branchMode: 'patch',
-      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
       projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
       branchOptions: [{ value: 'patch', label: 'patch' }],
       heroLede: 'former shell copy',
@@ -32,7 +32,7 @@ describe('deriveTerminalCommandPresentation', () => {
 
     const presentation = deriveTerminalCommandPresentation(state);
 
-    expect(presentation.draftSummary).toContain('priority need · producer');
+    expect(presentation.draftSummary).toContain('priority read · producer');
     expect(presentation.draftSummary).toContain('reviewer projection');
     expect(presentation.draftSummary).toContain('patch branch handling');
     expect(presentation.continuationStatus).toBe('Flow guide is saved at step 2 of 4.');

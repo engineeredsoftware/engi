@@ -10,15 +10,15 @@ Fifth-gate remains focused on:
 - minimum-functional Exchange and Terminal,
 - source-to-shares make/use abilities,
 - broad non-Bitcode reform baseline,
-- Need review before fit search,
+- Read review before fit search,
 - fit-quality receipts,
 - AssetPack outputs,
-- internal-only computer-use Need-measurement admission,
+- internal-only computer-use Read-measurement admission,
 - removal of orchestration and output-selection operator controls.
 
 Sixth gate raises the system to minimal viable product.
 Seventh gate refines toward commercially viable testnet launch.
-Eighth gate closes whole-repository provation and V26 definition of need.
+Eighth gate closes whole-repository provation and V26 definition of read.
 
 ## Promotion Rule
 

@@ -67,7 +67,7 @@
         "uapi/app/application/application-commercial-launch-readiness.ts",
         "uapi/tests/applicationCommercialLaunchReadiness.test.ts",
         "uapi/app/api/state/route.ts",
-        "uapi/app/api/need-review/route.ts",
+        "uapi/app/api/read-review/route.ts",
         "uapi/app/api/make-bitcode-branch/route.ts",
         "uapi/app/api/auxillaries/data/route.ts",
         "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",

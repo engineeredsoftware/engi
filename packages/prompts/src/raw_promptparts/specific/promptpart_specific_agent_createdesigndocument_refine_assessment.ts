@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_REFINE_ASSESSMENT: PromptPart = 
-  'Assess design-document written asset completeness against Need satisfaction, repository evidence, technical feasibility, risk coverage, and validation obligations' as PromptPart;
+  'Assess design-document written asset completeness against Read satisfaction, repository evidence, technical feasibility, risk coverage, and validation obligations' as PromptPart;

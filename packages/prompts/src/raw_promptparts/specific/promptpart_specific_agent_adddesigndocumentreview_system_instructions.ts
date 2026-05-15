@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Synthesize design-review written assets only: evaluate need satisfaction, technical feasibility, risk coverage, acceptance criteria, proof evidence, and improvement recommendations without posting comments or invoking connected-interface delivery' as PromptPart;
+  'Synthesize design-review written assets only: evaluate read satisfaction, technical feasibility, risk coverage, acceptance criteria, proof evidence, and improvement recommendations without posting comments or invoking connected-interface delivery' as PromptPart;

@@ -1,6 +1,6 @@
 # Figma Integration for Bitcode
 
-This package provides Figma design extraction and analysis integration for Bitcode AssetPack evidence and Need-satisfaction work.
+This package provides Figma design extraction and analysis integration for Bitcode AssetPack evidence and Read-satisfaction work.
 
 ## 🏗️ Architecture Overview
 
@@ -35,14 +35,14 @@ The Figma integration consists of three layers:
 const agentGroups = [
   { agent: 'setup:asset-pack-clone-vcs-repository-agent' },
   { agent: 'setup:asset-pack-setup-plan-agent' },
-  { agent: 'setup:asset-pack-comprehend-need-agent' },
+  { agent: 'setup:asset-pack-comprehend-read-agent' },
   { agent: 'setup:asset-pack-initialize-mcps-tools-agent' },
 ];
 ```
 
 **Agent**: `figmaProcessor`
 - **When**: Runs in setup phase, after attachment familiarization, before repository prep
-- **Input**: Detects Figma URLs in Need attachments
+- **Input**: Detects Figma URLs in Read attachments
 - **Output**: Extracts PNG images and adds them as new attachments to global context
 
 ### Discovery Phase Enhancement

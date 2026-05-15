@@ -61,7 +61,7 @@ Perfect for API development, microservices creation, and API modernization proje
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need to develop a comprehensive API with the following specifications:
+      content: `I read to develop a comprehensive API with the following specifications:
 
 ## API Development Context
 - **API Name**: ${args.apiName}
@@ -235,7 +235,7 @@ Ideal for new frontend projects, component libraries, and modernization efforts.
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need to scaffold a modern frontend application with the following specifications:
+      content: `I read to scaffold a modern frontend application with the following specifications:
 
 ## Frontend Project Context
 - **Project Name**: ${args.projectName}
@@ -463,7 +463,7 @@ Perfect for database integration, data modeling, and persistence layer developme
   getMessages: async (args) => [
     {
       role: 'user',
-      content: `I need to integrate a database with comprehensive setup and best practices:
+      content: `I read to integrate a database with comprehensive setup and best practices:
 
 ## Database Integration Context
 - **Database Type**: ${args.databaseType.toUpperCase()}

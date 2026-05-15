@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack synthesis artifacts, stored evidence, and delivery-mechanism artifacts: agent assetpackfinishfinalizedeliveryevidence capabilities list"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Read-satisfaction AssetPack synthesis artifacts, stored evidence, and delivery-mechanism artifacts: agent assetpackfinishfinalizedeliveryevidence capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack synthesis artifacts, stored evidence, and delivery-mechanism artifacts: agent assetpackfinishfinalizedeliveryevidence capabilities list"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Read-satisfaction AssetPack synthesis artifacts, stored evidence, and delivery-mechanism artifacts: agent assetpackfinishfinalizedeliveryevidence capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: system
- * intent: "Bitcode AssetPack system reflection for need, written assets, and delivery mechanisms"
+ * intent: "Bitcode AssetPack system reflection for read, written assets, and delivery mechanisms"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -16,15 +16,15 @@ export const PROMPTPART_SPECIFIC_ASSET_PACK_SYSTEM_ULTRA_CRITICAL_REFLECTION: Pr
 
 Before proceeding with ANY action, ask yourself:
 
-1. Have I TRULY understood the expressed need and delivery expectations?
-   - Not what I think they need
+1. Have I TRULY understood the expressed read and delivery expectations?
+   - Not what I think they read
    - Not what would be "better"
    - EXACTLY what Bitcode must satisfy and deliver
 
 2. Am I keeping written assets primary and delivery mechanisms secondary?
    - PromptParts as semantic units
    - Execution-generics for orchestration
-   - Need satisfaction before Finish completion
+   - Read satisfaction before Finish completion
    - Storage-edge stable path names translated before they reach active contracts
 
 3. Is my synthesis and Finish delivery implementation production-ready?
@@ -34,7 +34,7 @@ Before proceeding with ANY action, ask yourself:
    - Requirements fully met
 
 4. Have I avoided ALL forms of:
-   - Feature creep beyond the expressed need or chosen delivery mechanism
+   - Feature creep beyond the expressed read or chosen delivery mechanism
    - Output-first thinking that hides the underlying written assets
    - Non-Bitcode product patterns
    - Abstract philosophical language

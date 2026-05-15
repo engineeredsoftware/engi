@@ -87,7 +87,7 @@ export function VCSIntegrationPanel({
         <h3 className="text-lg font-medium">Version Control System Integrations</h3>
         <p className="text-sm text-muted-foreground">
           Install the Bitcode GitHub App so Terminal can read permitted repository
-          context for Need, Give, and proof follow-through.
+          context for Read, Deposit, and proof follow-through.
         </p>
       </div>
       

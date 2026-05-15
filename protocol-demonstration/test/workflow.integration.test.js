@@ -463,8 +463,8 @@ testAny('prompt and inference workflow keeps prompt-owned fields, moment contrac
       }
     }
 
-    assert.match(String(branchFiles['BITCODE_NEED.md'] || ''), /## Closure criteria/);
-    assert.match(String(branchFiles['BITCODE_NEED.md'] || ''), /## Target artifact kinds/);
+    assert.match(String(branchFiles['BITCODE_READ.md'] || ''), /## Closure criteria/);
+    assert.match(String(branchFiles['BITCODE_READ.md'] || ''), /## Target artifact kinds/);
   });
 });
 
@@ -774,7 +774,7 @@ testAny('seeded scenario corpus remains family/member/projection coherent throug
   await withApp(t, async ({ app }) => {
     const initialStateResponse = await invoke(app, { method: 'GET', url: '/api/state' });
     const initialState = readProjectedState(initialStateResponse);
-    const scenarioIds = initialState.needScenarios.map((/** @type {any} */ scenario) => scenario.scenarioId);
+    const scenarioIds = initialState.readScenarios.map((/** @type {any} */ scenario) => scenario.scenarioId);
 
     for (const scenarioId of scenarioIds) {
       for (const branchMode of ['patch', 'context']) {

@@ -107,18 +107,18 @@
       ],
       "sourceCheck": {
         "checkId": "terminal-read-write-loop-source-evidence",
-        "label": "Terminal give, need, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests",
+        "label": "Terminal deposit, read, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests",
         "passed": true,
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
             "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-            "evidence": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+            "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
             "description": "execution-history parity proves write/reread continuity"
           },
           {
-            "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-            "evidence": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+            "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+            "evidence": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
             "description": "state route rereads accepted source-to-shares branch materialization"
           },
           {

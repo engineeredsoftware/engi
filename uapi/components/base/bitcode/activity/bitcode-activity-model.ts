@@ -131,7 +131,7 @@ function formatExecutionTitle(payload: Record<string, any>) {
 function formatExecutionHistoryTitle(type: string | null | undefined) {
   const normalizedType = String(type || '').trim().toLowerCase();
   if (!normalizedType) return 'Execution activity';
-  if (normalizedType.includes('measure')) return 'Need measurement execution';
+  if (normalizedType.includes('measure')) return 'Read measurement execution';
   if (normalizedType.includes('proof')) return 'Proof execution';
   if (normalizedType.includes('asset-pack') || normalizedType.includes('shippable')) return 'AssetPack execution';
   if (normalizedType.includes('pipeline')) return 'Pipeline execution';

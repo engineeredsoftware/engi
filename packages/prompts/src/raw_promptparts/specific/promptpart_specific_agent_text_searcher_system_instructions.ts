@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_INSTRUCTIONS: PromptPart =
-  'Search only for bounded repository evidence. Preserve traceable matches and gaps. Do not mutate, deliver, prove, or reinterpret Bitcode needs beyond source-grounding support.' as PromptPart;
+  'Search only for bounded repository evidence. Preserve traceable matches and gaps. Do not mutate, deliver, prove, or reinterpret Bitcode reads beyond source-grounding support.' as PromptPart;

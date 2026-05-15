@@ -13,14 +13,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Bitcode Need Risk Admission Agent - Refine Step Prompt
+ * Bitcode Read Risk Admission Agent - Refine Step Prompt
  * 
  * Refine Bitcode risk-admission findings, false positives, proof gaps, and
  * delivery-boundary ambiguity before the next phase is admitted.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode REFINE step prompt for need risk-admission"
+ * intent: "Bitcode REFINE step prompt for read risk-admission"
  * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
@@ -29,7 +29,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  * benchmarks: [
  *   { "name": "refinement_quality", "test": "Does the prompt enable effective Bitcode admission refinement?", "score": 0.44 },
- *   { "name": "accuracy_improvement", "test": "Are need and AssetPack risk findings improved through refinement?", "score": 0.45 },
+ *   { "name": "accuracy_improvement", "test": "Are read and AssetPack risk findings improved through refinement?", "score": 0.45 },
  *   { "name": "completeness_enhancement", "test": "Are proof-gap and delivery-boundary checks improved?", "score": 0.45 }
  * ]
  */
@@ -38,7 +38,7 @@ export const DANGER_WALL_REFINE_PROMPT = new Prompt()
   .set('phase', 'REFINE: Enhance Bitcode Risk Admission')
   .set('purpose', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PURPOSE_CORESTATEMENT)
   .set('capabilities', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_CAPABILITIES_LIST)
-  .set('refinement_goals', 'Refine Bitcode risk-admission results by improving evidence traceability, removing false positives, surfacing proof gaps and likely execution failures, and preserving need, AssetPack, and delivery-mechanism boundaries.')
+  .set('refinement_goals', 'Refine Bitcode risk-admission results by improving evidence traceability, removing false positives, surfacing proof gaps and likely execution failures, and preserving read, AssetPack, and delivery-mechanism boundaries.')
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:reason', PROMPTPART_GENERIC_AGENT_GENERATION_REASON)

@@ -8,7 +8,7 @@
 - This matrix is intended to track the **current V11 worktree truth**, not just the original V11 plan.
 - Current first-pass closure status in the V11 worktree:
   - repo supply surface: implemented
-  - operational profile distinction by deposit mode and need mode: implemented
+  - operational profile distinction by deposit mode and read mode: implemented
   - repo-to-settlement surface: implemented
   - identity/auth spine surface: implemented
   - boundary reality surface: implemented
@@ -75,8 +75,8 @@ The current V11 worktree already exposes these first-pass surfaces directly:
 
 The current V11 worktree now treats the two profiles as operational demo profiles:
 
-- Profile A = targeted deposit against a bounded need
-- Profile B = normalization-heavy deposit against a composite need
+- Profile A = targeted deposit against a bounded read
+- Profile B = normalization-heavy deposit against a composite read
 
 The local/external honesty story remains explicit,
 but it now lives in:
@@ -94,7 +94,7 @@ rather than being the main headline difference between Profile A and Profile B.
 | Repo supply | inventory exists as seeded entries | repo-level supply summary tied to auth session, scenario, kind, and origin | P0 |
 | Artifact-kind parity | kinds are explicit per entry and asset | kinds are legible as first-class supply categories | P0 |
 | Repo-to-settlement path | end-to-end path exists across panels | explicit stage-by-stage flow from repo selection to settlement | P0 |
-| Demo profiles | local-vs-external framing dominates | profiles distinguish targeted deposit / bounded need vs normalization deposit / composite need | P0 |
+| Demo profiles | local-vs-external framing dominates | profiles distinguish targeted deposit / bounded read vs normalization deposit / composite read | P0 |
 | Identity/auth | precise but dispersed surfaces | one coherent identity/auth spine with authority handoff | P0 |
 | Boundary honesty | explicit but mostly buried in artifacts | concise boundary reality surface near the main flow | P1 |
 | Demo UX shape | detail-first / inspect-y | operational summary first, deep artifacts still available | P1 |
@@ -149,7 +149,7 @@ Already implemented in the active V11 worktree and surfaced on `latestRun`, in p
 
 ### Goal
 
-Make the repo selection -> need -> asset -> branch -> proof -> settlement path explicit.
+Make the repo selection -> read -> asset -> branch -> proof -> settlement path explicit.
 
 ### Required changes
 
@@ -157,7 +157,7 @@ In `src/bitcode-demo.js`:
 
 - derive a repo-to-settlement surface from the latest run
 - classify each stage as modeled-local, executed-local, or external-required
-- attach the active deposit mode and need mode to the surface so the profile meaning is visible in the main flow
+- attach the active deposit mode and read mode to the surface so the profile meaning is visible in the main flow
 
 In `public/app.js`:
 

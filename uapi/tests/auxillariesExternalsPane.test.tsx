@@ -23,7 +23,7 @@ jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
 jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
   __esModule: true,
   default: function MockAuxillariesDataSharingPanel() {
-    return <div data-testid="mock-externals-data-sharing-panel">Need-space knowledge sharing</div>;
+    return <div data-testid="mock-externals-data-sharing-panel">Read-space knowledge sharing</div>;
   },
 }));
 

@@ -1,21 +1,21 @@
 # AssetPack Pipeline
 
 Canonical V26 package owner for the Bitcode phased pipeline corridor.
-This package turns a measured Bitcode Need into AssetPack synthesis artifacts,
+This package turns a measured Bitcode Read into AssetPack synthesis artifacts,
 Exchange-stored AssetPack evidence, and optional connected-interface
 delivery-mechanism artifacts.
 
-Active route and payload seams use Bitcode nouns: `definitionOfNeed`, `need`,
+Active route and payload seams use Bitcode nouns: `definitionOfRead`, `read`,
 `writtenAssetType`, `writtenAssets`, `Finish`, `Delivering`, and `SDIVF`.
 Compatibility payload keys are subordinate mirrors and do not define product
 semantics.
 
 ## SDIVF Shape
 
-1. **Setup** - repository context, Need comprehension, LSP/static measurement, and danger-wall admission.
+1. **Setup** - repository context, Read comprehension, LSP/static measurement, and danger-wall admission.
 2. **Discovery** - source-grounded research, codebase search, file selection, and approach planning.
 3. **Implementation** - AssetPack synthesis artifacts using Divide, Apply, and Correct agents.
-4. **Validation** - Need satisfaction, proof posture, and readiness-to-Finish checks.
+4. **Validation** - Read satisfaction, proof posture, and readiness-to-Finish checks.
 5. **Finish** - save result state, summarize AssetPack evidence, and run Delivering when requested.
 
 The `Discovery -> Implementation -> Validation` loop may iterate up to the
@@ -27,7 +27,7 @@ configured limit before Finish.
 AssetPackPipeline (SDIVF with DIV iteration)
 ├── Setup
 │   ├── VCS repository context
-│   ├── Need comprehension
+│   ├── Read comprehension
 │   ├── LSP/static measurement
 │   └── Danger-wall admission
 ├── [DIV loop]
@@ -46,12 +46,12 @@ AssetPackPipeline (SDIVF with DIV iteration)
 import { assetPackPipeline } from '@bitcode/pipeline-asset-pack';
 
 const result = await assetPackPipeline({
-  need: 'Add user authentication with JWT',
+  read: 'Add user authentication with JWT',
   repository: {
     url: 'https://github.com/acme/app',
     branch: 'main',
   },
-  writtenAssetType: 'need-satisfaction-asset-pack',
+  writtenAssetType: 'read-satisfaction-asset-pack',
   deliveryMechanismTemplate: 'pull-request',
 }, execution);
 ```

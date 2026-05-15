@@ -2,9 +2,9 @@
 import assetPack from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('AssetPack pipeline - attachments and Definition of Need variants (enabled when full SDIVF is active)', () => {
+describe('AssetPack pipeline - attachments and Definition of Read variants (enabled when full SDIVF is active)', () => {
   const baseInput = {
-    definitionOfNeed: 'Implement feature X',
+    definitionOfRead: 'Implement feature X',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     requirements: { testCoverage: 20, documentationRequired: true },
     deliveryTarget: 'pr' as const,
@@ -42,7 +42,7 @@ describe('AssetPack pipeline - attachments and Definition of Need variants (enab
     expect(typeof res.summary).toBe('string');
   });
 
-  it('covers Definition of Need-like good/bad requirements variations', async () => {
+  it('covers Definition of Read-like good/bad requirements variations', async () => {
     const good = { ...baseInput, requirements: { testCoverage: 80, documentationRequired: true } };
     const bad = { ...baseInput, requirements: { testCoverage: 0, documentationRequired: false } };
 

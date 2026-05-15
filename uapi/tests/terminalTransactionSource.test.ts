@@ -149,10 +149,10 @@ describe('terminal-transaction-source', () => {
     const projectedRun: WorkspaceRun = {
       id: 'protocol-live-posture::bitcode-terminal',
       created_at: '2026-04-21T18:00:00.000Z',
-      type: 'agentic-execution:need-measurement',
+      type: 'agentic-execution:read-measurement',
       status: 'running',
       sourceModel: 'protocol-projection',
-      summary: 'Live Bitcode need measurement for auth-remediation.',
+      summary: 'Live Bitcode read measurement for auth-remediation.',
     };
 
     expect(

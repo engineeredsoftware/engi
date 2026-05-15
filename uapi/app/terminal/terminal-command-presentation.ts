@@ -42,8 +42,8 @@ export function deriveTerminalCommandPresentation(
     draftSummary: `Work from ${scenarioLabel} with ${projectionLabel} projection and ${branchLabel} branch handling while the selected Bitcode activity stays in view.`,
     continuationStatus: guideStep
       ? `${commandState.flowGuideOpen ? 'Flow guide is open' : 'Flow guide is saved'} at ${guideStep}.`
-      : 'Controls are ready. Continue into give, need, or closure from the Bitcode Terminal.',
+      : 'Controls are ready. Continue into Deposit, Read, or closure from the Bitcode Terminal.',
     continuationTip:
-      'Use the flow guide when you want stepwise give-to-closure follow-through, or jump directly into give, need, and closure when the current Bitcode activity already has enough context.',
+      'Use the flow guide when you want stepwise deposit-to-closure follow-through, or jump directly into Deposit, Read, and closure when the current Bitcode activity already has enough context.',
   };
 }

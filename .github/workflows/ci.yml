@@ -125,7 +125,7 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     services:
-      # Use official Postgres image for Playwright reporters that may need DB
+      # Use official Postgres image for Playwright reporters that may read DB
       # (We still spin Supabase locally via CLI)
       # This just guarantees port availability in the matrix
       postgres:

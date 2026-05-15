@@ -404,7 +404,7 @@ export const codeEditorQuickAgent = factoryAgentWithSingleStep<
 /**
  * Code Editor Agent - registry-friendly canonical default.
  * Direct callers can choose codeEditorComprehensiveAgent or codeEditorQuickAgent
- * when they need a specific execution profile.
+ * when they read a specific execution profile.
  */
 export const codeEditorAgent = codeEditorComprehensiveAgent;
 

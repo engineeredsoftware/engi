@@ -3,7 +3,7 @@
 ## What It Is
 
 The **AssetPack Pipeline** is the Bitcode phased pipeline corridor:
-- the run satisfies a measured Need
+- the run satisfies a measured Read
 - the run synthesizes AssetPack synthesis artifacts and Exchange-stored AssetPack evidence
 - Finish saves results and Delivering optionally provides AssetPacks or AssetPackPartials to connected-interface destinations
 
@@ -23,17 +23,17 @@ AssetPackPipeline (Bitcode agentic pipeline run with SDIVF + DIV loop)
 
 ```typescript
 const result = await assetPackPipeline({
-  need: 'Add JWT authentication',
+  read: 'Add JWT authentication',
   repository: { url: 'github.com/acme/app' },
-  writtenAssetType: 'need-satisfaction-asset-pack',
+  writtenAssetType: 'read-satisfaction-asset-pack',
   deliveryMechanismTemplate: 'pull-request',
 }, execution);
 ```
 
 ## Key Features
 
-- **Need-Satisfying Pipeline Runs**: Each run is an inference corridor that satisfies a Bitcode Need
-- **AssetPack Synthesis Artifacts**: Implementation outputs Need-satisfaction content and source mutations that can be validated and stored as Exchange evidence
+- **Read-Satisfying Pipeline Runs**: Each run is an inference corridor that satisfies a Bitcode Read
+- **AssetPack Synthesis Artifacts**: Implementation outputs Read-satisfaction content and source mutations that can be validated and stored as Exchange evidence
 - **Delivery Mechanisms**: Delivering creates connected-interface artifacts such as PRs or comments on top of stored AssetPack evidence
 - **Actual Code Editing**: Implementation uses code-editor agent for real file modifications
 - **SDIVF Pattern**: Setup → [Discovery → Implementation → Validation]* → Finish
@@ -44,4 +44,4 @@ const result = await assetPackPipeline({
 
 ## Why It Matters
 
-This is an early Bitcode productized inference corridor: it turns Need input into AssetPack synthesis artifacts and stored evidence, then optionally delivers AssetPacks or AssetPackPartials through interface-specific mechanisms like pull requests.
+This is an early Bitcode productized inference corridor: it turns Read input into AssetPack synthesis artifacts and stored evidence, then optionally delivers AssetPacks or AssetPackPartials through interface-specific mechanisms like pull requests.

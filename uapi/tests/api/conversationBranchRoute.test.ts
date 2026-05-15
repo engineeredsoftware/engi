@@ -70,7 +70,7 @@ describe('/api/conversations/branch POST (non-mock mode)', () => {
         {
           id: 'conv-source-1',
           user_id: 'user-1',
-          title: 'Need measurement review',
+          title: 'Read measurement review',
           created_at: '2026-04-24T10:00:00.000Z',
           updated_at: '2026-04-24T10:05:00.000Z',
         },
@@ -204,7 +204,7 @@ describe('/api/conversations/branch POST (non-mock mode)', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sourceConversationId: 'conv-source-1',
-          title: 'Need measurement review branch',
+          title: 'Read measurement review branch',
         }),
       }),
     );

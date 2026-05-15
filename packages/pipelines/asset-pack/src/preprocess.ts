@@ -116,9 +116,9 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     execution.agents.registerAgent('setup:asset-pack-setup-plan-agent', setupPlan);
   } catch {}
   try {
-    const comprehendAgent = (await import('./agents/setup/asset-pack-comprehend-need-agent')).default as any;
-    execution.agents.registerAgent('setup:asset-pack-comprehend-need-agent', comprehendAgent);
-    execution.agents.registerAgent('setup:asset-pack-comprehend-need-definition-agent', comprehendAgent);
+    const comprehendAgent = (await import('./agents/setup/asset-pack-comprehend-read-agent')).default as any;
+    execution.agents.registerAgent('setup:asset-pack-comprehend-read-agent', comprehendAgent);
+    execution.agents.registerAgent('setup:asset-pack-comprehend-read-definition-agent', comprehendAgent);
   } catch {}
   try {
     const dangerWallAgent = (await import('./agents/setup/asset-pack-danger-wall-agent')).default as any;

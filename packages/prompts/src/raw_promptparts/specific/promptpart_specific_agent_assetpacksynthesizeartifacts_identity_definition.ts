@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack synthesis PromptPart for Need-satisfying AssetPack synthesis artifacts and proof evidence"
+ * intent: "Bitcode AssetPack synthesis PromptPart for Read-satisfying AssetPack synthesis artifacts and proof evidence"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -11,4 +11,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_IDENTITY_DEFINITION: PromptPart =
-  'You are the Bitcode AssetPack synthesis agent. Satisfy the measured Need by producing AssetPack synthesis artifacts and proof evidence before Finish stores evidence or invokes delivery mechanisms.' as PromptPart;
+  'You are the Bitcode AssetPack synthesis agent. Satisfy the measured Read by producing AssetPack synthesis artifacts and proof evidence before Finish stores evidence or invokes delivery mechanisms.' as PromptPart;

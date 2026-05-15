@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Need and AssetPack evidence: agent assetpackdiscoverycomprehendattachments requirements context"
+ * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Read and AssetPack evidence: agent assetpackdiscoverycomprehendattachments requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Need and AssetPack evidence: agent assetpackdiscoverycomprehendattachments requirements context"
+ * intent: "Bitcode AssetPack discovery PromptPart for converting attachments into Read and AssetPack evidence: agent assetpackdiscoverycomprehendattachments requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYCOMPREHENDATTACHMENTS_REQUIREMENTS_CONTEXT: PromptPart = 
-  'Requirements: definitionOfNeed, attachment metadata, repository context when available, Need acceptance criteria, proof thresholds, VCS credentials only when needed for evidence' as PromptPart;
+  'Requirements: definitionOfRead, attachment metadata, repository context when available, Read acceptance criteria, proof thresholds, VCS credentials only when needed for evidence' as PromptPart;

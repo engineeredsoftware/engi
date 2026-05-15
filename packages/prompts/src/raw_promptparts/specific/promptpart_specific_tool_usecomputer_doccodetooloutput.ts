@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Output schema for internal Bitcode Need-measurement computer-use evidence"
+ * intent: "Output schema for internal Bitcode Read-measurement computer-use evidence"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLOUTPUT: PromptPart =
-  'Returns bounded Need-measurement evidence: { exitCode: number | null; stdout: string; stderr: string; durationMs: number }' as PromptPart;
+  'Returns bounded Read-measurement evidence: { exitCode: number | null; stdout: string; stderr: string; durationMs: number }' as PromptPart;

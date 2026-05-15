@@ -939,7 +939,7 @@ export default class BitbucketProvider extends VCSProvider {
    */
   verifyWebhookSignature(payload: string, signature: string, secret: string): boolean {
     // Bitbucket doesn't use webhook signatures by default
-    // This would need to be implemented based on custom headers
+    // This would read to be implemented based on custom headers
     return true;
   }
 

@@ -26,7 +26,7 @@ V26 frontend architecture is organized around:
 Prefer:
 - `BitcodeTerminal*`,
 - `ExchangeActivity*`,
-- `NeedReview*`,
+- `ReadReview*`,
 - `FitReview*`,
 - `AssetPack*`,
 - `Settlement*`,

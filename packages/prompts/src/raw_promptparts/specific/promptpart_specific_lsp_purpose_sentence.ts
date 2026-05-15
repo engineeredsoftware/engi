@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Bitcode LSP static-measurement purpose sentence for Need and AssetPack evidence"
+ * intent: "Bitcode LSP static-measurement purpose sentence for Read and AssetPack evidence"
  * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE: PromptPart =
-  'Language Server Protocol static measurement for Bitcode Need and AssetPack evidence' as PromptPart;
+  'Language Server Protocol static measurement for Bitcode Read and AssetPack evidence' as PromptPart;

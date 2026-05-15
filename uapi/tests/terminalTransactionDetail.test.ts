@@ -66,7 +66,7 @@ const detail: TerminalRunDetailSnapshot = {
   closureFollowThrough: {
     canonLabel: 'persisted closure posture',
     settlementMetrics: [{ label: 'Credited assets', value: '2' }],
-    branchArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+    branchArtifacts: ['BITCODE_READ.md', '.bitcode/settlement-preview.json'],
     proofFamilies: [
       {
         label: 'selection-materialization',
@@ -98,7 +98,7 @@ const detail: TerminalRunDetailSnapshot = {
       summary: 'Persisted branch summary.',
       metrics: [{ label: 'Visible artifacts', value: '2' }],
       rows: [{ label: 'Branch', value: 'bitcode/persisted-branch' }],
-      chips: ['BITCODE_NEED.md'],
+      chips: ['BITCODE_READ.md'],
     },
     settlement: {
       id: 'settlement',
@@ -150,21 +150,21 @@ const detail: TerminalRunDetailSnapshot = {
         inventorySource: 'stored_repository_inventory',
       },
     },
-    giveWorkbench: {
+    depositWorkbench: {
       canonLabel: 'Bitcode active posture',
-      projectionPrincipal: 'giver',
+      projectionPrincipal: 'depositor',
       branchMode: 'patch',
       scenarioLabel: 'auth-remediation',
       profileLabel: 'Targeted deposit',
-      give: {
-        summary: 'Give summary.',
+      deposit: {
+        summary: 'Deposit summary.',
         metrics: [{ label: 'Selected refs', value: '2' }],
         rows: [{ label: 'Repository', value: 'bitcode/bitcode' }],
         selectedEntries: [{ id: 'entry-1', label: 'rollback runbook' }],
         artifactKinds: ['runbook (1)'],
       },
-      need: {
-        summary: 'Need summary.',
+      read: {
+        summary: 'Read summary.',
         metrics: [{ label: 'Target kinds', value: '3' }],
         rows: [{ label: 'Scenario', value: 'auth-remediation' }],
         closureCriteria: ['bound issuer auth'],
@@ -173,10 +173,10 @@ const detail: TerminalRunDetailSnapshot = {
       fit: {
         summary: 'Fit summary.',
         metrics: [{ label: 'Pressure', value: 'low' }],
-        rows: [{ label: 'Projection', value: 'giver' }],
+        rows: [{ label: 'Projection', value: 'depositor' }],
       },
     },
-    needMeasurement: {
+    readMeasurement: {
       scenario: {
         id: 'scenario-1',
         label: 'auth-remediation',
@@ -205,15 +205,15 @@ const detail: TerminalRunDetailSnapshot = {
 
 const closureState: TerminalClosureState = {
   canonLabel: 'production workspace posture',
-  needReview: {
-    id: 'need-review',
-    label: 'Need review before fit search',
-    summary: 'Measured Need accepted for source-to-shares fit search.',
+  readReview: {
+    id: 'read-review',
+    label: 'Read review before fit search',
+    summary: 'Measured Read accepted for source-to-shares fit search.',
     metrics: [
       { label: 'Review action', value: 'accept' },
       { label: 'Fit search admitted', value: 'yes' },
     ],
-    rows: [{ label: 'Need', value: 'need-auth-rollback' }],
+    rows: [{ label: 'Read', value: 'read-auth-rollback' }],
     chips: ['post-measurement-pre-fit', 'source-to-shares'],
   },
   verification: {
@@ -233,7 +233,7 @@ const closureState: TerminalClosureState = {
     summary: 'Branch summary.',
     metrics: [{ label: 'Visible artifacts', value: '7' }],
     rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
-    chips: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+    chips: ['BITCODE_READ.md', '.bitcode/settlement-preview.json'],
   },
   settlement: {
     id: 'settlement',
@@ -324,11 +324,11 @@ describe('terminal-transaction-detail helpers', () => {
       { label: 'Commit', value: 'abc123' },
       { label: 'Provider account', value: 'bitcode' },
       { label: 'Inventory source', value: 'stored_repository_inventory' },
-      { label: 'Projection', value: 'giver' },
+      { label: 'Projection', value: 'depositor' },
       { label: 'Scenario', value: 'auth-remediation' },
       { label: 'Profile', value: 'Targeted deposit' },
-      { label: 'Need parser', value: 'benchmark-parser' },
-      { label: 'Need scenario', value: 'auth-remediation' },
+      { label: 'Read parser', value: 'benchmark-parser' },
+      { label: 'Read scenario', value: 'auth-remediation' },
       { label: 'Auth session', value: 'bitcode/bitcode · 42' },
       { label: 'Selected refs', value: '2' },
     ]);
@@ -337,7 +337,7 @@ describe('terminal-transaction-detail helpers', () => {
   it('builds a persisted activity snapshot from saved Bitcode posture', () => {
     expect(buildTerminalTransactionPersistedActivitySnapshot(detail)).toEqual({
       metrics: [
-        { label: 'Projection', value: 'giver' },
+        { label: 'Projection', value: 'depositor' },
         { label: 'Selected refs', value: '2' },
         { label: 'Target kinds', value: '3' },
         { label: 'Closure criteria', value: '2' },
@@ -346,11 +346,11 @@ describe('terminal-transaction-detail helpers', () => {
       rows: [
         { label: 'Repository anchor', value: 'bitcode/bitcode' },
         { label: 'Connection mode', value: 'live connection' },
-        { label: 'Give posture', value: 'Give summary.' },
-        { label: 'Need posture', value: 'Need summary.' },
+        { label: 'Deposit posture', value: 'Deposit summary.' },
+        { label: 'Read posture', value: 'Read summary.' },
         { label: 'Fit posture', value: 'Fit summary.' },
-        { label: 'Need scenario', value: 'auth-remediation' },
-        { label: 'Need parser', value: 'benchmark-parser' },
+        { label: 'Read scenario', value: 'auth-remediation' },
+        { label: 'Read parser', value: 'benchmark-parser' },
         { label: 'Auth session', value: 'bitcode/bitcode · 42' },
         { label: 'Search filter', value: 'auth' },
       ],
@@ -387,7 +387,7 @@ describe('terminal-transaction-detail helpers', () => {
         { label: 'Credited assets', value: '2' },
         { label: 'Participating assets', value: '3' },
       ],
-      branchArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+      branchArtifacts: ['BITCODE_READ.md', '.bitcode/settlement-preview.json'],
       proofFamilies: [
         {
           label: 'selection-materialization',
@@ -437,7 +437,7 @@ describe('terminal-transaction-detail helpers', () => {
           { label: 'Credited assets', value: '2' },
           { label: 'Participating assets', value: '3' },
         ],
-        branchArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+        branchArtifacts: ['BITCODE_READ.md', '.bitcode/settlement-preview.json'],
         proofFamilies: [
           {
             label: 'selection-materialization',
@@ -452,7 +452,7 @@ describe('terminal-transaction-detail helpers', () => {
             summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
           },
         ],
-        needReview: closureState.needReview,
+        readReview: closureState.readReview,
         verification: closureState.verification,
         branch: closureState.branch,
         settlement: closureState.settlement,

@@ -567,20 +567,20 @@ class StreamingPipelineEngine {
             assetPackSynthesisArtifacts: {
                 ...shippables,
                 proofEvidence: ['mock AssetPack evidence captured for reread'],
-                reviewNotes: ['mock Need-satisfaction artifacts synthesized'],
+                reviewNotes: ['mock Read-satisfaction artifacts synthesized'],
             },
             writtenAssets,
             deliveryMechanism: shippables,
             semanticKind: 'asset-pack-written-asset',
-            need: 'Mock retained corridor need',
+            read: 'Mock retained corridor read',
             writtenAssetType: 'code-change',
             assetPack: {
-                need: 'Mock retained corridor need',
+                read: 'Mock retained corridor read',
                 writtenAssetType: 'code-change',
                 deliveryTarget: 'pr',
             },
             duration: this.performanceTracker.getTotalDuration(),
-            taskType: 'need-satisfaction',
+            taskType: 'read-satisfaction',
             processingStats: {
                 time: `${Math.floor(this.performanceTracker.getTotalDuration() / 1000)}s`,
                 tokens: {
@@ -686,7 +686,7 @@ exports.createStreamingPipelineEngine = {
                     llmCalls: [
                         {
                             model: 'claude-3-sonnet',
-                            purpose: 'Need analysis',
+                            purpose: 'Read analysis',
                             durationMs: 5000,
                             tokens: { prompt: 200, completion: 100, total: 300 },
                             successProbability: 0.95

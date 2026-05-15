@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPARAMETERS: PromptPart =
-  'query: string (required) - web query derived from the active Bitcode need; urlAttachments: string[] (optional) - source URLs for query targeting; options: object (optional) - provider preferences, source scope, result limits, timeout, and primary-source requirements' as PromptPart;
+  'query: string (required) - web query derived from the active Bitcode read; urlAttachments: string[] (optional) - source URLs for query targeting; options: object (optional) - provider preferences, source scope, result limits, timeout, and primary-source requirements' as PromptPart;

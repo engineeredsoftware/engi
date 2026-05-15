@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search execution pattern"
+ * intent: "Bitcode read-synthesis web search execution pattern"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -13,7 +13,7 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_EXECUTIONPATTERN_DETAILCONTENT: PromptPart =
   `BITCODE_NEED_SYNTHESIS_WEB_SEARCH - Searches outside sources only as discovery-phase support:
-1. Normalize the Bitcode need, proof gap, interface question, or AssetPack planning question.
+1. Normalize the Bitcode read, proof gap, interface question, or AssetPack planning question.
 2. Plan source classes and queries that favor authoritative sources and narrow volatility.
 3. Execute bounded searches and optional URL content retrieval with source attribution preserved.
 4. Refine findings into source quality, contradiction, relevance, and time-aware-risk context.

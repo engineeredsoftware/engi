@@ -15,7 +15,7 @@ const ROUTE_SMOKE_MATRIX = [
   },
   {
     path: '/terminal',
-    expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
+    expected: /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
     name: 'Terminal',
   },
   {
@@ -138,7 +138,7 @@ test.describe('commercial MVP route surfaces', () => {
 
     await page.locator('a[href="/terminal"]').first().click();
     await expect(page).toHaveURL(/\/terminal$/);
-    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
 
     await page.locator('a[href="/docs"]').first().click();
     await expect(page).toHaveURL(/\/docs$/);

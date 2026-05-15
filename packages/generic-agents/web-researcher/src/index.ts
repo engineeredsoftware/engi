@@ -1,8 +1,8 @@
 /**
- * Bitcode Need-Synthesis Web Research Agent - Declarative PTRR support pattern.
+ * Bitcode Read-Synthesis Web Research Agent - Declarative PTRR support pattern.
  *
- * V26 semantics are discovery-phase web research for need synthesis. The agent
- * returns source-attributed external evidence for need measurement, third-party
+ * V26 semantics are discovery-phase web research for read synthesis. The agent
+ * returns source-attributed external evidence for read measurement, third-party
  * interface constraints, proof-gap question formation, and AssetPack planning.
  * External web findings are auxiliary evidence, not canonical proof.
  */
@@ -28,35 +28,35 @@ import type {
   BitcodeExternalEvidenceResearchResult as BitcodeExternalEvidenceResearchResultType
 } from './schemas';
 
-export const bitcodeNeedSynthesisWebResearcherPrompt = new AgentPrompt({
-  name: 'bitcode-need-synthesis-web-researcher' as PromptPart,
-  identity: 'Bitcode discovery-phase web research agent for need synthesis' as PromptPart
+export const bitcodeReadSynthesisWebResearcherPrompt = new AgentPrompt({
+  name: 'bitcode-read-synthesis-web-researcher' as PromptPart,
+  identity: 'Bitcode discovery-phase web research agent for read synthesis' as PromptPart
 });
 
-export const bitcodeNeedSynthesisWebResearcherStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Plan bounded discovery-phase web research for Bitcode need synthesis' as PromptPart }),
-  try: new AgentStepPrompt({ purpose: 'Collect traceable external evidence for need synthesis without scraping-product ownership' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Refine need-synthesis findings into source-quality and volatility context' as PromptPart }),
-  retry: new AgentStepPrompt({ purpose: 'Finalize discovery-phase web research and expose unresolved need gaps without claiming proof closure' as PromptPart })
+export const bitcodeReadSynthesisWebResearcherStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan bounded discovery-phase web research for Bitcode read synthesis' as PromptPart }),
+  try: new AgentStepPrompt({ purpose: 'Collect traceable external evidence for read synthesis without scraping-product ownership' as PromptPart }),
+  refine: new AgentStepPrompt({ purpose: 'Refine read-synthesis findings into source-quality and volatility context' as PromptPart }),
+  retry: new AgentStepPrompt({ purpose: 'Finalize discovery-phase web research and expose unresolved read gaps without claiming proof closure' as PromptPart })
 };
 
-export const bitcodeExternalEvidenceResearcherPrompt = bitcodeNeedSynthesisWebResearcherPrompt;
-export const bitcodeExternalEvidenceResearcherStepPrompts = bitcodeNeedSynthesisWebResearcherStepPrompts;
-export const webResearcherPrompt = bitcodeNeedSynthesisWebResearcherPrompt;
-export const webResearcherStepPrompts = bitcodeNeedSynthesisWebResearcherStepPrompts;
+export const bitcodeExternalEvidenceResearcherPrompt = bitcodeReadSynthesisWebResearcherPrompt;
+export const bitcodeExternalEvidenceResearcherStepPrompts = bitcodeReadSynthesisWebResearcherStepPrompts;
+export const webResearcherPrompt = bitcodeReadSynthesisWebResearcherPrompt;
+export const webResearcherStepPrompts = bitcodeReadSynthesisWebResearcherStepPrompts;
 
-export const bitcodeNeedSynthesisWebResearcher = factoryAgentWithPTRR<
+export const bitcodeReadSynthesisWebResearcher = factoryAgentWithPTRR<
   BitcodeExternalEvidenceResearchInputType,
   BitcodeExternalEvidenceResearchResultType
 >({
-  name: 'bitcode-need-synthesis-web-research',
-  description: 'Discovery-phase web research for Bitcode need synthesis, third-party context, proof-gap question formation, and AssetPack planning',
-  prompt: bitcodeNeedSynthesisWebResearcherPrompt,
+  name: 'bitcode-read-synthesis-web-research',
+  description: 'Discovery-phase web research for Bitcode read synthesis, third-party context, proof-gap question formation, and AssetPack planning',
+  prompt: bitcodeReadSynthesisWebResearcherPrompt,
   stepPrompts: {
-    plan: () => bitcodeNeedSynthesisWebResearcherStepPrompts.plan,
-    try: () => bitcodeNeedSynthesisWebResearcherStepPrompts.try,
-    refine: () => bitcodeNeedSynthesisWebResearcherStepPrompts.refine,
-    retry: () => bitcodeNeedSynthesisWebResearcherStepPrompts.retry
+    plan: () => bitcodeReadSynthesisWebResearcherStepPrompts.plan,
+    try: () => bitcodeReadSynthesisWebResearcherStepPrompts.try,
+    refine: () => bitcodeReadSynthesisWebResearcherStepPrompts.refine,
+    retry: () => bitcodeReadSynthesisWebResearcherStepPrompts.retry
   },
   tools: [
     search,
@@ -81,10 +81,10 @@ export const bitcodeNeedSynthesisWebResearcher = factoryAgentWithPTRR<
   }
 });
 
-export const bitcodeExternalEvidenceResearcher = bitcodeNeedSynthesisWebResearcher;
-export const webResearcherAgent = bitcodeNeedSynthesisWebResearcher;
+export const bitcodeExternalEvidenceResearcher = bitcodeReadSynthesisWebResearcher;
+export const webResearcherAgent = bitcodeReadSynthesisWebResearcher;
 export const WEB_RESEARCH_AGENT = {
-  researchWeb: bitcodeNeedSynthesisWebResearcher
+  researchWeb: bitcodeReadSynthesisWebResearcher
 };
 
 export {

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_PLAN_ANALYSIS: PromptPart = 
-  'Analyze the design-document written asset, Need criteria, repository context, open questions, feasibility concerns, stakeholder constraints, and evidence required for a review written asset' as PromptPart;
+  'Analyze the design-document written asset, Read criteria, repository context, open questions, feasibility concerns, stakeholder constraints, and evidence required for a review written asset' as PromptPart;

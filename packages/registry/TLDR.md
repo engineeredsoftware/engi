@@ -153,7 +153,7 @@ const config = registry.get([
 
 ## When to Use
 
-**Use Registry when you need:**
+**Use Registry when you read:**
 - Configuration that varies by context
 - Capabilities that filter based on hierarchy
 - Values that build progressively

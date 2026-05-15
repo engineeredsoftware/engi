@@ -3,7 +3,7 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode LSP measurement output contract for Need and AssetPack proof evidence"
+ * intent: "Bitcode LSP measurement output contract for Read and AssetPack proof evidence"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

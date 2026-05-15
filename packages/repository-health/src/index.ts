@@ -259,7 +259,7 @@ export class RepositoryHealthMonitor {
       const commitsLastWeek = recentRuns?.length || 0;
       const issuesCreated = recentEvidenceDocuments?.length || 0;
       const prsMerged = recentEvidenceDocuments?.filter(u => u.ai_document_status === 'completed').length || 0;
-      const bugsReported = 0; // Would need GitHub API integration
+      const bugsReported = 0; // Would read GitHub API integration
 
       // Calculate velocity trend (compare with previous week)
       const twoWeeksAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
@@ -391,8 +391,8 @@ export class RepositoryHealthMonitor {
       }
 
       return {
-        dependencyUpdatesAvailable: 0, // Would need package analysis
-        securityVulnerabilities: 0,    // Would need security scan
+        dependencyUpdatesAvailable: 0, // Would read package analysis
+        securityVulnerabilities: 0,    // Would read security scan
         performanceBottlenecks: codeQuality.cyclomaticComplexity > 10 ? ['High complexity functions'] : [],
         codeSmells: codeQuality.duplicateCode > 15 ? ['Code duplication detected'] : [],
         lastEvidenceDocumentDate,

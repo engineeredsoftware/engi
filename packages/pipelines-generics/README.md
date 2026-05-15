@@ -134,7 +134,7 @@ const analysisPipeline = factoryPipelineWithDIVFinishLoop('analysis', {
 
 ### Per-Iteration Hooks (SDIVF Executor)
 
-Use `factorySDIVFExecutorPipeline` when you need a preprocess/postprocess and a per-iteration hook:
+Use `factorySDIVFExecutorPipeline` when you read a preprocess/postprocess and a per-iteration hook:
 
 ```ts
 import { factorySDIVFExecutorPipeline } from '@bitcode/pipelines-generics';
@@ -255,7 +255,7 @@ import { createStreamingExecution, emitPhaseTransition, emitAgentActivity } from
 import { createClient } from '@supabase/supabase-js';
 
 // Example: starting AssetPack execution with streaming
-async function runPipelineWithStreaming(userId: string, need: string) {
+async function runPipelineWithStreaming(userId: string, read: string) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -267,7 +267,7 @@ async function runPipelineWithStreaming(userId: string, need: string) {
     .insert({
       user_id: userId,
       status: 'running',
-      context: { need },
+      context: { read },
       created_at: new Date().toISOString(),
     })
     .select()

@@ -6,7 +6,7 @@ import { trackEvent } from '@bitcode/google-analytics';
 
 /**
  * Fires a GA4 page_view event on route changes.  Because Next.js App Router
- * only does full reloads on hard navigations, we need a client component that
+ * only does full reloads on hard navigations, we read a client component that
  * listens to pathname + query param changes.
  */
 export default function PageAnalyticsClient() {

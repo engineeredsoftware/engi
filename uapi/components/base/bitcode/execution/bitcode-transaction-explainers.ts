@@ -33,9 +33,9 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
   transactionLens: buildExplainer({
     kicker: 'Action filter',
     title: 'Action lens filter',
-    summary: 'Focus the master table on Give, Need, or Closure posture so the main Bitcode actions stay readable.',
+    summary: 'Focus the master table on Deposit, Read, or Closure posture so the main Bitcode actions stay readable.',
     detail: 'Use lens when you want the table to read by intent rather than by raw pipeline type names.',
-    points: ['Give is searchable supply', 'Need is measured demand', 'Closure is consequence and proof'],
+    points: ['Deposit is searchable supply', 'Read is measured demand', 'Closure is consequence and proof'],
   }),
   repository: buildExplainer({
     kicker: 'Boundary filter',
@@ -85,7 +85,7 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
   lens: buildExplainer({
     kicker: 'Intent column',
     title: 'Lens column',
-    summary: 'Shows whether the row currently reads as Give, Need, or Closure posture inside the Bitcode chain.',
+    summary: 'Shows whether the row currently reads as Deposit, Read, or Closure posture inside the Bitcode chain.',
     detail: 'Lens is for fast interpretation. It lets the table read by intent instead of forcing pipeline names to do all the work.',
     points: ['Maps the row back to the main Bitcode actions', 'Supports quick triage at table scale'],
   }),
@@ -145,14 +145,14 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     kicker: 'Field tree',
     title: 'Payload field tree',
     summary: 'Expands the payload into a bounded nested field tree with type badges and readable paths.',
-    detail: 'The tree is designed for structural inspection when raw JSON is too dense but you still need exact field visibility.',
+    detail: 'The tree is designed for structural inspection when raw JSON is too dense but you still read exact field visibility.',
     points: ['Shows nested shape without dropping into raw JSON', 'Keeps type and hierarchy visible together'],
   }),
   rawPayload: buildExplainer({
     kicker: 'Exact payload',
     title: 'Raw payload view',
     summary: 'Shows the exact JSON payload used by the selected detail surface and makes it copyable for proving or debugging.',
-    detail: 'Use this when you need exact field values, witness material, schema alignment, or external debugging support.',
+    detail: 'Use this when you read exact field values, witness material, schema alignment, or external debugging support.',
     points: ['Copyable exact payload', 'Preserves the truth feeding the UI'],
   }),
 } as const;

@@ -14,7 +14,7 @@ import {
  * @returns {{ scenarioIds: string[] }}
  */
 function selectScenarioIds(scenarioCount) {
-  const scenarioIds = buildInitialState().needScenarios.slice(0, scenarioCount).map((/** @type {any} */ scenario) => scenario.scenarioId);
+  const scenarioIds = buildInitialState().readScenarios.slice(0, scenarioCount).map((/** @type {any} */ scenario) => scenario.scenarioId);
   return { scenarioIds };
 }
 

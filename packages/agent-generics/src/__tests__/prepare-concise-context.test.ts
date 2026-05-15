@@ -3,16 +3,16 @@ import { Execution } from '@bitcode/execution-generics';
 import { factoryPrepareConciseContext } from '../substeps/factories';
 
 describe('PrepareConciseContext synthesizes full context from root', () => {
-  it('includes repository/need/config/attachments/evidence_documents and pipeline/input', async () => {
+  it('includes repository/read/config/attachments/evidence_documents and pipeline/input', async () => {
     const root = new Execution('root');
     // Seed root namespaces
     root.store('repository', 'owner', 'acme');
     root.store('repository', 'name', 'repo');
-    root.store('need', 'description', 'Do something great');
+    root.store('read', 'description', 'Do something great');
     root.store('config', 'iterationCount', 3);
     root.store('attachments', 'list', [{ title: 'Spec', content: 'Design spec' }]);
     root.store('evidence_documents', 'list', [{ title: 'KE', content: '# Knowledge Extension' }]);
-    root.store('pipeline', 'input', { definitionOfNeed: 'Do something great' });
+    root.store('pipeline', 'input', { definitionOfRead: 'Do something great' });
 
     // Create a nested execution to simulate deep substep call
     const nested = root.child('phase:discovery').child('agent:analyze').child('step:plan');
@@ -27,7 +27,7 @@ describe('PrepareConciseContext synthesizes full context from root', () => {
     const ctx = out.preparedContexts[0]?.context;
     expect(ctx.repository?.owner).toBe('acme');
     expect(ctx.repository?.name).toBe('repo');
-    expect(ctx.need?.description).toBe('Do something great');
+    expect(ctx.read?.description).toBe('Do something great');
     expect(ctx.config?.iterationCount).toBe(3);
     expect(Array.isArray(ctx.attachments)).toBe(true);
     expect(Array.isArray(ctx.evidence_documents)).toBe(true);

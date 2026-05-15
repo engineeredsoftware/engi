@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE } from '@bitcode/promp
  * Composes atomic prompt parts for LSP location evidence output documentation.
  * 
  * Location output becomes Bitcode measurement evidence when it can be replayed
- * into Need and AssetPack decisions.
+ * into Read and AssetPack decisions.
  */
 
 
@@ -23,7 +23,7 @@ import { PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE } from '@bitcode/promp
 /**
  * Compose LSP location output description
  * 
- * Pattern: ARRAY OF LOCATION OBJECTS WITH [FEATURES] FOR [NEED/ASSETPACK EVIDENCE PURPOSE]
+ * Pattern: ARRAY OF LOCATION OBJECTS WITH [FEATURES] FOR [READ/ASSETPACK EVIDENCE PURPOSE]
  */
 export function composeLspLocationOutput(): string {
   return PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE;

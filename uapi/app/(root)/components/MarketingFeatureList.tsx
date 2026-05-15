@@ -56,7 +56,7 @@ export default function MarketingFeatureList() {
               <h2 className="text-base font-semibold leading-7 text-green-primary">Seamlessly Integrate</h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-neutral-100 tablet:text-4xl">Your Pocket Technical Operator</p>
               <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-neutral-200">
-                Ask Bitcode to measure Needs, prepare AssetPacks, and coordinate reviewable technical work anytime.
+                Ask Bitcode to measure Reads, prepare AssetPacks, and coordinate reviewable technical work anytime.
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 dark:text-neutral-300 desktop:max-w-none">
                 {features.map((feature) => (

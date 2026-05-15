@@ -22,7 +22,7 @@ Examples:
 - Source providers bind evidence and repository scope.
 - Delivery providers receive AssetPacks or AssetPack partials.
 - Every write-capable connected interface must fail closed without readiness and admission receipts.
-- Provider payloads must normalize toward Need, fit, AssetPack, settlement, proof, or delivery-mechanism semantics.
+- Provider payloads must normalize toward Read, fit, AssetPack, settlement, proof, or delivery-mechanism semantics.
 
 ## Current Source Examples
 

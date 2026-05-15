@@ -112,7 +112,7 @@ The old demo was best described as:
 - strong simplicity and runnable demo UX
 
 ### What it structurally lacked relative to V6
-- GitHub need descriptor / benchmark parser boundary
+- GitHub read descriptor / benchmark parser boundary
 - explicit candidate asset types and content units
 - ranking subscores from the spec
 - separate verification determinisms and propagated use tiers

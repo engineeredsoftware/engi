@@ -46,7 +46,7 @@ Current active carriers:
 - `uapi/app/terminal/TerminalCommandDeck.tsx`
 - `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
 - `uapi/app/terminal/TerminalExternalInterfacingPanel.tsx`
-- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`
 - `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
 - `uapi/app/terminal/TerminalCoreNativeSections.tsx`
 - `uapi/app/terminal/TerminalClosureNativeSections.tsx`
@@ -57,7 +57,7 @@ Current active carriers:
 - `uapi/app/terminal/terminal-closure-state.ts`
 - `uapi/app/terminal/terminal-external-runtime.ts`
 - `uapi/app/terminal/terminal-live-summary.ts`
-- `uapi/app/terminal/terminal-give-need-workbench.ts`
+- `uapi/app/terminal/terminal-deposit-read-workbench.ts`
 - `uapi/app/terminal/terminal-repository-context.ts`
 - `uapi/app/terminal/terminal-transaction-query.ts`
 - `uapi/app/api/conversations/*`
@@ -114,14 +114,14 @@ Required coverage posture:
   active API-boundary proof now also includes the route-owner split for executions history: `uapi/app/api/executions/{route.ts,history/route.ts,history/[runId]/route.ts}` must stay as thin interface bindings over `packages/api/src/routes/{shippables,executions}.ts`, while execution-history normalization and persistence orchestration remain in the API package rather than drifting back into app-owned route files; route bindings may use specific `@bitcode/api/src/routes/{shippables,executions}` entries when isolated loading is required
   current generated fourth-gate promotion proofs are `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, and `.bitcode/v26-gate-checkpoint-report.json`
   fourth-gate reclosure proof must keep the earlier overstated promotion claim visible, map every material acceptance criterion to generated evidence, and report no blocking fourth-gate deviance before the gate checkpoint marks fourth gate promoted closed and fifth-gate work proceeds
-  retained-package admissibility now also has to state retained port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary; the generated proof now adds a whole-`packages/` census so every active package manifest has a role classification, file witness, write boundary, and zero-unclassified-package result instead of relying on selective exemplar admissions
+  retained-package admissibility now also has to state retained port roles explicitly, including Jira as reader-first read ingestion and Git/GH as the initial settle-write boundary; the generated proof now adds a whole-`packages/` census so every active package manifest has a role classification, file witness, write boundary, and zero-unclassified-package result instead of relying on selective exemplar admissions
   retained MCP proof carriers are now explicit too: `packages/executions-mcp/src/mcp-server/src/__tests__/{tools/MCPToolsTestSuite.test.ts,integration/mcp-server.test.ts,unit/auth.test.ts}` must stay green against the current server surface and must not emit lingering Jest open-handle warnings, with imported singleton intervals handled as real runtime teardown obligations rather than ignored test noise
   active email-template carriers are explicit fifth-gate witnesses too: `supabase/config.toml`, `supabase/templates/{magic_link,confirm,password_recovery,email_change,invite,newsletter,deliverable_*}.html`, and the active shippable-route email vars in `packages/api/src/routes/shippables.ts` must converge on Bitcode naming and current placeholder contracts rather than leaving `Engi` product copy in live email/auth flows
   active AssetPack package primitives are explicit fifth-gate witnesses too: `packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts`, `packages/pipelines/asset-pack/src/semantic-resolution.ts`, `packages/pipelines/asset-pack/src/tools/search.ts`, and `uapi/tests/searchRelevantAssetPackEvidence.test.ts` must keep written-asset type ownership and prior-run evidence search named as Bitcode AssetPack behavior, with `deliverableType` and vector-RPC naming treated only as compatibility payload/storage detail
   persistence proof now also includes explicit execution-storage ORM parity: `packages/orm/src/models/bitcode-execution-storage.ts`, `packages/orm/src/models/bitcode-execution-storage.d.ts`, `packages/orm/src/client.ts`, `packages/orm/src/client.d.ts`, `packages/orm/src/index.d.ts`, `packages/orm/src/models/index.ts`, and `packages/orm/src/__tests__/bitcode-execution-storage.test.ts` must keep former unresolved storage tables mapped to active Bitcode ORM owners, including the `deliverable_run_phases -> phase_executions` bridge and the public `BitcodeOrmClient` surface
   fifth-gate active-product naming witnesses now also cover the retained `@bitcode/prompts` package so prompt-system code, metadata, and promptpart identity text do not silently regress back to `Engi` naming after fourth-gate promotion
   fifth-gate active-product naming witnesses now also cover prompt-system JS carry-through and review-tooling carriers such as `packages/prompts/src/{index.js,parts/PromptPart.js}`, `scripts/phase2-naming-compliance.py`, and `scripts/code-review/{REVIEW_EXCELLENCE_GUIDE.md,reviews/review_prompt_primitives_evolution*.sh}`, so generated JS comments, script-owned repo paths, and review references to current `raw_promptparts/*` files cannot silently preserve old-brand wording or dead prompt filenames
-  fifth-gate prompt/inference witnesses now also cover the retained `danger-wall` corridor as Bitcode need/AssetPack risk-admission support through `packages/generic-agents/danger-wall/*`, `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_*`, `protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js`, and `protocol-demonstration/src/canonical/inference-implementation-records.js`, so old generic security, content-safety, and monitoring-product semantics cannot silently survive in a live retained setup gate
+  fifth-gate prompt/inference witnesses now also cover the retained `danger-wall` corridor as Bitcode read/AssetPack risk-admission support through `packages/generic-agents/danger-wall/*`, `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_*`, `protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js`, and `protocol-demonstration/src/canonical/inference-implementation-records.js`, so old generic security, content-safety, and monitoring-product semantics cannot silently survive in a live retained setup gate
   package-by-package prompt consumer mapping is now also explicit in `protocol-demonstration/V26_PROMPT_SURFACES.md`, and active app configs such as `uapi/tsconfig.json` no longer keep `@bitcode/prompts/src/*` compatibility aliases on the live path
   fifth-gate active-product naming witnesses now also cover prompt/tooling repair scripts such as `scripts/{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports}.sh` and `scripts/code-review/base-review.sh`, so active script repair targets and review output paths cannot silently preserve `@engi/*` rewrite contracts or `/tmp/engi_review_*` runtime artifacts
   fifth-gate active-product naming witnesses now also cover maintenance validation and cleanup carriers such as `scripts/verify-asset-pack-quality.sh`, `scripts/{cleanup_remaining_docs.py,cleanup_outdated_docs.py,cleanup-outdated-docs.sh}`, and `protocol-demonstration/CHECKLIST.md`, so active operator validation logic, cleanup target lists, and demo-checklist guidance cannot silently preserve `@engi/*`, `engi-demo`, `Make ENGI branch`, or `ENGI_*` document targets
@@ -137,8 +137,8 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover non-_legacy historical path carriers such as `BITCODE_{V10,V11}_PREP_MEMO.md` and `protocol-demonstration/BITCODE_DEMO_SPEC_V15*.md`, so root/package historical docs do not keep teaching `ENGI_*` filenames outside `_legacy/`
   fifth-gate active-product naming witnesses now also cover canonical auxillary lower-level implementation carriers such as `uapi/app/auxillaries/components/{headers/*,shared/*,models/*,AuxillariesDataSharingPanel.tsx,auxillary-pane-explainers.ts,profile-pane.module.css}`, so canonical pane files do not silently keep orbitals-owned header/shared/model/data-share/explainer imports after the auxillary surface has already become the active owner
   fifth-gate active-product naming witnesses now also cover retained orbitals lower-level compatibility carriers such as `uapi/app/orbitals/components/{headers/*,shared/*,models/*,OrbitalsDataSharingPanel.tsx,orbital-pane-explainers.ts}`, so those paths remain thin compatibility re-exports rather than silently preserving duplicate live implementations after canonical auxillary equivalents exist
-  fifth-gate active-product naming witnesses now also cover canonical auxillary onboarding/data contracts and active external-realization witnesses such as `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/tests/{orbitalsOnboardingRoute,userDataRoute,api/externalRealizationRoute,terminalExternalRuntime}.test.ts`, and active Bitcode operating docs like `protocol-demonstration/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md`, so payload aliases, schema-backed onboarding semantics, env witnesses, and branch-artifact naming cannot silently preserve `models/credits`, `ENGI_V24_*`, or `ENGI_NEED.md`
-  fifth-gate active-product naming witnesses now also cover live Bitcode-core need-materialization and external-executor carriers such as `protocol-demonstration/src/canonical/{need-measurement,run-artifacts,v24-local-executors,v24-remote-adapters}.js` and `protocol-demonstration/test/{api,workflow.integration}.test.js`, so emitted need artifacts, V24 env controls, local executor schemes, and Bitcode-core sample branch/runtime refs cannot silently preserve `ENGI_NEED.md`, `ENGI_V24_*`, `engi-local://*`, `engi-review/*`, or other Engi-branded active protocol examples
+  fifth-gate active-product naming witnesses now also cover canonical auxillary onboarding/data contracts and active external-realization witnesses such as `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/tests/{orbitalsOnboardingRoute,userDataRoute,api/externalRealizationRoute,terminalExternalRuntime}.test.ts`, and active Bitcode operating docs like `protocol-demonstration/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md`, so payload aliases, schema-backed onboarding semantics, env witnesses, and branch-artifact naming cannot silently preserve `models/credits`, `ENGI_V24_*`, or `ENGI_READ.md`
+  fifth-gate active-product naming witnesses now also cover live Bitcode-core read-materialization and external-executor carriers such as `protocol-demonstration/src/canonical/{read-measurement,run-artifacts,v24-local-executors,v24-remote-adapters}.js` and `protocol-demonstration/test/{api,workflow.integration}.test.js`, so emitted read artifacts, V24 env controls, local executor schemes, and Bitcode-core sample branch/runtime refs cannot silently preserve `ENGI_READ.md`, `ENGI_V24_*`, `engi-local://*`, `engi-review/*`, or other Engi-branded active protocol examples
   fifth-gate active-product naming witnesses now also cover active draft/env/measuring contracts and ChatGPT app type carriers such as `protocol-demonstration/data/state.json`, `internal-docs/{BITCODE_LLM_REGISTRY,SECURITY,BITCODE_PROTOCOL_THESIS}.md`, `tsconfig.json`, `uapi/tsconfig.json`, `packages/procurement/src/quality-assessment.ts`, and `packages/chatgptapp/src/types/protocol-demonstration__*.d.ts`, so live V27 draft paths, LLM/MCP env docs, thesis constants, measuring helpers, and filesystem-level type carriers cannot silently preserve `ENGI_SPEC_V27*`, `ENGI_LLM_*`, `ENGI_ENABLE_MCP_*`, `measureEngi`, or `engi__*.d.ts`
   fifth-gate active-product naming witnesses now also cover active canon-posture carriers such as `protocol-demonstration/src/{canon-posture.js,canonical/v22-canon-posture.js}` and `protocol-demonstration/test/canon-posture.test.js`, so the live V26/V27 runtime/report surface reads `BITCODE_SPEC.txt` and `BITCODE_SPEC_{V26,V27,*}` rather than preserving `ENGI_SPEC.txt` or `ENGI_SPEC_V26/V27*` in current canonical posture truth
   fifth-gate active-product naming witnesses now also cover active historical promotion-proof carriers such as `protocol-demonstration/test/v22-canon-drift.test.js`, so the historical V23/V24/V25 promotion family keeps using the current `scripts/{check,prepare,promote}-bitcode-*.mjs` toolchain and `protocol-demonstration/*` runtime fixtures while limiting old ENGI-spec fixture paths to `_legacy/ENGI_SPEC_*`
@@ -149,9 +149,9 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover active integration/example/doc carriers such as `internal-docs/{BITCODE_API,BITCODE_CONNECTED_SERVICES,BITCODE_INTERFACE_STYLE}.md`, `packages/mysql/README.md`, and `uapi/mocking/generators/ComprehensiveMockDataGenerators.ts`, so Bitcode-owned API hosts, auxillaries ownership, marketplace preview hosts, and package descriptions do not silently regress to `api.engi.software`, orbitals-owned connects-pane references, `marketplace.engi.com`, or `ENGI platform` wording
   fifth-gate active-product naming witnesses now also cover active platform-package and auxillary-teaching carriers such as `packages/{auth,postgresql,jira,supabase}/README.md`, `packages/supabase/src/client.ts`, `packages/templates-generics/{src/types.ts,package.json}`, `internal-docs/BITCODE_INTERFACE_STYLE.md`, and `uapi/mocking/{README.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,generators/ComprehensiveMockDataGenerators.ts}`, so Bitcode platform ownership and User Auxillaries wording do not silently regress to `ENGI platform`, `engi system`, or `User Orbital`
   fifth-gate active-product naming witnesses now also cover active protocol/demo telemetry and root-artifact teaching carriers such as `protocol-demonstration/src/{demo-scenario,canonical/v23-bitcoin-demonstration-service,canonical/v20-quality}.js`, `README.md`, `packages/observability/README.md`, `packages/time/README.md`, and `packages/tools-generics/src/{Tool,doc-code-tool/index}.ts`, so Bitcode-owned telemetry ids, stubbed bitcoin carrier ids/examples, generated appendix names, `.bitcode/*` root artifact teaching, and shared package comments/docs do not silently regress to `engi.*`, `tb1qengi*`, `lnbcrt1engi*`, `make ENGI branch`, `.engi/*`, or `ENGI platform`
-  fifth-gate active-product naming witnesses now also cover active package-readme and V20 quality-proof carry-through carriers such as `packages/{google-analytics,tech-types,sentry,kubernetes,logger,orm,streams}/README.md`, `packages/orm/src/index.ts`, `scripts/code-review/{README.md,base-review.sh}`, and `protocol-demonstration/test/{v20-quality-summary,v20-operator-transcript}.test.js`, so Bitcode-owned platform wording, need-measurement grounding for `tech-types`, Bitcode review-framework headings, and the historically correct `_legacy/ENGI_SPEC_V20_PROVEN.md` appendix expectation do not silently regress to `ENGI platform`, `ENGI ORM`, `ENGI CODE REVIEW FRAMEWORK`, or stale generated-appendix names in active docs and proof carriers
-  fifth-gate proof now also covers direct `tech-types` package usability through `packages/tech-types/{src/tech.ts,src/uniqueTech.ts,src/signals.ts,src/signals-runtime.js,README.md,src/__tests__/tech-types.test.ts,jest.config.cjs,tsconfig.json}`, so the need-measurement vocabulary package remains actually consumable by dependents with a pragmatic `TechType` surface, curated unique-tech helper closure, package-owned signal normalization, and package-local proof instead of carrying misleading examples or unmaterializable type contracts.
-  fifth-gate proof now also covers protocol need-measurement follow-through into that package surface through `protocol-demonstration/src/{bitcode-demo.js,canonical/need-measurement.js}` and `protocol-demonstration/test/core.test.js`, requiring canonical `technologyProfile` emission rather than ad hoc stack-hint-only closure.
+  fifth-gate active-product naming witnesses now also cover active package-readme and V20 quality-proof carry-through carriers such as `packages/{google-analytics,tech-types,sentry,kubernetes,logger,orm,streams}/README.md`, `packages/orm/src/index.ts`, `scripts/code-review/{README.md,base-review.sh}`, and `protocol-demonstration/test/{v20-quality-summary,v20-operator-transcript}.test.js`, so Bitcode-owned platform wording, read-measurement grounding for `tech-types`, Bitcode review-framework headings, and the historically correct `_legacy/ENGI_SPEC_V20_PROVEN.md` appendix expectation do not silently regress to `ENGI platform`, `ENGI ORM`, `ENGI CODE REVIEW FRAMEWORK`, or stale generated-appendix names in active docs and proof carriers
+  fifth-gate proof now also covers direct `tech-types` package usability through `packages/tech-types/{src/tech.ts,src/uniqueTech.ts,src/signals.ts,src/signals-runtime.js,README.md,src/__tests__/tech-types.test.ts,jest.config.cjs,tsconfig.json}`, so the read-measurement vocabulary package remains actually consumable by dependents with a pragmatic `TechType` surface, curated unique-tech helper closure, package-owned signal normalization, and package-local proof instead of carrying misleading examples or unmaterializable type contracts.
+  fifth-gate proof now also covers protocol read-measurement follow-through into that package surface through `protocol-demonstration/src/{bitcode-demo.js,canonical/read-measurement.js}` and `protocol-demonstration/test/core.test.js`, requiring canonical `technologyProfile` emission rather than ad hoc stack-hint-only closure.
   fifth-gate proof now also covers the first dependent package hop beyond that normalization boundary through `packages/generic-agents/tech-types-identifier/{src/index.ts,src/technology-profile-contract.ts,src/__tests__/technology-profile-contract.test.ts,README.md}` and `protocol-demonstration/test/v26-active-product-naming.test.js`, so downstream agent packages keep `technologyProfile` as the canonical output envelope instead of re-fragmenting it into local stack-only schemas.
   fifth-gate proof now also covers the constrained dependent-package compile chain for that same example surface through `./node_modules/.bin/tsc -p packages/generic-agents/tech-types-identifier/tsconfig.json --noEmit`, with the shared closure explicitly admitted in `packages/{orm,pipelines-generics,streams,supabase}/*`; the example is not considered closed if its package-local test passes but the actual dependent compile path is still broken.
   fifth-gate proof now also covers the canonical `$BTD` package/terminal balance surface through `packages/{btd,api,digest,web-search,orm}/*`, `uapi/{app/api/auxillaries,app/terminal,app/executions,tests,components/base/bitcode/{btd,execution,inputs},stories/BTDInvestmentExperience.stories.tsx,.env.example,README.md,app/orbitals/README.md}/*`, and `protocol-demonstration/test/v26-active-product-naming.test.js`, so active Bitcode package imports, ORM model owners, route payloads, measured-BTD transaction/workspace processing stats, BTD share/read-right carriers, and public-shell wording do not silently regress to credit-bucket semantics.
@@ -164,21 +164,21 @@ Required coverage posture:
   fifth-gate proof now also covers Bitcode acquisition and asset-pack execution storytelling through `uapi/app/(root)/components/MarketingBtdInvestmentExperience.tsx`, `packages/executions-mcp/src/mcp-server/{ARCHITECTURE.md,docs/public/mcp-overview.md,src/__tests__/fixtures/MCPTestFixtures.ts,src/__tests__/tools/MCPToolsTestSuite.test.ts}`, `uapi/stories/conversations/{RichTextInput,Pickers,PipelineIntegration,CompleteSystem}.stories.tsx`, and `uapi/tests/api/deliverables.test.ts`, so wallet-gated BTC settlement, GitHub-before-transacting posture, asset-pack execution, and `$BTD` planning remain the active interface story rather than Stripe checkout or credit-era investment narration.
   fifth-gate proof also preserves the settlement accounting boundary: `protocol-demonstration/src/canonical/settlement.js` may keep journal `debits` and `credits` only as exact accounting-entry semantics, while product-denominated balance, spend, UI, route, and MCP carriers stay BTC/`$BTD`.
   fifth-gate active-product naming witnesses now also cover preserved-protocol runtime posture carriers such as `protocol-demonstration/{src/bitcode-demo.js,src/canon-posture.js,test/e2e.test.js}`, so active runtime branch namespaces, operator wait states, and canon/spec-family posture remain Bitcode-only and do not silently regress to `engi/remediation-*` or an `ENGI_SPEC` fallback in live runtime and interface proof
-  fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved need-measurement teaching layer such as `uapi/app/{terminal/terminal-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,terminalTransactions}.test.ts`, and `internal-docs/{BITCODE_AUXILLARIES_READINESS,BITCODE_CONNECTED_SERVICES,BITCODE_FRONTEND_ARCHITECTURE,BITCODE_EXCHANGE_DATABASE,BITCODE_API,BITCODE_EXECUTIONS,BITCODE_AGENTIC_EXECUTION,BITCODE_INTERFACE_STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and need-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
+  fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved read-measurement teaching layer such as `uapi/app/{terminal/terminal-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,terminalTransactions}.test.ts`, and `internal-docs/{BITCODE_AUXILLARIES_READINESS,BITCODE_CONNECTED_SERVICES,BITCODE_FRONTEND_ARCHITECTURE,BITCODE_EXCHANGE_DATABASE,BITCODE_API,BITCODE_EXECUTIONS,BITCODE_AGENTIC_EXECUTION,BITCODE_INTERFACE_STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and read-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
 
 ### Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad retained-system reform baseline
 
 Required system families:
 - minimum-functional Exchange/Terminal read-write closure
-- post-measurement pre-fit Need review with accept/reject/remeasure-with-feedback admission through protocol artifacts, app API, and Terminal controls
+- post-measurement pre-fit Read review with accept/reject/remeasure-with-feedback admission through protocol artifacts, app API, and Terminal controls
 - present-fit-for-settlement-review surfaces with quantized source-to-shares fit qualities carried into settlement receipts
-- Terminal closure-map presentation of Need review before verification plus present-fit-for-settlement-review fit qualities inside the settlement card and selected-detail payload
+- Terminal closure-map presentation of Read review before verification plus present-fit-for-settlement-review fit qualities inside the settlement card and selected-detail payload
 - environment/debug coherence
 - production/staging/development mode completeness
 - migration/schema/type/API closure for retained storage systems
 - retained-package admissibility proof
 - retained kept/cut/isolated reform baseline
-- explicit removal proof for non-Bitcode multi-agent / multi-output execution controls and internal-only `use-computer` Need-measurement admission under `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
+- explicit removal proof for non-Bitcode multi-agent / multi-output execution controls and internal-only `use-computer` Read-measurement admission under `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted terminal, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
@@ -187,14 +187,14 @@ Required system families:
 - generated fifth-gate closure proof through `.bitcode/fifth-gate-closure-proof.json`, explicitly accepting the six fifth-gate closure rows as the minimum-functional prerequisite for later gates
 - generated sixth-gate MVP closure proof through `.bitcode/sixth-gate-mvp-closure-proof.json`, explicitly accepting the eight MVP closure rows as the prerequisite for commercial testnet launch
 - generated seventh-gate commercial testnet launch proof through `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, explicitly accepting the eight launch rows before the now-closed eighth-gate provation family
-- protocol proof closure for `.bitcode/need-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
-- terminal/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`, `uapi/app/terminal/terminal-closure-state.ts`, `TerminalClosureNativeSections.tsx`, `terminal-section-atlas.ts`, `terminal-transaction-detail.ts`, and `terminal-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
+- protocol proof closure for `.bitcode/read-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
+- terminal/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/read-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/terminal/TerminalReadScenarioPanel.tsx`, `uapi/app/terminal/terminal-closure-state.ts`, `TerminalClosureNativeSections.tsx`, `terminal-section-atlas.ts`, `terminal-transaction-detail.ts`, and `terminal-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
 
 Required coverage posture:
 - spec:
   final closure conditions are explicit
 - tests:
-  mode behavior, naming-retirement witnesses, pre-fit need review, quantized fit-quality receipting, and closure gates are exercised
+  mode behavior, naming-retirement witnesses, pre-fit read review, quantized fit-quality receipting, and closure gates are exercised
 - proof surface:
   generated V26 proof appendix and reports become fifth-gate blockers
 
@@ -260,12 +260,12 @@ Current active assignments:
   test coverage:
   route response tests and repository-selector behaviors
   proof surface:
-  second-gate give-side repository context readiness
+  second-gate deposit-side repository context readiness
 - `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
   test coverage:
   browser verification plus repository-selection helper coverage
   proof surface:
-  second-gate give-side repository context readiness inside `/terminal`
+  second-gate deposit-side repository context readiness inside `/terminal`
 - `protocol-demonstration/public/app.js`
   test coverage:
   semantic snapshot bridge verification through route-local normalization tests and live terminal checks
@@ -273,7 +273,7 @@ Current active assignments:
   second-gate admissible shell snapshot and shell control exposure for native terminal composition
 - `protocol-demonstration/src/client-entry.js`
   test coverage:
-  semantic snapshot bridge exercised by terminal-owned give/need normalization, shell-bridge tests, and live `/terminal` review
+  semantic snapshot bridge exercised by terminal-owned deposit/read normalization, shell-bridge tests, and live `/terminal` review
   proof surface:
   second-gate package-to-terminal bridge for mounted-shell semantic state and command/intake control, including host-wait and fail-closed snapshot reads during bootstrap windows
 - `uapi/app/terminal/terminal-shell-bridge.tsx`
@@ -376,7 +376,7 @@ Current active assignments:
   test coverage:
   live `/terminal` verification through the preserved runtime drawer and direct runtime load expectations
   proof surface:
-  preserved-runtime HTML parity for closure-runtime, flow-guide, give, need, AssetPack, and Shippable wording so direct runtime inspection does not regress to prototype/tutorial copy
+  preserved-runtime HTML parity for closure-runtime, flow-guide, deposit, read, AssetPack, and Shippable wording so direct runtime inspection does not regress to prototype/tutorial copy
 - `uapi/app/terminal/terminal-command-state.ts`
   test coverage:
   `uapi/tests/terminalCommandState.test.ts`
@@ -429,7 +429,7 @@ Current active assignments:
   test coverage:
   consumed through component tests and lint plus live `/terminal` verification
   proof surface:
-  shared terminal explainer catalog for give, need, deposit, closure, and workspace-map help posture carried forward into the production terminal
+  shared terminal explainer catalog for deposit, read, deposit, closure, and workspace-map help posture carried forward into the production terminal
 - `uapi/app/terminal/TerminalCommandDeck.tsx`
   test coverage:
   lint plus live `/terminal` verification through the shell command/control bridge
@@ -459,25 +459,25 @@ Current active assignments:
   test coverage:
   `uapi/tests/terminalSupplySelection.test.ts` for normalized supply-selection state plus lint and live `/terminal` verification for the shared operator-shell framing
   proof surface:
-  second-gate give-side supply terminal with shared terminal-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/terminal`
+  second-gate deposit-side supply terminal with shared terminal-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/terminal`
 - `uapi/app/terminal/terminal-core-surface.ts`
   test coverage:
   `uapi/tests/terminalCoreSurface.test.ts`
   proof surface:
-  deterministic normalization of operating, depositing, needing, and fit semantics from the shell snapshot into route-local terminal core panels
+  deterministic normalization of operating, depositing, reading, and fit semantics from the shell snapshot into route-local terminal core panels
 - `uapi/app/terminal/TerminalCoreNativeSections.tsx`
   test coverage:
   lint plus localhost `/terminal` verification with core panels mounted from the semantic bridge
   proof surface:
   second-gate terminal-owned master-detail core composition reading from the semantic `coreSurface` bridge instead of rendered shell DOM
-- `uapi/app/terminal/terminal-give-need-workbench.ts`
+- `uapi/app/terminal/terminal-deposit-read-workbench.ts`
   test coverage:
-  `uapi/tests/terminalGiveNeedWorkbench.test.ts`
+  `uapi/tests/terminalDepositReadWorkbench.test.ts`
   proof surface:
-  deterministic normalization of give, need, and fit action detail from the shell snapshot into route-local Bitcode terminal composition
-- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+  deterministic normalization of deposit, read, and fit action detail from the shell snapshot into route-local Bitcode terminal composition
+- `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`
   test coverage:
-  browser verification and UI review around route-local give/need action detail
+  browser verification and UI review around route-local deposit/read action detail
   proof surface:
   second-gate terminal-owned action detail for repository supply, measured demand, and fit intent
 - `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
@@ -510,12 +510,12 @@ Current active assignments:
   `uapi/tests/{terminalTransactions,terminalTransactionDetail,terminalTransactionDetailSnapshot,terminalTransactionSource,bitcodeDetailPanel}.test.*`
   proof surface:
   active mock-run, detail-snapshot, and conversation-support carriers now keep branch-artifact execution typing and Bitcode Terminal wording canonical instead of teaching raw AssetPack-compatibility route strings or generic transaction-surface language in the review substrate
-- `BITCODE_SPEC_V26.md`, `uapi/app/terminal/{TerminalGiveNeedWorkbench.tsx,TerminalNeedScenarioPanel.tsx,TerminalClosureNativeSections.tsx,terminal-workspace-copy.ts,page.tsx}`, and `uapi/app/auxillaries/components/{AuxillariesConnectsPane.tsx,auxillary-pane-meta.ts,headers/AuxillariesConnectsPaneHeader.tsx}`
+- `BITCODE_SPEC_V26.md`, `uapi/app/terminal/{TerminalDepositReadWorkbench.tsx,TerminalReadScenarioPanel.tsx,TerminalClosureNativeSections.tsx,terminal-workspace-copy.ts,page.tsx}`, and `uapi/app/auxillaries/components/{AuxillariesConnectsPane.tsx,auxillary-pane-meta.ts,headers/AuxillariesConnectsPaneHeader.tsx}`
   test coverage:
   `uapi/tests/{terminalSurfaceCopy,connectionsStep.static}.test.*`
   proof surface:
-  active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
-  active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
+  active V26 specification and live deposit/read/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, read measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
+  active V26 specification and live deposit/read/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, read measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
 - `uapi/app/terminal/{TerminalTransactionDetailSurface.tsx,TerminalTransactionDetailHero.tsx,TerminalTransactionIdentityCard.tsx,TerminalTransactionClosureCard.tsx,TerminalTransactionProofsCard.tsx,TerminalTransactionHistoryCard.tsx,TerminalTransactionDetailActionBar.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionActivitySurface.tsx,TerminalExperienceFrame.tsx,TerminalWorkspaceRail.tsx,TerminalMockTransactionDetails.tsx,terminal-command-presentation.ts,terminal-flow-guide.ts,README.md}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,BitcodeTransactionsActiveFilters.tsx,BitcodeTransactionsOverview.tsx,README.md}`, and `uapi/app/terminal/terminal-transaction-detail.ts`
   test coverage:
   `uapi/tests/{terminalTransactionDetail,terminalTransactionDetailCards,terminalCommandPresentation,terminalWorkspaceRailCard,bitcodeTransactionsOverview,bitcodeDetailRowList,bitcodePayloadRowsCard,bitcodePayloadDetailCard,bitcodeDetailPanel}.test.*`
@@ -695,7 +695,7 @@ Current active assignments:
   test coverage:
   lint plus live `/terminal` verification through the shell command/control bridge
   proof surface:
-  second-gate terminal-owned give-side intake control for session binding, inventory filtering, search, and artifact selection
+  second-gate terminal-owned deposit-side intake control for session binding, inventory filtering, search, and artifact selection
 - `uapi/app/terminal/terminal-deposit-composer.ts`
   test coverage:
   `uapi/tests/terminalDepositComposer.test.ts`
@@ -706,16 +706,16 @@ Current active assignments:
   lint plus localhost route verification with the app-owned deposit carrier present in `/terminal`
   proof surface:
   second-gate terminal-owned native deposit submission against the app-owned Bitcode intake route
-- `uapi/app/terminal/terminal-need-scenarios.ts`
+- `uapi/app/terminal/terminal-read-scenarios.ts`
   test coverage:
-  `uapi/tests/terminalNeedScenarios.test.ts`
+  `uapi/tests/terminalReadScenarios.test.ts`
   proof surface:
-  deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state
-- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
+  deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local read-scenario state
+- `uapi/app/terminal/TerminalReadScenarioPanel.tsx`
   test coverage:
-  lint plus localhost `/terminal` verification with route-local scenario selection mounted, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `protocol-demonstration/test/v26-need-review-source-to-shares.test.js`
+  lint plus localhost `/terminal` verification with route-local scenario selection mounted, `uapi/tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}`, and `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`
   proof surface:
-  second/fifth-gate terminal-owned native need selection and pre-fit Need-review controls through the Bitcode shell control bridge and app-owned `/api/need-review` boundary
+  second/fifth-gate terminal-owned native read selection and pre-fit Read-review controls through the Bitcode shell control bridge and app-owned `/api/read-review` boundary
 - `uapi/app/terminal/terminal-closure-state.ts`
   test coverage:
   `uapi/tests/terminalClosureState.test.ts`
@@ -745,7 +745,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/terminalRepositoryContext.test.ts`
   proof surface:
-  deterministic repository-provider normalization and selected-repository derivation for the give-side terminal frame
+  deterministic repository-provider normalization and selected-repository derivation for the deposit-side terminal frame
 - `uapi/app/terminal/terminal-external-runtime.ts`
   test coverage:
   `uapi/tests/terminalExternalRuntime.test.ts`
@@ -882,12 +882,12 @@ Required closure posture:
   test coverage:
   `protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js`
   proof surface:
-  fifth-gate retained agent-package closure so the old web-researcher corridor is admitted only as Bitcode discovery-phase need-synthesis web research with canonical aliases, V26 prompt metadata, TS/JS package-runtime and PromptPart carry-through, source-attributed schemas, local compatibility tests, and auxiliary source-context semantics
+  fifth-gate retained agent-package closure so the old web-researcher corridor is admitted only as Bitcode discovery-phase read-synthesis web research with canonical aliases, V26 prompt metadata, TS/JS package-runtime and PromptPart carry-through, source-attributed schemas, local compatibility tests, and auxiliary source-context semantics
 - `packages/generic-agents/web-search/{package.json,README.md,src/index.*,src/prompts/*}`, `packages/generic-tools/web-search/{README.md,src/index.*,src/prompts/*}`, and `packages/prompts/src/raw_promptparts/specific/{promptpart_specific_agent_websearch_*,promptpart_specific_agent_web_search_*,promptpart_specific_tool_websearch_*,promptpart_specific_tool_getcontents_*,promptpart_specific_tool_multiprovidersearch_*,promptpart_specific_tool_websearchtool_*}`
   test coverage:
   `protocol-demonstration/test/v26-web-search-support-compatibility.test.js`
   proof surface:
-  fifth-gate retained lower-level search-tool closure so old web-search compatibility carriers are admitted only as source-attributed discovery-phase need-synthesis evidence support with V26 prompt metadata, DocCode tool prompt injection, TS/JS PromptPart carry-through, source-quality/volatility/proof-boundary wording, and canonical `bitcodeNeedSynthesisWebSearch` ownership
+  fifth-gate retained lower-level search-tool closure so old web-search compatibility carriers are admitted only as source-attributed discovery-phase read-synthesis evidence support with V26 prompt metadata, DocCode tool prompt injection, TS/JS PromptPart carry-through, source-quality/volatility/proof-boundary wording, and canonical `bitcodeReadSynthesisWebSearch` ownership
 - `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/bitcode/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
   test coverage:
   `uapi/tests/footerPublicShell.test.tsx`, targeted `next lint`, and `protocol-demonstration/test/v26-active-product-naming.test.js`
@@ -908,11 +908,11 @@ Required closure posture:
   `protocol-demonstration/test/{core.test.js,v26-active-product-naming.test.js}`
   proof surface:
   fifth-gate Bitcode-core identity closure so shipped attestation kinds, policy release ids, system-principal classes, provenance seeds, and retained state-store payloads no longer carry `engi-*` runtime truth inside the promoted Bitcode core
-- `protocol-demonstration/{src/canonical/need-measurement.js,src/canonical/run-artifacts.js,src/canonical/v24-local-executors.js,src/canonical/v24-remote-adapters.js,src/canonical/v24-external-realization.js,test/core.test.js,test/api.test.js,test/workflow.integration.test.js}`
+- `protocol-demonstration/{src/canonical/read-measurement.js,src/canonical/run-artifacts.js,src/canonical/v24-local-executors.js,src/canonical/v24-remote-adapters.js,src/canonical/v24-external-realization.js,test/core.test.js,test/api.test.js,test/workflow.integration.test.js}`
   test coverage:
   `protocol-demonstration/test/{api.test.js,core.test.js,workflow.integration.test.js,v26-active-product-naming.test.js}`
   proof surface:
-  fifth-gate external-realization and need-materialization contract closure so active env controls, local executor schemes, GitHub sample bindings, need artifacts, and Bitcode-core sample branch/runtime refs converge on `BITCODE_V24_*`, `bitcode-local://*`, Bitcode-owned refs, and `BITCODE_NEED.md` instead of preserving pre-Bitcode env ids, legacy need filenames, or old-brand active protocol examples inside promoted runtime and proof carriers
+  fifth-gate external-realization and read-materialization contract closure so active env controls, local executor schemes, GitHub sample bindings, read artifacts, and Bitcode-core sample branch/runtime refs converge on `BITCODE_V24_*`, `bitcode-local://*`, Bitcode-owned refs, and `BITCODE_READ.md` instead of preserving pre-Bitcode env ids, legacy read filenames, or old-brand active protocol examples inside promoted runtime and proof carriers
 - `{Makefile,docs/api/conversations-openapi.yaml,packages/email/README.md,uapi/.env.example,internal-docs/{BITCODE_AUXILLARIES_READINESS,BITCODE_FRONTEND_ARCHITECTURE,BITCODE_EXCHANGE_DATABASE}.md,.ai/PRODUCT.md}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`, `scripts/check-bitcode-spec-family.mjs`, `scripts/check-bitcode-canonical-inputs.mjs`, and `scripts/generate-bitcode-proven.mjs`
@@ -967,7 +967,7 @@ Required closure posture:
   test coverage:
   `protocol-demonstration/test/{v20-quality-summary,v20-operator-transcript,v26-active-product-naming}.test.js`
   proof surface:
-  fifth-gate package-readme and V20 quality-proof carry-through closure so active package docs, ORM entry comments, review-framework carriers, and V20 quality/acceptance tests all converge on Bitcode-owned platform wording, explicit need-measurement grounding for `tech-types`, and the historically correct `_legacy/ENGI_SPEC_V20_PROVEN.md` appendix path rather than preserving `ENGI platform`, `ENGI ORM`, `ENGI CODE REVIEW FRAMEWORK`, or stale generated-appendix names in active docs and proof-bearing tests
+  fifth-gate package-readme and V20 quality-proof carry-through closure so active package docs, ORM entry comments, review-framework carriers, and V20 quality/acceptance tests all converge on Bitcode-owned platform wording, explicit read-measurement grounding for `tech-types`, and the historically correct `_legacy/ENGI_SPEC_V20_PROVEN.md` appendix path rather than preserving `ENGI platform`, `ENGI ORM`, `ENGI CODE REVIEW FRAMEWORK`, or stale generated-appendix names in active docs and proof-bearing tests
 - `packages/digest/{caching/index.ts,caching/__tests__/caching.test.ts,run/digest.ts,run/__tests__/generateDigest.test.ts,jest.config.cjs,tsconfig.test.json,__mocks__/protocol-demonstration/logger.ts,__mocks__/lib/git/git.ts,service/README.md}`
   test coverage:
   `packages/digest/caching/__tests__/caching.test.ts`, `packages/digest/run/__tests__/generateDigest.test.ts`, and `protocol-demonstration/test/v26-active-product-naming.test.js`
@@ -982,7 +982,7 @@ Required closure posture:
   test coverage:
   `uapi/tests/api/conversationThreadStreamRoute.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/conversationMessages.test.ts`
   proof surface:
-  fifth-gate non-mock conversations write-path closure so the App Router conversation stream carriers now resolve or create conversations, persist user writes, bind structured-token attachments through retained message primitives, and start canonical agentic-execution rows with normalized `rich_input` evidence for source attachments, output destinations, asset-pack references, and Need-measurement intent on the preserved execution substrate instead of failing closed at `501`
+  fifth-gate non-mock conversations write-path closure so the App Router conversation stream carriers now resolve or create conversations, persist user writes, bind structured-token attachments through retained message primitives, and start canonical agentic-execution rows with normalized `rich_input` evidence for source attachments, output destinations, asset-pack references, and Read-measurement intent on the preserved execution substrate instead of failing closed at `501`
 - `{packages/api/src/{routes/conversations.ts,conversations/conversations.ts},uapi/app/api/conversations/[conversationId]/route.ts,uapi/hooks/{useConversationPages.ts,useConversationStream.ts},uapi/app/conversations/components/{ConversationsOverlay.tsx,hooks/useChatState.ts},uapi/tests/{api/conversationsRouteRead.test.ts,useConversationStream.firstWrite.test.ts}}`
   test coverage:
   `uapi/tests/api/conversationsRouteRead.test.ts` and `uapi/tests/useConversationStream.firstWrite.test.ts`
@@ -998,11 +998,11 @@ Required closure posture:
   `uapi/tests/terminalActivityHistory.test.ts`
   proof surface:
   fifth-gate terminal write-through closure so Bitcode Terminal command, deposit, closure, and selected-detail actions now record canonical Bitcode activity rows into retained execution history, immediately select those rows back into `/terminal`, and teach the terminal ledger as the reread surface instead of leaving protocol writes trapped in preserved shell controls or separate execution routes
-- `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalGiveNeedWorkbench.tsx,TerminalNeedScenarioPanel.tsx,TerminalSupplySelectionPanel.tsx,TerminalActionWorkbenchCard.tsx,terminal-activity-history.ts},uapi/tests/terminalActivityHistory.test.ts}`
+- `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalDepositReadWorkbench.tsx,TerminalReadScenarioPanel.tsx,TerminalSupplySelectionPanel.tsx,TerminalActionWorkbenchCard.tsx,terminal-activity-history.ts},uapi/tests/terminalActivityHistory.test.ts}`
   test coverage:
   `uapi/tests/terminalActivityHistory.test.ts`
   proof surface:
-  fifth-gate give-need workbench closure so Bitcode Terminal give-side selection, active need measurement, and fit/settlement posture can all be explicitly recorded back into the same Bitcode activity ledger, keeping repository/supply/need/fit decision boundaries on the protocol-owned write/read path rather than leaving them as preserved-shell-only state
+  fifth-gate deposit-read workbench closure so Bitcode Terminal deposit-side selection, active read measurement, and fit/settlement posture can all be explicitly recorded back into the same Bitcode activity ledger, keeping repository/supply/read/fit decision boundaries on the protocol-owned write/read path rather than leaving them as preserved-shell-only state
 - `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalRepositoryContextPanel.tsx,TerminalExternalInterfacingPanel.tsx,terminal-activity-history.ts},uapi/tests/terminalActivityHistory.test.ts}`
   test coverage:
   `uapi/tests/terminalActivityHistory.test.ts`
@@ -1018,26 +1018,26 @@ Required closure posture:
   `uapi/tests/userProfileRoute.test.ts` and `uapi/tests/userDataRoute.test.ts`
   proof surface:
   fifth-gate profile-wallet-binding persistence closure so Profile-owned wallet identity, organization/profile extras, and auxillary reread now persist through `user_profiles.settings.bitcodeProfile`, the active auxillary/profile routes read `user_profiles` by its real `id` key instead of stale `user_id` drift, hydrated compatibility fields reread that one Exchange-owned settings carrier back into the Bitcode Terminal, `Connects`, and `$BTD`, and active wallet status no longer collapses manual identity and verified signing into the same fake `bound` posture
-- `{uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx,uapi/app/terminal/{terminal-workspace-explainers.ts,TerminalExperienceFrame.tsx,TerminalCommandDeck.tsx,TerminalRepositoryContextPanel.tsx,TerminalSupplySelectionPanel.tsx,TerminalNeedScenarioPanel.tsx,TerminalDepositComposer.tsx,TerminalClosureControlDeck.tsx},uapi/tests/{terminalSurfaceCopy.test.ts,bitcodeInlineExplainer.test.tsx}}`
+- `{uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx,uapi/app/terminal/{terminal-workspace-explainers.ts,TerminalExperienceFrame.tsx,TerminalCommandDeck.tsx,TerminalRepositoryContextPanel.tsx,TerminalSupplySelectionPanel.tsx,TerminalReadScenarioPanel.tsx,TerminalDepositComposer.tsx,TerminalClosureControlDeck.tsx},uapi/tests/{terminalSurfaceCopy.test.ts,bitcodeInlineExplainer.test.tsx}}`
   test coverage:
   `uapi/tests/terminalSurfaceCopy.test.ts` and `uapi/tests/bitcodeInlineExplainer.test.tsx`
   proof surface:
-  fifth-gate operator-guidance adjacency closure so the Bitcode Terminal now carries protocol-demonstration-style field- and action-adjacent explainers for read/write posture, repository anchoring, supply selection, need measurement, readiness, deposit provenance, and closure follow-through, with `Current source` and `Current canon` references preserved directly in the inline help contract
+  fifth-gate operator-guidance adjacency closure so the Bitcode Terminal now carries protocol-demonstration-style field- and action-adjacent explainers for read/write posture, repository anchoring, supply selection, read measurement, readiness, deposit provenance, and closure follow-through, with `Current source` and `Current canon` references preserved directly in the inline help contract
 - `{uapi/app/terminal/{TerminalPageClient.tsx,TerminalTransactionWorkspace.tsx,terminal-transaction-source.ts,terminal-protocol-projection.ts,terminal-run-data.ts},uapi/tests/{terminalTransactionSource.test.ts,terminalProtocolProjection.test.ts}}`
   test coverage:
   `uapi/tests/terminalTransactionSource.test.ts` and `uapi/tests/terminalProtocolProjection.test.ts`
   proof surface:
-  fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and carry a projected-detail snapshot on protocol rows so selected detail keeps repository/give/need/fit/supply posture even before retained execution-history persistence catches up
-- `{protocol-demonstration/{server.js,src/{bitcode-demo.js,bitcode-runtime.js,index.d.ts},test/v26-need-review-source-to-shares.test.js},uapi/{app/api/{need-review,state,make-bitcode-branch}/route.ts,app/terminal/TerminalNeedScenarioPanel.tsx,lib/bitcode-app-context.ts,tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}}}`
+  fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and carry a projected-detail snapshot on protocol rows so selected detail keeps repository/deposit/read/fit/supply posture even before retained execution-history persistence catches up
+- `{protocol-demonstration/{server.js,src/{bitcode-demo.js,bitcode-runtime.js,index.d.ts},test/v26-read-review-source-to-shares.test.js},uapi/{app/api/{read-review,state,make-bitcode-branch}/route.ts,app/terminal/TerminalReadScenarioPanel.tsx,lib/bitcode-app-context.ts,tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}}}`
   test coverage:
-  `node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js`, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`
+  `node --test protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `uapi/tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}`, and `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`
   proof surface:
-  fifth-gate pre-fit Need-review API/control closure so the protocol runtime can present a measured source-to-shares Need before fit search, app-owned `/api/need-review` can record accept/reject/remeasure-with-feedback decisions, explicit non-accept decisions fail closed before branch materialization, accepted `/api/make-bitcode-branch` responses carry source-to-shares artifacts plus present-fit settlement and quantized fit-quality receipt evidence, `/api/state?principal=buyer` rereads the accepted Need-review plus source-to-shares settlement posture from app-owned state after branch materialization without exposing raw private branch files, the generated source-to-shares proof now checks those state-route test assertions directly rather than treating file presence as sufficient, the commercial route boundary is parity-tested against the protocol implementation, and the Bitcode Terminal exposes the same review boundary from native need-scenario controls rather than leaving review admission as artifact-only proof
+  fifth-gate pre-fit Read-review API/control closure so the protocol runtime can present a measured source-to-shares Read before fit search, app-owned `/api/read-review` can record accept/reject/remeasure-with-feedback decisions, explicit non-accept decisions fail closed before branch materialization, accepted `/api/make-bitcode-branch` responses carry source-to-shares artifacts plus present-fit settlement and quantized fit-quality receipt evidence, `/api/state?principal=buyer` rereads the accepted Read-review plus source-to-shares settlement posture from app-owned state after branch materialization without exposing raw private branch files, the generated source-to-shares proof now checks those state-route test assertions directly rather than treating file presence as sufficient, the commercial route boundary is parity-tested against the protocol implementation, and the Bitcode Terminal exposes the same review boundary from native read-scenario controls rather than leaving review admission as artifact-only proof
 - `{uapi/app/terminal/{TerminalClosureNativeSections.tsx,terminal-closure-state.ts,terminal-transaction-detail-snapshot.ts,terminal-activity-history.ts},uapi/tests/{terminalClosureState.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalActivityHistory.test.ts}}`
   test coverage:
   `uapi/tests/{terminalClosureState.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalActivityHistory.test.ts}`
   proof surface:
-  fifth-gate Terminal package/interface PARITY closure for source-to-shares reads so native closure panels normalize Need-review admission, present-fit settlement review, objective-contract rows, source-to-shares refs, fit-quality hashes, fit-quality detail rows, proof-family posture, and selected-detail persistence as one use-share read model; `.bitcode/source-to-shares-fifth-gate-proof.json` now includes source-content checks over these Terminal read assertions rather than accepting file presence alone
+  fifth-gate Terminal package/interface PARITY closure for source-to-shares reads so native closure panels normalize Read-review admission, present-fit settlement review, objective-contract rows, source-to-shares refs, fit-quality hashes, fit-quality detail rows, proof-family posture, and selected-detail persistence as one use-share read model; `.bitcode/source-to-shares-fifth-gate-proof.json` now includes source-content checks over these Terminal read assertions rather than accepting file presence alone
 - `{uapi/app/terminal/{TerminalCommandDeck.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionDetailSurface.tsx,terminal-activity-history.ts,terminal-transaction-detail-snapshot.ts,terminal-transaction-detail.ts},uapi/tests/{terminalActivityHistory.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/terminalActivityHistory.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionDetail.test.ts`
@@ -1052,7 +1052,7 @@ Required closure posture:
   test coverage:
   `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`, plus `node --check` on the mirrored JavaScript carriers
   proof surface:
-  fifth-gate prompt-carrier and failure-telemetry compile-health closure so design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and active Shippable route failure telemetry keeps semantic `need`, `writtenAssetType`, and `assetPack` context available across catch paths
+  fifth-gate prompt-carrier and failure-telemetry compile-health closure so design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and active Shippable route failure telemetry keeps semantic `read`, `writtenAssetType`, and `assetPack` context available across catch paths
 - `{packages/api/src/conversations/{attachments.ts,conversations.ts},uapi/components/base/bitcode/{execution/{github-selectors.tsx,pipeline-execution-log.tsx,TagOverflowList.tsx},icons/LogoIcon.tsx,typing-animation.tsx,layout/{nav.tsx,sidebars/left-sidebar.tsx}},uapi/config/features.ts,uapi/tests/{navPublicShell.test.tsx,navWorkspaceChrome.test.tsx}}`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx` and `uapi/tests/navWorkspaceChrome.test.tsx`
@@ -1102,7 +1102,7 @@ Required closure posture:
   test coverage:
   generated source-content proof plus active UAPI execution route tests
   proof surface:
-  fifth-gate client execution-hook closure so the active execution caller teaches Bitcode AssetPack pipeline submission, uses canonical `definitionOfNeed` input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
+  fifth-gate client execution-hook closure so the active execution caller teaches Bitcode AssetPack pipeline submission, uses canonical `definitionOfRead` input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
 - `{uapi/app/terminal/{TerminalCommandDeck.tsx,TerminalClosureControlDeck.tsx,TerminalTransactionDetailSurface.tsx,terminal-activity-history.ts,terminal-transaction-detail-snapshot.ts,terminal-transaction-detail.ts},uapi/tests/{terminalActivityHistory.test.ts,terminalTransactionDetailSnapshot.test.ts,terminalTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/terminalActivityHistory.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionDetail.test.ts`
@@ -1112,7 +1112,7 @@ Required closure posture:
   test coverage:
   `uapi/tests/terminalTransactionActivitySurface.test.tsx`, `uapi/tests/terminalActivityHistory.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionDetail.test.ts`
   proof surface:
-  fifth-gate persisted-share-use reread closure so saved repository-anchor, give, need, fit, and supply-selection posture now survives into selected detail and the Bitcode activity tab when no live execution stream is available, keeping the Bitcode Terminal ledger readable as one state system instead of a shell-plus-ledger split
+  fifth-gate persisted-share-use reread closure so saved repository-anchor, deposit, read, fit, and supply-selection posture now survives into selected detail and the Bitcode activity tab when no live execution stream is available, keeping the Bitcode Terminal ledger readable as one state system instead of a shell-plus-ledger split
 - `{packages/agent-generics/src/{diagnostics/instrumentation.ts,steps/{failsafe-sequence.ts,thricified-generation.ts},substeps/factories.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained agent-generics diagnostics/failsafe/thricified corridor
@@ -1128,17 +1128,17 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained generic-tool caller corridor
   proof surface:
   fifth-gate retained caller-contract compile-health closure so file-maintaining uses the canonical pipelines-generics entrypoint, multimodal-processing uses the actual Bitcode `factoryTool` contract plus typed optional Figma context, and repository-setup no longer preserves the half-ported provider/auth shape assumptions that sat above the reusable VCS abstraction layer
-- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/asset-pack/src/tools/{BitcodeNeedMeasurementComputerUseTool.ts,index.ts},packages/api/src/routes/shippables.ts,uapi/app/executions/components/{ExecutionsPageClient.tsx,ExecutionsToggleButtons.tsx},uapi/components/base/bitcode/execution/{toggle-buttons.tsx,execution-option-toggle.tsx}}`
+- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/asset-pack/src/tools/{BitcodeReadMeasurementComputerUseTool.ts,index.ts},packages/api/src/routes/shippables.ts,uapi/app/executions/components/{ExecutionsPageClient.tsx,ExecutionsToggleButtons.tsx},uapi/components/base/bitcode/execution/{toggle-buttons.tsx,execution-option-toggle.tsx}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained Jira/multimodal/use-computer caller corridor
   proof surface:
-  fifth-gate retained caller-contract compile-health and reform closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, shell-execution tools plus the deliverable wrapper use the actual Bitcode `Tool` property contract instead of the older schema-class pattern, use-computer is admitted only as internal Need-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`, and old Terminal/API multi-agent plus compute toggles are removed rather than preserved as V26 controls
+  fifth-gate retained caller-contract compile-health and reform closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, shell-execution tools plus the deliverable wrapper use the actual Bitcode `Tool` property contract instead of the older schema-class pattern, use-computer is admitted only as internal Read-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`, and old Terminal/API multi-agent plus compute toggles are removed rather than preserved as V26 controls
 - `{packages/pipelines/asset-pack/src/{tools/{AssetPackCloneVCSRepositoryTool.ts,AssetPackMultimodalProcessingTool.ts,AssetPackAudioComprehensionTool.ts,AssetPackImageComprehensionTool.ts,AssetPackPDFComprehensionTool.ts,AssetPackVideoComprehensionTool.ts,index.ts},agents/finish/deliver-asset-pack-to-destination-agent.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor
   proof surface:
   fifth-gate caller-contract compile-health closure so asset-pack tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/Delivering tools no longer leak `undefined` into typed registries, and the Finish agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
-- `{packages/pipelines/asset-pack/src/{agents/{implementation/*.ts,setup/asset-pack-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivf-factory.ts,streaming/pipeline-stream-integration.ts}}`
+- `{packages/pipelines/asset-pack/src/{agents/{implementation/*.ts,setup/asset-pack-comprehend-read-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivf-factory.ts,streaming/pipeline-stream-integration.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the AssetPack phase/index/setup corridor
   proof surface:
@@ -1153,11 +1153,11 @@ Required closure posture:
   focused source-residue scans over retained non-prompt infrastructure plus active AssetPack prompt scaffolding, followed by package-local type/protocol checks
   proof surface:
   fifth-gate output-noun and phase-residue closure so reusable prompt infrastructure now demonstrates AssetPack PromptPart imports and `pipeline:asset-pack` paths, curated prompt-package root exports use `PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_*` rather than public `DELIVERABLES` aliases, generated prompt scaffolding no longer emits old completion-field names as prompt content, the prompt normalization helper no longer classifies broad pipeline completion by the old phase token, active runner fixtures use `finish` rather than `shipping`, and AssetPack metrics tests only accept canonical `phase_executions` / `step_executions` writes rather than treating removed storage-table aliases as success
-- `{packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts,packages/prompts/src/{index.ts,index.d.ts,raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksetupcomprehendneed_*}},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/V26_SHIPPABLE_REFORM.md}`
+- `{packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts,packages/prompts/src/{index.ts,index.d.ts,raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksetupcomprehendread_*}},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/V26_SHIPPABLE_REFORM.md}`
   test coverage:
   `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
   proof surface:
-  fifth-gate prompt-reservoir recut closure for the active AssetPack setup/comprehend-need overlay so live prompt code imports `assetpacksetupcomprehendneed` raw PromptParts, the old `deliverablesetupcomprehendneed` file family is removed instead of aliased, superseded `deliverablesetup{comprehendtask,analyzecodebase,familiarizeattachments,preparerepository}` raw PromptPart families and root/barrel exports are removed after semantic mirror closure, the new attachment-evidence refinement PromptPart has TypeScript and runtime JavaScript parity, and the reform note now treats old setup-comprehension PromptPart names as removal targets rather than active module paths
+  fifth-gate prompt-reservoir recut closure for the active AssetPack setup/comprehend-read overlay so live prompt code imports `assetpacksetupcomprehendneed` raw PromptParts, the old `deliverablesetupcomprehendneed` file family is removed instead of aliased, superseded `deliverablesetup{comprehendtask,analyzecodebase,familiarizeattachments,preparerepository}` raw PromptPart families and root/barrel exports are removed after semantic mirror closure, the new attachment-evidence refinement PromptPart has TypeScript and runtime JavaScript parity, and the reform note now treats old setup-comprehension PromptPart names as removal targets rather than active module paths
 - `{packages/pipelines/asset-pack/src/agents/prompts/{clone-vcs-repository-prompt.ts,asset-pack-vcs-clone-repository-agent-prompts.ts},packages/prompts/src/{index.ts,index.d.ts,raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksetupclonerepository_*,promptpart_specific_agent_assetpackpipeline_clonevcsrepository_*}},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/V26_SHIPPABLE_REFORM.md}`
   test coverage:
   `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
@@ -1168,21 +1168,21 @@ Required closure posture:
   `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
   proof surface:
   fifth-gate prompt-reservoir recut closure for active AssetPack setup safety, LSP evidence, and readiness prompts so live code imports `assetpacksetupdangerwall`, `assetpacksetupinitializelsp`, and `assetpacksetupreadytoiterate` raw PromptParts, old `deliverablesetupdangerwall` / `deliverablesetupinitializelsp` / `deliverablesetupreadytoiterate` file families are removed instead of aliased, canonical proof inventory points at the recut LSP PromptPart path, and setup structured-output PromptParts describe PR Delivering rather than broad shipping
-- `{packages/generic-tools/need-comprehension/{README.md,package.json,src/{index.ts,NeedComprehensionToolset.ts,need-comprehension-primitives.ts,need-comprehension-schemas.ts,prompts/index.ts,prompts/*Need*DocCodeToolPrompt.ts}},packages/generic-agents/need-comprehension/{README.md,package.json,src/index.ts},protocol-demonstration/test/{v26-need-comprehension-reform.test.js,v26-prompt-system-boundary.test.js},protocol-demonstration/src/canonical/{proven-generator.js,inference-implementation-records.js}}`
+- `{packages/generic-tools/read-comprehension/{README.md,package.json,src/{index.ts,ReadComprehensionToolset.ts,read-comprehension-primitives.ts,read-comprehension-schemas.ts,prompts/index.ts,prompts/*Read*DocCodeToolPrompt.ts}},packages/generic-agents/read-comprehension/{README.md,package.json,src/index.ts},protocol-demonstration/test/{v26-read-comprehension-reform.test.js,v26-prompt-system-boundary.test.js},protocol-demonstration/src/canonical/{proven-generator.js,inference-implementation-records.js}}`
   test coverage:
-  `protocol-demonstration/test/v26-need-comprehension-reform.test.js`, `protocol-demonstration/test/v26-prompt-system-boundary.test.js`, and `pnpm -C packages/generic-tools/need-comprehension run build`
+  `protocol-demonstration/test/v26-read-comprehension-reform.test.js`, `protocol-demonstration/test/v26-prompt-system-boundary.test.js`, and `pnpm -C packages/generic-tools/read-comprehension run build`
   proof surface:
-  fifth-gate need-comprehension reform closure so the generic-tool and setup-agent packages now expose only need-first tool, prompt, primitive, schema, and agent owners; removed pre-reform files are absence witnesses rather than compatibility evidence, generated JavaScript remains absent from both `src/` directories, and proof inventories cite the canonical owners instead of deleted wrappers
+  fifth-gate read-comprehension reform closure so the generic-tool and setup-agent packages now expose only read-first tool, prompt, primitive, schema, and agent owners; removed pre-reform files are absence witnesses rather than compatibility evidence, generated JavaScript remains absent from both `src/` directories, and proof inventories cite the canonical owners instead of deleted wrappers
 - `{packages/prompts/src/raw_promptparts/specific/{index.ts,promptpart_specific_pipeline_assetpackrun_*,promptpart_specific_agent_assetpackdiscoveryplanimplementation_*,promptpart_specific_agent_assetpackvalidationreadytofinish_*},scripts/{generate-asset-pack-promptparts.ts,prompt-audit.sh,enrich-doc-intents.mjs},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/{V26_SHIPPABLE_REFORM.md,V26_PROMPT_SURFACES.md,V26_INFERENCE_SYSTEMS.md}}`
   test coverage:
   `protocol-demonstration/test/v26-shippable-reform.test.js`
   proof surface:
-  fifth-gate pipeline, implementation-planning, type-classification, and validation-ready-to-Finish PromptPart recut closure so active pipeline raw owners use `pipeline_assetpackrun_*`, active implementation-planning raw owners use `agent_assetpackdiscoveryplanimplementation_*`, active readiness validation raw owners use `agent_assetpackvalidationreadytofinish_*`, old `pipeline_deliverable_*`, `agent_deliverablesdiscimplplan_*`, `agent_deliverablesdiscidentifytype_*`, `agent_determinedeliverabletype_*`, misspelled `agent_determinedelieverabletype_*`, pre-validation `agent_readytofinish_*`, and type-keyed Ready-to-Finish file/export families are absence witnesses rather than compatibility aliases, and the written-asset prompt text exposes the single V26 `need-satisfaction-asset-pack` kind while treating pull requests as Finish delivery mechanisms
+  fifth-gate pipeline, implementation-planning, type-classification, and validation-ready-to-Finish PromptPart recut closure so active pipeline raw owners use `pipeline_assetpackrun_*`, active implementation-planning raw owners use `agent_assetpackdiscoveryplanimplementation_*`, active readiness validation raw owners use `agent_assetpackvalidationreadytofinish_*`, old `pipeline_deliverable_*`, `agent_deliverablesdiscimplplan_*`, `agent_deliverablesdiscidentifytype_*`, `agent_determinedeliverabletype_*`, misspelled `agent_determinedelieverabletype_*`, pre-validation `agent_readytofinish_*`, and type-keyed Ready-to-Finish file/export families are absence witnesses rather than compatibility aliases, and the written-asset prompt text exposes the single V26 `read-satisfaction-asset-pack` kind while treating pull requests as Finish delivery mechanisms
 - `{packages/pipelines/asset-pack/src/agents/prompts/{understand-requirements-prompt.ts,analyze-parallel-prompt.ts,assess-complexity-prompt.ts,plan-implementation-prompt.ts,comprehend-attachments-prompt.ts,select-files-parallel-prompt.ts},packages/prompts/src/raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpackdiscoveryunderstandrequirements_*,promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_*,promptpart_specific_agent_assetpackdiscoveryassesscomplexity_*,promptpart_specific_agent_assetpackdiscoveryplanimplementation_*,promptpart_specific_agent_assetpackdiscoverycomprehendattachments_*,promptpart_specific_agent_assetpackdiscoveryselectfilesparallel_*},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/{V26_SHIPPABLE_REFORM.md,V26_PROMPT_SURFACES.md}}`
   test coverage:
   `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
   proof surface:
-  fifth-gate discovery PromptPart recut closure so active discovery prompt builders import `assetpackdiscoveryunderstandrequirements`, `assetpackdiscoveryanalyzeparallel`, `assetpackdiscoveryassesscomplexity`, `assetpackdiscoveryplanimplementation`, `assetpackdiscoverycomprehendattachments`, and `assetpackdiscoveryselectfilesparallel` raw owners; old `deliverablediscovery{analyze,analyzeparallel,assesscomplexity,planimplementation,understandrequirements,comprehendattachments,selectfilesparallel}` file/export families are absence witnesses, and the prompt literals teach Need requirements, repository evidence, proof evidence, complexity, Finish readiness, attachment evidence, and AssetPack scope instead of generic modification work
+  fifth-gate discovery PromptPart recut closure so active discovery prompt builders import `assetpackdiscoveryunderstandrequirements`, `assetpackdiscoveryanalyzeparallel`, `assetpackdiscoveryassesscomplexity`, `assetpackdiscoveryplanimplementation`, `assetpackdiscoverycomprehendattachments`, and `assetpackdiscoveryselectfilesparallel` raw owners; old `deliverablediscovery{analyze,analyzeparallel,assesscomplexity,planimplementation,understandrequirements,comprehendattachments,selectfilesparallel}` file/export families are absence witnesses, and the prompt literals teach Read requirements, repository evidence, proof evidence, complexity, Finish readiness, attachment evidence, and AssetPack scope instead of generic modification work
 - `{packages/prompts/src/raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksynthesizeartifacts_*,promptpart_specific_agent_assetpackvalidationreadytofinish_*,promptpart_specific_agent_assetpackfinishcreatepullrequestdelivery_*,promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_*,promptpart_specific_asset_pack_system_ultra_critical_reflection.*},scripts/{normalize-asset-pack-promptparts.mjs,prompt-audit.sh},protocol-demonstration/test/{v26-shippable-reform.test.js,v26-active-product-naming.test.js},protocol-demonstration/{V26_SHIPPABLE_REFORM.md,V26_PROMPT_SURFACES.md}}`
   test coverage:
   `protocol-demonstration/test/v26-shippable-reform.test.js` and `protocol-demonstration/test/v26-active-product-naming.test.js`

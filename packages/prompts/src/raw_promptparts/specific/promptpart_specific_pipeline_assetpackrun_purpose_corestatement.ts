@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: pipeline
- * intent: "Bitcode AssetPack-run pipeline PromptPart for need-first asset-pack execution, stored evidence, and Finish delivery-mechanism separation: pipeline assetpackrun purpose corestatement"
+ * intent: "Bitcode AssetPack-run pipeline PromptPart for read-first asset-pack execution, stored evidence, and Finish delivery-mechanism separation: pipeline assetpackrun purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PIPELINE_ASSETPACKRUN_PURPOSE_CORESTATEMENT: PromptPart =
-  'Execute a Bitcode AssetPack run: understand the need, synthesize need-satisfaction AssetPack artifacts, store proof-bearing evidence, and invoke the V26 Finish delivery mechanism through the SDIVF execution pattern' as PromptPart;
+  'Execute a Bitcode AssetPack run: understand the read, synthesize read-satisfaction AssetPack artifacts, store proof-bearing evidence, and invoke the V26 Finish delivery mechanism through the SDIVF execution pattern' as PromptPart;

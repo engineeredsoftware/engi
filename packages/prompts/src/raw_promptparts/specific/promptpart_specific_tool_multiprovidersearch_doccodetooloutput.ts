@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLOUTPUT: PromptPart =
-  'Aggregated search results with provider attribution, deduplication notes, source URLs, snippets, relevance and source-quality scores, failover history, and metadata for Bitcode need-synthesis evidence review' as PromptPart;
+  'Aggregated search results with provider attribution, deduplication notes, source URLs, snippets, relevance and source-quality scores, failover history, and metadata for Bitcode read-synthesis evidence review' as PromptPart;

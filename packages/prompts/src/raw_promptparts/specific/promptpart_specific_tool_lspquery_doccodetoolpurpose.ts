@@ -3,7 +3,7 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode LSP measurement tool purpose for static Need and AssetPack evidence"
+ * intent: "Bitcode LSP measurement tool purpose for static Read and AssetPack evidence"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -20,4 +20,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLPURPOSE: PromptPart = 
-  'Execute Language Server Protocol queries to measure symbol, type, reference, path, and configuration evidence for Bitcode Needs, AssetPack fit, and proof replay' as PromptPart;
+  'Execute Language Server Protocol queries to measure symbol, type, reference, path, and configuration evidence for Bitcode Reads, AssetPack fit, and proof replay' as PromptPart;

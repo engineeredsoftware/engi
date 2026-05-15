@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Bitcode Need-measurement purpose statement for internal use-computer tool"
+ * intent: "Bitcode Read-measurement purpose statement for internal use-computer tool"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLPURPOSE: PromptPart =
-  'Provide internal, feature-flagged computer-use evidence for Bitcode Need measurement by executing bounded shell commands and returning stdout, stderr, exit code, and duration; broad computer-using agents are deferred beyond V26' as PromptPart;
+  'Provide internal, feature-flagged computer-use evidence for Bitcode Read measurement by executing bounded shell commands and returning stdout, stderr, exit code, and duration; broad computer-using agents are deferred beyond V26' as PromptPart;

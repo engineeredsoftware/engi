@@ -429,8 +429,8 @@ export class ContextCompletenessRule extends ValidationRule {
     const foundElements: string[] = [];
     const text = promptText.toLowerCase();
     
-    // Need description
-    if (text.includes('need') || text.includes('objective') || text.includes('goal')) {
+    // Read description
+    if (text.includes('read') || text.includes('objective') || text.includes('goal')) {
       foundElements.push('need_description');
     }
     

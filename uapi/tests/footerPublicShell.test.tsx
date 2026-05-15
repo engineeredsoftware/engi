@@ -73,8 +73,8 @@ describe('Footer public shell', () => {
     expect(screen.getByText('Public exchange')).toBeInTheDocument();
     expect(screen.getAllByText('Terminal').length).toBeGreaterThan(0);
     expect(screen.getByText('Docs hub')).toBeInTheDocument();
-    expect(screen.getByText('Give')).toBeInTheDocument();
-    expect(screen.getByText('Need')).toBeInTheDocument();
+    expect(screen.getByText('Deposit')).toBeInTheDocument();
+    expect(screen.getByText('Read')).toBeInTheDocument();
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
     expect(screen.getAllByText('🧪').length).toBeGreaterThan(0);
     const protocolSpecLink = screen.getByRole('link', { name: 'Protocol spec' });

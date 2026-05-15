@@ -10,7 +10,7 @@ import { NoOptionsMessage } from '@/components/base/bitcode/execution/select-com
 import { useVCSSelections } from '@/hooks/useVCSSelections';
 
 /**
- * Simplified types - just what we need
+ * Simplified types - just what we read
  */
 type SelectOption = {
   label: string;

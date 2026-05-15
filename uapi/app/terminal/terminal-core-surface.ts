@@ -30,16 +30,16 @@ type ShellSnapshot = {
   coreSurface?: {
     operatingPicture?: SurfacePanelSnapshot | null;
     depositing?: SurfacePanelSnapshot | null;
-    needing?: SurfacePanelSnapshot | null;
+    reading?: SurfacePanelSnapshot | null;
     fit?: SurfacePanelSnapshot | null;
   } | null;
 } | null;
 
 const CORE_PANEL_CONFIG = [
   { id: 'panelOperatingPicture', key: 'operatingPicture', fallbackLabel: 'Operating picture' },
-  { id: 'panelDepositing', key: 'depositing', fallbackLabel: 'Giving' },
-  { id: 'panelNeeding', key: 'needing', fallbackLabel: 'Needing + measured demand' },
-  { id: 'panelFit', key: 'fit', fallbackLabel: 'Giving-to-Needing fit' },
+  { id: 'panelDepositing', key: 'depositing', fallbackLabel: 'Depositing' },
+  { id: 'panelReading', key: 'reading', fallbackLabel: 'Reading + measured demand' },
+  { id: 'panelFit', key: 'fit', fallbackLabel: 'Deposit-to-Read fit' },
 ] as const;
 
 function stringValue(value: string | number | null | undefined, fallback = '') {

@@ -445,7 +445,7 @@ export default function TerminalRepositoryContextPanel({
       id="terminalRepositorySupply"
       kicker="Repository supply"
       title="Connect and select searchable supply"
-      summary="Choose the GitHub repository that will anchor give-side supply before you move deeper into Giving, Need, and closure."
+      summary="Choose the GitHub repository that will anchor deposit-side supply before you move deeper into Deposit, Read, and closure."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply}
       tone="emerald"
     >
@@ -458,7 +458,7 @@ export default function TerminalRepositoryContextPanel({
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
           <p className="text-emerald-300/85">Main action</p>
-          <p className="mt-2 text-neutral-200">give</p>
+          <p className="mt-2 text-neutral-200">deposit</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
           <p className="text-emerald-300/85">Boundary</p>
@@ -538,7 +538,7 @@ export default function TerminalRepositoryContextPanel({
                   onClick={() => jumpToShellSection('terminalSupplySelection')}
                   className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
                 >
-                  Continue to give
+                  Continue to deposit
                 </button>
                 <button
                   type="button"
@@ -697,7 +697,7 @@ export default function TerminalRepositoryContextPanel({
                     </div>
                     <div>
                       <dt className="text-amber-100/70">Write admission</dt>
-                      <dd className="mt-1 text-neutral-100">Reconnect required before Giving, branch, or closure writes.</dd>
+                      <dd className="mt-1 text-neutral-100">Reconnect required before deposit, branch, or closure writes.</dd>
                     </div>
                     <div>
                       <dt className="text-amber-100/70">Inventory source</dt>
@@ -735,14 +735,14 @@ export default function TerminalRepositoryContextPanel({
                   </h3>
                 </div>
                 <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-300">
-                  give
+                  deposit
                 </span>
               </div>
 
               {selectedRepository ? (
                 <div className="mt-4 space-y-4">
                   <p className="text-sm leading-6 text-neutral-300">
-                    The selected repository now anchors the give-side Terminal frame before live Bitcode Giving
+                    The selected repository now anchors the deposit-side Terminal frame before live Bitcode deposit
                     surfaces below.
                   </p>
                   {connectionStatus?.connected && !connectionStatus.valid ? (
@@ -795,7 +795,7 @@ export default function TerminalRepositoryContextPanel({
                       onClick={() => jumpToShellSection('terminalDepositComposer')}
                       className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
                     >
-                      Open Giving draft
+                      Open deposit draft
                     </button>
                     <button
                       type="button"
@@ -820,7 +820,7 @@ export default function TerminalRepositoryContextPanel({
                 </div>
               ) : (
                 <p className="mt-4 text-sm leading-6 text-neutral-400">
-                  Select a connected repository to make the current give-side supply boundary explicit.
+                  Select a connected repository to make the current deposit-side supply boundary explicit.
                 </p>
               )}
             </article>
@@ -829,10 +829,10 @@ export default function TerminalRepositoryContextPanel({
 
         <div className="space-y-4">
           <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Give-side guidance</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Deposit-side guidance</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
-              Keep repository connection, repository selection, and Giving focus visible before you move deeper into
-              supply, need, and closure.
+              Keep repository connection, repository selection, and deposit focus visible before you move deeper into
+              supply, read, and closure.
             </p>
             <div className="mt-4 grid gap-3">
               <button
@@ -844,10 +844,10 @@ export default function TerminalRepositoryContextPanel({
               </button>
               <button
                 type="button"
-                onClick={() => jumpToShellSection('terminalNeedScenarios')}
+                onClick={() => jumpToShellSection('terminalReadScenarios')}
                 className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
               >
-                Continue to need
+                Continue to Read
               </button>
             </div>
           </article>

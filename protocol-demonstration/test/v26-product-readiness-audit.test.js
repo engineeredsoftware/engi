@@ -33,7 +33,7 @@ test('V26 product readiness audit is source-parity grounded through commercial l
     'bitcode-protocol',
     'bitcode-exchange',
     'bitcode-terminal',
-    'source-to-shares-need-fitting',
+    'source-to-shares-read-fitting',
     'assetpack-execution',
     'conversations-rich-input',
     'auxillaries-readiness',

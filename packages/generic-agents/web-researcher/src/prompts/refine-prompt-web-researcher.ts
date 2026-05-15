@@ -10,7 +10,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web research Refine prompt for source quality and volatility"
+ * intent: "Bitcode read-synthesis web research Refine prompt for source quality and volatility"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -19,9 +19,9 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  */
 /**
- * REFINE PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
+ * REFINE PROMPT COMPOSITION - BITCODE READ-SYNTHESIS WEB RESEARCH
  *
- * Composes source-quality and volatility PromptParts for need-synthesis evidence.
+ * Composes source-quality and volatility PromptParts for read-synthesis evidence.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

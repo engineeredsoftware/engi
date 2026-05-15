@@ -40,7 +40,7 @@ files_to_remove = [
     "cleanup_outdated_docs.py"
 ]
 
-# Files that need content extraction/merging
+# Files that read content extraction/merging
 files_to_merge = {
     "AI.md": "Extract QA checklist to README.md",
     "DOC-COMMENTS-ARE-PROMPTS.md": "Merge into DEVELOPING.md under 'Prompt Architecture'",

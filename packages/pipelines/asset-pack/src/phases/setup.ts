@@ -14,7 +14,7 @@ const setupPhaseConfig: PhaseConfig = {
     { agent: 'setup:asset-pack-clone-vcs-repository-agent' },
     { agent: 'setup:asset-pack-setup-plan-agent' },
     { agent: 'setup:parallel-context-bootstrap', parallel: [
-      { agent: 'setup:asset-pack-comprehend-need-agent' },
+      { agent: 'setup:asset-pack-comprehend-read-agent' },
       // Optional when available:
       // { agent: 'setup:asset-pack-initialize-lsp-agent' }
     ]},
@@ -45,7 +45,7 @@ export function registerSetupAgents(agentRegistry: any): void {
     () => import('../agents/setup/asset-pack-clone-vcs-repository-agent').then(m => m.default)
   );
 
-  // Second sequence, init lsp and comprehend need
+  // Second sequence, init lsp and comprehend read
   agentRegistry.registerAgent(
     'setup:asset-pack-initialize-lsp-agent',
     () => import('../agents/setup/asset-pack-initialize-lsp-agent').then(m => m.default)
@@ -55,12 +55,12 @@ export function registerSetupAgents(agentRegistry: any): void {
     () => import('../agents/setup/asset-pack-setup-plan-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
-    'setup:asset-pack-comprehend-need-agent',
-    () => import('../agents/setup/asset-pack-comprehend-need-agent').then(m => m.default)
+    'setup:asset-pack-comprehend-read-agent',
+    () => import('../agents/setup/asset-pack-comprehend-read-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
-    'setup:asset-pack-comprehend-need-definition-agent',
-    () => import('../agents/setup/asset-pack-comprehend-need-agent').then(m => m.default)
+    'setup:asset-pack-comprehend-read-definition-agent',
+    () => import('../agents/setup/asset-pack-comprehend-read-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:asset-pack-danger-wall-agent',

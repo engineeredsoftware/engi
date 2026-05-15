@@ -348,15 +348,15 @@ class CompletionDataGenerator extends BaseDataGenerator {
             assetPackSynthesisArtifacts: {
                 ...shippables,
                 proofEvidence: ['mock AssetPack evidence captured for reread'],
-                reviewNotes: ['mock Need-satisfaction artifacts synthesized'],
+                reviewNotes: ['mock Read-satisfaction artifacts synthesized'],
             },
             writtenAssets,
             deliveryMechanism: shippables,
             semanticKind: 'asset-pack-written-asset',
-            need: this.generateRealisticText(10),
+            read: this.generateRealisticText(10),
             writtenAssetType: this.pickRandom(['code-change', 'code-change-review', 'design-document']),
             assetPack: {
-                need: this.generateRealisticText(10),
+                read: this.generateRealisticText(10),
                 writtenAssetType: this.pickRandom(['code-change', 'code-change-review', 'design-document']),
                 deliveryTarget: this.pickRandom(['pr', 'comment', 'issue']),
             },

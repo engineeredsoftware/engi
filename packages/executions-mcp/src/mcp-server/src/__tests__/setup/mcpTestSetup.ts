@@ -607,7 +607,7 @@ beforeAll(async () => {
   console.log('🚀 Initializing MCP Test Environment');
 
   // Keep real timers by default so retained integration-style suites can
-  // exercise actual timeout and shutdown behavior. Unit suites that need
+  // exercise actual timeout and shutdown behavior. Unit suites that read
   // synthetic timer control opt into fake timers locally.
   jest.useRealTimers();
 });

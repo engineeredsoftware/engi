@@ -11,7 +11,7 @@
 // rendered above the fold.  We replace it with a minimal custom hook that uses
 // the browser’s native IntersectionObserver API.  This removes framer-motion
 // from the critical path; the library is still code-split into the few below-
-// the-fold sections that truly need it.
+// the-fold sections that truly read it.
 
 import React, { useRef, useEffect, useState } from 'react';
 

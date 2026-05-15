@@ -63,7 +63,7 @@ export default function BitcodeTransactionsTable({
   const tableTitle = isExchangeSurface ? 'Searchable Exchange activity table' : 'Recent Terminal activity';
   const tableSummary = isExchangeSurface
     ? 'The Exchange master table is searchable and filterable across market activity or your own activity. Select any row to load AssetPack evidence, proofs, history, and execution detail in the Exchange detail pane.'
-    : 'Terminal uses this shared activity table as a focused result surface for recent Give, Need, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates.';
+    : 'Terminal uses this shared activity table as a focused result surface for recent Deposit, Read, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates.';
 
   return (
     <section className="rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4">

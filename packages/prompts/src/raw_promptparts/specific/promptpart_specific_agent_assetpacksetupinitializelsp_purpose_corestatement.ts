@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode PromptPart for asset-pack need LSP measurement: purpose corestatement"
+ * intent: "Bitcode PromptPart for asset-pack read LSP measurement: purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode PromptPart for asset-pack need LSP measurement: purpose corestatement"
+ * intent: "Bitcode PromptPart for asset-pack read LSP measurement: purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: initialize Language Server Protocol as Bitcode static measurement infrastructure for Need evidence, AssetPack fit, and proof replay' as PromptPart;
+  'Core purpose: initialize Language Server Protocol as Bitcode static measurement infrastructure for Read evidence, AssetPack fit, and proof replay' as PromptPart;

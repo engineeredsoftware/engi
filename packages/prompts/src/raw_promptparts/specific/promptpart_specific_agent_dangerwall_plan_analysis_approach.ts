@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PLAN_ANALYSIS_APPROACH: PromptPart =
-  'Apply Bitcode risk-admission analysis: map need safety, mutation scope, private-data exposure, proof/evidence sufficiency, likely execution failure, AssetPack fit, delivery-mechanism fit, and manual-review triggers before the run proceeds.' as PromptPart;
+  'Apply Bitcode risk-admission analysis: map read safety, mutation scope, private-data exposure, proof/evidence sufficiency, likely execution failure, AssetPack fit, delivery-mechanism fit, and manual-review triggers before the run proceeds.' as PromptPart;

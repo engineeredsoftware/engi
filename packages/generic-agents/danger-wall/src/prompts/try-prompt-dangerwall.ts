@@ -13,14 +13,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Bitcode Need Risk Admission Agent - Try Step Prompt
+ * Bitcode Read Risk Admission Agent - Try Step Prompt
  * 
- * Execute Bitcode risk-admission checks against need, candidate written assets,
+ * Execute Bitcode risk-admission checks against read, candidate written assets,
  * AssetPack scope, proof-gap evidence, likely execution failure, and delivery mechanism.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode TRY step prompt for need risk-admission"
+ * intent: "Bitcode TRY step prompt for read risk-admission"
  * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
@@ -30,7 +30,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * benchmarks: [
  *   { "name": "execution_clarity", "test": "Does the prompt enable clear Bitcode admission execution?", "score": 0.45 },
  *   { "name": "evidence_utilization", "test": "Is repository and external evidence used without claiming proof?", "score": 0.46 },
- *   { "name": "validation_thoroughness", "test": "Are need, AssetPack, proof, and delivery boundaries checked?", "score": 0.45 }
+ *   { "name": "validation_thoroughness", "test": "Are read, AssetPack, proof, and delivery boundaries checked?", "score": 0.45 }
  * ]
  */
 

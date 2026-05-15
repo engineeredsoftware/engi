@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_TRY_DIRECTIVES: PromptPart =
-  'Execute Bitcode risk admission by checking the need, repository evidence, external evidence, candidate written assets, AssetPack intent, proof obligations, and delivery mechanism for blockers, warnings, and manual-review triggers.' as PromptPart;
+  'Execute Bitcode risk admission by checking the read, repository evidence, external evidence, candidate written assets, AssetPack intent, proof obligations, and delivery mechanism for blockers, warnings, and manual-review triggers.' as PromptPart;

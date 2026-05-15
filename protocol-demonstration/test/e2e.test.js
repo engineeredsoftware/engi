@@ -335,9 +335,9 @@ testAny('browser flow keeps operator ordering and drives deposit to targeted set
 
     assert.deepEqual(await readPanelHeadings(page), [
       '0. Operating picture',
-      '1. Give draft + selected supply',
-      '2. Need draft + measured demand',
-      '3. Give-to-need fit',
+      '1. Deposit draft + selected supply',
+      '2. Read draft + measured demand',
+      '3. Deposit-to-read fit',
       '4. Ranked candidates + verification',
       '5. Shippables + branch artifacts',
       '6. Settlement + journal diff',
@@ -400,7 +400,7 @@ async function sectionSurfaceTitleCount(page, panelId, title) {
 testAny('browser operator matrix covers every scenario, branch mode, and projection cell', { timeout: 360_000 }, async (t) => {
   await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
     const seededState = app.readState();
-    const scenarios = seededState.needScenarios.map((/** @type {any} */ scenario) => ({
+    const scenarios = seededState.readScenarios.map((/** @type {any} */ scenario) => ({
       scenarioId: scenario.scenarioId,
       scenarioFamily: scenario.scenarioFamily
     }));

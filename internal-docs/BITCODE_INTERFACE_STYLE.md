@@ -8,8 +8,8 @@ Bitcode interface style must make source-to-shares state legible and proof-visib
 
 The UI should distinguish:
 - source scope,
-- Need measurement,
-- Need review,
+- Read measurement,
+- Read review,
 - Auxillaries readiness,
 - fit qualities,
 - AssetPack contents,
@@ -36,6 +36,6 @@ The UI should distinguish:
 ## Style PR Checklist
 
 - Component names expose Bitcode product meaning.
-- Source, Need, fit, AssetPack, proof, and settlement states are visible where relevant.
+- Source, Read, fit, AssetPack, proof, and settlement states are visible where relevant.
 - Styling supports Terminal and Exchange comprehension instead of hiding execution state.
 - Compatibility component names are wrapped by Bitcode-facing boundaries.

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_PLAN_ANALYSIS: PromptPart = 
-  'Analyze full AssetPack pipeline context for Finish: validated Need-satisfaction artifacts, stored evidence requirements, proof receipts, fit-to-Need checks, delivery-mechanism readiness, Shippable destination constraints, and operator review evidence' as PromptPart;
+  'Analyze full AssetPack pipeline context for Finish: validated Read-satisfaction artifacts, stored evidence requirements, proof receipts, fit-to-Read checks, delivery-mechanism readiness, Shippable destination constraints, and operator review evidence' as PromptPart;

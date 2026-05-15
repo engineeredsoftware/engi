@@ -11,7 +11,7 @@ Trace output should include:
 - PromptParts used,
 - registry keys,
 - phase/agent/tool identity,
-- Need or AssetPack context,
+- Read or AssetPack context,
 - required JSON/schema hints,
 - failsafe context,
 - proof or benchmark metadata where available.
@@ -32,6 +32,6 @@ Preferred flow:
 A prompt trace is useful only if it proves:
 - the prompt is Bitcode-owned,
 - the prompt composes through registries,
-- the prompt describes the correct Need/fit/AssetPack/Finish responsibility,
+- the prompt describes the correct Read/fit/AssetPack/Finish responsibility,
 - old compatibility names do not leak into user-facing or agent-primary semantics.
 

@@ -53,7 +53,7 @@ emitRunLifecycle({
 
 Run lifecycle notifications use Bitcode execution semantics:
 - `asset-pack` for AssetPack synthesis, stored evidence, Finish, and optional Shippable delivery runs.
-- `need-measurement` for Need measurement executions that feed reviewable Need and fit workflows.
+- `read-measurement` for Read measurement executions that feed reviewable Read and fit workflows.
 - Notification deep links point to the Terminal execution bridge at `/executions/:runId`.
 
 ## Configuration

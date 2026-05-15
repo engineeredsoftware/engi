@@ -24,34 +24,34 @@ describe('normalizeTerminalSectionAtlas', () => {
             },
           ],
         },
-        needing: {
-          label: 'Needing + measured demand',
+        reading: {
+          label: 'Reading + measured demand',
           cards: [
             {
-              title: 'Needing surface',
+              title: 'Reading surface',
               subtitle: 'The active measured demand surface.',
             },
           ],
         },
         fit: {
-          label: 'Depositing-to-needing fit',
+          label: 'Depositing-to-reading fit',
           cards: [
             {
-              title: 'Depositing-to-needing surface',
-              subtitle: 'Why this deposit fits this need before deeper closure inspection.',
+              title: 'Depositing-to-reading surface',
+              subtitle: 'Why this deposit fits this read before deeper closure inspection.',
             },
           ],
         },
       },
       closureSurface: {
-        needReview: {
-          label: 'Need review before fit search',
+        readReview: {
+          label: 'Read review before fit search',
           reviewAction: 'accept',
           reviewStatus: 'accepted',
           protocolFocus: 'source-to-shares',
           fitSearchAdmitted: true,
           allowedActions: ['accept', 'reject', 'remeasure-with-feedback'],
-          admissionReason: 'Measured Need accepted for source-to-shares fit search.',
+          admissionReason: 'Measured Read accepted for source-to-shares fit search.',
         },
         verification: {
           label: 'Verification + ranked candidates',
@@ -71,7 +71,7 @@ describe('normalizeTerminalSectionAtlas', () => {
           proofFamilyCount: 4,
           replayArtifactCount: 9,
           projectionPrincipal: 'buyer',
-          visibleArtifacts: ['BITCODE_NEED.md'],
+          visibleArtifacts: ['BITCODE_READ.md'],
           summary: 'Branch artifacts are the materialized closure bundle behind the active Bitcode projection.',
         },
         settlement: {
@@ -100,7 +100,7 @@ describe('normalizeTerminalSectionAtlas', () => {
     expect(atlas[0]?.label).toBe('Operating picture');
     expect(atlas[0]?.subheads).toContain('Repo supply');
     expect(atlas[1]?.badge).toBe('Targeted deposit');
-    expect(atlas[2]?.label).toBe('Need review before fit search');
+    expect(atlas[2]?.label).toBe('Read review before fit search');
     expect(atlas[2]?.subheads).toContain('Fit search admitted');
     expect(atlas[4]?.label).toBe('Verification + ranked candidates');
     expect(atlas[4]?.subheads).toContain('Candidates');

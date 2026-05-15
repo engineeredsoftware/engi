@@ -5,7 +5,7 @@
 - Scope: non-canonical supplementary system document for the V26 Bitcode terminal architecture
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Next draft target: `BITCODE_SPEC_V27.md` (opened as draft; V26 remains active canon)
-- Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the terminal, overlay systems, retained package owners, and storage/persistence ownership
+- Purpose: deposit a fuller modular architecture view than the canon should carry line-by-line while V26 converges the terminal, overlay systems, retained package owners, and storage/persistence ownership
 
 ## Rule
 
@@ -37,10 +37,10 @@ Current fifth-gate retained-system classification:
 | --- | --- | --- |
 | `uapi/app/api/webhook/{route,verify}.ts` | `ingress-only` | GitHub-triggered automation ingress that may schedule work but does not own Bitcode Exchange reads/writes |
 | `packages/pipelines/asset-pack/src/run.ts` | `canonical` | `runSDIVFPipeline` is the AssetPack run export; the old SDIVS AssetPack alias is not an active V26 entry point |
-| `packages/pipelines/asset-pack/src/*` non-Bitcode naming | `trace-and-reform` | names like `deliverable`, `deliverableType`, `finalWorkSummary`, and `comprehend-task` are search beacons for reform, not retained functionality; the live filesystem/package owner is AssetPack and V26 teaches `asset pack`, `AssetPack completion`, `written asset`, `Shippable`, and `comprehend need`; see `protocol-demonstration/V26_SHIPPABLE_REFORM.md` |
+| `packages/pipelines/asset-pack/src/*` non-Bitcode naming | `trace-and-reform` | names like `deliverable`, `deliverableType`, `finalWorkSummary`, and `comprehend-task` are search beacons for reform, not retained functionality; the live filesystem/package owner is AssetPack and V26 teaches `asset pack`, `AssetPack completion`, `written asset`, `Shippable`, and `comprehend read`; see `protocol-demonstration/V26_SHIPPABLE_REFORM.md` |
 | removed `packages/pipelines/multi/*` filesystem owner | `cut` | non-Bitcode multi-agent / multi-output pipeline selection is absent from V26 live source rather than admitted as a Bitcode product control |
 | `packages/generic-agents/vcs/src/index.ts` | `reference-only` | VCS automation helper for retained agentic/pipeline callers, not the Bitcode Terminal repository-state owner |
-| `packages/generic-tools/use-computer/src/index.ts` | `ingress-or-support` | internal, server-flagged Need-measurement evidence primitive through `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`; not a Terminal action, implementation agent tool, Finish/Delivering tool, or broad V26 computer-using agent surface |
+| `packages/generic-tools/use-computer/src/index.ts` | `ingress-or-support` | internal, server-flagged Read-measurement evidence primitive through `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`; not a Terminal action, implementation agent tool, Finish/Delivering tool, or broad V26 computer-using agent surface |
 | `packages/generic-tools/mcps-tools/jira/src/index.ts` | `reference-only` | Jira integration ingress/reference layer, not Exchange-state ownership |
 | `packages/web-search/src/index.ts` | `auxiliary-input` | external search context provider that may enrich admitted interfaces without becoming Bitcode’s source of truth |
 
@@ -55,19 +55,19 @@ V26 defines three main Bitcode experiences:
 3. `auxillaries`
 
 V26 defines two main Bitcode actions:
-1. `give`
-2. `need`
+1. `deposit`
+2. `read`
 
 Those map as follows:
 - `master detail`
-  The terminal-owned operating workspace for repo supply, measured need, a transactions master surface, transaction detail, Finish-delivered Shippables, proofs, and history.
+  The terminal-owned operating workspace for repo supply, measured read, a transactions master surface, transaction detail, Finish-delivered Shippables, proofs, and history.
 - `conversations`
   The fullscreen chat workspace entered from within `/terminal`.
 - `auxillaries`
   The fullscreen auxillary workspace entered from within `/terminal`, fixed as `Connects`, `Interfaces`, `Profile`, and `$BTD`.
-- `give`
+- `deposit`
   Repo supply, deposits, authenticated material intake, and actions that place material into the Bitcode chain.
-- `need`
+- `read`
   Scenario framing, measured demand, fit pressure, and actions that express what Bitcode is trying to satisfy.
 
 The orbital ring model is fixed for V26:
@@ -92,7 +92,7 @@ Sixth-gate deepening now has an explicit post-cut-over terminal target:
 - `activity`
   The dominant searchable, filterable, transaction-first master/detail surface for Bitcode activity, with transactions as the primary row type and additional activity classes admitted only where they strengthen the same model.
 - `transactions`
-  The write-space for Bitcode operations: give, need, need measurement, and transaction creation/materialization.
+  The write-space for Bitcode operations: deposit, read, read measurement, and transaction creation/materialization.
 - `conversations`
   The rich ChatGPT-style read/write Bitcode surface, popup-capable and fullscreen-capable, with tool registration expected to stay aligned to the retained ChatGPT app surface.
 - `auxillaries`
@@ -134,7 +134,7 @@ Operational rule:
 - the mounted public footer should resolve the walkthrough/docs route through Bitcode-owned route/env ownership rather than removed demo-env fallbacks
 - the mounted public footer should link protocol spec through the stable canonical pointer rather than a version-specific public spec URL
 - the mounted public routes should carry explicit `Bitcode Network`, `Bitcode Docs`, and `Bitcode Transactions` title/brand posture rather than inheriting one global shell title
-- stable public entry copy should prefer `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching posture
+- stable public entry copy should prefer `Network`, `Transactions`, `Docs`, `Auxillaries`, and deposit/read teaching posture
 - `/docs` should remain the real public teaching surface while `/demo-video` remains a compatibility alias instead of a separate guide product surface
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance
 
@@ -153,7 +153,7 @@ Current active carriers:
 - `uapi/app/terminal/TerminalCommandDeck.tsx`
 - `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
 - `uapi/app/terminal/TerminalExternalInterfacingPanel.tsx`
-- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`
 - `uapi/app/terminal/TerminalLiveSummaryStrip.tsx`
 - `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
 - `uapi/app/terminal/TerminalCoreNativeSections.tsx`
@@ -166,7 +166,7 @@ Current active carriers:
 - `uapi/app/terminal/TerminalTransactionClosureCard.tsx`
 - `uapi/app/terminal/TerminalTransactionsTable.tsx`
 - `uapi/app/terminal/TerminalDepositComposer.tsx`
-- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
+- `uapi/app/terminal/TerminalReadScenarioPanel.tsx`
 - `uapi/app/terminal/TerminalTransactionWorkspace.tsx`
 - `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
 - `uapi/app/terminal/TerminalWorkspaceRail.tsx`
@@ -177,8 +177,8 @@ Current active carriers:
 - `uapi/app/terminal/terminal-deposit-composer.ts`
 - `uapi/app/terminal/terminal-external-runtime.ts`
 - `uapi/app/terminal/terminal-experience-architecture.ts`
-- `uapi/app/terminal/terminal-give-need-workbench.ts`
-- `uapi/app/terminal/terminal-need-scenarios.ts`
+- `uapi/app/terminal/terminal-deposit-read-workbench.ts`
+- `uapi/app/terminal/terminal-read-scenarios.ts`
 - `uapi/app/terminal/terminal-run-activity.ts`
 - `uapi/app/terminal/terminal-transaction-source.ts`
 - `uapi/app/terminal/terminal-transaction-detail-snapshot.ts`
@@ -218,7 +218,7 @@ Current active carriers:
 
 Operational rule:
 - route-local second-gate carriers consume one shared shell bridge instead of independently polling the mounted shell
-- command, summary, give/need, core, closure, and intake surfaces all refresh against the same semantic Bitcode state carrier
+- command, summary, deposit/read, core, closure, and intake surfaces all refresh against the same semantic Bitcode state carrier
 - the shared shell bridge must fail closed during pre-mount and hot-reload rebuild windows instead of crashing `/terminal`
 - V26 should extend this provider rather than multiplying per-component shell refresh loops
 
@@ -259,7 +259,7 @@ Current active carriers:
 
 Operational rule:
 - master detail means a rich Bitcode transactions table as master and transaction detail as detail
-- the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and orbitals/interfaces posture from terminal context
+- the read experience centers on that transactions master-detail window, while the write experience moves through deposit, read, and orbitals/interfaces posture from terminal context
 - `/terminal` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
 - transaction selection and rich master-table filters are route-owned and shareable through terminal query state
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
@@ -361,9 +361,9 @@ Operational rule:
 - recent transaction history is visible directly inside an explicit history detail carrier
 - shell-section navigation remains available as secondary follow-through rather than the primary lower closure read path
 
-## Give-side repository supply carrier
+## Deposit-side repository supply carrier
 
-Second-gate now treats repository supply as an terminal-owned part of the `give` action rather than only as preserved-shell detail.
+Second-gate now treats repository supply as an terminal-owned part of the `deposit` action rather than only as preserved-shell detail.
 
 Current active carriers:
 - `uapi/app/terminal/TerminalRepositoryContextPanel.tsx`
@@ -375,25 +375,25 @@ Current active carriers:
 Operational rule:
 - repository connection posture is terminal-visible before the deposit chain
 - selected repository supply is route state inside `/terminal`
-- the app-owned `/api/vcs/*` contract feeds the give-side carrier
+- the app-owned `/api/vcs/*` contract feeds the deposit-side carrier
 - the preserved deposit surfaces remain the semantic source below that terminal frame
 
-## Give/need semantic snapshot bridge
+## Deposit/read semantic snapshot bridge
 
 Second-gate now exposes the mounted Bitcode shell through a read-only semantic snapshot so route-local terminal carriers can reuse precise Bitcode truth without re-implementing shell-local selection logic or scraping generic markup.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
-- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`
 - `uapi/app/terminal/TerminalActionWorkbenchCard.tsx`
-- `uapi/app/terminal/terminal-give-need-workbench.ts`
+- `uapi/app/terminal/terminal-deposit-read-workbench.ts`
 
 Operational rule:
-- the preserved shell remains the semantic owner of active scenario, auth session, deposit preview, need surface, and fit surface
+- the preserved shell remains the semantic owner of active scenario, auth session, deposit preview, read surface, and fit surface
 - V26 route-local terminal carriers may consume that truth through `getBitcodeTerminalShellSnapshot()` and `readBitcodeTerminalShellSnapshot()`
 - client entry must wait for the terminal host before importing the preserved shell module for mount, snapshot, or control reads
-- route-local give/need action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
+- route-local deposit/read action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
 - this bridge is read-only and does not reopen first-gate ownership
 
 ## Terminal workspace shell and explainer carrier
@@ -406,19 +406,19 @@ Current active carriers:
 - `uapi/app/terminal/TerminalCommandDeck.tsx`
 - `uapi/app/terminal/TerminalWorkspaceRail.tsx`
 - `uapi/app/terminal/TerminalWorkspaceRailCard.tsx`
-- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
+- `uapi/app/terminal/TerminalReadScenarioPanel.tsx`
 - `uapi/app/terminal/TerminalSupplySelectionPanel.tsx`
 - `uapi/app/terminal/TerminalDepositComposer.tsx`
-- `uapi/app/terminal/TerminalGiveNeedWorkbench.tsx`
+- `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`
 - `uapi/app/terminal/TerminalClosureNativeSections.tsx`
 - `uapi/app/terminal/TerminalClosureControlDeck.tsx`
 
 Operational rule:
 - terminal workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
-- the support rail and give-side supply terminal are part of that same shared terminal shell and may not drift into one-off section chrome
+- the support rail and deposit-side supply terminal are part of that same shared terminal shell and may not drift into one-off section chrome
 - live terminal copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the user
 - live terminal copy should also avoid shell-plumbing, mounted-state, or source-path narration unless the user deliberately enters a bounded lower-level runtime view
-- stepwise workspace guidance should read as resumable give/need flow guidance and working-draft continuity rather than tutorial or demo residue
+- stepwise workspace guidance should read as resumable deposit/read flow guidance and working-draft continuity rather than tutorial or demo residue
 - the shared terminal shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
 - client component modularization should keep expanding through base carriers, route-local state normalizers, and orbital descriptors rather than growing new page-local monoliths
 
@@ -472,7 +472,7 @@ Operational rule:
 
 ## Core-state semantic snapshot bridge
 
-Second-gate now also treats the operating-picture, depositing, needing, and fit body as semantic terminal state rather than a rendered-panel discovery problem.
+Second-gate now also treats the operating-picture, depositing, reading, and fit body as semantic terminal state rather than a rendered-panel discovery problem.
 
 Current active carriers:
 - `protocol-demonstration/public/app.js`
@@ -482,11 +482,11 @@ Current active carriers:
 
 Operational rule:
 - the mounted Bitcode shell now emits a compact `coreSurface` through the semantic snapshot bridge
-- `/terminal` normalizes that core surface into operating, give, need, and fit cards without scraping rendered shell panel markup
+- `/terminal` normalizes that core surface into operating, deposit, read, and fit cards without scraping rendered shell panel markup
 - the terminal core body now reads exact Bitcode semantic posture while remaining route-local composition
 - later second-gate and fourth-gate convergence work should extend this bridge rather than reintroducing DOM-era panel readers
 
-## Give-side intake selection carrier
+## Deposit-side intake selection carrier
 
 Second-gate now also treats authenticated intake session, artifact filtering, search, and inventory selection as route-local terminal composition rather than preserved-shell-only control surfaces.
 
@@ -499,7 +499,7 @@ Current active carriers:
 Operational rule:
 - the mounted Bitcode shell remains the semantic owner of intake selection
 - `/terminal` reads and drives intake selection through the shell snapshot/control bridge
-- selected inventory, artifact filters, and authenticated session binding are explicit in the give-side workspace before the preserved deposit chain
+- selected inventory, artifact filters, and authenticated session binding are explicit in the deposit-side workspace before the preserved deposit chain
 - second-gate should keep moving intake behavior inward to route-local terminal carriers without inventing alternate Bitcode semantics
 
 ## Native deposit submission carrier
@@ -519,21 +519,21 @@ Operational rule:
 - title/author inference, raw fallback behavior, and selection-derived payload rules stay aligned to the Bitcode deposit builder
 - the native terminal composer strengthens second-gate without forking deposit semantics away from the preserved Bitcode chain
 
-## Native need-scenario carrier
+## Native read-scenario carrier
 
-Second-gate now also treats active need selection as terminal-owned behavior rather than preserved-shell-only scenario selection.
+Second-gate now also treats active read selection as terminal-owned behavior rather than preserved-shell-only scenario selection.
 
 Current active carriers:
-- `uapi/app/terminal/TerminalNeedScenarioPanel.tsx`
-- `uapi/app/terminal/terminal-need-scenarios.ts`
+- `uapi/app/terminal/TerminalReadScenarioPanel.tsx`
+- `uapi/app/terminal/terminal-read-scenarios.ts`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/src/client-entry.js`
 
 Operational rule:
 - `/terminal` selects the active Bitcode scenario through the shell control bridge
-- parser posture, closure count, and target-kind count remain visible inside the native need workspace
-- scenario selection stays semantically aligned to the mounted Bitcode shell rather than creating a competing need state
-- second-gate should keep shifting need behavior inward to route-local terminal carriers while preserving Bitcode need/fit semantics
+- parser posture, closure count, and target-kind count remain visible inside the native read workspace
+- scenario selection stays semantically aligned to the mounted Bitcode shell rather than creating a competing read state
+- second-gate should keep shifting read behavior inward to route-local terminal carriers while preserving Bitcode read/fit semantics
 
 ## Closure-state semantic snapshot bridge
 
@@ -726,7 +726,7 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/need-review/route.ts`
+- `uapi/app/api/read-review/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/auxillaries/data/route.ts`
@@ -752,29 +752,29 @@ Current active readiness and transaction-admission carriers include:
 Operational rule:
 - app-owned write routes are no longer allowed to trust client-only readiness posture when auth, wallet, provider, and repository scope can be re-derived on the server
 - app-owned read routes for `activity` and `executions/history` must also prove authenticated persisted reread of execution rows, notifications, Finish `assetPackCompletion` payloads, repo snapshots, processing stats, and execution events rather than relying on mock-mode or unauthenticated fallback as the only tested behavior
-- `need-review` is the terminal-owned Bitcode pre-fit review boundary: it must present the measured source-to-shares Need before fitting, return an Exchange `needFittingReview` payload with candidate-fit admission and present-fit settlement review requirements, persist accept/reject/remeasure-with-feedback decisions, and keep explicit non-accept decisions from being bypassed by branch materialization
-- `TerminalNeedScenarioPanel` is the Terminal read/control owner for that boundary: it must fetch `/api/need-review`, normalize `needFittingReview`, show blocked/admitted fit stages and the quantized fit-quality objective contract before fit search, and keep the route/source family TypeScript-owned rather than proving generated JavaScript mirrors
-- commercial route tests for `need-review` and `make-bitcode-branch` must include a protocol-demonstration parity seam, proving the `uapi` routes preserve the low-level reviewable-Need, branch-blocking, accepted source-to-shares artifact, present-fit settlement review, and quantized fit-quality receipt contracts rather than approximating them with route-local fixture behavior
-- `deposits` and `make-bitcode-branch` are terminal-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness, repository anchor posture, and accepted Need-review admission are satisfied where those preconditions apply
+- `read-review` is the terminal-owned Bitcode pre-fit review boundary: it must present the measured source-to-shares Read before fitting, return an Exchange `readFittingReview` payload with candidate-fit admission and present-fit settlement review requirements, persist accept/reject/remeasure-with-feedback decisions, and keep explicit non-accept decisions from being bypassed by branch materialization
+- `TerminalReadScenarioPanel` is the Terminal read/control owner for that boundary: it must fetch `/api/read-review`, normalize `readFittingReview`, show blocked/admitted fit stages and the quantized fit-quality objective contract before fit search, and keep the route/source family TypeScript-owned rather than proving generated JavaScript mirrors
+- commercial route tests for `read-review` and `make-bitcode-branch` must include a protocol-demonstration parity seam, proving the `uapi` routes preserve the low-level reviewable-Read, branch-blocking, accepted source-to-shares artifact, present-fit settlement review, and quantized fit-quality receipt contracts rather than approximating them with route-local fixture behavior
+- `deposits` and `make-bitcode-branch` are terminal-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness, repository anchor posture, and accepted Read-review admission are satisfied where those preconditions apply
 - terminal write controls may expose drafting posture before settlement posture, but they may not overclaim that staged drafting readiness is equivalent to verified signing readiness
 - the generic `Profile` write route may preserve an already provider-managed wallet signer state when rereading the same bound identity, but it may not assert new `pending` or `verified` signer posture on behalf of the client
 - the admitted `Bitcode MCP` asset-pack-create boundary, currently mounted on the deliverable-create compatibility URI, must fail closed before queueing or reserving `BTD` when `pipelines.create` permission is absent or the requested repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider credential
 - GitHub webhook ingress must schedule asset-pack pipeline automation as an ingress-only boundary: successful trigger telemetry must say `Trigger Asset-Pack Pipeline`, carry `github_webhook` ingress basis, `asset_packs` output meaning, an ingress-only Exchange role, and the current `bitcode-asset-pack-trigger` command
 - the active `executions-mcp` runtime at fifth-gate now admits only the narrowed Exchange-facing tool families (`pipeline`, `analysis`, `intelligence`, `enterprise`, `lsp`, `observability`); `field-intelligence` is removed from Bitcode and archived only as `_legacy/field-intelligence`, while monitoring, orchestration, and Jira-specific tool carriers remain non-admitted reference-only corridors until they are rebuilt to current package/runtime contracts
 - the admitted `executions-mcp` package boundary must typecheck locally through every retained dependency it still traverses; V26 no longer treats missing `zod`/`supabase` links, Next-only `supabase/ssr/server` leakage, or deep-import-only package seams as acceptable “non-Bitcode residue” once that corridor is claimed active
-- active and admitted-support prompt-bearing inference carriers must import `PromptPart`, `Prompt`, `PromptExecution`, and shared formatters through the public `@bitcode/prompts` boundary or its stable narrow subpaths; reference-only prompt consumers must likewise prefer the narrow public `@bitcode/prompts/prompt` and `@bitcode/prompts/parts/PromptPart` subpaths when they only need prompt primitives rather than the full prompt barrel, and their test/build configs should map only those explicit public subpaths rather than preserving broad `@bitcode/prompts/* -> packages/prompts/src/*` catchalls; admitted deliverable prompt ports plus prompt-primitive support carriers in `tools-generics`, `llm-generics`, and `time` must likewise keep `Prompt`, `PromptPart`, and `PromptFormatter` on `@bitcode/prompts/{prompt,parts/PromptPart,formatters}` whenever they are not actually using the full root prompt barrel; execution-aware prompt carriers and broader active execution-bearing runtime carriers that only need ancestry, prompt-hierarchy ownership, or the base execution tree must likewise prefer `@bitcode/execution-generics/Execution` and `@bitcode/execution-generics/prompts/ExecutionPrompt` rather than the broad execution barrel; deep imports into `packages/prompts/src/*` are no longer admissible on the live path except inside the prompts package itself, and the package-by-package prompt consumer map is maintained in `protocol-demonstration/V26_PROMPT_SURFACES.md`
-- generic prompt-bearing tools follow the same rule before reuse: `packages/generic-tools/need-comprehension` is now the canonical generic-tool boundary for the reformed Need-comprehension corridor, its Need-comprehension tools are individually defined and then collected by `NeedComprehensionToolset`, noncanonical tool/prompt/primitive/schema/raw-PromptPart owners are removed after need-first owners exist, its source remains TypeScript-only, and its DocCode prompts, raw promptparts, README, and primitives define Bitcode need comprehension with written-asset, asset-pack, proof, and delivery-mechanism semantics rather than carrying old task-first or experimental prompt language into the fifth-gate substrate; `packages/generic-agents/need-comprehension` is the separate setup/pre-danger-wall PTRR agent that registers and composes those tools before risk admission and also remains TypeScript-only
-- all prompt/tool/agentic/pipeline/MCP/execution corridors are governed by `protocol-demonstration/V26_INFERENCE_SYSTEMS.md`, which requires every promoted inference system to specify its canonical need, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, boundary posture, and verification evidence together rather than scattering behavior across prompt text, route code, and runtime stores
-- computer-use follows a stricter fifth-gate rule: the retained `use-computer` primitive may be returned only by the internal Need-measurement registry configuration, exposed in route preprocessing as `computerUseNeedMeasurement`, and guarded by `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`; it must not be passed to implementation, validation, Finish/Delivering, shipping-alias, or Terminal option-toggle agents, and broad computer-using agents are post-V26 work
+- active and admitted-support prompt-bearing inference carriers must import `PromptPart`, `Prompt`, `PromptExecution`, and shared formatters through the public `@bitcode/prompts` boundary or its stable narrow subpaths; reference-only prompt consumers must likewise prefer the narrow public `@bitcode/prompts/prompt` and `@bitcode/prompts/parts/PromptPart` subpaths when they only read prompt primitives rather than the full prompt barrel, and their test/build configs should map only those explicit public subpaths rather than preserving broad `@bitcode/prompts/* -> packages/prompts/src/*` catchalls; admitted deliverable prompt ports plus prompt-primitive support carriers in `tools-generics`, `llm-generics`, and `time` must likewise keep `Prompt`, `PromptPart`, and `PromptFormatter` on `@bitcode/prompts/{prompt,parts/PromptPart,formatters}` whenever they are not actually using the full root prompt barrel; execution-aware prompt carriers and broader active execution-bearing runtime carriers that only read ancestry, prompt-hierarchy ownership, or the base execution tree must likewise prefer `@bitcode/execution-generics/Execution` and `@bitcode/execution-generics/prompts/ExecutionPrompt` rather than the broad execution barrel; deep imports into `packages/prompts/src/*` are no longer admissible on the live path except inside the prompts package itself, and the package-by-package prompt consumer map is maintained in `protocol-demonstration/V26_PROMPT_SURFACES.md`
+- generic prompt-bearing tools follow the same rule before reuse: `packages/generic-tools/read-comprehension` is now the canonical generic-tool boundary for the reformed Read-comprehension corridor, its Read-comprehension tools are individually defined and then collected by `ReadComprehensionToolset`, noncanonical tool/prompt/primitive/schema/raw-PromptPart owners are removed after read-first owners exist, its source remains TypeScript-only, and its DocCode prompts, raw promptparts, README, and primitives define Bitcode read comprehension with written-asset, asset-pack, proof, and delivery-mechanism semantics rather than carrying old task-first or experimental prompt language into the fifth-gate substrate; `packages/generic-agents/read-comprehension` is the separate setup/pre-danger-wall PTRR agent that registers and composes those tools before risk admission and also remains TypeScript-only
+- all prompt/tool/agentic/pipeline/MCP/execution corridors are governed by `protocol-demonstration/V26_INFERENCE_SYSTEMS.md`, which requires every promoted inference system to specify its canonical read, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, boundary posture, and verification evidence together rather than scattering behavior across prompt text, route code, and runtime stores
+- computer-use follows a stricter fifth-gate rule: the retained `use-computer` primitive may be returned only by the internal Read-measurement registry configuration, exposed in route preprocessing as `computerUseReadMeasurement`, and guarded by `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`; it must not be passed to implementation, validation, Finish/Delivering, shipping-alias, or Terminal option-toggle agents, and broad computer-using agents are post-V26 work
 - admitted `Bitcode MCP` workflow/development prompts and the `bitcode://pipelines/asset-pack/create` compatibility tool description must render as Bitcode asset-pack pipeline guidance over source-to-shares needs; `deliverable` URI/subtype names remain compatibility surfaces only, and package-local prompt tests plus generated proof must reject old output-pipeline wording as active MCP canon
-- `packages/pipelines/asset-pack/*` execution stores and route-facing postprocess artifacts should now carry semantic `definitionOfNeed`, `need`, `writtenAssetType`, `assetPackCompletion`, asset-pack-shaped snapshots, and Finish/Delivering delivery-mechanism mirrors; phase/finish/read carriers should resolve those semantic fields first so the commercial infrastructure is actively shaping Bitcode protocol behavior rather than silently recentering non-Bitcode naming, and the corridor should be read as a Bitcode agentic pipeline run that satisfies needs, synthesizes stable written assets, and uses Delivering only as GitHub pull-request Shippables; active reread, workspace-run summaries, and mock/operator projections should therefore prefer `assetPackSynthesisArtifacts` for Bitcode-owned summary/file-change meaning, then semantic `writtenAssets`, then `shippables` / `deliveryMechanism`; `deliverables` is not a retained active fallback field
+- `packages/pipelines/asset-pack/*` execution stores and route-facing postprocess artifacts should now carry semantic `definitionOfRead`, `read`, `writtenAssetType`, `assetPackCompletion`, asset-pack-shaped snapshots, and Finish/Delivering delivery-mechanism mirrors; phase/finish/read carriers should resolve those semantic fields first so the commercial infrastructure is actively shaping Bitcode protocol behavior rather than silently recentering non-Bitcode naming, and the corridor should be read as a Bitcode agentic pipeline run that satisfies needs, synthesizes stable written assets, and uses Delivering only as GitHub pull-request Shippables; active reread, workspace-run summaries, and mock/operator projections should therefore prefer `assetPackSynthesisArtifacts` for Bitcode-owned summary/file-change meaning, then semantic `writtenAssets`, then `shippables` / `deliveryMechanism`; `deliverables` is not a retained active fallback field
 - operator-facing execution headers and the active route/API surface must present this corridor as asset-pack synthesis plus Finish-delivered Shippables rather than teaching `deliverable` as the primary Bitcode object; `/api/deliverables` is not an active V26 endpoint
-- streaming completion carriers should likewise emit semantic `assetPackSynthesisArtifacts`, `writtenAssets`, `shippables`, `deliveryMechanism`, `need`, `writtenAssetType`, and `assetPack` fields; client-side stream parsing should preserve those fields and must not recreate a `deliverables` compatibility surface
-- route persistence should store route-preprocess snapshots and completion metadata under semantic `assetPackWrittenAsset` / `need` / `assetPack` / `writtenAssetType` aliases so entry-time routing, persistence, and reread stay aligned on Bitcode-owned meaning instead of compatibility route naming
+- streaming completion carriers should likewise emit semantic `assetPackSynthesisArtifacts`, `writtenAssets`, `shippables`, `deliveryMechanism`, `read`, `writtenAssetType`, and `assetPack` fields; client-side stream parsing should preserve those fields and must not recreate a `deliverables` compatibility surface
+- route persistence should store route-preprocess snapshots and completion metadata under semantic `assetPackWrittenAsset` / `read` / `assetPack` / `writtenAssetType` aliases so entry-time routing, persistence, and reread stay aligned on Bitcode-owned meaning instead of compatibility route naming
 - telemetry, notification, and email-subject carriers should likewise use semantic asset-pack event aliases and asset-pack-run wording so operator/analytics surfaces no longer over-teach `deliverable` as the primary object
 - email-template filenames must be AssetPack-native; only bounded promptpart identifiers may retain old names while their rendered prompt content teaches asset-pack-run, written-asset, and Shippable delivery-mechanism semantics
-- raw promptparts and promptpart-generation scripts in this corridor should describe asset-pack-run, need-satisfaction, written-asset, Shippable, and delivery-mechanism semantics; where an old identifier has no safe mirror yet it is a bounded trace input, and where a semantic mirror exists the old family is removed rather than kept as an alias. Deeper phase-purpose, pipeline-level AssetPack-run, setup-comprehension, Finish finalization, compatibility-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-finish, code-change-readiness, and code-change-review-readiness promptparts should therefore teach Bitcode-first execution meaning instead of PR-first / deployment-ceremony-first / V26 residue
-- `packages/pipelines/asset-pack/*` setup and prompt carriers should prefer canonical `comprehend-need` module paths and recut `ASSETPACKSETUPCOMPREHENDNEED` PromptParts, and discovery outputs should emit semantic `writtenAssets` / `needSatisfactionCriteria` directly so the commercial infrastructure expresses Bitcode meaning without depending on old `deliverables` mirrors
+- raw promptparts and promptpart-generation scripts in this corridor should describe asset-pack-run, read-satisfaction, written-asset, Shippable, and delivery-mechanism semantics; where an old identifier has no safe mirror yet it is a bounded trace input, and where a semantic mirror exists the old family is removed rather than kept as an alias. Deeper phase-purpose, pipeline-level AssetPack-run, setup-comprehension, Finish finalization, compatibility-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-finish, code-change-readiness, and code-change-review-readiness promptparts should therefore teach Bitcode-first execution meaning instead of PR-first / deployment-ceremony-first / V26 residue
+- `packages/pipelines/asset-pack/*` setup and prompt carriers should prefer canonical `comprehend-read` module paths and recut `ASSETPACKSETUPCOMPREHENDREAD` PromptParts, and discovery outputs should emit semantic `writtenAssets` / `readSatisfactionCriteria` directly so the commercial infrastructure expresses Bitcode meaning without depending on old `deliverables` mirrors
 - `packages/pipelines/asset-pack/*` must also typecheck locally through the MCP/VCS/prompt/search support graph it still traverses; fifth-gate no longer treats runtime-only proof as sufficient for this corridor once it is claimed as live commercial infrastructure
 - the base `doc-comment` primitive and `doc-code` tool-injection path remain admitted support/compatibility corridors for build-time attachment of tool prompt descriptions into Bitcode agentic runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain bounded reform corridors that may not teach prompt-package internal paths as public API; see `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`
 - the prompt/doc-code runtime bridge and its support primitives must resolve through honest public package subpaths (`@bitcode/prompts`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/registry`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, `@bitcode/tools-generics`) rather than repo-relative cross-package source reach-through
@@ -914,11 +914,11 @@ Compatibility work that still keeps older ENGI-named files or directories does n
 Fourth-gate keeps only the non-Bitcode ports that have explicit Bitcode roles:
 
 - Jira read-first ingestion
-  `packages/generic-tools/mcps-tools/jira/*`, `packages/generic-agents/jira-processor/*`, and their prompt parts remain admitted only for authenticated Jira reads that normalize issues, worklogs, comments, and project state into Bitcode need context.
+  `packages/generic-tools/mcps-tools/jira/*`, `packages/generic-agents/jira-processor/*`, and their prompt parts remain admitted only for authenticated Jira reads that normalize issues, worklogs, comments, and project state into Bitcode read context.
 - Git/GH initial settle-write
   `packages/generic-tools/mcps-tools/github/*` remains admitted as the first explicit settle-write boundary for Git/GH-centric branch and pull-request settlement during testnet-ready fourth-gate promotion.
 
 These are not equivalent roles.
-Jira is a need-ingestion and measurement port in fourth-gate.
+Jira is a read-ingestion and measurement port in fourth-gate.
 Git/GH is the initial admitted settle-write surface in fourth-gate.
 Broader multi-surface settle writes stay later-gate or later-version work.

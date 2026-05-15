@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPURPOSE: PromptPart =
-  'Search across providers to improve source coverage and corroboration for Bitcode discovery-phase need synthesis while keeping all results auxiliary to downstream proof and need owners' as PromptPart;
+  'Search across providers to improve source coverage and corroboration for Bitcode discovery-phase read synthesis while keeping all results auxiliary to downstream proof and read owners' as PromptPart;

@@ -28,7 +28,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode setup prompt for deciding whether Need and AssetPack context is sufficient to enter DIV iteration"
+ * intent: "Bitcode setup prompt for deciding whether Read and AssetPack context is sufficient to enter DIV iteration"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

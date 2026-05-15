@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import {
   canonicalJson,
   buildInitialState,
-  buildNeedDescriptor,
+  buildReadDescriptor,
   buildRealizationProfile,
   buildPromptContract,
   assertPromptContractComplete,
-  measureNeedFromScenario,
+  measureReadFromScenario,
   recallCandidates,
   evaluateCandidates,
   assembleAssetPack,
@@ -28,7 +28,7 @@ import {
  * @typedef {{
  *   assets: any[],
  *   buyers: any[],
- *   needScenarios: any[],
+ *   readScenarios: any[],
  *   githubAppSessions: any[],
  *   repoArtifactInventory: any[],
  *   ledger: { accounts: Record<string, string> },
@@ -48,7 +48,7 @@ import {
  *   promptCompletenessProof: any,
   *   staticExecutionReceipts: any[],
   *   measurementProvenance: any[],
-  *   needDescriptor: any
+  *   readDescriptor: any
  * }} TestMeasurement
  */
 
@@ -58,7 +58,7 @@ import {
  *   canonPosture?: Record<string, string>,
  *   repoSupplySurface: { repoCount?: number, inventoryEntryCount?: number, repos: any[] },
  *   boundaryRealitySurface: { posture?: string, stages: any[] },
- *   needScenarios: any[],
+ *   readScenarios: any[],
  *   conformanceProfiles: any,
  *   projectionPrincipal?: string,
  *   githubAppSessions: any[],
@@ -74,15 +74,15 @@ import {
 /**
  * @typedef {{
  *   scenarioId?: string,
- *   need?: any,
+ *   read?: any,
  *   buyer?: any,
- *   needLifecycle?: string,
+ *   readLifecycle?: string,
  *   conformanceProfile?: string,
  *   branchMode?: string,
  *   realizationProfile?: any,
  *   depositingSurface?: any,
- *   needingSurface?: any,
- *   depositingToNeedingSurface?: any,
+ *   readingSurface?: any,
+ *   depositingToReadingSurface?: any,
  *   repoToSettlementSurface: { stages: any[] },
  *   identityAuthSpineSurface: { hops: any[], buyerPrincipalId?: string },
  *   evaluatedCandidates: any[],
@@ -141,7 +141,7 @@ import {
  *   testCoverageReport: any,
  *   codeAnalysisFactRegistry: any,
  *   staticHeuristicsRegistry: any,
- *   needMeasurement: { measurementProvenance: any[] },
+ *   readMeasurement: { measurementProvenance: any[] },
  *   assetPackEvidenceManifest: { assetPackEvidence: any[] },
  *   staticMeasurementReport: any,
  *   staticMeasurementProof: any,
@@ -152,7 +152,7 @@ import {
 /** @type {() => TestState} */
 const buildInitialStateTest = /** @type {any} */ (buildInitialState);
 /** @type {(subject: any) => any} */
-const buildNeedDescriptorTest = /** @type {any} */ (buildNeedDescriptor);
+const buildReadDescriptorTest = /** @type {any} */ (buildReadDescriptor);
 /** @type {(subject: any) => any} */
 const buildRealizationProfileTest = /** @type {any} */ (buildRealizationProfile);
 /** @type {(subject: any) => any} */
@@ -160,12 +160,12 @@ const buildPromptContractTest = /** @type {any} */ (buildPromptContract);
 /** @type {(contract: any) => void} */
 const assertPromptContractCompleteTest = /** @type {any} */ (assertPromptContractComplete);
 /** @type {(scenario: any) => TestMeasurement} */
-const measureNeedFromScenarioTest = /** @type {any} */ (measureNeedFromScenario);
-/** @type {(need: any, assets: any[]) => any[]} */
+const measureReadFromScenarioTest = /** @type {any} */ (measureReadFromScenario);
+/** @type {(read: any, assets: any[]) => any[]} */
 const recallCandidatesTest = /** @type {any} */ (recallCandidates);
-/** @type {(need: any, assets: any[]) => any[]} */
+/** @type {(read: any, assets: any[]) => any[]} */
 const evaluateCandidatesTest = /** @type {any} */ (evaluateCandidates);
-/** @type {(need: any, evaluated: any[], branchMode: any) => any} */
+/** @type {(read: any, evaluated: any[], branchMode: any) => any} */
 const assembleAssetPackTest = /** @type {any} */ (assembleAssetPack);
 /** @type {(state: any, principal?: any) => TestProjection} */
 const publicStateTest = /** @type {any} */ (publicState);
@@ -186,21 +186,21 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   const state = buildInitialStateTest();
   assert.equal(state.assets.length, 11);
   assert.equal(state.buyers.length, 1);
-  assert.equal(state.needScenarios.length, 8);
+  assert.equal(state.readScenarios.length, 8);
   assert.equal(state.githubAppSessions.length, 7);
   assert.ok(state.repoArtifactInventory.length >= 10);
   assert.deepEqual(
-    [...new Set(state.needScenarios.map((scenario) => scenario.repo))].sort(),
+    [...new Set(state.readScenarios.map((scenario) => scenario.repo))].sort(),
     [...new Set(state.githubAppSessions.map((session) => session.repo))].sort()
   );
   assert.deepEqual(
     [...new Set(state.githubAppSessions.map((session) => session.repo))].sort(),
     [...new Set(state.repoArtifactInventory.map((entry) => entry.repo))].sort()
   );
-  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'));
-  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'privacy-boundary-stress'));
-  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'));
-  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'many-asset-settlement-normalization'));
+  assert.ok(state.readScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'));
+  assert.ok(state.readScenarios.some((scenario) => scenario.scenarioFamily === 'privacy-boundary-stress'));
+  assert.ok(state.readScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'));
+  assert.ok(state.readScenarios.some((scenario) => scenario.scenarioFamily === 'many-asset-settlement-normalization'));
   assert.ok(state.ledger.accounts['buyer:frontier-code-systems:license_pool']);
   assert.equal(Object.keys(state.ledger.accounts).length, state.assets.length + 1);
 });
@@ -220,17 +220,17 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   assert.equal(projected.boundaryRealitySurface.posture, 'honest-local-prototype');
   assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'modeled-local'));
   assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'executed-local'));
-  assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.needId));
-  assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.closureCriteria?.length >= 1));
+  assert.ok(projected.readScenarios.every((scenario) => scenario.readingSurface?.readId));
+  assert.ok(projected.readScenarios.every((scenario) => scenario.readingSurface?.closureCriteria?.length >= 1));
 });
 
 test('publicState exposes current profile comparison guidance for the demo shell', () => {
   const projected = publicStateTest(buildInitialStateTest());
 
-  assert.equal(projected.profileCompositions.distinctionBasis, 'deposit-and-need');
+  assert.equal(projected.profileCompositions.distinctionBasis, 'deposit-and-read');
   assert.deepEqual(projected.profileCompositions.comparisonAxes, [
     'deposit mode',
-    'need mode',
+    'read mode',
     'asset-pack shape',
     'settlement shape',
     'boundary hand-off'
@@ -252,37 +252,37 @@ test('buildRealizationProfile returns canonical realization descriptors', () => 
   assert.equal(normalization.profileDiscriminant, 'realization-profile:B');
 });
 
-test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
+test('buildReadDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
   const state = buildInitialStateTest();
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
 
-  assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
-  assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
-  assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
-  assert.equal(need.conformanceProfile, 'Profile A — targeted deposit / bounded need');
-  assert.equal(need.productionIntentProfile, 'Profile B — normalization deposit / composite need');
-  assert.equal(need.realizationProfile.profileId, 'A');
-  assert.equal(need.realizationProfile.shortLabel, 'Targeted deposit');
-  assert.equal(need.realizationProfile.profileKind, 'realization-profile');
-  assert.equal('canonicalNames' in need.realizationProfile, false);
-  assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
-  assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
-  assert.equal(need.fieldDerivations.closureCriteria.source, 'deterministic-synthesis');
-  assert.ok(need.closureCriteria.length >= 3);
-  assert.ok(need.measurementProvenance.length >= 2);
-  assert.ok(Array.isArray(need.recallChannelContracts));
-  assert.ok(need.recallChannelContracts.some((/** @type {any} */ entry) => entry.channelId === 'lexicalSearch' && entry.signalFamily === 'lexical'));
+  assert.equal(read.canonicalRunEvidence.runId, 'gha_run_auth_001');
+  assert.equal(read.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
+  assert.equal(read.benchmarkParserContract.parserFailureContract.failClosed, true);
+  assert.equal(read.conformanceProfile, 'Profile A — targeted deposit / bounded read');
+  assert.equal(read.productionIntentProfile, 'Profile B — normalization deposit / composite read');
+  assert.equal(read.realizationProfile.profileId, 'A');
+  assert.equal(read.realizationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(read.realizationProfile.profileKind, 'realization-profile');
+  assert.equal('canonicalNames' in read.realizationProfile, false);
+  assert.equal(read.fieldDerivations.task.source, 'seed.expectedTask');
+  assert.equal(read.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
+  assert.equal(read.fieldDerivations.closureCriteria.source, 'deterministic-synthesis');
+  assert.ok(read.closureCriteria.length >= 3);
+  assert.ok(read.measurementProvenance.length >= 2);
+  assert.ok(Array.isArray(read.recallChannelContracts));
+  assert.ok(read.recallChannelContracts.some((/** @type {any} */ entry) => entry.channelId === 'lexicalSearch' && entry.signalFamily === 'lexical'));
 });
 
-test('measureNeedFromScenario materializes prompt surfaces with interpolated lineage and downstream bindings', () => {
+test('measureReadFromScenario materializes prompt surfaces with interpolated lineage and downstream bindings', () => {
   const state = buildInitialStateTest();
-  const measurement = measureNeedFromScenarioTest(state.needScenarios[0]);
+  const measurement = measureReadFromScenarioTest(state.readScenarios[0]);
 
   assert.ok(measurement.promptSurfaces.length >= 5);
-  assert.equal(measurement.needDescriptor.promptSurfaces.length, measurement.promptSurfaces.length);
+  assert.equal(measurement.readDescriptor.promptSurfaces.length, measurement.promptSurfaces.length);
   assert.match(measurement.promptSurfaces[0].interpolatedPrompt, /frontier\/demo-auth/);
   assert.ok(measurement.promptSurfaces[0].contextInputs.length >= 3);
-  assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.bitcode/need.json'));
+  assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.bitcode/read.json'));
   assert.equal(measurement.promptCompletenessProof.allContractsComplete, true);
   assert.equal(measurement.promptCompletenessProof.allTheoremsPassed, true);
   assert.equal(measurement.inferenceSynthesisProof.allTheoremsPassed, true);
@@ -309,60 +309,60 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.ok(measurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.length >= 1));
 });
 
-test('measureNeedFromScenario materializes a canonical technology profile from repo and benchmark signals', () => {
+test('measureReadFromScenario materializes a canonical technology profile from repo and benchmark signals', () => {
   const state = buildInitialStateTest();
-  const scenario = state.needScenarios.find((entry) => entry.scenarioFamily === 'proof-heavy-rust-validator');
-  const measurement = measureNeedFromScenarioTest(scenario);
+  const scenario = state.readScenarios.find((entry) => entry.scenarioFamily === 'proof-heavy-rust-validator');
+  const measurement = measureReadFromScenarioTest(scenario);
 
-  assert.ok(measurement.needDescriptor.technologyProfile);
-  assert.ok(measurement.needDescriptor.technologyProfile.stackHints.includes('rust'));
-  assert.ok(measurement.needDescriptor.technologyProfile.stackHints.includes('cargo'));
-  assert.ok(measurement.needDescriptor.technologyProfile.languages.includes('Rust'));
-  assert.ok(measurement.needDescriptor.technologyProfile.technologies.includes('Cargo'));
-  assert.ok(measurement.needDescriptor.technologyProfile.brands.includes('RustFoundation'));
-  assert.equal(measurement.needDescriptor.fieldDerivations.technologyProfile.source, 'packages/tech-types.inferTechnologySignals');
+  assert.ok(measurement.readDescriptor.technologyProfile);
+  assert.ok(measurement.readDescriptor.technologyProfile.stackHints.includes('rust'));
+  assert.ok(measurement.readDescriptor.technologyProfile.stackHints.includes('cargo'));
+  assert.ok(measurement.readDescriptor.technologyProfile.languages.includes('Rust'));
+  assert.ok(measurement.readDescriptor.technologyProfile.technologies.includes('Cargo'));
+  assert.ok(measurement.readDescriptor.technologyProfile.brands.includes('RustFoundation'));
+  assert.equal(measurement.readDescriptor.fieldDerivations.technologyProfile.source, 'packages/tech-types.inferTechnologySignals');
 });
 
-test('measureNeedFromScenario makes prompt-owned source precedence truthful when scenario values are provided', () => {
+test('measureReadFromScenario makes prompt-owned source precedence truthful when scenario values are provided', () => {
   const state = buildInitialStateTest();
   const scenario = {
-    ...state.needScenarios[0],
+    ...state.readScenarios[0],
     task: 'Use scenario task precedence.',
     failureModes: ['scenario failure mode'],
     constraints: ['scenario constraint'],
     targetArtifactKinds: ['scenario-artifact'],
     closureCriteria: ['scenario closure criterion']
   };
-  const measurement = measureNeedFromScenarioTest(scenario);
+  const measurement = measureReadFromScenarioTest(scenario);
 
-  assert.equal(measurement.needDescriptor.task, 'Use scenario task precedence.');
-  assert.deepEqual(measurement.needDescriptor.failureModes, ['scenario failure mode']);
-  assert.deepEqual(measurement.needDescriptor.constraints, ['scenario constraint', 'keep remediation branch private until settlement completes']);
-  assert.deepEqual(measurement.needDescriptor.targetArtifactKinds, ['scenario-artifact']);
-  assert.deepEqual(measurement.needDescriptor.closureCriteria, ['scenario closure criterion']);
-  assert.equal(measurement.needDescriptor.fieldDerivations.task.source, 'scenario.task');
-  assert.equal(measurement.needDescriptor.fieldDerivations.failureModes.source, 'scenario.failureModes');
-  assert.equal(measurement.needDescriptor.fieldDerivations.constraints.source, 'scenario.constraints');
-  assert.equal(measurement.needDescriptor.fieldDerivations.targetArtifactKinds.source, 'scenario.targetArtifactKinds');
-  assert.equal(measurement.needDescriptor.fieldDerivations.closureCriteria.source, 'scenario.closureCriteria');
+  assert.equal(measurement.readDescriptor.task, 'Use scenario task precedence.');
+  assert.deepEqual(measurement.readDescriptor.failureModes, ['scenario failure mode']);
+  assert.deepEqual(measurement.readDescriptor.constraints, ['scenario constraint', 'keep remediation branch private until settlement completes']);
+  assert.deepEqual(measurement.readDescriptor.targetArtifactKinds, ['scenario-artifact']);
+  assert.deepEqual(measurement.readDescriptor.closureCriteria, ['scenario closure criterion']);
+  assert.equal(measurement.readDescriptor.fieldDerivations.task.source, 'scenario.task');
+  assert.equal(measurement.readDescriptor.fieldDerivations.failureModes.source, 'scenario.failureModes');
+  assert.equal(measurement.readDescriptor.fieldDerivations.constraints.source, 'scenario.constraints');
+  assert.equal(measurement.readDescriptor.fieldDerivations.targetArtifactKinds.source, 'scenario.targetArtifactKinds');
+  assert.equal(measurement.readDescriptor.fieldDerivations.closureCriteria.source, 'scenario.closureCriteria');
 });
 
 test('normalization-heavy scenarios resolve to Profile B', () => {
   const state = buildInitialStateTest();
-  const scenario = state.needScenarios.find((entry) => entry.scenarioId === 'auth-many-asset-normalization');
-  const need = buildNeedDescriptorTest(scenario);
+  const scenario = state.readScenarios.find((entry) => entry.scenarioId === 'auth-many-asset-normalization');
+  const read = buildReadDescriptorTest(scenario);
 
-  assert.equal(need.realizationProfile.profileId, 'B');
-  assert.equal(need.realizationProfile.shortLabel, 'Normalization deposit');
-  assert.match(need.realizationProfile.needMode, /Need stays composite/i);
+  assert.equal(read.realizationProfile.profileId, 'B');
+  assert.equal(read.realizationProfile.shortLabel, 'Normalization deposit');
+  assert.match(read.realizationProfile.readMode, /Read stays composite/i);
 });
 
-test('measureNeedFromScenario fails closed when canonical benchmark outputs are malformed', () => {
+test('measureReadFromScenario fails closed when canonical benchmark outputs are malformed', () => {
   const state = buildInitialStateTest();
   const brokenScenario = {
-    ...state.needScenarios[0],
+    ...state.readScenarios[0],
     canonicalRunEvidence: {
-      ...state.needScenarios[0].canonicalRunEvidence,
+      ...state.readScenarios[0].canonicalRunEvidence,
       extractedOutputs: {
         failingCases: [],
         weakDimensions: [],
@@ -371,7 +371,7 @@ test('measureNeedFromScenario fails closed when canonical benchmark outputs are 
     }
   };
 
-  assert.throws(() => measureNeedFromScenarioTest(brokenScenario), /parser validation failed/i);
+  assert.throws(() => measureReadFromScenarioTest(brokenScenario), /parser validation failed/i);
 });
 
 test('prompt contracts fail deterministically on missing placeholder bindings', () => {
@@ -383,7 +383,7 @@ test('prompt contracts fail deterministically on missing placeholder bindings', 
       { field: 'repo', value: 'frontier/demo-auth', source: 'test' }
     ],
     outputFields: ['task'],
-    downstreamArtifacts: ['.bitcode/need.json']
+    downstreamArtifacts: ['.bitcode/read.json']
   });
 
   assert.equal(promptContract.completeness.ok, false);
@@ -401,7 +401,7 @@ test('prompt contracts require non-rendered context to be declared explicitly', 
       { field: 'repoPrivacy', value: 'private', source: 'test' }
     ],
     outputFields: ['task'],
-    downstreamArtifacts: ['.bitcode/need.json']
+    downstreamArtifacts: ['.bitcode/read.json']
   });
 
   assert.equal(promptContract.completeness.ok, false);
@@ -482,8 +482,8 @@ test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embed
 
 test('recallCandidates emits weighted channel hits, fusion summary, and query vector contracts', () => {
   const state = buildInitialStateTest();
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
-  const recalled = recallCandidatesTest(need, state.assets);
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
+  const recalled = recallCandidatesTest(read, state.assets);
 
   assert.ok(recalled.length >= 3);
   assert.ok(recalled[0].recallProvenance.some((/** @type {any} */ entry) => entry.channelId === 'pathSearch'));
@@ -496,16 +496,16 @@ test('recallCandidates emits weighted channel hits, fusion summary, and query ve
 
 test('evaluateCandidates separates ranking from verification and produces use tiers', () => {
   const state = buildInitialStateTest();
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
-  const evaluated = evaluateCandidatesTest(need, state.assets);
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
+  const evaluated = evaluateCandidatesTest(read, state.assets);
 
   assert.ok(evaluated.length >= 3);
-  assert.ok(evaluated[0].ranking.needMatch.finalScore > 0);
+  assert.ok(evaluated[0].ranking.readMatch.finalScore > 0);
   assert.ok(evaluated[0].ranking.benchmarkImpact.finalScore > 0);
   assert.ok(evaluated[0].ranking.actionability.finalScore > 0);
-  assert.ok(evaluated[0].ranking.wholeAssetNeedScore > 0);
+  assert.ok(evaluated[0].ranking.wholeAssetReadScore > 0);
   assert.ok(evaluated[0].ranking.explainability.strongestScoreDrivers.length >= 3);
-  assert.ok(evaluated[0].ranking.scoreGroups.needMatch.sequence.length >= 4);
+  assert.ok(evaluated[0].ranking.scoreGroups.readMatch.sequence.length >= 4);
   assert.ok(evaluated[0].ranking.scoreGroups.benchmarkImpact.sequence.length >= 3);
   assert.ok(evaluated.some((candidate) => candidate.useTier === 'settlement-eligible'));
   assert.ok(evaluated.some((candidate) => candidate.useTier === 'context-only' || candidate.useTier === 'patch-eligible'));
@@ -513,8 +513,8 @@ test('evaluateCandidates separates ranking from verification and produces use ti
 
 test('restricted issuer remains non-settlement even if ranking is strong', () => {
   const state = buildInitialStateTest();
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
-  const restricted = evaluateCandidatesTest(need, state.assets).find((candidate) => candidate.asset.metadata.issuerPolicyStatus === 'restricted');
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
+  const restricted = evaluateCandidatesTest(read, state.assets).find((candidate) => candidate.asset.metadata.issuerPolicyStatus === 'restricted');
 
   assert.ok(restricted);
   assert.notEqual(restricted.useTier, 'settlement-eligible');
@@ -529,8 +529,8 @@ test('revoked issuer becomes rejected', () => {
     issuerPolicyStatus: 'revoked',
     content: 'restorePriorVerifier for services/auth/rollback.ts'
   });
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
-  const evaluated = evaluateCandidatesTest(need, [revokedAsset, ...state.assets]);
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
+  const evaluated = evaluateCandidatesTest(read, [revokedAsset, ...state.assets]);
   const revoked = evaluated.find((candidate) => candidate.assetId === revokedAsset.assetId);
 
   assert.equal(revoked.verification.issuerPolicyStatus.status, 'revoked');
@@ -539,9 +539,9 @@ test('revoked issuer becomes rejected', () => {
 
 test('assembleAssetPack selects allowed tiers and locks roots', () => {
   const state = buildInitialStateTest();
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
-  const evaluated = evaluateCandidatesTest(need, state.assets);
-  const assetPack = assembleAssetPackTest(need, evaluated, 'patch');
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
+  const evaluated = evaluateCandidatesTest(read, state.assets);
+  const assetPack = assembleAssetPackTest(read, evaluated, 'patch');
 
   assert.ok(assetPack.assetPackId.startsWith('asset_pack_'));
   assert.ok(assetPack.selectedAssets.length > 0);
@@ -552,10 +552,10 @@ test('assembleAssetPack selects allowed tiers and locks roots', () => {
 test('seeded scenario corpus yields coherent repo-bound branches across families', () => {
   const state = buildInitialStateTest();
 
-  for (const scenario of state.needScenarios) {
+  for (const scenario of state.readScenarios) {
     const { latestRun } = runMakeBitcodeBranchTest(state, { scenarioId: scenario.scenarioId });
     assert.equal(latestRun.scenarioId, scenario.scenarioId);
-    assert.equal(latestRun.need.repo, scenario.repo);
+    assert.equal(latestRun.read.repo, scenario.repo);
     assert.equal(latestRun.buyer.repo, scenario.repo);
     assert.equal(latestRun.buyer.buyerBranch, scenario.baseRef);
     assert.ok(latestRun.assetPack.selectedAssets.length >= 1);
@@ -566,7 +566,7 @@ test('seeded scenario corpus yields coherent repo-bound branches across families
 test('seeded scenario matrix preserves family closure and projection exactness across both branch modes', () => {
   const branchModes = ['patch', 'context'];
 
-  for (const scenario of buildInitialStateTest().needScenarios) {
+  for (const scenario of buildInitialStateTest().readScenarios) {
     for (const branchMode of branchModes) {
       const { latestRun } = runMakeBitcodeBranchTest(buildInitialStateTest(), { scenarioId: scenario.scenarioId, branchMode });
       const projectedPublic = buildProjectedLatestRunTest(latestRun, 'public');
@@ -756,7 +756,7 @@ test('V24 external realization resolves active runtime mode and live configurati
       branchMode: 'patch',
       paymentMode: 'audited-base-layer-purchase',
       scenarioId: 'auth-issuer-rollback',
-      pipelineTelemetry: { events: [{ stageId: 'need-measurement' }, { stageId: 'settlement-and-shares' }] }
+      pipelineTelemetry: { events: [{ stageId: 'read-measurement' }, { stageId: 'settlement-and-shares' }] }
     });
     const githubRuntime = runtime.interfaceRuntimeStates.find((entry) => entry.interfaceId === 'github-live-interface');
 
@@ -836,7 +836,7 @@ test('runMakeBitcodeBranch emits V24 draft-target external realization artifacts
   assert.equal(latestRun.externalExecutionPolicy.configuredEnvironmentMode, 'development');
   assert.equal(latestRun.externalTelemetryPolicy.surfacedAcross.includes('branch-artifacts'), true);
   assert.equal(latestRun.externalTelemetrySummary.configuredEnvironmentMode, 'development');
-  assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('need-measurement'));
+  assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('read-measurement'));
   assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('settlement-and-shares'));
   assert.equal(latestRun.externalTelemetrySummary.interfaceSummaries.length, 6);
   assert.ok(latestRun.externalTelemetrySummary.interfaceSummaries.every((entry) => entry.affectedArtifactRefs.length >= 3));
@@ -908,11 +908,11 @@ test('context-mode asset pack can admit context-only candidates while patch mode
     benchmarkRan: false,
     content: 'issuer mismatch breaks pre-migration services and audit receipts'
   });
-  const need = buildNeedDescriptorTest(state.needScenarios[0]);
-  const evaluated = evaluateCandidatesTest(need, [lowEvidence]);
+  const read = buildReadDescriptorTest(state.readScenarios[0]);
+  const evaluated = evaluateCandidatesTest(read, [lowEvidence]);
   const contextCandidate = evaluated.find((candidate) => candidate.assetId === lowEvidence.assetId);
-  const contextPack = assembleAssetPackTest(need, evaluated, 'context');
-  const patchPack = assembleAssetPackTest(need, evaluated, 'patch');
+  const contextPack = assembleAssetPackTest(read, evaluated, 'context');
+  const patchPack = assembleAssetPackTest(read, evaluated, 'patch');
 
   assert.equal(contextCandidate.useTier, 'context-only');
   assert.equal(contextPack.branchMode, 'context');
@@ -927,25 +927,25 @@ test('branch artifacts separate identity, GitHub boundary, uploads, and profile 
 
   assert.ok(latestRun.evaluatedCandidates[0].ranking.scoreGroups.penaltyMass);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.bitcode/needing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-to-needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/reading-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/deposit-to-read-surface.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/identity-bindings.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/github-boundary.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/artifact-upload-manifest.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/profile-composition.json']);
 });
 
-test('latest run exposes depositing, needing, fit, and identity spine surfaces', () => {
+test('latest run exposes depositing, reading, fit, and identity spine surfaces', () => {
   const state = buildInitialStateTest();
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
 
   assert.equal(latestRun.depositingSurface.depositProfile, latestRun.realizationProfile.label);
-  assert.equal(latestRun.needingSurface.needId, latestRun.need.needId);
-  assert.equal(latestRun.depositingToNeedingSurface.depositSessionId, latestRun.depositingSurface.depositSessionId);
+  assert.equal(latestRun.readingSurface.readId, latestRun.read.readId);
+  assert.equal(latestRun.depositingToReadingSurface.depositSessionId, latestRun.depositingSurface.depositSessionId);
   assert.equal(latestRun.repoToSettlementSurface.stages.length, 7);
   assert.equal(latestRun.repoToSettlementSurface.stages[0].stageId, 'depositing');
-  assert.equal(latestRun.repoToSettlementSurface.stages[1].stageId, 'needing');
-  assert.equal(latestRun.repoToSettlementSurface.stages[2].stageId, 'deposit-to-need-fit');
+  assert.equal(latestRun.repoToSettlementSurface.stages[1].stageId, 'reading');
+  assert.equal(latestRun.repoToSettlementSurface.stages[2].stageId, 'deposit-to-read-fit');
   assert.equal(latestRun.repoToSettlementSurface.stages.at(-1).stageId, 'settlement');
   assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'github-installation'));
   assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'settlement-authority'));
@@ -956,14 +956,14 @@ test('runMakeBitcodeBranch produces branch artifacts and exact journal settlemen
   const state = buildInitialStateTest();
   const { nextState, latestRun } = runMakeBitcodeBranchTest(state, {});
 
-  assert.equal(latestRun.needLifecycle, 'settled');
-  assert.ok(latestRun.branchArtifacts.files['.bitcode/need.json']);
+  assert.equal(latestRun.readLifecycle, 'settled');
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/read.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.bitcode/needing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-to-needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/reading-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/deposit-to-read-surface.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/system-proof-bundle.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/policy-release.json']);
-  assert.ok(latestRun.branchArtifacts.files['BITCODE_NEED.md']);
+  assert.ok(latestRun.branchArtifacts.files['BITCODE_READ.md']);
   assert.equal(latestRun.settlementPreview.meteredMicroUnits, METERED_MICRO_UNITS);
   assert.equal(latestRun.journalDiff.invariants.debitsEqualCredits, true);
   assert.equal(latestRun.journalDiff.invariants.rawSharesNormalized, true);
@@ -1248,7 +1248,7 @@ test('authorization decisions and policy release are persisted on latest run', (
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'settle:journal-event' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
-  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — targeted deposit / bounded need');
+  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — targeted deposit / bounded read');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
   assert.ok((latestRun.githubBoundarySurface.externalBoundary || '').includes('GitHub App'));
   assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
@@ -1419,17 +1419,17 @@ test('telemetry artifacts explain the pipeline and prompt implementation surface
   assert.ok(latestRun.branchArtifacts.files['.bitcode/unit-catalog.json']);
 });
 
-test('BITCODE_NEED markdown includes parser contract, conformance profiles, and settlement preview summary', () => {
+test('BITCODE_READ markdown includes parser contract, conformance profiles, and settlement preview summary', () => {
   const state = buildInitialStateTest();
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
-  const markdown = String(latestRun.branchArtifacts.files['BITCODE_NEED.md']);
+  const markdown = String(latestRun.branchArtifacts.files['BITCODE_READ.md']);
 
   assert.match(markdown, /Benchmark parser contract/);
   assert.match(markdown, /Conformance profiles/);
   assert.match(markdown, /raw share asset count/);
   assert.match(markdown, /zero-credit settlement asset count/);
   assert.match(markdown, /github-actions.auth-remediation.v3/);
-  assert.match(markdown, /Profile A — targeted deposit \/ bounded need/);
+  assert.match(markdown, /Profile A — targeted deposit \/ bounded read/);
 });
 
 test('publicState returns public projection including bounded public proof and profile labels', () => {
@@ -1438,7 +1438,7 @@ test('publicState returns public projection including bounded public proof and p
   const projected = publicStateTest(nextState);
 
   assert.equal(projected.assets.length, 11);
-  assert.ok(projected.latestRun.need.needId);
+  assert.ok(projected.latestRun.read.readId);
   assert.ok(projected.latestRun.assetPack.assetPackId);
   assert.equal(projected.latestRun.projectionPrincipal, 'public');
   assert.ok(projected.latestRun.boundedPublicProof.bundleId);
@@ -1448,21 +1448,21 @@ test('publicState returns public projection including bounded public proof and p
   assert.ok(projected.latestRun.publicArtifacts['.bitcode/materialization-visibility-proof.json']);
   assert.ok(projected.latestRun.publicArtifacts['.bitcode/scenario-fixture-manifest.json']);
   assert.ok(projected.latestRun.publicArtifacts['.bitcode/test-coverage-report.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.bitcode/needing-surface.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.bitcode/depositing-to-needing-surface.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/reading-surface.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/deposit-to-read-surface.json']);
   assert.ok(projected.latestRun.publicArtifacts['.bitcode/redaction-proof.json']);
   assert.ok(projected.latestRun.repoToSettlementSurface.stages.length === 7);
   assert.deepEqual(
     projected.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((/** @type {any} */ stage) => stage.stageId),
-    ['depositing', 'needing', 'deposit-to-need-fit']
+    ['depositing', 'reading', 'deposit-to-read-fit']
   );
   assert.equal(projected.latestRun.realizationProfile.shortLabel, 'Targeted deposit');
   assert.equal(projected.latestRun.authorizationDecisions, undefined);
   assert.equal(projected.latestRun.journalDiff, undefined);
-  assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-  assert.equal(projected.needScenarios[0].realizationProfile.shortLabel, 'Targeted deposit');
-  assert.equal(projected.needScenarios.at(-1).realizationProfile.shortLabel, 'Normalization deposit');
-  assert.equal(projected.conformanceProfiles.active, 'Profile A — targeted deposit / bounded need');
+  assert.equal(projected.readScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
+  assert.equal(projected.readScenarios[0].realizationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(projected.readScenarios.at(-1).realizationProfile.shortLabel, 'Normalization deposit');
+  assert.equal(projected.conformanceProfiles.active, 'Profile A — targeted deposit / bounded read');
   assert.equal(projected.policyRelease.releaseId, 'policy-release-bitcode-v11-demo-2026-04-03');
   assert.ok(projected.githubAppSessions.length >= 1);
   assert.ok(projected.repoArtifactInventory.length >= 1);
@@ -1511,7 +1511,7 @@ test('measurement receipts and static report stay linked to provenance ids', () 
   assert.ok(latestRun.measurementReceipts.every((receipt) => !receipt.stageId.startsWith('verification.')));
   assert.ok(latestRun.verificationReceipts.verificationReceipts.every((receipt) => receipt.stageId.startsWith('verification.')));
   assert.equal(latestRun.codeAnalysisFactRegistry.audit.allConsumedFactsRegistered, true);
-  assert.ok(latestRun.needMeasurement.measurementProvenance.filter((/** @type {any} */ entry) => entry.mode === 'static').every((/** @type {any} */ entry) => entry.receiptRefs.every((/** @type {any} */ receiptId) => receiptIds.has(receiptId))));
+  assert.ok(latestRun.readMeasurement.measurementProvenance.filter((/** @type {any} */ entry) => entry.mode === 'static').every((/** @type {any} */ entry) => entry.receiptRefs.every((/** @type {any} */ receiptId) => receiptIds.has(receiptId))));
   assert.ok(latestRun.verificationReceipts.verificationReceipts.length >= latestRun.evaluatedCandidates.length);
 });
 
@@ -1519,8 +1519,8 @@ test('AssetPack evidence manifest and journal receipts remain internally consist
   const state = buildInitialStateTest();
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
 
-  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/need-measurement.json'));
-  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/need-review.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/read-measurement.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/read-review.json'));
   assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/eval-manifest.json'));
   assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/settlement-proof.json'));
   assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/journal-diff.json'));

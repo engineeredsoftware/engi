@@ -52,10 +52,10 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     enhanced.writtenAssets = enhanced.writtenAssets || assetPackSynthesisArtifacts as any;
   }
   enhanced.semanticKind = 'asset-pack-written-asset';
-  enhanced.need =
-    enhanced.need ||
-    (execution.get('pipeline', 'expressedNeed') as string) ||
-    (execution.get('need', 'description') as string) ||
+  enhanced.read =
+    enhanced.read ||
+    (execution.get('pipeline', 'expressedRead') as string) ||
+    (execution.get('read', 'description') as string) ||
     undefined;
   enhanced.writtenAssetType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
@@ -152,16 +152,16 @@ export function buildAssetPackPostprocessedResult(
     artifacts,
     writtenAssetType,
     deliveryMechanismTemplate,
-    need:
-      normalized.need ||
-      (execution.get('pipeline', 'expressedNeed') as string) ||
-      (execution.get('need', 'description') as string) ||
+    read:
+      normalized.read ||
+      (execution.get('pipeline', 'expressedRead') as string) ||
+      (execution.get('read', 'description') as string) ||
       undefined,
     assetPack: {
-      need:
-        normalized.need ||
-        (execution.get('pipeline', 'expressedNeed') as string) ||
-        (execution.get('need', 'description') as string) ||
+      read:
+        normalized.read ||
+        (execution.get('pipeline', 'expressedRead') as string) ||
+        (execution.get('read', 'description') as string) ||
         undefined,
       writtenAssetType,
       deliveryMechanismTemplate,

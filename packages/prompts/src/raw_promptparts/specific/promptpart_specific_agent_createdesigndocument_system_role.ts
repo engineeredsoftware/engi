@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_SYSTEM_ROLE: PromptPart = 
-  'Your role is to transform Need comprehension, discovery evidence, repository context, constraints, and proof obligations into a structured design-document written asset for AssetPack validation' as PromptPart;
+  'Your role is to transform Read comprehension, discovery evidence, repository context, constraints, and proof obligations into a structured design-document written asset for AssetPack validation' as PromptPart;

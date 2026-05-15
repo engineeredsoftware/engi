@@ -49,7 +49,7 @@ function explorerBaseUrl(paymentMode) {
  * @param {{
  *   intentId: string,
  *   buyerId: string,
- *   needId: string,
+ *   readId: string,
  *   assetPackId: string,
  *   bundleId: string,
  *   paymentMode: string,
@@ -71,7 +71,7 @@ function explorerBaseUrl(paymentMode) {
 export function buildBitcoinDemonstrationPaymentCarrier({
   intentId,
   buyerId,
-  needId,
+  readId,
   assetPackId,
   bundleId,
   paymentMode,
@@ -84,7 +84,7 @@ export function buildBitcoinDemonstrationPaymentCarrier({
   const receiptId = `btc_demo_receipt_${shortId(`${intentId}:${paymentMode}:receipt`)}`;
   const requestPreview = {
     buyerId,
-    needId,
+    readId,
     assetPackId,
     bundleId,
     paymentMode,

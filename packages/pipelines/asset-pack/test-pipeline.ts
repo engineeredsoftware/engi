@@ -27,7 +27,7 @@ async function testPipeline() {
   });
   
   const input = {
-    definitionOfNeed: 'Add a simple README.md file',
+    definitionOfRead: 'Add a simple README.md file',
     repository: {
       url: 'https://github.com/test/repo',
       branch: 'main'

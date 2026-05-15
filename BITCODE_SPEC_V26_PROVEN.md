@@ -396,11 +396,11 @@
 | `gate-4` | `fourth-gate-persistence-schema-totality` | `true` | Persistence, schema, `/edgetimes`, and typed storage carriers are explicit |
 | `gate-4` | `fourth-gate-retained-package-admissibility` | `true` | Retained non-Bitcode packages have explicit admitted roles |
 | `gate-4` | `fourth-gate-prompt-system-totality` | `true` | PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers, including retained config boundaries that avoid broad prompts/src catchalls |
-| `gate-4` | `fourth-gate-inference-implementation-records` | `true` | Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records |
+| `gate-4` | `fourth-gate-inference-implementation-records` | `true` | Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP inference systems have source-visible implementation records |
 | `gate-4` | `fourth-gate-reclosure-review` | `true` | Reopened fourth-gate acceptance criteria are mapped to generated proof families with no blocking fourth-gate deviance detected |
 | `gate-4` | `fourth-gate-promotion-honesty` | `true` | Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, and fifth-gate closure is judged by its separate generated verdict. |
 | `gate-4` | `fourth-gate-promoted-closed` | `true` | Fourth gate is promoted closed at the gate level after reopening re-review; fifth-gate and full V26 closure are judged by their own proof families. |
-| `gate-5` | `fifth-gate-source-to-shares-baseline` | `true` | Need review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage. |
+| `gate-5` | `fifth-gate-source-to-shares-baseline` | `true` | Read review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage. |
 | `gate-5` | `fifth-gate-closure-deepening-proof` | `true` | Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes. |
 | `gate-5` | `fifth-gate-closure-proof` | `true` | Fifth-gate closure proof accepts every formal queue row while launch and total closure remain separate gates. |
 | `gate-5` | `fifth-gate-procedural-closure` | `true` | Fifth gate is procedurally closed at the minimum-functional Bitcode baseline. |
@@ -446,7 +446,7 @@
 | `fourth-gate-criterion-07-schema-type-obligations` | `closed` | The persistence/schema proof keeps schema, generated types, and route witnesses in the fourth-gate proof set. |
 | `fourth-gate-criterion-08-retained-package-boundaries` | `closed` | The retained-package admissibility proof requires role, write-boundary, rationale, proof-obligation, and source witnesses. |
 | `fourth-gate-criterion-09-run-pipeline-asset-meaning` | `closed` | Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics. |
-| `fourth-gate-criterion-10-retained-tools-repurposed` | `closed` | Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as need ingestion and source-attributed support. |
+| `fourth-gate-criterion-10-retained-tools-repurposed` | `closed` | Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as read ingestion and source-attributed support. |
 | `fourth-gate-criterion-11-git-gh-initial-settle-write` | `closed` | Runs/pipelines and retained-package admission keep Git/GitHub as the initial connected-interface delivery and settle-write boundary. |
 | `fourth-gate-criterion-12-execution-compatibility-apis` | `closed` | The runs/pipelines proof names execution, history, VCS, template, and asset-pack endpoint boundaries. |
 | `fourth-gate-criterion-13-canonical-auxillary-apis` | `closed` | Application and runs/activity proof inputs include auxillary API, notification, profile, connection, BTD, usage, transaction, and key carriers. |
@@ -516,7 +516,7 @@
 
 - reportId: `v26-prompt-system-totality-proof`
 - passed: `true`
-- packageWitnesses: `@bitcode/prompts`, `@bitcode/execution-generics`, `@bitcode/registry`, `@bitcode/doc-comment`, `@bitcode/doc-code`, `@bitcode/tools-generics`, `@bitcode/conversations-generics`, `@bitcode/digest`, `@bitcode/generic-agents-need-comprehension`, `@bitcode/generic-tools-need-comprehension`
+- packageWitnesses: `@bitcode/prompts`, `@bitcode/execution-generics`, `@bitcode/registry`, `@bitcode/doc-comment`, `@bitcode/doc-code`, `@bitcode/tools-generics`, `@bitcode/conversations-generics`, `@bitcode/digest`, `@bitcode/generic-agents-read-comprehension`, `@bitcode/generic-tools-read-comprehension`
 
 | checkId | passed | detail |
 | --- | --- | --- |
@@ -527,7 +527,7 @@
 | `support-prompt-consumer-boundaries` | `true` | 18 required files present |
 | `doc-comment-doc-code-tool-injection-support` | `true` | 17 required files present |
 | `reference-prompt-consumer-boundaries` | `true` | 177 required files present |
-| `need-ingestion-and-shippable-prompt-ports` | `true` | 36 required files present |
+| `read-ingestion-and-shippable-prompt-ports` | `true` | 36 required files present |
 | `lsp-measurement-prompt-and-proof-boundary` | `true` | 16 required files present |
 
 ### V26 Inference Implementation Records Proof
@@ -545,10 +545,10 @@
 | `pipeline-infrastructure` | `active` | `true` |
 | `conversation-inference` | `active` | `true` |
 | `asset-pack-synthesis-compatibility` | `compatibility` | `true` |
-| `need-comprehension-reform` | `active` | `true` |
-| `need-review-before-fit-search` | `active` | `true` |
+| `read-comprehension-reform` | `active` | `true` |
+| `read-review-before-fit-search` | `active` | `true` |
 | `external-evidence-research-support` | `admitted support` | `true` |
-| `need-risk-admission-support` | `admitted support` | `true` |
+| `read-risk-admission-support` | `admitted support` | `true` |
 | `mcp-external-ingress` | `ingress` | `true` |
 
 ### V26 Source-To-Shares Fifth-Gate Proof
@@ -562,7 +562,7 @@
 | checkId | passed | detail |
 | --- | --- | --- |
 | `source-to-shares-protocol-review-artifacts` | `true` | 5 required files present |
-| `commercial-need-review-route-parity` | `true` | 5 required files present |
+| `commercial-read-review-route-parity` | `true` | 5 required files present |
 | `commercial-state-route-reread-parity` | `true` | 3 required files present |
 | `commercial-state-route-reread-contract` | `true` | 6 source evidence requirements satisfied |
 | `commercial-activity-ledger-write-reread` | `true` | 5 required files present |
@@ -592,7 +592,7 @@
 | `bitcode-protocol` | `deterministic-protocol-witness-backed` | `true` | `true` | `true` | `true` | Source-to-shares fifth-gate proof |
 | `bitcode-exchange` | `exchange-lite-route-and-state-backed` | `true` | `true` | `true` | `true` | App-owned protocol/API ownership |
 | `bitcode-terminal` | `terminal-lite-and-application-read-backed` | `true` | `true` | `true` | `true` | Bitcode Terminal read/write loop |
-| `source-to-shares-need-fitting` | `implemented-fifth-gate-slice` | `true` | `true` | `true` | `true` | Need review before fit search |
+| `source-to-shares-read-fitting` | `implemented-fifth-gate-slice` | `true` | `true` | `true` | `true` | Read review before fit search |
 | `assetpack-execution` | `materially-implemented-open` | `true` | `true` | `true` | `true` | AssetPack pipeline corridor |
 | `conversations-rich-input` | `implemented-active-slices-open` | `true` | `true` | `true` | `true` | Conversations as Bitcode rich input |
 | `auxillaries-readiness` | `materially-implemented-open` | `true` | `true` | `true` | `true` | Transactional readiness and signed-settlement admission |
@@ -693,7 +693,7 @@
 - baselinePassed: `true`
 - witnessSetCount: `7`
 - closureGate: `eighth-gate`
-- closureReason: Prompt-space completeness is closed because every retained prompt primitive, active inference carrier, doc-code injection path, AssetPack/Need-comprehension prompt corridor, raw PromptPart runtime path, app/MCP ingress path, and proof/spec witness is explicitly source-visible.
+- closureReason: Prompt-space completeness is closed because every retained prompt primitive, active inference carrier, doc-code injection path, AssetPack/Read-comprehension prompt corridor, raw PromptPart runtime path, app/MCP ingress path, and proof/spec witness is explicitly source-visible.
 - openReason: none
 - closedCompletenessDimensions: `whole-repository prompt inventory saturation across every retained consumer`, `product-grade prompt quality and commercial readiness for Exchange, Terminal, MCP, and third-party interfaces`, `final retirement or promotion of compatibility prompt names after all callers converge`, `full raw promptpart reservoir audit for non-Bitcode product semantics and reference-only language`, `eighth-gate total proof that every live inference path is explainable from the explicit prompt substrate`
 - openCompletenessDimensions: `none`
@@ -703,7 +703,7 @@
 | `prompt-primitive-public-contract` | `primitive-contract` | `fifth-gate-baseline` | `true` | 9 required files present |
 | `active-agent-execution-prompt-carriers` | `active-inference-carriers` | `fifth-gate-baseline` | `true` | 19 required files present |
 | `doc-code-tool-prompt-injection-boundary` | `tool-prompt-injection` | `fifth-gate-baseline` | `true` | 8 required files present |
-| `asset-pack-need-comprehension-prompt-corridor` | `asset-pack-need-comprehension` | `fifth-gate-baseline` | `true` | 28 required files present |
+| `asset-pack-read-comprehension-prompt-corridor` | `asset-pack-read-comprehension` | `fifth-gate-baseline` | `true` | 28 required files present |
 | `raw-promptpart-runtime-carry-through` | `raw-promptpart-carry-through` | `fifth-gate-baseline` | `true` | 22 required files present |
 | `app-and-mcp-prompt-interface-ingress` | `app-mcp-ingress` | `fifth-gate-baseline` | `true` | 9 required files present |
 | `prompt-proof-and-specification-witnesses` | `proof-and-specification` | `fifth-gate-baseline` | `true` | 12 required files present |
@@ -775,7 +775,7 @@
 | `packages/generic-agents/jira-processor/package.json` | `@bitcode/generic-agents-jira` | `reference-only` | `reference-only-directory` | `true` |
 | `packages/generic-agents/language/package.json` | `@bitcode/generic-agents-language` | `reference-only` | `reference-only-directory` | `true` |
 | `packages/generic-agents/mcps-initializer/package.json` | `@bitcode/generic-agents-initialize-mcps` | `reference-only` | `reference-only-directory` | `true` |
-| `packages/generic-agents/need-comprehension/package.json` | `@bitcode/generic-agents-need-comprehension` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-agents/read-comprehension/package.json` | `@bitcode/generic-agents-read-comprehension` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-agents/ready-to-short-circuit/package.json` | `@bitcode/generic-agents-ready-to-short-circuit` | `reference-only` | `reference-only-directory` | `true` |
 | `packages/generic-agents/tech-types-identifier/package.json` | `@bitcode/generic-agents-tech-types-identifier` | `reference-only` | `reference-only-directory` | `true` |
 | `packages/generic-agents/text-searcher/package.json` | `@bitcode/generic-agents-text-search` | `reference-only` | `reference-only-directory` | `true` |
@@ -811,7 +811,7 @@
 | `packages/generic-tools/mcps-tools/supabase/package.json` | `@bitcode/generic-tools-mcps-supabase` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/mcps-tools/vercel/package.json` | `@bitcode/generic-tools-mcps-vercel` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/multimodal-processing/package.json` | `@bitcode/generic-tools-multimodal-processing` | `ingress-or-support` | `ingress-or-support-name` | `true` |
-| `packages/generic-tools/need-comprehension/package.json` | `@bitcode/generic-tools-need-comprehension` | `compatibility` | `compatibility-name` | `true` |
+| `packages/generic-tools/read-comprehension/package.json` | `@bitcode/generic-tools-read-comprehension` | `compatibility` | `compatibility-name` | `true` |
 | `packages/generic-tools/repository-setup/package.json` | `@bitcode/generic-tools-repository-setup` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/simple-system-text-search/package.json` | `@bitcode/generic-tools-simple-system-text-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/vcs/package.json` | `@bitcode/vcs-tools` | `ingress-or-support` | `ingress-or-support-name` | `true` |
@@ -873,9 +873,9 @@
 | `webhook-ingress-boundary` | `ingress-only` | `true` | 4 required files present |
 | `asset-pack-compatibility-export-boundary` | `compatibility-only` | `true` | 2 required files present |
 | `vcs-agent-reference-boundary` | `reference-only` | `true` | 3 required files present |
-| `computer-use-need-measurement-boundary` | `ingress-or-support` | `true` | 10 required files present |
+| `computer-use-read-measurement-boundary` | `ingress-or-support` | `true` | 10 required files present |
 | `jira-tool-reference-boundary` | `reference-only` | `true` | 2 required files present |
-| `lsp-measure-need-boundary` | `ingress-or-support` | `true` | 5 required files present |
+| `lsp-measure-read-boundary` | `ingress-or-support` | `true` | 5 required files present |
 | `web-search-auxiliary-input-boundary` | `ingress-or-support` | `true` | 11 required files present |
 | `danger-wall-risk-admission-boundary` | `ingress-or-support` | `true` | 4 required files present |
 
@@ -1349,56 +1349,56 @@
 
 ## Scenario and Run Matrix
 
-| scenarioId | branchMode | paymentMode | needId | branchName | assetPackId | familyCount | allFamiliesPassed | proofContractPassed | requiredArtifactPathCount | artifactDigestCount | fullyProven |
+| scenarioId | branchMode | paymentMode | readId | branchName | assetPackId | familyCount | allFamiliesPassed | proofContractPassed | requiredArtifactPathCount | artifactDigestCount | fullyProven |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `auth-issuer-rollback` | `patch` | `audited-base-layer-purchase` | `need_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_5902a8661377` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-issuer-rollback` | `patch` | `repeated-read-payment` | `need_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_5902a8661377` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-issuer-rollback` | `patch` | `checkpointed-sidechain-bridge` | `need_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_5902a8661377` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-issuer-rollback` | `context` | `audited-base-layer-purchase` | `need_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_64d02022f031` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-issuer-rollback` | `context` | `repeated-read-payment` | `need_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_64d02022f031` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-issuer-rollback` | `context` | `checkpointed-sidechain-bridge` | `need_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_64d02022f031` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `rust-validator-proof-gap` | `patch` | `audited-base-layer-purchase` | `need_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `rust-validator-proof-gap` | `patch` | `repeated-read-payment` | `need_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `rust-validator-proof-gap` | `patch` | `checkpointed-sidechain-bridge` | `need_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `rust-validator-proof-gap` | `context` | `audited-base-layer-purchase` | `need_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `rust-validator-proof-gap` | `context` | `repeated-read-payment` | `need_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `rust-validator-proof-gap` | `context` | `checkpointed-sidechain-bridge` | `need_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `config-policy-precedence-incident` | `patch` | `audited-base-layer-purchase` | `need_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `config-policy-precedence-incident` | `patch` | `repeated-read-payment` | `need_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `config-policy-precedence-incident` | `patch` | `checkpointed-sidechain-bridge` | `need_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `config-policy-precedence-incident` | `context` | `audited-base-layer-purchase` | `need_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `config-policy-precedence-incident` | `context` | `repeated-read-payment` | `need_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `config-policy-precedence-incident` | `context` | `checkpointed-sidechain-bridge` | `need_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `unsafe-patch-review-recovery` | `patch` | `audited-base-layer-purchase` | `need_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `unsafe-patch-review-recovery` | `patch` | `repeated-read-payment` | `need_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `unsafe-patch-review-recovery` | `patch` | `checkpointed-sidechain-bridge` | `need_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `unsafe-patch-review-recovery` | `context` | `audited-base-layer-purchase` | `need_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `unsafe-patch-review-recovery` | `context` | `repeated-read-payment` | `need_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `unsafe-patch-review-recovery` | `context` | `checkpointed-sidechain-bridge` | `need_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `infra-deployment-mismatch` | `patch` | `audited-base-layer-purchase` | `need_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `infra-deployment-mismatch` | `patch` | `repeated-read-payment` | `need_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `infra-deployment-mismatch` | `patch` | `checkpointed-sidechain-bridge` | `need_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `infra-deployment-mismatch` | `context` | `audited-base-layer-purchase` | `need_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `infra-deployment-mismatch` | `context` | `repeated-read-payment` | `need_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `infra-deployment-mismatch` | `context` | `checkpointed-sidechain-bridge` | `need_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `privacy-boundary-proof-export` | `patch` | `audited-base-layer-purchase` | `need_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `privacy-boundary-proof-export` | `patch` | `repeated-read-payment` | `need_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `privacy-boundary-proof-export` | `patch` | `checkpointed-sidechain-bridge` | `need_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `privacy-boundary-proof-export` | `context` | `audited-base-layer-purchase` | `need_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `privacy-boundary-proof-export` | `context` | `repeated-read-payment` | `need_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `privacy-boundary-proof-export` | `context` | `checkpointed-sidechain-bridge` | `need_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `polyglot-gateway-benchmark-remediation` | `patch` | `audited-base-layer-purchase` | `need_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `polyglot-gateway-benchmark-remediation` | `patch` | `repeated-read-payment` | `need_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `polyglot-gateway-benchmark-remediation` | `patch` | `checkpointed-sidechain-bridge` | `need_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `polyglot-gateway-benchmark-remediation` | `context` | `audited-base-layer-purchase` | `need_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `polyglot-gateway-benchmark-remediation` | `context` | `repeated-read-payment` | `need_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `polyglot-gateway-benchmark-remediation` | `context` | `checkpointed-sidechain-bridge` | `need_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-many-asset-normalization` | `patch` | `audited-base-layer-purchase` | `need_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-many-asset-normalization` | `patch` | `repeated-read-payment` | `need_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-many-asset-normalization` | `patch` | `checkpointed-sidechain-bridge` | `need_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-many-asset-normalization` | `context` | `audited-base-layer-purchase` | `need_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-many-asset-normalization` | `context` | `repeated-read-payment` | `need_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
-| `auth-many-asset-normalization` | `context` | `checkpointed-sidechain-bridge` | `need_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-issuer-rollback` | `patch` | `audited-base-layer-purchase` | `read_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_5902a8661377` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-issuer-rollback` | `patch` | `repeated-read-payment` | `read_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_5902a8661377` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-issuer-rollback` | `patch` | `checkpointed-sidechain-bridge` | `read_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_5902a8661377` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-issuer-rollback` | `context` | `audited-base-layer-purchase` | `read_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_64d02022f031` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-issuer-rollback` | `context` | `repeated-read-payment` | `read_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_64d02022f031` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-issuer-rollback` | `context` | `checkpointed-sidechain-bridge` | `read_auth-issuer-rollback_40b4b5cc9b` | `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback` | `asset_pack_64d02022f031` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `rust-validator-proof-gap` | `patch` | `audited-base-layer-purchase` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `rust-validator-proof-gap` | `patch` | `repeated-read-payment` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `rust-validator-proof-gap` | `patch` | `checkpointed-sidechain-bridge` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `rust-validator-proof-gap` | `context` | `audited-base-layer-purchase` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `rust-validator-proof-gap` | `context` | `repeated-read-payment` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `rust-validator-proof-gap` | `context` | `checkpointed-sidechain-bridge` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_1116fedb7313` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `config-policy-precedence-incident` | `patch` | `audited-base-layer-purchase` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `config-policy-precedence-incident` | `patch` | `repeated-read-payment` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `config-policy-precedence-incident` | `patch` | `checkpointed-sidechain-bridge` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `config-policy-precedence-incident` | `context` | `audited-base-layer-purchase` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `config-policy-precedence-incident` | `context` | `repeated-read-payment` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `config-policy-precedence-incident` | `context` | `checkpointed-sidechain-bridge` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_deaddd943e3f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `unsafe-patch-review-recovery` | `patch` | `audited-base-layer-purchase` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `unsafe-patch-review-recovery` | `patch` | `repeated-read-payment` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `unsafe-patch-review-recovery` | `patch` | `checkpointed-sidechain-bridge` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `unsafe-patch-review-recovery` | `context` | `audited-base-layer-purchase` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `unsafe-patch-review-recovery` | `context` | `repeated-read-payment` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `unsafe-patch-review-recovery` | `context` | `checkpointed-sidechain-bridge` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_b0bc09cf681f` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `infra-deployment-mismatch` | `patch` | `audited-base-layer-purchase` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `infra-deployment-mismatch` | `patch` | `repeated-read-payment` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `infra-deployment-mismatch` | `patch` | `checkpointed-sidechain-bridge` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `infra-deployment-mismatch` | `context` | `audited-base-layer-purchase` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `infra-deployment-mismatch` | `context` | `repeated-read-payment` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `infra-deployment-mismatch` | `context` | `checkpointed-sidechain-bridge` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_67167ab2a5e6` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `privacy-boundary-proof-export` | `patch` | `audited-base-layer-purchase` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `privacy-boundary-proof-export` | `patch` | `repeated-read-payment` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `privacy-boundary-proof-export` | `patch` | `checkpointed-sidechain-bridge` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `privacy-boundary-proof-export` | `context` | `audited-base-layer-purchase` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `privacy-boundary-proof-export` | `context` | `repeated-read-payment` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `privacy-boundary-proof-export` | `context` | `checkpointed-sidechain-bridge` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_96e02eefa333` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `polyglot-gateway-benchmark-remediation` | `patch` | `audited-base-layer-purchase` | `read_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `polyglot-gateway-benchmark-remediation` | `patch` | `repeated-read-payment` | `read_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `polyglot-gateway-benchmark-remediation` | `patch` | `checkpointed-sidechain-bridge` | `read_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `polyglot-gateway-benchmark-remediation` | `context` | `audited-base-layer-purchase` | `read_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `polyglot-gateway-benchmark-remediation` | `context` | `repeated-read-payment` | `read_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `polyglot-gateway-benchmark-remediation` | `context` | `checkpointed-sidechain-bridge` | `read_polyglot-gateway-benchmark-remediation_ca6f233369` | `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation` | `asset_pack_ad918de3d80b` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-many-asset-normalization` | `patch` | `audited-base-layer-purchase` | `read_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-many-asset-normalization` | `patch` | `repeated-read-payment` | `read_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-many-asset-normalization` | `patch` | `checkpointed-sidechain-bridge` | `read_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-many-asset-normalization` | `context` | `audited-base-layer-purchase` | `read_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-many-asset-normalization` | `context` | `repeated-read-payment` | `read_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
+| `auth-many-asset-normalization` | `context` | `checkpointed-sidechain-bridge` | `read_auth-many-asset-normalization_f6dbfe951c` | `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization` | `asset_pack_41ed6b7ae08d` | 11 | `true` | `true` | 56 | 56 | `true` |
 
 ## Incomplete Verdicts
 
@@ -1408,8 +1408,8 @@
 
 ### auth-issuer-rollback/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
-- needId: `need_auth-issuer-rollback_40b4b5cc9b`
+- branchName: `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
+- readId: `read_auth-issuer-rollback_40b4b5cc9b`
 - assetPackId: `asset_pack_5902a8661377`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:0635b75824c6aad83525d566734ca7148f38370a63af46815141a2a56ba064f8`
@@ -1557,8 +1557,8 @@
 
 ### auth-issuer-rollback/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
-- needId: `need_auth-issuer-rollback_40b4b5cc9b`
+- branchName: `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
+- readId: `read_auth-issuer-rollback_40b4b5cc9b`
 - assetPackId: `asset_pack_5902a8661377`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:0635b75824c6aad83525d566734ca7148f38370a63af46815141a2a56ba064f8`
@@ -1706,8 +1706,8 @@
 
 ### auth-issuer-rollback/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
-- needId: `need_auth-issuer-rollback_40b4b5cc9b`
+- branchName: `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
+- readId: `read_auth-issuer-rollback_40b4b5cc9b`
 - assetPackId: `asset_pack_5902a8661377`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:0635b75824c6aad83525d566734ca7148f38370a63af46815141a2a56ba064f8`
@@ -1855,8 +1855,8 @@
 
 ### auth-issuer-rollback/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
-- needId: `need_auth-issuer-rollback_40b4b5cc9b`
+- branchName: `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
+- readId: `read_auth-issuer-rollback_40b4b5cc9b`
 - assetPackId: `asset_pack_64d02022f031`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:58000890477992cb0d5c45a31bb04a189ffc7fd20855af81f61e4c6858ae2cdd`
@@ -2004,8 +2004,8 @@
 
 ### auth-issuer-rollback/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
-- needId: `need_auth-issuer-rollback_40b4b5cc9b`
+- branchName: `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
+- readId: `read_auth-issuer-rollback_40b4b5cc9b`
 - assetPackId: `asset_pack_64d02022f031`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:58000890477992cb0d5c45a31bb04a189ffc7fd20855af81f61e4c6858ae2cdd`
@@ -2153,8 +2153,8 @@
 
 ### auth-issuer-rollback/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
-- needId: `need_auth-issuer-rollback_40b4b5cc9b`
+- branchName: `bitcode/remediation-read_auth-issuer-rollback_40b4b5cc9b-auth-issuer-rollback`
+- readId: `read_auth-issuer-rollback_40b4b5cc9b`
 - assetPackId: `asset_pack_64d02022f031`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:58000890477992cb0d5c45a31bb04a189ffc7fd20855af81f61e4c6858ae2cdd`
@@ -2302,8 +2302,8 @@
 
 ### rust-validator-proof-gap/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
-- needId: `need_rust-validator-proof-gap_7044fe8972`
+- branchName: `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
+- readId: `read_rust-validator-proof-gap_7044fe8972`
 - assetPackId: `asset_pack_1116fedb7313`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:b0770ec770a4bafe4f6753cce85911b21ea7c540008b730bf6c2aee6eeac1995`
@@ -2451,8 +2451,8 @@
 
 ### rust-validator-proof-gap/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
-- needId: `need_rust-validator-proof-gap_7044fe8972`
+- branchName: `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
+- readId: `read_rust-validator-proof-gap_7044fe8972`
 - assetPackId: `asset_pack_1116fedb7313`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:b0770ec770a4bafe4f6753cce85911b21ea7c540008b730bf6c2aee6eeac1995`
@@ -2600,8 +2600,8 @@
 
 ### rust-validator-proof-gap/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
-- needId: `need_rust-validator-proof-gap_7044fe8972`
+- branchName: `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
+- readId: `read_rust-validator-proof-gap_7044fe8972`
 - assetPackId: `asset_pack_1116fedb7313`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:b0770ec770a4bafe4f6753cce85911b21ea7c540008b730bf6c2aee6eeac1995`
@@ -2749,8 +2749,8 @@
 
 ### rust-validator-proof-gap/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
-- needId: `need_rust-validator-proof-gap_7044fe8972`
+- branchName: `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
+- readId: `read_rust-validator-proof-gap_7044fe8972`
 - assetPackId: `asset_pack_1116fedb7313`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:b0770ec770a4bafe4f6753cce85911b21ea7c540008b730bf6c2aee6eeac1995`
@@ -2898,8 +2898,8 @@
 
 ### rust-validator-proof-gap/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
-- needId: `need_rust-validator-proof-gap_7044fe8972`
+- branchName: `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
+- readId: `read_rust-validator-proof-gap_7044fe8972`
 - assetPackId: `asset_pack_1116fedb7313`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:b0770ec770a4bafe4f6753cce85911b21ea7c540008b730bf6c2aee6eeac1995`
@@ -3047,8 +3047,8 @@
 
 ### rust-validator-proof-gap/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
-- needId: `need_rust-validator-proof-gap_7044fe8972`
+- branchName: `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap`
+- readId: `read_rust-validator-proof-gap_7044fe8972`
 - assetPackId: `asset_pack_1116fedb7313`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:b0770ec770a4bafe4f6753cce85911b21ea7c540008b730bf6c2aee6eeac1995`
@@ -3196,8 +3196,8 @@
 
 ### config-policy-precedence-incident/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
-- needId: `need_config-policy-precedence-incident_f39d972e54`
+- branchName: `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
+- readId: `read_config-policy-precedence-incident_f39d972e54`
 - assetPackId: `asset_pack_deaddd943e3f`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:fcf6f85d734944c75145132729e7bad167348d8736cbbaf33c55ddd13f8d08ca`
@@ -3345,8 +3345,8 @@
 
 ### config-policy-precedence-incident/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
-- needId: `need_config-policy-precedence-incident_f39d972e54`
+- branchName: `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
+- readId: `read_config-policy-precedence-incident_f39d972e54`
 - assetPackId: `asset_pack_deaddd943e3f`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:fcf6f85d734944c75145132729e7bad167348d8736cbbaf33c55ddd13f8d08ca`
@@ -3494,8 +3494,8 @@
 
 ### config-policy-precedence-incident/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
-- needId: `need_config-policy-precedence-incident_f39d972e54`
+- branchName: `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
+- readId: `read_config-policy-precedence-incident_f39d972e54`
 - assetPackId: `asset_pack_deaddd943e3f`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:fcf6f85d734944c75145132729e7bad167348d8736cbbaf33c55ddd13f8d08ca`
@@ -3643,8 +3643,8 @@
 
 ### config-policy-precedence-incident/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
-- needId: `need_config-policy-precedence-incident_f39d972e54`
+- branchName: `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
+- readId: `read_config-policy-precedence-incident_f39d972e54`
 - assetPackId: `asset_pack_deaddd943e3f`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:fcf6f85d734944c75145132729e7bad167348d8736cbbaf33c55ddd13f8d08ca`
@@ -3792,8 +3792,8 @@
 
 ### config-policy-precedence-incident/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
-- needId: `need_config-policy-precedence-incident_f39d972e54`
+- branchName: `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
+- readId: `read_config-policy-precedence-incident_f39d972e54`
 - assetPackId: `asset_pack_deaddd943e3f`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:fcf6f85d734944c75145132729e7bad167348d8736cbbaf33c55ddd13f8d08ca`
@@ -3941,8 +3941,8 @@
 
 ### config-policy-precedence-incident/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
-- needId: `need_config-policy-precedence-incident_f39d972e54`
+- branchName: `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident`
+- readId: `read_config-policy-precedence-incident_f39d972e54`
 - assetPackId: `asset_pack_deaddd943e3f`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:fcf6f85d734944c75145132729e7bad167348d8736cbbaf33c55ddd13f8d08ca`
@@ -4090,8 +4090,8 @@
 
 ### unsafe-patch-review-recovery/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
-- needId: `need_unsafe-patch-review-recovery_16a56c87c5`
+- branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
+- readId: `read_unsafe-patch-review-recovery_16a56c87c5`
 - assetPackId: `asset_pack_b0bc09cf681f`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:ee3623db0c046e7d79593b4eb9f4f72e28ca5bb772001e6cb3934bfac6693925`
@@ -4239,8 +4239,8 @@
 
 ### unsafe-patch-review-recovery/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
-- needId: `need_unsafe-patch-review-recovery_16a56c87c5`
+- branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
+- readId: `read_unsafe-patch-review-recovery_16a56c87c5`
 - assetPackId: `asset_pack_b0bc09cf681f`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:ee3623db0c046e7d79593b4eb9f4f72e28ca5bb772001e6cb3934bfac6693925`
@@ -4388,8 +4388,8 @@
 
 ### unsafe-patch-review-recovery/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
-- needId: `need_unsafe-patch-review-recovery_16a56c87c5`
+- branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
+- readId: `read_unsafe-patch-review-recovery_16a56c87c5`
 - assetPackId: `asset_pack_b0bc09cf681f`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:ee3623db0c046e7d79593b4eb9f4f72e28ca5bb772001e6cb3934bfac6693925`
@@ -4537,8 +4537,8 @@
 
 ### unsafe-patch-review-recovery/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
-- needId: `need_unsafe-patch-review-recovery_16a56c87c5`
+- branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
+- readId: `read_unsafe-patch-review-recovery_16a56c87c5`
 - assetPackId: `asset_pack_b0bc09cf681f`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:ee3623db0c046e7d79593b4eb9f4f72e28ca5bb772001e6cb3934bfac6693925`
@@ -4686,8 +4686,8 @@
 
 ### unsafe-patch-review-recovery/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
-- needId: `need_unsafe-patch-review-recovery_16a56c87c5`
+- branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
+- readId: `read_unsafe-patch-review-recovery_16a56c87c5`
 - assetPackId: `asset_pack_b0bc09cf681f`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:ee3623db0c046e7d79593b4eb9f4f72e28ca5bb772001e6cb3934bfac6693925`
@@ -4835,8 +4835,8 @@
 
 ### unsafe-patch-review-recovery/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
-- needId: `need_unsafe-patch-review-recovery_16a56c87c5`
+- branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
+- readId: `read_unsafe-patch-review-recovery_16a56c87c5`
 - assetPackId: `asset_pack_b0bc09cf681f`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:ee3623db0c046e7d79593b4eb9f4f72e28ca5bb772001e6cb3934bfac6693925`
@@ -4984,8 +4984,8 @@
 
 ### infra-deployment-mismatch/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
-- needId: `need_infra-deployment-mismatch_be8a999141`
+- branchName: `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
+- readId: `read_infra-deployment-mismatch_be8a999141`
 - assetPackId: `asset_pack_67167ab2a5e6`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:ffdf529dd6f3fb95164bf1c5544fb2a8249632f5ddfa5fd11248cd6dfb9e5e41`
@@ -5133,8 +5133,8 @@
 
 ### infra-deployment-mismatch/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
-- needId: `need_infra-deployment-mismatch_be8a999141`
+- branchName: `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
+- readId: `read_infra-deployment-mismatch_be8a999141`
 - assetPackId: `asset_pack_67167ab2a5e6`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:ffdf529dd6f3fb95164bf1c5544fb2a8249632f5ddfa5fd11248cd6dfb9e5e41`
@@ -5282,8 +5282,8 @@
 
 ### infra-deployment-mismatch/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
-- needId: `need_infra-deployment-mismatch_be8a999141`
+- branchName: `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
+- readId: `read_infra-deployment-mismatch_be8a999141`
 - assetPackId: `asset_pack_67167ab2a5e6`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:ffdf529dd6f3fb95164bf1c5544fb2a8249632f5ddfa5fd11248cd6dfb9e5e41`
@@ -5431,8 +5431,8 @@
 
 ### infra-deployment-mismatch/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
-- needId: `need_infra-deployment-mismatch_be8a999141`
+- branchName: `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
+- readId: `read_infra-deployment-mismatch_be8a999141`
 - assetPackId: `asset_pack_67167ab2a5e6`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:ffdf529dd6f3fb95164bf1c5544fb2a8249632f5ddfa5fd11248cd6dfb9e5e41`
@@ -5580,8 +5580,8 @@
 
 ### infra-deployment-mismatch/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
-- needId: `need_infra-deployment-mismatch_be8a999141`
+- branchName: `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
+- readId: `read_infra-deployment-mismatch_be8a999141`
 - assetPackId: `asset_pack_67167ab2a5e6`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:ffdf529dd6f3fb95164bf1c5544fb2a8249632f5ddfa5fd11248cd6dfb9e5e41`
@@ -5729,8 +5729,8 @@
 
 ### infra-deployment-mismatch/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
-- needId: `need_infra-deployment-mismatch_be8a999141`
+- branchName: `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch`
+- readId: `read_infra-deployment-mismatch_be8a999141`
 - assetPackId: `asset_pack_67167ab2a5e6`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:ffdf529dd6f3fb95164bf1c5544fb2a8249632f5ddfa5fd11248cd6dfb9e5e41`
@@ -5878,8 +5878,8 @@
 
 ### privacy-boundary-proof-export/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
-- needId: `need_privacy-boundary-proof-export_8163942d95`
+- branchName: `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
+- readId: `read_privacy-boundary-proof-export_8163942d95`
 - assetPackId: `asset_pack_96e02eefa333`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:988b9fd66d3682d1ab2d6406dbe1a6bcf230d137e8334fd3610769e88532f342`
@@ -6027,8 +6027,8 @@
 
 ### privacy-boundary-proof-export/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
-- needId: `need_privacy-boundary-proof-export_8163942d95`
+- branchName: `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
+- readId: `read_privacy-boundary-proof-export_8163942d95`
 - assetPackId: `asset_pack_96e02eefa333`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:988b9fd66d3682d1ab2d6406dbe1a6bcf230d137e8334fd3610769e88532f342`
@@ -6176,8 +6176,8 @@
 
 ### privacy-boundary-proof-export/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
-- needId: `need_privacy-boundary-proof-export_8163942d95`
+- branchName: `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
+- readId: `read_privacy-boundary-proof-export_8163942d95`
 - assetPackId: `asset_pack_96e02eefa333`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:988b9fd66d3682d1ab2d6406dbe1a6bcf230d137e8334fd3610769e88532f342`
@@ -6325,8 +6325,8 @@
 
 ### privacy-boundary-proof-export/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
-- needId: `need_privacy-boundary-proof-export_8163942d95`
+- branchName: `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
+- readId: `read_privacy-boundary-proof-export_8163942d95`
 - assetPackId: `asset_pack_96e02eefa333`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:988b9fd66d3682d1ab2d6406dbe1a6bcf230d137e8334fd3610769e88532f342`
@@ -6474,8 +6474,8 @@
 
 ### privacy-boundary-proof-export/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
-- needId: `need_privacy-boundary-proof-export_8163942d95`
+- branchName: `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
+- readId: `read_privacy-boundary-proof-export_8163942d95`
 - assetPackId: `asset_pack_96e02eefa333`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:988b9fd66d3682d1ab2d6406dbe1a6bcf230d137e8334fd3610769e88532f342`
@@ -6623,8 +6623,8 @@
 
 ### privacy-boundary-proof-export/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
-- needId: `need_privacy-boundary-proof-export_8163942d95`
+- branchName: `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export`
+- readId: `read_privacy-boundary-proof-export_8163942d95`
 - assetPackId: `asset_pack_96e02eefa333`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:988b9fd66d3682d1ab2d6406dbe1a6bcf230d137e8334fd3610769e88532f342`
@@ -6772,8 +6772,8 @@
 
 ### polyglot-gateway-benchmark-remediation/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
-- needId: `need_polyglot-gateway-benchmark-remediation_ca6f233369`
+- branchName: `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
+- readId: `read_polyglot-gateway-benchmark-remediation_ca6f233369`
 - assetPackId: `asset_pack_ad918de3d80b`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:a2856e58174a0e9460d07c11912cc158000d5fba87663a6a75cb94577a9aa8ce`
@@ -6921,8 +6921,8 @@
 
 ### polyglot-gateway-benchmark-remediation/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
-- needId: `need_polyglot-gateway-benchmark-remediation_ca6f233369`
+- branchName: `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
+- readId: `read_polyglot-gateway-benchmark-remediation_ca6f233369`
 - assetPackId: `asset_pack_ad918de3d80b`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:a2856e58174a0e9460d07c11912cc158000d5fba87663a6a75cb94577a9aa8ce`
@@ -7070,8 +7070,8 @@
 
 ### polyglot-gateway-benchmark-remediation/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
-- needId: `need_polyglot-gateway-benchmark-remediation_ca6f233369`
+- branchName: `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
+- readId: `read_polyglot-gateway-benchmark-remediation_ca6f233369`
 - assetPackId: `asset_pack_ad918de3d80b`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:a2856e58174a0e9460d07c11912cc158000d5fba87663a6a75cb94577a9aa8ce`
@@ -7219,8 +7219,8 @@
 
 ### polyglot-gateway-benchmark-remediation/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
-- needId: `need_polyglot-gateway-benchmark-remediation_ca6f233369`
+- branchName: `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
+- readId: `read_polyglot-gateway-benchmark-remediation_ca6f233369`
 - assetPackId: `asset_pack_ad918de3d80b`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:a2856e58174a0e9460d07c11912cc158000d5fba87663a6a75cb94577a9aa8ce`
@@ -7368,8 +7368,8 @@
 
 ### polyglot-gateway-benchmark-remediation/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
-- needId: `need_polyglot-gateway-benchmark-remediation_ca6f233369`
+- branchName: `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
+- readId: `read_polyglot-gateway-benchmark-remediation_ca6f233369`
 - assetPackId: `asset_pack_ad918de3d80b`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:a2856e58174a0e9460d07c11912cc158000d5fba87663a6a75cb94577a9aa8ce`
@@ -7517,8 +7517,8 @@
 
 ### polyglot-gateway-benchmark-remediation/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
-- needId: `need_polyglot-gateway-benchmark-remediation_ca6f233369`
+- branchName: `bitcode/remediation-read_polyglot-gateway-benchmark-remediation_ca6f233369-polyglot-gateway-benchmark-remediation`
+- readId: `read_polyglot-gateway-benchmark-remediation_ca6f233369`
 - assetPackId: `asset_pack_ad918de3d80b`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:a2856e58174a0e9460d07c11912cc158000d5fba87663a6a75cb94577a9aa8ce`
@@ -7666,8 +7666,8 @@
 
 ### auth-many-asset-normalization/patch/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
-- needId: `need_auth-many-asset-normalization_f6dbfe951c`
+- branchName: `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
+- readId: `read_auth-many-asset-normalization_f6dbfe951c`
 - assetPackId: `asset_pack_41ed6b7ae08d`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:89b8dc71702c29ff559cff7830bbd37cac1987a9948c01f0202552f392e307a4`
@@ -7815,8 +7815,8 @@
 
 ### auth-many-asset-normalization/patch/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
-- needId: `need_auth-many-asset-normalization_f6dbfe951c`
+- branchName: `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
+- readId: `read_auth-many-asset-normalization_f6dbfe951c`
 - assetPackId: `asset_pack_41ed6b7ae08d`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:89b8dc71702c29ff559cff7830bbd37cac1987a9948c01f0202552f392e307a4`
@@ -7964,8 +7964,8 @@
 
 ### auth-many-asset-normalization/patch/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
-- needId: `need_auth-many-asset-normalization_f6dbfe951c`
+- branchName: `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
+- readId: `read_auth-many-asset-normalization_f6dbfe951c`
 - assetPackId: `asset_pack_41ed6b7ae08d`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:89b8dc71702c29ff559cff7830bbd37cac1987a9948c01f0202552f392e307a4`
@@ -8113,8 +8113,8 @@
 
 ### auth-many-asset-normalization/context/audited-base-layer-purchase
 
-- branchName: `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
-- needId: `need_auth-many-asset-normalization_f6dbfe951c`
+- branchName: `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
+- readId: `read_auth-many-asset-normalization_f6dbfe951c`
 - assetPackId: `asset_pack_41ed6b7ae08d`
 - paymentMode: `audited-base-layer-purchase`
 - proofContractHash: `sha256:89b8dc71702c29ff559cff7830bbd37cac1987a9948c01f0202552f392e307a4`
@@ -8262,8 +8262,8 @@
 
 ### auth-many-asset-normalization/context/repeated-read-payment
 
-- branchName: `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
-- needId: `need_auth-many-asset-normalization_f6dbfe951c`
+- branchName: `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
+- readId: `read_auth-many-asset-normalization_f6dbfe951c`
 - assetPackId: `asset_pack_41ed6b7ae08d`
 - paymentMode: `repeated-read-payment`
 - proofContractHash: `sha256:89b8dc71702c29ff559cff7830bbd37cac1987a9948c01f0202552f392e307a4`
@@ -8411,8 +8411,8 @@
 
 ### auth-many-asset-normalization/context/checkpointed-sidechain-bridge
 
-- branchName: `bitcode/remediation-need_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
-- needId: `need_auth-many-asset-normalization_f6dbfe951c`
+- branchName: `bitcode/remediation-read_auth-many-asset-normalization_f6dbfe951c-auth-many-asset-normalization`
+- readId: `read_auth-many-asset-normalization_f6dbfe951c`
 - assetPackId: `asset_pack_41ed6b7ae08d`
 - paymentMode: `checkpointed-sidechain-bridge`
 - proofContractHash: `sha256:89b8dc71702c29ff559cff7830bbd37cac1987a9948c01f0202552f392e307a4`

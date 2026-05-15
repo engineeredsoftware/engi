@@ -11,7 +11,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_ACCURACY_ENHANCEMENT } fr
  *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Refine repository evidence into source-grounding context for Bitcode needs and AssetPack planning"
+ * intent: "Refine repository evidence into source-grounding context for Bitcode reads and AssetPack planning"
  * current_version: "V26"
  */
 

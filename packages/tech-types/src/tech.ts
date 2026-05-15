@@ -393,7 +393,7 @@ export type TechType = string;
 
 /**
  * Compose a serialized technology identifier from the canonical vocabulary
- * segments that the Bitcode need-measurement spine uses.
+ * segments that the Bitcode read-measurement spine uses.
  */
 export function composeTechType<
   B extends Brand = Brand,

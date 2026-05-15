@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLCAPABILITIES: PromptPart =
-  'Retrieve specific source URLs, convert cited content to markdown, HTML, or plain text, preserve page metadata, extract relevant links, and support source-quality review for Bitcode need-synthesis evidence' as PromptPart;
+  'Retrieve specific source URLs, convert cited content to markdown, HTML, or plain text, preserve page metadata, extract relevant links, and support source-quality review for Bitcode read-synthesis evidence' as PromptPart;

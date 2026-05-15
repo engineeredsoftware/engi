@@ -22,5 +22,5 @@ export const runValidationPhase = createPhaseRunner(validationPhaseConfig);
  * Register validation agents (delegates to the canonical agents module).
  */
 export function registerValidationAgentsForType(writtenAssetType: string, agentRegistry: any): void {
-  registerAgents(writtenAssetType || AssetPackWrittenAssetType.NeedSatisfactionAssetPack, agentRegistry);
+  registerAgents(writtenAssetType || AssetPackWrittenAssetType.ReadSatisfactionAssetPack, agentRegistry);
 }

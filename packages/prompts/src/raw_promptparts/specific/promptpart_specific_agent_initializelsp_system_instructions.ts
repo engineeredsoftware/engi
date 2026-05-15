@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode InitializeLSP system instructions for Need measurement capability setup"
+ * intent: "Bitcode InitializeLSP system instructions for Read measurement capability setup"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

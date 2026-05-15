@@ -115,7 +115,7 @@ export default function TerminalClosureControlDeck({
   const primaryActionDisabledTooltip = isActing
     ? 'Disabled while closure is already running. When it finishes, this button can run the Make Bitcode branch write again.'
     : !state.shellReady
-      ? 'Disabled while the Terminal protocol witness is syncing. When enabled, this runs closure from Need review through branch, settlement, and proof.'
+      ? 'Disabled while the Terminal protocol witness is syncing. When enabled, this runs closure from Read review through branch, settlement, and proof.'
       : !settlementReady
         ? `${transactionReadiness.summary} When enabled, this runs the Make Bitcode branch write and records the closure result.`
         : undefined;

@@ -1,7 +1,7 @@
 import { Execution, ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { enablePipelineStreaming } from '../../streaming/pipeline-stream-integration';
 
-// Minimal streamer mock – we don't need SSE, we only want DB persistence path
+// Minimal streamer mock – we don't read SSE, we only want DB persistence path
 class MockSupabase {
   tables: Record<string, any[]> = {
     pipeline_executions: [],

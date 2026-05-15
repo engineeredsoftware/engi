@@ -51,7 +51,7 @@ describe('AssetPack discovery semantic mirrors', () => {
     expect(output.approach.phases[0].writtenAssets).toEqual(['draft pull request']);
   });
 
-  it('mirrors definition of need into need satisfaction criteria', () => {
+  it('mirrors definition of read into read satisfaction criteria', () => {
     const output = applyPlanImplementationSemanticMirrors({
       implementationPlan: {
         overview: 'deliver the requested change',
@@ -64,13 +64,13 @@ describe('AssetPack discovery semantic mirrors', () => {
         coverage: 'focused',
       },
       validationCriteria: ['tests pass'],
-      definitionOfNeed: ['pull request merged'],
+      definitionOfRead: ['pull request merged'],
     });
 
-    expect(output.needSatisfactionCriteria).toEqual(['pull request merged']);
+    expect(output.readSatisfactionCriteria).toEqual(['pull request merged']);
   });
 
-  it('preserves explicit need satisfaction criteria', () => {
+  it('preserves explicit read satisfaction criteria', () => {
     const output = applyPlanImplementationSemanticMirrors({
       implementationPlan: {
         overview: 'deliver the requested change',
@@ -83,10 +83,10 @@ describe('AssetPack discovery semantic mirrors', () => {
         coverage: 'focused',
       },
       validationCriteria: ['tests pass'],
-      definitionOfNeed: ['pull request merged'],
-      needSatisfactionCriteria: ['asset pack accepted'],
+      definitionOfRead: ['pull request merged'],
+      readSatisfactionCriteria: ['asset pack accepted'],
     });
 
-    expect(output.needSatisfactionCriteria).toEqual(['asset pack accepted']);
+    expect(output.readSatisfactionCriteria).toEqual(['asset pack accepted']);
   });
 });

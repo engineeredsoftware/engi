@@ -10,18 +10,18 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web research Plan prompt for discovery-phase source selection"
+ * intent: "Bitcode read-synthesis web research Plan prompt for discovery-phase source selection"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "planning_boundary", "test": "Plans need-synthesis web research without granting proof or product authority", "score": 1.00 },
+ *   { "name": "planning_boundary", "test": "Plans read-synthesis web research without granting proof or product authority", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * PLAN PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
+ * PLAN PROMPT COMPOSITION - BITCODE READ-SYNTHESIS WEB RESEARCH
  *
- * Composes the discovery-phase need-synthesis source-selection prompt for this support agent.
+ * Composes the discovery-phase read-synthesis source-selection prompt for this support agent.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

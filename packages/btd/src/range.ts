@@ -9,7 +9,7 @@ import { BtdSupplyState, advanceBtdSupply, assertBtdSupplyState } from './supply
 
 export interface BtdMintAdmissionInput {
   assetPackId: string;
-  needId: string;
+  readId: string;
   acceptedNeed: true;
   acceptedFit: true;
   sourceManifestRoot: string;
@@ -32,7 +32,7 @@ export interface AssetPackRange {
   rangeEndExclusive: BtdTokenId;
   tokenCount: number;
   normalizedBitcodeVolume: bigint;
-  needId: string;
+  readId: string;
   fitReceiptRoot: string;
   proofRoot: string;
   sourceManifestRoot: string;
@@ -57,7 +57,7 @@ export interface BtdRangeAllocationOptions {
 
 export function assertMintAdmission(input: BtdMintAdmissionInput): BtdMintAdmissionInput {
   if (input.acceptedNeed !== true) {
-    throw new Error('BTD mint admission requires accepted Need.');
+    throw new Error('BTD mint admission requires accepted Read.');
   }
 
   if (input.acceptedFit !== true) {
@@ -65,7 +65,7 @@ export function assertMintAdmission(input: BtdMintAdmissionInput): BtdMintAdmiss
   }
 
   assertNonEmptyString(input.assetPackId, 'assetPackId');
-  assertNonEmptyString(input.needId, 'needId');
+  assertNonEmptyString(input.readId, 'readId');
   assertNonEmptyString(input.sourceManifestRoot, 'sourceManifestRoot');
   assertNonEmptyString(input.measurementReceiptRoot, 'measurementReceiptRoot');
   assertNonEmptyString(input.fitReceiptRoot, 'fitReceiptRoot');
@@ -114,7 +114,7 @@ export function allocateAssetPackRange(
       input.normalizedBitcodeVolume,
       'normalizedBitcodeVolume',
     ),
-    needId: input.needId,
+    readId: input.readId,
     fitReceiptRoot: input.fitReceiptRoot,
     proofRoot: input.proofRoot,
     sourceManifestRoot: input.sourceManifestRoot,
@@ -138,7 +138,7 @@ export function allocateAssetPackRange(
 
 export function assertAssetPackRangeIntegrity(range: AssetPackRange): AssetPackRange {
   assertNonEmptyString(range.assetPackId, 'assetPackId');
-  assertNonEmptyString(range.needId, 'needId');
+  assertNonEmptyString(range.readId, 'readId');
   assertNonEmptyString(range.fitReceiptRoot, 'fitReceiptRoot');
   assertNonEmptyString(range.proofRoot, 'proofRoot');
   assertNonEmptyString(range.sourceManifestRoot, 'sourceManifestRoot');

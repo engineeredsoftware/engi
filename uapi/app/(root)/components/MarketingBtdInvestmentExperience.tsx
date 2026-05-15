@@ -46,7 +46,7 @@ interface BtdInvestmentExperienceProps {
   /** Current BTD balance */
   currentBalance: number;
   
-  /** Upcoming Need/AssetPack estimation. */
+  /** Upcoming Read/AssetPack estimation. */
   upcomingNeed?: {
     name: string;
     measuredBtdEstimate: number;
@@ -139,26 +139,26 @@ const generateEfficiencyCoaching = (
   
   if (avgEfficiency < 0.7) {
     insight = 'Recent AssetPack runs are measuring above their expected $BTD range';
-    suggestion = 'Focus on smaller, well-defined Needs to build momentum and confidence';
+    suggestion = 'Focus on smaller, well-defined Reads to build momentum and confidence';
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + (getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.3
     );
     guidanceLevel = 'critical';
-    fitGuidance = 'Tighten Need scope before attempting broader AssetPack synthesis.';
+    fitGuidance = 'Tighten Read scope before attempting broader AssetPack synthesis.';
   } else if (avgEfficiency < 0.9) {
     insight = `Pattern detected: ${topInefficient?.[0] || 'certain types'} of work measuring above expectation`;
-    suggestion = `Consider breaking down ${topInefficient?.[0] || 'complex'} Needs into smaller, more predictable components`;
+    suggestion = `Consider breaking down ${topInefficient?.[0] || 'complex'} Reads into smaller, more predictable components`;
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + Math.max(0, getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.2
     );
     guidanceLevel = 'elevated';
-    fitGuidance = 'Precise Need framing improves measured-BTD predictability.';
+    fitGuidance = 'Precise Read framing improves measured-BTD predictability.';
   } else if (avgEfficiency > 1.3) {
     insight = 'Exceptional measured-BTD efficiency detected across recent AssetPacks';
     suggestion = 'Consider taking on more complex challenges to maximize your validated capabilities';
     potentialSavings = 0;
     guidanceLevel = 'critical';
-    fitGuidance = 'Use this efficiency window to attempt more complex Needs.';
+    fitGuidance = 'Use this efficiency window to attempt more complex Reads.';
   } else {
     insight = 'Your measured-BTD allocation pattern is balanced and improving';
     suggestion = 'Continue current practices while watching for optimization opportunities';
@@ -578,7 +578,7 @@ export const MarketingBtdInvestmentExperience = ({
         )}
       </AnimatePresence>
       
-      {/* Upcoming Need Projection */}
+      {/* Upcoming Read Projection */}
       {showROIProjections && projectedNeed && (
         <motion.div
           className="mb-4 pointer-events-auto"
@@ -595,12 +595,12 @@ export const MarketingBtdInvestmentExperience = ({
           >
             <div className="flex items-center space-x-2 mb-3">
               <span className="text-xl">◇</span>
-              <h4 className="text-indigo-100 font-medium">Need Measurement Projection</h4>
+              <h4 className="text-indigo-100 font-medium">Read Measurement Projection</h4>
             </div>
             
             <div className="space-y-3">
               <div>
-                <div className="text-xs text-indigo-300">Next Need</div>
+                <div className="text-xs text-indigo-300">Next Read</div>
                 <div className="text-sm font-medium text-indigo-100">
                   {projectedNeed.name}
                 </div>

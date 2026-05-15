@@ -11,7 +11,7 @@ import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getAssetPackPipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
 import {
-  resolveNeedComprehensionFromExecution,
+  resolveReadComprehensionFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
@@ -22,7 +22,7 @@ const ReadyToIterateInputSchema = z.object({
   cloneResult: z.any(), // From clone-vcs-repository
   lspInitialized: z.boolean(), // From initialize-lsp
   dangerWallResult: z.any(),
-  needComprehension: z.any().optional(), // Semantic mirror from comprehend-need
+  readComprehension: z.any().optional(), // Semantic mirror from comprehend-read
   writtenAssetType: z.union([z.string(), z.array(z.string())]).optional(), // Semantic mirror
   codebaseAnalysis: z.any() // From analyze-codebase
 });
@@ -76,7 +76,7 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
     cloneResult: execution.get('setup/clone-vcs', 'result'),
     lspInitialized: execution.get('setup/lsp', 'initialized') || false,
     dangerWallResult: execution.get('setup/danger-wall', 'result'),
-    needComprehension: resolveNeedComprehensionFromExecution(execution),
+    readComprehension: resolveReadComprehensionFromExecution(execution),
     writtenAssetType: resolveWrittenAssetTypeFromExecution(execution),
     codebaseAnalysis: execution.get('setup/codebase', 'analysis')
   };
@@ -88,7 +88,7 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
   const criticalBlockers = [
     'Repository clone failed',
     'LSP initialization failed',
-    'Need incomprehensible',
+    'Read incomprehensible',
     'Written-asset type unknown',
     'Codebase inaccessible'
   ];

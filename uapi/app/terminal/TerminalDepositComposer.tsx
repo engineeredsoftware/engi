@@ -216,7 +216,7 @@ export default function TerminalDepositComposer({
       });
 
       if (!response.ok) {
-        setSubmitState({ kind: 'error', message: await readTerminalRouteError(response, 'Giving failed.') });
+        setSubmitState({ kind: 'error', message: await readTerminalRouteError(response, 'Deposit failed.') });
         return;
       }
 
@@ -243,7 +243,7 @@ export default function TerminalDepositComposer({
           summary:
             payload.asset?.title ||
             title.trim() ||
-            `Submitted ${selectedSupplyCount || 1} candidate Bitcode Giving asset pack${selectedSupplyCount === 1 ? '' : 's'}.`,
+            `Submitted ${selectedSupplyCount || 1} candidate Bitcode deposit asset pack${selectedSupplyCount === 1 ? '' : 's'}.`,
           context: {
             source: 'terminal-deposit-composer',
             authSessionId: effectiveAuthSessionId || null,
@@ -261,18 +261,18 @@ export default function TerminalDepositComposer({
       } catch (recordError) {
         const message =
           recordError instanceof Error
-            ? `${recordError.message} The Giving still landed in the Bitcode protocol state.`
-            : 'The Giving landed in the Bitcode protocol state, but the ledger row could not be recorded.';
+            ? `${recordError.message} The deposit still landed in the Bitcode protocol state.`
+            : 'The deposit landed in the Bitcode protocol state, but the ledger row could not be recorded.';
         setSubmitState({ kind: 'error', message });
         return;
       }
       setSubmitState({
         kind: 'success',
         message:
-          'Candidate Giving submitted into the Bitcode repo-authenticated flow and recorded into the Bitcode activity ledger.',
+          'Candidate deposit submitted into the Bitcode repo-authenticated flow and recorded into the Bitcode activity ledger.',
       });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Giving failed.';
+      const message = error instanceof Error ? error.message : 'Deposit failed.';
       setSubmitState({ kind: 'error', message });
     }
   };
@@ -281,12 +281,12 @@ export default function TerminalDepositComposer({
     return (
       <TerminalWorkspaceCard
         id="terminalDepositComposer"
-        kicker="Give intake"
-        title="Draft and submit Giving"
-        summary="Reading selected supply, issuer continuity, and the current Giving draft posture."
+        kicker="Deposit intake"
+        title="Draft and submit a deposit"
+        summary="Reading selected supply, issuer continuity, and the current deposit draft posture."
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.depositComposer}
       >
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Loading the current give draft…</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">Loading the current deposit draft…</p>
       </TerminalWorkspaceCard>
     );
   }
@@ -294,9 +294,9 @@ export default function TerminalDepositComposer({
   return (
     <TerminalWorkspaceCard
       id="terminalDepositComposer"
-      kicker="Give intake"
-      title="Draft and submit Giving"
-      summary="Build Giving from selected supply, add provenance overrides where needed, and keep the working draft resumable before Need, fit, and closure."
+      kicker="Deposit intake"
+      title="Draft and submit a deposit"
+      summary="Build a deposit from selected supply, add provenance overrides where needed, and keep the working draft resumable before Read, fit, and closure."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.depositComposer}
       headerAside={
         <BitcodeMetricGrid
@@ -393,7 +393,7 @@ export default function TerminalDepositComposer({
               />
               {usesLiveRepositoryAnchor ? (
                 <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-emerald-100/70">
-                  Selected from Give-side supply
+                  Selected from deposit-side supply
                 </p>
               ) : null}
             </div>
@@ -412,7 +412,7 @@ export default function TerminalDepositComposer({
               {usesLiveRepositoryAnchor ? (
                 <>
                   <select
-                    aria-label="Giving source branch"
+                    aria-label="Deposit source branch"
                     value={repositoryBranchValue}
                     disabled={isLoadingRepositoryBranches || repositoryBranches.length === 0}
                     onChange={(event) => onRepositorySourceBranchChange?.(event.target.value)}
@@ -445,7 +445,7 @@ export default function TerminalDepositComposer({
                   <span>Source commit / ref</span>
                 </FieldHeading>
                 <select
-                  aria-label="Giving source commit"
+                  aria-label="Deposit source commit"
                   value={repositoryCommitValue}
                   disabled={!repositoryBranchValue || isLoadingRepositoryCommits || repositoryCommits.length === 0}
                   onChange={(event) => onRepositorySourceCommitChange?.(event.target.value)}
@@ -510,7 +510,7 @@ export default function TerminalDepositComposer({
               value={visualPreview}
               onChange={(event) => setVisualPreview(event.target.value)}
               rows={3}
-              placeholder="Compact preview text for the submitted Giving"
+              placeholder="Compact preview text for the submitted deposit"
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
             />
           </label>
@@ -565,7 +565,7 @@ export default function TerminalDepositComposer({
               disabled={!canSubmit || submitState.kind === 'submitting'}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-5 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitState.kind === 'submitting' ? 'Submitting Giving to Bitcode…' : 'Submit Giving to Bitcode'}
+              {submitState.kind === 'submitting' ? 'Submitting deposit to Bitcode…' : 'Submit deposit to Bitcode'}
             </button>
             {!settlementReady && walletSigningRequired ? (
               <button
@@ -591,7 +591,7 @@ export default function TerminalDepositComposer({
               onClick={() => jumpToShellSection('terminalNeedSurface')}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Continue to Need
+              Continue to Read
             </button>
           </div>
 
@@ -605,7 +605,7 @@ export default function TerminalDepositComposer({
                     : 'border-white/10 bg-black/20 text-neutral-200'
               }`}
             >
-              {submitState.kind === 'submitting' ? 'Submitting Giving to Bitcode…' : submitState.message}
+              {submitState.kind === 'submitting' ? 'Submitting deposit to Bitcode…' : submitState.message}
             </div>
           ) : null}
         </form>
@@ -640,13 +640,13 @@ export default function TerminalDepositComposer({
             <p className="mt-3 text-sm leading-6 text-neutral-300">
               {selectedSupplyCount
                 ? usesLiveRepositoryAnchor
-                  ? `Bitcode will bind ${repositoryAnchorValue}${repositoryBranchValue ? ` on ${repositoryBranchValue}` : ''}${repositoryCommitValue ? ` at ${repositoryCommitValue.slice(0, 12)}` : ''} as the selected repository source for this Giving.`
-                  : `Bitcode will bind ${selectedSupplyCount} selected repo artifact${selectedSupplyCount === 1 ? '' : 's'} into this Giving.`
+                  ? `Bitcode will bind ${repositoryAnchorValue}${repositoryBranchValue ? ` on ${repositoryBranchValue}` : ''}${repositoryCommitValue ? ` at ${repositoryCommitValue.slice(0, 12)}` : ''} as the selected repository source for this deposit.`
+                  : `Bitcode will bind ${selectedSupplyCount} selected repo artifact${selectedSupplyCount === 1 ? '' : 's'} into this deposit.`
                 : 'No repo artifacts are currently selected. Use raw fallback content or select inventory above.'}
             </p>
             {usesLiveRepositoryAnchor && !hasSelectedSourceRevision ? (
               <p className="mt-3 rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
-                Select a branch and commit before submitting Giving so source materialization can fetch an exact snapshot.
+                Select a branch and commit before submitting the deposit so source materialization can fetch an exact snapshot.
               </p>
             ) : null}
             {selectedEntryLabels.length ? (
@@ -659,7 +659,7 @@ export default function TerminalDepositComposer({
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">After Giving</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">After depositing</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
               Submitting refreshes the working chain so selected supply, measured demand, fit, and later branch, proof,
               and settlement reads stay aligned in the same Bitcode Terminal.

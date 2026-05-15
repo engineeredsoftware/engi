@@ -6,8 +6,8 @@
  */
 
 export const RealizationProfile = Object.freeze({
-  TARGETED_BOUNDED: 'Profile A — targeted deposit / bounded need',
-  NORMALIZATION_COMPOSITE: 'Profile B — normalization deposit / composite need'
+  TARGETED_BOUNDED: 'Profile A — targeted deposit / bounded read',
+  NORMALIZATION_COMPOSITE: 'Profile B — normalization deposit / composite read'
 });
 
 export const RealizationProfileKey = Object.freeze({
@@ -29,8 +29,8 @@ export const NormalizationPressure = Object.freeze({
 
 export const RealizationStage = Object.freeze({
   DEPOSITING: 'depositing',
-  NEEDING: 'needing',
-  DEPOSIT_TO_NEED_FIT: 'deposit-to-need-fit',
+  READING: 'reading',
+  DEPOSIT_TO_NEED_FIT: 'deposit-to-read-fit',
   ASSET_PACK: 'asset-pack',
   BRANCH: 'branch-materialization',
   PROOF: 'proof-closure',

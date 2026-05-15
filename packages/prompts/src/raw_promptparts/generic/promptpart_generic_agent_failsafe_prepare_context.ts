@@ -13,4 +13,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT: PromptPart = 
-  'Analyze the task requirements and gather comprehensive context including relevant files, dependencies, constraints, and metadata needed for successful execution.' as PromptPart;
+  'Analyze the task requirements and gather comprehensive context including relevant files, dependencies, constraints, and metadata readed for successful execution.' as PromptPart;

@@ -23,7 +23,7 @@ V26 established:
 - BTC is the fee asset;
 - `$BTD` is non-fungible AssetPack share/read-right posture plus measured Bitcode amount;
 - generic `$BTD` balance mutation is closed;
-- Terminal Need minting is future V27 work;
+- Terminal Read minting is future V27 work;
 - Exchange existing-`$BTD` purchase was staged for V28 before V27's practical crypto scope was expanded;
 - `packages/btd` contains the 21,000,000 mintable ceiling as a staged invariant.
 
@@ -54,7 +54,7 @@ V27 must make all of these implementation-derivable:
 - finite global mintable supply;
 - non-fungible cell identity;
 - AssetPack contiguous range ownership;
-- Need-Fit-Prove-Settle mint admission;
+- Read-Fit-Prove-Settle mint admission;
 - proof-addressable semantic volume quantization;
 - deterministic allocation;
 - owner-read vs licensed-read;
@@ -83,7 +83,7 @@ V27 must make all of these implementation-derivable:
 | `BTD_MAX_MINTABLE_SUPPLY = 21_000_000` exists in package | cap becomes package, receipt, DB, proof, and UI invariant |
 | generic balance mutation fails closed | fungible mutation rejection becomes total V27 law |
 | `user_credits` stores aggregate holdings as compatibility carrier | new Exchange BTD registry schema is specified and implemented |
-| Terminal minting is future V27 intent | Need-Fit-Prove-Settle mint admission becomes canonical |
+| Terminal minting is future V27 intent | Read-Fit-Prove-Settle mint admission becomes canonical |
 | Exchange purchase was V28 intent | V27 now owns minimal existing-`$BTD` acquisition, bid/ask, and rights-transfer closure; V28+ owns broader market depth |
 | AssetPack evidence and Shippables are distinct | minted AssetPack ranges bind to stored AssetPack evidence and access policy |
 | source-to-shares proof exists | proof artifacts gain minted range and supply/replay roots |
@@ -162,11 +162,11 @@ Source-to-shares range binding proof: `.bitcode/v27-source-to-shares-mint-admiss
 Later gates still own persisted Exchange mint writes, generated proof-family closure, and ledger finality.
 
 Purpose:
-Make Need-Fit-Prove-Settle the only mint path.
+Make Read-Fit-Prove-Settle the only mint path.
 
 Closure criteria:
 
-- mint request requires accepted Need, accepted Fit, proof root, source root, dedupe root, settlement root, access policy, and Exchange sequence.
+- mint request requires accepted Read, accepted Fit, proof root, source root, dedupe root, settlement root, access policy, and Exchange sequence.
 - negative tests prove no mint before settlement.
 - source-to-shares proof artifacts include minted range roots.
 - Terminal intent can point to the path without bypassing it.
@@ -346,7 +346,7 @@ Closed for draft-target implementation by `.bitcode/v27-gate-13-terminal-journal
 
 Closure criteria:
 
-- Terminal transaction families cover Need, Fit, proof, mint, fee, anchor, license, order, transfer, dispute, and settlement finalization.
+- Terminal transaction families cover Read, Fit, proof, mint, fee, anchor, license, order, transfer, dispute, and settlement finalization.
 - journal entries carry stable ids, pre-state roots, post-state roots, receipt roots, and ledger anchor references.
 - journal diffing detects disagreement among Terminal intent, Exchange journal, ledger observation, database projection, and proof artifacts.
 - blocking diffs fail closed before UI or API claims finality.
@@ -425,7 +425,7 @@ Closure criteria:
 
 Closure evidence:
 
-- product acquisition surfaces route Terminal Need minting and minimal Exchange range-right transfer as V27 while leaving broader market depth to later versions;
+- product acquisition surfaces route Terminal Read minting and minimal Exchange range-right transfer as V27 while leaving broader market depth to later versions;
 - `uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range/policy/read-right disclosure route;
 - the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`;
 - `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds Bitcoin, BIP 174, BIP 341, Filecoin, EIPs, and adapter-library research to V27 implementation choices;
@@ -437,7 +437,7 @@ Implemented baseline:
 
 - `packages/btd/src/constants.ts` owns V27 `$BTD` constants, Bitcoin network constants, and validation helpers.
 - `packages/btd/src/supply.ts` owns strict supply state and cap advancement.
-- `packages/btd/src/range.ts` owns Need/Fit/root/policy-guarded contiguous AssetPack range allocation.
+- `packages/btd/src/range.ts` owns Read/Fit/root/policy-guarded contiguous AssetPack range allocation.
 - `packages/btd/src/semantic-volume.ts` owns proof-addressable semantic-volume measurement and quantization.
 - `packages/btd/src/measuremint.ts` owns fixed-supply hyperbolic measureminting, residual accounting, and zero-cell tail receipts.
 - `packages/btd/src/receipts.ts` owns conserved BTD mint receipts.
@@ -472,8 +472,8 @@ Implemented baseline:
 - `packages/api/src/routes/user.ts` rejects generic `$BTD` balance mutation.
 - `packages/api/src/routes/auxillaries.ts` rejects generic auxillary `$BTD` mutation.
 - `uapi/tests/api/userBtdRoute.test.ts` proves API mutation rejection.
-- `uapi/components/base/bitcode/btd/btd-tracker.tsx` separates BTC and `$BTD` in user balance posture and records Terminal Need plus Exchange existing-`$BTD` acquisition intent as V27.
-- `uapi/components/base/bitcode/btd/BTDPrices.tsx` distinguishes Terminal Need V27 from minimal Exchange Range V27.
+- `uapi/components/base/bitcode/btd/btd-tracker.tsx` separates BTC and `$BTD` in user balance posture and records Terminal Read plus Exchange existing-`$BTD` acquisition intent as V27.
+- `uapi/components/base/bitcode/btd/BTDPrices.tsx` distinguishes Terminal Read V27 from minimal Exchange Range V27.
 - `uapi/app/auxillaries/components/AuxillariesBTDPane.tsx` displays BTC fee liquidity and non-fungible `$BTD` holdings separately.
 - public marketing surfaces disclose BTC fee and non-fungible `$BTD` read-right posture.
 - `protocol-demonstration/src/receipt-schemas.js` already has licensed read and allocation receipt families that V27 can extend.

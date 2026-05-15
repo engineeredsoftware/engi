@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-// Bundle presets are intentionally absent: V27 routes acquisition through Terminal Need
+// Bundle presets are intentionally absent: V27 routes acquisition through Terminal Read
 // minting or minimal Exchange range-right transfer, not fungible checkout bundles.
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import BTDPrices from '@/components/base/bitcode/btd/BTDPrices';
@@ -27,11 +27,11 @@ const MarketingPricingSection: React.FC = () => {
   /* ------------------------------------------------------------------
    * Dynamic acquisition reference
    * ------------------------------------------------------------------
-   * Terminal Need reference: future Fit mints new $BTD.
+   * Terminal Read reference: future Fit mints new $BTD.
    * Exchange reference: existing non-fungible $BTD range rights can transfer.
    */
 
-  const TERMINAL_NEED_REFERENCE_USD_PER_BTD = 0.25;
+  const TERMINAL_READ_REFERENCE_USD_PER_BTD = 0.25;
   const EXCHANGE_REFERENCE_USD_PER_BTD = 0.22;
 
   /* ------------------------------------------------------------------
@@ -44,7 +44,7 @@ const MarketingPricingSection: React.FC = () => {
 
   const referenceUsdPerBtd = isExchangePreview
     ? EXCHANGE_REFERENCE_USD_PER_BTD
-    : TERMINAL_NEED_REFERENCE_USD_PER_BTD;
+    : TERMINAL_READ_REFERENCE_USD_PER_BTD;
   // Acquisition flow state
   const [activatingPlan, setActivatingPlan] = useState<string | null>(null);
   const [acquisitionError, setAcquisitionError] = useState<string | null>(null);
@@ -101,7 +101,7 @@ const MarketingPricingSection: React.FC = () => {
           shareAsset: 'BTD',
           btdSemantics: 'non-fungible asset-pack share/read-right',
           paths: [
-            { mode: 'terminal-need', target: '/terminal?intent=submit-need-for-btd', gate: 'V27' },
+            { mode: 'terminal-read', target: '/terminal?intent=submit-read-for-btd', gate: 'V27' },
             { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V27' },
           ],
           createdAt: new Date().toISOString(),

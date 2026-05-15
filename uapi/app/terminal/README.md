@@ -7,7 +7,7 @@ old route boundaries must be reformed in place into Terminal source.
 Its job is to keep one operator route coherent:
 - recent Terminal activity as the scoped read surface,
 - selected activity detail as the selected result surface,
-- give and need as the primary write actions,
+- deposit and read as the primary write actions,
 - fullscreen conversations and auxillaries as adjacent modes entered from the product shell,
 - and the mounted demonstration witness available only when dense proof/settlement inspection is required.
 
@@ -19,8 +19,8 @@ V28 commercial MVP hardening keeps these product experiences route-correct:
 - `auxillaries`
 
 The Terminal keeps two primary write actions:
-- `give`
-- `need`
+- `deposit`
+- `read`
 
 `/terminal` owns Terminal activity directly and launches the adjacent modes without
 presenting them as part of Terminal itself.
@@ -35,8 +35,8 @@ presenting them as part of Terminal itself.
   Route-owned filter, paging, and selected-activity state.
 - `TerminalCommandDeck.tsx`
   Scenario, projection, branch mode, reset, and flow-guide entry posture.
-- `TerminalGiveNeedWorkbench.tsx`
-  Give and need write posture inside the route.
+- `TerminalDepositReadWorkbench.tsx`
+  Deposit and read write posture inside the route.
 - `TerminalPreservedShellSurface.tsx`
   Demonstration witness drawer for proof/settlement follow-through.
 - `terminal-shell-bridge.tsx`
@@ -60,7 +60,7 @@ come from current Terminal URLs and current product navigation.
 
 ## Live staging-testnet QA
 
-Terminal Give/Need QA starts only after Wallet and Externals prerequisites are
+Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are
 green in the live staging deployment. The minimum accepted starting state is a
 wallet-authenticated Supabase user, Bitcode wallet binding projection,
 GitHub App installation, and at least one `vcs_repositories` row for the source
@@ -69,9 +69,9 @@ scope. The first canonical repository anchor for this pass is
 
 The first MVP write/read checks are:
 
-- `Record give posture` writes `agentic-execution:asset-pack` with give state.
-- `Record need posture` writes `agentic-execution:need-measurement` after
-  Give/source posture exists.
+- `Record deposit posture` writes `agentic-execution:asset-pack` with deposit state.
+- `Record read posture` writes `agentic-execution:read-measurement` after
+  Deposit/source posture exists.
 - `Record fit posture` writes `agentic-execution:proof-refresh`.
 - `Make Bitcode branch` either writes branch/AssetPack follow-through or fails
   closed with an exact transaction-readiness blocker.

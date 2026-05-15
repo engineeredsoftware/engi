@@ -5,7 +5,7 @@ import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 
 // Mock setup agents to ensure deterministic, fast dry-run
 jest.mock('../agents/setup/asset-pack-clone-vcs-repository-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true, repository: { owner: 'acme', name: 'repo', ref: 'main' } }) }));
-jest.mock('../agents/setup/asset-pack-comprehend-need-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true }) }));
+jest.mock('../agents/setup/asset-pack-comprehend-read-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true }) }));
 jest.mock('../agents/setup/asset-pack-danger-wall-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({
@@ -48,7 +48,7 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
       });
 
       const res = await assetPack({
-        definitionOfNeed: 'Test',
+        definitionOfRead: 'Test',
         repository: { url: 'x' },
         deliveryTarget: 'pr' as const,
       }, exec);

@@ -1,11 +1,11 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Bitcode need-synthesis web search basic example"
+ * intent: "Bitcode read-synthesis web search basic example"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "bitcode_example", "test": "Example searches for a Bitcode need-synthesis question", "score": 1.00 }
+ *   { "name": "bitcode_example", "test": "Example searches for a Bitcode read-synthesis question", "score": 1.00 }
  * ]
  */
 

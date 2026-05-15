@@ -5,7 +5,7 @@ Bitcode conversation-domain package for shared prompt and type ownership.
 ## Role
 
 This package remains admitted because fullscreen conversations are a commercial
-Bitcode interface and need explicit prompt/type ownership across Terminal,
+Bitcode interface and read explicit prompt/type ownership across Terminal,
 Exchange, Auxillaries, MCP, and ChatGPT App contexts.
 
 It owns:

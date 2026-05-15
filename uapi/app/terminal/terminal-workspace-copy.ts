@@ -3,25 +3,25 @@ export const TERMINAL_SURFACE_COPY = {
     kicker: 'Overview',
     title: 'Overview and recent activity',
     summary:
-      'Start from recent Terminal activity, readiness, and adjacent interfaces before moving into Giving, Needing, proofs, and finalities.',
+      'Start from recent Terminal activity, readiness, and adjacent interfaces before moving into deposits, reads, proofs, and finalities.',
   },
   supply: {
-    kicker: 'Giving',
-    title: 'Giving: source supply and submission',
+    kicker: 'Deposit',
+    title: 'Deposit: source supply and submission',
     summary:
-      'Bind the live GitHub repository inventory, choose the source supply, and submit Giving before any Need match is evaluated.',
+      'Bind the live GitHub repository inventory, choose the source supply, and submit a deposit before any Read match is evaluated.',
   },
-  need: {
-    kicker: 'Needing',
-    title: 'Needing: measured demand and fit',
+  read: {
+    kicker: 'Read',
+    title: 'Read: measured demand and fit',
     summary:
-      'Select the need frame after Giving is explicit, then read fit posture against the current repository supply.',
+      'Select the read frame after the deposit is explicit, then read fit posture against the current repository supply.',
   },
   closure: {
     kicker: 'Proofs, finalities, and misc.',
     title: 'Proofs, finalities, and provenance',
     summary:
-      'Review verification, branch artifacts, asset-pack settlement, ledger continuity, and deeper witness detail only after Giving and Needing are in place.',
+      'Review verification, branch artifacts, asset-pack settlement, ledger continuity, and deeper witness detail only after Deposit and Read are in place.',
   },
   detail: {
     emptySelection:

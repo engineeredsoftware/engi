@@ -1,7 +1,7 @@
 /**
  * Bitcode Repository Evidence Search Agent - Declarative PTRR support pattern.
  *
- * V26 semantics are repository-evidence collection for need measurement,
+ * V26 semantics are repository-evidence collection for read measurement,
  * source-grounding, proof inspection, and AssetPack planning.
  */
 
@@ -16,7 +16,7 @@ import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-tex
 import { z } from 'zod';
 
 const BitcodeRepositoryEvidenceSearchInputSchema = z.object({
-  query: z.string().describe('Need-grounding evidence pattern or keywords'),
+  query: z.string().describe('Read-grounding evidence pattern or keywords'),
   searchPath: z.string().optional().describe('Repository or package directory path to search'),
   fileTypes: z.array(z.string()).optional().describe('File extensions to treat as evidence candidates'),
   excludePatterns: z.array(z.string()).optional().describe('Patterns to exclude from evidence gathering'),
@@ -165,11 +165,11 @@ const BitcodeRepositoryEvidenceSearchRetrySchema = z.object({
 
 export const bitcodeRepositoryEvidenceSearcherPrompt = new AgentPrompt({
   name: 'bitcode-repository-evidence-searcher' as PromptPart,
-  identity: 'Bitcode repository-evidence search agent for source-grounded need and AssetPack context' as PromptPart
+  identity: 'Bitcode repository-evidence search agent for source-grounded read and AssetPack context' as PromptPart
 });
 
 export const bitcodeRepositoryEvidenceSearcherStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Plan bounded repository-evidence search for a Bitcode need' as PromptPart }),
+  plan: new AgentStepPrompt({ purpose: 'Plan bounded repository-evidence search for a Bitcode read' as PromptPart }),
   try: new AgentStepPrompt({ purpose: 'Execute grep-backed evidence search without mutating source' as PromptPart }),
   refine: new AgentStepPrompt({ purpose: 'Refine evidence snippets into source-grounding context' as PromptPart }),
   retry: new AgentStepPrompt({ purpose: 'Finalize repository evidence and expose gaps without claiming proof closure' as PromptPart })
@@ -183,7 +183,7 @@ const bitcodeRepositoryEvidenceSearchVariation = factoryAgentWithPTRR<
   z.infer<typeof BitcodeRepositoryEvidenceSearchRetrySchema>
 >({
   name: 'bitcode-repository-evidence-search',
-  description: 'Repository evidence search for Bitcode need measurement, proof inspection, and AssetPack planning',
+  description: 'Repository evidence search for Bitcode read measurement, proof inspection, and AssetPack planning',
   prompt: bitcodeRepositoryEvidenceSearcherPrompt,
   stepPrompts: {
     plan: () => bitcodeRepositoryEvidenceSearcherStepPrompts.plan,
@@ -251,7 +251,7 @@ const quickBitcodeRepositoryEvidenceSearchVariation = factoryAgentWithSingleStep
           patterns: [input.query],
           distribution,
           recommendations: [
-            'Treat these matches as repository evidence only; need interpretation, mutation, proof generation, and delivery remain owned by downstream Bitcode systems.'
+            'Treat these matches as repository evidence only; read interpretation, mutation, proof generation, and delivery remain owned by downstream Bitcode systems.'
           ]
         },
         processingTime: Date.now() - startedAt

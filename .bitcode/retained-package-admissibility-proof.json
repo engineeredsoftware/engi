@@ -128,7 +128,7 @@
     {
       "packageName": "@bitcode/jira-tools",
       "primaryRole": "ingress-or-support",
-      "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence",
+      "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and read-measurement carriers during fourth-gate convergence",
       "role": "Jira read-first external work-tracker ingestion port",
       "writeBoundary": "default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate",
       "proofObligation": "retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership",
@@ -144,7 +144,7 @@
     {
       "packageName": "@bitcode/generic-agents-jira",
       "primaryRole": "reference-only",
-      "rationale": "retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation",
+      "rationale": "retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode read context instead of generic project-management automation",
       "role": "Jira prompt-owned ingestion agent",
       "writeBoundary": "reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path",
       "proofObligation": "prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted",
@@ -947,8 +947,8 @@
       "passed": true
     },
     {
-      "packageName": "@bitcode/generic-agents-need-comprehension",
-      "packagePath": "packages/generic-agents/need-comprehension/package.json",
+      "packageName": "@bitcode/generic-agents-read-comprehension",
+      "packagePath": "packages/generic-agents/read-comprehension/package.json",
       "primaryRole": "ingress-or-support",
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
@@ -956,9 +956,9 @@
       "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
-        "packages/generic-agents/need-comprehension/package.json",
-        "packages/generic-agents/need-comprehension/src/index.ts",
-        "packages/generic-agents/need-comprehension/README.md"
+        "packages/generic-agents/read-comprehension/package.json",
+        "packages/generic-agents/read-comprehension/src/index.ts",
+        "packages/generic-agents/read-comprehension/README.md"
       ],
       "missingFiles": [],
       "unclassified": false,
@@ -1592,8 +1592,8 @@
       "passed": true
     },
     {
-      "packageName": "@bitcode/generic-tools-need-comprehension",
-      "packagePath": "packages/generic-tools/need-comprehension/package.json",
+      "packageName": "@bitcode/generic-tools-read-comprehension",
+      "packagePath": "packages/generic-tools/read-comprehension/package.json",
       "primaryRole": "compatibility",
       "classificationBasis": "compatibility-name",
       "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
@@ -1601,9 +1601,9 @@
       "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
       "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
       "requiredFiles": [
-        "packages/generic-tools/need-comprehension/package.json",
-        "packages/generic-tools/need-comprehension/src/index.ts",
-        "packages/generic-tools/need-comprehension/README.md"
+        "packages/generic-tools/read-comprehension/package.json",
+        "packages/generic-tools/read-comprehension/src/index.ts",
+        "packages/generic-tools/read-comprehension/README.md"
       ],
       "missingFiles": [],
       "unclassified": false,

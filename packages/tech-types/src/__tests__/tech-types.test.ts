@@ -13,7 +13,7 @@ import {
 } from '../uniqueTech';
 
 describe('@bitcode/tech-types', () => {
-  it('exposes the core vocabulary used by need-measurement dependents', () => {
+  it('exposes the core vocabulary used by read-measurement dependents', () => {
     expect(BRANDS).toContain('Vercel');
     expect(TECHNOLOGIES).toContain('NextJS');
     expect(PROGRAMMING_LANGUAGES).toContain('TypeScript');

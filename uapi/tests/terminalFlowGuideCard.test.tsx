@@ -6,10 +6,10 @@ import TerminalFlowGuideCard from '@/app/terminal/TerminalFlowGuideCard';
 import type { TerminalCommandState } from '@/app/terminal/terminal-command-state';
 
 const baseCommandState: TerminalCommandState = {
-  scenario: 'need-1',
+  scenario: 'read-1',
   projection: 'reviewer',
   branchMode: 'patch',
-  scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+  scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
   projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
   branchOptions: [{ value: 'patch', label: 'patch' }],
   heroLede: 'shell posture',

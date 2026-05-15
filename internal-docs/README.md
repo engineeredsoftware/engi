@@ -7,7 +7,7 @@ Status: non-canonical scratch documentation. The active canonical system specifi
 - Do not treat this directory as canonical truth.
 - Promote requirements into the active SPEC/PARITY/proof family, or into the explicitly opened draft-target SPEC family, before relying on them as requirements.
 - Keep note filenames and content Bitcode-only.
-- Prefer Need, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
+- Prefer Read, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
 - Treat compatibility source names as implementation corridors, not product vocabulary.
 - Remove or reform non-Bitcode product vocabulary and removed operator-control language.
 
@@ -15,12 +15,12 @@ Status: non-canonical scratch documentation. The active canonical system specifi
 
 - [BITCODE_AGENTIC_EXECUTION.md](./BITCODE_AGENTIC_EXECUTION.md): phase, registry, prompt, tool, computer-use, and Finish execution notes.
 - [ASSETPACK_EXECUTION.md](./ASSETPACK_EXECUTION.md): AssetPack and connected-interface written-asset execution notes.
-- [BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md](./BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md): operator journey, Need review, fit review, AssetPack, and settlement UX notes.
+- [BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md](./BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md): operator journey, Read review, fit review, AssetPack, and settlement UX notes.
 - [BITCODE_EXCHANGE_DATABASE.md](./BITCODE_EXCHANGE_DATABASE.md): Exchange persistence and schema reform notes.
 - [BITCODE_API.md](./BITCODE_API.md): server-owned API admission and connected-interface notes.
 - [BITCODE_EXECUTIONS.md](./BITCODE_EXECUTIONS.md): execution read/write and Terminal history notes.
 - [BITCODE_CONVERSATIONS.md](./BITCODE_CONVERSATIONS.md): conversation ingress and execution-continuation notes.
-- [BITCODE_PROMPT_SYSTEM.md](./BITCODE_PROMPT_SYSTEM.md): Prompt, PromptPart, registry, doc-comment, and Need-comprehension notes.
+- [BITCODE_PROMPT_SYSTEM.md](./BITCODE_PROMPT_SYSTEM.md): Prompt, PromptPart, registry, doc-comment, and Read-comprehension notes.
 - [BITCODE_PROMPT_TRACE.md](./BITCODE_PROMPT_TRACE.md): prompt rendering and traceability notes.
 
 ## Supporting Notes

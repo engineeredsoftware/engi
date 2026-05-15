@@ -18,7 +18,7 @@ import {
 } from './terminal-closure-state';
 
 const PANEL_IDS: Record<TerminalClosurePanel['id'], string> = {
-  'need-review': 'panelNeeding',
+  'read-review': 'panelReading',
   verification: 'panelEvaluations',
   branch: 'panelBranchArtifacts',
   settlement: 'panelSettlement',
@@ -139,7 +139,7 @@ export default function TerminalClosureNativeSections() {
   const panels = useMemo(() => {
     if (!closureState) return [];
     return [
-      closureState.needReview,
+      closureState.readReview,
       closureState.verification,
       closureState.branch,
       closureState.settlement,
@@ -152,7 +152,7 @@ export default function TerminalClosureNativeSections() {
       <TerminalWorkspaceCard
         id="terminalClosureSequence"
         kicker="Closure map"
-        title="Need review, verification, asset pack, settlement, and ledger"
+        title="Read review, verification, asset pack, settlement, and ledger"
         summary="Reading the current review-to-settlement sequence, asset-pack synthesis posture, and source-to-shares runtime."
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.closureMap}
       >
@@ -165,8 +165,8 @@ export default function TerminalClosureNativeSections() {
     <TerminalWorkspaceCard
       id="terminalClosureSequence"
       kicker="Closure map"
-      title="Need review, verification, asset pack, settlement, and ledger"
-      summary="Read closure as one sequence from reviewable Need admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity."
+      title="Read review, verification, asset pack, settlement, and ledger"
+      summary="Read closure as one sequence from reviewable Read admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity."
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.closureMap}
       headerAside={
         <BitcodeMetricGrid

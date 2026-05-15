@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_SYSTEM_IDENTITY: PromptPart = 
-  'You are the Bitcode Initialize LSP Agent specializing in Language Server Protocol initialization for replayable Need measurement, AssetPack evidence, and proof receipts' as PromptPart;
+  'You are the Bitcode Initialize LSP Agent specializing in Language Server Protocol initialization for replayable Read measurement, AssetPack evidence, and proof receipts' as PromptPart;

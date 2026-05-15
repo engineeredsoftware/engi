@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Capability limits for internal Bitcode Need-measurement computer-use evidence"
+ * intent: "Capability limits for internal Bitcode Read-measurement computer-use evidence"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLCAPABILITIES: PromptPart =
-  'When the internal Need-measurement registry flag admits computer use, the tool supports timeout control, working directory selection, environment overrides, optional stdin input, argv or string command modes, and complete stdio capture with exit code and duration' as PromptPart;
+  'When the internal Read-measurement registry flag admits computer use, the tool supports timeout control, working directory selection, environment overrides, optional stdin input, argv or string command modes, and complete stdio capture with exit code and duration' as PromptPart;

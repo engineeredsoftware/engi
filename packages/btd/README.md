@@ -14,7 +14,7 @@ This package owns:
 
 `$BTD` is not a fungible fee token. BTC pays fees. `$BTD` represents a
 non-fungible AssetPack share/read-right and the measured Bitcode amount in
-content. V27 issuance follows measured Need-Fit-Prove-Settle admission through
+content. V27 issuance follows measured Read-Fit-Prove-Settle admission through
 the measureminting curve; valid tail events may emit zero-cell receipts rather
 than failing the measurement.
 

@@ -465,8 +465,8 @@
       "invalidBoundaryPosture": null,
       "missingSectionFields": [],
       "implementationOwnerRefs": [
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts",
+        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
         "packages/pipelines/asset-pack/scripts/render-prompts.ts",
         "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
         "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
@@ -486,7 +486,7 @@
         "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/generic-agents/text-searcher/src/index.ts",
         "packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
         "packages/pipelines/asset-pack/src/phases/index.ts",
@@ -510,8 +510,8 @@
         "packages/pipelines/asset-pack/src/phases/finish.ts",
         "packages/pipelines/asset-pack/src/postprocess.ts",
         "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/generic-agents/text-searcher/README.md",
         "packages/generic-agents/text-searcher/package.json",
         "packages/generic-agents/text-searcher/src/index.ts",
@@ -583,69 +583,69 @@
       "passed": true
     },
     {
-      "recordId": "need-comprehension-reform",
-      "canonicalNeed": "Provide setup-phase Bitcode Need comprehension over expressed needs, source-to-shares service questions, commercial accountability, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries with need-first tool, prompt, primitive, schema, and raw PromptPart owners.",
+      "recordId": "read-comprehension-reform",
+      "canonicalNeed": "Provide setup-phase Bitcode Read comprehension over expressed reads, source-to-shares service questions, commercial accountability, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries with read-first tool, prompt, primitive, schema, and raw PromptPart owners.",
       "boundaryPosture": "active",
       "missingFields": [],
       "invalidBoundaryPosture": null,
       "missingSectionFields": [],
       "implementationOwnerRefs": [
-        "packages/generic-agents/need-comprehension/src/index.ts",
+        "packages/generic-agents/read-comprehension/src/index.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts",
-        "packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts",
-        "packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts",
-        "packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts",
-        "packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts",
-        "packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts",
-        "packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts",
-        "packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts",
-        "packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts",
-        "packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts",
+        "packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts",
+        "packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts",
+        "packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts",
+        "packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts",
+        "packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts",
+        "packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts",
+        "packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts",
+        "packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/pipelines/asset-pack/src/phases/setup.ts",
-        "packages/generic-agents/need-comprehension/tsconfig.json",
-        "packages/generic-agents/need-comprehension/package.json",
-        "packages/generic-tools/need-comprehension/tsconfig.json",
-        "packages/generic-tools/need-comprehension/src/index.ts",
-        "packages/generic-tools/need-comprehension/src/types/tools-generics.ts"
+        "packages/generic-agents/read-comprehension/tsconfig.json",
+        "packages/generic-agents/read-comprehension/package.json",
+        "packages/generic-tools/read-comprehension/tsconfig.json",
+        "packages/generic-tools/read-comprehension/src/index.ts",
+        "packages/generic-tools/read-comprehension/src/types/tools-generics.ts"
       ],
       "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
-        "packages/generic-agents/need-comprehension/README.md",
-        "packages/generic-agents/need-comprehension/package.json",
-        "packages/generic-agents/need-comprehension/tsconfig.json",
-        "packages/generic-agents/need-comprehension/src/index.ts",
-        "packages/generic-tools/need-comprehension/README.md",
-        "packages/generic-tools/need-comprehension/package.json",
-        "packages/generic-tools/need-comprehension/tsconfig.json",
-        "packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts",
-        "packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts",
-        "packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts",
-        "packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts",
-        "packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts",
-        "packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts",
-        "packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts",
-        "packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts",
-        "packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
+        "packages/generic-agents/read-comprehension/README.md",
+        "packages/generic-agents/read-comprehension/package.json",
+        "packages/generic-agents/read-comprehension/tsconfig.json",
+        "packages/generic-agents/read-comprehension/src/index.ts",
+        "packages/generic-tools/read-comprehension/README.md",
+        "packages/generic-tools/read-comprehension/package.json",
+        "packages/generic-tools/read-comprehension/tsconfig.json",
+        "packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts",
+        "packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts",
+        "packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts",
+        "packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts",
+        "packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts",
+        "packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts",
+        "packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts",
+        "packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts",
+        "packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts",
@@ -653,25 +653,25 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/pipelines/asset-pack/src/phases/setup.ts"
       ],
       "missingSourceEvidenceRefs": [],
       "verificationSet": [
-        "pnpm -C packages/generic-agents/need-comprehension run build",
-        "pnpm -C packages/generic-tools/need-comprehension run build",
+        "pnpm -C packages/generic-agents/read-comprehension run build",
+        "pnpm -C packages/generic-tools/read-comprehension run build",
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         "node --test protocol-demonstration/test/v26-shippable-reform.test.js"
       ],
       "verificationEvidence": [
         {
-          "value": "pnpm -C packages/generic-agents/need-comprehension run build",
+          "value": "pnpm -C packages/generic-agents/read-comprehension run build",
           "evidenceType": "executable-command",
           "refPath": null
         },
         {
-          "value": "pnpm -C packages/generic-tools/need-comprehension run build",
+          "value": "pnpm -C packages/generic-tools/read-comprehension run build",
           "evidenceType": "executable-command",
           "refPath": null
         },
@@ -695,14 +695,14 @@
       "passed": true
     },
     {
-      "recordId": "need-review-before-fit-search",
-      "canonicalNeed": "Review a synthesized Bitcode Need after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.",
+      "recordId": "read-review-before-fit-search",
+      "canonicalNeed": "Review a synthesized Bitcode Read after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.",
       "boundaryPosture": "active",
       "missingFields": [],
       "invalidBoundaryPosture": null,
       "missingSectionFields": [],
       "implementationOwnerRefs": [
-        "protocol-demonstration/src/canonical/need-measurement.js",
+        "protocol-demonstration/src/canonical/read-measurement.js",
         "protocol-demonstration/src/canonical/prompting.js",
         "protocol-demonstration/src/bitcode-demo.js",
         "protocol-demonstration/src/canonical/evaluation-materialization.js",
@@ -710,20 +710,20 @@
       ],
       "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
-        "protocol-demonstration/src/canonical/need-measurement.js",
+        "protocol-demonstration/src/canonical/read-measurement.js",
         "protocol-demonstration/src/canonical/evaluation-materialization.js",
         "protocol-demonstration/src/canonical/run-artifacts.js",
         "protocol-demonstration/src/bitcode-demo.js",
-        "protocol-demonstration/test/v26-need-review-source-to-shares.test.js"
+        "protocol-demonstration/test/v26-read-review-source-to-shares.test.js"
       ],
       "missingSourceEvidenceRefs": [],
       "verificationSet": [
-        "node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+        "node --test protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
         ".bitcode/inference-implementation-records-proof.json"
       ],
       "verificationEvidence": [
         {
-          "value": "node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+          "value": "node --test protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
           "evidenceType": "executable-command",
           "refPath": null
         },
@@ -744,7 +744,7 @@
     },
     {
       "recordId": "external-evidence-research-support",
-      "canonicalNeed": "Research the web during the discovery phase to support Bitcode need synthesis with source-attributed external evidence for need measurement, source-to-shares service questions, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical need interpretation, proof, delivery, mutation, or product ownership.",
+      "canonicalNeed": "Research the web during the discovery phase to support Bitcode read synthesis with source-attributed external evidence for read measurement, source-to-shares service questions, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical read interpretation, proof, delivery, mutation, or product ownership.",
       "boundaryPosture": "admitted support",
       "missingFields": [],
       "invalidBoundaryPosture": null,
@@ -869,7 +869,7 @@
     },
     {
       "recordId": "need-risk-admission-support",
-      "canonicalNeed": "Admit or block the next Bitcode pipeline phase by evaluating a need, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the danger-wall risk-admission corridor into canonical need, proof, mutation, delivery, or product ownership.",
+      "canonicalNeed": "Admit or block the next Bitcode pipeline phase by evaluating a read, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the danger-wall risk-admission corridor into canonical read, proof, mutation, delivery, or product ownership.",
       "boundaryPosture": "admitted support",
       "missingFields": [],
       "invalidBoundaryPosture": null,
@@ -1361,8 +1361,8 @@
       "canonicalNeed": "Operate Bitcode AssetPack pipeline machinery as asset-pack written-asset synthesis plus delivery-mechanism compatibility.",
       "promptImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts",
+          "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
           "packages/pipelines/asset-pack/scripts/render-prompts.ts",
           "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
           "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
@@ -1374,8 +1374,8 @@
           "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts"
         ],
         "rawPromptPartBoundary": "COMPREHENDNEED, ASSETPACKSETUPCOMPREHENDNEED, compatibility-file TEXTSEARCHER, and compatibility-file SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers",
-        "registryLayering": "Generic PTRR and formatting PromptParts form base layers while specific setup, validation, Finish, and delivery-mechanism PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-mechanism behavior; repository-evidence-search PromptParts add source-grounding behavior through prompt registries.",
-        "runtimeCarryThrough": "AssetPack pipeline and repository-evidence runtime promptparts must teach need-first asset-pack synthesis, source-grounding, and delivery mechanisms."
+        "registryLayering": "Generic PTRR and formatting PromptParts form base layers while specific setup, validation, Finish, and delivery-mechanism PromptParts implement Bitcode read, written-asset, asset-pack, proof, and delivery-mechanism behavior; repository-evidence-search PromptParts add source-grounding behavior through prompt registries.",
+        "runtimeCarryThrough": "AssetPack pipeline and repository-evidence runtime promptparts must teach read-first asset-pack synthesis, source-grounding, and delivery mechanisms."
       },
       "toolImplementation": {
         "owners": [
@@ -1390,11 +1390,11 @@
           "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
           "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts"
         ],
-        "contract": "VCS/PR/comment/review tools are delivery mechanisms on top of stable written assets; repository-evidence search tools are bounded grep-backed support, and AssetPack evidence search is exposed as searchRelevantAssetPackEvidence for need measurement and source-grounding; file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage."
+        "contract": "VCS/PR/comment/review tools are delivery mechanisms on top of stable written assets; repository-evidence search tools are bounded grep-backed support, and AssetPack evidence search is exposed as searchRelevantAssetPackEvidence for read measurement and source-grounding; file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage."
       },
       "agentImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
           "packages/generic-agents/text-searcher/src/index.ts",
           "packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
           "packages/pipelines/asset-pack/src/phases/index.ts",
@@ -1402,7 +1402,7 @@
           "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
           "packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts"
         ],
-        "contract": "Setup, iteration, validation, and Finish agents must resolve semantic need and writtenAsset fields before bounded storage compatibility fields; Delivering is only the third-party AssetPack/partial handoff inside Finish."
+        "contract": "Setup, iteration, validation, and Finish agents must resolve semantic read and writtenAsset fields before bounded storage compatibility fields; Delivering is only the third-party AssetPack/partial handoff inside Finish."
       },
       "executionImplementation": {
         "owners": [
@@ -1439,8 +1439,8 @@
         "packages/pipelines/asset-pack/src/phases/finish.ts",
         "packages/pipelines/asset-pack/src/postprocess.ts",
         "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/generic-agents/text-searcher/README.md",
         "packages/generic-agents/text-searcher/package.json",
         "packages/generic-agents/text-searcher/src/index.ts",
@@ -1475,101 +1475,101 @@
       ]
     },
     {
-      "recordId": "need-comprehension-reform",
-      "canonicalNeed": "Provide setup-phase Bitcode Need comprehension over expressed needs, source-to-shares service questions, commercial accountability, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries with need-first tool, prompt, primitive, schema, and raw PromptPart owners.",
+      "recordId": "read-comprehension-reform",
+      "canonicalNeed": "Provide setup-phase Bitcode Read comprehension over expressed reads, source-to-shares service questions, commercial accountability, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries with read-first tool, prompt, primitive, schema, and raw PromptPart owners.",
       "promptImplementation": {
         "owners": [
-          "packages/generic-agents/need-comprehension/src/index.ts",
+          "packages/generic-agents/read-comprehension/src/index.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
-          "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
-          "packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
-          "packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts",
-          "packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts",
-          "packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
-          "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
           "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts"
         ],
-        "rawPromptPartBoundary": "@bitcode/prompts/raw_promptparts/* with COMPREHENDNEED agent PromptParts and need-first tool PromptPart families",
-        "registryLayering": "The setup Need-comprehension agent owns AgentPrompt and AgentStepPrompt registries in packages/generic-agents/need-comprehension, while canonical need-first DocCodeToolPrompt owners stay local to packages/generic-tools/need-comprehension. Agent PromptParts specialize the setup/pre-danger-wall role; tool PromptParts specialize callable Need analysis, requirements, constraints, satisfaction criteria, validation, and complexity capabilities under need-first filenames and constants.",
-        "runtimeCarryThrough": "COMPREHENDNEED agent PromptParts and need-first raw PromptParts must keep runtime carry-through aligned to canonical need-comprehension text, including source-to-shares service questions and Advanced Engineered Software, Inc. customer accountability, while packages/generic-tools/need-comprehension and packages/generic-agents/need-comprehension remain TypeScript-only source with any generated JavaScript emitted outside src."
+        "rawPromptPartBoundary": "@bitcode/prompts/raw_promptparts/* with COMPREHENDNEED agent PromptParts and read-first tool PromptPart families",
+        "registryLayering": "The setup Read-comprehension agent owns AgentPrompt and AgentStepPrompt registries in packages/generic-agents/read-comprehension, while canonical read-first DocCodeToolPrompt owners stay local to packages/generic-tools/read-comprehension. Agent PromptParts specialize the setup/pre-danger-wall role; tool PromptParts specialize callable Read analysis, requirements, constraints, satisfaction criteria, validation, and complexity capabilities under read-first filenames and constants.",
+        "runtimeCarryThrough": "COMPREHENDNEED agent PromptParts and read-first raw PromptParts must keep runtime carry-through aligned to canonical read-comprehension text, including source-to-shares service questions and Advanced Engineered Software, Inc. customer accountability, while packages/generic-tools/read-comprehension and packages/generic-agents/read-comprehension remain TypeScript-only source with any generated JavaScript emitted outside src."
       },
       "toolImplementation": {
         "owners": [
-          "packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts",
-          "packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts",
-          "packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts",
-          "packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts",
-          "packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts",
-          "packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts",
-          "packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts",
-          "packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts",
-          "packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts"
+          "packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts",
+          "packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts",
+          "packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts",
+          "packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts",
+          "packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts",
+          "packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts",
+          "packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts",
+          "packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts",
+          "packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts"
         ],
-        "contract": "Canonical need-first tools are individually defined in the generic-tools package and collected by NeedComprehensionToolset. They are callable capabilities, not agents; noncanonical wrapper APIs are removed after the canonical Need-comprehension owners exist, and active outputs must include source-to-shares service questions and commercial accountability evidence."
+        "contract": "Canonical read-first tools are individually defined in the generic-tools package and collected by ReadComprehensionToolset. They are callable capabilities, not agents; noncanonical wrapper APIs are removed after the canonical Read-comprehension owners exist, and active outputs must include source-to-shares service questions and commercial accountability evidence."
       },
       "agentImplementation": {
         "owners": [
-          "packages/generic-agents/need-comprehension/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+          "packages/generic-agents/read-comprehension/src/index.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
           "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
           "packages/pipelines/asset-pack/src/phases/setup.ts"
         ],
-        "contract": "bitcodeSetupNeedComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Need-comprehension toolset, emits semantic Need, source-to-shares service-question, commercial-accountability, and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeNeedRiskAdmissionAgent."
+        "contract": "bitcodeSetupReadComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Read-comprehension toolset, emits semantic Read, source-to-shares service-question, commercial-accountability, and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeNeedRiskAdmissionAgent."
       },
       "executionImplementation": {
         "owners": [
-          "packages/generic-agents/need-comprehension/tsconfig.json",
-          "packages/generic-agents/need-comprehension/package.json",
-          "packages/generic-tools/need-comprehension/tsconfig.json",
-          "packages/generic-tools/need-comprehension/src/index.ts",
-          "packages/generic-tools/need-comprehension/src/types/tools-generics.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts"
+          "packages/generic-agents/read-comprehension/tsconfig.json",
+          "packages/generic-agents/read-comprehension/package.json",
+          "packages/generic-tools/read-comprehension/tsconfig.json",
+          "packages/generic-tools/read-comprehension/src/index.ts",
+          "packages/generic-tools/read-comprehension/src/types/tools-generics.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts"
         ],
         "carriers": [
-          "AgentExecution for bitcode-setup-need-comprehension",
+          "AgentExecution for bitcode-setup-read-comprehension",
           "ToolExecution evidence for composed tools",
-          "setup/need-comprehension execution-store mirrors"
+          "setup/read-comprehension execution-store mirrors"
         ]
       },
       "assetPackImplementation": {
-        "outputKind": "need-comprehension support evidence",
-        "effect": "Need-comprehension analysis produces source-to-shares service questions, commercial-accountability evidence, written-asset, asset-pack, proof, and delivery-mechanism hints for parent runs."
+        "outputKind": "read-comprehension support evidence",
+        "effect": "Read-comprehension analysis produces source-to-shares service questions, commercial-accountability evidence, written-asset, asset-pack, proof, and delivery-mechanism hints for parent runs."
       },
       "boundaryPosture": "active",
       "verificationSet": [
-        "pnpm -C packages/generic-agents/need-comprehension run build",
-        "pnpm -C packages/generic-tools/need-comprehension run build",
+        "pnpm -C packages/generic-agents/read-comprehension run build",
+        "pnpm -C packages/generic-tools/read-comprehension run build",
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         "node --test protocol-demonstration/test/v26-shippable-reform.test.js"
       ],
       "sourceEvidenceRefs": [
-        "packages/generic-agents/need-comprehension/README.md",
-        "packages/generic-agents/need-comprehension/package.json",
-        "packages/generic-agents/need-comprehension/tsconfig.json",
-        "packages/generic-agents/need-comprehension/src/index.ts",
-        "packages/generic-tools/need-comprehension/README.md",
-        "packages/generic-tools/need-comprehension/package.json",
-        "packages/generic-tools/need-comprehension/tsconfig.json",
-        "packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts",
-        "packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts",
-        "packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts",
-        "packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts",
-        "packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts",
-        "packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts",
-        "packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts",
-        "packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts",
-        "packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
-        "packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
+        "packages/generic-agents/read-comprehension/README.md",
+        "packages/generic-agents/read-comprehension/package.json",
+        "packages/generic-agents/read-comprehension/tsconfig.json",
+        "packages/generic-agents/read-comprehension/src/index.ts",
+        "packages/generic-tools/read-comprehension/README.md",
+        "packages/generic-tools/read-comprehension/package.json",
+        "packages/generic-tools/read-comprehension/tsconfig.json",
+        "packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts",
+        "packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts",
+        "packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts",
+        "packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts",
+        "packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts",
+        "packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts",
+        "packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts",
+        "packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts",
+        "packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts",
@@ -1577,26 +1577,26 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/pipelines/asset-pack/src/phases/setup.ts"
       ]
     },
     {
-      "recordId": "need-review-before-fit-search",
-      "canonicalNeed": "Review a synthesized Bitcode Need after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.",
+      "recordId": "read-review-before-fit-search",
+      "canonicalNeed": "Review a synthesized Bitcode Read after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.",
       "promptImplementation": {
         "owners": [
-          "protocol-demonstration/src/canonical/need-measurement.js",
+          "protocol-demonstration/src/canonical/read-measurement.js",
           "protocol-demonstration/src/canonical/prompting.js"
         ],
-        "rawPromptPartBoundary": "Need review consumes the measured Need prompt outputs (`expressedNeed`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria`) and does not promote a separate prompt reservoir.",
-        "registryLayering": "Measured Need prompt surfaces remain the source-owned registry-bearing inference layer; the review artifact is a protocol admission boundary over those outputs, not another hidden prompt string.",
-        "runtimeCarryThrough": "The reviewable Need and accepted/rejected/remeasure-with-feedback decision are emitted into runtime branch artifacts before fit search."
+        "rawPromptPartBoundary": "Read review consumes the measured Read prompt outputs (`expressedRead`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria`) and does not promote a separate prompt reservoir.",
+        "registryLayering": "Measured Read prompt surfaces remain the source-owned registry-bearing inference layer; the review artifact is a protocol admission boundary over those outputs, not another hidden prompt string.",
+        "runtimeCarryThrough": "The reviewable Read and accepted/rejected/remeasure-with-feedback decision are emitted into runtime branch artifacts before fit search."
       },
       "toolImplementation": {
         "owners": [],
-        "contract": "No external tool owns the review gate; source-to-shares fit search remains blocked unless the measured Need review admits it."
+        "contract": "No external tool owns the review gate; source-to-shares fit search remains blocked unless the measured Read review admits it."
       },
       "agentImplementation": {
         "owners": [],
@@ -1609,31 +1609,31 @@
           "protocol-demonstration/src/canonical/run-artifacts.js"
         ],
         "carriers": [
-          ".bitcode/need-review.json",
-          "pipeline-telemetry.need-review",
+          ".bitcode/read-review.json",
+          "pipeline-telemetry.read-review",
           "branch-artifact-required-path"
         ]
       },
       "assetPackImplementation": {
-        "outputKind": "pre-fit Need review artifact",
-        "effect": "The synthesized Need is accepted, rejected, or returned for remeasurement with feedback before candidate recall/ranking can produce an AssetPack."
+        "outputKind": "pre-fit Read review artifact",
+        "effect": "The synthesized Read is accepted, rejected, or returned for remeasurement with feedback before candidate recall/ranking can produce an AssetPack."
       },
       "boundaryPosture": "active",
       "verificationSet": [
-        "node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+        "node --test protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
         ".bitcode/inference-implementation-records-proof.json"
       ],
       "sourceEvidenceRefs": [
-        "protocol-demonstration/src/canonical/need-measurement.js",
+        "protocol-demonstration/src/canonical/read-measurement.js",
         "protocol-demonstration/src/canonical/evaluation-materialization.js",
         "protocol-demonstration/src/canonical/run-artifacts.js",
         "protocol-demonstration/src/bitcode-demo.js",
-        "protocol-demonstration/test/v26-need-review-source-to-shares.test.js"
+        "protocol-demonstration/test/v26-read-review-source-to-shares.test.js"
       ]
     },
     {
       "recordId": "external-evidence-research-support",
-      "canonicalNeed": "Research the web during the discovery phase to support Bitcode need synthesis with source-attributed external evidence for need measurement, source-to-shares service questions, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical need interpretation, proof, delivery, mutation, or product ownership.",
+      "canonicalNeed": "Research the web during the discovery phase to support Bitcode read synthesis with source-attributed external evidence for read measurement, source-to-shares service questions, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical read interpretation, proof, delivery, mutation, or product ownership.",
       "promptImplementation": {
         "owners": [
           "packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts",
@@ -1652,23 +1652,23 @@
           "packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts",
           "packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts"
         ],
-        "rawPromptPartBoundary": "Compatibility-file WEBRESEARCHER, WEBSEARCH, WEB_SEARCH, WEBSEARCHTOOL, WEBSEARCH_DOCCODE, GETCONTENTS_DOCCODE, and MULTIPROVIDERSEARCH_DOCCODE PromptParts implement Bitcode need-synthesis web research/search support while generic generation/failsafe and doc-code label PromptParts remain reusable base layers.",
+        "rawPromptPartBoundary": "Compatibility-file WEBRESEARCHER, WEBSEARCH, WEB_SEARCH, WEBSEARCHTOOL, WEBSEARCH_DOCCODE, GETCONTENTS_DOCCODE, and MULTIPROVIDERSEARCH_DOCCODE PromptParts implement Bitcode read-synthesis web research/search support while generic generation/failsafe and doc-code label PromptParts remain reusable base layers.",
         "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER and WEBSEARCH PromptParts implement discovery-phase source context, source quality, volatility, proof-gap question, interface, need, and AssetPack evidence behavior through package-local Prompt registries; DocCodeToolPrompt wrappers bind the web-search, get-contents, and multi-provider tool descriptions into prompt-aware tool registries.",
-        "runtimeCarryThrough": "Web-researcher and web-search PromptPart TypeScript and JavaScript must carry canonical Bitcode need-synthesis web research/search text."
+        "runtimeCarryThrough": "Web-researcher and web-search PromptPart TypeScript and JavaScript must carry canonical Bitcode read-synthesis web research/search text."
       },
       "toolImplementation": {
         "owners": [
           "packages/generic-tools/web-search/src/index.ts",
           "packages/web-search/src/index.ts"
         ],
-        "contract": "Admitted web-search/content tools may collect source-attributed auxiliary evidence for discovery-phase need synthesis only; they do not mutate source, choose delivery mechanisms, assert proof completion, canonically interpret needs, or define Exchange/Terminal product semantics."
+        "contract": "Admitted web-search/content tools may collect source-attributed auxiliary evidence for discovery-phase read synthesis only; they do not mutate source, choose delivery mechanisms, assert proof completion, canonically interpret needs, or define Exchange/Terminal product semantics."
       },
       "agentImplementation": {
         "owners": [
           "packages/generic-agents/web-researcher/src/index.ts",
           "packages/generic-agents/web-search/src/index.ts"
         ],
-        "contract": "bitcodeNeedSynthesisWebResearcher owns the PTRR discovery-phase web research agent; bitcodeNeedSynthesisWebSearch owns the lower-level web-search support agent; bitcodeExternalEvidenceResearcher, webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, WEB_RESEARCH_AGENT.researchWeb, webSearch, quickWebSearch, webSearchPrompt, and webSearchStepPrompts names remain compatibility carriers."
+        "contract": "bitcodeReadSynthesisWebResearcher owns the PTRR discovery-phase web research agent; bitcodeReadSynthesisWebSearch owns the lower-level web-search support agent; bitcodeExternalEvidenceResearcher, webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, WEB_RESEARCH_AGENT.researchWeb, webSearch, quickWebSearch, webSearchPrompt, and webSearchStepPrompts names remain compatibility carriers."
       },
       "executionImplementation": {
         "owners": [
@@ -1682,8 +1682,8 @@
         ]
       },
       "assetPackImplementation": {
-        "outputKind": "need-synthesis external evidence",
-        "effect": "Source-attributed external findings can support discovery-phase need synthesis, proof-gap question formation, interface planning, and AssetPack synthesis, but canonical need interpretation, stable written assets, and proof artifacts remain owned downstream."
+        "outputKind": "read-synthesis external evidence",
+        "effect": "Source-attributed external findings can support discovery-phase read synthesis, proof-gap question formation, interface planning, and AssetPack synthesis, but canonical read interpretation, stable written assets, and proof artifacts remain owned downstream."
       },
       "boundaryPosture": "admitted support",
       "verificationSet": [
@@ -1747,7 +1747,7 @@
     },
     {
       "recordId": "need-risk-admission-support",
-      "canonicalNeed": "Admit or block the next Bitcode pipeline phase by evaluating a need, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the danger-wall risk-admission corridor into canonical need, proof, mutation, delivery, or product ownership.",
+      "canonicalNeed": "Admit or block the next Bitcode pipeline phase by evaluating a read, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the danger-wall risk-admission corridor into canonical read, proof, mutation, delivery, or product ownership.",
       "promptImplementation": {
         "owners": [
           "packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts",
@@ -1757,8 +1757,8 @@
           "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
           "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts"
         ],
-        "rawPromptPartBoundary": "Compatibility-file DANGERWALL PromptParts implement Bitcode need/AssetPack risk-admission support while generic generation/failsafe PromptParts remain reusable base layers.",
-        "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific DANGERWALL PromptParts implement need, written-asset, AssetPack, proof-gap, private-data, mutation, delivery-mechanism, likely-execution-failure, and manual-review admission behavior through package-local Prompt registries.",
+        "rawPromptPartBoundary": "Compatibility-file DANGERWALL PromptParts implement Bitcode read/AssetPack risk-admission support while generic generation/failsafe PromptParts remain reusable base layers.",
+        "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific DANGERWALL PromptParts implement read, written-asset, AssetPack, proof-gap, private-data, mutation, delivery-mechanism, likely-execution-failure, and manual-review admission behavior through package-local Prompt registries.",
         "runtimeCarryThrough": "Danger-wall PromptPart TypeScript and JavaScript must carry canonical Bitcode risk-admission text."
       },
       "toolImplementation": {
@@ -1785,7 +1785,7 @@
       },
       "assetPackImplementation": {
         "outputKind": "need/AssetPack risk-admission evidence",
-        "effect": "Risk-admission findings can stop, admit, or require manual review before downstream need measurement, written-asset synthesis, proof closure, or delivery mechanisms continue."
+        "effect": "Risk-admission findings can stop, admit, or require manual review before downstream read measurement, written-asset synthesis, proof closure, or delivery mechanisms continue."
       },
       "boundaryPosture": "admitted support",
       "verificationSet": [

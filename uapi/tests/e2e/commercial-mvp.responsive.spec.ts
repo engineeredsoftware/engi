@@ -10,7 +10,7 @@ import {
 const RESPONSIVE_ROUTES = [
   {
     path: '/terminal',
-    expected: /The Bitcode Terminal is where operators prepare Give and Need work/i,
+    expected: /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
   },
   {
     path: '/auxillaries/wallet',
@@ -61,7 +61,7 @@ test.describe('commercial MVP responsive route health', () => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     await page.setViewportSize({ width: 1024, height: 768 });
-    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
 
     await expect(page.getByRole('link', { name: /^Terminal$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Docs$/ })).toBeVisible();

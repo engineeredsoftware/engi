@@ -2,7 +2,7 @@
  * Bitcode MCP Server - Main Entry Point with ORM Integration
  *
  * Bitcode Exchange-facing MCP interface surface exposed through Model Context
- * Protocol. Admits need measurement, repository operations, activity
+ * Protocol. Admits read measurement, repository operations, activity
  * continuation, and retained execution families through one machine interface.
  * Now integrated with ORM for database-backed operations.
  * 

@@ -521,4 +521,4 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com    # Slack notifications
 
 ---
 
-**Need help?** Visit our [documentation](https://docs.bitcode.dev/mcp) or join our [Discord community](https://discord.gg/bitcode).
+**Read help?** Visit our [documentation](https://docs.bitcode.dev/mcp) or join our [Discord community](https://discord.gg/bitcode).

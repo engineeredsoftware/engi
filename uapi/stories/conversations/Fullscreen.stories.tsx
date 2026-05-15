@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import FullscreenPortal from '@/app/conversations/components/ConversationsFullscreenPortal';
-import ExecutionNeedInput from '@/components/base/bitcode/execution/ExecutionNeedInput';
+import ExecutionReadInput from '@/components/base/bitcode/execution/ExecutionReadInput';
 import { ProcessLog } from '@/app/executions/components/ExecutionProcessLog';
 import { ProcessLogHeader } from '@/app/executions/components/ExecutionProcessLogHeader';
 
@@ -17,17 +17,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Shell: React.FC<{ isProcessing?: boolean; error?: string | null }> = ({ isProcessing = false, error = null }) => {
-  const [need, setNeed] = React.useState('Build a reactive cache layer for the API');
+  const [read, setNeed] = React.useState('Build a reactive cache layer for the API');
   const output = 'Phase 1: Analysing codebase…\nPhase 2: Generating plan…';
 
   return (
     <FullscreenPortal isOpen onClose={() => {}}>
       <div className="flex flex-col h-full p-6 gap-6 max-w-3xl mx-auto">
-        <ExecutionNeedInput
-          definitionOfNeed={need}
+        <ExecutionReadInput
+          definitionOfRead={read}
           onChange={setNeed}
           isProcessing={isProcessing}
-          placeholder="Definition of Need…"
+          placeholder="Definition of Read…"
           attachments={[]}
         />
 

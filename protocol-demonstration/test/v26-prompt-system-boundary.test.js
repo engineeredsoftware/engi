@@ -512,90 +512,90 @@ test('V26 retained reference prompt configs avoid broad prompts source catchalls
   );
 });
 
-test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehension', () => {
-  const needComprehensionReadme = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/README.md'),
+test('V26 read-comprehension prompt reservoir is canonical Bitcode read comprehension', () => {
+  const readComprehensionReadme = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/README.md'),
     'utf8'
   );
-  const needComprehensionPackageJson = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/generic-tools/need-comprehension/package.json'), 'utf8')
+  const readComprehensionPackageJson = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-tools/read-comprehension/package.json'), 'utf8')
   );
-  const needComprehensionAgentPackageJson = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/generic-agents/need-comprehension/package.json'), 'utf8')
+  const readComprehensionAgentPackageJson = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-agents/read-comprehension/package.json'), 'utf8')
   );
-  const needComprehensionAgentReadme = readFileSync(
-    path.join(repoRoot, 'packages/generic-agents/need-comprehension/README.md'),
+  const readComprehensionAgentReadme = readFileSync(
+    path.join(repoRoot, 'packages/generic-agents/read-comprehension/README.md'),
     'utf8'
   );
-  const needComprehensionAgentSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-agents/need-comprehension/src/index.ts'),
+  const readComprehensionAgentSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-agents/read-comprehension/src/index.ts'),
     'utf8'
   );
-  const needComprehensionTsconfig = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/generic-tools/need-comprehension/tsconfig.json'), 'utf8')
+  const readComprehensionTsconfig = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-tools/read-comprehension/tsconfig.json'), 'utf8')
   );
-  const analyzeNeedToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts'),
+  const analyzeReadToolSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/AnalyzeReadSemanticsTool.ts'),
     'utf8'
   );
   const toolsetSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts'),
     'utf8'
   );
   const extractToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/ExtractReadRequirementsTool.ts'),
     'utf8'
   );
   const identifyToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/IdentifyReadConstraintsTool.ts'),
     'utf8'
   );
   const satisfactionToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/GenerateReadSatisfactionCriteriaTool.ts'),
     'utf8'
   );
   const validateToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/ValidateReadComprehensionTool.ts'),
     'utf8'
   );
   const complexityToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/AnalyzeReadSatisfactionImplementationComplexityTool.ts'),
     'utf8'
   );
   const canonicalPrimitivesSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts'),
     'utf8'
   );
   const analyzePromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const extractPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const identifyPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const successPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts'),
     'utf8'
   );
   const validatePromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts'),
     'utf8'
   );
   const complexityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts'),
     'utf8'
   );
   const promptsIndexSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/index.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/prompts/index.ts'),
     'utf8'
   );
   const canonicalSchemasSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'),
+    path.join(repoRoot, 'packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts'),
     'utf8'
   );
   const purposePromptPart = readFileSync(
@@ -626,99 +626,99 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     ),
     'utf8'
   );
-  const comprehendNeedSystemPromptPart = readFileSync(
+  const comprehendReadSystemPromptPart = readFileSync(
     path.join(
       repoRoot,
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts'
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_identity.ts'
     ),
     'utf8'
   );
-  const comprehendNeedTryPromptPart = readFileSync(
+  const comprehendReadTryPromptPart = readFileSync(
     path.join(
       repoRoot,
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts'
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_try_directives.ts'
     ),
     'utf8'
   );
 
-  assert.match(needComprehensionReadme, /Need Comprehension Tools/u);
-  assert.match(needComprehensionReadme, /package path and package name are canonical Bitcode tool owners/u);
-  assert.match(needComprehensionReadme, /written asset/u);
-  assert.match(needComprehensionReadme, /delivery mechanism/u);
-  assert.match(needComprehensionReadme, /callable tool reservoir, not the setup-phase agent/u);
-  assert.match(needComprehensionReadme, /@bitcode\/generic-agents-need-comprehension/u);
-  assert.match(needComprehensionReadme, /source is TypeScript-only/u);
-  assert.equal(needComprehensionPackageJson.dependencies['@bitcode/prompts'], 'workspace:*');
-  assert.equal(needComprehensionPackageJson.dependencies['@bitcode/tools-generics'], 'workspace:*');
-  assert.equal(needComprehensionAgentPackageJson.dependencies['@bitcode/generic-tools-need-comprehension'], 'workspace:*');
-  assert.match(needComprehensionAgentReadme, /PTRR agent owner for Bitcode setup-phase Need comprehension/u);
-  assert.match(needComprehensionAgentReadme, /owns DocCode tool prompts, callable tool classes, pure primitives, and schemas/u);
-  assert.match(needComprehensionAgentSource, /factoryAgentWithPTRR/u);
-  assert.match(needComprehensionAgentSource, /bitcodeSetupNeedComprehensionAgent/u);
-  assert.match(needComprehensionAgentSource, /phase: z\.literal\('setup'\)/u);
-  assert.match(needComprehensionAgentSource, /beforeAgent: z\.literal\('danger-wall'\)/u);
-  assert.match(needComprehensionAgentSource, /PROMPTPART_SPECIFIC_AGENT_COMPREHENDNEED_SYSTEM_IDENTITY/u);
-  assert.match(needComprehensionAgentSource, /analyzeNeedSemanticsTool/u);
-  assert.match(needComprehensionAgentSource, /extractNeedRequirementsTool/u);
-  assert.match(needComprehensionAgentSource, /validateNeedComprehensionTool/u);
-  assert.equal(needComprehensionTsconfig.compilerOptions.noEmit, true);
-  assert.equal(needComprehensionTsconfig.compilerOptions.module, 'ESNext');
-  assert.equal(needComprehensionTsconfig.compilerOptions.moduleResolution, 'Bundler');
+  assert.match(readComprehensionReadme, /Read Comprehension Tools/u);
+  assert.match(readComprehensionReadme, /package path and package name are canonical Bitcode tool owners/u);
+  assert.match(readComprehensionReadme, /written asset/u);
+  assert.match(readComprehensionReadme, /delivery mechanism/u);
+  assert.match(readComprehensionReadme, /callable tool reservoir, not the setup-phase agent/u);
+  assert.match(readComprehensionReadme, /@bitcode\/generic-agents-read-comprehension/u);
+  assert.match(readComprehensionReadme, /source is TypeScript-only/u);
+  assert.equal(readComprehensionPackageJson.dependencies['@bitcode/prompts'], 'workspace:*');
+  assert.equal(readComprehensionPackageJson.dependencies['@bitcode/tools-generics'], 'workspace:*');
+  assert.equal(readComprehensionAgentPackageJson.dependencies['@bitcode/generic-tools-read-comprehension'], 'workspace:*');
+  assert.match(readComprehensionAgentReadme, /PTRR agent owner for Bitcode setup-phase Read comprehension/u);
+  assert.match(readComprehensionAgentReadme, /owns DocCode tool prompts, callable tool classes, pure primitives, and schemas/u);
+  assert.match(readComprehensionAgentSource, /factoryAgentWithPTRR/u);
+  assert.match(readComprehensionAgentSource, /bitcodeSetupReadComprehensionAgent/u);
+  assert.match(readComprehensionAgentSource, /phase: z\.literal\('setup'\)/u);
+  assert.match(readComprehensionAgentSource, /beforeAgent: z\.literal\('danger-wall'\)/u);
+  assert.match(readComprehensionAgentSource, /PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_SYSTEM_IDENTITY/u);
+  assert.match(readComprehensionAgentSource, /analyzeReadSemanticsTool/u);
+  assert.match(readComprehensionAgentSource, /extractReadRequirementsTool/u);
+  assert.match(readComprehensionAgentSource, /validateReadComprehensionTool/u);
+  assert.equal(readComprehensionTsconfig.compilerOptions.noEmit, true);
+  assert.equal(readComprehensionTsconfig.compilerOptions.module, 'ESNext');
+  assert.equal(readComprehensionTsconfig.compilerOptions.moduleResolution, 'Bundler');
   assert.equal(
-    needComprehensionTsconfig.compilerOptions.paths['@bitcode/prompts/raw_promptparts/*'][0],
+    readComprehensionTsconfig.compilerOptions.paths['@bitcode/prompts/raw_promptparts/*'][0],
     'packages/prompts/src/raw_promptparts/*.ts'
   );
-  assert.doesNotMatch(JSON.stringify(needComprehensionTsconfig), /\.d\.ts/u);
-  assert.doesNotMatch(JSON.stringify(needComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
-  assert.match(needComprehensionReadme, /Bitcode does not have tasks as canonical product semantics/u);
-  assert.match(needComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`/u);
-  assert.match(needComprehensionReadme, /Canonical code owners now live in individually defined tool files/u);
-  assert.match(needComprehensionReadme, /`NeedComprehensionToolset` is only the collection surface used by agents and registries/u);
-  assert.match(needComprehensionReadme, /raw PromptPart families for this package are also need-first/u);
-  assert.match(analyzeNeedToolSource, /Canonical Bitcode need-semantics tool owner/u);
-  assert.match(analyzeNeedToolSource, /analyzeNeedSemantics/u);
-  assert.match(extractToolSource, /export class ExtractNeedRequirementsTool/u);
-  assert.match(identifyToolSource, /export class IdentifyNeedConstraintsTool/u);
-  assert.match(satisfactionToolSource, /export class GenerateNeedSatisfactionCriteriaTool/u);
-  assert.match(validateToolSource, /export class ValidateNeedComprehensionTool/u);
-  assert.match(complexityToolSource, /export class AnalyzeNeedSatisfactionImplementationComplexityTool/u);
-  assert.match(toolsetSource, /Canonical Bitcode need-comprehension tool collection/u);
+  assert.doesNotMatch(JSON.stringify(readComprehensionTsconfig), /\.d\.ts/u);
+  assert.doesNotMatch(JSON.stringify(readComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
+  assert.match(readComprehensionReadme, /Bitcode does not have tasks as canonical product semantics/u);
+  assert.match(readComprehensionReadme, /Canonical prompt owners now live in `AnalyzeReadSemanticsDocCodeToolPrompt`, `ExtractReadRequirementsDocCodeToolPrompt`, `IdentifyReadConstraintsDocCodeToolPrompt`, `GenerateReadSatisfactionCriteriaDocCodeToolPrompt`, `ValidateReadComprehensionDocCodeToolPrompt`, and `AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt`/u);
+  assert.match(readComprehensionReadme, /Canonical code owners now live in individually defined tool files/u);
+  assert.match(readComprehensionReadme, /`ReadComprehensionToolset` is only the collection surface used by agents and registries/u);
+  assert.match(readComprehensionReadme, /raw PromptPart families for this package are also read-first/u);
+  assert.match(analyzeReadToolSource, /Canonical Bitcode read-semantics tool owner/u);
+  assert.match(analyzeReadToolSource, /analyzeReadSemantics/u);
+  assert.match(extractToolSource, /export class ExtractReadRequirementsTool/u);
+  assert.match(identifyToolSource, /export class IdentifyReadConstraintsTool/u);
+  assert.match(satisfactionToolSource, /export class GenerateReadSatisfactionCriteriaTool/u);
+  assert.match(validateToolSource, /export class ValidateReadComprehensionTool/u);
+  assert.match(complexityToolSource, /export class AnalyzeReadSatisfactionImplementationComplexityTool/u);
+  assert.match(toolsetSource, /Canonical Bitcode read-comprehension tool collection/u);
   assert.match(toolsetSource, /individually defined tools are intentionally not agents/u);
-  assert.match(toolsetSource, /BITCODE_NEED_COMPREHENSION_TOOLSET/u);
+  assert.match(toolsetSource, /BITCODE_READ_COMPREHENSION_TOOLSET/u);
   assert.deepEqual(
-    listFilesRecursively('packages/generic-tools/need-comprehension/src')
+    listFilesRecursively('packages/generic-tools/read-comprehension/src')
       .filter((filePath) => filePath.endsWith('.js')),
     [],
-    'need-comprehension source must stay TypeScript-only; generated JavaScript belongs outside src'
+    'read-comprehension source must stay TypeScript-only; generated JavaScript belongs outside src'
   );
   assert.deepEqual(
-    listFilesRecursively('packages/generic-agents/need-comprehension/src')
+    listFilesRecursively('packages/generic-agents/read-comprehension/src')
       .filter((filePath) => filePath.endsWith('.js')),
     [],
-    'need-comprehension agent source must stay TypeScript-only; stale generated JavaScript must not carry old fields'
+    'read-comprehension agent source must stay TypeScript-only; stale generated JavaScript must not carry old fields'
   );
-  assert.match(canonicalPrimitivesSource, /export async function analyzeNeedSemantics/u);
-  assert.match(canonicalPrimitivesSource, /export async function extractNeedRequirements/u);
-  assert.match(canonicalPrimitivesSource, /export async function identifyNeedConstraints/u);
-  assert.match(canonicalPrimitivesSource, /export async function generateNeedSatisfactionCriteria/u);
-  assert.match(canonicalPrimitivesSource, /export async function validateNeedComprehension/u);
-  assert.match(canonicalPrimitivesSource, /export async function analyzeNeedSatisfactionImplementationComplexity/u);
-  assert.match(promptsIndexSource, /need_owner_only/u);
-  for (const removedNeedComprehensionFile of [
-    'packages/generic-tools/need-comprehension/src/AnalyzeTaskSemanticsTool.ts',
-    'packages/generic-tools/need-comprehension/src/primitives.ts',
-    'packages/generic-tools/need-comprehension/src/schemas.ts',
-    'packages/generic-tools/need-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
-    'packages/generic-tools/need-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts',
-    'packages/generic-tools/need-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts',
-    'packages/generic-tools/need-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts',
-    'packages/generic-tools/need-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
-    'packages/generic-tools/need-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts'
+  assert.match(canonicalPrimitivesSource, /export async function analyzeReadSemantics/u);
+  assert.match(canonicalPrimitivesSource, /export async function extractReadRequirements/u);
+  assert.match(canonicalPrimitivesSource, /export async function identifyReadConstraints/u);
+  assert.match(canonicalPrimitivesSource, /export async function generateReadSatisfactionCriteria/u);
+  assert.match(canonicalPrimitivesSource, /export async function validateReadComprehension/u);
+  assert.match(canonicalPrimitivesSource, /export async function analyzeReadSatisfactionImplementationComplexity/u);
+  assert.match(promptsIndexSource, /read_owner_only/u);
+  for (const removedReadComprehensionFile of [
+    'packages/generic-tools/read-comprehension/src/AnalyzeTaskSemanticsTool.ts',
+    'packages/generic-tools/read-comprehension/src/primitives.ts',
+    'packages/generic-tools/read-comprehension/src/schemas.ts',
+    'packages/generic-tools/read-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+    'packages/generic-tools/read-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts',
+    'packages/generic-tools/read-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts',
+    'packages/generic-tools/read-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts',
+    'packages/generic-tools/read-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
+    'packages/generic-tools/read-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts'
   ]) {
     assert.equal(
-      existsSync(path.join(repoRoot, removedNeedComprehensionFile)),
+      existsSync(path.join(repoRoot, removedReadComprehensionFile)),
       false,
-      `${removedNeedComprehensionFile} must stay removed from the V26 prompt boundary`
+      `${removedReadComprehensionFile} must stay removed from the V26 prompt boundary`
     );
   }
   for (const removedRawPromptPartFamily of [
@@ -732,34 +732,34 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     assert.equal(
       existsSync(path.join(repoRoot, removedRawPromptPartFamily)),
       false,
-      `${removedRawPromptPartFamily} must stay removed after need-first raw PromptPart recut`
+      `${removedRawPromptPartFamily} must stay removed after read-first raw PromptPart recut`
     );
   }
-  assert.match(analyzePromptSource, /BITCODE_V26_ANALYZE_NEED_SEMANTICS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
-  assert.match(analyzePromptSource, /'need-comprehension' as PromptPart/u);
+  assert.match(analyzePromptSource, /BITCODE_V26_ANALYZE_READ_SEMANTICS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(analyzePromptSource, /'read-comprehension' as PromptPart/u);
   assert.match(analyzePromptSource, /local to the package that owns its use/u);
   assert.match(analyzePromptSource, /asset-pack synthesis/u);
-  assert.match(extractPromptSource, /BITCODE_V26_EXTRACT_NEED_REQUIREMENTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(extractPromptSource, /BITCODE_V26_EXTRACT_READ_REQUIREMENTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
   assert.match(extractPromptSource, /delivery-mechanism expectations/u);
-  assert.match(identifyPromptSource, /BITCODE_V26_IDENTIFY_NEED_CONSTRAINTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(identifyPromptSource, /BITCODE_V26_IDENTIFY_READ_CONSTRAINTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
   assert.match(identifyPromptSource, /delivery-mechanism limits/u);
-  assert.match(successPromptSource, /BITCODE_V26_GENERATE_NEED_SATISFACTION_CRITERIA_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
-  assert.match(successPromptSource, /measurable need-satisfaction[\s*]+criteria/u);
-  assert.match(validatePromptSource, /BITCODE_V26_VALIDATE_NEED_COMPREHENSION_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
-  assert.match(complexityPromptSource, /BITCODE_V26_ANALYZE_NEED_SATISFACTION_IMPLEMENTATION_COMPLEXITY_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(successPromptSource, /BITCODE_V26_GENERATE_READ_SATISFACTION_CRITERIA_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(successPromptSource, /measurable read-satisfaction[\s*]+criteria/u);
+  assert.match(validatePromptSource, /BITCODE_V26_VALIDATE_READ_COMPREHENSION_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(complexityPromptSource, /BITCODE_V26_ANALYZE_READ_SATISFACTION_IMPLEMENTATION_COMPLEXITY_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
   assert.match(complexityPromptSource, /delivery-mechanism handling/u);
-  assert.match(canonicalPrimitivesSource, /need_satisfaction_criteria/u);
+  assert.match(canonicalPrimitivesSource, /read_satisfaction_criteria/u);
   assert.match(canonicalPrimitivesSource, /written_asset_expectations/u);
   assert.match(canonicalPrimitivesSource, /delivery_mechanism_boundaries/u);
   assert.match(canonicalPrimitivesSource, /source_to_shares_service_questions/u);
   assert.match(canonicalPrimitivesSource, /commercial_accountability/u);
   assert.match(canonicalPrimitivesSource, /Advanced Engineered Software, Inc\./u);
   assert.doesNotMatch(canonicalPrimitivesSource, /shipping_wrapper_boundaries/u);
-  assert.doesNotMatch(canonicalSchemasSource, /NeedComprehensionCompatibilityPrimaryTypeSchema/u);
-  assert.match(canonicalSchemasSource, /NeedRequirementSchema/u);
-  assert.match(canonicalSchemasSource, /NeedConstraintSchema/u);
-  assert.match(canonicalSchemasSource, /NeedSatisfactionCriterionSchema/u);
-  assert.match(purposePromptPart, /Analyze an expressed Bitcode need/u);
+  assert.doesNotMatch(canonicalSchemasSource, /ReadComprehensionCompatibilityPrimaryTypeSchema/u);
+  assert.match(canonicalSchemasSource, /ReadRequirementSchema/u);
+  assert.match(canonicalSchemasSource, /ReadConstraintSchema/u);
+  assert.match(canonicalSchemasSource, /ReadSatisfactionCriterionSchema/u);
+  assert.match(purposePromptPart, /Analyze an expressed Bitcode read/u);
   assert.match(purposePromptPart, /written-asset expectations/u);
   assert.match(purposePromptPart, /source-to-shares service questions/u);
   assert.match(analyzeOutputPromptPart, /sourceToSharesServiceQuestions/u);
@@ -767,19 +767,19 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.doesNotMatch(analyzeOutputPromptPart, /shippingWrapperBoundaries/u);
   assert.match(complexityPromptPart, /Gate-closure reform/u);
   assert.match(complexityPromptPart, /proofRequirements/u);
-  assert.match(validatePromptPart, /need-comprehension analysis has correctly understood the Bitcode need/u);
-  assert.match(comprehendNeedSystemPromptPart, /current_version: "V26"/u);
-  assert.match(comprehendNeedSystemPromptPart, /setup Need-comprehension agent/u);
-  assert.match(comprehendNeedSystemPromptPart, /before risk admission/u);
-  assert.match(comprehendNeedTryPromptPart, /current_version: "V26"/u);
-  assert.match(comprehendNeedTryPromptPart, /appropriate tool calls/u);
-  assert.match(comprehendNeedTryPromptPart, /delivery-mechanism separation/u);
+  assert.match(validatePromptPart, /read-comprehension analysis has correctly understood the Bitcode read/u);
+  assert.match(comprehendReadSystemPromptPart, /current_version: "V26"/u);
+  assert.match(comprehendReadSystemPromptPart, /setup Read-comprehension agent/u);
+  assert.match(comprehendReadSystemPromptPart, /before risk admission/u);
+  assert.match(comprehendReadTryPromptPart, /current_version: "V26"/u);
+  assert.match(comprehendReadTryPromptPart, /appropriate tool calls/u);
+  assert.match(comprehendReadTryPromptPart, /delivery-mechanism separation/u);
 
   const combined = [
-    needComprehensionReadme,
-    needComprehensionAgentReadme,
-    needComprehensionAgentSource,
-    analyzeNeedToolSource,
+    readComprehensionReadme,
+    readComprehensionAgentReadme,
+    readComprehensionAgentSource,
+    analyzeReadToolSource,
     toolsetSource,
     extractToolSource,
     identifyToolSource,
@@ -799,8 +799,8 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     analyzeOutputPromptPart,
     complexityPromptPart,
     validatePromptPart,
-    comprehendNeedSystemPromptPart,
-    comprehendNeedTryPromptPart
+    comprehendReadSystemPromptPart,
+    comprehendReadTryPromptPart
   ].join('\n');
 
   assert.doesNotMatch(combined, /G[A]1\.00\.0|G[A]1\.45\.0|\(fill intent\)/u);

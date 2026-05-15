@@ -515,7 +515,7 @@ export const vcsQuickAgent = factoryAgentWithSingleStep<VCSInput, VCSResult>({
 /**
  * VCS Agent - registry-friendly canonical default.
  * Direct callers can choose vcsComprehensiveAgent or vcsQuickAgent when they
- * need a specific execution profile.
+ * read a specific execution profile.
  */
 export const vcsAgent = vcsComprehensiveAgent;
 

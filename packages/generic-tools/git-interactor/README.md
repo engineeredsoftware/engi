@@ -9,7 +9,7 @@ Exchange, and connected-interface flows.
 - `@bitcode/git` owns concrete Git operation names and routes provider work
   through Bitcode VCS providers.
 - `@bitcode/vcs-tools` owns provider-generic tool registry operations.
-- this package keeps Tool-shaped Git interactor exports for callers that need
+- this package keeps Tool-shaped Git interactor exports for callers that read
   concrete repository actions such as PR creation, issue comments, branch
   lookup, file reads, and file writes.
 

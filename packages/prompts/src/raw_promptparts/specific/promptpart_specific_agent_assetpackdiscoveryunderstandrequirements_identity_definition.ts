@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for need discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryunderstandrequirements identity definition"
+ * intent: "Bitcode AssetPack discovery PromptPart for read discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryunderstandrequirements identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for need discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryunderstandrequirements identity definition"
+ * intent: "Bitcode AssetPack discovery PromptPart for read discovery, proof evidence, and AssetPack planning: agent assetpackdiscoveryunderstandrequirements identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYUNDERSTANDREQUIREMENTS_IDENTITY_DEFINITION: PromptPart = 
-  'You are the AssetPackPipelineDiscoveryPhaseUnderstandRequirementsAgent responsible for translating the request into a measured Need, acceptance criteria, written-asset expectations, and AssetPack scope' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseUnderstandRequirementsAgent responsible for translating the request into a measured Read, acceptance criteria, written-asset expectations, and AssetPack scope' as PromptPart;

@@ -14,7 +14,7 @@ const faqs = [
   {
     question: 'Everyone\'s building "amazing AI tools". These are...?',
     answer:
-      "Source-to-shares inference systems. Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, source-attributed research evidence, progress logging, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Bitcode a technical collaborator for measuring Needs, finding fits, and delivering AssetPacks. Everyone from non-technical solopreneurs to large industrial engineering teams use Bitcode to make software development operations lean, mean, and green.",
+      "Source-to-shares inference systems. Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, source-attributed research evidence, progress logging, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Bitcode a technical collaborator for measuring Reads, finding fits, and delivering AssetPacks. Everyone from non-technical solopreneurs to large industrial engineering teams use Bitcode to make software development operations lean, mean, and green.",
   },
   {
     question: "So... is this a crypto scam?",
@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "Is this powerful tool easy to use?",
     answer:
-      "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world Needs into AssetPacks and Shippables. Quickly, Need measurement, fit review, and AssetPack guidance become second nature. Advanced users utilize triggered coordinated-learning sequencing, deeper workstation compute capabilities, internal MCPs, knowledge-gap arbitrage, and more to expand technical value creation across their organizations.",
+      "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world Reads into AssetPacks and Shippables. Quickly, Read measurement, fit review, and AssetPack guidance become second nature. Advanced users utilize triggered coordinated-learning sequencing, deeper workstation compute capabilities, internal MCPs, knowledge-gap arbitrage, and more to expand technical value creation across their organizations.",
   },
   {
     question: "Does Bitcode work with private repositories and APIs?",
@@ -37,7 +37,7 @@ const faqs = [
       "Off-the-shelf AIs generally over-fit to their wide programming example training data. Enterprise misalignment is demonstrated through disrespected coding principles, underused abstractions, over-confident incomplete solutions, intrusive regressions, and worse. Bitcode orchestration targets systemic improvements and full-context comprehension that compound to raise code quality on your specific IP. By pairing proactive preparation with reactive calibration, investing time with Bitcode is well worth it.",
   },
   {
-    question: "So, Bitcode supports my stack and can do what I need it to do?",
+    question: "So, Bitcode supports my stack and can do what I read it to do?",
     answer:
       "Probably. Bitcode supports almost all programming languages, popular libraries, and full-stack frameworks and researches the web or procures data for what it doesn't. Languages include Python, JavaScript/TypeScript, Java, Go, Ruby, PHP, C/C++, Rust, Solidity, C#, CSS/HTML, Objective-C, Swift, Kotlin, Scala, Dart, Haskell, Elixir, COBOL, and more. Frameworks include React, React Native, NextJS, Tailwind, Angular, Vue, Svelte, Django, Rails, Flask, Spring, Node/Express, ASP.NET, Laravel, Symfony, Flutter, Xamarin, TensorFlow, PyTorch, Kubernetes, Docker, Unity, Unreal Engine, and more. Between version control (GitHub, GitLab) complete read/write and MCPs, general software engineering is Bitcode's specialty.",
   },
@@ -49,7 +49,7 @@ const faqs = [
   {
     question: "Can it be cheaper?",
     answer:
-      "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically requires millions of tokens to consistently produce complete, correct, and high-quality AssetPacks and Shippables. Bitcode accounts for Need measurement, fit search, AssetPack synthesis, and connected-interface delivery precisely per run.",
+      "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically requires millions of tokens to consistently produce complete, correct, and high-quality AssetPacks and Shippables. Bitcode accounts for Read measurement, fit search, AssetPack synthesis, and connected-interface delivery precisely per run.",
   },
   {
     question: "What are 'coins', 'tokens', and '$BTD'?",
@@ -79,7 +79,7 @@ const MarketingFaqSection: React.FC = () => {
           Bitcode Protocol FAQs
         </h2>
         <p className="text-base laptop:text-lg text-gray-300 max-w-3xl mx-auto">
-          Everything you need to know about Need measurement, AssetPacks, $BTD, BTC fees, and connected-interface delivery.
+          Everything you read to know about Read measurement, AssetPacks, $BTD, BTC fees, and connected-interface delivery.
         </p>
       </div>
 

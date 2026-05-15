@@ -23,7 +23,7 @@ export function buildDemoScenario(state) {
       {
         id: 'read',
         label: 'Measurably readable',
-        operatorLine: 'Run the licensed query for a buyer facing an auth-incident rollback. Show that the system assembles a need-matched private bundle based on measured contribution, not just asset existence.'
+        operatorLine: 'Run the licensed query for a buyer facing an auth-incident rollback. Show that the system assembles a read-matched private bundle based on measured contribution, not just asset existence.'
       },
       {
         id: 'prove',

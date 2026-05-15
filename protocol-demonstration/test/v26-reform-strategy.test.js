@@ -26,7 +26,7 @@ test('V26 reform strategy supplement fixes the corridor-class model and ordering
   assert.match(reformStrategySource, /reread normalization before redesign/u);
   assert.match(reformStrategySource, /local compile honesty before closure claims/u);
   assert.match(reformStrategySource, /proof witness per corridor/u);
-  assert.match(reformStrategySource, /comprehend-task -> comprehend-need/u);
+  assert.match(reformStrategySource, /comprehend-task -> comprehend-read/u);
 });
 
 test('V26 reform strategy names representative kept, repurposed, and cut corridors', () => {
@@ -61,7 +61,7 @@ test('V26 DELTA is a formal reformation specification with implementation color'
   assert.match(deltaSource, /proof closure/u);
   assert.match(deltaSource, /## Repository Reformation Color Map/u);
   assert.match(deltaSource, /deliverable pipeline orchestration/u);
-  assert.match(deltaSource, /Need\/AssetPack risk admission/u);
+  assert.match(deltaSource, /Read\/AssetPack risk admission/u);
   assert.match(deltaSource, /generated JavaScript emitted beside TypeScript source/u);
   assert.match(deltaSource, /active source absence tests/u);
 });

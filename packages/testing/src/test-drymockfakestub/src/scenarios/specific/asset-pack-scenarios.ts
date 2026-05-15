@@ -75,7 +75,7 @@ export const GITHUB_REPO_WITH_LSP = createTestPart({
  */
 export const COMPLEX_ASSET_PACK_REQUEST = createTestPart({
   id: 'req-complex-001',
-  need: `Implement a comprehensive authentication system with the following requirements:
+  read: `Implement a comprehensive authentication system with the following requirements:
   
   1. JWT-based authentication with refresh tokens
   2. Role-based access control (RBAC) with permissions
@@ -108,7 +108,7 @@ export const COMPLEX_ASSET_PACK_REQUEST = createTestPart({
   },
   features: {
     sourceToSharesFitReview: true,
-    computerUseNeedMeasurement: true,
+    computerUseReadMeasurement: true,
     enhanceWithContext: true
   }
 });
@@ -314,14 +314,14 @@ export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
       name: 'Minimal Setup',
       parts: [
         createTestPart({
-          need: 'Fix typo in README.md',
+          read: 'Fix typo in README.md',
           repository: 'user/simple-app',
           branch: 'main'
         })
       ],
       compose: () => ({
         request: {
-          need: 'Fix typo in README.md',
+          read: 'Fix typo in README.md',
           repository: 'user/simple-app',
           branch: 'main'
         }

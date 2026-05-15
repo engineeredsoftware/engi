@@ -9,7 +9,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT } from '@
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search refine prompt for source quality, volatility, and need relevance"
+ * intent: "Bitcode read-synthesis web search refine prompt for source quality, volatility, and read relevance"
  * current_version: "V26"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA": "V26",

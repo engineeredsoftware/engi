@@ -324,7 +324,7 @@
   display: inline-block;
   overflow: visible !important;
   padding: 5px 10px;
-  /* Add padding to give glow more room */
+  /* Add padding to deposit glow more room */
 }
 
 /* Fix for the subtle tagline */

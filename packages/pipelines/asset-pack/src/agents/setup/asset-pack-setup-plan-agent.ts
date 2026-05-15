@@ -2,7 +2,7 @@
  * Setup Plan Agent (PTRR)
  *
  * Minimal PTRR agent used in Setup phase to derive a concise plan for the
- * expressed need and AssetPack written-asset synthesis corridor.
+ * expressed read and AssetPack written-asset synthesis corridor.
  *
  * Env for bring-up:
  * - BITCODE_DEBUG_ONLY_FAILSAFES=prepare
@@ -34,7 +34,7 @@ const PlanSchema = z.object({
 
 export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanSchema>>({
   name: 'asset-pack-setup-plan-agent',
-  description: 'Derive concise setup plan from repository context and expressed need',
+  description: 'Derive concise setup plan from repository context and expressed read',
   outputSchema: PlanSchema,
   // Minimal prompt hierarchy to satisfy V26 lint and provide usable strings
   prompt: (() => {

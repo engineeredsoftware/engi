@@ -116,15 +116,15 @@ function extractJsPromptPart(source, name) {
   return extractFirstPromptLiteral(source, assignment.index + assignment[0].length);
 }
 
-test('V26 danger-wall package has canonical Bitcode need risk-admission exports', () => {
+test('V26 danger-wall package has canonical Bitcode read risk-admission exports', () => {
   assert.equal(packageManifest.dependencies['@bitcode/agent-generics'], 'workspace:*');
   assert.equal(packageManifest.dependencies['@bitcode/prompts'], 'workspace:*');
   assert.equal(packageManifest.dependencies.zod, '^3.22.4');
-  assert.match(indexSource, /bitcodeNeedRiskAdmissionAgent/u);
-  assert.match(indexSource, /quickBitcodeNeedRiskAdmissionAgent/u);
-  assert.match(indexSource, /dangerWallAgent = bitcodeNeedRiskAdmissionAgent/u);
+  assert.match(indexSource, /bitcodeReadRiskAdmissionAgent/u);
+  assert.match(indexSource, /quickBitcodeReadRiskAdmissionAgent/u);
+  assert.match(indexSource, /dangerWallAgent = bitcodeReadRiskAdmissionAgent/u);
   assert.match(indexSource, /DANGER_WALL_AGENT/u);
-  assert.match(indexSource, /BITCODE_NEED_RISK_ADMISSION_AGENT/u);
+  assert.match(indexSource, /BITCODE_READ_RISK_ADMISSION_AGENT/u);
   assert.match(indexSource, /checkLikelyExecutionFailure/u);
   assert.match(indexSource, /likelyExecutionFailure/u);
   assert.match(indexSource, /likelyExecutionFailureChecked/u);
@@ -148,8 +148,8 @@ test('V26 danger-wall package source is TypeScript-only under src', () => {
 });
 
 test('V26 danger-wall README states admitted support and compatibility semantics', () => {
-  assert.match(packageReadme, /Bitcode Need Risk Admission Agent/u);
-  assert.match(packageReadme, /bitcodeNeedRiskAdmissionAgent/u);
+  assert.match(packageReadme, /Bitcode Read Risk Admission Agent/u);
+  assert.match(packageReadme, /bitcodeReadRiskAdmissionAgent/u);
   assert.match(packageReadme, /not an autonomous security product/u);
   assert.match(packageReadme, /AssetPack/u);
   assert.match(packageReadme, /likely execution failure/u);
@@ -173,7 +173,7 @@ test('V26 danger-wall raw PromptParts are Bitcode-native compatibility carriers'
     const source = readRepoFile(filePath);
 
     assert.match(source, /current_version: "V26"/u, filePath);
-    assert.match(source, /Bitcode|risk admission|risk-admission|need|AssetPack|proof|delivery|admission/u, filePath);
+    assert.match(source, /Bitcode|risk admission|risk-admission|read|AssetPack|proof|delivery|admission/u, filePath);
     assert.doesNotMatch(source, oldWorldDangerWallResiduePattern, filePath);
   }
 });

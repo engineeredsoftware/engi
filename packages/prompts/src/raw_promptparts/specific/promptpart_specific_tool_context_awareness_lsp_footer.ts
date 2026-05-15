@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Bitcode LSP static-measurement footer for Need and AssetPack decisions"
+ * intent: "Bitcode LSP static-measurement footer for Read and AssetPack decisions"
  * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER: PromptPart =
-  'for Need measurement, AssetPack fit, and proof replay' as PromptPart;
+  'for Read measurement, AssetPack fit, and proof replay' as PromptPart;

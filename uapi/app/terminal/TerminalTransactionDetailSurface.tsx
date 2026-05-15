@@ -121,7 +121,7 @@ export default function TerminalTransactionDetailSurface({
       return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active ${activeFocusNoun}.`;
     }
     if (showConsole) {
-      return `${normalizedSummary} The execution console remains available when you need the lower-level witness detail.`;
+      return `${normalizedSummary} The execution console remains available when you read the lower-level witness detail.`;
     }
     return `${normalizedSummary} Finish-delivered pull-request Shippables, stored AssetPack evidence, and summary text are the active ${activeFocusNoun}.`;
   }, [activeFocusNoun, normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
@@ -413,7 +413,7 @@ export default function TerminalTransactionDetailSurface({
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Execution console</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Detailed execution console</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-300">
-              Use this execution view when you need exact execution detail beyond the main activity cards.
+              Use this execution view when you read exact execution detail beyond the main activity cards.
             </p>
           </div>
           <div className="p-5">

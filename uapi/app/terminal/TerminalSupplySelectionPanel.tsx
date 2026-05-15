@@ -93,9 +93,9 @@ export default function TerminalSupplySelectionPanel({
 
     try {
       await onRecordActivity(buildTerminalSupplySelectionDraft(selection));
-      setRecordMessage('Selected give-side supply recorded into the Bitcode activity ledger.');
+      setRecordMessage('Selected deposit-side supply recorded into the Bitcode activity ledger.');
     } catch (error) {
-      setRecordMessage(error instanceof Error ? error.message : 'Unable to record give-side selection.');
+      setRecordMessage(error instanceof Error ? error.message : 'Unable to record deposit-side selection.');
     } finally {
       setIsRecording(false);
     }
@@ -129,12 +129,12 @@ export default function TerminalSupplySelectionPanel({
     return (
       <TerminalWorkspaceCard
         id="terminalSupplySelection"
-        kicker="Give-side supply"
-        title="Search and select supply for the current give draft"
+        kicker="Deposit-side supply"
+        title="Search and select supply for the current deposit draft"
         summary="Loading repository-bound supply, selected inventory, and intake controls."
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory}
       >
-        <p className="text-sm leading-6 text-neutral-300">Loading give-side supply…</p>
+        <p className="text-sm leading-6 text-neutral-300">Loading deposit-side supply…</p>
       </TerminalWorkspaceCard>
     );
   }
@@ -142,12 +142,12 @@ export default function TerminalSupplySelectionPanel({
   return (
     <TerminalWorkspaceCard
       id="terminalSupplySelection"
-      kicker="Give-side supply"
-      title={usesRepositoryContext ? 'Choose the repository you are giving' : 'Search and select supply for the current give draft'}
+      kicker="Deposit-side supply"
+      title={usesRepositoryContext ? 'Choose the repository you are depositing' : 'Search and select supply for the current deposit draft'}
       summary={
         usesRepositoryContext
-          ? 'Select one connected repository as the source boundary for this Give. The inventory selector carries provider, branch, visibility, and language detail so the rest of the Give flow reads one source.'
-          : 'Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current give draft before moving into deposit and need.'
+          ? 'Select one connected repository as the source boundary for this Deposit. The inventory selector carries provider, branch, visibility, and language detail so the rest of the Deposit flow reads one source.'
+          : 'Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current deposit draft before moving into deposit and read.'
       }
       explainer={TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory}
       headerAside={
@@ -245,7 +245,7 @@ export default function TerminalSupplySelectionPanel({
             {usesRepositoryContext ? (
               <>
                 <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
-                  <span>Giving from</span>
+                  <span>Depositing from</span>
                   <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.authSession} />
                 </span>
                 <div className="mt-3 rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-neutral-100">
@@ -301,12 +301,12 @@ export default function TerminalSupplySelectionPanel({
         <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
           <div className="flex items-center gap-2">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Flow continuity</p>
-            <BitcodeInlineExplainer explainer={TERMINAL_WORKSPACE_EXPLAINERS.giveNeedChain} />
+            <BitcodeInlineExplainer explainer={TERMINAL_WORKSPACE_EXPLAINERS.depositReadChain} />
           </div>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
             {usesRepositoryContext
-              ? 'The selected repository is the source boundary for this Give. Record the selection, then continue when you are ready to describe issuer, provenance, and intent.'
-              : 'Selected supply stays attached to the current give flow. Continue into Give when you are ready to describe issuer, provenance, and intent.'}
+              ? 'The selected repository is the source boundary for this Deposit. Record the selection, then continue when you are ready to describe issuer, provenance, and intent.'
+              : 'Selected supply stays attached to the current deposit flow. Continue into Deposit when you are ready to describe issuer, provenance, and intent.'}
           </p>
           {selectedEntryLabels.length ? (
             <BitcodeChipCloud
@@ -320,7 +320,7 @@ export default function TerminalSupplySelectionPanel({
             onClick={() => jumpToShellSection('terminalDepositComposer')}
             className="mt-4 rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Continue to Give flow
+            Continue to Deposit flow
           </button>
           <button
             type="button"
@@ -330,7 +330,7 @@ export default function TerminalSupplySelectionPanel({
             }}
             className="mt-3 rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isRecording ? 'Recording selection…' : 'Record give selection'}
+            {isRecording ? 'Recording selection…' : 'Record deposit selection'}
           </button>
         </div>
       </div>

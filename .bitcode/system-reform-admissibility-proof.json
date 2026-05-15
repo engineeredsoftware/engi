@@ -83,15 +83,15 @@
       "livePathRole": "The VCS agent layer can support retained callers, but repository scope in the Bitcode product belongs to Connects and application-owned panels."
     },
     {
-      "checkId": "computer-use-need-measurement-boundary",
-      "label": "Retained computer-use tooling is internal Need-measurement support only",
+      "checkId": "computer-use-read-measurement-boundary",
+      "label": "Retained computer-use tooling is internal Read-measurement support only",
       "passed": true,
       "detail": "10 required files present",
       "requiredFiles": [
         "packages/generic-tools/use-computer/src/index.ts",
         "packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/tools/BitcodeNeedMeasurementComputerUseTool.ts",
+        "packages/pipelines/asset-pack/src/tools/BitcodeReadMeasurementComputerUseTool.ts",
         "packages/pipelines/asset-pack/src/tools/index.ts",
         "packages/api/src/routes/shippables.ts",
         "packages/execution-generics/src/store/registry.ts",
@@ -101,7 +101,7 @@
       ],
       "missingFiles": [],
       "reformClass": "ingress-or-support",
-      "livePathRole": "Computer use may supply server-flagged Need-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner."
+      "livePathRole": "Computer use may supply server-flagged Read-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner."
     },
     {
       "checkId": "jira-tool-reference-boundary",
@@ -118,23 +118,23 @@
     },
     {
       "checkId": "lsp-measure-need-boundary",
-      "label": "Retained LSP infrastructure is repurposed as static Need/AssetPack measurement",
+      "label": "Retained LSP infrastructure is repurposed as static Read/AssetPack measurement",
       "passed": true,
       "detail": "5 required files present",
       "requiredFiles": [
         "protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md",
         "protocol-demonstration/src/bitcode-demo.js",
-        "protocol-demonstration/src/canonical/need-measurement.js",
+        "protocol-demonstration/src/canonical/read-measurement.js",
         "packages/lsp/src/index.ts",
         "packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts"
       ],
       "missingFiles": [],
       "reformClass": "ingress-or-support",
-      "livePathRole": "LSP tooling may remain only as replayable symbol/path/config/type evidence for Need measurement, AssetPack fit, and proof replay."
+      "livePathRole": "LSP tooling may remain only as replayable symbol/path/config/type evidence for Read measurement, AssetPack fit, and proof replay."
     },
     {
       "checkId": "web-search-auxiliary-input-boundary",
-      "label": "Retained web-search carriers are Bitcode need-synthesis evidence support",
+      "label": "Retained web-search carriers are Bitcode read-synthesis evidence support",
       "passed": true,
       "detail": "11 required files present",
       "requiredFiles": [
@@ -152,11 +152,11 @@
       ],
       "missingFiles": [],
       "reformClass": "ingress-or-support",
-      "livePathRole": "External search/research context may support discovery-phase need synthesis with source-attributed evidence, but it does not own canonical need, proof, mutation, delivery, Terminal, or Exchange truth."
+      "livePathRole": "External search/research context may support discovery-phase read synthesis with source-attributed evidence, but it does not own canonical read, proof, mutation, delivery, Terminal, or Exchange truth."
     },
     {
       "checkId": "danger-wall-risk-admission-boundary",
-      "label": "Retained danger-wall carrier is Bitcode need/AssetPack risk admission",
+      "label": "Retained danger-wall carrier is Bitcode read/AssetPack risk admission",
       "passed": true,
       "detail": "4 required files present",
       "requiredFiles": [
@@ -167,7 +167,7 @@
       ],
       "missingFiles": [],
       "reformClass": "ingress-or-support",
-      "livePathRole": "Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical need, proof, mutation, delivery, or product semantics."
+      "livePathRole": "Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical read, proof, mutation, delivery, or product semantics."
     }
   ]
 }

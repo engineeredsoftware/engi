@@ -201,7 +201,7 @@ const MarketingAccelerationSection: React.FC = () => {
 
   // Top-level group descriptions for hover info
   const groupDescriptions: Record<string, string> = useMemo(() => ({
-    AssetPacks: 'From Need evidence through merge-ready, CI-validated code and proof receipts, Bitcode finishes work as a PR-backed AssetPack.',
+    AssetPacks: 'From Read evidence through merge-ready, CI-validated code and proof receipts, Bitcode finishes work as a PR-backed AssetPack.',
     'Evidence Documents': 'Evidence-driven system refinement: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions so each iteration aligns with real-world results.',
   }), []);
 
@@ -348,10 +348,10 @@ const MarketingAccelerationSection: React.FC = () => {
           <div className="text-center mb-12">
             {/* Increased bottom margin for better separation from the subtitle */}
             <h2 className="text-2xl laptop:text-3xl font-bold text-white mb-4 tracking-tight block super-shiny-text">
-              Supercharge Need-to-AssetPack Workflows
+              Supercharge Read-to-AssetPack Workflows
             </h2>
             <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto">
-              Measure Needs, synthesize AssetPacks, and ship production-ready iterations through connected review interfaces.
+              Measure Reads, synthesize AssetPacks, and ship production-ready iterations through connected review interfaces.
             </p>
           </div>
           {/*

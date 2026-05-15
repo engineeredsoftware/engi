@@ -2,8 +2,8 @@ export {
   SPEC_VERSION,
   buildInitialState,
   makeCandidateAsset,
-  measureNeedFromScenario,
+  measureReadFromScenario,
   publicState,
-  reviewNeedForFitSearch,
+  reviewReadForFitSearch,
   runMakeBitcodeBranch
 } from './bitcode-demo.js';

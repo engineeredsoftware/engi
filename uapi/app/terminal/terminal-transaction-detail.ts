@@ -35,7 +35,7 @@ export type TerminalTransactionClosurePayload = {
     branchArtifacts: TerminalTransactionClosureFollowThrough['branchArtifacts'];
     proofFamilies: TerminalTransactionClosureFollowThrough['proofFamilies'];
     recentHistory: TerminalTransactionClosureFollowThrough['recentHistory'];
-    needReview: TerminalClosurePanel | null;
+    readReview: TerminalClosurePanel | null;
     verification: TerminalClosurePanel | null;
     branch: TerminalClosurePanel | null;
     settlement: TerminalClosurePanel | null;
@@ -109,16 +109,16 @@ export function buildTerminalTransactionPersistedActivitySnapshot(
   const activityState = detail?.bitcodeActivityState;
   if (!activityState) return null;
 
-  const workbench = activityState.giveWorkbench || activityState.fitWorkbench || null;
-  const needMeasurement = activityState.needMeasurement || null;
+  const workbench = activityState.depositWorkbench || activityState.fitWorkbench || null;
+  const readMeasurement = activityState.readMeasurement || null;
   const supplySelection = activityState.supplySelection || null;
   const repositoryAnchor = activityState.repositoryAnchor || null;
 
   const metrics = [
     workbench ? { label: 'Projection', value: workbench.projectionPrincipal } : null,
     supplySelection ? { label: 'Selected refs', value: formatNumber(supplySelection.selectedCount) } : null,
-    needMeasurement ? { label: 'Target kinds', value: formatNumber(needMeasurement.targetKindCount) } : null,
-    needMeasurement ? { label: 'Closure criteria', value: formatNumber(needMeasurement.closureCriteriaCount) } : null,
+    readMeasurement ? { label: 'Target kinds', value: formatNumber(readMeasurement.targetKindCount) } : null,
+    readMeasurement ? { label: 'Closure criteria', value: formatNumber(readMeasurement.closureCriteriaCount) } : null,
     supplySelection ? { label: 'Filtered refs', value: formatNumber(supplySelection.filteredCount) } : null,
   ].filter((metric): metric is { label: string; value: string } => Boolean(metric));
 
@@ -127,19 +127,19 @@ export function buildTerminalTransactionPersistedActivitySnapshot(
       ? { label: 'Repository anchor', value: repositoryAnchor.repository.fullName }
       : null,
     repositoryAnchor?.connection ? { label: 'Connection mode', value: repositoryAnchor.connection.mode } : null,
-    workbench?.give?.summary ? { label: 'Give posture', value: workbench.give.summary } : null,
-    workbench?.need?.summary ? { label: 'Need posture', value: workbench.need.summary } : null,
+    workbench?.deposit?.summary ? { label: 'Deposit posture', value: workbench.deposit.summary } : null,
+    workbench?.read?.summary ? { label: 'Read posture', value: workbench.read.summary } : null,
     workbench?.fit?.summary ? { label: 'Fit posture', value: workbench.fit.summary } : null,
-    needMeasurement ? { label: 'Need scenario', value: needMeasurement.scenario.label } : null,
-    needMeasurement ? { label: 'Need parser', value: needMeasurement.parserKind } : null,
+    readMeasurement ? { label: 'Read scenario', value: readMeasurement.scenario.label } : null,
+    readMeasurement ? { label: 'Read parser', value: readMeasurement.parserKind } : null,
     supplySelection ? { label: 'Auth session', value: supplySelection.authSessionLabel } : null,
     supplySelection?.searchTerm ? { label: 'Search filter', value: supplySelection.searchTerm } : null,
   ].filter((row): row is TerminalTransactionDetailRow => Boolean(row));
 
   const chips = dedupeChips([
-    ...(workbench?.give?.artifactKinds || []),
-    ...(workbench?.need?.targetKinds || []),
-    ...(workbench?.need?.closureCriteria || []),
+    ...(workbench?.deposit?.artifactKinds || []),
+    ...(workbench?.read?.targetKinds || []),
+    ...(workbench?.read?.closureCriteria || []),
     ...(supplySelection?.selectedEntries.map((entry) => entry.title) || []),
   ]);
 
@@ -216,7 +216,7 @@ export function buildTerminalTransactionIdentityRows(
     });
   }
 
-  const workbench = activityState?.giveWorkbench || activityState?.fitWorkbench;
+  const workbench = activityState?.depositWorkbench || activityState?.fitWorkbench;
   if (workbench) {
     rows.push(
       { label: 'Projection', value: workbench.projectionPrincipal },
@@ -225,10 +225,10 @@ export function buildTerminalTransactionIdentityRows(
     );
   }
 
-  if (activityState?.needMeasurement) {
+  if (activityState?.readMeasurement) {
     rows.push(
-      { label: 'Need parser', value: activityState.needMeasurement.parserKind },
-      { label: 'Need scenario', value: activityState.needMeasurement.scenario.label },
+      { label: 'Read parser', value: activityState.readMeasurement.parserKind },
+      { label: 'Read scenario', value: activityState.readMeasurement.scenario.label },
     );
   }
 
@@ -295,7 +295,7 @@ export function buildTerminalTransactionClosurePayload(
       branchArtifacts: closureFollowThrough.branchArtifacts,
       proofFamilies: closureFollowThrough.proofFamilies,
       recentHistory: closureFollowThrough.recentHistory,
-      needReview: closureState?.needReview || null,
+      readReview: closureState?.readReview || null,
       verification: closureState?.verification || null,
       branch: closureState?.branch || null,
       settlement: closureState?.settlement || null,

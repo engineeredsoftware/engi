@@ -104,7 +104,7 @@ sub_review_e() {
         "${code_snippets[@]}" \
         --questions \
         "Does this evolved architecture properly reflect Bitcode's 5-year development philosophy of layered abstraction and intelligent primitives?" \
-        "Will this prompt primitive integration enable the 'state-of-the-art agentic architecture' goal or do we need deeper integration?" \
+        "Will this prompt primitive integration enable the 'state-of-the-art agentic architecture' goal or do we read deeper integration?" \
         "Is this architecture sustainable for the full ecosystem or should we adjust the pattern before continuing?"
 }
 

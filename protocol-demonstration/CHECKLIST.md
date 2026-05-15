@@ -27,7 +27,7 @@ npm start
 - [ ] Click **Reset demo** before starting
 - [ ] Confirm seeded state is clean:
   - [ ] 3 assets
-  - [ ] 1 need scenario
+  - [ ] 1 read scenario
   - [ ] no latest run yet
 - [ ] Confirm the active conformance profile shows **Profile A**
 - [ ] Confirm the seeded scenario is the auth rollback case
@@ -42,9 +42,9 @@ Expected seeded scenario cues:
 
 ## 2. V8 gold-path interactive run
 
-### A. Need measurement
+### A. Read measurement
 
-- [ ] Show that the need is GitHub-bound, not a free-text-only query
+- [ ] Show that the read is GitHub-bound, not a free-text-only query
 - [ ] Point out:
   - [ ] parser contract
   - [ ] canonical run evidence
@@ -52,9 +52,9 @@ Expected seeded scenario cues:
   - [ ] conformance profile labels
 
 What should be visible after the run:
-- [ ] measured `needId`
+- [ ] measured `readId`
 - [ ] parser fail-closed framing
-- [ ] need derivation / provenance surface
+- [ ] read derivation / provenance surface
 
 ### B. Candidate recall + ranking
 
@@ -63,7 +63,7 @@ What should be visible after the run:
 - [ ] Confirm the top asset is still the rollback/auth material
 - [ ] Show:
   - [ ] multi-channel recall / fusion
-  - [ ] need match
+  - [ ] read match
   - [ ] benchmark impact
   - [ ] actionability
   - [ ] penalties
@@ -84,7 +84,7 @@ What should be visible after the run:
 
 - [ ] Confirm an `assetPackId` is generated
 - [ ] Confirm branch artifacts include at least:
-  - [ ] `.bitcode/need.json`
+  - [ ] `.bitcode/read.json`
   - [ ] `.bitcode/verification-report.json`
   - [ ] `.bitcode/asset-pack.lock.json`
   - [ ] `.bitcode/authorization-decisions.json`
@@ -93,7 +93,7 @@ What should be visible after the run:
   - [ ] `.bitcode/unit-catalog.json`
   - [ ] `.bitcode/pipeline-telemetry.json`
   - [ ] `.bitcode/system-proof-bundle.json`
-  - [ ] `BITCODE_NEED.md`
+  - [ ] `BITCODE_READ.md`
 
 ### E. Settlement / proof closure
 

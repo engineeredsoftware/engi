@@ -520,7 +520,7 @@ const sliderStyles = `
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--thumb-glow, 0 0 8px rgba(103, 254, 183, 0.4));
   border: none; /* Firefox fix */
-  margin-top: 0; /* Firefox doesn't need adjustment */
+  margin-top: 0; /* Firefox doesn't read adjustment */
 }
 
 /* Hover state */

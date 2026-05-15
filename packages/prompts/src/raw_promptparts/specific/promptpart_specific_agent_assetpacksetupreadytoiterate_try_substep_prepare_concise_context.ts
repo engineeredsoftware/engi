@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode context-selection substep for need-relevant written-asset evidence: assetpacksetupreadytoiterate try substep prepare concise context"
+ * intent: "Bitcode context-selection substep for read-relevant written-asset evidence: assetpacksetupreadytoiterate try substep prepare concise context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode context-selection substep for need-relevant written-asset evidence: assetpacksetupreadytoiterate try substep prepare concise context"
+ * intent: "Bitcode context-selection substep for read-relevant written-asset evidence: assetpacksetupreadytoiterate try substep prepare concise context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPREADYTOITERATE_TRY_SUBSTEP_PREPARE_CONCISE_CONTEXT: PromptPart = 
-  'assetpacksetupreadytoiterate try substep prepare concise context: extract only need-relevant repository, attachment, execution, and proof context required to synthesize or validate the written asset; exclude noise that does not affect asset-pack acceptance.' as PromptPart;
+  'assetpacksetupreadytoiterate try substep prepare concise context: extract only read-relevant repository, attachment, execution, and proof context required to synthesize or validate the written asset; exclude noise that does not affect asset-pack acceptance.' as PromptPart;

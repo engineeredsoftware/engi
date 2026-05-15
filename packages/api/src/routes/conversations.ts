@@ -176,7 +176,7 @@ function buildRichInputReference(token: ConversationStreamToken): ConversationRi
   };
 }
 
-function tokenRequestsNeedMeasurement(token: ConversationStreamToken) {
+function tokenRequestsReadMeasurement(token: ConversationStreamToken) {
   const tokenType = normalizeConversationTokenType(token);
   const pipelineType =
     typeof token.metadata?.pipelineType === 'string' ? normalizeConversationText(token.metadata.pipelineType).toLowerCase() : '';
@@ -198,7 +198,7 @@ function buildConversationRichInputSummary(
         return tokenType === 'asset_pack' || tokenType === 'shippable' || tokenType === 'evidence_document';
       })
       .map(buildRichInputReference),
-    need_measurement_intents: tokens.filter(tokenRequestsNeedMeasurement).map(buildRichInputReference),
+    need_measurement_intents: tokens.filter(tokenRequestsReadMeasurement).map(buildRichInputReference),
     token_counts: countTokenTypes(tokens),
   };
 }
@@ -231,10 +231,10 @@ function countTokenTypes(tokens: ConversationStreamToken[]) {
       if (normalized === 'asset_pack' || normalized === 'shippable' || normalized === 'evidence_document') {
         acc.assetPacks += 1;
       }
-      if (tokenRequestsNeedMeasurement(token)) acc.needMeasurements += 1;
+      if (tokenRequestsReadMeasurement(token)) acc.readMeasurements += 1;
       return acc;
     },
-    { attachments: 0, sources: 0, destinations: 0, assetPacks: 0, needMeasurements: 0 },
+    { attachments: 0, sources: 0, destinations: 0, assetPacks: 0, readMeasurements: 0 },
   );
 }
 
@@ -306,7 +306,7 @@ async function createConversationExecution(options: {
       user_id: options.userId,
       type: storageType,
       status: 'running',
-      guide: options.canonicalType.includes('need-measurement') ? 'Need' : 'Develop',
+      guide: options.canonicalType.includes('read-measurement') ? 'Read' : 'Develop',
       input: {
         conversationId: options.conversationId,
         content: options.content,

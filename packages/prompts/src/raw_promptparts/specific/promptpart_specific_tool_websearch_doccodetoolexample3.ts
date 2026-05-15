@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Bitcode need-synthesis web search corroboration example"
+ * intent: "Bitcode read-synthesis web search corroboration example"
  * current_version: "V26"
  * versions: []
  * benchmarks: [

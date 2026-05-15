@@ -11,7 +11,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PTRRSTEPS_LIST: PromptPart =
-  `Plan: Identify need, written-asset, AssetPack, proof, evidence, and delivery boundaries that require admission checks
+  `Plan: Identify read, written-asset, AssetPack, proof, evidence, and delivery boundaries that require admission checks
 Try: Evaluate those boundaries using traceable repository, external, attachment, and execution evidence
 Refine: Remove false positives, isolate unresolved ambiguity, and classify proof gaps without claiming closure
 Retry: Return admit, block, or manual-review decision for the next Bitcode phase` as PromptPart;

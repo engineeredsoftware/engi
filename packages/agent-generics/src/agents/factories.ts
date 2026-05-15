@@ -350,7 +350,7 @@ export function factoryAgentWithPTRR<TInput, TOutput>(
  * Create Agent with Single Step - Creates a minimal agent implementation
  * 
  * This factory creates an Agent with a single execution step.
- * For simple agents that don't need full PTRR.
+ * For simple agents that don't read full PTRR.
  */
 export function factoryAgentWithSingleStep<TInput, TOutput>(config: {
   name: string;

@@ -80,7 +80,7 @@ test('V26 text-searcher raw PromptParts are Bitcode-native compatibility carrier
     const source = readRepoFile(filePath);
 
     assert.match(source, /current_version: "V26"/u, filePath);
-    assert.match(source, /Bitcode|repository evidence|source-grounding|AssetPack|proof|need/u, filePath);
+    assert.match(source, /Bitcode|repository evidence|source-grounding|AssetPack|proof|read/u, filePath);
     assert.doesNotMatch(source, oldWorldSearchResiduePattern, filePath);
   }
 });

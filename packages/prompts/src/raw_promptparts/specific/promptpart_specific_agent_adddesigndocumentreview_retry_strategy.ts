@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_RETRY_STRATEGY: PromptPart = 
-  'Recover by rebuilding review findings from the design-document written asset, Need criteria, validation gaps, repository evidence, and partial review sections' as PromptPart;
+  'Recover by rebuilding review findings from the design-document written asset, Read criteria, validation gaps, repository evidence, and partial review sections' as PromptPart;

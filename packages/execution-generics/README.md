@@ -1,6 +1,6 @@
 # Execution Generics
 
-The retained Bitcode execution-primitives package. Fourth-gate keeps `Execution` explicit as the low-level state-and-sequence abstraction beneath activity, pipeline runs, need measurement, and later proveable Bitcode intelligence execution.
+The retained Bitcode execution-primitives package. Fourth-gate keeps `Execution` explicit as the low-level state-and-sequence abstraction beneath activity, pipeline runs, read measurement, and later proveable Bitcode intelligence execution.
 
 ## Role In V26
 
@@ -10,7 +10,7 @@ It does not rename away into `activity`.
 Instead:
 - `executions` are the low-level primitives and pipeline-run carriers
 - `activity` is the broader family that can include transactions, executions, and notifications
-- Bitcode need measurement and implementation flows build on these execution primitives instead of bypassing them
+- Bitcode read measurement and implementation flows build on these execution primitives instead of bypassing them
 
 Two primitives for AI systems: **state** and **sequence**.
 
@@ -33,7 +33,7 @@ const executor: Executor = async (input, execution) => {
 };
 ```
 
-That's it. Everything else - agents, pipelines, phases, run histories, and need-measurement passes - builds from these two primitives.
+That's it. Everything else - agents, pipelines, phases, run histories, and read-measurement passes - builds from these two primitives.
 
 ## Core Concepts
 
@@ -77,14 +77,14 @@ Execution is a state container with:
 ```typescript
 // State flows down the tree
 const pipeline = new Execution('pipeline');
-pipeline.store('context', 'need', 'add dark mode');
+pipeline.store('context', 'read', 'add dark mode');
 
 const phase = pipeline.child('discovery'); 
 phase.store('strategy', 'search_terms', ['dark mode', 'theme toggle']);
 
 // Children can find parent state
 const agent = phase.child('search-agent');
-const need = agent.findUp('context', 'need'); // 'add dark mode'
+const read = agent.findUp('context', 'read'); // 'add dark mode'
 ```
 
 ### Sequence = Executors
@@ -152,7 +152,7 @@ const agent = sequential(
 ```
 
 ### The SDIVF Pattern (Setup-Discovery-Implementation-Validation-Finish)
-Pipelines orchestrate phases to satisfy Needs, store AssetPack evidence, and deliver optional Shippables:
+Pipelines orchestrate phases to satisfy Reads, store AssetPack evidence, and deliver optional Shippables:
 
 ```typescript
 const pipeline = sequential(
@@ -548,7 +548,7 @@ agent2.get('local', 'attempts');  // undefined - can't see agent1's state
 ## When to Use This Package
 
 ### Perfect For:
-- **Multi-agent AI systems** where agents need to coordinate and share discoveries
+- **Multi-agent AI systems** where agents read to coordinate and share discoveries
 - **Complex pipelines** with phases that build on each other's work
 - **Retry-heavy operations** like API calls, tool usage, LLM interactions
 - **Hierarchical configuration** where context determines behavior

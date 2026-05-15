@@ -1,7 +1,7 @@
 # Bitcode: Lightpaper
 
 Bitcodes, or source shares, are finite units of measurable technical intelligence.
-The Bitcode Protocol measures source against explicit Needs, admits only proven fit (industrial-determinism),
+The Bitcode Protocol measures source against explicit Reads, admits only proven fit (industrial-determinism),
 settles contribution and rights, and records the resulting commercial object as `$BTD`.
 
 `$BTD` is not a fee token and not a fungible checkout balance. BTC pays fees.
@@ -30,7 +30,7 @@ demonstration implementations:
 
 Bitcode does not mint merely because source arrived. A source unit becomes
 mint-admissible only when it is proof-addressable, deduped, and fit-accepted for
-a measured Need.
+a measured Read.
 
 ```pseudocode
 function measure_semantic_volume(asset_pack, candidate_units):
@@ -130,7 +130,7 @@ is what transfers commercially.
 
 ```pseudocode
 function admit_asset_pack_range(supply_state, mint_request, existing_ranges):
-  require mint_request.accepted_need == true
+  require mint_request.accepted_read == true
   require mint_request.accepted_fit == true
   require mint_request.source_manifest_root
   require mint_request.measurement_receipt_root
@@ -206,24 +206,24 @@ function allocate_contributor_cells(asset_pack_range, contributors):
 ### Models, Training, Inference
 
 The current protocol path treats inference as evidence-bearing work, not as an
-opaque oracle. Needs are measured before fit search, prompt and static evidence
+opaque oracle. Reads are measured before fit search, prompt and static evidence
 are materialized, fit is reviewed, and only then can settlement or mint drafting
 proceed.
 
 ```pseudocode
 function source_to_shares_run(scenario):
-  need_measurement = measure_need_from_scenario(scenario)
-  need_review = review_need_for_fit_search(need_measurement.reviewable_need)
+  read_measurement = measure_read_from_scenario(scenario)
+  read_review = review_read_for_fit_search(read_measurement.reviewable_read)
 
-  if need_review.action != "accept":
-    fail("fit search cannot proceed before measured Need acceptance")
+  if read_review.action != "accept":
+    fail("fit search cannot proceed before measured Read acceptance")
 
-  candidates = rank_source_against_need(need_measurement.need_descriptor)
-  selected = assemble_asset_pack(need_measurement.need_descriptor, candidates)
-  settlement = settle_need_event(selected, eligible_candidates_only)
+  candidates = rank_source_against_read(read_measurement.read_descriptor)
+  selected = assemble_asset_pack(read_measurement.read_descriptor, candidates)
+  settlement = settle_read_event(selected, eligible_candidates_only)
 
   proof_bundle = build_system_proof_bundle(
-    measurement = need_measurement,
+    measurement = read_measurement,
     selection = selected,
     settlement = settlement
   )
@@ -419,7 +419,7 @@ as a black box; it is measured, materialized, and replayed through explicit
 artifacts.
 
 ```pseudocode
-function materialize_asset_pack_branch(need, selected_assets, settlement):
+function materialize_asset_pack_branch(read, selected_assets, settlement):
   branch_artifacts = {
     proof_contract,
     system_proof_bundle,
@@ -459,7 +459,7 @@ function render_asset_pack_range_page(asset_pack_id, query):
 
   link:
     Exchange for existing range transfer
-    Terminal for Need-submitted mint path
+    Terminal for Read-submitted mint path
 ```
 
 ```pseudocode
@@ -486,7 +486,7 @@ function post_btd_mint_draft(request):
   require user
 
   body = parse_json(request)
-  require body.accepted_need == true
+  require body.accepted_read == true
   require body.accepted_fit == true
   require body.exchange_sequence > 0
 
@@ -532,22 +532,22 @@ function post_btd_read_access(request):
 
 ### Chat Applications
 
-Conversation and chat surfaces are intake corridors. They may gather Need,
+Conversation and chat surfaces are intake corridors. They may gather Read,
 source, attachments, and destination context, but they must write into the same
 Bitcode execution, proof, settlement, Terminal, and Exchange state rather than
 inventing a separate chat-native tokenomics path.
 
 ```pseudocode
 function chat_to_bitcode_state(message, attachments, context):
-  need_or_give = parse_operator_intent(message)
+  read_or_deposit = parse_operator_intent(message)
   source_context = collect_repository_and_attachment_context(attachments, context)
 
   execution = start_bitcode_execution(
-    need_or_give = need_or_give,
+    read_or_deposit = read_or_deposit,
     source_context = source_context
   )
 
-  require execution.requires_need_review_before_fit_search
+  require execution.requires_read_review_before_fit_search
   return stream_terminal_readable_state(execution)
 ```
 
@@ -648,7 +648,7 @@ journal projection has drifted.
 
 ```pseudocode
 required_terminal_families = [
-  "need_submission",
+  "read_submission",
   "fit_closure",
   "proof_admission",
   "asset_pack_mint",
@@ -726,7 +726,7 @@ The lightpaper law can be reduced to this:
 BTC pays fees.
 BTD records non-fungible source-share/read-right cells.
 An AssetPack is one contiguous BTD cell range.
-Minting requires Need -> Fit -> Prove -> Settle.
+Minting requires Read -> Fit -> Prove -> Settle.
 Semantic volume advances a fixed-supply decay curve.
 Valid tail measurements may emit zero-cell receipts.
 Contributor allocation must conserve the minted range.

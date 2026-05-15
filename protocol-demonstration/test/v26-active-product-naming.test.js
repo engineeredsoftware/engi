@@ -94,12 +94,12 @@ const terminalTransactionWorkspaceSource = readFileSync(
   new URL('../../uapi/app/terminal/TerminalTransactionWorkspace.tsx', import.meta.url),
   'utf8',
 );
-const terminalGiveNeedWorkbenchSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalGiveNeedWorkbench.tsx', import.meta.url),
+const terminalDepositReadWorkbenchSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalDepositReadWorkbench.tsx', import.meta.url),
   'utf8',
 );
-const terminalNeedScenarioPanelSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalNeedScenarioPanel.tsx', import.meta.url),
+const terminalReadScenarioPanelSource = readFileSync(
+  new URL('../../uapi/app/terminal/TerminalReadScenarioPanel.tsx', import.meta.url),
   'utf8',
 );
 const terminalClosureNativeSectionsSource = readFileSync(
@@ -171,7 +171,7 @@ const footerTestSource = readFileSync(new URL('../../uapi/tests/footerPublicShel
 const externalRealizationSource = readFileSync(new URL('../src/canonical/v24-external-realization.js', import.meta.url), 'utf8');
 const v24LocalExecutorsSource = readFileSync(new URL('../src/canonical/v24-local-executors.js', import.meta.url), 'utf8');
 const v24RemoteAdaptersSource = readFileSync(new URL('../src/canonical/v24-remote-adapters.js', import.meta.url), 'utf8');
-const needMeasurementSource = readFileSync(new URL('../src/canonical/need-measurement.js', import.meta.url), 'utf8');
+const readMeasurementSource = readFileSync(new URL('../src/canonical/read-measurement.js', import.meta.url), 'utf8');
 const runArtifactsSource = readFileSync(new URL('../src/canonical/run-artifacts.js', import.meta.url), 'utf8');
 const canonPostureSource = readFileSync(new URL('../src/canon-posture.js', import.meta.url), 'utf8');
 const v22CanonDriftTestSource = readFileSync(new URL('./v22-canon-drift.test.js', import.meta.url), 'utf8');
@@ -673,7 +673,7 @@ const jestBaseSource = readFileSync(new URL('../../jest.base.cjs', import.meta.u
 const pnpmWorkspaceSource = readFileSync(new URL('../../pnpm-workspace.yaml', import.meta.url), 'utf8');
 const accountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
 const completionCelebrationStorySource = readFileSync(new URL('../../uapi/stories/CompletionCelebration.stories.tsx', import.meta.url), 'utf8');
-const needDefinitionInputStorySource = readFileSync(new URL('../../uapi/stories/NeedDefinitionInput.stories.tsx', import.meta.url), 'utf8');
+const readDefinitionInputStorySource = readFileSync(new URL('../../uapi/stories/ReadDefinitionInput.stories.tsx', import.meta.url), 'utf8');
 const executionActionsStorySource = readFileSync(new URL('../../uapi/stories/shippables/Actions.stories.tsx', import.meta.url), 'utf8');
 const errorRecoveryGraceStorySource = readFileSync(new URL('../../uapi/stories/ErrorRecoveryGrace.stories.tsx', import.meta.url), 'utf8');
 const patternMemoryStorySource = readFileSync(new URL('../../uapi/stories/PatternMemory.stories.tsx', import.meta.url), 'utf8');
@@ -847,7 +847,7 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
   );
 });
 const genericVcsReadmeSource = readFileSync(new URL('../../packages/generic-tools/vcs/README.md', import.meta.url), 'utf8');
-const genericTaskComprehensionReadmeSource = readFileSync(new URL('../../packages/generic-tools/need-comprehension/README.md', import.meta.url), 'utf8');
+const genericTaskComprehensionReadmeSource = readFileSync(new URL('../../packages/generic-tools/read-comprehension/README.md', import.meta.url), 'utf8');
 const genericLspPurposeSource = readFileSync(new URL('../../packages/generic-tools/lsp-query/src/prompts/lsp-purpose-composition.ts', import.meta.url), 'utf8');
 const jiraToolsPackageSource = readFileSync(new URL('../../packages/generic-tools/mcps-tools/jira/package.json', import.meta.url), 'utf8');
 const figmaToolsPackageSource = readFileSync(new URL('../../packages/generic-tools/mcps-tools/figma/package.json', import.meta.url), 'utf8');
@@ -1077,8 +1077,8 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.doesNotMatch(footerTestSource, /\bEngiSoftwareSvgLogo\b/);
   assert.equal(existsSync(marketingMultiAgentShowcasePath), false);
   assert.match(marketingFeaturesGridSource, /measurement-evidence/);
-  assert.match(marketingFeaturesGridSource, /Need Measurement Evidence/);
-  assert.match(marketingFeaturesGridSource, /reviewable Need/);
+  assert.match(marketingFeaturesGridSource, /Read Measurement Evidence/);
+  assert.match(marketingFeaturesGridSource, /reviewable Read/);
   assert.match(marketingFeaturesGridSource, /bitcode@feature:~\//);
   assert.match(marketingFeaturesGridSource, /bitcode\.feature\.load/);
   assert.match(marketingComputeSectionSource, /s3:\/\/bitcode-runs\/42GPU\/checkout\//);
@@ -1151,10 +1151,10 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(executionToggleButtonsSource, /fit-review/);
   assert.equal(existsSync(multiPipelinePackagePath), false);
   assert.equal(existsSync(preprocessTogglePath), false);
-  assert.match(deliverableToolsIndexSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
-  assert.match(deliverableToolsIndexSource, /need-measurement:computer-use-evidence-agent/);
-  assert.doesNotMatch(deliverableToolsIndexSource, /implementation-correct-code-change-agent': \[bitcodeNeedMeasurementComputerUseTool\]/);
-  assert.doesNotMatch(deliverableToolsIndexSource, /finish:deliver-asset-pack-to-destination-agent': \[bitcodeNeedMeasurementComputerUseTool/);
+  assert.match(deliverableToolsIndexSource, /BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT/);
+  assert.match(deliverableToolsIndexSource, /read-measurement:computer-use-evidence-agent/);
+  assert.doesNotMatch(deliverableToolsIndexSource, /implementation-correct-code-change-agent': \[bitcodeReadMeasurementComputerUseTool\]/);
+  assert.doesNotMatch(deliverableToolsIndexSource, /finish:deliver-asset-pack-to-destination-agent': \[bitcodeReadMeasurementComputerUseTool/);
   assert.doesNotMatch(deliverableToolsIndexSource, /shipping:deliverable-pipeline|SHIPPING_PHASE_TOOLS/);
   assert.doesNotMatch(uapiFeatureFlagsSource, /ENABLE_COMPUTE_TOGGLE/);
   assert.doesNotMatch(uapiFeatureFlagsSource, /ENABLE_MULTI_AGENT_TOGGLE/);
@@ -1205,11 +1205,11 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(auxillariesBtdPaneSource, /@\/app\/orbitals\/components\/OrbitalsBTDPane/);
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesProfilePaneHeader/);
   assert.match(agenticExecutionSource, /agentic-execution:asset-pack/);
-  assert.match(agenticExecutionSource, /agentic-execution:need-measurement/);
+  assert.match(agenticExecutionSource, /agentic-execution:read-measurement/);
   assert.match(agenticExecutionSource, /resolveAgenticExecutionQueryTypes/);
   assert.doesNotMatch(agenticExecutionSource, /pipeline:deliverables/);
   assert.match(agenticExecutionSource, /AssetPack execution/);
-  assert.match(agenticExecutionSource, /need measurement execution/);
+  assert.match(agenticExecutionSource, /read measurement execution/);
   assert.match(terminalPageSource, /Bitcode Terminal/);
   assert.match(terminalPageClientSource, /Bitcode Terminal/);
   assert.match(conversationsRouteClientSource, /Bitcode Terminal write path/);
@@ -1229,7 +1229,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(conversationsListSource, /execution run/);
   assert.match(conversationsSidebarLogsSource, /execution/);
   assert.match(conversationSharedSource, /agentic-execution:asset-pack/);
-  assert.match(conversationSharedSource, /agentic-execution:need-measurement/);
+  assert.match(conversationSharedSource, /agentic-execution:read-measurement/);
   assert.match(conversationSharedSource, /Mock Bitcode agentic execution/);
   assert.match(conversationSharedSource, /source attachments, asset packs, output destinations, and settlement-bound proofs/);
   assert.match(terminalWorkspaceExplainersSource, /Bitcode Terminal experience map/);
@@ -1244,10 +1244,10 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(terminalTransactionsSource, /buildAgenticExecutionSummary/);
   assert.match(terminalTransactionsSource, /typeLabel/);
   assert.match(terminalRunDataSource, /agentic-execution:asset-pack/);
-  assert.match(terminalRunDataSource, /agentic-execution:need-measurement/);
+  assert.match(terminalRunDataSource, /agentic-execution:read-measurement/);
   assert.match(terminalRunDataSource, /agentic-execution:proof-refresh/);
   assert.match(terminalRunDataSource, /Bitcode Terminal/);
-  assert.match(terminalPageSource, /need measurement, asset packs, settlements/);
+  assert.match(terminalPageSource, /read measurement, asset packs, settlements/);
   assert.match(terminalPageClientSource, /activity into asset packs, proofs, and history/);
   assert.match(terminalWorkspaceCopySource, /Bitcode Terminal/);
   assert.match(terminalWorkspaceCopySource, /asset-pack posture/);
@@ -1267,11 +1267,11 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(terminalClosureControlDeckSource, /active Bitcode activity detail/);
   assert.match(terminalTransactionWorkspaceSource, /Master-detail activity, asset packs, proofs, and history/);
   assert.match(terminalTransactionWorkspaceSource, /select Bitcode activity, inspect its asset packs/);
-  assert.match(terminalGiveNeedWorkbenchSource, /need measurement/);
-  assert.match(terminalGiveNeedWorkbenchSource, /Asset-pack fit and settlement intent/);
-  assert.match(terminalNeedScenarioPanelSource, /Choose the active need measurement/);
-  assert.match(terminalNeedScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
-  assert.match(terminalClosureNativeSectionsSource, /Need review, verification, asset pack, settlement, and ledger/);
+  assert.match(terminalDepositReadWorkbenchSource, /read measurement/);
+  assert.match(terminalDepositReadWorkbenchSource, /Asset-pack fit and settlement intent/);
+  assert.match(terminalReadScenarioPanelSource, /Choose the active read measurement/);
+  assert.match(terminalReadScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
+  assert.match(terminalClosureNativeSectionsSource, /Read review, verification, asset pack, settlement, and ledger/);
   assert.match(terminalExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
   assert.match(terminalExperienceArchitectureSource, /Bitcode activity ledger/);
   assert.match(terminalExperienceArchitectureSource, /current Bitcode activity context/);
@@ -1302,12 +1302,12 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(executionsPageClientSource, /Open Bitcode Terminal/);
   assert.doesNotMatch(executionsPageClientSource, /Open transactions/);
   assert.match(auxillariesConnectsPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesConnectsPaneHeader/);
-  assert.match(auxillariesConnectsPaneSource, /need measurement, asset-pack synthesis, and settlement follow-through/);
+  assert.match(auxillariesConnectsPaneSource, /read measurement, asset-pack synthesis, and settlement follow-through/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesInterfacesPaneHeader/);
   assert.match(auxillariesBtdPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesBTDPaneHeader/);
   assert.match(auxillaryPaneMetaSource, /Bitcode Terminal/);
-  assert.match(auxillaryPaneMetaSource, /need measurement, asset-pack synthesis, settlement follow-through/);
-  assert.match(auxillariesConnectsPaneHeaderSource, /measure need, synthesize asset packs, and settle against live repositories/);
+  assert.match(auxillaryPaneMetaSource, /read measurement, asset-pack synthesis, settlement follow-through/);
+  assert.match(auxillariesConnectsPaneHeaderSource, /measure read, synthesize asset packs, and settle against live repositories/);
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/shared\/AfterOnboardingOverlay/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/shared\/AuxillariesPreferenceCards/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/shared\/AuxillariesStatGrid/);
@@ -1511,15 +1511,15 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(v24RemoteAdaptersSource, /bitcode-review\/v24/);
   assert.match(v24RemoteAdaptersSource, /bitcode-demo-run/);
   assert.match(v24RemoteAdaptersSource, /lnbcrt1bitcode/);
-  assert.match(needMeasurementSource, /BITCODE_NEED\.md/);
-  assert.match(runArtifactsSource, /BITCODE_NEED\.md/);
+  assert.match(readMeasurementSource, /BITCODE_READ\.md/);
+  assert.match(runArtifactsSource, /BITCODE_READ\.md/);
   assert.match(apiTestSource, /BITCODE_V24_ENVIRONMENT_MODE/);
   assert.match(apiTestSource, /bitcode-local:\/\/github-live-interface/);
   assert.match(apiTestSource, /github-app:\/\/bitcode\/development/);
   assert.match(apiTestSource, /github-installation:\/\/bitcode\/development/);
   assert.match(apiTestSource, /tx:testnet4:bitcode:001/);
   assert.match(apiTestSource, /lnbcrt1bitcode-live-read-001/);
-  assert.match(workflowTestSource, /BITCODE_NEED\.md/);
+  assert.match(workflowTestSource, /BITCODE_READ\.md/);
   assert.doesNotMatch(externalRealizationSource, /ENGI_V24_ENVIRONMENT_MODE/);
   assert.doesNotMatch(externalRealizationSource, /ENGI_V24_GITHUB_APP_REF/);
   assert.doesNotMatch(externalRealizationSource, /ENGI_V24_ENABLE_LOCAL_EXECUTORS/);
@@ -1530,22 +1530,22 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(v24RemoteAdaptersSource, /engi-review\/v24/);
   assert.doesNotMatch(v24RemoteAdaptersSource, /engi-demo-run/);
   assert.doesNotMatch(v24RemoteAdaptersSource, /lnbcrt1engi/);
-  assert.doesNotMatch(needMeasurementSource, /ENGI_NEED\.md/);
-  assert.doesNotMatch(runArtifactsSource, /ENGI_NEED\.md/);
+  assert.doesNotMatch(readMeasurementSource, /ENGI_READ\.md/);
+  assert.doesNotMatch(runArtifactsSource, /ENGI_READ\.md/);
   assert.doesNotMatch(apiTestSource, /ENGI_V24_/);
   assert.doesNotMatch(apiTestSource, /engi-local:\/\//);
   assert.doesNotMatch(apiTestSource, /github-app:\/\/engi\/development/);
   assert.doesNotMatch(apiTestSource, /github-installation:\/\/engi\/development/);
   assert.doesNotMatch(apiTestSource, /tx:testnet4:engi:001/);
   assert.doesNotMatch(apiTestSource, /lnbcrt1engi-live-read-001/);
-  assert.doesNotMatch(workflowTestSource, /ENGI_NEED\.md/);
-  assert.match(bitcodeDemoSource, /bitcode-system:need-measurement/);
+  assert.doesNotMatch(workflowTestSource, /ENGI_READ\.md/);
+  assert.match(bitcodeDemoSource, /bitcode-system:read-measurement/);
   assert.match(bitcodeDemoSource, /bitcode-system:branch-materializer/);
   assert.match(bitcodeDemoSource, /bitcode-system:settlement-engine/);
   assert.match(bitcodeDemoSource, /bitcode-system:proof-publisher/);
   assert.match(bitcodeDemoSource, /bitcode-asset-intake-attestation\.v11/);
   assert.match(bitcodeDemoSource, /policy-release-bitcode-v11-demo-2026-04-03/);
-  assert.match(bitcodeDemoSource, /BITCODE_NEED\.md/);
+  assert.match(bitcodeDemoSource, /BITCODE_READ\.md/);
   assert.match(bitcodeDemoSource, /'bitcode-system-principal'/);
   assert.equal(existsSync(new URL('../src/engi-core.js', import.meta.url)), false);
   assert.equal(existsSync(new URL('../src/bitcode-core.js', import.meta.url)), true);
@@ -1569,7 +1569,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(bitcodeDemoSource, /engi-system:/);
   assert.doesNotMatch(bitcodeDemoSource, /engi-asset-intake-attestation\.v11/);
   assert.doesNotMatch(bitcodeDemoSource, /policy-release-engi-v11-demo-2026-04-03/);
-  assert.doesNotMatch(bitcodeDemoSource, /ENGI_NEED\.md/);
+  assert.doesNotMatch(bitcodeDemoSource, /ENGI_READ\.md/);
   assert.doesNotMatch(bitcodeDemoSource, /'engi-system-principal'/);
   assert.doesNotMatch(bitcodeDemoSource, /engi\/remediation-/);
   assert.doesNotMatch(bitcodeCoreSource, /engi\.makeAssetCommitment/);
@@ -1609,7 +1609,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(coreTestSource, /BITCODE_V24_ENVIRONMENT_MODE/);
   assert.match(coreTestSource, /BITCODE_V24_GITHUB_APP_REF/);
   assert.match(coreTestSource, /github-app:\/\/bitcode\/staging-live/);
-  assert.match(coreTestSource, /BITCODE_NEED\.md/);
+  assert.match(coreTestSource, /BITCODE_READ\.md/);
   assert.doesNotMatch(attestationModelSource, /engi-demo-image/);
   assert.doesNotMatch(attestationModelSource, /engi-policy-release-v1/);
   assert.doesNotMatch(attestationModelSource, /engi-demo-verifier/);
@@ -1634,7 +1634,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(coreTestSource, /ENGI_V24_ENVIRONMENT_MODE/);
   assert.doesNotMatch(coreTestSource, /ENGI_V24_GITHUB_APP_REF/);
   assert.doesNotMatch(coreTestSource, /github-app:\/\/engi\/staging-live/);
-  assert.doesNotMatch(coreTestSource, /ENGI_NEED\.md/);
+  assert.doesNotMatch(coreTestSource, /ENGI_READ\.md/);
 
   assert.doesNotMatch(stateSource, /policy:\/\/engi\//);
   assert.doesNotMatch(stateSource, /:\/\/engi\//);
@@ -1738,17 +1738,17 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(userDataRouteTestSource, /onboardedPanes/);
   assert.match(externalRealizationRouteTestSource, /BITCODE_V24_ENVIRONMENT_MODE/);
   assert.match(terminalExternalRuntimeTestSource, /BITCODE_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
-  assert.match(bitcodeChecklistSource, /BITCODE_NEED\.md/);
-  assert.match(bitcodeScriptSource, /BITCODE_NEED\.md/);
-  assert.match(bitcodeDemoSpecV15Source, /BITCODE_NEED\.md/);
-  assert.match(specV6GapAnalysisSource, /BITCODE_NEED\.md/);
+  assert.match(bitcodeChecklistSource, /BITCODE_READ\.md/);
+  assert.match(bitcodeScriptSource, /BITCODE_READ\.md/);
+  assert.match(bitcodeDemoSpecV15Source, /BITCODE_READ\.md/);
+  assert.match(specV6GapAnalysisSource, /BITCODE_READ\.md/);
   assert.doesNotMatch(btdStepInitialFlowTestSource, /@\/app\/orbitals\/components\/OrbitalsDataSharingPanel/);
   assert.doesNotMatch(externalRealizationRouteTestSource, /ENGI_V24_ENVIRONMENT_MODE/);
   assert.doesNotMatch(terminalExternalRuntimeTestSource, /ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
-  assert.doesNotMatch(bitcodeChecklistSource, /ENGI_NEED\.md/);
-  assert.doesNotMatch(bitcodeScriptSource, /ENGI_NEED\.md/);
-  assert.doesNotMatch(bitcodeDemoSpecV15Source, /ENGI_NEED\.md/);
-  assert.doesNotMatch(specV6GapAnalysisSource, /ENGI_NEED\.md/);
+  assert.doesNotMatch(bitcodeChecklistSource, /ENGI_READ\.md/);
+  assert.doesNotMatch(bitcodeScriptSource, /ENGI_READ\.md/);
+  assert.doesNotMatch(bitcodeDemoSpecV15Source, /ENGI_READ\.md/);
+  assert.doesNotMatch(specV6GapAnalysisSource, /ENGI_READ\.md/);
   assert.doesNotMatch(orbitalPaneMetaTestSource, /@\/app\/orbitals\/components\/orbital-pane-meta/);
   assert.doesNotMatch(authStorySource, /@\/app\/orbitals\/components\/OrbitalLoginPane/);
   assert.doesNotMatch(loginPaneStorySource, /\.\.\/app\/orbitals\/components\/OrbitalLoginPane/);
@@ -1765,7 +1765,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(systemGrepReadmeSource, /Bitcode repository-evidence search/);
   assert.match(genericVcsReadmeSource, /Bitcode pipeline/);
   assert.match(genericTaskComprehensionReadmeSource, /Bitcode's prompt primitives architecture/);
-  assert.match(genericLspPurposeSource, /Bitcode LSP purpose composition for static Need measurement and AssetPack evidence/);
+  assert.match(genericLspPurposeSource, /Bitcode LSP purpose composition for static Read measurement and AssetPack evidence/);
   assert.match(jiraToolsPackageSource, /Bitcode agents/);
   assert.match(figmaToolsPackageSource, /Bitcode agents/);
   assert.match(testingIndexSource, /Unified testing infrastructure for Bitcode/);
@@ -1959,10 +1959,10 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(techTypesReadmeSource, /definitions for the Bitcode platform/);
   assert.match(techTypesReadmeSource, /across the Bitcode platform/);
   assert.match(techTypesReadmeSource, /used to measure technical needs/);
-  assert.match(techTypesReadmeSource, /need-measurement spine/);
+  assert.match(techTypesReadmeSource, /read-measurement spine/);
   assert.match(techTypesReadmeSource, /canonical V26 envelope/);
   assert.match(techTypesReadmeSource, /technologyProfile/);
-  assert.match(techTypesIdentifierReadmeSource, /canonical `technologyProfile` emitted by Bitcode need-measurement/);
+  assert.match(techTypesIdentifierReadmeSource, /canonical `technologyProfile` emitted by Bitcode read-measurement/);
   assert.match(techTypesIdentifierIndexSource, /technologyProfile: CanonicalTechnologyProfileSchema/);
   assert.match(streamsReadmeSource, /for the Bitcode platform/);
   assert.match(digestReadmeSource, /bitcode-corp/);
@@ -2009,7 +2009,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(apiAuxillariesContractSource, /onboardedPanes/);
   assert.match(apiShippablesRouteSource, /Please ensure the Bitcode GitHub App has access to this repository/);
   assert.match(apiShippablesRouteSource, /BITCODE_LOG_TO_FILE/);
-  assert.match(apiShippablesRouteSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
+  assert.match(apiShippablesRouteSource, /BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT/);
   assert.doesNotMatch(apiShippablesRouteSource, /BITCODE_ENABLE_COMPUTE_TOGGLE/);
   assert.match(apiShippablesRouteSource, /BITCODE_ENABLE_NOTIFICATIONS/);
   assert.match(apiShippablesRouteSource, /BITCODE_LLM_PROVIDER/);
@@ -2066,7 +2066,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(accountOrbitalStorySource, /Bitcode\/Auxillaries\/Account/);
   assert.match(accountOrbitalStorySource, /demo@bitcode\.dev/);
   assert.match(completionCelebrationStorySource, /Bitcode\/Surprise & Delight\/Completion Celebration/);
-  assert.match(needDefinitionInputStorySource, /Bitcode\/Surprise & Delight\/Definition of Need Input/);
+  assert.match(readDefinitionInputStorySource, /Bitcode\/Surprise & Delight\/Definition of Read Input/);
   assert.match(executionActionsStorySource, /Executions\/Actions/);
   assert.match(errorRecoveryGraceStorySource, /Bitcode\/Surprise & Delight\/Error Recovery Grace/);
   assert.match(patternMemoryStorySource, /Bitcode\/Surprise & Delight\/Pattern Memory/);
@@ -2078,7 +2078,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(marketingBtdInvestmentExperienceSource, /\$BTD/);
   assert.match(marketingTestimonialsSource, /BTC fee basis and measured \$BTD issuance/);
   assert.doesNotMatch(marketingTestimonialsSource, /\$BTD spend|BTD spend/);
-  assert.match(btdPricesSource, /Terminal Need/);
+  assert.match(btdPricesSource, /Terminal Read/);
   assert.match(btdPricesSource, /Exchange Preview/);
   assert.match(btdPricesSource, /BTC Fee Basis/);
   assert.match(btdPricesSource, /Non-Fungible Shares/);
@@ -2208,7 +2208,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(accountOrbitalStorySource, /Kitchen Sink\/Orbitals\/Account/);
   assert.doesNotMatch(accountOrbitalStorySource, /demo@engi\.ai/);
   assert.doesNotMatch(completionCelebrationStorySource, /Engi\/Surprise & Delight\/Completion Celebration/);
-  assert.doesNotMatch(needDefinitionInputStorySource, /Engi\/Surprise & Delight\/Definition of Need Input/);
+  assert.doesNotMatch(readDefinitionInputStorySource, /Engi\/Surprise & Delight\/Definition of Read Input/);
   assert.doesNotMatch(executionActionsStorySource, /The most critical moment in the engi experience|Engi\/Surprise/u);
   assert.doesNotMatch(errorRecoveryGraceStorySource, /Engi\/Surprise & Delight\/Error Recovery Grace/);
   assert.doesNotMatch(patternMemoryStorySource, /Engi\/Surprise & Delight\/Memory Manifestation/);
@@ -2369,19 +2369,19 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(webSearchProductionWorkflowSource, /https:\/\/staging\.bitcode\.ai/);
   assert.match(webSearchProductionWorkflowSource, /https:\/\/bitcode\.ai/);
   assert.match(terminalOperatorExperienceDocSource, /# Bitcode Terminal Operator Experience Notes/);
-  assert.match(terminalOperatorExperienceDocSource, /Need review before fit search/);
+  assert.match(terminalOperatorExperienceDocSource, /Read review before fit search/);
   assert.match(terminalOperatorExperienceDocSource, /AssetPack output semantics/);
   assert.match(integrationsDocSource, /Bitcode provides integrations/);
   assert.match(conversationsDocSource, /# Bitcode Conversations Notes/);
   assert.match(conversationsDocSource, /same Exchange activity and execution model/);
   assert.match(apiDocSource, /# Bitcode API Notes/);
   assert.match(apiDocSource, /server-owned admission layer for Bitcode Exchange state/);
-  assert.match(apiDocSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
+  assert.match(apiDocSource, /BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT/);
   assert.match(connectedServicesDocSource, /# Bitcode Connected Services Notes/);
   assert.match(connectedServicesDocSource, /delivery mechanisms attached to Bitcode Exchange state/);
   assert.match(docCodingSource, /export const BITCODE_IDENTITY: PromptPart = `You are Bitcode\.\.\.`;/);
   assert.match(promptSystemDocSource, /# Bitcode Prompt System Notes/);
-  assert.match(promptSystemDocSource, /Need-Comprehension Pattern/);
+  assert.match(promptSystemDocSource, /Read-Comprehension Pattern/);
   assert.match(llmRegistryDocSource, /BITCODE_LLM_PROVIDER=google/);
   assert.match(llmRegistryDocSource, /BITCODE_LLM_MODEL=gemini-2\.5-flash/);
   assert.match(llmRegistryDocSource, /BITCODE_LLM_PROVIDER=anthropic/);
@@ -2389,7 +2389,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(securityDocSource, /BITCODE_ENABLE_MCP_AWS/);
   assert.match(securityDocSource, /BITCODE_ENABLE_MCP_VERCEL/);
   assert.match(protocolThesisDocSource, /Bitcode is the source-to-shares protocol/);
-  assert.match(protocolThesisDocSource, /From source, Bitcode measures Needs/);
+  assert.match(protocolThesisDocSource, /From source, Bitcode measures Reads/);
   assert.match(terminologyDocSource, /^# Bitcode Terminology Guide/m);
   assert.match(terminologyDocSource, /precise terminology used in the Bitcode codebase/);
   assert.match(architecturePatternsDocSource, /Architectural Laws Of Bitcode/);
@@ -2397,7 +2397,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(performanceDocSource, /Critical Performance Patterns in Bitcode/);
   assert.match(performanceDocSource, /Auxillary Performance/);
   assert.match(verificationDocSource, /# Bitcode Verification Notes/);
-  assert.match(verificationDocSource, /Need review and fit review tests/);
+  assert.match(verificationDocSource, /Read review and fit review tests/);
   assert.match(uapiArchitectureDocSource, /main API and web terminal layer for Bitcode/);
   assert.doesNotMatch(rootTsconfigSource, /measureEngi/);
   assert.doesNotMatch(uapiTsconfigSource, /measureEngi/);
@@ -2419,7 +2419,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(promptAuditScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/);
   assert.match(promptAuditScriptSource, /"comprehendneed"/);
   assert.match(generateAssetPackPromptPartsTsSource, /raw_promptparts\/specific/);
-  assert.match(generateAssetPackPromptPartsTsSource, /Comprehend Need/);
+  assert.match(generateAssetPackPromptPartsTsSource, /Comprehend Read/);
   assert.match(generateAssetPackPromptPartsTsSource, /AssetPack metadata/);
   assert.match(fixExecutionToDirectivesScriptSource, /try_execution PromptParts to try_directives/);
   assert.match(fixExecutionToDirectivesScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/);
@@ -2464,7 +2464,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(bitcodeChecklistSource, /BITCODE-auth-issuer-rollback/);
   assert.match(bitcodeChecklistSource, /make-bitcode-branch gold path works end-to-end/);
   assert.match(bitcodeScriptSource, /current Bitcode V8 deterministic prototype/);
-  assert.match(bitcodeScriptSource, /Bitcode measures a GitHub-bound engineering need/);
+  assert.match(bitcodeScriptSource, /Bitcode measures a GitHub-bound engineering read/);
   assert.match(bitcodeScriptSource, /behavior for Bitcode Spec V8/);
   assert.match(bitcodeScriptSource, /Bitcode turns technical knowledge into a measurable, governable, inspectable remediation pipeline/);
   assert.match(bitcodeScriptSource, /click \*\*Make Bitcode branch\*\*/);
@@ -2867,8 +2867,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(conversationsGenericsAgentSource, /Bitcode conversational AI assistant/);
   assert.match(useConversationStreamSource, /@author Bitcode Team/);
   assert.match(lspIndexSource, /Bitcode static measurement/);
-  assert.match(lspIndexSource, /Need\/AssetPack evidence/);
-  assert.match(lspIndexSource, /Bitcode Need measurement/);
+  assert.match(lspIndexSource, /Read\/AssetPack evidence/);
+  assert.match(lspIndexSource, /Bitcode Read measurement/);
   assert.match(filesSecurityUtilsSource, /process\.env\.BITCODE_REPO_ROOT/);
   assert.match(genericLlmsGoogleSource, /BITCODE_LLM_ALLOW_MOCK/);
   assert.match(genericLlmsOpenAiSource, /BITCODE_LLM_ALLOW_MOCK/);
@@ -2949,7 +2949,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(executionsMcpPublicOverviewSource, /wallet-gated Bitcode transaction flow/);
   assert.match(executionsMcpPublicApiReferenceSource, /# Bitcode MCP API Reference/);
   assert.match(executionsMcpOpenApiSource, /Bitcode MCP Interface API/);
-  assert.match(executionsMcpPackageSource, /Bitcode Exchange-facing Model Context Protocol interface for need measurement, activity continuation, repository workflows, and asset-pack outputs/);
+  assert.match(executionsMcpPackageSource, /Bitcode Exchange-facing Model Context Protocol interface for read measurement, activity continuation, repository workflows, and asset-pack outputs/);
   assert.match(executionsMcpArchitectureSource, /\$BTD Treasury Integration/);
   assert.match(executionsMcpArchitectureSource, /\bBtdTreasuryManagement\b/);
   assert.match(executionsMcpTestFixturesSource, /wallet-gated Bitcode transaction flow/);
@@ -3016,7 +3016,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(executionsMcpPublicOverviewSource, /# Engi MCP:/);
   assert.doesNotMatch(executionsMcpPublicApiReferenceSource, /# Engi MCP API Reference/);
   assert.doesNotMatch(executionsMcpOpenApiSource, /Engi MCP Server API/);
-  assert.doesNotMatch(executionsMcpPackageSource, /Engi's Model Context Protocol server - market infrastructure for need measurement and engineering workflows/);
+  assert.doesNotMatch(executionsMcpPackageSource, /Engi's Model Context Protocol server - market infrastructure for read measurement and engineering workflows/);
   assert.doesNotMatch(executionsMcpConfigSource, /\"apiKeyPrefix\": \"engi_\"/);
   assert.doesNotMatch(executionsMcpConfigSource, /\"prefix\": \"engi_mcp_\"/);
   assert.doesNotMatch(executionsMcpConfigSource, /https:\/\/engi\.ai/);
@@ -3067,8 +3067,8 @@ test('active V26 env examples, Storybook config, internal docs, and canon workfl
   assert.match(connectedServicesDocSource, /Connected services are not separate products/);
   assert.match(connectedServicesDocSource, /MCP servers/);
   assert.match(frontendArchitectureDocSource, /conversations as rich input overlays/);
-  assert.match(databaseDocSource, /Need review state/);
-  assert.match(apiDocSource, /\/api\/need-review/);
+  assert.match(databaseDocSource, /Read review state/);
+  assert.match(apiDocSource, /\/api\/read-review/);
   assert.match(apiDocSource, /\/api\/make-bitcode-branch/);
   assert.doesNotMatch(apiDocSource, /https:\/\/api\.engi\.software/);
   assert.doesNotMatch(connectedServicesDocSource, /OrbitalsConnectsPane\.tsx/);
@@ -3098,7 +3098,7 @@ test('active V26 env examples, Storybook config, internal docs, and canon workfl
   assert.match(toolsGenericsDocCodeToolIndexSource, /documentation system for tools in Bitcode/);
   assert.match(executionsDocSource, /# Bitcode Executions Notes/);
   assert.match(executionsDocSource, /proof-bearing Bitcode inference run/);
-  assert.match(styleDocSource, /Need measurement/);
+  assert.match(styleDocSource, /Read measurement/);
   assert.doesNotMatch(connectedServicesDocSource, /upcoming Measure pipeline/);
   assert.doesNotMatch(frontendArchitectureDocSource, /Measure pipeline placeholder/);
   assert.doesNotMatch(executionsDocSource, /reserved Measure placeholder/);

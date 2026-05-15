@@ -52,7 +52,7 @@ This matrix is grounded in:
 
 | Area | Current V8 implementation refs | Current state | V9 closure target | Priority |
 |---|---|---|---|---|
-| Prompt/context completeness | `buildPromptSurface()`, `measureNeedFromScenario()` | prompt surfaces present; placeholder/context completeness not validated | add prompt-contract validator + prompt contract artifact + proof | P0 |
+| Prompt/context completeness | `buildPromptSurface()`, `measureReadFromScenario()` | prompt surfaces present; placeholder/context completeness not validated | add prompt-contract validator + prompt contract artifact + proof | P0 |
 | Public/API projection privacy | `publicState()`, `server.js` API responses | privacy classified but not strictly enforced in projection | principal-scoped projections + bounded public proof + redaction proof | P0 |
 | Static measurement execution | `extractSignals()`, `repoContextStaticMeasurements()`, `buildEvalManifest()` | heuristic extraction exists; no real static tool execution receipts | execution-backed static evaluator receipts + measurement report | P0 |
 | Heuristic registry and use audit | `extractSignals()`, `computeNeedMatch()` | signals gathered and partly consumed but no formal completeness audit | heuristic registry + consumed-by matrix + debug coverage checks | P1 |
@@ -89,7 +89,7 @@ This is the cheapest high-signal V9 closure item and exposes current concrete mi
 
 ### Current implementation refs
 - `src/bitcode-demo.js#501` — `buildPromptSurface()`
-- `src/bitcode-demo.js#1182` — `measureNeedFromScenario()`
+- `src/bitcode-demo.js#1182` — `measureReadFromScenario()`
 - `src/bitcode-demo.js#2871` — `buildPromptImplementationSurface()`
 - `test/core.test.js` prompt-surface tests
 
@@ -97,7 +97,7 @@ This is the cheapest high-signal V9 closure item and exposes current concrete mi
 1. no validator that checks template placeholders against context inputs
 2. no validator that checks required context inputs against template/output contract
 3. no prompt-contract artifact with hashes / placeholder inventories
-4. prompt surfaces currently exist only for need-measurement prompts
+4. prompt surfaces currently exist only for read-measurement prompts
 5. some current prompt/context mismatches exist in the seeded V8 implementation:
    - `baseRef` appears in the task template but is not declared as a context input
    - `repo` appears in the failure-modes template but is not declared as a context input
@@ -230,7 +230,7 @@ Implementation tasks:
    - asset signal extraction
    - verification static checks
 3. change measurement provenance to reference receipt IDs
-4. extend eval manifest and need measurement artifacts to include receipt refs
+4. extend eval manifest and read measurement artifacts to include receipt refs
 5. do **not** fake external static tooling yet; start by making local static stages receipt-backed and replayable
 
 ### Required artifacts
@@ -239,7 +239,7 @@ Implementation tasks:
 
 ### Required tests
 Add tests that:
-1. static receipts exist for measured need fields
+1. static receipts exist for measured read fields
 2. receipt fields are stable and complete
 3. measurement provenance links to receipt IDs
 4. missing/invalid receipt structure fails
@@ -287,7 +287,7 @@ In `src/bitcode-demo.js`:
 ### Required tests
 Add tests that:
 1. registry contains required signal families
-2. need-match subscore surfaces show consumed code-analysis facts
+2. read-match subscore surfaces show consumed code-analysis facts
 3. unused registered facts are explicitly marked or fail the audit
 
 ### Acceptance
@@ -295,7 +295,7 @@ Add tests that:
 - no silent dead code-analysis facts remain in the core V9 path
 - Implemented in repo:
   - `.bitcode/code-analysis-fact-registry.json` now inventories gathered facts, consumer matrix, and audit closure
-  - need-match / benchmark-impact / actionability detail surfaces now list consumed code-analysis facts
+  - read-match / benchmark-impact / actionability detail surfaces now list consumed code-analysis facts
   - registry audit fails if consumed facts are not registered
 
 ---
@@ -496,7 +496,7 @@ At minimum:
 ### Required tests
 Add tests that:
 1. parser fails closed on malformed workflow/artifact shapes
-2. realistic repo trees and artifact sets still produce coherent need measurement
+2. realistic repo trees and artifact sets still produce coherent read measurement
 3. projection/redaction remains correct across roles
 4. many-asset settlement remains stable
 5. restricted/revoked/forged asset cases remain safe

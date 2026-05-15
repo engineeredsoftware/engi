@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode need-synthesis web search try directives"
+ * intent: "Bitcode read-synthesis web search try directives"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart =
-  'Execute only the planned queries that serve the active Bitcode need; record title, URL, snippet, provider, source class, and why each finding matters for need synthesis.' as PromptPart;
+  'Execute only the planned queries that serve the active Bitcode read; record title, URL, snippet, provider, source class, and why each finding matters for read synthesis.' as PromptPart;

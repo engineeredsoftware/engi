@@ -12,7 +12,7 @@ export interface InstructionConfidenceTimerProps {
 
   /**
    * Confidence level for current instruction readiness
-   * - high: Agent has high confidence, likely doesn't need intervention
+   * - high: Agent has high confidence, likely doesn't read intervention
    * - medium: Agent could benefit from guidance
    * - low: Agent needs instruction to proceed optimally
    */

@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_ROLE: PromptPart =
-  'Your role is to provide a source-traceable admission decision for the next Bitcode phase and to preserve downstream ownership of need interpretation, mutation, proof, AssetPack finalization, and delivery.' as PromptPart;
+  'Your role is to provide a source-traceable admission decision for the next Bitcode phase and to preserve downstream ownership of read interpretation, mutation, proof, AssetPack finalization, and delivery.' as PromptPart;

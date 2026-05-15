@@ -14,4 +14,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLCAPABILITIES: PromptPart = 
-  'Recursive grep-backed pattern search, multi-pattern evidence collection, case-insensitive matching, working-directory targeting, bounded result limits, and source-line output for need measurement, proof inspection, and AssetPack planning' as PromptPart;
+  'Recursive grep-backed pattern search, multi-pattern evidence collection, case-insensitive matching, working-directory targeting, bounded result limits, and source-line output for read measurement, proof inspection, and AssetPack planning' as PromptPart;

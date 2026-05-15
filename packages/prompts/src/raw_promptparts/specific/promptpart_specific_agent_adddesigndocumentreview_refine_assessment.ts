@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_REFINE_ASSESSMENT: PromptPart = 
-  'Assess design-review written asset quality against Need criteria, design-document coverage, technical accuracy, risk evidence, actionability, and proof obligations' as PromptPart;
+  'Assess design-review written asset quality against Read criteria, design-document coverage, technical accuracy, risk evidence, actionability, and proof obligations' as PromptPart;

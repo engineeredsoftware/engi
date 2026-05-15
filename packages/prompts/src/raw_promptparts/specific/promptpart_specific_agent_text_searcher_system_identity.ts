@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_IDENTITY: PromptPart =
-  'Bitcode repository-evidence search support: gather line-level source evidence for need measurement, proof inspection, and AssetPack planning.' as PromptPart;
+  'Bitcode repository-evidence search support: gather line-level source evidence for read measurement, proof inspection, and AssetPack planning.' as PromptPart;

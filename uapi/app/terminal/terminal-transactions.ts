@@ -4,7 +4,7 @@ import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/bitcode/execution
 import type { WorkspaceRun } from './terminal-run-data';
 
 export type TerminalTransactionOwnership = 'all' | 'mine' | 'network';
-export type TerminalTransactionLens = 'all' | 'give' | 'need' | 'closure';
+export type TerminalTransactionLens = 'all' | 'deposit' | 'read' | 'closure';
 export type TerminalTransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-btc-fee-basis';
 
 export interface TerminalTransactionRecord {

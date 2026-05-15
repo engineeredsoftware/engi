@@ -11,7 +11,7 @@ V26 requires prompt implementations to be:
 - composed from raw PromptParts in `packages/prompts`,
 - registry-backed through Prompt and execution registries,
 - doc-commented with enough precision to prove purpose and implementation fit,
-- aligned to Bitcode Need, fit, AssetPack, proof, Finish, and delivery semantics.
+- aligned to Bitcode Read, fit, AssetPack, proof, Finish, and delivery semantics.
 
 ## PromptPart Naming
 
@@ -33,17 +33,17 @@ Required behavior:
 - agents, tools, steps, and phases must expose enough prompt text for auditable agentic runs,
 - non-Bitcode labels must not survive as the primary explanation of a prompt.
 
-## Need-Comprehension Pattern
+## Read-Comprehension Pattern
 
-The retained Need-comprehension support package path has V26 meaning only as Need comprehension.
+The retained Read-comprehension support package path has V26 meaning only as Read comprehension.
 
 Canonical prompt work should prefer:
-- AnalyzeNeedSemantics,
-- ExtractNeedRequirements,
-- IdentifyNeedConstraints,
-- GenerateNeedSatisfactionCriteria,
-- ValidateNeedComprehension,
-- AnalyzeNeedSatisfactionImplementationComplexity.
+- AnalyzeReadSemantics,
+- ExtractReadRequirements,
+- IdentifyReadConstraints,
+- GenerateReadSatisfactionCriteria,
+- ValidateReadComprehension,
+- AnalyzeReadSatisfactionImplementationComplexity.
 
 ## Verification
 
@@ -52,4 +52,4 @@ Prompt reform should be checked with:
 - prompt-space completeness proof generation,
 - package-local TypeScript checks,
 - active product naming tests,
-- scans for Need-first, AssetPack-first, Finish-first, and Bitcode-only vocabulary.
+- scans for Read-first, AssetPack-first, Finish-first, and Bitcode-only vocabulary.

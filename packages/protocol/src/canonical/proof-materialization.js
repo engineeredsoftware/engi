@@ -601,7 +601,7 @@ function buildProofWitnessManifest({
 
 /**
  * @param {{
- *   need: { needId: string },
+ *   read: { readId: string },
  *   assetPack: AssetPackShape,
  *   branchMode: string,
  *   sourceToSharesArtifact: {
@@ -618,7 +618,7 @@ function buildProofWitnessManifest({
  *       clipped: boolean,
  *       contributionDisposition: string,
  *       clippingReceiptId: string,
- *       coveredNeedEvidence: unknown,
+ *       coveredReadEvidence: unknown,
  *       rawShareBp: string | number
  *     }> | undefined,
  *     clippingReceipts?: Array<{
@@ -667,11 +667,11 @@ function buildProofWitnessManifest({
  * }} input
  * @returns {Record<string, unknown>}
  */
-function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToSharesArtifact, settlementParticipationArtifact, allocationTrace, journalDiff }) {
+function buildAccountingPrecisionReport({ read, assetPack, branchMode, sourceToSharesArtifact, settlementParticipationArtifact, allocationTrace, journalDiff }) {
   const sourceContributionEntries = sourceToSharesArtifact?.sourceContributionEntries || [];
   const settlementRecords = settlementParticipationArtifact?.records || [];
   return {
-    needId: need.needId,
+    readId: read.readId,
     assetPackId: assetPack.assetPackId,
     bundleId: journalDiff.bundleId,
     branchMode,
@@ -691,7 +691,7 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
       clipped: entry.clipped,
       contributionDisposition: entry.contributionDisposition,
       clippingReceiptId: entry.clippingReceiptId,
-      coveredNeedEvidence: entry.coveredNeedEvidence,
+      coveredReadEvidence: entry.coveredReadEvidence,
       rawShareBp: entry.rawShareBp
     })),
     clippingDecisions: (sourceToSharesArtifact?.clippingReceipts || []).map((receipt) => ({

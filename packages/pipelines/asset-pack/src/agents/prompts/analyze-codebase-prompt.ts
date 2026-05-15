@@ -57,7 +57,7 @@ import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/pro
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode discovery system prompt for analyzing repository structure as Need and AssetPack context evidence"
+ * intent: "Bitcode discovery system prompt for analyzing repository structure as Read and AssetPack context evidence"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_IDENTITY": "0.50.0",
@@ -96,7 +96,7 @@ export function createAnalyzeCodebaseSystemPrompt(): Prompt {
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode discovery plan-step prompt for choosing repository analysis paths that clarify Need and AssetPack scope"
+ * intent: "Bitcode discovery plan-step prompt for choosing repository analysis paths that clarify Read and AssetPack scope"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE": "0.50.0",
@@ -208,7 +208,7 @@ export function createAnalyzeCodebaseRefinePrompt(): Prompt {
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode discovery retry-step prompt for recovering missing repository context without losing Need alignment"
+ * intent: "Bitcode discovery retry-step prompt for recovering missing repository context without losing Read alignment"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE": "0.50.0",

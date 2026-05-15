@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack synthesis artifacts: agent assetpackfinishfinalizedeliveryevidence ptrrplan purpose"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Read-satisfaction AssetPack synthesis artifacts: agent assetpackfinishfinalizedeliveryevidence ptrrplan purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack synthesis artifacts: agent assetpackfinishfinalizedeliveryevidence ptrrplan purpose"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Read-satisfaction AssetPack synthesis artifacts: agent assetpackfinishfinalizedeliveryevidence ptrrplan purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRPLAN_PURPOSE: PromptPart =
-  'PTRR Plan Step: analyze context and create a strategic approach for finalizing Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, and delivery-mechanism artifacts with metrics and confirmation' as PromptPart;
+  'PTRR Plan Step: analyze context and create a strategic approach for finalizing Finish evidence for validated Read-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, and delivery-mechanism artifacts with metrics and confirmation' as PromptPart;

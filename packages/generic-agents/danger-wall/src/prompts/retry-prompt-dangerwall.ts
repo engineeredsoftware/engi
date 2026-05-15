@@ -13,14 +13,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Bitcode Need Risk Admission Agent - Retry Step Prompt
+ * Bitcode Read Risk Admission Agent - Retry Step Prompt
  * 
- * Recover incomplete Bitcode risk-admission runs by rechecking unresolved need,
+ * Recover incomplete Bitcode risk-admission runs by rechecking unresolved read,
  * AssetPack, proof, likely-failure, and delivery-mechanism boundaries.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode RETRY step prompt for need risk-admission"
+ * intent: "Bitcode RETRY step prompt for read risk-admission"
  * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
@@ -38,7 +38,7 @@ export const DANGER_WALL_RETRY_PROMPT = new Prompt()
   .set('phase', 'RETRY: Recover Bitcode Risk Admission')
   .set('context', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_CONTEXT)
   .set('execution_pattern', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT)
-  .set('recovery_strategy', 'When Bitcode risk admission is incomplete, analyze missing evidence, unresolved need ambiguity, AssetPack scope mismatch, proof-gap uncertainty, likely execution failure, and delivery-mechanism hazards before admitting or blocking the next phase.')
+  .set('recovery_strategy', 'When Bitcode risk admission is incomplete, analyze missing evidence, unresolved read ambiguity, AssetPack scope mismatch, proof-gap uncertainty, likely execution failure, and delivery-mechanism hazards before admitting or blocking the next phase.')
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY)

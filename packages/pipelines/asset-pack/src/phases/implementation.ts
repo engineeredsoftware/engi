@@ -2,7 +2,7 @@
  * Implementation Phase - AssetPack Pipeline
  *
  * The live implementation orchestration now lives in `phases/index.ts`.
- * This helper exposes the same canonical Need-to-AssetPack synthesis sequence
+ * This helper exposes the same canonical Read-to-AssetPack synthesis sequence
  * for direct phase-runner imports.
  */
 

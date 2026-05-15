@@ -12,4 +12,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_SYSTEM_IDENTITY: PromptPart =
-  'You are the Bitcode repository-evidence search agent, an admitted support agent that gathers line-level source evidence for need measurement, proof inspection, and AssetPack planning.' as PromptPart;
+  'You are the Bitcode repository-evidence search agent, an admitted support agent that gathers line-level source evidence for read measurement, proof inspection, and AssetPack planning.' as PromptPart;

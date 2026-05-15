@@ -11,12 +11,12 @@ describe('deriveTerminalFlowGuide', () => {
     expect(guide.stages[1].status).toBe('next');
   });
 
-  it('maps tutorial progress into resumable give-to-closure stages', () => {
+  it('maps tutorial progress into resumable deposit-to-closure stages', () => {
     const commandState: TerminalCommandState = {
-      scenario: 'need-1',
+      scenario: 'read-1',
       projection: 'reviewer',
       branchMode: 'patch',
-      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
       projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
       branchOptions: [{ value: 'patch', label: 'patch' }],
       heroLede: 'shell posture',
@@ -40,10 +40,10 @@ describe('deriveTerminalFlowGuide', () => {
 
   it('switches to review-only posture when transactional readiness is incomplete', () => {
     const commandState: TerminalCommandState = {
-      scenario: 'need-1',
+      scenario: 'read-1',
       projection: 'reviewer',
       branchMode: 'patch',
-      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
       projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
       branchOptions: [{ value: 'patch', label: 'patch' }],
       heroLede: 'shell posture',
@@ -73,10 +73,10 @@ describe('deriveTerminalFlowGuide', () => {
 
   it('surfaces repository reconnect posture as a first-class flow-guide status', () => {
     const commandState: TerminalCommandState = {
-      scenario: 'need-1',
+      scenario: 'read-1',
       projection: 'reviewer',
       branchMode: 'patch',
-      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
       projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
       branchOptions: [{ value: 'patch', label: 'patch' }],
       heroLede: 'shell posture',
@@ -109,10 +109,10 @@ describe('deriveTerminalFlowGuide', () => {
 
   it('keeps a draft-only posture when verified signing is still staged', () => {
     const commandState: TerminalCommandState = {
-      scenario: 'need-1',
+      scenario: 'read-1',
       projection: 'reviewer',
       branchMode: 'patch',
-      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
       projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
       branchOptions: [{ value: 'patch', label: 'patch' }],
       heroLede: 'shell posture',
@@ -144,10 +144,10 @@ describe('deriveTerminalFlowGuide', () => {
 
   it('surfaces wallet reconnect posture as a first-class flow-guide status', () => {
     const commandState: TerminalCommandState = {
-      scenario: 'need-1',
+      scenario: 'read-1',
       projection: 'reviewer',
       branchMode: 'patch',
-      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      scenarioOptions: [{ value: 'read-1', label: 'priority read · producer' }],
       projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
       branchOptions: [{ value: 'patch', label: 'patch' }],
       heroLede: 'shell posture',

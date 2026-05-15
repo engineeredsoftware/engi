@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_RETRY_STRATEGY: PromptPart = 
-  'Recover by rebuilding the design-document written asset from Need comprehension, partial sections, discovery evidence, validation gaps, and proof obligations' as PromptPart;
+  'Recover by rebuilding the design-document written asset from Read comprehension, partial sections, discovery evidence, validation gaps, and proof obligations' as PromptPart;

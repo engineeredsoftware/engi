@@ -53,7 +53,7 @@ describe('useConversationStream first-write routing', () => {
     );
 
     await act(async () => {
-      await result.current.sendMessage('Measure need fit against the attached source.', []);
+      await result.current.sendMessage('Measure read fit against the attached source.', []);
     });
 
     expect(global.fetch).toHaveBeenCalledWith(

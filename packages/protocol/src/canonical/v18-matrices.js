@@ -305,7 +305,7 @@ function captureInvariant(reasons, assertion, reason) {
  * @returns {{ state: any, repoAssetId: string, rawAssetId: string }}
  */
 function buildMixedDepositState(baseState, scenarioId) {
-  const scenario = baseState.needScenarios.find((/** @type {any} */ entry) => entry.scenarioId === scenarioId);
+  const scenario = baseState.readScenarios.find((/** @type {any} */ entry) => entry.scenarioId === scenarioId);
   const session = baseState.githubAppSessions.find((/** @type {any} */ entry) => entry.repo === scenario?.repo) || baseState.githubAppSessions[0];
   const inventoryEntries = baseState.repoArtifactInventory
     .filter((/** @type {any} */ entry) => entry.repo === session?.repo)
@@ -400,7 +400,7 @@ export function buildV18StateMachineMatrix({
   publicStateFn = publicState
 } = {}) {
   const seededState = buildInitialStateFn();
-  const availableScenarioIds = seededState.needScenarios.map((/** @type {any} */ scenario) => String(scenario.scenarioId));
+  const availableScenarioIds = seededState.readScenarios.map((/** @type {any} */ scenario) => String(scenario.scenarioId));
   const selectedScenarioIds = scenarioIds?.length ? scenarioIds : availableScenarioIds;
   /** @type {any[]} */
   const cells = [];

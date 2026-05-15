@@ -64,7 +64,7 @@ export function replayBtdMintReceipts(
         rangeEndExclusive: receipt.rangeEndExclusive,
         tokenCount: receipt.tokenCount,
         normalizedBitcodeVolume: BigInt(receipt.tokenCount),
-        needId: receipt.assetPackId,
+        readId: receipt.assetPackId,
         fitReceiptRoot: receipt.fitReceiptRoot,
         proofRoot: receipt.proofRoot,
         sourceManifestRoot: receipt.sourceManifestRoot,

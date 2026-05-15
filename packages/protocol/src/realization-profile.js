@@ -7,8 +7,8 @@
  * @typedef {import('./canonical/type-contracts.js').RealizationProfileSubject} RealizationProfileSubject
  */
 
-export const PROFILE_A = 'Profile A — targeted deposit / bounded need';
-export const PROFILE_B = 'Profile B — normalization deposit / composite need';
+export const PROFILE_A = 'Profile A — targeted deposit / bounded read';
+export const PROFILE_B = 'Profile B — normalization deposit / composite read';
 
 export const REALIZATION_PROFILE_KIND = 'realization-profile';
 /** @type {Readonly<{ TARGETED: RealizationProfileId, NORMALIZATION: RealizationProfileId }>} */
@@ -28,12 +28,12 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     label: PROFILE_A,
     shortLabel: 'Targeted deposit',
     identity: Object.freeze({
-      whoItIs: 'Deposit a small, decisive set of repo-authenticated artifacts against a sharply bounded benchmark need.',
-      operatorRole: 'Use this when Bitcode should close one tight remediation need with minimal normalization overhead.',
+      whoItIs: 'Deposit a small, decisive set of repo-authenticated artifacts against a sharply bounded benchmark read.',
+      operatorRole: 'Use this when Bitcode should close one tight remediation read with minimal normalization overhead.',
       audienceMeaning: 'The demo is proving decisive selection, narrow proof closure, and fast settlement explanation.'
     }),
     depositMode: 'Deposit one or a few decisive repo-authenticated artifacts so the asset pack can stay tight.',
-    needMode: 'Need is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
+    needMode: 'Read is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
     assetPackShape: 'Tight pack with minimal normalization and quick branch closure.',
     settlementShape: 'Positive settlement entries concentrate on the decisive assets; zero-credit participants should be rare and explicit.',
     scenarioFamilies: Object.freeze([
@@ -46,7 +46,7 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     ]),
     composition: Object.freeze([
       'repo-authenticated targeted deposit',
-      'bounded benchmark need measurement',
+      'bounded benchmark read measurement',
       'tight asset-pack selection',
       'short proof closure',
       'direct settlement explanation'
@@ -58,12 +58,12 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     label: PROFILE_B,
     shortLabel: 'Normalization deposit',
     identity: Object.freeze({
-      whoItIs: 'Deposit several overlapping artifacts so Bitcode can normalize coverage, provenance, and contribution across a composite need.',
+      whoItIs: 'Deposit several overlapping artifacts so Bitcode can normalize coverage, provenance, and contribution across a composite read.',
       operatorRole: 'Use this when Bitcode must reconcile multiple slices, artifact kinds, or runtime surfaces before settlement is intelligible.',
       audienceMeaning: 'The demo is proving normalization, overlap handling, and source-to-shares closure rather than a single decisive pick.'
     }),
     depositMode: 'Deposit multiple overlapping artifacts across kinds so Bitcode can normalize contribution and provenance.',
-    needMode: 'Need stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
+    needMode: 'Read stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
     assetPackShape: 'Broader pack where normalization, tie-break rules, and overlap accounting matter.',
     settlementShape: 'Settlement makes source-to-shares normalization visible and may keep zero-credit participants explicit.',
     scenarioFamilies: Object.freeze([
@@ -72,7 +72,7 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     ]),
     composition: Object.freeze([
       'repo-authenticated normalization deposit',
-      'composite benchmark need measurement',
+      'composite benchmark read measurement',
       'broader asset-pack normalization',
       'heavier proof burden',
       'source-to-shares settlement explanation'

@@ -9,13 +9,13 @@ Bitcode Terminal lets an operator move from source to shares without leaving the
 The operator supplies or selects:
 - repository/source context,
 - attachments and external evidence,
-- natural-language Need or Give intent,
+- natural-language Read or Deposit intent,
 - wallet/readiness posture,
 - desired delivery destination,
-- review decisions during Need and fit boundaries.
+- review decisions during Read and fit boundaries.
 
 Bitcode returns:
-- a measured Need,
+- a measured Read,
 - fit-quality evidence,
 - AssetPack outputs or partials,
 - proof and settlement receipts,
@@ -25,9 +25,9 @@ Bitcode returns:
 ## Primary Journey
 
 1. Connect identity, wallet, provider, repository, and output destination.
-2. Describe a Need or Give posture.
-3. Let Bitcode measure the Need using source, attachments, static analysis, prompt systems, tools, and admitted research evidence.
-4. Review the measured Need.
+2. Describe a Read or Deposit posture.
+3. Let Bitcode measure the Read using source, attachments, static analysis, prompt systems, tools, and admitted research evidence.
+4. Review the measured Read.
 5. Accept, reject, or remeasure with feedback.
 6. Review candidate fit qualities.
 7. Let Bitcode synthesize the AssetPack.
@@ -39,8 +39,8 @@ Bitcode returns:
 
 The Terminal must make these boundaries visible:
 - repository/source scope,
-- Need measurement evidence,
-- Need review decision,
+- Read measurement evidence,
+- Read review decision,
 - present-fit-for-settlement-review qualities,
 - validation and readiness status,
 - AssetPack contents,
@@ -52,8 +52,8 @@ Do not present removed compatibility controls as product features. V26 cuts publ
 ## Language Requirements
 
 Use:
-- operator, giver, needer, producer,
-- Need, Give, source, fit, shares,
+- operator, depositor, reader, producer,
+- Read, Deposit, source, fit, shares,
 - AssetPack, AssetPack partial, connected-interface written asset,
 - Finish, delivery mechanism, settlement evidence,
 - Bitcode Terminal, Bitcode Exchange, Bitcode Protocol.
@@ -69,7 +69,7 @@ Avoid in product copy:
 ## SPEC Promotion Obligations
 
 Promote only statements that are implemented or accepted as V26 requirements:
-- Need review before fit search,
+- Read review before fit search,
 - fit-quality rows visible before settlement,
 - one Exchange activity ledger,
 - Terminal reread after writes,

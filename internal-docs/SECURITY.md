@@ -53,7 +53,7 @@ This document captures the minimum, critical controls required to begin safe GA�
 
 ## Client ↔ Server Contracts
 
-- Validate route inputs (Need text, repo identifiers, attachments) and reject malformed payloads with 4xx.
+- Validate route inputs (Read text, repo identifiers, attachments) and reject malformed payloads with 4xx.
 - Stream only those fields required by the UI; rely on typed contracts and avoid accidental over‑sharing.
  - CSRF: Protect state‑changing endpoints; for first‑party SPA, enforce same‑origin and anti‑CSRF token on non‑SSE POSTs.
  - CORS: Restrict `Access‑Control‑Allow‑Origin` to trusted origins only; do not use `*` on credentialed requests.

@@ -12,7 +12,7 @@ describe('normalizeTerminalClosureControlState', () => {
         branchOptions: [],
         heroLede: '',
         heroTip: '',
-        status: 'Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…',
+        status: 'Measuring read, resolving the active deposit/read profile, staging branch artifacts, and settling journal diff…',
         flowGuideLabel: 'Hide flow guide',
         flowGuideOpen: true,
         flowGuideStepIndex: 1,
@@ -50,10 +50,10 @@ describe('normalizeTerminalClosureControlState', () => {
           rows: [
             { label: 'Branch', value: 'bitcode/auth-rollback' },
             { label: 'Branch mode', value: 'patch' },
-            { label: 'Need lifecycle', value: 'ready' },
+            { label: 'Read lifecycle', value: 'ready' },
             { label: 'Confidentiality', value: 'bounded-public' },
           ],
-          chips: ['BITCODE_NEED.md'],
+          chips: ['BITCODE_READ.md'],
         },
         settlement: {
           id: 'settlement',

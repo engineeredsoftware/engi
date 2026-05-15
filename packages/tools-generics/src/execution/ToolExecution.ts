@@ -4,7 +4,7 @@
  * Extends base Execution with domain-specific registry:
  * - prompts: Prompt registry for tool-LLM interactions
  * 
- * Tools need prompts for formatting inputs/outputs and error messages
+ * Tools read prompts for formatting inputs/outputs and error messages
  * when being called by agents through LLMs.
  * 
  * @doc-code

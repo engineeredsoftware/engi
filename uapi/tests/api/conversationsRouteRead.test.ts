@@ -48,13 +48,13 @@ describe('/api/conversations GET (non-mock mode)', () => {
             {
               id: 'conv-ledger-1',
               user_id: 'user-1',
-              title: 'Need measurement review',
+              title: 'Read measurement review',
               created_at: '2026-04-20T12:00:00.000Z',
               updated_at: '2026-04-20T13:00:00.000Z',
               messages: [
                 {
                   id: 'msg-1',
-                  content: 'Initial need posture',
+                  content: 'Initial read posture',
                   created_at: '2026-04-20T12:30:00.000Z',
                   message_attachments: [{ id: 'att-1' }],
                 },
@@ -80,13 +80,13 @@ describe('/api/conversations GET (non-mock mode)', () => {
 
     const { GET } = await import('@/app/api/conversations/route');
     const response = await GET(
-      new Request('https://example.com/api/conversations?limit=25&search=Need', {
+      new Request('https://example.com/api/conversations?limit=25&search=Read', {
         method: 'GET',
       }),
     );
 
     expect(response.status).toBe(200);
-    expect(listBuilder.ilike).toHaveBeenCalledWith('title', '%Need%');
+    expect(listBuilder.ilike).toHaveBeenCalledWith('title', '%Read%');
 
     const body = await response.json();
     expect(body.data).toEqual(
@@ -136,7 +136,7 @@ describe('/api/conversations/[conversationId] GET (non-mock mode)', () => {
         data: {
           id: 'conv-ledger-1',
           user_id: 'user-1',
-          title: 'Need measurement review',
+          title: 'Read measurement review',
           created_at: '2026-04-20T12:00:00.000Z',
           updated_at: '2026-04-20T13:00:00.000Z',
         },
@@ -154,7 +154,7 @@ describe('/api/conversations/[conversationId] GET (non-mock mode)', () => {
               id: 'msg-1',
               conversation_id: 'conv-ledger-1',
               role: 'user',
-              content: 'Measure the current need posture.',
+              content: 'Measure the current read posture.',
               created_at: '2026-04-20T12:15:00.000Z',
               message_attachments: [],
             },
@@ -162,7 +162,7 @@ describe('/api/conversations/[conversationId] GET (non-mock mode)', () => {
               id: 'msg-2',
               conversation_id: 'conv-ledger-1',
               role: 'assistant',
-              content: 'Need measurement is now aligned with the current Bitcode activity ledger.',
+              content: 'Read measurement is now aligned with the current Bitcode activity ledger.',
               created_at: '2026-04-20T13:00:00.000Z',
               message_attachments: [
                 {
@@ -205,14 +205,14 @@ describe('/api/conversations/[conversationId] GET (non-mock mode)', () => {
     expect(body).toEqual(
       expect.objectContaining({
         id: 'conv-ledger-1',
-        title: 'Need measurement review',
+        title: 'Read measurement review',
       }),
     );
     expect(body.messages).toHaveLength(2);
     expect(body.messages[1]).toEqual(
       expect.objectContaining({
         role: 'assistant',
-        content: 'Need measurement is now aligned with the current Bitcode activity ledger.',
+        content: 'Read measurement is now aligned with the current Bitcode activity ledger.',
       }),
     );
   });

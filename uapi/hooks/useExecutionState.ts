@@ -14,7 +14,7 @@ interface ExecutionProgress {
 }
 
 interface ExecutionState {
-  definitionOfNeed: string;
+  definitionOfRead: string;
   isProcessing: boolean;
   output: string;
   generationCount: number;
@@ -35,7 +35,7 @@ const DEFAULT_ASSET_PACK_EXECUTION_TYPE = 'agentic-execution:asset-pack';
 
 // Initial default state for execution processing
 const initialExecutionState: ExecutionState = {
-  definitionOfNeed: '',
+  definitionOfRead: '',
   isProcessing: false,
   output: '',
   generationCount: 0,
@@ -71,13 +71,13 @@ export const useExecutionState = () => {
   };
   const dlog = (...args: any[]) => { if (isDebug()) { try { console.debug('[AssetPackPipeline][stream]', ...args); } catch {} } };
 
-  const setDefinitionOfNeed = (definitionOfNeed: string) => {
-    setState(prev => ({ ...prev, definitionOfNeed }));
+  const setDefinitionOfNeed = (definitionOfRead: string) => {
+    setState(prev => ({ ...prev, definitionOfRead }));
   };
 
   /**
    * Triggers the Bitcode asset-pack pipeline and returns final completion data (or null on error).
-   * `definitionOfNeed` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
+   * `definitionOfRead` is bounded to the input key while downstream receipts mirror Bitcode Read and AssetPack semantics.
    */
   const submitAssetPackPipeline = useCallback(async (
     connectionId: number,
@@ -130,7 +130,7 @@ export const useExecutionState = () => {
             repoBranch,
             commitSha,
             issueNumber,
-            state.definitionOfNeed,
+            state.definitionOfRead,
             userTimezone,
             modelProvider,
             modelId,
@@ -302,7 +302,7 @@ export const useExecutionState = () => {
       isStreamingComplete: !hasError
     }));
     return finalCompletion;
-  }, [state.definitionOfNeed]);
+  }, [state.definitionOfRead]);
 
   /**
    * Append a user instruction to the pipeline log immediately

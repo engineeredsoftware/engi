@@ -22,7 +22,7 @@ type AssetPackCompletionRecord = {
   assetPackSynthesisArtifacts?: SurfaceRecord;
   writtenAssets?: SurfaceRecord;
   deliveryMechanism?: SurfaceRecord;
-  need?: string | null;
+  read?: string | null;
   writtenAssetType?: string | null;
   assetPack?: Record<string, unknown> | null;
 } | null;
@@ -107,7 +107,7 @@ function buildPullRequestShippableSurface(surface: SurfaceRecord): SurfaceRecord
 function buildAssetPack(
   assetPackCompletion: AssetPackCompletionRecord,
   result: Record<string, unknown>,
-  need: string | null,
+  read: string | null,
   writtenAssetType: string | null,
 ): Record<string, unknown> | null {
   const direct =
@@ -115,10 +115,10 @@ function buildAssetPack(
     asRecord(result.assetPack);
   if (direct) return direct;
 
-  if (!need && !writtenAssetType) return null;
+  if (!read && !writtenAssetType) return null;
 
   return {
-    ...(need ? { need } : {}),
+    ...(read ? { read } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
   };
 }
@@ -197,13 +197,13 @@ export function buildSemanticCompletionResult(params: {
     (typeof resultRecord.summary === 'string' ? resultRecord.summary : null) ||
     (typeof resultRecord.message === 'string' ? resultRecord.message : null);
 
-  const need =
-    (typeof assetPackCompletion?.need === 'string' && assetPackCompletion.need) ||
-    (typeof resultRecord.need === 'string' ? resultRecord.need : null);
+  const read =
+    (typeof assetPackCompletion?.read === 'string' && assetPackCompletion.read) ||
+    (typeof resultRecord.read === 'string' ? resultRecord.read : null);
   const writtenAssetType =
     (typeof assetPackCompletion?.writtenAssetType === 'string' && assetPackCompletion.writtenAssetType) ||
     (typeof resultRecord.writtenAssetType === 'string' ? resultRecord.writtenAssetType : null);
-  const assetPack = buildAssetPack(assetPackCompletion, resultRecord, need, writtenAssetType);
+  const assetPack = buildAssetPack(assetPackCompletion, resultRecord, read, writtenAssetType);
 
   return {
     clientResult: {
@@ -215,7 +215,7 @@ export function buildSemanticCompletionResult(params: {
       ...(writtenAssets ? { writtenAssets } : {}),
       ...(shippables ? { shippables } : {}),
       ...(deliveryMechanism ? { deliveryMechanism } : {}),
-      ...(need ? { need } : {}),
+      ...(read ? { read } : {}),
       ...(writtenAssetType ? { writtenAssetType } : {}),
       ...(assetPack ? { assetPack } : {}),
       ...(explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine measurement initialization by optimizing server parameters, tuning bounded performance, improving evidence coverage, resolving capability conflicts, stabilizing response times, and extending language support when it improves proofable Need measurement' as PromptPart;
+  'Refine measurement initialization by optimizing server parameters, tuning bounded performance, improving evidence coverage, resolving capability conflicts, stabilizing response times, and extending language support when it improves proofable Read measurement' as PromptPart;

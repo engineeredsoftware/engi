@@ -10,7 +10,7 @@ info:
     ## Key Features
     - **Real-time streaming responses** with token-by-token delivery
     - **Rich text inputs** for attachments, source code, and commands
-    - **Automatic pipeline integration** with AssetPack execution and Need measurement
+    - **Automatic pipeline integration** with AssetPack execution and Read measurement
     - **Performance optimizations** with adaptive throttling and circuit breakers
     - **Production-ready** error handling and monitoring
     
@@ -607,7 +607,7 @@ paths:
         and connected services.
         
         **Command Categories:**
-        - `pipeline` - AssetPack and Need-measurement pipelines
+        - `pipeline` - AssetPack and Read-measurement pipelines
         - `navigation` - History, runs, attachments browsing  
         - `action` - Clear, export, share operations
         - `settings` - Configuration and preferences

@@ -31,7 +31,7 @@ const SEARCH_PARAM_KEYS = {
 } as const;
 
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
-const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'give', 'need', 'closure'];
+const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'deposit', 'read', 'closure'];
 const TRANSACTION_SORT_VALUES: TransactionSort[] = ['newest', 'oldest', 'most-tokens', 'highest-btc-fee-basis'];
 export type TerminalEnvironmentMode = 'mock' | 'development' | 'staging' | 'production';
 const TERMINAL_ENVIRONMENT_MODE_VALUES: TerminalEnvironmentMode[] = [

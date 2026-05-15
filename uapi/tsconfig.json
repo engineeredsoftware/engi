@@ -70,6 +70,12 @@
       "@bitcode/generic-tools-lsp-query/*": [
         "../packages/generic-tools/lsp-query/src/*"
       ],
+      "@bitcode/generic-agents-read-comprehension": [
+        "../packages/generic-agents/read-comprehension/src/index.ts"
+      ],
+      "@bitcode/generic-tools-read-comprehension": [
+        "../packages/generic-tools/read-comprehension/src/index.ts"
+      ],
       "@bitcode/generic-tools/use-computer/src/index": [
         "../packages/generic-tools/use-computer/src/index.ts"
       ],

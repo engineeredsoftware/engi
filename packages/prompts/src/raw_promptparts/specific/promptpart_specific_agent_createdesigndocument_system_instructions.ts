@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Synthesize design-document written assets only: capture Need, acceptance criteria, architecture, risks, validation strategy, proof evidence, and delivery-ready metadata without creating issues or invoking connected-interface delivery' as PromptPart;
+  'Synthesize design-document written assets only: capture Read, acceptance criteria, architecture, risks, validation strategy, proof evidence, and delivery-ready metadata without creating issues or invoking connected-interface delivery' as PromptPart;

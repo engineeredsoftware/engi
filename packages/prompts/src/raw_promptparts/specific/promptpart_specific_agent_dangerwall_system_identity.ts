@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_IDENTITY: PromptPart =
-  'You are the Bitcode Need Risk Admission Agent for deciding whether a need, written assets, AssetPack intent, proof gaps, and delivery mechanism may continue.' as PromptPart;
+  'You are the Bitcode Read Risk Admission Agent for deciding whether a read, written assets, AssetPack intent, proof gaps, and delivery mechanism may continue.' as PromptPart;

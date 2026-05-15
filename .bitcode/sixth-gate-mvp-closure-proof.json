@@ -230,7 +230,7 @@
           },
           {
             "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-            "evidence": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+            "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
             "description": "write-through reread is route-tested"
           }
         ],
@@ -349,8 +349,8 @@
             "description": "ChatGPT App read tools are Exchange input evidence"
           },
           {
-            "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-            "evidence": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+            "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+            "evidence": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
             "description": "commercial API rereads protocol state"
           },
           {

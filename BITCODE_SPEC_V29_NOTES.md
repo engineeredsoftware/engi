@@ -30,7 +30,7 @@ V29 is expected to deepen Terminal after the Terminal/Protocol shell, Auxillarie
 
 V29 owns deeper Terminal:
 
-- full Need submission, measurement, review, Fit, proof, dedupe, measuremint, and settlement workflows;
+- full Read submission, measurement, review, Fit, proof, dedupe, measuremint, and settlement workflows;
 - wallet connection, signer-session recovery, BTC fee preparation, PSBT handoff, broadcast, replacement, reorg, and failure recovery depth;
 - AssetPack range detail, owner-read, licensed-read, denied-state, and access-policy review as ordinary operator workflows;
 - Terminal journal diffing, reconciliation repair, ledger/database/metaphysical state separation, and proof-root surfacing;
@@ -41,9 +41,9 @@ V29 owns deeper Terminal:
 ## Inputs deferred from V28 QA
 
 - May 7, 2026 V28 manual QA accepted Terminal as the primary operator surface at MVP level but identified prose clarity as a Terminal-focused improvement.
-- V29 should improve Terminal copy, hierarchy, explanatory precision, and operator sequencing around Give, Need, Fit, proof, AssetPack, BTC fee posture, BTD range/read-right posture, and selected activity detail.
+- V29 should improve Terminal copy, hierarchy, explanatory precision, and operator sequencing around Deposit, Read, Fit, proof, AssetPack, BTC fee posture, BTD range/read-right posture, and selected activity detail.
 - This is not a V28 blocker unless specific wording prevents a user from completing basic V28 MVP navigation or materially misstates Bitcode law.
-- May 7, 2026 follow-up QA clarified that Terminal should not present itself as a market-wide master-detail product surface. V28 must fix that MVP architecture and any obvious dead/ambiguous click targets; V29 should then deepen Terminal-specific sequencing, density management, task progression, and richer Give/Need result reading without reintroducing Exchange-style market language.
+- May 7, 2026 follow-up QA clarified that Terminal should not present itself as a market-wide master-detail product surface. V28 must fix that MVP architecture and any obvious dead/ambiguous click targets; V29 should then deepen Terminal-specific sequencing, density management, task progression, and richer Deposit/Read result reading without reintroducing Exchange-style market language.
 - V28 introduces a formal `@bitcode/protocol` package and removes direct commercial imports from the standalone `protocol-demonstration`, but some package internals are intentionally fresh ports for parity. V29 must continue commercializing those demonstration-origin internals into formal packages, narrower APIs, durable package tests, and Terminal-owned protocol adapters.
 - The standalone `protocol-demonstration` should remain a sibling reference guide and proof witness outside the workspace build graph. V29 should use it to reveal commercial implementation gaps, not as runtime code imported by commercial UAPI, Terminal, Auxillaries, MCP, ChatGPT App, or package consumers.
 

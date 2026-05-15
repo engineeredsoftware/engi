@@ -46,7 +46,7 @@
       "criterion": "invalid input fails closed",
       "status": "closed",
       "evidence": [
-        "assertMintAdmission rejects missing or false Need/Fit/root/policy/input requirements",
+        "assertMintAdmission rejects missing or false Read/Fit/root/policy/input requirements",
         "assertAssetPackRangeIntegrity rejects invalid boundaries, zero token counts, cap overflow, and non-positive measured volume",
         "packages/btd/__tests__/v27-crypto-primitives.test.ts proves invalid tokenCount fails before supply mutation"
       ]

@@ -8,14 +8,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 /**
- * Bitcode Need Risk Admission Agent - Plan Step Prompt
+ * Bitcode Read Risk Admission Agent - Plan Step Prompt
  * 
- * Plan risk-admission evidence for a Bitcode need, candidate written assets,
+ * Plan risk-admission evidence for a Bitcode read, candidate written assets,
  * AssetPack scope, proof gaps, likely execution failure, and delivery-mechanism boundary.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode PLAN step prompt for need risk-admission"
+ * intent: "Bitcode PLAN step prompt for read risk-admission"
  * current_version: "V26"
  * versions: [
  *   { "version": "2.0.0", "score": 0.90, "reason": "Used wrong PromptPart concatenation pattern" },
@@ -23,7 +23,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  * benchmarks: [
  *   { "name": "planning_clarity", "test": "Does the prompt enable clear Bitcode risk-admission planning?", "score": 0.45 },
- *   { "name": "need_boundary", "test": "Is need and AssetPack scope admission well-defined?", "score": 0.44 },
+ *   { "name": "need_boundary", "test": "Is read and AssetPack scope admission well-defined?", "score": 0.44 },
  *   { "name": "proof_boundary", "test": "Can proof-gap and delivery-mechanism boundaries be identified?", "score": 0.45 }
  * ]
  */

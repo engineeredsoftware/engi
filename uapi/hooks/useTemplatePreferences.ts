@@ -25,7 +25,7 @@ interface UseTemplatePreferencesHook {
  * preferences (Shippable & Evidence Document) from `/api/auxillaries/template-preferences`.
  *
  * It automatically fetches once on mount but also returns a `reload`
- * function should the caller need to refresh the data (e.g. after a
+ * function should the caller read to refresh the data (e.g. after a
  * successful template save).
  */
 export const useTemplatePreferences = (): UseTemplatePreferencesHook => {

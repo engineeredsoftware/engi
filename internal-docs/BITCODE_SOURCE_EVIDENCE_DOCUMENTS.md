@@ -4,7 +4,7 @@ Status: non-canonical internal note.
 
 ## Purpose
 
-Source evidence documents are repository-bound context artifacts that can improve Need measurement and fit review.
+Source evidence documents are repository-bound context artifacts that can improve Read measurement and fit review.
 
 They include:
 - repository docs,
@@ -20,7 +20,7 @@ They include:
 Source evidence documents must:
 - bind to source and repository scope,
 - preserve provenance,
-- feed Need measurement before fit search,
+- feed Read measurement before fit search,
 - stay reviewable by the operator,
 - avoid becoming a parallel knowledge product,
 - be rereadable through Terminal and Exchange history.
@@ -29,7 +29,7 @@ Source evidence documents must:
 
 Promote requirements only when source-backed:
 - evidence ingestion,
-- evidence-to-Need traceability,
+- evidence-to-Read traceability,
 - evidence freshness and invalidation,
 - proof receipts for generated evidence,
 - MCP/ChatGPT App context admission.

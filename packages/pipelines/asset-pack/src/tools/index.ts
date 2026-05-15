@@ -9,7 +9,7 @@ import { Tool } from '@bitcode/tools-generics';
 
 // VCS and Repository Tools (always available)
 import { assetPackCloneVCSRepositoryTool } from './AssetPackCloneVCSRepositoryTool';
-import { bitcodeNeedMeasurementComputerUseTool } from './BitcodeNeedMeasurementComputerUseTool';
+import { bitcodeReadMeasurementComputerUseTool } from './BitcodeReadMeasurementComputerUseTool';
 import { assetPackMultimodalProcessingTool } from './AssetPackMultimodalProcessingTool';
 import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTool';
 import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
@@ -20,16 +20,16 @@ import { createPullRequestTool } from '@bitcode/vcs-tools';
 
 // V26 policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.
-// - Computer use is internal, server-flagged, and limited to Need measurement.
+// - Computer use is internal, server-flagged, and limited to Read measurement.
 // - LSP tools are ALWAYS available (not env-gated).
 
-export const BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG =
-  'BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT' as const;
+export const BITCODE_COMPUTER_USE_READ_MEASUREMENT_FLAG =
+  'BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT' as const;
 
-export function isComputerUseNeedMeasurementEnabled(
+export function isComputerUseReadMeasurementEnabled(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  return env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
+  return env.BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT === 'true';
 }
 
 let lspSemanticAnalysisEngine: Tool | undefined;
@@ -91,17 +91,17 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
 ].filter(present);
 
 /**
- * Internal Need-measurement computer-use registry.
+ * Internal Read-measurement computer-use registry.
  *
  * This is intentionally not mounted in the V26 Terminal action controls and is
  * not a general implementation/Delivering capability. Later versions may
- * expand the tool surface after the Need measurement contract is fully proven.
+ * expand the tool surface after the Read measurement contract is fully proven.
  */
-export function getComputerUseNeedMeasurementTools(
+export function getComputerUseReadMeasurementTools(
   env: NodeJS.ProcessEnv = process.env,
 ): Tool[] {
-  return isComputerUseNeedMeasurementEnabled(env)
-    ? [bitcodeNeedMeasurementComputerUseTool]
+  return isComputerUseReadMeasurementEnabled(env)
+    ? [bitcodeReadMeasurementComputerUseTool]
     : [];
 }
 
@@ -139,7 +139,7 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'asset-pack-clone-vcs-repository-agent': [assetPackCloneVCSRepositoryTool],
     //'initialize-lsp': [lspSemanticAnalysisEngine, lspCodeIntelligenceEngine, lspWorkspaceNavigationEngine],
     //'danger-wall': [],
-    'asset-pack-comprehend-need-definition-agent': [
+    'asset-pack-comprehend-read-definition-agent': [
       assetPackMultimodalProcessingTool,
       assetPackImageComprehensionTool,
       assetPackPDFComprehensionTool,
@@ -164,8 +164,8 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'asset-pack-validation-ready-to-finish-agent': [],
     'asset-pack-ready-to-finish-agent': [],
 
-    // Internal Need-measurement computer-use option
-    'need-measurement:computer-use-evidence-agent': getComputerUseNeedMeasurementTools(),
+    // Internal Read-measurement computer-use option
+    'read-measurement:computer-use-evidence-agent': getComputerUseReadMeasurementTools(),
 
     // Finish Phase / Delivering destination tools
     'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool],

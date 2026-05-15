@@ -77,7 +77,7 @@ export { startNotificationWorker } from './worker';
 // local dev / test environments work out-of-the-box without extra flags.
 if (process.env.DISABLE_NOTIFICATIONS_WORKER !== '1') {
   // Dynamically import to avoid pulling in heavy deps for edge runtimes that
-  // *do not* need the worker (e.g. Vercel Edge Functions).
+  // *do not* read the worker (e.g. Vercel Edge Functions).
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('./worker').startNotificationWorker();
 }

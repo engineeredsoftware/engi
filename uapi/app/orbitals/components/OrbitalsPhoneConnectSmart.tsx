@@ -146,7 +146,7 @@ export function PhoneConnectSmart({
   
   const handleDisconnect = async () => {
     const confirmed = window.confirm(
-      'Are you sure you want to disconnect your phone? You\'ll need to verify again to use SMS commands.'
+      'Are you sure you want to disconnect your phone? You\'ll read to verify again to use SMS commands.'
     );
     
     if (!confirmed) return;

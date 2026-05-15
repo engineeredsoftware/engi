@@ -150,7 +150,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
   };
 
   const handleDisconnect = async () => {
-    if (!window.confirm('Disconnect email triggers? You will need to verify again to use email commands.')) {
+    if (!window.confirm('Disconnect email triggers? You will read to verify again to use email commands.')) {
       return;
     }
 

@@ -4,17 +4,17 @@
 
 This package admits the retained `text-searcher` path as a Bitcode repository-evidence search agent.
 It is not an autonomous search product, task-analysis product, semantic-search engine, or content-indexing system.
-Its V26 role is to orchestrate bounded grep-backed evidence collection so downstream Bitcode agents can measure a need, inspect source/proof owners, and ground AssetPack or written-asset planning.
+Its V26 role is to orchestrate bounded grep-backed evidence collection so downstream Bitcode agents can measure a read, inspect source/proof owners, and ground AssetPack or written-asset planning.
 
 The support package name remains `@bitcode/generic-agents-text-search`.
 The active semantic owner is `bitcodeRepositoryEvidenceSearcher`; `textSearcher`, `quickTextSearcher`, and `SIMPLE_TEXT_SEARCH_AGENT` remain stable aliases for old imports.
 
 ## Canonical V26 Boundary
 
-- Inputs remain query-shaped for stable callers, but the query represents a need-grounding evidence pattern.
+- Inputs remain query-shaped for stable callers, but the query represents a read-grounding evidence pattern.
 - Output matches are evidence snippets, not conclusions and not proof closure by themselves.
 - The agent may use `simpleSystemTextSearch` as the only admitted repository-evidence tool.
-- File mutation, proof generation, delivery mechanisms, and canonical need interpretation remain owned by their respective Bitcode tools, pipelines, and proof generators.
+- File mutation, proof generation, delivery mechanisms, and canonical read interpretation remain owned by their respective Bitcode tools, pipelines, and proof generators.
 
 ## Prompt Structure
 

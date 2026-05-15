@@ -578,7 +578,7 @@ const issue = await createIssueTool.use({
   owner: 'workspace',
   repo: 'frontend-app',
   title: 'Dashboard component performance optimization',
-  body: 'The dashboard component experiences slow rendering with large datasets. Need to implement virtualization.',
+  body: 'The dashboard component experiences slow rendering with large datasets. Read to implement virtualization.',
   labels: ['performance', 'enhancement', 'dashboard'],
   assignees: ['developer1', 'developer2']
 });
@@ -625,7 +625,7 @@ async function crossProviderWorkflow() {
     owner: 'org',
     repo: 'frontend',
     title: 'Sync with GitLab backend changes',
-    body: 'Need to update frontend to work with new API endpoints',
+    body: 'Read to update frontend to work with new API endpoints',
     labels: ['sync', 'api']
   });
   

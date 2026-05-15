@@ -60,7 +60,7 @@ export default function MarketingBtdShareMetricsSection() {
       {
         t: "Acquire Through Fit",
         c: <>
-          Future Terminal flows can mint after accepted Need/Fit work; Exchange flows can transfer existing holdings.
+          Future Terminal flows can mint after accepted Read/Fit work; Exchange flows can transfer existing holdings.
         </>,
       },
       {

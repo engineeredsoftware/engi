@@ -9,7 +9,7 @@ tool callers while routing provider work through the Bitcode VCS abstraction.
 - Git is concrete repository transport infrastructure.
 - VCS is the provider abstraction for GitHub, GitLab, Bitbucket, and future
   admitted repository providers.
-- This package is active V26 infrastructure when callers need Git-shaped
+- This package is active V26 infrastructure when callers read Git-shaped
   operation names such as `createPullRequest`, `listGitFiles`, or
   `getRepository`.
 

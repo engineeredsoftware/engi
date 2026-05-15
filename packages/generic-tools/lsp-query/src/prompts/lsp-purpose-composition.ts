@@ -2,11 +2,11 @@ import { PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE } from '@bitcode/prompts/raw_p
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Bitcode LSP purpose composition for static Need measurement and AssetPack evidence"
+ * intent: "Bitcode LSP purpose composition for static Read measurement and AssetPack evidence"
  * current_version: "0.50.0"
  * dependencies: { "PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE": "0.50.0" }
  * benchmarks: [
- *   { "name": "measurement_specificity", "test": "Names Need measurement and AssetPack evidence", "score": 0.82 },
+ *   { "name": "measurement_specificity", "test": "Names Read measurement and AssetPack evidence", "score": 0.82 },
  *   { "name": "implementation_ready", "test": "Usable by DocCodeToolPrompt formatter", "score": 0.66 }
  * ]
  */
@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE } from '@bitcode/prompts/raw_p
  * Compose LSP tool purpose.
  * 
  * PATTERN: [TECHNOLOGY_NAME] [CAPABILITY] [WITH] [SYSTEM]
- * EXAMPLE: "Language Server Protocol static measurement for Bitcode Need and AssetPack evidence"
+ * EXAMPLE: "Language Server Protocol static measurement for Bitcode Read and AssetPack evidence"
  */
 export function composeLspPurpose(): string {
   return PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE;

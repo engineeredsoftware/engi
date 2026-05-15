@@ -20,8 +20,8 @@ const OWNERSHIP_LABELS: Record<Exclude<TransactionOwnership, 'all'>, string> = {
 };
 
 const LENS_LABELS: Record<Exclude<TransactionLens, 'all'>, string> = {
-  give: 'Give',
-  need: 'Need',
+  deposit: 'Deposit',
+  read: 'Read',
   closure: 'Closure',
 };
 

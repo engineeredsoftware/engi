@@ -2,7 +2,7 @@
  * Bitcode MCP Server - Bitcode Exchange interface over Model Context Protocol
  *
  * A Model Context Protocol server that exposes one Bitcode Exchange interface
- * surface for need measurement, repository operations, activity continuation,
+ * surface for read measurement, repository operations, activity continuation,
  * and asset-pack/output workflows defined by the Bitcode Protocol.
  * Now fully integrated with ORM for all database operations.
  * 
@@ -87,7 +87,7 @@ const DEFAULT_CONFIG: BitcodeMCPServerConfig = {
   name: 'bitcode-market-infrastructure',
   version: '1.0.0',
   description:
-    'Bitcode Exchange-facing MCP interface for need measurement, activity continuation, repository workflows, and asset-pack outputs',
+    'Bitcode Exchange-facing MCP interface for read measurement, activity continuation, repository workflows, and asset-pack outputs',
   capabilities: {
     tools: true,
     resources: true,

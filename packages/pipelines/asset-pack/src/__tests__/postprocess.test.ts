@@ -7,8 +7,8 @@ describe('normalizeAssetPackOutput', () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('finish', 'pullRequestUrl', 'https://github.com/acme/repo/pull/123');
     exec.store('implementation', 'filesChanged', ['a.ts', 'b.ts']);
-    exec.store('pipeline', 'expressedNeed', 'Need a repository-backed pull request');
-    exec.store('pipeline', 'writtenAssetType', 'need-satisfaction-asset-pack');
+    exec.store('pipeline', 'expressedRead', 'Read a repository-backed pull request');
+    exec.store('pipeline', 'writtenAssetType', 'read-satisfaction-asset-pack');
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
     exec.store('implementation', 'assetPackSynthesisArtifacts', {
       summary: 'Implementation-phase AssetPack synthesis artifacts ready.',
@@ -29,8 +29,8 @@ describe('normalizeAssetPackOutput', () => {
     expect(normalized.deliveryMechanism?.prUrl).toContain('/pull/123');
     expect(normalized.writtenAsset?.prUrl).toBeUndefined();
     expect(normalized.artifacts.filesModified).toEqual(['a.ts', 'b.ts']);
-    expect(normalized.need).toBe('Need a repository-backed pull request');
-    expect(normalized.writtenAssetType).toBe('need-satisfaction-asset-pack');
+    expect(normalized.read).toBe('Read a repository-backed pull request');
+    expect(normalized.writtenAssetType).toBe('read-satisfaction-asset-pack');
     expect(normalized.deliveryMechanismTemplate).toBe('pull-request');
     expect(normalized.assetPackSynthesisArtifacts?.summary).toBe(
       'Implementation-phase AssetPack synthesis artifacts ready.'
@@ -47,12 +47,12 @@ describe('normalizeAssetPackOutput', () => {
     exec.store('execution', 'id', 'exec-1');
     exec.store('source', 'owner', 'acme');
     exec.store('source', 'name', 'repo');
-    exec.store('pipeline', 'expressedNeed', 'Need a review-ready written asset');
-    exec.store('pipeline', 'writtenAssetType', 'need-satisfaction-asset-pack');
+    exec.store('pipeline', 'expressedRead', 'Read a review-ready written asset');
+    exec.store('pipeline', 'writtenAssetType', 'read-satisfaction-asset-pack');
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
     exec.store('route/preprocessed', 'assetPackWrittenAsset', {
-      need: 'Need a review-ready written asset',
-      writtenAssetType: 'need-satisfaction-asset-pack',
+      read: 'Read a review-ready written asset',
+      writtenAssetType: 'read-satisfaction-asset-pack',
       deliveryMechanismTemplate: 'pull-request',
     });
     exec.store('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', {
@@ -64,14 +64,14 @@ describe('normalizeAssetPackOutput', () => {
     const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
       summary: 'Written asset ready.',
-      writtenAssetType: 'need-satisfaction-asset-pack',
+      writtenAssetType: 'read-satisfaction-asset-pack',
       semanticKind: 'asset-pack-written-asset',
     } as any);
 
     expect(result.semanticKind).toBe('asset-pack-written-asset');
     expect(result.kind).toBe('shippable');
-    expect(result.need).toBe('Need a review-ready written asset');
-    expect(result.writtenAssetType).toBe('need-satisfaction-asset-pack');
+    expect(result.read).toBe('Read a review-ready written asset');
+    expect(result.writtenAssetType).toBe('read-satisfaction-asset-pack');
     expect(result.deliveryMechanismTemplate).toBe('pull-request');
     expect(result.deliveryMechanism).toBeUndefined();
     expect(result.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
@@ -79,8 +79,8 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.writtenAssets?.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
     expect(result.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['finish-summary-read']);
     expect(result.assetPack).toEqual({
-      need: 'Need a review-ready written asset',
-      writtenAssetType: 'need-satisfaction-asset-pack',
+      read: 'Read a review-ready written asset',
+      writtenAssetType: 'read-satisfaction-asset-pack',
       deliveryMechanismTemplate: 'pull-request',
     });
   });
@@ -93,7 +93,7 @@ describe('normalizeAssetPackOutput', () => {
       success: true,
       summary: 'Written asset delivered through PR.',
       writtenAsset: {
-        title: 'Need satisfaction summary',
+        title: 'Read satisfaction summary',
       },
       deliveryMechanism: {
         title: 'AssetPack PR',
@@ -102,7 +102,7 @@ describe('normalizeAssetPackOutput', () => {
       semanticKind: 'asset-pack-written-asset',
     } as any);
 
-    expect(result.title).toBe('Need satisfaction summary');
+    expect(result.title).toBe('Read satisfaction summary');
     expect(result.deliveryMechanism).toEqual({
       title: 'AssetPack PR',
       prUrl: 'https://github.com/acme/repo/pull/26',

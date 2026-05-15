@@ -18,20 +18,20 @@ Therefore:
 - `SDIVF` is the canonical retained phased pipeline implementation:
   `Setup -> [Discovery -> Implementation -> Validation]* -> Finish`.
 - `SDIVS` is reform history and may not remain as an active generic pipeline API.
-- `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
+- `Finish` owns saving results, preserving useful Read/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
 - `Delivering` owns connected-interface Shippables. V26 commercial behavior admits GitHub pull requests only; issue/review/comment/Jira or other destination branches are V27+ design space.
 - `Shippable` is the noun for what Finish delivers; `Deliverable` is non-Bitcode residue used only as a trace word or literal migration-boundary identifier, not a current payload or reusable infrastructure field.
 - Former names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence.
 
 ## Pipeline Naming
 
-Bitcode pipelines should be named by the exact need they satisfy.
+Bitcode pipelines should be named by the exact read they satisfy.
 
 Examples:
 
 - `MeasureNeedPipeline`
 - `FindFittingSettlementPipeline`
-- exact domain-specific Bitcode need pipelines
+- exact domain-specific Bitcode read pipelines
 
 The AssetPack package is the active corridor for written-asset synthesis and destination delivery. It is not the primary abstraction for every Bitcode agentic pipeline, and `packages/pipelines/deliverable` is no longer an active filesystem owner.
 
@@ -44,7 +44,7 @@ Active source must satisfy the following:
 - Runtime execution metadata should store `pipeline.pattern = "SDIVF"` and final phase state as `phase.current = "finish"` for canonical paths.
 - Metrics, streaming completion, prompt registries, and primitive phase mappers in `packages/pipelines-generics` must use `finish` only.
 - The retained AssetPack corridor must execute `assetPackPhases.finish` through `finish:*` agent keys and must not register `shipping:*` phase aliases in active AssetPack phase/tool registries.
-- Finish agents may reuse non-Bitcode Ship implementation ideas only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, AssetPack completion, and PR Delivering semantics.
+- Finish agents may reuse non-Bitcode Ship implementation ideas only after their prompts, descriptions, execution stores, and summaries describe Bitcode Read, AssetPack, WrittenAsset, proof evidence, AssetPack completion, and PR Delivering semantics.
 - AssetPack postprocess and reread must use `finish/asset_pack_completion` and `finish` stores directly; retained `shipping` or `finish/final_work_summary` store fallbacks are reform residue rather than current AssetPack behavior.
 - Former `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` names must be removed from active implementation once the precise `Finish` / `Delivering` / `AssetPack completion` replacement is present.
 
@@ -54,7 +54,7 @@ Former-name trace flags may be used during reform only to identify the exact Bit
 They are not a durable architecture and they are not retained V26 behavior.
 
 Full V26 closure requires no former, compatibility-only, historical, or unspecified broad-pipeline names to remain as canonical truth.
-Filesystem names and code names must converge on the precise Bitcode objects they implement: `Finish`, `Delivering`, `Need`, `AssetPack`, `AssetPackPartial`, and exact pipeline purposes such as `MeasureNeed` or `FindFittingSettlement`.
+Filesystem names and code names must converge on the precise Bitcode objects they implement: `Finish`, `Delivering`, `Read`, `AssetPack`, `AssetPackPartial`, and exact pipeline purposes such as `MeasureNeed` or `FindFittingSettlement`.
 
 ## Proof Requirement
 

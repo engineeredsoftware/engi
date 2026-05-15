@@ -13,7 +13,7 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITHUBMCP_DOCCODETOOLCAPABILITIES: PromptPart = 
-  `- REPOSITORY CONTEXT: read repository identity, ownership, and metadata when Bitcode needs repo-grounded context
+  `- REPOSITORY CONTEXT: read repository identity, ownership, and metadata when Bitcode reads repo-grounded context
 - ISSUE AND PR CARRIERS: expose issue and pull request operations where GitHub is the admitted fourth-gate settlement and review surface
 - INITIAL SETTLE-WRITE BOUNDARY: keep branch and pull-request-oriented settlement available as the first admitted write target for testnet-ready Bitcode
 - FAIL-CLOSED RUNTIME: return explicit unavailable results when the retained fourth-gate runtime does not admit live GitHub execution

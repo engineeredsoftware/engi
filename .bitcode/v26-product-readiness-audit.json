@@ -56,8 +56,8 @@
           "passed": true
         },
         {
-          "file": "protocol-demonstration/src/canonical/need-measurement.js",
-          "requiredText": "reviewNeedForFitSearch",
+          "file": "protocol-demonstration/src/canonical/read-measurement.js",
+          "requiredText": "reviewReadForFitSearch",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -70,7 +70,7 @@
           "passed": true
         },
         {
-          "file": "protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+          "file": "protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
           "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
           "filePresent": true,
           "evidencePresent": true,
@@ -161,7 +161,7 @@
         },
         {
           "file": "protocol-demonstration/server.js",
-          "requiredText": "needFittingReview",
+          "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -174,8 +174,8 @@
           "passed": true
         },
         {
-          "file": "uapi/app/api/need-review/route.ts",
-          "requiredText": "getBitcodeAppContext().getNeedReview",
+          "file": "uapi/app/api/read-review/route.ts",
+          "requiredText": "getBitcodeAppContext().getReadReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -188,8 +188,8 @@
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-          "requiredText": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -205,14 +205,14 @@
       "mvpEvidenceChecks": [
         {
           "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-          "requiredText": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+          "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-          "requiredText": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -228,14 +228,14 @@
       "launchEvidenceChecks": [
         {
           "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-          "requiredText": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+          "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-          "requiredText": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -286,7 +286,7 @@
         },
         {
           "file": "uapi/app/application/ApplicationPageClient.tsx",
-          "requiredText": "ApplicationNeedScenarioPanel",
+          "requiredText": "ApplicationReadScenarioPanel",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -355,15 +355,15 @@
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationNeedScenarioPanel.tsx",
-          "requiredText": "Need-fitting Exchange review",
+          "file": "uapi/app/application/ApplicationReadScenarioPanel.tsx",
+          "requiredText": "Read-fitting Exchange review",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
           "file": "uapi/app/application/ApplicationClosureNativeSections.tsx",
-          "requiredText": "Read closure as one sequence from reviewable Need admission",
+          "requiredText": "Read closure as one sequence from reviewable Read admission",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -384,7 +384,7 @@
         },
         {
           "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-          "requiredText": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+          "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -418,8 +418,8 @@
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationNeedScenarios.test.ts",
-          "requiredText": "normalizes Exchange Need-fitting review state for Terminal review controls",
+          "file": "uapi/tests/applicationReadScenarios.test.ts",
+          "requiredText": "normalizes Exchange Read-fitting review state for Terminal review controls",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -481,10 +481,10 @@
       "launchEvidencePassed": true
     },
     {
-      "productId": "source-to-shares-need-fitting",
-      "productName": "Need-fitting and settlement review",
+      "productId": "source-to-shares-read-fitting",
+      "productName": "Read-fitting and settlement review",
       "baselineReadiness": "implemented-fifth-gate-slice",
-      "parityMatrixAnchor": "Need review before fit search",
+      "parityMatrixAnchor": "Read review before fit search",
       "baselineEvidencePassed": true,
       "mvpEvidencePassed": true,
       "readyForFifthGateBaseline": true,
@@ -497,40 +497,40 @@
       "openReadiness": [],
       "closureNotes": [
         "fit-candidate marketplace UX remains V28-style Exchange expansion work",
-        "eighth-gate total provation is closed for the V26 Need-fitting and settlement baseline"
+        "eighth-gate total provation is closed for the V26 Read-fitting and settlement baseline"
       ],
       "evidenceChecks": [
         {
           "file": "protocol-demonstration/server.js",
-          "requiredText": "bitcode-need-fitting-review",
+          "requiredText": "bitcode-read-fitting-review",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/application-need-scenarios.ts",
-          "requiredText": "normalizeApplicationNeedFittingReview",
+          "file": "uapi/app/application/application-read-scenarios.ts",
+          "requiredText": "normalizeApplicationReadFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewRoute.test.ts",
-          "requiredText": "presents a reviewable Need before fit search",
+          "file": "uapi/tests/api/readReviewRoute.test.ts",
+          "requiredText": "presents a reviewable Read before fit search",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-          "requiredText": "needFittingReview",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
           "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
-          "requiredText": "Need review before fit search",
+          "requiredText": "Read review before fit search",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -538,21 +538,21 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "uapi/tests/api/needReviewRoute.test.ts",
-          "requiredText": "presents a reviewable Need before fit search",
+          "file": "uapi/tests/api/readReviewRoute.test.ts",
+          "requiredText": "presents a reviewable Read before fit search",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-          "requiredText": "needFittingReview",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+          "file": "protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
           "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
           "filePresent": true,
           "evidencePresent": true,
@@ -561,21 +561,21 @@
       ],
       "launchEvidenceChecks": [
         {
-          "file": "protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+          "file": "protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
           "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
-          "requiredText": "needFittingReview",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "source-to-shares settlement artifacts",
           "filePresent": true,
           "evidencePresent": true,

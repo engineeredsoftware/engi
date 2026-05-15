@@ -12,7 +12,7 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PTRRSTEPS_LIST: PromptPart =
-  `Plan: derive source-evidence patterns from the active Bitcode need or AssetPack question
+  `Plan: derive source-evidence patterns from the active Bitcode read or AssetPack question
 Try: run bounded simpleSystemTextSearch calls inside the allowed repository/package path
 Refine: deduplicate and classify matches as source-grounding evidence, gaps, or ambiguity
 Retry: adjust patterns only to resolve evidence gaps and state remaining uncertainty

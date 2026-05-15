@@ -468,7 +468,7 @@ function NextReadingCards({ page }: { page: BitcodeDocsPage }) {
           <p className="text-[10px] uppercase tracking-[0.22em] text-cyan-200/70">Audit</p>
           <p className="mt-2 text-xl font-semibold text-white">Read proofs and readiness</p>
           <p className="mt-2 text-sm leading-6 text-white/68">
-            Move to read surfaces when you need to verify state before trusting the flow.
+            Move to read surfaces when you read to verify state before trusting the flow.
           </p>
         </Link>
       </div>

@@ -9,7 +9,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_INTEGRATION_DETAILCONTENT } from
  *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode repository-evidence search agent prompt for need measurement, proof inspection, and AssetPack source-grounding"
+ * intent: "Bitcode repository-evidence search agent prompt for read measurement, proof inspection, and AssetPack source-grounding"
  * current_version: "V26"
  */
 

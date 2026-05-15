@@ -11,7 +11,7 @@
   },
   "closureCriteria": [
     {
-      "criterion": "Terminal transaction families cover Need, Fit, proof, mint, BTC fee, AssetPack anchor, read license, order, transfer, dispute, and settlement finalization",
+      "criterion": "Terminal transaction families cover Read, Fit, proof, mint, BTC fee, AssetPack anchor, read license, order, transfer, dispute, and settlement finalization",
       "status": "closed",
       "evidence": [
         "packages/btd/src/terminal-journal.ts defines REQUIRED_TERMINAL_TRANSACTION_KINDS for the V27 Terminal family set",

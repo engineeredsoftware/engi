@@ -3,7 +3,7 @@
 ## Overview
 
 This package admits the retained `simpleSystemTextSearch` callable as Bitcode repository-evidence search support.
-It wraps `@bitcode/system-grep` in the generic tool abstraction so agentic Bitcode runs can search source text while measuring a need, grounding written-asset choices, and preparing AssetPack synthesis.
+It wraps `@bitcode/system-grep` in the generic tool abstraction so agentic Bitcode runs can search source text while measuring a read, grounding written-asset choices, and preparing AssetPack synthesis.
 
 The package name remains a stable support surface.
 The active V26 meaning is not generic codebase intelligence, task analysis, or a standalone search product.
@@ -23,7 +23,7 @@ It is a bounded support tool that returns line-level repository evidence to prom
 import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
 
 const evidence = await simpleSystemTextSearch.use({
-  pattern: ['needDescription', 'assetPack', 'writtenAsset'],
+  pattern: ['readDescription', 'assetPack', 'writtenAsset'],
   cwd: process.cwd(),
   maxResults: 100,
   ignoreCase: false
@@ -56,7 +56,7 @@ Array<{
 The DocCode prompt must teach:
 
 - search is for source-grounded evidence collection during Bitcode inference;
-- search results inform need measurement, proof inspection, and AssetPack or written-asset planning;
+- search results inform read measurement, proof inspection, and AssetPack or written-asset planning;
 - returned lines are evidence snippets, not final conclusions;
 - callers must keep mutation, delivery, and proof production in their owning tools, agents, or pipelines;
 - the `simpleSystemTextSearch` support name does not define Bitcode ontology.
@@ -68,14 +68,14 @@ That Registry layering is intentional: generic labels remain reusable prompt inf
 
 Allowed:
 
-- locate source references that explain a need;
+- locate source references that explain a read;
 - find package-local prompt, tool, or schema owners before synthesis;
 - gather line evidence for validation, proof-writing, or AssetPack planning;
 - support setup, discovery, implementation, validation, and Finish agents as an admitted tool.
 
 Not allowed:
 
-- infer canonical requirements without need-comprehension owners;
+- infer canonical requirements without read-comprehension owners;
 - mutate files or deliver third-party artifacts;
 - claim broad repository intelligence beyond returned grep evidence;
 - bypass package-local prompt/tool ownership by treating grep output as a proof by itself.

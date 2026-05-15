@@ -7,8 +7,8 @@ import {
 describe('TERMINAL_SURFACE_COPY', () => {
   it('keeps Bitcode Terminal detail copy centered on activity, asset packs, and proof reading', () => {
     expect(TERMINAL_SURFACE_COPY.frame.title).toContain('Overview');
-    expect(TERMINAL_SURFACE_COPY.supply.title).toContain('Giving');
-    expect(TERMINAL_SURFACE_COPY.need.title).toContain('Needing');
+    expect(TERMINAL_SURFACE_COPY.supply.title).toContain('Depositing');
+    expect(TERMINAL_SURFACE_COPY.read.title).toContain('Reading');
     expect(TERMINAL_SURFACE_COPY.closure.title).toContain('Proofs');
     expect(TERMINAL_SURFACE_COPY.detail.emptySelection).toContain('asset pack');
     expect(TERMINAL_SURFACE_COPY.detail.transactionSummaryFallback).toContain('selected Terminal result');
@@ -18,7 +18,7 @@ describe('TERMINAL_SURFACE_COPY', () => {
 describe('TERMINAL_SURFACE_EXPLAINERS', () => {
   it('uses Bitcode Terminal activity framing instead of workspace-map naming', () => {
     expect(TERMINAL_SURFACE_EXPLAINERS.activityMap.title).toBe('Bitcode Terminal activity map');
-    expect(TERMINAL_SURFACE_EXPLAINERS.activityMap.summary).toContain('give, need, fit, verification');
+    expect(TERMINAL_SURFACE_EXPLAINERS.activityMap.summary).toContain('deposit, read, fit, verification');
   });
 
   it('keeps experience framing centered on the Bitcode Terminal and auxillaries', () => {
@@ -27,7 +27,7 @@ describe('TERMINAL_SURFACE_EXPLAINERS', () => {
     expect(TERMINAL_SURFACE_EXPLAINERS.experienceMap.detail).toContain('activity');
     expect(TERMINAL_SURFACE_EXPLAINERS.experienceMap.detail).toContain('Auxillaries');
     expect(TERMINAL_SURFACE_EXPLAINERS.experienceMap.detail).toContain('Bitcode Protocol');
-    expect(TERMINAL_SURFACE_EXPLAINERS.giveNeedChain.summary).toContain('need measurement');
+    expect(TERMINAL_SURFACE_EXPLAINERS.depositReadChain.summary).toContain('read measurement');
     expect(TERMINAL_SURFACE_EXPLAINERS.boundaryRuntime.detail).toContain('asset packs');
     expect(TERMINAL_SURFACE_EXPLAINERS.boundaryRuntime.detail).toContain('ingress/input context');
   });

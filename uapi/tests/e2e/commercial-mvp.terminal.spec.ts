@@ -14,16 +14,16 @@ test.describe('commercial MVP Terminal experience', () => {
     await installCommercialMvpApiMocks(page);
   });
 
-  test('Terminal opens as Give/Need activity, selected result, and support controls', async ({
+  test('Terminal opens as Deposit/Read activity, selected result, and support controls', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
 
     const terminalWorkspace = page.locator('#terminalTransactionWorkspace');
     await expect(page.getByText('Bitcode Terminal').first()).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Overview, Giving, Needing, Proofs' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Overview, Depositing, Reading, Proofs' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Recent Terminal activity', exact: true })).toBeVisible();
     await expect(page.getByText('Selected result digest')).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
@@ -44,7 +44,7 @@ test.describe('commercial MVP Terminal experience', () => {
     await openCommercialRoute(
       page,
       '/terminal?transactionId=mock-run-branch-remediation&provider=github&repo=bitcode%2Fbitcode',
-      /The Bitcode Terminal is where operators prepare Give and Need work/i,
+      /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
     );
     await expect(page).toHaveURL(/transactionId=mock-run-branch-remediation/);
 
@@ -80,7 +80,7 @@ test.describe('commercial MVP Terminal experience', () => {
     await openCommercialRoute(
       page,
       '/terminal?provider=github&repo=bitcode%2Fbitcode',
-      /The Bitcode Terminal is where operators prepare Give and Need work/i,
+      /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
     );
     await expectRouteParam(page, 'transactionId', 'mock-run-branch-remediation');
 
@@ -142,14 +142,14 @@ test.describe('commercial MVP Terminal experience', () => {
     await trap.assertClean();
   });
 
-  test('Terminal write-preparation surfaces disclose Need, Fit, wallet, BTC, and provider readiness before action', async ({
+  test('Terminal write-preparation surfaces disclose Read, Fit, wallet, BTC, and provider readiness before action', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Give and Need work/i);
+    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
 
-    await expect(page.getByText(/Need measurement/i).first()).toBeVisible();
+    await expect(page.getByText(/Read measurement/i).first()).toBeVisible();
     await expect(page.getByText(/Fit pressure/i).first()).toBeVisible();
     await expect(page.getByText(/Visible proof families/i).first()).toBeVisible();
     await expect(page.getByText(/Record repository anchor/i).first()).toBeVisible();

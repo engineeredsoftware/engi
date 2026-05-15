@@ -2,7 +2,7 @@
  * AssetPack Pipeline
  *
  * Canonical V26 package owner for Bitcode phased pipeline runs that satisfy
- * Needs, synthesize AssetPack artifacts and Exchange evidence, and use
+ * Reads, synthesize AssetPack artifacts and Exchange evidence, and use
  * Finish-phase Delivering only for connected-interface delivery mechanisms.
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
@@ -16,7 +16,7 @@ import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
 import {
   normalizeWrittenAssetRequest,
   resolveDeliveryMechanismTemplate,
-  resolveExpressedNeed,
+  resolveExpressedRead,
   resolveWrittenAssetType,
 } from './semantic-resolution';
 
@@ -27,11 +27,11 @@ function storePreprocessedSnapshot(
   processedInput: any,
   writtenAssetType: AssetPackWrittenAssetType
 ) {
-  const need = resolveExpressedNeed(processedInput);
+  const read = resolveExpressedRead(processedInput);
   const repo = processedInput?.repository || {};
   const snapshot = {
-    definitionOfNeed: need,
-    need,
+    definitionOfRead: read,
+    read,
     repository: {
       url: repo.url || null,
       owner: repo.owner || null,
@@ -41,7 +41,7 @@ function storePreprocessedSnapshot(
     writtenAssetType,
     semanticKind: 'asset-pack-written-asset' as const,
     assetPack: {
-      need,
+      read,
       writtenAssetType,
       writtenAssetRequest: normalizeWrittenAssetRequest(processedInput?.writtenAssetType),
       deliveryMechanismTemplate: resolveDeliveryMechanismTemplate(processedInput),
@@ -49,7 +49,7 @@ function storePreprocessedSnapshot(
     },
     requirements: processedInput?.requirements || null,
     config: {
-      computerUseNeedMeasurementEnabled: !!execution.get('config', 'computerUseNeedMeasurementEnabled'),
+      computerUseReadMeasurementEnabled: !!execution.get('config', 'computerUseReadMeasurementEnabled'),
     },
   };
 
@@ -64,13 +64,13 @@ function factoryPreprocess(): Executor<any, any> {
 
     // Apply gate preprocessing
     const processedInput = gatePreprocess(input, execution);
-    const expressedNeed = resolveExpressedNeed(processedInput);
+    const expressedRead = resolveExpressedRead(processedInput);
 
     const writtenAssetType = resolveWrittenAssetType(processedInput);
     const writtenAssetRequest = normalizeWrittenAssetRequest(processedInput?.writtenAssetType);
     const deliveryMechanismTemplate = resolveDeliveryMechanismTemplate(processedInput);
-    try { processedInput.need = expressedNeed; } catch {}
-    try { processedInput.definitionOfNeed = expressedNeed; } catch {}
+    try { processedInput.read = expressedRead; } catch {}
+    try { processedInput.definitionOfRead = expressedRead; } catch {}
     try { processedInput.writtenAssetType = writtenAssetType; } catch {}
     try { processedInput.writtenAssetRequest = writtenAssetRequest; } catch {}
     try { processedInput.deliveryMechanismTemplate = deliveryMechanismTemplate; } catch {}
@@ -78,8 +78,8 @@ function factoryPreprocess(): Executor<any, any> {
     execution.store('pipeline', 'writtenAssetType', writtenAssetType);
     execution.store('pipeline', 'writtenAssetRequest', writtenAssetRequest);
     execution.store('pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
-    execution.store('pipeline', 'expressedNeed', expressedNeed);
-    execution.store('need', 'description', expressedNeed);
+    execution.store('pipeline', 'expressedRead', expressedRead);
+    execution.store('read', 'description', expressedRead);
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
     return processedInput;
   };
@@ -235,10 +235,10 @@ export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
 export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
 export {
-  AssetPackComprehendNeedAgent,
-  AssetPackComprehendNeedDefinitionAgent,
-  runComprehendNeedAgent,
-} from './agents/setup/asset-pack-comprehend-need-agent';
+  AssetPackComprehendReadAgent,
+  AssetPackComprehendReadDefinitionAgent,
+  runComprehendReadAgent,
+} from './agents/setup/asset-pack-comprehend-read-agent';
 export { AssetPackSynthesizeArtifactsAgent } from './agents/implementation/asset-pack-synthesize-artifacts-agent';
 export default assetPackPipeline;
 export const runSDIVFPipeline = assetPackPipeline;

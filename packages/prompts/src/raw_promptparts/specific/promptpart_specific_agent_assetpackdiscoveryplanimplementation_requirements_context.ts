@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack discovery PromptPart for Need-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation requirements context"
+ * intent: "Bitcode AssetPack discovery PromptPart for Read-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack discovery PromptPart for Need-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation requirements context"
+ * intent: "Bitcode AssetPack discovery PromptPart for Read-satisfying implementation planning, proof evidence, and Finish readiness: agent assetpackdiscoveryplanimplementation requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYPLANIMPLEMENTATION_REQUIREMENTS_CONTEXT: PromptPart = 
-  'Requirements: definitionOfNeed, selected source evidence, repository metadata, Need acceptance criteria, written-asset scope, validation and proof thresholds, VCS credentials only when needed for evidence' as PromptPart;
+  'Requirements: definitionOfRead, selected source evidence, repository metadata, Read acceptance criteria, written-asset scope, validation and proof thresholds, VCS credentials only when needed for evidence' as PromptPart;

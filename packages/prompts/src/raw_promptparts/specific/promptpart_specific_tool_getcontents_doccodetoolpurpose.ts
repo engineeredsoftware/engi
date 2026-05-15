@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLPURPOSE: PromptPart =
-  'Retrieve the contents of a specific cited source URL so Bitcode discovery-phase need synthesis can inspect external evidence with attribution and proof-boundary warnings' as PromptPart;
+  'Retrieve the contents of a specific cited source URL so Bitcode discovery-phase read synthesis can inspect external evidence with attribution and proof-boundary warnings' as PromptPart;

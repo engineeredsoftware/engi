@@ -7,7 +7,7 @@
  * must not be admitted by the V26 runtime surface.
  */
 export enum AssetPackWrittenAssetType {
-  NeedSatisfactionAssetPack = 'need-satisfaction-asset-pack'
+  ReadSatisfactionAssetPack = 'read-satisfaction-asset-pack'
 }
 
 export type AssetPackWrittenAssetTypeSingleOrMany =

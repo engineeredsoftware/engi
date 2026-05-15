@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PIPELINE_ASSETPACKRUN_WRITTENASSETTYPE_LIST: PromptPart =
-  'need-satisfaction-asset-pack: Synthesize verified AssetPack synthesis artifacts from the expressed need. V26 Finish currently resolves the pull-request delivery mechanism while keeping delivery-mechanism selection separate from writtenAssetType.' as PromptPart;
+  'read-satisfaction-asset-pack: Synthesize verified AssetPack synthesis artifacts from the expressed read. V26 Finish currently resolves the pull-request delivery mechanism while keeping delivery-mechanism selection separate from writtenAssetType.' as PromptPart;

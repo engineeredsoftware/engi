@@ -16,16 +16,16 @@ export default function DemonstrationWitnessHost({
           <p className="eyebrow" id="heroEyebrow">
             Bitcode closure witness
           </p>
-          <h1>Inspect the Bitcode demonstration witness from give through settlement.</h1>
+          <h1>Inspect the Bitcode demonstration witness from deposit through settlement.</h1>
           <p className="lede" id="heroLede">
-            Use this view when you need deterministic protocol follow-through beyond the Bitcode Terminal.
+            Use this view when you read deterministic protocol follow-through beyond the Bitcode Terminal.
           </p>
           <p className="meta hero-tip" id="heroTip">
             The Bitcode Terminal stays primary. This view is for exact inspection, replay, and closure follow-through.
           </p>
           <div className="hero-actions">
             <label>
-              <span data-explainer-key="needing" data-explainer-side="bottom">
+              <span data-explainer-key="reading" data-explainer-side="bottom">
                 Scenario
               </span>
               <select id="scenarioPicker" />
@@ -70,7 +70,7 @@ export default function DemonstrationWitnessHost({
             <div className="panel-head">
               <h2 data-explainer-key="operating-picture">0. Operating picture</h2>
               <span className="badge" data-explainer-key="repo-to-settlement">
-                give -&gt; settlement
+                deposit -&gt; settlement
               </span>
             </div>
             <div id="operatingPicture" className="stack" />
@@ -78,7 +78,7 @@ export default function DemonstrationWitnessHost({
 
           <section className="panel" id="panelDepositing">
             <div className="panel-head">
-              <h2 data-explainer-key="depositing">1. Give draft + selected supply</h2>
+              <h2 data-explainer-key="depositing">1. Deposit draft + selected supply</h2>
               <span className="badge" data-explainer-key="candidate-asset">
                 artifact-kind-native deposit
               </span>
@@ -101,7 +101,7 @@ export default function DemonstrationWitnessHost({
                 </div>
                 <p className="meta">
                   Selections here define the deposit side of the active profile: either a tight decisive deposit for a
-                  bounded need or a broader normalization deposit for a composite need.
+                  bounded read or a broader normalization deposit for a composite read.
                 </p>
                 <div className="mini-grid two-up">
                   <label className="field-stack">
@@ -170,9 +170,9 @@ export default function DemonstrationWitnessHost({
             <div id="assets" className="stack" />
           </section>
 
-          <section className="panel" id="panelNeeding">
+          <section className="panel" id="panelReading">
             <div className="panel-head">
-              <h2 data-explainer-key="needing">2. Need draft + measured demand</h2>
+              <h2 data-explainer-key="reading">2. Read draft + measured demand</h2>
               <span className="badge" data-explainer-key="scenario-preview">
                 scenario preview
               </span>
@@ -182,7 +182,7 @@ export default function DemonstrationWitnessHost({
 
           <section className="panel wide" id="panelFit">
             <div className="panel-head">
-              <h2 data-explainer-key="deposit-fit">3. Give-to-need fit</h2>
+              <h2 data-explainer-key="deposit-fit">3. Deposit-to-read fit</h2>
               <span className="badge" data-explainer-key="deposit-fit">
                 fit before proof
               </span>
@@ -250,9 +250,9 @@ export default function DemonstrationWitnessHost({
             </button>
           </div>
           <p id="flowGuideKicker" className="flow-guide-kicker">
-            Give + Need flow guide
+            Deposit + Read flow guide
           </p>
-          <h2 id="flowGuideTitle">Start with the active give and need context</h2>
+          <h2 id="flowGuideTitle">Start with the active deposit and read context</h2>
           <p id="flowGuideBody" className="flow-guide-body" />
           <p id="flowGuideTargetHint" className="flow-guide-target-hint" />
           <div className="flow-guide-actions">
