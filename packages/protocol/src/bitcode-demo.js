@@ -2190,6 +2190,29 @@ function buildAddressingSurface(input, selectedInventoryEntries = [], extracted 
 }
 
 /**
+ * @param {unknown} value
+ * @returns {null | Record<string, unknown>}
+ */
+function normalizeWalletAuthorizationProof(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const record = /** @type {Record<string, unknown>} */ (value);
+  const signature = typeof record.signature === 'string' && record.signature.trim() ? record.signature.trim() : null;
+  const message = typeof record.message === 'string' && record.message.trim() ? record.message.trim() : null;
+  if (!signature || !message) return null;
+  return {
+    kind: typeof record.kind === 'string' ? record.kind : 'bitcode_deposit_authorization',
+    proofKind: typeof record.proofKind === 'string' ? record.proofKind : 'bitcoin_message_signature',
+    provider: typeof record.provider === 'string' ? record.provider : null,
+    providerLabel: typeof record.providerLabel === 'string' ? record.providerLabel : null,
+    signerAddress: typeof record.signerAddress === 'string' ? record.signerAddress : null,
+    signedAt: typeof record.signedAt === 'string' ? record.signedAt : null,
+    messageHash: stableHashObject(message),
+    signatureHash: stableHashObject(signature),
+    signatureCaptured: true
+  };
+}
+
+/**
  * @param {any} input
  * @param {any} assetId
  * @param {any} contentRoot
@@ -2199,6 +2222,7 @@ function buildAddressingSurface(input, selectedInventoryEntries = [], extracted 
  * @returns {any}
  */
 function buildSigningSurface(input, assetId, contentRoot, addressingSurface, artifactSelectionSurface, githubAppAuthSurface) {
+  const walletAuthorizationProof = normalizeWalletAuthorizationProof(input.walletAuthorizationProof);
   const signerAddress = input.signerAddress || input.authSession?.defaultSignerAddress || `did:key:${toSlug(input.author)}`;
   const signingAlgorithm = input.signingAlgorithm || input.authSession?.signingAlgorithm || 'ed25519';
   const keySource = input.keySource || input.authSession?.keySource || 'manual-upload-key';
@@ -2220,9 +2244,15 @@ function buildSigningSurface(input, assetId, contentRoot, addressingSurface, art
     keySource,
     statementKind: signedStatement.statementKind,
     payloadHash: stableHashObject(signedStatement),
-    signatureChecksPass: input.signatureChecksPass !== false,
+    signatureChecksPass: input.signatureChecksPass !== false && (!walletAuthorizationProof || walletAuthorizationProof.signatureCaptured === true),
     signedPayloadHashMatchesContentRoot: input.signedPayloadHashMatchesContentRoot !== false,
-    attestationHash: stableHashObject({ signerAddress, signingAlgorithm, payloadHash: stableHashObject(signedStatement) }),
+    attestationHash: stableHashObject({
+      signerAddress,
+      signingAlgorithm,
+      payloadHash: stableHashObject(signedStatement),
+      walletAuthorizationProof
+    }),
+    walletAuthorizationProof,
     signedAddressingRoot: addressingSurface.addressingRoot,
     signedSelectionRoot: artifactSelectionSurface.selectedInventoryRoot,
     signedGitHubAppAuthRoot: githubAppAuthSurface.authPayloadHash

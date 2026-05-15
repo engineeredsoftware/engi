@@ -103,6 +103,16 @@ export interface LeatherTransferResult {
   txid: string;
 }
 
+export interface BitcoinWalletMessageSignature {
+  provider: BitcoinWalletProviderId;
+  providerLabel: string;
+  address: string | null;
+  message: string;
+  signature: string;
+  signedAt: string;
+  proofKind: 'bitcoin_message_signature';
+}
+
 function asRecord(value: unknown): UnknownRecord | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return value as UnknownRecord;
@@ -567,6 +577,29 @@ export function buildBitcoinWalletAuthenticationMessage(input: {
   ].join('\n');
 }
 
+export function buildBitcoinWalletDepositAuthorizationMessage(input: {
+  repository: string;
+  branch: string | null;
+  commit: string | null;
+  signerAddress: string;
+  title: string | null;
+  issuedAt: string;
+  nonce: string;
+}) {
+  return [
+    'Bitcode deposit authorization',
+    `Repository: ${input.repository}`,
+    `Branch: ${input.branch ?? 'unknown'}`,
+    `Commit: ${input.commit ?? 'unknown'}`,
+    `Signer: ${input.signerAddress}`,
+    `Title: ${input.title ?? 'untitled deposit'}`,
+    `Origin: ${window.location.origin}`,
+    `Issued: ${input.issuedAt}`,
+    `Nonce: ${input.nonce}`,
+    'Purpose: Authorize this repository-bound Bitcode deposit for staging settlement.',
+  ].join('\n');
+}
+
 async function withWalletRequestTimeout<T>(
   promise: Promise<T>,
   label: string,
@@ -588,6 +621,127 @@ async function withWalletRequestTimeout<T>(
   } finally {
     if (timeoutHandle) clearTimeout(timeoutHandle);
   }
+}
+
+export async function signBitcoinWalletMessage(input: {
+  message: string;
+  preferredProviderId?: BitcoinWalletProviderId | null;
+  address?: string | null;
+}): Promise<BitcoinWalletMessageSignature> {
+  const providers = await detectAvailableBitcoinWalletProviders();
+  const selectedProvider =
+    (input.preferredProviderId
+      ? providers.find((provider) => provider.id === input.preferredProviderId)
+      : null) ?? providers[0] ?? null;
+
+  if (!selectedProvider) {
+    throw new Error('No browser Bitcoin wallet provider was detected for deposit authorization signing.');
+  }
+
+  const signedAt = new Date().toISOString();
+  if (selectedProvider.id === 'leather') {
+    const walletAccount = await inspectLeatherWalletAccount();
+    const signedMessage = await signLeatherBitcoinMessage({
+      message: input.message,
+      paymentType: walletAccount.authAddress.type,
+      network: walletAccount.network,
+      account: walletAccount.account,
+    });
+    return {
+      provider: selectedProvider.id,
+      providerLabel: selectedProvider.label,
+      address: signedMessage.address ?? walletAccount.authAddress.address,
+      message: signedMessage.message,
+      signature: signedMessage.signature,
+      signedAt,
+      proofKind: 'bitcoin_message_signature',
+    };
+  }
+
+  if (selectedProvider.id === 'xverse') {
+    const address = readString(input.address);
+    if (!address) {
+      throw new Error('Xverse deposit authorization signing requires a connected Bitcoin auth address.');
+    }
+    const satsConnect = await import('sats-connect');
+    const satsConnectRecord = satsConnect as UnknownRecord;
+    const providerObject =
+      typeof satsConnectRecord.getProviderById === 'function' && selectedProvider.providerId
+        ? asRecord((satsConnectRecord.getProviderById as (providerId: string) => unknown)(selectedProvider.providerId))
+        : null;
+    const providerRequest = bindFunction<
+      (method: string, params?: Record<string, unknown> | null) => Promise<unknown>
+    >(providerObject ?? {}, providerObject?.request);
+    const moduleRequest = satsConnectRecord.request as
+      | ((
+          method: string,
+          params: Record<string, unknown> | null,
+          providerId?: string,
+        ) => Promise<unknown>)
+      | undefined;
+    const request = selectedProvider.request ?? providerRequest ?? moduleRequest;
+    if (!request) {
+      throw new Error('Xverse signing API is unavailable in this browser profile.');
+    }
+    const response = await withWalletRequestTimeout(
+      selectedProvider.request || providerRequest
+        ? request('signMessage', { address, message: input.message, protocol: 'BIP322' })
+        : request('signMessage', { address, message: input.message, protocol: 'BIP322' }, selectedProvider.providerId ?? undefined),
+      selectedProvider.label,
+    );
+    const record = asRecord(response);
+    if (record?.status === 'error') {
+      throw new Error(readString(asRecord(record.error)?.message) || 'Xverse message signing was rejected or failed.');
+    }
+    const result = record?.status === 'success' ? record.result : record?.result ?? response;
+    const signature = readSignature(result);
+    if (!signature) {
+      throw new Error('Xverse did not return a Bitcoin message signature.');
+    }
+    return {
+      provider: selectedProvider.id,
+      providerLabel: selectedProvider.label,
+      address,
+      message: input.message,
+      signature,
+      signedAt,
+      proofKind: 'bitcoin_message_signature',
+    };
+  }
+
+  if (selectedProvider.id === 'unisat') {
+    const signature = selectedProvider.signMessage
+      ? readSignature(await withWalletRequestTimeout(selectedProvider.signMessage(input.message, 'bip322-simple'), selectedProvider.label))
+      : null;
+    if (!signature) {
+      throw new Error('UniSat did not return a Bitcoin message signature.');
+    }
+    return {
+      provider: selectedProvider.id,
+      providerLabel: selectedProvider.label,
+      address: readString(input.address),
+      message: input.message,
+      signature,
+      signedAt,
+      proofKind: 'bitcoin_message_signature',
+    };
+  }
+
+  const signature = selectedProvider.signMessage
+    ? readSignature(await withWalletRequestTimeout(selectedProvider.signMessage(input.message, 'bip322-simple'), selectedProvider.label))
+    : null;
+  if (!signature) {
+    throw new Error('The selected Bitcoin wallet did not return a message signature.');
+  }
+  return {
+    provider: selectedProvider.id,
+    providerLabel: selectedProvider.label,
+    address: readString(input.address),
+    message: input.message,
+    signature,
+    signedAt,
+    proofKind: 'bitcoin_message_signature',
+  };
 }
 
 async function connectUniSat(provider: Extract<BitcoinWalletProvider, { id: 'unisat' }>) {

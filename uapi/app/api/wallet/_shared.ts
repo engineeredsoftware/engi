@@ -16,6 +16,11 @@ export type BitcodeWalletConnectionStatus = {
     connectionAddress?: string | null;
     matchesBindingAddress?: boolean;
     connectedAt?: string | null;
+    network?: string | null;
+    proofKind?: string | null;
+    paymentAddress?: string | null;
+    authAddress?: string | null;
+    addressType?: string | null;
     mock_mode?: boolean;
   } | null;
 };
@@ -56,6 +61,23 @@ function readConnectionAddress(connectionData: UnknownRecord | null): string | n
     normalizeString(connectionData?.wallet_address) ||
     normalizeString(connectionData?.provider_user_id) ||
     null
+  );
+}
+
+function readConnectionProofKind(connectionData: UnknownRecord | null): string | null {
+  return (
+    normalizeString(connectionData?.proof_kind) ||
+    normalizeString(connectionData?.proofKind) ||
+    normalizeString(connectionData?.wallet_proof_kind) ||
+    null
+  );
+}
+
+function hasSignedBitcoinWalletProof(connectionData: UnknownRecord | null): boolean {
+  return Boolean(
+    readConnectionProofKind(connectionData) === 'bitcoin_message_signature' &&
+      normalizeString(connectionData?.message) &&
+      normalizeString(connectionData?.signature),
   );
 }
 
@@ -130,14 +152,22 @@ export async function readBitcodeWalletConnectionStatus(input: {
 
   const connectionData = asRecord(data?.connection_data);
   const connectionAddress = readConnectionAddress(connectionData);
+  const proofKind = readConnectionProofKind(connectionData);
   const liveVerificationState = readConnectionVerificationState(connectionData);
   const matchesBindingAddress =
     !connectionAddress || !walletBinding.address ? true : connectionAddress === walletBinding.address;
+  const hasLiveSignedProviderProof =
+    liveVerificationState === 'pending' && hasSignedBitcoinWalletProof(connectionData);
+  const valid = Boolean(
+    data &&
+      matchesBindingAddress &&
+      (liveVerificationState === 'verified' || hasLiveSignedProviderProof),
+  );
 
   return {
     connected: Boolean(data),
     provider,
-    valid: Boolean(data && liveVerificationState === 'verified' && matchesBindingAddress),
+    valid,
     address: walletBinding.address,
     verificationState: liveVerificationState ?? verificationState,
     metadata: {
@@ -145,6 +175,11 @@ export async function readBitcodeWalletConnectionStatus(input: {
       connectionAddress,
       matchesBindingAddress,
       connectedAt: normalizeString(data?.updated_at),
+      network: normalizeString(connectionData?.network),
+      proofKind,
+      paymentAddress: normalizeString(connectionData?.payment_address) ?? normalizeString(connectionData?.paymentAddress),
+      authAddress: normalizeString(connectionData?.auth_address) ?? normalizeString(connectionData?.authAddress),
+      addressType: normalizeString(connectionData?.address_type) ?? normalizeString(connectionData?.addressType),
     },
   };
 }

@@ -262,6 +262,54 @@ describe('Bitcode transaction write routes', () => {
     expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 
+  it('accepts deposit writes for provider-backed pending wallet signatures during V28 staging', async () => {
+    installSupabaseReadinessMocks({
+      user: { id: 'user-1' },
+      githubConnection: { installationId: 123 },
+      storedRepositoryInventory: ['bitcode/bitcode'],
+      walletConnectionStatus: {
+        connected: true,
+        provider: 'leather',
+        valid: true,
+        address: 'bc1qbitcodeoperator',
+        verificationState: 'pending',
+        metadata: {
+          source: 'wallet_provider_connection',
+          proofKind: 'bitcoin_message_signature',
+        },
+      },
+      profile: {
+        id: 'user-1',
+        settings: {
+          bitcodeProfile: {
+            walletBinding: {
+              address: 'bc1qbitcodeoperator',
+              provider: 'leather',
+              status: 'pending',
+              proofKind: 'bitcoin_message_signature',
+              boundAt: '2026-04-22T00:00:00.000Z',
+            },
+          },
+        },
+      },
+    });
+
+    const response = await postDeposit(
+      new Request('http://localhost/api/deposits', {
+        method: 'POST',
+        body: JSON.stringify({ repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' }),
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    expect(mockCreateDeposit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        repositoryAnchor: 'bitcode/bitcode',
+        repositoryProvider: 'github',
+      }),
+    );
+  });
+
   it('rejects branch writes when the repository anchor is missing', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },

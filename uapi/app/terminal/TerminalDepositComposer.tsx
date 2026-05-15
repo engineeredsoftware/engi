@@ -8,6 +8,11 @@ import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeI
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
+import {
+  buildBitcoinWalletDepositAuthorizationMessage,
+  signBitcoinWalletMessage,
+  type BitcoinWalletProviderId,
+} from '@/lib/bitcoin-wallet-client';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import {
@@ -28,7 +33,7 @@ import type { BitcodeTransactionReadiness } from './bitcode-transaction-readines
 
 type SubmitState =
   | { kind: 'idle' }
-  | { kind: 'submitting' }
+  | { kind: 'submitting'; message?: string }
   | { kind: 'success'; message: string }
   | { kind: 'error'; message: string };
 
@@ -48,6 +53,7 @@ interface TerminalDepositComposerProps {
   showDemonstrationDraft?: boolean;
   preferredSignerAddress?: string | null;
   preferredSignerLabel?: string | null;
+  preferredSignerProvider?: string | null;
 }
 
 function FieldHeading({
@@ -80,6 +86,13 @@ function formatCommitOption(commit: VCSCommit) {
   return `${shortSha} - ${title}`;
 }
 
+function normalizeBitcoinWalletProviderId(value: string | null | undefined): BitcoinWalletProviderId | null {
+  if (value === 'xverse' || value === 'unisat' || value === 'leather' || value === 'okx-bitcoin') {
+    return value;
+  }
+  return null;
+}
+
 export default function TerminalDepositComposer({
   onRecordActivity,
   repositoryAnchor,
@@ -96,6 +109,7 @@ export default function TerminalDepositComposer({
   showDemonstrationDraft = true,
   preferredSignerAddress,
   preferredSignerLabel,
+  preferredSignerProvider,
 }: TerminalDepositComposerProps) {
   const { snapshot, runControl } = useTerminalShellBridge();
   const [title, setTitle] = useState('');
@@ -143,6 +157,7 @@ export default function TerminalDepositComposer({
   const selectedInventoryEntryIds = usesLiveRepositoryAnchor ? [] : composer?.selectedInventoryEntryIds || [];
   const displayedSourceRepo = usesLiveRepositoryAnchor ? repositoryAnchorValue : sourceRepo;
   const displayedSourceCommit = usesLiveRepositoryAnchor ? repositoryCommitValue : sourceCommit;
+  const preferredBitcoinWalletProvider = normalizeBitcoinWalletProviderId(preferredSignerProvider);
 
   useEffect(() => {
     setSignerAddress((current) => {
@@ -162,6 +177,26 @@ export default function TerminalDepositComposer({
     if (repositoryAnchorValue) return [repositoryAnchorValue];
     return composer?.selectedEntries.slice(0, 5).map((entry) => entry.title) || [];
   }, [composer, repositoryAnchorValue]);
+  const depositPreviewRows = useMemo(
+    () => [
+      { label: 'Repository', value: displayedSourceRepo || 'Not selected' },
+      { label: 'Branch', value: repositoryBranchValue || (usesLiveRepositoryAnchor ? 'Not selected' : 'Optional') },
+      { label: 'Commit', value: displayedSourceCommit ? displayedSourceCommit.slice(0, 12) : usesLiveRepositoryAnchor ? 'Not selected' : 'Optional' },
+      { label: 'Wallet signer', value: signerAddress || 'Not selected' },
+      { label: 'Wallet proof', value: preferredBitcoinWalletProvider ? `${preferredSignerLabel || preferredBitcoinWalletProvider} signs before submit` : 'No live wallet provider selected' },
+      { label: 'Selected supply', value: String(selectedSupplyCount) },
+    ],
+    [
+      displayedSourceCommit,
+      displayedSourceRepo,
+      preferredBitcoinWalletProvider,
+      preferredSignerLabel,
+      repositoryBranchValue,
+      selectedSupplyCount,
+      signerAddress,
+      usesLiveRepositoryAnchor,
+    ],
+  );
   const settlementReady = transactionReadiness.canSettle;
   const walletSigningRequired = transactionReadiness.blockers.some((entry) => entry.id === 'wallet-verification');
   const repositoryReconnectRequired = transactionReadiness.blockers.some((entry) => entry.id === 'repository-provider');
@@ -182,9 +217,33 @@ export default function TerminalDepositComposer({
       setSubmitState({ kind: 'error', message: transactionReadiness.summary });
       return;
     }
-    setSubmitState({ kind: 'submitting' });
+    setSubmitState({ kind: 'submitting', message: preferredBitcoinWalletProvider ? 'Requesting wallet signature…' : 'Submitting deposit to Bitcode…' });
 
     try {
+      const issuedAt = new Date().toISOString();
+      const nonce = crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      const walletAuthorizationMessage =
+        preferredBitcoinWalletProvider && signerAddress.trim()
+          ? buildBitcoinWalletDepositAuthorizationMessage({
+              repository: displayedSourceRepo || repositoryAnchorValue || composer.sourceRepo || 'unknown',
+              branch: repositoryBranchValue || null,
+              commit: displayedSourceCommit || null,
+              signerAddress: signerAddress.trim(),
+              title: title.trim() || selectedEntryLabels[0] || null,
+              issuedAt,
+              nonce,
+            })
+          : null;
+      const walletAuthorizationProof =
+        walletAuthorizationMessage && preferredBitcoinWalletProvider
+          ? await signBitcoinWalletMessage({
+              message: walletAuthorizationMessage,
+              preferredProviderId: preferredBitcoinWalletProvider,
+              address: signerAddress,
+            })
+          : null;
+
+      setSubmitState({ kind: 'submitting', message: 'Submitting deposit to Bitcode…' });
       const response = await fetch('/api/deposits', {
         method: 'POST',
         headers: {
@@ -205,6 +264,20 @@ export default function TerminalDepositComposer({
           sourceCommit: displayedSourceCommit || undefined,
           workflowRunId,
           signerAddress,
+          signingAlgorithm: walletAuthorizationProof ? 'bitcoin_message_signature' : undefined,
+          keySource: walletAuthorizationProof ? `${walletAuthorizationProof.provider}-browser-wallet` : undefined,
+          walletAuthorizationProof: walletAuthorizationProof
+            ? {
+                kind: 'bitcode_deposit_authorization',
+                provider: walletAuthorizationProof.provider,
+                providerLabel: walletAuthorizationProof.providerLabel,
+                signerAddress: walletAuthorizationProof.address || signerAddress || null,
+                message: walletAuthorizationProof.message,
+                signature: walletAuthorizationProof.signature,
+                signedAt: walletAuthorizationProof.signedAt,
+                proofKind: walletAuthorizationProof.proofKind,
+              }
+            : undefined,
           visualPreview,
           operatorNote: workingNote,
           tags: tags
@@ -252,6 +325,7 @@ export default function TerminalDepositComposer({
             repositoryAnchor: repositoryAnchorValue || null,
             sourceBranch: repositoryBranchValue || null,
             sourceCommit: displayedSourceCommit || null,
+            walletAuthorizationSigned: Boolean(walletAuthorizationProof),
             candidateAssetId: payload.asset?.assetId || null,
           },
           output: {
@@ -556,6 +630,24 @@ export default function TerminalDepositComposer({
           </div>
 
           <div className="flex flex-wrap gap-3">
+            <div className="basis-full rounded-[1.4rem] border border-emerald-400/18 bg-emerald-400/8 px-4 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-100/80">
+                  Full deposit preview
+                </p>
+                <span className="rounded-full border border-emerald-300/20 bg-black/20 px-2.5 py-1 text-[0.6rem] uppercase tracking-[0.16em] text-emerald-100/75">
+                  Wallet-authenticated
+                </span>
+              </div>
+              <dl className="mt-3 grid gap-2 text-xs text-neutral-300 sm:grid-cols-2 lg:grid-cols-3">
+                {depositPreviewRows.map((row) => (
+                  <div key={row.label} className="min-w-0 rounded-xl border border-white/8 bg-black/18 px-3 py-2">
+                    <dt className="text-[0.58rem] uppercase tracking-[0.16em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 truncate text-neutral-100" title={row.value}>{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
             <div className="flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.2em] text-neutral-300">
               <span>Submission</span>
               <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.depositSubmission} />
@@ -565,7 +657,7 @@ export default function TerminalDepositComposer({
               disabled={!canSubmit || submitState.kind === 'submitting'}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-5 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitState.kind === 'submitting' ? 'Submitting deposit to Bitcode…' : 'Submit deposit to Bitcode'}
+              {submitState.kind === 'submitting' ? submitState.message ?? 'Submitting deposit to Bitcode…' : 'Submit deposit to Bitcode'}
             </button>
             {!settlementReady && walletSigningRequired ? (
               <button
@@ -605,7 +697,7 @@ export default function TerminalDepositComposer({
                     : 'border-white/10 bg-black/20 text-neutral-200'
               }`}
             >
-              {submitState.kind === 'submitting' ? 'Submitting deposit to Bitcode…' : submitState.message}
+              {submitState.kind === 'submitting' ? submitState.message ?? 'Submitting deposit to Bitcode…' : submitState.message}
             </div>
           ) : null}
         </form>

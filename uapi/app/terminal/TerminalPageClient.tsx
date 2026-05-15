@@ -542,6 +542,7 @@ export default function TerminalPageClient() {
                       showDemonstrationDraft={showDemonstrationSurfaces}
                       preferredSignerAddress={preferredSignerAddress}
                       preferredSignerLabel={preferredSignerLabel}
+                      preferredSignerProvider={walletConnectionStatus?.provider || null}
                     />
                   </div>
                 </div>

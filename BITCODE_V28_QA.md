@@ -829,6 +829,10 @@ Deposit path:
 13. In Network, capture the `/api/executions/history` request and response. Expected status is `201`.
 14. Run `v28_qa_terminal_02_activity_after_write` and confirm an `executions_recent` row with `type='agentic-execution:asset-pack'`, `context_summary.source='terminal-deposit-read-workbench'`, `context_summary.workbench='deposit'`, and a non-empty `output_summary.deposit`.
 15. Rerun `v28_qa_terminal_04_deposit_repository_alignment`; recent Deposit activity must reference the connected repository and must not reference `frontier/*`.
+16. Before `Submit deposit to Bitcode`, run `v28_qa_terminal_05_wallet_signer_gate`. For the current Leather staging path, `terminal_deposit_signer_gate_state` should be `wallet_signer_pending_signed_proof_accepted_for_v28_staging` or `wallet_signer_verified`.
+17. Click `Submit deposit to Bitcode`. The browser wallet should open a Bitcoin message-signing prompt for a `Bitcode deposit authorization` message before the API request is sent.
+18. Approve the signature. The request body must include a wallet authorization proof, and the UI should report a successful deposit submission rather than the staged-settlement error.
+19. If `/api/deposits` returns `Bitcode can draft transaction-bearing activity...`, rerun query 05 and paste the row with the Network response; this is a V28 signer-gate blocker.
 
 Read path:
 
