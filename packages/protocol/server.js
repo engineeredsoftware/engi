@@ -84,6 +84,7 @@
  *   sourceRepo?: string | undefined,
  *   sourceCommit?: string | undefined,
  *   sourceRef?: string | undefined,
+ *   sourceBranch?: string | undefined,
  *   workflowRunId?: string | undefined,
  *   workflowPath?: string | undefined,
  *   workflowJobName?: string | undefined,
@@ -218,6 +219,26 @@ export function createAppContext({
    */
   function uniqueStrings(values = []) {
     return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+  }
+
+  /**
+   * @param {RequestBodyShape} body
+   * @param {{ sourceProvider: string, sourceRepo: string, sourceRef?: string | undefined, sourceCommit?: string | undefined, signerAddress?: string | undefined, operatorNote?: string | undefined }} input
+   * @returns {string}
+   */
+  function buildRepositoryRevisionDepositContent(body, input) {
+    const title = String(body.title || '').trim() || `Repository revision deposit: ${input.sourceRepo}`;
+    return [
+      'Bitcode repository revision deposit',
+      `Title: ${title}`,
+      `Provider: ${input.sourceProvider}`,
+      `Repository: ${input.sourceRepo}`,
+      `Branch: ${input.sourceRef || 'unspecified'}`,
+      `Commit: ${input.sourceCommit || 'unspecified'}`,
+      `Signer: ${input.signerAddress || 'unspecified'}`,
+      input.operatorNote ? `Operator note: ${input.operatorNote}` : null,
+      'Materialization: live VCS repository selection anchored by repository, branch, and commit.'
+    ].filter(Boolean).join('\n');
   }
 
   /**
@@ -558,8 +579,27 @@ export function createAppContext({
       throw error;
     }
 
-    const rawContent = String(body.content || '').trim();
     const operatorNote = String(body.operatorNote || '').trim();
+    const sourceProvider = String(body.sourceProvider || 'github').trim() || 'github';
+    const sourceRepo = String(body.sourceRepo || body.repo || '').trim() || authSession?.repo || selectedInventoryEntries[0]?.repo || '';
+    const sourceRef = String(body.sourceRef || body.sourceBranch || '').trim()
+      || authSession?.defaultRef
+      || selectedInventoryEntries.find((entry) => entry.ref)?.ref
+      || undefined;
+    const sourceCommit = String(body.sourceCommit || '').trim()
+      || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit
+      || undefined;
+    const signerAddress = String(body.signerAddress || '').trim()
+      || authSession?.defaultSignerAddress
+      || selectedInventoryEntries.find((entry) => entry.signerAddress)?.signerAddress
+      || undefined;
+    const hasRepositoryRevisionSelection = Boolean(
+      !selectedInventoryEntries.length &&
+        sourceRepo &&
+        sourceRef &&
+        sourceCommit,
+    );
+    const rawContent = String(body.content || '').trim();
     let content = rawContent;
     if (selectedInventoryEntries.length) {
       const sections = selectedInventoryEntries.map((entry) => {
@@ -569,6 +609,15 @@ export function createAppContext({
       if (operatorNote) sections.push(`Operator note\n${operatorNote}`);
       else if (rawContent) sections.push(`Raw fallback supplement\n${rawContent}`);
       content = sections.join('\n\n---\n\n');
+    } else if (!content && hasRepositoryRevisionSelection) {
+      content = buildRepositoryRevisionDepositContent(body, {
+        sourceProvider,
+        sourceRepo,
+        sourceRef,
+        sourceCommit,
+        signerAddress,
+        operatorNote
+      });
     }
     if (!String(content || '').trim()) {
       /** @type {StatusError} */
@@ -579,12 +628,13 @@ export function createAppContext({
 
     const inferredKinds = uniqueStrings(selectedInventoryEntries.map((entry) => entry.artifactKind));
     const inferredTypes = uniqueStrings(selectedInventoryEntries.map((entry) => entry.artifactType));
-    const sourceRepo = String(body.sourceRepo || '').trim() || authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
     const title = String(body.title || '').trim()
       || (selectedInventoryEntries.length === 1
         ? (selectedInventoryEntries[0]?.title || '')
         : selectedInventoryEntries.length
           ? `Repo artifact bundle · ${sourceRepo}`
+          : hasRepositoryRevisionSelection
+            ? `Repository revision deposit · ${sourceRepo}`
           : '');
     if (!title) {
       /** @type {StatusError} */
@@ -610,18 +660,30 @@ export function createAppContext({
       title,
       author,
       organization: body.organization || '$BTD',
-      artifactKind: String(body.artifactKind || '').trim() || (inferredKinds.length === 1 ? inferredKinds[0] : inferredKinds.length ? 'mixed' : 'mixed'),
-      artifactType: String(body.artifactType || '').trim() || (inferredTypes.length === 1 ? inferredTypes[0] : undefined),
+      artifactKind: String(body.artifactKind || '').trim()
+        || (inferredKinds.length === 1
+          ? inferredKinds[0]
+          : inferredKinds.length
+            ? 'mixed'
+            : hasRepositoryRevisionSelection
+              ? 'repository-revision'
+              : 'mixed'),
+      artifactType: String(body.artifactType || '').trim()
+        || (inferredTypes.length === 1
+          ? inferredTypes[0]
+          : hasRepositoryRevisionSelection
+            ? 'vcs-source-anchor'
+            : undefined),
       visualPreview,
       operatorNote,
-      sourceProvider: body.sourceProvider || 'github',
+      sourceProvider,
       sourceRepo,
-      sourceCommit: String(body.sourceCommit || '').trim() || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit || undefined,
-      sourceRef: String(body.sourceRef || '').trim() || authSession?.defaultRef || selectedInventoryEntries.find((entry) => entry.ref)?.ref || undefined,
+      sourceCommit,
+      sourceRef,
       workflowRunId: String(body.workflowRunId || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowRunId)?.workflowRunId || undefined,
       workflowPath: String(body.workflowPath || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowPath)?.workflowPath || undefined,
       workflowJobName: String(body.workflowJobName || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowJobName)?.workflowJobName || undefined,
-      signerAddress: String(body.signerAddress || '').trim() || authSession?.defaultSignerAddress || selectedInventoryEntries.find((entry) => entry.signerAddress)?.signerAddress || undefined,
+      signerAddress,
       signingAlgorithm: body.signingAlgorithm || authSession?.signingAlgorithm,
       keySource: body.keySource || authSession?.keySource,
       installationId: body.installationId || authSession?.installationId,
@@ -632,6 +694,7 @@ export function createAppContext({
       inventoryEntries: selectedInventoryEntries,
       authSession,
       rawFallbackContent: rawContent,
+      repositoryRevisionManifestUsed: hasRepositoryRevisionSelection && !rawContent,
       contentDerivedFromSelection: selectedInventoryEntries.length > 0,
       content,
       testsPassed: body.testsPassed !== false,
