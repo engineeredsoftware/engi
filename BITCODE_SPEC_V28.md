@@ -359,6 +359,69 @@ Acceptance criteria:
   `frontier/*` or mock repository leakage, and no ledger/database drift for any
   finality that Terminal claims.
 
+#### Pipeline host runtime environment for Read/Fit QA
+
+V28 now admits a lightweight deployment harness because the first commercial
+Read/Fit result cannot be reviewed from local posture rows alone.
+The harness is not the full V34 distributed deployment program; it is the
+minimum real host contract needed to prove that AssetPack pipeline execution,
+agent/prompt/tool context, artifact export, and telemetry readback are running
+before Terminal may classify a Read as `worthy_fit` or `no_worthy_fit`.
+
+The V28 QA host is Vercel Sandbox.
+The active host capability contract is:
+
+- isolated Firecracker microVM execution on Amazon Linux 2023;
+- default working directory `/vercel/sandbox`;
+- stable documented runtimes `node24`, `node22`, and `python3.13`, with
+  `node24` as the default Bitcode harness runtime;
+- `vercel-sandbox` user with sudo available for setup;
+- ephemeral filesystem, requiring evidence export before sandbox stop;
+- command execution, command log collection, file upload/download, exposed
+  ports when explicitly requested, snapshots, and egress network policies;
+- authentication through Vercel OIDC tokens from a linked project or through
+  explicit access-token variables for non-Vercel environments.
+
+The V28 pipeline harness must write a manifest before execution containing:
+
+- Read id and Read text;
+- Deposit id and optional deposited AssetPack id;
+- repository full name, branch, and commit;
+- host capability summary;
+- expected stages: deposit search, candidate ranking, Read comprehension,
+  AssetPack synthesis, validation, Finish, and telemetry readback;
+- expected SQL evidence surfaces: `executions`, `execution_events`,
+  `pipeline_runs`, `run_jobs`, `stream_logs`, `phase_executions`,
+  `deliverable_pipeline_runs`, `deliverable_pipeline_phase_delegations`,
+  `deliverable_pipeline_agent_steps`, `deliverable_pipeline_generations`, and
+  `deliverable_pipeline_tool_executions`;
+- admissible result states `worthy_fit`, `no_worthy_fit`, and
+  `blocked_readiness`;
+- redacted command-environment names only, never secret values.
+
+The harness has two admissible modes:
+
+- `host_smoke`: proves Vercel Sandbox creation, command execution, artifact
+  export, and stop/cleanup. This mode always produces `blocked_readiness`
+  because it does not invoke the AssetPack pipeline.
+- `asset_pack_pipeline`: clones or mounts the selected repository revision,
+  installs workspace dependencies, invokes the AssetPack pipeline entrypoint,
+  exports evidence and telemetry artifacts, and relies on SQL readback before
+  any commercial result is accepted.
+
+Read/Fit result review remains fail-closed:
+
+- `worthy_fit` requires source-bound pipeline output plus event, phase, agent,
+  generation/tool, proof/readiness, and ledger/database readback evidence.
+- `no_worthy_fit` requires source-bound rejection reasons from the pipeline,
+  not absence of UI posture alone.
+- `blocked_readiness` is mandatory when source materialization, model/tool
+  credentials, telemetry persistence, BTC fee, ledger anchor, settlement,
+  AssetPack range projection, or finality readback is unavailable.
+- secrets for wallets, GitHub, model providers, Supabase service roles, or
+  other systems may be passed into a sandbox only by explicit allowlist or
+  brokered network policy; routine QA artifacts must show only redacted names.
+
 ### Gate 4: Terminal AssetPack Range Detail
 
 Purpose:

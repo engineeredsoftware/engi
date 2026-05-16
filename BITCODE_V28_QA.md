@@ -896,6 +896,18 @@ repository already deposited, but Terminal code and operator flow must remain
 fully generic across repository owner, repository, branch, commit, signer, and
 source type.
 
+First-run execution boundary:
+
+- A recorded Fit posture is not yet a commercial worthy Fit unless the deployed
+  pipeline has actually executed and written its evidence.
+- Until real pipeline execution exists, the honest positive-control result is
+  `blocked_readiness`: Deposit, Read admission, source binding, and Fit posture
+  are reviewable, but AssetPack range, ledger anchor, BTC fee, settlement, and
+  finality readback must not be claimed.
+- `worthy_fit` and `no_worthy_fit` become commercially admissible only when the
+  result is derived from pipeline execution evidence rather than local posture
+  rows alone.
+
 Starting condition:
 
 - Pass 2A Deposit submission has succeeded.
@@ -971,7 +983,9 @@ Manual steps:
    enabled, inspect the preview first. Only click it if the preview names source
    revision, proof/finality posture, wallet authorization, and expected database
    readback.
-9. Run saved query `v28_qa_terminal_06_read_fit_quality_after_read`.
+9. Run saved query `v28_qa_terminal_06_read_fit_quality_after_read`. Before the
+   first deployed pipeline execution, expect `latest_fit_result_state` to be
+   `blocked_readiness`, not `worthy_fit`.
 10. Rerun `v28_qa_terminal_02_activity_after_write` and
     `v28_qa_terminal_03_btd_ledger_after_terminal`.
 11. Paste screenshots, Network payload summaries, Vercel logs for the same
@@ -982,12 +996,17 @@ Pass criteria:
 - `v28_qa_terminal_06_read_fit_quality_after_read` reports
   `critical_read_gate_state='critical_read_fit_sequence_ready_for_result_review'`
   for the positive-control run.
+- Query 06 also reports `latest_fit_result_state` as one of `worthy_fit`,
+  `no_worthy_fit`, or `blocked_readiness`. Before deployed pipeline execution is
+  wired, the accepted result is `blocked_readiness`.
 - The observed repository matches the latest deposited repository.
 - Branch and commit are present on Deposit, Read, and Fit activity.
 - Deposit precedes Read, and Read precedes Fit.
 - No `frontier/*` repository or mock repository appears in staging-testnet
   activity.
 - Fit evidence is source-bound and quality-explained, not just a summary.
+- Real `worthy_fit` or `no_worthy_fit` classification is backed by deployed
+  pipeline execution rows, events, logs, and result evidence.
 - Settlement, finality, BTC fee, BTD range, or ledger anchor claims appear only
   when query 03 shows matching projection rows; otherwise the Terminal result
   labels the exact blocked-readiness state.
@@ -1004,6 +1023,105 @@ Commercial blockers:
   readback cannot verify.
 - Any staging-testnet Read/Fit row contains `frontier/*`, mock provider, or
   protocol-demo source as if it were live deposited source.
+
+### Pass 2C: Vercel Sandbox Pipeline Harness QA
+
+Purpose:
+Prove that the Read/Fit path can run inside the first lightweight deployment
+host before QA treats a Fit result as commercially meaningful. This pass checks
+the harness itself: sandbox creation, command execution, manifest binding,
+artifact export, telemetry, database persistence, and cleanup.
+
+Prerequisites:
+
+- Vercel project is linked and local OIDC credentials are current:
+  `vercel link && vercel env pull`.
+- `@vercel/sandbox` is installed in the workspace running the harness.
+- Pass 2B has produced a Deposit, Read, and Fit posture for the same repository,
+  branch, and commit.
+- No wallet, GitHub, Supabase, model, or provider secret is passed into the
+  sandbox unless it is explicitly named in `BITCODE_SANDBOX_ENV_KEYS` for this
+  run and the network policy is understood.
+
+Host smoke command:
+
+```bash
+BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 \
+BITCODE_SANDBOX_MODE=host_smoke \
+BITCODE_SANDBOX_REPOSITORY=engineeredsoftware/ENGI \
+BITCODE_SANDBOX_SOURCE_BRANCH=main \
+BITCODE_SANDBOX_SOURCE_COMMIT=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
+pnpm run qa:pipeline-harness:sandbox
+```
+
+Expected host smoke result:
+
+- The script creates a Vercel Sandbox, runs `node --version`, writes a harness
+  manifest, writes `evidence.json` and `telemetry.jsonl`, reads both artifacts
+  back, and stops the sandbox unless `BITCODE_SANDBOX_LEAVE_RUNNING=1`.
+- The returned result state is `blocked_readiness`; this is correct because
+  host smoke proves only the host lifecycle.
+
+Repository pipeline command:
+
+```bash
+BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 \
+BITCODE_SANDBOX_MODE=asset_pack_pipeline \
+BITCODE_SANDBOX_SOURCE_GIT_URL=https://github.com/engineeredsoftware/ENGI.git \
+BITCODE_SANDBOX_SOURCE_BRANCH=main \
+BITCODE_SANDBOX_SOURCE_COMMIT=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
+BITCODE_SANDBOX_SOURCE_REVISION=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
+pnpm run qa:pipeline-harness:sandbox
+```
+
+If database streaming is intentionally being tested, pass only the required
+keys by name:
+
+```bash
+BITCODE_PIPELINE_STREAM_TO_DATABASE=1 \
+BITCODE_PIPELINE_STRUCTURED_DB=1 \
+BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY
+```
+
+After either harness run:
+
+1. Save the command JSON summary, sandbox id, command exit codes, and artifact
+   presence fields.
+2. Run saved query
+   `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql`.
+3. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
+   `v28_qa_terminal_03_btd_ledger_after_terminal`.
+4. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
+
+Pass criteria:
+
+- Host smoke returns exported evidence and telemetry artifacts and stops the
+  sandbox cleanly.
+- The repository pipeline run either produces source-bound AssetPack pipeline
+  evidence or an explicit `blocked_readiness` error artifact.
+- Query 07 reports `pipeline_harness_ready_for_result_review`, or reports a
+  precise blocker/warning that Terminal also shows as blocked-readiness.
+- Query 07 shows recent pipeline runtime evidence in at least the base runtime
+  surfaces (`pipeline_runs` or `deliverable_pipeline_runs`) plus event/log
+  telemetry (`execution_events` or `stream_logs`).
+- Phase and agent-step telemetry appear before any result can be promoted past
+  blocked-readiness.
+- Generation/tool rows appear before any model/tool-mediated Fit quality claim
+  can be accepted.
+- Query 03 still shows no AssetPack range, BTC fee, ledger anchor, settlement,
+  or finality claim without matching projection rows.
+
+Commercial blockers:
+
+- The harness cannot create a sandbox or authenticate with Vercel.
+- The harness runs but cannot export evidence artifacts before sandbox stop.
+- A `worthy_fit` or `no_worthy_fit` result is claimed without query 07 runtime
+  evidence.
+- Provider tokens, wallet signatures, GitHub credentials, model keys, or
+  Supabase service-role secrets appear unredacted in command output, artifacts,
+  browser telemetry, or routine QA query rows.
+- Terminal enables settlement, minting, branch materialization, BTC fee
+  broadcast, or ledger finality from a host smoke result.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

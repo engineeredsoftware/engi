@@ -83,6 +83,10 @@ type ShellSnapshot = {
   } | null;
   fitSurface?: {
     fitSummary?: string | null;
+    resultState?: string | null;
+    fitResultState?: string | null;
+    resultReasons?: string[] | null;
+    fitResultReasons?: string[] | null;
     normalizationPressure?: string | null;
     decisiveKinds?: string[] | null;
     overlapKinds?: string[] | null;
@@ -266,6 +270,15 @@ function listValue(values: (string | null | undefined)[] | null | undefined, fal
   return resolved.length ? resolved.join(', ') : fallback;
 }
 
+function normalizeFitResultState(value?: string | null) {
+  const resultState = textValue(value);
+  if (resultState === 'worthy_fit' || resultState === 'no_worthy_fit' || resultState === 'blocked_readiness') {
+    return resultState;
+  }
+
+  return 'blocked_readiness';
+}
+
 function countLabels(counts: Record<string, number> | null | undefined) {
   return Object.entries(counts || {})
     .filter(([, count]) => typeof count === 'number' && count > 0)
@@ -318,6 +331,13 @@ export function normalizeTerminalDepositReadWorkbench(
   const overlapKinds = (snapshot.fitSurface?.overlapKinds || [])
     .map((entry) => String(entry || '').trim())
     .filter(Boolean);
+  const fitResultState = normalizeFitResultState(
+    snapshot.fitSurface?.resultState || snapshot.fitSurface?.fitResultState,
+  );
+  const fitResultReason = listValue(
+    snapshot.fitSurface?.resultReasons || snapshot.fitSurface?.fitResultReasons,
+    'Source-bound fit posture is recorded, but AssetPack range, ledger anchor, BTC fee, settlement, and finality readback are not recorded in this staging-testnet result.',
+  );
   const repositorySelectedEntries =
     usesRepositoryContext && selectedRepository
       ? [{ id: selectedRepository.id, label: selectedRepository.fullName }]
@@ -531,6 +551,14 @@ export function normalizeTerminalDepositReadWorkbench(
             : sourceRevision
               ? `${sourceRevision.repositoryFullName}@${sourceRevision.branch}`
               : '—',
+        },
+        {
+          label: 'Fit result',
+          value: fitResultState,
+        },
+        {
+          label: 'Result reason',
+          value: fitResultReason,
         },
         {
           label: 'Decisive kinds',

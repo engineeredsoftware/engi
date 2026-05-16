@@ -1,0 +1,35 @@
+{
+  "name": "@bitcode/pipeline-hosts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bitcode pipeline host adapters and Vercel Sandbox harnesses.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
+    "typecheck": "tsc --noEmit",
+    "qa:asset-pack:sandbox": "ts-node --transpile-only src/dev/run-asset-pack-sandbox-harness.ts"
+  },
+  "dependencies": {
+    "@vercel/sandbox": "^1.10.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^25.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "10.9.2",
+    "typescript": "^5.0.0"
+  }
+}

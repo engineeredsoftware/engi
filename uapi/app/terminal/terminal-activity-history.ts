@@ -129,6 +129,31 @@ function readRowValue(rows: Array<{ label: string; value: string }>, label: stri
   return rows.find((row) => row.label === label)?.value || '—';
 }
 
+function buildTerminalFitResultState(workbench: TerminalDepositReadWorkbench) {
+  const rawResultState = normalizeWhitespace(readRowValue(workbench.fit.rows, 'Fit result')).toLowerCase();
+  const resultState =
+    rawResultState === 'worthy_fit' || rawResultState === 'no_worthy_fit' || rawResultState === 'blocked_readiness'
+      ? rawResultState
+      : 'blocked_readiness';
+  const resultReason = normalizeWhitespace(readRowValue(workbench.fit.rows, 'Result reason'));
+  const settlementIntent = normalizeWhitespace(readRowValue(workbench.fit.rows, 'Settlement intent'));
+  const proofIntent = normalizeWhitespace(readRowValue(workbench.fit.rows, 'Proof intent'));
+
+  return {
+    resultState,
+    resultReasons: [
+      resultReason,
+      settlementIntent ? `Settlement intent: ${settlementIntent}` : '',
+      proofIntent ? `Proof intent: ${proofIntent}` : '',
+    ].filter(Boolean),
+    sourceRevision: workbench.sourceRevision,
+    evidenceKinds: workbench.read.targetKinds,
+    decisiveKinds: normalizeWhitespace(readRowValue(workbench.fit.rows, 'Decisive kinds')),
+    overlapKinds: normalizeWhitespace(readRowValue(workbench.fit.rows, 'Overlap kinds')),
+    downstreamFinalityClaimsAllowed: resultState === 'worthy_fit',
+  };
+}
+
 function buildRepoSnapshot(
   repositoryContext?: TerminalRepositoryContextState | null,
   fallbackRun?: WorkspaceRun | null,
@@ -464,6 +489,8 @@ export function buildTerminalSupplySelectionDraft(
 export function buildTerminalFitWorkbenchDraft(
   workbench: TerminalDepositReadWorkbench,
 ): TerminalActivityRecordDraft {
+  const fitResult = buildTerminalFitResultState(workbench);
+
   return {
     type: 'agentic-execution:proof-refresh',
     detailSection: 'closure',
@@ -474,10 +501,14 @@ export function buildTerminalFitWorkbenchDraft(
         summary: workbench.fit.summary,
         metrics: workbench.fit.metrics,
         rows: workbench.fit.rows,
+        resultState: fitResult.resultState,
+        resultReasons: fitResult.resultReasons,
       },
+      fitResult,
       assetPackCompletion: {
         bitcodeActivityState: {
           fitWorkbench: buildBitcodeWorkbenchState(workbench),
+          fitResult,
         },
       },
     },
@@ -488,6 +519,7 @@ export function buildTerminalFitWorkbenchDraft(
       branchMode: workbench.branchMode,
       scenarioLabel: workbench.scenarioLabel,
       profileLabel: workbench.profileLabel,
+      fitResultState: fitResult.resultState,
     },
   };
 }

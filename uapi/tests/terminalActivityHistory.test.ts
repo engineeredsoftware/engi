@@ -327,6 +327,21 @@ describe('terminal-activity-history', () => {
       fitSearchAdmitted: true,
     });
     expect(fitRequest.output).toMatchObject({
+      fit: {
+        resultState: 'blocked_readiness',
+        resultReasons: expect.arrayContaining([
+          'Settlement intent: Deliver an AssetPack or fail closed with no-worthy-fit evidence.',
+        ]),
+      },
+      fitResult: {
+        resultState: 'blocked_readiness',
+        downstreamFinalityClaimsAllowed: false,
+        sourceRevision: {
+          repositoryFullName: 'source-org/source-repo',
+          branch: 'main',
+          commit: depositedCommit,
+        },
+      },
       asset_pack_completion: {
         bitcodeActivityState: {
           fitWorkbench: {
@@ -341,8 +356,15 @@ describe('terminal-activity-history', () => {
               targetKinds: expect.arrayContaining(['asset-pack-evidence', 'proof-root']),
             },
           },
+          fitResult: {
+            resultState: 'blocked_readiness',
+            downstreamFinalityClaimsAllowed: false,
+          },
         },
       },
+    });
+    expect(fitRequest.context).toMatchObject({
+      fitResultState: 'blocked_readiness',
     });
   });
 
@@ -686,11 +708,22 @@ describe('terminal-activity-history', () => {
       summary: 'Recorded asset-pack fit and settlement posture for auth-remediation.',
     });
     expect(fitDraft.output).toMatchObject({
+      fit: {
+        resultState: 'blocked_readiness',
+        resultReasons: expect.arrayContaining(['Settlement intent: Direct decisive closure']),
+      },
+      fitResult: {
+        resultState: 'blocked_readiness',
+        downstreamFinalityClaimsAllowed: false,
+      },
       assetPackCompletion: {
         bitcodeActivityState: {
           fitWorkbench: {
             projectionPrincipal: 'reader',
             scenarioLabel: 'auth-remediation',
+          },
+          fitResult: {
+            resultState: 'blocked_readiness',
           },
         },
       },

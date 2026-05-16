@@ -60,6 +60,8 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
         },
         fitSurface: {
           fitSummary: 'Preview overlap in runbook, patch against the active read.',
+          resultState: 'no_worthy_fit',
+          resultReasons: ['No source-bound fit crossed the acceptance threshold.'],
           normalizationPressure: 'low',
           decisiveKinds: ['runbook', 'patch'],
           overlapKinds: ['runbook', 'patch'],
@@ -96,6 +98,10 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
     expect(workbench?.deposit.rows.find((row) => row.label === 'Repository')?.value).toBe('bitcode/bitcode');
     expect(workbench?.read.rows.find((row) => row.label === 'Parser')?.value).toBe('benchmark-parser');
     expect(workbench?.fit.metrics.find((metric) => metric.label === 'Pressure')?.value).toBe('low');
+    expect(workbench?.fit.rows.find((row) => row.label === 'Fit result')?.value).toBe('no_worthy_fit');
+    expect(workbench?.fit.rows.find((row) => row.label === 'Result reason')?.value).toBe(
+      'No source-bound fit crossed the acceptance threshold.',
+    );
     expect(workbench?.deposit.selectedEntries).toHaveLength(2);
   });
 
@@ -232,6 +238,10 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
       expect.arrayContaining(['repository-revision', 'asset-pack-evidence', 'proof-root']),
     );
     expect(workbench?.fit.metrics.find((metric) => metric.label === 'Pressure')?.value).toBe('critical');
+    expect(workbench?.fit.rows.find((row) => row.label === 'Fit result')?.value).toBe('blocked_readiness');
+    expect(workbench?.fit.rows.find((row) => row.label === 'Result reason')?.value).toContain(
+      'not recorded in this staging-testnet result',
+    );
   });
 
   it('pins live Read/Fit posture to the latest deposited source revision when branch head advances', () => {
@@ -294,6 +304,7 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
     expect(workbench?.fit.rows.find((row) => row.label === 'Source revision')?.value).toBe(
       `source-org/source-repo@main:${depositedCommit.slice(0, 12)}`,
     );
+    expect(workbench?.fit.rows.find((row) => row.label === 'Fit result')?.value).toBe('blocked_readiness');
     expect(workbench?.read.summary).toContain(depositedCommit.slice(0, 12));
     expect(workbench?.read.summary).not.toContain(branchHeadCommit.slice(0, 12));
   });

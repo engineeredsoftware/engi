@@ -121,6 +121,18 @@ BEGIN
             e.output #>> '{asset_pack_completion,bitcodeActivityState,fitWorkbench,fit,summary}',
             e.output #>> '{assetPackCompletion,bitcodeActivityState,fitWorkbench,fit,summary}'
           ) AS fit_summary,
+          coalesce(
+            e.output #>> '{fit,resultState}',
+            e.output #>> '{fitResult,resultState}',
+            e.output #>> '{asset_pack_completion,bitcodeActivityState,fitResult,resultState}',
+            e.output #>> '{assetPackCompletion,bitcodeActivityState,fitResult,resultState}'
+          ) AS fit_result_state,
+          coalesce(
+            e.output #> '{fit,resultReasons}',
+            e.output #> '{fitResult,resultReasons}',
+            e.output #> '{asset_pack_completion,bitcodeActivityState,fitResult,resultReasons}',
+            e.output #> '{assetPackCompletion,bitcodeActivityState,fitResult,resultReasons}'
+          ) AS fit_result_reasons,
           (
             e.output ? 'readMeasurement'
             OR e.output #> '{asset_pack_completion,bitcodeActivityState,readMeasurement}' IS NOT NULL
@@ -274,6 +286,8 @@ BEGIN
               THEN 'blocker:fit_recorded_before_read'
             WHEN (fit ->> 'has_fit_posture') <> 'true'
               THEN 'blocker:fit_posture_missing'
+            WHEN coalesce(fit ->> 'fit_result_state', '') NOT IN ('worthy_fit', 'no_worthy_fit', 'blocked_readiness')
+              THEN 'blocker:fit_result_state_missing'
             ELSE 'critical_read_fit_sequence_ready_for_result_review'
           END AS critical_read_gate_state,
           CASE
@@ -291,7 +305,9 @@ BEGIN
 	            WHEN (deposit_submission ->> 'has_asset_measurement_evidence') = 'true' THEN 'deposit_has_asset_measurement_evidence'
 	            ELSE 'warning:deposit_measurement_evidence_not_visible_in_execution_row'
           END AS deposit_measurement_state,
-          fit ->> 'fit_summary' AS latest_fit_summary
+          fit ->> 'fit_summary' AS latest_fit_summary,
+          fit ->> 'fit_result_state' AS latest_fit_result_state,
+          fit -> 'fit_result_reasons' AS latest_fit_result_reasons
         FROM latest
       )
       SELECT
@@ -309,14 +325,14 @@ BEGIN
         'read_fit_quality_gate'::text,
         jsonb_build_array(
           jsonb_build_object(
-            'commercial_expectation', 'A Read against the current deposited Bitcode data-space must return either a proof-bearing AssetPack fit or explicit no-worthy-fit evidence.',
+            'commercial_expectation', 'A Read against the current deposited Bitcode data-space must return a proof-bearing AssetPack fit, explicit no-worthy-fit evidence, or blocked-readiness until real pipeline execution evidence exists.',
             'required_positive_controls', jsonb_build_array(
               'repository_full_name matches the latest deposited repository',
               'source_branch present',
               'source_commit present',
               'deposit recorded before read',
               'read recorded before fit',
-              'fit posture recorded with proof/finality or blocked-readiness language'
+              'fit result state is worthy_fit, no_worthy_fit, or blocked_readiness'
             ),
             'required_negative_controls', jsonb_build_array(
               'unrelated Read returns no-worthy-fit',
@@ -330,7 +346,9 @@ BEGIN
             'read_parser_kind', read_parser_kind,
             'read_closure_criteria_count', read_closure_criteria_count,
             'read_target_kind_count', read_target_kind_count,
-            'latest_fit_summary', latest_fit_summary
+            'latest_fit_summary', latest_fit_summary,
+            'latest_fit_result_state', latest_fit_result_state,
+            'latest_fit_result_reasons', latest_fit_result_reasons
           )
         )
       FROM critical_summary;
