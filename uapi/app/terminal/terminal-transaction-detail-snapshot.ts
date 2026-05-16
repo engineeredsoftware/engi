@@ -389,6 +389,7 @@ function coerceDepositReadWorkbenchState(value: unknown): TerminalDepositReadWor
   const deposit = isRecord(value.deposit) ? value.deposit : isRecord(value[legacyDepositKey]) ? value[legacyDepositKey] : null;
   const read = isRecord(value.read) ? value.read : isRecord(value[legacyReadKey]) ? value[legacyReadKey] : null;
   const fit = isRecord(value.fit) ? value.fit : null;
+  const sourceRevision = isRecord(value.sourceRevision) ? value.sourceRevision : null;
   if (!deposit || !read || !fit) return null;
 
   const coerceSelectionEntries = (entries: unknown) =>
@@ -408,6 +409,16 @@ function coerceDepositReadWorkbenchState(value: unknown): TerminalDepositReadWor
     branchMode: coerceString(value.branchMode) || 'patch',
     scenarioLabel: coerceString(value.scenarioLabel) || 'No active scenario',
     profileLabel: coerceString(value.profileLabel) || 'Pending profile',
+    sourceRevision:
+      sourceRevision && coerceString(sourceRevision.repositoryFullName)
+        ? {
+            repositoryFullName: coerceString(sourceRevision.repositoryFullName) || '',
+            branch: coerceString(sourceRevision.branch) || 'main',
+            commit: coerceString(sourceRevision.commit) || '',
+            activityId: coerceString(sourceRevision.activityId) || null,
+            createdAt: coerceString(sourceRevision.createdAt) || null,
+          }
+        : null,
     deposit: {
       summary: coerceString(deposit.summary) || 'n/a',
       metrics: coerceMetrics(deposit.metrics),

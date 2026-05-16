@@ -59,6 +59,7 @@ import {
 import { deriveTerminalTransactionReadiness } from './terminal-transaction-readiness-source';
 import { resolveTerminalTransactionSource } from './terminal-transaction-source';
 import type { WorkspaceRun } from './terminal-run-data';
+import type { TerminalDepositedSourceRevision } from './terminal-deposit-read-workbench';
 import { buildProtocolProjectedWorkspaceRun } from './terminal-protocol-projection';
 import { buildTerminalHref, TERMINAL_ROUTE } from './terminal-routes';
 import { readBitcodeDemonstrationShellSnapshot } from './demonstration-witness-runtime';
@@ -290,6 +291,29 @@ export default function TerminalPageClient() {
     () => runs.find((run) => run.id === selectedTransactionId) || runs[0] || null,
     [runs, selectedTransactionId],
   );
+  const depositedSourceRevision = useMemo<TerminalDepositedSourceRevision | null>(() => {
+    if (showDemonstrationSurfaces) return null;
+    const selectedRepository = repositoryContext?.selectedRepository || null;
+    if (!selectedRepository) return null;
+    const selectedBranch = repositoryContext?.selectedBranch || selectedRepository.defaultBranch || 'main';
+    const matchingSubmission = runs.find(
+      (run) =>
+        run.contextSource === 'terminal-deposit-composer' &&
+        run.repository === selectedRepository.fullName &&
+        run.branch === selectedBranch &&
+        Boolean(run.sourceCommit) &&
+        Boolean(run.candidateAssetId),
+    );
+    if (!matchingSubmission?.sourceCommit) return null;
+
+    return {
+      repositoryFullName: selectedRepository.fullName,
+      branch: selectedBranch,
+      commit: matchingSubmission.sourceCommit,
+      activityId: matchingSubmission.id,
+      createdAt: matchingSubmission.created_at,
+    };
+  }, [repositoryContext, runs, showDemonstrationSurfaces]);
 
   const handleSelectTransaction = (transactionId: string) => {
     replaceTerminalRoute(transactionId);
@@ -564,6 +588,7 @@ export default function TerminalPageClient() {
                     />
                     <TerminalDepositReadWorkbench
                       repositoryContext={repositoryContext}
+                      depositedSourceRevision={depositedSourceRevision}
                       onRecordActivity={handleRecordActivity}
                       showDemonstrationWorkbench={showDemonstrationSurfaces}
                     />

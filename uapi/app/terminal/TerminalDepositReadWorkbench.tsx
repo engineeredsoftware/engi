@@ -18,6 +18,7 @@ import type { TerminalRepositoryContextState } from './terminal-repository-conte
 import {
   buildLiveTerminalDepositReadWorkbenchSnapshot,
   normalizeTerminalDepositReadWorkbench,
+  type TerminalDepositedSourceRevision,
   type TerminalDepositReadWorkbench as TerminalDepositReadWorkbenchState,
 } from './terminal-deposit-read-workbench';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
@@ -35,12 +36,14 @@ type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
 
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
+  depositedSourceRevision?: TerminalDepositedSourceRevision | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   showDemonstrationWorkbench?: boolean;
 }
 
 export default function TerminalDepositReadWorkbench({
   repositoryContext = null,
+  depositedSourceRevision = null,
   onRecordActivity,
   showDemonstrationWorkbench = true,
 }: TerminalDepositReadWorkbenchProps) {
@@ -50,13 +53,13 @@ export default function TerminalDepositReadWorkbench({
   const [readFitProgress, setReadFitProgress] = useState<ReadFitProgressState>('draft');
   const workbenchSnapshot = useMemo(() => {
     if (showDemonstrationWorkbench) return snapshot;
-    return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext);
-  }, [repositoryContext, showDemonstrationWorkbench, snapshot]);
+    return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
+  }, [depositedSourceRevision, repositoryContext, showDemonstrationWorkbench, snapshot]);
   const workbench = useMemo<TerminalDepositReadWorkbenchState | null>(
     () => normalizeTerminalDepositReadWorkbench(workbenchSnapshot, repositoryContext),
     [repositoryContext, workbenchSnapshot],
   );
-  const scenarioKey = workbench?.scenarioLabel || '';
+  const scenarioKey = `${workbench?.scenarioLabel || ''}:${workbench?.sourceRevision?.commit || ''}`;
 
   useEffect(() => {
     setReadFitProgress('draft');
@@ -79,21 +82,25 @@ export default function TerminalDepositReadWorkbench({
         setRecordMessage('Deposit-side share posture recorded into the Bitcode activity ledger.');
       } else if (kind === 'read') {
         await onRecordActivity(
-          buildTerminalReadMeasurementDraft({
-            selectedScenarioId: workbench.scenarioLabel,
-            parserKind: readRowValue(workbench.read.rows, 'Parser'),
-            closureCriteriaCount: Number(readMetricValue(workbench.read.metrics, 'Closure criteria')) || 0,
-            targetKindCount: Number(readMetricValue(workbench.read.metrics, 'Target kinds')) || 0,
-            scenarios: [
-              {
-                id: workbench.scenarioLabel,
-                label: workbench.scenarioLabel,
-                repo: readRowValue(workbench.read.rows, 'Repository'),
-                profile: readRowValue(workbench.read.rows, 'Profile'),
-                selected: true,
-              },
-            ],
-          }),
+          buildTerminalReadMeasurementDraft(
+            {
+              selectedScenarioId: workbench.scenarioLabel,
+              parserKind: readRowValue(workbench.read.rows, 'Parser'),
+              closureCriteriaCount: Number(readMetricValue(workbench.read.metrics, 'Closure criteria')) || 0,
+              targetKindCount: Number(readMetricValue(workbench.read.metrics, 'Target kinds')) || 0,
+              scenarios: [
+                {
+                  id: workbench.scenarioLabel,
+                  label: workbench.scenarioLabel,
+                  repo: readRowValue(workbench.read.rows, 'Repository'),
+                  profile: readRowValue(workbench.read.rows, 'Profile'),
+                  selected: true,
+                },
+              ],
+            },
+            undefined,
+            { sourceRevision: workbench.sourceRevision },
+          ),
         );
         setReadFitProgress('measured');
         setRecordMessage(

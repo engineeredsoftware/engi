@@ -205,6 +205,7 @@ describe('Bitcode execution-history write/read parity', () => {
         branchMode: 'patch',
         scenarioLabel: 'auth-remediation',
         profileLabel: 'Targeted deposit',
+        sourceRevision: null,
         deposit: {
           summary: 'Record supply-bearing share posture.',
           metrics: [{ label: 'Selected refs', value: '2' }],

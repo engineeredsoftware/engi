@@ -135,7 +135,39 @@ describe('terminal-activity-history', () => {
     });
   });
 
+  it('maps persisted deposit submission metadata needed to pin later Read/Fit source revisions', () => {
+    const run = mapExecutionHistoryRunToWorkspaceRun({
+      id: 'deposit-run-001',
+      created_at: '2026-05-15T13:43:15.359Z',
+      type: 'agentic-execution:asset-pack',
+      status: 'completed',
+      items: [],
+      context: {
+        source: 'terminal-deposit-composer',
+        workbench: null,
+        candidateAssetId: 'asset_source_001',
+        sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+      repo_snapshot: {
+        org: 'source-org',
+        repo: 'source-repo',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+    } as PipelineExecution);
+
+    expect(run).toMatchObject({
+      repository: 'source-org/source-repo',
+      branch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      contextSource: 'terminal-deposit-composer',
+      candidateAssetId: 'asset_source_001',
+    });
+  });
+
   it('carries the deposited repository revision through Read and Fit QA writes', () => {
+    const depositedCommit = '31bbc0c5227b6b3aed5d107fd8507d35ec22970a';
+    const branchHeadCommit = 'd2b843eddfc84b9719630a4295db6f1c5dead52c';
     const sourceRepositoryContext: TerminalRepositoryContextState = {
       provider: 'github',
       connectionStatus: {
@@ -164,7 +196,7 @@ describe('terminal-activity-history', () => {
         topics: [],
       },
       selectedBranch: 'main',
-      selectedCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      selectedCommit: branchHeadCommit,
       branches: [],
       commits: [],
     };
@@ -174,6 +206,11 @@ describe('terminal-activity-history', () => {
       branchMode: 'patch',
       scenarioLabel: 'terminal-critical-read',
       profileLabel: 'Targeted deposit',
+      sourceRevision: {
+        repositoryFullName: 'source-org/source-repo',
+        branch: 'main',
+        commit: depositedCommit,
+      },
       deposit: {
         summary: 'Deposit the live repository revision before Reading for commercial fit.',
         metrics: [{ label: 'Selected refs', value: '1' }],
@@ -231,7 +268,7 @@ describe('terminal-activity-history', () => {
             selected: true,
           },
         ],
-      }),
+      }, undefined, { sourceRevision: workbench.sourceRevision }),
       { repositoryContext: sourceRepositoryContext },
     );
     const fitRequest = buildTerminalExecutionHistoryRequest(
@@ -248,14 +285,14 @@ describe('terminal-activity-history', () => {
         repositoryFullName: 'source-org/source-repo',
         repositoryAnchor: 'source-org/source-repo',
         sourceBranch: 'main',
-        sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        sourceCommit: depositedCommit,
       });
       expect(request.output).toMatchObject({
         repo_snapshot: {
           org: 'source-org',
           repo: 'source-repo',
           branch: 'main',
-          commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+          commit: depositedCommit,
         },
       });
     }
@@ -472,6 +509,7 @@ describe('terminal-activity-history', () => {
       branchMode: 'patch',
       scenarioLabel: 'auth-remediation',
       profileLabel: 'Targeted deposit',
+      sourceRevision: null,
       deposit: {
         summary: 'Record supply-bearing share posture.',
         metrics: [{ label: 'Selected refs', value: '2' }],
@@ -597,6 +635,7 @@ describe('terminal-activity-history', () => {
       branchMode: 'patch',
       scenarioLabel: 'auth-remediation',
       profileLabel: 'Targeted deposit',
+      sourceRevision: null,
       deposit: {
         summary: '',
         metrics: [],

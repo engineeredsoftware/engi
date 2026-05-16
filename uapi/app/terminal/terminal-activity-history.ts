@@ -3,7 +3,7 @@ import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agenti
 import type { PipelineExecution } from '@/types/api';
 
 import type { TerminalClosureState } from './terminal-closure-state';
-import type { TerminalDepositReadWorkbench } from './terminal-deposit-read-workbench';
+import type { TerminalDepositReadWorkbench, TerminalSourceRevision } from './terminal-deposit-read-workbench';
 import type { TerminalReadScenariosState } from './terminal-read-scenarios';
 import type { TerminalExternalRuntimeSnapshot } from './terminal-external-runtime';
 import type { WorkspaceRun } from './terminal-run-data';
@@ -17,6 +17,7 @@ export interface TerminalActivityRecordDraft {
   summary: string;
   detailSection?: TerminalTransactionDetailSection;
   selectAfterRecord?: boolean;
+  sourceRevision?: TerminalSourceRevision | null;
   status?: string;
   input?: Record<string, unknown> | null;
   output?: Record<string, unknown> | null;
@@ -31,6 +32,7 @@ function buildBitcodeWorkbenchState(workbench: TerminalDepositReadWorkbench) {
     branchMode: workbench.branchMode,
     scenarioLabel: workbench.scenarioLabel,
     profileLabel: workbench.profileLabel,
+    sourceRevision: workbench.sourceRevision,
     deposit: workbench.deposit,
     read: workbench.read,
     fit: workbench.fit,
@@ -130,7 +132,18 @@ function readRowValue(rows: Array<{ label: string; value: string }>, label: stri
 function buildRepoSnapshot(
   repositoryContext?: TerminalRepositoryContextState | null,
   fallbackRun?: WorkspaceRun | null,
+  sourceRevision?: TerminalSourceRevision | null,
 ) {
+  const sourceRevisionParts = splitRepositoryFullName(sourceRevision?.repositoryFullName);
+  if (sourceRevisionParts) {
+    return {
+      org: sourceRevisionParts.org,
+      repo: sourceRevisionParts.repo,
+      branch: normalizeWhitespace(sourceRevision?.branch) || 'main',
+      commit: normalizeWhitespace(sourceRevision?.commit),
+    };
+  }
+
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const selectedRepositoryParts = splitRepositoryFullName(selectedRepository?.fullName);
   if (selectedRepository && selectedRepositoryParts) {
@@ -161,7 +174,7 @@ export function buildTerminalExecutionHistoryRequest(
   },
 ) {
   const summary = normalizeWhitespace(draft.summary) || 'Bitcode activity recorded from the Bitcode Terminal.';
-  const repoSnapshot = buildRepoSnapshot(options.repositoryContext, options.fallbackRun);
+  const repoSnapshot = buildRepoSnapshot(options.repositoryContext, options.fallbackRun, draft.sourceRevision);
   const repositoryFullName = repoSnapshot ? `${repoSnapshot.org}/${repoSnapshot.repo}` : null;
   const draftOutput = isRecord(draft.output) ? draft.output : null;
   const assetPackCompletionPatch = isRecord(draftOutput?.assetPackCompletion) ? draftOutput.assetPackCompletion : null;
@@ -269,6 +282,7 @@ export function buildTerminalDepositWorkbenchDraft(
   return {
     type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
+    sourceRevision: workbench.sourceRevision,
     summary: `Recorded deposit-side share posture for ${repository}.`,
     input: {
       selectedEntryLabels,
@@ -302,6 +316,7 @@ export function buildTerminalDepositWorkbenchDraft(
 export function buildTerminalReadMeasurementDraft(
   needState: TerminalReadScenariosState,
   scenarioOverride?: TerminalReadScenariosState['scenarios'][number],
+  options?: { sourceRevision?: TerminalSourceRevision | null },
 ): TerminalActivityRecordDraft {
   const scenario =
     scenarioOverride ||
@@ -319,6 +334,7 @@ export function buildTerminalReadMeasurementDraft(
     type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
     selectAfterRecord: false,
+    sourceRevision: options?.sourceRevision || null,
     summary: `Recorded read measurement for ${scenario.label}.`,
     output: {
       readMeasurement: {
@@ -377,6 +393,7 @@ export function buildTerminalReadAdmissionDraft(
     type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
     selectAfterRecord: false,
+    sourceRevision: workbench.sourceRevision,
     summary: `Accepted measured Read for fit search for ${workbench.scenarioLabel}.`,
     output: {
       readMeasurement,
@@ -450,6 +467,7 @@ export function buildTerminalFitWorkbenchDraft(
   return {
     type: 'agentic-execution:proof-refresh',
     detailSection: 'closure',
+    sourceRevision: workbench.sourceRevision,
     summary: `Recorded asset-pack fit and settlement posture for ${workbench.scenarioLabel}.`,
     output: {
       fit: {
@@ -575,6 +593,12 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       type: run.type,
       status: run.status,
     });
+  const repoSnapshot = run.repo_snapshot || run.asset_pack_completion?.repoSnapshot || null;
+  const context = isRecord(run.context) ? run.context : null;
+  const contextString = (key: string) => {
+    const value = context?.[key];
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
+  };
 
   return {
     id: run.id,
@@ -592,11 +616,15 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       run.asset_pack_completion?.deliveryMechanism?.summary ||
       null,
     repository:
-      run.repo_snapshot || run.asset_pack_completion?.repoSnapshot
-        ? `${(run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.org}/${(run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.repo}`
+      repoSnapshot
+        ? `${repoSnapshot.org}/${repoSnapshot.repo}`
         : null,
-    branch: (run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.branch || null,
-    participant: (run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.org || 'connected account',
+    branch: repoSnapshot?.branch || contextString('sourceBranch'),
+    sourceCommit: repoSnapshot?.commit || contextString('sourceCommit'),
+    contextSource: contextString('source'),
+    contextWorkbench: contextString('workbench'),
+    candidateAssetId: contextString('candidateAssetId'),
+    participant: repoSnapshot?.org || 'connected account',
     isOwnTransaction: true,
     transactionLens: agenticExecution.lens,
     itemCount: run.items?.length || 0,

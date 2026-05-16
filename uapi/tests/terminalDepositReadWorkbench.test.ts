@@ -2,6 +2,7 @@ import {
   buildLiveTerminalDepositReadWorkbenchSnapshot,
   normalizeTerminalDepositReadWorkbench,
 } from '@/app/terminal/terminal-deposit-read-workbench';
+import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
 
 describe('normalizeTerminalDepositReadWorkbench', () => {
   it('builds deposit, read, and fit sections from the shell snapshot', () => {
@@ -231,5 +232,69 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
       expect.arrayContaining(['repository-revision', 'asset-pack-evidence', 'proof-root']),
     );
     expect(workbench?.fit.metrics.find((metric) => metric.label === 'Pressure')?.value).toBe('critical');
+  });
+
+  it('pins live Read/Fit posture to the latest deposited source revision when branch head advances', () => {
+    const depositedCommit = '31bbc0c5227b6b3aed5d107fd8507d35ec22970a';
+    const branchHeadCommit = 'd2b843eddfc84b9719630a4295db6f1c5dead52c';
+    const repositoryContext: TerminalRepositoryContextState = {
+      provider: 'github',
+      connectionStatus: {
+        connected: true,
+        valid: true,
+        provider: 'github',
+        username: 'source-org',
+        metadata: { mock_mode: false, repositories: 1 },
+      },
+      inventorySource: 'stored_repository_inventory',
+      repositories: [
+        {
+          id: 'repo-source-001',
+          name: 'source-repo',
+          fullName: 'source-org/source-repo',
+          private: false,
+          defaultBranch: 'main',
+          url: 'https://github.com/source-org/source-repo',
+          cloneUrl: 'https://github.com/source-org/source-repo.git',
+          owner: { id: 'source-owner-001', username: 'source-org', type: 'organization' },
+          language: 'TypeScript',
+          topics: [],
+        },
+      ],
+      selectedBranch: 'main',
+      selectedCommit: branchHeadCommit,
+      selectedRepository: {
+        id: 'repo-source-001',
+        name: 'source-repo',
+        fullName: 'source-org/source-repo',
+        private: false,
+        defaultBranch: 'main',
+        url: 'https://github.com/source-org/source-repo',
+        cloneUrl: 'https://github.com/source-org/source-repo.git',
+        owner: { id: 'source-owner-001', username: 'source-org', type: 'organization' },
+        language: 'TypeScript',
+        topics: [],
+      },
+    };
+    const snapshot = buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, {
+      repositoryFullName: 'source-org/source-repo',
+      branch: 'main',
+      commit: depositedCommit,
+      activityId: 'deposit-run-001',
+      createdAt: '2026-05-15T13:43:15.359Z',
+    });
+    const workbench = normalizeTerminalDepositReadWorkbench(snapshot, repositoryContext);
+
+    expect(workbench?.sourceRevision).toMatchObject({
+      repositoryFullName: 'source-org/source-repo',
+      branch: 'main',
+      commit: depositedCommit,
+    });
+    expect(workbench?.read.rows.find((row) => row.label === 'Source commit')?.value).toBe(depositedCommit);
+    expect(workbench?.fit.rows.find((row) => row.label === 'Source revision')?.value).toBe(
+      `source-org/source-repo@main:${depositedCommit.slice(0, 12)}`,
+    );
+    expect(workbench?.read.summary).toContain(depositedCommit.slice(0, 12));
+    expect(workbench?.read.summary).not.toContain(branchHeadCommit.slice(0, 12));
   });
 });

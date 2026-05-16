@@ -11,8 +11,19 @@ type InventoryEntrySnapshot = {
   tags?: string[] | null;
 };
 
+export type TerminalSourceRevision = {
+  repositoryFullName: string;
+  branch: string;
+  commit: string;
+  activityId?: string | null;
+  createdAt?: string | null;
+};
+
+export type TerminalDepositedSourceRevision = TerminalSourceRevision;
+
 type ShellSnapshot = {
   canonLabel?: string | null;
+  sourceRevision?: TerminalSourceRevision | null;
   selection?: {
     projectionPrincipal?: string | null;
     branchMode?: string | null;
@@ -83,6 +94,7 @@ type ShellSnapshot = {
 
 export function buildLiveTerminalDepositReadWorkbenchSnapshot(
   repositoryContext?: TerminalRepositoryContextState | null,
+  depositedSourceRevision?: TerminalDepositedSourceRevision | null,
 ): ShellSnapshot {
   const selectedRepository = repositoryContext?.selectedRepository || null;
   if (!selectedRepository) return null;
@@ -95,13 +107,19 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
   const selectedBranch =
     repositoryContext?.selectedBranch || selectedRepository.defaultBranch || 'main';
   const selectedCommit = repositoryContext?.selectedCommit || '';
-  const selectedRevisionLabel = selectedCommit
-    ? `${selectedRepository.fullName}@${selectedBranch}:${selectedCommit.slice(0, 12)}`
-    : `${selectedRepository.fullName}@${selectedBranch}`;
+  const matchingDepositedRevision =
+    depositedSourceRevision?.repositoryFullName === selectedRepository.fullName
+      ? depositedSourceRevision
+      : null;
+  const sourceBranch = matchingDepositedRevision?.branch || selectedBranch;
+  const sourceCommit = matchingDepositedRevision?.commit || selectedCommit;
+  const selectedRevisionLabel = sourceCommit
+    ? `${selectedRepository.fullName}@${sourceBranch}:${sourceCommit.slice(0, 12)}`
+    : `${selectedRepository.fullName}@${sourceBranch}`;
   const readScenarioId = `terminal-commercial-read-fit:${selectedRepository.id}`;
   const readScenarioFamily = `Terminal commercial Read/Fit QA for ${selectedRepository.fullName}`;
   const readSummary =
-    `Read ${selectedRevisionLabel} for a non-mock Terminal path from wallet and GitHub readiness through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.`;
+    `Read the deposited source revision ${selectedRevisionLabel} for a non-mock Terminal path from wallet and GitHub readiness through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.`;
   const closureCriteria = [
     'Deposit evidence is bound to repository, branch, commit, and signer.',
     'Read measurement is accepted before fit search or blocks with a precise reason.',
@@ -119,6 +137,13 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
 
   return {
     canonLabel: 'Live Bitcode staging posture',
+    sourceRevision: {
+      repositoryFullName: selectedRepository.fullName,
+      branch: sourceBranch,
+      commit: sourceCommit,
+      activityId: matchingDepositedRevision?.activityId || null,
+      createdAt: matchingDepositedRevision?.createdAt || null,
+    },
     selection: {
       projectionPrincipal: 'buyer',
       branchMode: 'patch',
@@ -143,7 +168,7 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
       authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
       repo: selectedRepository.fullName,
       installationAccountLogin: providerAccount,
-      defaultRef: selectedBranch,
+      defaultRef: sourceBranch,
     },
     inventory: {
       activeCount: repositoryContext?.repositories.length || 1,
@@ -161,7 +186,9 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
     },
     depositingSurface: {
       depositIntentSummary:
-        'Live repository supply is selected for deposit before any measured Read or fit can be evaluated.',
+        matchingDepositedRevision
+          ? 'Latest proof-bearing deposit submission is pinned as the source revision for measured Read and fit evaluation.'
+          : 'Live repository supply is selected for deposit before any measured Read or fit can be evaluated.',
       depositProfile: 'Commercial Read/Fit QA',
       repoSupplyRef: selectedRepository.fullName,
       selectedInventoryRefs: [selectedRepository.id],
@@ -204,6 +231,7 @@ export type TerminalDepositReadWorkbench = {
   branchMode: string;
   scenarioLabel: string;
   profileLabel: string;
+  sourceRevision: TerminalSourceRevision | null;
   deposit: {
     summary: string;
     metrics: Metric[];
@@ -227,6 +255,10 @@ export type TerminalDepositReadWorkbench = {
 
 function numberValue(value: number | null | undefined) {
   return typeof value === 'number' ? String(value) : '0';
+}
+
+function textValue(value: string | null | undefined) {
+  return String(value || '').trim();
 }
 
 function listValue(values: (string | null | undefined)[] | null | undefined, fallback = '—') {
@@ -313,6 +345,25 @@ export function normalizeTerminalDepositReadWorkbench(
     usesRepositoryContext && selectedRepository
       ? `${providerAccount} · ${repositoryContext?.provider || 'github'}`
       : String(snapshot.depositingSurface?.authRoot || '—');
+  const sourceRevisionRepository = textValue(snapshot.sourceRevision?.repositoryFullName) || repositoryLabel;
+  const sourceRevisionBranch =
+    textValue(snapshot.sourceRevision?.branch) ||
+    textValue(repositoryContext?.selectedBranch) ||
+    textValue(selectedRepository?.defaultBranch) ||
+    textValue(snapshot.authSession?.defaultRef) ||
+    '—';
+  const sourceRevisionCommit =
+    textValue(snapshot.sourceRevision?.commit) || textValue(repositoryContext?.selectedCommit);
+  const sourceRevision =
+    sourceRevisionRepository && sourceRevisionRepository !== '—'
+      ? {
+          repositoryFullName: sourceRevisionRepository,
+          branch: sourceRevisionBranch,
+          commit: sourceRevisionCommit,
+          activityId: textValue(snapshot.sourceRevision?.activityId) || null,
+          createdAt: textValue(snapshot.sourceRevision?.createdAt) || null,
+        }
+      : null;
   const depositMetrics = usesRepositoryContext
     ? [
         { label: 'Selected refs', value: selectedRepository ? '1' : '0' },
@@ -344,6 +395,7 @@ export function normalizeTerminalDepositReadWorkbench(
           snapshot.depositingSurface?.depositProfile ||
           'Pending profile',
       ).trim() || 'Pending profile',
+    sourceRevision,
     deposit: {
       summary:
         String(snapshot.depositingSurface?.depositIntentSummary || '').trim() ||
@@ -353,6 +405,14 @@ export function normalizeTerminalDepositReadWorkbench(
         {
           label: 'Repository',
           value: repositoryLabel,
+        },
+        {
+          label: 'Source branch',
+          value: sourceRevision?.branch || '—',
+        },
+        {
+          label: 'Source commit',
+          value: sourceRevision?.commit || '—',
         },
         {
           label: 'Auth session',
@@ -402,6 +462,14 @@ export function normalizeTerminalDepositReadWorkbench(
           value: usesRepositoryContext && selectedRepository
             ? selectedRepository.fullName
             : String(snapshot.scenario?.repo || selectedRepository?.fullName || '—'),
+        },
+        {
+          label: 'Source branch',
+          value: sourceRevision?.branch || '—',
+        },
+        {
+          label: 'Source commit',
+          value: sourceRevision?.commit || '—',
         },
         {
           label: 'Profile',
@@ -455,6 +523,14 @@ export function normalizeTerminalDepositReadWorkbench(
         {
           label: 'Projection',
           value: String(snapshot.selection?.projectionPrincipal || 'buyer'),
+        },
+        {
+          label: 'Source revision',
+          value: sourceRevision?.commit
+            ? `${sourceRevision.repositoryFullName}@${sourceRevision.branch}:${sourceRevision.commit.slice(0, 12)}`
+            : sourceRevision
+              ? `${sourceRevision.repositoryFullName}@${sourceRevision.branch}`
+              : '—',
         },
         {
           label: 'Decisive kinds',
