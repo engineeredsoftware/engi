@@ -1,13 +1,11 @@
 import OpenAI from 'openai';
+import {
+  buildOpenAIEmbeddingCreateParams,
+  normalizeAssetPackEmbeddingVector,
+  resolveAssetPackEmbeddingConfig,
+  type OpenAIEmbeddingCreateParams,
+} from '@bitcode/pipeline-asset-pack/src/embedding-config';
 let supabaseModulePromise: Promise<typeof import('@bitcode/supabase')> | null = null;
-
-function getEvidenceDocumentEmbeddingModel() {
-  return (
-    process.env.BITCODE_EVIDENCE_DOCUMENT_EMBEDDING_MODEL ??
-    process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ??
-    'text-embedding-ada-002'
-  );
-}
 
 async function getSupabaseAdmin() {
   if (!supabaseModulePromise) {
@@ -29,7 +27,7 @@ interface SearchRelevantEvidenceDocumentsParams {
 
 interface EvidenceDocumentEmbeddingClient {
   embeddings: {
-    create(params: { model: string; input: string }): Promise<{ data: Array<{ embedding: unknown }> }>;
+    create(params: OpenAIEmbeddingCreateParams): Promise<{ data: Array<{ embedding: unknown }> }>;
   };
 }
 
@@ -45,20 +43,23 @@ export async function searchRelevantEvidenceDocuments(params: SearchRelevantEvid
     `Stage: ${params.stage}`
   ].join('\n');
 
-  const client = params.embeddingClient ?? new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  let embedding: unknown;
+  const embeddingConfig = resolveAssetPackEmbeddingConfig(process.env, {
+    modelEnvKeys: ['BITCODE_EVIDENCE_DOCUMENT_EMBEDDING_MODEL', 'BITCODE_DEFAULT_EMBEDDING_MODEL'],
+    dimensionsEnvKeys: ['BITCODE_EVIDENCE_DOCUMENT_EMBEDDING_DIMENSIONS', 'BITCODE_DEFAULT_EMBEDDING_DIMENSIONS'],
+  });
+  const client: EvidenceDocumentEmbeddingClient =
+    params.embeddingClient ?? (new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) as unknown as EvidenceDocumentEmbeddingClient);
+  let embedding: number[] | null;
   try {
-    const embeddingResponse = await client.embeddings.create({
-      model: getEvidenceDocumentEmbeddingModel(),
-      input: summary
-    });
-
-    embedding = embeddingResponse.data?.[0]?.embedding;
+    const embeddingResponse = await client.embeddings.create(
+      buildOpenAIEmbeddingCreateParams(summary, embeddingConfig)
+    );
+    embedding = normalizeAssetPackEmbeddingVector(embeddingResponse.data?.[0]?.embedding, embeddingConfig);
   } catch {
     return [];
   }
 
-  if (!Array.isArray(embedding)) {
+  if (!embedding) {
     return [];
   }
 

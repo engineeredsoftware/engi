@@ -252,6 +252,46 @@ function record(event) {
   });
 }
 
+function buildManifestDepositoryAsset(manifest) {
+  const assetId = manifest.deposit?.assetId || manifest.deposit?.id || 'manifest-deposit-reference';
+  const source = manifest.sourceRevision || {};
+  const repositoryFullName = source.repositoryFullName || '';
+  const text = [
+    'Deposited repository revision',
+    repositoryFullName,
+    source.branch,
+    source.commit,
+    'repository-revision fit-quality-receipt asset-pack-evidence proof-root reconciliation-readback',
+    manifest.read?.prompt,
+  ].filter(Boolean).join(' ');
+
+  return {
+    assetId,
+    title: \`Deposited repository revision \${repositoryFullName || assetId}\`,
+    summary: text,
+    artifactKind: 'repository-revision',
+    artifactType: 'repository/revision',
+    repositoryFullName,
+    sourceBranch: source.branch || null,
+    sourceCommit: source.commit || null,
+    contentRoot: \`sha256:\${createHash('sha256').update(text).digest('hex')}\`,
+    contentUnits: [
+      {
+        unitId: \`\${assetId}:repository-revision\`,
+        unitKind: 'repository-revision',
+        text,
+      },
+    ],
+    sourceMaterialBinding: {
+      mode: 'source-bound-repository-revision',
+      mutableInBranch: false,
+      materializationRoot: \`.bitcode/source-material/\${assetId}\`,
+    },
+    hasWalletOrAttestationProof: manifest.deposit?.hasWalletOrAttestationProof === true,
+    hasAssetMeasurementEvidence: manifest.deposit?.hasAssetMeasurementEvidence === true,
+  };
+}
+
 function summarizeExecution(execution) {
   const summary = {
     root: execution.summary(),
@@ -385,8 +425,9 @@ try {
     },
     sourceRevision: manifest.sourceRevision,
     deposit: manifest.deposit,
+    depositoryAssets: [buildManifestDepositoryAsset(manifest)],
     writtenAssetType: 'asset_pack',
-    deliveryMechanismTemplate: 'blocked-readiness-review',
+    deliveryMechanismTemplate: 'pull-request',
     harness: manifest,
   };
 

@@ -15,6 +15,12 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     enhanced.writtenAssets;
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
+  const fitResult =
+    (execution as any).findUp?.('fit', 'result') ||
+    (execution as any).get?.('fit', 'result');
+  const depositorySearch =
+    (execution as any).findUp?.('depository/search', 'result') ||
+    (execution as any).get?.('depository/search', 'result');
 
   // 1) Ensure connected-interface links are populated if available on execution.
   const prUrl =
@@ -59,6 +65,14 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     undefined;
   enhanced.writtenAssetType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
+  if (fitResult) {
+    (enhanced as any).fitResult = fitResult;
+    (enhanced as any).fit = fitResult;
+    (enhanced as any).resultState = fitResult.resultState;
+  }
+  if (depositorySearch) {
+    (enhanced as any).depositorySearch = depositorySearch;
+  }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
     enhanced.deliveryMechanism = { ...enhanced.shippable };
   }
@@ -122,6 +136,14 @@ export function buildAssetPackPostprocessedResult(
   const validationReady = getValidationReadyToFinish(execution, 'asset-pack');
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
+  const fitResult =
+    (execution as any).findUp?.('fit', 'result') ||
+    (execution as any).get?.('fit', 'result') ||
+    (normalized as any).fitResult;
+  const depositorySearch =
+    (execution as any).findUp?.('depository/search', 'result') ||
+    (execution as any).get?.('depository/search', 'result') ||
+    (normalized as any).depositorySearch;
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -152,6 +174,14 @@ export function buildAssetPackPostprocessedResult(
     artifacts,
     writtenAssetType,
     deliveryMechanismTemplate,
+    ...(fitResult
+      ? {
+          fitResult,
+          fit: fitResult,
+          resultState: fitResult.resultState,
+        }
+      : {}),
+    ...(depositorySearch ? { depositorySearch } : {}),
     read:
       normalized.read ||
       (execution.get('pipeline', 'expressedRead') as string) ||

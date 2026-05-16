@@ -2,9 +2,10 @@ import {
   AssetPackDeliveryMechanismTemplate,
   AssetPackWrittenAssetType,
 } from './AssetPackWrittenAssetType';
+import type { AssetPackFitResultState, DepositorySearchResult } from '../depository-search';
 
 /**
- * V26 AssetPack synthesis uses written-asset and shippable /
+ * AssetPack synthesis uses written-asset and shippable /
  * delivery-mechanism semantics. A Shippable is the connected-interface object
  * delivered by Finish after AssetPack evidence exists.
  */
@@ -59,6 +60,18 @@ export interface AssetPackOutput {
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   read?: string;
   semanticKind?: 'asset-pack-written-asset';
+  resultState?: AssetPackFitResultState;
+  fitResult?: {
+    resultState: AssetPackFitResultState;
+    resultReasons?: string[];
+    selectedCandidateAssetIds?: string[];
+    queryRoot?: string;
+    rankingRoot?: string;
+    searchedAssetCount?: number;
+    embeddingPolicy?: DepositorySearchResult['embeddingPolicy'];
+  };
+  fit?: AssetPackOutput['fitResult'];
+  depositorySearch?: DepositorySearchResult;
 }
 
 export type AssetPackWrittenAssetTypeValue =
@@ -82,6 +95,10 @@ export interface AssetPackPostprocessed {
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   read?: string;
+  resultState?: AssetPackFitResultState;
+  fitResult?: AssetPackOutput['fitResult'];
+  fit?: AssetPackOutput['fitResult'];
+  depositorySearch?: DepositorySearchResult;
   assetPack?: {
     read?: string;
     writtenAssetType?: AssetPackWrittenAssetType;
@@ -110,6 +127,13 @@ export interface AssetPackInput {
   definitionOfRead?: string;
   read?: string;
   repository: AssetPackRepositoryRef;
+  sourceRevision?: {
+    repositoryFullName?: string;
+    branch?: string;
+    commit?: string;
+  };
+  depositoryAssets?: unknown[];
+  depositCandidates?: unknown[];
   requirements?: AssetPackRequirements;
   deliveryTarget?: 'pr';
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;

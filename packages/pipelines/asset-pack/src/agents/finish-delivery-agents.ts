@@ -152,7 +152,7 @@ export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers V26 Finish/Delivering agents.
+ * Registers Finish/Delivering agents.
  * Called after validation phase completes.
  * 
  * Sequence:

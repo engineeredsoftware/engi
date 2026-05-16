@@ -1,7 +1,7 @@
 /**
  * AssetPack synthesis implementation agent.
  *
- * V26 implementation phase is one canonical Read-to-AssetPack synthesis
+ * The implementation phase is one canonical Read-to-AssetPack synthesis
  * corridor. Pull requests, reviews, issues, and comments are Finish delivery
  * mechanisms, not implementation phase types.
  */

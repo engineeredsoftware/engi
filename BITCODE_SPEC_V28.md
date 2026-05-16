@@ -346,6 +346,18 @@ Acceptance criteria:
   product-critical path, including Terminal Deposit/Read components, execution
   history persistence, repository source selection, wallet/GitHub readiness,
   QA SQL, and BTD/ledger proof readback;
+- depository search must be a reusable AssetPack primitive, not a UI-only
+  posture: every pipeline run stores searched asset count, query root, ranking
+  root, selected candidate ids, rejected/blocker reasons, proof/measurement
+  posture, embedding policy, and result state under the execution evidence
+  tree;
+- vector recall for deposited AssetPack evidence uses OpenAI
+  `text-embedding-3-small` by default with `encoding_format='float'` and
+  `dimensions=1536`, matching Supabase `deliverable_vectors.embedding
+  vector(1536)`, `ivfflat`, `vector_cosine_ops`, and
+  `match_deliverable_vectors` cosine readback. Any model or dimension override
+  creates a distinct vector space and must not mix with existing rows unless the
+  rows are re-embedded and the matching function/schema still agree;
 - the Fit result must expose ranking quality, rejection reasons, proof roots,
   dedupe/materialization roots where available, and finality/readiness status;
 - AssetPack synthesis must be protocol-specified and deterministic; if source
@@ -405,9 +417,10 @@ The harness has two admissible modes:
   export, and stop/cleanup. This mode always produces `blocked_readiness`
   because it does not invoke the AssetPack pipeline.
 - `asset_pack_pipeline`: clones or mounts the selected repository revision,
-  installs workspace dependencies, invokes the AssetPack pipeline entrypoint,
-  exports evidence and telemetry artifacts, and relies on SQL readback before
-  any commercial result is accepted.
+  installs workspace dependencies, builds the manifest Deposit into searchable
+  depository supply, invokes the AssetPack pipeline entrypoint, exports
+  evidence and telemetry artifacts, and relies on SQL readback before any
+  commercial result is accepted.
 
 Read/Fit result review remains fail-closed:
 
@@ -418,6 +431,9 @@ Read/Fit result review remains fail-closed:
 - `blocked_readiness` is mandatory when source materialization, model/tool
   credentials, telemetry persistence, BTC fee, ledger anchor, settlement,
   AssetPack range projection, or finality readback is unavailable.
+- manifest-only Deposit supply can satisfy candidate recall but cannot produce
+  `worthy_fit` unless proof and measurement posture are explicitly visible to
+  the pipeline input and the downstream readback queries confirm them.
 - secrets for wallets, GitHub, model providers, Supabase service roles, or
   other systems may be passed into a sandbox only by explicit allowlist or
   brokered network policy; routine QA artifacts must show only redacted names.
@@ -605,12 +621,12 @@ Current accepted boundaries: V28 productizes Terminal reads without redefining i
 
 ### Fit, recall, ranking, and verification
 
-Current canonical objects and emitted artifacts: Fit review rows, recall candidates, verification decisions.
-Current algorithms and derivation rules: deposit-to-read fit, recall and ranking, and verification decisions are explicit before settlement.
-Current invariants and fail-closed conditions: no-survivor asset pack blocks range commitment.
-Current proof obligations: prove candidate qualities and rejection reasons.
-Current source-bearing implementation basis: protocol-demonstration Read/Fit witnesses and UAPI execution components.
-Current validating commands and parity basis: demonstration tests and UAPI route tests.
+Current canonical objects and emitted artifacts: Fit review rows, depository search results, recall candidates, verification decisions, selected candidate ids, query roots, ranking roots, embedding policy.
+Current algorithms and derivation rules: deposit-to-read fit, recall, vector/lexical source-bound ranking, proof/measurement gating, and verification decisions are explicit before settlement.
+Current invariants and fail-closed conditions: no-survivor asset pack blocks range commitment; broad Reads block readiness; unrelated Reads return no-worthy-fit; mock/frontier repository leakage blocks readiness; embedding model/dimension drift blocks vector recall promotion.
+Current proof obligations: prove candidate qualities, rejection reasons, source revision binding, proof posture, measurement posture, embedding model/dimensions/vector store, and ranking determinism.
+Current source-bearing implementation basis: AssetPack depository-search primitive, protocol-demonstration Read/Fit witnesses, and UAPI execution components.
+Current validating commands and parity basis: AssetPack depository-search tests, demonstration tests, and UAPI route tests.
 Current accepted boundaries: V28 does not add broad market discovery.
 
 ### Selection and materialization

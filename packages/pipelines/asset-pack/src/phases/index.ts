@@ -118,7 +118,7 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
 
 /**
  * Finish Phase - save the pipeline result and deliver AssetPacks /
- * AssetPackPartials through V26 pull-request shippables.
+ * AssetPackPartials through pull-request shippables.
  */
 export const finishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (input: any, execution: any) => {
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);

@@ -80,6 +80,8 @@ export interface PipelineReadRequest {
 export interface PipelineDepositReference {
   id: string;
   assetId?: string | null;
+  hasWalletOrAttestationProof?: boolean;
+  hasAssetMeasurementEvidence?: boolean;
 }
 
 export interface PipelineHarnessManifest {

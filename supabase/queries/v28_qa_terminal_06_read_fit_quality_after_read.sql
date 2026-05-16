@@ -133,6 +133,24 @@ BEGIN
             e.output #> '{asset_pack_completion,bitcodeActivityState,fitResult,resultReasons}',
             e.output #> '{assetPackCompletion,bitcodeActivityState,fitResult,resultReasons}'
           ) AS fit_result_reasons,
+          coalesce(
+            e.output #>> '{depositorySearch,embeddingPolicy,model}',
+            e.output #>> '{fitResult,embeddingPolicy,model}',
+            e.output #>> '{asset_pack_completion,bitcodeActivityState,fitResult,embeddingPolicy,model}',
+            e.output #>> '{assetPackCompletion,bitcodeActivityState,fitResult,embeddingPolicy,model}'
+          ) AS fit_embedding_model,
+          nullif(coalesce(
+            e.output #>> '{depositorySearch,embeddingPolicy,dimensions}',
+            e.output #>> '{fitResult,embeddingPolicy,dimensions}',
+            e.output #>> '{asset_pack_completion,bitcodeActivityState,fitResult,embeddingPolicy,dimensions}',
+            e.output #>> '{assetPackCompletion,bitcodeActivityState,fitResult,embeddingPolicy,dimensions}'
+          ), '')::integer AS fit_embedding_dimensions,
+          coalesce(
+            e.output #>> '{depositorySearch,embeddingPolicy,vectorStore,rpc}',
+            e.output #>> '{fitResult,embeddingPolicy,vectorStore,rpc}',
+            e.output #>> '{asset_pack_completion,bitcodeActivityState,fitResult,embeddingPolicy,vectorStore,rpc}',
+            e.output #>> '{assetPackCompletion,bitcodeActivityState,fitResult,embeddingPolicy,vectorStore,rpc}'
+          ) AS fit_vector_rpc,
           (
             e.output ? 'readMeasurement'
             OR e.output #> '{asset_pack_completion,bitcodeActivityState,readMeasurement}' IS NOT NULL
@@ -307,7 +325,10 @@ BEGIN
           END AS deposit_measurement_state,
           fit ->> 'fit_summary' AS latest_fit_summary,
           fit ->> 'fit_result_state' AS latest_fit_result_state,
-          fit -> 'fit_result_reasons' AS latest_fit_result_reasons
+          fit -> 'fit_result_reasons' AS latest_fit_result_reasons,
+          fit ->> 'fit_embedding_model' AS latest_fit_embedding_model,
+          nullif(fit ->> 'fit_embedding_dimensions', '')::integer AS latest_fit_embedding_dimensions,
+          fit ->> 'fit_vector_rpc' AS latest_fit_vector_rpc
         FROM latest
       )
       SELECT
@@ -348,7 +369,10 @@ BEGIN
             'read_target_kind_count', read_target_kind_count,
             'latest_fit_summary', latest_fit_summary,
             'latest_fit_result_state', latest_fit_result_state,
-            'latest_fit_result_reasons', latest_fit_result_reasons
+            'latest_fit_result_reasons', latest_fit_result_reasons,
+            'latest_fit_embedding_model', latest_fit_embedding_model,
+            'latest_fit_embedding_dimensions', latest_fit_embedding_dimensions,
+            'latest_fit_vector_rpc', latest_fit_vector_rpc
           )
         )
       FROM critical_summary;

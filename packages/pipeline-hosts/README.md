@@ -27,9 +27,17 @@ manifest and runner, executes Node, writes `evidence.json` and
 `blocked_readiness` because the AssetPack pipeline was not invoked.
 
 `asset_pack_pipeline` clones or mounts a repository source, installs workspace
-dependencies, and runs the AssetPack pipeline runner in the sandbox. It still
+dependencies, builds a manifest depository asset from the pinned Deposit and
+source revision, and runs the AssetPack pipeline runner in the sandbox. It still
 requires SQL readback before any `worthy_fit`, settlement, range, BTC fee, or
-ledger finality claim is commercially admissible.
+ledger finality claim is commercially admissible. If the operator has already
+verified proof and measurement posture for the manifest Deposit, set
+`BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1` and
+`BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1`; otherwise the pipeline should
+return `blocked_readiness` rather than a worthy fit.
+The exported evidence must include the AssetPack embedding policy
+(`text-embedding-3-small`, `1536` dimensions, cosine
+`match_deliverable_vectors`) so SQL readback can detect vector-space drift.
 
 ## Live QA
 
@@ -60,6 +68,8 @@ BITCODE_SANDBOX_SOURCE_GIT_URL=https://github.com/engineeredsoftware/ENGI.git \
 BITCODE_SANDBOX_SOURCE_BRANCH=main \
 BITCODE_SANDBOX_SOURCE_COMMIT=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
 BITCODE_SANDBOX_SOURCE_REVISION=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
+BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
+BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```
 

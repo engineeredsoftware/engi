@@ -1,7 +1,7 @@
 /**
  * Validation phase agents for the AssetPack pipeline.
  *
- * V26 validates AssetPack synthesis artifacts and evidence. It does not
+ * Validation checks AssetPack synthesis artifacts and evidence. It does not
  * branch validation by pull-request, review, issue, or comment request labels;
  * those labels are Finish delivery-mechanism templates only.
  */

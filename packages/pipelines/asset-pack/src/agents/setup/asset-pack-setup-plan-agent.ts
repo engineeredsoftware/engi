@@ -36,7 +36,7 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
   name: 'asset-pack-setup-plan-agent',
   description: 'Derive concise setup plan from repository context and expressed read',
   outputSchema: PlanSchema,
-  // Minimal prompt hierarchy to satisfy V26 lint and provide usable strings
+  // Minimal prompt hierarchy to satisfy lint and provide usable strings.
   prompt: (() => {
     const p = new Prompt();
     p.set('pipeline', 'asset-pack' as any);
@@ -114,7 +114,7 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
   refine: { },
   retry: { }
 });
-// V26 bring-up: provide a fast stub in test/debug-only mode
+// Bring-up path: provide a fast stub in test/debug-only mode.
 export default async function setupPlanAgent(input: any, execution: any) {
   const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
   const onlyGens = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '');

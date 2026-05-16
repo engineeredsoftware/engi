@@ -46,7 +46,7 @@ export function normalizeDeliveryMechanismTemplate(
     normalized.includes('design')
   ) {
     throw new Error(
-      `V26 AssetPack Finish supports pull-request delivery only; received ${raw}`
+      `AssetPack Finish supports pull-request delivery only; received ${raw}`
     );
   }
 

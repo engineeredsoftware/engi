@@ -67,6 +67,8 @@ async function main(): Promise<void> {
     deposit: {
       id: process.env.BITCODE_SANDBOX_DEPOSIT_ID || 'manual-deposit-qa',
       assetId: process.env.BITCODE_SANDBOX_DEPOSIT_ASSET_ID || null,
+      hasWalletOrAttestationProof: process.env.BITCODE_SANDBOX_DEPOSIT_HAS_PROOF === '1',
+      hasAssetMeasurementEvidence: process.env.BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT === '1',
     },
     sourceRevision: {
       repositoryFullName,

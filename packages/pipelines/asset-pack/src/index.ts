@@ -1,9 +1,9 @@
 /**
  * AssetPack Pipeline
  *
- * Canonical V26 package owner for Bitcode phased pipeline runs that satisfy
- * Reads, synthesize AssetPack artifacts and Exchange evidence, and use
- * Finish-phase Delivering only for connected-interface delivery mechanisms.
+ * Bitcode phased pipeline runs that satisfy Reads, synthesize AssetPack
+ * artifacts and Exchange evidence, and use Finish-phase Delivering only for
+ * connected-interface delivery mechanisms.
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
 
@@ -19,6 +19,7 @@ import {
   resolveExpressedRead,
   resolveWrittenAssetType,
 } from './semantic-resolution';
+import { runDepositorySearchForPipelineInput } from './depository-search';
 
 // ==================== FACTORIES ====================
 
@@ -80,6 +81,22 @@ function factoryPreprocess(): Executor<any, any> {
     execution.store('pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
     execution.store('pipeline', 'expressedRead', expressedRead);
     execution.store('read', 'description', expressedRead);
+
+    const depositorySearch = await runDepositorySearchForPipelineInput(processedInput, execution);
+    try { processedInput.depositorySearchResult = depositorySearch; } catch {}
+    try { processedInput.depositCandidates = depositorySearch.selectedCandidates; } catch {}
+    try {
+      processedInput.fitResult = {
+        resultState: depositorySearch.resultState,
+        resultReasons: depositorySearch.resultReasons,
+        selectedCandidateAssetIds: depositorySearch.selectedCandidateAssetIds,
+        queryRoot: depositorySearch.queryRoot,
+        rankingRoot: depositorySearch.rankingRoot,
+        embeddingPolicy: depositorySearch.embeddingPolicy,
+      };
+    } catch {}
+    try { processedInput.fit = processedInput.fitResult; } catch {}
+
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
     return processedInput;
   };
@@ -233,6 +250,8 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 
 export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
+export * from './depository-search';
+export * from './embedding-config';
 export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
 export {
   AssetPackComprehendReadAgent,

@@ -7,7 +7,7 @@ jest.mock('openai', () => {
   return jest.fn().mockImplementation(() => ({
     embeddings: {
       create: jest.fn().mockResolvedValue({
-        data: [{ embedding: Array(1536).fill(0.1) }]
+      data: [{ embedding: Array(1536).fill(0.1) }]
       })
     }
   }));
@@ -57,8 +57,10 @@ describe('searchRelevantEvidenceDocuments', () => {
     });
     expect(OpenAI).toHaveBeenCalledWith({ apiKey: 'fake' });
     expect((OpenAI as unknown as jest.Mock).mock.results[0].value.embeddings.create).toHaveBeenCalledWith({
-      model: 'text-embedding-ada-002',
+      model: 'text-embedding-3-small',
       input: expect.stringContaining('Repository: owner/repo'),
+      encoding_format: 'float',
+      dimensions: 1536,
     });
     expect(supabaseAdmin.rpc).toHaveBeenCalledWith(
       'match_ai_document_templates',

@@ -15,10 +15,10 @@ import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTo
 import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
 import { assetPackAudioComprehensionTool } from './AssetPackAudioComprehensionTool';
 import { assetPackVideoComprehensionTool } from './AssetPackVideoComprehensionTool';
-// VCS tools used during V26 Finish/Delivering.
+// VCS tools used during Finish/Delivering.
 import { createPullRequestTool } from '@bitcode/vcs-tools';
 
-// V26 policy:
+// AssetPack tool policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.
 // - Computer use is internal, server-flagged, and limited to Read measurement.
 // - LSP tools are ALWAYS available (not env-gated).
@@ -36,7 +36,7 @@ let lspSemanticAnalysisEngine: Tool | undefined;
 let lspCodeIntelligenceEngine: Tool | undefined;
 let lspWorkspaceNavigationEngine: Tool | undefined;
 
-// Disable all MCP tool arrays for V26 (will be enabled in future releases)
+// Disable provider MCP tool arrays until pipeline configuration enables them.
 const awsTools: Tool[] = [];
 const supabaseTools: Tool[] = [];
 const vercelTools: Tool[] = [];
@@ -93,9 +93,9 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
 /**
  * Internal Read-measurement computer-use registry.
  *
- * This is intentionally not mounted in the V26 Terminal action controls and is
- * not a general implementation/Delivering capability. Later versions may
- * expand the tool surface after the Read measurement contract is fully proven.
+ * This is intentionally not mounted in Terminal action controls and is not a
+ * general implementation/Delivering capability. The tool surface can expand
+ * after the Read measurement contract is fully proven.
  */
 export function getComputerUseReadMeasurementTools(
   env: NodeJS.ProcessEnv = process.env,
@@ -121,7 +121,7 @@ export const VALIDATION_PHASE_TOOLS: Tool[] = [
 
 /**
  * Finish/Delivering tools.
- * V26 commercial AssetPack delivery emits GitHub pull requests only.
+ * Commercial AssetPack delivery emits GitHub pull requests only.
  */
 export const FINISH_DELIVERY_TOOLS: Tool[] = [
   createPullRequestTool,

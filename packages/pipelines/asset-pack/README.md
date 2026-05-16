@@ -1,6 +1,6 @@
 # AssetPack Pipeline
 
-Canonical V26 package owner for the Bitcode phased pipeline corridor.
+Canonical package owner for the Bitcode phased pipeline corridor.
 This package turns a measured Bitcode Read into AssetPack synthesis artifacts,
 Exchange-stored AssetPack evidence, and optional connected-interface
 delivery-mechanism artifacts.
@@ -12,11 +12,12 @@ semantics.
 
 ## SDIVF Shape
 
-1. **Setup** - repository context, Read comprehension, LSP/static measurement, and danger-wall admission.
-2. **Discovery** - source-grounded research, codebase search, file selection, and approach planning.
-3. **Implementation** - AssetPack synthesis artifacts using Divide, Apply, and Correct agents.
-4. **Validation** - Read satisfaction, proof posture, and readiness-to-Finish checks.
-5. **Finish** - save result state, summarize AssetPack evidence, and run Delivering when requested.
+1. **Preprocess** - normalize the Read, source revision, delivery semantics, and depository search/ranking evidence.
+2. **Setup** - repository context, Read comprehension, LSP/static measurement, and danger-wall admission.
+3. **Discovery** - source-grounded research, codebase search, file selection, and approach planning.
+4. **Implementation** - AssetPack synthesis artifacts using Divide, Apply, and Correct agents.
+5. **Validation** - Read satisfaction, proof posture, and readiness-to-Finish checks.
+6. **Finish** - save result state, summarize AssetPack evidence, and run Delivering when requested.
 
 The `Discovery -> Implementation -> Validation` loop may iterate up to the
 configured limit before Finish.
@@ -25,6 +26,11 @@ configured limit before Finish.
 
 ```text
 AssetPackPipeline (SDIVF with DIV iteration)
+├── Preprocess
+│   ├── Read and source-revision normalization
+│   ├── Depository candidate recall
+│   ├── Source-bound ranking
+│   └── Fit result-state evidence
 ├── Setup
 │   ├── VCS repository context
 │   ├── Read comprehension
@@ -55,6 +61,54 @@ const result = await assetPackPipeline({
   deliveryMechanismTemplate: 'pull-request',
 }, execution);
 ```
+
+## Depository Search
+
+`runDepositorySearchForPipelineInput` is the package-level primitive for
+commercial Read/Fit finding over deposited AssetPack supply. It normalizes
+`depositoryAssets`, `depositCandidates`, or manifest-only `deposit` +
+`sourceRevision` inputs, ranks candidates with deterministic lexical, unit,
+repository, revision, artifact-kind, proof, and measurement signals, and stores:
+
+- `depository/search.result`
+- `depository/search.candidateRanking`
+- `depository/search.selectedCandidates`
+- `depository/search.embeddingPolicy`
+- `fit.result`
+- `fit.resultState`
+- `fit.resultReasons`
+
+Result states are fail-closed:
+
+- `worthy_fit` only when a selected candidate is source-bound, semantically
+  relevant, proof-bearing, and measurement-bearing.
+- `no_worthy_fit` when searched deposits do not satisfy the Read.
+- `blocked_readiness` when the Read is too broad, no depository assets are
+  available, candidate evidence is missing proof/measurement, or mock/frontier
+  leakage is detected.
+
+Search providers can be added through the `DepositorySearchProvider` interface.
+The default lexical provider is deterministic so QA can prove ranking and result
+state without relying on model availability.
+
+### Vector Embedding Contract
+
+Depository vector recall uses the shared AssetPack embedding contract:
+
+- provider: OpenAI embeddings API
+- default model: `text-embedding-3-small`
+- request shape: `{ model, input, encoding_format: 'float', dimensions: 1536 }`
+- storage dimensions: `1536`
+- max input: `8192` tokens per embedding request
+- vector store: `deliverable_vectors.embedding`
+- match RPC: `match_deliverable_vectors`
+- distance/index: cosine similarity through `ivfflat` with `vector_cosine_ops`
+
+`BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL` and
+`BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_DIMENSIONS` may override the model and
+dimension only for a rebuilt vector space. Mixed model/dimension rows are not a
+commercially admissible search corpus. The default remains dimension-compatible
+with the existing Supabase `vector(1536)` schema.
 
 ## Canonical Boundary
 

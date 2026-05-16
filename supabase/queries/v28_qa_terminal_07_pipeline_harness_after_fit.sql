@@ -157,7 +157,37 @@ BEGIN
               SELECT coalesce(jsonb_agg(key ORDER BY key), '[]'::jsonb)
               FROM jsonb_object_keys(coalesce(artifacts, '{}'::jsonb)) AS keys(key)
             ),
-            'result_state', coalesce(output ->> 'resultState', validation ->> 'resultState'),
+            'result_state', coalesce(
+              output ->> 'resultState',
+              output #>> '{fitResult,resultState}',
+              output #>> '{fit,resultState}',
+              validation ->> 'resultState'
+            ),
+            'fit_result_reasons', coalesce(
+              output #> '{fitResult,resultReasons}',
+              output #> '{fit,resultReasons}',
+              validation #> '{resultReasons}'
+            ),
+            'depository_query_root', output #>> '{depositorySearch,queryRoot}',
+            'depository_ranking_root', output #>> '{depositorySearch,rankingRoot}',
+            'depository_embedding_model', coalesce(
+              output #>> '{depositorySearch,embeddingPolicy,model}',
+              output #>> '{fitResult,embeddingPolicy,model}'
+            ),
+            'depository_embedding_dimensions', nullif(coalesce(
+              output #>> '{depositorySearch,embeddingPolicy,dimensions}',
+              output #>> '{fitResult,embeddingPolicy,dimensions}'
+            ), '')::integer,
+            'depository_vector_rpc', coalesce(
+              output #>> '{depositorySearch,embeddingPolicy,vectorStore,rpc}',
+              output #>> '{fitResult,embeddingPolicy,vectorStore,rpc}'
+            ),
+            'depository_vector_distance_metric', coalesce(
+              output #>> '{depositorySearch,embeddingPolicy,vectorStore,distanceMetric}',
+              output #>> '{fitResult,embeddingPolicy,vectorStore,distanceMetric}'
+            ),
+            'depository_searched_asset_count', nullif(output #>> '{depositorySearch,searchedAssetCount}', '')::integer,
+            'depository_selected_candidate_asset_ids', output #> '{depositorySearch,selectedCandidateAssetIds}',
             'sandbox_id', coalesce(metadata ->> 'sandboxId', artifacts ->> 'sandboxId')
           ) AS harness_summary,
           error_data

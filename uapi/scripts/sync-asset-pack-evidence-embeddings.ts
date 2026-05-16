@@ -11,14 +11,16 @@ if (!process.env.OPENAI_API_KEY) {
 
 const { OpenAI } = require('openai');
 const { supabaseAdmin } = require('@bitcode/supabase');
+const {
+  buildOpenAIEmbeddingCreateParams,
+  normalizeAssetPackEmbeddingVector,
+  resolveAssetPackEmbeddingConfig,
+} = require('@bitcode/pipeline-asset-pack/src/embedding-config');
 
 // Retained Exchange storage identifiers; this script owns AssetPack evidence semantics.
 const ASSET_PACK_EVIDENCE_TABLE = 'deliverables';
 const ASSET_PACK_EVIDENCE_VECTOR_TABLE = 'deliverable_vectors';
-const ASSET_PACK_EVIDENCE_EMBEDDING_MODEL =
-  process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL ||
-  process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ||
-  'text-embedding-ada-002';
+const ASSET_PACK_EVIDENCE_EMBEDDING_CONFIG = resolveAssetPackEmbeddingConfig();
 
 async function main() {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -40,11 +42,19 @@ async function main() {
     process.stdout.write(`Embedding AssetPack evidence '${evidence.id}'... `);
 
     try {
-      const res = await openai.embeddings.create({
-        model: ASSET_PACK_EVIDENCE_EMBEDDING_MODEL,
-        input: evidence.output || ''
-      });
-      const embedding = res.data[0].embedding;
+      const res = await openai.embeddings.create(
+        buildOpenAIEmbeddingCreateParams(evidence.output || '', ASSET_PACK_EVIDENCE_EMBEDDING_CONFIG)
+      );
+      const embedding = normalizeAssetPackEmbeddingVector(
+        res.data[0].embedding,
+        ASSET_PACK_EVIDENCE_EMBEDDING_CONFIG
+      );
+      if (!embedding) {
+        console.error(
+          `FAILED expected ${ASSET_PACK_EVIDENCE_EMBEDDING_CONFIG.dimensions} dimensions from ${ASSET_PACK_EVIDENCE_EMBEDDING_CONFIG.model}`
+        );
+        continue;
+      }
 
       const { error: upsertError } = await supabaseAdmin
         .from(ASSET_PACK_EVIDENCE_VECTOR_TABLE)

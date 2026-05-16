@@ -5,6 +5,13 @@ import { supabaseAdmin } from '@bitcode/supabase';
 import { log } from '@bitcode/logger';
 import 'openai/shims/node';
 import OpenAI from 'openai';
+import {
+  ASSET_PACK_VECTOR_MATCH_RPC,
+  buildOpenAIEmbeddingCreateParams,
+  normalizeAssetPackEmbeddingVector,
+  resolveAssetPackEmbeddingConfig,
+  type OpenAIEmbeddingCreateParams,
+} from '../embedding-config';
 
 const PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT = parseInt(
   process.env.BITCODE_PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT ?? '5',
@@ -14,17 +21,9 @@ const POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT = parseInt(
   process.env.BITCODE_POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT ?? '10',
   10
 );
-function getAssetPackEvidenceEmbeddingModel() {
-  return (
-    process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL ??
-    process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ??
-    'text-embedding-ada-002'
-  );
-}
-
 export interface AssetPackEvidenceEmbeddingClient {
   embeddings: {
-    create(params: { model: string; input: string }): Promise<{ data: Array<{ embedding: unknown }> }>;
+    create(params: OpenAIEmbeddingCreateParams): Promise<{ data: Array<{ embedding: unknown }> }>;
   };
 }
 
@@ -59,21 +58,25 @@ export async function searchRelevantAssetPackEvidence(params: {
   ];
   const contextText = contextLines.join('\n');
 
-  const embeddings = embeddingClient ?? new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
-  let queryEmbedding: unknown;
+  const embeddingConfig = resolveAssetPackEmbeddingConfig();
+  const embeddings: AssetPackEvidenceEmbeddingClient =
+    embeddingClient ?? (new OpenAI({ apiKey: process.env.OPENAI_API_KEY! }) as unknown as AssetPackEvidenceEmbeddingClient);
+  let queryEmbedding: number[] | null;
   try {
-    const embedRes = await embeddings.embeddings.create({
-      model: getAssetPackEvidenceEmbeddingModel(),
-      input: contextText,
-    });
-    queryEmbedding = embedRes.data?.[0]?.embedding;
+    const embedRes = await embeddings.embeddings.create(
+      buildOpenAIEmbeddingCreateParams(contextText, embeddingConfig)
+    );
+    queryEmbedding = normalizeAssetPackEmbeddingVector(embedRes.data?.[0]?.embedding, embeddingConfig);
   } catch (error) {
     log('searchRelevantAssetPackEvidence embedding error', 'error', { error });
     return [];
   }
 
-  if (!Array.isArray(queryEmbedding)) {
-    log('searchRelevantAssetPackEvidence missing embedding vector', 'warn');
+  if (!queryEmbedding) {
+    log('searchRelevantAssetPackEvidence missing or invalid embedding vector', 'warn', {
+      expectedDimensions: embeddingConfig.dimensions,
+      model: embeddingConfig.model,
+    });
     return [];
   }
 
@@ -83,7 +86,7 @@ export async function searchRelevantAssetPackEvidence(params: {
       ? PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT
       : POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT);
   // Physical RPC name is retained Exchange storage detail; public code returns AssetPack evidence.
-  const { data, error } = await supabaseAdmin.rpc('match_deliverable_vectors', { query_embedding: queryEmbedding, match_count: matchCount });
+  const { data, error } = await supabaseAdmin.rpc(ASSET_PACK_VECTOR_MATCH_RPC, { query_embedding: queryEmbedding, match_count: matchCount });
   if (error) { log('searchRelevantAssetPackEvidence RPC error', 'error', { error }); return [];
   }
 

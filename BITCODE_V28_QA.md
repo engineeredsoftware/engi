@@ -900,6 +900,17 @@ First-run execution boundary:
 
 - A recorded Fit posture is not yet a commercial worthy Fit unless the deployed
   pipeline has actually executed and written its evidence.
+- The AssetPack pipeline must now emit depository search evidence in execution
+  storage: `depository/search.result`, `depository/search.candidateRanking`,
+  `depository/search.selectedCandidates`, `depository/search.embeddingPolicy`,
+  `fit.result`, `fit.resultState`, and `fit.resultReasons`.
+- Depository vector recall uses `text-embedding-3-small` by default with
+  `encoding_format='float'`, `dimensions=1536`, Supabase
+  `deliverable_vectors.embedding vector(1536)`, `ivfflat`,
+  `vector_cosine_ops`, and `match_deliverable_vectors` cosine similarity.
+  A different model or dimension is a new vector space and is a blocker unless
+  all candidate vectors and query vectors are regenerated under that same
+  policy.
 - Until real pipeline execution exists, the honest positive-control result is
   `blocked_readiness`: Deposit, Read admission, source binding, and Fit posture
   are reviewable, but AssetPack range, ledger anchor, BTC fee, settlement, and
@@ -941,6 +952,10 @@ Positive-control expectation:
   Terminal Deposit/Read components, repository/branch/commit source selection,
   execution-history persistence, wallet/GitHub readiness, saved QA SQL, BTD
   ledger readback, and proof/finality/admission primitives.
+- Candidate ranking should expose query root, ranking root, searched asset
+  count, selected candidate ids, rejected candidates, blocked candidates,
+  semantic score, source revision score, proof score, measurement score,
+  embedding model, embedding dimensions, vector table/RPC, and distance metric.
 - The Fit result must name why the selected deposited source evidence is
   decisive or why it is insufficient. A decorative Fit summary with no
   source/proof linkage is a failure.
@@ -986,9 +1001,15 @@ Manual steps:
 9. Run saved query `v28_qa_terminal_06_read_fit_quality_after_read`. Before the
    first deployed pipeline execution, expect `latest_fit_result_state` to be
    `blocked_readiness`, not `worthy_fit`.
-10. Rerun `v28_qa_terminal_02_activity_after_write` and
+10. If the Vercel Sandbox pipeline harness is run, save the exported
+    `evidence.json` and `telemetry.jsonl` summaries and verify that
+    `depositorySearch`, `fitResult`, `queryRoot`, `rankingRoot`, and
+    `selectedCandidateAssetIds` are present in the pipeline output or execution
+    storage summary. Also verify `embeddingPolicy.model`,
+    `embeddingPolicy.dimensions`, and `embeddingPolicy.vectorStore.rpc`.
+11. Rerun `v28_qa_terminal_02_activity_after_write` and
     `v28_qa_terminal_03_btd_ledger_after_terminal`.
-11. Paste screenshots, Network payload summaries, Vercel logs for the same
+12. Paste screenshots, Network payload summaries, Vercel logs for the same
     timestamps, and all three query outputs.
 
 Pass criteria:
@@ -1006,7 +1027,8 @@ Pass criteria:
   activity.
 - Fit evidence is source-bound and quality-explained, not just a summary.
 - Real `worthy_fit` or `no_worthy_fit` classification is backed by deployed
-  pipeline execution rows, events, logs, and result evidence.
+  pipeline execution rows, events, logs, depository search evidence, candidate
+  ranking roots, embedding policy, and result evidence.
 - Settlement, finality, BTC fee, BTD range, or ledger anchor claims appear only
   when query 03 shows matching projection rows; otherwise the Terminal result
   labels the exact blocked-readiness state.
@@ -1019,6 +1041,10 @@ Commercial blockers:
 - Negative controls produce a confident AssetPack instead of no-worthy-fit or
   clarification.
 - Fit search proceeds before Read review/admission.
+- Pipeline output lacks `fit.resultState`, `fit.resultReasons`, query root, or
+  ranking root after the AssetPack pipeline entrypoint reports completion.
+- Pipeline output uses an embedding model or dimensions that do not match the
+  stored depository vectors, or it lacks embedding policy readback.
 - Terminal claims delivery, settlement, mint, anchor, or finality that SQL
   readback cannot verify.
 - Any staging-testnet Read/Fit row contains `frontier/*`, mock provider, or
@@ -1031,6 +1057,9 @@ Prove that the Read/Fit path can run inside the first lightweight deployment
 host before QA treats a Fit result as commercially meaningful. This pass checks
 the harness itself: sandbox creation, command execution, manifest binding,
 artifact export, telemetry, database persistence, and cleanup.
+It also checks the first commercial finding layer: manifest Deposit supply is
+converted into depository search input, candidates are ranked, and the pipeline
+stores query/ranking roots before any result state is reviewed.
 
 Prerequisites:
 
@@ -1071,8 +1100,15 @@ BITCODE_SANDBOX_SOURCE_GIT_URL=https://github.com/engineeredsoftware/ENGI.git \
 BITCODE_SANDBOX_SOURCE_BRANCH=main \
 BITCODE_SANDBOX_SOURCE_COMMIT=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
 BITCODE_SANDBOX_SOURCE_REVISION=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
+BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
+BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 pnpm run qa:pipeline-harness:sandbox
 ```
+
+Omit `BITCODE_SANDBOX_DEPOSIT_HAS_PROOF` and
+`BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT` when the manifest Deposit proof or
+measurement posture has not been independently verified; expected result then
+remains `blocked_readiness`.
 
 If database streaming is intentionally being tested, pass only the required
 keys by name:
@@ -1087,11 +1123,21 @@ After either harness run:
 
 1. Save the command JSON summary, sandbox id, command exit codes, and artifact
    presence fields.
-2. Run saved query
+2. Inspect exported `evidence.json` for `fitResult.resultState`,
+   `fitResult.resultReasons`, `depositorySearch.queryRoot`,
+   `depositorySearch.rankingRoot`, `depositorySearch.searchedAssetCount`, and
+   `depositorySearch.selectedCandidateAssetIds`. Verify
+   `depositorySearch.embeddingPolicy.model='text-embedding-3-small'`,
+   `depositorySearch.embeddingPolicy.dimensions=1536`,
+   `depositorySearch.embeddingPolicy.vectorStore.rpc='match_deliverable_vectors'`,
+   and `depositorySearch.embeddingPolicy.vectorStore.distanceMetric='cosine'`
+   unless the entire vector store was intentionally rebuilt under a different
+   matching policy.
+3. Run saved query
    `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql`.
-3. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
+4. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
    `v28_qa_terminal_03_btd_ledger_after_terminal`.
-4. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
+5. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
 
 Pass criteria:
 
@@ -1099,6 +1145,9 @@ Pass criteria:
   sandbox cleanly.
 - The repository pipeline run either produces source-bound AssetPack pipeline
   evidence or an explicit `blocked_readiness` error artifact.
+- Repository pipeline evidence contains depository search result state,
+  candidate ranking, selected candidate ids, query root, ranking root, and
+  embedding policy.
 - Query 07 reports `pipeline_harness_ready_for_result_review`, or reports a
   precise blocker/warning that Terminal also shows as blocked-readiness.
 - Query 07 shows recent pipeline runtime evidence in at least the base runtime
@@ -1117,6 +1166,7 @@ Commercial blockers:
 - The harness runs but cannot export evidence artifacts before sandbox stop.
 - A `worthy_fit` or `no_worthy_fit` result is claimed without query 07 runtime
   evidence.
+- The pipeline completed without depository search/ranking evidence.
 - Provider tokens, wallet signatures, GitHub credentials, model keys, or
   Supabase service-role secrets appear unredacted in command output, artifacts,
   browser telemetry, or routine QA query rows.
