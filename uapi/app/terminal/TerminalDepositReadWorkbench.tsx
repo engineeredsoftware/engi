@@ -69,6 +69,20 @@ export default function TerminalDepositReadWorkbench({
     if (!workbench?.deposit.selectedEntries.length) return [];
     return workbench.deposit.selectedEntries.slice(0, 6).map((entry) => entry.label);
   }, [workbench]);
+  const readAdmissionActionLabel =
+    recordingKey === 'read-admission'
+      ? 'Admitting Read...'
+      : readFitProgress === 'draft'
+        ? 'Record Read before admitting'
+        : readFitProgress === 'measured'
+          ? 'Admit measured Read for fit search'
+          : 'Read admitted for fit search';
+  const fitResultActionLabel =
+    recordingKey === 'fit'
+      ? 'Recording fit...'
+      : readFitProgress === 'fit-recorded'
+        ? 'Fit result recorded'
+        : 'Record fit result posture';
 
   const handleRecord = async (kind: 'deposit' | 'read' | 'fit') => {
     if (!workbench || !onRecordActivity) return;
@@ -256,13 +270,13 @@ export default function TerminalDepositReadWorkbench({
         <div className="mt-5 flex flex-wrap gap-3">
           <button
             type="button"
-            disabled={recordingKey !== null || readFitProgress === 'draft'}
+            disabled={recordingKey !== null || readFitProgress !== 'measured'}
             onClick={() => {
               void handleRecordReadAdmission();
             }}
             className="rounded-[1.25rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-55"
           >
-            {recordingKey === 'read-admission' ? 'Admitting Read…' : 'Admit measured Read for fit search'}
+            {readAdmissionActionLabel}
           </button>
           <button
             type="button"
@@ -271,6 +285,16 @@ export default function TerminalDepositReadWorkbench({
             className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-55"
           >
             Review fit result posture
+          </button>
+          <button
+            type="button"
+            disabled={recordingKey !== null || readFitProgress !== 'admitted'}
+            onClick={() => {
+              void handleRecord('fit');
+            }}
+            className="rounded-[1.25rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+          >
+            {fitResultActionLabel}
           </button>
         </div>
       </section>
@@ -293,13 +317,13 @@ export default function TerminalDepositReadWorkbench({
           </button>
           <button
             type="button"
-            disabled={recordingKey !== null}
+            disabled={recordingKey !== null || readFitProgress === 'fit-recorded'}
             onClick={() => {
               void handleRecord('fit');
             }}
             className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {recordingKey === 'fit' ? 'Recording…' : 'Record fit result posture'}
+            {fitResultActionLabel}
           </button>
         </div>
         <p className="mt-3 text-sm leading-6 text-neutral-300">{workbench.fit.summary}</p>
