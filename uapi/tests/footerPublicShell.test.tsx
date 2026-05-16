@@ -81,7 +81,7 @@ describe('Footer public shell', () => {
     expect(protocolSpecLink).not.toHaveAttribute('title');
     expect(protocolSpecLink).toHaveAttribute(
       'href',
-      'https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt',
+      'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt',
     );
     expect(screen.getByRole('button', { name: 'Explain Protocol specification' })).toBeInTheDocument();
 

@@ -26,7 +26,7 @@ const TERMINAL_URL = '/terminal';
 const EXCHANGE_URL = '/exchange';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
-const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt';
+const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:

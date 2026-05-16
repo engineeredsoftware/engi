@@ -36,12 +36,13 @@ BEGIN
           e.created_at,
           e.context ->> 'source' AS source,
           e.context ->> 'workbench' AS workbench,
-          CASE
-            WHEN e.context ->> 'source' = 'terminal-deposit-composer'
-              OR (e.context ->> 'source' = 'terminal-deposit-read-workbench' AND e.context ->> 'workbench' = 'deposit')
-              OR e.output ? 'deposit'
-              OR e.output ? 'asset'
-            THEN 'deposit'
+	          CASE
+	            WHEN e.context ->> 'source' = 'terminal-deposit-composer'
+	              OR (e.context ->> 'source' = 'terminal-deposit-read-workbench' AND e.context ->> 'workbench' = 'deposit')
+	              OR e.output ? 'deposit'
+	              OR e.output ? 'deposit_asset'
+	              OR e.output ? 'asset'
+	            THEN 'deposit'
             WHEN e.context ->> 'source' = 'terminal-read-scenario-panel'
               OR e.type IN ('agentic-execution:read-measurement', 'pipeline:measure')
               OR e.output ? 'readMeasurement'
@@ -49,9 +50,20 @@ BEGIN
             WHEN e.type IN ('agentic-execution:proof-refresh', 'pipeline:proof-refresh')
               OR (e.context ->> 'source' = 'terminal-deposit-read-workbench' AND e.context ->> 'workbench' = 'fit')
               OR e.output ? 'fit'
-            THEN 'fit'
-            ELSE 'other'
-          END AS activity_class,
+	            THEN 'fit'
+	            ELSE 'other'
+	          END AS activity_class,
+	          CASE
+	            WHEN e.context ->> 'source' = 'terminal-deposit-composer'
+	              OR e.output ? 'deposit_asset'
+	              OR e.output ? 'asset'
+	              OR nullif(e.context ->> 'candidateAssetId', '') IS NOT NULL
+	            THEN 'submission'
+	            WHEN e.context ->> 'source' = 'terminal-deposit-read-workbench'
+	              AND e.context ->> 'workbench' = 'deposit'
+	            THEN 'posture'
+	            ELSE NULL
+	          END AS deposit_kind,
           coalesce(
             e.context ->> 'repositoryFullName',
             e.context ->> 'repositoryAnchor',
@@ -97,10 +109,12 @@ BEGIN
             e.output #>> '{readMeasurement,targetKindCount}',
             e.output #>> '{asset_pack_completion,bitcodeActivityState,readMeasurement,targetKindCount}'
           ), '')::integer AS target_kind_count,
-          coalesce(
-            e.output #>> '{asset,assetId}',
-            e.context ->> 'candidateAssetId',
-            e.output #>> '{asset_pack_completion,bitcodeActivityState,fitWorkbench,deposit,selectedEntries,0,id}'
+	          coalesce(
+	            e.output #>> '{deposit_asset,assetId}',
+	            e.output #>> '{deposit_asset_id}',
+	            e.output #>> '{asset,assetId}',
+	            e.context ->> 'candidateAssetId',
+	            e.output #>> '{asset_pack_completion,bitcodeActivityState,fitWorkbench,deposit,selectedEntries,0,id}'
           ) AS candidate_asset_id,
           coalesce(
             e.output #>> '{fit,summary}',
@@ -116,25 +130,45 @@ BEGIN
             e.output ? 'fit'
             OR e.output #> '{asset_pack_completion,bitcodeActivityState,fitWorkbench}' IS NOT NULL
           ) AS has_fit_posture,
-          (
-            e.output #> '{asset,attestations}' IS NOT NULL
-            OR e.output #> '{asset,signingSurface}' IS NOT NULL
-            OR e.context ->> 'walletAuthorizationSigned' = 'true'
-          ) AS has_wallet_or_attestation_proof,
-          (
-            e.output #> '{asset,assetMeasurement}' IS NOT NULL
-            OR e.output #> '{asset,contentUnits}' IS NOT NULL
-            OR e.output #> '{asset,measurementProvenance}' IS NOT NULL
-          ) AS has_asset_measurement_evidence,
-          (to_jsonb(e)::text LIKE '%frontier/%') AS frontier_reference_detected,
-          (to_jsonb(e)::text LIKE '%mock%') AS mock_reference_detected,
+	          (
+	            e.output #> '{deposit_asset,attestations}' IS NOT NULL
+	            OR e.output #> '{deposit_asset,signingSurface}' IS NOT NULL
+	            OR e.output #> '{deposit_asset,identitySurface}' IS NOT NULL
+	            OR e.output #> '{deposit_asset,githubBoundary}' IS NOT NULL
+	            OR e.output #> '{deposit_asset,githubAppAuthSurface}' IS NOT NULL
+	            OR
+	            e.output #> '{asset,attestations}' IS NOT NULL
+	            OR e.output #> '{asset,signingSurface}' IS NOT NULL
+	            OR e.context ->> 'walletAuthorizationSigned' = 'true'
+	          ) AS has_wallet_or_attestation_proof,
+	          (
+	            e.output #> '{deposit_asset,assetMeasurement}' IS NOT NULL
+	            OR e.output #> '{deposit_asset,contentUnits}' IS NOT NULL
+	            OR e.output #> '{deposit_asset,measurementProvenance}' IS NOT NULL
+	            OR
+	            e.output #> '{asset,assetMeasurement}' IS NOT NULL
+	            OR e.output #> '{asset,contentUnits}' IS NOT NULL
+	            OR e.output #> '{asset,measurementProvenance}' IS NOT NULL
+	          ) AS has_asset_measurement_evidence,
+	          (
+	            coalesce(e.context ->> 'repositoryFullName', e.context ->> 'repositoryAnchor', '') LIKE 'frontier/%'
+	            OR coalesce(e.output #>> '{repo_snapshot,org}', e.output #>> '{asset_pack_completion,repoSnapshot,org}', '') = 'frontier'
+	            OR coalesce(e.output #>> '{readMeasurement,scenario,repo}', '') LIKE 'frontier/%'
+	            OR coalesce(e.output #>> '{asset_pack_completion,bitcodeActivityState,readMeasurement,scenario,repo}', '') LIKE 'frontier/%'
+	            OR coalesce(e.output #>> '{deposit_asset,githubBoundary,sourceRepo}', e.output #>> '{asset,githubBoundary,sourceRepo}', '') LIKE 'frontier/%'
+	          ) AS frontier_reference_detected,
+	          (
+	            lower(coalesce(e.context ->> 'provider', '')) IN ('mock', 'demo')
+	            OR lower(coalesce(e.context ->> 'repositoryFullName', e.context ->> 'repositoryAnchor', '')) LIKE 'mock/%'
+	            OR lower(coalesce(e.output #>> '{deposit_asset,githubBoundary,sourceProvider}', e.output #>> '{asset,githubBoundary,sourceProvider}', '')) IN ('mock', 'demo')
+	          ) AS mock_reference_detected,
           jsonb_build_object(
             'summary', coalesce(e.output ->> 'summary', e.output #>> '{asset_pack_completion,summary}'),
             'repo_snapshot', coalesce(e.output -> 'repo_snapshot', e.output #> '{asset_pack_completion,repoSnapshot}'),
-            'read_measurement', coalesce(e.output -> 'readMeasurement', e.output #> '{asset_pack_completion,bitcodeActivityState,readMeasurement}'),
-            'fit', coalesce(e.output -> 'fit', e.output #> '{asset_pack_completion,bitcodeActivityState,fitWorkbench,fit}'),
-            'deposit_asset_id', coalesce(e.output #>> '{asset,assetId}', e.context ->> 'candidateAssetId')
-          ) AS evidence_summary
+	            'read_measurement', coalesce(e.output -> 'readMeasurement', e.output #> '{asset_pack_completion,bitcodeActivityState,readMeasurement}'),
+	            'fit', coalesce(e.output -> 'fit', e.output #> '{asset_pack_completion,bitcodeActivityState,fitWorkbench,fit}'),
+	            'deposit_asset_id', coalesce(e.output #>> '{deposit_asset,assetId}', e.output #>> '{deposit_asset_id}', e.output #>> '{asset,assetId}', e.context ->> 'candidateAssetId')
+	          ) AS evidence_summary
         FROM public.executions e
         JOIN latest_user u ON u.user_id = e.user_id
         WHERE
@@ -147,18 +181,63 @@ BEGIN
             'pipeline:proof-refresh'
           )
       ),
-      latest AS (
-        SELECT
-          (SELECT to_jsonb(activity) FROM activity WHERE activity_class = 'deposit' ORDER BY created_at DESC LIMIT 1) AS deposit,
-          (SELECT to_jsonb(activity) FROM activity WHERE activity_class = 'read' ORDER BY created_at DESC LIMIT 1) AS read,
-          (SELECT to_jsonb(activity) FROM activity WHERE activity_class = 'fit' ORDER BY created_at DESC LIMIT 1) AS fit,
-          EXISTS (SELECT 1 FROM activity WHERE frontier_reference_detected) AS any_frontier_reference,
-          EXISTS (SELECT 1 FROM activity WHERE mock_reference_detected) AS any_mock_reference
-      ),
-      critical_summary AS (
-        SELECT
-          deposit ->> 'id' AS latest_deposit_id,
-          read ->> 'id' AS latest_read_id,
+	      latest_read AS (
+	        SELECT *
+	        FROM activity
+	        WHERE activity_class = 'read'
+	        ORDER BY created_at DESC
+	        LIMIT 1
+	      ),
+	      latest_fit AS (
+	        SELECT *
+	        FROM activity
+	        WHERE activity_class = 'fit'
+	        ORDER BY created_at DESC
+	        LIMIT 1
+	      ),
+	      latest_deposit_submission AS (
+	        SELECT *
+	        FROM activity
+	        WHERE activity_class = 'deposit' AND deposit_kind = 'submission'
+	        ORDER BY created_at DESC
+	        LIMIT 1
+	      ),
+	      latest_deposit_posture AS (
+	        SELECT *
+	        FROM activity
+	        WHERE activity_class = 'deposit' AND deposit_kind = 'posture'
+	        ORDER BY created_at DESC
+	        LIMIT 1
+	      ),
+	      latest AS (
+	        SELECT
+	          coalesce(
+	            (SELECT to_jsonb(latest_deposit_submission) FROM latest_deposit_submission),
+	            (SELECT to_jsonb(latest_deposit_posture) FROM latest_deposit_posture)
+	          ) AS deposit,
+	          (SELECT to_jsonb(latest_deposit_submission) FROM latest_deposit_submission) AS deposit_submission,
+	          (SELECT to_jsonb(latest_deposit_posture) FROM latest_deposit_posture) AS deposit_posture,
+	          (SELECT to_jsonb(latest_read) FROM latest_read) AS read,
+	          (SELECT to_jsonb(latest_fit) FROM latest_fit) AS fit,
+	          EXISTS (SELECT 1 FROM activity WHERE frontier_reference_detected) AS any_frontier_reference,
+	          EXISTS (SELECT 1 FROM activity WHERE mock_reference_detected) AS any_mock_reference,
+	          EXISTS (
+	            SELECT 1
+	            FROM activity d
+	            JOIN latest_read r ON true
+	            WHERE d.activity_class = 'deposit'
+	              AND d.deposit_kind = 'submission'
+	              AND d.repository_full_name = r.repository_full_name
+	              AND coalesce(d.source_branch, '') = coalesce(r.source_branch, '')
+	              AND coalesce(d.source_commit, '') = coalesce(r.source_commit, '')
+	          ) AS has_deposit_submission_for_read_revision
+	      ),
+	      critical_summary AS (
+	        SELECT
+	          deposit ->> 'id' AS latest_deposit_id,
+	          deposit_submission ->> 'id' AS latest_deposit_submission_id,
+	          deposit_posture ->> 'id' AS latest_deposit_posture_id,
+	          read ->> 'id' AS latest_read_id,
           fit ->> 'id' AS latest_fit_id,
           deposit ->> 'repository_full_name' AS deposit_repository,
           read ->> 'repository_full_name' AS read_repository,
@@ -170,12 +249,14 @@ BEGIN
           nullif(read ->> 'closure_criteria_count', '')::integer AS read_closure_criteria_count,
           nullif(read ->> 'target_kind_count', '')::integer AS read_target_kind_count,
           (deposit ->> 'created_at')::timestamptz AS deposit_created_at,
-          (read ->> 'created_at')::timestamptz AS read_created_at,
-          (fit ->> 'created_at')::timestamptz AS fit_created_at,
-          CASE
-            WHEN deposit IS NULL THEN 'blocker:deposit_activity_missing'
-            WHEN read IS NULL THEN 'blocker:read_activity_missing'
-            WHEN fit IS NULL THEN 'blocker:fit_activity_missing'
+	          (read ->> 'created_at')::timestamptz AS read_created_at,
+	          (fit ->> 'created_at')::timestamptz AS fit_created_at,
+	          has_deposit_submission_for_read_revision,
+	          CASE
+	            WHEN deposit IS NULL THEN 'blocker:deposit_activity_missing'
+	            WHEN read IS NULL THEN 'blocker:read_activity_missing'
+	            WHEN NOT has_deposit_submission_for_read_revision THEN 'blocker:deposit_submission_missing_for_read_revision'
+	            WHEN fit IS NULL THEN 'blocker:fit_activity_missing'
             WHEN any_frontier_reference THEN 'blocker:frontier_repository_leakage'
             WHEN coalesce(read ->> 'repository_full_name', fit ->> 'repository_full_name', deposit ->> 'repository_full_name') <> (deposit ->> 'repository_full_name')
               THEN 'blocker:read_not_bound_to_deposited_repository'
@@ -200,13 +281,15 @@ BEGIN
             WHEN any_mock_reference THEN 'warning:mock_reference_detected_review_context'
             ELSE 'no_frontier_or_mock_leakage_detected'
           END AS mock_frontier_state,
-          CASE
-            WHEN (deposit ->> 'has_wallet_or_attestation_proof') = 'true' THEN 'deposit_has_wallet_or_attestation_proof'
-            ELSE 'warning:deposit_wallet_or_attestation_proof_not_visible_in_execution_row'
-          END AS deposit_proof_state,
-          CASE
-            WHEN (deposit ->> 'has_asset_measurement_evidence') = 'true' THEN 'deposit_has_asset_measurement_evidence'
-            ELSE 'warning:deposit_measurement_evidence_not_visible_in_execution_row'
+	          CASE
+	            WHEN NOT has_deposit_submission_for_read_revision THEN 'blocker:deposit_submission_proof_not_available_for_read_revision'
+	            WHEN (deposit_submission ->> 'has_wallet_or_attestation_proof') = 'true' THEN 'deposit_has_wallet_or_attestation_proof'
+	            ELSE 'warning:deposit_wallet_or_attestation_proof_not_visible_in_execution_row'
+	          END AS deposit_proof_state,
+	          CASE
+	            WHEN NOT has_deposit_submission_for_read_revision THEN 'blocker:deposit_submission_measurement_not_available_for_read_revision'
+	            WHEN (deposit_submission ->> 'has_asset_measurement_evidence') = 'true' THEN 'deposit_has_asset_measurement_evidence'
+	            ELSE 'warning:deposit_measurement_evidence_not_visible_in_execution_row'
           END AS deposit_measurement_state,
           fit ->> 'fit_summary' AS latest_fit_summary
         FROM latest
