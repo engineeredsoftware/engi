@@ -70,13 +70,14 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
         setEvents(normalizedEvents);
 
         try {
-          // eslint-disable-next-line no-console
-          console.log('[usePipelineExecution] starting stream');
           const last = (data.events || []).slice(-1)[0];
           const lastTs = encodeURIComponent(last?.created_at || '');
           const controller = new AbortController();
           streamAbortRef.current = controller;
           const res = await fetch(`/api/executions/stream?runId=${runId}&lastTs=${lastTs}`, { signal: controller.signal });
+          if (!res.ok) return;
+          const contentType = res.headers?.get?.('content-type') || '';
+          if (!contentType.includes('text/event-stream')) return;
           const reader: ReadableStreamDefaultReader<Uint8Array> | undefined = (res as any)?.body?.getReader?.();
           if (!reader) return;
           const decoder = new TextDecoder();
@@ -138,8 +139,8 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
               }
             }
           }
-        } catch (streamErr) {
-          console.warn('[usePipelineExecution] streaming failed', streamErr);
+        } catch {
+          // Persisted execution history remains the fallback when no live stream is available.
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch execution');

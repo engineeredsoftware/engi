@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
@@ -9,6 +9,7 @@ import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import {
   buildTerminalFitWorkbenchDraft,
   buildTerminalDepositWorkbenchDraft,
+  buildTerminalReadAdmissionDraft,
   buildTerminalReadMeasurementDraft,
   type TerminalActivityRecordDraft,
 } from './terminal-activity-history';
@@ -30,6 +31,8 @@ function readRowValue(rows: Array<{ label: string; value: string }>, label: stri
   return rows.find((row) => row.label === label)?.value || '—';
 }
 
+type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
+
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
@@ -42,8 +45,9 @@ export default function TerminalDepositReadWorkbench({
   showDemonstrationWorkbench = true,
 }: TerminalDepositReadWorkbenchProps) {
   const { snapshot } = useTerminalShellBridge();
-  const [recordingKey, setRecordingKey] = useState<'deposit' | 'read' | 'fit' | null>(null);
+  const [recordingKey, setRecordingKey] = useState<'deposit' | 'read' | 'read-admission' | 'fit' | null>(null);
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
+  const [readFitProgress, setReadFitProgress] = useState<ReadFitProgressState>('draft');
   const workbenchSnapshot = useMemo(() => {
     if (showDemonstrationWorkbench) return snapshot;
     return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext);
@@ -52,6 +56,11 @@ export default function TerminalDepositReadWorkbench({
     () => normalizeTerminalDepositReadWorkbench(workbenchSnapshot, repositoryContext),
     [repositoryContext, workbenchSnapshot],
   );
+  const scenarioKey = workbench?.scenarioLabel || '';
+
+  useEffect(() => {
+    setReadFitProgress('draft');
+  }, [scenarioKey]);
 
   const selectedEntryChips = useMemo(() => {
     if (!workbench?.deposit.selectedEntries.length) return [];
@@ -86,13 +95,38 @@ export default function TerminalDepositReadWorkbench({
             ],
           }),
         );
-        setRecordMessage('Read-measurement posture recorded into the Bitcode activity ledger.');
+        setReadFitProgress('measured');
+        setRecordMessage(
+          'Measured Read recorded. Next admit it for source-bound fit search, or stop if the Read is too broad or unrelated to the deposited source.',
+        );
       } else {
         await onRecordActivity(buildTerminalFitWorkbenchDraft(workbench));
-        setRecordMessage('Asset-pack fit and settlement posture recorded into the Bitcode activity ledger.');
+        setReadFitProgress('fit-recorded');
+        setRecordMessage(
+          'Fit posture recorded. This records current fit evidence/readiness; settlement and finality remain blocked unless a worthy fit is evidenced.',
+        );
       }
     } catch (error) {
       setRecordMessage(error instanceof Error ? error.message : 'Unable to record Bitcode workbench posture.');
+    } finally {
+      setRecordingKey(null);
+    }
+  };
+
+  const handleRecordReadAdmission = async () => {
+    if (!workbench || !onRecordActivity) return;
+
+    setRecordingKey('read-admission');
+    setRecordMessage(null);
+
+    try {
+      await onRecordActivity(buildTerminalReadAdmissionDraft(workbench));
+      setReadFitProgress('admitted');
+      setRecordMessage(
+        'Measured Read admitted for fit search. Next run or record the fit result posture as worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
+      );
+    } catch (error) {
+      setRecordMessage(error instanceof Error ? error.message : 'Unable to admit the measured Read for fit search.');
     } finally {
       setRecordingKey(null);
     }
@@ -165,8 +199,8 @@ export default function TerminalDepositReadWorkbench({
           metrics={workbench.read.metrics}
           rows={workbench.read.rows}
           chips={workbench.read.closureCriteria.length ? workbench.read.closureCriteria : workbench.read.targetKinds}
-          actionLabel="Focus read scenarios"
-          actionTarget="terminalReadScenarios"
+          actionLabel={showDemonstrationWorkbench ? 'Focus read scenarios' : 'Review measured Read'}
+          actionTarget={showDemonstrationWorkbench ? 'terminalReadScenarios' : 'terminalReadWorkbench'}
           secondaryActionLabel={recordingKey === 'read' ? 'Recording…' : 'Record read posture'}
           secondaryActionDisabled={recordingKey !== null}
           onSecondaryAction={() => {
@@ -174,6 +208,65 @@ export default function TerminalDepositReadWorkbench({
           }}
         />
       </div>
+
+      <section className="mt-5 rounded-[1.45rem] border border-emerald-400/16 bg-emerald-400/[0.06] px-5 py-5">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div>
+            <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-200/80">read state</p>
+            <h3 className="mt-2 text-lg font-semibold text-white">Measured Read before fit result</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
+              Recording a Read stores the measured demand frame. It does not mean Bitcode found a fit. Fit search must then return
+              worthy_fit, no_worthy_fit, or blocked_readiness before settlement or finality can proceed.
+            </p>
+          </div>
+          <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
+            {readFitProgress.replace('-', ' ')}
+          </span>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-4">
+          {[
+            { id: 'draft', label: '1. Read framed', detail: 'Repository, branch, commit, and demand frame are visible.' },
+            { id: 'measured', label: '2. Read measured', detail: 'Read posture is persisted as ledger evidence.' },
+            { id: 'admitted', label: '3. Fit admitted', detail: 'Measured Read may enter source-bound fit search.' },
+            { id: 'fit-recorded', label: '4. Result recorded', detail: 'Fit result posture is reviewable before proof or settlement.' },
+          ].map((step) => {
+            const active = step.id === readFitProgress;
+            return (
+              <div
+                key={step.id}
+                className={`rounded-[1.1rem] border px-4 py-4 text-sm ${
+                  active ? 'border-emerald-300/35 bg-emerald-300/10' : 'border-white/8 bg-black/20'
+                }`}
+              >
+                <p className="font-semibold text-neutral-100">{step.label}</p>
+                <p className="mt-2 leading-6 text-neutral-400">{step.detail}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-3">
+          <button
+            type="button"
+            disabled={recordingKey !== null || readFitProgress === 'draft'}
+            onClick={() => {
+              void handleRecordReadAdmission();
+            }}
+            className="rounded-[1.25rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-55"
+          >
+            {recordingKey === 'read-admission' ? 'Admitting Read…' : 'Admit measured Read for fit search'}
+          </button>
+          <button
+            type="button"
+            disabled={recordingKey !== null}
+            onClick={() => jumpToShellSection('terminalFitWorkbench')}
+            className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-55"
+          >
+            Review fit result posture
+          </button>
+        </div>
+      </section>
 
       <article
         id="terminalFitWorkbench"
@@ -199,7 +292,7 @@ export default function TerminalDepositReadWorkbench({
             }}
             className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {recordingKey === 'fit' ? 'Recording…' : 'Record fit posture'}
+            {recordingKey === 'fit' ? 'Recording…' : 'Record fit result posture'}
           </button>
         </div>
         <p className="mt-3 text-sm leading-6 text-neutral-300">{workbench.fit.summary}</p>

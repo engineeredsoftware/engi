@@ -325,7 +325,9 @@ export default function TerminalPageClient() {
 
       const nextRun = mapExecutionHistoryRunToWorkspaceRun(payload.execution);
       setLiveRuns((currentRuns) => upsertWorkspaceRun(currentRuns, nextRun));
-      replaceTerminalRoute(nextRun.id, draft.detailSection || 'activity');
+      if (draft.selectAfterRecord !== false) {
+        replaceTerminalRoute(nextRun.id, draft.detailSection || 'activity');
+      }
       void refreshLiveRuns();
       return nextRun;
     },

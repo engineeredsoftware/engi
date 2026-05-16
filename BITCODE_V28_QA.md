@@ -929,9 +929,9 @@ Positive-control expectation:
   Terminal Deposit/Read components, repository/branch/commit source selection,
   execution-history persistence, wallet/GitHub readiness, saved QA SQL, BTD
   ledger readback, and proof/finality/admission primitives.
-- The Fit result must name why the selected ENGI evidence is decisive or why it
-  is insufficient. A decorative Fit summary with no source/proof linkage is a
-  failure.
+- The Fit result must name why the selected deposited source evidence is
+  decisive or why it is insufficient. A decorative Fit summary with no
+  source/proof linkage is a failure.
 - The result must produce one of two honest outcomes:
   - `worthy_fit`: a minimal AssetPack candidate with source revision, evidence
     roots, proof/dedupe/materialization posture, and settlement/finality state;
@@ -941,28 +941,31 @@ Positive-control expectation:
 
 Negative controls:
 
-1. Run or simulate a Read unrelated to the deposited ENGI source, such as
+1. Run or simulate a Read unrelated to the deposited source, such as
    "Find a Solana wallet settlement AssetPack." Expected: no-worthy-fit or
-   clarification, not an ENGI AssetPack.
+   clarification, not a confident AssetPack.
 2. Run or simulate an overly broad Read, such as "Make Bitcode better."
    Expected: clarification or blocked measurement, not a confident Fit.
 3. Run or simulate a Read that would require unavailable source material outside
-   the deposited ENGI revision. Expected: no-worthy-fit or source-scope blocker.
+   the deposited revision. Expected: no-worthy-fit or source-scope blocker.
 
 Manual steps:
 
 1. Hard refresh `/terminal`.
-2. Confirm the Activity area shows the successful ENGI Deposit row and no
+2. Confirm the Activity area shows the successful latest Deposit row and no
    execution-history error.
 3. Confirm the repository selector still shows the deposited repository, the
    selected branch, and the selected commit from the successful Deposit.
-4. In the Read area, select or express the commercial Read scenario above.
-5. Record the Read posture. Capture the `/api/executions/history` request and
-   response; expected status is `201`.
-6. Accept the Read for fit search. Capture `/api/read-review`; expected response
-   has `fitSearchAdmission.admitted=true`. If it remains blocked, the blocker
-   must name the Read-review requirement or measurement deficiency.
-7. Record Fit posture. Capture the `/api/executions/history` request and
+4. In the Deposit + read chain, confirm the Read state panel starts at
+   `draft` and explains that recording a Read does not mean Bitcode found a
+   fit.
+5. Record the measured Read. Capture the `/api/executions/history` request and
+   response; expected status is `201`, and the page must remain in the Read
+   chain with a `measured` next-state message.
+6. Admit the measured Read for fit search. Capture the `/api/executions/history`
+   request and response; expected status is `201` with
+   `fitSearchAdmission.admitted=true`.
+7. Record Fit result posture. Capture the `/api/executions/history` request and
    response; expected status is `201`.
 8. If a branch, AssetPack, BTC fee, ledger anchor, or settlement control becomes
    enabled, inspect the preview first. Only click it if the preview names source
@@ -1000,7 +1003,7 @@ Commercial blockers:
 - Terminal claims delivery, settlement, mint, anchor, or finality that SQL
   readback cannot verify.
 - Any staging-testnet Read/Fit row contains `frontier/*`, mock provider, or
-  protocol-demo source as if it were live deposited ENGI source.
+  protocol-demo source as if it were live deposited source.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

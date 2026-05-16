@@ -50,6 +50,8 @@ describe('usePipelineExecution', () => {
       }
       if (url.startsWith('/api/executions/stream')) {
         return Promise.resolve({
+          ok: true,
+          headers: { get: () => 'text/event-stream; charset=utf-8' },
           body: { getReader: () => streamReader },
         } as any);
       }

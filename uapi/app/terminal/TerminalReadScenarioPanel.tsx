@@ -174,7 +174,9 @@ export default function TerminalReadScenarioPanel({
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.readScenarios}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">
-          {showDemonstrationScenarios ? 'Loading read scenarios…' : 'Waiting for live Read scenarios after Depositing is recorded.'}
+          {showDemonstrationScenarios
+            ? 'Loading read scenarios…'
+            : 'Live Read measurement, admission, and fit-result controls are in the Deposit + read chain.'}
         </p>
       </TerminalWorkspaceCard>
     );

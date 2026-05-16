@@ -3,6 +3,7 @@ import {
   buildTerminalExternalInterfacingDraft,
   buildTerminalFitWorkbenchDraft,
   buildTerminalDepositWorkbenchDraft,
+  buildTerminalReadAdmissionDraft,
   buildTerminalReadMeasurementDraft,
   buildTerminalRepositoryAnchorDraft,
   buildTerminalSupplySelectionDraft,
@@ -203,7 +204,7 @@ describe('terminal-activity-history', () => {
         targetKinds: ['repository-revision', 'fit-quality-receipt', 'asset-pack-evidence', 'proof-root'],
       },
       fit: {
-        summary: 'Only a proof-bearing ENGI AssetPack fit is commercially admissible.',
+        summary: 'Only a proof-bearing source repository AssetPack fit is commercially admissible.',
         metrics: [{ label: 'Pressure', value: 'critical' }],
         rows: [
           { label: 'Settlement intent', value: 'Deliver an AssetPack or fail closed with no-worthy-fit evidence.' },
@@ -237,8 +238,12 @@ describe('terminal-activity-history', () => {
       buildTerminalFitWorkbenchDraft(workbench),
       { repositoryContext: sourceRepositoryContext },
     );
+    const admissionRequest = buildTerminalExecutionHistoryRequest(
+      buildTerminalReadAdmissionDraft(workbench),
+      { repositoryContext: sourceRepositoryContext },
+    );
 
-    for (const request of [depositRequest, readRequest, fitRequest]) {
+    for (const request of [depositRequest, readRequest, admissionRequest, fitRequest]) {
       expect(request.context).toMatchObject({
         repositoryFullName: 'source-org/source-repo',
         repositoryAnchor: 'source-org/source-repo',
@@ -264,6 +269,25 @@ describe('terminal-activity-history', () => {
           repo: 'source-org/source-repo',
         },
       },
+    });
+    expect(admissionRequest.output).toMatchObject({
+      readReview: {
+        status: 'accepted',
+        fitSearchAdmission: {
+          admitted: true,
+        },
+      },
+      asset_pack_completion: {
+        bitcodeActivityState: {
+          fitSearchAdmission: {
+            admitted: true,
+          },
+        },
+      },
+    });
+    expect(admissionRequest.context).toMatchObject({
+      readResultState: 'admitted_for_fit_search',
+      fitSearchAdmitted: true,
     });
     expect(fitRequest.output).toMatchObject({
       asset_pack_completion: {

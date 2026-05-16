@@ -16,6 +16,7 @@ export interface TerminalActivityRecordDraft {
   type: string;
   summary: string;
   detailSection?: TerminalTransactionDetailSection;
+  selectAfterRecord?: boolean;
   status?: string;
   input?: Record<string, unknown> | null;
   output?: Record<string, unknown> | null;
@@ -317,6 +318,7 @@ export function buildTerminalReadMeasurementDraft(
   return {
     type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
+    selectAfterRecord: false,
     summary: `Recorded read measurement for ${scenario.label}.`,
     output: {
       readMeasurement: {
@@ -337,6 +339,62 @@ export function buildTerminalReadMeasurementDraft(
       scenarioLabel: scenario.label,
       scenarioRepository: scenario.repo,
       scenarioProfile: scenario.profile,
+    },
+  };
+}
+
+export function buildTerminalReadAdmissionDraft(
+  workbench: TerminalDepositReadWorkbench,
+): TerminalActivityRecordDraft {
+  const readMeasurement = {
+    scenario: {
+      id: workbench.scenarioLabel,
+      label: workbench.scenarioLabel,
+      repo: readRowValue(workbench.read.rows, 'Repository'),
+      profile: readRowValue(workbench.read.rows, 'Profile'),
+      selected: true,
+    },
+    parserKind: readRowValue(workbench.read.rows, 'Parser'),
+    closureCriteriaCount: workbench.read.closureCriteria.length,
+    targetKindCount: workbench.read.targetKinds.length,
+  };
+  const readReview = {
+    action: 'accept',
+    status: 'accepted',
+    reviewStage: 'post-measurement-pre-fit',
+    requiredBefore: 'find-fitting-asset-pack',
+    fitSearchAdmission: {
+      admitted: true,
+      admissionReason:
+        'Measured Read is admitted for generic source-bound fit search against the selected deposited repository revision.',
+      admittedStages: ['candidate-recall', 'fit-quality-evaluation', 'asset-pack-result-review'],
+      blockedStages: ['settlement', 'finality', 'minting'],
+    },
+    nextProtocolAction: 'Run fit search and return worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
+  };
+
+  return {
+    type: 'agentic-execution:read-measurement',
+    detailSection: 'activity',
+    selectAfterRecord: false,
+    summary: `Accepted measured Read for fit search for ${workbench.scenarioLabel}.`,
+    output: {
+      readMeasurement,
+      readReview,
+      assetPackCompletion: {
+        bitcodeActivityState: {
+          readMeasurement,
+          readReview,
+          fitSearchAdmission: readReview.fitSearchAdmission,
+        },
+      },
+    },
+    context: {
+      source: 'terminal-deposit-read-workbench',
+      workbench: 'read-admission',
+      scenarioLabel: workbench.scenarioLabel,
+      fitSearchAdmitted: true,
+      readResultState: 'admitted_for_fit_search',
     },
   };
 }
