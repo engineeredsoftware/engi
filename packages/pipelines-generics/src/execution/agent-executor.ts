@@ -13,31 +13,68 @@ export function createAgentExecutor(agentName: string): Executor<any, any> {
     const px = execution as PipelineExecution;
     const agent = px.agents.getAgent(agentName);
     if (!agent) throw new Error(`Agent not found: ${agentName}`);
+    const phase = String(px.get('phase', 'current') || 'setup');
+    const step = 'try';
+    px.store('agent', 'name', agentName);
+    px.store('step', 'name', step);
+    px.store(`agent:${agentName}`, 'start', {
+      phase,
+      currentPhase: phase,
+      agent: agentName,
+      currentAgent: agentName,
+      step,
+      currentStep: step,
+      status: 'running',
+      input: summarizeValue(input),
+      startedAt: new Date().toISOString(),
+    } as any);
     const debug = isExecutionDebugEnabled(px);
     if (debug) {
       log('[exec] agent start', 'debug', {
         agent: agentName,
-        phase: px.get('phase', 'current'),
+        phase,
         inputPreview: summarizeValue(input),
         executionId: px.id,
       });
     }
     try {
       const output = await agent(input, px);
+      px.store(`agent:${agentName}`, 'complete', {
+        phase,
+        currentPhase: phase,
+        agent: agentName,
+        currentAgent: agentName,
+        step,
+        currentStep: step,
+        status: 'completed',
+        output: summarizeValue(output),
+        completedAt: new Date().toISOString(),
+      } as any);
       if (debug) {
         log('[exec] agent success', 'debug', {
           agent: agentName,
-          phase: px.get('phase', 'current'),
+          phase,
           outputPreview: summarizeValue(output),
           executionId: px.id,
         });
       }
       return output;
     } catch (error: any) {
+      px.store(`agent:${agentName}`, 'complete', {
+        phase,
+        currentPhase: phase,
+        agent: agentName,
+        currentAgent: agentName,
+        step,
+        currentStep: step,
+        status: 'failed',
+        error: summarizeError(error),
+        completedAt: new Date().toISOString(),
+      } as any);
       if (debug) {
         log('[exec] agent error', 'error', {
           agent: agentName,
-          phase: px.get('phase', 'current'),
+          phase,
           error,
           executionId: px.id,
         });
@@ -45,6 +82,17 @@ export function createAgentExecutor(agentName: string): Executor<any, any> {
       throw error;
     }
   };
+}
+
+function summarizeError(error: any): Record<string, any> {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack ? error.stack.split('\n').slice(0, 6).join('\n') : undefined,
+    };
+  }
+  return { message: String(error) };
 }
 
 function summarizeValue(v: any): any {

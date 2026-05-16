@@ -40,8 +40,8 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
         }
       };
       enablePipelineStreaming(exec as any, {
-        runId: 'run-1',
-        userId: 'user-1',
+        runId: '33333333-3333-4333-8333-333333333333',
+        userId: '44444444-4444-4444-8444-444444444444',
         supabase: supabaseStub,
         streamToDatabase: true,
         structuredToDatabase: true,
@@ -56,13 +56,14 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
       expect(res).toBeDefined();
 
       // Structured inserts occurred
-      const phaseRows = inserts.filter(i => i.table === 'phase_executions');
+      const phaseRows = inserts.filter(i => i.table === 'deliverable_pipeline_phase_delegations');
       expect(phaseRows.length).toBeGreaterThanOrEqual(1);
       expect(
         phaseRows.some((row) => row.row.phase_name === 'setup' || row.row.phase === 'setup')
       ).toBe(true);
-      const agentRows = inserts.filter(i => i.table === 'step_executions');
-      expect(agentRows.some(r => r.row.agent_name === 'asset-pack-setup-plan-agent')).toBe(true);
+      const agentRows = inserts.filter(i => i.table === 'deliverable_pipeline_agent_steps');
+      expect(agentRows.length).toBeGreaterThanOrEqual(1);
+      expect(agentRows.some(r => String(r.row.agent_name || '').startsWith('setup:'))).toBe(true);
     } finally {
       delete process.env.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST;
     }

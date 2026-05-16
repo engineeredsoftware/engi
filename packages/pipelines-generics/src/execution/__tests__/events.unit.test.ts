@@ -2,16 +2,18 @@
 // @ts-nocheck
 import { PipelineExecution } from '../PipelineExecution';
 import { PipelineExecutor } from '../PipelineExecutor';
+import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
+import { Streamer } from '@bitcode/streams';
 
 describe('PipelineExecutor event emission (unit)', () => {
   it('emits phase and agent events in expected order', async () => {
     const exec = new PipelineExecution('pipeline:unit');
     const events: any[] = [];
-    exec.store('execution', 'dataStream', {
-      writeData: async (data: string) => {
-        try { events.push(JSON.parse(data)); } catch { /* ignore */ }
-      }
+    const streamer = new Streamer({ streamId: 'pipeline:unit', userId: 'unit-user' });
+    streamer.subscribe((event) => {
+      events.push(event);
     });
+    ExecutionStreamAdapter.registerStreamer(exec.id, streamer);
 
     // Register two trivial agents
     const agentA = async (input: any) => ({ ok: 'A' });
@@ -31,15 +33,24 @@ describe('PipelineExecutor event emission (unit)', () => {
     });
 
     expect(res.success).toBe(true);
-    const types = events.map(e => e.type + (e.phase ? ':'+e.phase : '') + (e.agent ? ':'+e.agent : '') + (e.status ? ':'+e.status : ''));
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    ExecutionStreamAdapter.unregisterStreamer(exec.id);
+    const types = events
+      .filter((event) => ['phase-start', 'phase-complete', 'agent-start', 'agent-complete'].includes(event.type))
+      .map((event) => [
+        event.type,
+        event.executionState?.phase || event.data?.phase || event.phase || '',
+        event.executionState?.agent || event.data?.agent || event.agent || '',
+        event.data?.status || event.status || '',
+      ].join(':'));
     // Order: phase:start -> agentA:start -> agentA:end -> agentB:start -> agentB:end -> phase:end
     expect(types).toEqual([
-      'phase:setup:start',
-      'agent:unit:agentA:start',
-      'agent:unit:agentA:end',
-      'agent:unit:agentB:start',
-      'agent:unit:agentB:end',
-      'phase:setup:end',
+      'phase-start:setup::',
+      'agent-start:setup:unit:agentA:running',
+      'agent-complete:setup:unit:agentA:completed',
+      'agent-start:setup:unit:agentB:running',
+      'agent-complete:setup:unit:agentB:completed',
+      'phase-complete:setup::',
     ]);
   });
 });

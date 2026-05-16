@@ -116,6 +116,50 @@ it checks Deposit before Read, Read before Fit, repository/branch/commit
 alignment, frontier/mock leakage, and visibility of proof or measurement
 posture in the execution rows.
 
+## May 16 Pipeline Harness Telemetry Boundary
+
+Read/Fit review now requires proof that the deployed AssetPack pipeline host
+actually executed, not only that Terminal wrote a Fit posture row.
+
+The active harness target is Vercel Sandbox: ephemeral Amazon Linux microVMs
+with Node/Python runtimes, isolated filesystem/process/network scope, exported
+artifacts, and database readback. Local development authenticates through
+`vercel link && vercel env pull` OIDC credentials; deployed Vercel code receives
+OIDC automatically; external hosts need `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and
+`VERCEL_PROJECT_ID`.
+
+The minimum commercial telemetry record for a Read/Fit pipeline execution is:
+
+- one run row in `pipeline_runs` or `deliverable_pipeline_runs`;
+- event rows in `execution_events`, `stream_logs`, or
+  `deliverable_pipeline_events`;
+- SDIVF phase rows in `deliverable_pipeline_phase_delegations`;
+- PTRR agent-step rows in `deliverable_pipeline_agent_steps`;
+- generation rows in `deliverable_pipeline_generations`, including
+  interpolated messages/prompts when available, model provider/name, raw
+  response, parsed/typed output, usage tokens, phase, agent, step, failsafe, and
+  generation context;
+- tool rows in `deliverable_pipeline_tool_executions`, including input, output,
+  error, timing, phase, and agent context;
+- fit/depository output carrying `depositorySearch`, candidate ranking,
+  `fitResult`, `queryRoot`, `rankingRoot`, selected candidate asset ids, and the
+  embedding policy.
+
+Depository vector recall remains one canonical vector space until explicitly
+remigrated: OpenAI `text-embedding-3-small`, float embeddings, 1536 dimensions,
+`deliverable_vectors.embedding vector(1536)`, `ivfflat`,
+`vector_cosine_ops`, and `match_deliverable_vectors` cosine similarity. Any
+different embedding model, dimension, metric, table, or RPC is a blocker unless
+all stored candidate vectors and query vectors for the compared space were
+regenerated under the same policy.
+
+Saved query `v28_qa_terminal_07_pipeline_harness_after_fit` is the pipeline
+harness gate. `blocker:pipeline_harness_run_missing`,
+`blocker:pipeline_event_telemetry_missing`, and
+`blocker:pipeline_phase_trace_missing` all keep the commercial Fit in
+blocked-readiness even when Deposit, Read admission, and source-bound Fit
+posture rows exist.
+
 ## May 15 Terminal Terminology Closure
 
 V28 now retires user-facing Deposit/Depositing and Read/Reading language in favor of Deposit/Depositing and Read/Reading.

@@ -53,6 +53,123 @@ export interface SDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig
   readyToFinish?: Executor<any, boolean>;
 }
 
+type SDIVFPhaseName = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
+
+function storePhaseStart(
+  execution: PipelineExecution | Execution,
+  phase: SDIVFPhaseName,
+  input: unknown,
+  iteration?: number
+): void {
+  execution.store('phase', 'current', phase);
+  if (typeof iteration === 'number') {
+    execution.store('phase', 'iteration', iteration);
+  }
+  execution.store('phase', 'start', {
+    phase,
+    currentPhase: phase,
+    iteration: iteration ?? null,
+    input: summarizePhaseValue(input),
+    startedAt: new Date().toISOString(),
+  } as any);
+}
+
+function storePhaseComplete(
+  execution: PipelineExecution | Execution,
+  phase: SDIVFPhaseName,
+  output: unknown,
+  iteration?: number,
+  error?: unknown
+): void {
+  execution.store('phase', 'complete', {
+    phase,
+    currentPhase: phase,
+    iteration: iteration ?? null,
+    status: error ? 'failed' : 'completed',
+    output: error ? null : summarizePhaseValue(output),
+    error: error ? summarizePhaseError(error) : null,
+    completedAt: new Date().toISOString(),
+  } as any);
+}
+
+async function runObservedPhase<TIn, TOut>(
+  phase: SDIVFPhaseName,
+  input: TIn,
+  execution: PipelineExecution,
+  delegate: PhaseDelegator<TIn, TOut>,
+  iteration?: number
+): Promise<TOut> {
+  storePhaseStart(execution, phase, input, iteration);
+  try {
+    const output = await delegate(input, execution);
+    storePhaseComplete(execution, phase, output, iteration);
+    return output;
+  } catch (error) {
+    storePhaseComplete(execution, phase, null, iteration, error);
+    throw error;
+  }
+}
+
+async function runObservedExecutorPhase<TIn, TOut>(
+  phase: SDIVFPhaseName,
+  input: TIn,
+  execution: Execution,
+  executor: Executor<TIn, TOut>,
+  iteration?: number
+): Promise<TOut> {
+  storePhaseStart(execution, phase, input, iteration);
+  try {
+    const output = await executor(input, execution);
+    storePhaseComplete(execution, phase, output, iteration);
+    return output;
+  } catch (error) {
+    storePhaseComplete(execution, phase, null, iteration, error);
+    throw error;
+  }
+}
+
+function summarizePhaseValue(value: unknown): unknown {
+  try {
+    if (value == null) return value;
+    if (typeof value === 'string') {
+      return value.length > 500 ? `${value.slice(0, 500)}... [truncated]` : value;
+    }
+    if (Array.isArray(value)) {
+      return {
+        type: 'array',
+        length: value.length,
+        sample: summarizePhaseValue(value[0]),
+      };
+    }
+    if (typeof value === 'object') {
+      const objectValue = value as Record<string, unknown>;
+      const keys = Object.keys(objectValue);
+      return {
+        type: 'object',
+        keys: keys.slice(0, 20),
+        sample: keys.slice(0, 8).reduce<Record<string, unknown>>((acc, key) => {
+          acc[key] = summarizePhaseValue(objectValue[key]);
+          return acc;
+        }, {}),
+      };
+    }
+    return value;
+  } catch {
+    return '[unserializable]';
+  }
+}
+
+function summarizePhaseError(error: unknown): Record<string, unknown> {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack ? error.stack.split('\n').slice(0, 6).join('\n') : undefined,
+    };
+  }
+  return { message: String(error) };
+}
+
 // ==================== SDIVF PIPELINE FACTORY ====================
 
 /**
@@ -109,8 +226,7 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     pipelineExec.store('pipeline', 'maxIterations', maxIterations);
     
     // ========== SETUP PHASE ==========
-    pipelineExec.store('phase', 'current', 'setup');
-    let result = await config.setup(input, pipelineExec);
+    let result = await runObservedPhase('setup', input, pipelineExec, config.setup);
     
     // Check if we should iterate (optional)
     if (config.readyToIterate) {
@@ -130,19 +246,13 @@ export function factorySDIVFPipeline<TInput, TOutput>(
       pipelineExec.store('pipeline', 'currentIteration', iterations);
       
       // Discovery Phase
-      pipelineExec.store('phase', 'current', 'discovery');
-      pipelineExec.store('phase', 'iteration', iterations);
-      result = await config.discovery(result, pipelineExec);
+      result = await runObservedPhase('discovery', result, pipelineExec, config.discovery, iterations);
       
       // Implementation Phase
-      pipelineExec.store('phase', 'current', 'implementation');
-      pipelineExec.store('phase', 'iteration', iterations);
-      result = await config.implementation(result, pipelineExec);
+      result = await runObservedPhase('implementation', result, pipelineExec, config.implementation, iterations);
       
       // Validation Phase
-      pipelineExec.store('phase', 'current', 'validation');
-      pipelineExec.store('phase', 'iteration', iterations);
-      result = await config.validation(result, pipelineExec);
+      result = await runObservedPhase('validation', result, pipelineExec, config.validation, iterations);
       
       // Check if ready to finish
       if (config.readyToFinish) {
@@ -181,9 +291,8 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     }
     
     // ========== FINISH PHASE ==========
-    pipelineExec.store('phase', 'current', 'finish');
     pipelineExec.store('finish', 'responsibility', 'save-results-and-deliver-asset-packs');
-    const output = await config.finish(result, pipelineExec);
+    const output = await runObservedPhase('finish', result, pipelineExec, config.finish);
     
     // Store completion metadata
     pipelineExec.store('pipeline', 'endTime', Date.now());
@@ -243,9 +352,6 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
   const validation = cfg.validation ?? (async (x) => x);
   const finish = cfg.finish ?? (async (x) => x as TOutput);
 
-  // DIV loop executor
-  const div = sequential(discovery, implementation, validation);
-
   // Compose complete pipeline
   const pipelineExec: Executor<TInput, TOutput> = sequential<any>(
     preprocess as any,
@@ -261,22 +367,24 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
           } as any);
         }
       } catch {}
-      return input;
+      return runObservedExecutorPhase('setup', input, exec as Execution, cfg.setup as any);
     },
-    cfg.setup as any,
     // Repeat DIV sequence up to max iterations
     async (input, exec) => {
       let current: any = input;
       for (let i = 0; i < maxIter; i++) {
+        const iteration = i + 1;
         // Optional per-iteration preprocess (e.g., fetch Evidence Document updates for context)
         if (cfg.iterationPreprocess) {
           try { current = await cfg.iterationPreprocess(current, exec); } catch {}
         }
-        current = await div(current, exec);
+        current = await runObservedExecutorPhase('discovery', current, exec as Execution, discovery as any, iteration);
+        current = await runObservedExecutorPhase('implementation', current, exec as Execution, implementation as any, iteration);
+        current = await runObservedExecutorPhase('validation', current, exec as Execution, validation as any, iteration);
       }
       return current;
     },
-    finish as any,
+    async (input, exec) => runObservedExecutorPhase('finish', input, exec as Execution, finish as any),
     postprocess as any
   ) as Executor<TInput, TOutput>;
 

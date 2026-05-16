@@ -904,6 +904,18 @@ First-run execution boundary:
   storage: `depository/search.result`, `depository/search.candidateRanking`,
   `depository/search.selectedCandidates`, `depository/search.embeddingPolicy`,
   `fit.result`, `fit.resultState`, and `fit.resultReasons`.
+- The deployed pipeline host must also emit structured execution rows for the
+  run, event stream, SDIVF phase delegations, PTRR agent steps, model
+  generations, and tool executions. The minimum database readback surface is
+  `deliverable_pipeline_runs`, `deliverable_pipeline_events`,
+  `deliverable_pipeline_phase_delegations`,
+  `deliverable_pipeline_agent_steps`, `deliverable_pipeline_generations`, and
+  `deliverable_pipeline_tool_executions`.
+- Generation telemetry must preserve the interpolated model input messages when
+  available, the raw generation payload, the parsed/typed response shape, model
+  provider/name, usage tokens, phase, agent, step, failsafe, and generation
+  context. Missing prompts, missing parsed outputs, or uncorrelated
+  generation/tool rows are blockers for debugging live Read/Fit execution.
 - Depository vector recall uses `text-embedding-3-small` by default with
   `encoding_format='float'`, `dimensions=1536`, Supabase
   `deliverable_vectors.embedding vector(1536)`, `ivfflat`,
@@ -1007,9 +1019,14 @@ Manual steps:
     `selectedCandidateAssetIds` are present in the pipeline output or execution
     storage summary. Also verify `embeddingPolicy.model`,
     `embeddingPolicy.dimensions`, and `embeddingPolicy.vectorStore.rpc`.
-11. Rerun `v28_qa_terminal_02_activity_after_write` and
+11. Run saved query `v28_qa_terminal_07_pipeline_harness_after_fit`. It must
+    show at least one recent pipeline run or deliverable pipeline run, event
+    telemetry, phase trace rows, agent-step rows, and generation/tool rows
+    before a `worthy_fit` or `no_worthy_fit` classification can graduate from
+    posture into commercial result review.
+12. Rerun `v28_qa_terminal_02_activity_after_write` and
     `v28_qa_terminal_03_btd_ledger_after_terminal`.
-12. Paste screenshots, Network payload summaries, Vercel logs for the same
+13. Paste screenshots, Network payload summaries, Vercel logs for the same
     timestamps, and all three query outputs.
 
 Pass criteria:
@@ -1029,6 +1046,12 @@ Pass criteria:
 - Real `worthy_fit` or `no_worthy_fit` classification is backed by deployed
   pipeline execution rows, events, logs, depository search evidence, candidate
   ranking roots, embedding policy, and result evidence.
+- Query `v28_qa_terminal_07_pipeline_harness_after_fit` reports
+  `pipeline_harness_ready_for_result_review`; a
+  `blocker:pipeline_harness_run_missing`,
+  `blocker:pipeline_event_telemetry_missing`, or
+  `blocker:pipeline_phase_trace_missing` result means the Fit must remain
+  blocked-readiness.
 - Settlement, finality, BTC fee, BTD range, or ledger anchor claims appear only
   when query 03 shows matching projection rows; otherwise the Terminal result
   labels the exact blocked-readiness state.

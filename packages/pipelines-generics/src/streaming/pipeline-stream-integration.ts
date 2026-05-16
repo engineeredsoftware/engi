@@ -19,6 +19,7 @@ type SupabaseClient = any;
 export interface PipelineStreamConfig {
   runId: string;
   userId: string;
+  pipelineRunId?: string | null;
   supabase?: SupabaseClient;
   streamToDatabase?: boolean;
   streamToSSE?: boolean;
@@ -90,97 +91,214 @@ export function enablePipelineStreaming(
     });
   }
 
-  // Optional: structured persistence into execution hierarchy tables (planned)
+  // Optional structured persistence into the AssetPack execution hierarchy.
   const structuredEnabled = config.structuredToDatabase ?? (process?.env?.BITCODE_PIPELINE_STRUCTURED_DB === '1');
   if (structuredEnabled && config.supabase) {
     const supabase = config.supabase;
-    const phaseState: { currentPhaseId: string | null; currentPhaseName: string | null } = { currentPhaseId: null, currentPhaseName: null };
-    const agentStepMap = new Map<string, string>(); // key: agent:step(lower)
-    // Optional runtime validation via generated schemas (best-effort)
-    let genSchemas: any = null;
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      genSchemas = require('@bitcode/orm/src/types/generated/asset_pack_execution_storage.generated');
-    } catch {}
-    const toPascal = (s: string) => s.split('_').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
-    const validate = (table: string, row: any) => {
-      try {
-        if (!genSchemas) return row;
-        const schemaName = toPascal(table) + 'Schema';
-        const schema = genSchemas[schemaName];
-        if (schema?.safeParse) {
-          const parsed = schema.safeParse(row);
-          if (parsed.success) return parsed.data;
-        }
-      } catch {}
-      return row;
+    const phaseState: { currentPhaseId: string | null; currentPhaseName: string | null } = {
+      currentPhaseId: null,
+      currentPhaseName: null,
+    };
+    const phaseIdByName = new Map<string, string>();
+    const agentStepMap = new Map<string, string>();
+    const generationMessagesByContext = new Map<string, unknown>();
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const deliverableRunId = String(config.runId || '');
+    const canPersistDeliverableHierarchy = uuidRe.test(deliverableRunId);
+    let deliverableRunReady: Promise<boolean> | null = null;
+
+    const insertRow = async (table: string, row: any, returningId = false) => {
+      const query = (supabase as any).from(table).insert(row);
+      return returningId && query?.select
+        ? query.select('id').single()
+        : query;
+    };
+
+    const updateRows = async (table: string, patch: any, column: string, value: string) => {
+      return (supabase as any).from(table).update(patch).eq(column, value);
+    };
+
+    const ensureDeliverableRun = (): Promise<boolean> => {
+      if (!canPersistDeliverableHierarchy) {
+        return Promise.resolve(false);
+      }
+      if (!deliverableRunReady) {
+        const now = new Date().toISOString();
+        deliverableRunReady = Promise.resolve(
+          insertRow('deliverable_pipeline_runs', {
+            id: deliverableRunId,
+            user_id: config.userId,
+            pipeline_run_id: config.pipelineRunId ?? null,
+            pipeline_type: 'asset_pack',
+            status: 'running',
+            started_at: now,
+            created_at: now,
+            updated_at: now,
+            input_data: {
+              runId: config.runId,
+              executionId: execution.id,
+            },
+            config: {
+              structuredStreaming: true,
+              streamToDatabase: config.streamToDatabase === true,
+            },
+            context: {
+              bitcodePipelineHarness: true,
+              source: 'pipeline-stream-integration',
+            },
+          })
+        )
+          .then((result: any) => {
+            const message = String(result?.error?.message || result?.message || '').toLowerCase();
+            return !message || message.includes('duplicate') || message.includes('already exists');
+          })
+          .catch((error: any) => {
+            const message = String(error?.message || '').toLowerCase();
+            return message.includes('duplicate') || message.includes('already exists');
+          });
+      }
+      return deliverableRunReady;
+    };
+
+    const persistDeliverableEvent = async (event: any, phaseName: string | null, agentName: string | null) => {
+      if (!(await ensureDeliverableRun())) return;
+      await insertRow('deliverable_pipeline_events', {
+        run_id: deliverableRunId,
+        event_type: String(event?.type || 'status'),
+        event_data: event ?? {},
+        phase: phaseName,
+        agent_name: agentName,
+      }).catch(() => {});
+    };
+
+    const normalizeEventContext = (event: any) => {
+      const es = event?.executionState || {};
+      const data = event?.data || {};
+      const phaseName = toPhaseLower(String(event?.phase || es?.phase || data?.phase || '')) ?? null;
+      const agentName = String(event?.agent || es?.agent || data?.agent || '').trim() || null;
+      const stepType = toStepLower(String(event?.step || es?.step || data?.step || 'try')) ?? null;
+      const failsafe = String(event?.failsafe || es?.failsafe || data?.failsafe || '').trim() || null;
+      const generation = String(event?.generation || es?.generation || data?.generation || '').trim() || null;
+      return { phaseName, agentName, stepType, failsafe, generation };
+    };
+
+    const agentStepKey = (
+      phaseId: string | null,
+      phaseName: string | null,
+      agentName: string | null,
+      stepType: string | null
+    ) => `${phaseId || phaseName || 'unknown'}:${agentName || 'unknown'}:${stepType || 'try'}`;
+
+    const generationContextKey = (context: ReturnType<typeof normalizeEventContext>) =>
+      [
+        context.phaseName || 'unknown',
+        context.agentName || 'unknown',
+        context.stepType || 'try',
+        context.failsafe || 'none',
+        context.generation || 'none',
+      ].join(':');
+
+    const markDeliverableRun = async (status: 'completed' | 'failed', payload?: any) => {
+      if (!(await ensureDeliverableRun())) return;
+      const now = new Date().toISOString();
+      await updateRows('deliverable_pipeline_runs', {
+        status,
+        completed_at: now,
+        updated_at: now,
+        output_data: status === 'completed' ? (payload ?? {}) : {},
+        error_data: status === 'failed' ? (payload ?? {}) : null,
+      }, 'id', deliverableRunId).catch(() => {});
     };
 
     streamer.subscribe(async (event: any) => {
       try {
         const type = String(event?.type || '');
-        const es = event?.executionState || {};
+        const context = normalizeEventContext(event);
         const now = new Date().toISOString();
-        // Normalize values
-        const phaseName = toPhaseLower((event?.phase || es?.phase || '').toString());
-        const agentName = (event?.agent || es?.agent || '').toString();
-        const stepType = toStepLower((es?.step || '').toString());
+        const { phaseName, agentName, stepType } = context;
+
+        await persistDeliverableEvent(event, phaseName, agentName);
 
         if (type === 'phase-start') {
+          if (!(phaseName && await ensureDeliverableRun())) return;
           const row: import('../types/db').DPPhaseDelegationInsert = {
-            run_id: config.runId,
-            phase_name: phaseName!,
+            run_id: deliverableRunId,
+            phase_name: phaseName,
             started_at: now,
-            status: 'running'
+            status: 'running',
+            input_data: event?.data ?? {},
           } as any;
-            const vrow = validate('phase_executions', row);
-            const { data, error } = await (supabase as any).from('phase_executions').insert(vrow as any).select('id').single();
-          if (!error && data) { phaseState.currentPhaseId = data.id; phaseState.currentPhaseName = phaseName ?? null; }
+          const { data, error } = await insertRow('deliverable_pipeline_phase_delegations', row, true);
+          if (!error && data?.id) {
+            phaseState.currentPhaseId = data.id;
+            phaseState.currentPhaseName = phaseName;
+            phaseIdByName.set(phaseName, data.id);
+          }
         } else if (type === 'phase-complete') {
-          if (phaseState.currentPhaseId) {
-            const status = event?.shortCircuited ? 'short_circuited' : 'completed';
-            await supabase
-              .from('phase_executions' as any)
-              .update({ completed_at: now, status })
-              .eq('id', phaseState.currentPhaseId);
+          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          if (phaseId) {
+            const failed = event?.data?.status === 'failed' || event?.data?.error;
+            await updateRows('deliverable_pipeline_phase_delegations', {
+              completed_at: now,
+              status: failed ? 'failed' : 'completed',
+              output_data: failed ? {} : (event?.data ?? {}),
+              error_data: failed ? (event?.data?.error ?? event?.data ?? {}) : null,
+            }, 'id', phaseId);
+            if (failed) await markDeliverableRun('failed', event?.data?.error ?? event?.data);
           }
         } else if (type === 'agent-start') {
-          if (phaseState.currentPhaseId && agentName && stepType) {
+          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          if (phaseId && agentName && stepType) {
             const row: import('../types/db').DPAgentStepInsert = {
-              phase_delegation_id: phaseState.currentPhaseId!,
+              phase_delegation_id: phaseId,
               agent_name: agentName,
-              step_type: stepType!,
+              step_type: stepType,
               started_at: now,
-              status: 'running'
+              status: 'running',
+              input_data: event?.data ?? {},
             } as any;
-            const vrow = validate('step_executions', row);
-            const { data, error } = await (supabase as any).from('step_executions').insert(vrow as any).select('id').single();
-            if (!error && data) {
-              agentStepMap.set(`${agentName}:${stepType}`, data.id);
+            const { data, error } = await insertRow('deliverable_pipeline_agent_steps', row, true);
+            if (!error && data?.id) {
+              agentStepMap.set(agentStepKey(phaseId, phaseName, agentName, stepType), data.id);
             }
           }
         } else if (type === 'agent-complete') {
-          const key = `${agentName}:${stepType}`;
+          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
           const id = agentStepMap.get(key);
-          if (id) await (supabase as any).from('step_executions').update({ completed_at: now, status: 'completed' }).eq('id', id);
+          if (id) {
+            const failed = event?.data?.status === 'failed' || event?.data?.error;
+            await updateRows('deliverable_pipeline_agent_steps', {
+              completed_at: now,
+              status: failed ? 'failed' : 'completed',
+              output_data: failed ? {} : (event?.data ?? {}),
+              error_data: failed ? (event?.data?.error ?? event?.data ?? {}) : null,
+            }, 'id', id);
+          }
         } else if (type === 'error') {
-          // Mark run as failed (best-effort)
-          try {
-            await supabase
-              .from('executions')
-              .update({ status: 'failed', completed_at: now })
-              .eq('id', config.runId);
-          } catch {}
+          await markDeliverableRun('failed', event?.data ?? event);
+          await updateRows('executions', { status: 'failed', completed_at: now }, 'id', config.runId).catch(() => {});
+        } else if (type === 'completion') {
+          await markDeliverableRun('completed', event?.data ?? event);
         } else if (type === 'generation') {
-          const key = `${agentName}:${stepType}`;
+          if (!(await ensureDeliverableRun())) return;
+          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
           const agentStepId = agentStepMap.get(key) || null;
           const provider = event?.data?.provider || event?.metadata?.provider || null;
           const model = event?.data?.model || event?.metadata?.model || null;
-          const messages = event?.data?.messages || null;
-          const response = event?.data?.content ? { content: event.data.content } : (event?.data?.response || null);
+          const messages =
+            event?.data?.messages ??
+            generationMessagesByContext.get(generationContextKey(context)) ??
+            [];
+          const response = event?.data?.response ?? {
+            content: event?.data?.content ?? event?.data?.output ?? null,
+            parsed: event?.data?.parsed ?? event?.data?.structuredOutput ?? null,
+            raw: event?.data ?? {},
+          };
           const row: import('../types/db').DPGenerationInsert = {
-            run_id: config.runId,
-            phase_delegation_id: phaseState.currentPhaseId,
+            run_id: deliverableRunId,
+            phase_delegation_id: phaseId ?? null,
             agent_step_id: agentStepId,
             substep_id: null,
             model_provider: (provider || 'unknown') as any,
@@ -189,10 +307,11 @@ export function enablePipelineStreaming(
             response: response as any,
             created_at: now as any
           } as any;
-          const vrow = validate('generations', row);
-          await (supabase as any).from('generations').insert(vrow as any);
+          await insertRow('deliverable_pipeline_generations', row);
         } else if (type === 'tool-use') {
-          const key = `${agentName}:${stepType}`;
+          if (!(await ensureDeliverableRun())) return;
+          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
           const agentStepId = agentStepMap.get(key) || null;
           const toolName = event?.data?.tool || event?.metadata?.toolName || 'tool';
           const toolInput = event?.data?.input || null;
@@ -207,17 +326,23 @@ export function enablePipelineStreaming(
             tool_error: toolError as any,
             created_at: now as any
           } as any;
-          const vrow = validate('tool_executions', row);
-          await (supabase as any).from('tool_executions').insert(vrow as any);
+          await insertRow('deliverable_pipeline_tool_executions', row);
         } else if (type === 'status') {
+          if (event?.namespace === 'llm' && event?.key === 'input') {
+            const messages = event?.data?.messages;
+            if (Array.isArray(messages)) {
+              generationMessagesByContext.set(generationContextKey(context), messages);
+            }
+          }
           // Optional enrichment: correlate llm.usage to latest generation for this agent step
           try {
             if (event?.namespace === 'llm' && event?.key === 'usage') {
-              const key = `${agentName}:${stepType}`;
+              const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+              const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
               const agentStepId = agentStepMap.get(key) || null;
               if (agentStepId) {
                 const { data: last, error: selErr } = await (supabase as any)
-                  .from('generations')
+                  .from('deliverable_pipeline_generations')
                   .select('id')
                   .eq('agent_step_id', agentStepId)
                   .order('created_at', { ascending: false })
@@ -226,7 +351,7 @@ export function enablePipelineStreaming(
                 if (!selErr && last?.id) {
                   const usage = event?.data || {};
                   await supabase
-                    .from('generations')
+                    .from('deliverable_pipeline_generations')
                     .update({
                       input_tokens: usage.promptTokens ?? usage.inputTokens ?? null,
                       output_tokens: usage.completionTokens ?? usage.outputTokens ?? null,
@@ -243,12 +368,8 @@ export function enablePipelineStreaming(
 
         // If Finish phase completes, mark run completed.
         if (type === 'phase-complete' && phaseName === 'finish') {
-          try {
-            await supabase
-              .from('executions')
-              .update({ status: 'completed', completed_at: now })
-              .eq('id', config.runId);
-          } catch {}
+          await markDeliverableRun('completed', event?.data ?? event);
+          await updateRows('executions', { status: 'completed', completed_at: now }, 'id', config.runId).catch(() => {});
         }
       } catch (err) {
         console.error('Structured stream persistence error', err);

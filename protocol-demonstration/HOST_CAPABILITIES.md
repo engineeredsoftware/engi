@@ -1,7 +1,7 @@
 # Bitcode Host Capabilities
 
-Last inspected: 2026-04-16 (America/Sao_Paulo)
-Host scope: local machine capabilities relevant to active V27 canon and V28 draft-target Terminal preparation.
+Last inspected: 2026-05-16 (America/Sao_Paulo)
+Host scope: local machine and Vercel Sandbox capabilities relevant to active V27 canon and V28 draft-target Terminal/Read-Fit pipeline preparation.
 
 ## Canon status
 
@@ -47,7 +47,9 @@ The repo needs:
 - a local Node runtime,
 - filesystem access to the working tree,
 - the ability to bind the app server on a local port such as `3000`,
-- and the ability to serve the package-owned Bitcode shell assets through the app route.
+- the ability to serve the package-owned Bitcode shell assets through the app route,
+- and, for live Read/Fit pipeline QA, the ability to create a Vercel Sandbox,
+  export artifacts, and persist pipeline telemetry to Supabase.
 
 The current real local program usage includes:
 
@@ -55,7 +57,10 @@ The current real local program usage includes:
 - serving Terminal-owned JSON contract routes under `uapi/app/api/*`,
 - deterministic read derivation and state transitions inside `protocol-demonstration`,
 - proof/materialization/accounting artifact assembly,
-- and the Node-based regression/test stack.
+- the Node-based regression/test stack,
+- and Vercel Sandbox AssetPack harness runs that prove phase, agent,
+  generation, tool, artifact, and database readback visibility before a Fit can
+  graduate beyond blocked-readiness.
 
 ### Present on host but not required for core first-gate review
 
@@ -135,6 +140,23 @@ Because the current first-gate review path is Terminal-owned, the practical runt
 - command: `PORT=3000 pnpm dev:remote`
 - purpose: Terminal-owned route review against current non-mock environment posture
 
+### `asset-pack-sandbox-harness`
+
+- working directory: `/Users/garrettmaring/Developer/ENGI`
+- command:
+  `BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 BITCODE_SANDBOX_MODE=asset_pack_pipeline pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox`
+- purpose: live host execution proof for Read/Fit and AssetPack synthesis in an
+  isolated Vercel Sandbox.
+- required auth:
+  - local development: `VERCEL_OIDC_TOKEN` from `vercel link && vercel env pull`;
+  - external hosts: `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, `VERCEL_PROJECT_ID`;
+  - deployed Vercel code: automatic OIDC when available.
+- required model credential for real inference: `OPENAI_API_KEY`.
+- required readback:
+  `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql` must
+  show run/event/phase/agent/generation/tool telemetry before commercial
+  Read/Fit result review.
+
 ### `package-runtime-validation`
 
 - working directory: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration`
@@ -162,7 +184,10 @@ Current repo truth relevant to host safety:
 - path traversal is blocked,
 - public/API projection defaults are explicit,
 - private branch/source material remains withheld from public projection,
-- and first-gate Terminal review can run entirely in mock mode without requiring production credentials.
+- first-gate Terminal review can run entirely in mock mode without requiring production credentials,
+- and live Vercel Sandbox runs must not claim AssetPack ranges, BTC fees,
+  ledger anchors, settlement, or finality unless Supabase/ledger readback rows
+  agree.
 
 Operational implication:
 
@@ -181,7 +206,8 @@ The current system still models, rather than fully executes live:
 - signer verification against external authorities,
 - and settlement-network effects.
 
-These remain explicit V26 hardening scope rather than first-gate closure requirements.
+These remain outside Terminal shell review, but V28 Read/Fit QA now requires the
+pipeline harness to show explicit blocked-readiness when any of them are absent.
 
 ## Containerization
 

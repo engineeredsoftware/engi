@@ -9,8 +9,8 @@ leaving enough telemetry for SQL readback.
 
 - Firecracker microVM isolation on Amazon Linux 2023.
 - Default working directory: `/vercel/sandbox`.
-- Default runtime: `node24`; stable documented runtime options are `node24`,
-  `node22`, and `python3.13`.
+- Default runtime: `node24`; documented runtime options include `node26`,
+  `node24`, `node22`, and `python3.13`.
 - The sandbox user is `vercel-sandbox` and can use `sudo`.
 - Filesystem state is ephemeral. Evidence must be exported before stop, then
   persisted to Bitcode storage or database projections.
@@ -38,6 +38,22 @@ return `blocked_readiness` rather than a worthy fit.
 The exported evidence must include the AssetPack embedding policy
 (`text-embedding-3-small`, `1536` dimensions, cosine
 `match_deliverable_vectors`) so SQL readback can detect vector-space drift.
+
+Structured database telemetry is part of the harness contract. A real Read/Fit
+pipeline run must write the deliverable hierarchy:
+`deliverable_pipeline_runs`, `deliverable_pipeline_events`,
+`deliverable_pipeline_phase_delegations`,
+`deliverable_pipeline_agent_steps`, `deliverable_pipeline_generations`, and
+`deliverable_pipeline_tool_executions`. Generation rows should retain the
+interpolated model messages when available, raw and parsed output, model
+identity, token usage, and phase/agent/step context.
+
+For live model execution, the sandbox runner also needs `OPENAI_API_KEY` in the
+trusted command environment. For local Vercel Sandbox creation, either pull
+`VERCEL_OIDC_TOKEN` with `vercel link && vercel env pull`, or provide the access
+token tuple `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and `VERCEL_PROJECT_ID`. Deployed
+Vercel code should use automatic OIDC rather than storing a Vercel token when
+possible.
 
 ## Live QA
 
@@ -72,6 +88,16 @@ BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```
+
+After the run, execute:
+
+```bash
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
+  -f supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql
+```
+
+The harness is not commercially reviewable until this query reports pipeline
+run/event/phase/agent/generation/tool visibility rather than a blocker state.
 
 Only pass secrets through `BITCODE_SANDBOX_ENV_KEYS` when the sandbox code path
 is trusted and its network policy is understood. Prefer credential brokering or

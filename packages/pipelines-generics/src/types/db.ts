@@ -1,7 +1,5 @@
-// Structured pipeline persistence types for V26. The current V26 schema only
-// formally carries `phase_executions`; the finer-grained step/generation/tool
-// rows are tolerated here as planned support shapes so the streaming
-// layer can compile without asserting nonexistent ORM table aliases.
+// Structured AssetPack pipeline persistence types. These mirror the deployed
+// deliverable_pipeline_* tables used by the V28 Read/Fit harness telemetry.
 
 export interface DPPhaseDelegation {
   id: string;
@@ -10,9 +8,9 @@ export interface DPPhaseDelegation {
   started_at?: string | null;
   completed_at?: string | null;
   status?: string | null;
-  input?: unknown;
-  output?: unknown;
-  error?: unknown;
+  input_data?: unknown;
+  output_data?: unknown;
+  error_data?: unknown;
 }
 
 export type DPPhaseDelegationInsert = Omit<DPPhaseDelegation, 'id'> & { id?: string };
@@ -25,6 +23,9 @@ export interface DPAgentStep {
   started_at?: string | null;
   completed_at?: string | null;
   status?: string | null;
+  input_data?: unknown;
+  output_data?: unknown;
+  error_data?: unknown;
 }
 
 export type DPAgentStepInsert = Omit<DPAgentStep, 'id'> & { id?: string };

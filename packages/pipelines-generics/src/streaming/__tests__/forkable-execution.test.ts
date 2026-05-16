@@ -4,20 +4,28 @@ import { enablePipelineStreaming } from '../../streaming/pipeline-stream-integra
 // Minimal streamer mock – we don't read SSE, we only want DB persistence path
 class MockSupabase {
   tables: Record<string, any[]> = {
-    pipeline_executions: [],
+    executions: [],
     execution_events: [],
-    // Structured tables (optional in this test context)
-    phase_executions: [],
-    step_executions: [],
-    generations: [],
-    tool_executions: [],
+    deliverable_pipeline_runs: [],
+    deliverable_pipeline_events: [],
+    deliverable_pipeline_phase_delegations: [],
+    deliverable_pipeline_agent_steps: [],
+    deliverable_pipeline_generations: [],
+    deliverable_pipeline_tool_executions: [],
   };
   from = (table: string) => ({
     insert: (row: any) => {
       let inserted = false;
+      const rows = Array.isArray(row) ? row : [row];
       const pushRow = () => {
         if (!inserted) {
-          (this.tables[table] ||= []).push(row);
+          const target = (this.tables[table] ||= []);
+          for (const entry of rows) {
+            if (!entry.id && table !== 'execution_events') {
+              entry.id = `${table}-${target.length + 1}`;
+            }
+            target.push(entry);
+          }
           inserted = true;
         }
       };
@@ -25,20 +33,40 @@ class MockSupabase {
       return {
         then: (cb: any) => {
           pushRow();
-          cb();
+          cb({ data: rows, error: null });
           return { catch: () => ({}) };
         },
         catch: () => ({}),
         select: () => ({
           single: async () => {
             pushRow();
-            return { data: row, error: null };
+            return { data: rows[0], error: null };
           }
         })
       };
     },
-    update: (_: any) => ({ eq: () => ({}) }),
-    select: (_?: string) => ({ single: async () => ({ data: null, error: null }) })
+    update: (patch: any) => ({
+      eq: async (column: string, value: any) => {
+        const rows = this.tables[table] || [];
+        for (const row of rows) {
+          if (row[column] === value) Object.assign(row, patch);
+        }
+        return { data: rows.filter((row) => row[column] === value), error: null };
+      }
+    }),
+    select: (_?: string) => ({
+      eq: (_column: string, _value: any) => ({
+        order: () => ({
+          limit: () => ({
+            maybeSingle: async () => {
+              const rows = this.tables[table] || [];
+              return { data: rows[rows.length - 1] || null, error: null };
+            }
+          })
+        })
+      }),
+      single: async () => ({ data: null, error: null })
+    })
   });
 }
 
@@ -66,5 +94,85 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
     const events = supabase.tables['execution_events'];
     expect(events.length).toBeGreaterThanOrEqual(3);
     expect(events[0].run_id).toEqual(runId);
+  });
+
+  it('persists structured deliverable phase, agent, generation, and tool rows', async () => {
+    const supabase = new MockSupabase() as any;
+    const runId = '11111111-1111-4111-8111-111111111111';
+    const userId = '22222222-2222-4222-8222-222222222222';
+
+    const exec = new Execution(`exec-${runId}`);
+    enablePipelineStreaming(exec as any, {
+      runId,
+      userId,
+      supabase,
+      structuredToDatabase: true,
+    });
+
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'phase-start' as any, {
+      phase: 'setup',
+      data: { input: { read: 'fit this repository' } },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'agent-start' as any, {
+      agent: 'setup:asset-pack-comprehend-read-agent',
+      executionState: { phase: 'setup', agent: 'setup:asset-pack-comprehend-read-agent', step: 'try' },
+      data: { promptContext: { read: 'fit this repository' } },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'status' as any, {
+      namespace: 'llm',
+      key: 'input',
+      executionState: {
+        phase: 'setup',
+        agent: 'setup:asset-pack-comprehend-read-agent',
+        step: 'try',
+        failsafe: 'prepare_concise_context',
+        generation: 'reason',
+      },
+      data: {
+        messages: [{ role: 'user', content: 'Fit this repository.' }],
+      },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'generation' as any, {
+      executionState: {
+        phase: 'setup',
+        agent: 'setup:asset-pack-comprehend-read-agent',
+        step: 'try',
+        failsafe: 'prepare_concise_context',
+        generation: 'reason',
+      },
+      data: {
+        content: '{"result":"ok"}',
+        provider: 'openai',
+        model: 'gpt-test',
+      },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'tool-use' as any, {
+      executionState: { phase: 'setup', agent: 'setup:asset-pack-comprehend-read-agent', step: 'try' },
+      data: {
+        tool: 'depository-search',
+        input: { query: 'repository' },
+        output: { selected: 1 },
+      },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'agent-complete' as any, {
+      agent: 'setup:asset-pack-comprehend-read-agent',
+      executionState: { phase: 'setup', agent: 'setup:asset-pack-comprehend-read-agent', step: 'try' },
+      data: { status: 'completed' },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'phase-complete' as any, {
+      phase: 'setup',
+      data: { status: 'completed' },
+    });
+
+    expect(supabase.tables.deliverable_pipeline_runs).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_phase_delegations).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_agent_steps).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_generations).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_tool_executions).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_generations[0].messages).toEqual([
+      { role: 'user', content: 'Fit this repository.' },
+    ]);
+    expect(supabase.tables.deliverable_pipeline_phase_delegations[0].status).toBe('completed');
+    expect(supabase.tables.deliverable_pipeline_agent_steps[0].status).toBe('completed');
   });
 });

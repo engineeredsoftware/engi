@@ -54,15 +54,38 @@ export class PipelineExecutor {
     if (!agent) {
       throw new Error(`Agent not found: ${agentName}`);
     }
-    
-    // Note: Agent start/complete events are emitted at step level via store()
+    const phase = String(this.execution.get('phase', 'current') || 'setup');
+    const step = 'try';
+    this.execution.store('agent', 'name', agentName);
+    this.execution.store('step', 'name', step);
+    this.execution.store(`agent:${agentName}`, 'start', {
+      phase,
+      currentPhase: phase,
+      agent: agentName,
+      currentAgent: agentName,
+      step,
+      currentStep: step,
+      status: 'running',
+      input: summarizeValue(input),
+      startedAt: new Date().toISOString(),
+    } as any);
     
     // Execute agent with error envelope
     let output: any;
     try {
       output = await agent(input, this.execution);
     } catch (error) {
-      // Non-fatal: streaming for errors handled elsewhere via status/error writes
+      this.execution.store(`agent:${agentName}`, 'complete', {
+        phase,
+        currentPhase: phase,
+        agent: agentName,
+        currentAgent: agentName,
+        step,
+        currentStep: step,
+        status: 'failed',
+        error: summarizeError(error),
+        completedAt: new Date().toISOString(),
+      } as any);
       throw error;
     }
     
@@ -72,14 +95,34 @@ export class PipelineExecutor {
       this.execution.store('pipeline/short-circuit', 'signal', output.signal as any);
       this.execution.store('pipeline/short-circuit', 'agent', agentName);
       this.execution.store('pipeline/short-circuit', 'timestamp', Date.now());
-      // Step-level store emits handle agent-complete with step context
+      this.execution.store(`agent:${agentName}`, 'complete', {
+        phase,
+        currentPhase: phase,
+        agent: agentName,
+        currentAgent: agentName,
+        step,
+        currentStep: step,
+        status: 'completed',
+        shortCircuited: true,
+        output: summarizeValue(output),
+        completedAt: new Date().toISOString(),
+      } as any);
       
       // Throw short-circuit error for phase runner to catch
       throw new ShortCircuitError(output.signal!);
     }
     
-    // Emit end
-    // Step-level store emits handle agent-complete with step context
+    this.execution.store(`agent:${agentName}`, 'complete', {
+      phase,
+      currentPhase: phase,
+      agent: agentName,
+      currentAgent: agentName,
+      step,
+      currentStep: step,
+      status: 'completed',
+      output: summarizeValue(output),
+      completedAt: new Date().toISOString(),
+    } as any);
     
     // Return normal result
     return output.result || output;
@@ -182,4 +225,37 @@ export function createPhaseRunner(config: PhaseConfig): Executor<any, PhaseResul
     const executor = new PipelineExecutor(execution as PipelineExecution);
     return await executor.executePhase(config);
   };
+}
+
+function summarizeError(error: unknown): Record<string, unknown> {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack ? error.stack.split('\n').slice(0, 6).join('\n') : undefined,
+    };
+  }
+  return { message: String(error) };
+}
+
+function summarizeValue(value: unknown): unknown {
+  try {
+    if (value == null) return value;
+    if (typeof value === 'string') {
+      return value.length > 500 ? `${value.slice(0, 500)}... [truncated]` : value;
+    }
+    if (Array.isArray(value)) {
+      return { type: 'array', length: value.length, sample: summarizeValue(value[0]) };
+    }
+    if (typeof value === 'object') {
+      const objectValue = value as Record<string, unknown>;
+      const keys = Object.keys(objectValue);
+      const sample: Record<string, unknown> = {};
+      for (const key of keys.slice(0, 8)) sample[key] = summarizeValue(objectValue[key]);
+      return { type: 'object', keys: keys.slice(0, 20), sample };
+    }
+    return value;
+  } catch {
+    return '[unserializable]';
+  }
 }

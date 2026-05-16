@@ -24,70 +24,70 @@ DECLARE
   gate_state text;
 BEGIN
   IF to_regclass('public.pipeline_runs') IS NULL THEN
-    missing_tables := missing_tables || 'public.pipeline_runs';
+    missing_tables := array_append(missing_tables, 'public.pipeline_runs');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.pipeline_runs WHERE created_at > now() - interval ''48 hours'''
       INTO pipeline_run_count;
   END IF;
 
   IF to_regclass('public.run_jobs') IS NULL THEN
-    missing_tables := missing_tables || 'public.run_jobs';
+    missing_tables := array_append(missing_tables, 'public.run_jobs');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.run_jobs WHERE created_at > now() - interval ''48 hours'''
       INTO run_job_count;
   END IF;
 
   IF to_regclass('public.execution_events') IS NULL THEN
-    missing_tables := missing_tables || 'public.execution_events';
+    missing_tables := array_append(missing_tables, 'public.execution_events');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.execution_events WHERE created_at > now() - interval ''48 hours'''
       INTO execution_event_count;
   END IF;
 
   IF to_regclass('public.stream_logs') IS NULL THEN
-    missing_tables := missing_tables || 'public.stream_logs';
+    missing_tables := array_append(missing_tables, 'public.stream_logs');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.stream_logs WHERE created_at > now() - interval ''48 hours'''
       INTO stream_log_count;
   END IF;
 
   IF to_regclass('public.phase_executions') IS NULL THEN
-    missing_tables := missing_tables || 'public.phase_executions';
+    missing_tables := array_append(missing_tables, 'public.phase_executions');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.phase_executions WHERE created_at > now() - interval ''48 hours'''
       INTO phase_execution_count;
   END IF;
 
   IF to_regclass('public.deliverable_pipeline_runs') IS NULL THEN
-    missing_tables := missing_tables || 'public.deliverable_pipeline_runs';
+    missing_tables := array_append(missing_tables, 'public.deliverable_pipeline_runs');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.deliverable_pipeline_runs WHERE created_at > now() - interval ''48 hours'''
       INTO deliverable_run_count;
   END IF;
 
   IF to_regclass('public.deliverable_pipeline_phase_delegations') IS NULL THEN
-    missing_tables := missing_tables || 'public.deliverable_pipeline_phase_delegations';
+    missing_tables := array_append(missing_tables, 'public.deliverable_pipeline_phase_delegations');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.deliverable_pipeline_phase_delegations WHERE created_at > now() - interval ''48 hours'''
       INTO deliverable_phase_count;
   END IF;
 
   IF to_regclass('public.deliverable_pipeline_agent_steps') IS NULL THEN
-    missing_tables := missing_tables || 'public.deliverable_pipeline_agent_steps';
+    missing_tables := array_append(missing_tables, 'public.deliverable_pipeline_agent_steps');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.deliverable_pipeline_agent_steps WHERE created_at > now() - interval ''48 hours'''
       INTO deliverable_agent_step_count;
   END IF;
 
   IF to_regclass('public.deliverable_pipeline_generations') IS NULL THEN
-    missing_tables := missing_tables || 'public.deliverable_pipeline_generations';
+    missing_tables := array_append(missing_tables, 'public.deliverable_pipeline_generations');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.deliverable_pipeline_generations WHERE created_at > now() - interval ''48 hours'''
       INTO deliverable_generation_count;
   END IF;
 
   IF to_regclass('public.deliverable_pipeline_tool_executions') IS NULL THEN
-    missing_tables := missing_tables || 'public.deliverable_pipeline_tool_executions';
+    missing_tables := array_append(missing_tables, 'public.deliverable_pipeline_tool_executions');
   ELSE
     EXECUTE 'SELECT count(*) FROM public.deliverable_pipeline_tool_executions WHERE created_at > now() - interval ''48 hours'''
       INTO deliverable_tool_count;

@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Execution } from '@bitcode/execution-generics';
-import { ExecutionStorageDestination } from '@bitcode/execution-generics/src/storage/StorageDestination';
+import { Execution, ExecutionStorageDestination } from '@bitcode/execution-generics';
 
 // Mock artifacts to write to local filesystem instead of S3/Supabase
 jest.mock('@bitcode/artifacts', () => {
