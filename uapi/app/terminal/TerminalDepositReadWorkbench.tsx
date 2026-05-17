@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
@@ -21,6 +21,12 @@ import {
   type TerminalDepositedSourceRevision,
   type TerminalDepositReadWorkbench as TerminalDepositReadWorkbenchState,
 } from './terminal-deposit-read-workbench';
+import {
+  buildTerminalFitPipelineHarnessRequest,
+  streamTerminalFitPipelineHarness,
+  summarizeTerminalFitPipelineHarnessEvent,
+  type TerminalFitPipelineHarnessEvent,
+} from './terminal-pipeline-harness-client';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
 import { jumpToShellSection } from './terminal-shell-reading';
 
@@ -37,20 +43,28 @@ type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
+  admittedReadActivityId?: string | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
+  onHarnessCompleted?: () => Promise<unknown> | unknown;
   showDemonstrationWorkbench?: boolean;
 }
 
 export default function TerminalDepositReadWorkbench({
   repositoryContext = null,
   depositedSourceRevision = null,
+  admittedReadActivityId = null,
   onRecordActivity,
+  onHarnessCompleted,
   showDemonstrationWorkbench = true,
 }: TerminalDepositReadWorkbenchProps) {
   const { snapshot } = useTerminalShellBridge();
   const [recordingKey, setRecordingKey] = useState<'deposit' | 'read' | 'read-admission' | 'fit' | null>(null);
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const [readFitProgress, setReadFitProgress] = useState<ReadFitProgressState>('draft');
+  const [recordedAdmittedReadActivityId, setRecordedAdmittedReadActivityId] = useState<string | null>(null);
+  const [harnessState, setHarnessState] = useState<'idle' | 'running' | 'completed' | 'failed'>('idle');
+  const [harnessMessage, setHarnessMessage] = useState<string | null>(null);
+  const [harnessEvents, setHarnessEvents] = useState<TerminalFitPipelineHarnessEvent[]>([]);
   const workbenchSnapshot = useMemo(() => {
     if (showDemonstrationWorkbench) return snapshot;
     return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
@@ -63,7 +77,16 @@ export default function TerminalDepositReadWorkbench({
 
   useEffect(() => {
     setReadFitProgress('draft');
+    setRecordedAdmittedReadActivityId(null);
+    setHarnessState('idle');
+    setHarnessMessage(null);
+    setHarnessEvents([]);
   }, [scenarioKey]);
+
+  useEffect(() => {
+    if (!admittedReadActivityId) return;
+    setReadFitProgress((currentProgress) => (currentProgress === 'draft' ? 'admitted' : currentProgress));
+  }, [admittedReadActivityId]);
 
   const selectedEntryChips = useMemo(() => {
     if (!workbench?.deposit.selectedEntries.length) return [];
@@ -83,6 +106,34 @@ export default function TerminalDepositReadWorkbench({
       : readFitProgress === 'fit-recorded'
         ? 'Fit result recorded'
         : 'Record fit result posture';
+  const liveFitActionLabel =
+    harnessState === 'running'
+      ? 'Running live fit...'
+      : harnessState === 'completed'
+        ? 'Run live fit again'
+        : 'Run live AssetPack fit';
+  const harnessReadActivityId = recordedAdmittedReadActivityId || admittedReadActivityId;
+  const harnessRequestState = useMemo(
+    () =>
+      buildTerminalFitPipelineHarnessRequest({
+        workbench,
+        repositoryContext,
+        depositedSourceRevision,
+        readActivityId: harnessReadActivityId,
+      }),
+    [depositedSourceRevision, harnessReadActivityId, repositoryContext, workbench],
+  );
+  const canRunLiveFit =
+    !showDemonstrationWorkbench &&
+    recordingKey === null &&
+    harnessState !== 'running' &&
+    harnessRequestState.ready;
+
+  const recordActivityId = (value: unknown) => {
+    if (!value || typeof value !== 'object') return null;
+    const id = (value as { id?: unknown }).id;
+    return typeof id === 'string' && id.trim() ? id : null;
+  };
 
   const handleRecord = async (kind: 'deposit' | 'read' | 'fit') => {
     if (!workbench || !onRecordActivity) return;
@@ -141,7 +192,8 @@ export default function TerminalDepositReadWorkbench({
     setRecordMessage(null);
 
     try {
-      await onRecordActivity(buildTerminalReadAdmissionDraft(workbench));
+      const recorded = await onRecordActivity(buildTerminalReadAdmissionDraft(workbench));
+      setRecordedAdmittedReadActivityId(recordActivityId(recorded));
       setReadFitProgress('admitted');
       setRecordMessage(
         'Measured Read admitted for fit search. Next run or record the fit result posture as worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
@@ -152,6 +204,33 @@ export default function TerminalDepositReadWorkbench({
       setRecordingKey(null);
     }
   };
+
+  const handleRunLiveFit = useCallback(async () => {
+    if (!harnessRequestState.ready) {
+      setHarnessState('failed');
+      setHarnessMessage(`Live fit cannot start yet: missing ${harnessRequestState.missing.join(', ')}.`);
+      return;
+    }
+
+    setHarnessState('running');
+    setHarnessMessage('Starting live AssetPack fit harness...');
+    setHarnessEvents([]);
+
+    try {
+      await streamTerminalFitPipelineHarness(harnessRequestState.request, {
+        onEvent: (event) => {
+          setHarnessEvents((currentEvents) => [...currentEvents.slice(-7), event]);
+          setHarnessMessage(summarizeTerminalFitPipelineHarnessEvent(event));
+        },
+      });
+      setHarnessState('completed');
+      setRecordMessage('Live AssetPack fit harness completed. Refreshing activity and telemetry readback.');
+      await onHarnessCompleted?.();
+    } catch (error) {
+      setHarnessState('failed');
+      setHarnessMessage(error instanceof Error ? error.message : 'Live AssetPack fit harness failed.');
+    }
+  }, [harnessRequestState, onHarnessCompleted]);
 
   if (!workbench) {
     return (
@@ -286,6 +365,18 @@ export default function TerminalDepositReadWorkbench({
           >
             Review fit result posture
           </button>
+          {!showDemonstrationWorkbench ? (
+            <button
+              type="button"
+              disabled={!canRunLiveFit}
+              onClick={() => {
+                void handleRunLiveFit();
+              }}
+              className="rounded-[1.25rem] border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+            >
+              {liveFitActionLabel}
+            </button>
+          ) : null}
           <button
             type="button"
             disabled={recordingKey !== null || readFitProgress !== 'admitted'}
@@ -297,6 +388,21 @@ export default function TerminalDepositReadWorkbench({
             {fitResultActionLabel}
           </button>
         </div>
+        {!showDemonstrationWorkbench && (harnessMessage || !harnessRequestState.ready || harnessEvents.length > 0) ? (
+          <div className="mt-4 rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4 text-sm leading-6 text-neutral-300">
+            <p className="font-medium text-neutral-100">
+              {harnessMessage ||
+                `Live fit waiting for ${harnessRequestState.ready ? 'stream events' : harnessRequestState.missing.join(', ')}.`}
+            </p>
+            {harnessEvents.length ? (
+              <ul className="mt-3 space-y-1 text-xs text-neutral-400">
+                {harnessEvents.slice(-4).map((event, index) => (
+                  <li key={`${event.event}-${index}`}>{summarizeTerminalFitPipelineHarnessEvent(event)}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        ) : null}
       </section>
 
       <article

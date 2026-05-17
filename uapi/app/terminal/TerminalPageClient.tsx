@@ -312,8 +312,27 @@ export default function TerminalPageClient() {
       commit: matchingSubmission.sourceCommit,
       activityId: matchingSubmission.id,
       createdAt: matchingSubmission.created_at,
+      depositAssetId: matchingSubmission.candidateAssetId || null,
+      hasWalletOrAttestationProof: Boolean(matchingSubmission.candidateAssetId),
+      hasAssetMeasurementEvidence: Boolean(matchingSubmission.candidateAssetId),
     };
   }, [repositoryContext, runs, showDemonstrationSurfaces]);
+  const admittedReadActivityId = useMemo(() => {
+    if (showDemonstrationSurfaces) return null;
+    const selectedRepository = repositoryContext?.selectedRepository || null;
+    if (!selectedRepository) return null;
+    const sourceBranch = depositedSourceRevision?.branch || repositoryContext?.selectedBranch || selectedRepository.defaultBranch || 'main';
+    const sourceCommit = depositedSourceRevision?.commit || repositoryContext?.selectedCommit || null;
+    const matchingRead = runs.find(
+      (run) =>
+        run.contextSource === 'terminal-deposit-read-workbench' &&
+        run.contextWorkbench === 'read-admission' &&
+        run.repository === selectedRepository.fullName &&
+        run.branch === sourceBranch &&
+        (!sourceCommit || run.sourceCommit === sourceCommit),
+    );
+    return matchingRead?.id || null;
+  }, [depositedSourceRevision, repositoryContext, runs, showDemonstrationSurfaces]);
 
   const handleSelectTransaction = (transactionId: string) => {
     replaceTerminalRoute(transactionId);
@@ -589,7 +608,9 @@ export default function TerminalPageClient() {
                     <TerminalDepositReadWorkbench
                       repositoryContext={repositoryContext}
                       depositedSourceRevision={depositedSourceRevision}
+                      admittedReadActivityId={admittedReadActivityId}
                       onRecordActivity={handleRecordActivity}
+                      onHarnessCompleted={refreshLiveRuns}
                       showDemonstrationWorkbench={showDemonstrationSurfaces}
                     />
                     <TerminalCoreNativeSections

@@ -19,7 +19,11 @@ export type TerminalSourceRevision = {
   createdAt?: string | null;
 };
 
-export type TerminalDepositedSourceRevision = TerminalSourceRevision;
+export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
+  depositAssetId?: string | null;
+  hasWalletOrAttestationProof?: boolean | null;
+  hasAssetMeasurementEvidence?: boolean | null;
+};
 
 type ShellSnapshot = {
   canonLabel?: string | null;
