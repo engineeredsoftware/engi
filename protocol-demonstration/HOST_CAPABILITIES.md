@@ -152,6 +152,12 @@ Because the current first-gate review path is Terminal-owned, the practical runt
   - external hosts: `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, `VERCEL_PROJECT_ID`;
   - deployed Vercel code: automatic OIDC when available.
 - required model credential for real inference: `OPENAI_API_KEY`.
+- deployed trigger:
+  authenticated `POST /api/pipeline-harness/asset-pack` streams host events
+  (`harness-started`, `harness-event`, `harness-completed` or
+  `harness-failed`) while the same package harness runs under Vercel automatic
+  Sandbox OIDC. Private repository source clone uses either explicit source
+  token env or the authenticated user's GitHub installation token.
 - required readback:
   `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql` must
   show run/event/phase/agent/generation/tool telemetry before commercial

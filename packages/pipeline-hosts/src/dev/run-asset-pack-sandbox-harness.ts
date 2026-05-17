@@ -4,6 +4,40 @@ import {
   VercelSandboxPipelineHost,
   type PipelineHarnessMode,
 } from '..';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+const TRUSTED_SANDBOX_ENV_KEYS = [
+  'OPENAI_API_KEY',
+  'OPENAI_BASE_URL',
+  'SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'SUPABASE_SERVICE_ROLE_KEY',
+  'SUPABASE_SECRET_KEY',
+  'SUPABASE_ADMIN_KEY',
+  'SUPABASE_ANON_KEY',
+  'SUPABASE_PUBLISHABLE_KEY',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+  'BITCODE_PIPELINE_USER_ID',
+] as const;
+
+function loadLocalEnvFiles(): void {
+  for (const relativePath of ['.env.local', 'uapi/.env.local']) {
+    const path = resolve(process.cwd(), relativePath);
+    if (!existsSync(path)) continue;
+    const body = readFileSync(path, 'utf8');
+    for (const line of body.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const match = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/.exec(trimmed);
+      if (!match) continue;
+      const [, key, rawValue] = match;
+      if (process.env[key] !== undefined) continue;
+      process.env[key] = rawValue.trim().replace(/^(['"])(.*)\1$/, '$2');
+    }
+  }
+}
 
 function requireHarnessOptIn(): void {
   if (process.env.BITCODE_RUN_VERCEL_SANDBOX_HARNESS !== '1') {
@@ -19,13 +53,21 @@ function requireVercelAuth(): void {
       'Missing Vercel Sandbox auth. Run `vercel link && vercel env pull`, or provide VERCEL_TOKEN with VERCEL_TEAM_ID and VERCEL_PROJECT_ID.'
     );
   }
+  if (process.env.VERCEL_TOKEN && (!process.env.VERCEL_TEAM_ID || !process.env.VERCEL_PROJECT_ID)) {
+    throw new Error(
+      'VERCEL_TOKEN sandbox auth also requires VERCEL_TEAM_ID and VERCEL_PROJECT_ID.'
+    );
+  }
 }
 
 function selectedCommandEnvironment(): Record<string, string> {
-  const keys = (process.env.BITCODE_SANDBOX_ENV_KEYS || '')
+  const keys = [
+    ...TRUSTED_SANDBOX_ENV_KEYS,
+    ...(process.env.BITCODE_SANDBOX_ENV_KEYS || '')
     .split(',')
     .map((key) => key.trim())
-    .filter(Boolean);
+    .filter(Boolean),
+  ];
 
   const env: Record<string, string> = {};
   for (const key of keys) {
@@ -45,7 +87,23 @@ function selectedCommandEnvironment(): Record<string, string> {
   return env;
 }
 
+function sourceCredentials(): { username?: string; password?: string } {
+  const explicitUsername = process.env.BITCODE_SANDBOX_SOURCE_GIT_USERNAME;
+  const explicitPassword = process.env.BITCODE_SANDBOX_SOURCE_GIT_PASSWORD;
+  const token =
+    explicitPassword ||
+    process.env.GITHUB_TOKEN ||
+    process.env.GITHUB_PAT ||
+    process.env.GH_TOKEN;
+  if (!token) return {};
+  return {
+    username: explicitUsername || 'x-access-token',
+    password: token,
+  };
+}
+
 async function main(): Promise<void> {
+  loadLocalEnvFiles();
   requireHarnessOptIn();
   requireVercelAuth();
 
@@ -55,6 +113,7 @@ async function main(): Promise<void> {
   const branch = process.env.BITCODE_SANDBOX_SOURCE_BRANCH || 'main';
   const commit = process.env.BITCODE_SANDBOX_SOURCE_COMMIT || 'unknown';
   const sourceUrl = process.env.BITCODE_SANDBOX_SOURCE_GIT_URL;
+  const credentials = sourceCredentials();
 
   const plan = buildAssetPackSandboxHarness({
     mode,
@@ -81,6 +140,7 @@ async function main(): Promise<void> {
           url: sourceUrl,
           revision: process.env.BITCODE_SANDBOX_SOURCE_REVISION || commit,
           depth: Number(process.env.BITCODE_SANDBOX_SOURCE_DEPTH || 1),
+          ...credentials,
         }
       : undefined,
     commandEnvironment: selectedCommandEnvironment(),

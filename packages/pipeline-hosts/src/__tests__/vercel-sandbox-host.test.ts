@@ -2,6 +2,7 @@ import { buildAssetPackSandboxHarness } from '../asset-pack-harness';
 import { VercelSandboxPipelineHost } from '../vercel-sandbox-host';
 import type {
   PipelineHarnessFile,
+  PipelineHarnessHostEvent,
   SandboxCommandResult,
   SandboxCreateOptions,
   SandboxFactory,
@@ -80,4 +81,110 @@ describe('VercelSandboxPipelineHost', () => {
     expect(result.stopped).toBe(true);
     expect(fakeSandbox.stopped).toBe(true);
   });
+
+  it('emits host lifecycle events for streaming harness observers', async () => {
+    const fakeSandbox = new FakeSandbox();
+    const events: PipelineHarnessHostEvent[] = [];
+    const factory: SandboxFactory = {
+      create: async () => fakeSandbox,
+    };
+    const host = new VercelSandboxPipelineHost({
+      sandboxFactory: factory,
+      onEvent: (event) => {
+        events.push(event);
+      },
+    });
+    const plan = buildAssetPackSandboxHarness({
+      read: {
+        id: 'read-1',
+        prompt: 'Read the deposited repository revision.',
+      },
+      deposit: {
+        id: 'deposit-1',
+      },
+      sourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+    });
+
+    await host.runHarness(plan);
+
+    expect(events.map((event) => event.type)).toEqual([
+      'sandbox-create-started',
+      'sandbox-created',
+      'harness-files-written',
+      'command-started',
+      'command-completed',
+      'command-started',
+      'command-completed',
+      'artifacts-read',
+      'sandbox-stopped',
+    ]);
+    expect(events.find((event) => event.type === 'command-completed')).toMatchObject({
+      stdoutLength: expect.any(Number),
+      stderrLength: expect.any(Number),
+    });
+  });
+
+  it('passes access-token auth fields to Sandbox.create when OIDC is unavailable', async () => {
+    const previous = {
+      VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+      VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
+      VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
+      VERCEL_OIDC_TOKEN: process.env.VERCEL_OIDC_TOKEN,
+    };
+    process.env.VERCEL_TOKEN = 'test-token';
+    process.env.VERCEL_TEAM_ID = 'team_test';
+    process.env.VERCEL_PROJECT_ID = 'prj_test';
+    delete process.env.VERCEL_OIDC_TOKEN;
+
+    try {
+      const fakeSandbox = new FakeSandbox();
+      const createOptions: SandboxCreateOptions[] = [];
+      const factory: SandboxFactory = {
+        create: async (options) => {
+          createOptions.push(options);
+          return fakeSandbox;
+        },
+      };
+      const host = new VercelSandboxPipelineHost({ sandboxFactory: factory });
+      const plan = buildAssetPackSandboxHarness({
+        read: {
+          id: 'read-1',
+          prompt: 'Read the deposited repository revision.',
+        },
+        deposit: {
+          id: 'deposit-1',
+        },
+        sourceRevision: {
+          repositoryFullName: 'engineeredsoftware/ENGI',
+          branch: 'main',
+          commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        },
+      });
+
+      await host.runHarness(plan);
+
+      expect(createOptions[0]).toMatchObject({
+        token: 'test-token',
+        teamId: 'team_test',
+        projectId: 'prj_test',
+      });
+    } finally {
+      restoreEnv('VERCEL_TOKEN', previous.VERCEL_TOKEN);
+      restoreEnv('VERCEL_TEAM_ID', previous.VERCEL_TEAM_ID);
+      restoreEnv('VERCEL_PROJECT_ID', previous.VERCEL_PROJECT_ID);
+      restoreEnv('VERCEL_OIDC_TOKEN', previous.VERCEL_OIDC_TOKEN);
+    }
+  });
 });
+
+function restoreEnv(key: string, value: string | undefined): void {
+  if (value === undefined) {
+    delete process.env[key];
+  } else {
+    process.env[key] = value;
+  }
+}

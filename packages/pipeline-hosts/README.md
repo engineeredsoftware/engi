@@ -9,8 +9,8 @@ leaving enough telemetry for SQL readback.
 
 - Firecracker microVM isolation on Amazon Linux 2023.
 - Default working directory: `/vercel/sandbox`.
-- Default runtime: `node24`; documented runtime options include `node26`,
-  `node24`, `node22`, and `python3.13`.
+- Default runtime: `node24`; documented runtime options are `node24`,
+  `node22`, and `python3.13`.
 - The sandbox user is `vercel-sandbox` and can use `sudo`.
 - Filesystem state is ephemeral. Evidence must be exported before stop, then
   persisted to Bitcode storage or database projections.
@@ -87,6 +87,29 @@ BITCODE_SANDBOX_SOURCE_REVISION=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
 BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
+```
+
+On a deployed Vercel preview/staging runtime, trigger the same harness through
+the authenticated streaming route so the server can use Vercel's automatic
+Sandbox OIDC. The route also reuses the authenticated user's GitHub installation
+token for private repository clone credentials when no explicit source token is
+configured:
+
+```bash
+curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
+  -H "Content-Type: application/json" \
+  -H "Cookie: $BITCODE_STAGING_SESSION_COOKIE" \
+  --data '{
+    "repositoryFullName": "engineeredsoftware/ENGI",
+    "sourceBranch": "main",
+    "sourceCommit": "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+    "sourceGitUrl": "https://github.com/engineeredsoftware/ENGI.git",
+    "readId": "1c4f1f50-ac8b-4d83-8d2d-dc9c96d238b0",
+    "depositId": "3f68d845-d910-41ef-835a-89cf0103ac0a",
+    "depositAssetId": "asset_repository-revision-deposit-engineeredsoftware-engi_aece31322e",
+    "depositHasWalletOrAttestationProof": true,
+    "depositHasAssetMeasurementEvidence": true
+  }'
 ```
 
 After the run, execute:

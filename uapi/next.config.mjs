@@ -67,8 +67,10 @@ let nextConfig = {
   transpilePackages: [
     '@bitcode/styling',
     '@bitcode/prompts',
+    '@bitcode/pipeline-hosts',
     '@bitcode/pipeline-asset-pack',
     '@bitcode/pipelines-generics',
+    '@bitcode/vcs',
     '@bitcode/agent-generics',
     // Generic agents used by pipelines
     '@bitcode/generic-agent-code-editor',

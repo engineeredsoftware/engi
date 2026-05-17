@@ -1,5 +1,6 @@
 import type {
   PipelineHarnessCommand,
+  PipelineHarnessHostEvent,
   PipelineHarnessCommandResult,
   PipelineHarnessPlan,
   PipelineHarnessRunResult,
@@ -11,19 +12,34 @@ import type {
 export interface VercelSandboxPipelineHostOptions {
   sandboxFactory: SandboxFactory;
   stopAfterRun?: boolean;
+  onEvent?: (event: PipelineHarnessHostEvent) => void | Promise<void>;
 }
 
 export class VercelSandboxPipelineHost {
   private readonly sandboxFactory: SandboxFactory;
   private readonly stopAfterRun: boolean;
+  private readonly onEvent?: (event: PipelineHarnessHostEvent) => void | Promise<void>;
 
   constructor(options: VercelSandboxPipelineHostOptions) {
     this.sandboxFactory = options.sandboxFactory;
     this.stopAfterRun = options.stopAfterRun ?? true;
+    this.onEvent = options.onEvent;
   }
 
   async runHarness(plan: PipelineHarnessPlan): Promise<PipelineHarnessRunResult> {
-    const sandbox = await this.sandboxFactory.create(plan.createOptions);
+    await this.emit({
+      type: 'sandbox-create-started',
+      timestamp: new Date().toISOString(),
+      runtime: plan.createOptions.runtime,
+      mode: plan.manifest.harnessMode,
+    });
+    const sandbox = await this.sandboxFactory.create(withVercelAccessTokenAuth(plan.createOptions));
+    await this.emit({
+      type: 'sandbox-created',
+      timestamp: new Date().toISOString(),
+      sandboxId: sandbox.sandboxId,
+      status: sandbox.status,
+    });
     const commands: PipelineHarnessCommandResult[] = [];
     let stopped = false;
     let outcome: PipelineHarnessRunResult['outcome'] = 'completed';
@@ -32,6 +48,11 @@ export class VercelSandboxPipelineHost {
 
     try {
       await sandbox.writeFiles(plan.files);
+      await this.emit({
+        type: 'harness-files-written',
+        timestamp: new Date().toISOString(),
+        fileCount: plan.files.length,
+      });
 
       for (const command of plan.commands) {
         const commandResult = await this.runCommand(sandbox, command);
@@ -45,11 +66,22 @@ export class VercelSandboxPipelineHost {
 
       evidence = await this.readJsonArtifact(sandbox, plan.artifactPaths.evidence);
       telemetry = await this.readTextArtifact(sandbox, plan.artifactPaths.telemetry);
+      await this.emit({
+        type: 'artifacts-read',
+        timestamp: new Date().toISOString(),
+        evidencePresent: evidence !== null,
+        telemetryPresent: telemetry !== null,
+      });
     } finally {
       if (this.stopAfterRun && sandbox.stop) {
         await sandbox.stop({ blocking: true });
         stopped = true;
       }
+      await this.emit({
+        type: 'sandbox-stopped',
+        timestamp: new Date().toISOString(),
+        stopped,
+      });
     }
 
     return {
@@ -70,6 +102,14 @@ export class VercelSandboxPipelineHost {
     sandbox: SandboxSession,
     command: PipelineHarnessCommand
   ): Promise<PipelineHarnessCommandResult> {
+    await this.emit({
+      type: 'command-started',
+      timestamp: new Date().toISOString(),
+      label: command.label,
+      cmd: command.cmd,
+      args: command.args ?? [],
+      cwd: command.cwd,
+    });
     const startedAt = new Date().toISOString();
     const result = await sandbox.runCommand({
       cmd: command.cmd,
@@ -79,18 +119,32 @@ export class VercelSandboxPipelineHost {
       sudo: command.sudo,
     });
     const completedAt = new Date().toISOString();
-
-    return {
+    const stdout = await readCommandOutput(result, 'stdout');
+    const stderr = await readCommandOutput(result, 'stderr');
+    const commandResult = {
       label: command.label,
       cmd: command.cmd,
       args: command.args ?? [],
       cwd: command.cwd,
       exitCode: result.exitCode,
-      stdout: await readCommandOutput(result, 'stdout'),
-      stderr: await readCommandOutput(result, 'stderr'),
+      stdout,
+      stderr,
       startedAt,
       completedAt,
     };
+
+    await this.emit({
+      type: 'command-completed',
+      timestamp: new Date().toISOString(),
+      label: command.label,
+      exitCode: result.exitCode,
+      stdoutLength: stdout.length,
+      stderrLength: stderr.length,
+      startedAt,
+      completedAt,
+    });
+
+    return commandResult;
   }
 
   private async readJsonArtifact(sandbox: SandboxSession, path: string): Promise<unknown | null> {
@@ -110,6 +164,23 @@ export class VercelSandboxPipelineHost {
     const buffer = await sandbox.readFileToBuffer({ path });
     return buffer ? buffer.toString('utf8') : null;
   }
+
+  private async emit(event: PipelineHarnessHostEvent): Promise<void> {
+    if (!this.onEvent) return;
+    await this.onEvent(event);
+  }
+}
+
+function withVercelAccessTokenAuth(createOptions: PipelineHarnessPlan['createOptions']): PipelineHarnessPlan['createOptions'] {
+  if (!process.env.VERCEL_TOKEN || process.env.VERCEL_OIDC_TOKEN) {
+    return createOptions;
+  }
+  return {
+    ...createOptions,
+    token: createOptions.token ?? process.env.VERCEL_TOKEN,
+    teamId: createOptions.teamId ?? process.env.VERCEL_TEAM_ID,
+    projectId: createOptions.projectId ?? process.env.VERCEL_PROJECT_ID,
+  };
 }
 
 export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {

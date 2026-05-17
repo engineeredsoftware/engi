@@ -1142,6 +1142,34 @@ BITCODE_PIPELINE_STRUCTURED_DB=1 \
 BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY
 ```
 
+On Vercel staging/preview, prefer the deployed streaming trigger because it
+uses Vercel automatic OIDC instead of a local Vercel token:
+
+```bash
+curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
+  -H "Content-Type: application/json" \
+  -H "Cookie: $BITCODE_STAGING_SESSION_COOKIE" \
+  --data '{
+    "repositoryFullName": "engineeredsoftware/ENGI",
+    "sourceBranch": "main",
+    "sourceCommit": "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+    "sourceGitUrl": "https://github.com/engineeredsoftware/ENGI.git",
+    "readId": "1c4f1f50-ac8b-4d83-8d2d-dc9c96d238b0",
+    "depositId": "3f68d845-d910-41ef-835a-89cf0103ac0a",
+    "depositAssetId": "asset_repository-revision-deposit-engineeredsoftware-engi_aece31322e",
+    "depositHasWalletOrAttestationProof": true,
+    "depositHasAssetMeasurementEvidence": true
+  }'
+```
+
+The route streams `harness-started`, `harness-event`, `harness-completed`, and
+`harness-failed` events. It is authenticated by the normal Supabase session and
+is disabled on production deployments unless
+`BITCODE_ENABLE_PIPELINE_HARNESS_API=1`. Private repository clone credentials
+come from explicit source token env when present, otherwise from the
+authenticated user's GitHub installation token; these credentials must not
+appear in the streamed events.
+
 After either harness run:
 
 1. Save the command JSON summary, sandbox id, command exit codes, and artifact

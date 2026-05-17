@@ -2417,12 +2417,18 @@ importers:
       '@bitcode/observability':
         specifier: workspace:*
         version: link:../packages/observability
+      '@bitcode/pipeline-hosts':
+        specifier: workspace:*
+        version: link:../packages/pipeline-hosts
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../packages/prompts
       '@bitcode/protocol':
         specifier: workspace:*
         version: link:../packages/protocol
+      '@bitcode/vcs':
+        specifier: workspace:*
+        version: link:../packages/vcs
       '@headlessui/react':
         specifier: ^1.7.18
         version: 1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

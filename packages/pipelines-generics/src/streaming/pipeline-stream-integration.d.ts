@@ -13,6 +13,7 @@ type SupabaseClient = any;
 export interface PipelineStreamConfig {
     runId: string;
     userId: string;
+    pipelineRunId?: string | null;
     supabase?: SupabaseClient;
     streamToDatabase?: boolean;
     streamToSSE?: boolean;

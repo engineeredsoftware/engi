@@ -148,9 +148,16 @@ export function enablePipelineStreaming(
             },
           })
         )
-          .then((result: any) => {
+          .then(async (result: any) => {
             const message = String(result?.error?.message || result?.message || '').toLowerCase();
-            return !message || message.includes('duplicate') || message.includes('already exists');
+            const duplicate = message.includes('duplicate') || message.includes('already exists');
+            if (duplicate && config.pipelineRunId) {
+              await updateRows('deliverable_pipeline_runs', {
+                pipeline_run_id: config.pipelineRunId,
+                updated_at: new Date().toISOString(),
+              }, 'id', deliverableRunId).catch(() => {});
+            }
+            return !message || duplicate;
           })
           .catch((error: any) => {
             const message = String(error?.message || '').toLowerCase();

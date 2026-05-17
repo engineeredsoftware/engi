@@ -128,6 +128,14 @@ artifacts, and database readback. Local development authenticates through
 OIDC automatically; external hosts need `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and
 `VERCEL_PROJECT_ID`.
 
+The staging API surface for this harness is
+`POST /api/pipeline-harness/asset-pack`. It is authenticated by the normal
+Supabase session, disabled on production deployments unless
+`BITCODE_ENABLE_PIPELINE_HARNESS_API=1`, and returns server-sent events for host
+lifecycle, command, artifact, completion, and failure visibility. For private
+repository sources it may reuse the authenticated user's GitHub installation
+token as clone credentials; the token must never be returned in streamed events.
+
 The minimum commercial telemetry record for a Read/Fit pipeline execution is:
 
 - one run row in `pipeline_runs` or `deliverable_pipeline_runs`;

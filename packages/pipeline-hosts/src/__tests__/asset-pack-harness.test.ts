@@ -1,4 +1,5 @@
 import { buildAssetPackSandboxHarness } from '../asset-pack-harness';
+import ts from 'typescript';
 
 const baseOptions = {
   read: {
@@ -35,6 +36,7 @@ describe('asset-pack sandbox harness plan', () => {
       evidence: '.bitcode/pipeline-harness/evidence.json',
       telemetry: '.bitcode/pipeline-harness/telemetry.jsonl',
     });
+    expect(plan.manifest.expectedEvidenceTables).toContain('deliverable_pipeline_events');
   });
 
   it('requires a repository source before planning the real pipeline mode', () => {
@@ -70,5 +72,23 @@ describe('asset-pack sandbox harness plan', () => {
       'workspace-install',
       'asset-pack-pipeline-run',
     ]);
+  });
+
+  it('generates a syntactically valid live pipeline runner', () => {
+    const plan = buildAssetPackSandboxHarness({
+      ...baseOptions,
+      mode: 'asset_pack_pipeline',
+      assumeRepositoryPresent: true,
+    });
+    const liveRunner = plan.files.find((file) => file.path.endsWith('run-live-asset-pack-pipeline.ts'));
+    const diagnostics = ts.transpileModule(liveRunner?.content.toString('utf8') || '', {
+      compilerOptions: {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES2022,
+      },
+      reportDiagnostics: true,
+    }).diagnostics || [];
+
+    expect(diagnostics.filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)).toEqual([]);
   });
 });

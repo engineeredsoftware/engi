@@ -20,6 +20,7 @@ const HOST_SMOKE_RUNNER_PATH = `${HARNESS_DIRECTORY}/run-host-smoke.mjs`;
 const LIVE_PIPELINE_RUNNER_PATH = `${HARNESS_DIRECTORY}/run-live-asset-pack-pipeline.ts`;
 const EVIDENCE_PATH = `${HARNESS_DIRECTORY}/evidence.json`;
 const TELEMETRY_PATH = `${HARNESS_DIRECTORY}/telemetry.jsonl`;
+const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox';
 const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
 
 export interface BuildAssetPackSandboxHarnessOptions {
@@ -47,8 +48,8 @@ export function buildAssetPackSandboxHarness(
   }
 
   const commandEnvironment = {
-    BITCODE_PIPELINE_HARNESS_MANIFEST: MANIFEST_PATH,
-    BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR: HARNESS_DIRECTORY,
+    BITCODE_PIPELINE_HARNESS_MANIFEST: `${SANDBOX_WORKING_DIRECTORY}/${MANIFEST_PATH}`,
+    BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR: `${SANDBOX_WORKING_DIRECTORY}/${HARNESS_DIRECTORY}`,
     BITCODE_PIPELINE_HARNESS_MODE: mode,
     ...options.commandEnvironment,
   };
@@ -131,7 +132,14 @@ function buildCommands(
     commands.push({
       label: 'asset-pack-pipeline-run',
       cmd: 'pnpm',
-      args: ['exec', 'ts-node', '--transpile-only', LIVE_PIPELINE_RUNNER_PATH],
+      args: [
+        '--filter',
+        '@bitcode/pipeline-hosts',
+        'exec',
+        'ts-node',
+        '--transpile-only',
+        `../../${LIVE_PIPELINE_RUNNER_PATH}`,
+      ],
       env: commandEnvironment,
       required: true,
     });
@@ -228,7 +236,9 @@ const manifestPath = process.env.BITCODE_PIPELINE_HARNESS_MANIFEST || '${MANIFES
 const artifactDir = process.env.BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR || '${HARNESS_DIRECTORY}';
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const runId = process.env.BITCODE_PIPELINE_RUN_ID || randomUUID();
-const userId = process.env.BITCODE_PIPELINE_USER_ID || '00000000-0000-4000-8000-000000000000';
+const DEFAULT_USER_ID = '00000000-0000-4000-8000-000000000000';
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+let userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
 const startedAt = new Date().toISOString();
 const manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
 const events = [];
@@ -237,11 +247,16 @@ let output = null;
 let error = null;
 let supabase = null;
 let pipelineRunPersisted = false;
+let pipelineRunId = null;
 
 function normalizeResultState(candidate) {
   return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
     ? candidate
     : 'blocked_readiness';
+}
+
+function isUsableUuid(value) {
+  return UUID_PATTERN.test(String(value || '')) && value !== DEFAULT_USER_ID;
 }
 
 function record(event) {
@@ -307,9 +322,9 @@ function summarizeExecution(execution) {
 }
 
 async function insertPipelineRun() {
-  if (!supabase) return;
+  if (!supabase) return null;
   try {
-    const { error: insertError } = await supabase.from('pipeline_runs').insert({
+    const { data, error: insertError } = await supabase.from('pipeline_runs').insert({
       user_id: userId,
       pipeline_type: 'asset_pack',
       pipeline_name: 'asset-pack-read-fit',
@@ -328,20 +343,30 @@ async function insertPipelineRun() {
         deposit: manifest.deposit,
         sourceRevision: manifest.sourceRevision,
       },
-    });
+    }).select('id').single();
     if (insertError) {
+      const existingId = await findPipelineRunIdByExecutionId();
+      if (existingId) {
+        pipelineRunId = existingId;
+        pipelineRunPersisted = true;
+        record({ type: 'pipeline-run-reused', stage: 'telemetry-readback', pipelineRunId });
+        return pipelineRunId;
+      }
       record({ type: 'pipeline-run-persist-blocked', stage: 'telemetry-readback', error: insertError.message });
-      return;
+      return null;
     }
+    pipelineRunId = data?.id || null;
     pipelineRunPersisted = true;
-    record({ type: 'pipeline-run-persisted', stage: 'telemetry-readback' });
+    record({ type: 'pipeline-run-persisted', stage: 'telemetry-readback', pipelineRunId });
+    return pipelineRunId;
   } catch (persistError) {
     record({ type: 'pipeline-run-persist-blocked', stage: 'telemetry-readback', error: persistError?.message || String(persistError) });
+    return null;
   }
 }
 
 async function updatePipelineRun(status, payload) {
-  if (!supabase || !pipelineRunPersisted) return;
+  if (!supabase || !pipelineRunPersisted || !pipelineRunId) return;
   try {
     await supabase
       .from('pipeline_runs')
@@ -359,11 +384,52 @@ async function updatePipelineRun(status, payload) {
           resultState: payload?.resultState || resultState,
           resultReasons: payload?.resultReasons || [],
         },
+        duration_ms: Date.now() - Date.parse(startedAt),
+        updated_at: new Date().toISOString(),
       })
-      .eq('execution_id', runId);
+      .eq('id', pipelineRunId);
   } catch (persistError) {
     record({ type: 'pipeline-run-update-blocked', stage: 'telemetry-readback', error: persistError?.message || String(persistError) });
   }
+}
+
+async function findPipelineRunIdByExecutionId() {
+  if (!supabase) return null;
+  try {
+    const { data, error: lookupError } = await supabase
+      .from('pipeline_runs')
+      .select('id')
+      .eq('execution_id', runId)
+      .maybeSingle();
+    if (lookupError) return null;
+    return data?.id || null;
+  } catch {
+    return null;
+  }
+}
+
+async function resolvePipelineUserId() {
+  if (isUsableUuid(userId)) return userId;
+  if (!supabase) return userId;
+
+  try {
+    const { data, error: lookupError } = await supabase
+      .from('user_connections')
+      .select('user_id')
+      .eq('is_active', true)
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (!lookupError && isUsableUuid(data?.user_id)) {
+      userId = data.user_id;
+      record({ type: 'pipeline-user-resolved', stage: 'telemetry-readback', source: 'user_connections' });
+      return userId;
+    }
+  } catch (lookupError) {
+    record({ type: 'pipeline-user-lookup-blocked', stage: 'telemetry-readback', error: lookupError?.message || String(lookupError) });
+  }
+
+  throw new Error('BITCODE_PIPELINE_USER_ID is required for database-backed pipeline harness telemetry.');
 }
 
 async function insertHarnessStreamLog(status) {
@@ -404,15 +470,17 @@ try {
   if (process.env.BITCODE_PIPELINE_STREAM_TO_DATABASE === '1') {
     const { supabaseAdmin } = await import('../../packages/supabase/src/index');
     supabase = supabaseAdmin;
+    userId = await resolvePipelineUserId();
+    pipelineRunId = await insertPipelineRun();
     enablePipelineStreaming(execution, {
       runId,
       userId,
+      pipelineRunId,
       supabase: supabaseAdmin,
       streamToDatabase: true,
       structuredToDatabase: process.env.BITCODE_PIPELINE_STRUCTURED_DB === '1',
     });
     record({ type: 'database-streaming-enabled', stage: 'telemetry-readback' });
-    await insertPipelineRun();
   }
 
   const input = {

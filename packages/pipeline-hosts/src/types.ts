@@ -148,6 +148,9 @@ export interface SandboxCreateOptions {
   source?: PipelineSandboxSource;
   networkPolicy?: PipelineNetworkPolicy;
   env?: Record<string, string>;
+  teamId?: string;
+  projectId?: string;
+  token?: string;
 }
 
 export interface PipelineHarnessFile {
@@ -213,6 +216,54 @@ export interface SandboxSession {
 export interface SandboxFactory {
   create(options: SandboxCreateOptions): Promise<SandboxSession>;
 }
+
+export type PipelineHarnessHostEvent =
+  | {
+      type: 'sandbox-create-started';
+      timestamp: string;
+      runtime?: VercelSandboxRuntime;
+      mode: PipelineHarnessMode;
+    }
+  | {
+      type: 'sandbox-created';
+      timestamp: string;
+      sandboxId?: string;
+      status?: string;
+    }
+  | {
+      type: 'harness-files-written';
+      timestamp: string;
+      fileCount: number;
+    }
+  | {
+      type: 'command-started';
+      timestamp: string;
+      label: string;
+      cmd: string;
+      args: string[];
+      cwd?: string;
+    }
+  | {
+      type: 'command-completed';
+      timestamp: string;
+      label: string;
+      exitCode: number | null;
+      stdoutLength: number;
+      stderrLength: number;
+      startedAt: string;
+      completedAt: string;
+    }
+  | {
+      type: 'artifacts-read';
+      timestamp: string;
+      evidencePresent: boolean;
+      telemetryPresent: boolean;
+    }
+  | {
+      type: 'sandbox-stopped';
+      timestamp: string;
+      stopped: boolean;
+    };
 
 export interface PipelineHarnessCommandResult {
   label: string;

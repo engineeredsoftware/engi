@@ -71,6 +71,7 @@ export const ASSET_PACK_HARNESS_EVIDENCE_TABLES = [
   'stream_logs',
   'phase_executions',
   'deliverable_pipeline_runs',
+  'deliverable_pipeline_events',
   'deliverable_pipeline_phase_delegations',
   'deliverable_pipeline_agent_steps',
   'deliverable_pipeline_generations',

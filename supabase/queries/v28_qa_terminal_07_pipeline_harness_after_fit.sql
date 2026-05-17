@@ -14,6 +14,7 @@ DECLARE
   run_job_count bigint;
   execution_event_count bigint;
   stream_log_count bigint;
+  deliverable_event_count bigint;
   phase_execution_count bigint;
   deliverable_run_count bigint;
   deliverable_phase_count bigint;
@@ -49,6 +50,13 @@ BEGIN
   ELSE
     EXECUTE 'SELECT count(*) FROM public.stream_logs WHERE created_at > now() - interval ''48 hours'''
       INTO stream_log_count;
+  END IF;
+
+  IF to_regclass('public.deliverable_pipeline_events') IS NULL THEN
+    missing_tables := array_append(missing_tables, 'public.deliverable_pipeline_events');
+  ELSE
+    EXECUTE 'SELECT count(*) FROM public.deliverable_pipeline_events WHERE created_at > now() - interval ''48 hours'''
+      INTO deliverable_event_count;
   END IF;
 
   IF to_regclass('public.phase_executions') IS NULL THEN
@@ -96,7 +104,7 @@ BEGIN
   gate_state := CASE
     WHEN pipeline_run_count IS NULL THEN 'blocker:pipeline_runs_missing'
     WHEN pipeline_run_count = 0 AND coalesce(deliverable_run_count, 0) = 0 THEN 'blocker:pipeline_harness_run_missing'
-    WHEN coalesce(execution_event_count, 0) = 0 AND coalesce(stream_log_count, 0) = 0 THEN 'blocker:pipeline_event_telemetry_missing'
+    WHEN coalesce(execution_event_count, 0) = 0 AND coalesce(stream_log_count, 0) = 0 AND coalesce(deliverable_event_count, 0) = 0 THEN 'blocker:pipeline_event_telemetry_missing'
     WHEN coalesce(phase_execution_count, 0) = 0 AND coalesce(deliverable_phase_count, 0) = 0 THEN 'blocker:pipeline_phase_trace_missing'
     WHEN coalesce(deliverable_agent_step_count, 0) = 0 THEN 'warning:pipeline_agent_step_trace_missing'
     WHEN coalesce(deliverable_generation_count, 0) = 0 AND coalesce(deliverable_tool_count, 0) = 0 THEN 'warning:generation_tool_trace_missing'
@@ -114,6 +122,7 @@ BEGIN
           'run_job_count', run_job_count,
           'execution_event_count', execution_event_count,
           'stream_log_count', stream_log_count,
+          'deliverable_event_count', deliverable_event_count,
           'phase_execution_count', phase_execution_count,
           'deliverable_run_count', deliverable_run_count,
           'deliverable_phase_count', deliverable_phase_count,
@@ -315,6 +324,37 @@ BEGIN
       )
       SELECT
         'recent_phase_executions'::text,
+        count(*)::bigint,
+        coalesce(jsonb_agg(to_jsonb(recent) ORDER BY created_at DESC), '[]'::jsonb)
+      FROM recent;
+    $query$;
+  END IF;
+
+  IF to_regclass('public.deliverable_pipeline_events') IS NOT NULL THEN
+    RETURN QUERY EXECUTE $query$
+      WITH recent AS (
+        SELECT
+          id::text,
+          run_id::text,
+          event_type,
+          phase,
+          agent_name,
+          created_at,
+          jsonb_build_object(
+            'data_keys', (
+              SELECT coalesce(jsonb_agg(key ORDER BY key), '[]'::jsonb)
+              FROM jsonb_object_keys(coalesce(event_data, '{}'::jsonb)) AS keys(key)
+            ),
+            'status', event_data ->> 'status',
+            'result_state', coalesce(event_data ->> 'resultState', event_data #>> '{fitResult,resultState}')
+          ) AS event_summary
+        FROM public.deliverable_pipeline_events
+        WHERE created_at > now() - interval '48 hours'
+        ORDER BY created_at DESC
+        LIMIT 40
+      )
+      SELECT
+        'recent_deliverable_pipeline_events'::text,
         count(*)::bigint,
         coalesce(jsonb_agg(to_jsonb(recent) ORDER BY created_at DESC), '[]'::jsonb)
       FROM recent;
