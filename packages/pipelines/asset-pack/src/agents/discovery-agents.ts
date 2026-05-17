@@ -195,23 +195,67 @@ const ResearchApproachOutputSchema = z.object({
   recommendation: z.string()
 });
 
-export function applyResearchApproachSemanticMirrors(
-  output: z.infer<typeof ResearchApproachOutputSchema>
+function pickStructuredOutput<T>(rawOutput: T, expectedKeys: string[]): any {
+  const envelopeCandidates = [
+    (rawOutput as any)?.output,
+    (rawOutput as any)?.finalOutput,
+    (rawOutput as any)?.processedResult,
+    (rawOutput as any)?.result,
+  ].filter((candidate) => candidate && typeof candidate === 'object');
+  const candidates = [
+    rawOutput,
+    ...envelopeCandidates,
+  ];
+  const match = candidates.find((candidate) =>
+    candidate &&
+    typeof candidate === 'object' &&
+    expectedKeys.some((key) => Object.prototype.hasOwnProperty.call(candidate, key))
+  );
+  return match || envelopeCandidates[0] || rawOutput;
+}
+
+function normalizeResearchApproachOutput(
+  rawOutput: z.infer<typeof ResearchApproachOutputSchema>
 ): z.infer<typeof ResearchApproachOutputSchema> {
+  const output = pickStructuredOutput(rawOutput, ['approach']);
+  const approach = output?.approach && typeof output.approach === 'object' ? output.approach : {};
+  return {
+    approach: {
+      methodology: typeof approach.methodology === 'string' ? approach.methodology : '',
+      phases: Array.isArray(approach.phases) ? approach.phases : [],
+      tools: Array.isArray(approach.tools) ? approach.tools : [],
+      estimatedEffort: typeof approach.estimatedEffort === 'string' ? approach.estimatedEffort : '',
+    },
+    alternatives: Array.isArray(output?.alternatives) ? output.alternatives : [],
+    risks: Array.isArray(output?.risks) ? output.risks : [],
+    recommendation: typeof output?.recommendation === 'string' ? output.recommendation : '',
+  };
+}
+
+export function applyResearchApproachSemanticMirrors(
+  rawOutput: z.infer<typeof ResearchApproachOutputSchema>
+): z.infer<typeof ResearchApproachOutputSchema> {
+  const output = normalizeResearchApproachOutput(rawOutput);
   return {
     ...output,
     approach: {
       ...output.approach,
-      phases: output.approach.phases.map((phase) => ({
-        ...phase,
-        writtenAssets:
-          phase.writtenAssets ??
-          phase.assetPackSynthesisArtifacts ??
-          phase.shippables,
-        assetPackSynthesisArtifacts:
-          phase.assetPackSynthesisArtifacts ??
-          phase.writtenAssets,
-      })),
+      phases: output.approach.phases.map((phase) => {
+        const normalizedPhase: any =
+          phase && typeof phase === 'object'
+            ? phase
+            : { name: String(phase || ''), description: '' };
+        return {
+          ...normalizedPhase,
+          writtenAssets:
+            normalizedPhase.writtenAssets ??
+            normalizedPhase.assetPackSynthesisArtifacts ??
+            normalizedPhase.shippables,
+          assetPackSynthesisArtifacts:
+            normalizedPhase.assetPackSynthesisArtifacts ??
+            normalizedPhase.writtenAssets,
+        };
+      }),
     },
   };
 }
@@ -327,9 +371,41 @@ const PlanImplementationOutputSchema = z.object({
   readSatisfactionCriteria: z.array(z.string()).optional()
 });
 
-export function applyPlanImplementationSemanticMirrors(
-  output: z.infer<typeof PlanImplementationOutputSchema>
+function normalizePlanImplementationOutput(
+  rawOutput: z.infer<typeof PlanImplementationOutputSchema>
 ): z.infer<typeof PlanImplementationOutputSchema> {
+  const output = pickStructuredOutput(rawOutput, ['implementationPlan']);
+  const implementationPlan =
+    output?.implementationPlan && typeof output.implementationPlan === 'object'
+      ? output.implementationPlan
+      : {};
+  const testingStrategy =
+    output?.testingStrategy && typeof output.testingStrategy === 'object'
+      ? output.testingStrategy
+      : {};
+  return {
+    implementationPlan: {
+      overview: typeof implementationPlan.overview === 'string' ? implementationPlan.overview : '',
+      milestones: Array.isArray(implementationPlan.milestones) ? implementationPlan.milestones : [],
+      dependencies: Array.isArray(implementationPlan.dependencies) ? implementationPlan.dependencies : [],
+    },
+    testingStrategy: {
+      approach: typeof testingStrategy.approach === 'string' ? testingStrategy.approach : '',
+      testTypes: Array.isArray(testingStrategy.testTypes) ? testingStrategy.testTypes : [],
+      coverage: typeof testingStrategy.coverage === 'string' ? testingStrategy.coverage : '',
+    },
+    validationCriteria: Array.isArray(output?.validationCriteria) ? output.validationCriteria : [],
+    definitionOfRead: Array.isArray(output?.definitionOfRead) ? output.definitionOfRead : undefined,
+    readSatisfactionCriteria: Array.isArray(output?.readSatisfactionCriteria)
+      ? output.readSatisfactionCriteria
+      : undefined,
+  };
+}
+
+export function applyPlanImplementationSemanticMirrors(
+  rawOutput: z.infer<typeof PlanImplementationOutputSchema>
+): z.infer<typeof PlanImplementationOutputSchema> {
+  const output = normalizePlanImplementationOutput(rawOutput);
   return {
     ...output,
     readSatisfactionCriteria: output.readSatisfactionCriteria ?? output.definitionOfRead,

@@ -410,6 +410,8 @@ The V28 pipeline harness must write a manifest before execution containing:
 
 - Read id and Read text;
 - Deposit id and optional deposited AssetPack id;
+- optional Deposit proof root, measurement root, and reconciliation readback
+  root when the deposited evidence already has them;
 - repository full name, branch, and commit;
 - host capability summary;
 - expected stages: deposit search, candidate ranking, Read comprehension,
@@ -461,7 +463,11 @@ Read/Fit result review remains fail-closed:
   unless the global real-inference flag is present.
 - manifest-only Deposit supply can satisfy candidate recall but cannot produce
   `worthy_fit` unless proof and measurement posture are explicitly visible to
-  the pipeline input and the downstream readback queries confirm them.
+  the pipeline input and the downstream readback queries confirm them. Boolean
+  wallet/measurement posture is not enough when the Read asks for proof-root,
+  finality, or reconciliation readback; those roots must be supplied by the
+  deposited evidence, synthesized and read back during Finish, or returned as
+  explicit `blocked_readiness`.
 - every SDIVF phase, PTRR agent step, ThriceifiedGeneration, and tool execution
   must be inspectable as prompt/context input, raw model/tool output,
   parsed/typed output, usage/timing metadata, and phase/agent/step/failsafe

@@ -82,6 +82,9 @@ export interface PipelineDepositReference {
   assetId?: string | null;
   hasWalletOrAttestationProof?: boolean;
   hasAssetMeasurementEvidence?: boolean;
+  proofRoot?: string | null;
+  measurementRoot?: string | null;
+  reconciliationReadbackRoot?: string | null;
 }
 
 export interface PipelineHarnessManifest {

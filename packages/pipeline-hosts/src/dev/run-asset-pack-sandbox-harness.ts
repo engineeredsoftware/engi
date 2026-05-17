@@ -380,6 +380,10 @@ async function main(): Promise<void> {
       assetId: process.env.BITCODE_SANDBOX_DEPOSIT_ASSET_ID || null,
       hasWalletOrAttestationProof: process.env.BITCODE_SANDBOX_DEPOSIT_HAS_PROOF === '1',
       hasAssetMeasurementEvidence: process.env.BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT === '1',
+      proofRoot: process.env.BITCODE_SANDBOX_DEPOSIT_PROOF_ROOT || null,
+      measurementRoot: process.env.BITCODE_SANDBOX_DEPOSIT_MEASUREMENT_ROOT || null,
+      reconciliationReadbackRoot:
+        process.env.BITCODE_SANDBOX_DEPOSIT_RECONCILIATION_READBACK_ROOT || null,
     },
     sourceRevision: {
       repositoryFullName,

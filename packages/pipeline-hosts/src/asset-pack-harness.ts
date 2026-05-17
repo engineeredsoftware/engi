@@ -471,6 +471,11 @@ function buildManifestDepositoryAsset(manifest) {
   const assetId = manifest.deposit?.assetId || manifest.deposit?.id || 'manifest-deposit-reference';
   const source = manifest.sourceRevision || {};
   const repositoryFullName = source.repositoryFullName || '';
+  const verificationEvidence = {
+    proofRoot: manifest.deposit?.proofRoot || null,
+    measurementRoot: manifest.deposit?.measurementRoot || null,
+    reconciliationReadbackRoot: manifest.deposit?.reconciliationReadbackRoot || null,
+  };
   const text = [
     'Deposited repository revision',
     repositoryFullName,
@@ -504,6 +509,9 @@ function buildManifestDepositoryAsset(manifest) {
     },
     hasWalletOrAttestationProof: manifest.deposit?.hasWalletOrAttestationProof === true,
     hasAssetMeasurementEvidence: manifest.deposit?.hasAssetMeasurementEvidence === true,
+    verificationEvidence: Object.values(verificationEvidence).some(Boolean)
+      ? verificationEvidence
+      : null,
   };
 }
 

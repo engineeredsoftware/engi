@@ -145,5 +145,6 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('settlementOwnershipBoundary');
     expect(source).toContain('depositor owns minted BTD range');
     expect(source).toContain('reader pays BTC fee');
+    expect(source).toContain('verificationEvidence');
   });
 });

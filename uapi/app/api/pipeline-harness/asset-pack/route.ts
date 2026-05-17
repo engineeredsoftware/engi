@@ -23,6 +23,9 @@ type AssetPackHarnessRequest = {
   depositAssetId?: string | null;
   depositHasWalletOrAttestationProof?: boolean;
   depositHasAssetMeasurementEvidence?: boolean;
+  depositProofRoot?: string | null;
+  depositMeasurementRoot?: string | null;
+  depositReconciliationReadbackRoot?: string | null;
   repositoryFullName?: string;
   sourceBranch?: string;
   sourceCommit?: string;
@@ -529,6 +532,9 @@ export async function POST(request: NextRequest): Promise<Response> {
               assetId: body.depositAssetId || null,
               hasWalletOrAttestationProof: body.depositHasWalletOrAttestationProof,
               hasAssetMeasurementEvidence: body.depositHasAssetMeasurementEvidence,
+              proofRoot: body.depositProofRoot || null,
+              measurementRoot: body.depositMeasurementRoot || null,
+              reconciliationReadbackRoot: body.depositReconciliationReadbackRoot || null,
             },
             sourceRevision: {
               repositoryFullName,

@@ -12,6 +12,9 @@ export type TerminalFitPipelineHarnessRequest = {
   depositAssetId?: string | null;
   depositHasWalletOrAttestationProof?: boolean;
   depositHasAssetMeasurementEvidence?: boolean;
+  depositProofRoot?: string | null;
+  depositMeasurementRoot?: string | null;
+  depositReconciliationReadbackRoot?: string | null;
   repositoryFullName: string;
   sourceBranch: string;
   sourceCommit: string;

@@ -116,6 +116,10 @@ describe('AssetPack depository search', () => {
           signingSurface: null,
           githubBoundary: null,
           attestations: [],
+          verificationEvidence: {
+            measurementRoot: 'sha256:test-measurement-root',
+            reconciliationReadbackRoot: 'sha256:test-reconciliation-readback-root',
+          },
           hasWalletOrAttestationProof: false,
         }),
       ],
@@ -134,6 +138,10 @@ describe('AssetPack depository search', () => {
         asset({
           assetMeasurement: null,
           measurementProvenance: [],
+          verificationEvidence: {
+            proofRoot: 'sha256:test-proof-root',
+            reconciliationReadbackRoot: 'sha256:test-reconciliation-readback-root',
+          },
           hasAssetMeasurementEvidence: false,
         }),
       ],

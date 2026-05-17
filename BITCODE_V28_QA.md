@@ -1209,7 +1209,10 @@ curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
     "depositId": "3f68d845-d910-41ef-835a-89cf0103ac0a",
     "depositAssetId": "asset_repository-revision-deposit-engineeredsoftware-engi_aece31322e",
     "depositHasWalletOrAttestationProof": true,
-    "depositHasAssetMeasurementEvidence": true
+    "depositHasAssetMeasurementEvidence": true,
+    "depositProofRoot": "sha256:<proof-root-when-known>",
+    "depositMeasurementRoot": "sha256:<measurement-root-when-known>",
+    "depositReconciliationReadbackRoot": "sha256:<readback-root-when-known>"
   }'
 ```
 
@@ -1352,6 +1355,24 @@ Later staging-testnet evidence on 2026-05-17 after the no-overlay deployment:
   `telemetry.jsonl` events through the canonical execution stream component so
   future failures show the same phase/agent/step/generation metadata operators
   already use for persisted Bitcode activity.
+
+Follow-up local Vercel Sandbox overlay evidence on 2026-05-17:
+
+- Vercel Sandbox run `sbx_GLXzpbkAjP6sIceauReWGdp0GWTE` exported artifacts to
+  `.bitcode/pipeline-harness-runs/2026-05-17T20-08-16-548Z-sbx_GLXzpbkAjP6sIceauReWGdp0GWTE/`.
+- The run progressed past setup risk admission and into real model-backed
+  discovery, exporting 3237 telemetry lines with prompt/context, response,
+  usage, phase, agent, step, failsafe, and generation correlation.
+- The run failed closed with `resultState='blocked_readiness'` because
+  `applyResearchApproachSemanticMirrors` assumed `approach.phases` existed on
+  the top-level return value, while full PTRR returns envelope-shaped typed
+  output. The V28 fix is to normalize PTRR envelopes for discovery mirrors
+  before reading semantic aliases.
+- The run also exposed an overclaim risk: manifest-only Deposit evidence with
+  wallet/measurement booleans was being treated as enough for a Read requiring
+  proof/finality and reconciliation readback. V28 now requires proof-root and
+  reconciliation readback roots, or explicit blocked-readiness, before such a
+  candidate can become `worthy_fit`.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 
