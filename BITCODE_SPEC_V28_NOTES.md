@@ -135,14 +135,18 @@ Supabase session, disabled on production deployments unless
 lifecycle, command, artifact, completion, and failure visibility. For private
 repository sources it may reuse the authenticated user's GitHub installation
 token as clone credentials; the token must never be returned in streamed events.
-Local pre-promotion harness debugging may upload `git diff --binary HEAD` as a
-source overlay, but such runs are explicitly QA-only and cannot serve as
-source-revision settlement or finality evidence.
+Local pre-promotion harness debugging may upload
+`git diff --binary $BITCODE_SANDBOX_SOURCE_REVISION` as a source overlay, but
+such runs are explicitly QA-only and cannot serve as source-revision settlement
+or finality evidence.
 For generation, `BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the
 commercial model; if absent, V28 staging selects OpenAI when `OPENAI_API_KEY` is
 the only configured model credential rather than silently requiring Google. A
 provider pin without its matching credential is ignored by the harness command
 environment.
+The runner must also terminate itself before caller timeout by emitting a
+`PipelineHarnessTimeoutError` blocked-readiness artifact with the last
+execution and stream events.
 
 The minimum commercial telemetry record for a Read/Fit pipeline execution is:
 

@@ -1144,6 +1144,10 @@ evidence must remain QA-only, must report
 `sourceOverlay.commercialAdmissibility='qa-only-not-source-revision-evidence'`,
 and must not be used for source-revision settlement, ledger finality, or a
 commercial `worthy_fit` claim.
+If the heavyweight pipeline exceeds the staging function window, set
+`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` below that window; the expected result
+is a `PipelineHarnessTimeoutError` artifact with the last execution and stream
+events, not a missing artifact.
 
 Omit `BITCODE_SANDBOX_DEPOSIT_HAS_PROOF` and
 `BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT` when the manifest Deposit proof or
@@ -1158,6 +1162,10 @@ BITCODE_PIPELINE_STREAM_TO_DATABASE=1 \
 BITCODE_PIPELINE_STRUCTURED_DB=1 \
 BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY
 ```
+
+These Supabase values must be real staging credentials. Placeholder hosts such
+as `your-project.supabase.co` are a preflight blocker, because otherwise the
+sandbox can execute but every stream-event insert fails with transport errors.
 
 On Vercel staging/preview, prefer the deployed streaming trigger because it
 uses Vercel automatic OIDC instead of a local Vercel token:

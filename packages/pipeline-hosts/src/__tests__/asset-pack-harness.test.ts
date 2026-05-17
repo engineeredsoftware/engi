@@ -132,6 +132,8 @@ describe('asset-pack sandbox harness plan', () => {
 
     expect(diagnostics.filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)).toEqual([]);
     expect(source).toContain('pipeline-stream-event');
+    expect(source).toContain('artifact-streaming-enabled');
     expect(source).toContain('execution: execution ? summarizeExecution(execution) : null');
+    expect(source).toContain('PipelineHarnessTimeoutError');
   });
 });

@@ -298,6 +298,7 @@ const runId = process.env.BITCODE_PIPELINE_RUN_ID || randomUUID();
 const DEFAULT_USER_ID = '00000000-0000-4000-8000-000000000000';
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const startedAt = new Date().toISOString();
+const harnessMaxRuntimeMs = Number(process.env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
 let manifest = null;
 let manifestRoot = null;
 let userId = process.env.BITCODE_PIPELINE_USER_ID || DEFAULT_USER_ID;
@@ -309,6 +310,7 @@ let supabase = null;
 let execution = null;
 let pipelineRunPersisted = false;
 let pipelineRunId = null;
+let forceExitAfterFinally = false;
 
 function normalizeResultState(candidate) {
   return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
@@ -404,6 +406,25 @@ function summarizeExecution(execution) {
       : [];
   }
   return summary;
+}
+
+async function withHarnessTimeout(promise, maxRuntimeMs) {
+  if (!Number.isFinite(maxRuntimeMs) || maxRuntimeMs <= 0) return promise;
+  let timeout = null;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timeout = setTimeout(() => {
+          const timeoutError = new Error(\`AssetPack pipeline exceeded harness runtime budget of \${maxRuntimeMs}ms.\`);
+          timeoutError.name = 'PipelineHarnessTimeoutError';
+          reject(timeoutError);
+        }, maxRuntimeMs);
+      }),
+    ]);
+  } finally {
+    if (timeout) clearTimeout(timeout);
+  }
 }
 
 async function insertPipelineRun() {
@@ -560,23 +581,27 @@ try {
   execution.store('read', 'request', manifest.read);
   execution.store('deposit', 'reference', manifest.deposit);
 
-  if (process.env.BITCODE_PIPELINE_STREAM_TO_DATABASE === '1') {
+  const databaseStreamingRequested = process.env.BITCODE_PIPELINE_STREAM_TO_DATABASE === '1';
+  if (databaseStreamingRequested) {
     const { supabaseAdmin } = await import('../../packages/supabase/src/index');
     supabase = supabaseAdmin;
     userId = await resolvePipelineUserId();
     pipelineRunId = await insertPipelineRun();
-    const pipelineStreamer = enablePipelineStreaming(execution, {
-      runId,
-      userId,
-      pipelineRunId,
-      supabase: supabaseAdmin,
-      streamToDatabase: true,
-      structuredToDatabase: process.env.BITCODE_PIPELINE_STRUCTURED_DB === '1',
-    });
-    pipelineStreamer.subscribe((event) => {
-      record(summarizeStreamEvent(event));
-    });
     record({ type: 'database-streaming-enabled', stage: 'telemetry-readback' });
+  }
+  const pipelineStreamer = enablePipelineStreaming(execution, {
+    runId,
+    userId,
+    pipelineRunId,
+    supabase: supabase || undefined,
+    streamToDatabase: databaseStreamingRequested && Boolean(supabase),
+    structuredToDatabase: databaseStreamingRequested && process.env.BITCODE_PIPELINE_STRUCTURED_DB === '1',
+  });
+  pipelineStreamer.subscribe((event) => {
+    record(summarizeStreamEvent(event));
+  });
+  if (!databaseStreamingRequested) {
+    record({ type: 'artifact-streaming-enabled', stage: 'telemetry-readback' });
   }
 
   const input = {
@@ -603,7 +628,7 @@ try {
       sourceOverlay: manifest.sourceOverlay,
     });
   }
-  output = await assetPackPipeline(input, execution);
+  output = await withHarnessTimeout(assetPackPipeline(input, execution), harnessMaxRuntimeMs);
   const pipelineResultState = normalizeResultState(
     output?.resultState || output?.fitResult?.resultState || output?.fit?.resultState
   );
@@ -657,6 +682,9 @@ try {
     message: caught?.message || String(caught),
     stack: caught?.stack || null,
   };
+  if (error.name === 'PipelineHarnessTimeoutError') {
+    forceExitAfterFinally = true;
+  }
   record({
     type: 'pipeline-blocked',
     stage: 'validation',
@@ -695,6 +723,9 @@ try {
 } finally {
   await insertHarnessStreamLog(process.exitCode ? 'failed' : 'completed');
   await writeFile(\`\${artifactDir}/telemetry.jsonl\`, events.map((event) => JSON.stringify(event)).join('\\n') + '\\n');
+  if (forceExitAfterFinally) {
+    process.exit(1);
+  }
 }
 
 }

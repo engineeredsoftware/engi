@@ -449,6 +449,12 @@ Read/Fit result review remains fail-closed:
   parsed/typed output, usage/timing metadata, and phase/agent/step/failsafe
   correlation. A harness failure must still export the execution tree so
   operators can debug the last successful sub-execution.
+- artifact telemetry must subscribe to stream events even when database
+  streaming is disabled; database persistence is an additional acceptance gate,
+  not the only way to inspect a live failed run.
+- the harness must enforce an internal runtime budget before the caller's host
+  timeout, producing a `blocked_readiness` artifact rather than allowing the
+  host to terminate without evidence.
 - secrets for wallets, GitHub, model providers, Supabase service roles, or
   other systems may be passed into a sandbox only by explicit allowlist or
   brokered network policy; routine QA artifacts must show only redacted names.

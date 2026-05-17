@@ -23,6 +23,7 @@ const TRUSTED_SANDBOX_ENV_KEYS = [
   'BITCODE_PIPELINE_USER_ID',
   'BITCODE_LLM_PROVIDER',
   'BITCODE_LLM_MODEL',
+  'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
 ] as const;
 
 const REDACTED_OUTPUT_ENV_KEYS = [
@@ -102,11 +103,36 @@ function selectedCommandEnvironment(): Record<string, string> {
     if (process.env.BITCODE_PIPELINE_STRUCTURED_DB === '1') {
       env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
     }
+    assertDatabaseStreamingEnvironment(env);
   }
 
   normalizeModelEnvironment(env);
 
   return env;
+}
+
+function assertDatabaseStreamingEnvironment(env: Record<string, string>): void {
+  const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_SECRET_KEY || env.SUPABASE_ADMIN_KEY;
+  if (!isUsableSupabaseUrl(url) || !isUsableSecretValue(key)) {
+    throw new Error(
+      'BITCODE_PIPELINE_STREAM_TO_DATABASE=1 requires a non-placeholder Supabase URL and service-role key.'
+    );
+  }
+}
+
+function isUsableSupabaseUrl(value: string | undefined): boolean {
+  if (!value) return false;
+  try {
+    const host = new URL(value).host;
+    return Boolean(host && host !== 'your-project.supabase.co' && !host.includes('<'));
+  } catch {
+    return false;
+  }
+}
+
+function isUsableSecretValue(value: string | undefined): boolean {
+  return typeof value === 'string' && value.trim().length > 16 && !value.includes('<');
 }
 
 function normalizeModelEnvironment(env: Record<string, string>): void {
@@ -163,8 +189,9 @@ function findRepositoryRoot(): string {
 function localSourceOverlayPatch(): Buffer | undefined {
   if (process.env.BITCODE_SANDBOX_APPLY_LOCAL_PATCH !== '1') return undefined;
   const root = findRepositoryRoot();
+  const baseRevision = process.env.BITCODE_SANDBOX_SOURCE_REVISION || 'HEAD';
   const chunks: Buffer[] = [];
-  const trackedPatch = execFileSync('git', ['diff', '--binary', 'HEAD'], {
+  const trackedPatch = execFileSync('git', ['diff', '--binary', baseRevision], {
     cwd: root,
     maxBuffer: 64 * 1024 * 1024,
   });

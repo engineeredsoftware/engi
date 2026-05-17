@@ -55,6 +55,13 @@ identity, token usage, and phase/agent/step context.
 Failed runs must still export `evidence.json` with the execution tree and
 last-known stream events so staging operators can see which SDIVF phase, PTRR
 agent, generation, or tool last produced input/output evidence.
+The runner subscribes to stream events for artifact telemetry even when database
+streaming is disabled; database streaming adds persistence, not basic event
+visibility.
+The live runner also enforces `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS`
+(default `240000`) inside the sandbox so a heavyweight pipeline run records a
+blocked-readiness artifact before the calling Vercel Function or local harness
+process reaches its own timeout.
 
 For live model execution, the sandbox runner also needs `OPENAI_API_KEY` in the
 trusted command environment. For local Vercel Sandbox creation, either pull
@@ -67,6 +74,8 @@ When they are absent, the commercial runtime chooses OpenAI if `OPENAI_API_KEY`
 is the only model credential present. A provider pin is forwarded only when the
 matching provider credential is also forwarded; stale pins without credentials
 are stripped so staging does not silently require an unavailable model service.
+Database streaming requires a real Supabase URL and service-role key; placeholder
+`.env.local` values fail preflight before a sandbox is created.
 
 ## Live QA
 
@@ -104,8 +113,8 @@ pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 
 When validating local harness changes before the pinned source revision has been
 promoted, add `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`. The runner uploads
-`git diff --binary HEAD` as a source overlay and applies it before dependency
-installation. Overlay runs are QA-only: evidence records
+`git diff --binary $BITCODE_SANDBOX_SOURCE_REVISION` as a source overlay and
+applies it before dependency installation. Overlay runs are QA-only: evidence records
 `sourceOverlay.commercialAdmissibility=qa-only-not-source-revision-evidence`,
 and the harness must not be used as settlement or source-revision finality
 evidence until the same changes exist at the deposited revision.
