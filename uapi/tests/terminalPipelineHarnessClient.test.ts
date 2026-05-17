@@ -1,4 +1,5 @@
 import {
+  buildTerminalFitPipelineHarnessStreamSnapshot,
   buildTerminalFitPipelineHarnessRequest,
   drainTerminalFitPipelineHarnessSseBuffer,
   summarizeTerminalFitPipelineHarnessEvent,
@@ -205,5 +206,65 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('run 2bdcd936-a68...');
     expect(summary).toContain('inspectable resultState, assetPack');
     expect(summary).toContain('parsed output present');
+  });
+
+  it('adapts live harness events into the canonical execution stream panel payload', () => {
+    const snapshot = buildTerminalFitPipelineHarnessStreamSnapshot(
+      [
+        {
+          event: 'harness-started',
+          data: { repositoryFullName: 'engineeredsoftware/ENGI' },
+        },
+        {
+          event: 'harness-event',
+          data: {
+            type: 'telemetry-artifact-event',
+            lineNumber: 9,
+            telemetryEvent: {
+              type: 'pipeline-stream-event',
+              streamEventType: 'store',
+              stage: 'asset-pack-synthesis',
+              namespace: 'llm',
+              key: 'parsedOutput',
+              executionState: {
+                phase: 'implementation',
+                agent: 'asset-pack-synthesis-agent',
+                step: 'structured_output',
+              },
+              inputMessageCount: 2,
+              outputContentLength: 1200,
+              parsedOutputPresent: true,
+            },
+          },
+        },
+        {
+          event: 'harness-completed',
+          data: { outcome: 'completed', telemetryLineCount: 11 },
+        },
+      ],
+      'completed',
+    );
+
+    expect(snapshot.output).toContain('Harness started');
+    expect(snapshot.output).toContain('Telemetry line 9');
+    expect(snapshot.executionState.phase).toBe('Finish');
+    expect(snapshot.isStreamingComplete).toBe(true);
+    expect(snapshot.generationCount).toBe(1);
+
+    const telemetryLine = snapshot.output
+      .split('\n')
+      .find((line) => line.includes('Telemetry line 9'));
+    expect(telemetryLine).toBeTruthy();
+    expect(snapshot.outputDetails[telemetryLine as string]).toMatchObject({
+      type: 'generation',
+      status: {
+        progress: 'in-progress',
+        executionState: {
+          phase: 'Implementation',
+          agent: 'asset-pack-synthesis-agent',
+          step: 'structured_output',
+        },
+      },
+    });
   });
 });

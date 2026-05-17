@@ -38,6 +38,15 @@ export type TerminalFitPipelineHarnessEvent = {
   data: unknown;
 };
 
+export type TerminalFitPipelineHarnessStreamSnapshot = {
+  output: string;
+  outputDetails: Record<string, unknown>;
+  executionState: Record<string, unknown>;
+  isStreamingComplete: boolean;
+  generationCount: number;
+  error: string | null;
+};
+
 type StreamCallbacks = {
   onEvent?: (event: TerminalFitPipelineHarnessEvent) => void;
 };
@@ -242,6 +251,176 @@ function shortIdentifier(value: unknown): string | null {
   const text = typeof value === 'string' ? value.trim() : '';
   if (!text) return null;
   return text.length > 16 ? `${text.slice(0, 12)}...` : text;
+}
+
+function canonicalPhase(value: unknown, fallback = 'Setup'): string {
+  const text = typeof value === 'string' ? value.toLowerCase() : '';
+  if (text.includes('setup') || text.includes('admission') || text.includes('preflight')) return 'Setup';
+  if (text.includes('discovery') || text.includes('search') || text.includes('recall') || text.includes('candidate')) return 'Discovery';
+  if (text.includes('implementation') || text.includes('synthesis') || text.includes('asset-pack') || text.includes('write')) return 'Implementation';
+  if (text.includes('validation') || text.includes('evaluate') || text.includes('quality') || text.includes('readiness')) return 'Validation';
+  if (text.includes('finish') || text.includes('delivery') || text.includes('settlement') || text.includes('finality') || text.includes('readback')) return 'Finish';
+  return fallback;
+}
+
+function classifyHarnessLogType(event: TerminalFitPipelineHarnessEvent): string {
+  const data = recordValue(event.data);
+  const type = data?.type ? String(data.type) : '';
+  const telemetryEvent = recordValue(data?.telemetryEvent);
+  const streamEventType = String(telemetryEvent?.streamEventType || telemetryEvent?.type || '').toLowerCase();
+  const namespace = String(telemetryEvent?.namespace || '').toLowerCase();
+  const key = String(telemetryEvent?.key || '').toLowerCase();
+
+  if (event.event === 'harness-failed') return 'error';
+  if (event.event === 'harness-completed') return 'completion';
+  if (event.event === 'harness-preflight' && data?.realInferenceEnabled === false) return 'error';
+  if (type === 'command-started' || type === 'command-completed' || type === 'artifacts-read' || type === 'sandbox-created') {
+    return 'tool-use';
+  }
+  if (type === 'telemetry-artifact-event') {
+    if (streamEventType.includes('error')) return 'error';
+    if (
+      streamEventType.includes('generation') ||
+      namespace === 'llm' ||
+      key.includes('parsedoutput') ||
+      typeof telemetryEvent?.inputMessageCount === 'number' ||
+      typeof telemetryEvent?.outputContentLength === 'number'
+    ) {
+      return 'generation';
+    }
+    if (streamEventType.includes('tool') || namespace.includes('tool')) return 'tool-use';
+    if (streamEventType.includes('complete')) return 'completion';
+  }
+  return 'thinking';
+}
+
+function buildHarnessExecutionState(event: TerminalFitPipelineHarnessEvent): Record<string, unknown> {
+  if (event.event === 'harness-completed') {
+    return {
+      phase: 'Finish',
+      agent: 'asset-pack-pipeline-harness',
+      step: 'completed',
+    };
+  }
+  if (event.event === 'harness-failed') {
+    return {
+      phase: 'Setup',
+      agent: 'asset-pack-pipeline-harness',
+      step: 'failed',
+    };
+  }
+
+  const data = recordValue(event.data);
+  const telemetryEvent = recordValue(data?.telemetryEvent);
+  const telemetryExecutionState = recordValue(telemetryEvent?.executionState);
+  const type = data?.type ? String(data.type) : event.event;
+  const stage = telemetryEvent?.stage || telemetryExecutionState?.phase || type;
+  const streamEventType = telemetryEvent?.streamEventType || telemetryEvent?.type || type;
+  const namespace = telemetryEvent?.namespace ? String(telemetryEvent.namespace) : null;
+  const key = telemetryEvent?.key ? String(telemetryEvent.key) : null;
+
+  return {
+    phase: canonicalPhase(stage),
+    agent:
+      telemetryExecutionState?.agent ||
+      telemetryEvent?.agent ||
+      telemetryEvent?.agentName ||
+      data?.agent ||
+      data?.label ||
+      'asset-pack-pipeline-harness',
+    step:
+      telemetryExecutionState?.step ||
+      telemetryEvent?.step ||
+      streamEventType ||
+      type,
+    failsafe: telemetryExecutionState?.failsafe || telemetryEvent?.failsafe,
+    generation:
+      telemetryExecutionState?.generation ||
+      telemetryEvent?.generation ||
+      (classifyHarnessLogType(event) === 'generation' ? [namespace, key].filter(Boolean).join('.') || 'model' : undefined),
+    tool:
+      telemetryExecutionState?.tool ||
+      telemetryEvent?.tool ||
+      telemetryEvent?.toolName ||
+      (classifyHarnessLogType(event) === 'tool-use' ? type : undefined),
+  };
+}
+
+function harnessEventTimestamp(event: TerminalFitPipelineHarnessEvent): string | undefined {
+  const data = recordValue(event.data);
+  const telemetryEvent = recordValue(data?.telemetryEvent);
+  const timestamp =
+    telemetryEvent?.timestamp ||
+    data?.startedAt ||
+    data?.completedAt ||
+    data?.timestamp ||
+    null;
+  return timestamp ? String(timestamp) : undefined;
+}
+
+function harnessProgress(event: TerminalFitPipelineHarnessEvent): 'error' | 'success' | 'in-progress' {
+  if (event.event === 'harness-failed') return 'error';
+  if (event.event === 'harness-completed') return 'success';
+  return 'in-progress';
+}
+
+export function buildTerminalFitPipelineHarnessStreamSnapshot(
+  events: TerminalFitPipelineHarnessEvent[],
+  harnessState: 'idle' | 'running' | 'completed' | 'failed',
+  streamError: string | null = null,
+): TerminalFitPipelineHarnessStreamSnapshot {
+  const outputDetails: Record<string, unknown> = {};
+  const outputLines: string[] = [];
+  let latestExecutionState: Record<string, unknown> = {
+    phase: harnessState === 'completed' ? 'Finish' : 'Setup',
+    agent: 'asset-pack-pipeline-harness',
+    step: harnessState,
+  };
+  let generationCount = 0;
+
+  events.forEach((event, index) => {
+    const summary = summarizeTerminalFitPipelineHarnessEvent(event);
+    let line = summary;
+    if (outputDetails[line]) {
+      line = `${summary} #${index + 1}`;
+    }
+
+    const type = classifyHarnessLogType(event);
+    const executionState = buildHarnessExecutionState(event);
+    const timestamp = harnessEventTimestamp(event);
+    const data = recordValue(event.data);
+    const telemetryEvent = recordValue(data?.telemetryEvent);
+
+    if (type === 'generation') generationCount += 1;
+    latestExecutionState = executionState;
+    outputLines.push(line);
+    outputDetails[line] = {
+      type,
+      timestamp,
+      harnessEvent: event.event,
+      status: {
+        message: summary,
+        detail: summary,
+        progress: harnessProgress(event),
+        timestamp,
+        executionState,
+        metadata: {
+          harnessEvent: event.event,
+          harnessPayload: event.data,
+          telemetryEvent,
+        },
+      },
+    };
+  });
+
+  return {
+    output: outputLines.join('\n'),
+    outputDetails,
+    executionState: latestExecutionState,
+    isStreamingComplete: harnessState === 'completed' || harnessState === 'failed',
+    generationCount,
+    error: streamError || (harnessState === 'failed' ? 'Live AssetPack fit harness failed.' : null),
+  };
 }
 
 function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string {

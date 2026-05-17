@@ -1,6 +1,6 @@
 # Bitcode Read Comprehension Agent
 
-## V26 Boundary
+## Active Boundary
 
 `@bitcode/generic-agents-read-comprehension` is the PTRR agent owner for Bitcode setup-phase Read comprehension.
 It composes the callable tools from `@bitcode/generic-tools-read-comprehension`; it does not redefine those tool contracts.
@@ -22,7 +22,7 @@ Its canonical fifth-gate role is `setup` / `pre-danger-wall`: synthesize a revie
 - Plans how to understand the expressed Read, attachments, repository context, AssetPack expectation, proof reads, delivery-mechanism boundary, and source-to-shares service questions.
 - Uses Read-comprehension tools to analyze semantics, extract requirements, identify constraints, generate satisfaction criteria, validate the model, and estimate implementation complexity.
 - Refines ambiguity before risk admission rather than allowing danger-wall to infer canonical Read meaning.
-- Emits active Bitcode fields: `read`, `writtenAssetTypes`, `assetPackContext`, `deliveryMechanismBoundaries`, `sourceToSharesServiceQuestions`, `commercialAccountability`, and `readSatisfactionCriteria`.
+- Emits active Bitcode fields: `read`, `writtenAssetTypes`, `assetPackContext`, `deliveryMechanismBoundaries`, `sourceToSharesServiceQuestions`, `serviceAccountability`, and `readSatisfactionCriteria`.
 
 ## Verification
 

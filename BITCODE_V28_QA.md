@@ -929,7 +929,10 @@ First-run execution boundary:
 - The Terminal live-run panel must show the active Read id, Deposit id,
   source commit, sandbox id when available, pipeline run id when available, and
   incremental `telemetry.jsonl` line summaries while the sandbox command is
-  still running. A state visible only in browser Network logs fails V28 QA.
+  still running. It must use the canonical Bitcode execution stream component,
+  with run identifiers in the header metadata and each host/telemetry event as
+  an expandable line carrying raw payload metadata. A state visible only in
+  browser Network logs fails V28 QA.
 - Depository vector recall uses `text-embedding-3-small` by default with
   `encoding_format='float'`, `dimensions=1536`, Supabase
   `deliverable_vectors.embedding vector(1536)`, `ivfflat`,
@@ -1239,7 +1242,9 @@ After either harness run:
    and phase/agent/step/failsafe/generation correlation.
 4. Inspect the Terminal live-run panel for the same run id and sandbox id. The
    panel must include host lifecycle events and incremental telemetry artifact
-   event summaries, not only the final harness completion payload.
+   event summaries, not only the final harness completion payload. Read/Fit
+   live harness streams should render in the same execution stream UX used by
+   persisted Bitcode activity.
 5. Run saved query
    `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql`.
 6. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
@@ -1323,6 +1328,30 @@ Observed staging-testnet harness evidence on 2026-05-17:
 - The next promotion step is a clean source-revision run after these pipeline
   harness changes are deployed in the deposited source revision. Only a clean
   no-overlay run may write and read back ledger settlement rows.
+
+Later staging-testnet evidence on 2026-05-17 after the no-overlay deployment:
+
+- A new Deposit/Read/Fit harness run against
+  `engineeredsoftware/ENGI@main:ee1481634c985afbc349f8d8b837cd1c43a254ac`
+  reached real model-backed setup execution. Umbrella pipeline run
+  `44a05fd7-f337-42cf-ad3c-d4a607d54a2b` and deliverable pipeline run
+  `b1b04a2d-0376-4200-b08c-7936076f2566` failed before candidate recall or
+  AssetPack synthesis.
+- Database readback showed real execution progress: 2 setup phase delegation
+  rows, 16 agent-step rows, 72 model-generation rows, 1634 deliverable pipeline
+  events, and 0 tool-execution rows. This confirms real inference and telemetry
+  persistence were active, but the run did not reach depository search,
+  synthesis, Finish, shipping, or ledger settlement.
+- Failure root cause was a setup risk-admission output contract mismatch:
+  `asset-pack-danger-wall-agent.ts` read `finalAssessment.safe` directly from
+  the PTRR envelope, while the full PTRR path returns the typed risk result
+  under `output`/`finalOutput`. The fix is to normalize the risk-admission
+  envelope before safety evaluation and fail closed if the typed final
+  assessment is absent.
+- Terminal live-run visibility must now render harness lifecycle events and
+  `telemetry.jsonl` events through the canonical execution stream component so
+  future failures show the same phase/agent/step/generation metadata operators
+  already use for persisted Bitcode activity.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

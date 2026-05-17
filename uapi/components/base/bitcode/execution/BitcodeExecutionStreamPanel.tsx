@@ -17,6 +17,7 @@ interface BitcodeExecutionStreamPanelProps {
   generationCount: number;
   error: string | Error | null;
   runId?: string;
+  metadataRows?: Array<{ label: string; value: string }>;
   output: string;
   outputDetails?: Record<string, any>;
   onRetry: () => void;
@@ -49,6 +50,7 @@ const BitcodeExecutionStreamPanel = forwardRef<HTMLDivElement, BitcodeExecutionS
       generationCount,
       error,
       runId,
+      metadataRows = [],
       output,
       outputDetails = {},
       onRetry,
@@ -83,6 +85,7 @@ const BitcodeExecutionStreamPanel = forwardRef<HTMLDivElement, BitcodeExecutionS
           generationCount={generationCount}
           error={errorMessage}
           runId={runId}
+          metadataRows={metadataRows}
           onOpenDetails={onOpenDetails}
           onNavigateToExecution={onNavigateToExecution}
           onClose={onClose}

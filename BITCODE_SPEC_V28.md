@@ -474,7 +474,10 @@ Read/Fit result review remains fail-closed:
   incremental telemetry artifact lines while the detached sandbox command is
   still running. Browser-only Network inspection is not sufficient; the
   operator-visible stream must show phase, agent, generation/tool, parsed
-  output, and failsafe context as first-class Read/Fit run evidence.
+  output, and failsafe context as first-class Read/Fit run evidence. Terminal
+  must render these events through the canonical Bitcode execution stream panel
+  shape so Read/Fit live runs are visually consistent with persisted execution
+  activity and retain expandable raw metadata per line.
 - the harness must enforce an internal runtime budget before the caller's host
   timeout, producing a `blocked_readiness` artifact rather than allowing the
   host to terminate without evidence.

@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEREADSEMANTICS_DOCCODETOOLOUTPUT: PromptPart =
-  "Returns ReadSemantics with primaryIntent, scopeBoundaries, semanticKeywords, impliedRequirements, writtenAssetExpectations, assetPackContext, deliveryMechanismBoundaries, sourceToSharesServiceQuestions, commercialAccountability, ambiguityMarkers, dependencyNotes, readSatisfactionCriteria, and confidenceByDimension." as PromptPart;
+  "Returns ReadSemantics with primaryIntent, scopeBoundaries, semanticKeywords, impliedRequirements, writtenAssetExpectations, assetPackContext, deliveryMechanismBoundaries, sourceToSharesServiceQuestions, serviceAccountability, ambiguityMarkers, dependencyNotes, readSatisfactionCriteria, and confidenceByDimension." as PromptPart;

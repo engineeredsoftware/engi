@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
 
 import TerminalActionWorkbenchCard from './TerminalActionWorkbenchCard';
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
@@ -22,6 +23,7 @@ import {
   type TerminalDepositReadWorkbench as TerminalDepositReadWorkbenchState,
 } from './terminal-deposit-read-workbench';
 import {
+  buildTerminalFitPipelineHarnessStreamSnapshot,
   buildTerminalFitPipelineHarnessRequest,
   streamTerminalFitPipelineHarness,
   summarizeTerminalFitPipelineHarnessEvent,
@@ -81,6 +83,7 @@ export default function TerminalDepositReadWorkbench({
   const [harnessState, setHarnessState] = useState<'idle' | 'running' | 'completed' | 'failed'>('idle');
   const [harnessMessage, setHarnessMessage] = useState<string | null>(null);
   const [harnessEvents, setHarnessEvents] = useState<TerminalFitPipelineHarnessEvent[]>([]);
+  const [harnessUserHasScrolled, setHarnessUserHasScrolled] = useState(false);
   const workbenchSnapshot = useMemo(() => {
     if (showDemonstrationWorkbench) return snapshot;
     return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
@@ -175,6 +178,10 @@ export default function TerminalDepositReadWorkbench({
     if (lastTelemetryLine) rows.push({ label: 'telemetry line', value: lastTelemetryLine });
     return rows;
   }, [harnessEvents, harnessRequestState]);
+  const harnessStreamSnapshot = useMemo(
+    () => buildTerminalFitPipelineHarnessStreamSnapshot(harnessEvents, harnessState, harnessState === 'failed' ? harnessMessage : null),
+    [harnessEvents, harnessMessage, harnessState],
+  );
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
     recordingKey === null &&
@@ -267,6 +274,7 @@ export default function TerminalDepositReadWorkbench({
     setHarnessState('running');
     setHarnessMessage('Starting live AssetPack fit harness...');
     setHarnessEvents([]);
+    setHarnessUserHasScrolled(false);
 
     try {
       await streamTerminalFitPipelineHarness(harnessRequestState.request, {
@@ -456,17 +464,29 @@ export default function TerminalDepositReadWorkbench({
                 ))}
               </dl>
             ) : null}
-            {harnessEvents.length ? (
-              <ul className="mt-3 max-h-80 space-y-2 overflow-y-auto pr-1 text-xs text-neutral-400">
-                {harnessEvents.slice(-12).map((event, index) => (
-                  <li
-                    key={`${event.event}-${index}-${summarizeTerminalFitPipelineHarnessEvent(event)}`}
-                    className="rounded-[0.85rem] border border-white/8 bg-black/20 px-3 py-2"
-                  >
-                    {summarizeTerminalFitPipelineHarnessEvent(event)}
-                  </li>
-                ))}
-              </ul>
+            {(harnessEvents.length || harnessState === 'running' || harnessState === 'failed') ? (
+              <div className="mt-4 overflow-hidden rounded-[1rem] border border-white/8 bg-[rgba(5,9,18,0.88)]">
+                <BitcodeExecutionStreamPanel
+                  className="relative"
+                  isProcessing={harnessState === 'running'}
+                  executionState={harnessStreamSnapshot.executionState}
+                  isStreamingComplete={harnessStreamSnapshot.isStreamingComplete}
+                  generationCount={harnessStreamSnapshot.generationCount}
+                  error={harnessStreamSnapshot.error}
+                  metadataRows={harnessIdentifierRows}
+                  output={harnessStreamSnapshot.output}
+                  outputDetails={harnessStreamSnapshot.outputDetails}
+                  onRetry={() => {
+                    void handleRunLiveFit();
+                  }}
+                  onDismissError={() => {
+                    setHarnessMessage(null);
+                  }}
+                  userHasScrolled={harnessUserHasScrolled}
+                  setUserHasScrolled={setHarnessUserHasScrolled}
+                  compact={true}
+                />
+              </div>
             ) : null}
           </div>
         ) : null}

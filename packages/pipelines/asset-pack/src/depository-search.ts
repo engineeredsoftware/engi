@@ -127,6 +127,10 @@ export interface DepositoryCandidate {
     sourceRevisionBound: boolean;
     hasWalletOrAttestationProof: boolean;
     hasAssetMeasurementEvidence: boolean;
+    proofRootRequired: boolean;
+    proofRootPresent: boolean;
+    reconciliationReadbackRequired: boolean;
+    reconciliationReadbackPresent: boolean;
     blockers: string[];
     warnings: string[];
   };
@@ -192,6 +196,13 @@ export interface DepositoryCandidateFitEvidence {
     assetMeasurementPresent: boolean;
     measurementProvenanceCount: number;
     measurementRoot: string | null;
+  };
+  readbackEvidence: {
+    proofRootRequired: boolean;
+    proofRootPresent: boolean;
+    reconciliationReadbackRequired: boolean;
+    reconciliationReadbackPresent: boolean;
+    reconciliationReadbackRoot: string | null;
   };
   rejectionReasons: string[];
 }
@@ -470,6 +481,66 @@ function hasMeasurementEvidence(asset: DepositoryAsset): boolean {
   );
 }
 
+function readRequirementText(read: DepositorySearchRead): string {
+  return [
+    read.prompt,
+    ...read.targetArtifactKinds,
+    ...read.closureCriteria,
+    ...read.failureModes,
+  ].join(' ').toLowerCase();
+}
+
+function readRequiresProofRoot(read: DepositorySearchRead): boolean {
+  const text = readRequirementText(read);
+  return /\bproof[-\s]?root\b/.test(text) || /\bproof\/finality\s+readback\b/.test(text);
+}
+
+function readRequiresReconciliationReadback(read: DepositorySearchRead): boolean {
+  const text = readRequirementText(read);
+  return (
+    /\breconciliation[-\s]?readback\b/.test(text) ||
+    /\bledger\s+reconciliation\b/.test(text) ||
+    /\bfinality\s+readback\b/.test(text) ||
+    /\bproof\/finality\s+readback\b/.test(text)
+  );
+}
+
+function proofRootFor(asset: DepositoryAsset): string | null {
+  const verificationEvidence = asset.verificationEvidence || {};
+  return firstString(
+    verificationEvidence.proofRoot,
+    verificationEvidence.proof_root,
+    getPath(asset.assetMeasurement, ['proofRoot']),
+    getPath(asset.assetMeasurement, ['proof_root'])
+  );
+}
+
+function measurementRootFor(asset: DepositoryAsset): string | null {
+  const verificationEvidence = asset.verificationEvidence || {};
+  return firstString(
+    verificationEvidence.measurementRoot,
+    verificationEvidence.measurement_root,
+    getPath(asset.assetMeasurement, ['measurementRoot']),
+    getPath(asset.assetMeasurement, ['measurement_root'])
+  );
+}
+
+function reconciliationReadbackRootFor(asset: DepositoryAsset): string | null {
+  const verificationEvidence = asset.verificationEvidence || {};
+  return firstString(
+    verificationEvidence.reconciliationReadbackRoot,
+    verificationEvidence.reconciliation_readback_root,
+    verificationEvidence.ledgerReadbackRoot,
+    verificationEvidence.ledger_readback_root,
+    verificationEvidence.settlementReadbackRoot,
+    verificationEvidence.settlement_readback_root,
+    verificationEvidence.finalityReadbackRoot,
+    verificationEvidence.finality_readback_root,
+    verificationEvidence.terminalJournalRoot,
+    verificationEvidence.terminal_journal_root
+  );
+}
+
 function detectMockOrFrontier(asset: DepositoryAsset): string[] {
   const blockers: string[] = [];
   const repo = normalizeRepository(asset.repositoryFullName) || '';
@@ -510,8 +581,10 @@ function useTierFor(candidate: {
   hasProof: boolean;
   hasMeasurement: boolean;
   blockers: string[];
+  readinessWarnings?: string[];
 }): DepositoryCandidateUseTier {
   if (candidate.blockers.length) return 'reject';
+  if (candidate.readinessWarnings?.length) return 'context-only';
   if (!candidate.hasMeasurement) return 'rank-only';
   if (!candidate.hasProof) return 'context-only';
   if (candidate.finalScore >= 0.78) return 'settlement-eligible';
@@ -563,6 +636,10 @@ function rankAsset(
   const revScore = revisionScore(read, asset);
   const proof = hasProofEvidence(asset);
   const measurement = hasMeasurementEvidence(asset);
+  const proofRoot = proofRootFor(asset);
+  const reconciliationReadbackRoot = reconciliationReadbackRootFor(asset);
+  const proofRootRequired = readRequiresProofRoot(read);
+  const reconciliationReadbackRequired = readRequiresReconciliationReadback(read);
   const providerScore = clamp01(Math.max(0, ...providerMatches.map((match) => match.score)));
   const proofScore = proof ? 1 : 0;
   const measurementScore = measurement ? 1 : 0;
@@ -576,9 +653,14 @@ function rankAsset(
       ? ['source_commit_mismatch']
       : []),
   ];
+  const readinessWarnings = [
+    ...(proofRootRequired && !proofRoot ? ['proof_root_readback_missing'] : []),
+    ...(reconciliationReadbackRequired && !reconciliationReadbackRoot ? ['reconciliation_readback_missing'] : []),
+  ];
   const warnings = [
     ...(!proof ? ['wallet_or_attestation_proof_missing'] : []),
     ...(!measurement ? ['asset_measurement_evidence_missing'] : []),
+    ...readinessWarnings,
     ...(semanticScore < thresholds.semanticScore ? ['semantic_match_below_review_floor'] : []),
   ];
   const penaltyMass = clamp01(
@@ -652,13 +734,17 @@ function rankAsset(
     title: asset.title,
     asset,
     selectedUnits,
-    useTier: useTierFor({ finalScore, hasProof: proof, hasMeasurement: measurement, blockers }),
+    useTier: useTierFor({ finalScore, hasProof: proof, hasMeasurement: measurement, blockers, readinessWarnings }),
     ranking,
     verification: {
       repositoryBound: repoScore === 1,
       sourceRevisionBound: revScore >= 0.82,
       hasWalletOrAttestationProof: proof,
       hasAssetMeasurementEvidence: measurement,
+      proofRootRequired,
+      proofRootPresent: Boolean(proofRoot),
+      reconciliationReadbackRequired,
+      reconciliationReadbackPresent: Boolean(reconciliationReadbackRoot),
       blockers,
       warnings,
     },
@@ -675,7 +761,6 @@ function rankAsset(
 export function summarizeDepositoryCandidateForFitEvidence(
   candidate: DepositoryCandidate
 ): DepositoryCandidateFitEvidence {
-  const verificationEvidence = candidate.asset.verificationEvidence || {};
   const providerIds = [
     ...new Set(
       candidate.recall.providerMatches
@@ -729,13 +814,20 @@ export function summarizeDepositoryCandidateForFitEvidence(
       identitySurfacePresent: Boolean(candidate.asset.identitySurface),
       githubBoundaryPresent: Boolean(candidate.asset.githubBoundary),
       githubAppAuthSurfacePresent: Boolean(candidate.asset.githubAppAuthSurface),
-      proofRoot: firstString(verificationEvidence.proofRoot),
+      proofRoot: proofRootFor(candidate.asset),
     },
     measurementEvidence: {
       hasAssetMeasurementEvidence: candidate.verification.hasAssetMeasurementEvidence,
       assetMeasurementPresent: Boolean(candidate.asset.assetMeasurement),
       measurementProvenanceCount: candidate.asset.measurementProvenance?.length || 0,
-      measurementRoot: firstString(verificationEvidence.measurementRoot),
+      measurementRoot: measurementRootFor(candidate.asset),
+    },
+    readbackEvidence: {
+      proofRootRequired: candidate.verification.proofRootRequired,
+      proofRootPresent: candidate.verification.proofRootPresent,
+      reconciliationReadbackRequired: candidate.verification.reconciliationReadbackRequired,
+      reconciliationReadbackPresent: candidate.verification.reconciliationReadbackPresent,
+      reconciliationReadbackRoot: reconciliationReadbackRootFor(candidate.asset),
     },
     rejectionReasons: candidate.rejectionReasons,
   };
@@ -799,6 +891,8 @@ function resultStateFor(input: {
       candidate.ranking.finalScore >= input.thresholds.worthyScore &&
       candidate.verification.hasWalletOrAttestationProof &&
       candidate.verification.hasAssetMeasurementEvidence &&
+      !candidate.verification.warnings.includes('proof_root_readback_missing') &&
+      !candidate.verification.warnings.includes('reconciliation_readback_missing') &&
       !candidate.verification.blockers.length
   );
   if (worthy.length) {

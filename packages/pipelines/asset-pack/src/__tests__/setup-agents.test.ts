@@ -2,7 +2,9 @@
 import cloneRepositoryAgent from '../agents/setup/asset-pack-clone-vcs-repository-agent';
 import setupPlanAgent from '../agents/setup/asset-pack-setup-plan-agent';
 import runComprehendReadAgent from '../agents/setup/asset-pack-comprehend-read-agent';
-import dangerWallAgent from '../agents/setup/asset-pack-danger-wall-agent';
+import dangerWallAgent, {
+  normalizeRiskAdmissionResult,
+} from '../agents/setup/asset-pack-danger-wall-agent';
 
 function executionStub() {
   const stores: Array<{ namespace: string; key: string; value: unknown }> = [];
@@ -135,6 +137,68 @@ describe('AssetPack setup agents', () => {
         expect.objectContaining({ namespace: 'setup/danger-wall', key: 'result' }),
         expect.objectContaining({ namespace: 'setup/risk-admission', key: 'result' }),
       ])
+    );
+  });
+
+  it('normalizes the full PTRR risk admission envelope before checking setup safety', () => {
+    const result = normalizeRiskAdmissionResult({
+      context: {},
+      output: {
+        finalAssessment: {
+          safe: true,
+          maxSeverity: 'none',
+          confidence: 0.91,
+          verdict: {
+            approved: true,
+            reason: 'Full risk admission passed.',
+            flags: [],
+            recommendations: [],
+          },
+          auditTrail: [
+            {
+              check: 'read boundary',
+              result: true,
+              details: ['source-bound read'],
+              severity: 'none',
+            },
+          ],
+        },
+        riskInsights: {
+          riskProfile: 'bounded',
+          threatLevel: 'minimal',
+          riskRecommendations: [],
+          proofObligations: [],
+          admissionBoundary: 'setup',
+        },
+        readAlignment: {
+          alignmentScore: 0.94,
+          readSafeToMeasure: true,
+          assetPackSafeToSynthesize: true,
+          deliveryMechanismSafeToAttempt: true,
+        },
+        recommendations: ['continue'],
+        success: true,
+        validationMessage: 'passed',
+      },
+      finalOutput: {},
+    });
+
+    expect(result.finalAssessment.safe).toBe(true);
+    expect(result.finalAssessment.maxSeverity).toBe('none');
+    expect(result.readAlignment.assetPackSafeToSynthesize).toBe(true);
+  });
+
+  it('fails closed when risk admission returns an untyped output shape', () => {
+    const result = normalizeRiskAdmissionResult({
+      step: 'Retry',
+      agent: 'bitcode-read-risk-admission',
+      phase: 'setup',
+    });
+
+    expect(result.finalAssessment.safe).toBe(false);
+    expect(result.finalAssessment.maxSeverity).toBe('high');
+    expect(result.finalAssessment.verdict.flags).toContain(
+      'risk-admission-output-missing-final-assessment',
     );
   });
 });

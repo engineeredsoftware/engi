@@ -86,6 +86,51 @@ function normalizeStepName(step: string | undefined): string {
   return step.charAt(0).toUpperCase() + step.slice(1);
 }
 
+function normalizePhaseName(phase: string | undefined): string {
+  if (!phase) return '';
+
+  const phaseLower = phase.toLowerCase();
+
+  if (phaseLower.includes('setup') || phaseLower.includes('admission') || phaseLower.includes('preflight')) {
+    return 'Setup';
+  }
+  if (
+    phaseLower.includes('discovery') ||
+    phaseLower.includes('search') ||
+    phaseLower.includes('recall') ||
+    phaseLower.includes('candidate')
+  ) {
+    return 'Discovery';
+  }
+  if (
+    phaseLower.includes('implementation') ||
+    phaseLower.includes('synthesis') ||
+    phaseLower.includes('asset-pack') ||
+    phaseLower.includes('write')
+  ) {
+    return 'Implementation';
+  }
+  if (
+    phaseLower.includes('validation') ||
+    phaseLower.includes('evaluate') ||
+    phaseLower.includes('quality') ||
+    phaseLower.includes('readiness')
+  ) {
+    return 'Validation';
+  }
+  if (
+    phaseLower.includes('finish') ||
+    phaseLower.includes('delivery') ||
+    phaseLower.includes('settlement') ||
+    phaseLower.includes('finality') ||
+    phaseLower.includes('readback')
+  ) {
+    return 'Finish';
+  }
+
+  return PHASES.includes(phase) ? phase : '';
+}
+
 import { PathPill } from './PathPill';
 import { TagOverflowList } from './TagOverflowList';
 import { buildStepViewModel } from '@/app/executions/utilities/execution-step-viewmodel';
@@ -341,7 +386,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         const { executionState, message, detail, timestamp } = storedChunk;
         logLine.text = message;
         if (executionState) {
-          logLine.phase = executionState.phase;
+          logLine.phase = normalizePhaseName(executionState.phase);
           logLine.agent = executionState.agent;
           logLine.step = normalizeStepName(executionState.step);
           logLine.failsafe = executionState.failsafe;
@@ -355,7 +400,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         // First check for executionState in status
         if (storedChunk.status?.executionState) {
           const { phase, agent, step, tool, failsafe, generation } = storedChunk.status.executionState;
-          logLine.phase = phase;
+          logLine.phase = normalizePhaseName(phase);
           logLine.agent = agent;
           logLine.step = normalizeStepName(step);
           logLine.failsafe = failsafe;
@@ -375,7 +420,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         // Then check for executionState in metadata as fallback
         else if (storedChunk.status?.metadata?.executionState) {
           const { phase, agent, step, tool, failsafe, generation } = storedChunk.status.metadata.executionState;
-          logLine.phase = phase;
+          logLine.phase = normalizePhaseName(phase);
           logLine.agent = agent;
           logLine.step = normalizeStepName(step);
           logLine.failsafe = failsafe;
@@ -441,7 +486,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       if (!logLine.phase) {
         // First try to get from stored chunk
         if (storedChunk?.status?.executionState?.phase) {
-          logLine.phase = storedChunk.status.executionState.phase;
+          logLine.phase = normalizePhaseName(storedChunk.status.executionState.phase);
         } else {
           // Then try to infer from text
           for (const phase of PHASES) {
@@ -454,7 +499,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       }
 
       // Default to "Setup" if no phase is detected
-      const phase = logLine.phase || 'Setup';
+      const phase = normalizePhaseName(logLine.phase) || 'Setup';
 
       // Add to the appropriate phase group
       const phaseGroup = phaseGroups.get(phase);

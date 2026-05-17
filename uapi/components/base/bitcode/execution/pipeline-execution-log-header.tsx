@@ -14,6 +14,7 @@ interface PipelineRunLogHeaderProps {
   generationCount: number;
   error: string | null;
   runId?: string;
+  metadataRows?: Array<{ label: string; value: string }>;
   onOpenDetails?: (runId: string) => void;
   onNavigateToExecution?: (runId: string) => void;
   onClose?: () => void;
@@ -26,6 +27,7 @@ export function PipelineExecutionLogHeader({
   generationCount,
   error,
   runId,
+  metadataRows = [],
   onOpenDetails,
   onNavigateToExecution,
   onClose
@@ -108,6 +110,20 @@ export function PipelineExecutionLogHeader({
                 </span>
               </div>
             </div>
+
+            {metadataRows.length ? (
+              <dl className={`mt-2 flex items-center gap-1.5 overflow-x-auto pb-1 ${styles.hideScrollbar}`}>
+                {metadataRows.map((row) => (
+                  <div
+                    key={`${row.label}:${row.value}`}
+                    className="flex min-w-0 items-center gap-1 rounded border border-gray-700/50 bg-gray-900/70 px-1.5 py-0.5 text-[0.62rem]"
+                  >
+                    <dt className="shrink-0 uppercase tracking-[0.12em] text-gray-500">{row.label}</dt>
+                    <dd className="max-w-[11rem] truncate font-mono text-gray-300">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
           </div>
         </div>
       </div>

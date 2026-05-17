@@ -59,6 +59,11 @@ function asset(overrides: Partial<DepositoryAsset> = {}): DepositoryAsset {
     githubBoundary: { sourceProvider: 'github', sourceRepo: 'engineeredsoftware/ENGI' },
     assetMeasurement: { targetKindCount: 5 },
     measurementProvenance: [{ stage: 'deposit-measurement' }],
+    verificationEvidence: {
+      proofRoot: 'sha256:test-proof-root',
+      measurementRoot: 'sha256:test-measurement-root',
+      reconciliationReadbackRoot: 'sha256:test-reconciliation-readback-root',
+    },
     ...overrides,
   };
 }
@@ -138,6 +143,25 @@ describe('AssetPack depository search', () => {
     expect(result.selectedCandidates[0].verification.warnings).toContain(
       'asset_measurement_evidence_missing'
     );
+  });
+
+  it('blocks readiness when a read requires proof and reconciliation readback roots that are not present', async () => {
+    const result = await searchDepositoryAssetSpace({
+      read,
+      assets: [
+        asset({
+          verificationEvidence: null,
+          hasWalletOrAttestationProof: true,
+          hasAssetMeasurementEvidence: true,
+        }),
+      ],
+    });
+
+    expect(result.resultState).toBe('blocked_readiness');
+    expect(result.selectedCandidates[0].verification.warnings).toEqual(
+      expect.arrayContaining(['proof_root_readback_missing', 'reconciliation_readback_missing'])
+    );
+    expect(result.selectedCandidates[0].useTier).toBe('context-only');
   });
 
   it('returns no-worthy-fit for unrelated reads instead of relying on repository match alone', async () => {
@@ -240,10 +264,16 @@ describe('AssetPack depository search', () => {
       proofEvidence: {
         hasWalletOrAttestationProof: true,
         signingSurfacePresent: true,
+        proofRoot: 'sha256:test-proof-root',
       },
       measurementEvidence: {
         hasAssetMeasurementEvidence: true,
         assetMeasurementPresent: true,
+        measurementRoot: 'sha256:test-measurement-root',
+      },
+      readbackEvidence: {
+        reconciliationReadbackPresent: true,
+        reconciliationReadbackRoot: 'sha256:test-reconciliation-readback-root',
       },
     });
     expect(findStored(exec, 'fit', 'selectionTrace')?.selectedCandidates[0].selectedUnits[0]).toMatchObject({

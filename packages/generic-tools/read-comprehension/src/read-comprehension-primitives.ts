@@ -62,7 +62,7 @@ export async function analyzeReadSemantics({
     },
     written_asset_expectations: ['source-bearing written asset', 'verification evidence'],
     source_to_shares_service_questions: buildSourceToSharesServiceQuestions(expressedRead),
-    commercial_accountability: {
+    service_accountability: {
       provider: 'Advanced Engineered Software, Inc.',
       customer_outcome: 'source-to-shares system use',
       market_infrastructure_standard: 'auditable engineering-knowledge market infrastructure'
@@ -133,7 +133,7 @@ export async function extractReadRequirements({
     business_requirements: [],
     technical_requirements: [],
     proof_requirements: ['Spec/proof witnesses updated when semantics change'],
-    commercial_service_requirements: [
+    service_requirements: [
       'Read answer explains why/how/when/where/what/who the work serves source-to-shares',
       'Proof evidence supports customer-facing audit and market-infrastructure acceptance'
     ],
@@ -264,7 +264,7 @@ export async function generateReadSatisfactionCriteria({
       }
     ],
     proof_criteria: ['Generated V26 proof artifacts include the changed prompt surface'],
-    commercial_accountability_criteria: [
+    service_accountability_criteria: [
       'Critical source-to-shares service questions are answered before fit search or settlement',
       'The answer is reviewable by the customer/operator using canonical Bitcode terminology'
     ],
@@ -321,7 +321,7 @@ export async function validateReadComprehension({
       written_asset_coherence: 0.9,
       proof_coverage: 0.86
     },
-    commercial_accountability_findings: [
+    service_accountability_findings: [
       'Read comprehension must explain why/how/when/where/what/who this code serves Bitcode source-to-shares'
     ],
     terminology_findings: [
@@ -366,7 +366,7 @@ export async function analyzeReadSatisfactionImplementationComplexity({
       testing_complexity: 'medium' as const,
       proof_complexity: 'medium' as const,
       delivery_mechanism_complexity: 'low' as const,
-      commercial_accountability_complexity: 'medium' as const
+      service_accountability_complexity: 'medium' as const
     },
     risk_analysis: {
       technical_risks: ['Package boundary drift', 'Prompt runtime carry-through drift'],

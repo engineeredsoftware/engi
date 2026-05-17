@@ -1,6 +1,6 @@
 # Read Comprehension Tools
 
-## V26 Posture
+## Active Posture
 
 `@bitcode/generic-tools-read-comprehension` is the canonical generic-tool package for Bitcode Read comprehension.
 The package path and package name are canonical Bitcode tool owners.
@@ -40,7 +40,7 @@ Expected output includes:
 - `semantic_analysis.scope_boundaries`
 - `written_asset_expectations`
 - `source_to_shares_service_questions`
-- `commercial_accountability`
+- `service_accountability`
 - `asset_pack_context`
 - `delivery_mechanism_boundaries`
 
@@ -55,7 +55,7 @@ Expected output includes:
 - `functional_requirements`
 - `non_functional_requirements`
 - `proof_requirements`
-- `commercial_service_requirements`
+- `service_requirements`
 - `interface_requirements`
 - `written_asset_requirement_map`
 - `extraction_metadata`
@@ -85,7 +85,7 @@ Expected output includes:
 - `performance_criteria`
 - `quality_criteria`
 - `proof_criteria`
-- `commercial_accountability_criteria`
+- `service_accountability_criteria`
 - `persistence_criteria`
 - `interface_criteria`
 - `blocking_criteria`
@@ -100,7 +100,7 @@ Expected output includes:
 - `validation_results`
 - `validation_details`
 - `terminology_findings`
-- `commercial_accountability_findings`
+- `service_accountability_findings`
 - `read_comprehension`
 - `written_asset_coherence`
 - `proof_coverage`

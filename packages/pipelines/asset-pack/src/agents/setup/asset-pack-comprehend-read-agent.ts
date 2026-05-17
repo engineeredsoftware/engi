@@ -139,10 +139,10 @@ function buildDeterministicReadComprehension(input: any, execution: any) {
       'BTC fee handling is a settlement/finality concern and cannot be attributed to the depositor without recorded authorization.'
     ],
     source_to_shares_service_questions: {},
-    commercial_accountability: {
+    service_accountability: {
       provider: 'Bitcode pipeline harness',
-      customer_outcome: 'A high-quality, proof-bearing AssetPack fit or explicit blocked/no-worthy-fit evidence.',
-      market_infrastructure_standard: 'Source-bound read satisfaction with auditable telemetry and ledger synchronization.'
+      reader_outcome: 'A high-quality, proof-bearing AssetPack fit or explicit blocked/no-worthy-fit evidence.',
+      infrastructure_standard: 'Source-bound read satisfaction with auditable telemetry and ledger synchronization.'
     },
     comprehension: {
       intent: 'Synthesize a Read-satisfying AssetPack from deposited repository evidence.',
