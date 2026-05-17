@@ -4,8 +4,9 @@ import {
   VercelSandboxPipelineHost,
   type PipelineHarnessMode,
 } from '..';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 const TRUSTED_SANDBOX_ENV_KEYS = [
   'OPENAI_API_KEY',
@@ -20,6 +21,8 @@ const TRUSTED_SANDBOX_ENV_KEYS = [
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
   'BITCODE_PIPELINE_USER_ID',
+  'BITCODE_LLM_PROVIDER',
+  'BITCODE_LLM_MODEL',
 ] as const;
 
 const REDACTED_OUTPUT_ENV_KEYS = [
@@ -101,7 +104,34 @@ function selectedCommandEnvironment(): Record<string, string> {
     }
   }
 
+  normalizeModelEnvironment(env);
+
   return env;
+}
+
+function normalizeModelEnvironment(env: Record<string, string>): void {
+  const provider = env.BITCODE_LLM_PROVIDER?.trim().toLowerCase();
+  if (provider && !hasModelProviderCredential(provider, env)) {
+    delete env.BITCODE_LLM_PROVIDER;
+    delete env.BITCODE_LLM_MODEL;
+  }
+
+  if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
+    env.BITCODE_LLM_PROVIDER = 'openai';
+  }
+}
+
+function hasModelProviderCredential(provider: string, env: Record<string, string>): boolean {
+  switch (provider) {
+    case 'openai':
+      return Boolean(env.OPENAI_API_KEY);
+    case 'anthropic':
+      return Boolean(env.ANTHROPIC_API_KEY);
+    case 'google':
+      return Boolean(env.GOOGLE_GENERATIVE_AI_API_KEY || env.GEMINI_API_KEY || env.GOOGLE_API_KEY);
+    default:
+      return true;
+  }
 }
 
 function sourceCredentials(): { username?: string; password?: string } {
@@ -117,6 +147,67 @@ function sourceCredentials(): { username?: string; password?: string } {
     username: explicitUsername || 'x-access-token',
     password: token,
   };
+}
+
+function findRepositoryRoot(): string {
+  let current = process.cwd();
+  while (current !== dirname(current)) {
+    if (existsSync(resolve(current, '.git')) && existsSync(resolve(current, 'pnpm-workspace.yaml'))) {
+      return current;
+    }
+    current = dirname(current);
+  }
+  throw new Error('Unable to locate ENGI repository root for local source overlay generation.');
+}
+
+function localSourceOverlayPatch(): Buffer | undefined {
+  if (process.env.BITCODE_SANDBOX_APPLY_LOCAL_PATCH !== '1') return undefined;
+  const root = findRepositoryRoot();
+  const chunks: Buffer[] = [];
+  const trackedPatch = execFileSync('git', ['diff', '--binary', 'HEAD'], {
+    cwd: root,
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (trackedPatch.length > 0) {
+    chunks.push(trackedPatch);
+  }
+
+  for (const path of untrackedSourcePaths(root)) {
+    const patch = diffUntrackedSourcePath(root, path);
+    if (patch.length > 0) {
+      chunks.push(patch);
+    }
+  }
+
+  const patch = Buffer.concat(chunks.flatMap((chunk) => [chunk, Buffer.from('\n')]));
+  return patch.length > 0 && patch.toString('utf8').trim().length > 0 ? patch : undefined;
+}
+
+function untrackedSourcePaths(root: string): string[] {
+  const output = execFileSync('git', ['ls-files', '--others', '--exclude-standard', '-z'], {
+    cwd: root,
+    maxBuffer: 16 * 1024 * 1024,
+  });
+  return output
+    .toString('utf8')
+    .split('\0')
+    .map((path) => path.trim())
+    .filter(Boolean);
+}
+
+function diffUntrackedSourcePath(root: string, path: string): Buffer {
+  try {
+    return execFileSync('git', ['diff', '--binary', '--no-index', '--', '/dev/null', path], {
+      cwd: root,
+      maxBuffer: 64 * 1024 * 1024,
+    });
+  } catch (error) {
+    const stdout = (error as { stdout?: Buffer }).stdout;
+    if (Buffer.isBuffer(stdout)) {
+      return stdout;
+    }
+    throw error;
+  }
 }
 
 function redactKnownSecrets(text: string): string {
@@ -141,6 +232,10 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
     schema: record.schema,
     harnessMode: record.harnessMode,
     resultState: record.resultState,
+    pipelineResultState: record.pipelineResultState,
+    sourceOverlay: record.manifest && typeof record.manifest === 'object'
+      ? (record.manifest as Record<string, unknown>).sourceOverlay ?? null
+      : null,
     resultReasons: Array.isArray(record.resultReasons)
       ? record.resultReasons.map((reason) => redactKnownSecrets(String(reason)))
       : [],
@@ -205,6 +300,7 @@ async function main(): Promise<void> {
     commandEnvironment: selectedCommandEnvironment(),
     assumeRepositoryPresent: process.env.BITCODE_SANDBOX_ASSUME_REPOSITORY_PRESENT === '1',
     installDependencies: process.env.BITCODE_SANDBOX_SKIP_INSTALL !== '1',
+    sourceOverlayPatch: localSourceOverlayPatch(),
   });
 
   const sandboxFactory = await loadVercelSandboxFactory();
@@ -221,6 +317,7 @@ async function main(): Promise<void> {
         sandboxId: result.sandboxId,
         stopped: result.stopped,
         commandCount: result.commands.length,
+        sourceOverlayApplied: Boolean(plan.sourceOverlay),
         commandExitCodes: result.commands.map((command) => ({
           label: command.label,
           exitCode: command.exitCode,

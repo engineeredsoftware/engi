@@ -341,6 +341,40 @@ export function enablePipelineStreaming(
               generationMessagesByContext.set(generationContextKey(context), messages);
             }
           }
+          try {
+            if (event?.namespace === 'llm' && event?.key === 'parsedOutput') {
+              const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+              const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
+              const agentStepId = agentStepMap.get(key) || null;
+              if (agentStepId) {
+                const { data: last, error: selErr } = await (supabase as any)
+                  .from('deliverable_pipeline_generations')
+                  .select('id,response')
+                  .eq('agent_step_id', agentStepId)
+                  .order('created_at', { ascending: false })
+                  .limit(1)
+                  .maybeSingle();
+                if (!selErr && last?.id) {
+                  const previousResponse =
+                    last.response && typeof last.response === 'object' && !Array.isArray(last.response)
+                      ? last.response
+                      : {};
+                  await supabase
+                    .from('deliverable_pipeline_generations')
+                    .update({
+                      response: {
+                        ...previousResponse,
+                        parsed: event?.data?.parsed ?? event?.data ?? null,
+                        parsedAt: now,
+                      },
+                    })
+                    .eq('id', last.id);
+                }
+              }
+            }
+          } catch (e) {
+            // best-effort only
+          }
           // Optional enrichment: correlate llm.usage to latest generation for this agent step
           try {
             if (event?.namespace === 'llm' && event?.key === 'usage') {

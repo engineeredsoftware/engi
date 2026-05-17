@@ -3,6 +3,7 @@ import type {
   PipelineDepositReference,
   PipelineHarnessManifest,
   PipelineHarnessMode,
+  PipelineHarnessSourceOverlay,
   PipelineHarnessStage,
   PipelineHostCapabilities,
   PipelineReadRequest,
@@ -103,6 +104,7 @@ export function buildAssetPackPipelineHarnessManifest(input: {
   read: PipelineReadRequest;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
+  sourceOverlay?: PipelineHarnessSourceOverlay;
   commandEnvironment?: Record<string, string | undefined>;
   createdAt?: string;
 }): PipelineHarnessManifest {
@@ -119,6 +121,7 @@ export function buildAssetPackPipelineHarnessManifest(input: {
     read: input.read,
     deposit: input.deposit,
     sourceRevision: input.sourceRevision,
+    sourceOverlay: input.sourceOverlay,
     host: {
       hostKind: VERCEL_SANDBOX_HOST_CAPABILITIES.hostKind,
       provider: VERCEL_SANDBOX_HOST_CAPABILITIES.provider,

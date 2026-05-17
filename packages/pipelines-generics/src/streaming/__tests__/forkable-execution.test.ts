@@ -146,6 +146,20 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
         model: 'gpt-test',
       },
     });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'status' as any, {
+      namespace: 'llm',
+      key: 'parsedOutput',
+      executionState: {
+        phase: 'setup',
+        agent: 'setup:asset-pack-comprehend-read-agent',
+        step: 'try',
+        failsafe: 'prepare_concise_context',
+        generation: 'reason',
+      },
+      data: {
+        parsed: { result: 'ok' },
+      },
+    });
     await ExecutionStreamAdapter.emitEvent(exec.id, 'tool-use' as any, {
       executionState: { phase: 'setup', agent: 'setup:asset-pack-comprehend-read-agent', step: 'try' },
       data: {
@@ -172,6 +186,9 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
     expect(supabase.tables.deliverable_pipeline_generations[0].messages).toEqual([
       { role: 'user', content: 'Fit this repository.' },
     ]);
+    expect(supabase.tables.deliverable_pipeline_generations[0].response.parsed).toEqual({
+      result: 'ok',
+    });
     expect(supabase.tables.deliverable_pipeline_phase_delegations[0].status).toBe('completed');
     expect(supabase.tables.deliverable_pipeline_agent_steps[0].status).toBe('completed');
   });

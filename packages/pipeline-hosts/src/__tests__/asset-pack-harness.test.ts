@@ -79,6 +79,41 @@ describe('asset-pack sandbox harness plan', () => {
     });
   });
 
+  it('can apply a local source overlay before installing and running the pipeline', () => {
+    const plan = buildAssetPackSandboxHarness({
+      ...baseOptions,
+      mode: 'asset_pack_pipeline',
+      source: {
+        type: 'git',
+        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        revision: baseOptions.sourceRevision.commit,
+        depth: 1,
+      },
+      sourceOverlayPatch: 'diff --git a/example.txt b/example.txt\n',
+    });
+
+    expect(plan.sourceOverlay).toEqual({
+      path: '.bitcode/pipeline-harness/source-overlay.patch',
+      patchRoot: '/vercel/sandbox',
+      commercialAdmissibility: 'qa-only-not-source-revision-evidence',
+    });
+    expect(plan.files.map((file) => file.path)).toContain(
+      '.bitcode/pipeline-harness/source-overlay.patch'
+    );
+    expect(plan.commands.map((command) => command.label)).toEqual([
+      'runtime-readiness',
+      'apply-source-overlay',
+      'package-manager-readiness',
+      'workspace-install',
+      'harness-runtime-install',
+      'asset-pack-pipeline-run',
+    ]);
+    expect(plan.commands.find((command) => command.label === 'apply-source-overlay')).toMatchObject({
+      cmd: 'git',
+      args: ['apply', '--whitespace=nowarn', '.bitcode/pipeline-harness/source-overlay.patch'],
+    });
+  });
+
   it('generates a syntactically valid live pipeline runner', () => {
     const plan = buildAssetPackSandboxHarness({
       ...baseOptions,
@@ -86,6 +121,7 @@ describe('asset-pack sandbox harness plan', () => {
       assumeRepositoryPresent: true,
     });
     const liveRunner = plan.files.find((file) => file.path.endsWith('run-live-asset-pack-pipeline.ts'));
+    const source = liveRunner?.content.toString('utf8') || '';
     const diagnostics = ts.transpileModule(liveRunner?.content.toString('utf8') || '', {
       compilerOptions: {
         module: ts.ModuleKind.CommonJS,
@@ -95,5 +131,7 @@ describe('asset-pack sandbox harness plan', () => {
     }).diagnostics || [];
 
     expect(diagnostics.filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)).toEqual([]);
+    expect(source).toContain('pipeline-stream-event');
+    expect(source).toContain('execution: execution ? summarizeExecution(execution) : null');
   });
 });

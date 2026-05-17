@@ -307,7 +307,20 @@ function factoryLLMSubStep<TInput, TOutput>(
 
       // 9. Parse output if parser provided
       if (config.parseOutput) {
-        return await config.parseOutput(output.content, input);
+        const parsedOutput = await config.parseOutput(output.content, input);
+        try {
+          substep.store('llm', 'parsedOutput', {
+            parsed: parsedOutput,
+            phase,
+            agent,
+            step,
+            failsafe: currentFailsafe,
+            generation: currentSub,
+            provider,
+            model,
+          } as any);
+        } catch {}
+        return parsedOutput;
       }
 
       // Default: return content as output

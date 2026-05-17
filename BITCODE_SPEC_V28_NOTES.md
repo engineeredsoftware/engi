@@ -135,6 +135,14 @@ Supabase session, disabled on production deployments unless
 lifecycle, command, artifact, completion, and failure visibility. For private
 repository sources it may reuse the authenticated user's GitHub installation
 token as clone credentials; the token must never be returned in streamed events.
+Local pre-promotion harness debugging may upload `git diff --binary HEAD` as a
+source overlay, but such runs are explicitly QA-only and cannot serve as
+source-revision settlement or finality evidence.
+For generation, `BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the
+commercial model; if absent, V28 staging selects OpenAI when `OPENAI_API_KEY` is
+the only configured model credential rather than silently requiring Google. A
+provider pin without its matching credential is ignored by the harness command
+environment.
 
 The minimum commercial telemetry record for a Read/Fit pipeline execution is:
 
@@ -167,6 +175,17 @@ harness gate. `blocker:pipeline_harness_run_missing`,
 `blocker:pipeline_phase_trace_missing` all keep the commercial Fit in
 blocked-readiness even when Deposit, Read admission, and source-bound Fit
 posture rows exist.
+
+The May 17 continuation makes the closure criterion stricter: V28 is not closed
+by proving the sandbox can start. It closes only when the commercial harness can
+reliably run the AssetPack pipeline against the deposited depository asset
+space, perform candidate finding/ranking, emit `fitResult` and
+`depositorySearch` roots, synthesize a source-bound AssetPack when the evidence
+is worthy, and journal/read back the result without claiming BTC fee, range,
+settlement, or finality rows that do not exist. Failed runs remain useful
+evidence only if they export the execution tree, phase/agent/generation/tool
+telemetry, prompt/context inputs, raw outputs, parsed/cast outputs, and exact
+blocked-readiness reasons.
 
 ## May 15 Terminal Terminology Closure
 
@@ -296,6 +315,15 @@ That is a commercial/demonstration boundary leak, so V28 now requires the mounte
 The same deployment-readiness pass found a Vercel production build failure in `lib/bitcode-app-context.ts` because the newly formalized `@bitcode/protocol` package exported runtime JS from `packages/protocol/src/**`, while those files were still ignored by the generic "package TS build output" rule.
 V28 treats this as a commercial MVP blocker: formal protocol package imports must resolve from a clean git clone during local and Vercel `next build`.
 The repository now explicitly unignores the `@bitcode/protocol` runtime JS source and package-boundary tests, the commercial protocol boundary test asserts required protocol runtime files are present and not ignored, and clean-repro builds pass after those runtime files are present in the clone.
+
+V28 also synchronizes demonstration fit-finding as a strict local witness. The
+demonstration may rank local deposited fixtures and synthesize a minimal proof
+root for a source-bound Read, but it must remain deliberately small and must not
+import commercial pipeline, registry, prompt, agent, tool, Vercel, Supabase, or
+UAPI packages. Commercial code remains the maximal implementation and must
+reuse Bitcode's formal packages for pipeline hosts, pipeline primitives,
+registries, prompts, PTRR agents, tools, depository search, embedding policy,
+BTD receipts, journals, ledgers, and interface-specific API/UI integration.
 
 Manual QA was re-ordered on May 8, 2026 into two directionalities and narrowed again on May 11, 2026.
 The first is natural operator progression: connect wallet/GitHub/identity prerequisites, perform the fastest simple Read through Fit/settlement/delivery readback, then perform the fastest simple Deposit through measurement/earning/settlement readback.

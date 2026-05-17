@@ -18,10 +18,11 @@ const HARNESS_DIRECTORY = '.bitcode/pipeline-harness';
 const MANIFEST_PATH = `${HARNESS_DIRECTORY}/manifest.json`;
 const HOST_SMOKE_RUNNER_PATH = `${HARNESS_DIRECTORY}/run-host-smoke.mjs`;
 const LIVE_PIPELINE_RUNNER_PATH = `${HARNESS_DIRECTORY}/run-live-asset-pack-pipeline.ts`;
+const SOURCE_OVERLAY_PATCH_PATH = `${HARNESS_DIRECTORY}/source-overlay.patch`;
 const EVIDENCE_PATH = `${HARNESS_DIRECTORY}/evidence.json`;
 const TELEMETRY_PATH = `${HARNESS_DIRECTORY}/telemetry.jsonl`;
 const TSCONFIG_PATHS_REGISTER_PATH = `${HARNESS_DIRECTORY}/node_modules/tsconfig-paths/register`;
-const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox';
+const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox' as const;
 const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
 const SANDBOX_PNPM_VERSION = '10.33.0';
 
@@ -37,6 +38,7 @@ export interface BuildAssetPackSandboxHarnessOptions {
   networkPolicy?: PipelineNetworkPolicy;
   commandEnvironment?: Record<string, string>;
   installDependencies?: boolean;
+  sourceOverlayPatch?: Buffer | string;
 }
 
 export function buildAssetPackSandboxHarness(
@@ -49,10 +51,19 @@ export function buildAssetPackSandboxHarness(
     );
   }
 
+  const sourceOverlayPatch = normalizeSourceOverlayPatch(options.sourceOverlayPatch);
+  const sourceOverlay = sourceOverlayPatch
+    ? {
+        path: SOURCE_OVERLAY_PATCH_PATH,
+        patchRoot: SANDBOX_WORKING_DIRECTORY,
+        commercialAdmissibility: 'qa-only-not-source-revision-evidence' as const,
+      }
+    : undefined;
   const commandEnvironment = {
     BITCODE_PIPELINE_HARNESS_MANIFEST: `${SANDBOX_WORKING_DIRECTORY}/${MANIFEST_PATH}`,
     BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR: `${SANDBOX_WORKING_DIRECTORY}/${HARNESS_DIRECTORY}`,
     BITCODE_PIPELINE_HARNESS_MODE: mode,
+    ...(sourceOverlay ? { BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED: '1' } : {}),
     ...options.commandEnvironment,
   };
 
@@ -61,10 +72,16 @@ export function buildAssetPackSandboxHarness(
     read: options.read,
     deposit: options.deposit,
     sourceRevision: options.sourceRevision,
+    sourceOverlay,
     commandEnvironment,
   });
 
-  const commands = buildCommands(mode, commandEnvironment, options.installDependencies ?? true);
+  const commands = buildCommands(
+    mode,
+    commandEnvironment,
+    options.installDependencies ?? true,
+    sourceOverlayPatch !== null
+  );
 
   return {
     capabilities: VERCEL_SANDBOX_HOST_CAPABILITIES,
@@ -91,7 +108,17 @@ export function buildAssetPackSandboxHarness(
         content: Buffer.from(createLiveAssetPackPipelineRunner()),
         mode: 0o755,
       },
+      ...(sourceOverlayPatch
+        ? [
+            {
+              path: SOURCE_OVERLAY_PATCH_PATH,
+              content: sourceOverlayPatch,
+              mode: 0o644,
+            },
+          ]
+        : []),
     ],
+    sourceOverlay,
     commands,
     artifactPaths: {
       evidence: EVIDENCE_PATH,
@@ -103,7 +130,8 @@ export function buildAssetPackSandboxHarness(
 function buildCommands(
   mode: PipelineHarnessMode,
   commandEnvironment: Record<string, string>,
-  installDependencies: boolean
+  installDependencies: boolean,
+  hasSourceOverlayPatch: boolean
 ): PipelineHarnessCommand[] {
   const commands: PipelineHarnessCommand[] = [
     {
@@ -115,6 +143,15 @@ function buildCommands(
   ];
 
   if (mode === 'asset_pack_pipeline') {
+    if (hasSourceOverlayPatch) {
+      commands.push({
+        label: 'apply-source-overlay',
+        cmd: 'git',
+        args: ['apply', '--whitespace=nowarn', SOURCE_OVERLAY_PATCH_PATH],
+        required: true,
+      });
+    }
+
     commands.push({
       label: 'package-manager-readiness',
       cmd: 'corepack',
@@ -169,6 +206,18 @@ function buildCommands(
   });
 
   return commands;
+}
+
+function normalizeSourceOverlayPatch(sourceOverlayPatch?: Buffer | string): Buffer | null {
+  if (typeof sourceOverlayPatch === 'string') {
+    return sourceOverlayPatch.trim().length > 0 ? Buffer.from(sourceOverlayPatch) : null;
+  }
+  if (Buffer.isBuffer(sourceOverlayPatch)) {
+    return sourceOverlayPatch.length > 0 && sourceOverlayPatch.toString('utf8').trim().length > 0
+      ? sourceOverlayPatch
+      : null;
+  }
+  return null;
 }
 
 function createHostSmokeRunner(): string {
@@ -257,6 +306,7 @@ let resultState = 'blocked_readiness';
 let output = null;
 let error = null;
 let supabase = null;
+let execution = null;
 let pipelineRunPersisted = false;
 let pipelineRunId = null;
 
@@ -276,6 +326,30 @@ function record(event) {
     at: new Date().toISOString(),
     runId,
   });
+}
+
+function stageForStreamEvent(event) {
+  return event?.executionState?.phase || event?.phase || 'telemetry-readback';
+}
+
+function summarizeStreamEvent(event) {
+  const data = event?.data && typeof event.data === 'object' && !Array.isArray(event.data)
+    ? event.data
+    : null;
+  return {
+    type: 'pipeline-stream-event',
+    stage: stageForStreamEvent(event),
+    streamEventType: event?.type || 'status',
+    namespace: event?.namespace || null,
+    key: event?.key || null,
+    executionPath: Array.isArray(event?.executionPath) ? event.executionPath : [],
+    executionState: event?.executionState || null,
+    message: event?.message || null,
+    dataKeys: data ? Object.keys(data).sort() : [],
+    inputMessageCount: Array.isArray(data?.messages) ? data.messages.length : null,
+    outputContentLength: typeof data?.content === 'string' ? data.content.length : null,
+    parsedOutputPresent: Boolean(data?.parsed),
+  };
 }
 
 function buildManifestDepositoryAsset(manifest) {
@@ -474,7 +548,7 @@ try {
     import('../../packages/pipelines/asset-pack/src/index'),
     import('../../packages/pipelines-generics/src/index'),
   ]);
-  const execution = factoryPipelineExecution('asset_pack', undefined, {
+  execution = factoryPipelineExecution('asset_pack', undefined, {
     pipelineName: 'asset_pack',
     family: 'asset_pack',
     posture: 'live',
@@ -491,13 +565,16 @@ try {
     supabase = supabaseAdmin;
     userId = await resolvePipelineUserId();
     pipelineRunId = await insertPipelineRun();
-    enablePipelineStreaming(execution, {
+    const pipelineStreamer = enablePipelineStreaming(execution, {
       runId,
       userId,
       pipelineRunId,
       supabase: supabaseAdmin,
       streamToDatabase: true,
       structuredToDatabase: process.env.BITCODE_PIPELINE_STRUCTURED_DB === '1',
+    });
+    pipelineStreamer.subscribe((event) => {
+      record(summarizeStreamEvent(event));
     });
     record({ type: 'database-streaming-enabled', stage: 'telemetry-readback' });
   }
@@ -519,22 +596,44 @@ try {
   };
 
   record({ type: 'pipeline-start', stage: 'read-comprehension', sourceRevision: manifest.sourceRevision });
+  if (manifest.sourceOverlay) {
+    record({
+      type: 'source-overlay-applied',
+      stage: 'validation',
+      sourceOverlay: manifest.sourceOverlay,
+    });
+  }
   output = await assetPackPipeline(input, execution);
-  resultState = normalizeResultState(
+  const pipelineResultState = normalizeResultState(
     output?.resultState || output?.fitResult?.resultState || output?.fit?.resultState
   );
+  resultState = manifest.sourceOverlay ? 'blocked_readiness' : pipelineResultState;
+  const fitResult = output?.fitResult || output?.fit || null;
+  const depositorySearch = output?.depositorySearch || null;
+  const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
+    ? fitResult.resultReasons
+    : Array.isArray(depositorySearch?.resultReasons)
+      ? depositorySearch.resultReasons
+      : [];
   record({ type: 'pipeline-complete', stage: 'finish' });
+
+  const resultReasons = [
+    'AssetPack pipeline entrypoint returned without throwing.',
+    manifest.sourceOverlay
+      ? 'Source overlay patch was applied for QA; this run cannot serve as source-revision settlement evidence.'
+      : null,
+    resultState === 'blocked_readiness'
+      ? 'Pipeline output did not include an admissible commercial result state; review remains blocked.'
+      : 'Review SQL must still verify durable telemetry, proof, and ledger readback before commercial settlement.',
+    ...pipelineResultReasons,
+  ].filter(Boolean);
 
   const evidence = {
     schema: 'bitcode.pipeline-harness.evidence',
     harnessMode: manifest.harnessMode,
     resultState,
-    resultReasons: [
-      'AssetPack pipeline entrypoint returned without throwing.',
-      resultState === 'blocked_readiness'
-        ? 'Pipeline output did not include an admissible commercial result state; review remains blocked.'
-        : 'Review SQL must still verify durable telemetry, proof, and ledger readback before commercial settlement.',
-    ],
+    pipelineResultState,
+    resultReasons,
     runId,
     userId,
     manifestRoot,
@@ -549,7 +648,7 @@ try {
   await updatePipelineRun('completed', {
     output,
     resultState,
-    resultReasons: evidence.resultReasons,
+    resultReasons,
   });
   await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null, 2));
 } catch (caught) {
@@ -579,6 +678,7 @@ try {
     manifest,
     output,
     error,
+    execution: execution ? summarizeExecution(execution) : null,
     events,
     startedAt,
     completedAt: new Date().toISOString(),

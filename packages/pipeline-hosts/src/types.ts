@@ -92,6 +92,7 @@ export interface PipelineHarnessManifest {
   read: PipelineReadRequest;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
+  sourceOverlay?: PipelineHarnessSourceOverlay;
   host: Pick<
     PipelineHostCapabilities,
     | 'hostKind'
@@ -159,6 +160,12 @@ export interface PipelineHarnessFile {
   mode?: number;
 }
 
+export interface PipelineHarnessSourceOverlay {
+  path: string;
+  patchRoot: '/vercel/sandbox';
+  commercialAdmissibility: 'qa-only-not-source-revision-evidence';
+}
+
 export interface PipelineHarnessCommand {
   label: string;
   cmd: string;
@@ -174,6 +181,7 @@ export interface PipelineHarnessPlan {
   createOptions: SandboxCreateOptions;
   manifest: PipelineHarnessManifest;
   files: PipelineHarnessFile[];
+  sourceOverlay?: PipelineHarnessSourceOverlay;
   commands: PipelineHarnessCommand[];
   artifactPaths: {
     evidence: string;

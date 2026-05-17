@@ -50,6 +50,8 @@ const TRUSTED_COMMAND_ENV_KEYS = [
   'SUPABASE_PUBLISHABLE_KEY',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+  'BITCODE_LLM_PROVIDER',
+  'BITCODE_LLM_MODEL',
 ] as const;
 
 const REDACTED_OUTPUT_ENV_KEYS = [
@@ -108,8 +110,34 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   env.BITCODE_PIPELINE_USER_ID = userId;
   env.BITCODE_PIPELINE_STREAM_TO_DATABASE = '1';
   env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
+  normalizeModelEnvironment(env);
 
   return env;
+}
+
+function normalizeModelEnvironment(env: Record<string, string>): void {
+  const provider = env.BITCODE_LLM_PROVIDER?.trim().toLowerCase();
+  if (provider && !hasModelProviderCredential(provider, env)) {
+    delete env.BITCODE_LLM_PROVIDER;
+    delete env.BITCODE_LLM_MODEL;
+  }
+
+  if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
+    env.BITCODE_LLM_PROVIDER = 'openai';
+  }
+}
+
+function hasModelProviderCredential(provider: string, env: Record<string, string>): boolean {
+  switch (provider) {
+    case 'openai':
+      return Boolean(env.OPENAI_API_KEY);
+    case 'anthropic':
+      return Boolean(env.ANTHROPIC_API_KEY);
+    case 'google':
+      return Boolean(env.GOOGLE_GENERATIVE_AI_API_KEY || env.GEMINI_API_KEY || env.GOOGLE_API_KEY);
+    default:
+      return true;
+  }
 }
 
 function sourceCredentialsFromEnv(): { username?: string; password?: string } {
@@ -214,12 +242,64 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
   const output = record.output && typeof record.output === 'object'
     ? (record.output as Record<string, unknown>)
     : null;
+  const error = record.error && typeof record.error === 'object'
+    ? (record.error as Record<string, unknown>)
+    : null;
+  const fitResult = output?.fitResult && typeof output.fitResult === 'object'
+    ? (output.fitResult as Record<string, unknown>)
+    : output?.fit && typeof output.fit === 'object'
+      ? (output.fit as Record<string, unknown>)
+      : null;
+  const depositorySearch = output?.depositorySearch && typeof output.depositorySearch === 'object'
+    ? (output.depositorySearch as Record<string, unknown>)
+    : null;
+  const summarizeFitLike = (value: Record<string, unknown> | null) =>
+    value
+      ? {
+          resultState: value.resultState,
+          resultReasons: Array.isArray(value.resultReasons)
+            ? value.resultReasons.map((reason) => String(reason))
+            : [],
+          selectedCandidateAssetIds: Array.isArray(value.selectedCandidateAssetIds)
+            ? value.selectedCandidateAssetIds.map((id) => String(id))
+            : [],
+          queryRoot: value.queryRoot,
+          rankingRoot: value.rankingRoot,
+          embeddingPolicy: value.embeddingPolicy,
+        }
+      : null;
   return {
     schema: record.schema,
-    mode: record.mode,
+    harnessMode: record.harnessMode ?? record.mode,
     resultState: record.resultState,
-    stage: record.stage,
+    pipelineResultState: record.pipelineResultState,
+    sourceOverlay: record.manifest && typeof record.manifest === 'object'
+      ? (record.manifest as Record<string, unknown>).sourceOverlay ?? null
+      : null,
+    resultReasons: Array.isArray(record.resultReasons)
+      ? record.resultReasons.map((reason) => redactKnownSecrets(String(reason)))
+      : [],
+    error: error
+      ? {
+          name: error.name,
+          message: redactKnownSecrets(String(error.message || '')),
+        }
+      : null,
     outputKeys: output ? Object.keys(output) : [],
+    fitResult: summarizeFitLike(fitResult),
+    depositorySearch: depositorySearch
+      ? {
+          ...summarizeFitLike(depositorySearch),
+          searchedAssetCount: depositorySearch.searchedAssetCount,
+        }
+      : null,
+    eventTypes: Array.isArray(record.events)
+      ? record.events
+          .map((event) => event && typeof event === 'object'
+            ? (event as Record<string, unknown>).type
+            : null)
+          .filter(Boolean)
+      : [],
   };
 }
 

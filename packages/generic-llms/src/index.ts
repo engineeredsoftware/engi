@@ -9,6 +9,12 @@
 export { openAIProvider } from './providers/openai';
 export { anthropicProvider } from './providers/anthropic';
 export { googleProvider } from './providers/google';
+export {
+  resolveDefaultLLMConfig,
+  resolveDefaultLLMModel,
+  resolveDefaultLLMProvider,
+  type BitcodeLLMEnvironment,
+} from './defaults';
 
 // Factory for pre-configured registry
 import { factoryLLMRegistry, LLMRegistry } from '@bitcode/llm-generics';

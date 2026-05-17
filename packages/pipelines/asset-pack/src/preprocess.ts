@@ -14,7 +14,7 @@ import { PipelinePromptRegistry } from '@bitcode/pipelines-generics/src/executio
 import { PipelineToolRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineToolRegistry';
 import { PipelineAgentRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineAgentRegistry';
 import { PipelineExecution as PE } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
-import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
+import { factoryLLMRegistryWithProviders, resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import { LLMRegistry } from '@bitcode/llm-generics';
 import { ALL_ASSET_PACK_TOOLS } from './tools';
 
@@ -49,9 +49,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
   // 1) LLM providers + default
   try {
     const llmRegistry = factoryLLMRegistryWithProviders();
-    // Default everything to Google Gemini Flash unless overridden by env
-    const provider = (process.env.BITCODE_LLM_PROVIDER || 'google').toLowerCase();
-    const model = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';
+    const { provider, model } = resolveDefaultLLMConfig();
     if (typeof (llmRegistry as any).setDefaultProvider === 'function') {
       (llmRegistry as any).setDefaultProvider(provider);
     }
@@ -75,8 +73,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
         const { googleProvider } = require('@bitcode/generic-llms/src/providers/google');
         fallback.registerProvider(googleProvider);
       } catch {}
-      const provider = (process.env.BITCODE_LLM_PROVIDER || 'google').toLowerCase();
-      const model = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';
+      const { provider, model } = resolveDefaultLLMConfig();
       if (typeof (fallback as any).setDefaultProvider === 'function') {
         (fallback as any).setDefaultProvider(provider);
       }

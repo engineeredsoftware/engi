@@ -916,6 +916,10 @@ First-run execution boundary:
   provider/name, usage tokens, phase, agent, step, failsafe, and generation
   context. Missing prompts, missing parsed outputs, or uncorrelated
   generation/tool rows are blockers for debugging live Read/Fit execution.
+- Failed harness runs must still export `evidence.json` with the execution tree
+  and the last visible stream event summaries. A failing command with no
+  prompt/context, raw output, parsed/cast output, or phase/agent correlation is
+  not enough visibility for live staging-testnet debugging.
 - Depository vector recall uses `text-embedding-3-small` by default with
   `encoding_format='float'`, `dimensions=1536`, Supabase
   `deliverable_vectors.embedding vector(1536)`, `ivfflat`,
@@ -1116,6 +1120,11 @@ Expected host smoke result:
 
 Repository pipeline command:
 
+Use the repository, branch, commit, Read id, Deposit id, and Deposit AssetPack id
+from the latest successful Deposit/Read/Fit QA query output. The commit values
+below are examples only and must not replace the source revision recorded in
+staging for the current Read.
+
 ```bash
 BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 \
 BITCODE_SANDBOX_MODE=asset_pack_pipeline \
@@ -1127,6 +1136,14 @@ BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 pnpm run qa:pipeline-harness:sandbox
 ```
+
+Before promotion, operators may add `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1` to
+overlay the current worktree on the cloned source revision. This is only for
+debugging the harness and pipeline implementation before deployment. Overlay
+evidence must remain QA-only, must report
+`sourceOverlay.commercialAdmissibility='qa-only-not-source-revision-evidence'`,
+and must not be used for source-revision settlement, ledger finality, or a
+commercial `worthy_fit` claim.
 
 Omit `BITCODE_SANDBOX_DEPOSIT_HAS_PROOF` and
 `BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT` when the manifest Deposit proof or
@@ -1184,11 +1201,16 @@ After either harness run:
    and `depositorySearch.embeddingPolicy.vectorStore.distanceMetric='cosine'`
    unless the entire vector store was intentionally rebuilt under a different
    matching policy.
-3. Run saved query
+3. Inspect exported `telemetry.jsonl` and database rows for phase, agent,
+   generation, and tool visibility. Generation rows must include interpolated
+   messages when available, raw response content, parsed/cast output when the
+   generation was parsed, provider/model identity, usage tokens when supplied,
+   and phase/agent/step/failsafe/generation correlation.
+4. Run saved query
    `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql`.
-4. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
+5. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
    `v28_qa_terminal_03_btd_ledger_after_terminal`.
-5. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
+6. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
 
 Pass criteria:
 
@@ -1208,6 +1230,8 @@ Pass criteria:
   blocked-readiness.
 - Generation/tool rows appear before any model/tool-mediated Fit quality claim
   can be accepted.
+- Parsed/cast generation output is stored when a ThriceifiedGeneration parser
+  runs, so operators can compare raw model text with typed Fit/search evidence.
 - Query 03 still shows no AssetPack range, BTC fee, ledger anchor, settlement,
   or finality claim without matching projection rows.
 

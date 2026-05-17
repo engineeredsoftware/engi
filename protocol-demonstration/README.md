@@ -9,6 +9,9 @@ resolves to `V27`; V28 is the active draft target for commercial MVP QA.
 ## What This Demonstration Carries
 
 - deterministic Bitcode state, settlement, proof, and branch-materialization logic
+- a minimal local fit-finding loop that ranks demonstration deposits for a Read
+  and synthesizes a proof-rooted demonstration AssetPack only when the source
+  fixture is worthy
 - standalone browser/runtime shell under `public/`
 - Terminal-facing mount, snapshot, and control bridge through `src/client-entry.js`
 - local validation server through `server.js`
@@ -22,6 +25,9 @@ API, MCP, and ChatGPT App.
 
 - `src/bitcode-demo.js`: deterministic state engine and local Bitcode chain modeling.
 - `src/client-entry.js`: demonstration mount/snapshot/control bridge.
+- `src/local-fit-finding.js`: standalone local Read/Fit witness. It deliberately
+  avoids commercial pipeline, registry, prompt, agent, Vercel, Supabase, and UAPI
+  imports.
 - `src/canonical/proven-generator.js`: generated proof and checkpoint appendix builder.
 - `public/app.js`: standalone demonstration behavior.
 - `public/index.html`: direct demonstration shell for local validation and parity checks.
@@ -58,6 +64,7 @@ Run package tests:
 ```bash
 cd protocol-demonstration
 npm test
+pnpm test:fit-finding
 pnpm test:integration
 pnpm test:v28-commercial-mvp-qa
 ```

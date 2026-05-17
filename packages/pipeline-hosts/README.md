@@ -52,6 +52,9 @@ pipeline run must write the deliverable hierarchy:
 `deliverable_pipeline_tool_executions`. Generation rows should retain the
 interpolated model messages when available, raw and parsed output, model
 identity, token usage, and phase/agent/step context.
+Failed runs must still export `evidence.json` with the execution tree and
+last-known stream events so staging operators can see which SDIVF phase, PTRR
+agent, generation, or tool last produced input/output evidence.
 
 For live model execution, the sandbox runner also needs `OPENAI_API_KEY` in the
 trusted command environment. For local Vercel Sandbox creation, either pull
@@ -59,6 +62,11 @@ trusted command environment. For local Vercel Sandbox creation, either pull
 token tuple `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and `VERCEL_PROJECT_ID`. Deployed
 Vercel code should use automatic OIDC rather than storing a Vercel token when
 possible.
+`BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the generation model.
+When they are absent, the commercial runtime chooses OpenAI if `OPENAI_API_KEY`
+is the only model credential present. A provider pin is forwarded only when the
+matching provider credential is also forwarded; stale pins without credentials
+are stripped so staging does not silently require an unavailable model service.
 
 ## Live QA
 
@@ -93,6 +101,14 @@ BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```
+
+When validating local harness changes before the pinned source revision has been
+promoted, add `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`. The runner uploads
+`git diff --binary HEAD` as a source overlay and applies it before dependency
+installation. Overlay runs are QA-only: evidence records
+`sourceOverlay.commercialAdmissibility=qa-only-not-source-revision-evidence`,
+and the harness must not be used as settlement or source-revision finality
+evidence until the same changes exist at the deposited revision.
 
 On a deployed Vercel preview/staging runtime, trigger the same harness through
 the authenticated streaming route so the server can use Vercel's automatic

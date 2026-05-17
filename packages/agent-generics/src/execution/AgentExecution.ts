@@ -22,7 +22,7 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { AgentPromptsRegistry } from './AgentPromptsRegistry';
 import { AgentToolsRegistry } from './AgentToolsRegistry';
 import { AgentLLMsRegistry } from './AgentLLMsRegistry';
-import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
+import { factoryLLMRegistryWithProviders, resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import { AgentAgentsRegistry } from './AgentAgentsRegistry';
 
 /**
@@ -59,9 +59,7 @@ export class AgentExecution extends Execution {
     // Initialize LLM registry with providers and a global default
     try {
       const llmRegistry = factoryLLMRegistryWithProviders();
-      // Resolve defaults from environment with safe fallbacks
-      const provider = (process.env.BITCODE_LLM_PROVIDER || 'google').toLowerCase();
-      const model = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';
+      const { provider, model } = resolveDefaultLLMConfig();
       if (typeof (llmRegistry as any).setDefaultProvider === 'function') {
         (llmRegistry as any).setDefaultProvider(provider);
       }

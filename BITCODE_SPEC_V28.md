@@ -404,12 +404,15 @@ The V28 pipeline harness must write a manifest before execution containing:
   AssetPack synthesis, validation, Finish, and telemetry readback;
 - expected SQL evidence surfaces: `executions`, `execution_events`,
   `pipeline_runs`, `run_jobs`, `stream_logs`, `phase_executions`,
-  `deliverable_pipeline_runs`, `deliverable_pipeline_phase_delegations`,
-  `deliverable_pipeline_agent_steps`, `deliverable_pipeline_generations`, and
-  `deliverable_pipeline_tool_executions`;
+  `deliverable_pipeline_runs`, `deliverable_pipeline_events`,
+  `deliverable_pipeline_phase_delegations`, `deliverable_pipeline_agent_steps`,
+  `deliverable_pipeline_generations`, and `deliverable_pipeline_tool_executions`;
 - admissible result states `worthy_fit`, `no_worthy_fit`, and
   `blocked_readiness`;
 - redacted command-environment names only, never secret values.
+- optional QA-only source overlay metadata when a local patch is applied before
+  dependency installation. Overlay evidence is not source-revision proof and
+  cannot support settlement or finality.
 
 The harness has two admissible modes:
 
@@ -421,6 +424,13 @@ The harness has two admissible modes:
   depository supply, invokes the AssetPack pipeline entrypoint, exports
   evidence and telemetry artifacts, and relies on SQL readback before any
   commercial result is accepted.
+
+If a local source overlay is used to debug the harness before deployment, the
+run must report `sourceOverlay.commercialAdmissibility` as
+`qa-only-not-source-revision-evidence` and fail closed for commercial
+settlement review even when the pipeline output itself contains a worthy
+classification. The same implementation must exist at the deposited source
+revision before that result can become source-bound evidence.
 
 Read/Fit result review remains fail-closed:
 
@@ -434,9 +444,19 @@ Read/Fit result review remains fail-closed:
 - manifest-only Deposit supply can satisfy candidate recall but cannot produce
   `worthy_fit` unless proof and measurement posture are explicitly visible to
   the pipeline input and the downstream readback queries confirm them.
+- every SDIVF phase, PTRR agent step, ThriceifiedGeneration, and tool execution
+  must be inspectable as prompt/context input, raw model/tool output,
+  parsed/typed output, usage/timing metadata, and phase/agent/step/failsafe
+  correlation. A harness failure must still export the execution tree so
+  operators can debug the last successful sub-execution.
 - secrets for wallets, GitHub, model providers, Supabase service roles, or
   other systems may be passed into a sandbox only by explicit allowlist or
   brokered network policy; routine QA artifacts must show only redacted names.
+- `BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the model path for
+  reproducible generation; otherwise the runtime selects the available provider
+  from credential posture, with OpenAI accepted when `OPENAI_API_KEY` is the
+  only model credential present. A provider pin without a matching forwarded
+  credential is not an admissible reason to require that provider.
 
 ### Gate 4: Terminal AssetPack Range Detail
 
@@ -576,7 +596,10 @@ V28 keeps these layer boundaries:
 - `uapi/app/terminal`: Terminal implementation module retained as an internal component boundary while the prior generic workspace route remains absent.
 - `uapi/app/btd/[assetPackId]`: AssetPack range disclosure surface.
 - MCP API and ChatGPT App: V28 MVP commercial interface surfaces over registry-derived policy and proof truth.
-- `protocol-demonstration`: minimal deterministic protocol witness.
+- `protocol-demonstration`: minimal deterministic protocol witness. It may
+  contain a local source-bound fit-finding loop for demonstration E2E proof, but
+  it must not import commercial packages or be imported by commercial runtime
+  code.
 
 ## canonical domain model
 
@@ -625,8 +648,8 @@ Current canonical objects and emitted artifacts: Fit review rows, depository sea
 Current algorithms and derivation rules: deposit-to-read fit, recall, vector/lexical source-bound ranking, proof/measurement gating, and verification decisions are explicit before settlement.
 Current invariants and fail-closed conditions: no-survivor asset pack blocks range commitment; broad Reads block readiness; unrelated Reads return no-worthy-fit; mock/frontier repository leakage blocks readiness; embedding model/dimension drift blocks vector recall promotion.
 Current proof obligations: prove candidate qualities, rejection reasons, source revision binding, proof posture, measurement posture, embedding model/dimensions/vector store, and ranking determinism.
-Current source-bearing implementation basis: AssetPack depository-search primitive, protocol-demonstration Read/Fit witnesses, and UAPI execution components.
-Current validating commands and parity basis: AssetPack depository-search tests, demonstration tests, and UAPI route tests.
+Current source-bearing implementation basis: AssetPack depository-search primitive, pipeline harness host package, protocol-demonstration local Read/Fit witness, and UAPI execution components.
+Current validating commands and parity basis: AssetPack depository-search tests, pipeline harness tests, demonstration fit-finding tests, and UAPI route tests.
 Current accepted boundaries: V28 does not add broad market discovery.
 
 ### Selection and materialization
