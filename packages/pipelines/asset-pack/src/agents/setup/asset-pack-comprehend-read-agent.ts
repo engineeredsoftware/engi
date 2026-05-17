@@ -8,6 +8,7 @@
  */
 
 import { bitcodeSetupReadComprehensionAgent } from '@bitcode/generic-agents-read-comprehension';
+import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 export const AssetPackComprehendReadAgent = bitcodeSetupReadComprehensionAgent;
 
@@ -27,7 +28,7 @@ export async function runComprehendReadAgent(input: any, execution: any) {
     phase: 'setup',
     beforeAgent: 'danger-wall'
   };
-  const out = process?.env?.BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR === '1'
+  const out = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR')
     ? await AssetPackComprehendReadAgent(agentInput, execution)
     : buildDeterministicReadComprehension(agentInput, execution);
   try {

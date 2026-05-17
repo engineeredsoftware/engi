@@ -710,12 +710,18 @@ NEXT_PUBLIC_MCP_UPGRADES=true
 NEXT_PUBLIC_BITCODE_QA_VERBOSE=true
 BITCODE_QA_VERBOSE=true
 
-OPENAI_API_KEY=<OpenAI key for non-mocked Terminal/protocol synthesis if enabled>
+BITCODE_ENABLE_PIPELINE_HARNESS_API=1
+BITCODE_ASSET_PACK_REAL_INFERENCE=1
+BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000
+OPENAI_API_KEY=<OpenAI key for non-mocked Terminal/protocol synthesis>
+BITCODE_LLM_PROVIDER=openai
+BITCODE_LLM_MODEL=<optional pinned OpenAI generation model>
 SENTRY_DSN=<optional V28 alert sink; absence must remain readable blocked readiness>
 ```
 
 Do not set mock flags true on this deployment.
 Do not point the Supabase custom provider token/userinfo URLs at localhost; Supabase cloud must be able to call the deployed Bitcode origin.
+Do not deploy staging-testnet Read/Fit QA with `BITCODE_ASSET_PACK_REAL_INFERENCE` unset or false. Per-agent `*_USE_PTRR` flags are only diagnostic overrides; the staging posture is the global real-inference flag plus a real server-side model credential.
 
 ## Live Deployment Pass: First-Run Onboarding To Terminal Readiness
 
@@ -1145,8 +1151,10 @@ evidence must remain QA-only, must report
 and must not be used for source-revision settlement, ledger finality, or a
 commercial `worthy_fit` claim.
 If the heavyweight pipeline exceeds the staging function window, set
-`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` below that window; the expected result
-is a `PipelineHarnessTimeoutError` artifact with the last execution and stream
+`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` below that window. The deployed
+streaming route declares an 800 second ceiling, so staging should start with
+`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000`; the expected timeout result is
+a `PipelineHarnessTimeoutError` artifact with the last execution and stream
 events, not a missing artifact.
 
 Omit `BITCODE_SANDBOX_DEPOSIT_HAS_PROOF` and
@@ -1160,7 +1168,8 @@ keys by name:
 ```bash
 BITCODE_PIPELINE_STREAM_TO_DATABASE=1 \
 BITCODE_PIPELINE_STRUCTURED_DB=1 \
-BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY
+BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
+BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY,BITCODE_ASSET_PACK_REAL_INFERENCE,BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS
 ```
 
 These Supabase values must be real staging credentials. Placeholder hosts such
@@ -1169,6 +1178,9 @@ sandbox can execute but every stream-event insert fails with transport errors.
 
 On Vercel staging/preview, prefer the deployed streaming trigger because it
 uses Vercel automatic OIDC instead of a local Vercel token:
+the deployed route preflight-fails when `BITCODE_ASSET_PACK_REAL_INFERENCE` is
+unset, when `OPENAI_API_KEY` is missing, or when
+`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` exceeds `600000`.
 
 ```bash
 curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
@@ -1238,6 +1250,9 @@ Pass criteria:
   blocked-readiness.
 - Generation/tool rows appear before any model/tool-mediated Fit quality claim
   can be accepted.
+- For the staging-testnet commercial pass, generation rows must be non-zero
+  because `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is required. A completed run
+  with zero generation rows is only deterministic bring-up evidence.
 - Parsed/cast generation output is stored when a ThriceifiedGeneration parser
   runs, so operators can compare raw model text with typed Fit/search evidence.
 - Query 03 still shows no AssetPack range, BTC fee, ledger anchor, settlement,
@@ -1276,12 +1291,13 @@ Observed staging-testnet harness evidence on 2026-05-17:
   `deliverable_pipeline_runs.status='completed'`, 603 deliverable pipeline
   events, 12 completed phase rows, 40 completed agent-step rows, and no running
   phase or agent rows for the run.
-- The default harness path uses deterministic setup/discovery/synthesis/
-  validation/finish agents unless a phase-specific `*_USE_PTRR=1` flag is set;
-  therefore this observed run had zero generation rows and zero tool execution
-  rows. A model/tool-mediated commercial Fit claim still requires generation
-  and tool rows with prompt, raw response, parsed/cast output, provider/model,
-  usage, and phase/agent/step correlation.
+- The default harness path previously used deterministic setup/discovery/
+  synthesis/validation/finish branches unless a phase-specific `*_USE_PTRR=1`
+  flag was set; therefore this observed run had zero generation rows and zero
+  tool execution rows. The V28 staging posture is now
+  `BITCODE_ASSET_PACK_REAL_INFERENCE=1`, which forces every PTRR-capable
+  AssetPack branch to produce model-generation telemetry or fail with explicit
+  blocked-readiness evidence.
 - Ledger readback correctly showed zero BTD range, BTC fee, journal, anchor, and
   crypto telemetry rows, and `btd_supply_state.total_minted=0`, because source
   overlay QA evidence cannot mint BTD, claim BTC fee settlement, or anchor

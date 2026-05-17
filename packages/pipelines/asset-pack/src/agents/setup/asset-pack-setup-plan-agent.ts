@@ -27,6 +27,7 @@ import { PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING } from '@bitcode/prompt
 import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_executethe_following';
 import { PROMPTPART_GENERIC_FORMATTING_BASEDONTHE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_basedonthe';
 import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_afterencountering';
+import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')
@@ -116,8 +117,7 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
 });
 // Bring-up path: provide a fast stub in test/debug-only mode.
 export default async function setupPlanAgent(input: any, execution: any) {
-  const shouldUsePtrr =
-    process?.env?.BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR === '1';
+  const shouldUsePtrr = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR');
   if (!shouldUsePtrr) {
     const read =
       input?.read ??

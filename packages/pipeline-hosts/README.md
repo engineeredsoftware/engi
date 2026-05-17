@@ -9,8 +9,8 @@ leaving enough telemetry for SQL readback.
 
 - Firecracker microVM isolation on Amazon Linux 2023.
 - Default working directory: `/vercel/sandbox`.
-- Default runtime: `node24`; documented runtime options are `node24`,
-  `node22`, and `python3.13`.
+- Default runtime: `node24`; documented runtime options are `node26`,
+  `node24`, `node22`, and `python3.13`.
 - The sandbox user is `vercel-sandbox` and can use `sudo`.
 - Filesystem state is ephemeral. Evidence must be exported before stop, then
   persisted to Bitcode storage or database projections.
@@ -69,6 +69,13 @@ trusted command environment. For local Vercel Sandbox creation, either pull
 token tuple `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and `VERCEL_PROJECT_ID`. Deployed
 Vercel code should use automatic OIDC rather than storing a Vercel token when
 possible.
+Staging-testnet commercial Read/Fit QA must also set
+`BITCODE_ASSET_PACK_REAL_INFERENCE=1`. That single flag forces every
+PTRR-capable AssetPack setup, discovery, synthesis, validation, and finish
+agent off the deterministic bring-up path. The phase-specific
+`BITCODE_ASSET_PACK_*_USE_PTRR=1` flags remain available for local bisection,
+but they are not sufficient as a staging posture because a missed flag silently
+turns part of the run back into deterministic evidence.
 `BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the generation model.
 When they are absent, the commercial runtime chooses OpenAI if `OPENAI_API_KEY`
 is the only model credential present. A provider pin is forwarded only when the
@@ -76,6 +83,14 @@ matching provider credential is also forwarded; stale pins without credentials
 are stripped so staging does not silently require an unavailable model service.
 Database streaming requires a real Supabase URL and service-role key; placeholder
 `.env.local` values fail preflight before a sandbox is created.
+The deployed streaming route declares an 800 second Vercel Function window; keep
+`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` at or below `600000` there so the
+route still has time to collect and stream the blocked-readiness artifact if the
+sandbox budget expires. Local CLI harness runs can use a larger sandbox budget
+when the calling process is not the limiting host. On deployed/runtime
+production, the route preflight-fails without
+`BITCODE_ASSET_PACK_REAL_INFERENCE=1`, without `OPENAI_API_KEY`, or with a
+larger harness runtime budget.
 
 ## Live QA
 
@@ -108,6 +123,8 @@ BITCODE_SANDBOX_SOURCE_COMMIT=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
 BITCODE_SANDBOX_SOURCE_REVISION=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
 BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
+BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
+BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```
 

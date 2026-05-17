@@ -152,6 +152,16 @@ Because the current first-gate review path is Terminal-owned, the practical runt
   - external hosts: `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, `VERCEL_PROJECT_ID`;
   - deployed Vercel code: automatic OIDC when available.
 - required model credential for real inference: `OPENAI_API_KEY`.
+- required staging-testnet inference posture:
+  `BITCODE_ASSET_PACK_REAL_INFERENCE=1`. This forces PTRR-capable AssetPack
+  setup, discovery, synthesis, validation, and Finish agents to use model-backed
+  inference instead of deterministic bring-up evidence.
+- deployed route runtime budget:
+  `POST /api/pipeline-harness/asset-pack` declares an 800 second Node.js
+  function window; keep `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` at or below
+  `600000` on that route so timeout artifacts can be collected before the host
+  terminates. The deployed route preflight-fails when real inference, model
+  credentials, or this budget bound are missing.
 - deployed trigger:
   authenticated `POST /api/pipeline-harness/asset-pack` streams host events
   (`harness-started`, `harness-event`, `harness-completed` or

@@ -20,6 +20,7 @@ import {
   storeIterationWorkUpdate,
   type ToolUsageUpdate,
 } from '@bitcode/execution-generics';
+import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 const ReadyToInstructInputSchema = z.object({
   validationResults: z.object({
@@ -143,7 +144,7 @@ export default async function readyToInstructWithStorage(input: any, execution: 
     complexity: 'medium' as const
   };
 
-  const result = process?.env?.BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR === '1'
+  const result = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR')
     ? await ReadyToInstructAgent(instructInput, execution)
     : buildDeterministicReadyToInstruct(instructInput);
 

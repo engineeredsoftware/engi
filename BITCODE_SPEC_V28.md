@@ -360,7 +360,9 @@ Acceptance criteria:
   rows are re-embedded and the matching function/schema still agree;
 - the Fit result must expose ranking quality, rejection reasons, proof roots,
   dedupe/materialization roots where available, and finality/readiness status;
-- AssetPack synthesis must be protocol-specified and deterministic; if source
+- AssetPack synthesis must be protocol-specified and reproducibly evidenced;
+  deterministic bring-up branches are regression scaffolds, while
+  staging-testnet commercial QA must run model-backed PTRR inference. If source
   materialization, settlement, BTC fee broadcast, ledger anchor, or BTD range
   issuance is not live, the result must state that blocker rather than imply
   delivery or minting;
@@ -385,8 +387,8 @@ The active host capability contract is:
 
 - isolated Firecracker microVM execution on Amazon Linux 2023;
 - default working directory `/vercel/sandbox`;
-- stable documented runtimes `node24`, `node22`, and `python3.13`, with
-  `node24` as the default Bitcode harness runtime;
+- stable documented runtimes `node26`, `node24`, `node22`, and `python3.13`,
+  with `node24` as the default Bitcode harness runtime;
 - `vercel-sandbox` user with sudo available for setup;
 - ephemeral filesystem, requiring evidence export before sandbox stop;
 - command execution, command log collection, file upload/download, exposed
@@ -441,6 +443,12 @@ Read/Fit result review remains fail-closed:
 - `blocked_readiness` is mandatory when source materialization, model/tool
   credentials, telemetry persistence, BTC fee, ledger anchor, settlement,
   AssetPack range projection, or finality readback is unavailable.
+- staging-testnet commercial Read/Fit QA must run model-backed inference.
+  `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is the deployment-level switch for the
+  AssetPack pipeline; it forces every PTRR-capable setup, discovery, synthesis,
+  validation, and Finish agent off deterministic bring-up branches. A run with
+  any omitted per-agent `*_USE_PTRR` flag is not an acceptable staging posture
+  unless the global real-inference flag is present.
 - manifest-only Deposit supply can satisfy candidate recall but cannot produce
   `worthy_fit` unless proof and measurement posture are explicitly visible to
   the pipeline input and the downstream readback queries confirm them.
@@ -463,6 +471,10 @@ Read/Fit result review remains fail-closed:
   from credential posture, with OpenAI accepted when `OPENAI_API_KEY` is the
   only model credential present. A provider pin without a matching forwarded
   credential is not an admissible reason to require that provider.
+- the deployed staging trigger may use Vercel's automatic Sandbox OIDC, but it
+  still needs a server-side model credential such as `OPENAI_API_KEY`, real
+  Supabase admin/service-role credentials for telemetry persistence, and a
+  runtime budget that is shorter than the enclosing Vercel Function window.
 
 ### Gate 4: Terminal AssetPack Range Detail
 

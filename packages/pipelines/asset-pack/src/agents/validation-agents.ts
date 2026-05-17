@@ -14,6 +14,10 @@ import {
   createAssetPackValidationReadyToFinishAgentPrompt,
   AssetPackValidationReadyToFinishAgentPromptSteps,
 } from './prompts/asset-pack-validation-ready-to-finish-prompt';
+import {
+  shouldUseAssetPackPtrr,
+  shouldUseAssetPackPtrrForAgent,
+} from '../runtime-inference-policy';
 
 const ValidateIssuesOutputSchema = z.object({ issues: z.array(z.string()) });
 
@@ -134,7 +138,7 @@ export async function AssetPackValidationReadyToFinishAgent(
   input: z.infer<typeof ReadyToFinishInputSchema>,
   execution: any
 ): Promise<z.infer<typeof ReadyToFinishOutputSchema>> {
-  if (process?.env?.BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR === '1') {
+  if (shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR')) {
     return AssetPackValidationReadyToFinishAgentCore(input, execution);
   }
   const issueSets = [
@@ -224,10 +228,7 @@ export function registerValidationAgentsForType(
 }
 
 function shouldUseValidationPtrr(agent: string): boolean {
-  return (
-    process?.env?.BITCODE_ASSET_PACK_VALIDATION_USE_PTRR === '1' ||
-    process?.env?.[`BITCODE_ASSET_PACK_VALIDATION_${agent.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}_USE_PTRR`] === '1'
-  );
+  return shouldUseAssetPackPtrrForAgent('BITCODE_ASSET_PACK_VALIDATION_USE_PTRR', agent);
 }
 
 export function createValidationExecutorSequence(_writtenAssetType: string): any[] {

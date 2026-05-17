@@ -14,6 +14,7 @@ import {
   resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
+import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 const FinishDeliveryOutputSchema = z.object({
   status: z.enum(['delivered','partial']).default('delivered'),
@@ -69,7 +70,7 @@ export default async function deliverAssetPackToDestination(input: any, executio
   // Build tool plan via output.useTools using agent PTRR Try step instructions
   // when explicitly enabled. The default staging finish path records local
   // delivery evidence without claiming a third-party pull request.
-  const result = process?.env?.BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR === '1'
+  const result = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR')
     ? await AssetPackFinishDeliverAgent(
     {
       writtenAssetType: dtype,

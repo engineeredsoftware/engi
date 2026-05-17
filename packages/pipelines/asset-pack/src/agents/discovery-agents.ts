@@ -2,8 +2,8 @@
  * Discovery Phase Agents for the AssetPack Pipeline
  * 
  * Discovery agents default to deterministic, source-bound structured evidence
- * for live Read/Fit pipeline reliability. The heavyweight PTRR variants remain
- * available with BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR=1.
+ * for bounded local regression reliability. Staging/commercial runs should set
+ * BITCODE_ASSET_PACK_REAL_INFERENCE=1 to force the heavyweight PTRR variants.
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
@@ -28,6 +28,7 @@ import {
   createAssetPackDiscoveryPhaseAssessComplexityAgentPrompt,
   AssetPackDiscoveryPhaseAssessComplexityAgentPromptSteps
 } from './prompts/assess-complexity-prompt';
+import { shouldUseAssetPackPtrrForAgent } from '../runtime-inference-policy';
 
 // ==================== UNDERSTAND REQUIREMENTS AGENT ====================
 
@@ -595,10 +596,7 @@ export async function AssetPackDiscoveryPhaseAssessComplexityAgent(
 }
 
 function shouldUseDiscoveryPtrr(agent: string): boolean {
-  return (
-    process?.env?.BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR === '1' ||
-    process?.env?.[`BITCODE_ASSET_PACK_DISCOVERY_${agent.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}_USE_PTRR`] === '1'
-  );
+  return shouldUseAssetPackPtrrForAgent('BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR', agent);
 }
 
 function resolveDiscoveryRead(input: any, execution: any): string {

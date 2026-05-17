@@ -12,6 +12,7 @@ import {
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
+import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 /**
  * Extended output schema with short-circuit signal.
@@ -61,7 +62,7 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
       riskAdmissionInput?.repositoryEvidence ??
       execution?.get?.('setup/read-comprehension', 'toolEvidence')
   };
-  const result = process?.env?.BITCODE_ASSET_PACK_DANGER_WALL_USE_PTRR === '1'
+  const result = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_DANGER_WALL_USE_PTRR')
     ? await bitcodeReadRiskAdmissionAgent(riskInput, execution)
     : await quickBitcodeReadRiskAdmissionAgent(riskInput, execution);
   try {

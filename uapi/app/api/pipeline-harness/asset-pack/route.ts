@@ -13,7 +13,7 @@ import {
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const maxDuration = 300;
+export const maxDuration = 800;
 
 type AssetPackHarnessRequest = {
   mode?: PipelineHarnessMode;
@@ -52,8 +52,22 @@ const TRUSTED_COMMAND_ENV_KEYS = [
   'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
   'BITCODE_LLM_PROVIDER',
   'BITCODE_LLM_MODEL',
+  'BITCODE_ASSET_PACK_REAL_INFERENCE',
+  'BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR',
+  'BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR',
+  'BITCODE_ASSET_PACK_DANGER_WALL_USE_PTRR',
+  'BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR',
+  'BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR',
+  'BITCODE_ASSET_PACK_VALIDATION_USE_PTRR',
+  'BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR',
+  'BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR',
+  'BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR',
   'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
 ] as const;
+
+const DEPLOYED_ROUTE_MAX_DURATION_MS = 800000;
+const HARNESS_COLLECTION_MARGIN_MS = 120000;
+const MAX_DEPLOYED_HARNESS_RUNTIME_MS = 600000;
 
 const REDACTED_OUTPUT_ENV_KEYS = [
   ...TRUSTED_COMMAND_ENV_KEYS,
@@ -74,6 +88,10 @@ function emitSse(
 
 function isProductionDeployment(): boolean {
   return process.env.VERCEL_ENV === 'production';
+}
+
+function isDeployedRuntime(): boolean {
+  return process.env.VERCEL === '1' || process.env.NODE_ENV === 'production';
 }
 
 function requireHarnessAllowed(): Response | null {
@@ -113,6 +131,7 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
   assertDatabaseStreamingEnvironment(env);
   normalizeModelEnvironment(env);
+  assertDeployedRealInferenceEnvironment(env);
 
   return env;
 }
@@ -139,6 +158,33 @@ function isUsableSupabaseUrl(value: string | undefined): boolean {
 
 function isUsableSecretValue(value: string | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 16 && !value.includes('<');
+}
+
+function isEnabled(value: string | undefined): boolean {
+  return ['1', 'true', 'yes', 'on'].includes(String(value || '').trim().toLowerCase());
+}
+
+function assertDeployedRealInferenceEnvironment(env: Record<string, string>): void {
+  if (!isDeployedRuntime()) return;
+  if (!isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE)) {
+    throw new Error(
+      'Staging pipeline harness requires BITCODE_ASSET_PACK_REAL_INFERENCE=1 so Read/Fit QA cannot run deterministic bring-up branches.'
+    );
+  }
+  if (!env.OPENAI_API_KEY) {
+    throw new Error(
+      'Staging pipeline harness requires OPENAI_API_KEY for real AssetPack PTRR inference.'
+    );
+  }
+  const budgetMs = Number(env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
+  if (!Number.isFinite(budgetMs) || budgetMs <= 0) {
+    throw new Error('BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS must be a positive millisecond budget.');
+  }
+  if (budgetMs > MAX_DEPLOYED_HARNESS_RUNTIME_MS) {
+    throw new Error(
+      `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS must be <= ${MAX_DEPLOYED_HARNESS_RUNTIME_MS} on the deployed streaming route so the ${DEPLOYED_ROUTE_MAX_DURATION_MS}ms function window can still collect artifacts with its ${HARNESS_COLLECTION_MARGIN_MS}ms margin.`
+    );
+  }
 }
 
 function normalizeModelEnvironment(env: Record<string, string>): void {

@@ -16,6 +16,7 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRREFINE_PURPO
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose';
 import { z } from 'zod';
 import { AssetPackWrittenAssetType } from '../../types/AssetPackWrittenAssetType';
+import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 const AssetPackSynthesisInputSchema = z.object({
   read: z.string().optional(),
@@ -101,7 +102,7 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
     execution?.get?.('pipeline', 'deliveryMechanismTemplate') ??
     execution?.findUp?.('pipeline', 'deliveryMechanismTemplate') ??
     storedPipelineInput?.deliveryMechanismTemplate;
-  const result = process?.env?.BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR === '1'
+  const result = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR')
     ? await AssetPackSynthesizeArtifactsAgent(
     {
       ...input,
