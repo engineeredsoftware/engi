@@ -85,13 +85,22 @@ export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
 });
 
 export default async function assetPackSynthesizeArtifacts(input: any, execution: any) {
+  const storedReadRequest = findExecutionValue(execution, 'read', 'request');
+  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
   const read =
     input?.read ??
     input?.definitionOfRead ??
+    storedPipelineInput?.read ??
+    storedPipelineInput?.definitionOfRead ??
+    storedReadRequest?.prompt ??
     execution?.get?.('read', 'description') ??
-    execution?.get?.('pipeline', 'expressedRead') ??
+    execution?.findUp?.('read', 'description') ??
+    execution?.findUp?.('pipeline', 'expressedRead') ??
     '';
-  const deliveryMechanismTemplate = execution?.get?.('pipeline', 'deliveryMechanismTemplate');
+  const deliveryMechanismTemplate =
+    execution?.get?.('pipeline', 'deliveryMechanismTemplate') ??
+    execution?.findUp?.('pipeline', 'deliveryMechanismTemplate') ??
+    storedPipelineInput?.deliveryMechanismTemplate;
   const result = process?.env?.BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR === '1'
     ? await AssetPackSynthesizeArtifactsAgent(
     {
@@ -141,13 +150,29 @@ function buildDeterministicAssetPackSynthesis(
   read: string,
   deliveryMechanismTemplate: string | undefined
 ) {
-  const fitResult = input?.fitResult ?? input?.depositorySearchResult ?? {};
+  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
+  const storedSourceRevision = findExecutionValue(execution, 'harness', 'sourceRevision');
+  const storedReadRequest = findExecutionValue(execution, 'read', 'request');
+  const fitResult =
+    input?.fitResult ??
+    input?.depositorySearchResult ??
+    storedPipelineInput?.fitResult ??
+    storedPipelineInput?.depositorySearchResult ??
+    findExecutionValue(execution, 'fit', 'result') ??
+    findExecutionValue(execution, 'depository/search', 'result') ??
+    {};
   const selectedCandidateAssetIds = Array.isArray(fitResult?.selectedCandidateAssetIds)
     ? fitResult.selectedCandidateAssetIds
     : [];
-  const repository = input?.repository ?? input?.sourceRevision ?? {};
+  const repository =
+    input?.repository ??
+    input?.sourceRevision ??
+    storedPipelineInput?.repository ??
+    storedPipelineInput?.sourceRevision ??
+    storedSourceRevision ??
+    {};
   const repositoryLabel = [
-    repository.repositoryFullName ?? repository.fullName ?? 'unknown repository',
+    repository.repositoryFullName ?? repository.fullName ?? storedReadRequest?.repositoryFullName ?? 'unknown repository',
     repository.branch ?? 'unknown branch',
     repository.commit ?? 'unknown commit'
   ].join('@');
@@ -199,4 +224,25 @@ function buildDeterministicAssetPackSynthesis(
       proofEvidence
     }
   };
+}
+
+function findExecutionValue(execution: any, namespace: string, key: string): any {
+  const localValue = execution?.get?.(namespace, key);
+  if (localValue !== undefined) return localValue;
+
+  const upwardValue = execution?.findUp?.(namespace, key);
+  if (upwardValue !== undefined) return upwardValue;
+
+  return findExecutionValueDown(execution?.getRoot?.() || execution, namespace, key);
+}
+
+function findExecutionValueDown(node: any, namespace: string, key: string): any {
+  if (!node) return undefined;
+  const value = node.get?.(namespace, key);
+  if (value !== undefined) return value;
+  for (const child of node.children?.values?.() || []) {
+    const childValue = findExecutionValueDown(child, namespace, key);
+    if (childValue !== undefined) return childValue;
+  }
+  return undefined;
 }

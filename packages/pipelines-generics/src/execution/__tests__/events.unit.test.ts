@@ -2,6 +2,7 @@
 // @ts-nocheck
 import { PipelineExecution } from '../PipelineExecution';
 import { PipelineExecutor } from '../PipelineExecutor';
+import { createAgentExecutor } from '../agent-executor';
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { Streamer } from '@bitcode/streams';
 
@@ -85,5 +86,29 @@ describe('PipelineExecutor event emission (unit)', () => {
       phaseInput,
       { explicit: true },
     ]);
+  });
+
+  it('resolves lazy registered agents before executing through generic executors', async () => {
+    const exec = new PipelineExecution('pipeline:lazy-agent');
+    const phaseInput = { read: 'fit deposited source revision' };
+
+    (exec as any).agents.registerAgent('unit:lazy-executor', (() =>
+      Promise.resolve(async (input: any, execution: any) => {
+        execution.store('lazy-agent', 'executor-input', input);
+        return { ok: true, read: input.read };
+      })) as any);
+    (exec as any).agents.registerAgent('unit:lazy-phase', (() =>
+      Promise.resolve(async (input: any, execution: any) => {
+        execution.store('lazy-agent', 'phase-input', input);
+        return { ok: true, read: input.read };
+      })) as any);
+
+    const executorOutput = await createAgentExecutor('unit:lazy-executor')(phaseInput, exec);
+    const phaseOutput = await new PipelineExecutor(exec).executeAgent('unit:lazy-phase', phaseInput);
+
+    expect(executorOutput).toEqual({ ok: true, read: phaseInput.read });
+    expect(phaseOutput).toEqual({ ok: true, read: phaseInput.read });
+    expect(exec.get('lazy-agent', 'executor-input')).toBe(phaseInput);
+    expect(exec.get('lazy-agent', 'phase-input')).toBe(phaseInput);
   });
 });

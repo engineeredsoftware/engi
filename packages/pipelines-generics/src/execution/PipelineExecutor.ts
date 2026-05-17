@@ -13,6 +13,7 @@ import {
   ShortCircuitSignal 
 } from '@bitcode/execution-generics';
 import { Executor } from '@bitcode/execution-generics';
+import { resolveRegisteredAgent } from './resolve-agent';
 
 export interface PhaseConfig {
   phaseName: string;
@@ -54,10 +55,7 @@ export class PipelineExecutor {
    */
   async executeAgent(agentName: string, input: any): Promise<any> {
     // Get agent from registry
-    const agent = this.execution.agents.getAgent(agentName);
-    if (!agent) {
-      throw new Error(`Agent not found: ${agentName}`);
-    }
+    const agent = await resolveRegisteredAgent(agentName, this.execution.agents.getAgent(agentName) as any);
     const phase = String(this.execution.get('phase', 'current') || 'setup');
     const step = 'try';
     this.execution.store('agent', 'name', agentName);

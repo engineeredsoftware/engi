@@ -1390,6 +1390,7 @@ try {
         ...postprocessedOutput,
       }
     : rawOutput;
+  await pipelineStreamer.flushStructuredWrites?.();
   const pipelineResultState = normalizeResultState(
     output?.resultState || output?.fitResult?.resultState || output?.fit?.resultState
   );

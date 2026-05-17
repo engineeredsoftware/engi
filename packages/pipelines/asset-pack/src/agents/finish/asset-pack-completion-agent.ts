@@ -167,7 +167,11 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     const writtenAssets = {
       ...shippables,
     };
-    const implementationArtifacts = (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts');
+    const implementationArtifacts = findStoredExecutionValue(
+      execution,
+      'implementation',
+      'assetPackSynthesisArtifacts'
+    );
     const assetPackSynthesisArtifacts =
       implementationArtifacts && typeof implementationArtifacts === 'object'
         ? {
@@ -214,3 +218,24 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
 });
 
 export default AssetPackCompletionAgent;
+
+function findStoredExecutionValue(execution: any, namespace: string, key: string): any {
+  const localValue = execution?.get?.(namespace, key);
+  if (localValue !== undefined) return localValue;
+
+  const upwardValue = execution?.findUp?.(namespace, key);
+  if (upwardValue !== undefined) return upwardValue;
+
+  return findStoredExecutionValueDown(execution?.getRoot?.() || execution, namespace, key);
+}
+
+function findStoredExecutionValueDown(node: any, namespace: string, key: string): any {
+  if (!node) return undefined;
+  const value = node.get?.(namespace, key);
+  if (value !== undefined) return value;
+  for (const child of node.children?.values?.() || []) {
+    const childValue = findStoredExecutionValueDown(child, namespace, key);
+    if (childValue !== undefined) return childValue;
+  }
+  return undefined;
+}

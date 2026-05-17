@@ -111,6 +111,7 @@ export function enablePipelineStreaming(
     const deliverableRunId = String(config.runId || '');
     const canPersistDeliverableHierarchy = uuidRe.test(deliverableRunId);
     let deliverableRunReady: Promise<boolean> | null = null;
+    let structuredWriteQueue: Promise<unknown> = Promise.resolve();
 
     const insertRow = async (table: string, row: any, returningId = false) => {
       const query = (supabase as any).from(table).insert(row);
@@ -222,7 +223,36 @@ export function enablePipelineStreaming(
       }, 'id', deliverableRunId).catch(() => {});
     };
 
-    streamer.subscribe(async (event: any) => {
+    const completeOpenHierarchyRows = async (now: string) => {
+      if (!(await ensureDeliverableRun())) return;
+      const { data: openPhases } = await (supabase as any)
+        .from('deliverable_pipeline_phase_delegations')
+        .select('id')
+        .eq('run_id', deliverableRunId)
+        .eq('status', 'running');
+      const openPhaseIds = Array.isArray(openPhases)
+        ? openPhases.map((row: any) => row?.id).filter(Boolean)
+        : [];
+      if (!openPhaseIds.length) return;
+      await (supabase as any)
+        .from('deliverable_pipeline_agent_steps')
+        .update({
+          completed_at: now,
+          status: 'completed',
+        })
+        .in('phase_delegation_id', openPhaseIds)
+        .eq('status', 'running');
+      await (supabase as any)
+        .from('deliverable_pipeline_phase_delegations')
+        .update({
+          completed_at: now,
+          status: 'completed',
+        })
+        .in('id', openPhaseIds)
+        .eq('status', 'running');
+    };
+
+    const persistStructuredEvent = async (event: any) => {
       try {
         const type = String(event?.type || '');
         const context = normalizeEventContext(event);
@@ -414,13 +444,21 @@ export function enablePipelineStreaming(
 
         // If Finish phase completes, mark run completed.
         if (type === 'phase-complete' && phaseName === 'finish') {
+          await completeOpenHierarchyRows(now);
           await markDeliverableRun('completed', event?.data ?? event);
           await updateRows('executions', { status: 'completed', completed_at: now }, 'id', config.runId).catch(() => {});
         }
       } catch (err) {
         console.error('Structured stream persistence error', err);
       }
+    };
+
+    streamer.subscribe((event: any) => {
+      structuredWriteQueue = structuredWriteQueue
+        .catch(() => {})
+        .then(() => persistStructuredEvent(event));
     });
+    (streamer as any).flushStructuredWrites = () => structuredWriteQueue.catch(() => {});
   }
 
   // Note: Cleanup should be handled by the pipeline implementation

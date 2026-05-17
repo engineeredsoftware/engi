@@ -85,6 +85,32 @@ describe('normalizeAssetPackOutput', () => {
     });
   });
 
+  it('preserves implementation artifacts when postprocess runs from a sibling execution node', () => {
+    const root = new Execution('pipeline:asset-pack');
+    const implementation = root.child('phase:implementation');
+    const finish = root.child('phase:finish');
+    implementation.store('implementation', 'assetPackSynthesisArtifacts', {
+      summary: 'Sibling implementation AssetPack artifacts are authoritative.',
+      fileChanges: { edited: 0, created: 1, deleted: 0 },
+      proofEvidence: ['sibling-implementation-read'],
+    });
+    finish.store('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', {
+      summary: 'Finish wrapper should not override implementation artifacts.',
+      fileChanges: { edited: 0, created: 0, deleted: 0 },
+      proofEvidence: ['finish-wrapper'],
+    });
+
+    const normalized = normalizeAssetPackOutput({ success: true, summary: '' } as any, finish);
+    const result = buildAssetPackPostprocessedResult(finish, normalized);
+
+    expect(normalized.assetPackSynthesisArtifacts?.summary).toBe(
+      'Sibling implementation AssetPack artifacts are authoritative.'
+    );
+    expect(result.summary).toBe('Sibling implementation AssetPack artifacts are authoritative.');
+    expect(result.title).toBe('Sibling implementation AssetPack artifacts are authoritative.');
+    expect(result.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['sibling-implementation-read']);
+  });
+
   it('uses pull-request delivery mechanisms as canonical shippable evidence for the written asset', () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-2');

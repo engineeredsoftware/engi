@@ -1,6 +1,6 @@
 # Bitcode Host Capabilities
 
-Last inspected: 2026-05-16 (America/Sao_Paulo)
+Last inspected: 2026-05-17 (America/Sao_Paulo)
 Host scope: local machine and Vercel Sandbox capabilities relevant to active V27 canon and V28 draft-target Terminal/Read-Fit pipeline preparation.
 
 ## Canon status
@@ -214,6 +214,39 @@ The current system still models, rather than fully executes live:
 
 These remain outside Terminal shell review, but V28 Read/Fit QA now requires the
 pipeline harness to show explicit blocked-readiness when any of them are absent.
+
+## 2026-05-17 Vercel Sandbox Read/Fit Observation
+
+The V28 `asset-pack-sandbox-harness` has now run a full staging-testnet
+Read/Fit and AssetPack synthesis path inside Vercel Sandbox using a QA-only
+source overlay:
+
+- sandbox id: `sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3`
+- pipeline run id: `d21240bd-ebc7-41ae-b082-06d7beb244a7`
+- result: `pipelineResultState='worthy_fit'`,
+  `resultState='blocked_readiness'`
+- reason for final block: source overlay evidence is not admissible for BTD
+  minting, BTC fee settlement, ledger anchor finality, or source-revision
+  commercial settlement
+- DB readback: completed `pipeline_runs` and `deliverable_pipeline_runs`, 603
+  events, 12 completed phase rows, 40 completed agent-step rows, and no running
+  phase or agent rows for the run
+- ledger readback: zero BTD range, BTC fee, journal, anchor, and crypto
+  telemetry rows; `btd_supply_state.total_minted=0`
+
+The observed AssetPack evidence was source-bound to
+`engineeredsoftware/ENGI@main@4ced69180958143254639a8a5af94c0991545a91`,
+selected candidate `manual-deposit-qa`, query root
+`sha256:1d58f3d0e16af0700a702b2b307c744145a9196ac63841345a20ff597f5a3ca3`,
+ranking root
+`sha256:c04599ac4782dadf3b63842381dd20c76f577401cc35d82fbee4a63797496aa1`,
+and embedding policy `openai text-embedding-3-small` with 1536-dimensional
+cosine matching through `match_deliverable_vectors`.
+
+Clean source-revision settlement remains unobserved until the same harness and
+pipeline changes are deployed without `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`.
+Only that no-overlay source-revision run may claim BTD minting, BTC fee
+settlement, ledger anchoring, or finality.
 
 ## Containerization
 

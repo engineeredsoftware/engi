@@ -1256,6 +1256,40 @@ Commercial blockers:
 - Terminal enables settlement, minting, branch materialization, BTC fee
   broadcast, or ledger finality from a host smoke result.
 
+Observed staging-testnet harness evidence on 2026-05-17:
+
+- Vercel Sandbox run `sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3` completed all six
+  host commands and exported artifacts to
+  `.bitcode/pipeline-harness-runs/2026-05-17T16-37-38-466Z-sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3/`.
+- Pipeline run `d21240bd-ebc7-41ae-b082-06d7beb244a7` returned
+  `pipelineResultState='worthy_fit'` and final `resultState='blocked_readiness'`
+  because the run used `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`.
+- The synthesized AssetPack evidence was source-bound to
+  `engineeredsoftware/ENGI@main@4ced69180958143254639a8a5af94c0991545a91`,
+  selected candidate `manual-deposit-qa`, query root
+  `sha256:1d58f3d0e16af0700a702b2b307c744145a9196ac63841345a20ff597f5a3ca3`,
+  ranking root
+  `sha256:c04599ac4782dadf3b63842381dd20c76f577401cc35d82fbee4a63797496aa1`,
+  and embedding policy `openai text-embedding-3-small`, 1536 dimensions,
+  `match_deliverable_vectors`, cosine.
+- Supabase readback showed `pipeline_runs.status='completed'`,
+  `deliverable_pipeline_runs.status='completed'`, 603 deliverable pipeline
+  events, 12 completed phase rows, 40 completed agent-step rows, and no running
+  phase or agent rows for the run.
+- The default harness path uses deterministic setup/discovery/synthesis/
+  validation/finish agents unless a phase-specific `*_USE_PTRR=1` flag is set;
+  therefore this observed run had zero generation rows and zero tool execution
+  rows. A model/tool-mediated commercial Fit claim still requires generation
+  and tool rows with prompt, raw response, parsed/cast output, provider/model,
+  usage, and phase/agent/step correlation.
+- Ledger readback correctly showed zero BTD range, BTC fee, journal, anchor, and
+  crypto telemetry rows, and `btd_supply_state.total_minted=0`, because source
+  overlay QA evidence cannot mint BTD, claim BTC fee settlement, or anchor
+  finality.
+- The next promotion step is a clean source-revision run after these pipeline
+  harness changes are deployed in the deposited source revision. Only a clean
+  no-overlay run may write and read back ledger settlement rows.
+
 ## 2026-05-13 Staging Deployment Readiness Gate
 
 Purpose:

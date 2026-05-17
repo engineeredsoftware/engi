@@ -10,8 +10,8 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   const deliveryMechanism = enhanced.deliveryMechanism || enhanced.shippable;
   const assetPackSynthesisArtifacts =
     enhanced.assetPackSynthesisArtifacts ||
-    (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
-    (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
+    findStoredExecutionValue(execution, 'implementation', 'assetPackSynthesisArtifacts') ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
     enhanced.writtenAssets;
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
@@ -99,17 +99,19 @@ export function buildAssetPackPostprocessedResult(
         : undefined) || undefined;
 
   const finalSummary =
-    (execution as any).get?.('finish/asset_pack_completion', 'summary') ||
-    (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts')?.summary ||
-    (execution as any).get?.('finish/asset_pack_completion', 'writtenAssets')?.summary ||
-    (execution as any).get?.('finish/asset_pack_completion', 'shippables')?.summary ||
+    findStoredExecutionValue(execution, 'implementation', 'assetPackSynthesisArtifacts')?.summary ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts')?.summary ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'writtenAssets')?.summary ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'shippables')?.summary ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'summary') ||
     normalized.assetPackSynthesisArtifacts?.summary ||
     normalized.summary ||
     undefined;
 
   const finishArtifacts =
-    (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
-    (execution as any).get?.('finish/asset_pack_completion', 'writtenAssets') ||
+    findStoredExecutionValue(execution, 'implementation', 'assetPackSynthesisArtifacts') ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'writtenAssets') ||
     normalized.assetPackSynthesisArtifacts;
   const filesCreated =
     normalized.artifacts?.filesCreated ??
@@ -162,6 +164,7 @@ export function buildAssetPackPostprocessedResult(
       normalized.writtenAsset?.title ||
       normalized.shippable?.title ||
       normalized.deliveryMechanism?.title ||
+      finalSummary ||
       normalized.summary ||
       'Written Asset',
     repository,
@@ -209,4 +212,26 @@ export function buildAssetPackPostprocessedResult(
         }
       : {}),
   };
+}
+
+function findStoredExecutionValue(execution: Execution, namespace: string, key: string): any {
+  const localValue = (execution as any).get?.(namespace, key);
+  if (localValue !== undefined) return localValue;
+
+  const upwardValue = (execution as any).findUp?.(namespace, key);
+  if (upwardValue !== undefined) return upwardValue;
+
+  const root = (execution as any).getRoot?.() || execution;
+  return findStoredExecutionValueDown(root, namespace, key);
+}
+
+function findStoredExecutionValueDown(node: any, namespace: string, key: string): any {
+  if (!node) return undefined;
+  const value = node.get?.(namespace, key);
+  if (value !== undefined) return value;
+  for (const child of node.children?.values?.() || []) {
+    const childValue = findStoredExecutionValueDown(child, namespace, key);
+    if (childValue !== undefined) return childValue;
+  }
+  return undefined;
 }

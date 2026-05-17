@@ -102,7 +102,7 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
     const userId = '22222222-2222-4222-8222-222222222222';
 
     const exec = new Execution(`exec-${runId}`);
-    enablePipelineStreaming(exec as any, {
+    const streamer = enablePipelineStreaming(exec as any, {
       runId,
       userId,
       supabase,
@@ -177,6 +177,7 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
       phase: 'setup',
       data: { status: 'completed' },
     });
+    await (streamer as any).flushStructuredWrites?.();
 
     expect(supabase.tables.deliverable_pipeline_runs).toHaveLength(1);
     expect(supabase.tables.deliverable_pipeline_phase_delegations).toHaveLength(1);

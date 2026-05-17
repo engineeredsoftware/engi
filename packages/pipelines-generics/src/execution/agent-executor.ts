@@ -7,12 +7,12 @@ import { Executor } from '@bitcode/execution-generics';
 import { PipelineExecution } from './PipelineExecution';
 import { log } from '@bitcode/logger';
 import { isExecutionDebugEnabled } from './debug';
+import { resolveRegisteredAgent } from './resolve-agent';
 
 export function createAgentExecutor(agentName: string): Executor<any, any> {
   return async (input: any, execution: any) => {
     const px = execution as PipelineExecution;
-    const agent = px.agents.getAgent(agentName);
-    if (!agent) throw new Error(`Agent not found: ${agentName}`);
+    const agent = await resolveRegisteredAgent(agentName, px.agents.getAgent(agentName) as any);
     const phase = String(px.get('phase', 'current') || 'setup');
     const step = 'try';
     px.store('agent', 'name', agentName);

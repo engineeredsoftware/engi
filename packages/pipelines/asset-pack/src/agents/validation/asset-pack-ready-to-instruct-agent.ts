@@ -143,7 +143,9 @@ export default async function readyToInstructWithStorage(input: any, execution: 
     complexity: 'medium' as const
   };
 
-  const result = await ReadyToInstructAgent(instructInput, execution);
+  const result = process?.env?.BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR === '1'
+    ? await ReadyToInstructAgent(instructInput, execution)
+    : buildDeterministicReadyToInstruct(instructInput);
 
   // Store confidence for UI
   execution.store('agent', 'selfInstructConfidence', result.selfInstructConfidence);
@@ -180,4 +182,41 @@ export default async function readyToInstructWithStorage(input: any, execution: 
   storeIterationWorkUpdate(execution, iterationUpdate);
 
   return result;
+}
+
+function buildDeterministicReadyToInstruct(
+  input: z.infer<typeof ReadyToInstructInputSchema>
+): z.infer<typeof ReadyToInstructOutputSchema> {
+  const discoveryIssues = input.validationResults.discoveryIssues.length;
+  const implementationIssues = input.validationResults.implementationIssues.length;
+  const lastIterationIssues = input.validationResults.lastIterationIssues.length;
+  const totalIssues = discoveryIssues + implementationIssues + lastIterationIssues;
+  const finalIteration = input.currentIteration >= input.maxIterations;
+  const issueScore = totalIssues === 0 ? 1 : Math.max(0.25, 1 - totalIssues * 0.2);
+  const selfInstructConfidence = finalIteration
+    ? Math.min(0.92, issueScore)
+    : Math.min(0.88, issueScore);
+  const readyToInstruct = selfInstructConfidence < 0.6;
+
+  return {
+    selfInstructConfidence,
+    readyToInstruct,
+    confidenceFactors: {
+      issuesResolved: totalIssues === 0 ? 1 : 0.5,
+      progressMade: totalIssues === 0 ? 0.9 : 0.55,
+      complexityHandled: input.complexity === 'high' ? 0.7 : 0.85,
+      remainingWork: totalIssues === 0 ? 0.05 : Math.min(0.8, totalIssues * 0.2),
+    },
+    instructionSuggestions: readyToInstruct
+      ? ['Review validation issues before allowing the AssetPack run to finish.']
+      : [],
+    uncertainAreas: totalIssues
+      ? ['Validation still reports unresolved AssetPack readiness issues.']
+      : [],
+    shouldContinueIterating: !finalIteration && totalIssues > 0,
+    estimatedIterationsNeeded: totalIssues ? Math.min(2, totalIssues) : 0,
+    summary: totalIssues === 0
+      ? 'High confidence; deterministic validation found no instruction blocker before finish.'
+      : 'Validation issues remain; operator instruction may be required before finish.',
+  };
 }
