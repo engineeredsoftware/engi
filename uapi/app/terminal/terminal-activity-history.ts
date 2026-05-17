@@ -417,7 +417,6 @@ export function buildTerminalReadAdmissionDraft(
   return {
     type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
-    selectAfterRecord: false,
     sourceRevision: workbench.sourceRevision,
     summary: `Accepted measured Read for fit search for ${workbench.scenarioLabel}.`,
     output: {

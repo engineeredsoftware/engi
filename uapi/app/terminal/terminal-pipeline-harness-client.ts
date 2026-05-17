@@ -238,12 +238,77 @@ function summarizeCandidateIds(value: unknown): string {
   return ids.length === 1 ? `candidate ${ids[0]}` : `candidates ${ids.join(', ')}`;
 }
 
+function shortIdentifier(value: unknown): string | null {
+  const text = typeof value === 'string' ? value.trim() : '';
+  if (!text) return null;
+  return text.length > 16 ? `${text.slice(0, 12)}...` : text;
+}
+
+function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string {
+  const telemetryEvent = recordValue(data.telemetryEvent);
+  if (!telemetryEvent) {
+    return `Telemetry line ${String(data.lineNumber || '?')} could not be parsed.`;
+  }
+
+  const executionState = recordValue(telemetryEvent.executionState);
+  const streamType = String(
+    telemetryEvent.streamEventType ||
+      telemetryEvent.type ||
+      'event',
+  );
+  const stage = String(
+    telemetryEvent.stage ||
+      executionState?.phase ||
+      'telemetry-readback',
+  );
+  const namespace = telemetryEvent.namespace ? String(telemetryEvent.namespace) : null;
+  const key = telemetryEvent.key ? String(telemetryEvent.key) : null;
+  const runId = shortIdentifier(telemetryEvent.runId);
+  const lineNumber = data.lineNumber ? `line ${String(data.lineNumber)}` : 'line';
+  const executionPath = Array.isArray(telemetryEvent.executionPath)
+    ? telemetryEvent.executionPath.map((entry) => String(entry)).filter(Boolean).slice(-4).join(' > ')
+    : '';
+  const dataKeys = stringList(telemetryEvent.dataKeys, 4);
+  const inspectable = recordValue(telemetryEvent.inspectable);
+  const inspectableKeys = stringList(inspectable?.keys, 4);
+  const inputMessageCount = typeof telemetryEvent.inputMessageCount === 'number'
+    ? `${telemetryEvent.inputMessageCount} input messages`
+    : null;
+  const outputContentLength = typeof telemetryEvent.outputContentLength === 'number'
+    ? `${telemetryEvent.outputContentLength} output chars`
+    : null;
+  const parsedOutput = telemetryEvent.parsedOutputPresent === true ? 'parsed output present' : null;
+
+  return [
+    `Telemetry ${lineNumber}: ${stage} ${streamType}`,
+    namespace || key ? [namespace, key].filter(Boolean).join('.') : null,
+    executionPath ? `path ${executionPath}` : null,
+    runId ? `run ${runId}` : null,
+    dataKeys.length ? `data ${dataKeys.join(', ')}` : null,
+    inspectableKeys.length ? `inspectable ${inspectableKeys.join(', ')}` : null,
+    inputMessageCount,
+    outputContentLength,
+    parsedOutput,
+  ].filter(Boolean).join('; ') + '.';
+}
+
 export function summarizeTerminalFitPipelineHarnessEvent(
   event: TerminalFitPipelineHarnessEvent,
 ): string {
   const data = recordValue(event.data);
   if (event.event === 'harness-started') {
     return `Harness started for ${data?.repositoryFullName || 'selected repository'}.`;
+  }
+  if (event.event === 'harness-preflight') {
+    const blockers = [
+      data?.realInferenceEnabled === false ? 'real inference flag missing' : null,
+      data?.openaiCredentialProvided === false ? 'OpenAI credential missing' : null,
+      data?.supabaseUrlProvided === false ? 'Supabase URL missing' : null,
+      data?.supabaseServiceRoleProvided === false ? 'Supabase service role missing' : null,
+    ].filter(Boolean);
+    return blockers.length
+      ? `Harness preflight blocked: ${blockers.join(', ')}.`
+      : 'Harness preflight passed with real inference and database streaming credentials present.';
   }
   if (event.event === 'harness-completed') {
     const evidence = recordValue(data?.evidence);
@@ -278,6 +343,7 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     return `Harness failed: ${String(data?.error || 'unknown error')}`;
   }
   if (event.event === 'harness-event') {
+    if (!data) return 'Harness event: unknown.';
     const type = String(data?.type || 'event');
     const label = data?.label ? String(data.label) : '';
     if (type === 'command-started' && label) {
@@ -288,6 +354,12 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     }
     if (type === 'artifacts-read') {
       return 'Harness artifacts read back from sandbox.';
+    }
+    if (type === 'sandbox-created') {
+      return `Harness sandbox created: ${String(data?.sandboxId || 'unknown sandbox')}.`;
+    }
+    if (type === 'telemetry-artifact-event') {
+      return summarizeTelemetryArtifactEvent(data);
     }
     if (type === 'sandbox-stopped') {
       return 'Harness sandbox stopped after artifact export.';

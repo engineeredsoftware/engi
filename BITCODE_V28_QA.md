@@ -926,6 +926,10 @@ First-run execution boundary:
   and the last visible stream event summaries. A failing command with no
   prompt/context, raw output, parsed/cast output, or phase/agent correlation is
   not enough visibility for live staging-testnet debugging.
+- The Terminal live-run panel must show the active Read id, Deposit id,
+  source commit, sandbox id when available, pipeline run id when available, and
+  incremental `telemetry.jsonl` line summaries while the sandbox command is
+  still running. A state visible only in browser Network logs fails V28 QA.
 - Depository vector recall uses `text-embedding-3-small` by default with
   `encoding_format='float'`, `dimensions=1536`, Supabase
   `deliverable_vectors.embedding vector(1536)`, `ivfflat`,
@@ -1233,11 +1237,14 @@ After either harness run:
    messages when available, raw response content, parsed/cast output when the
    generation was parsed, provider/model identity, usage tokens when supplied,
    and phase/agent/step/failsafe/generation correlation.
-4. Run saved query
+4. Inspect the Terminal live-run panel for the same run id and sandbox id. The
+   panel must include host lifecycle events and incremental telemetry artifact
+   event summaries, not only the final harness completion payload.
+5. Run saved query
    `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql`.
-5. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
+6. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
    `v28_qa_terminal_03_btd_ledger_after_terminal`.
-6. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
+7. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
 
 Pass criteria:
 

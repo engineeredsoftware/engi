@@ -470,6 +470,11 @@ Read/Fit result review remains fail-closed:
 - artifact telemetry must subscribe to stream events even when database
   streaming is disabled; database persistence is an additional acceptance gate,
   not the only way to inspect a live failed run.
+- the deployed Terminal harness stream must expose sandbox id, run id, and
+  incremental telemetry artifact lines while the detached sandbox command is
+  still running. Browser-only Network inspection is not sufficient; the
+  operator-visible stream must show phase, agent, generation/tool, parsed
+  output, and failsafe context as first-class Read/Fit run evidence.
 - the harness must enforce an internal runtime budget before the caller's host
   timeout, producing a `blocked_readiness` artifact rather than allowing the
   host to terminate without evidence.

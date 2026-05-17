@@ -210,7 +210,7 @@ function buildCommands(
       stdoutPath: PIPELINE_STDOUT_PATH,
       stderrPath: PIPELINE_STDERR_PATH,
       maxWaitMs,
-      pollIntervalMs: 5000,
+      pollIntervalMs: 2000,
       required: true,
     });
 
@@ -323,6 +323,7 @@ const DEFAULT_USER_ID = '00000000-0000-4000-8000-000000000000';
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const startedAt = new Date().toISOString();
 const harnessMaxRuntimeMs = Number(process.env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
+const checkpointIntervalMs = Number(process.env.BITCODE_PIPELINE_HARNESS_CHECKPOINT_INTERVAL_MS || 2000);
 let manifest = null;
 let manifestRoot = null;
 let userId = process.env.BITCODE_PIPELINE_USER_ID || DEFAULT_USER_ID;
@@ -584,7 +585,7 @@ async function writeCheckpoint(reason) {
 
 function scheduleCheckpoint(reason) {
   const now = Date.now();
-  if (now - lastCheckpointAt < 15000) return;
+  if (now - lastCheckpointAt < checkpointIntervalMs) return;
   lastCheckpointAt = now;
   checkpointInFlight = checkpointInFlight
     .catch(() => {})

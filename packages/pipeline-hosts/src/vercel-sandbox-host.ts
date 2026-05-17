@@ -62,7 +62,7 @@ export class VercelSandboxPipelineHost {
       });
 
       for (const command of plan.commands) {
-        const commandResult = await this.runCommand(sandbox, command);
+        const commandResult = await this.runCommand(sandbox, command, plan.artifactPaths.telemetry);
         commands.push(commandResult);
 
         if (command.required !== false && commandResult.exitCode !== 0) {
@@ -107,7 +107,8 @@ export class VercelSandboxPipelineHost {
 
   private async runCommand(
     sandbox: SandboxSession,
-    command: PipelineHarnessCommand
+    command: PipelineHarnessCommand,
+    telemetryPath?: string
   ): Promise<PipelineHarnessCommandResult> {
     await this.emit({
       type: 'command-started',
@@ -132,7 +133,7 @@ export class VercelSandboxPipelineHost {
         detached: command.detached,
       });
       if (command.detached) {
-        const detachedResult = await this.waitForDetachedCommand(sandbox, command);
+        const detachedResult = await this.waitForDetachedCommand(sandbox, command, telemetryPath);
         exitCode = detachedResult.exitCode;
         stdout = detachedResult.stdout;
         stderr = detachedResult.stderr;
@@ -174,11 +175,13 @@ export class VercelSandboxPipelineHost {
 
   private async waitForDetachedCommand(
     sandbox: SandboxSession,
-    command: PipelineHarnessCommand
+    command: PipelineHarnessCommand,
+    telemetryPath?: string
   ): Promise<{ exitCode: number | null; stdout: string; stderr: string }> {
     const startedAt = Date.now();
     const maxWaitMs = command.maxWaitMs ?? 45 * 60 * 1000;
     const pollIntervalMs = command.pollIntervalMs ?? 5000;
+    let emittedTelemetryLineCount = 0;
 
     if (!command.exitCodePath) {
       return {
@@ -189,8 +192,20 @@ export class VercelSandboxPipelineHost {
     }
 
     while (Date.now() - startedAt <= maxWaitMs) {
+      emittedTelemetryLineCount = await this.emitNewTelemetryArtifactEvents(
+        sandbox,
+        command,
+        telemetryPath,
+        emittedTelemetryLineCount
+      );
       const exitCodeText = await this.readTextArtifact(sandbox, command.exitCodePath);
       if (exitCodeText !== null) {
+        emittedTelemetryLineCount = await this.emitNewTelemetryArtifactEvents(
+          sandbox,
+          command,
+          telemetryPath,
+          emittedTelemetryLineCount
+        );
         const parsedExitCode = Number.parseInt(exitCodeText.trim(), 10);
         const [stdout, stderr] = await Promise.all([
           command.stdoutPath ? this.readTextArtifact(sandbox, command.stdoutPath) : Promise.resolve(null),
@@ -205,6 +220,12 @@ export class VercelSandboxPipelineHost {
       await sleep(pollIntervalMs);
     }
 
+    emittedTelemetryLineCount = await this.emitNewTelemetryArtifactEvents(
+      sandbox,
+      command,
+      telemetryPath,
+      emittedTelemetryLineCount
+    );
     const [stdout, stderr] = await Promise.all([
       command.stdoutPath ? this.readTextArtifact(sandbox, command.stdoutPath) : Promise.resolve(null),
       command.stderrPath ? this.readTextArtifact(sandbox, command.stderrPath) : Promise.resolve(null),
@@ -217,6 +238,31 @@ export class VercelSandboxPipelineHost {
         `Detached command did not write ${command.exitCodePath} within ${maxWaitMs}ms.`,
       ].filter(Boolean).join('\n'),
     };
+  }
+
+  private async emitNewTelemetryArtifactEvents(
+    sandbox: SandboxSession,
+    command: PipelineHarnessCommand,
+    telemetryPath: string | undefined,
+    emittedLineCount: number
+  ): Promise<number> {
+    if (!telemetryPath) return emittedLineCount;
+    const telemetry = await this.readTextArtifact(sandbox, telemetryPath);
+    if (!telemetry) return emittedLineCount;
+
+    const lines = telemetry.split(/\r?\n/).filter((line) => line.trim().length > 0);
+    const nextStartIndex = emittedLineCount > lines.length ? 0 : emittedLineCount;
+    for (let index = nextStartIndex; index < lines.length; index += 1) {
+      await this.emit({
+        type: 'telemetry-artifact-event',
+        timestamp: new Date().toISOString(),
+        label: command.label,
+        telemetryPath,
+        lineNumber: index + 1,
+        telemetryEvent: parseTelemetryLine(lines[index]),
+      });
+    }
+    return lines.length;
   }
 
   private async readJsonArtifact(sandbox: SandboxSession, path: string): Promise<unknown | null> {
@@ -245,6 +291,17 @@ export class VercelSandboxPipelineHost {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function parseTelemetryLine(line: string): unknown {
+  try {
+    return JSON.parse(line);
+  } catch {
+    return {
+      parseError: true,
+      raw: line,
+    };
+  }
 }
 
 function withTimeout<T>(

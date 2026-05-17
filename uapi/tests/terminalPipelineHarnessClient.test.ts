@@ -160,4 +160,50 @@ describe('terminal pipeline harness client', () => {
       }),
     ).toBe('Harness command completed: asset-pack-pipeline-run exit 0.');
   });
+
+  it('summarizes route preflight blockers before sandbox creation', () => {
+    expect(
+      summarizeTerminalFitPipelineHarnessEvent({
+        event: 'harness-preflight',
+        data: {
+          realInferenceEnabled: false,
+          openaiCredentialProvided: true,
+          supabaseUrlProvided: true,
+          supabaseServiceRoleProvided: false,
+        },
+      }),
+    ).toBe('Harness preflight blocked: real inference flag missing, Supabase service role missing.');
+  });
+
+  it('summarizes live telemetry artifact events with phase, path, and inspected payload shape', () => {
+    const summary = summarizeTerminalFitPipelineHarnessEvent({
+      event: 'harness-event',
+      data: {
+        type: 'telemetry-artifact-event',
+        lineNumber: 8,
+        telemetryEvent: {
+          type: 'pipeline-stream-event',
+          streamEventType: 'store',
+          stage: 'asset-pack-synthesis',
+          namespace: 'llm',
+          key: 'parsedOutput',
+          executionPath: ['asset_pack', 'synthesis', 'thriceified-generation'],
+          runId: '2bdcd936-a686-4a10-92e2-9c64cbef4f0e',
+          dataKeys: ['parsed'],
+          parsedOutputPresent: true,
+          inspectable: {
+            keys: ['resultState', 'assetPack'],
+          },
+        },
+      },
+    });
+
+    expect(summary).toContain('Telemetry line 8');
+    expect(summary).toContain('asset-pack-synthesis store');
+    expect(summary).toContain('llm.parsedOutput');
+    expect(summary).toContain('path asset_pack > synthesis > thriceified-generation');
+    expect(summary).toContain('run 2bdcd936-a68...');
+    expect(summary).toContain('inspectable resultState, assetPack');
+    expect(summary).toContain('parsed output present');
+  });
 });

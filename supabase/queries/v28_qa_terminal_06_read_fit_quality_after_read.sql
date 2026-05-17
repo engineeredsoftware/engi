@@ -1,6 +1,6 @@
 -- Saved query name: v28_qa_terminal_06_read_fit_quality_after_read
 -- Purpose: run after accepting a Read and recording Fit posture. It verifies
--- the commercially critical Read/Fit sequence is bound to the latest deposited
+-- the critical Read/Fit sequence is bound to the latest deposited
 -- repository revision and flags mock/frontier leakage or missing proof posture.
 
 CREATE OR REPLACE FUNCTION pg_temp.v28_qa_terminal_read_fit_quality_after_read()
@@ -346,7 +346,7 @@ BEGIN
         'read_fit_quality_gate'::text,
         jsonb_build_array(
           jsonb_build_object(
-            'commercial_expectation', 'A Read against the current deposited Bitcode data-space must return a proof-bearing AssetPack fit, explicit no-worthy-fit evidence, or blocked-readiness until real pipeline execution evidence exists.',
+            'review_expectation', 'A Read against the current deposited Bitcode data-space must return a proof-bearing AssetPack fit, explicit no-worthy-fit evidence, or blocked-readiness until real pipeline execution evidence exists.',
             'required_positive_controls', jsonb_build_array(
               'repository_full_name matches the latest deposited repository',
               'source_branch present',

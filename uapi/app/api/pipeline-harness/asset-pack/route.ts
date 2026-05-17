@@ -212,6 +212,28 @@ function hasModelProviderCredential(provider: string, env: Record<string, string
   }
 }
 
+function summarizeHarnessPreflight(body: AssetPackHarnessRequest): Record<string, unknown> {
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRole =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_ADMIN_KEY;
+  const budgetMs = Number(process.env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
+  return {
+    repositoryFullName: body.repositoryFullName || null,
+    sourceBranch: body.sourceBranch || null,
+    sourceCommit: body.sourceCommit || null,
+    readId: body.readId || null,
+    depositId: body.depositId || null,
+    realInferenceEnabled: isEnabled(process.env.BITCODE_ASSET_PACK_REAL_INFERENCE),
+    openaiCredentialProvided: isUsableSecretValue(process.env.OPENAI_API_KEY),
+    supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
+    supabaseServiceRoleProvided: isUsableSecretValue(serviceRole),
+    runtimeBudgetMs: Number.isFinite(budgetMs) ? budgetMs : null,
+    deployedRuntime: isDeployedRuntime(),
+  };
+}
+
 function sourceCredentialsFromEnv(): { username?: string; password?: string } {
   const password =
     process.env.BITCODE_SANDBOX_SOURCE_GIT_PASSWORD ||
@@ -494,6 +516,7 @@ export async function POST(request: NextRequest): Promise<Response> {
             readId: body.readId,
             depositId: body.depositId,
           });
+          emitSse(controller, 'harness-preflight', summarizeHarnessPreflight(body));
 
           const plan = buildAssetPackSandboxHarness({
             mode,
@@ -549,6 +572,11 @@ export async function POST(request: NextRequest): Promise<Response> {
         } catch (runError) {
           emitSse(controller, 'harness-failed', {
             error: runError instanceof Error ? runError.message : String(runError),
+            preflight: summarizeHarnessPreflight(body),
+          });
+          console.error('[bitcode-pipeline-harness-route-failed]', {
+            error: runError instanceof Error ? runError.message : String(runError),
+            preflight: summarizeHarnessPreflight(body),
           });
         } finally {
           controller.close();

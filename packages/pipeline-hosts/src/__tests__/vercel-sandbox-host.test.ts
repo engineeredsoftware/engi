@@ -154,10 +154,16 @@ describe('VercelSandboxPipelineHost', () => {
 
   it('polls detached command artifacts instead of relying on the command stream', async () => {
     const fakeSandbox = new DetachedFakeSandbox();
+    const events: PipelineHarnessHostEvent[] = [];
     const factory: SandboxFactory = {
       create: async () => fakeSandbox,
     };
-    const host = new VercelSandboxPipelineHost({ sandboxFactory: factory });
+    const host = new VercelSandboxPipelineHost({
+      sandboxFactory: factory,
+      onEvent: (event) => {
+        events.push(event);
+      },
+    });
     const plan = buildAssetPackSandboxHarness({
       read: {
         id: 'read-1',
@@ -194,6 +200,14 @@ describe('VercelSandboxPipelineHost', () => {
       stdout: 'detached stdout',
       stderr: '',
     });
+    expect(events).toContainEqual(
+      expect.objectContaining({
+        type: 'telemetry-artifact-event',
+        label: 'detached-run',
+        lineNumber: 1,
+        telemetryEvent: { type: 'harness-complete' },
+      }),
+    );
   });
 
   it('passes access-token auth fields to Sandbox.create when OIDC is unavailable', async () => {

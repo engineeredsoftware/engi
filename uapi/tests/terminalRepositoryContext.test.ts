@@ -84,5 +84,21 @@ describe('Terminal repository context helpers', () => {
         null,
       ),
     ).toBe('abc123');
+    expect(
+      deriveSelectedCommit(
+        [
+          {
+            sha: 'abc123',
+            message: 'head',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            parents: [],
+          },
+        ],
+        '07de275b3d97679321f1f596c16e48105d81d51b',
+      ),
+    ).toBe('07de275b3d97679321f1f596c16e48105d81d51b');
+    expect(deriveSelectedCommit([], '07de275b3d97679321f1f596c16e48105d81d51b')).toBe(
+      '07de275b3d97679321f1f596c16e48105d81d51b',
+    );
   });
 });

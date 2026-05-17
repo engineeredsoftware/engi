@@ -38,6 +38,22 @@ function readRowValue(rows: Array<{ label: string; value: string }>, label: stri
   return rows.find((row) => row.label === label)?.value || '—';
 }
 
+function objectValue(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function textValue(value: unknown): string | null {
+  return typeof value === 'string' && value.trim() ? value.trim() : null;
+}
+
+function shortIdentifier(value: unknown): string | null {
+  const text = textValue(value);
+  if (!text) return null;
+  return text.length > 18 ? `${text.slice(0, 12)}...` : text;
+}
+
 type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
 
 interface TerminalDepositReadWorkbenchProps {
@@ -123,6 +139,42 @@ export default function TerminalDepositReadWorkbench({
       }),
     [depositedSourceRevision, harnessReadActivityId, repositoryContext, workbench],
   );
+  const harnessIdentifierRows = useMemo(() => {
+    const rows: Array<{ label: string; value: string }> = [];
+    if (harnessRequestState.ready) {
+      rows.push(
+        { label: 'read', value: shortIdentifier(harnessRequestState.request.readId) || 'pending' },
+        { label: 'deposit', value: shortIdentifier(harnessRequestState.request.depositId) || 'pending' },
+        { label: 'commit', value: shortIdentifier(harnessRequestState.request.sourceCommit) || 'pending' },
+      );
+    }
+
+    let sandboxId: string | null = null;
+    let runId: string | null = null;
+    let pipelineRunId: string | null = null;
+    let lastTelemetryLine: string | null = null;
+
+    for (const event of harnessEvents) {
+      const data = objectValue(event.data);
+      if (!data) continue;
+      sandboxId = textValue(data.sandboxId) || sandboxId;
+      if (event.event === 'harness-event') {
+        sandboxId = textValue(data.sandboxId) || sandboxId;
+        const telemetryEvent = objectValue(data.telemetryEvent);
+        runId = textValue(telemetryEvent?.runId) || runId;
+        pipelineRunId = textValue(telemetryEvent?.pipelineRunId) || pipelineRunId;
+        lastTelemetryLine = data.type === 'telemetry-artifact-event'
+          ? String(data.lineNumber || '')
+          : lastTelemetryLine;
+      }
+    }
+
+    if (sandboxId) rows.push({ label: 'sandbox', value: shortIdentifier(sandboxId) || sandboxId });
+    if (runId) rows.push({ label: 'run', value: shortIdentifier(runId) || runId });
+    if (pipelineRunId) rows.push({ label: 'pipeline row', value: shortIdentifier(pipelineRunId) || pipelineRunId });
+    if (lastTelemetryLine) rows.push({ label: 'telemetry line', value: lastTelemetryLine });
+    return rows;
+  }, [harnessEvents, harnessRequestState]);
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
     recordingKey === null &&
@@ -219,7 +271,7 @@ export default function TerminalDepositReadWorkbench({
     try {
       await streamTerminalFitPipelineHarness(harnessRequestState.request, {
         onEvent: (event) => {
-          setHarnessEvents((currentEvents) => [...currentEvents.slice(-7), event]);
+          setHarnessEvents((currentEvents) => [...currentEvents.slice(-79), event]);
           setHarnessMessage(summarizeTerminalFitPipelineHarnessEvent(event));
         },
       });
@@ -394,10 +446,25 @@ export default function TerminalDepositReadWorkbench({
               {harnessMessage ||
                 `Live fit waiting for ${harnessRequestState.ready ? 'stream events' : harnessRequestState.missing.join(', ')}.`}
             </p>
+            {harnessIdentifierRows.length ? (
+              <dl className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                {harnessIdentifierRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
+                    <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.7rem] text-neutral-200">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
             {harnessEvents.length ? (
-              <ul className="mt-3 space-y-1 text-xs text-neutral-400">
-                {harnessEvents.slice(-4).map((event, index) => (
-                  <li key={`${event.event}-${index}`}>{summarizeTerminalFitPipelineHarnessEvent(event)}</li>
+              <ul className="mt-3 max-h-80 space-y-2 overflow-y-auto pr-1 text-xs text-neutral-400">
+                {harnessEvents.slice(-12).map((event, index) => (
+                  <li
+                    key={`${event.event}-${index}-${summarizeTerminalFitPipelineHarnessEvent(event)}`}
+                    className="rounded-[0.85rem] border border-white/8 bg-black/20 px-3 py-2"
+                  >
+                    {summarizeTerminalFitPipelineHarnessEvent(event)}
+                  </li>
                 ))}
               </ul>
             ) : null}

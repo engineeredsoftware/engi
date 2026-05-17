@@ -269,6 +269,14 @@ export type PipelineHarnessHostEvent =
       completedAt: string;
     }
   | {
+      type: 'telemetry-artifact-event';
+      timestamp: string;
+      label: string;
+      telemetryPath: string;
+      lineNumber: number;
+      telemetryEvent: unknown;
+    }
+  | {
       type: 'artifacts-read';
       timestamp: string;
       evidencePresent: boolean;

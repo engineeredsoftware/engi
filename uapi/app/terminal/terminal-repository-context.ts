@@ -98,13 +98,14 @@ export function deriveSelectedCommit(
   commits: VCSCommit[],
   requestedCommit?: string | null,
 ) {
-  if (!commits.length) return null;
-
   const normalizedRequestedCommit = requestedCommit?.trim();
+  if (!commits.length) return normalizedRequestedCommit || null;
+
   const byRequested =
     normalizedRequestedCommit &&
     commits.find((commit) => commit.sha === normalizedRequestedCommit);
   if (byRequested) return byRequested.sha;
+  if (normalizedRequestedCommit) return normalizedRequestedCommit;
 
   return commits[0]?.sha || null;
 }

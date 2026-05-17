@@ -58,10 +58,18 @@ agent, generation, or tool last produced input/output evidence.
 The runner subscribes to stream events for artifact telemetry even when database
 streaming is disabled; database streaming adds persistence, not basic event
 visibility.
+While the pipeline command runs detached, the host polls `telemetry.jsonl` and
+emits each new line as a `telemetry-artifact-event` so Terminal can show
+sandbox id, run id, phase, agent, generation/tool, parsed-output, and failsafe
+context before final artifact readback. Browser Network logs are not the
+operator interface for live Read/Fit debugging.
 The live runner also enforces `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS`
 (default `240000`) inside the sandbox so a heavyweight pipeline run records a
 blocked-readiness artifact before the calling Vercel Function or local harness
 process reaches its own timeout.
+`BITCODE_PIPELINE_HARNESS_CHECKPOINT_INTERVAL_MS` defaults to `2000` so the
+exported telemetry artifact stays close enough to the live runner for SSE
+tailing without writing on every internal event.
 
 For live model execution, the sandbox runner also needs `OPENAI_API_KEY` in the
 trusted command environment. For local Vercel Sandbox creation, either pull
