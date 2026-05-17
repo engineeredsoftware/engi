@@ -683,7 +683,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
     GenerationSubMetaSubStep.REASON,
     {
       buildUserPrompt: (input) => {
-        const typedInput = input as any;
+        const typedInput = input && typeof input === 'object' ? input as any : {};
         // Check context to provide appropriate reasoning prompt
         const isStitch = typedInput.partialOutput !== undefined;
         const isSum = typedInput.chunkResults !== undefined;
@@ -694,7 +694,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
         if (isSum) {
           return `Reason about how to combine these chunk results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
         }
-        return `Apply logical reasoning to solve:\n\n${JSON.stringify(input, null, 2)}`;
+        return `Apply logical reasoning to solve:\n\n${JSON.stringify(input ?? null, null, 2)}`;
       },
 
       parseOutput: async (output, input) => {

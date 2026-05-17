@@ -20,8 +20,10 @@ const HOST_SMOKE_RUNNER_PATH = `${HARNESS_DIRECTORY}/run-host-smoke.mjs`;
 const LIVE_PIPELINE_RUNNER_PATH = `${HARNESS_DIRECTORY}/run-live-asset-pack-pipeline.ts`;
 const EVIDENCE_PATH = `${HARNESS_DIRECTORY}/evidence.json`;
 const TELEMETRY_PATH = `${HARNESS_DIRECTORY}/telemetry.jsonl`;
+const TSCONFIG_PATHS_REGISTER_PATH = `${HARNESS_DIRECTORY}/node_modules/tsconfig-paths/register`;
 const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox';
 const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
+const SANDBOX_PNPM_VERSION = '10.33.0';
 
 export interface BuildAssetPackSandboxHarnessOptions {
   mode?: PipelineHarnessMode;
@@ -116,7 +118,7 @@ function buildCommands(
     commands.push({
       label: 'package-manager-readiness',
       cmd: 'corepack',
-      args: ['enable'],
+      args: ['prepare', `pnpm@${SANDBOX_PNPM_VERSION}`, '--activate'],
       required: true,
     });
 
@@ -130,6 +132,13 @@ function buildCommands(
     }
 
     commands.push({
+      label: 'harness-runtime-install',
+      cmd: 'npm',
+      args: ['install', '--prefix', HARNESS_DIRECTORY, 'tsconfig-paths@4.2.0'],
+      required: true,
+    });
+
+    commands.push({
       label: 'asset-pack-pipeline-run',
       cmd: 'pnpm',
       args: [
@@ -137,6 +146,10 @@ function buildCommands(
         '@bitcode/pipeline-hosts',
         'exec',
         'ts-node',
+        '--project',
+        '../../tsconfig.json',
+        '-r',
+        `../../${TSCONFIG_PATHS_REGISTER_PATH}`,
         '--transpile-only',
         `../../${LIVE_PIPELINE_RUNNER_PATH}`,
       ],
@@ -229,18 +242,16 @@ await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null
 function createLiveAssetPackPipelineRunner(): string {
   return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash, randomUUID } from 'node:crypto';
-import { assetPackPipeline } from '../../packages/pipelines/asset-pack/src/index';
-import { enablePipelineStreaming, factoryPipelineExecution } from '../../packages/pipelines-generics/src/index';
 
 const manifestPath = process.env.BITCODE_PIPELINE_HARNESS_MANIFEST || '${MANIFEST_PATH}';
 const artifactDir = process.env.BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR || '${HARNESS_DIRECTORY}';
-const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const runId = process.env.BITCODE_PIPELINE_RUN_ID || randomUUID();
 const DEFAULT_USER_ID = '00000000-0000-4000-8000-000000000000';
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-let userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
 const startedAt = new Date().toISOString();
-const manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
+let manifest = null;
+let manifestRoot = null;
+let userId = process.env.BITCODE_PIPELINE_USER_ID || DEFAULT_USER_ID;
 const events = [];
 let resultState = 'blocked_readiness';
 let output = null;
@@ -334,14 +345,14 @@ async function insertPipelineRun() {
       started_at: startedAt,
       metadata: {
         bitcodePipelineHarness: true,
-        harnessMode: manifest.harnessMode,
+        harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
         manifestRoot,
-        sourceRevision: manifest.sourceRevision,
+        sourceRevision: manifest?.sourceRevision || null,
       },
       input: {
-        read: manifest.read,
-        deposit: manifest.deposit,
-        sourceRevision: manifest.sourceRevision,
+        read: manifest?.read || null,
+        deposit: manifest?.deposit || null,
+        sourceRevision: manifest?.sourceRevision || null,
       },
     }).select('id').single();
     if (insertError) {
@@ -444,7 +455,7 @@ async function insertHarnessStreamLog(status) {
         status,
         resultState,
         manifestRoot,
-        harnessMode: manifest.harnessMode,
+        harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
       },
     });
   } catch (persistError) {
@@ -452,9 +463,17 @@ async function insertHarnessStreamLog(status) {
   }
 }
 
+async function main() {
 await mkdir(artifactDir, { recursive: true });
 
 try {
+  manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
+  userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
+  const [{ assetPackPipeline }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
+    import('../../packages/pipelines/asset-pack/src/index'),
+    import('../../packages/pipelines-generics/src/index'),
+  ]);
   const execution = factoryPipelineExecution('asset_pack', undefined, {
     pipelineName: 'asset_pack',
     family: 'asset_pack',
@@ -548,7 +567,7 @@ try {
 
   const evidence = {
     schema: 'bitcode.pipeline-harness.evidence',
-    harnessMode: manifest.harnessMode,
+    harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
     resultState: 'blocked_readiness',
     resultReasons: [
       'AssetPack pipeline execution did not produce admissible commercial result evidence.',
@@ -577,5 +596,12 @@ try {
   await insertHarnessStreamLog(process.exitCode ? 'failed' : 'completed');
   await writeFile(\`\${artifactDir}/telemetry.jsonl\`, events.map((event) => JSON.stringify(event)).join('\\n') + '\\n');
 }
+
+}
+
+main().catch((caught) => {
+  process.stderr.write(\`\${caught?.message || String(caught)}\\n\`);
+  process.exitCode = 1;
+});
 `;
 }

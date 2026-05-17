@@ -38,6 +38,11 @@ return `blocked_readiness` rather than a worthy fit.
 The exported evidence must include the AssetPack embedding policy
 (`text-embedding-3-small`, `1536` dimensions, cosine
 `match_deliverable_vectors`) so SQL readback can detect vector-space drift.
+The harness prepares the repo-pinned `pnpm` runtime before installing so
+Corepack's latest release cannot drift the frozen lockfile contract. Runtime
+helpers used only by the harness are installed under `.bitcode/pipeline-harness`
+so historical deposited source revisions do not need to carry newer harness
+dependencies.
 
 Structured database telemetry is part of the harness contract. A real Read/Fit
 pipeline run must write the deliverable hierarchy:

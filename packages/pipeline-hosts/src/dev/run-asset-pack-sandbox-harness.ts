@@ -22,19 +22,36 @@ const TRUSTED_SANDBOX_ENV_KEYS = [
   'BITCODE_PIPELINE_USER_ID',
 ] as const;
 
+const REDACTED_OUTPUT_ENV_KEYS = [
+  ...TRUSTED_SANDBOX_ENV_KEYS,
+  'BITCODE_SANDBOX_SOURCE_GIT_PASSWORD',
+  'GITHUB_TOKEN',
+  'GITHUB_PAT',
+  'GH_TOKEN',
+  'VERCEL_OIDC_TOKEN',
+  'VERCEL_TOKEN',
+] as const;
+
 function loadLocalEnvFiles(): void {
-  for (const relativePath of ['.env.local', 'uapi/.env.local']) {
-    const path = resolve(process.cwd(), relativePath);
-    if (!existsSync(path)) continue;
-    const body = readFileSync(path, 'utf8');
-    for (const line of body.split(/\r?\n/)) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-      const match = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/.exec(trimmed);
-      if (!match) continue;
-      const [, key, rawValue] = match;
-      if (process.env[key] !== undefined) continue;
-      process.env[key] = rawValue.trim().replace(/^(['"])(.*)\1$/, '$2');
+  const roots = [process.cwd(), resolve(process.cwd(), '..'), resolve(process.cwd(), '../..')];
+  const seen = new Set<string>();
+
+  for (const root of roots) {
+    for (const relativePath of ['.env.local', 'uapi/.env.local']) {
+      const path = resolve(root, relativePath);
+      if (seen.has(path)) continue;
+      seen.add(path);
+      if (!existsSync(path)) continue;
+      const body = readFileSync(path, 'utf8');
+      for (const line of body.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+        const match = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/.exec(trimmed);
+        if (!match) continue;
+        const [, key, rawValue] = match;
+        if (process.env[key] !== undefined) continue;
+        process.env[key] = rawValue.trim().replace(/^(['"])(.*)\1$/, '$2');
+      }
     }
   }
 }
@@ -102,6 +119,48 @@ function sourceCredentials(): { username?: string; password?: string } {
   };
 }
 
+function redactKnownSecrets(text: string): string {
+  let redacted = text;
+  for (const key of REDACTED_OUTPUT_ENV_KEYS) {
+    const value = process.env[key];
+    if (typeof value !== 'string' || value.length < 8) continue;
+    redacted = redacted.split(value).join('[redacted]');
+  }
+  return redacted;
+}
+
+function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
+  if (!evidence || typeof evidence !== 'object' || Array.isArray(evidence)) return null;
+  const record = evidence as Record<string, unknown>;
+  const error = record.error && typeof record.error === 'object'
+    ? record.error as Record<string, unknown>
+    : null;
+  const events = Array.isArray(record.events) ? record.events : [];
+
+  return {
+    schema: record.schema,
+    harnessMode: record.harnessMode,
+    resultState: record.resultState,
+    resultReasons: Array.isArray(record.resultReasons)
+      ? record.resultReasons.map((reason) => redactKnownSecrets(String(reason)))
+      : [],
+    error: error
+      ? {
+          name: error.name,
+          message: redactKnownSecrets(String(error.message || '')),
+        }
+      : null,
+    outputKeys: record.output && typeof record.output === 'object'
+      ? Object.keys(record.output as Record<string, unknown>)
+      : [],
+    eventTypes: events
+      .map((event) => event && typeof event === 'object'
+        ? (event as Record<string, unknown>).type
+        : null)
+      .filter(Boolean),
+  };
+}
+
 async function main(): Promise<void> {
   loadLocalEnvFiles();
   requireHarnessOptIn();
@@ -166,8 +225,18 @@ async function main(): Promise<void> {
           label: command.label,
           exitCode: command.exitCode,
         })),
+        commands: result.commands.map((command) => ({
+          label: command.label,
+          exitCode: command.exitCode,
+          stdoutTail: redactKnownSecrets(command.stdout.slice(-1200)),
+          stderrTail: redactKnownSecrets(command.stderr.slice(-1200)),
+        })),
         evidencePresent: result.artifacts.evidence !== null,
         telemetryPresent: result.artifacts.telemetry !== null,
+        evidence: summarizeEvidence(result.artifacts.evidence),
+        telemetryLineCount: result.artifacts.telemetry
+          ? result.artifacts.telemetry.split(/\r?\n/).filter(Boolean).length
+          : 0,
       },
       null,
       2

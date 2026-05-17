@@ -70,8 +70,13 @@ describe('asset-pack sandbox harness plan', () => {
       'runtime-readiness',
       'package-manager-readiness',
       'workspace-install',
+      'harness-runtime-install',
       'asset-pack-pipeline-run',
     ]);
+    expect(plan.commands.find((command) => command.label === 'package-manager-readiness')).toMatchObject({
+      cmd: 'corepack',
+      args: ['prepare', 'pnpm@10.33.0', '--activate'],
+    });
   });
 
   it('generates a syntactically valid live pipeline runner', () => {

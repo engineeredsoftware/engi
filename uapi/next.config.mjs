@@ -61,6 +61,9 @@ let nextConfig = {
   experimental: {
     // Allow importing source files from outside the `uapi` package directory.
     externalDir: true,
+    // Keep the Vercel Sandbox SDK as a traced Node runtime package. Bundling it
+    // pulls in undici syntax newer than this Next/SWC build pipeline accepts.
+    serverComponentsExternalPackages: ['@vercel/sandbox'],
   },
   // Transpile workspace packages that the Next app imports directly or
   // transitively so webpack/SWC can handle TS/ESM + monorepo paths.

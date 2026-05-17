@@ -184,10 +184,7 @@ function withVercelAccessTokenAuth(createOptions: PipelineHarnessPlan['createOpt
 }
 
 export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {
-  const dynamicImport = new Function('specifier', 'return import(specifier)') as (
-    specifier: string
-  ) => Promise<{ Sandbox?: SandboxFactory }>;
-  const module = await dynamicImport('@vercel/sandbox');
+  const module = await import('@vercel/sandbox') as { Sandbox?: SandboxFactory };
   if (!module.Sandbox?.create) {
     throw new Error('@vercel/sandbox did not expose Sandbox.create().');
   }

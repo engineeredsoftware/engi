@@ -89,3 +89,5 @@ uapi/tailwind.config.js
 
 # Miscellaneous
 .tmp/
+.vercel
+.env*.local
