@@ -2522,6 +2522,9 @@ importers:
       '@vercel/analytics':
         specifier: ^1.2.2
         version: 1.5.0(@remix-run/react@2.16.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3))(next@14.1.0(@babel/core@7.27.7)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(svelte@5.38.0)(vue@3.5.18(typescript@5.8.3))
+      '@vercel/sandbox':
+        specifier: 1.10.2
+        version: 1.10.2
       '@vercel/speed-insights':
         specifier: ^1.0.10
         version: 1.2.0(next@14.1.0(@babel/core@7.27.7)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(svelte@5.38.0)(vue@3.5.18(typescript@5.8.3))
