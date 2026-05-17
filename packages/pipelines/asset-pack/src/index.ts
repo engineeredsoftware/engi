@@ -19,7 +19,10 @@ import {
   resolveExpressedRead,
   resolveWrittenAssetType,
 } from './semantic-resolution';
-import { runDepositorySearchForPipelineInput } from './depository-search';
+import {
+  buildDepositoryFitResultEvidence,
+  runDepositorySearchForPipelineInput,
+} from './depository-search';
 
 // ==================== FACTORIES ====================
 
@@ -86,14 +89,7 @@ function factoryPreprocess(): Executor<any, any> {
     try { processedInput.depositorySearchResult = depositorySearch; } catch {}
     try { processedInput.depositCandidates = depositorySearch.selectedCandidates; } catch {}
     try {
-      processedInput.fitResult = {
-        resultState: depositorySearch.resultState,
-        resultReasons: depositorySearch.resultReasons,
-        selectedCandidateAssetIds: depositorySearch.selectedCandidateAssetIds,
-        queryRoot: depositorySearch.queryRoot,
-        rankingRoot: depositorySearch.rankingRoot,
-        embeddingPolicy: depositorySearch.embeddingPolicy,
-      };
+      processedInput.fitResult = buildDepositoryFitResultEvidence(depositorySearch);
     } catch {}
     try { processedInput.fit = processedInput.fitResult; } catch {}
 

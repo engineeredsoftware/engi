@@ -2,7 +2,7 @@
 -- Purpose: run after the first Vercel Sandbox pipeline harness execution. It
 -- checks whether real pipeline runtime rows, event telemetry, phase/agent
 -- traces, generation/tool traces, and exported evidence are present before
--- Read/Fit can graduate from blocked-readiness posture to commercial result
+-- Read/Fit can graduate from blocked-readiness posture to result
 -- review.
 
 CREATE OR REPLACE FUNCTION pg_temp.v28_qa_terminal_pipeline_harness_after_fit()
@@ -130,7 +130,7 @@ BEGIN
           'deliverable_generation_count', deliverable_generation_count,
           'deliverable_tool_count', deliverable_tool_count,
           'missing_tables', to_jsonb(missing_tables),
-          'commercial_expectation', 'Read/Fit result review requires real pipeline rows, host artifacts, event logs, and no settlement/finality claims without query 03 readback.'
+          'review_expectation', 'Read/Fit result review requires real pipeline rows, host artifacts, event logs, and no settlement/finality claims without query 03 readback.'
         )
       );
 
@@ -197,6 +197,19 @@ BEGIN
             ),
             'depository_searched_asset_count', nullif(output #>> '{depositorySearch,searchedAssetCount}', '')::integer,
             'depository_selected_candidate_asset_ids', output #> '{depositorySearch,selectedCandidateAssetIds}',
+            'fit_selection_trace_present', output #> '{fitResult,selectionTrace}' IS NOT NULL,
+            'fit_selected_candidate_trace', coalesce(
+              output #> '{fitResult,selectionTrace,selectedCandidates}',
+              '[]'::jsonb
+            ),
+            'fit_blocked_candidate_trace', coalesce(
+              output #> '{fitResult,selectionTrace,blockedCandidates}',
+              '[]'::jsonb
+            ),
+            'ledger_settlement_status', output #>> '{ledgerSettlement,status}',
+            'ledger_settlement_admissible', output #>> '{ledgerSettlement,settlementAdmissible}',
+            'ledger_ownership_boundary', output #> '{ledgerSettlement,ownershipBoundary}',
+            'ledger_readback', output #> '{ledgerSettlement,readback}',
             'sandbox_id', coalesce(metadata ->> 'sandboxId', artifacts ->> 'sandboxId')
           ) AS harness_summary,
           error_data

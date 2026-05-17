@@ -321,8 +321,8 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Terminal transaction search keeps the typed value stable while URL-backed filter state updates. | Focused Terminal activity-search E2E passes; full commercial MVP E2E passes. |
 | Retired generic workspace route/import/runtime compatibility artifacts are absent from commercial source scans. | Source scans show no active retired route, generic workspace subtree, or retired-shell runtime names outside explicit historical spec notes and framework error patterns. |
 | Protocol-demonstration client-entry, public mount globals, UAPI demonstration witness mocks, and demonstration state title use demonstration vocabulary rather than retired shell vocabulary. | Runtime/API scans show no retired shell names across active demonstration entrypoints. |
-| Standalone demonstration is not a commercial runtime dependency. | `@bitcode/protocol` is the commercial dependency, UAPI source/tests no longer import `@bitcode/protocol-demonstration`, Terminal witness routes read `packages/protocol/public`, `protocol-demonstration` is outside `pnpm-workspace.yaml`, and bidirectional boundary tests are added. |
-| Embedded demonstration witness no longer overwrites the commercial `/terminal` document title. | Dual-lane Playwright smoke found `/terminal` rendering with the browser title `Bitcode Demonstration`; the protocol witness bundle now skips `document.title` updates when mounted under the commercial witness host attribute, while standalone demonstration can keep its own title. |
+| Standalone demonstration is not a product runtime dependency. | `@bitcode/protocol` is the product dependency, UAPI source/tests no longer import `@bitcode/protocol-demonstration`, Terminal witness routes read `packages/protocol/public`, `protocol-demonstration` is outside `pnpm-workspace.yaml`, and bidirectional boundary tests are added. |
+| Embedded demonstration witness no longer overwrites the `/terminal` document title. | Dual-lane Playwright smoke found `/terminal` rendering with the browser title `Bitcode Demonstration`; the protocol witness bundle now skips `document.title` updates when mounted under the product witness host attribute, while standalone demonstration can keep its own title. |
 
 ### 2026-05-08 Pass 3A Setup: Dual Environment Lanes
 
@@ -890,10 +890,10 @@ V28 blockers:
 - GitHub access tokens or wallet signatures appear unredacted in browser-visible UI, query output intended for routine QA, or client telemetry.
 - A broad model selector can alter ledgerized Terminal/Fit/AssetPack synthesis.
 
-### Pass 2B: Single-Deposit Commercial Read/Fit QA
+### Pass 2B: Single-Deposit Read/Fit QA
 
 Purpose:
-Validate Bitcode's most commercially critical flow against the smallest real
+Validate Bitcode's most value-critical flow against the smallest real
 data-space now available in staging: a single deposited repository revision.
 This pass asks whether Reading can find a worthy Fit, synthesize the right
 AssetPack posture, and fail closed when evidence is not strong enough.
@@ -904,7 +904,7 @@ source type.
 
 First-run execution boundary:
 
-- A recorded Fit posture is not yet a commercial worthy Fit unless the deployed
+- A recorded Fit posture is not yet a worthy Fit unless the deployed
   pipeline has actually executed and written its evidence.
 - The AssetPack pipeline must now emit depository search evidence in execution
   storage: `depository/search.result`, `depository/search.candidateRanking`,
@@ -937,7 +937,7 @@ First-run execution boundary:
   `blocked_readiness`: Deposit, Read admission, source binding, and Fit posture
   are reviewable, but AssetPack range, ledger anchor, BTC fee, settlement, and
   finality readback must not be claimed.
-- `worthy_fit` and `no_worthy_fit` become commercially admissible only when the
+- `worthy_fit` and `no_worthy_fit` become admissible only when the
   result is derived from pipeline execution evidence rather than local posture
   rows alone.
 
@@ -953,7 +953,7 @@ Starting condition:
 - Query `v28_qa_terminal_03_btd_ledger_after_terminal` still shows no claimed
   mint/anchor/finality without matching projection rows.
 
-Commercial Read scenario:
+Read scenario:
 
 Use this as the first manual Read frame, whether entered directly or selected
 from the closest Terminal scenario:
@@ -1029,11 +1029,15 @@ Manual steps:
     `selectedCandidateAssetIds` are present in the pipeline output or execution
     storage summary. Also verify `embeddingPolicy.model`,
     `embeddingPolicy.dimensions`, and `embeddingPolicy.vectorStore.rpc`.
+    Inspect `fitResult.selectionTrace` for selected and blocked candidates,
+    source binding, use tier, score channels, selected unit hashes,
+    proof/measurement evidence, provider recall, blockers, warnings, and
+    rejection reasons.
 11. Run saved query `v28_qa_terminal_07_pipeline_harness_after_fit`. It must
     show at least one recent pipeline run or deliverable pipeline run, event
     telemetry, phase trace rows, agent-step rows, and generation/tool rows
     before a `worthy_fit` or `no_worthy_fit` classification can graduate from
-    posture into commercial result review.
+    posture into result review.
 12. Rerun `v28_qa_terminal_02_activity_after_write` and
     `v28_qa_terminal_03_btd_ledger_after_terminal`.
 13. Paste screenshots, Network payload summaries, Vercel logs for the same
@@ -1053,6 +1057,9 @@ Pass criteria:
 - No `frontier/*` repository or mock repository appears in staging-testnet
   activity.
 - Fit evidence is source-bound and quality-explained, not just a summary.
+- Fit evidence includes a compact selection trace with candidate source
+  binding, use tier, score channels, selected unit hashes, proof/measurement
+  evidence, provider recall, blockers, warnings, and rejection reasons.
 - Real `worthy_fit` or `no_worthy_fit` classification is backed by deployed
   pipeline execution rows, events, logs, depository search evidence, candidate
   ranking roots, embedding policy, and result evidence.
@@ -1066,7 +1073,7 @@ Pass criteria:
   when query 03 shows matching projection rows; otherwise the Terminal result
   labels the exact blocked-readiness state.
 
-Commercial blockers:
+Blockers:
 
 - Read/Fit runs against a repository other than the deposited repository revision.
 - Read/Fit produces a "fit" without source evidence, proof posture, rejection
@@ -1087,10 +1094,10 @@ Commercial blockers:
 
 Purpose:
 Prove that the Read/Fit path can run inside the first lightweight deployment
-host before QA treats a Fit result as commercially meaningful. This pass checks
+host before QA treats a Fit result as meaningful. This pass checks
 the harness itself: sandbox creation, command execution, manifest binding,
 artifact export, telemetry, database persistence, and cleanup.
-It also checks the first commercial finding layer: manifest Deposit supply is
+It also checks the first finding layer: manifest Deposit supply is
 converted into depository search input, candidates are ranked, and the pipeline
 stores query/ranking roots before any result state is reviewed.
 
@@ -1147,9 +1154,9 @@ Before promotion, operators may add `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1` to
 overlay the current worktree on the cloned source revision. This is only for
 debugging the harness and pipeline implementation before deployment. Overlay
 evidence must remain QA-only, must report
-`sourceOverlay.commercialAdmissibility='qa-only-not-source-revision-evidence'`,
+`sourceOverlay.admissibility='qa-only-not-source-revision-evidence'`,
 and must not be used for source-revision settlement, ledger finality, or a
-commercial `worthy_fit` claim.
+`worthy_fit` claim.
 If the heavyweight pipeline exceeds the staging function window, set
 `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` below that window. The deployed
 streaming route declares an 800 second ceiling, so staging should start with
@@ -1250,15 +1257,19 @@ Pass criteria:
   blocked-readiness.
 - Generation/tool rows appear before any model/tool-mediated Fit quality claim
   can be accepted.
-- For the staging-testnet commercial pass, generation rows must be non-zero
+- For the staging-testnet pass, generation rows must be non-zero
   because `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is required. A completed run
   with zero generation rows is only deterministic bring-up evidence.
 - Parsed/cast generation output is stored when a ThriceifiedGeneration parser
   runs, so operators can compare raw model text with typed Fit/search evidence.
 - Query 03 still shows no AssetPack range, BTC fee, ledger anchor, settlement,
   or finality claim without matching projection rows.
+- If `ledgerSettlement` is present in evidence, it uses
+  `settlementAdmissible`, `ownershipBoundary`, `btcFee`, and `readback`.
+  Depositor ownership, reader fee/license posture, and server custody are
+  explicit even when settlement is blocked.
 
-Commercial blockers:
+Blockers:
 
 - The harness cannot create a sandbox or authenticate with Vercel.
 - The harness runs but cannot export evidence artifacts before sandbox stop.

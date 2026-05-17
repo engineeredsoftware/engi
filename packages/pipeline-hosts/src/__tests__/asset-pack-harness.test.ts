@@ -102,7 +102,7 @@ describe('asset-pack sandbox harness plan', () => {
     expect(plan.sourceOverlay).toEqual({
       path: '.bitcode/pipeline-harness/source-overlay.patch',
       patchRoot: '/vercel/sandbox',
-      commercialAdmissibility: 'qa-only-not-source-revision-evidence',
+      admissibility: 'qa-only-not-source-revision-evidence',
     });
     expect(plan.files.map((file) => file.path)).toContain(
       '.bitcode/pipeline-harness/source-overlay.patch'
@@ -142,5 +142,8 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('artifact-streaming-enabled');
     expect(source).toContain('execution: execution ? summarizeExecution(execution) : null');
     expect(source).toContain('PipelineHarnessTimeoutError');
+    expect(source).toContain('settlementOwnershipBoundary');
+    expect(source).toContain('depositor owns minted BTD range');
+    expect(source).toContain('reader pays BTC fee');
   });
 });

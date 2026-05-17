@@ -59,7 +59,7 @@ export function buildAssetPackSandboxHarness(
     ? {
         path: SOURCE_OVERLAY_PATCH_PATH,
         patchRoot: SANDBOX_WORKING_DIRECTORY,
-        commercialAdmissibility: 'qa-only-not-source-revision-evidence' as const,
+        admissibility: 'qa-only-not-source-revision-evidence' as const,
       }
     : undefined;
   const commandEnvironment = {
@@ -766,6 +766,31 @@ function ledgerWallet(kind, explicit, fallback) {
   return kind + ':' + fallback;
 }
 
+function settlementOwnershipBoundary(fields = {}) {
+  const depositorWalletId = fields.depositorWalletId ||
+    ledgerWallet('depositor-wallet', process.env.BITCODE_PIPELINE_DEPOSITOR_WALLET_ID, manifest?.deposit?.id || runId);
+  const readerWalletId = fields.readerWalletId ||
+    ledgerWallet('reader-wallet', process.env.BITCODE_PIPELINE_READER_WALLET_ID, userId || runId);
+  const btcFeeSats = fields.btcFeeSats || positiveIntegerEnv('BITCODE_PIPELINE_BTC_FEE_SATS', 546);
+  const btcNetwork = fields.btcNetwork || process.env.BITCODE_PIPELINE_BTC_NETWORK || 'staging-testnet';
+  return {
+    schema: 'bitcode.asset-pack.settlement-boundary',
+    status: fields.status || 'blocked',
+    depositorWalletId,
+    readerWalletId,
+    depositorBoundary: 'depositor owns minted BTD range for deposited source evidence',
+    readerBoundary: 'reader pays BTC fee and receives read license for this Read/Fit result',
+    serverCustody: false,
+    btcFee: {
+      payer: 'reader',
+      network: btcNetwork,
+      satsPaid: btcFeeSats,
+      finalityState: fields.btcFeeFinalityState || 'not_prepared',
+      serverCustody: false,
+    },
+  };
+}
+
 async function upsertAndReadLedgerRow(table, conflictColumn, conflictValue, row) {
   const { error: upsertError } = await supabase
     .from(table)
@@ -836,23 +861,35 @@ async function settleAssetPackLedger(pipelineResultState) {
   if (pipelineResultState !== 'worthy_fit') {
     return {
       status: 'not_applicable',
-      commercialSettlementAdmissible: false,
+      settlementAdmissible: false,
       reason: 'Ledger settlement skipped because the fit result was not worthy_fit.',
+      ownershipBoundary: settlementOwnershipBoundary({
+        status: 'not_applicable',
+        btcFeeFinalityState: 'not_applicable',
+      }),
     };
   }
   if (manifest?.sourceOverlay) {
     return {
       status: 'blocked',
-      commercialSettlementAdmissible: false,
+      settlementAdmissible: false,
       reason: 'Source overlay QA evidence cannot mint BTD, claim BTC fee settlement, or anchor finality.',
       sourceOverlay: manifest.sourceOverlay,
+      ownershipBoundary: settlementOwnershipBoundary({
+        status: 'blocked',
+        btcFeeFinalityState: 'not_prepared',
+      }),
     };
   }
   if (!supabase) {
     return {
       status: 'blocked',
-      commercialSettlementAdmissible: false,
+      settlementAdmissible: false,
       reason: 'Ledger settlement requires Supabase admin read/write access for row writeback and readback.',
+      ownershipBoundary: settlementOwnershipBoundary({
+        status: 'blocked',
+        btcFeeFinalityState: 'not_prepared',
+      }),
     };
   }
 
@@ -864,8 +901,12 @@ async function settleAssetPackLedger(pipelineResultState) {
   if (!artifacts) {
     return {
       status: 'blocked',
-      commercialSettlementAdmissible: false,
+      settlementAdmissible: false,
       reason: 'Ledger settlement requires synthesized AssetPack artifacts in pipeline output.',
+      ownershipBoundary: settlementOwnershipBoundary({
+        status: 'blocked',
+        btcFeeFinalityState: 'not_prepared',
+      }),
     };
   }
 
@@ -883,6 +924,10 @@ async function settleAssetPackLedger(pipelineResultState) {
     'journal-anchor-' + runId,
     'journal-settlement-' + runId,
   ];
+  const depositorWalletId = ledgerWallet('depositor-wallet', process.env.BITCODE_PIPELINE_DEPOSITOR_WALLET_ID, manifest.deposit?.id || assetPackId);
+  const readerWalletId = ledgerWallet('reader-wallet', process.env.BITCODE_PIPELINE_READER_WALLET_ID, userId || runId);
+  const btcNetwork = String(process.env.BITCODE_PIPELINE_BTC_NETWORK || 'testnet').trim();
+  const btcFeeSats = positiveIntegerEnv('BITCODE_PIPELINE_BTC_FEE_SATS', 546);
 
   try {
     const { data: existingRange, error: existingRangeError } = await supabase
@@ -908,7 +953,7 @@ async function settleAssetPackLedger(pipelineResultState) {
       const missing = Object.entries(readback).filter(([, present]) => !present).map(([key]) => key);
       return {
         status: missing.length ? 'blocked' : 'settled',
-        commercialSettlementAdmissible: missing.length === 0,
+        settlementAdmissible: missing.length === 0,
         reason: missing.length
           ? 'Existing ledger settlement is missing readback rows: ' + missing.join(', ')
           : 'Existing ledger settlement rows were read back successfully.',
@@ -920,6 +965,16 @@ async function settleAssetPackLedger(pipelineResultState) {
         },
         ledgerAnchorId,
         btcFeeReceiptId,
+        depositorWalletId,
+        readerWalletId,
+        ownershipBoundary: settlementOwnershipBoundary({
+          status: missing.length ? 'blocked' : 'settled',
+          depositorWalletId,
+          readerWalletId,
+          btcFeeSats,
+          btcNetwork,
+          btcFeeFinalityState: missing.length ? 'readback_missing' : 'prepared',
+        }),
         readback,
       };
     }
@@ -962,11 +1017,7 @@ async function settleAssetPackLedger(pipelineResultState) {
       sourceRevision: manifest.sourceRevision,
       userId,
     });
-    const depositorWalletId = ledgerWallet('depositor-wallet', process.env.BITCODE_PIPELINE_DEPOSITOR_WALLET_ID, manifest.deposit?.id || assetPackId);
-    const readerWalletId = ledgerWallet('reader-wallet', process.env.BITCODE_PIPELINE_READER_WALLET_ID, userId || runId);
     const walletSessionId = ledgerWallet('reader-session', process.env.BITCODE_PIPELINE_WALLET_SESSION_ID, runId);
-    const btcNetwork = String(process.env.BITCODE_PIPELINE_BTC_NETWORK || 'testnet').trim();
-    const btcFeeSats = positiveIntegerEnv('BITCODE_PIPELINE_BTC_FEE_SATS', 546);
 
     const measurementReceipt = {
       schema: 'bitcode.btd.semantic-volume-measurement',
@@ -1268,7 +1319,7 @@ async function settleAssetPackLedger(pipelineResultState) {
 
     return {
       status: 'settled',
-      commercialSettlementAdmissible: true,
+      settlementAdmissible: true,
       reason: 'BTD range, reader BTC fee, internal ledger anchor, journal, ownership, license, and telemetry rows were written and read back.',
       assetPackId,
       btdRange: {
@@ -1286,6 +1337,14 @@ async function settleAssetPackLedger(pipelineResultState) {
         finalityState: 'prepared',
         serverCustody: false,
       },
+      ownershipBoundary: settlementOwnershipBoundary({
+        status: 'settled',
+        depositorWalletId,
+        readerWalletId,
+        btcFeeSats,
+        btcNetwork,
+        btcFeeFinalityState: 'prepared',
+      }),
       readback,
     };
   } catch (settlementError) {
@@ -1293,8 +1352,12 @@ async function settleAssetPackLedger(pipelineResultState) {
     record({ type: 'ledger-settlement-blocked', stage: 'telemetry-readback', error: message });
     return {
       status: 'blocked',
-      commercialSettlementAdmissible: false,
+      settlementAdmissible: false,
       reason: message,
+      ownershipBoundary: settlementOwnershipBoundary({
+        status: 'blocked',
+        btcFeeFinalityState: 'error',
+      }),
     };
   }
 }
@@ -1412,8 +1475,8 @@ try {
       ? 'Source overlay patch was applied for QA; this run cannot serve as source-revision settlement evidence.'
       : null,
     resultState === 'blocked_readiness'
-      ? 'Pipeline output did not include an admissible commercial result state; review remains blocked.'
-      : 'Review SQL must still verify durable telemetry, proof, and ledger readback before commercial settlement.',
+      ? 'Pipeline output did not include an admissible result state; review remains blocked.'
+      : 'Review SQL must still verify durable telemetry, proof, and ledger readback before settlement.',
     ...pipelineResultReasons,
   ].filter(Boolean);
 
@@ -1423,15 +1486,15 @@ try {
     ledgerSettlement,
   };
   resultReasons.push(ledgerSettlement.reason);
-  if (pipelineResultState === 'worthy_fit' && ledgerSettlement.commercialSettlementAdmissible !== true) {
+  if (pipelineResultState === 'worthy_fit' && ledgerSettlement.settlementAdmissible !== true) {
     resultState = 'blocked_readiness';
-    resultReasons.push('Commercial settlement remains blocked until ledger settlement writeback and readback are complete.');
+    resultReasons.push('Settlement remains blocked until ledger writeback and readback are complete.');
   }
   record({
     type: 'ledger-settlement-readback',
     stage: 'telemetry-readback',
     status: ledgerSettlement.status,
-    commercialSettlementAdmissible: ledgerSettlement.commercialSettlementAdmissible,
+    settlementAdmissible: ledgerSettlement.settlementAdmissible,
     assetPackId: ledgerSettlement.assetPackId || null,
   });
 
@@ -1481,7 +1544,7 @@ try {
     harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
     resultState: 'blocked_readiness',
     resultReasons: [
-      'AssetPack pipeline execution did not produce admissible commercial result evidence.',
+      'AssetPack pipeline execution did not produce admissible result evidence.',
       error.message,
     ],
     runId,

@@ -1,6 +1,7 @@
 import {
   buildTerminalFitPipelineHarnessRequest,
   drainTerminalFitPipelineHarnessSseBuffer,
+  summarizeTerminalFitPipelineHarnessEvent,
 } from '@/app/terminal/terminal-pipeline-harness-client';
 import type { TerminalDepositReadWorkbench } from '@/app/terminal/terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
@@ -119,5 +120,44 @@ describe('terminal pipeline harness client', () => {
       },
     ]);
     expect(tail).toBe('event: harness-event\ndata: {');
+  });
+
+  it('summarizes completed harness evidence with fit, candidate, telemetry, and ledger posture', () => {
+    const summary = summarizeTerminalFitPipelineHarnessEvent({
+      event: 'harness-completed',
+      data: {
+        outcome: 'completed',
+        telemetryLineCount: 72,
+        evidence: {
+          resultState: 'blocked_readiness',
+          fitResult: {
+            resultState: 'worthy_fit',
+            selectedCandidateAssetIds: ['asset-repository-revision'],
+          },
+          depositorySearch: {
+            searchedAssetCount: 1,
+          },
+          ledgerSettlement: {
+            status: 'blocked',
+          },
+        },
+      },
+    });
+
+    expect(summary).toContain('outcome completed');
+    expect(summary).toContain('fit worthy_fit');
+    expect(summary).toContain('searched 1 assets');
+    expect(summary).toContain('candidate asset-repository-revision');
+    expect(summary).toContain('ledger blocked');
+    expect(summary).toContain('telemetry 72 lines');
+  });
+
+  it('summarizes command lifecycle harness events for operator debugging', () => {
+    expect(
+      summarizeTerminalFitPipelineHarnessEvent({
+        event: 'harness-event',
+        data: { type: 'command-completed', label: 'asset-pack-pipeline-run', exitCode: 0 },
+      }),
+    ).toBe('Harness command completed: asset-pack-pipeline-run exit 0.');
   });
 });

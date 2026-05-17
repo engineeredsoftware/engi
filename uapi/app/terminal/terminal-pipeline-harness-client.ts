@@ -220,21 +220,79 @@ export async function streamTerminalFitPipelineHarness(
   }
 }
 
+function recordValue(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function stringList(value: unknown, limit = 3): string[] {
+  return Array.isArray(value)
+    ? value.map((entry) => String(entry)).filter(Boolean).slice(0, limit)
+    : [];
+}
+
+function summarizeCandidateIds(value: unknown): string {
+  const ids = stringList(value, 3);
+  if (!ids.length) return 'no selected candidates';
+  return ids.length === 1 ? `candidate ${ids[0]}` : `candidates ${ids.join(', ')}`;
+}
+
 export function summarizeTerminalFitPipelineHarnessEvent(
   event: TerminalFitPipelineHarnessEvent,
 ): string {
-  const data = event.data && typeof event.data === 'object' ? (event.data as Record<string, unknown>) : null;
+  const data = recordValue(event.data);
   if (event.event === 'harness-started') {
     return `Harness started for ${data?.repositoryFullName || 'selected repository'}.`;
   }
   if (event.event === 'harness-completed') {
-    return `Harness completed with outcome ${String(data?.outcome || 'unknown')}.`;
+    const evidence = recordValue(data?.evidence);
+    const fitResult = recordValue(evidence?.fitResult);
+    const depositorySearch = recordValue(evidence?.depositorySearch);
+    const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
+    const fitState = String(fitResult?.resultState || evidence?.resultState || 'unknown');
+    const searchedAssetCount = depositorySearch?.searchedAssetCount;
+    const ledgerStatus = ledgerSettlement?.status
+      ? `ledger ${String(ledgerSettlement.status)}`
+      : null;
+    const selectedCandidateText = summarizeCandidateIds(
+      fitResult?.selectedCandidateAssetIds || depositorySearch?.selectedCandidateAssetIds,
+    );
+    const telemetryLineCount = Number(data?.telemetryLineCount || 0);
+    const telemetryText = telemetryLineCount > 0
+      ? ` telemetry ${telemetryLineCount} lines`
+      : ' telemetry artifact pending';
+    const searchText = typeof searchedAssetCount === 'number'
+      ? ` searched ${searchedAssetCount} assets`
+      : ' searched asset count unknown';
+    return [
+      `Harness completed with outcome ${String(data?.outcome || 'unknown')}`,
+      `fit ${fitState}`,
+      searchText,
+      selectedCandidateText,
+      ledgerStatus,
+      telemetryText,
+    ].filter(Boolean).join('; ') + '.';
   }
   if (event.event === 'harness-failed') {
     return `Harness failed: ${String(data?.error || 'unknown error')}`;
   }
   if (event.event === 'harness-event') {
-    return `Harness event: ${String(data?.type || 'event')}.`;
+    const type = String(data?.type || 'event');
+    const label = data?.label ? String(data.label) : '';
+    if (type === 'command-started' && label) {
+      return `Harness command started: ${label}.`;
+    }
+    if (type === 'command-completed' && label) {
+      return `Harness command completed: ${label} exit ${String(data?.exitCode ?? 'unknown')}.`;
+    }
+    if (type === 'artifacts-read') {
+      return 'Harness artifacts read back from sandbox.';
+    }
+    if (type === 'sandbox-stopped') {
+      return 'Harness sandbox stopped after artifact export.';
+    }
+    return `Harness event: ${type}.`;
   }
   return `Harness stream event: ${event.event}.`;
 }

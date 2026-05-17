@@ -139,6 +139,63 @@ export interface DepositoryCandidate {
   rejectionReasons: string[];
 }
 
+export interface DepositoryCandidateFitEvidence {
+  assetId: string;
+  title: string;
+  artifactKind: string;
+  useTier: DepositoryCandidateUseTier;
+  sourceBinding: {
+    repositoryFullName: string | null;
+    sourceBranch: string | null;
+    sourceCommit: string | null;
+    contentRoot: string | null;
+  };
+  selectedUnits: Array<{
+    unitId: string;
+    unitKind: string;
+    path: string | null;
+    unitHash: string | null;
+  }>;
+  scores: Pick<
+    DepositoryCandidateRanking,
+    | 'finalScore'
+    | 'semanticScore'
+    | 'textScore'
+    | 'unitScore'
+    | 'repositoryScore'
+    | 'revisionScore'
+    | 'artifactKindScore'
+    | 'proofScore'
+    | 'measurementScore'
+    | 'providerScore'
+    | 'penaltyMass'
+  >;
+  verification: DepositoryCandidate['verification'];
+  recall: {
+    matchedTerms: string[];
+    matchedTargetKinds: string[];
+    matchedUnitIds: string[];
+    providerMatchCount: number;
+    providerIds: string[];
+  };
+  proofEvidence: {
+    hasWalletOrAttestationProof: boolean;
+    attestationCount: number;
+    signingSurfacePresent: boolean;
+    identitySurfacePresent: boolean;
+    githubBoundaryPresent: boolean;
+    githubAppAuthSurfacePresent: boolean;
+    proofRoot: string | null;
+  };
+  measurementEvidence: {
+    hasAssetMeasurementEvidence: boolean;
+    assetMeasurementPresent: boolean;
+    measurementProvenanceCount: number;
+    measurementRoot: string | null;
+  };
+  rejectionReasons: string[];
+}
+
 export interface DepositorySearchResult {
   schema: 'bitcode.asset-pack.depository-search';
   resultState: AssetPackFitResultState;
@@ -155,6 +212,23 @@ export interface DepositorySearchResult {
   queryRoot: string;
   rankingRoot: string;
   createdAt: string;
+}
+
+export interface DepositoryFitResultEvidence {
+  schema: 'bitcode.asset-pack.fit-result';
+  resultState: AssetPackFitResultState;
+  resultReasons: string[];
+  selectedCandidateAssetIds: string[];
+  queryRoot: string;
+  rankingRoot: string;
+  searchedAssetCount: number;
+  embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+  selectionTrace: {
+    selectedCandidates: DepositoryCandidateFitEvidence[];
+    blockedCandidates: DepositoryCandidateFitEvidence[];
+    candidateRanking: DepositoryCandidateFitEvidence[];
+    rejectedCandidateCount: number;
+  };
 }
 
 export interface DepositorySearchInput {
@@ -598,6 +672,96 @@ function rankAsset(
   };
 }
 
+export function summarizeDepositoryCandidateForFitEvidence(
+  candidate: DepositoryCandidate
+): DepositoryCandidateFitEvidence {
+  const verificationEvidence = candidate.asset.verificationEvidence || {};
+  const providerIds = [
+    ...new Set(
+      candidate.recall.providerMatches
+        .map((match) => match.providerId || match.channelId)
+        .filter((providerId): providerId is string => Boolean(providerId))
+    ),
+  ].sort();
+
+  return {
+    assetId: candidate.assetId,
+    title: candidate.title,
+    artifactKind: candidate.asset.artifactKind,
+    useTier: candidate.useTier,
+    sourceBinding: {
+      repositoryFullName: candidate.asset.repositoryFullName || null,
+      sourceBranch: candidate.asset.sourceBranch || null,
+      sourceCommit: candidate.asset.sourceCommit || null,
+      contentRoot: candidate.asset.contentRoot || null,
+    },
+    selectedUnits: candidate.selectedUnits.map((unit) => ({
+      unitId: unit.unitId,
+      unitKind: unit.unitKind,
+      path: unit.path || null,
+      unitHash: unit.unitHash || null,
+    })),
+    scores: {
+      finalScore: candidate.ranking.finalScore,
+      semanticScore: candidate.ranking.semanticScore,
+      textScore: candidate.ranking.textScore,
+      unitScore: candidate.ranking.unitScore,
+      repositoryScore: candidate.ranking.repositoryScore,
+      revisionScore: candidate.ranking.revisionScore,
+      artifactKindScore: candidate.ranking.artifactKindScore,
+      proofScore: candidate.ranking.proofScore,
+      measurementScore: candidate.ranking.measurementScore,
+      providerScore: candidate.ranking.providerScore,
+      penaltyMass: candidate.ranking.penaltyMass,
+    },
+    verification: candidate.verification,
+    recall: {
+      matchedTerms: candidate.recall.matchedTerms,
+      matchedTargetKinds: candidate.ranking.explainability.matchedTargetKinds,
+      matchedUnitIds: candidate.recall.matchedUnitIds,
+      providerMatchCount: candidate.recall.providerMatches.length,
+      providerIds,
+    },
+    proofEvidence: {
+      hasWalletOrAttestationProof: candidate.verification.hasWalletOrAttestationProof,
+      attestationCount: candidate.asset.attestations?.length || 0,
+      signingSurfacePresent: Boolean(candidate.asset.signingSurface),
+      identitySurfacePresent: Boolean(candidate.asset.identitySurface),
+      githubBoundaryPresent: Boolean(candidate.asset.githubBoundary),
+      githubAppAuthSurfacePresent: Boolean(candidate.asset.githubAppAuthSurface),
+      proofRoot: firstString(verificationEvidence.proofRoot),
+    },
+    measurementEvidence: {
+      hasAssetMeasurementEvidence: candidate.verification.hasAssetMeasurementEvidence,
+      assetMeasurementPresent: Boolean(candidate.asset.assetMeasurement),
+      measurementProvenanceCount: candidate.asset.measurementProvenance?.length || 0,
+      measurementRoot: firstString(verificationEvidence.measurementRoot),
+    },
+    rejectionReasons: candidate.rejectionReasons,
+  };
+}
+
+export function buildDepositoryFitResultEvidence(
+  result: DepositorySearchResult
+): DepositoryFitResultEvidence {
+  return {
+    schema: 'bitcode.asset-pack.fit-result',
+    resultState: result.resultState,
+    resultReasons: result.resultReasons,
+    selectedCandidateAssetIds: result.selectedCandidateAssetIds,
+    queryRoot: result.queryRoot,
+    rankingRoot: result.rankingRoot,
+    searchedAssetCount: result.searchedAssetCount,
+    embeddingPolicy: result.embeddingPolicy,
+    selectionTrace: {
+      selectedCandidates: result.selectedCandidates.map(summarizeDepositoryCandidateForFitEvidence),
+      blockedCandidates: result.blockedCandidates.map(summarizeDepositoryCandidateForFitEvidence),
+      candidateRanking: result.candidateRanking.map(summarizeDepositoryCandidateForFitEvidence),
+      rejectedCandidateCount: result.rejectedCandidates.length,
+    },
+  };
+}
+
 function resultStateFor(input: {
   read: DepositorySearchRead;
   candidates: DepositoryCandidate[];
@@ -616,7 +780,7 @@ function resultStateFor(input: {
   if (readLooksBroad(input.read)) {
     return {
       resultState: 'blocked_readiness',
-      resultReasons: ['Read is too broad for commercial fit selection without closure criteria or target artifact kinds.'],
+      resultReasons: ['Read is too broad for fit selection without closure criteria or target artifact kinds.'],
     };
   }
 
@@ -651,7 +815,7 @@ function resultStateFor(input: {
     return {
       resultState: 'blocked_readiness',
       resultReasons: [
-        'Candidate recall found source-bound evidence, but commercial fit remains blocked until proof, measurement, or worthy-score requirements are satisfied.',
+        'Candidate recall found source-bound evidence, but fit remains blocked until proof, measurement, or worthy-score requirements are satisfied.',
         ...[...new Set(missing)].map((warning) => `Warning: ${warning}`),
       ],
     };
@@ -997,25 +1161,19 @@ export async function runDepositorySearchForPipelineInput(
     providers: [createLexicalDepositorySearchProvider()],
   });
 
-  const fitResult = {
-    resultState: result.resultState,
-    resultReasons: result.resultReasons,
-    selectedCandidateAssetIds: result.selectedCandidateAssetIds,
-    queryRoot: result.queryRoot,
-    rankingRoot: result.rankingRoot,
-    searchedAssetCount: result.searchedAssetCount,
-    embeddingPolicy: result.embeddingPolicy,
-  };
+  const fitResult = buildDepositoryFitResultEvidence(result);
   const storeEvidence = (target?: { store?: (namespace: string, key: string, value: unknown) => void }) => {
     if (!target?.store) return;
     target.store('depository/search', 'result', result);
     target.store('depository/search', 'candidateRanking', result.candidateRanking);
     target.store('depository/search', 'selectedCandidates', result.selectedCandidates);
+    target.store('depository/search', 'selectionTrace', fitResult.selectionTrace);
     target.store('depository/search', 'embeddingPolicy', result.embeddingPolicy);
     target.store('fit', 'result', fitResult);
     target.store('fit', 'resultState', result.resultState);
     target.store('fit', 'resultReasons', result.resultReasons);
     target.store('fit', 'candidateRanking', result.candidateRanking);
+    target.store('fit', 'selectionTrace', fitResult.selectionTrace);
   };
 
   if (execution?.store) {

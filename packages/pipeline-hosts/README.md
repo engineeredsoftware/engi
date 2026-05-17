@@ -30,7 +30,7 @@ manifest and runner, executes Node, writes `evidence.json` and
 dependencies, builds a manifest depository asset from the pinned Deposit and
 source revision, and runs the AssetPack pipeline runner in the sandbox. It still
 requires SQL readback before any `worthy_fit`, settlement, range, BTC fee, or
-ledger finality claim is commercially admissible. If the operator has already
+ledger finality claim is admissible. If the operator has already
 verified proof and measurement posture for the manifest Deposit, set
 `BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1` and
 `BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1`; otherwise the pipeline should
@@ -69,7 +69,7 @@ trusted command environment. For local Vercel Sandbox creation, either pull
 token tuple `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and `VERCEL_PROJECT_ID`. Deployed
 Vercel code should use automatic OIDC rather than storing a Vercel token when
 possible.
-Staging-testnet commercial Read/Fit QA must also set
+Staging-testnet Read/Fit QA must also set
 `BITCODE_ASSET_PACK_REAL_INFERENCE=1`. That single flag forces every
 PTRR-capable AssetPack setup, discovery, synthesis, validation, and finish
 agent off the deterministic bring-up path. The phase-specific
@@ -77,7 +77,7 @@ agent off the deterministic bring-up path. The phase-specific
 but they are not sufficient as a staging posture because a missed flag silently
 turns part of the run back into deterministic evidence.
 `BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the generation model.
-When they are absent, the commercial runtime chooses OpenAI if `OPENAI_API_KEY`
+When they are absent, the runtime chooses OpenAI if `OPENAI_API_KEY`
 is the only model credential present. A provider pin is forwarded only when the
 matching provider credential is also forwarded; stale pins without credentials
 are stripped so staging does not silently require an unavailable model service.
@@ -132,7 +132,7 @@ When validating local harness changes before the pinned source revision has been
 promoted, add `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`. The runner uploads
 `git diff --binary $BITCODE_SANDBOX_SOURCE_REVISION` as a source overlay and
 applies it before dependency installation. Overlay runs are QA-only: evidence records
-`sourceOverlay.commercialAdmissibility=qa-only-not-source-revision-evidence`,
+`sourceOverlay.admissibility=qa-only-not-source-revision-evidence`,
 and the harness must not be used as settlement or source-revision finality
 evidence until the same changes exist at the deposited revision.
 
@@ -166,7 +166,7 @@ psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
   -f supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql
 ```
 
-The harness is not commercially reviewable until this query reports pipeline
+The harness is not reviewable until this query reports pipeline
 run/event/phase/agent/generation/tool visibility rather than a blocker state.
 
 Only pass secrets through `BITCODE_SANDBOX_ENV_KEYS` when the sandbox code path

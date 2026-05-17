@@ -318,9 +318,9 @@ Acceptance criteria:
 - access policy id/hash is shown before mint or licensed-read commitment.
 - ledgerized synthesis uses protocol-specified models and configuration; Terminal must not expose user-driven model selection for Fit, AssetPack, measurement, measuremint, proof, journal, or settlement behavior.
 
-#### Single-deposit commercial Reading QA
+#### Single-deposit Reading QA
 
-The first commercially meaningful V28 Read/Fit QA scenario runs against the
+The first value-producing V28 Read/Fit QA scenario runs against the
 smallest real Bitcode data-space: one deposited repository revision.
 The current staging fixture happens to use `engineeredsoftware/ENGI`, but
 Terminal implementation must remain repository-, owner-, branch-, and
@@ -351,6 +351,12 @@ Acceptance criteria:
   root, selected candidate ids, rejected/blocker reasons, proof/measurement
   posture, embedding policy, and result state under the execution evidence
   tree;
+- Fit evidence must include a compact selection trace for operator review:
+  selected, blocked, and ranked candidates; source binding; use tier; score
+  channels; selected unit hashes; proof/measurement evidence; provider recall;
+  blockers; warnings; and rejection reasons. The full depository search result
+  can retain candidate payloads, but the Fit result must expose this bounded
+  trace directly for Terminal, SQL, and harness summaries.
 - vector recall for deposited AssetPack evidence uses OpenAI
   `text-embedding-3-small` by default with `encoding_format='float'` and
   `dimensions=1536`, matching Supabase `deliverable_vectors.embedding
@@ -362,7 +368,7 @@ Acceptance criteria:
   dedupe/materialization roots where available, and finality/readiness status;
 - AssetPack synthesis must be protocol-specified and reproducibly evidenced;
   deterministic bring-up branches are regression scaffolds, while
-  staging-testnet commercial QA must run model-backed PTRR inference. If source
+  staging-testnet QA must run model-backed PTRR inference. If source
   materialization, settlement, BTC fee broadcast, ledger anchor, or BTD range
   issuance is not live, the result must state that blocker rather than imply
   delivery or minting;
@@ -372,6 +378,10 @@ Acceptance criteria:
 - SQL readback must show Deposit before Read, Read before Fit, no
   `frontier/*` or mock repository leakage, and no ledger/database drift for any
   finality that Terminal claims.
+- Ledger settlement evidence must carry neutral protocol fields:
+  `settlementAdmissible`, `ownershipBoundary`, `btcFee`, and `readback`.
+  Depositor ownership, reader fee/license posture, and server-custody state
+  must be explicit even when settlement is blocked.
 
 #### Pipeline host runtime environment for Read/Fit QA
 
@@ -425,11 +435,11 @@ The harness has two admissible modes:
   installs workspace dependencies, builds the manifest Deposit into searchable
   depository supply, invokes the AssetPack pipeline entrypoint, exports
   evidence and telemetry artifacts, and relies on SQL readback before any
-  commercial result is accepted.
+  result is accepted.
 
 If a local source overlay is used to debug the harness before deployment, the
-run must report `sourceOverlay.commercialAdmissibility` as
-`qa-only-not-source-revision-evidence` and fail closed for commercial
+run must report `sourceOverlay.admissibility` as
+`qa-only-not-source-revision-evidence` and fail closed for
 settlement review even when the pipeline output itself contains a worthy
 classification. The same implementation must exist at the deposited source
 revision before that result can become source-bound evidence.
@@ -443,7 +453,7 @@ Read/Fit result review remains fail-closed:
 - `blocked_readiness` is mandatory when source materialization, model/tool
   credentials, telemetry persistence, BTC fee, ledger anchor, settlement,
   AssetPack range projection, or finality readback is unavailable.
-- staging-testnet commercial Read/Fit QA must run model-backed inference.
+- staging-testnet Read/Fit QA must run model-backed inference.
   `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is the deployment-level switch for the
   AssetPack pipeline; it forces every PTRR-capable setup, discovery, synthesis,
   validation, and Finish agent off deterministic bring-up branches. A run with
@@ -613,10 +623,10 @@ V28 keeps these layer boundaries:
 - `/terminal` plus `uapi/app/terminal`: Terminal route surface.
 - `uapi/app/terminal`: Terminal implementation module retained as an internal component boundary while the prior generic workspace route remains absent.
 - `uapi/app/btd/[assetPackId]`: AssetPack range disclosure surface.
-- MCP API and ChatGPT App: V28 MVP commercial interface surfaces over registry-derived policy and proof truth.
+- MCP API and ChatGPT App: V28 MVP interface surfaces over registry-derived policy and proof truth.
 - `protocol-demonstration`: minimal deterministic protocol witness. It may
-  contain a local source-bound fit-finding loop for demonstration E2E proof, but
-  it must not import commercial packages or be imported by commercial runtime
+  contain a local source-bound fit-finding loop for E2E proof, but
+  it must not import workspace packages or be imported by product runtime
   code.
 
 ## canonical domain model

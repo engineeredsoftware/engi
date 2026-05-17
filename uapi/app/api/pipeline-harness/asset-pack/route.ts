@@ -325,6 +325,46 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
   const depositorySearch = output?.depositorySearch && typeof output.depositorySearch === 'object'
     ? (output.depositorySearch as Record<string, unknown>)
     : null;
+  const ledgerSettlement = output?.ledgerSettlement && typeof output.ledgerSettlement === 'object'
+    ? (output.ledgerSettlement as Record<string, unknown>)
+    : null;
+  const summarizeCandidate = (candidate: unknown) => {
+    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return null;
+    const record = candidate as Record<string, unknown>;
+    const scores = record.scores && typeof record.scores === 'object'
+      ? (record.scores as Record<string, unknown>)
+      : record.ranking && typeof record.ranking === 'object'
+        ? (record.ranking as Record<string, unknown>)
+        : null;
+    const sourceBinding = record.sourceBinding && typeof record.sourceBinding === 'object'
+      ? (record.sourceBinding as Record<string, unknown>)
+      : null;
+    const verification = record.verification && typeof record.verification === 'object'
+      ? (record.verification as Record<string, unknown>)
+      : null;
+    return {
+      assetId: record.assetId,
+      title: record.title,
+      useTier: record.useTier,
+      sourceBinding,
+      scores: scores
+        ? {
+            finalScore: scores.finalScore,
+            semanticScore: scores.semanticScore,
+            repositoryScore: scores.repositoryScore,
+            revisionScore: scores.revisionScore,
+            proofScore: scores.proofScore,
+            measurementScore: scores.measurementScore,
+          }
+        : null,
+      blockers: Array.isArray(verification?.blockers)
+        ? verification.blockers.map((blocker) => String(blocker))
+        : [],
+      warnings: Array.isArray(verification?.warnings)
+        ? verification.warnings.map((warning) => String(warning))
+        : [],
+    };
+  };
   const summarizeFitLike = (value: Record<string, unknown> | null) =>
     value
       ? {
@@ -338,6 +378,21 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
           queryRoot: value.queryRoot,
           rankingRoot: value.rankingRoot,
           embeddingPolicy: value.embeddingPolicy,
+          selectionTrace: value.selectionTrace && typeof value.selectionTrace === 'object'
+            ? {
+                selectedCandidates: Array.isArray((value.selectionTrace as Record<string, unknown>).selectedCandidates)
+                  ? ((value.selectionTrace as Record<string, unknown>).selectedCandidates as unknown[])
+                      .map(summarizeCandidate)
+                      .filter(Boolean)
+                  : [],
+                blockedCandidates: Array.isArray((value.selectionTrace as Record<string, unknown>).blockedCandidates)
+                  ? ((value.selectionTrace as Record<string, unknown>).blockedCandidates as unknown[])
+                      .map(summarizeCandidate)
+                      .filter(Boolean)
+                  : [],
+                rejectedCandidateCount: (value.selectionTrace as Record<string, unknown>).rejectedCandidateCount ?? null,
+              }
+            : null,
         }
       : null;
   return {
@@ -363,6 +418,34 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
       ? {
           ...summarizeFitLike(depositorySearch),
           searchedAssetCount: depositorySearch.searchedAssetCount,
+          selectedCandidates: Array.isArray(depositorySearch.selectedCandidates)
+            ? (depositorySearch.selectedCandidates as unknown[])
+                .slice(0, 3)
+                .map(summarizeCandidate)
+                .filter(Boolean)
+            : [],
+          blockedCandidates: Array.isArray(depositorySearch.blockedCandidates)
+            ? (depositorySearch.blockedCandidates as unknown[])
+                .slice(0, 3)
+                .map(summarizeCandidate)
+                .filter(Boolean)
+            : [],
+        }
+      : null,
+    ledgerSettlement: ledgerSettlement
+      ? {
+          status: ledgerSettlement.status,
+          settlementAdmissible: ledgerSettlement.settlementAdmissible,
+          reason: ledgerSettlement.reason,
+          assetPackId: ledgerSettlement.assetPackId,
+          btdRange: ledgerSettlement.btdRange,
+          ledgerAnchorId: ledgerSettlement.ledgerAnchorId,
+          btcFeeReceiptId: ledgerSettlement.btcFeeReceiptId,
+          depositorWalletId: ledgerSettlement.depositorWalletId,
+          readerWalletId: ledgerSettlement.readerWalletId,
+          btcFee: ledgerSettlement.btcFee,
+          ownershipBoundary: ledgerSettlement.ownershipBoundary,
+          readback: ledgerSettlement.readback,
         }
       : null,
     eventTypes: Array.isArray(record.events)

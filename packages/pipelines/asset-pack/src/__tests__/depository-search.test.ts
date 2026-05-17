@@ -223,6 +223,33 @@ describe('AssetPack depository search', () => {
     expect(findStored(exec, 'depository/search', 'embeddingPolicy')?.dimensions).toBe(1536);
     expect(output.fitResult.resultState).toBe('worthy_fit');
     expect(output.fitResult.embeddingPolicy.model).toBe('text-embedding-3-small');
+    expect(['settlement-eligible', 'patch-eligible']).toContain(
+      output.fitResult.selectionTrace.selectedCandidates[0].useTier
+    );
+    expect(output.fitResult.selectionTrace.selectedCandidates[0]).toMatchObject({
+      assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
+      sourceBinding: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        sourceBranch: 'main',
+        sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+      scores: {
+        proofScore: 1,
+        measurementScore: 1,
+      },
+      proofEvidence: {
+        hasWalletOrAttestationProof: true,
+        signingSurfacePresent: true,
+      },
+      measurementEvidence: {
+        hasAssetMeasurementEvidence: true,
+        assetMeasurementPresent: true,
+      },
+    });
+    expect(findStored(exec, 'fit', 'selectionTrace')?.selectedCandidates[0].selectedUnits[0]).toMatchObject({
+      unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:unit-1',
+      unitKind: 'repository-revision',
+    });
     expect(output.depositorySearch.selectedCandidateAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',
     ]);

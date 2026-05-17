@@ -2,9 +2,9 @@
 
 import { createHash } from 'node:crypto';
 
-const DEMONSTRATION_VECTOR_DIMENSIONS = 32;
-const DEMONSTRATION_REVIEW_SCORE = 0.42;
-const DEMONSTRATION_WORTHY_SCORE = 0.62;
+const LOCAL_VECTOR_DIMENSIONS = 32;
+const LOCAL_REVIEW_SCORE = 0.42;
+const LOCAL_WORTHY_SCORE = 0.62;
 
 const STOP_WORDS = new Set([
   'the',
@@ -45,10 +45,10 @@ function overlapScore(left, right) {
 }
 
 function hashVector(text) {
-  const vector = Array.from({ length: DEMONSTRATION_VECTOR_DIMENSIONS }, () => 0);
+  const vector = Array.from({ length: LOCAL_VECTOR_DIMENSIONS }, () => 0);
   for (const token of tokensFrom(text)) {
     const digest = sha256(token);
-    const index = Number.parseInt(digest.slice(0, 8), 16) % DEMONSTRATION_VECTOR_DIMENSIONS;
+    const index = Number.parseInt(digest.slice(0, 8), 16) % LOCAL_VECTOR_DIMENSIONS;
     vector[index] += Number.parseInt(digest.slice(8, 10), 16) % 2 === 0 ? 1 : -1;
   }
   return vector;
@@ -163,41 +163,75 @@ function synthesizeAssetPack(read, candidate) {
     score: candidate.finalScore,
   });
   return {
-    assetPackId: `demo-asset-pack-${sha256(proofSeed).slice(0, 12)}`,
-    title: `Demonstration AssetPack fit for ${candidate.deposit.title || candidate.depositId}`,
+    assetPackId: `asset-pack-${sha256(proofSeed).slice(0, 12)}`,
+    title: `AssetPack fit for ${candidate.deposit.title || candidate.depositId}`,
     sourceRevision,
     selectedDepositIds: [candidate.depositId],
     proofRoot: `sha256:${sha256(proofSeed)}`,
-    summary: 'Local demonstration fit synthesized from a source-bound deposited fixture.',
+    journalRoot: `sha256:${sha256(stableStringify({
+      assetPack: proofSeed,
+      events: ['read-fit-found', 'asset-pack-synthesized', 'settlement-previewed'],
+    }))}`,
+    journal: [
+      {
+        event: 'read-fit-found',
+        actor: 'reader',
+        depositId: candidate.depositId,
+        resultState: 'worthy_fit',
+      },
+      {
+        event: 'asset-pack-synthesized',
+        actor: 'protocol',
+        proofRoot: `sha256:${sha256(proofSeed)}`,
+      },
+      {
+        event: 'settlement-previewed',
+        actor: 'protocol',
+        serverCustody: false,
+      },
+    ],
+    ledgerPreview: {
+      schema: 'bitcode.settlement-boundary',
+      status: 'preview_only',
+      depositorBoundary: 'depositor keeps ownership of the deposited source evidence',
+      readerBoundary: 'reader pays BTC fee only in settlement and receives read rights',
+      serverCustody: false,
+      btcFee: {
+        payer: 'reader',
+        finalityState: 'not_broadcast',
+        serverCustody: false,
+      },
+    },
+    summary: 'Local fit synthesized from a source-bound deposited fixture.',
   };
 }
 
-export function createDemonstrationDepository() {
+export function createDepository() {
   return [
     {
-      depositId: 'demo-deposit-terminal-source',
+      depositId: 'deposit-terminal-source',
       title: 'Terminal source-bound deposit',
       summary: 'Repository revision evidence for Deposit, Read/Fit, AssetPack evidence, proof readback, and reconciliation.',
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
-      sourceCommit: 'demo-commit',
+      sourceCommit: 'source-commit',
       artifactKinds: ['repository-revision', 'asset-pack-evidence', 'proof-root', 'reconciliation-readback'],
       contentUnits: [
         {
           path: 'terminal/deposit-read-fit',
-          text: 'The local demonstration records a measured Read, searches deposited source, ranks candidates, and synthesizes a minimal AssetPack fit.',
+          text: 'The local loop records a measured Read, searches deposited source, ranks candidates, and synthesizes a minimal AssetPack fit.',
         },
       ],
       hasWalletOrAttestationProof: true,
       hasAssetMeasurementEvidence: true,
     },
     {
-      depositId: 'demo-deposit-unrelated',
+      depositId: 'deposit-unrelated',
       title: 'Unrelated marketing deposit',
       summary: 'Landing page copy and product launch notes.',
       repositoryFullName: 'engineeredsoftware/marketing',
       sourceBranch: 'main',
-      sourceCommit: 'demo-marketing',
+      sourceCommit: 'marketing-commit',
       artifactKinds: ['marketing-copy'],
       contentUnits: [{ path: 'campaign.md', text: 'Seasonal menu and launch copy.' }],
       hasWalletOrAttestationProof: true,
@@ -206,7 +240,7 @@ export function createDemonstrationDepository() {
   ];
 }
 
-export function findReadFitLocally({ read, deposits = createDemonstrationDepository() }) {
+export function findReadFitLocally({ read, deposits = createDepository() }) {
   const normalizedRead = {
     prompt: String(read?.prompt || ''),
     repositoryFullName: read?.repositoryFullName || null,
@@ -227,16 +261,16 @@ export function findReadFitLocally({ read, deposits = createDemonstrationDeposit
     warnings: candidate.warnings,
   }))))}`;
   const embeddingPolicy = {
-    provider: 'local-demonstration',
+    provider: 'local',
     model: 'deterministic-token-hash',
-    dimensions: DEMONSTRATION_VECTOR_DIMENSIONS,
+    dimensions: LOCAL_VECTOR_DIMENSIONS,
     distanceMetric: 'cosine',
   };
 
   if (!deposits.length) {
     return {
       resultState: 'blocked_readiness',
-      resultReasons: ['No local demonstration deposits are available.'],
+      resultReasons: ['No local deposits are available.'],
       candidateRanking,
       selectedCandidates: [],
       assetPack: null,
@@ -249,7 +283,7 @@ export function findReadFitLocally({ read, deposits = createDemonstrationDeposit
   if (isBroadRead(normalizedRead)) {
     return {
       resultState: 'blocked_readiness',
-      resultReasons: ['The local demonstration Read is too broad to fit without target kinds or closure criteria.'],
+      resultReasons: ['The local Read is too broad to fit without target kinds or closure criteria.'],
       candidateRanking,
       selectedCandidates: [],
       assetPack: null,
@@ -261,14 +295,14 @@ export function findReadFitLocally({ read, deposits = createDemonstrationDeposit
 
   const selected = candidateRanking.filter((candidate) =>
     !candidate.blockers.length &&
-    candidate.finalScore >= DEMONSTRATION_REVIEW_SCORE
+    candidate.finalScore >= LOCAL_REVIEW_SCORE
   ).slice(0, 1);
   const best = selected[0];
 
   if (!best) {
     return {
       resultState: 'no_worthy_fit',
-      resultReasons: ['No local demonstration deposit matched the source-bound Read.'],
+      resultReasons: ['No local deposit matched the source-bound Read.'],
       candidateRanking,
       selectedCandidates: [],
       assetPack: null,
@@ -278,11 +312,11 @@ export function findReadFitLocally({ read, deposits = createDemonstrationDeposit
     };
   }
 
-  if (best.warnings.length || best.finalScore < DEMONSTRATION_WORTHY_SCORE) {
+  if (best.warnings.length || best.finalScore < LOCAL_WORTHY_SCORE) {
     return {
       resultState: 'blocked_readiness',
       resultReasons: [
-        'A local demonstration deposit matched, but proof, measurement, or score requirements are incomplete.',
+        'A local deposit matched, but proof, measurement, or score requirements are incomplete.',
         ...best.warnings,
       ],
       candidateRanking,
@@ -296,7 +330,7 @@ export function findReadFitLocally({ read, deposits = createDemonstrationDeposit
 
   return {
     resultState: 'worthy_fit',
-    resultReasons: ['A local demonstration source-bound deposit was ranked and synthesized as a minimal AssetPack fit.'],
+    resultReasons: ['A local source-bound deposit was ranked and synthesized as a minimal AssetPack fit.'],
     candidateRanking,
     selectedCandidates: selected,
     assetPack: synthesizeAssetPack(normalizedRead, best),

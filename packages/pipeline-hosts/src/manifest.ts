@@ -79,7 +79,7 @@ export const ASSET_PACK_HARNESS_EVIDENCE_TABLES = [
   'deliverable_pipeline_tool_executions',
 ] as const;
 
-export const ASSET_PACK_COMMERCIAL_INVARIANTS = [
+export const ASSET_PACK_PROTOCOL_INVARIANTS = [
   'Deposit, Read, and Fit must share repository_full_name, source_branch, and source_commit.',
   'A worthy Fit cannot be claimed from local posture rows alone; it needs pipeline execution evidence.',
   'No AssetPack range, BTC fee, ledger anchor, settlement, or finality may be claimed without matching readback rows.',
@@ -134,7 +134,7 @@ export function buildAssetPackPipelineHarnessManifest(input: {
     stages: ASSET_PACK_HARNESS_STAGES,
     expectedEvidenceTables: ASSET_PACK_HARNESS_EVIDENCE_TABLES,
     resultStates: ASSET_PACK_HARNESS_RESULT_STATES,
-    commercialInvariants: ASSET_PACK_COMMERCIAL_INVARIANTS,
+    protocolInvariants: ASSET_PACK_PROTOCOL_INVARIANTS,
     commandEnvironment: redactCommandEnvironment(input.commandEnvironment),
     createdAt: input.createdAt ?? new Date().toISOString(),
   };

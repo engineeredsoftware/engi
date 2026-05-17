@@ -106,7 +106,7 @@ export interface PipelineHarnessManifest {
   stages: readonly PipelineHarnessStage[];
   expectedEvidenceTables: readonly string[];
   resultStates: readonly BitcodePipelineResultState[];
-  commercialInvariants: readonly string[];
+  protocolInvariants: readonly string[];
   commandEnvironment: readonly {
     name: string;
     provided: boolean;
@@ -163,7 +163,7 @@ export interface PipelineHarnessFile {
 export interface PipelineHarnessSourceOverlay {
   path: string;
   patchRoot: '/vercel/sandbox';
-  commercialAdmissibility: 'qa-only-not-source-revision-evidence';
+  admissibility: 'qa-only-not-source-revision-evidence';
 }
 
 export interface PipelineHarnessCommand {
