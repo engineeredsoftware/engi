@@ -44,6 +44,30 @@ class FakeSandbox {
   }
 }
 
+class DetachedFakeSandbox extends FakeSandbox {
+  async runCommand(params: { cmd: string; args?: string[]; detached?: boolean }): Promise<SandboxCommandResult> {
+    this.commands.push({ cmd: params.cmd, args: params.args ?? [] });
+    return {
+      exitCode: params.detached ? null : 0,
+      stdout: async () => '',
+      stderr: async () => '',
+    };
+  }
+
+  async readFileToBuffer(file: { path: string }): Promise<Buffer | null> {
+    if (file.path === '.bitcode/pipeline-harness/pipeline.exit-code') {
+      return Buffer.from('0');
+    }
+    if (file.path === '.bitcode/pipeline-harness/pipeline.stdout.log') {
+      return Buffer.from('detached stdout');
+    }
+    if (file.path === '.bitcode/pipeline-harness/pipeline.stderr.log') {
+      return Buffer.from('');
+    }
+    return super.readFileToBuffer(file);
+  }
+}
+
 describe('VercelSandboxPipelineHost', () => {
   it('creates the sandbox, writes harness files, runs commands, reads artifacts, and stops', async () => {
     const fakeSandbox = new FakeSandbox();
@@ -128,6 +152,50 @@ describe('VercelSandboxPipelineHost', () => {
     });
   });
 
+  it('polls detached command artifacts instead of relying on the command stream', async () => {
+    const fakeSandbox = new DetachedFakeSandbox();
+    const factory: SandboxFactory = {
+      create: async () => fakeSandbox,
+    };
+    const host = new VercelSandboxPipelineHost({ sandboxFactory: factory });
+    const plan = buildAssetPackSandboxHarness({
+      read: {
+        id: 'read-1',
+        prompt: 'Read the deposited repository revision.',
+      },
+      deposit: {
+        id: 'deposit-1',
+      },
+      sourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+    });
+    plan.commands = [
+      {
+        label: 'detached-run',
+        cmd: 'sh',
+        args: ['-lc', 'long command'],
+        detached: true,
+        exitCodePath: '.bitcode/pipeline-harness/pipeline.exit-code',
+        stdoutPath: '.bitcode/pipeline-harness/pipeline.stdout.log',
+        stderrPath: '.bitcode/pipeline-harness/pipeline.stderr.log',
+        pollIntervalMs: 1,
+        maxWaitMs: 50,
+      },
+    ];
+
+    const result = await host.runHarness(plan);
+
+    expect(result.outcome).toBe('completed');
+    expect(result.commands[0]).toMatchObject({
+      exitCode: 0,
+      stdout: 'detached stdout',
+      stderr: '',
+    });
+  });
+
   it('passes access-token auth fields to Sandbox.create when OIDC is unavailable', async () => {
     const previous = {
       VERCEL_TOKEN: process.env.VERCEL_TOKEN,
@@ -178,6 +246,34 @@ describe('VercelSandboxPipelineHost', () => {
       restoreEnv('VERCEL_PROJECT_ID', previous.VERCEL_PROJECT_ID);
       restoreEnv('VERCEL_OIDC_TOKEN', previous.VERCEL_OIDC_TOKEN);
     }
+  });
+
+  it('bounds sandbox creation so auth/API hangs are observable', async () => {
+    const factory: SandboxFactory = {
+      create: async () => new Promise(() => undefined),
+    };
+    const host = new VercelSandboxPipelineHost({
+      sandboxFactory: factory,
+      sandboxCreateTimeoutMs: 5,
+    });
+    const plan = buildAssetPackSandboxHarness({
+      read: {
+        id: 'read-1',
+        prompt: 'Read the deposited repository revision.',
+      },
+      deposit: {
+        id: 'deposit-1',
+      },
+      sourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+    });
+
+    await expect(host.runHarness(plan)).rejects.toThrow(
+      'Vercel Sandbox create did not complete within 5ms.'
+    );
   });
 });
 

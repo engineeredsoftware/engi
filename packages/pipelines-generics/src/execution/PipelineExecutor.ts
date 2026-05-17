@@ -24,6 +24,10 @@ export interface PhaseConfig {
 export interface AgentStep {
   agent: string;
   parallel?: AgentStep[];
+  /**
+   * Optional per-step input override. When absent, the phase input is forwarded
+   * so agents receive the live read/deposit/repository context.
+   */
   input?: any;
 }
 
@@ -131,22 +135,25 @@ export class PipelineExecutor {
   /**
    * Execute an agent step (single or parallel)
    */
-  async executeStep(step: AgentStep): Promise<any> {
+  async executeStep(step: AgentStep, phaseInput?: any): Promise<any> {
     if (step.parallel) {
       // Execute parallel agents
       return await Promise.all(
-        step.parallel.map(subStep => this.executeStep(subStep))
+        step.parallel.map(subStep => this.executeStep(subStep, phaseInput))
       );
     } else {
       // Execute single agent
-      return await this.executeAgent(step.agent, step.input);
+      const input = Object.prototype.hasOwnProperty.call(step, 'input')
+        ? step.input
+        : phaseInput;
+      return await this.executeAgent(step.agent, input);
     }
   }
   
   /**
    * Execute a complete phase with its sequence
    */
-  async executePhase(config: PhaseConfig): Promise<PhaseResult> {
+  async executePhase(config: PhaseConfig, input?: any): Promise<PhaseResult> {
     const start = Date.now();
     let agentsExecuted = 0;
     
@@ -163,7 +170,7 @@ export class PipelineExecutor {
       
       // Execute each step in sequence
       for (const step of config.sequence) {
-        await this.executeStep(step);
+        await this.executeStep(step, input);
         agentsExecuted++;
         // Increment counters
         const prevGlobal = this.execution.get<number>('metrics', 'agentsExecuted') || 0;
@@ -223,7 +230,7 @@ export class PipelineExecutor {
 export function createPhaseRunner(config: PhaseConfig): Executor<any, PhaseResult> {
   return async (input: any, execution: any): Promise<PhaseResult> => {
     const executor = new PipelineExecutor(execution as PipelineExecution);
-    return await executor.executePhase(config);
+    return await executor.executePhase(config, input);
   };
 }
 

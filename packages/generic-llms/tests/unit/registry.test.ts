@@ -34,7 +34,7 @@ describe('factoryLLMRegistryWithProviders', () => {
 
     expect(defaults).toEqual({
       provider: 'openai',
-      model: 'gpt-4',
+      model: 'gpt-4.1-mini',
     });
   });
 

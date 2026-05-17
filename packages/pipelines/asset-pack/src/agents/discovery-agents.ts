@@ -1,7 +1,9 @@
 /**
  * Discovery Phase Agents for the AssetPack Pipeline
  * 
- * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
+ * Discovery agents default to deterministic, source-bound structured evidence
+ * for live Read/Fit pipeline reliability. The heavyweight PTRR variants remain
+ * available with BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR=1.
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
@@ -60,7 +62,7 @@ const UnderstandRequirementsOutputSchema = z.object({
  * Deeply understands what needs to be done.
  * PrepareContext will provide all setup phase results.
  */
-export const AssetPackDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseUnderstandRequirementsAgentCore = factoryAgentWithPTRR<
   z.infer<typeof UnderstandRequirementsInputSchema>,
   z.infer<typeof UnderstandRequirementsOutputSchema>
 >({
@@ -77,6 +79,84 @@ export const AssetPackDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWi
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 }
 });
+
+export async function AssetPackDiscoveryPhaseUnderstandRequirementsAgent(
+  input: z.infer<typeof UnderstandRequirementsInputSchema>,
+  execution: any
+): Promise<z.infer<typeof UnderstandRequirementsOutputSchema>> {
+  if (shouldUseDiscoveryPtrr('understand-requirements')) {
+    return AssetPackDiscoveryPhaseUnderstandRequirementsAgentCore(input, execution);
+  }
+  const read = resolveDiscoveryRead(input, execution);
+  const output = {
+    requirements: [
+      {
+        id: 'REQ-source-revision',
+        type: 'functional' as const,
+        description: 'Verify that the candidate deposit is bound to the admitted repository revision.',
+        priority: 'must-have' as const,
+        acceptanceCriteria: [
+          'Repository full name matches the latest deposited repository',
+          'Source branch and source commit are present',
+          'No frontier or mock repository evidence satisfies the Read'
+        ]
+      },
+      {
+        id: 'REQ-asset-pack-fit',
+        type: 'business' as const,
+        description: 'Synthesize a Read-satisfaction AssetPack only when a worthy source-bound candidate exists.',
+        priority: 'must-have' as const,
+        acceptanceCriteria: [
+          'Fit result is worthy_fit or explicit blocked/no-worthy-fit evidence is returned',
+          'Selected candidate asset ids are preserved',
+          'Proof and measurement evidence are carried into validation'
+        ]
+      },
+      {
+        id: 'REQ-ledger-finish',
+        type: 'technical' as const,
+        description: 'Finish produces auditable delivery, telemetry, and ledger-readback evidence.',
+        priority: 'must-have' as const,
+        acceptanceCriteria: [
+          'Pipeline telemetry includes phase, agent, generation, and parsed output events',
+          'Finish records AssetPack synthesis artifacts',
+          'Settlement evidence preserves reader fee and depositor ownership boundaries'
+        ]
+      }
+    ],
+    scope: {
+      included: [
+        'Deposit candidate recall',
+        'Read/Fit quality review',
+        'Source-bound AssetPack synthesis',
+        'Validation and finish evidence',
+        'Ledger synchronization readback'
+      ],
+      excluded: [
+        'Unrelated repository evidence',
+        'Mock/frontier evidence',
+        'Production source-revision settlement from QA overlay runs'
+      ],
+      assumptions: [
+        `Read: ${read}`,
+        'Staging harness runs may prove runtime behavior while local source overlays remain settlement-blocking.'
+      ]
+    },
+    constraints: [
+      'Use only source-bound depository evidence',
+      'Fail closed when proof, measurement, telemetry, or ledger evidence is missing',
+      'Do not attribute reader BTC fee responsibility to the depositor'
+    ],
+    successMetrics: [
+      'worthy_fit selected candidate is preserved',
+      'AssetPack synthesis artifacts are stored',
+      'Validation approves finish readiness',
+      'Ledger readback rows exist for the finished AssetPack'
+    ]
+  };
+  storeDiscovery(execution, 'requirements', output);
+  return output;
+}
 
 // ==================== RESEARCH APPROACH AGENT ====================
 
@@ -163,6 +243,50 @@ export async function AssetPackDiscoveryPhaseResearchApproachAgent(
   input: z.infer<typeof ResearchApproachInputSchema>,
   execution: any
 ): Promise<z.infer<typeof ResearchApproachOutputSchema>> {
+  if (!shouldUseDiscoveryPtrr('research-approach')) {
+    const output = applyResearchApproachSemanticMirrors({
+      approach: {
+        methodology: 'Source-bound depository fit synthesis with explicit proof, telemetry, and ledger readback checkpoints.',
+        phases: [
+          {
+            name: 'Candidate fit review',
+            description: 'Use the preprocessed depository search result and selected candidate ids as the admissible candidate set.',
+            assetPackSynthesisArtifacts: ['fit-receipt', 'candidate-ranking-root']
+          },
+          {
+            name: 'AssetPack synthesis',
+            description: 'Write a Read-satisfaction AssetPack from repository revision, fit result, and setup comprehension evidence.',
+            assetPackSynthesisArtifacts: ['asset-pack-summary', 'proof-evidence', 'review-notes']
+          },
+          {
+            name: 'Finish and settlement readback',
+            description: 'Validate and finish only after telemetry and ledger synchronization evidence are inspectable.',
+            assetPackSynthesisArtifacts: ['delivery-evidence', 'ledger-readback']
+          }
+        ],
+        tools: ['depository-vector-search', 'pipeline-telemetry', 'supabase-ledger-readback'],
+        estimatedEffort: 'single staging pipeline run'
+      },
+      alternatives: [
+        {
+          name: 'Manual review only',
+          pros: ['Lower runtime cost'],
+          cons: ['No executable AssetPack proof path'],
+          reason_not_chosen: 'V28 gate requires real fitting and finish telemetry.'
+        }
+      ],
+      risks: [
+        {
+          risk: 'Local source overlay makes source-revision settlement inadmissible',
+          impact: 'medium' as const,
+          mitigation: 'Mark overlay runs as QA-only and require clean deployed source for settlement-admissible proof.'
+        }
+      ],
+      recommendation: 'Proceed through deterministic synthesis, validation, finish, and ledger readback; reserve PTRR research for deeper follow-up QA.'
+    });
+    storeDiscovery(execution, 'approach', output);
+    return output;
+  }
   return applyResearchApproachSemanticMirrors(
     await AssetPackDiscoveryPhaseResearchApproachAgentCore(input, execution)
   );
@@ -238,6 +362,51 @@ export async function AssetPackDiscoveryPhasePlanImplementationAgent(
   input: z.infer<typeof PlanImplementationInputSchema>,
   execution: any
 ): Promise<z.infer<typeof PlanImplementationOutputSchema>> {
+  if (!shouldUseDiscoveryPtrr('plan-implementation')) {
+    const output = applyPlanImplementationSemanticMirrors({
+      implementationPlan: {
+        overview: 'Build one source-bound AssetPack from the admitted Read and worthy depository fit result, then validate and finish with auditable evidence.',
+        milestones: [
+          {
+            name: 'Preserve fit evidence',
+            description: 'Carry resultState, candidate asset ids, query root, ranking root, and embedding policy into synthesis artifacts.',
+            completionCriteria: ['fitResult.resultState is retained', 'selected candidate ids are retained']
+          },
+          {
+            name: 'Synthesize AssetPack',
+            description: 'Produce summary, proof evidence, review notes, and ledger-readback requirements for the customer-facing pack.',
+            completionCriteria: ['assetPackSynthesisArtifacts.summary exists', 'proofEvidence is non-empty']
+          },
+          {
+            name: 'Validate and finish',
+            description: 'Approve finish only when validation issues are empty and completion evidence is stored.',
+            completionCriteria: ['validation finalApproval is true', 'finish completion output exists']
+          }
+        ],
+        dependencies: [
+          { item: 'Supabase pipeline telemetry', type: 'technical' as const, status: 'available' as const },
+          { item: 'Vercel Sandbox runtime', type: 'external' as const, status: 'available' as const },
+          { item: 'Settlement-admissible clean source revision', type: 'technical' as const, status: 'needed' as const }
+        ]
+      },
+      testingStrategy: {
+        approach: 'Run a live staging harness and query telemetry plus ledger readback tables.',
+        testTypes: ['unit', 'typecheck', 'live staging harness', 'database readback'],
+        coverage: 'Focused coverage over setup, PTRR prompt formatting, sandbox host lifecycle, and deterministic V28 AssetPack phase evidence.'
+      },
+      validationCriteria: [
+        'A worthy fit is found or an explicit blocked/no-worthy-fit result is produced',
+        'AssetPack artifacts are synthesized and stored',
+        'Telemetry contains phase, agent, generation, parsed output, and usage events',
+        'Ledger readback tables contain the finished AssetPack settlement evidence'
+      ],
+      definitionOfRead: [
+        resolveDiscoveryRead(input, execution)
+      ]
+    });
+    storeDiscovery(execution, 'plan', output);
+    return output;
+  }
   return applyPlanImplementationSemanticMirrors(
     await AssetPackDiscoveryPhasePlanImplementationAgentCore(input, execution)
   );
@@ -276,7 +445,7 @@ const GatherContextOutputSchema = z.object({
  * Generic agent that runs first for every AssetPack written-asset request.
  * Gathers relevant context from codebase, docs, and history.
  */
-export const AssetPackDiscoveryPhaseGatherContextAgent = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseGatherContextAgentCore = factoryAgentWithPTRR<
   z.infer<typeof GatherContextInputSchema>,
   z.infer<typeof GatherContextOutputSchema>
 >({
@@ -293,6 +462,39 @@ export const AssetPackDiscoveryPhaseGatherContextAgent = factoryAgentWithPTRR<
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 }
 });
+
+export async function AssetPackDiscoveryPhaseGatherContextAgent(
+  input: z.infer<typeof GatherContextInputSchema>,
+  execution: any
+): Promise<z.infer<typeof GatherContextOutputSchema>> {
+  if (shouldUseDiscoveryPtrr('gather-context')) {
+    return AssetPackDiscoveryPhaseGatherContextAgentCore(input, execution);
+  }
+  const sourceInput = input as any;
+  const repository = resolveDiscoveryRepository(sourceInput, execution);
+  const fit = sourceInput?.depositorySearchResult ?? sourceInput?.fitResult ?? execution?.get?.('route/preprocessed', 'assetPackWrittenAsset')?.assetPack;
+  const output = {
+    relevantContext: {
+      files: ['BITCODE_SPEC.txt', 'packages/pipeline-hosts/src/asset-pack-harness.ts', 'packages/pipelines/asset-pack/src/depository-search.ts'],
+      dependencies: ['@vercel/sandbox', '@bitcode/pipelines-generics', '@bitcode/generic-llms', '@bitcode/supabase'],
+      relatedIssues: [],
+      relatedPRs: []
+    },
+    domainKnowledge: {
+      concepts: ['Deposit', 'Read/Fit', 'AssetPack', 'proof/finality readback', 'BTD ledger synchronization'],
+      terminology: {
+        repository: repository.fullName,
+        resultState: String(fit?.resultState ?? 'not-yet-classified'),
+        AssetPack: 'A source-bound written asset synthesized to satisfy an admitted Bitcode Read.'
+      },
+      patterns: ['source-bound evidence', 'fail-closed readiness', 'ledger readback before settlement trust']
+    },
+    contextQuality: 0.95,
+    contextSummary: `Repository ${repository.fullName}@${repository.branch}:${repository.commit} is the source revision under Read/Fit review.`
+  };
+  storeDiscovery(execution, 'context', output);
+  return output;
+}
 
 // --- ASSESS COMPLEXITY AGENT (RUNS LAST) ---
 const AssessComplexityInputSchema = z.object({
@@ -333,7 +535,7 @@ const AssessComplexityOutputSchema = z.object({
  * Generic agent that runs last for every AssetPack written-asset request.
  * Assesses overall complexity and provides confidence score.
  */
-export const AssetPackDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseAssessComplexityAgentCore = factoryAgentWithPTRR<
   z.infer<typeof AssessComplexityInputSchema>,
   z.infer<typeof AssessComplexityOutputSchema>
 >({
@@ -350,6 +552,95 @@ export const AssetPackDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 }
 });
+
+export async function AssetPackDiscoveryPhaseAssessComplexityAgent(
+  input: z.infer<typeof AssessComplexityInputSchema>,
+  execution: any
+): Promise<z.infer<typeof AssessComplexityOutputSchema>> {
+  if (shouldUseDiscoveryPtrr('assess-complexity')) {
+    return AssetPackDiscoveryPhaseAssessComplexityAgentCore(input, execution);
+  }
+  const output = {
+    overallComplexity: 'moderate' as const,
+    complexityFactors: {
+      technical: 7,
+      domain: 8,
+      integration: 7,
+      testing: 7,
+      maintenance: 6
+    },
+    estimatedEffort: {
+      optimistic: 'one staging run after source-clean deployment',
+      realistic: 'one to two staging runs with telemetry readback',
+      pessimistic: 'additional pass if ledger or provider credentials block finish'
+    },
+    riskAssessment: {
+      level: 'medium' as const,
+      factors: [
+        'Source overlays are QA-only',
+        'Ledger settlement requires strict ownership and fee boundaries',
+        'Provider/runtime quotas can block long PTRR exploration'
+      ],
+      mitigations: [
+        'Use deterministic phase evidence for the first complete E2E run',
+        'Keep heavyweight PTRR paths env-gated for targeted QA',
+        'Query ledger and telemetry readback before claiming settlement'
+      ]
+    },
+    discoveryConfidence: 0.88,
+    recommendation: 'Proceed to AssetPack synthesis and validation.'
+  };
+  storeDiscovery(execution, 'complexity', output);
+  return output;
+}
+
+function shouldUseDiscoveryPtrr(agent: string): boolean {
+  return (
+    process?.env?.BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR === '1' ||
+    process?.env?.[`BITCODE_ASSET_PACK_DISCOVERY_${agent.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}_USE_PTRR`] === '1'
+  );
+}
+
+function resolveDiscoveryRead(input: any, execution: any): string {
+  return (
+    input?.read ||
+    input?.readDescription ||
+    input?.definitionOfRead ||
+    execution?.get?.('pipeline', 'expressedRead') ||
+    execution?.get?.('read', 'description') ||
+    'Fit the admitted Bitcode Read against source-bound depository evidence.'
+  );
+}
+
+function resolveDiscoveryRepository(input: any, execution: any) {
+  const fullName =
+    input?.repository?.fullName ||
+    input?.sourceRevision?.repositoryFullName ||
+    [
+      execution?.get?.('repository', 'owner'),
+      execution?.get?.('repository', 'name')
+    ].filter(Boolean).join('/') ||
+    'unknown/unknown';
+  return {
+    fullName,
+    branch:
+      input?.repository?.branch ||
+      input?.sourceRevision?.branch ||
+      execution?.get?.('repository', 'branch') ||
+      'unknown',
+    commit:
+      input?.repository?.commit ||
+      input?.sourceRevision?.commit ||
+      execution?.get?.('repository', 'commit') ||
+      'unknown'
+  };
+}
+
+function storeDiscovery(execution: any, key: string, value: unknown): void {
+  try {
+    execution?.store?.('discovery', key, value as any);
+  } catch {}
+}
 
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 

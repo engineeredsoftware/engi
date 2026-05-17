@@ -16,6 +16,10 @@ export interface PhaseConfig {
 export interface AgentStep {
     agent: string;
     parallel?: AgentStep[];
+    /**
+     * Optional per-step input override. When absent, the phase input is forwarded
+     * so agents receive the live read/deposit/repository context.
+     */
     input?: any;
 }
 export interface PhaseResult {
@@ -40,11 +44,11 @@ export declare class PipelineExecutor {
     /**
      * Execute an agent step (single or parallel)
      */
-    executeStep(step: AgentStep): Promise<any>;
+    executeStep(step: AgentStep, phaseInput?: any): Promise<any>;
     /**
      * Execute a complete phase with its sequence
      */
-    executePhase(config: PhaseConfig): Promise<PhaseResult>;
+    executePhase(config: PhaseConfig, input?: any): Promise<PhaseResult>;
 }
 /**
  * Create a phase runner function

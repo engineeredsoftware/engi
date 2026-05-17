@@ -31,7 +31,7 @@ export function resolveDefaultLLMModel(
       return 'claude-3-opus-20240229';
     case 'openai':
     default:
-      return 'gpt-4';
+      return 'gpt-4.1-mini';
   }
 }
 

@@ -77,6 +77,13 @@ describe('asset-pack sandbox harness plan', () => {
       cmd: 'corepack',
       args: ['prepare', 'pnpm@10.33.0', '--activate'],
     });
+    expect(plan.commands.find((command) => command.label === 'asset-pack-pipeline-run')).toMatchObject({
+      cmd: 'sh',
+      detached: true,
+      exitCodePath: '.bitcode/pipeline-harness/pipeline.exit-code',
+      stdoutPath: '.bitcode/pipeline-harness/pipeline.stdout.log',
+      stderrPath: '.bitcode/pipeline-harness/pipeline.stderr.log',
+    });
   });
 
   it('can apply a local source overlay before installing and running the pipeline', () => {

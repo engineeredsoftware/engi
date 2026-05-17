@@ -46,7 +46,12 @@ export function enablePipelineStreaming(
   ExecutionStreamAdapter.registerStreamer(execution.id, streamer);
 
   // If database streaming is enabled, wire up event persistence
-  if (config.streamToDatabase && config.supabase) {
+  const legacyExecutionEventsEnabled =
+    config.streamToDatabase &&
+    config.supabase &&
+    (config.structuredToDatabase !== true || process?.env?.BITCODE_PIPELINE_LEGACY_EVENTS_DB === '1');
+
+  if (legacyExecutionEventsEnabled && config.supabase) {
     // Best-effort: ensure an executions row exists if runId looks like a UUID
     try {
       const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

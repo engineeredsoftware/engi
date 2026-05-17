@@ -53,4 +53,37 @@ describe('PipelineExecutor event emission (unit)', () => {
       'phase-complete:setup::',
     ]);
   });
+
+  it('passes phase input to agents unless a step overrides it', async () => {
+    const exec = new PipelineExecution('pipeline:input-forwarding');
+    const received: any[] = [];
+
+    (exec as any).agents.registerAgent('unit:default-input', (async (input: any) => {
+      received.push(input);
+      return { ok: true };
+    }) as any);
+    (exec as any).agents.registerAgent('unit:override-input', (async (input: any) => {
+      received.push(input);
+      return { ok: true };
+    }) as any);
+
+    const phaseInput = {
+      repository: { fullName: 'engineeredsoftware/ENGI', branch: 'main' },
+      read: 'fit current deposited source revision',
+    };
+
+    const executor = new PipelineExecutor(exec);
+    await executor.executePhase({
+      phaseName: 'setup',
+      sequence: [
+        { agent: 'unit:default-input' },
+        { agent: 'unit:override-input', input: { explicit: true } },
+      ],
+    }, phaseInput);
+
+    expect(received).toEqual([
+      phaseInput,
+      { explicit: true },
+    ]);
+  });
 });

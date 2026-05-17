@@ -173,6 +173,12 @@ export interface PipelineHarnessCommand {
   cwd?: string;
   env?: Record<string, string>;
   sudo?: boolean;
+  detached?: boolean;
+  exitCodePath?: string;
+  stdoutPath?: string;
+  stderrPath?: string;
+  maxWaitMs?: number;
+  pollIntervalMs?: number;
   required?: boolean;
 }
 
@@ -192,6 +198,7 @@ export interface PipelineHarnessPlan {
 export interface SandboxCommandResult {
   exitCode: number | null;
   cmdId?: string;
+  wait?: () => Promise<SandboxCommandResult>;
   stdout?: () => Promise<string>;
   stderr?: () => Promise<string>;
   output?: (stream: 'stdout' | 'stderr' | 'both') => Promise<string>;

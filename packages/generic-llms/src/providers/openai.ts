@@ -35,7 +35,7 @@ export const openAIProvider: LLMProvider = {
       const finalConfig = { ...config, ...input.config };
       
       const request: OpenAIRequest = {
-        model: finalConfig.model || 'gpt-4',
+        model: finalConfig.model || 'gpt-4.1-mini',
         messages: input.messages,
         temperature: finalConfig.temperature,
         max_tokens: finalConfig.maxTokens,
@@ -102,7 +102,7 @@ export const openAIProvider: LLMProvider = {
   },
 
   validateConfig(config: LLMConfig): boolean {
-    const validModels = ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo'];
+    const validModels = ['gpt-4.1-mini', 'gpt-4o-mini', 'gpt-4.1', 'gpt-4o', 'gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo'];
     if (config.model && !validModels.includes(config.model)) {
       return false;
     }
@@ -114,7 +114,7 @@ export const openAIProvider: LLMProvider = {
 
   getDefaultConfig(): Partial<LLMConfig> {
     return {
-      model: 'gpt-4',
+      model: 'gpt-4.1-mini',
       temperature: 0.7,
       maxTokens: 4096
     };

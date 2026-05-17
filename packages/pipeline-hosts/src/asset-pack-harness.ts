@@ -22,6 +22,9 @@ const SOURCE_OVERLAY_PATCH_PATH = `${HARNESS_DIRECTORY}/source-overlay.patch`;
 const EVIDENCE_PATH = `${HARNESS_DIRECTORY}/evidence.json`;
 const TELEMETRY_PATH = `${HARNESS_DIRECTORY}/telemetry.jsonl`;
 const TSCONFIG_PATHS_REGISTER_PATH = `${HARNESS_DIRECTORY}/node_modules/tsconfig-paths/register`;
+const PIPELINE_STDOUT_PATH = `${HARNESS_DIRECTORY}/pipeline.stdout.log`;
+const PIPELINE_STDERR_PATH = `${HARNESS_DIRECTORY}/pipeline.stderr.log`;
+const PIPELINE_EXIT_CODE_PATH = `${HARNESS_DIRECTORY}/pipeline.exit-code`;
 const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox' as const;
 const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
 const SANDBOX_PNPM_VERSION = '10.33.0';
@@ -175,22 +178,39 @@ function buildCommands(
       required: true,
     });
 
+    const pipelineArgs = [
+      'pnpm',
+      '--filter',
+      '@bitcode/pipeline-hosts',
+      'exec',
+      'ts-node',
+      '--project',
+      '../../tsconfig.json',
+      '-r',
+      `../../${TSCONFIG_PATHS_REGISTER_PATH}`,
+      '--transpile-only',
+      `../../${LIVE_PIPELINE_RUNNER_PATH}`,
+    ];
+    const maxWaitMs = Number(commandEnvironment.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || DEFAULT_LONG_TIMEOUT_MS) + 120000;
     commands.push({
       label: 'asset-pack-pipeline-run',
-      cmd: 'pnpm',
+      cmd: 'sh',
       args: [
-        '--filter',
-        '@bitcode/pipeline-hosts',
-        'exec',
-        'ts-node',
-        '--project',
-        '../../tsconfig.json',
-        '-r',
-        `../../${TSCONFIG_PATHS_REGISTER_PATH}`,
-        '--transpile-only',
-        `../../${LIVE_PIPELINE_RUNNER_PATH}`,
+        '-lc',
+        [
+          `${pipelineArgs.map(shellQuote).join(' ')} > ${shellQuote(PIPELINE_STDOUT_PATH)} 2> ${shellQuote(PIPELINE_STDERR_PATH)}`,
+          'code=$?',
+          `printf "%s" "$code" > ${shellQuote(PIPELINE_EXIT_CODE_PATH)}`,
+          'exit "$code"',
+        ].join('; '),
       ],
       env: commandEnvironment,
+      detached: true,
+      exitCodePath: PIPELINE_EXIT_CODE_PATH,
+      stdoutPath: PIPELINE_STDOUT_PATH,
+      stderrPath: PIPELINE_STDERR_PATH,
+      maxWaitMs,
+      pollIntervalMs: 5000,
       required: true,
     });
 
@@ -206,6 +226,10 @@ function buildCommands(
   });
 
   return commands;
+}
+
+function shellQuote(value: string): string {
+  return `'${value.replace(/'/g, `'\\''`)}'`;
 }
 
 function normalizeSourceOverlayPatch(sourceOverlayPatch?: Buffer | string): Buffer | null {
@@ -311,6 +335,10 @@ let execution = null;
 let pipelineRunPersisted = false;
 let pipelineRunId = null;
 let forceExitAfterFinally = false;
+let checkpointTimer = null;
+let heartbeatTimer = null;
+let checkpointInFlight = Promise.resolve();
+let lastCheckpointAt = 0;
 
 function normalizeResultState(candidate) {
   return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
@@ -328,10 +356,93 @@ function record(event) {
     at: new Date().toISOString(),
     runId,
   });
+  scheduleCheckpoint('event');
 }
 
 function stageForStreamEvent(event) {
   return event?.executionState?.phase || event?.phase || 'telemetry-readback';
+}
+
+const REDACTED_KEY_PATTERN = /(^|[_-])(api[_-]?key|token|secret|password|authorization|credential|service[_-]?role|bearer|cookie)($|[_-])/i;
+const SECRET_VALUE_PATTERN = /(sk-[A-Za-z0-9_-]{12,}|eyJ[A-Za-z0-9_-]{20,}\\.[A-Za-z0-9_-]{20,}\\.[A-Za-z0-9_-]{10,}|sbp_[A-Za-z0-9_-]{10,})/g;
+
+function isSensitiveKey(key) {
+  if (/^(input|output|total|prompt|completion)Tokens$/i.test(String(key))) return false;
+  return REDACTED_KEY_PATTERN.test(String(key));
+}
+
+function redactString(value) {
+  return String(value).replace(SECRET_VALUE_PATTERN, '[redacted]');
+}
+
+function summarizeInspectableValue(value, depth = 0) {
+  if (value == null) return value;
+  if (typeof value === 'string') {
+    const redacted = redactString(value);
+    return {
+      type: 'string',
+      length: redacted.length,
+      preview: redacted.length > 1800 ? redacted.slice(0, 1800) + '... [truncated]' : redacted,
+    };
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') return value;
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      sample: value.slice(0, 8).map((entry) => summarizeInspectableValue(entry, depth + 1)),
+    };
+  }
+  if (typeof value === 'object') {
+    const entries = Object.entries(value);
+    const sample = {};
+    for (const [key, entryValue] of entries.slice(0, depth > 1 ? 10 : 18)) {
+      sample[key] = isSensitiveKey(key)
+        ? '[redacted]'
+        : summarizeInspectableValue(entryValue, depth + 1);
+    }
+    return {
+      type: 'object',
+      keys: entries.map(([key]) => key).slice(0, 40),
+      sample,
+    };
+  }
+  return String(value);
+}
+
+function summarizeLlmInspectable(event, data) {
+  if (event?.namespace !== 'llm') return null;
+  const key = String(event?.key || '');
+  if (!['input', 'messages', 'prompt', 'output', 'parsedOutput', 'response', 'config', 'usage', 'provider', 'model'].includes(key)) {
+    return null;
+  }
+  return summarizeInspectableValue(data ?? event?.data ?? null);
+}
+
+function summarizeExecutionNode(node, depth = 0) {
+  const namespaces = {};
+  for (const namespace of node.getNamespaces()) {
+    const values = node.getAll(namespace);
+    namespaces[namespace] = values
+      ? Array.from(values.entries()).map(([key, value]) => ({
+          key,
+          value: summarizeInspectableValue(value),
+        }))
+      : [];
+  }
+  const children = [];
+  if (depth < 8) {
+    for (const child of node.children?.values?.() || []) {
+      children.push(summarizeExecutionNode(child, depth + 1));
+    }
+  }
+  return {
+    id: node.id,
+    path: node.getPath?.() || [],
+    summary: node.summary(),
+    namespaces,
+    children,
+  };
 }
 
 function summarizeStreamEvent(event) {
@@ -351,6 +462,7 @@ function summarizeStreamEvent(event) {
     inputMessageCount: Array.isArray(data?.messages) ? data.messages.length : null,
     outputContentLength: typeof data?.content === 'string' ? data.content.length : null,
     parsedOutputPresent: Boolean(data?.parsed),
+    inspectable: summarizeLlmInspectable(event, event?.data ?? null),
   };
 }
 
@@ -398,14 +510,26 @@ function summarizeExecution(execution) {
   const summary = {
     root: execution.summary(),
     namespaces: {},
+    tree: summarizeExecutionNode(execution),
   };
   for (const namespace of execution.getNamespaces()) {
     const values = execution.getAll(namespace);
     summary.namespaces[namespace] = values
-      ? Array.from(values.entries()).map(([key, value]) => ({ key, value }))
+      ? Array.from(values.entries()).map(([key, value]) => ({ key, value: summarizeInspectableValue(value) }))
       : [];
   }
   return summary;
+}
+
+function findExecutionValueDown(node, namespace, key) {
+  if (!node) return undefined;
+  const value = node.get?.(namespace, key);
+  if (value !== undefined) return value;
+  for (const child of node.children?.values?.() || []) {
+    const childValue = findExecutionValueDown(child, namespace, key);
+    if (childValue !== undefined) return childValue;
+  }
+  return undefined;
 }
 
 async function withHarnessTimeout(promise, maxRuntimeMs) {
@@ -425,6 +549,69 @@ async function withHarnessTimeout(promise, maxRuntimeMs) {
   } finally {
     if (timeout) clearTimeout(timeout);
   }
+}
+
+function checkpointEvidence(reason) {
+  return {
+    schema: 'bitcode.pipeline-harness.evidence',
+    checkpoint: true,
+    checkpointReason: reason,
+    harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
+    resultState,
+    resultReasons: [
+      'AssetPack pipeline harness checkpoint; final admissibility requires completed finish evidence.',
+      reason,
+    ],
+    runId,
+    userId,
+    manifestRoot,
+    manifest,
+    output,
+    error,
+    execution: execution ? summarizeExecution(execution) : null,
+    events,
+    startedAt,
+    checkpointAt: new Date().toISOString(),
+  };
+}
+
+async function writeCheckpoint(reason) {
+  if (!manifest) return;
+  await mkdir(artifactDir, { recursive: true });
+  await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(checkpointEvidence(reason), null, 2));
+  await writeFile(\`\${artifactDir}/telemetry.jsonl\`, events.map((event) => JSON.stringify(event)).join('\\n') + '\\n');
+}
+
+function scheduleCheckpoint(reason) {
+  const now = Date.now();
+  if (now - lastCheckpointAt < 15000) return;
+  lastCheckpointAt = now;
+  checkpointInFlight = checkpointInFlight
+    .catch(() => {})
+    .then(() => writeCheckpoint(reason))
+    .catch((checkpointError) => {
+      try {
+        process.stderr.write(\`[bitcode-harness-checkpoint-error] \${checkpointError?.message || String(checkpointError)}\\n\`);
+      } catch {}
+    });
+}
+
+function startHeartbeat() {
+  if (heartbeatTimer) return;
+  heartbeatTimer = setInterval(() => {
+    const phase = execution?.get?.('phase', 'current') || 'initializing';
+    const agent = execution?.get?.('agent', 'name') || 'none';
+    process.stderr.write(\`[bitcode-harness-heartbeat] runId=\${runId} phase=\${phase} agent=\${agent} events=\${events.length}\\n\`);
+    scheduleCheckpoint('heartbeat');
+  }, 30000);
+  heartbeatTimer.unref?.();
+}
+
+function stopHeartbeat() {
+  if (heartbeatTimer) clearInterval(heartbeatTimer);
+  if (checkpointTimer) clearInterval(checkpointTimer);
+  heartbeatTimer = null;
+  checkpointTimer = null;
 }
 
 async function insertPipelineRun() {
@@ -558,8 +745,575 @@ async function insertHarnessStreamLog(status) {
   }
 }
 
+function stableJson(value) {
+  if (value == null || typeof value !== 'object') return JSON.stringify(value);
+  if (Array.isArray(value)) return '[' + value.map((entry) => stableJson(entry)).join(',') + ']';
+  return '{' + Object.keys(value).sort().map((key) => JSON.stringify(key) + ':' + stableJson(value[key])).join(',') + '}';
+}
+
+function rootOf(value) {
+  return 'sha256:' + createHash('sha256').update(stableJson(value)).digest('hex');
+}
+
+function positiveIntegerEnv(name, fallback) {
+  const parsed = Number(process.env[name] || fallback);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
+}
+
+function ledgerWallet(kind, explicit, fallback) {
+  const value = String(explicit || '').trim();
+  if (value) return value;
+  return kind + ':' + fallback;
+}
+
+async function upsertAndReadLedgerRow(table, conflictColumn, conflictValue, row) {
+  const { error: upsertError } = await supabase
+    .from(table)
+    .upsert(row, { onConflict: conflictColumn });
+  if (upsertError) {
+    throw new Error(table + ' upsert failed: ' + upsertError.message);
+  }
+  const { data, error: readError } = await supabase
+    .from(table)
+    .select('*')
+    .eq(conflictColumn, conflictValue)
+    .maybeSingle();
+  if (readError) {
+    throw new Error(table + ' readback failed: ' + readError.message);
+  }
+  if (!data) {
+    throw new Error(table + ' readback missing after upsert.');
+  }
+  return data;
+}
+
+async function ledgerRowExists(table, column, value) {
+  const { data, error: readError } = await supabase
+    .from(table)
+    .select(column)
+    .eq(column, value)
+    .maybeSingle();
+  if (readError) {
+    throw new Error(table + ' readback failed: ' + readError.message);
+  }
+  return Boolean(data);
+}
+
+async function readLedgerSettlementBack(ids) {
+  const checks = {
+    semanticMeasurement: await ledgerRowExists('btd_semantic_volume_measurements', 'measurement_id', ids.measurementId),
+    measureMintReceipt: await ledgerRowExists('btd_measure_mint_receipts', 'receipt_id', ids.measureMintReceiptId),
+    assetPackRange: await ledgerRowExists('btd_asset_pack_ranges', 'asset_pack_id', ids.assetPackId),
+    btdCell: await ledgerRowExists('btd_cells', 'token_id', ids.rangeStart),
+    ownershipEvent: await ledgerRowExists('btd_ownership_events', 'ownership_event_id', ids.ownershipEventId),
+    readLicense: await ledgerRowExists('btd_read_licenses', 'license_id', ids.readLicenseId),
+    mintReceipt: await ledgerRowExists('btd_mint_receipts', 'receipt_id', ids.btdMintReceiptId),
+    btcFeeTransaction: await ledgerRowExists('btc_fee_transactions', 'receipt_id', ids.btcFeeReceiptId),
+    ledgerAnchor: await ledgerRowExists('btd_asset_pack_ledger_anchors', 'anchor_id', ids.ledgerAnchorId),
+    cryptoTelemetry: false,
+  };
+
+  const { count: journalCount, error: journalError } = await supabase
+    .from('btd_terminal_journal_entries')
+    .select('journal_entry_id', { count: 'exact', head: true })
+    .in('journal_entry_id', ids.journalEntryIds);
+  if (journalError) throw new Error('btd_terminal_journal_entries readback failed: ' + journalError.message);
+  checks.terminalJournal = journalCount === ids.journalEntryIds.length;
+
+  const { data: telemetry, error: telemetryError } = await supabase
+    .from('btd_crypto_telemetry_events')
+    .select('event')
+    .eq('subject_id', ids.assetPackId)
+    .eq('event', 'asset_pack_pipeline_settled')
+    .maybeSingle();
+  if (telemetryError) throw new Error('btd_crypto_telemetry_events readback failed: ' + telemetryError.message);
+  checks.cryptoTelemetry = Boolean(telemetry);
+
+  return checks;
+}
+
+async function settleAssetPackLedger(pipelineResultState) {
+  if (pipelineResultState !== 'worthy_fit') {
+    return {
+      status: 'not_applicable',
+      commercialSettlementAdmissible: false,
+      reason: 'Ledger settlement skipped because the fit result was not worthy_fit.',
+    };
+  }
+  if (manifest?.sourceOverlay) {
+    return {
+      status: 'blocked',
+      commercialSettlementAdmissible: false,
+      reason: 'Source overlay QA evidence cannot mint BTD, claim BTC fee settlement, or anchor finality.',
+      sourceOverlay: manifest.sourceOverlay,
+    };
+  }
+  if (!supabase) {
+    return {
+      status: 'blocked',
+      commercialSettlementAdmissible: false,
+      reason: 'Ledger settlement requires Supabase admin read/write access for row writeback and readback.',
+    };
+  }
+
+  const artifacts =
+    output?.assetPackSynthesisArtifacts ||
+    output?.writtenAssets ||
+    output?.assetPack ||
+    output?.summary;
+  if (!artifacts) {
+    return {
+      status: 'blocked',
+      commercialSettlementAdmissible: false,
+      reason: 'Ledger settlement requires synthesized AssetPack artifacts in pipeline output.',
+    };
+  }
+
+  const assetPackId = 'asset-pack-' + runId;
+  const measurementId = 'semantic-measurement-' + runId;
+  const measureMintReceiptId = 'measure-mint-receipt-' + runId;
+  const btdMintReceiptId = 'btd-mint-receipt-' + runId;
+  const ledgerAnchorId = 'ledger-anchor-' + runId;
+  const btcFeeReceiptId = 'btc-fee-' + runId;
+  const ownershipEventId = 'ownership-mint-' + runId;
+  const readLicenseId = 'read-license-' + runId;
+  const journalEntryIds = [
+    'journal-mint-' + runId,
+    'journal-btc-fee-' + runId,
+    'journal-anchor-' + runId,
+    'journal-settlement-' + runId,
+  ];
+
+  try {
+    const { data: existingRange, error: existingRangeError } = await supabase
+      .from('btd_asset_pack_ranges')
+      .select('asset_pack_id, range_start, range_end_exclusive, token_count')
+      .eq('asset_pack_id', assetPackId)
+      .maybeSingle();
+    if (existingRangeError) throw new Error('btd_asset_pack_ranges idempotency read failed: ' + existingRangeError.message);
+    if (existingRange) {
+      const ids = {
+        assetPackId,
+        measurementId,
+        measureMintReceiptId,
+        btdMintReceiptId,
+        ledgerAnchorId,
+        btcFeeReceiptId,
+        ownershipEventId,
+        readLicenseId,
+        journalEntryIds,
+        rangeStart: existingRange.range_start,
+      };
+      const readback = await readLedgerSettlementBack(ids);
+      const missing = Object.entries(readback).filter(([, present]) => !present).map(([key]) => key);
+      return {
+        status: missing.length ? 'blocked' : 'settled',
+        commercialSettlementAdmissible: missing.length === 0,
+        reason: missing.length
+          ? 'Existing ledger settlement is missing readback rows: ' + missing.join(', ')
+          : 'Existing ledger settlement rows were read back successfully.',
+        assetPackId,
+        btdRange: {
+          start: existingRange.range_start,
+          endExclusive: existingRange.range_end_exclusive,
+          tokenCount: existingRange.token_count,
+        },
+        ledgerAnchorId,
+        btcFeeReceiptId,
+        readback,
+      };
+    }
+
+    const { data: supply, error: supplyError } = await supabase
+      .from('btd_supply_state')
+      .select('*')
+      .eq('id', 'global')
+      .maybeSingle();
+    if (supplyError) throw new Error('btd_supply_state read failed: ' + supplyError.message);
+    if (!supply) throw new Error('btd_supply_state global row is missing.');
+
+    const tokenCount = 1;
+    const rangeStart = Number(supply.total_minted || 0);
+    const rangeEndExclusive = rangeStart + tokenCount;
+    const maxSupply = Number(supply.max_supply || 21000000);
+    if (rangeEndExclusive > maxSupply) {
+      throw new Error('BTD supply is exhausted; AssetPack settlement must return blocked readiness.');
+    }
+
+    const normalizedBitcodeVolume = positiveIntegerEnv('BITCODE_PIPELINE_BTD_VOLUME', 1000);
+    const cumulativeMeasurementBefore = Number(supply.cumulative_admitted_measurement || 0);
+    const cumulativeMeasurementAfter = cumulativeMeasurementBefore + normalizedBitcodeVolume;
+    const residualMintCreditBefore = Number(supply.residual_mint_credit || 0);
+    const residualMintCreditAfter = residualMintCreditBefore;
+    const exchangeSequence = Date.now();
+    const issuedAt = new Date().toISOString();
+    const sourceManifestRoot = manifestRoot || rootOf(manifest);
+    const synthesisRoot = rootOf({ assetPackId, artifacts, output });
+    const fitReceiptRoot = rootOf({ fitResult: output?.fitResult || output?.fit || null, depositorySearch: output?.depositorySearch || null });
+    const measurementReceiptRoot = rootOf({ measurementId, normalizedBitcodeVolume, synthesisRoot });
+    const proofRoot = rootOf({ sourceManifestRoot, fitReceiptRoot, synthesisRoot, runId });
+    const dedupeReceiptRoot = rootOf({ sourceManifestRoot, readId: manifest.read?.id, depositId: manifest.deposit?.id });
+    const settlementJournalRoot = rootOf({ assetPackId, readId: manifest.read?.id, runId, exchangeSequence });
+    const exchangeReceiptRoot = rootOf({ assetPackId, rangeStart, rangeEndExclusive, exchangeSequence });
+    const accessPolicyId = 'read-fit-access-' + runId;
+    const accessPolicyHash = rootOf({
+      accessPolicyId,
+      readId: manifest.read?.id,
+      sourceRevision: manifest.sourceRevision,
+      userId,
+    });
+    const depositorWalletId = ledgerWallet('depositor-wallet', process.env.BITCODE_PIPELINE_DEPOSITOR_WALLET_ID, manifest.deposit?.id || assetPackId);
+    const readerWalletId = ledgerWallet('reader-wallet', process.env.BITCODE_PIPELINE_READER_WALLET_ID, userId || runId);
+    const walletSessionId = ledgerWallet('reader-session', process.env.BITCODE_PIPELINE_WALLET_SESSION_ID, runId);
+    const btcNetwork = String(process.env.BITCODE_PIPELINE_BTC_NETWORK || 'testnet').trim();
+    const btcFeeSats = positiveIntegerEnv('BITCODE_PIPELINE_BTC_FEE_SATS', 546);
+
+    const measurementReceipt = {
+      schema: 'bitcode.btd.semantic-volume-measurement',
+      runId,
+      assetPackId,
+      readId: manifest.read?.id || null,
+      sourceRevision: manifest.sourceRevision || null,
+      synthesisRoot,
+    };
+    await upsertAndReadLedgerRow('btd_semantic_volume_measurements', 'measurement_id', measurementId, {
+      measurement_id: measurementId,
+      asset_pack_id: assetPackId,
+      normalized_bitcode_volume: normalizedBitcodeVolume,
+      token_count: tokenCount,
+      quantization: 1000,
+      included_units: [{
+        unit_kind: 'asset-pack',
+        run_id: runId,
+        read_id: manifest.read?.id || null,
+        selected_candidate_asset_ids: output?.depositorySearch?.selectedCandidateAssetIds || [],
+      }],
+      excluded_units: [],
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btd_measure_mint_receipts', 'receipt_id', measureMintReceiptId, {
+      receipt_id: measureMintReceiptId,
+      asset_pack_id: assetPackId,
+      normalized_bitcode_volume: normalizedBitcodeVolume,
+      cumulative_measurement_before: cumulativeMeasurementBefore,
+      cumulative_measurement_after: cumulativeMeasurementAfter,
+      target_minted_before: rangeStart,
+      target_minted_after: rangeEndExclusive,
+      residual_mint_credit_before: residualMintCreditBefore,
+      residual_mint_credit_after: residualMintCreditAfter,
+      token_count: tokenCount,
+      range_start: rangeStart,
+      range_end_exclusive: rangeEndExclusive,
+      zero_cell_reason: null,
+      total_minted_before: rangeStart,
+      total_minted_after: rangeEndExclusive,
+      max_supply: maxSupply,
+      proof_root: proofRoot,
+      settlement_journal_root: settlementJournalRoot,
+      access_policy_hash: accessPolicyHash,
+      exchange_sequence: exchangeSequence,
+      receipt: {
+        ...measurementReceipt,
+        measurement_receipt_root: measurementReceiptRoot,
+        proof_root: proofRoot,
+        settlement_journal_root: settlementJournalRoot,
+      },
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btd_asset_pack_ranges', 'asset_pack_id', assetPackId, {
+      asset_pack_id: assetPackId,
+      range_start: rangeStart,
+      range_end_exclusive: rangeEndExclusive,
+      token_count: tokenCount,
+      normalized_bitcode_volume: normalizedBitcodeVolume,
+      read_id: manifest.read?.id || runId,
+      source_manifest_root: sourceManifestRoot,
+      measurement_receipt_root: measurementReceiptRoot,
+      fit_receipt_root: fitReceiptRoot,
+      proof_root: proofRoot,
+      dedupe_receipt_root: dedupeReceiptRoot,
+      settlement_journal_root: settlementJournalRoot,
+      exchange_receipt_root: exchangeReceiptRoot,
+      access_policy_id: accessPolicyId,
+      access_policy_hash: accessPolicyHash,
+      minted_at_exchange_sequence: exchangeSequence,
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btd_cells', 'token_id', rangeStart, {
+      token_id: rangeStart,
+      asset_pack_id: assetPackId,
+      source_measurement_id: measurementId,
+      source_manifest_root: sourceManifestRoot,
+      measurement_receipt_root: measurementReceiptRoot,
+      proof_root: proofRoot,
+      exchange_receipt_root: exchangeReceiptRoot,
+      access_policy_id: accessPolicyId,
+      access_policy_hash: accessPolicyHash,
+    });
+
+    await upsertAndReadLedgerRow('btd_mint_receipts', 'receipt_id', btdMintReceiptId, {
+      receipt_id: btdMintReceiptId,
+      asset_pack_id: assetPackId,
+      receipt: {
+        schema: 'bitcode.btd.mint-receipt',
+        runId,
+        rangeStart,
+        rangeEndExclusive,
+        tokenCount,
+        proofRoot,
+        measurementReceiptRoot,
+      },
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btc_fee_transactions', 'receipt_id', btcFeeReceiptId, {
+      receipt_id: btcFeeReceiptId,
+      fee_purpose: 'asset_pack_read_fit_settlement',
+      payer_wallet_id: readerWalletId,
+      wallet_session_id: walletSessionId,
+      network: btcNetwork,
+      wallet_authorization_proof: {
+        schema: 'bitcode.wallet.authorization-proof',
+        mode: 'staging-testnet-reader-fee-attestation',
+        actor: 'reader',
+        userId,
+        walletId: readerWalletId,
+        serverCustody: false,
+      },
+      txid: null,
+      vout: null,
+      psbt: null,
+      sats_paid: btcFeeSats,
+      sats_per_vbyte: null,
+      exchange_sequence: exchangeSequence,
+      terminal_journal_root: settlementJournalRoot,
+      related_asset_pack_id: assetPackId,
+      related_order_id: null,
+      finality_state: 'prepared',
+      confirmations: 0,
+      fee_asset: 'BTC',
+      server_custody: false,
+      receipt: {
+        schema: 'bitcode.btc.fee-transaction',
+        feePurpose: 'asset_pack_read_fit_settlement',
+        payer: 'reader',
+        payerWalletId: readerWalletId,
+        depositorWalletId,
+        serverCustody: false,
+        finalityState: 'prepared',
+      },
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btd_asset_pack_ledger_anchors', 'anchor_id', ledgerAnchorId, {
+      anchor_id: ledgerAnchorId,
+      asset_pack_id: assetPackId,
+      chain: 'bitcode-internal-ledger',
+      network: btcNetwork,
+      txid_or_hash: settlementJournalRoot,
+      output_index: null,
+      contract_address: null,
+      token_id: String(rangeStart),
+      commitment_method: 'internal_journal',
+      commitment_root: settlementJournalRoot,
+      source_manifest_root: sourceManifestRoot,
+      proof_root: proofRoot,
+      access_policy_hash: accessPolicyHash,
+      btd_range_start: rangeStart,
+      btd_range_end_exclusive: rangeEndExclusive,
+      finality_state: 'confirmed',
+      confirmations: 1,
+      receipt: {
+        schema: 'bitcode.btd.asset-pack-ledger-anchor',
+        runId,
+        assetPackId,
+        sourceManifestRoot,
+        settlementJournalRoot,
+      },
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btd_ownership_events', 'ownership_event_id', ownershipEventId, {
+      ownership_event_id: ownershipEventId,
+      asset_pack_id: assetPackId,
+      range_start: rangeStart,
+      range_end_exclusive: rangeEndExclusive,
+      from_wallet_id: null,
+      to_wallet_id: depositorWalletId,
+      event_kind: 'mint_allocation',
+      source_receipt_id: measureMintReceiptId,
+      access_policy_hash: accessPolicyHash,
+      ledger_anchor_id: ledgerAnchorId,
+      exchange_sequence: exchangeSequence,
+      receipt: {
+        schema: 'bitcode.btd.ownership-event',
+        boundary: 'depositor-owns-minted-btd-reader-pays-read-fee',
+        depositorWalletId,
+        readerWalletId,
+      },
+      issued_at: issuedAt,
+    });
+
+    await upsertAndReadLedgerRow('btd_read_licenses', 'license_id', readLicenseId, {
+      license_id: readLicenseId,
+      asset_pack_id: assetPackId,
+      wallet_id: readerWalletId,
+      access_policy_hash: accessPolicyHash,
+      valid_from: issuedAt,
+      expires_at: null,
+      source_receipt_id: measureMintReceiptId,
+      payment_id: btcFeeReceiptId,
+      receipt: {
+        schema: 'bitcode.btd.read-license',
+        actor: 'reader',
+        readerWalletId,
+        assetPackId,
+        btcFeeReceiptId,
+      },
+      issued_at: issuedAt,
+    });
+
+    const journalRows = [
+      {
+        journal_entry_id: journalEntryIds[0],
+        transaction_kind: 'asset_pack_mint',
+        actor_id: depositorWalletId,
+        pre_state_root: rootOf({ before: 'asset_pack_mint', totalMinted: rangeStart }),
+        post_state_root: rootOf({ after: 'asset_pack_mint', totalMinted: rangeEndExclusive }),
+        receipt_roots: [measurementReceiptRoot, proofRoot, exchangeReceiptRoot],
+        ledger_anchor_ids: [ledgerAnchorId],
+        exchange_sequence: exchangeSequence,
+        issued_at: issuedAt,
+      },
+      {
+        journal_entry_id: journalEntryIds[1],
+        transaction_kind: 'btc_fee_payment',
+        actor_id: readerWalletId,
+        pre_state_root: rootOf({ before: 'btc_fee_payment', assetPackId }),
+        post_state_root: rootOf({ after: 'btc_fee_payment', assetPackId, btcFeeReceiptId }),
+        receipt_roots: [rootOf({ btcFeeReceiptId, readerWalletId, btcFeeSats })],
+        ledger_anchor_ids: [],
+        exchange_sequence: exchangeSequence + 1,
+        issued_at: issuedAt,
+      },
+      {
+        journal_entry_id: journalEntryIds[2],
+        transaction_kind: 'asset_pack_anchor',
+        actor_id: depositorWalletId,
+        pre_state_root: rootOf({ before: 'asset_pack_anchor', assetPackId }),
+        post_state_root: rootOf({ after: 'asset_pack_anchor', assetPackId, ledgerAnchorId }),
+        receipt_roots: [settlementJournalRoot, proofRoot],
+        ledger_anchor_ids: [ledgerAnchorId],
+        exchange_sequence: exchangeSequence + 2,
+        issued_at: issuedAt,
+      },
+      {
+        journal_entry_id: journalEntryIds[3],
+        transaction_kind: 'settlement_finalization',
+        actor_id: readerWalletId,
+        pre_state_root: rootOf({ before: 'settlement_finalization', assetPackId }),
+        post_state_root: rootOf({ after: 'settlement_finalization', assetPackId, readLicenseId }),
+        receipt_roots: [measurementReceiptRoot, fitReceiptRoot, proofRoot, rootOf({ readLicenseId, btcFeeReceiptId })],
+        ledger_anchor_ids: [ledgerAnchorId],
+        exchange_sequence: exchangeSequence + 3,
+        issued_at: issuedAt,
+      },
+    ];
+    for (const row of journalRows) {
+      await upsertAndReadLedgerRow('btd_terminal_journal_entries', 'journal_entry_id', row.journal_entry_id, row);
+    }
+
+    await supabase.from('btd_crypto_telemetry_events').insert({
+      event: 'asset_pack_pipeline_settled',
+      severity: 'info',
+      subject_id: assetPackId,
+      receipt_root: proofRoot,
+      ledger_anchor_id: ledgerAnchorId,
+      issued_at: issuedAt,
+    });
+
+    const { error: supplyUpdateError } = await supabase
+      .from('btd_supply_state')
+      .update({
+        total_minted: rangeEndExclusive,
+        next_token_id: rangeEndExclusive,
+        cumulative_admitted_measurement: cumulativeMeasurementAfter,
+        residual_mint_credit: residualMintCreditAfter,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', 'global')
+      .eq('total_minted', rangeStart);
+    if (supplyUpdateError) throw new Error('btd_supply_state update failed: ' + supplyUpdateError.message);
+
+    const ids = {
+      assetPackId,
+      measurementId,
+      measureMintReceiptId,
+      btdMintReceiptId,
+      ledgerAnchorId,
+      btcFeeReceiptId,
+      ownershipEventId,
+      readLicenseId,
+      journalEntryIds,
+      rangeStart,
+    };
+    const readback = await readLedgerSettlementBack(ids);
+    const missing = Object.entries(readback).filter(([, present]) => !present).map(([key]) => key);
+    if (missing.length) {
+      throw new Error('Ledger settlement readback missing rows: ' + missing.join(', '));
+    }
+
+    return {
+      status: 'settled',
+      commercialSettlementAdmissible: true,
+      reason: 'BTD range, reader BTC fee, internal ledger anchor, journal, ownership, license, and telemetry rows were written and read back.',
+      assetPackId,
+      btdRange: {
+        start: rangeStart,
+        endExclusive: rangeEndExclusive,
+        tokenCount,
+      },
+      ledgerAnchorId,
+      btcFeeReceiptId,
+      depositorWalletId,
+      readerWalletId,
+      btcFee: {
+        network: btcNetwork,
+        satsPaid: btcFeeSats,
+        finalityState: 'prepared',
+        serverCustody: false,
+      },
+      readback,
+    };
+  } catch (settlementError) {
+    const message = settlementError?.message || String(settlementError);
+    record({ type: 'ledger-settlement-blocked', stage: 'telemetry-readback', error: message });
+    return {
+      status: 'blocked',
+      commercialSettlementAdmissible: false,
+      reason: message,
+    };
+  }
+}
+
 async function main() {
 await mkdir(artifactDir, { recursive: true });
+startHeartbeat();
+process.once('SIGTERM', () => {
+  error = { name: 'SIGTERM', message: 'AssetPack pipeline harness received SIGTERM.', stack: null };
+  resultState = 'blocked_readiness';
+  record({ type: 'pipeline-blocked', stage: 'validation', resultState, error });
+  void writeCheckpoint('signal:SIGTERM').finally(() => process.exit(1));
+});
+process.once('SIGINT', () => {
+  error = { name: 'SIGINT', message: 'AssetPack pipeline harness received SIGINT.', stack: null };
+  resultState = 'blocked_readiness';
+  record({ type: 'pipeline-blocked', stage: 'validation', resultState, error });
+  void writeCheckpoint('signal:SIGINT').finally(() => process.exit(1));
+});
 
 try {
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
@@ -628,7 +1382,14 @@ try {
       sourceOverlay: manifest.sourceOverlay,
     });
   }
-  output = await withHarnessTimeout(assetPackPipeline(input, execution), harnessMaxRuntimeMs);
+  const rawOutput = await withHarnessTimeout(assetPackPipeline(input, execution), harnessMaxRuntimeMs);
+  const postprocessedOutput = findExecutionValueDown(execution, 'postprocessed', 'result');
+  output = postprocessedOutput && typeof postprocessedOutput === 'object' && !Array.isArray(postprocessedOutput)
+    ? {
+        ...(rawOutput && typeof rawOutput === 'object' && !Array.isArray(rawOutput) ? rawOutput : { rawPipelineOutput: rawOutput }),
+        ...postprocessedOutput,
+      }
+    : rawOutput;
   const pipelineResultState = normalizeResultState(
     output?.resultState || output?.fitResult?.resultState || output?.fit?.resultState
   );
@@ -641,6 +1402,8 @@ try {
       ? depositorySearch.resultReasons
       : [];
   record({ type: 'pipeline-complete', stage: 'finish' });
+  stopHeartbeat();
+  await checkpointInFlight.catch(() => {});
 
   const resultReasons = [
     'AssetPack pipeline entrypoint returned without throwing.',
@@ -652,6 +1415,24 @@ try {
       : 'Review SQL must still verify durable telemetry, proof, and ledger readback before commercial settlement.',
     ...pipelineResultReasons,
   ].filter(Boolean);
+
+  const ledgerSettlement = await settleAssetPackLedger(pipelineResultState);
+  output = {
+    ...(output || {}),
+    ledgerSettlement,
+  };
+  resultReasons.push(ledgerSettlement.reason);
+  if (pipelineResultState === 'worthy_fit' && ledgerSettlement.commercialSettlementAdmissible !== true) {
+    resultState = 'blocked_readiness';
+    resultReasons.push('Commercial settlement remains blocked until ledger settlement writeback and readback are complete.');
+  }
+  record({
+    type: 'ledger-settlement-readback',
+    stage: 'telemetry-readback',
+    status: ledgerSettlement.status,
+    commercialSettlementAdmissible: ledgerSettlement.commercialSettlementAdmissible,
+    assetPackId: ledgerSettlement.assetPackId || null,
+  });
 
   const evidence = {
     schema: 'bitcode.pipeline-harness.evidence',
@@ -691,6 +1472,8 @@ try {
     resultState: 'blocked_readiness',
     error: { name: error.name, message: error.message },
   });
+  stopHeartbeat();
+  await checkpointInFlight.catch(() => {});
 
   const evidence = {
     schema: 'bitcode.pipeline-harness.evidence',
@@ -721,6 +1504,8 @@ try {
   await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null, 2));
   process.exitCode = 1;
 } finally {
+  stopHeartbeat();
+  await checkpointInFlight.catch(() => {});
   await insertHarnessStreamLog(process.exitCode ? 'failed' : 'completed');
   await writeFile(\`\${artifactDir}/telemetry.jsonl\`, events.map((event) => JSON.stringify(event)).join('\\n') + '\\n');
   if (forceExitAfterFinally) {

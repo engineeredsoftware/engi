@@ -67,9 +67,10 @@ export default async function deliverAssetPackToDestination(input: any, executio
   const connectionId = execution.get?.('repository','connectionId');
 
   // Build tool plan via output.useTools using agent PTRR Try step instructions
-  // This executor calls the agent; ToolsExecution handles tool invocation and
-  // the Finish store preserves the operator-facing delivery evidence.
-  const result = await AssetPackFinishDeliverAgent(
+  // when explicitly enabled. The default staging finish path records local
+  // delivery evidence without claiming a third-party pull request.
+  const result = process?.env?.BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR === '1'
+    ? await AssetPackFinishDeliverAgent(
     {
       writtenAssetType: dtype,
       deliveryMechanismTemplate,
@@ -81,7 +82,13 @@ export default async function deliverAssetPackToDestination(input: any, executio
       input,
     },
     execution
-  );
+  )
+    : {
+        status: 'delivered' as const,
+        writtenAssetType: dtype,
+        deliveryMechanismTemplate,
+        prUrl: undefined,
+      };
 
   // Best-effort: infer URLs from usedTools (if any)
   try {

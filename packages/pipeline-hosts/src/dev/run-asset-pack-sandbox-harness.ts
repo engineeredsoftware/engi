@@ -5,7 +5,7 @@ import {
   type PipelineHarnessMode,
 } from '..';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
 const TRUSTED_SANDBOX_ENV_KEYS = [
@@ -21,6 +21,11 @@ const TRUSTED_SANDBOX_ENV_KEYS = [
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
   'BITCODE_PIPELINE_USER_ID',
+  'BITCODE_PIPELINE_DEPOSITOR_WALLET_ID',
+  'BITCODE_PIPELINE_READER_WALLET_ID',
+  'BITCODE_PIPELINE_WALLET_SESSION_ID',
+  'BITCODE_PIPELINE_BTC_FEE_SATS',
+  'BITCODE_PIPELINE_BTC_NETWORK',
   'BITCODE_LLM_PROVIDER',
   'BITCODE_LLM_MODEL',
   'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
@@ -113,10 +118,10 @@ function selectedCommandEnvironment(): Record<string, string> {
 
 function assertDatabaseStreamingEnvironment(env: Record<string, string>): void {
   const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_SECRET_KEY || env.SUPABASE_ADMIN_KEY;
-  if (!isUsableSupabaseUrl(url) || !isUsableSecretValue(key)) {
+  const key = selectSupabaseAdminKey(env);
+  if (!isUsableSupabaseUrl(url) || !key) {
     throw new Error(
-      'BITCODE_PIPELINE_STREAM_TO_DATABASE=1 requires a non-placeholder Supabase URL and service-role key.'
+      'BITCODE_PIPELINE_STREAM_TO_DATABASE=1 requires a non-placeholder Supabase URL and an admin-capable Supabase key.'
     );
   }
 }
@@ -133,6 +138,30 @@ function isUsableSupabaseUrl(value: string | undefined): boolean {
 
 function isUsableSecretValue(value: string | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 16 && !value.includes('<');
+}
+
+function supabaseJwtRole(value: string | undefined): string | null {
+  if (!value) return null;
+  const [, payload] = value.split('.');
+  if (!payload) return null;
+
+  try {
+    return JSON.parse(Buffer.from(payload.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8')).role || null;
+  } catch {
+    return null;
+  }
+}
+
+function isUsableSupabaseAdminKey(value: string | undefined): boolean {
+  return isUsableSecretValue(value) && supabaseJwtRole(value) !== 'anon';
+}
+
+function selectSupabaseAdminKey(env: Record<string, string>): string | undefined {
+  return [
+    env.SUPABASE_SERVICE_ROLE_KEY,
+    env.SUPABASE_SECRET_KEY,
+    env.SUPABASE_ADMIN_KEY,
+  ].find(isUsableSupabaseAdminKey);
 }
 
 function normalizeModelEnvironment(env: Record<string, string>): void {
@@ -283,6 +312,38 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
   };
 }
 
+function persistLocalArtifacts(result: {
+  sandboxId?: string;
+  artifacts: { evidence: unknown | null; telemetry: string | null };
+}): string | null {
+  const outputRoot =
+    process.env.BITCODE_PIPELINE_HARNESS_LOCAL_ARTIFACT_DIR ||
+    resolve(findRepositoryRoot(), '.bitcode/pipeline-harness-runs');
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const sandboxId = result.sandboxId || 'unknown-sandbox';
+  const dir = resolve(outputRoot, `${stamp}-${sandboxId}`);
+  mkdirSync(dir, { recursive: true });
+
+  if (result.artifacts.evidence !== null) {
+    writeFileSync(resolve(dir, 'evidence.json'), JSON.stringify(result.artifacts.evidence, null, 2));
+  }
+  if (result.artifacts.telemetry !== null) {
+    writeFileSync(resolve(dir, 'telemetry.jsonl'), result.artifacts.telemetry);
+  }
+  writeFileSync(
+    resolve(dir, 'summary.json'),
+    JSON.stringify({
+      sandboxId,
+      evidencePresent: result.artifacts.evidence !== null,
+      telemetryPresent: result.artifacts.telemetry !== null,
+      telemetryLineCount: result.artifacts.telemetry
+        ? result.artifacts.telemetry.split(/\r?\n/).filter(Boolean).length
+        : 0,
+    }, null, 2)
+  );
+  return dir;
+}
+
 async function main(): Promise<void> {
   loadLocalEnvFiles();
   requireHarnessOptIn();
@@ -334,8 +395,13 @@ async function main(): Promise<void> {
   const host = new VercelSandboxPipelineHost({
     sandboxFactory,
     stopAfterRun: process.env.BITCODE_SANDBOX_LEAVE_RUNNING !== '1',
+    sandboxCreateTimeoutMs: Number(process.env.BITCODE_SANDBOX_CREATE_TIMEOUT_MS || 180_000),
+    onEvent: (event) => {
+      process.stderr.write(`[harness:${event.type}] ${redactKnownSecrets(JSON.stringify(event))}\n`);
+    },
   });
   const result = await host.runHarness(plan);
+  const localArtifactDir = persistLocalArtifacts(result);
 
   process.stdout.write(
     JSON.stringify(
@@ -343,6 +409,7 @@ async function main(): Promise<void> {
         outcome: result.outcome,
         sandboxId: result.sandboxId,
         stopped: result.stopped,
+        localArtifactDir,
         commandCount: result.commands.length,
         sourceOverlayApplied: Boolean(plan.sourceOverlay),
         commandExitCodes: result.commands.map((command) => ({

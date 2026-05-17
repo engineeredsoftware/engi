@@ -12,17 +12,20 @@ import type {
 export interface VercelSandboxPipelineHostOptions {
   sandboxFactory: SandboxFactory;
   stopAfterRun?: boolean;
+  sandboxCreateTimeoutMs?: number;
   onEvent?: (event: PipelineHarnessHostEvent) => void | Promise<void>;
 }
 
 export class VercelSandboxPipelineHost {
   private readonly sandboxFactory: SandboxFactory;
   private readonly stopAfterRun: boolean;
+  private readonly sandboxCreateTimeoutMs: number;
   private readonly onEvent?: (event: PipelineHarnessHostEvent) => void | Promise<void>;
 
   constructor(options: VercelSandboxPipelineHostOptions) {
     this.sandboxFactory = options.sandboxFactory;
     this.stopAfterRun = options.stopAfterRun ?? true;
+    this.sandboxCreateTimeoutMs = options.sandboxCreateTimeoutMs ?? 180_000;
     this.onEvent = options.onEvent;
   }
 
@@ -33,7 +36,11 @@ export class VercelSandboxPipelineHost {
       runtime: plan.createOptions.runtime,
       mode: plan.manifest.harnessMode,
     });
-    const sandbox = await this.sandboxFactory.create(withVercelAccessTokenAuth(plan.createOptions));
+    const sandbox = await withTimeout(
+      this.sandboxFactory.create(withVercelAccessTokenAuth(plan.createOptions)),
+      this.sandboxCreateTimeoutMs,
+      `Vercel Sandbox create did not complete within ${this.sandboxCreateTimeoutMs}ms.`
+    );
     await this.emit({
       type: 'sandbox-created',
       timestamp: new Date().toISOString(),
@@ -111,22 +118,40 @@ export class VercelSandboxPipelineHost {
       cwd: command.cwd,
     });
     const startedAt = new Date().toISOString();
-    const result = await sandbox.runCommand({
-      cmd: command.cmd,
-      args: command.args ?? [],
-      cwd: command.cwd,
-      env: command.env,
-      sudo: command.sudo,
-    });
+    let result: SandboxCommandResult | null = null;
+    let stdout = '';
+    let stderr = '';
+    let exitCode: number | null = null;
+    try {
+      result = await sandbox.runCommand({
+        cmd: command.cmd,
+        args: command.args ?? [],
+        cwd: command.cwd,
+        env: command.env,
+        sudo: command.sudo,
+        detached: command.detached,
+      });
+      if (command.detached) {
+        const detachedResult = await this.waitForDetachedCommand(sandbox, command);
+        exitCode = detachedResult.exitCode;
+        stdout = detachedResult.stdout;
+        stderr = detachedResult.stderr;
+      } else {
+        exitCode = result.exitCode;
+        stdout = await readCommandOutput(result, 'stdout');
+        stderr = await readCommandOutput(result, 'stderr');
+      }
+    } catch (error) {
+      exitCode = 1;
+      stderr = error instanceof Error ? error.message : String(error);
+    }
     const completedAt = new Date().toISOString();
-    const stdout = await readCommandOutput(result, 'stdout');
-    const stderr = await readCommandOutput(result, 'stderr');
     const commandResult = {
       label: command.label,
       cmd: command.cmd,
       args: command.args ?? [],
       cwd: command.cwd,
-      exitCode: result.exitCode,
+      exitCode,
       stdout,
       stderr,
       startedAt,
@@ -137,7 +162,7 @@ export class VercelSandboxPipelineHost {
       type: 'command-completed',
       timestamp: new Date().toISOString(),
       label: command.label,
-      exitCode: result.exitCode,
+      exitCode,
       stdoutLength: stdout.length,
       stderrLength: stderr.length,
       startedAt,
@@ -145,6 +170,53 @@ export class VercelSandboxPipelineHost {
     });
 
     return commandResult;
+  }
+
+  private async waitForDetachedCommand(
+    sandbox: SandboxSession,
+    command: PipelineHarnessCommand
+  ): Promise<{ exitCode: number | null; stdout: string; stderr: string }> {
+    const startedAt = Date.now();
+    const maxWaitMs = command.maxWaitMs ?? 45 * 60 * 1000;
+    const pollIntervalMs = command.pollIntervalMs ?? 5000;
+
+    if (!command.exitCodePath) {
+      return {
+        exitCode: null,
+        stdout: '',
+        stderr: 'Detached command is missing exitCodePath.',
+      };
+    }
+
+    while (Date.now() - startedAt <= maxWaitMs) {
+      const exitCodeText = await this.readTextArtifact(sandbox, command.exitCodePath);
+      if (exitCodeText !== null) {
+        const parsedExitCode = Number.parseInt(exitCodeText.trim(), 10);
+        const [stdout, stderr] = await Promise.all([
+          command.stdoutPath ? this.readTextArtifact(sandbox, command.stdoutPath) : Promise.resolve(null),
+          command.stderrPath ? this.readTextArtifact(sandbox, command.stderrPath) : Promise.resolve(null),
+        ]);
+        return {
+          exitCode: Number.isFinite(parsedExitCode) ? parsedExitCode : 1,
+          stdout: stdout ?? '',
+          stderr: stderr ?? '',
+        };
+      }
+      await sleep(pollIntervalMs);
+    }
+
+    const [stdout, stderr] = await Promise.all([
+      command.stdoutPath ? this.readTextArtifact(sandbox, command.stdoutPath) : Promise.resolve(null),
+      command.stderrPath ? this.readTextArtifact(sandbox, command.stderrPath) : Promise.resolve(null),
+    ]);
+    return {
+      exitCode: 1,
+      stdout: stdout ?? '',
+      stderr: [
+        stderr ?? '',
+        `Detached command did not write ${command.exitCodePath} within ${maxWaitMs}ms.`,
+      ].filter(Boolean).join('\n'),
+    };
   }
 
   private async readJsonArtifact(sandbox: SandboxSession, path: string): Promise<unknown | null> {
@@ -169,6 +241,25 @@ export class VercelSandboxPipelineHost {
     if (!this.onEvent) return;
     await this.onEvent(event);
   }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  message: string
+): Promise<T> {
+  let timeout: NodeJS.Timeout | undefined;
+  const timer = new Promise<never>((_, reject) => {
+    timeout = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+
+  return Promise.race([promise, timer]).finally(() => {
+    if (timeout) clearTimeout(timeout);
+  });
 }
 
 function withVercelAccessTokenAuth(createOptions: PipelineHarnessPlan['createOptions']): PipelineHarnessPlan['createOptions'] {

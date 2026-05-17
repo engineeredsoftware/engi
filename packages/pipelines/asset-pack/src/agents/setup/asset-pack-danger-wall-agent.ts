@@ -5,7 +5,10 @@
  * Bitcode risk admission blocks the next phase.
  */
 
-import { bitcodeReadRiskAdmissionAgent } from '@bitcode/generic-agents-danger-wall';
+import {
+  bitcodeReadRiskAdmissionAgent,
+  quickBitcodeReadRiskAdmissionAgent,
+} from '@bitcode/generic-agents-danger-wall';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
@@ -30,7 +33,7 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
   const riskAdmissionInput = execution?.get?.('setup/read-comprehension', 'riskAdmissionInput');
   const readModel = execution?.get?.('setup/read', 'model');
   const readComprehension = execution?.get?.('setup/read', 'comprehension');
-  const result = await bitcodeReadRiskAdmissionAgent({
+  const riskInput = {
     ...input,
     ...riskAdmissionInput,
     read:
@@ -57,7 +60,10 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
     repositoryEvidence:
       riskAdmissionInput?.repositoryEvidence ??
       execution?.get?.('setup/read-comprehension', 'toolEvidence')
-  }, execution);
+  };
+  const result = process?.env?.BITCODE_ASSET_PACK_DANGER_WALL_USE_PTRR === '1'
+    ? await bitcodeReadRiskAdmissionAgent(riskInput, execution)
+    : await quickBitcodeReadRiskAdmissionAgent(riskInput, execution);
   try {
     execution.store('setup/danger-wall', 'result', result);
     execution.store('setup/risk-admission', 'result', result);

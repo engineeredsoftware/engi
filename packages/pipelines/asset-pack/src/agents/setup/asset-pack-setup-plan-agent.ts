@@ -116,6 +116,60 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
 });
 // Bring-up path: provide a fast stub in test/debug-only mode.
 export default async function setupPlanAgent(input: any, execution: any) {
+  const shouldUsePtrr =
+    process?.env?.BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR === '1';
+  if (!shouldUsePtrr) {
+    const read =
+      input?.read ??
+      input?.definitionOfRead ??
+      execution?.get?.('pipeline', 'expressedRead') ??
+      execution?.get?.('read', 'description') ??
+      'unspecified Bitcode Read';
+    const repository =
+      input?.repository?.fullName ??
+      input?.sourceRevision?.repositoryFullName ??
+      [
+        execution?.get?.('repository', 'owner'),
+        execution?.get?.('repository', 'name')
+      ].filter(Boolean).join('/') ??
+      'unknown repository';
+    const branch =
+      input?.repository?.branch ??
+      input?.sourceRevision?.branch ??
+      execution?.get?.('repository', 'branch') ??
+      'unknown branch';
+    const commit =
+      input?.repository?.commit ??
+      input?.sourceRevision?.commit ??
+      execution?.get?.('repository', 'commit') ??
+      'unknown commit';
+    const fitState =
+      input?.fitResult?.resultState ??
+      input?.depositorySearchResult?.resultState ??
+      'not-yet-classified';
+    const selectedCandidates =
+      input?.fitResult?.selectedCandidateAssetIds ??
+      input?.depositorySearchResult?.selectedCandidateAssetIds ??
+      [];
+    const candidateText =
+      Array.isArray(selectedCandidates) && selectedCandidates.length
+        ? selectedCandidates.join(', ')
+        : 'no selected candidate';
+    const plan = [
+      `Read: ${String(read)}`,
+      `Repository: ${repository}@${branch}:${commit}`,
+      `Fit state: ${fitState}; candidate assets: ${candidateText}.`,
+      'Setup plan: preserve source revision evidence, carry the measured Read and depository-fit result into discovery, synthesize one Read-satisfaction AssetPack only from source-bound evidence, validate proof and delivery readiness, then finish with auditable delivery evidence.'
+    ].join('\n');
+
+    try {
+      execution?.store?.('setup', 'plan', plan);
+      execution?.store?.('setup/plan', 'result', { plan });
+    } catch {}
+
+    return { plan };
+  }
+
   const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
   const onlyGens = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '');
   const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';

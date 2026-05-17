@@ -615,6 +615,7 @@ export function factoryStitchUntilComplete<T>(
         ? (currentResult as any).output
         : currentResult;
       const stitchInput = {
+        context: buildStitchContext(input),
         partialOutput: minimalPartial,
         instruction: 'Continue and complete the previous output'
       } as any;
@@ -644,7 +645,12 @@ export function factoryStitchUntilComplete<T>(
       throw error;
     }
 
-    return { ...currentResult, finalOutput: (currentResult as any).output ?? currentResult };
+    const finalOutput = (currentResult as any).output ?? currentResult;
+    return {
+      context: buildStitchContext(input),
+      output: finalOutput,
+      finalOutput,
+    } as any;
   };
 }
 
@@ -702,7 +708,10 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
         const isSum = typedInput.chunkResults !== undefined;
 
         if (isStitch) {
-          return `Continue reasoning from this partial output:\n\n${JSON.stringify(typedInput.partialOutput, null, 2)}`;
+          const context = typedInput.context && Object.keys(typedInput.context).length
+            ? `\n\nOriginal task context:\n\n${JSON.stringify(typedInput.context, null, 2)}`
+            : '';
+          return `Continue reasoning from this partial output:\n\n${JSON.stringify(typedInput.partialOutput, null, 2)}${context}`;
         }
         if (isSum) {
           return `Reason about how to combine these chunk results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
@@ -780,9 +789,9 @@ export function factoryStructuredOutput<T, TSchema>(
 // Infer a minimal shape string from a Zod schema when description is missing
 function inferSchemaShape(s: z.ZodTypeAny): string {
   try {
-    const def: any = (s as any)._def;
-    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
-      const entries = Object.entries(def.shape as Record<string, z.ZodTypeAny>);
+    const shape = getZodObjectShape(s);
+    if (shape) {
+      const entries = Object.entries(shape);
       const shapeLines = entries.map(([k, v]) => `  "${k}": ${inferField(v)}`);
       return `{
 ${shapeLines.join(',\n')}
@@ -798,23 +807,41 @@ function inferField(v: z.ZodTypeAny): string {
     case z.ZodFirstPartyTypeKind.ZodString: return 'string';
     case z.ZodFirstPartyTypeKind.ZodNumber: return 'number';
     case z.ZodFirstPartyTypeKind.ZodBoolean: return 'boolean';
+    case z.ZodFirstPartyTypeKind.ZodAny: return 'any';
+    case z.ZodFirstPartyTypeKind.ZodLiteral: return JSON.stringify((v as any)?._def?.value);
     case z.ZodFirstPartyTypeKind.ZodArray: {
       const inner = (v as any)?._def?.type;
       return `[ ${inner ? inferField(inner) : 'any'} ]`;
     }
-    case z.ZodFirstPartyTypeKind.ZodObject: return '{ ... }';
+    case z.ZodFirstPartyTypeKind.ZodObject: {
+      const shape = getZodObjectShape(v);
+      if (!shape) return '{ ... }';
+      const keys = Object.entries(shape).slice(0, 6);
+      return `{ ${keys.map(([key, value]) => `"${key}": ${inferField(value)}`).join(', ')}${Object.keys(shape).length > keys.length ? ', ...' : ''} }`;
+    }
     case z.ZodFirstPartyTypeKind.ZodRecord: return '{ [key: string]: any }';
-    case z.ZodFirstPartyTypeKind.ZodEnum: return 'enum';
+    case z.ZodFirstPartyTypeKind.ZodEnum: {
+      const values = (v as any)?._def?.values;
+      return Array.isArray(values) && values.length
+        ? values.map((value) => JSON.stringify(value)).join(' | ')
+        : 'enum';
+    }
+    case z.ZodFirstPartyTypeKind.ZodUnion: {
+      const options = (v as any)?._def?.options;
+      return Array.isArray(options) ? options.map(inferField).join(' | ') : 'any';
+    }
     case z.ZodFirstPartyTypeKind.ZodOptional: return `${inferField((v as any)?._def?.innerType)}?`;
+    case z.ZodFirstPartyTypeKind.ZodDefault: return `${inferField((v as any)?._def?.innerType)} = default`;
+    case z.ZodFirstPartyTypeKind.ZodNullable: return `${inferField((v as any)?._def?.innerType)} | null`;
     default: return 'any';
   }
 }
 
 function inferTopLevelKeys(s: z.ZodTypeAny): string[] {
   try {
-    const def: any = (s as any)._def;
-    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
-      return Object.keys(def.shape as Record<string, z.ZodTypeAny>);
+    const shape = getZodObjectShape(s);
+    if (shape) {
+      return Object.keys(shape);
     }
   } catch { }
   return [];
@@ -822,14 +849,15 @@ function inferTopLevelKeys(s: z.ZodTypeAny): string[] {
 
 function buildCoercedBySchema(s: z.ZodTypeAny): any {
   try {
-    const def: any = (s as any)._def;
-    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
-      const shape = def.shape as Record<string, z.ZodTypeAny>;
+    const shape = getZodObjectShape(s);
+    if (shape) {
       const out: any = {};
       for (const [k, v] of Object.entries(shape)) {
         const t = (v as any)?._def?.typeName;
         const optional = t === z.ZodFirstPartyTypeKind.ZodOptional;
-        const inner = optional ? (v as any)?._def?.innerType : v;
+        const defaulted = t === z.ZodFirstPartyTypeKind.ZodDefault;
+        const nullable = t === z.ZodFirstPartyTypeKind.ZodNullable;
+        const inner = optional || defaulted || nullable ? (v as any)?._def?.innerType : v;
         const typeName = (inner as any)?._def?.typeName;
         if (optional) continue; // skip optional
         switch (typeName) {
@@ -851,6 +879,50 @@ function buildCoercedBySchema(s: z.ZodTypeAny): any {
     }
   } catch { }
   return {};
+}
+
+function getZodObjectShape(s: z.ZodTypeAny): Record<string, z.ZodTypeAny> | null {
+  try {
+    const def: any = (s as any)?._def;
+    if (def?.typeName !== z.ZodFirstPartyTypeKind.ZodObject) return null;
+    const rawShape = def.shape;
+    const shape = typeof rawShape === 'function' ? rawShape() : rawShape;
+    if (!shape || typeof shape !== 'object' || Array.isArray(shape)) return null;
+    return shape as Record<string, z.ZodTypeAny>;
+  } catch {
+    return null;
+  }
+}
+
+function buildStitchContext(input: unknown): Record<string, unknown> {
+  if (!input || typeof input !== 'object') return {};
+  const value = input as any;
+  const context: Record<string, unknown> = {};
+  const put = (key: string, candidate: unknown) => {
+    if (candidate !== undefined && candidate !== null && candidate !== '') {
+      context[key] = candidate;
+    }
+  };
+
+  if (value.context && typeof value.context === 'object' && !Array.isArray(value.context)) {
+    for (const [key, candidate] of Object.entries(value.context)) {
+      put(key, candidate);
+    }
+  }
+
+  put('read', value.read ?? value.expressedRead ?? value.definitionOfRead ?? value.context?.read);
+  put('definitionOfRead', value.definitionOfRead ?? value.context?.definitionOfRead);
+  put('repository', value.repository ?? value.sourceRevision?.repository ?? value.sourceRevision?.repositoryFullName ?? value.context?.repository);
+  put('sourceRevision', value.sourceRevision ?? value.context?.sourceRevision);
+  put('fitResult', value.fitResult ?? value.depositorySearchResult ?? value.context?.fitResult);
+  put('assetPackIntent', value.assetPackIntent ?? value.context?.assetPackIntent);
+  put('deliveryMechanism', value.deliveryMechanism ?? value.context?.deliveryMechanism);
+  if (Array.isArray(value.preparedContexts)) {
+    put('preparedContextCount', value.preparedContexts.length);
+    put('preparedContextSummaries', value.preparedContexts.slice(0, 3).map(summarize));
+  }
+
+  return context;
 }
 
 // ==================== TOOL SUBSTEP ====================

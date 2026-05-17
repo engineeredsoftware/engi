@@ -120,21 +120,79 @@ export const AssetPackCloneVCSRepositoryAgent = factoryAgentWithPTRR<
 // Wrapper default export adds execution-state normalization using EE stores.
 import { log } from '@bitcode/logger';
 
-export default async function runAssetPackCloneVCSRepositoryAgent(input: any, execution: any) {
-  const out = await AssetPackCloneVCSRepositoryAgent(input, execution);
+function normalizeRepositoryInput(input: any, execution: any): {
+  owner: string;
+  name: string;
+  ref: string;
+  provider: string;
+  commit?: string;
+} | null {
+  const repository =
+    input?.repository ??
+    execution?.get?.('pipeline', 'input')?.repository ??
+    {};
+  const sourceRevision =
+    input?.sourceRevision ??
+    execution?.get?.('harness', 'sourceRevision') ??
+    {};
+  const fullName =
+    repository.fullName ??
+    repository.repositoryFullName ??
+    sourceRevision.repositoryFullName;
+  const [ownerFromFullName, nameFromFullName] =
+    typeof fullName === 'string' && fullName.includes('/')
+      ? fullName.split('/', 2)
+      : [undefined, undefined];
+  const owner = input?.owner ?? repository.owner ?? ownerFromFullName;
+  const name = input?.name ?? repository.name ?? repository.repo ?? nameFromFullName;
 
+  if (!owner || !name) return null;
+
+  return {
+    owner: String(owner),
+    name: String(name),
+    ref: String(input?.ref ?? repository.branch ?? sourceRevision.branch ?? 'main'),
+    provider: String(input?.provider ?? repository.provider ?? sourceRevision.provider ?? 'github'),
+    commit: repository.commit ?? sourceRevision.commit,
+  };
+}
+
+export default async function runAssetPackCloneVCSRepositoryAgent(input: any, execution: any) {
   // Store normalization is best-effort and must never block agent success.
   const safeStore = (ns: string, key: string, val: unknown) => {
     try { execution.store(ns as any, key as any, val as any); }
     catch (err) { try { log('[setup/clone] store failed', 'warn', { ns, key, err: err instanceof Error ? err.message : String(err) }); } catch {} }
   };
 
+  const normalized = normalizeRepositoryInput(input, execution);
+  const repositoryAlreadyPresent =
+    normalized &&
+    (input?.harness || input?.sourceRevision || input?.repository?.fullName);
+  const out = repositoryAlreadyPresent
+    ? {
+        success: true,
+        repository: {
+          owner: normalized.owner,
+          name: normalized.name,
+          ref: normalized.ref,
+        },
+        workspacePath: process.cwd(),
+        status: 'source-revision-present',
+        metadata: {
+          provider: normalized.provider,
+          sourceCommit: normalized.commit,
+          cloneMode: 'vercel-sandbox-source',
+        },
+      }
+    : await AssetPackCloneVCSRepositoryAgent(input, execution);
+
   if (out?.workspacePath) safeStore('repository', 'workspacePath', out.workspacePath);
   if (out?.repository?.owner) safeStore('repository', 'owner', out.repository.owner);
   if (out?.repository?.name) safeStore('repository', 'name', out.repository.name);
   if (out?.repository?.ref) safeStore('repository', 'branch', out.repository.ref);
-  if ((input as any)?.provider) safeStore('repository', 'provider', (input as any).provider);
+  if ((input as any)?.provider || normalized?.provider) safeStore('repository', 'provider', (input as any)?.provider ?? normalized?.provider);
   if ((input as any)?.connectionId) safeStore('repository', 'connectionId', String((input as any).connectionId));
+  if (normalized?.commit) safeStore('repository', 'commit', normalized.commit);
 
   return out;
 }

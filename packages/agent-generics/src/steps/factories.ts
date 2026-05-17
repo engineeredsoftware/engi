@@ -43,6 +43,19 @@ import { z } from 'zod';
 import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrumentation';
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
 
+function formatStepPromptCarrier(prompt: any): any {
+  if (!prompt) return prompt;
+
+  const explicitPurpose = prompt.get?.('step:purpose');
+  if (explicitPurpose) return explicitPurpose;
+
+  if (typeof prompt.format === 'function') {
+    return prompt.format();
+  }
+
+  return prompt;
+}
+
 function normalizeToolUsage(usedTools: UsedTool[] | undefined): ToolUsageUpdate[] {
   return (usedTools || []).map((tool) => ({
     name: tool.tool,
@@ -148,7 +161,7 @@ export function factoryPlanStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'plan'); } catch {}
     if (config?.prompt) {
-      const part = config.prompt.get?.('step:purpose') ?? config.prompt;
+      const part = formatStepPromptCarrier(config.prompt);
       stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', part);
     }
     try {
@@ -234,7 +247,7 @@ export function factoryTryStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'try'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', options.prompt.get?.('step:purpose') || options.prompt);
+      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
     }
     try {
       // Record usable tools
@@ -317,7 +330,7 @@ export function factoryRefineStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'refine'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', options.prompt.get?.('step:purpose') || options.prompt);
+      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
     }
     try {
       // Record usable tools
@@ -404,7 +417,7 @@ export function factoryRetryStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'retry'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', options.prompt.get?.('step:purpose') || options.prompt);
+      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
     }
     try {
       // Record usable tools

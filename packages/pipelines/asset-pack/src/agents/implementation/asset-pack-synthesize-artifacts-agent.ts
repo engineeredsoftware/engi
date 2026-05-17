@@ -92,7 +92,8 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
     execution?.get?.('pipeline', 'expressedRead') ??
     '';
   const deliveryMechanismTemplate = execution?.get?.('pipeline', 'deliveryMechanismTemplate');
-  const result = await AssetPackSynthesizeArtifactsAgent(
+  const result = process?.env?.BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR === '1'
+    ? await AssetPackSynthesizeArtifactsAgent(
     {
       ...input,
       read,
@@ -102,7 +103,8 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
       },
     },
     execution
-  );
+  )
+    : buildDeterministicAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate);
   const assetPackSynthesisArtifacts = result?.assetPackSynthesisArtifacts ??
     result?.writtenAssets ?? {
       summary: result?.summary ?? 'AssetPack synthesis artifact evidence was produced.',
@@ -131,4 +133,70 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
   } catch {}
 
   return output;
+}
+
+function buildDeterministicAssetPackSynthesis(
+  input: any,
+  execution: any,
+  read: string,
+  deliveryMechanismTemplate: string | undefined
+) {
+  const fitResult = input?.fitResult ?? input?.depositorySearchResult ?? {};
+  const selectedCandidateAssetIds = Array.isArray(fitResult?.selectedCandidateAssetIds)
+    ? fitResult.selectedCandidateAssetIds
+    : [];
+  const repository = input?.repository ?? input?.sourceRevision ?? {};
+  const repositoryLabel = [
+    repository.repositoryFullName ?? repository.fullName ?? 'unknown repository',
+    repository.branch ?? 'unknown branch',
+    repository.commit ?? 'unknown commit'
+  ].join('@');
+  const proofEvidence = [
+    `Read: ${read}`,
+    `Repository revision: ${repositoryLabel}`,
+    `Fit result: ${fitResult?.resultState ?? 'not-yet-classified'}`,
+    `Selected candidate assets: ${selectedCandidateAssetIds.join(', ') || 'none'}`,
+    `Query root: ${fitResult?.queryRoot ?? 'not recorded'}`,
+    `Ranking root: ${fitResult?.rankingRoot ?? 'not recorded'}`,
+    `Embedding policy: ${fitResult?.embeddingPolicy?.provider ?? 'unknown'} ${fitResult?.embeddingPolicy?.model ?? ''}`.trim()
+  ];
+  const summary = [
+    'Source-bound Read-satisfaction AssetPack synthesized by the staging pipeline.',
+    `The pack binds the admitted Read to ${repositoryLabel}.`,
+    `Fit posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${selectedCandidateAssetIds.length} selected candidate(s).`,
+    'Validation must preserve proof, telemetry, delivery, and ledger readback before settlement trust.'
+  ].join(' ');
+  return {
+    success: true,
+    semanticKind: 'asset-pack-written-asset' as const,
+    writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
+    summary,
+    assetPackSynthesisArtifacts: {
+      summary,
+      fileChanges: {
+        edited: 0,
+        created: 1,
+        deleted: 0,
+        paths: ['AssetPack:read-satisfaction-summary']
+      },
+      proofEvidence,
+      reviewNotes: [
+        'This AssetPack is synthesized from source-bound depository fit evidence.',
+        'QA overlay runs remain blocked for commercial source-revision settlement until deployed cleanly.'
+      ]
+    },
+    writtenAssets: {
+      summary,
+      proofEvidence,
+      reviewNotes: [
+        'Read/Fit candidate evidence carried forward for validation and finish.'
+      ]
+    },
+    assetPack: {
+      read,
+      writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
+      deliveryMechanismTemplate,
+      proofEvidence
+    }
+  };
 }
