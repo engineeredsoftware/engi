@@ -10,6 +10,7 @@ import { Tool } from '@bitcode/tools-generics';
 // VCS and Repository Tools (always available)
 import { assetPackCloneVCSRepositoryTool } from './AssetPackCloneVCSRepositoryTool';
 import { bitcodeReadMeasurementComputerUseTool } from './BitcodeReadMeasurementComputerUseTool';
+import { lexicalDepositorySearchTool } from './AssetPackLexicalDepositorySearchTool';
 import { assetPackMultimodalProcessingTool } from './AssetPackMultimodalProcessingTool';
 import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTool';
 import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
@@ -69,6 +70,7 @@ export const SETUP_PHASE_TOOLS: Tool[] = [
   assetPackPDFComprehensionTool,
   assetPackAudioComprehensionTool,
   assetPackVideoComprehensionTool,
+  lexicalDepositorySearchTool,
   // Provider MCP tools disabled for GA‑1
   // LSP and Code Intelligence
   //lspSemanticAnalysisEngine,
@@ -82,6 +84,7 @@ export const SETUP_PHASE_TOOLS: Tool[] = [
  * File analysis, requirement extraction, complexity assessment
  */
 export const DISCOVERY_PHASE_TOOLS: Tool[] = [
+  lexicalDepositorySearchTool,
   // Code Analysis
   //lspSemanticAnalysisEngine,
   //lspCodeIntelligenceEngine,
@@ -147,8 +150,13 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
       assetPackVideoComprehensionTool,
     ],
     'asset-pack-ready-to-iterate-agent': [],
+    'bitcode-read-risk-admission': [lexicalDepositorySearchTool],
 
     // Discovery Phase
+    'asset-pack-gather-context-agent': [lexicalDepositorySearchTool],
+    'asset-pack-understand-requirements-agent': [lexicalDepositorySearchTool],
+    'asset-pack-research-approach-agent': [lexicalDepositorySearchTool],
+    'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
     'asset-pack-digest-codebase-agent': [],
     'asset-pack-research-web-agent': [],
     //'asset-pack-select-files-agent': [],
@@ -209,7 +217,7 @@ export function getShortCircuitTools(): Tool[] {
 export const ALL_ASSET_PACK_TOOLS: Tool[] = [
   ...new Set([
     ...SETUP_PHASE_TOOLS,
-    //...DISCOVERY_PHASE_TOOLS,
+    ...DISCOVERY_PHASE_TOOLS,
     ...IMPLEMENTATION_PHASE_TOOLS,
     ...VALIDATION_PHASE_TOOLS,
     ...FINISH_DELIVERY_TOOLS

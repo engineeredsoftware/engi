@@ -78,9 +78,12 @@ token tuple `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and `VERCEL_PROJECT_ID`. Deployed
 Vercel code should use automatic OIDC rather than storing a Vercel token when
 possible.
 Staging-testnet Read/Fit QA must also set
-`BITCODE_ASSET_PACK_REAL_INFERENCE=1`. That single flag forces every
-PTRR-capable AssetPack setup, discovery, synthesis, validation, and finish
-agent off the deterministic bring-up path. The phase-specific
+`BITCODE_ASSET_PACK_REAL_INFERENCE=1`. On the deployed streaming route,
+`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` is the expected profile:
+setup, synthesis, validation, and finish stay model-backed, while deterministic
+source-bound discovery evidence preserves enough budget to ship and read back
+the AssetPack. Set `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` only for
+long-running sandbox audits outside the deployed route. The phase-specific
 `BITCODE_ASSET_PACK_*_USE_PTRR=1` flags remain available for local bisection,
 but they are not sufficient as a staging posture because a missed flag silently
 turns part of the run back into deterministic evidence.
@@ -132,6 +135,7 @@ BITCODE_SANDBOX_SOURCE_REVISION=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
 BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
+BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
 BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```

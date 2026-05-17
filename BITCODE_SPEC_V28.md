@@ -457,10 +457,15 @@ Read/Fit result review remains fail-closed:
   AssetPack range projection, or finality readback is unavailable.
 - staging-testnet Read/Fit QA must run model-backed inference.
   `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is the deployment-level switch for the
-  AssetPack pipeline; it forces every PTRR-capable setup, discovery, synthesis,
-  validation, and Finish agent off deterministic bring-up branches. A run with
-  any omitted per-agent `*_USE_PTRR` flag is not an acceptable staging posture
-  unless the global real-inference flag is present.
+  AssetPack pipeline. Deployed route-streaming runs should use
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`: setup, synthesis,
+  validation, and Finish stay model-backed while deterministic source-bound
+  depository discovery preserves enough route budget to synthesize, ship, and
+  read back the AssetPack. `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full`
+  is reserved for long-running sandbox audits outside the deployed streaming
+  route. A run with omitted per-agent `*_USE_PTRR` flags is not an acceptable
+  staging posture unless the global real-inference flag and explicit profile
+  are present.
 - manifest-only Deposit supply can satisfy candidate recall but cannot produce
   `worthy_fit` unless proof and measurement posture are explicitly visible to
   the pipeline input and the downstream readback queries confirm them. Boolean

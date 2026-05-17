@@ -1,4 +1,6 @@
 import {
+  isAssetPackBoundedRealInferenceProfile,
+  isAssetPackFullPtrrInferenceProfile,
   isAssetPackRealInferenceEnabled,
   shouldUseAssetPackPtrr,
   shouldUseAssetPackPtrrForAgent,
@@ -17,8 +19,23 @@ describe('AssetPack runtime inference policy', () => {
     const env = { BITCODE_ASSET_PACK_REAL_INFERENCE: '1' } as NodeJS.ProcessEnv;
 
     expect(isAssetPackRealInferenceEnabled(env)).toBe(true);
+    expect(isAssetPackFullPtrrInferenceProfile(env)).toBe(true);
+    expect(isAssetPackBoundedRealInferenceProfile(env)).toBe(false);
     expect(shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR', env)).toBe(true);
     expect(shouldUseAssetPackPtrrForAgent('BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR', 'plan-implementation', env)).toBe(true);
+  });
+
+  it('allows deployed streaming runs to use bounded real inference without forcing PTRR loops', () => {
+    const env = {
+      BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
+      BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
+    } as NodeJS.ProcessEnv;
+
+    expect(isAssetPackRealInferenceEnabled(env)).toBe(true);
+    expect(isAssetPackFullPtrrInferenceProfile(env)).toBe(false);
+    expect(isAssetPackBoundedRealInferenceProfile(env)).toBe(true);
+    expect(shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR', env)).toBe(false);
+    expect(shouldUseAssetPackPtrrForAgent('BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR', 'plan-implementation', env)).toBe(false);
   });
 
   it('keeps existing phase and per-agent PTRR flags for targeted diagnosis', () => {

@@ -56,6 +56,7 @@ const TRUSTED_COMMAND_ENV_KEYS = [
   'BITCODE_LLM_PROVIDER',
   'BITCODE_LLM_MODEL',
   'BITCODE_ASSET_PACK_REAL_INFERENCE',
+  'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
   'BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR',
   'BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR',
   'BITCODE_ASSET_PACK_DANGER_WALL_USE_PTRR',
@@ -132,6 +133,9 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   env.BITCODE_PIPELINE_USER_ID = userId;
   env.BITCODE_PIPELINE_STREAM_TO_DATABASE = '1';
   env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
+  if (isDeployedRuntime() && isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE) && !env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) {
+    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
+  }
   assertDatabaseStreamingEnvironment(env);
   normalizeModelEnvironment(env);
   assertDeployedRealInferenceEnvironment(env);
@@ -233,6 +237,7 @@ function summarizeHarnessPreflight(body: AssetPackHarnessRequest): Record<string
     supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
     supabaseServiceRoleProvided: isUsableSecretValue(serviceRole),
     runtimeBudgetMs: Number.isFinite(budgetMs) ? budgetMs : null,
+    realInferenceProfile: process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE || (isDeployedRuntime() ? 'bounded' : null),
     deployedRuntime: isDeployedRuntime(),
   };
 }

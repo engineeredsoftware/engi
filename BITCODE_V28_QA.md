@@ -712,6 +712,7 @@ BITCODE_QA_VERBOSE=true
 
 BITCODE_ENABLE_PIPELINE_HARNESS_API=1
 BITCODE_ASSET_PACK_REAL_INFERENCE=1
+BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded
 BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000
 OPENAI_API_KEY=<OpenAI key for non-mocked Terminal/protocol synthesis>
 BITCODE_LLM_PROVIDER=openai
@@ -721,7 +722,7 @@ SENTRY_DSN=<optional V28 alert sink; absence must remain readable blocked readin
 
 Do not set mock flags true on this deployment.
 Do not point the Supabase custom provider token/userinfo URLs at localhost; Supabase cloud must be able to call the deployed Bitcode origin.
-Do not deploy staging-testnet Read/Fit QA with `BITCODE_ASSET_PACK_REAL_INFERENCE` unset or false. Per-agent `*_USE_PTRR` flags are only diagnostic overrides; the staging posture is the global real-inference flag plus a real server-side model credential.
+Do not deploy staging-testnet Read/Fit QA with `BITCODE_ASSET_PACK_REAL_INFERENCE` unset or false. Per-agent `*_USE_PTRR` flags are only diagnostic overrides; the deployed streaming posture is the global real-inference flag, `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, and a real server-side model credential. Use `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` only for long-running sandbox audits outside the deployed route.
 
 ## Live Deployment Pass: First-Run Onboarding To Terminal Readiness
 
@@ -1183,7 +1184,8 @@ keys by name:
 BITCODE_PIPELINE_STREAM_TO_DATABASE=1 \
 BITCODE_PIPELINE_STRUCTURED_DB=1 \
 BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
-BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY,BITCODE_ASSET_PACK_REAL_INFERENCE,BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS
+BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
+BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY,BITCODE_ASSET_PACK_REAL_INFERENCE,BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE,BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS
 ```
 
 These Supabase values must be real staging credentials. Placeholder hosts such
@@ -1195,6 +1197,8 @@ uses Vercel automatic OIDC instead of a local Vercel token:
 the deployed route preflight-fails when `BITCODE_ASSET_PACK_REAL_INFERENCE` is
 unset, when `OPENAI_API_KEY` is missing, or when
 `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` exceeds `600000`.
+When no profile is configured, the deployed route injects
+`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`.
 
 ```bash
 curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
@@ -1321,9 +1325,13 @@ Observed staging-testnet harness evidence on 2026-05-17:
   synthesis/validation/finish branches unless a phase-specific `*_USE_PTRR=1`
   flag was set; therefore this observed run had zero generation rows and zero
   tool execution rows. The V28 staging posture is now
-  `BITCODE_ASSET_PACK_REAL_INFERENCE=1`, which forces every PTRR-capable
-  AssetPack branch to produce model-generation telemetry or fail with explicit
-  blocked-readiness evidence.
+  `BITCODE_ASSET_PACK_REAL_INFERENCE=1`. On the deployed streaming route,
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` is now the required
+  profile: setup, synthesis, validation, and Finish produce model-generation
+  telemetry while deterministic source-bound discovery preserves budget for a
+  complete AssetPack run. Full discovery PTRR remains available through
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` for long-running sandbox
+  audits outside the deployed route.
 - Ledger readback correctly showed zero BTD range, BTC fee, journal, anchor, and
   crypto telemetry rows, and `btd_supply_state.total_minted=0`, because source
   overlay QA evidence cannot mint BTD, claim BTC fee settlement, or anchor
@@ -1373,6 +1381,32 @@ Follow-up local Vercel Sandbox overlay evidence on 2026-05-17:
   proof/finality and reconciliation readback. V28 now requires proof-root and
   reconciliation readback roots, or explicit blocked-readiness, before such a
   candidate can become `worthy_fit`.
+
+Second local overlay evidence on 2026-05-17:
+
+- Vercel Sandbox run `sbx_XO602gYd3F57rYSyc8NzkPsXIDb7` exported artifacts to
+  `.bitcode/pipeline-harness-runs/2026-05-17T20-34-37-584Z-sbx_XO602gYd3F57rYSyc8NzkPsXIDb7/`.
+- The run found and ranked the deposited repository candidate with real
+  OpenAI-backed setup and discovery telemetry, 3565 stream lines, prompt/context
+  input, raw responses, parsed output, usage, phase, agent, step, failsafe, and
+  generation correlation.
+- The run failed closed with `PipelineHarnessTimeoutError` after the configured
+  1200000 ms harness budget while still in discovery
+  (`asset-pack-plan-implementation-agent`). It did not reach synthesis,
+  validation, Finish, shipping, or ledger settlement.
+- The root cause is not a source crash; it is a runtime-shape mismatch between
+  the deployed streaming route budget and full PTRR discovery. V28 now separates
+  route-streaming real inference (`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`)
+  from full PTRR audits (`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full`) so
+  staging can complete the value-producing Read/Fit -> AssetPack -> Finish path
+  inside the Vercel Function window.
+- The run also exposed agent-visible tool registry drift: a risk-admission
+  generation requested `lexical-depository-search`, but the PTRR tool executor
+  reported `Tool not found: lexical-depository-search`. The deterministic
+  depository search had already run before setup agents, so the search result
+  was present as pipeline context; V28 still needs agent-visible depository
+  search/readback tool registration or prompt tightening before full PTRR audits
+  can be considered clean.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

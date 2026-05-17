@@ -2064,6 +2064,9 @@ importers:
       '@bitcode/generic-llms':
         specifier: workspace:*
         version: link:../../generic-llms
+      '@bitcode/generic-tools-editing':
+        specifier: workspace:*
+        version: link:../../generic-tools/files-maintaining
       '@bitcode/llm-generics':
         specifier: workspace:*
         version: link:../../llm-generics

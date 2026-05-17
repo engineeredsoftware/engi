@@ -8,7 +8,33 @@
  */
 
 import { bitcodeSetupReadComprehensionAgent } from '@bitcode/generic-agents-read-comprehension';
-import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
+import { z } from 'zod';
+import { runBoundedStructuredInference } from '../../bounded-structured-inference';
+import {
+  isAssetPackBoundedRealInferenceProfile,
+  shouldUseAssetPackPtrr,
+} from '../../runtime-inference-policy';
+
+const BoundedReadComprehensionSchema = z.object({
+  read: z.object({
+    expressed_read: z.string().optional(),
+    primary_intent: z.string().optional(),
+    satisfaction_criteria: z.array(z.string()).optional(),
+  }).optional(),
+  read_satisfaction_criteria: z.string().optional(),
+  written_asset_types: z.array(z.string()).optional(),
+  asset_pack_context: z.any().optional(),
+  delivery_mechanism_boundaries: z.array(z.string()).optional(),
+  source_to_shares_service_questions: z.record(z.any()).optional(),
+  service_accountability: z.record(z.any()).optional(),
+  comprehension: z.record(z.any()).optional(),
+  entities: z.record(z.any()).optional(),
+  toolEvidence: z.any().optional(),
+  riskAdmissionInput: z.any().optional(),
+  read_definition_analysis: z.string().optional(),
+  success: z.boolean().optional(),
+  validationMessage: z.string().optional(),
+}).passthrough();
 
 export const AssetPackComprehendReadAgent = bitcodeSetupReadComprehensionAgent;
 
@@ -28,9 +54,11 @@ export async function runComprehendReadAgent(input: any, execution: any) {
     phase: 'setup',
     beforeAgent: 'danger-wall'
   };
-  const out = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR')
-    ? await AssetPackComprehendReadAgent(agentInput, execution)
-    : buildDeterministicReadComprehension(agentInput, execution);
+  const out = isAssetPackBoundedRealInferenceProfile()
+    ? await runBoundedReadComprehension(agentInput, execution)
+    : shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR')
+      ? await AssetPackComprehendReadAgent(agentInput, execution)
+      : buildDeterministicReadComprehension(agentInput, execution);
   try {
     const result = out as any;
     const types = Array.isArray(result?.written_asset_types) && result?.written_asset_types.length
@@ -71,6 +99,125 @@ export async function runComprehendReadAgent(input: any, execution: any) {
 
 export const AssetPackComprehendReadDefinitionAgent = AssetPackComprehendReadAgent;
 export default runComprehendReadAgent;
+
+async function runBoundedReadComprehension(input: any, execution: any) {
+  const baseline = buildDeterministicReadComprehension(input, execution);
+  const inferred = await runBoundedStructuredInference({
+    agentName: 'bitcode-setup-read-comprehension',
+    phase: 'setup',
+    step: 'read-comprehension',
+    execution,
+    schema: BoundedReadComprehensionSchema,
+    fallback: () => baseline,
+    systemPrompt: [
+      'You are a Bitcode setup Read-comprehension agent.',
+      'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',
+      'Return source-bound evidence only. Do not claim settlement or finality beyond provided proof roots/readbacks.',
+      'Respond only with JSON matching the requested shape.',
+    ].join('\n'),
+    userPrompt: JSON.stringify({
+      requestedShape: {
+        read: {
+          expressed_read: 'string',
+          primary_intent: 'string',
+          satisfaction_criteria: ['string'],
+        },
+        read_satisfaction_criteria: 'string',
+        written_asset_types: ['read-satisfaction-asset-pack'],
+        delivery_mechanism_boundaries: ['string'],
+        comprehension: {
+          intent: 'string',
+          goals: ['string'],
+          requirements: ['string'],
+          constraints: ['string'],
+          successCriteria: ['string'],
+        },
+        entities: {
+          files: ['string'],
+          concepts: ['string'],
+          technologies: ['string'],
+        },
+        service_accountability: {
+          provider: 'string',
+          reader_outcome: 'string',
+          infrastructure_standard: 'string',
+        },
+        success: true,
+      },
+      read: input.read,
+      definitionOfRead: input.definitionOfRead,
+      repository: input.repository,
+      sourceRevision: input.sourceRevision,
+      deposit: input.deposit,
+      fitResult: compactFitResult(input.fitResult ?? input.depositorySearchResult),
+      baselineReadModel: baseline.read,
+      baselineSatisfactionCriteria: baseline.read_satisfaction_criteria,
+    }, null, 2),
+  });
+
+  return normalizeBoundedReadComprehension(inferred, baseline);
+}
+
+function normalizeBoundedReadComprehension(inferred: any, baseline: any) {
+  const read = {
+    ...baseline.read,
+    ...(inferred?.read || {}),
+    expressed_read:
+      normalizeText(inferred?.read?.expressed_read) ||
+      baseline.read.expressed_read,
+    primary_intent:
+      normalizeText(inferred?.read?.primary_intent) ||
+      baseline.read.primary_intent,
+    satisfaction_criteria: normalizeStringArray(
+      inferred?.read?.satisfaction_criteria,
+      baseline.read.satisfaction_criteria
+    ),
+  };
+
+  return {
+    ...baseline,
+    ...inferred,
+    read,
+    read_satisfaction_criteria:
+      normalizeText(inferred?.read_satisfaction_criteria) ||
+      baseline.read_satisfaction_criteria,
+    written_asset_types: normalizeStringArray(
+      inferred?.written_asset_types,
+      baseline.written_asset_types
+    ),
+    delivery_mechanism_boundaries: normalizeStringArray(
+      inferred?.delivery_mechanism_boundaries,
+      baseline.delivery_mechanism_boundaries
+    ),
+    comprehension: {
+      ...baseline.comprehension,
+      ...(inferred?.comprehension || {}),
+      goals: normalizeStringArray(inferred?.comprehension?.goals, baseline.comprehension.goals),
+      requirements: normalizeStringArray(inferred?.comprehension?.requirements, baseline.comprehension.requirements),
+      constraints: normalizeStringArray(inferred?.comprehension?.constraints, baseline.comprehension.constraints),
+      successCriteria: normalizeStringArray(inferred?.comprehension?.successCriteria, baseline.comprehension.successCriteria),
+    },
+    entities: {
+      ...baseline.entities,
+      ...(inferred?.entities || {}),
+      files: normalizeStringArray(inferred?.entities?.files, baseline.entities.files),
+      concepts: normalizeStringArray(inferred?.entities?.concepts, baseline.entities.concepts),
+      technologies: normalizeStringArray(inferred?.entities?.technologies, baseline.entities.technologies),
+    },
+    toolEvidence: inferred?.toolEvidence ?? baseline.toolEvidence,
+    riskAdmissionInput: {
+      ...baseline.riskAdmissionInput,
+      ...(inferred?.riskAdmissionInput || {}),
+      read: baseline.riskAdmissionInput.read,
+      writtenAssetType: 'read-satisfaction-asset-pack',
+      writtenAssetRequest: 'read-satisfaction-asset-pack',
+    },
+    success: inferred?.success ?? true,
+    validationMessage:
+      normalizeText(inferred?.validationMessage) ||
+      'Bounded real-inference setup Read comprehension completed.',
+  };
+}
 
 function buildDeterministicReadComprehension(input: any, execution: any) {
   const expressedRead =
@@ -194,6 +341,41 @@ function normalizeText(value: unknown): string {
   if (typeof value === 'string') return value.trim();
   if (Array.isArray(value)) return value.filter((entry) => typeof entry === 'string').join('\n').trim();
   return '';
+}
+
+function normalizeStringArray(value: unknown, fallback: string[]): string[] {
+  if (Array.isArray(value)) {
+    const normalized = value
+      .map((entry) => normalizeText(entry))
+      .filter(Boolean);
+    if (normalized.length) return normalized;
+  }
+  return fallback;
+}
+
+function compactFitResult(fitResult: any) {
+  if (!fitResult || typeof fitResult !== 'object') return undefined;
+  return {
+    resultState: fitResult.resultState,
+    resultReasons: fitResult.resultReasons,
+    selectedCandidateAssetIds: fitResult.selectedCandidateAssetIds,
+    searchedAssetCount: fitResult.searchedAssetCount,
+    queryRoot: fitResult.queryRoot,
+    rankingRoot: fitResult.rankingRoot,
+    embeddingPolicy: fitResult.embeddingPolicy,
+    selectedCandidates: Array.isArray(fitResult.selectedCandidates)
+      ? fitResult.selectedCandidates.map((candidate: any) => ({
+        assetId: candidate.assetId,
+        title: candidate.title,
+        useTier: candidate.useTier,
+        verification: candidate.verification,
+        ranking: candidate.ranking,
+        proofEvidence: candidate.proofEvidence,
+        measurementEvidence: candidate.measurementEvidence,
+        readbackEvidence: candidate.readbackEvidence,
+      }))
+      : undefined,
+  };
 }
 
 function normalizeRepository(input: any, execution: any) {

@@ -16,7 +16,11 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRREFINE_PURPO
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose';
 import { z } from 'zod';
 import { AssetPackWrittenAssetType } from '../../types/AssetPackWrittenAssetType';
-import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
+import { runBoundedStructuredInference } from '../../bounded-structured-inference';
+import {
+  isAssetPackBoundedRealInferenceProfile,
+  shouldUseAssetPackPtrr,
+} from '../../runtime-inference-policy';
 
 const AssetPackSynthesisInputSchema = z.object({
   read: z.string().optional(),
@@ -102,19 +106,21 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
     execution?.get?.('pipeline', 'deliveryMechanismTemplate') ??
     execution?.findUp?.('pipeline', 'deliveryMechanismTemplate') ??
     storedPipelineInput?.deliveryMechanismTemplate;
-  const result = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR')
-    ? await AssetPackSynthesizeArtifactsAgent(
-    {
-      ...input,
-      read,
-      discovery: {
-        context: execution?.get?.('discovery', 'context'),
-        plan: execution?.get?.('discovery', 'plan'),
+  const result = isAssetPackBoundedRealInferenceProfile()
+    ? await runBoundedAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate)
+    : shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR')
+      ? await AssetPackSynthesizeArtifactsAgent(
+      {
+        ...input,
+        read,
+        discovery: {
+          context: execution?.get?.('discovery', 'context'),
+          plan: execution?.get?.('discovery', 'plan'),
+        },
       },
-    },
-    execution
-  )
-    : buildDeterministicAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate);
+      execution
+    )
+      : buildDeterministicAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate);
   const assetPackSynthesisArtifacts = result?.assetPackSynthesisArtifacts ??
     result?.writtenAssets ?? {
       summary: result?.summary ?? 'AssetPack synthesis artifact evidence was produced.',
@@ -143,6 +149,63 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
   } catch {}
 
   return output;
+}
+
+async function runBoundedAssetPackSynthesis(
+  input: any,
+  execution: any,
+  read: string,
+  deliveryMechanismTemplate: string | undefined
+) {
+  const baseline = buildDeterministicAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate);
+  const fitResult = resolveFitResult(input, execution);
+  const sourceRevision = resolveSourceRevision(input, execution);
+  const inferred = await runBoundedStructuredInference({
+    agentName: 'asset-pack-synthesize-artifacts-agent',
+    phase: 'implementation',
+    step: 'synthesis',
+    execution,
+    schema: AssetPackSynthesisOutputSchema,
+    fallback: () => baseline,
+    systemPrompt: [
+      'You are the Bitcode AssetPack synthesis agent.',
+      'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
+      'Do not invent files, external proof, pull requests, BTC broadcasts, or ledger settlement.',
+      'Return only typed JSON that can be validated and finished by the pipeline.',
+    ].join('\n'),
+    userPrompt: JSON.stringify({
+      requestedShape: {
+        success: true,
+        semanticKind: 'asset-pack-written-asset',
+        writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
+        summary: 'string',
+        assetPackSynthesisArtifacts: {
+          summary: 'string',
+          fileChanges: 'object optional',
+          proofEvidence: ['string'],
+          reviewNotes: ['string'],
+        },
+        writtenAssets: {
+          summary: 'string',
+          proofEvidence: ['string'],
+          reviewNotes: ['string'],
+        },
+        assetPack: {
+          read: 'string',
+          writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
+          deliveryMechanismTemplate: 'string',
+          proofEvidence: ['string'],
+        },
+      },
+      read,
+      deliveryMechanismTemplate,
+      sourceRevision,
+      fitResult: compactFitResult(fitResult),
+      baselineProofEvidence: baseline.assetPack.proofEvidence,
+    }, null, 2),
+  });
+
+  return normalizeBoundedSynthesis(inferred, baseline, read, deliveryMechanismTemplate);
 }
 
 function buildDeterministicAssetPackSynthesis(
@@ -224,6 +287,121 @@ function buildDeterministicAssetPackSynthesis(
       deliveryMechanismTemplate,
       proofEvidence
     }
+  };
+}
+
+function normalizeBoundedSynthesis(
+  inferred: any,
+  baseline: any,
+  read: string,
+  deliveryMechanismTemplate: string | undefined
+) {
+  const assetPackSynthesisArtifacts = normalizeArtifacts(
+    inferred?.assetPackSynthesisArtifacts,
+    baseline.assetPackSynthesisArtifacts
+  );
+  const writtenAssets = normalizeArtifacts(
+    inferred?.writtenAssets,
+    baseline.writtenAssets ?? assetPackSynthesisArtifacts
+  );
+  const proofEvidence = normalizeStringArray(
+    inferred?.assetPack?.proofEvidence,
+    baseline.assetPack.proofEvidence ?? assetPackSynthesisArtifacts.proofEvidence ?? []
+  );
+
+  return {
+    ...baseline,
+    ...inferred,
+    success: inferred?.success ?? true,
+    semanticKind: 'asset-pack-written-asset' as const,
+    writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
+    summary: normalizeText(inferred?.summary) || baseline.summary,
+    assetPackSynthesisArtifacts,
+    writtenAssets,
+    assetPack: {
+      ...(baseline.assetPack || {}),
+      ...(inferred?.assetPack || {}),
+      read,
+      writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
+      deliveryMechanismTemplate,
+      proofEvidence,
+    },
+  };
+}
+
+function normalizeArtifacts(inferred: any, baseline: any) {
+  return {
+    ...baseline,
+    ...(inferred || {}),
+    summary: normalizeText(inferred?.summary) || baseline.summary,
+    proofEvidence: normalizeStringArray(inferred?.proofEvidence, baseline.proofEvidence ?? []),
+    reviewNotes: normalizeStringArray(inferred?.reviewNotes, baseline.reviewNotes ?? []),
+  };
+}
+
+function normalizeStringArray(value: unknown, fallback: string[]): string[] {
+  if (Array.isArray(value)) {
+    const normalized = value
+      .map((entry) => normalizeText(entry))
+      .filter(Boolean);
+    if (normalized.length) return normalized;
+  }
+  return fallback;
+}
+
+function normalizeText(value: unknown): string {
+  if (typeof value === 'string') return value.trim();
+  if (Array.isArray(value)) return value.filter((entry) => typeof entry === 'string').join('\n').trim();
+  return '';
+}
+
+function resolveFitResult(input: any, execution: any) {
+  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
+  return (
+    input?.fitResult ??
+    input?.depositorySearchResult ??
+    storedPipelineInput?.fitResult ??
+    storedPipelineInput?.depositorySearchResult ??
+    findExecutionValue(execution, 'fit', 'result') ??
+    findExecutionValue(execution, 'depository/search', 'result') ??
+    {}
+  );
+}
+
+function resolveSourceRevision(input: any, execution: any) {
+  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
+  return (
+    input?.sourceRevision ??
+    input?.repository ??
+    storedPipelineInput?.sourceRevision ??
+    storedPipelineInput?.repository ??
+    findExecutionValue(execution, 'harness', 'sourceRevision') ??
+    {}
+  );
+}
+
+function compactFitResult(fitResult: any) {
+  if (!fitResult || typeof fitResult !== 'object') return undefined;
+  return {
+    resultState: fitResult.resultState,
+    resultReasons: fitResult.resultReasons,
+    selectedCandidateAssetIds: fitResult.selectedCandidateAssetIds,
+    searchedAssetCount: fitResult.searchedAssetCount,
+    queryRoot: fitResult.queryRoot,
+    rankingRoot: fitResult.rankingRoot,
+    embeddingPolicy: fitResult.embeddingPolicy,
+    selectedCandidates: Array.isArray(fitResult.selectedCandidates)
+      ? fitResult.selectedCandidates.map((candidate: any) => ({
+        assetId: candidate.assetId,
+        title: candidate.title,
+        useTier: candidate.useTier,
+        verification: candidate.verification,
+        ranking: candidate.ranking,
+        proofEvidence: candidate.proofEvidence,
+        measurementEvidence: candidate.measurementEvidence,
+        readbackEvidence: candidate.readbackEvidence,
+      }))
+      : undefined,
   };
 }
 

@@ -24,6 +24,7 @@
     "@bitcode/generic-agents-file-pick": "workspace:*",
     "@bitcode/generic-agents-read-comprehension": "workspace:*",
     "@bitcode/generic-agents-danger-wall": "workspace:*",
+    "@bitcode/generic-tools-editing": "workspace:*",
     "@bitcode/llm-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/prompts": "workspace:*",

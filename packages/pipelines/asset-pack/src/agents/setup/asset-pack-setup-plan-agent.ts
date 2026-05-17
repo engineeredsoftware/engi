@@ -27,7 +27,11 @@ import { PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING } from '@bitcode/prompt
 import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_executethe_following';
 import { PROMPTPART_GENERIC_FORMATTING_BASEDONTHE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_basedonthe';
 import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_afterencountering';
-import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
+import { runBoundedStructuredInference } from '../../bounded-structured-inference';
+import {
+  isAssetPackBoundedRealInferenceProfile,
+  shouldUseAssetPackPtrr,
+} from '../../runtime-inference-policy';
 
 const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')
@@ -118,56 +122,50 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
 // Bring-up path: provide a fast stub in test/debug-only mode.
 export default async function setupPlanAgent(input: any, execution: any) {
   const shouldUsePtrr = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR');
+  if (!shouldUsePtrr && isAssetPackBoundedRealInferenceProfile()) {
+    const baseline = buildDeterministicSetupPlan(input, execution);
+    const inferred = await runBoundedStructuredInference({
+      agentName: 'asset-pack-setup-plan-agent',
+      phase: 'setup',
+      step: 'setup-plan',
+      execution,
+      schema: PlanSchema,
+      fallback: () => baseline,
+      systemPrompt: [
+        'You are the Bitcode AssetPack setup-plan agent.',
+        'Produce one concise source-bound plan for a Read/Fit pipeline run.',
+        'Do not claim settlement, delivery, or finality before later phases validate and finish.',
+        'Respond only with JSON shaped as { "plan": string }.',
+      ].join('\n'),
+      userPrompt: JSON.stringify({
+        read: input?.read ?? input?.definitionOfRead,
+        repository: input?.repository ?? input?.sourceRevision,
+        fitResult: {
+          resultState: input?.fitResult?.resultState ?? input?.depositorySearchResult?.resultState,
+          selectedCandidateAssetIds:
+            input?.fitResult?.selectedCandidateAssetIds ??
+            input?.depositorySearchResult?.selectedCandidateAssetIds,
+        },
+        baselinePlan: baseline.plan,
+      }, null, 2),
+    });
+    const result = { plan: typeof inferred?.plan === 'string' && inferred.plan.trim() ? inferred.plan : baseline.plan };
+    try {
+      execution?.store?.('setup', 'plan', result.plan);
+      execution?.store?.('setup/plan', 'result', result);
+    } catch {}
+    return result;
+  }
+
   if (!shouldUsePtrr) {
-    const read =
-      input?.read ??
-      input?.definitionOfRead ??
-      execution?.get?.('pipeline', 'expressedRead') ??
-      execution?.get?.('read', 'description') ??
-      'unspecified Bitcode Read';
-    const repository =
-      input?.repository?.fullName ??
-      input?.sourceRevision?.repositoryFullName ??
-      [
-        execution?.get?.('repository', 'owner'),
-        execution?.get?.('repository', 'name')
-      ].filter(Boolean).join('/') ??
-      'unknown repository';
-    const branch =
-      input?.repository?.branch ??
-      input?.sourceRevision?.branch ??
-      execution?.get?.('repository', 'branch') ??
-      'unknown branch';
-    const commit =
-      input?.repository?.commit ??
-      input?.sourceRevision?.commit ??
-      execution?.get?.('repository', 'commit') ??
-      'unknown commit';
-    const fitState =
-      input?.fitResult?.resultState ??
-      input?.depositorySearchResult?.resultState ??
-      'not-yet-classified';
-    const selectedCandidates =
-      input?.fitResult?.selectedCandidateAssetIds ??
-      input?.depositorySearchResult?.selectedCandidateAssetIds ??
-      [];
-    const candidateText =
-      Array.isArray(selectedCandidates) && selectedCandidates.length
-        ? selectedCandidates.join(', ')
-        : 'no selected candidate';
-    const plan = [
-      `Read: ${String(read)}`,
-      `Repository: ${repository}@${branch}:${commit}`,
-      `Fit state: ${fitState}; candidate assets: ${candidateText}.`,
-      'Setup plan: preserve source revision evidence, carry the measured Read and depository-fit result into discovery, synthesize one Read-satisfaction AssetPack only from source-bound evidence, validate proof and delivery readiness, then finish with auditable delivery evidence.'
-    ].join('\n');
+    const result = buildDeterministicSetupPlan(input, execution);
 
     try {
-      execution?.store?.('setup', 'plan', plan);
-      execution?.store?.('setup/plan', 'result', { plan });
+      execution?.store?.('setup', 'plan', result.plan);
+      execution?.store?.('setup/plan', 'result', result);
     } catch {}
 
-    return { plan };
+    return result;
   }
 
   const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
@@ -199,4 +197,51 @@ export default async function setupPlanAgent(input: any, execution: any) {
     return result;
   }
   return await realSetupPlanAgent(input, execution);
+}
+
+function buildDeterministicSetupPlan(input: any, execution: any): z.infer<typeof PlanSchema> {
+  const read =
+    input?.read ??
+    input?.definitionOfRead ??
+    execution?.get?.('pipeline', 'expressedRead') ??
+    execution?.get?.('read', 'description') ??
+    'unspecified Bitcode Read';
+  const repository =
+    input?.repository?.fullName ??
+    input?.sourceRevision?.repositoryFullName ??
+    [
+      execution?.get?.('repository', 'owner'),
+      execution?.get?.('repository', 'name')
+    ].filter(Boolean).join('/') ??
+    'unknown repository';
+  const branch =
+    input?.repository?.branch ??
+    input?.sourceRevision?.branch ??
+    execution?.get?.('repository', 'branch') ??
+    'unknown branch';
+  const commit =
+    input?.repository?.commit ??
+    input?.sourceRevision?.commit ??
+    execution?.get?.('repository', 'commit') ??
+    'unknown commit';
+  const fitState =
+    input?.fitResult?.resultState ??
+    input?.depositorySearchResult?.resultState ??
+    'not-yet-classified';
+  const selectedCandidates =
+    input?.fitResult?.selectedCandidateAssetIds ??
+    input?.depositorySearchResult?.selectedCandidateAssetIds ??
+    [];
+  const candidateText =
+    Array.isArray(selectedCandidates) && selectedCandidates.length
+      ? selectedCandidates.join(', ')
+      : 'no selected candidate';
+  const plan = [
+    `Read: ${String(read)}`,
+    `Repository: ${repository}@${branch}:${commit}`,
+    `Fit state: ${fitState}; candidate assets: ${candidateText}.`,
+    'Setup plan: preserve source revision evidence, carry the measured Read and depository-fit result into discovery, synthesize one Read-satisfaction AssetPack only from source-bound evidence, validate proof and delivery readiness, then finish with auditable delivery evidence.'
+  ].join('\n');
+
+  return { plan };
 }

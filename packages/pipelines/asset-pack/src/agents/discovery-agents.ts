@@ -2,8 +2,11 @@
  * Discovery Phase Agents for the AssetPack Pipeline
  * 
  * Discovery agents default to deterministic, source-bound structured evidence
- * for bounded local regression reliability. Staging/commercial runs should set
- * BITCODE_ASSET_PACK_REAL_INFERENCE=1 to force the heavyweight PTRR variants.
+ * for bounded local regression reliability. Staging runs should use
+ * BITCODE_ASSET_PACK_REAL_INFERENCE=1; set
+ * BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full only for heavyweight
+ * discovery PTRR audits because route-streaming runs must leave budget for
+ * synthesis, validation, and finish.
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
