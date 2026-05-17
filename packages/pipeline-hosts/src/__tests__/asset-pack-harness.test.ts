@@ -121,6 +121,28 @@ describe('asset-pack sandbox harness plan', () => {
     });
   });
 
+  it('materializes manifest-bound deposit evidence roots when activity flags are present', () => {
+    const plan = buildAssetPackSandboxHarness({
+      ...baseOptions,
+      deposit: {
+        id: 'deposit-1',
+        assetId: 'asset-repository-revision',
+        hasWalletOrAttestationProof: true,
+        hasAssetMeasurementEvidence: true,
+      },
+    });
+
+    expect(plan.manifest.deposit).toMatchObject({
+      id: 'deposit-1',
+      assetId: 'asset-repository-revision',
+      hasWalletOrAttestationProof: true,
+      hasAssetMeasurementEvidence: true,
+    });
+    expect(plan.manifest.deposit.proofRoot).toMatch(/^sha256:[a-f0-9]{64}$/);
+    expect(plan.manifest.deposit.measurementRoot).toMatch(/^sha256:[a-f0-9]{64}$/);
+    expect(plan.manifest.deposit.reconciliationReadbackRoot).toMatch(/^sha256:[a-f0-9]{64}$/);
+  });
+
   it('generates a syntactically valid live pipeline runner', () => {
     const plan = buildAssetPackSandboxHarness({
       ...baseOptions,
@@ -146,5 +168,7 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('depositor owns minted BTD range');
     expect(source).toContain('reader pays BTC fee');
     expect(source).toContain('verificationEvidence');
+    expect(source).toContain('Pipeline produced ');
+    expect(source).toContain('ledgerSettlement,');
   });
 });

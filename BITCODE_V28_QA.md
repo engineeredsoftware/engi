@@ -1199,6 +1199,11 @@ unset, when `OPENAI_API_KEY` is missing, or when
 `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` exceeds `600000`.
 When no profile is configured, the deployed route injects
 `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`.
+The current deployed route also preflight-fails if
+`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full`. Full profile is a later V28
+gate: the sandbox can run for dozens of minutes, but final state must be pushed
+from the sandbox execution to a server-side stream/socket handler or durable
+queue instead of waiting synchronously inside the route request.
 
 ```bash
 curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
@@ -1301,6 +1306,16 @@ Blockers:
 - Terminal enables settlement, minting, branch materialization, BTC fee
   broadcast, or ledger finality from a host smoke result.
 
+Subsequent V28 Reading gates prepared by this pass:
+
+| Gate | Scope | Acceptance boundary |
+| --- | --- | --- |
+| Need synthesis review | Split "What is the need?" from Fit search. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, and pricing measurement inputs. | User can accept the Need or request resynthesis with feedback. No Fit search, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. |
+| Need-Fit search and synthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, and model/tool telemetry. |
+| Source-safe preview | Show enough proof to decide whether to pay without leaking source. | Preview may show Need/Fit measurements, score bands, roots, candidate ids, proof posture, ownership boundary, and BTC quote. It must not expose protected AssetPack source before settlement. |
+| Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from weighted admitted measurement volume and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
+| Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to server-side stream/socket or durable queue; Terminal can reattach and read final state without the starter route waiting. |
+
 Observed staging-testnet harness evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3` completed all six
@@ -1329,9 +1344,10 @@ Observed staging-testnet harness evidence on 2026-05-17:
   `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` is now the required
   profile: setup, synthesis, validation, and Finish produce model-generation
   telemetry while deterministic source-bound discovery preserves budget for a
-  complete AssetPack run. Full discovery PTRR remains available through
-  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` for long-running sandbox
-  audits outside the deployed route.
+  complete AssetPack run. Full discovery PTRR is now scoped to the later
+  async-completion V28 gate; the current deployed route must reject `full`
+  until sandbox completion pushes finished state to a server-side stream/socket
+  handler or durable queue.
 - Ledger readback correctly showed zero BTD range, BTC fee, journal, anchor, and
   crypto telemetry rows, and `btd_supply_state.total_minted=0`, because source
   overlay QA evidence cannot mint BTD, claim BTC fee settlement, or anchor
@@ -1407,6 +1423,40 @@ Second local overlay evidence on 2026-05-17:
   was present as pipeline context; V28 still needs agent-visible depository
   search/readback tool registration or prompt tightening before full PTRR audits
   can be considered clean.
+
+Third local overlay evidence on 2026-05-17 after bounded real-inference and
+manifest-bound Deposit evidence root fixes:
+
+- Vercel Sandbox run `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO` exported artifacts to
+  `.bitcode/pipeline-harness-runs/2026-05-17T21-19-26-275Z-sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO/`.
+- The run intentionally passed only the UI-shaped Deposit proof and measurement
+  flags, with no manual `BITCODE_SANDBOX_DEPOSIT_*_ROOT` overrides. The harness
+  materialized manifest-bound `proofRoot`, `measurementRoot`, and
+  `reconciliationReadbackRoot` values before pipeline execution.
+- Pipeline run `3b3339b4-5695-46fa-9ce4-2163c7eb1f11` reached candidate recall,
+  model-backed setup, model-backed Read comprehension, model-backed synthesis,
+  `pipeline-complete`, and `ledger-settlement-readback`.
+- The pipeline selected the proof-bearing candidate `manual-deposit-qa`,
+  searched 1 deposited candidate, returned `pipelineResultState='worthy_fit'`,
+  and synthesized `AssetPack:read-satisfaction-summary` with query root
+  `sha256:d989394a41b1956b45988066165fc4c8be3063028cad8dd1367c3038456d5212`,
+  ranking root
+  `sha256:00307ab87da48266ee346d5ccae1d06dd228c3441610277d73015cb5e9250d3a`,
+  and embedding policy `openai text-embedding-3-small`.
+- The exported telemetry contained 698 lines. Bounded real-inference statuses
+  were `success` for setup plan, Read comprehension, and synthesis, and
+  telemetry included `llm.input`, `llm.output`, `llm.usage`, and
+  `llm.parsedOutput` for the model-backed stages.
+- Final harness `resultState` remained `blocked_readiness` for the correct
+  reason: `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1` means the run cannot mint BTD,
+  claim reader BTC fee settlement, or anchor finality. The reason text now
+  distinguishes that settlement block from missing pipeline output:
+  "Pipeline produced worthy_fit evidence; final settlement remains blocked by
+  harness readiness constraints."
+- The remaining V28 closure gate is a clean no-overlay staging run at the
+  deposited source revision, with Supabase database streaming enabled, so the
+  same worthy fit can write and read back BTD range, BTC fee, ownership,
+  license, journal, ledger anchor, and crypto telemetry rows.
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

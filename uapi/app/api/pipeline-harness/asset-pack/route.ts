@@ -171,6 +171,10 @@ function isEnabled(value: string | undefined): boolean {
   return ['1', 'true', 'yes', 'on'].includes(String(value || '').trim().toLowerCase());
 }
 
+function readRealInferenceProfile(value: string | undefined): string {
+  return String(value || '').trim().toLowerCase();
+}
+
 function assertDeployedRealInferenceEnvironment(env: Record<string, string>): void {
   if (!isDeployedRuntime()) return;
   if (!isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE)) {
@@ -181,6 +185,11 @@ function assertDeployedRealInferenceEnvironment(env: Record<string, string>): vo
   if (!env.OPENAI_API_KEY) {
     throw new Error(
       'Staging pipeline harness requires OPENAI_API_KEY for real AssetPack PTRR inference.'
+    );
+  }
+  if (readRealInferenceProfile(env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) !== 'bounded') {
+    throw new Error(
+      'The current deployed Terminal harness route requires BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded. Full profile runs are scoped to the later async sandbox completion gate where the sandbox pushes finished state to a server-side stream handler.'
     );
   }
   const budgetMs = Number(env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
@@ -226,6 +235,9 @@ function summarizeHarnessPreflight(body: AssetPackHarnessRequest): Record<string
     process.env.SUPABASE_SECRET_KEY ||
     process.env.SUPABASE_ADMIN_KEY;
   const budgetMs = Number(process.env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
+  const realInferenceProfile = readRealInferenceProfile(
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE
+  );
   return {
     repositoryFullName: body.repositoryFullName || null,
     sourceBranch: body.sourceBranch || null,
@@ -237,7 +249,10 @@ function summarizeHarnessPreflight(body: AssetPackHarnessRequest): Record<string
     supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
     supabaseServiceRoleProvided: isUsableSecretValue(serviceRole),
     runtimeBudgetMs: Number.isFinite(budgetMs) ? budgetMs : null,
-    realInferenceProfile: process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE || (isDeployedRuntime() ? 'bounded' : null),
+    realInferenceProfile: realInferenceProfile || (isDeployedRuntime() ? 'bounded' : null),
+    fullProfileRequiresAsyncCompletion:
+      isDeployedRuntime() &&
+      realInferenceProfile === 'full',
     deployedRuntime: isDeployedRuntime(),
   };
 }

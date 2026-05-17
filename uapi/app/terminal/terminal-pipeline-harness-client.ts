@@ -484,6 +484,9 @@ export function summarizeTerminalFitPipelineHarnessEvent(
   if (event.event === 'harness-preflight') {
     const blockers = [
       data?.realInferenceEnabled === false ? 'real inference flag missing' : null,
+      data?.fullProfileRequiresAsyncCompletion === true
+        ? 'full profile requires async completion gate'
+        : null,
       data?.openaiCredentialProvided === false ? 'OpenAI credential missing' : null,
       data?.supabaseUrlProvided === false ? 'Supabase URL missing' : null,
       data?.supabaseServiceRoleProvided === false ? 'Supabase service role missing' : null,

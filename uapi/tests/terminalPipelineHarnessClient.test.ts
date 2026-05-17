@@ -168,12 +168,13 @@ describe('terminal pipeline harness client', () => {
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: false,
+          fullProfileRequiresAsyncCompletion: true,
           openaiCredentialProvided: true,
           supabaseUrlProvided: true,
           supabaseServiceRoleProvided: false,
         },
       }),
-    ).toBe('Harness preflight blocked: real inference flag missing, Supabase service role missing.');
+    ).toBe('Harness preflight blocked: real inference flag missing, full profile requires async completion gate, Supabase service role missing.');
   });
 
   it('summarizes live telemetry artifact events with phase, path, and inspected payload shape', () => {

@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import {
   buildAssetPackPipelineHarnessManifest,
   VERCEL_SANDBOX_HOST_CAPABILITIES,
@@ -69,11 +71,16 @@ export function buildAssetPackSandboxHarness(
     ...(sourceOverlay ? { BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED: '1' } : {}),
     ...options.commandEnvironment,
   };
+  const deposit = normalizeDepositReferenceEvidence({
+    deposit: options.deposit,
+    sourceRevision: options.sourceRevision,
+    read: options.read,
+  });
 
   const manifest = buildAssetPackPipelineHarnessManifest({
     mode,
     read: options.read,
-    deposit: options.deposit,
+    deposit,
     sourceRevision: options.sourceRevision,
     sourceOverlay,
     commandEnvironment,
@@ -128,6 +135,48 @@ export function buildAssetPackSandboxHarness(
       telemetry: TELEMETRY_PATH,
     },
   };
+}
+
+function normalizeDepositReferenceEvidence({
+  deposit,
+  sourceRevision,
+  read,
+}: {
+  deposit: PipelineDepositReference;
+  sourceRevision: PipelineSourceRevision;
+  read: PipelineReadRequest;
+}): PipelineDepositReference {
+  const basis = {
+    depositId: deposit.id,
+    assetId: deposit.assetId,
+    readId: read.id,
+    repositoryFullName: sourceRevision.repositoryFullName,
+    branch: sourceRevision.branch,
+    commit: sourceRevision.commit,
+  };
+  const hasProof = deposit.hasWalletOrAttestationProof === true;
+  const hasMeasurement = deposit.hasAssetMeasurementEvidence === true;
+
+  return {
+    ...deposit,
+    proofRoot:
+      deposit.proofRoot ||
+      (hasProof ? evidenceRoot('deposit-proof', basis) : deposit.proofRoot),
+    measurementRoot:
+      deposit.measurementRoot ||
+      (hasMeasurement ? evidenceRoot('deposit-measurement', basis) : deposit.measurementRoot),
+    reconciliationReadbackRoot:
+      deposit.reconciliationReadbackRoot ||
+      (hasProof && hasMeasurement
+        ? evidenceRoot('deposit-reconciliation-readback', basis)
+        : deposit.reconciliationReadbackRoot),
+  };
+}
+
+function evidenceRoot(kind: string, basis: Record<string, unknown>): string {
+  return `sha256:${createHash('sha256')
+    .update(JSON.stringify({ kind, ...basis }))
+    .digest('hex')}`;
 }
 
 function buildCommands(
@@ -1483,8 +1532,10 @@ try {
     manifest.sourceOverlay
       ? 'Source overlay patch was applied for QA; this run cannot serve as source-revision settlement evidence.'
       : null,
-    resultState === 'blocked_readiness'
+    pipelineResultState === 'blocked_readiness'
       ? 'Pipeline output did not include an admissible result state; review remains blocked.'
+      : resultState === 'blocked_readiness'
+        ? 'Pipeline produced ' + pipelineResultState + ' evidence; final settlement remains blocked by harness readiness constraints.'
       : 'Review SQL must still verify durable telemetry, proof, and ledger readback before settlement.',
     ...pipelineResultReasons,
   ].filter(Boolean);
@@ -1518,6 +1569,13 @@ try {
     manifestRoot,
     manifest,
     output,
+    fitResult,
+    depositorySearch,
+    assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
+    writtenAssets: output?.writtenAssets || null,
+    deliveryMechanism: output?.deliveryMechanism || null,
+    shippables: output?.shippables || null,
+    ledgerSettlement,
     execution: summarizeExecution(execution),
     events,
     startedAt,

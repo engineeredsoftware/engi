@@ -82,8 +82,12 @@ Staging-testnet Read/Fit QA must also set
 `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` is the expected profile:
 setup, synthesis, validation, and finish stay model-backed, while deterministic
 source-bound discovery evidence preserves enough budget to ship and read back
-the AssetPack. Set `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` only for
-long-running sandbox audits outside the deployed route. The phase-specific
+the AssetPack. `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` is scoped to a
+later async completion gate: the sandbox may run for dozens of minutes, but it
+must push final result state and artifacts to a server-side stream/socket
+handler or durable queue rather than relying on the starter route to wait
+synchronously. The current deployed Terminal route rejects `full` preflight.
+The phase-specific
 `BITCODE_ASSET_PACK_*_USE_PTRR=1` flags remain available for local bisection,
 but they are not sufficient as a staging posture because a missed flag silently
 turns part of the run back into deterministic evidence.
@@ -94,6 +98,13 @@ matching provider credential is also forwarded; stale pins without credentials
 are stripped so staging does not silently require an unavailable model service.
 Database streaming requires a real Supabase URL and service-role key; placeholder
 `.env.local` values fail preflight before a sandbox is created.
+When the recorded Deposit activity has wallet/attestation proof and asset
+measurement posture but no explicit proof root fields, the harness materializes
+deterministic manifest-bound proof, measurement, and reconciliation roots from
+the Deposit id, AssetPack id, Read id, repository, branch, and commit. Those
+roots let the Read/Fit pipeline evaluate a proof-bearing deposited candidate,
+but they do not by themselves claim BTC fee broadcast, BTD minting, or external
+ledger finality.
 The deployed streaming route declares an 800 second Vercel Function window; keep
 `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` at or below `600000` there so the
 route still has time to collect and stream the blocked-readiness artifact if the

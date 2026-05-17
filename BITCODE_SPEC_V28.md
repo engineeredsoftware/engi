@@ -410,8 +410,14 @@ The V28 pipeline harness must write a manifest before execution containing:
 
 - Read id and Read text;
 - Deposit id and optional deposited AssetPack id;
-- optional Deposit proof root, measurement root, and reconciliation readback
-  root when the deposited evidence already has them;
+- Deposit proof root, measurement root, and reconciliation readback root.
+  When a recorded Deposit activity already asserts wallet/attestation proof
+  and asset measurement posture but has not stored root fields, the harness
+  must materialize deterministic manifest-bound roots from the Deposit id,
+  AssetPack id, Read id, repository, branch, and commit. These roots are
+  admissible as harness evidence roots for candidate recall and Fit review;
+  they are not external finality claims and still require SQL/ledger readback
+  before settlement.
 - repository full name, branch, and commit;
 - host capability summary;
 - expected stages: deposit search, candidate ranking, Read comprehension,
@@ -462,17 +468,19 @@ Read/Fit result review remains fail-closed:
   validation, and Finish stay model-backed while deterministic source-bound
   depository discovery preserves enough route budget to synthesize, ship, and
   read back the AssetPack. `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full`
-  is reserved for long-running sandbox audits outside the deployed streaming
-  route. A run with omitted per-agent `*_USE_PTRR` flags is not an acceptable
-  staging posture unless the global real-inference flag and explicit profile
-  are present.
+  is reserved for the later long-running async completion gate described below;
+  the current deployed Terminal route must reject it until sandbox completion
+  pushes finished state to a server-side stream/socket handler. A run with
+  omitted per-agent `*_USE_PTRR` flags is not an acceptable staging posture
+  unless the global real-inference flag and explicit profile are present.
 - manifest-only Deposit supply can satisfy candidate recall but cannot produce
   `worthy_fit` unless proof and measurement posture are explicitly visible to
   the pipeline input and the downstream readback queries confirm them. Boolean
-  wallet/measurement posture is not enough when the Read asks for proof-root,
-  finality, or reconciliation readback; those roots must be supplied by the
-  deposited evidence, synthesized and read back during Finish, or returned as
-  explicit `blocked_readiness`.
+  wallet/measurement posture must be converted into deterministic
+  manifest-bound proof, measurement, and reconciliation roots before Fit
+  evaluation; if that conversion cannot be made, the run must return explicit
+  `blocked_readiness`. Manifest-bound roots support Read/Fit selection but do
+  not claim BTC fee broadcast, BTD minting, or external ledger finality.
 - every SDIVF phase, PTRR agent step, ThriceifiedGeneration, and tool execution
   must be inspectable as prompt/context input, raw model/tool output,
   parsed/typed output, usage/timing metadata, and phase/agent/step/failsafe
@@ -666,6 +674,78 @@ The V28 domain model is:
 
 The V28 operator chain is Readiness -> Read -> Fit -> Proof -> Measuremint -> Fee -> Anchor -> Range -> Read -> Journal -> Reconcile -> Protocol readback.
 Every link must make proof or readiness state visible.
+
+## staged Reading acceptance path
+
+V28 separates Reading into distinct reviewable stages so commercial buyers can
+decide whether Bitcode understood the need before Bitcode exposes or settles
+source-bearing AssetPack material.
+
+The staged Reading path is:
+
+1. **Need synthesis.** The user Read request is input to a Need pipeline. The
+   pipeline synthesizes a measured Need object with requirements, closure
+   criteria, failure modes, target artifact kinds, source constraints,
+   proof/settlement expectations, and pricing measurement inputs. Terminal
+   shows this Need in full detail. The user can accept it or request another
+   synthesis with feedback. No depository Fit search, BTC fee, BTD mint, or
+   AssetPack source disclosure is allowed before Need acceptance.
+2. **Need-Fit synthesis.** An accepted Read-Need is input to the AssetPack
+   synthesis pipeline. This stage searches the deposited asset-space, ranks
+   candidates, measures candidate fit against the Need measurement, synthesizes
+   the candidate AssetPack, and returns `worthy_fit`, `no_worthy_fit`, or
+   `blocked_readiness` with proof-bearing search/fit telemetry.
+3. **Preview and settlement.** A worthy synthesized AssetPack is previewed
+   without leaking the full source. Preview may show Need measurement, Fit
+   measurement, selected candidate ids, roots, score bands, proof posture,
+   settlement boundary, and price; it must not show protected source material
+   before payment/right settlement. Settlement then records the reader BTC fee,
+   mints or assigns the BTD range according to the standing supply law, writes
+   ownership and read-license rows, anchors/journals the event, and only then
+   unlocks the full AssetPack source/right surface to the buyer/reader.
+
+The commercial question therefore splits into two explicit operator questions:
+
+- Does Bitcode understand the Read's Need?
+- Did Bitcode find and synthesize a match good enough to preview confidently
+  and pay for in BTC without source-IP leakage?
+
+### Share-to-Fee measurement clarity
+
+V28 keeps the standing supply law intact while sharpening the initial
+deterministic pricing/readiness interface. The initial Share-to-Fee calculation
+must be deterministic from recorded measurements:
+
+- each Need measurement vector dimension has a volume and a measurement weight;
+- each candidate Fit measurement vector is evaluated against the accepted Need
+  measurement vector;
+- the priced measurement volume is the weighted admitted volume after fit,
+  quality, proof, and settlement eligibility gates;
+- BTC price is derived from that priced measurement volume by the configured
+  staging-testnet fee schedule and recorded as a reader fee quote;
+- the quote is previewable before payment, but source contents and licensed
+  read rights are not unlocked until settlement readback succeeds.
+
+This pricing path is a V28 commercial product acceptance target, but it must
+remain fail-closed: if the Need measurement, Fit measurement, fee schedule,
+wallet authorization, BTC fee, BTD range, or ledger readback is missing, the
+Terminal shows blocked readiness rather than implying settlement.
+
+### Long-running full-profile pipeline gate
+
+The current V28 route-streaming gate uses
+`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` because the Vercel Function
+route can stream live progress and collect artifacts only inside its request
+window. `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` is scoped to a
+subsequent V28 gate.
+
+That later gate may run for dozens of minutes in Vercel Sandbox. The sandbox
+execution itself must push finished result state, artifacts, and readback
+signals to a server-side stream/socket handler or durable queue; the route that
+starts the run must not be responsible for waiting synchronously for the final
+result. Full-profile acceptance requires the same evidence as bounded profile
+plus durable async completion delivery, resumable status readback, and Terminal
+reattachment to the live execution stream.
 
 ## canonical subsystem surfaces
 
