@@ -396,6 +396,26 @@ function normalizeResultState(candidate) {
     : 'blocked_readiness';
 }
 
+function requiresPullRequestDelivery(output, input) {
+  const template =
+    output?.deliveryMechanismTemplate ||
+    output?.assetPack?.deliveryMechanismTemplate ||
+    input?.deliveryMechanismTemplate;
+  return template === 'pull-request';
+}
+
+function findPullRequestUrl(output) {
+  return (
+    output?.deliveryMechanism?.pullRequest?.url ||
+    output?.deliveryMechanism?.prUrl ||
+    output?.shippables?.pullRequest?.url ||
+    output?.shippable?.prUrl ||
+    output?.writtenAssets?.pullRequest?.url ||
+    output?.assetPackSynthesisArtifacts?.pullRequest?.url ||
+    null
+  );
+}
+
 function isUsableUuid(value) {
   return UUID_PATTERN.test(String(value || '')) && value !== DEFAULT_USER_ID;
 }
@@ -1489,6 +1509,9 @@ try {
 
   execution.store('harness', 'manifestRoot', manifestRoot);
   execution.store('harness', 'sourceRevision', manifest.sourceRevision);
+  execution.store('harness', 'runId', runId);
+  execution.store('harness', 'userId', userId);
+  execution.store('pipeline', 'userId', userId);
   execution.store('read', 'request', manifest.read);
   execution.store('deposit', 'reference', manifest.deposit);
 
@@ -1497,6 +1520,8 @@ try {
     const { supabaseAdmin } = await import('../../packages/supabase/src/index');
     supabase = supabaseAdmin;
     userId = await resolvePipelineUserId();
+    execution.store('harness', 'userId', userId);
+    execution.store('pipeline', 'userId', userId);
     pipelineRunId = await insertPipelineRun();
     record({ type: 'database-streaming-enabled', stage: 'telemetry-readback' });
   }
@@ -1551,7 +1576,14 @@ try {
   const pipelineResultState = normalizeResultState(
     output?.resultState || output?.fitResult?.resultState || output?.fit?.resultState
   );
-  resultState = manifest.sourceOverlay ? 'blocked_readiness' : pipelineResultState;
+  const deliveryRequired = requiresPullRequestDelivery(output, input);
+  const pullRequestUrl = findPullRequestUrl(output);
+  const deliveryAdmissible = !deliveryRequired || Boolean(pullRequestUrl);
+  const settlementResultState =
+    pipelineResultState === 'worthy_fit' && !deliveryAdmissible
+      ? 'blocked_readiness'
+      : pipelineResultState;
+  resultState = manifest.sourceOverlay ? 'blocked_readiness' : settlementResultState;
   const fitResult = output?.fitResult || output?.fit || null;
   const depositorySearch = output?.depositorySearch || null;
   const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
@@ -1570,13 +1602,22 @@ try {
       : null,
     pipelineResultState === 'blocked_readiness'
       ? 'Pipeline output did not include an admissible result state; review remains blocked.'
+      : pipelineResultState === 'worthy_fit' && !deliveryAdmissible
+        ? 'Pipeline found a worthy fit, but required pull-request delivery is missing; settlement remains blocked.'
       : resultState === 'blocked_readiness'
         ? 'Pipeline produced ' + pipelineResultState + ' evidence; final settlement remains blocked by harness readiness constraints.'
       : 'Review SQL must still verify durable telemetry, proof, and ledger readback before settlement.',
     ...pipelineResultReasons,
   ].filter(Boolean);
+  record({
+    type: 'delivery-readback',
+    stage: 'finish',
+    required: deliveryRequired,
+    admissible: deliveryAdmissible,
+    pullRequestUrl: pullRequestUrl || null,
+  });
 
-  const ledgerSettlement = await settleAssetPackLedger(pipelineResultState);
+  const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
   output = {
     ...(output || {}),
     ledgerSettlement,

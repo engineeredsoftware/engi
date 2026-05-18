@@ -41,6 +41,15 @@ const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema.extend({
 const DeliveryMechanismSchema = z.object({
   pullRequest: ShippableSchema.nullable().optional(),
   summary: z.string().nullable().optional(),
+  readiness: z
+    .object({
+      status: z.string(),
+      reason: z.string().nullable().optional(),
+      branch: z.string().nullable().optional(),
+      path: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
 });
 
 export const AssetPackCompletionOutputSchema = z.object({
@@ -106,10 +115,49 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       );
     } catch {}
     // Repository snapshot
-    const org = (execution as any).findUp?.('repository', 'owner') || (execution as any).get?.('repository', 'owner') || '';
-    const repo = (execution as any).get?.('repository', 'name') || '';
-    const branch = (execution as any).get?.('repository', 'branch') || '';
-    const commit = (execution as any).get?.('repository', 'commit') || '';
+    const storedPipelineInput = findStoredExecutionValue(execution, 'pipeline', 'input') || {};
+    const sourceRevision =
+      storedPipelineInput?.sourceRevision ||
+      findStoredExecutionValue(execution, 'harness', 'sourceRevision') ||
+      {};
+    const repository =
+      storedPipelineInput?.repository ||
+      {};
+    const fullName =
+      sourceRevision.repositoryFullName ||
+      repository.repositoryFullName ||
+      repository.fullName ||
+      findStoredExecutionValue(execution, 'source', 'fullName') ||
+      '';
+    const [ownerFromFullName, repoFromFullName] =
+      typeof fullName === 'string' && fullName.includes('/')
+        ? fullName.split('/', 2)
+        : ['', ''];
+    const org =
+      findStoredExecutionValue(execution, 'repository', 'owner') ||
+      findStoredExecutionValue(execution, 'source', 'owner') ||
+      repository.owner ||
+      ownerFromFullName ||
+      '';
+    const repo =
+      findStoredExecutionValue(execution, 'repository', 'name') ||
+      findStoredExecutionValue(execution, 'source', 'name') ||
+      repository.name ||
+      repository.repo ||
+      repoFromFullName ||
+      '';
+    const branch =
+      sourceRevision.branch ||
+      repository.branch ||
+      findStoredExecutionValue(execution, 'repository', 'branch') ||
+      findStoredExecutionValue(execution, 'source', 'branch') ||
+      '';
+    const commit =
+      sourceRevision.commit ||
+      repository.commit ||
+      findStoredExecutionValue(execution, 'repository', 'commit') ||
+      findStoredExecutionValue(execution, 'source', 'commit') ||
+      '';
     const repoSnapshot = { org, repo, branch, commit };
 
     // Expressed read
@@ -133,6 +181,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     const processingStats = {
       time: formatDuration(totalMs),
     } as AssetPackCompletionOutput['processingStats'];
+    const deliveryReadiness =
+      findStoredExecutionValue(execution, 'finish', 'deliveryReadiness') || null;
 
     // Compose a minimal markdown summary
     const lines: string[] = [];
@@ -141,6 +191,16 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       lines.push('', `## Read`, read.trim());
     }
     lines.push('', `## Repository`, `${org}/${repo} (${branch}@${commit ? commit.slice(0,7) : 'HEAD'})`);
+    if (deliveryReadiness) {
+      lines.push(
+        '',
+        `## Delivery`,
+        `Status: ${deliveryReadiness.status || 'unknown'}`,
+        ...(deliveryReadiness.reason ? [`Reason: ${deliveryReadiness.reason}`] : []),
+        ...(deliveryReadiness.branch ? [`Branch: ${deliveryReadiness.branch}`] : []),
+        ...(deliveryReadiness.path ? [`Path: ${deliveryReadiness.path}`] : []),
+      );
+    }
     lines.push('', `## Processing`, `Total time: ${processingStats.time}`);
     if (Object.keys(phaseDurations).length) {
       lines.push('', `### Phase Durations`);
@@ -153,9 +213,9 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     let pullRequest: any = null;
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
     try {
-      const prUrl = (execution as any).get?.('finish', 'pullRequestUrl') || '';
-      const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (read || 'Pull Request');
-      const prNumber = (execution as any).get?.('finish', 'pullRequestNumber');
+      const prUrl = findStoredExecutionValue(execution, 'finish', 'pullRequestUrl') || '';
+      const prTitle = findStoredExecutionValue(execution, 'finish', 'pullRequestTitle') || (read || 'Pull Request');
+      const prNumber = findStoredExecutionValue(execution, 'finish', 'pullRequestNumber');
       pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
     } catch {}
 
@@ -185,6 +245,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     const deliveryMechanism = {
       pullRequest,
       summary,
+      readiness: deliveryReadiness,
     };
 
     // Validate and finalize output

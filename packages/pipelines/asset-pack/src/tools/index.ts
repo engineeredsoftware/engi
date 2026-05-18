@@ -18,7 +18,11 @@ import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
 import { assetPackAudioComprehensionTool } from './AssetPackAudioComprehensionTool';
 import { assetPackVideoComprehensionTool } from './AssetPackVideoComprehensionTool';
 // VCS tools used during Finish/Delivering.
-import { createPullRequestTool } from '@bitcode/vcs-tools';
+import {
+  createBranchTool,
+  createOrUpdateFileTool,
+  createPullRequestTool,
+} from '@bitcode/vcs-tools';
 
 // AssetPack tool policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.
@@ -130,6 +134,8 @@ export const VALIDATION_PHASE_TOOLS: Tool[] = [
  * Commercial AssetPack delivery emits GitHub pull requests only.
  */
 export const FINISH_DELIVERY_TOOLS: Tool[] = [
+  createBranchTool,
+  createOrUpdateFileTool,
   createPullRequestTool,
 ].filter(present);
 
@@ -182,9 +188,17 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'read-measurement:computer-use-evidence-agent': getComputerUseReadMeasurementTools(),
 
     // Finish Phase / Delivering destination tools
-    'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool],
+    'finish:deliver-asset-pack-to-destination-agent': [
+      createBranchTool,
+      createOrUpdateFileTool,
+      createPullRequestTool,
+    ],
     'finish:asset-pack-completion': [],
-    'finish:asset-pack-create-pull-request-delivery-agent': [createPullRequestTool],
+    'finish:asset-pack-create-pull-request-delivery-agent': [
+      createBranchTool,
+      createOrUpdateFileTool,
+      createPullRequestTool,
+    ],
     'finish:asset-pack-gather-metrics-agent': [],
     'finish:asset-pack-generate-final-response-agent': [],
     'finish:asset-pack-finalize-delivery-evidence-agent': []

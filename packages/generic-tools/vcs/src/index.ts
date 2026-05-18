@@ -251,6 +251,39 @@ class CreatePullRequestTool extends Tool<any> {
 
 export const createPullRequestTool = new CreatePullRequestTool();
 
+class CreateBranchTool extends Tool<any> {
+  name = 'vcs_create_branch';
+  description = 'Create a branch in a repository through unified VCS interface';
+
+  inputSchema = vcsBaseSchema.extend({
+    branch: z.string().describe('Branch name to create'),
+    from: z.string().describe('Base branch or commit SHA for the new branch'),
+  });
+
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
+
+    if (!vcsProvider.createBranch) {
+      throw new Error(`Branch creation not supported by ${input.provider}`);
+    }
+
+    return withRetry(
+      () => vcsProvider.createBranch!(auth, input.owner, input.repo, input.branch, input.from),
+      {
+        maxAttempts: 3,
+        delayMs: 1000,
+        shouldRetry: (error) => {
+          const message = error.message.toLowerCase();
+          return message.includes('network') || message.includes('timeout');
+        },
+      }
+    );
+  };
+}
+
+export const createBranchTool = new CreateBranchTool();
+
 /**
  * @doc-code-tool
  * @prompt CREATE_OR_UPDATE_FILE_DOC_CODE_TOOL_PROMPT
@@ -275,7 +308,7 @@ class CreateOrUpdateFileTool extends Tool<any> {
 
     return withRetry(
       () => vcsProvider.createOrUpdateFile(auth, input.owner, input.repo, input.path, {
-        content: Buffer.from(input.content).toString('base64'),
+        content: input.content,
         message: input.message,
         branch: input.branch,
         sha: input.sha
@@ -424,6 +457,7 @@ export const getFileContentTool = new GetFileContentTool();
  */
 export const vcsTools = [
   listRepositoriesTool,
+  createBranchTool,
   createPullRequestTool,
   createOrUpdateFileTool,
   createIssueTool,

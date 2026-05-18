@@ -1,4 +1,4 @@
-import { createOrUpdateFileTool } from '../src/index';
+import { createBranchTool, createOrUpdateFileTool } from '../src/index';
 
 jest.mock('@bitcode/generic-tools-editing/execution-context', () => ({
   executionContext: {
@@ -14,22 +14,26 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn().mockResolvedValue({}),
 }));
 
-const mockConnectionManager = {
+let mockConnectionManager: any;
+let mockProvider: any;
+
+jest.mock('@bitcode/vcs', () => ({
+  VCSConnections: jest.fn().mockImplementation(() => mockConnectionManager),
+  VCSProviderFactory: {
+    create: jest.fn().mockImplementation(async () => mockProvider),
+  },
+}));
+
+mockConnectionManager = {
   getConnectionById: jest.fn(),
   getConnection: jest.fn(),
   getAuthFromConnection: jest.fn(),
 };
 
-const mockProvider = {
+mockProvider = {
+  createBranch: jest.fn(),
   createOrUpdateFile: jest.fn(),
 };
-
-jest.mock('@bitcode/vcs', () => ({
-  VCSConnections: jest.fn().mockImplementation(() => mockConnectionManager),
-  VCSProviderFactory: {
-    create: jest.fn().mockResolvedValue(mockProvider),
-  },
-}));
 
 const { executionContext } = require('@bitcode/generic-tools-editing/execution-context');
 const { validateFileOperation } = require('@bitcode/pipelines-generics/src/gate-system/file-gates');
@@ -46,10 +50,13 @@ const baseInput = {
 
 describe('createOrUpdateFileTool gating', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
+    (VCSConnections as jest.Mock).mockImplementation(() => mockConnectionManager);
+    (VCSProviderFactory.create as jest.Mock).mockResolvedValue(mockProvider);
     mockConnectionManager.getConnectionById.mockResolvedValue({ id: 'conn-1' });
     mockConnectionManager.getConnection.mockResolvedValue({ id: 'conn-1' });
     mockConnectionManager.getAuthFromConnection.mockResolvedValue({ token: 'abc' });
+    mockProvider.createBranch.mockResolvedValue({ name: 'feature/asset-pack' });
     mockProvider.createOrUpdateFile.mockResolvedValue({ ok: true });
     (executionContext.getStore as jest.Mock).mockReturnValue({
       get: (namespace: string, key: string) => {
@@ -87,7 +94,10 @@ describe('createOrUpdateFileTool gating', () => {
       baseInput.owner,
       baseInput.repo,
       baseInput.path,
-      expect.objectContaining({ message: baseInput.message })
+      expect.objectContaining({
+        content: baseInput.content,
+        message: baseInput.message,
+      })
     );
   });
 
@@ -100,5 +110,24 @@ describe('createOrUpdateFileTool gating', () => {
     // Without context, we still proceed to provider
     expect(VCSProviderFactory.create).toHaveBeenCalled();
     expect(mockProvider.createOrUpdateFile).toHaveBeenCalled();
+  });
+
+  it('creates branches through the VCS provider boundary', async () => {
+    await createBranchTool.use({
+      provider: 'github',
+      owner: 'bitcode-labs',
+      repo: 'repo',
+      connectionId: 'conn-1',
+      branch: 'feature/asset-pack',
+      from: 'abc123',
+    });
+
+    expect(mockProvider.createBranch).toHaveBeenCalledWith(
+      expect.any(Object),
+      'bitcode-labs',
+      'repo',
+      'feature/asset-pack',
+      'abc123'
+    );
   });
 });

@@ -452,6 +452,43 @@ export default class GitHubProvider extends VCSProvider {
   }
 
   /**
+   * Create branch
+   */
+  async createBranch(
+    auth: VCSAuth,
+    owner: string,
+    repo: string,
+    branch: string,
+    from: string
+  ): Promise<VCSBranch> {
+    return this.executeWithResilience(async () => {
+      const octokit = this.getOctokit(auth);
+      const ref = branch.startsWith('refs/heads/') ? branch : `refs/heads/${branch}`;
+      const branchName = ref.replace(/^refs\/heads\//, '');
+
+      try {
+        await octokit.git.createRef({
+          owner,
+          repo,
+          ref,
+          sha: from,
+        });
+      } catch (error) {
+        const status = (error as { status?: number })?.status;
+        const message = error instanceof Error ? error.message.toLowerCase() : '';
+        if (status !== 422 && !message.includes('reference already exists')) {
+          throw error;
+        }
+      }
+
+      return this.getBranch(auth, owner, repo, branchName);
+    }, {
+      operationName: 'createBranch',
+      timeout: this.timeouts.write
+    });
+  }
+
+  /**
    * List commits
    */
   async listCommits(
