@@ -86,6 +86,13 @@ trusted command environment. For local Vercel Sandbox creation, either pull
 token tuple `VERCEL_TOKEN`, `VERCEL_TEAM_ID`, and `VERCEL_PROJECT_ID`. Deployed
 Vercel code should use automatic OIDC rather than storing a Vercel token when
 possible.
+Pull-request delivery normally uses the authenticated user's stored GitHub App
+connection. GitHub installation tokens are short lived; if staging readback
+shows the stored token has expired and the local harness is intentionally using
+a trusted operator token, set `BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1` and pass
+`GITHUB_TOKEN` only through `BITCODE_SANDBOX_ENV_KEYS=GITHUB_TOKEN`. The VCS
+tools read that token from process environment and do not include it in tool
+inputs, artifact telemetry, or database stream rows.
 Staging-testnet Read/Fit QA must also set
 `BITCODE_ASSET_PACK_REAL_INFERENCE=1`. On the deployed streaming route,
 `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` is the expected profile:
@@ -210,6 +217,8 @@ BITCODE_SANDBOX_DEPOSIT_HAS_PROOF=1 \
 BITCODE_SANDBOX_DEPOSIT_HAS_MEASUREMENT=1 \
 BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
 BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
+BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1 \
+BITCODE_SANDBOX_ENV_KEYS=GITHUB_TOKEN \
 BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```

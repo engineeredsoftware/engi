@@ -21,6 +21,8 @@ import deliverAssetPackToDestination from '../agents/finish/deliver-asset-pack-t
 describe('finish pull-request delivery', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    delete process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK;
+    delete process.env.GITHUB_TOKEN;
     createBranchUse.mockResolvedValue({ name: 'bitcode/asset-pack-run-123' });
     createOrUpdateFileUse.mockResolvedValue({ path: '.bitcode/asset-packs/run-123.md', content: 'written' });
     createPullRequestUse.mockResolvedValue({
@@ -118,11 +120,28 @@ describe('finish pull-request delivery', () => {
     const result = await deliverAssetPackToDestination({}, exec);
 
     expect(result.status).toBe('blocked_readiness');
-    expect(result.reason).toContain('GitHub connectionId or pipeline userId');
+    expect(result.reason).toContain('GitHub connectionId, pipeline userId, or explicit environment delivery authority');
     expect(createBranchUse).not.toHaveBeenCalled();
     expect(exec.get('finish', 'deliveryReadiness')).toMatchObject({
       status: 'blocked_readiness',
       prUrl: null,
     });
+  });
+
+  it('allows explicit environment delivery authority without emitting token material', async () => {
+    process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK = '1';
+    process.env.GITHUB_TOKEN = 'gh-test-token';
+    const exec = execution();
+    exec.store('pipeline', 'userId', undefined);
+
+    const result = await deliverAssetPackToDestination({}, exec);
+
+    expect(result.status).toBe('delivered');
+    expect(createBranchUse).toHaveBeenCalledWith(expect.not.objectContaining({
+      accessToken: expect.anything(),
+      auth: expect.anything(),
+    }));
+    expect(exec.get('tools', 'vcs_create_branch:0').input).not.toHaveProperty('accessToken');
+    expect(emitToolUsage.mock.calls[0][2]).not.toHaveProperty('accessToken');
   });
 });

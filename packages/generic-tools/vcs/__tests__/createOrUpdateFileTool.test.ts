@@ -51,6 +51,8 @@ const baseInput = {
 describe('createOrUpdateFileTool gating', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    delete process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK;
+    delete process.env.GITHUB_TOKEN;
     (VCSConnections as jest.Mock).mockImplementation(() => mockConnectionManager);
     (VCSProviderFactory.create as jest.Mock).mockResolvedValue(mockProvider);
     mockConnectionManager.getConnectionById.mockResolvedValue({ id: 'conn-1' });
@@ -124,6 +126,31 @@ describe('createOrUpdateFileTool gating', () => {
 
     expect(mockProvider.createBranch).toHaveBeenCalledWith(
       expect.any(Object),
+      'bitcode-labs',
+      'repo',
+      'feature/asset-pack',
+      'abc123'
+    );
+  });
+
+  it('uses explicit environment delivery authority without loading a stored connection', async () => {
+    process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK = '1';
+    process.env.GITHUB_TOKEN = 'gh-test-token';
+
+    await createBranchTool.use({
+      provider: 'github',
+      owner: 'bitcode-labs',
+      repo: 'repo',
+      branch: 'feature/asset-pack',
+      from: 'abc123',
+    });
+
+    expect(VCSConnections).not.toHaveBeenCalled();
+    expect(mockProvider.createBranch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        provider: 'github',
+        accessToken: 'gh-test-token',
+      }),
       'bitcode-labs',
       'repo',
       'feature/asset-pack',

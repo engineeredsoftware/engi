@@ -77,6 +77,11 @@ async function resolveConnectionContext(input: VcsInputBase): Promise<ResolvedCo
     throw new Error('VCS provider is required');
   }
 
+  const environmentAuth = resolveEnvironmentAuth(input.provider);
+  if (environmentAuth) {
+    return { auth: environmentAuth };
+  }
+
   const connectionManager = await createConnectionManager();
   let auth: VCSAuth | null = null;
   let instanceUrl: string | undefined;
@@ -98,6 +103,18 @@ async function resolveConnectionContext(input: VcsInputBase): Promise<ResolvedCo
   }
 
   return { auth, instanceUrl };
+}
+
+function resolveEnvironmentAuth(provider: VCSProviderType): VCSAuth | null {
+  if (process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK !== '1') return null;
+  if (provider !== 'github') return null;
+
+  const accessToken =
+    process.env.GITHUB_TOKEN ||
+    process.env.GITHUB_PAT ||
+    process.env.GH_TOKEN;
+
+  return accessToken ? { provider, accessToken } : null;
 }
 
 function buildProviderConfig(

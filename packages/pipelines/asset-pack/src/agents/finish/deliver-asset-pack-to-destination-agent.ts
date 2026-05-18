@@ -137,8 +137,8 @@ async function deliverPullRequest(
     return blockDelivery(execution, context, 'Pull-request delivery requires owner, repository, branch, and source commit.');
   }
 
-  if (!delivery.userId && !delivery.connectionId) {
-    return blockDelivery(execution, context, 'Pull-request delivery requires a GitHub connectionId or pipeline userId.');
+  if (!delivery.userId && !delivery.connectionId && !hasEnvironmentDeliveryAuth(repository.provider)) {
+    return blockDelivery(execution, context, 'Pull-request delivery requires a GitHub connectionId, pipeline userId, or explicit environment delivery authority.');
   }
 
   const common = {
@@ -232,6 +232,12 @@ async function deliverPullRequest(
       usedTools,
     );
   }
+}
+
+function hasEnvironmentDeliveryAuth(provider: string): boolean {
+  if (process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK !== '1') return false;
+  if (provider !== 'github') return false;
+  return Boolean(process.env.GITHUB_TOKEN || process.env.GITHUB_PAT || process.env.GH_TOKEN);
 }
 
 function resolveRepositoryContext(input: any, execution: any) {

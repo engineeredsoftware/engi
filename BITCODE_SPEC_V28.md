@@ -521,6 +521,12 @@ Read/Fit result review remains fail-closed:
 - secrets for wallets, GitHub, model providers, Supabase service roles, or
   other systems may be passed into a sandbox only by explicit allowlist or
   brokered network policy; routine QA artifacts must show only redacted names.
+- pull-request delivery should normally use the reader's authenticated GitHub
+  App connection. For trusted local/staging harness QA, an operator token may be
+  supplied only by setting `BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1` and
+  explicitly forwarding `GITHUB_TOKEN` through the sandbox allowlist; VCS tools
+  must read that token from process environment without placing it in tool
+  inputs, artifact telemetry, or database stream rows.
 - `BITCODE_LLM_PROVIDER` and `BITCODE_LLM_MODEL` may pin the model path for
   reproducible generation; otherwise the runtime selects the available provider
   from credential posture, with OpenAI accepted when `OPENAI_API_KEY` is the
