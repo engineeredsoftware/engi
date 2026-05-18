@@ -149,6 +149,9 @@ V28 requires:
 - compatibility storage carriers are hidden behind Bitcode vocabulary and registry-derived read models;
 - no new versioned UAPI route family is introduced;
 - implementation source remains implicitly versioned to the active canon and current gate: routes, file names, CSS, constants, tests, and identifiers must not introduce explicit version/gate/work-in-progress names without a bounded compatibility instruction;
+- repository contribution flow uses a V28 version branch as the draft integration
+  branch, with scoped work branches opened from it and pull-requested back into
+  it as individual gates close;
 - value-bearing mainnet remains gated by explicit operational approval;
 - V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth remain staged unless V28 requires a narrow Protocol/Terminal/MCP/ChatGPT hook.
 
@@ -950,7 +953,7 @@ Minimum V28 validation includes spec-family checks, canon-posture drift checks, 
 
 ## promotion canon
 
-Promotion requires V28 PROVEN, synchronized SPEC/DELTA/NOTES/PARITY, closed gates, route scan, test/build proof, and explicit update of `BITCODE_SPEC.txt` from `V27` to `V28`.
+Promotion requires V28 PROVEN, synchronized SPEC/DELTA/NOTES/PARITY, closed gates, route scan, test/build proof, pull-requested integration from scoped gate branches into the V28 version branch, and explicit update of `BITCODE_SPEC.txt` from `V27` to `V28` when the version branch is pull-requested back into `main`.
 
 ## appendices and canonical supporting material
 
