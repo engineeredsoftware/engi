@@ -1,12 +1,17 @@
 import {
   acceptReadNeed,
   admitNeedFitSearch,
+  buildAssetPackSourceSafePreview,
   buildShareToFeePreview,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
+  resolveAssetPackReadRightState,
   synthesizeReadNeedForPipelineInput,
 } from '../read-need';
-import { runDepositorySearchForPipelineInput } from '../depository-search';
+import {
+  buildDepositoryFitResultEvidence,
+  runDepositorySearchForPipelineInput,
+} from '../depository-search';
 
 const input = {
   read: {
@@ -136,6 +141,86 @@ describe('Read-Need synthesis and Need-Fit admission', () => {
       finalityState: 'preview_not_paid',
       payer: 'reader',
     });
+    expect(preview.feeSchedule).toMatchObject({
+      satsPerWeightedVolume: 1000,
+      minimumSats: 546,
+      dustFloorSats: 546,
+      networkFeePosture: 'reader_wallet_authorized_before_broadcast',
+    });
+    expect(preview.measurementVector).toBe(acceptedReadNeed.pricingMeasurementInputs.measurementVector);
+    expect(preview.quoteRoot).toMatch(/^sha256:/);
     expect(preview.sats).toBeGreaterThanOrEqual(546);
+  });
+
+  it('builds a source-safe AssetPack preview without unlocking protected source', async () => {
+    const acceptedReadNeed = acceptReadNeed(
+      synthesizeReadNeedForPipelineInput(input),
+      '2026-05-18T00:00:00.000Z'
+    );
+    const search = await runDepositorySearchForPipelineInput({
+      ...input,
+      acceptedReadNeed,
+      requireAcceptedReadNeed: true,
+      depositoryAssets: [depositoryAsset()],
+    });
+    const fitResult = buildDepositoryFitResultEvidence(search);
+    const preview = buildAssetPackSourceSafePreview({
+      need: acceptedReadNeed,
+      fitResult,
+      rangeStart: 42,
+      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/6',
+      createdAt: '2026-05-18T00:00:00.000Z',
+    });
+
+    expect(preview).toMatchObject({
+      schema: 'bitcode.asset-pack.source-safe-preview',
+      need: {
+        needId: acceptedReadNeed.needId,
+        measurementRoot: acceptedReadNeed.measurementRoot,
+        reviewState: 'accepted',
+      },
+      fit: {
+        resultState: 'worthy_fit',
+        selectedCandidateAssetIds: ['deposit-asset-1'],
+      },
+      disclosurePolicy: {
+        protectedSourceDisclosure: 'forbidden_before_settlement',
+      },
+      settlementBoundary: {
+        payer: 'reader',
+        payee: 'depositor',
+        serverCustody: false,
+        ownershipTruth: 'asset_pack_range_and_license_rows',
+      },
+      unlock: {
+        state: 'pending_settlement',
+        sourceAvailable: false,
+      },
+      delivery: {
+        pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/6',
+        availableAfterSettlement: true,
+      },
+    });
+    expect(preview.roots.previewRoot).toMatch(/^sha256:/);
+    expect(preview.roots.sourceManifestRoot).toMatch(/^sha256:/);
+    expect(preview.feeQuote.quoteRoot).toMatch(/^sha256:/);
+    expect(preview.rangeProjection).toMatchObject({
+      status: 'projected_not_minted',
+      rangeStart: 42,
+    });
+    expect(preview.rangeProjection.rangeEndExclusive).toBe(
+      preview.rangeProjection.rangeStart! + preview.rangeProjection.tokenCount
+    );
+    expect(preview.disclosurePolicy.withheldBeforeSettlement).toContain('protected source content');
+  });
+
+  it('keeps owner, licensed, pending-settlement, and denied read rights distinct', () => {
+    expect(resolveAssetPackReadRightState({ hasOwnerClaim: true })).toBe('owner_read');
+    expect(resolveAssetPackReadRightState({
+      hasReadLicense: true,
+      settlementReadbackComplete: true,
+    })).toBe('licensed_read');
+    expect(resolveAssetPackReadRightState({ settlementPending: true })).toBe('pending_settlement');
+    expect(resolveAssetPackReadRightState({ policyDenied: true })).toBe('denied');
   });
 });

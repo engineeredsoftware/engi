@@ -74,6 +74,13 @@ jobs:
           pnpm --filter @bitcode/pipeline-hosts typecheck
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --dir uapi exec jest --runTestsByPath \
+            tests/api/readReviewRoute.test.ts \
+            tests/api/pipelineHarnessRoute.test.ts \
+            tests/terminalPipelineHarnessClient.test.ts \
+            tests/terminalDepositReadWorkbench.test.ts \
+            tests/pipelineExecutionLogHeader.test.tsx \
+            --runInBand
           git diff --check
 
       - name: Promote BITCODE_SPEC pointer

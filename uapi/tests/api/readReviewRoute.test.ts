@@ -123,4 +123,94 @@ describe('/api/read-review', () => {
       action: 'accept',
     });
   });
+
+  it('synthesizes a reviewable Read-Need before Need-Fit search', async () => {
+    const response = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'synthesize_read_need',
+          readId: 'read-activity',
+          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          sourceRevision: {
+            repositoryFullName: 'engineeredsoftware/ENGI',
+            branch: 'main',
+            commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+          },
+          targetArtifactKinds: ['asset-pack-evidence', 'proof-root'],
+          closureCriteria: ['Candidate must be source-bound.'],
+        }),
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(mockReviewNeed).not.toHaveBeenCalled();
+    expect(payload.stage).toBe('read_need_review');
+    expect(payload.readNeed).toMatchObject({
+      schema: 'bitcode.read.need',
+      reviewState: 'needs_acceptance',
+      read: {
+        id: 'read-activity',
+        prompt: 'Find a source-bound Terminal AssetPack fit.',
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        sourceBranch: 'main',
+        sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+      sourceConstraints: {
+        protectedSourceDisclosure: 'forbidden_before_settlement',
+      },
+    });
+    expect(payload.telemetry).toMatchObject({
+      schema: 'bitcode.read-need.synthesis-telemetry',
+      measurementRoot: payload.readNeed.measurementRoot,
+      reviewState: 'needs_acceptance',
+    });
+  });
+
+  it('accepts a synthesized Read-Need as the only Need-Fit input', async () => {
+    const synthesisResponse = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'synthesize_read_need',
+          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          sourceRevision: {
+            repositoryFullName: 'engineeredsoftware/ENGI',
+            branch: 'main',
+            commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+          },
+        }),
+      }),
+    );
+    const synthesis = await synthesisResponse.json();
+    const acceptResponse = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'accept_read_need',
+          readNeed: synthesis.readNeed,
+        }),
+      }),
+    );
+    const payload = await acceptResponse.json();
+
+    expect(acceptResponse.status).toBe(200);
+    expect(payload.stage).toBe('need_fit_ready');
+    expect(payload.acceptedReadNeed).toMatchObject({
+      schema: 'bitcode.read.need',
+      reviewState: 'accepted',
+      needId: synthesis.readNeed.needId,
+      measurementRoot: synthesis.readNeed.measurementRoot,
+    });
+    expect(payload.fitSearchAdmission).toMatchObject({
+      admitted: true,
+      blockers: [],
+    });
+    expect(payload.telemetry).toMatchObject({
+      schema: 'bitcode.read-need.acceptance-telemetry',
+      needId: synthesis.readNeed.needId,
+      nextStage: 'need_fit_search',
+    });
+  });
 });

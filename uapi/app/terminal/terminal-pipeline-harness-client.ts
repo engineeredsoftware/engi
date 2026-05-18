@@ -8,6 +8,8 @@ export type TerminalFitPipelineHarnessRequest = {
   mode: 'asset_pack_pipeline';
   readId: string;
   readPrompt: string;
+  acceptedReadNeed: unknown;
+  requireAcceptedReadNeed: true;
   depositId: string;
   depositAssetId?: string | null;
   depositHasWalletOrAttestationProof?: boolean;
@@ -72,11 +74,13 @@ export function buildTerminalFitPipelineHarnessRequest({
   repositoryContext,
   depositedSourceRevision,
   readActivityId,
+  acceptedReadNeed,
 }: {
   workbench: TerminalDepositReadWorkbench | null;
   repositoryContext?: TerminalRepositoryContextState | null;
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
   readActivityId?: string | null;
+  acceptedReadNeed?: unknown;
 }): TerminalFitPipelineHarnessRequestState {
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const sourceRevision = workbench?.sourceRevision || null;
@@ -101,6 +105,9 @@ export function buildTerminalFitPipelineHarnessRequest({
   );
   const depositId = normalizedText(depositedSourceRevision?.activityId || '');
   const readId = normalizedText(readActivityId || '');
+  const acceptedNeed = recordValue(acceptedReadNeed);
+  const acceptedNeedId = normalizedText(acceptedNeed?.needId as string | undefined);
+  const acceptedNeedReviewState = normalizedText(acceptedNeed?.reviewState as string | undefined);
 
   const missing = [
     !workbench ? 'read-fit workbench' : null,
@@ -109,6 +116,7 @@ export function buildTerminalFitPipelineHarnessRequest({
     !sourceCommit ? 'source commit' : null,
     !depositId ? 'deposit activity' : null,
     !readId ? 'admitted Read activity' : null,
+    !acceptedNeedId || acceptedNeedReviewState !== 'accepted' ? 'accepted Read-Need' : null,
   ].filter((entry): entry is string => Boolean(entry));
 
   if (missing.length > 0 || !workbench) {
@@ -126,6 +134,8 @@ export function buildTerminalFitPipelineHarnessRequest({
       mode: 'asset_pack_pipeline',
       readId,
       readPrompt: workbench.read.summary,
+      acceptedReadNeed,
+      requireAcceptedReadNeed: true,
       depositId,
       depositAssetId: depositedSourceRevision?.depositAssetId || null,
       depositHasWalletOrAttestationProof:
@@ -511,8 +521,10 @@ export function summarizeTerminalFitPipelineHarnessEvent(
   const data = recordValue(event.data);
   if (event.event === 'harness-started') {
     const runId = shortIdentifier(data?.runId);
+    const needId = shortIdentifier(data?.readNeedId);
     return [
       `Harness started for ${data?.repositoryFullName || 'selected repository'}`,
+      needId ? `Need ${needId}` : null,
       runId ? `run ${runId}` : null,
     ].filter(Boolean).join('; ') + '.';
   }
@@ -549,6 +561,8 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     const fitResult = recordValue(evidence?.fitResult);
     const depositorySearch = recordValue(evidence?.depositorySearch);
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
+    const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
+    const feeQuote = recordValue(sourceSafePreview?.feeQuote);
     const fitState = String(fitResult?.resultState || evidence?.resultState || 'unknown');
     const searchedAssetCount = depositorySearch?.searchedAssetCount;
     const ledgerStatus = ledgerSettlement?.status
@@ -561,6 +575,9 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     const telemetryText = telemetryLineCount > 0
       ? ` telemetry ${telemetryLineCount} lines`
       : ' telemetry artifact pending';
+    const feeQuoteText = typeof feeQuote?.sats === 'number'
+      ? ` fee ${feeQuote.sats} sats`
+      : null;
     const searchText = typeof searchedAssetCount === 'number'
       ? ` searched ${searchedAssetCount} assets`
       : ' searched asset count unknown';
@@ -570,6 +587,7 @@ export function summarizeTerminalFitPipelineHarnessEvent(
       searchText,
       selectedCandidateText,
       ledgerStatus,
+      feeQuoteText,
       telemetryText,
     ].filter(Boolean).join('; ') + '.';
   }

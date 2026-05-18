@@ -61,6 +61,13 @@ const repositoryContext: TerminalRepositoryContextState = {
   },
 };
 
+const acceptedReadNeed = {
+  schema: 'bitcode.read.need',
+  needId: 'need-terminal-test',
+  reviewState: 'accepted',
+  measurementRoot: 'sha256:need-measurement-root',
+};
+
 describe('terminal pipeline harness client', () => {
   it('builds an authenticated live fit harness request from deposited revision and admitted Read evidence', () => {
     const state = buildTerminalFitPipelineHarnessRequest({
@@ -76,6 +83,7 @@ describe('terminal pipeline harness client', () => {
         hasAssetMeasurementEvidence: true,
       },
       readActivityId: 'read-admission-activity',
+      acceptedReadNeed,
     });
 
     expect(state.ready).toBe(true);
@@ -87,6 +95,8 @@ describe('terminal pipeline harness client', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       sourceGitUrl: 'https://github.com/engineeredsoftware/ENGI.git',
       readId: 'read-admission-activity',
+      acceptedReadNeed,
+      requireAcceptedReadNeed: true,
       depositId: 'deposit-activity',
       depositAssetId: 'asset-repository-revision',
       depositHasWalletOrAttestationProof: true,
@@ -100,11 +110,36 @@ describe('terminal pipeline harness client', () => {
       repositoryContext,
       depositedSourceRevision: null,
       readActivityId: null,
+      acceptedReadNeed: null,
     });
 
     expect(state.ready).toBe(false);
     expect(state.missing).toContain('deposit activity');
     expect(state.missing).toContain('admitted Read activity');
+    expect(state.missing).toContain('accepted Read-Need');
+  });
+
+  it('requires accepted Read-Need review before live Need-Fit execution', () => {
+    const state = buildTerminalFitPipelineHarnessRequest({
+      workbench,
+      repositoryContext,
+      depositedSourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        activityId: 'deposit-activity',
+      },
+      readActivityId: 'read-admission-activity',
+      acceptedReadNeed: {
+        schema: 'bitcode.read.need',
+        needId: 'need-terminal-test',
+        reviewState: 'needs_acceptance',
+        measurementRoot: 'sha256:need-measurement-root',
+      },
+    });
+
+    expect(state.ready).toBe(false);
+    expect(state.missing).toContain('accepted Read-Need');
   });
 
   it('drains server-sent harness events while preserving partial buffers', () => {
@@ -141,6 +176,11 @@ describe('terminal pipeline harness client', () => {
           ledgerSettlement: {
             status: 'blocked',
           },
+          sourceSafePreview: {
+            feeQuote: {
+              sats: 546,
+            },
+          },
         },
       },
     });
@@ -150,6 +190,7 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('searched 1 assets');
     expect(summary).toContain('candidate asset-repository-revision');
     expect(summary).toContain('ledger blocked');
+    expect(summary).toContain('fee 546 sats');
     expect(summary).toContain('telemetry 72 lines');
   });
 

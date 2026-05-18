@@ -277,16 +277,21 @@ export { AssetPackSynthesizeArtifactsAgent } from './agents/implementation/asset
 export {
   acceptReadNeed,
   admitNeedFitSearch,
+  buildAssetPackSourceSafePreview,
   buildShareToFeePreview,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
+  resolveAssetPackReadRightState,
   resolveReadNeedFromPipelineInput,
   shouldRequireAcceptedReadNeed,
   synthesizeReadNeedForPipelineInput,
+  type AssetPackReadRightState,
+  type AssetPackSourceSafePreview,
   type ReadNeed,
   type ReadNeedFitAdmission,
   type ReadNeedMeasurementDimension,
   type ReadNeedReviewState,
+  type ShareToFeeQuote,
 } from './read-need';
 export default assetPackPipeline;
 export const runSDIVFPipeline = assetPackPipeline;

@@ -40,6 +40,12 @@
       "@bitcode/prompts/raw_promptparts/*": [
         "../packages/prompts/src/raw_promptparts/*"
       ],
+      "@bitcode/pipeline-asset-pack": [
+        "../packages/pipelines/asset-pack/src/index.ts"
+      ],
+      "@bitcode/pipeline-asset-pack/read-need": [
+        "../packages/pipelines/asset-pack/src/read-need.ts"
+      ],
       "@bitcode/*": [
         "../packages/*/src",
         "../packages/*"

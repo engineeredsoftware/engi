@@ -47,6 +47,7 @@ module.exports = {
     '^@bitcode/generic-tools/(.+)$': '<rootDir>/../packages/generic-tools/$1/src/index.ts',
     '^@bitcode/generic-tools-mcps-(.+)$': '<rootDir>/../packages/generic-tools/mcps-tools/$1/src/index.ts',
     '^@bitcode/generic-tools-(.+)$': '<rootDir>/../packages/generic-tools/$1/src/index.ts',
+    '^@bitcode/pipeline-asset-pack/read-need$': '<rootDir>/../packages/pipelines/asset-pack/src/read-need.ts',
     '^@bitcode/pipeline-asset-pack/src/(.+)$': '<rootDir>/../packages/pipelines/asset-pack/src/$1',
     '^@bitcode/([^/]+)/src/(.+)$': '<rootDir>/../packages/$1/src/$2',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
