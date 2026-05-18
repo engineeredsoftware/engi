@@ -30,6 +30,57 @@ import {
   BitcodeTokenCostsModel,
 } from './models/bitcode-execution-storage';
 
+const allowLocalSupabaseFallback =
+  process.env.NODE_ENV !== 'production' ||
+  process.env.CI === 'true' ||
+  process.env.NEXT_PHASE === 'phase-production-build';
+
+function resolveSupabaseUrl(): string {
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    process.env.SUPABASE_URL ||
+    (allowLocalSupabaseFallback ? 'http://localhost:54321' : '');
+
+  if (!supabaseUrl) {
+    throw new Error('Missing Supabase URL. Set NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL.');
+  }
+
+  return supabaseUrl;
+}
+
+function resolveSupabasePublicKey(): string {
+  const publicKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    (allowLocalSupabaseFallback ? 'local-anon-key' : '');
+
+  if (!publicKey) {
+    throw new Error(
+      'Missing Supabase public key. Set NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, SUPABASE_ANON_KEY, or SUPABASE_PUBLISHABLE_KEY.',
+    );
+  }
+
+  return publicKey;
+}
+
+function resolveSupabaseAdminKey(): string {
+  const adminKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_ADMIN_KEY ||
+    (allowLocalSupabaseFallback ? 'local-service-role-key' : '');
+
+  if (!adminKey) {
+    throw new Error(
+      'Missing Supabase admin key. Set SUPABASE_SERVICE_ROLE_KEY, SUPABASE_SECRET_KEY, or SUPABASE_ADMIN_KEY.',
+    );
+  }
+
+  return adminKey;
+}
+
 /**
  * Standard client interface
  */
@@ -68,15 +119,9 @@ export interface AdminClient extends BitcodeOrmClient {
  * Create standard client
  */
 export function createClient(authToken?: string): BitcodeOrmClient {
-  const publicKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
-    process.env.SUPABASE_PUBLISHABLE_KEY;
-
   const supabase = createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    publicKey!,
+    resolveSupabaseUrl(),
+    resolveSupabasePublicKey(),
     {
       auth: {
         persistSession: false,
@@ -117,14 +162,9 @@ export function createClient(authToken?: string): BitcodeOrmClient {
  * Create admin client for build-time operations
  */
 export function createAdminClient(): AdminClient {
-  const adminKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY ||
-    process.env.SUPABASE_ADMIN_KEY;
-
   const supabase = createSupabaseClient<Database>(
-    process.env.SUPABASE_URL!,
-    adminKey!,
+    resolveSupabaseUrl(),
+    resolveSupabaseAdminKey(),
     {
       auth: {
         persistSession: false,
