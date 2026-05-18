@@ -191,6 +191,16 @@ evidence only if they export the execution tree, phase/agent/generation/tool
 telemetry, prompt/context inputs, raw outputs, parsed/cast outputs, and exact
 blocked-readiness reasons.
 
+The May 18 source-bound staging-testnet run closes that current harness gate:
+Vercel Sandbox executed the deposited ENGI revision without a source overlay,
+selected candidate `manual-deposit-qa`, wrote `depositorySearch` and
+`fitResult` roots, synthesized a `worthy_fit` AssetPack, shipped it as a
+GitHub pull request, and read back synchronized pipeline telemetry plus BTD
+range, reader BTC fee, depositor ownership, reader license, Terminal journal,
+ledger anchor, and crypto telemetry rows. The accepted branch/lane for this
+evidence is staging-testnet Supabase project `tkpyosihuouusyaxtbau`; production
+mainnet remains project `rinalyjfecxnmyczrpzo`.
+
 ## May 15 Terminal Terminology Closure
 
 V28 now retires user-facing Deposit/Depositing and Read/Reading language in favor of Deposit/Depositing and Read/Reading.

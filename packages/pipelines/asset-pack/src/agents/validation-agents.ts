@@ -134,6 +134,39 @@ const AssetPackValidationReadyToFinishAgentCore = factoryAgentWithPTRR<
   retry: { maxAttempts: 1 },
 });
 
+function getStoredSourceOverlay(execution: any): unknown {
+  const lookups: Array<[string, string]> = [
+    ['harness', 'sourceOverlay'],
+    ['pipelineHarness', 'sourceOverlay'],
+    ['manifest', 'sourceOverlay'],
+  ];
+  for (const [namespace, key] of lookups) {
+    try {
+      const value = execution?.get?.(namespace, key);
+      if (value) return value;
+    } catch {}
+  }
+  return undefined;
+}
+
+function hasSourceOverlay(input: unknown, execution: any): boolean {
+  const rawInput = input as {
+    sourceOverlay?: unknown;
+    harness?: { sourceOverlay?: unknown };
+    manifest?: { sourceOverlay?: unknown };
+  } | null;
+  return Boolean(
+    process.env.BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED === '1' ||
+    rawInput?.sourceOverlay ||
+    rawInput?.harness?.sourceOverlay ||
+    rawInput?.manifest?.sourceOverlay ||
+    execution?.context?.sourceOverlay ||
+    execution?.metadata?.sourceOverlay ||
+    execution?.input?.sourceOverlay ||
+    getStoredSourceOverlay(execution)
+  );
+}
+
 export async function AssetPackValidationReadyToFinishAgent(
   input: z.infer<typeof ReadyToFinishInputSchema>,
   execution: any
@@ -148,6 +181,12 @@ export async function AssetPackValidationReadyToFinishAgent(
   ].filter(Array.isArray) as string[][];
   const finalBlockers = issueSets.flat().filter(Boolean);
   const finalApproval = finalBlockers.length === 0;
+  const finalWarnings = [
+    ...(hasSourceOverlay(input, execution)
+      ? ['Source overlay runs are QA-only until the same revision is deployed cleanly.']
+      : []),
+    'BTC fee and BTD ledger rows must be read back before settlement trust.'
+  ];
   const output = {
     finalApproval,
     overallConfidence: finalApproval ? 0.88 : 0.55,
@@ -160,10 +199,7 @@ export async function AssetPackValidationReadyToFinishAgent(
       performanceAcceptable: true,
     },
     finalBlockers,
-    finalWarnings: [
-      'Source overlay runs are QA-only until the same revision is deployed cleanly.',
-      'BTC fee and BTD ledger rows must be read back before settlement trust.'
-    ],
+    finalWarnings,
     recommendation: finalApproval ? 'finish' as const : 'review' as const,
     summary: finalApproval
       ? 'Deterministic validation approved AssetPack finish readiness for staging readback.'

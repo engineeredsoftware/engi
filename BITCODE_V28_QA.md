@@ -1640,8 +1640,67 @@ manifest-bound Deposit evidence root fixes:
   `pnpm -C uapi exec tsc --noEmit --pretty false`,
   `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source rest --lookback-hours 48`,
   `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 48`,
-  and `git diff --check`. The readback verifier commands are expected
-  blocked until the credential/settlement blockers above are cleared.
+  and `git diff --check`. That pass was correctly blocked before the
+  staging-testnet credential refresh and fresh no-overlay settlement run below.
+
+2026-05-18 source-bound staging-testnet closure evidence:
+
+- Staging-testnet Supabase is the accepted branch/lane for this gate:
+  `tkpyosihuouusyaxtbau`, Data API
+  `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`, and DB host
+  `db.tkpyosihuouusyaxtbau.supabase.co`. Production-mainnet remains project
+  `rinalyjfecxnmyczrpzo`.
+- Vercel Sandbox run `sbx_gsVSO3LCl4JvX3IT9elA2aBofg02` executed the
+  no-overlay source revision
+  `engineeredsoftware/ENGI@main@dc641f9ffd0f68caece9ed24ede30d7a5d947976`
+  and exported local artifacts to
+  `.bitcode/pipeline-harness-runs/2026-05-18T15-44-08-076Z-sbx_gsVSO3LCl4JvX3IT9elA2aBofg02/`.
+- The run completed source-bound, with no source overlay, and wrote umbrella
+  pipeline row `13bc9a38-0f94-446f-98d7-14474d13467a` plus deliverable
+  stream run `c38a98cf-403e-4fc7-9c9e-ba615d4af024`. The pipeline result was
+  `worthy_fit`.
+- Depository search selected the proof-bearing candidate `manual-deposit-qa`
+  from one searched deposited asset, with query root
+  `sha256:cd1b839c183e14e923cbb2832ff7a54207a4b6da3d744fd81e1faec60e7c1728`,
+  ranking root
+  `sha256:baacafd02e1358936de9a958df77b407f620e0304e49af56bf617b7b8d1cc6bf`,
+  final score `0.8837`, and embedding policy `openai
+  text-embedding-3-small`, 1536 dimensions, `match_deliverable_vectors`,
+  cosine.
+- Bounded inference and stream persistence were visible in both artifacts and
+  database readback: the local artifact exported 702 telemetry lines, and
+  staging-testnet structured rows showed 695 stream events, 13 phase
+  delegations, 42 agent steps, 5 generation rows, and 4 structured tool rows.
+  The structured tool rows were `bitcode.depository.search`,
+  `vcs_create_branch`, `vcs_create_or_update_file`, and
+  `vcs_create_pull_request`; every row had sanitized input and output and no
+  tool error.
+- Finish shipped the synthesized AssetPack as GitHub PR #6:
+  `https://github.com/engineeredsoftware/ENGI/pull/6`, branch
+  `bitcode/asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024`, path
+  `.bitcode/asset-packs/c38a98cf-403e-4fc7-9c9e-ba615d4af024.md`.
+- Ledger/database readback settled asset pack
+  `asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024`: one BTD range
+  `[5, 6)`, one reader BTC fee row with `546` sats, `finality_state='prepared'`
+  and `server_custody=false`, one confirmed ledger anchor, one depositor
+  ownership event, one reader license, one crypto telemetry event, and four
+  Terminal journal rows (`asset_pack_mint`, `btc_fee_payment`,
+  `asset_pack_anchor`, `settlement_finalization`).
+- The ownership boundary readback remained explicit: the depositor wallet owns
+  the minted BTD range for the deposited source evidence, while the reader
+  wallet pays the BTC fee and receives the read license for this Read/Fit
+  result. The server does not take custody of the BTC fee.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --lookback-hours 48` now reports
+  `ready_for_v28_result_review`. The only remaining warning is the substituted
+  missing generic `phase_executions` table; the current canonical structured
+  pipeline hierarchy is populated through
+  `deliverable_pipeline_phase_delegations`, agent steps, generations, and tool
+  executions.
+- Deterministic validation no longer emits source-overlay warnings for
+  source-bound runs. The source-overlay warning is now present only when
+  overlay evidence exists in the harness input, manifest, execution context, or
+  `BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED=1`.
 
 Pass 2C prompt-to-artifact closure audit:
 
@@ -1652,13 +1711,13 @@ Pass 2C prompt-to-artifact closure audit:
 | Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
 | Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `uapi/tests/api/pipelineHarnessRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
 | Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget; route-runner tests assert secret redaction in completion tails. | implemented and tested |
-| A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co` checks sanitized REST/DB host identity, admin credential posture, REST credential rejection, pipeline telemetry tables, latest deliverable run coherence, generation/tool rows, and ledger settlement rows. `--readback-source db` can read staging rows directly. `pnpm test:qa:v28:pipeline-readback` passes 12 verifier tests. | implemented and tested; current readback is blocked by REST admin credential rejection, failed latest run, missing latest-run tool rows, and missing settlement rows until a clean no-overlay staging-testnet run writes them |
+| A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --lookback-hours 48` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, latest deliverable run coherence, generation/tool rows, and ledger settlement rows. The 2026-05-18 source-bound run now reports `ready_for_v28_result_review`; `pnpm test:qa:v28:pipeline-readback` passes 12 verifier tests. | implemented and verified on staging-testnet |
 | Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |
-| Search/finding produces query root, ranking root, selected candidate ids, and embedding policy. | Local overlay run selected `manual-deposit-qa` and recorded query/ranking roots with OpenAI `text-embedding-3-small`. | locally verified only |
-| Model-backed telemetry records prompt/context input, raw output, usage, and parsed output for each model-backed stage. | Local overlay run exported 698 telemetry lines including `llm.input`, `llm.output`, `llm.usage`, and `llm.parsedOutput`. | locally verified only |
-| Evidence tool requests from PTRR agents execute and persist tool telemetry. | Agent tool lookup now falls back to parent pipeline registries; pipeline tool lookup accepts base Tool instances; AssetPack registers `bitcode.asset-pack.verification` for evidence-only depository verification readback; tool-result events include summarized input plus output/error. Focused registry, telemetry, and AssetPack tool tests pass. | implemented and locally tested; clean staging readback must still show nonzero tool execution rows |
-| Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | DB readback now shows latest deliverable run `b1b04a2d-0376-4200-b08c-7936076f2566` failed with 1634 deliverable events, 2 phase delegations, 16 agent steps, 72 generations, and 0 tool rows. It did not reach settlement rows. | open V28 blocker |
-| Settlement writes and rereads BTD range, BTC fee, ownership/license, journal, anchor, and crypto telemetry rows. | Overlay evidence correctly remains blocked and ledger rows remain zero; no clean settlement readback has been observed. | open V28 blocker |
+| Search/finding produces query root, ranking root, selected candidate ids, and embedding policy. | Source-bound staging run `13bc9a38-0f94-446f-98d7-14474d13467a` selected `manual-deposit-qa` from one searched deposited asset with query root `sha256:cd1b839c183e14e923cbb2832ff7a54207a4b6da3d744fd81e1faec60e7c1728`, ranking root `sha256:baacafd02e1358936de9a958df77b407f620e0304e49af56bf617b7b8d1cc6bf`, selected candidate ids, proof/readback roots, and OpenAI `text-embedding-3-small` vector policy. | implemented and verified on staging-testnet |
+| Model-backed telemetry records prompt/context input, raw output, usage, and parsed output for each model-backed stage. | The source-bound sandbox artifact exported 702 telemetry lines; database readback showed 695 stream events, 13 phase delegations, 42 agent steps, and 5 generation rows for the latest deliverable run. | implemented and verified on staging-testnet |
+| Evidence tool requests from PTRR agents execute and persist tool telemetry. | Agent tool lookup falls back to parent pipeline registries; stored `tools/*` events now also create structured tool rows. The source-bound run wrote four structured tool executions with sanitized input/output and no errors: depository search, branch creation, file upsert, and PR creation. | implemented and verified on staging-testnet |
+| Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | Latest source-bound run `c38a98cf-403e-4fc7-9c9e-ba615d4af024` completed without source overlay and wrote/read back umbrella pipeline run `13bc9a38-0f94-446f-98d7-14474d13467a`, deliverable stream rows, phases, agent steps, generation rows, and structured tool rows. | closed for current gate |
+| Settlement writes and rereads BTD range, BTC fee, ownership/license, journal, anchor, and crypto telemetry rows. | AssetPack `asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024` was settled with BTD range `[5, 6)`, 546 sat reader BTC fee prepared without server custody, confirmed ledger anchor, depositor ownership event, reader license, crypto telemetry, and four Terminal journal rows. | closed for current gate |
 | Full-profile inference may run for dozens of minutes without route wait. | Scoped as a subsequent V28 gate requiring sandbox-pushed async completion to a server-side stream/socket handler or durable queue. The push must be run-id correlated, authenticated, idempotent, and durable before sandbox stop. | intentionally out of current gate |
 | Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Need-Fit ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |
 
