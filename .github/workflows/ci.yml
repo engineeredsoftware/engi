@@ -22,6 +22,8 @@ jobs:
     name: Lint, Type-Check & Build
     runs-on: ubuntu-latest
     env:
+      SUPABASE_URL: http://127.0.0.1:54321
+      SUPABASE_ANON_KEY: ci-placeholder-anon-key
       NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
 
