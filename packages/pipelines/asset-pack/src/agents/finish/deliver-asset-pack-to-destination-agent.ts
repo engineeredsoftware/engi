@@ -393,16 +393,30 @@ async function runDeliveryTool<T>(
   usedTools: Array<Record<string, unknown>>,
   additionalInputSummary: Record<string, unknown> = {},
 ): Promise<T> {
+  const toolIndex = usedTools.length;
+  const toolKey = `${toolName}:${toolIndex}`;
   const summarizedInput = summarizeToolInput(input, additionalInputSummary);
   try {
     const output = await run();
     const summarizedOutput = summarizeToolOutput(output);
     usedTools.push({ tool: toolName, input: summarizedInput, output: summarizedOutput });
+    execution.store?.('tools', toolKey, {
+      tool: toolName,
+      ok: true,
+      input: summarizedInput,
+      output: summarizedOutput,
+    });
     await emitToolUsage(execution, toolName, summarizedInput, summarizedOutput, null);
     return output;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     usedTools.push({ tool: toolName, input: summarizedInput, error: { message } });
+    execution.store?.('tools', toolKey, {
+      tool: toolName,
+      ok: false,
+      input: summarizedInput,
+      error: { message },
+    });
     await emitToolUsage(execution, toolName, summarizedInput, null, message);
     throw error;
   }

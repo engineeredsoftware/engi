@@ -89,6 +89,18 @@ describe('finish pull-request delivery', () => {
       path: '.bitcode/asset-packs/run-123.md',
     });
     expect(exec.get('finish', 'deliveryPath')).toBe('.bitcode/asset-packs/run-123.md');
+    expect(exec.get('tools', 'vcs_create_branch:0')).toMatchObject({
+      tool: 'vcs_create_branch',
+      ok: true,
+    });
+    expect(exec.get('tools', 'vcs_create_or_update_file:1')).toMatchObject({
+      tool: 'vcs_create_or_update_file',
+      ok: true,
+    });
+    expect(exec.get('tools', 'vcs_create_pull_request:2')).toMatchObject({
+      tool: 'vcs_create_pull_request',
+      ok: true,
+    });
     expect(emitToolUsage).toHaveBeenCalledTimes(3);
     expect(emitToolUsage.mock.calls[1][3]).toMatchObject({
       path: '.bitcode/asset-packs/run-123.md',
