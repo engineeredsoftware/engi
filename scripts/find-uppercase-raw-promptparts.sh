@@ -10,19 +10,8 @@ found=0
 for dir in "${TARGET_DIRS[@]}"; do
   if [[ -d "$dir" ]]; then
     while IFS= read -r path; do
-      # Python check for any uppercase character in the full relative path
       rel="${path#$ROOT_DIR/}"
-      python3 - <<PY
-import sys
-p=sys.argv[1]
-print(any(ch.isupper() for ch in p))
-PY
-      if [[ $(python3 - <<PY
-import sys
-p=sys.argv[1]
-print('1' if any(ch.isupper() for ch in p) else '0')
-PY
-"$rel") == "1" ]]; then
+      if [[ "$rel" =~ [[:upper:]] ]]; then
         echo "⚠️  Uppercase in path: $rel"
         found=1
       fi

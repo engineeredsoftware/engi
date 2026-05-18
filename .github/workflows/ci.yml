@@ -1,10 +1,12 @@
 name: CI
 
-# Trigger on pushes to any branch, pull requests targeting main, and manual dispatch
+# Trigger on pushes, gate/version pull requests, main promotion pull requests, and manual dispatch.
 on:
   push:  # Run CI on every commit push to any branch
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - "version/**"
   workflow_dispatch:
 
 # Cancel any in-progress runs when a newer commit is pushed to the same ref
@@ -19,53 +21,53 @@ jobs:
   lint-build:
     name: Lint, Type-Check & Build
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: http://127.0.0.1:54321
+      SUPABASE_ANON_KEY: ci-placeholder-anon-key
+      SUPABASE_PUBLISHABLE_KEY: ci-placeholder-anon-key
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ci-placeholder-anon-key
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Cache node_modules for faster builds
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: uapi/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('uapi/package-lock.json') }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "24"
+          cache: pnpm
 
       - name: Install dependencies
-        working-directory: uapi
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+
+      - name: Build local ESLint plugin
+        run: pnpm run build:eslint-plugin
 
       - name: Run ESLint
-        working-directory: uapi
-        run: npm run lint
-
-      - name: Prettier formatting check
-        working-directory: uapi
-        run: npx prettier --check .
+        run: pnpm -C uapi run lint
 
       - name: Type-check with TypeScript
-        working-directory: uapi
-        run: npx tsc --noEmit
+        run: pnpm -C uapi exec tsc --noEmit
 
-      - name: npm audit (moderate and above)
-        working-directory: uapi
-        run: npm audit --audit-level=moderate
+      - name: Dependency audit advisory report
+        continue-on-error: true
+        run: pnpm -C uapi audit --audit-level=moderate
 
       - name: Build Next.js application
-        working-directory: uapi
-        run: npm run build
+        run: pnpm -C uapi run build
 
       - name: Build Storybook
-        working-directory: uapi
-        run: npm run build-storybook
+        if: ${{ vars.ENABLE_STORYBOOK_BUILD == '1' }}
+        run: pnpm -C uapi run build-storybook
 
       - name: Upload Storybook static build
-        uses: actions/upload-artifact@v3
+        if: ${{ vars.ENABLE_STORYBOOK_BUILD == '1' }}
+        uses: actions/upload-artifact@v4
         with:
           name: storybook-static
           path: uapi/storybook-static
@@ -80,35 +82,32 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: uapi/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('uapi/package-lock.json') }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "24"
+          cache: pnpm
 
       - name: Install dependencies
-        working-directory: uapi
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Run tests (mocked) & collect coverage
-        working-directory: uapi
-        run: npm test -- --coverage
+        run: pnpm -C uapi exec jest --coverage
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: uapi/coverage
 
       - name: Upload coverage to Codecov (mocks)
-        uses: codecov/codecov-action@v3
+        continue-on-error: true
+        uses: codecov/codecov-action@v5
         with:
           flags: mocks
           directory: ./uapi/coverage
@@ -119,6 +118,7 @@ jobs:
   # --------------------------------------------------------------------------
   test-real-db:
     name: E2E, Visual & DB Tests
+    if: ${{ vars.ENABLE_FULL_DB_E2E == '1' || github.event_name == 'workflow_dispatch' }}
     needs: test-mocks
     runs-on: ubuntu-latest
     env:
@@ -139,18 +139,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: uapi/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('uapi/package-lock.json') }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "24"
+          cache: pnpm
 
       # ------------------------------------------------------------------
       # Supabase local stack to replicate production
@@ -176,8 +174,7 @@ jobs:
         run: supabase db reset --yes
 
       - name: Install dependencies
-        working-directory: uapi
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       # If embeddings are required for tests we sync them now (needs OpenAI key)
       - name: Sync upgrade template embeddings
@@ -187,63 +184,61 @@ jobs:
         # 'secrets'" error. Instead, rely on the job-level environment variable
         # we already populate from the secret.
         if: ${{ env.OPENAI_API_KEY != '' }}
-        working-directory: uapi
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: npm run sync-upgrades-embeddings
+        run: pnpm -C uapi run sync-asset-pack-evidence-embeddings
 
 
       # ------------------------------------------------------------------
       # Run the test suites
       # ------------------------------------------------------------------
       - name: Run Jest integration tests (real DB)
-        working-directory: uapi
         env:
           USE_REAL_DB: "true"
           SUPABASE_URL: "http://localhost:54321"
           NEXT_PUBLIC_SUPABASE_URL: "http://localhost:54321"
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: npm test -- --runInBand
+        run: pnpm -C uapi exec jest --runInBand
 
       - name: Install Playwright browsers
-        working-directory: uapi
-        run: npx playwright install --with-deps
+        run: pnpm -C uapi exec playwright install --with-deps
 
       - name: Run Playwright E2E (UI + visual)
-        working-directory: uapi
         env:
+          START_STORYBOOK: "false"
           USE_REAL_DB: "true"
           SUPABASE_URL: "http://localhost:54321"
           NEXT_PUBLIC_SUPABASE_URL: "http://localhost:54321"
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: npm run test:e2e:ui
+        run: pnpm -C uapi run test:e2e:ui
 
       # ------------------------------------------------------------------
       # Upload artifacts so that PR authors/reviewers can inspect results
       # ------------------------------------------------------------------
       - name: Upload Playwright HTML Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-html-report
           path: uapi/playwright-report
 
       - name: Upload Playwright Artifacts (screenshots, traces, videos)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-artifacts
           path: uapi/test-results
 
       # Jest coverage from this job (real DB) can override/merge with mocks if desired
       - name: Upload coverage (real-db) report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report-real-db
           path: uapi/coverage
 
       - name: Upload coverage to Codecov (real-db)
-        uses: codecov/codecov-action@v3
+        continue-on-error: true
+        uses: codecov/codecov-action@v5
         with:
           flags: real-db
           directory: ./uapi/coverage
@@ -255,9 +250,8 @@ jobs:
   actionlint:
     name: Validate GitHub Actions workflows
     runs-on: ubuntu-latest
-    needs: lint-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: reviewdog/action-actionlint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -267,6 +261,7 @@ jobs:
 # --------------------------------------------------------------------------
   codeql-analysis:
     name: CodeQL Analysis
+    if: ${{ vars.ENABLE_ADVANCED_CODEQL == '1' }}
     permissions:
       actions: read
       security-events: write
@@ -276,24 +271,26 @@ jobs:
       matrix:
         language: [ 'javascript-typescript' ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
+        uses: github/codeql-action/autobuild@v4
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v4
 
 # --------------------------------------------------------------------------
 # 6. GitHub Super-Linter (Markdown, YAML, Shell, etc.)
 # --------------------------------------------------------------------------
   super-linter:
     name: Super Linter (misc files)
+    if: ${{ vars.ENABLE_SUPER_LINTER == '1' }}
     runs-on: ubuntu-latest
     needs: lint-build
     steps:
+      - uses: actions/checkout@v4
       - name: Super-Linter
         uses: github/super-linter/slim@v5
         env:

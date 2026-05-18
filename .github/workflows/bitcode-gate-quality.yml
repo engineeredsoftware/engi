@@ -1,0 +1,67 @@
+name: Bitcode Gate Quality
+
+on:
+  push:
+    branches:
+      - "v*/gate-*"
+      - "version/**"
+  pull_request:
+    branches:
+      - "version/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  gate-quality:
+    name: Gate Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate draft canon posture
+        run: |
+          test "$(cat BITCODE_SPEC.txt)" = "V27"
+          node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
+          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
+          node scripts/check-bitcode-canonical-inputs.mjs --current-target V27
+
+      - name: Validate source casing and imports
+        run: |
+          bash scripts/find-uppercase-raw-promptparts.sh
+          bash scripts/check-import-casing.sh
+
+      - name: Type-check gate packages
+        run: |
+          pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          pnpm --filter @bitcode/pipeline-hosts typecheck
+
+      - name: Test gate packages
+        run: |
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+
+      - name: Test protocol demonstration
+        run: npm --prefix protocol-demonstration run test:v28-mvp-qa
+
+      - name: Check diff hygiene
+        run: git diff --check

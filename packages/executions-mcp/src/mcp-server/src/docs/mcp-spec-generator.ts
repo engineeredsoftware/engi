@@ -85,6 +85,10 @@ interface BitcodeMCPSpecification {
   };
 }
 
+function normalizeGeneratedMarkdown(value: string): string {
+  return `${value.replace(/[ \t]+$/gm, '').replace(/\n+$/u, '')}\n`;
+}
+
 /**
  * Generate comprehensive MCP specification
  */
@@ -540,7 +544,7 @@ export class MCPSpecificationGenerator {
       }
     }
 
-    writeFileSync(join(outputDir, 'mcp-api-reference.md'), docs);
+    writeFileSync(join(outputDir, 'mcp-api-reference.md'), normalizeGeneratedMarkdown(docs));
   }
 
   /**
@@ -613,7 +617,7 @@ export class MCPSpecificationGenerator {
 
     writeFileSync(
       join(outputDir, 'mcp-openapi.json'),
-      JSON.stringify(openApiSpec, null, 2)
+      `${JSON.stringify(openApiSpec, null, 2)}\n`
     );
   }
 
@@ -646,7 +650,7 @@ ${pattern.features.map(f => `- ${f}`).join('\n')}
 `;
     }
 
-    writeFileSync(join(outputDir, 'mcp-integration-examples.md'), examples);
+    writeFileSync(join(outputDir, 'mcp-integration-examples.md'), normalizeGeneratedMarkdown(examples));
   }
 }
 
