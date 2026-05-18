@@ -131,14 +131,14 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 #### `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - **Required**: Yes
 - **Description**: Public anonymous key for client-side Supabase access
-- **Example**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+- **Example**: `YOUR_SUPABASE_ANON_KEY`
 - **Where to find**: Supabase Dashboard → Settings → API → Project API keys → anon/public
 
 #### `SUPABASE_SERVICE_ROLE_KEY`
 - **Required**: Yes (server-side)
 - **Description**: Service role key for admin operations
 - **Security**: ⚠️ NEVER expose client-side
-- **Example**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+- **Example**: `YOUR_SUPABASE_SERVICE_ROLE_KEY`
 - **Where to find**: Supabase Dashboard → Settings → API → Project API keys → service_role
 
 #### `SUPABASE_JWT_SECRET`

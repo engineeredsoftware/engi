@@ -1227,9 +1227,9 @@ curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
   }'
 ```
 
-The route streams `harness-started`, `harness-event`, `harness-completed`, and
-`harness-failed` events. It is authenticated by the normal Supabase session and
-is disabled on production deployments unless
+The route streams `harness-started`, `harness-preflight`, `harness-event`,
+`harness-completed`, and `harness-failed` events. It is authenticated by the
+normal Supabase session and is disabled on production deployments unless
 `BITCODE_ENABLE_PIPELINE_HARNESS_API=1`. Private repository clone credentials
 come from explicit source token env when present, otherwise from the
 authenticated user's GitHub installation token; these credentials must not
@@ -1487,17 +1487,19 @@ manifest-bound Deposit evidence root fixes:
   same worthy fit can write and read back BTD range, BTC fee, ownership,
   license, journal, ledger anchor, and crypto telemetry rows.
 - Local sanitized environment validation after this run found root
-  `.env.local` REST configuration pointing at Supabase host
-  `rinalyjfecxnmyczrpzo.supabase.co`, while the DB URL points at
-  `db.tkpyosihuouusyaxtbau.supabase.co`. That mixed project posture is not
-  staging closure evidence. The deployed Vercel environment must be checked
-  against one populated staging-testnet database before the clean no-overlay
-  run can close this gate.
-- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
-  tkpyosihuouusyaxtbau.supabase.co` correctly returns blocked locally
-  with `supabase_host_mismatch:rinalyjfecxnmyczrpzo.supabase.co!=tkpyosihuouusyaxtbau.supabase.co`
-  plus `supabase_rest_db_host_mismatch:rinalyjfecxnmyczrpzo.supabase.co!=db.tkpyosihuouusyaxtbau.supabase.co`
-  and the expected missing pipeline/ledger readback blockers.
+  `.env.local` REST configuration pointing at the production-mainnet Supabase
+  project while the DB URL pointed at the staging-testnet project. That is a
+  branch/lane split, not staging closure evidence. The accepted V28 lane is
+  staging-testnet project `tkpyosihuouusyaxtbau`, with Data API
+  `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/` and DB readback host
+  `db.tkpyosihuouusyaxtbau.supabase.co`.
+- After correcting the root `.env.local` URLs to staging-testnet, `pnpm
+  qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --readback-source rest --lookback-hours 48`
+  now reaches the staging-testnet Data API origin but is blocked by
+  `supabase_admin_credential_rejected_by_rest` with `Invalid API key`. This
+  means the local REST admin-shaped keys are not accepted by the staging-testnet
+  project even though the host is correct.
 - `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
   tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 48`
   reaches the DB project and currently reports 1 `pipeline_runs` row, 1
@@ -1508,29 +1510,38 @@ manifest-bound Deposit evidence root fixes:
   `deliverable_pipeline_generations`, and 0
   `deliverable_pipeline_tool_executions` in the lookback window. The generic
   `phase_executions` table is absent, but this is a warning because the
-  deliverable phase delegation table is populated. The hard blockers remain the
-  REST/DB project mismatch and zero BTD range, BTC fee, journal, anchor,
-  ownership, license, and crypto telemetry settlement rows.
+  deliverable phase delegation table is populated. The stricter DB verifier now
+  also inspects the latest deliverable run coherently: latest run
+  `b1b04a2d-0376-4200-b08c-7936076f2566` is `failed`, has 1634 events, 2
+  phases, 16 agent steps, 72 generations, and 0 tool rows. The hard blockers
+  are missing tool execution telemetry for the latest run plus zero BTD range,
+  BTC fee, journal, anchor, ownership, license, and crypto telemetry settlement
+  rows.
 - `pnpm qa:v28:pipeline-readback -- --env-file uapi/.env.local --expected-host
   tkpyosihuouusyaxtbau.supabase.co` correctly returns blocked locally with a
   placeholder Supabase URL and `supabase_admin_credential_missing_or_not_service_role`.
-- `pnpm test:qa:v28:pipeline-readback` passes 8 Node tests covering pnpm
+- `pnpm test:qa:v28:pipeline-readback` passes 12 Node tests covering pnpm
   argument forwarding, placeholder/admin credential rejection, host-mismatch
-  no-network behavior, REST/DB host mismatch, ready state when all counts are
-  present, DB URL counting, optional `phase_executions` substitution, and
-  ledger-row blockers.
+  no-network behavior, explicit env-file precedence over inherited
+  production-mainnet shell values, REST/DB host mismatch, ready state when all
+  counts are present, DB URL counting, optional `phase_executions`
+  substitution, ledger-row blockers, hard blocking for missing tool execution
+  rows, latest-run status/readback coherence, and REST credential rejection
+  without cascading false missing-row blockers.
 
 2026-05-18 local-only implementation pass:
 
 - No live deployment is part of this pass. V28 route, stream, and harness work
   is validated through local application deployment only.
-- Local Terminal application deployment must start with
+- Local Terminal application deployment must start with `pnpm -C uapi
+  dev:staging -- --port 3010`. That script sets
   `BITCODE_ENABLE_PIPELINE_HARNESS_API=1`,
   `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1`,
   `BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
-  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, and
-  `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS<=600000` so local `next dev`
-  cannot silently run deterministic Read/Fit branches.
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`,
+  `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000`, and
+  `BITCODE_UAPI_ENV_FILE=../.env.local` so package-local placeholders cannot
+  override root staging-testnet env during local route QA.
 - Local strict route preflight now reports whether real inference is required,
   whether OpenAI and Supabase service-role credentials are present, the
   inference profile, the runtime budget, and the database host before sandbox
@@ -1552,15 +1563,67 @@ manifest-bound Deposit evidence root fixes:
   to be written and read back in the accepted environment.
 - Re-running the readback verifier on 2026-05-18 with `.env.local`,
   `--readback-source db`, and a 48 hour lookback remains correctly blocked:
-  one pipeline run and deliverable stream telemetry are visible, but the REST
-  Supabase host still differs from the DB host and settlement rows remain zero.
-- Local credential probing without printing secrets confirms the `.env.local`
-  REST keys authenticate to `rinalyjfecxnmyczrpzo`, while the configured DB
-  readback host is `tkpyosihuouusyaxtbau`. The route and standalone dev harness
-  now fail closed when these hosts differ or when an anon JWT is placed in an
-  admin key slot, so the current gate cannot be closed by another run until the
-  accepted Supabase REST/admin credentials and DB readback URL refer to the same
-  project.
+  one pipeline run and deliverable stream telemetry are visible in
+  staging-testnet, but the latest deliverable run is failed, tool rows are
+  zero, and settlement rows remain zero.
+- Read-only DB inspection of the latest staging-testnet deliverable run
+  `b1b04a2d-0376-4200-b08c-7936076f2566` shows status `failed` after setup:
+  clone/source checkout, setup plan, Read comprehension, and risk-admission
+  PTRR steps ran with real `gpt-4.1-mini-2025-04-14` generations, but
+  `setup:asset-pack-danger-wall-agent` crashed with `Cannot read properties of
+  undefined (reading 'safe')`. The danger-wall wrapper now guards that boundary
+  and converts malformed risk-admission output into typed blocked-readiness
+  instead of a TypeError, so the next clean run can either proceed with a valid
+  final assessment or stop auditably.
+- The same run also showed risk-admission tool requests for
+  `bitcode.asset-pack.verification` but zero
+  `deliverable_pipeline_tool_executions` rows because agent executions could
+  not resolve tools registered at the parent pipeline execution. The shared
+  agent/pipeline tool registries now support base tool instances and parent
+  pipeline fallback, and the AssetPack pipeline registers
+  `bitcode.asset-pack.verification` as an evidence-only depository verification
+  readback tool. Tool-result telemetry now persists summarized input plus
+  output/error, including registry misses, so stream/database readback can show
+  what each tool was asked and returned. The harness artifact telemetry
+  summarizer and Terminal stream adapter now preserve tool name, ok/error
+  state, and input/output/error posture for the canonical execution log.
+  Focused tests cover parent tool
+  lookup, base Tool lookup, result-event telemetry, missing-tool telemetry, and
+  verification-tool readback shape.
+- `.env.local` and `uapi/.env.local` now point `SUPABASE_URL` /
+  `NEXT_PUBLIC_SUPABASE_URL` at staging-testnet. The route, readback verifier,
+  and standalone dev harness fail closed when production-mainnet refs are used
+  in staging mode, when REST and DB hosts differ, when an anon JWT is placed
+  in an admin key slot, or when staging-testnet REST rejects every
+  admin-shaped key. The current gate can only close from a clean no-overlay run
+  using staging-testnet REST/admin credentials plus the staging-testnet DB
+  readback URL.
+- Post-fix readback remains correctly blocked until new staging credentials and
+  a fresh run exist: REST readback still reports `Invalid API key` for the
+  current admin-shaped credentials, while DB readback still sees the prior
+  failed run with 72 generation rows, 0 tool rows, and 0 settlement/finality
+  rows.
+- Sanitized local env inspection shows the REST/DB hosts are correctly aligned
+  to staging-testnet, `SUPABASE_SECRET_KEY` is present with an `sb_secret`
+  shape, and `SUPABASE_SERVICE_ROLE_KEY` is currently an `anon` JWT. Because
+  the staging Data API rejects the present `sb_secret` value, route preflight
+  must continue to block sandbox creation until a staging-testnet admin key
+  accepted by `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/` is supplied.
+- Local validation after the registry/tool telemetry patch:
+  `pnpm -C packages/agent-generics test`,
+  `pnpm -C packages/agent-generics exec tsc --noEmit --pretty false`,
+  `pnpm -C packages/pipelines-generics test`,
+  `pnpm -C packages/pipelines-generics exec tsc --noEmit --pretty false`,
+  `pnpm -C packages/pipelines/asset-pack test -- setup-agents discovery-semantic-mirrors depository-search depository-search-tool asset-pack-synthesize-artifacts-agent runtime-inference-policy bounded-structured-inference`,
+  `pnpm -C packages/pipelines/asset-pack exec tsc --noEmit --pretty false`,
+  `pnpm -C packages/pipeline-hosts test -- asset-pack-harness`,
+  `pnpm -C packages/pipeline-hosts exec tsc --noEmit --pretty false`,
+  `pnpm -C uapi exec jest --runInBand tests/terminalPipelineHarnessClient.test.ts`,
+  `pnpm -C uapi exec tsc --noEmit --pretty false`,
+  `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source rest --lookback-hours 48`,
+  `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 48`,
+  and `git diff --check`. The readback verifier commands are expected
+  blocked until the credential/settlement blockers above are cleared.
 
 Pass 2C prompt-to-artifact closure audit:
 
@@ -1571,11 +1634,12 @@ Pass 2C prompt-to-artifact closure audit:
 | Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
 | Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `uapi/tests/api/pipelineHarnessRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
 | Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget; route-runner tests assert secret redaction in completion tails. | implemented and tested |
-| A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, generation/tool rows, and ledger settlement rows. `--readback-source db` can read staging rows even when REST env drift would otherwise hide them. `pnpm test:qa:v28:pipeline-readback` passes 8 verifier tests. | implemented and tested; current readback is blocked by mixed REST/DB project env and missing settlement rows |
+| A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co` checks sanitized REST/DB host identity, admin credential posture, REST credential rejection, pipeline telemetry tables, latest deliverable run coherence, generation/tool rows, and ledger settlement rows. `--readback-source db` can read staging rows directly. `pnpm test:qa:v28:pipeline-readback` passes 12 verifier tests. | implemented and tested; current readback is blocked by REST admin credential rejection, failed latest run, missing latest-run tool rows, and missing settlement rows until a clean no-overlay staging-testnet run writes them |
 | Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |
 | Search/finding produces query root, ranking root, selected candidate ids, and embedding policy. | Local overlay run selected `manual-deposit-qa` and recorded query/ranking roots with OpenAI `text-embedding-3-small`. | locally verified only |
 | Model-backed telemetry records prompt/context input, raw output, usage, and parsed output for each model-backed stage. | Local overlay run exported 698 telemetry lines including `llm.input`, `llm.output`, `llm.usage`, and `llm.parsedOutput`. | locally verified only |
-| Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | DB readback now shows a recent real-inference run with 1634 deliverable events, 2 phase delegations, 16 agent steps, and 72 generations. It did not reach settlement rows, and local REST env still points at a different Supabase project. | open V28 blocker |
+| Evidence tool requests from PTRR agents execute and persist tool telemetry. | Agent tool lookup now falls back to parent pipeline registries; pipeline tool lookup accepts base Tool instances; AssetPack registers `bitcode.asset-pack.verification` for evidence-only depository verification readback; tool-result events include summarized input plus output/error. Focused registry, telemetry, and AssetPack tool tests pass. | implemented and locally tested; clean staging readback must still show nonzero tool execution rows |
+| Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | DB readback now shows latest deliverable run `b1b04a2d-0376-4200-b08c-7936076f2566` failed with 1634 deliverable events, 2 phase delegations, 16 agent steps, 72 generations, and 0 tool rows. It did not reach settlement rows. | open V28 blocker |
 | Settlement writes and rereads BTD range, BTC fee, ownership/license, journal, anchor, and crypto telemetry rows. | Overlay evidence correctly remains blocked and ledger rows remain zero; no clean settlement readback has been observed. | open V28 blocker |
 | Full-profile inference may run for dozens of minutes without route wait. | Scoped as a subsequent V28 gate requiring sandbox-pushed async completion to a server-side stream/socket handler or durable queue. The push must be run-id correlated, authenticated, idempotent, and durable before sandbox stop. | intentionally out of current gate |
 | Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Need-Fit ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |

@@ -136,6 +136,7 @@ module.exports = {
     '<rootDir>/tests/terminalSupplySelectionPanel.test.tsx',
     '<rootDir>/tests/terminalDepositReadWorkbench.test.ts',
     '<rootDir>/tests/terminalPipelineHarnessClient.test.ts',
+    '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',
     '<rootDir>/tests/terminalCoreNativeSections.test.tsx',
     '<rootDir>/tests/terminalDepositComposer.test.ts',
     '<rootDir>/tests/terminalDepositComposerCard.test.tsx',

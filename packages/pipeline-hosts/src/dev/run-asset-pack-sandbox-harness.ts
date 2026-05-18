@@ -57,22 +57,24 @@ function loadLocalEnvFiles(): void {
   const seen = new Set<string>();
 
   for (const root of roots) {
-    for (const relativePath of ['.env.local', 'uapi/.env.local']) {
-      const path = resolve(root, relativePath);
-      if (seen.has(path)) continue;
-      seen.add(path);
-      if (!existsSync(path)) continue;
-      const body = readFileSync(path, 'utf8');
-      for (const line of body.split(/\r?\n/)) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed.startsWith('#')) continue;
-        const match = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/.exec(trimmed);
-        if (!match) continue;
-        const [, key, rawValue] = match;
-        if (process.env[key] !== undefined) continue;
-        process.env[key] = rawValue.trim().replace(/^(['"])(.*)\1$/, '$2');
-      }
-    }
+    loadLocalEnvFile(resolve(root, 'uapi/.env.local'), seen, false);
+    loadLocalEnvFile(resolve(root, '.env.local'), seen, true);
+  }
+}
+
+function loadLocalEnvFile(path: string, seen: Set<string>, override: boolean): void {
+  if (seen.has(path)) return;
+  seen.add(path);
+  if (!existsSync(path)) return;
+  const body = readFileSync(path, 'utf8');
+  for (const line of body.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const match = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$/.exec(trimmed);
+    if (!match) continue;
+    const [, key, rawValue] = match;
+    if (!override && process.env[key] !== undefined) continue;
+    process.env[key] = rawValue.trim().replace(/^(['"])(.*)\1$/, '$2');
   }
 }
 
@@ -191,9 +193,9 @@ function isUsableSupabaseAdminKey(value: string | undefined): boolean {
 
 function selectSupabaseAdminKey(env: Record<string, string>): string | undefined {
   return [
-    env.SUPABASE_SERVICE_ROLE_KEY,
     env.SUPABASE_SECRET_KEY,
     env.SUPABASE_ADMIN_KEY,
+    env.SUPABASE_SERVICE_ROLE_KEY,
   ].find(isUsableSupabaseAdminKey);
 }
 

@@ -984,6 +984,19 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
           tool: toolToUse.name,
           error: `Tool not found: ${toolToUse.name}`
         });
+        try {
+          substep.store('tools', 'result', {
+            tool: toolToUse.name,
+            ok: false,
+            input: summarize(toolToUse.input),
+            error: `Tool not found: ${toolToUse.name}`,
+            phase,
+            agent,
+            step,
+            failsafe: currentFailsafe,
+            generation: currentSub
+          } as any);
+        } catch {}
         continue;
       }
 
@@ -1012,6 +1025,7 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
           substep.store('tools', 'result', {
             tool: toolToUse.name,
             ok: true,
+            input: summarize(toolToUse.input),
             output: summarize(output),
             phase,
             agent,
@@ -1030,6 +1044,7 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
           substep.store('tools', 'result', {
             tool: toolToUse.name,
             ok: false,
+            input: summarize(toolToUse.input),
             error: error instanceof Error ? error.message : String(error),
             phase,
             agent,

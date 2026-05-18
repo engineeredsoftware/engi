@@ -14,6 +14,13 @@ import { RegistryImpl } from '@bitcode/registry';
 import { Tool } from '@bitcode/tools-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
 
+function bindToolToExecution<T extends object>(tool: T, execution: Execution): T {
+  const maybeBindable = tool as T & { bindExecution?: (execution: Execution) => T };
+  return typeof maybeBindable.bindExecution === 'function'
+    ? maybeBindable.bindExecution(execution)
+    : tool;
+}
+
 /**
  * ExecutionTool - Tool that integrates with execution context
  * 
@@ -143,7 +150,7 @@ export class AgentToolsRegistry extends RegistryImpl<ExecutionTool> {
     // Try this registry first
     let tool = this.get(key);
     if (tool) {
-      return tool.bindExecution(this.execution);
+      return bindToolToExecution(tool, this.execution) as ExecutionTool;
     }
     
     // Walk up parent chain looking for tools
@@ -153,7 +160,20 @@ export class AgentToolsRegistry extends RegistryImpl<ExecutionTool> {
       if ('tools' in current && current.tools instanceof AgentToolsRegistry) {
         tool = (current.tools as AgentToolsRegistry).get(key);
         if (tool) {
-          return tool.bindExecution(this.execution);
+          return bindToolToExecution(tool, this.execution) as ExecutionTool;
+        }
+      } else if ('tools' in current) {
+        const parentTools = (current as any).tools;
+        if (parentTools && parentTools !== this) {
+          const parentTool =
+            typeof parentTools.getTool === 'function'
+              ? parentTools.getTool(key)
+              : typeof parentTools.get === 'function'
+                ? parentTools.get(key)
+                : undefined;
+          if (parentTool) {
+            return bindToolToExecution(parentTool, this.execution) as ExecutionTool;
+          }
         }
       }
       current = current.parent;
@@ -196,6 +216,21 @@ export class AgentToolsRegistry extends RegistryImpl<ExecutionTool> {
           const tool = registry.get(path);
           if (tool) {
             tools[path] = tool;
+          }
+        }
+      } else if ('tools' in exec) {
+        const parentTools = (exec as any).tools;
+        if (parentTools && parentTools !== this) {
+          if (typeof parentTools.getUsableTools === 'function') {
+            Object.assign(tools, parentTools.getUsableTools());
+          } else if (
+            typeof parentTools.getPaths === 'function' &&
+            typeof parentTools.get === 'function'
+          ) {
+            for (const path of parentTools.getPaths()) {
+              const tool = parentTools.get(path);
+              if (tool) tools[path] = tool;
+            }
           }
         }
       }

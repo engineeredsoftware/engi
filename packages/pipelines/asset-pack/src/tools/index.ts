@@ -11,6 +11,7 @@ import { Tool } from '@bitcode/tools-generics';
 import { assetPackCloneVCSRepositoryTool } from './AssetPackCloneVCSRepositoryTool';
 import { bitcodeReadMeasurementComputerUseTool } from './BitcodeReadMeasurementComputerUseTool';
 import { lexicalDepositorySearchTool } from './AssetPackLexicalDepositorySearchTool';
+import { assetPackVerificationEvidenceTool } from './AssetPackVerificationEvidenceTool';
 import { assetPackMultimodalProcessingTool } from './AssetPackMultimodalProcessingTool';
 import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTool';
 import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
@@ -71,6 +72,7 @@ export const SETUP_PHASE_TOOLS: Tool[] = [
   assetPackAudioComprehensionTool,
   assetPackVideoComprehensionTool,
   lexicalDepositorySearchTool,
+  assetPackVerificationEvidenceTool,
   // Provider MCP tools disabled for GA‑1
   // LSP and Code Intelligence
   //lspSemanticAnalysisEngine,
@@ -85,6 +87,7 @@ export const SETUP_PHASE_TOOLS: Tool[] = [
  */
 export const DISCOVERY_PHASE_TOOLS: Tool[] = [
   lexicalDepositorySearchTool,
+  assetPackVerificationEvidenceTool,
   // Code Analysis
   //lspSemanticAnalysisEngine,
   //lspCodeIntelligenceEngine,
@@ -150,7 +153,10 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
       assetPackVideoComprehensionTool,
     ],
     'asset-pack-ready-to-iterate-agent': [],
-    'bitcode-read-risk-admission': [lexicalDepositorySearchTool],
+    'bitcode-read-risk-admission': [
+      lexicalDepositorySearchTool,
+      assetPackVerificationEvidenceTool,
+    ],
 
     // Discovery Phase
     'asset-pack-gather-context-agent': [lexicalDepositorySearchTool],

@@ -1243,16 +1243,64 @@ export function normalizePipelineDepositoryAssets(input: unknown): DepositoryAss
   ];
 }
 
+function storeDepositorySearchToolResult(
+  execution: { store?: (namespace: string, key: string, value: unknown) => void } | undefined,
+  input: {
+    read: DepositorySearchRead;
+    assets: DepositoryAsset[];
+    result: DepositorySearchResult;
+    providerIds: string[];
+  }
+): void {
+  if (!execution?.store) return;
+  const { read, assets, result, providerIds } = input;
+  execution.store('tools', 'result', {
+    tool: 'bitcode.depository.search',
+    ok: true,
+    input: {
+      read: {
+        id: read.id || null,
+        repositoryFullName: read.repositoryFullName || null,
+        sourceBranch: read.sourceBranch || null,
+        sourceCommit: read.sourceCommit || null,
+        targetArtifactKinds: read.targetArtifactKinds,
+        closureCriteriaCount: read.closureCriteria.length,
+        failureModeCount: read.failureModes.length,
+      },
+      assetCount: assets.length,
+      providerIds,
+    },
+    output: {
+      schema: result.schema,
+      resultState: result.resultState,
+      resultReasons: result.resultReasons,
+      searchedAssetCount: result.searchedAssetCount,
+      selectedCandidateAssetIds: result.selectedCandidateAssetIds,
+      selectedCandidateCount: result.selectedCandidates.length,
+      blockedCandidateCount: result.blockedCandidates.length,
+      rejectedCandidateCount: result.rejectedCandidates.length,
+      queryRoot: result.queryRoot,
+      rankingRoot: result.rankingRoot,
+      embeddingPolicy: result.embeddingPolicy,
+    },
+    phase: 'setup',
+    agent: 'setup:depository-search',
+    step: 'try',
+    generation: 'tools_execution',
+  });
+}
+
 export async function runDepositorySearchForPipelineInput(
   input: unknown,
   execution?: { store?: (namespace: string, key: string, value: unknown) => void; parent?: unknown }
 ): Promise<DepositorySearchResult> {
   const read = normalizeDepositorySearchRead(input);
   const assets = normalizePipelineDepositoryAssets(input);
+  const providers = [createLexicalDepositorySearchProvider()];
   const result = await searchDepositoryAssetSpace({
     read,
     assets,
-    providers: [createLexicalDepositorySearchProvider()],
+    providers,
   });
 
   const fitResult = buildDepositoryFitResultEvidence(result);
@@ -1273,6 +1321,12 @@ export async function runDepositorySearchForPipelineInput(
   if (execution?.store) {
     storeEvidence(execution);
     storeEvidence(execution.parent as { store?: (namespace: string, key: string, value: unknown) => void });
+    storeDepositorySearchToolResult(execution, {
+      read,
+      assets,
+      result,
+      providerIds: providers.map((provider) => provider.id),
+    });
   }
 
   return result;

@@ -405,6 +405,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           logLine.step = normalizeStepName(step);
           logLine.failsafe = failsafe;
           logLine.generation = generation;
+          logLine.tool = tool;
 
           // Add step, failsafe, generation, and tool to the details for better display
           if (step || failsafe || generation || tool) {
@@ -425,6 +426,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           logLine.step = normalizeStepName(step);
           logLine.failsafe = failsafe;
           logLine.generation = generation;
+          logLine.tool = tool;
 
           // Add step, failsafe, generation, and tool to the details for better display
           if (step || failsafe || generation || tool) {
@@ -745,6 +747,7 @@ function renderLogLine(
               step: logLine.step,
               failsafe: logLine.failsafe,
               generation: logLine.generation,
+              tool: logLine.tool,
               details: logLine.details,
             };
             e.dataTransfer.setData('application/json', JSON.stringify(payload));
@@ -862,6 +865,7 @@ function renderLogLine(
             step: logLine.step,
             failsafe: logLine.failsafe,
             generation: logLine.generation,
+            tool: logLine.tool,
             details: logLine.details,
           };
           e.dataTransfer.setData('application/json', JSON.stringify(payload));

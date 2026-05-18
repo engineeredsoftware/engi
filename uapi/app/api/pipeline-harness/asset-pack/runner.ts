@@ -14,6 +14,7 @@ import {
   assertRealInferenceEnvironment,
   isEnabled,
   isPipelineHarnessRealInferenceRequired,
+  listSupabaseAdminCredentials,
   normalizeModelEnvironment,
   selectSupabaseAdminCredential,
   summarizeHarnessPreflight,
@@ -43,6 +44,8 @@ export type HarnessRouteEmitter = (event: string, data: unknown) => void;
 export type HarnessRouteRunnerOptions = {
   runId?: string;
   logErrors?: boolean;
+  validateDatabaseAccess?: boolean;
+  fetchImpl?: typeof fetch;
 };
 
 const DEFAULT_READ_PROMPT =
@@ -100,11 +103,11 @@ export async function runAssetPackHarnessRoute(
   emit: HarnessRouteEmitter,
   options: HarnessRouteRunnerOptions = {},
 ): Promise<void> {
+  const routeRunId = options.runId || randomUUID();
   try {
     const repositoryFullName = body.repositoryFullName!;
     const sourceUrl = body.sourceGitUrl || `https://github.com/${repositoryFullName}.git`;
     const mode = body.mode || 'asset_pack_pipeline';
-    const routeRunId = options.runId || randomUUID();
 
     emit('harness-started', {
       runId: routeRunId,
@@ -124,6 +127,9 @@ export async function runAssetPackHarnessRoute(
       ...selectedCommandEnvironment(userId),
       BITCODE_PIPELINE_RUN_ID: routeRunId,
     };
+    if (options.validateDatabaseAccess !== false) {
+      await assertSupabaseRestReadbackAccess(commandEnvironment, options.fetchImpl || fetch);
+    }
 
     const plan = buildAssetPackSandboxHarness({
       mode,
@@ -185,6 +191,7 @@ export async function runAssetPackHarnessRoute(
     });
   } catch (runError) {
     emit('harness-failed', {
+      runId: routeRunId,
       error: runError instanceof Error ? runError.message : String(runError),
       preflight: summarizeHarnessPreflight(body),
     });
@@ -230,6 +237,50 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   assertRealInferenceEnvironment(env);
 
   return env;
+}
+
+async function assertSupabaseRestReadbackAccess(
+  env: Record<string, string>,
+  fetchImpl: typeof fetch,
+): Promise<void> {
+  const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+  const candidates = listSupabaseAdminCredentials(env);
+  if (!url || candidates.length === 0) return;
+
+  const endpoint = new URL('/rest/v1/btd_supply_state', url);
+  endpoint.searchParams.set('select', 'id');
+  endpoint.searchParams.set('limit', '1');
+
+  const failures: string[] = [];
+  for (const candidate of candidates) {
+    const response = await fetchImpl(endpoint, {
+      headers: {
+        apikey: candidate.value,
+        authorization: `Bearer ${candidate.value}`,
+      },
+    });
+    if (response.ok) {
+      env.SUPABASE_SERVICE_ROLE_KEY = candidate.value;
+      return;
+    }
+
+    failures.push(`${candidate.key}: ${await readSupabaseRestError(response)}`);
+  }
+
+  throw new Error(
+    `Pipeline harness Supabase REST readback credential check failed for ${endpoint.origin}: no admin-capable Supabase credential was accepted. ${failures[0] || 'No response detail.'}`
+  );
+}
+
+async function readSupabaseRestError(response: Response): Promise<string> {
+  let message = `${response.status} ${response.statusText}`.trim();
+  try {
+    const body = await response.json();
+    message = body?.message || body?.hint || message;
+  } catch {
+    // Keep status text when the REST error body is not JSON.
+  }
+  return message;
 }
 
 function sourceCredentialsFromEnv(): { username?: string; password?: string } {

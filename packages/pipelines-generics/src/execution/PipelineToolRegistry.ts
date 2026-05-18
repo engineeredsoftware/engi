@@ -14,6 +14,13 @@ import { RegistryImpl } from '@bitcode/registry';
 import { Tool } from '@bitcode/tools-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
 
+function bindToolToExecution<T extends object>(tool: T, execution: Execution): T {
+  const maybeBindable = tool as T & { bindExecution?: (execution: Execution) => T };
+  return typeof maybeBindable.bindExecution === 'function'
+    ? maybeBindable.bindExecution(execution)
+    : tool;
+}
+
 /**
  * ExecutionTool - Tool that integrates with execution context
  * 
@@ -107,7 +114,7 @@ export class PipelineToolRegistry extends RegistryImpl<ExecutionTool> {
     // Try this registry first
     let tool = this.get(key);
     if (tool) {
-      return tool.bindExecution(this.execution);
+      return bindToolToExecution(tool, this.execution) as ExecutionTool;
     }
     
     // Walk up parent chain looking for PipelineExecution
@@ -117,7 +124,7 @@ export class PipelineToolRegistry extends RegistryImpl<ExecutionTool> {
       if ('tools' in current && current.tools instanceof PipelineToolRegistry) {
         tool = (current.tools as PipelineToolRegistry).get(key);
         if (tool) {
-          return tool.bindExecution(this.execution);
+          return bindToolToExecution(tool, this.execution) as ExecutionTool;
         }
       }
       current = current.parent;

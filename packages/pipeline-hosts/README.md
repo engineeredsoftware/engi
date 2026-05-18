@@ -52,6 +52,15 @@ pipeline run must write the deliverable hierarchy:
 `deliverable_pipeline_tool_executions`. Generation rows should retain the
 interpolated model messages when available, raw and parsed output, model
 identity, token usage, and phase/agent/step context.
+Tool rows are required when PTRR agents request evidence tools. The AssetPack
+pipeline registers `bitcode.asset-pack.verification` as an evidence-only
+verification readback tool for risk-admission and readiness work; a live
+`Tool not found` result for that tool is a registry failure, not acceptable
+blocked-readiness evidence. Tool-result events must carry summarized input
+and output/error so the database row and Terminal stream can show what the
+agent asked and what the tool returned. Artifact telemetry must preserve tool
+name, ok/error state, and input/output/error presence so the execution log can
+identify each phase-agent-step tool invocation.
 Failed runs must still export `evidence.json` with the execution tree and
 last-known stream events so staging operators can see which SDIVF phase, PTRR
 agent, generation, or tool last produced input/output evidence.
@@ -98,12 +107,20 @@ without deploying to Vercel. To make local route QA as strict as staging, set
 `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` alongside
 `BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
 `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, OpenAI credentials,
-aligned Supabase service-role credentials, and Vercel Sandbox local auth.
+aligned staging-testnet Supabase admin credentials, and Vercel Sandbox local
+auth.
+The UAPI `dev:staging` script now sets those strict route flags and loads
+`../.env.local` through `BITCODE_UAPI_ENV_FILE`, so the root staging-testnet env
+pulled from the branch-scoped Vercel project can override placeholder
+`uapi/.env.local` values without copying secrets.
 Without the explicit local strict flag, ordinary `next dev` may inspect UI and
 route wiring, but it is not admissible Read/Fit closure evidence.
-After a clean deployed run, verify the staging database and ledger readback with
-`pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host <staging-supabase-host>`.
+After a clean deployed run, verify the staging-testnet database and ledger
+readback with
+`pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co`.
 The verifier emits sanitized counts and V28 blockers without printing secrets.
+DB readback is latest-run coherent: aggregate telemetry counts are not enough
+when the newest deliverable run failed or lacks its own tool rows.
 The phase-specific
 `BITCODE_ASSET_PACK_*_USE_PTRR=1` flags remain available for local bisection,
 but they are not sufficient as a staging posture because a missed flag silently
@@ -113,8 +130,18 @@ When they are absent, the runtime chooses OpenAI if `OPENAI_API_KEY`
 is the only model credential present. A provider pin is forwarded only when the
 matching provider credential is also forwarded; stale pins without credentials
 are stripped so staging does not silently require an unavailable model service.
-Database streaming requires a real Supabase URL and service-role key; placeholder
-`.env.local` values fail preflight before a sandbox is created.
+Database streaming requires a real Supabase URL/admin key pair for the same
+accepted lane. V28 staging-testnet uses
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/` for the Data API and
+`db.tkpyosihuouusyaxtbau.supabase.co` for DB readback; production-mainnet uses a
+separate Supabase project and is not accepted V28 staging evidence.
+Placeholder values, production-mainnet refs in staging mode, or anon keys in
+admin slots fail preflight before a sandbox is created.
+Vercel preview environment variables should therefore be scoped by branch:
+staging-testnet previews carry the `tkpyosihuouusyaxtbau` REST/admin/DB values,
+while production-mainnet carries `rinalyjfecxnmyczrpzo`. The harness route
+probes admin-shaped Supabase credentials against the active Data API and passes
+only an accepted key into the sandbox.
 When the recorded Deposit activity has wallet/attestation proof and asset
 measurement posture but no explicit proof root fields, the harness materializes
 deterministic manifest-bound proof, measurement, and reconciliation roots from
@@ -139,12 +166,7 @@ For the current no-deploy pass, start the Terminal locally and keep the
 real-inference route gate enabled:
 
 ```bash
-BITCODE_ENABLE_PIPELINE_HARNESS_API=1 \
-BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1 \
-BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
-BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
-BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
-pnpm -C uapi dev:remote
+pnpm -C uapi dev:staging -- --port 3010
 ```
 
 The local process must have `OPENAI_API_KEY`, aligned Supabase URL/admin-key

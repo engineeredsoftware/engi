@@ -351,6 +351,13 @@ Acceptance criteria:
   root, selected candidate ids, rejected/blocker reasons, proof/measurement
   posture, embedding policy, and result state under the execution evidence
   tree;
+- risk-admission and readiness agents have an evidence-only verification tool,
+  `bitcode.asset-pack.verification`, that reads back the current depository
+  search result or reruns search from pipeline input, then returns bounded
+  proof, measurement, readback, source-binding, selected-candidate, blocker,
+  warning, query-root, ranking-root, and embedding-policy evidence. The tool
+  must not mutate state, deliver assets, mint, settle, or expose private
+  AssetPack source before settlement;
 - Fit evidence must include a compact selection trace for operator review:
   selected, blocked, and ranked candidates; source binding; use tier; score
   channels; selected unit hashes; proof/measurement evidence; provider recall;
@@ -378,6 +385,11 @@ Acceptance criteria:
 - SQL readback must show Deposit before Read, Read before Fit, no
   `frontier/*` or mock repository leakage, and no ledger/database drift for any
   finality that Terminal claims.
+- Readback for a gate-closing run must be coherent to the latest deliverable
+  run, not only aggregate row counts inside a lookback window. A failed latest
+  run, missing latest-run tool rows, or cross-run-only telemetry must keep the
+  gate blocked until a fresh complete run writes its own phase, agent,
+  generation, tool, and settlement evidence.
 - Ledger settlement evidence must carry neutral protocol fields:
   `settlementAdmissible`, `ownershipBoundary`, `btcFee`, and `readback`.
   Depositor ownership, reader fee/license posture, and server-custody state
@@ -427,6 +439,12 @@ The V28 pipeline harness must write a manifest before execution containing:
   `deliverable_pipeline_runs`, `deliverable_pipeline_events`,
   `deliverable_pipeline_phase_delegations`, `deliverable_pipeline_agent_steps`,
   `deliverable_pipeline_generations`, and `deliverable_pipeline_tool_executions`;
+- PTRR agent executions must resolve the evidence tools registered by their
+  parent pipeline execution. A requested evidence tool must either execute and
+  persist tool telemetry or fail as typed blocked-readiness evidence; missing
+  registry linkage is not admissible live-pipeline behavior. Artifact stream
+  events must carry the tool name, input/output/error presence, and ok/error
+  state so Terminal and SQL readback show which evidence tool ran.
 - admissible result states `worthy_fit`, `no_worthy_fit`, and
   `blocked_readiness`;
 - redacted command-environment names only, never secret values.
@@ -512,6 +530,19 @@ Read/Fit result review remains fail-closed:
   still needs a server-side model credential such as `OPENAI_API_KEY`, real
   Supabase admin/service-role credentials for telemetry persistence, and a
   runtime budget that is shorter than the enclosing Vercel Function window.
+- Supabase and Vercel deployments are lane-specific. V28 Read/Fit gate evidence
+  is staged against the staging-testnet Supabase project
+  `tkpyosihuouusyaxtbau`, whose Data API origin is
+  `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/` and whose DB readback host
+  is `db.tkpyosihuouusyaxtbau.supabase.co`. The production-mainnet Supabase
+  project is a separate lane and must not satisfy staging-testnet readback,
+  telemetry, settlement, or preview-deployment acceptance.
+- Vercel preview deployments must be branch-scoped to the staging-testnet lane:
+  staging previews use the staging-testnet Supabase Data API/admin keys, DB URL,
+  model credentials, and Sandbox auth; production deployments use the
+  production-mainnet Supabase project. A preview deployment that combines
+  staging DB readback with production-mainnet REST keys is invalid even when
+  one side can read rows.
 - a local application deployment may stand in for route/UI implementation QA
   when live deployment is explicitly out of scope. In that mode the operator
   must run the Terminal application locally with
@@ -523,7 +554,9 @@ Read/Fit result review remains fail-closed:
   `DATABASE_URL`, when both are present, must resolve to the same Supabase
   project, and anon JWTs must not satisfy admin-key preflight. Mixed REST/DB
   project refs are a fail-closed condition because they make telemetry and
-  ledger settlement readback non-comparable.
+  ledger settlement readback non-comparable. Local UAPI runs may load a
+  branch-scoped root env file through `BITCODE_UAPI_ENV_FILE` so placeholder
+  package-local env files do not override the accepted lane.
   Local application deployment evidence can prove route preflight, canonical
   stream rendering, artifact streaming, and SQL readback behavior, but it
   cannot close a live source-revision settlement/finality gate unless the same

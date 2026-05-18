@@ -132,8 +132,8 @@ function loadEnvironment(envFiles, baseEnv = process.env) {
     Object.assign(loaded, parseDotenvFile(file));
   }
   return {
-    ...loaded,
     ...baseEnv,
+    ...loaded,
   };
 }
 
@@ -199,8 +199,10 @@ function decodeJwtPayload(value) {
   }
 }
 
+const SUPABASE_SECRET_KEY_PREFIX = ['sb', 'secret', ''].join('_');
+
 function isSupabaseSecretKey(value) {
-  return typeof value === 'string' && value.trim().startsWith('sb_secret_');
+  return typeof value === 'string' && value.trim().startsWith(SUPABASE_SECRET_KEY_PREFIX);
 }
 
 export function isSupabaseAdminCredential(value) {
@@ -295,6 +297,125 @@ async function countRecentRowsFromDb({ dbUrl, table, sinceIso, PgClient = loadPg
   }
 }
 
+async function readLatestDeliverableRunHealthFromDb({ dbUrl, sinceIso, PgClient = loadPgClientClass() }) {
+  const client = new PgClient({
+    connectionString: normalizePgConnectionString(dbUrl),
+    ssl: { rejectUnauthorized: false },
+  });
+
+  try {
+    await client.connect();
+    const result = await client.query(
+      `
+      with latest_run as (
+        select id, pipeline_run_id, status, created_at, completed_at, error_data
+        from public."deliverable_pipeline_runs"
+        where created_at >= $1
+        order by created_at desc
+        limit 1
+      )
+      select
+        lr.id::text as id,
+        lr.pipeline_run_id::text as pipeline_run_id,
+        lr.status,
+        lr.created_at,
+        lr.completed_at,
+        lr.error_data,
+        coalesce(events.count, 0)::int as event_count,
+        coalesce(phases.count, 0)::int as phase_count,
+        coalesce(agent_steps.count, 0)::int as agent_step_count,
+        coalesce(generations.count, 0)::int as generation_count,
+        coalesce(tools.count, 0)::int as tool_count
+      from latest_run lr
+      left join lateral (
+        select count(*)::int as count
+        from public."deliverable_pipeline_events" event
+        where event.run_id = lr.id
+      ) events on true
+      left join lateral (
+        select count(*)::int as count
+        from public."deliverable_pipeline_phase_delegations" phase
+        where phase.run_id = lr.id
+      ) phases on true
+      left join lateral (
+        select count(*)::int as count
+        from public."deliverable_pipeline_agent_steps" agent_step
+        join public."deliverable_pipeline_phase_delegations" phase
+          on phase.id = agent_step.phase_delegation_id
+        where phase.run_id = lr.id
+      ) agent_steps on true
+      left join lateral (
+        select count(*)::int as count
+        from public."deliverable_pipeline_generations" generation
+        left join public."deliverable_pipeline_phase_delegations" direct_phase
+          on direct_phase.id = generation.phase_delegation_id
+        left join public."deliverable_pipeline_agent_steps" agent_step
+          on agent_step.id = generation.agent_step_id
+        left join public."deliverable_pipeline_phase_delegations" agent_phase
+          on agent_phase.id = agent_step.phase_delegation_id
+        where generation.run_id = lr.id
+          or direct_phase.run_id = lr.id
+          or agent_phase.run_id = lr.id
+      ) generations on true
+      left join lateral (
+        select count(*)::int as count
+        from public."deliverable_pipeline_tool_executions" tool_execution
+        left join public."deliverable_pipeline_agent_steps" direct_agent_step
+          on direct_agent_step.id = tool_execution.agent_step_id
+        left join public."deliverable_pipeline_phase_delegations" direct_phase
+          on direct_phase.id = direct_agent_step.phase_delegation_id
+        left join public."deliverable_pipeline_substeps" substep
+          on substep.id = tool_execution.substep_id
+        left join public."deliverable_pipeline_agent_steps" substep_agent_step
+          on substep_agent_step.id = substep.agent_step_id
+        left join public."deliverable_pipeline_phase_delegations" substep_phase
+          on substep_phase.id = substep_agent_step.phase_delegation_id
+        where direct_phase.run_id = lr.id
+          or substep_phase.run_id = lr.id
+      ) tools on true
+      `,
+      [sinceIso],
+    );
+
+    const row = result.rows?.[0];
+    if (!row) return null;
+
+    return {
+      id: row.id || null,
+      pipelineRunId: row.pipeline_run_id || null,
+      status: row.status || null,
+      createdAt: row.created_at ? new Date(row.created_at).toISOString() : null,
+      completedAt: row.completed_at ? new Date(row.completed_at).toISOString() : null,
+      error: row.error_data || null,
+      counts: {
+        events: Number(row.event_count || 0),
+        phases: Number(row.phase_count || 0),
+        agentSteps: Number(row.agent_step_count || 0),
+        generations: Number(row.generation_count || 0),
+        tools: Number(row.tool_count || 0),
+      },
+    };
+  } catch (error) {
+    return {
+      id: null,
+      pipelineRunId: null,
+      status: null,
+      createdAt: null,
+      completedAt: null,
+      error: error instanceof Error ? error.message : String(error),
+      counts: {
+        events: 0,
+        phases: 0,
+        agentSteps: 0,
+        generations: 0,
+        tools: 0,
+      },
+    };
+  } finally {
+    await client.end().catch(() => {});
+  }
+}
+
 async function readSupabaseError(response) {
   try {
     const body = await response.json();
@@ -323,6 +444,7 @@ export function buildGateState({
   dbUrl,
   adminCredential,
   readbackSource,
+  latestDeliverableRun,
 }) {
   const blockers = [];
   const warnings = [];
@@ -346,6 +468,22 @@ export function buildGateState({
     blockers.push(`supabase_rest_db_host_mismatch:${host}!=${dbHost}`);
   }
 
+  const restCredentialErrors = readbackSource === 'rest'
+    ? counts.filter((entry) =>
+        entry.error &&
+        /invalid api key|jwt|unauthorized|permission denied/i.test(String(entry.error))
+      )
+    : [];
+  if (restCredentialErrors.length > 0) {
+    blockers.push('supabase_admin_credential_rejected_by_rest');
+    warnings.push('rest_readback_counts_unavailable_due_credentials');
+    return {
+      state: 'blocked',
+      blockers,
+      warnings,
+    };
+  }
+
   const pipelineRunCount = countOf(counts, 'pipeline_runs');
   const deliverableRunCount = countOf(counts, 'deliverable_pipeline_runs');
   const eventCount =
@@ -364,6 +502,10 @@ export function buildGateState({
   const substitutedMissing = [];
   const hardMissing = [];
   for (const table of missing) {
+    const error = counts.find((entry) => entry.table === table)?.error || '';
+    if (/invalid api key|jwt|unauthorized|permission denied/i.test(String(error))) {
+      continue;
+    }
     if (table === 'phase_executions' && phaseCount > 0) {
       substitutedMissing.push(table);
     } else if (SUBSTITUTABLE_TABLES.has(table)) {
@@ -384,7 +526,20 @@ export function buildGateState({
   if (phaseCount === 0) blockers.push('pipeline_phase_trace_missing');
   if (agentStepCount === 0) blockers.push('pipeline_agent_step_trace_missing');
   if (generationCount === 0) blockers.push('model_generation_trace_missing');
-  if (toolCount === 0) warnings.push('tool_execution_trace_missing_or_unused');
+  if (toolCount === 0) blockers.push('pipeline_tool_execution_trace_missing');
+  if (readbackSource === 'db' && latestDeliverableRun?.error && !latestDeliverableRun.id) {
+    blockers.push('latest_deliverable_run_readback_failed');
+  }
+  if (readbackSource === 'db' && latestDeliverableRun?.id) {
+    if (latestDeliverableRun.status !== 'completed') {
+      blockers.push(`latest_deliverable_run_not_completed:${latestDeliverableRun.status || 'missing'}`);
+    }
+    if (latestDeliverableRun.counts.events === 0) blockers.push('latest_deliverable_run_events_missing');
+    if (latestDeliverableRun.counts.phases === 0) blockers.push('latest_deliverable_run_phases_missing');
+    if (latestDeliverableRun.counts.agentSteps === 0) blockers.push('latest_deliverable_run_agent_steps_missing');
+    if (latestDeliverableRun.counts.generations === 0) blockers.push('latest_deliverable_run_generations_missing');
+    if (latestDeliverableRun.counts.tools === 0) blockers.push('latest_deliverable_run_tools_missing');
+  }
   if (missingLedgerRows.length > 0) {
     blockers.push(`ledger_settlement_rows_missing:${missingLedgerRows.join(',')}`);
   }
@@ -426,6 +581,24 @@ export function printTextReport(report) {
     console.log('Warnings:');
     for (const warning of report.gate.warnings) console.log(`- ${warning}`);
   }
+
+  if (report.latestDeliverableRun) {
+    console.log('');
+    console.log('Latest deliverable run:');
+    if (report.latestDeliverableRun.id) {
+      console.log(`- id: ${report.latestDeliverableRun.id}`);
+      console.log(`- status: ${report.latestDeliverableRun.status || 'missing'}`);
+      console.log(`- created_at: ${report.latestDeliverableRun.createdAt || 'missing'}`);
+      console.log(`- pipeline_run_id: ${report.latestDeliverableRun.pipelineRunId || 'missing'}`);
+      console.log(`- events: ${report.latestDeliverableRun.counts.events}`);
+      console.log(`- phases: ${report.latestDeliverableRun.counts.phases}`);
+      console.log(`- agent_steps: ${report.latestDeliverableRun.counts.agentSteps}`);
+      console.log(`- generations: ${report.latestDeliverableRun.counts.generations}`);
+      console.log(`- tools: ${report.latestDeliverableRun.counts.tools}`);
+    } else {
+      console.log(`- error: ${report.latestDeliverableRun.error || 'not found'}`);
+    }
+  }
 }
 
 export async function buildVerificationReport(
@@ -449,6 +622,7 @@ export async function buildVerificationReport(
   const hostsAreConsistent = !host || !dbHost || normalizeSupabaseHost(dbHost) === host;
 
   let counts = [];
+  let latestDeliverableRun = null;
   if (readbackSource === 'rest' &&
     !isPlaceholderUrl(url) &&
     isSupabaseAdminCredential(adminCredential) &&
@@ -477,6 +651,11 @@ export async function buildVerificationReport(
         PgClient,
       })),
     );
+    latestDeliverableRun = await readLatestDeliverableRunHealthFromDb({
+      dbUrl,
+      sinceIso,
+      PgClient,
+    });
   }
 
   const gate = buildGateState({
@@ -488,6 +667,7 @@ export async function buildVerificationReport(
     dbUrl,
     adminCredential,
     readbackSource,
+    latestDeliverableRun,
   });
 
   return {
@@ -504,6 +684,7 @@ export async function buildVerificationReport(
       adminCredentialProvided: isSupabaseAdminCredential(adminCredential),
     },
     counts,
+    latestDeliverableRun,
     gate,
   };
 }

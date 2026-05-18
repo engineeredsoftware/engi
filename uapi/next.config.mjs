@@ -26,6 +26,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // is started from (monorepo root, IDE, etc.).
 dotenv.config({ path: path.resolve(__dirname, '.env.local'), override: true });
 
+// Local staging/read-fit QA can point the app at a branch-scoped env file
+// without copying secrets into uapi/.env.local. This keeps ordinary package
+// local overrides intact while letting the strict pipeline harness use the
+// same root env pulled from the staging Vercel project/branch.
+if (process.env.BITCODE_UAPI_ENV_FILE) {
+  const envFile = path.isAbsolute(process.env.BITCODE_UAPI_ENV_FILE)
+    ? process.env.BITCODE_UAPI_ENV_FILE
+    : path.resolve(__dirname, process.env.BITCODE_UAPI_ENV_FILE);
+  dotenv.config({ path: envFile, override: true });
+}
+
 const mcpsToolsRoot = path.resolve(__dirname, '..', 'packages', 'generic-tools', 'mcps-tools');
 const mcpToolPackageDirs = fs.existsSync(mcpsToolsRoot)
   ? fs

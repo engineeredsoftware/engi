@@ -7,11 +7,25 @@ import {
   assertRealInferenceEnvironment,
   isPipelineHarnessRealInferenceRequired,
   normalizeModelEnvironment,
+  listSupabaseAdminCredentials,
   selectSupabaseAdminCredential,
   summarizeHarnessPreflight,
 } from '@/app/api/pipeline-harness/asset-pack/preflight';
 
+function fakeSupabaseJwt(role: string, ref = 'test-project'): string {
+  return [
+    Buffer.from(JSON.stringify({ alg: 'none', typ: 'JWT' })).toString('base64url'),
+    Buffer.from(JSON.stringify({ role, ref })).toString('base64url'),
+    'test-signature',
+  ].join('.');
+}
+
 describe('pipeline harness preflight', () => {
+  const adminCredential = fakeSupabaseJwt('service_role', 'staging-testnet');
+  const staleAdminCredential = fakeSupabaseJwt('service_role', 'production-mainnet');
+  const anonCredential = fakeSupabaseJwt('anon', 'wrong-project');
+  const modelCredential = 'model-credential-placeholder';
+
   const body = {
     repositoryFullName: 'engineeredsoftware/ENGI',
     sourceBranch: 'main',
@@ -23,8 +37,8 @@ describe('pipeline harness preflight', () => {
   it('does not require route real-inference strictness for ordinary local development', () => {
     const env = {
       NODE_ENV: 'development',
-      SUPABASE_URL: 'https://staging.supabase.co',
-      SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_local_key_with_length',
+      SUPABASE_URL: 'https://staging.example.test',
+      SUPABASE_SERVICE_ROLE_KEY: adminCredential,
     } as NodeJS.ProcessEnv;
 
     expect(isPipelineHarnessRealInferenceRequired(env)).toBe(false);
@@ -43,9 +57,9 @@ describe('pipeline harness preflight', () => {
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
       BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
-      OPENAI_API_KEY: 'openai-key-with-safe-length',
-      SUPABASE_URL: 'https://staging.supabase.co',
-      SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_local_key_with_length',
+      OPENAI_API_KEY: modelCredential,
+      SUPABASE_URL: 'https://staging.example.test',
+      SUPABASE_SERVICE_ROLE_KEY: adminCredential,
     } as NodeJS.ProcessEnv;
 
     expect(isPipelineHarnessRealInferenceRequired(env)).toBe(true);
@@ -63,7 +77,7 @@ describe('pipeline harness preflight', () => {
     const env = {
       NODE_ENV: 'development',
       BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE: '1',
-      OPENAI_API_KEY: 'openai-key-with-safe-length',
+      OPENAI_API_KEY: modelCredential,
     } as NodeJS.ProcessEnv;
 
     expect(() => assertRealInferenceEnvironment(env as Record<string, string>)).toThrow(
@@ -78,9 +92,9 @@ describe('pipeline harness preflight', () => {
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'full',
       BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
-      OPENAI_API_KEY: 'openai-key-with-safe-length',
-      SUPABASE_URL: 'https://staging.supabase.co',
-      SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_local_key_with_length',
+      OPENAI_API_KEY: modelCredential,
+      SUPABASE_URL: 'https://staging.example.test',
+      SUPABASE_SERVICE_ROLE_KEY: adminCredential,
     } as NodeJS.ProcessEnv;
 
     expect(summarizeHarnessPreflight(body, env)).toMatchObject({
@@ -97,7 +111,7 @@ describe('pipeline harness preflight', () => {
     const env = {
       BITCODE_LLM_PROVIDER: 'anthropic',
       BITCODE_LLM_MODEL: 'claude-stale',
-      OPENAI_API_KEY: 'openai-key-with-safe-length',
+      OPENAI_API_KEY: modelCredential,
     } as Record<string, string>;
 
     normalizeModelEnvironment(env);
@@ -108,30 +122,39 @@ describe('pipeline harness preflight', () => {
 
   it('selects an admin-capable Supabase key instead of an anon key', () => {
     const env = {
-      SUPABASE_SERVICE_ROLE_KEY: [
-        'header',
-        Buffer.from(JSON.stringify({ role: 'anon', ref: 'wrong-project' })).toString('base64url'),
-        'signature',
-      ].join('.'),
-      SUPABASE_SECRET_KEY: 'sb_secret_local_key_with_length',
+      SUPABASE_SERVICE_ROLE_KEY: anonCredential,
+      SUPABASE_SECRET_KEY: adminCredential,
     };
 
-    expect(selectSupabaseAdminCredential(env)).toBe('sb_secret_local_key_with_length');
+    expect(selectSupabaseAdminCredential(env)).toBe(adminCredential);
+  });
+
+  it('prefers the secret-key slot before a stale service-role slot when both are admin-shaped', () => {
+    const env = {
+      SUPABASE_SERVICE_ROLE_KEY: staleAdminCredential,
+      SUPABASE_SECRET_KEY: adminCredential,
+    };
+
+    expect(listSupabaseAdminCredentials(env).map((credential) => credential.key)).toEqual([
+      'SUPABASE_SECRET_KEY',
+      'SUPABASE_SERVICE_ROLE_KEY',
+    ]);
+    expect(selectSupabaseAdminCredential(env)).toBe(adminCredential);
   });
 
   it('blocks database streaming when REST and DB readback hosts differ', () => {
     const env = {
-      SUPABASE_URL: 'https://rest-project.supabase.co',
-      SUPABASE_SECRET_KEY: 'sb_secret_local_key_with_length',
+      SUPABASE_URL: 'https://rest-project.example.test',
+      SUPABASE_SECRET_KEY: adminCredential,
     };
     const hostEnv = {
       SUPABASE_DB_URL:
-        'postgresql://postgres:password@db.db-project.supabase.co:5432/postgres?sslmode=require',
+        'postgresql://postgres:password@db.db-project.example.test:5432/postgres?sslmode=require',
     };
 
     expect(summarizeHarnessPreflight(body, { ...env, ...hostEnv })).toMatchObject({
-      supabaseHost: 'rest-project.supabase.co',
-      supabaseDbHost: 'db.db-project.supabase.co',
+      supabaseHost: 'rest-project.example.test',
+      supabaseDbHost: 'db.db-project.example.test',
       supabaseRestDbHostAligned: false,
       supabaseServiceRoleProvided: true,
     });

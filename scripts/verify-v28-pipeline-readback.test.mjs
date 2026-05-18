@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { describe, it } from 'node:test';
 
 import {
@@ -45,11 +48,34 @@ function fakeSupabaseJwt(role) {
   return `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({ role, iss: 'supabase' })}.signature`;
 }
 
-function mockPgClientClass(countByTable, seenTables = []) {
+function fakeSupabaseSecretShape(suffix = 'credential_shape_with_length') {
+  return ['sb', 'secret', suffix].join('_');
+}
+
+function defaultLatestDeliverableRun() {
+  return {
+    id: '11111111-1111-4111-8111-111111111111',
+    pipeline_run_id: '22222222-2222-4222-8222-222222222222',
+    status: 'completed',
+    created_at: '2026-05-18T00:00:00.000Z',
+    completed_at: '2026-05-18T00:01:00.000Z',
+    error_data: null,
+    event_count: 1,
+    phase_count: 1,
+    agent_step_count: 1,
+    generation_count: 1,
+    tool_count: 1,
+  };
+}
+
+function mockPgClientClass(countByTable, seenTables = [], latestDeliverableRun = defaultLatestDeliverableRun()) {
   return class MockPgClient {
     async connect() {}
 
     async query(sql) {
+      if (/with\s+latest_run\s+as/i.test(String(sql))) {
+        return { rows: latestDeliverableRun ? [latestDeliverableRun] : [] };
+      }
       const match = String(sql).match(/public\."([^"]+)"/u);
       const table = match?.[1] || '';
       seenTables.push(table);
@@ -87,12 +113,12 @@ describe('verify-v28-pipeline-readback', () => {
 
   it('does not treat placeholder service-role values as present', () => {
     assert.equal(isSecretPresent('your-service-role-placeholder'), false);
-    assert.equal(isSecretPresent('sb_secret_YOUR_KEY'), false);
+    assert.equal(isSecretPresent(fakeSupabaseSecretShape('YOUR_KEY')), false);
     assert.equal(isSecretPresent('<service-role>'), false);
     assert.equal(isSecretPresent('realistic-service-role-value-with-length'), true);
     assert.equal(isSupabaseAdminCredential(fakeSupabaseJwt('anon')), false);
     assert.equal(isSupabaseAdminCredential(fakeSupabaseJwt('service_role')), true);
-    assert.equal(isSupabaseAdminCredential('sb_secret_realistic_secret_key_value'), true);
+    assert.equal(isSupabaseAdminCredential(fakeSupabaseSecretShape('realistic_secret_key_value')), true);
   });
 
   it('blocks host mismatch without querying Supabase', async () => {
@@ -122,6 +148,40 @@ describe('verify-v28-pipeline-readback', () => {
         'supabase_host_mismatch:rinalyjfecxnmyczrpzo.supabase.co!=tkpyosihuouusyaxtbau.supabase.co',
       ),
     );
+  });
+
+  it('lets explicit env files override inherited production-mainnet shell values', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'bitcode-v28-readback-'));
+    const envFile = join(dir, '.env.local');
+    writeFileSync(
+      envFile,
+      [
+        'SUPABASE_URL=https://tkpyosihuouusyaxtbau.supabase.co',
+        `SUPABASE_SERVICE_ROLE_KEY=${fakeSupabaseJwt('service_role')}`,
+      ].join('\n'),
+    );
+
+    try {
+      const report = await buildVerificationReport(
+        {
+          envFiles: [envFile],
+          expectedHost: 'tkpyosihuouusyaxtbau.supabase.co',
+          lookbackHours: 48,
+        },
+        {
+          baseEnv: {
+            SUPABASE_URL: 'https://rinalyjfecxnmyczrpzo.supabase.co',
+            SUPABASE_SERVICE_ROLE_KEY: fakeSupabaseJwt('service_role'),
+          },
+          fetchImpl: async () => okCountResponse(1),
+        },
+      );
+
+      assert.equal(report.supabase.host, 'tkpyosihuouusyaxtbau.supabase.co');
+      assert.equal(report.gate.state, 'ready_for_v28_result_review');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 
   it('blocks inconsistent Supabase REST and DB project hosts', async () => {
@@ -201,6 +261,8 @@ describe('verify-v28-pipeline-readback', () => {
     assert.equal(report.readbackSource, 'db');
     assert.equal(report.gate.state, 'ready_for_v28_result_review');
     assert.deepEqual(report.gate.blockers, []);
+    assert.equal(report.latestDeliverableRun.status, 'completed');
+    assert.equal(report.latestDeliverableRun.counts.tools, 1);
     assert.deepEqual(seenTables.sort(), REQUIRED_TABLES.sort());
   });
 
@@ -220,6 +282,9 @@ describe('verify-v28-pipeline-readback', () => {
           async connect() {}
 
           async query(sql) {
+            if (/with\s+latest_run\s+as/i.test(String(sql))) {
+              return { rows: [defaultLatestDeliverableRun()] };
+            }
             const table = String(sql).match(/public\."([^"]+)"/u)?.[1] || '';
             if (table === 'phase_executions') throw new Error('relation "public.phase_executions" does not exist');
             return { rows: [{ count: 1 }] };
@@ -259,6 +324,95 @@ describe('verify-v28-pipeline-readback', () => {
       report.gate.blockers.some((blocker) =>
         blocker.startsWith('ledger_settlement_rows_missing:'),
       ),
+    );
+  });
+
+  it('blocks missing tool execution rows as a required gate signal', async () => {
+    const report = await buildVerificationReport(
+      {
+        envFiles: [],
+        expectedHost: 'tkpyosihuouusyaxtbau.supabase.co',
+        readbackSource: 'db',
+        lookbackHours: 48,
+      },
+      {
+        baseEnv: {
+          SUPABASE_DB_URL: 'postgresql://postgres:secret@db.tkpyosihuouusyaxtbau.supabase.co:5432/postgres',
+        },
+        PgClient: mockPgClientClass(new Map(
+          REQUIRED_TABLES.map((table) => [
+            table,
+            table === 'deliverable_pipeline_tool_executions' ? 0 : 1,
+          ]),
+        ), [], {
+          ...defaultLatestDeliverableRun(),
+          tool_count: 0,
+        }),
+      },
+    );
+
+    assert.equal(report.gate.state, 'blocked');
+    assert.ok(report.gate.blockers.includes('pipeline_tool_execution_trace_missing'));
+    assert.ok(report.gate.blockers.includes('latest_deliverable_run_tools_missing'));
+  });
+
+  it('blocks a failed latest deliverable run even when aggregate counts exist', async () => {
+    const report = await buildVerificationReport(
+      {
+        envFiles: [],
+        expectedHost: 'tkpyosihuouusyaxtbau.supabase.co',
+        readbackSource: 'db',
+        lookbackHours: 48,
+      },
+      {
+        baseEnv: {
+          SUPABASE_DB_URL: 'postgresql://postgres:secret@db.tkpyosihuouusyaxtbau.supabase.co:5432/postgres',
+        },
+        PgClient: mockPgClientClass(1, [], {
+          ...defaultLatestDeliverableRun(),
+          status: 'failed',
+        }),
+      },
+    );
+
+    assert.equal(report.gate.state, 'blocked');
+    assert.ok(report.gate.blockers.includes('latest_deliverable_run_not_completed:failed'));
+    assert.equal(report.latestDeliverableRun.status, 'failed');
+  });
+
+  it('reports rejected REST credentials without misclassifying every table as missing', async () => {
+    const report = await buildVerificationReport(
+      {
+        envFiles: [],
+        expectedHost: 'tkpyosihuouusyaxtbau.supabase.co',
+        lookbackHours: 48,
+      },
+      {
+        baseEnv: {
+          SUPABASE_URL: 'https://tkpyosihuouusyaxtbau.supabase.co',
+          SUPABASE_SECRET_KEY: fakeSupabaseSecretShape('key_shape_for_wrong_project'),
+        },
+        fetchImpl: async () => ({
+          ok: false,
+          status: 401,
+          statusText: 'Unauthorized',
+          headers: { get: () => null },
+          json: async () => ({ message: 'Invalid API key' }),
+        }),
+      },
+    );
+
+    assert.equal(report.gate.state, 'blocked');
+    assert.ok(report.gate.blockers.includes('supabase_admin_credential_rejected_by_rest'));
+    assert.ok(report.gate.warnings.includes('rest_readback_counts_unavailable_due_credentials'));
+    assert.equal(
+      report.gate.blockers.some((blocker) => blocker.startsWith('missing_tables:')),
+      false,
+    );
+    assert.equal(report.gate.blockers.includes('pipeline_harness_run_missing'), false);
+    assert.equal(
+      report.gate.blockers.some((blocker) => blocker.startsWith('ledger_settlement_rows_missing:')),
+      false,
     );
   });
 });

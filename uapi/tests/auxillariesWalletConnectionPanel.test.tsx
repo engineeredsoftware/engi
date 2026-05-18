@@ -36,7 +36,7 @@ describe('AuxillariesWalletConnectionPanel', () => {
     jest.clearAllMocks();
     window.localStorage.clear();
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://tkpyosihuouusyaxtbau.supabase.co';
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_test';
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = 'publishable-credential-placeholder';
   });
 
   it('clears the Bitcode wallet session without claiming extension-level disconnect', async () => {

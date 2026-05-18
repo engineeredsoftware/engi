@@ -173,6 +173,9 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('depositor owns minted BTD range');
     expect(source).toContain('reader pays BTC fee');
     expect(source).toContain('verificationEvidence');
+    expect(source).toContain('toolInputPresent');
+    expect(source).toContain('toolOutputPresent');
+    expect(source).toContain('toolErrorPresent');
     expect(source).toContain('Pipeline produced ');
     expect(source).toContain('ledgerSettlement,');
   });

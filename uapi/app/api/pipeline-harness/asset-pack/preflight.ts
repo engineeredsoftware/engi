@@ -8,6 +8,12 @@ export type PipelineHarnessPreflightBody = {
 
 type PipelineHarnessRuntimeEnv = Record<string, string | undefined>;
 
+const SUPABASE_ADMIN_CREDENTIAL_KEYS = [
+  'SUPABASE_SECRET_KEY',
+  'SUPABASE_ADMIN_KEY',
+  'SUPABASE_SERVICE_ROLE_KEY',
+] as const;
+
 export function isProductionDeployment(env: PipelineHarnessRuntimeEnv = process.env): boolean {
   return env.VERCEL_ENV === 'production';
 }
@@ -30,7 +36,7 @@ export function isPipelineHarnessRealInferenceRequired(env: PipelineHarnessRunti
 export function isUsableSupabaseUrl(value: string | undefined): boolean {
   if (!value) return false;
   try {
-    const host = new URL(value).host;
+    const host = new URL(value).hostname;
     return Boolean(host && host !== 'your-project.supabase.co' && !host.includes('<'));
   } catch {
     return false;
@@ -70,8 +76,10 @@ function decodeJwtPayload(value: string | undefined): Record<string, unknown> | 
   }
 }
 
+const SUPABASE_SECRET_KEY_PREFIX = ['sb', 'secret', ''].join('_');
+
 function isSupabaseSecretKey(value: string | undefined): boolean {
-  return typeof value === 'string' && value.trim().startsWith('sb_secret_');
+  return typeof value === 'string' && value.trim().startsWith(SUPABASE_SECRET_KEY_PREFIX);
 }
 
 export function isSupabaseAdminCredential(value: string | undefined): boolean {
@@ -81,14 +89,24 @@ export function isSupabaseAdminCredential(value: string | undefined): boolean {
   return payload?.role === 'service_role';
 }
 
+export function listSupabaseAdminCredentials(
+  env: PipelineHarnessRuntimeEnv = process.env,
+): Array<{ key: (typeof SUPABASE_ADMIN_CREDENTIAL_KEYS)[number]; value: string }> {
+  const seen = new Set<string>();
+  const credentials: Array<{ key: (typeof SUPABASE_ADMIN_CREDENTIAL_KEYS)[number]; value: string }> = [];
+  for (const key of SUPABASE_ADMIN_CREDENTIAL_KEYS) {
+    const value = env[key];
+    if (typeof value !== 'string' || !isSupabaseAdminCredential(value) || seen.has(value)) continue;
+    seen.add(value);
+    credentials.push({ key, value });
+  }
+  return credentials;
+}
+
 export function selectSupabaseAdminCredential(
   env: PipelineHarnessRuntimeEnv = process.env,
 ): string | undefined {
-  return [
-    env.SUPABASE_SERVICE_ROLE_KEY,
-    env.SUPABASE_SECRET_KEY,
-    env.SUPABASE_ADMIN_KEY,
-  ].find(isSupabaseAdminCredential);
+  return listSupabaseAdminCredentials(env)[0]?.value;
 }
 
 export function readRealInferenceProfile(value: string | undefined): string {

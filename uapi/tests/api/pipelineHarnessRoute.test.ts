@@ -98,6 +98,18 @@ if (typeof responseWithJson.json !== 'function') {
   };
 }
 
+function fakeSupabaseJwt(role: string, ref = 'route-test-project'): string {
+  return [
+    Buffer.from(JSON.stringify({ alg: 'none', typ: 'JWT' })).toString('base64url'),
+    Buffer.from(JSON.stringify({ role, ref })).toString('base64url'),
+    'route-test-signature',
+  ].join('.');
+}
+
+const adminCredential = fakeSupabaseJwt('service_role', 'staging-testnet');
+const staleAdminCredential = fakeSupabaseJwt('service_role', 'production-mainnet');
+const modelCredential = 'model-credential-placeholder';
+
 const ENV_KEYS = [
   'BITCODE_ENABLE_PIPELINE_HARNESS_API',
   'BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE',
@@ -160,9 +172,9 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     delete process.env.VERCEL;
     delete process.env.VERCEL_ENV;
     process.env.NODE_ENV = 'development';
-    process.env.SUPABASE_URL = 'https://staging.supabase.co';
-    process.env.SUPABASE_SERVICE_ROLE_KEY = 'sb_secret_route_key_with_safe_length';
-    process.env.OPENAI_API_KEY = 'openai-key-with-safe-length';
+    process.env.SUPABASE_URL = 'https://staging.example.test';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = adminCredential;
+    process.env.OPENAI_API_KEY = modelCredential;
     mockGetUser.mockResolvedValue({ data: { user: { id: 'user-local-route' } }, error: null });
     mockBuildAssetPackSandboxHarness.mockImplementation((input) => ({
       manifest: {
@@ -240,6 +252,7 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
       realInferenceEnabled: false,
       deployedRuntime: false,
     });
+    expect(events[2].data.runId).toBe('route-test-run');
     expect(events[2].data.error).toContain('BITCODE_ASSET_PACK_REAL_INFERENCE=1');
     expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
     expect(mockLoadVercelSandboxFactory).not.toHaveBeenCalled();
@@ -250,7 +263,7 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
     process.env.SUPABASE_DB_URL =
-      'postgresql://postgres:password@db.other-staging.supabase.co:5432/postgres?sslmode=require';
+      'postgresql://postgres:password@db.other-staging.example.test:5432/postgres?sslmode=require';
 
     const events: Array<{ event: string; data: any }> = [];
     await runAssetPackHarnessRoute(
@@ -266,12 +279,90 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
       'harness-failed',
     ]);
     expect(events[1].data).toMatchObject({
-      supabaseHost: 'staging.supabase.co',
-      supabaseDbHost: 'db.other-staging.supabase.co',
+      supabaseHost: 'staging.example.test',
+      supabaseDbHost: 'db.other-staging.example.test',
       supabaseRestDbHostAligned: false,
     });
+    expect(events[2].data.runId).toBe('route-test-run');
     expect(events[2].data.error).toContain('Supabase REST host must match DB readback host');
     expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+  });
+
+  it('blocks rejected staging Supabase REST credentials before sandbox creation', async () => {
+    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
+
+    const events: Array<{ event: string; data: any }> = [];
+    await runAssetPackHarnessRoute(
+      validHarnessBody(),
+      'user-local-route',
+      (event, data) => events.push({ event, data }),
+      {
+        runId: 'route-test-run',
+        logErrors: false,
+        fetchImpl: async () => ({
+          ok: false,
+          status: 401,
+          statusText: 'Unauthorized',
+          json: async () => ({ message: 'Invalid API key' }),
+        } as Response),
+      },
+    );
+
+    expect(events.map((event) => event.event)).toEqual([
+      'harness-started',
+      'harness-preflight',
+      'harness-failed',
+    ]);
+    expect(events[2].data.runId).toBe('route-test-run');
+    expect(events[2].data.error).toContain('Supabase REST readback credential check failed');
+    expect(events[2].data.error).toContain('no admin-capable Supabase credential was accepted');
+    expect(events[2].data.error).toContain('Invalid API key');
+    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+  });
+
+  it('uses the Supabase credential accepted by the staging Data API when stale admin keys are also present', async () => {
+    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = staleAdminCredential;
+    process.env.SUPABASE_SECRET_KEY = adminCredential;
+
+    const events: Array<{ event: string; data: any }> = [];
+    await runAssetPackHarnessRoute(
+      validHarnessBody(),
+      'user-local-route',
+      (event, data) => events.push({ event, data }),
+      {
+        runId: 'route-test-run',
+        logErrors: false,
+        fetchImpl: async (_url, init) => {
+          const headers = new Headers(init?.headers);
+          const accepted = headers.get('apikey') === adminCredential;
+          return {
+            ok: accepted,
+            status: accepted ? 200 : 401,
+            statusText: accepted ? 'OK' : 'Unauthorized',
+            json: async () => (accepted ? [] : { message: 'Invalid API key' }),
+          } as Response;
+        },
+      },
+    );
+
+    expect(events.map((event) => event.event)).toEqual([
+      'harness-started',
+      'harness-preflight',
+      'harness-event',
+      'harness-completed',
+    ]);
+    expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
+      expect.objectContaining({
+        commandEnvironment: expect.objectContaining({
+          SUPABASE_SERVICE_ROLE_KEY: adminCredential,
+        }),
+      }),
+    );
   });
 
   it('forwards strict local route context and redacts secrets from completion output', async () => {
@@ -285,7 +376,16 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
       validHarnessBody(),
       'user-local-route',
       (event, data) => events.push({ event, data }),
-      { runId: 'route-test-run', logErrors: false },
+      {
+        runId: 'route-test-run',
+        logErrors: false,
+        fetchImpl: async () => ({
+          ok: true,
+          status: 200,
+          statusText: 'OK',
+          json: async () => ([]),
+        } as Response),
+      },
     );
     const eventText = JSON.stringify(events);
 
@@ -300,7 +400,7 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
       realInferenceEnabled: true,
       realInferenceProfile: 'bounded',
       runtimeBudgetMs: 600000,
-      supabaseHost: 'staging.supabase.co',
+      supabaseHost: 'staging.example.test',
     });
     expect(events[2].data).toMatchObject({
       type: 'sandbox-created',
@@ -319,8 +419,8 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
       },
     });
     expect(eventText).toContain('[redacted]');
-    expect(eventText).not.toContain('openai-key-with-safe-length');
-    expect(eventText).not.toContain('sb_secret_route_key_with_safe_length');
+    expect(eventText).not.toContain(modelCredential);
+    expect(eventText).not.toContain(adminCredential);
     expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
       expect.objectContaining({
         mode: 'asset_pack_pipeline',

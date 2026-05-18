@@ -174,7 +174,24 @@ describe('terminal pipeline harness client', () => {
           supabaseServiceRoleProvided: false,
         },
       }),
-    ).toBe('Harness preflight blocked: real inference flag missing, full profile requires async completion gate, Supabase service role missing.');
+    ).toBe('Harness preflight blocked: real inference flag missing, full profile requires async completion gate, Supabase admin key missing.');
+  });
+
+  it('summarizes staging lane mismatch before sandbox creation', () => {
+    expect(
+      summarizeTerminalFitPipelineHarnessEvent({
+        event: 'harness-preflight',
+        data: {
+          realInferenceEnabled: true,
+          openaiCredentialProvided: true,
+          supabaseUrlProvided: true,
+          supabaseServiceRoleProvided: true,
+          supabaseRestDbHostAligned: false,
+          supabaseHost: 'production-mainnet.supabase.co',
+          supabaseDbHost: 'db.staging-testnet.supabase.co',
+        },
+      }),
+    ).toBe('Harness preflight blocked: Supabase REST/DB lane mismatch.');
   });
 
   it('does not present missing real inference as a local development blocker when strictness is disabled', () => {
@@ -242,6 +259,34 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('parsed output present');
   });
 
+  it('summarizes live tool telemetry with tool name, result state, and input/output posture', () => {
+    const summary = summarizeTerminalFitPipelineHarnessEvent({
+      event: 'harness-event',
+      data: {
+        type: 'telemetry-artifact-event',
+        lineNumber: 12,
+        telemetryEvent: {
+          type: 'pipeline-stream-event',
+          streamEventType: 'tool-use',
+          stage: 'setup',
+          namespace: 'tools',
+          key: 'result',
+          tool: 'bitcode.asset-pack.verification',
+          toolOk: true,
+          toolInputPresent: true,
+          toolOutputPresent: true,
+          toolErrorPresent: false,
+          dataKeys: ['input', 'ok', 'output', 'tool'],
+        },
+      },
+    });
+
+    expect(summary).toContain('Telemetry line 12');
+    expect(summary).toContain('setup tool-use');
+    expect(summary).toContain('tools.result');
+    expect(summary).toContain('tool bitcode.asset-pack.verification ok input/output');
+  });
+
   it('adapts live harness events into the canonical execution stream panel payload', () => {
     const snapshot = buildTerminalFitPipelineHarnessStreamSnapshot(
       [
@@ -275,6 +320,26 @@ describe('terminal pipeline harness client', () => {
           },
         },
         {
+          event: 'harness-event',
+          data: {
+            type: 'telemetry-artifact-event',
+            lineNumber: 10,
+            telemetryEvent: {
+              type: 'pipeline-stream-event',
+              streamEventType: 'tool-use',
+              stage: 'setup',
+              namespace: 'tools',
+              key: 'result',
+              tool: 'bitcode.asset-pack.verification',
+              executionState: {
+                phase: 'setup',
+                agent: 'bitcode-read-risk-admission',
+                step: 'try',
+              },
+            },
+          },
+        },
+        {
           event: 'harness-completed',
           data: { outcome: 'completed', telemetryLineCount: 11 },
         },
@@ -285,6 +350,7 @@ describe('terminal pipeline harness client', () => {
     expect(snapshot.output).toContain('Harness started');
     expect(snapshot.output).toContain('run 2bdcd936-a68...');
     expect(snapshot.output).toContain('Telemetry line 9');
+    expect(snapshot.output).toContain('Telemetry line 10');
     expect(snapshot.runId).toBe('2bdcd936-a686-4a10-92e2-9c64cbef4f0e');
     expect(snapshot.executionState.phase).toBe('Finish');
     expect(snapshot.isStreamingComplete).toBe(true);
@@ -302,6 +368,20 @@ describe('terminal pipeline harness client', () => {
           phase: 'Implementation',
           agent: 'asset-pack-synthesis-agent',
           step: 'structured_output',
+        },
+      },
+    });
+    const toolLine = snapshot.output
+      .split('\n')
+      .find((line) => line.includes('Telemetry line 10'));
+    expect(snapshot.outputDetails[toolLine as string]).toMatchObject({
+      type: 'tool-use',
+      status: {
+        executionState: {
+          phase: 'Setup',
+          agent: 'bitcode-read-risk-admission',
+          step: 'try',
+          tool: 'bitcode.asset-pack.verification',
         },
       },
     });

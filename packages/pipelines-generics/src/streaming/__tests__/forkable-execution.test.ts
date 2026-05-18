@@ -193,4 +193,51 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
     expect(supabase.tables.deliverable_pipeline_phase_delegations[0].status).toBe('completed');
     expect(supabase.tables.deliverable_pipeline_agent_steps[0].status).toBe('completed');
   });
+
+  it('persists tool result store events into structured tool execution rows', async () => {
+    const supabase = new MockSupabase() as any;
+    const runId = '33333333-3333-4333-8333-333333333333';
+    const userId = '44444444-4444-4444-8444-444444444444';
+    const agentName = 'setup:asset-pack-comprehend-read-agent';
+
+    const exec = new Execution(`exec-${runId}`);
+    const streamer = enablePipelineStreaming(exec as any, {
+      runId,
+      userId,
+      supabase,
+      structuredToDatabase: true,
+    });
+
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'phase-start' as any, {
+      phase: 'setup',
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'agent-start' as any, {
+      agent: agentName,
+      executionState: { phase: 'setup', agent: agentName, step: 'try' },
+    });
+
+    const toolExecution = new Execution('tools:execution', exec);
+    toolExecution.store('tools', 'result', {
+      tool: 'bitcode.asset-pack.verification',
+      ok: true,
+      input: { type: 'object', keys: ['repositoryFullName'] },
+      output: { type: 'object', keys: ['selectedCandidateIds'] },
+      phase: 'setup',
+      agent: agentName,
+      step: 'try',
+      generation: 'tools_execution',
+    });
+
+    await new Promise((resolve) => setImmediate(resolve));
+    await (streamer as any).flushStructuredWrites?.();
+
+    expect(supabase.tables.deliverable_pipeline_tool_executions).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_tool_executions[0]).toMatchObject({
+      agent_step_id: 'deliverable_pipeline_agent_steps-1',
+      tool_name: 'bitcode.asset-pack.verification',
+      tool_input: { type: 'object', keys: ['repositoryFullName'] },
+      tool_output: { type: 'object', keys: ['selectedCandidateIds'] },
+      tool_error: null,
+    });
+  });
 });

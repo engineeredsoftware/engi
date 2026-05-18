@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
 import styles from './pipeline-execution-log-header.module.css';
 
@@ -9,6 +11,7 @@ interface PipelineRunLogHeaderProps {
     step?: ExecutionStep;
     failsafe?: FailsafeStep;
     generation?: GenerationStep;
+    tool?: string | { name?: string };
   };
   isStreamingComplete: boolean;
   generationCount: number;
@@ -35,6 +38,8 @@ export function PipelineExecutionLogHeader({
   const { phase, agent, step } = executionState || {};
   const failsafe = executionState?.failsafe;
   const generation = executionState?.generation;
+  const tool = executionState?.tool;
+  const toolLabel = typeof tool === 'string' ? tool : tool?.name || '';
 
   const formatMeta = (m?: FailsafeStep | string) => {
     const v = String(m || '');
@@ -108,6 +113,17 @@ export function PipelineExecutionLogHeader({
                 <span className="px-1.5 py-0.5 rounded bg-gray-800/30 text-gray-400 border border-gray-700/20 text-[0.65rem]">
                   {generation || "Gen NA"}
                 </span>
+
+                {toolLabel ? (
+                  <>
+                    <svg className="w-2.5 h-2.5 text-gray-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <span className="max-w-[12rem] truncate px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-200 border border-purple-400/20 text-[0.65rem]">
+                      {toolLabel}
+                    </span>
+                  </>
+                ) : null}
               </div>
             </div>
 

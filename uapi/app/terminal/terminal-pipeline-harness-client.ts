@@ -472,6 +472,12 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   const dataKeys = stringList(telemetryEvent.dataKeys, 4);
   const inspectable = recordValue(telemetryEvent.inspectable);
   const inspectableKeys = stringList(inspectable?.keys, 4);
+  const tool = telemetryEvent.tool ? String(telemetryEvent.tool) : null;
+  const toolState = typeof telemetryEvent.toolOk === 'boolean'
+    ? telemetryEvent.toolOk
+      ? 'ok'
+      : 'failed'
+    : null;
   const inputMessageCount = typeof telemetryEvent.inputMessageCount === 'number'
     ? `${telemetryEvent.inputMessageCount} input messages`
     : null;
@@ -479,12 +485,18 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     ? `${telemetryEvent.outputContentLength} output chars`
     : null;
   const parsedOutput = telemetryEvent.parsedOutputPresent === true ? 'parsed output present' : null;
+  const toolDetails = [
+    telemetryEvent.toolInputPresent === true ? 'input' : null,
+    telemetryEvent.toolOutputPresent === true ? 'output' : null,
+    telemetryEvent.toolErrorPresent === true ? 'error' : null,
+  ].filter(Boolean).join('/');
 
   return [
     `Telemetry ${lineNumber}: ${stage} ${streamType}`,
     namespace || key ? [namespace, key].filter(Boolean).join('.') : null,
     executionPath ? `path ${executionPath}` : null,
     runId ? `run ${runId}` : null,
+    tool ? `tool ${tool}${toolState ? ` ${toolState}` : ''}${toolDetails ? ` ${toolDetails}` : ''}` : null,
     dataKeys.length ? `data ${dataKeys.join(', ')}` : null,
     inspectableKeys.length ? `inspectable ${inspectableKeys.join(', ')}` : null,
     inputMessageCount,
@@ -513,11 +525,14 @@ export function summarizeTerminalFitPipelineHarnessEvent(
         : null,
       data?.openaiCredentialProvided === false ? 'OpenAI credential missing' : null,
       data?.supabaseUrlProvided === false ? 'Supabase URL missing' : null,
-      data?.supabaseServiceRoleProvided === false ? 'Supabase service role missing' : null,
+      data?.supabaseServiceRoleProvided === false ? 'Supabase admin key missing' : null,
+      data?.supabaseRestDbHostAligned === false ? 'Supabase REST/DB lane mismatch' : null,
     ].filter(Boolean);
     const profile = data?.realInferenceProfile ? String(data.realInferenceProfile) : null;
     const budget = numberText(data?.runtimeBudgetMs);
     const host = data?.supabaseHost ? String(data.supabaseHost) : null;
+    const dbHost = data?.supabaseDbHost ? String(data.supabaseDbHost) : null;
+    const hostText = host && dbHost && host !== dbHost ? `rest ${host} db ${dbHost}` : host ? `db ${host}` : null;
     return blockers.length
       ? `Harness preflight blocked: ${blockers.join(', ')}.`
       : [
@@ -526,7 +541,7 @@ export function summarizeTerminalFitPipelineHarnessEvent(
             : 'Harness preflight passed with database streaming credentials present; local real-inference strictness off',
           profile ? `profile ${profile}` : null,
           budget ? `budget ${budget}ms` : null,
-          host ? `db ${host}` : null,
+          hostText,
         ].filter(Boolean).join('; ') + '.';
   }
   if (event.event === 'harness-completed') {

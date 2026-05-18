@@ -1,6 +1,6 @@
 /**
  * Bitcode Read Risk Admission Agent - Setup Phase Admission Check
- * 
+ *
  * Retained AssetPack pipeline wrapper that adds short-circuit signaling when
  * Bitcode risk admission blocks the next phase.
  */
@@ -14,19 +14,6 @@ import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
 import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
-
-/**
- * Extended output schema with short-circuit signal.
- */
-const DangerWallWithSignalSchema = z.object({
-  result: z.any(), // The Bitcode risk-admission output
-  signal: z.object({
-    type: z.literal('SHORT_CIRCUIT').optional(),
-    reason: z.string().optional(),
-    refundType: z.enum(['full', 'partial']).optional(),
-    confidence: z.number().optional()
-  }).optional()
-});
 
 type BitcodeReadRiskAdmissionResult = z.infer<typeof BitcodeReadRiskAdmissionResultSchema>;
 
@@ -143,24 +130,31 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
     execution.store('setup/risk-admission', 'rawResult', result);
     execution.store('setup/risk-admission', 'result', riskAdmissionResult);
   } catch {}
-  
-  const isBlocked = !riskAdmissionResult.finalAssessment.safe ||
-                     riskAdmissionResult.finalAssessment.maxSeverity === 'critical' ||
-                     riskAdmissionResult.finalAssessment.maxSeverity === 'high';
-  
+
+  const finalAssessment =
+    riskAdmissionResult.finalAssessment ??
+    normalizeRiskAdmissionResult({}).finalAssessment;
+  const verdict = finalAssessment.verdict ?? {
+    reason: 'Risk admission did not return a typed final assessment.',
+    flags: ['risk-admission-output-missing-final-assessment'],
+  };
+  const isBlocked = !finalAssessment.safe ||
+                     finalAssessment.maxSeverity === 'critical' ||
+                     finalAssessment.maxSeverity === 'high';
+
   if (isBlocked) {
     return {
       result: riskAdmissionResult,
       signal: {
         type: 'SHORT_CIRCUIT' as const,
-        reason: `Bitcode risk admission blocked setup: ${riskAdmissionResult.finalAssessment.verdict.reason}`,
+        reason: `Bitcode risk admission blocked setup: ${verdict.reason}`,
         refundType: 'full' as const,
-        confidence: riskAdmissionResult.finalAssessment.confidence,
+        confidence: finalAssessment.confidence,
         metadata: {
           phase: 'setup',
           agent: 'bitcode-read-risk-admission',
-          severity: riskAdmissionResult.finalAssessment.maxSeverity,
-          flags: riskAdmissionResult.finalAssessment.verdict.flags
+          severity: finalAssessment.maxSeverity,
+          flags: verdict.flags
         }
       } as ShortCircuitSignal
     };
