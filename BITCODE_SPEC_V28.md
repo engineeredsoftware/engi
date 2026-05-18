@@ -504,6 +504,12 @@ Read/Fit result review remains fail-closed:
   parsed/typed output, usage/timing metadata, and phase/agent/step/failsafe
   correlation. A harness failure must still export the execution tree so
   operators can debug the last successful sub-execution.
+- tool telemetry includes both direct `tool-use` emissions and stored
+  `tools/*` status results from pipeline delivery work. Depository search,
+  evidence verification, branch creation, file write, and pull-request creation
+  must appear in the generic event stream and, when database streaming is
+  enabled, in `deliverable_pipeline_tool_executions` with sanitized input,
+  output, error, and phase/agent/step correlation.
 - artifact telemetry must subscribe to stream events even when database
   streaming is disabled; database persistence is an additional acceptance gate,
   not the only way to inspect a live failed run.

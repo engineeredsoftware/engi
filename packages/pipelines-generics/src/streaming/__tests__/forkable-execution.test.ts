@@ -240,4 +240,49 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
       tool_error: null,
     });
   });
+
+  it('persists stored delivery tool status events into structured tool execution rows', async () => {
+    const supabase = new MockSupabase() as any;
+    const runId = '55555555-5555-4555-8555-555555555555';
+    const userId = '66666666-6666-4666-8666-666666666666';
+    const agentName = 'finish:asset-pack-delivery-agent';
+
+    const exec = new Execution(`exec-${runId}`);
+    const streamer = enablePipelineStreaming(exec as any, {
+      runId,
+      userId,
+      supabase,
+      structuredToDatabase: true,
+    });
+
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'phase-start' as any, {
+      phase: 'finish',
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'agent-start' as any, {
+      agent: agentName,
+      executionState: { phase: 'finish', agent: agentName, step: 'try' },
+    });
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'status' as any, {
+      namespace: 'tools',
+      key: 'vcs_create_pull_request:2',
+      executionState: { phase: 'finish', agent: agentName, step: 'try' },
+      data: {
+        tool: 'vcs_create_pull_request',
+        ok: true,
+        input: { repository: 'engineeredsoftware/ENGI', baseBranch: 'main' },
+        output: { pullRequestNumber: 4, pullRequestUrl: 'https://github.com/engineeredsoftware/ENGI/pull/4' },
+      },
+    });
+
+    await (streamer as any).flushStructuredWrites?.();
+
+    expect(supabase.tables.deliverable_pipeline_tool_executions).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_tool_executions[0]).toMatchObject({
+      agent_step_id: 'deliverable_pipeline_agent_steps-1',
+      tool_name: 'vcs_create_pull_request',
+      tool_input: { repository: 'engineeredsoftware/ENGI', baseBranch: 'main' },
+      tool_output: { pullRequestNumber: 4, pullRequestUrl: 'https://github.com/engineeredsoftware/ENGI/pull/4' },
+      tool_error: null,
+    });
+  });
 });

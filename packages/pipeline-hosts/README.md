@@ -58,9 +58,12 @@ verification readback tool for risk-admission and readiness work; a live
 `Tool not found` result for that tool is a registry failure, not acceptable
 blocked-readiness evidence. Tool-result events must carry summarized input
 and output/error so the database row and Terminal stream can show what the
-agent asked and what the tool returned. Artifact telemetry must preserve tool
-name, ok/error state, and input/output/error presence so the execution log can
-identify each phase-agent-step tool invocation.
+agent asked and what the tool returned. Stored `tools/*` status results from
+finish delivery are tool executions too; branch creation, file writes, and
+pull-request creation must land in the same structured table as explicit
+`tool-use` events. Artifact telemetry must preserve tool name, ok/error state,
+and input/output/error presence so the execution log can identify each
+phase-agent-step tool invocation.
 Failed runs must still export `evidence.json` with the execution tree and
 last-known stream events so staging operators can see which SDIVF phase, PTRR
 agent, generation, or tool last produced input/output evidence.

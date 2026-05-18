@@ -923,6 +923,11 @@ First-run execution boundary:
   provider/name, usage tokens, phase, agent, step, failsafe, and generation
   context. Missing prompts, missing parsed outputs, or uncorrelated
   generation/tool rows are blockers for debugging live Read/Fit execution.
+- Structured tool telemetry must include both direct tool-use events and stored
+  `tools/*` status results emitted by delivery work. Depository search,
+  evidence verification, branch creation, file writes, and pull-request
+  creation must be visible in the stream and, when database streaming is on,
+  in `deliverable_pipeline_tool_executions` without secret-bearing inputs.
 - Failed harness runs must still export `evidence.json` with the execution tree
   and the last visible stream event summaries. A failing command with no
   prompt/context, raw output, parsed/cast output, or phase/agent correlation is

@@ -211,6 +211,42 @@ export function enablePipelineStreaming(
         context.generation || 'none',
       ].join(':');
 
+    const normalizeToolExecutionEvent = (event: any) => {
+      const type = String(event?.type || '');
+      if (type === 'tool-use') {
+        return {
+          toolName: event?.data?.tool || event?.metadata?.toolName || 'tool',
+          input: event?.data?.input ?? null,
+          output: event?.data?.output ?? null,
+          error: event?.data?.error ?? null,
+        };
+      }
+
+      const isStoredToolResult =
+        type === 'status' &&
+        event?.namespace === 'tools' &&
+        event?.data &&
+        typeof event.data === 'object' &&
+        event.data.tool;
+
+      if (!isStoredToolResult) {
+        return null;
+      }
+
+      return {
+        toolName: event.data.tool,
+        input: event.data.input ?? null,
+        output: event.data.output ?? null,
+        error: event.data.error ?? null,
+      };
+    };
+
+    const normalizeToolError = (error: unknown) => {
+      if (!error) return null;
+      if (typeof error === 'object') return error;
+      return { message: String(error) };
+    };
+
     const markDeliverableRun = async (status: 'completed' | 'failed', payload?: any) => {
       if (!(await ensureDeliverableRun())) return;
       const now = new Date().toISOString();
@@ -260,6 +296,23 @@ export function enablePipelineStreaming(
         const { phaseName, agentName, stepType } = context;
 
         await persistDeliverableEvent(event, phaseName, agentName);
+
+        const structuredTool = normalizeToolExecutionEvent(event);
+        if (structuredTool && await ensureDeliverableRun()) {
+          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
+          const agentStepId = agentStepMap.get(key) || null;
+          const row: import('../types/db').DPToolExecInsert = {
+            agent_step_id: agentStepId,
+            substep_id: null,
+            tool_name: structuredTool.toolName as any,
+            tool_input: structuredTool.input as any,
+            tool_output: structuredTool.output as any,
+            tool_error: normalizeToolError(structuredTool.error) as any,
+            created_at: now as any
+          } as any;
+          await insertRow('deliverable_pipeline_tool_executions', row);
+        }
 
         if (type === 'phase-start') {
           if (!(phaseName && await ensureDeliverableRun())) return;
@@ -350,25 +403,6 @@ export function enablePipelineStreaming(
             created_at: now as any
           } as any;
           await insertRow('deliverable_pipeline_generations', row);
-        } else if (type === 'tool-use') {
-          if (!(await ensureDeliverableRun())) return;
-          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
-          const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
-          const agentStepId = agentStepMap.get(key) || null;
-          const toolName = event?.data?.tool || event?.metadata?.toolName || 'tool';
-          const toolInput = event?.data?.input || null;
-          const toolOutput = event?.data?.output || null;
-          const toolError = event?.data?.error ? { message: event.data.error } : null;
-          const row: import('../types/db').DPToolExecInsert = {
-            agent_step_id: agentStepId,
-            substep_id: null,
-            tool_name: toolName as any,
-            tool_input: toolInput as any,
-            tool_output: toolOutput as any,
-            tool_error: toolError as any,
-            created_at: now as any
-          } as any;
-          await insertRow('deliverable_pipeline_tool_executions', row);
         } else if (type === 'status') {
           if (event?.namespace === 'llm' && event?.key === 'input') {
             const messages = event?.data?.messages;
