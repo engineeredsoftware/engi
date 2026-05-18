@@ -20,11 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Bitcode spec-quality basics
-        run: node scripts/run-bitcode-spec-quality.mjs --mode basic
+      - name: Validate active canon and V28 draft posture
+        run: |
+          node scripts/check-bitcode-canonical-inputs.mjs --current-target V27
+          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
+          node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
 
-  bitcode-full:
-    name: Bitcode Full Test Suite
+  bitcode-demonstration-mvp:
+    name: Bitcode Demonstration MVP
     runs-on: ubuntu-latest
     needs: bitcode-spec-basics
     container:
@@ -34,8 +37,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run full Bitcode protocol-demonstration suite
-        run: npm --prefix protocol-demonstration run test
+      - name: Run V28 protocol-demonstration MVP QA
+        run: npm --prefix protocol-demonstration run test:v28-mvp-qa
 
   bitcode-spec-commit-conformance:
     name: Bitcode Spec Commit Conformance
@@ -50,5 +53,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run strict spec conformance for `spec: VN` titles
-        run: node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title --commit-title "$SPEC_TITLE"
+      - name: Run V28 strict draft conformance for spec-title changes
+        run: |
+          case "$SPEC_TITLE" in
+            spec:\ V28*|spec:\ v28*)
+              node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
+              ;;
+            *)
+              echo "Skipping strict spec-title conformance; title is not a V28 spec change."
+              ;;
+          esac

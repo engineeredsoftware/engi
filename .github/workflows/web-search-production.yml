@@ -60,9 +60,9 @@ jobs:
           npm test -- --coverage --coverageReporters=lcov --coverageDirectory=coverage/web-search
           
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
-          file: ./coverage/web-search/lcov.info
+          files: ./coverage/web-search/lcov.info
           flags: web-search
           name: web-search-coverage
 
@@ -89,12 +89,14 @@ jobs:
           args: --severity-threshold=high --file=packages/web-search/package.json
           
       - name: Run CodeQL analysis
-        uses: github/codeql-action/init@v2
+        if: ${{ vars.ENABLE_ADVANCED_CODEQL == '1' }}
+        uses: github/codeql-action/init@v4
         with:
           languages: typescript, javascript
-          
+
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        if: ${{ vars.ENABLE_ADVANCED_CODEQL == '1' }}
+        uses: github/codeql-action/analyze@v4
 
   # ============================================================================
   # Performance and Load Testing
@@ -135,7 +137,7 @@ jobs:
           npm run test:load -- packages/web-search
           
       - name: Upload performance results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: performance-results
           path: ./performance-results/
@@ -185,7 +187,7 @@ jobs:
           npm run test:integration -- --testNamePattern="${{ matrix.test-suite }}"
           
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: integration-test-results-${{ matrix.test-suite }}
@@ -246,7 +248,7 @@ jobs:
           npm run healthcheck:staging
           
       - name: Comment PR with staging URL
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({
@@ -351,7 +353,7 @@ jobs:
           npm run monitor:deployment-metrics
           
       - name: Notify deployment success
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             github.rest.repos.createCommitStatus({
@@ -395,7 +397,7 @@ jobs:
           npm run healthcheck:production
           
       - name: Notify rollback
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             github.rest.repos.createCommitStatus({

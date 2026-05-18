@@ -321,6 +321,15 @@ Acceptance criteria:
 - source deposit, Read discovery, preliminary Fit, and uncommitted proof never imply minting.
 - access policy id/hash is shown before mint or licensed-read commitment.
 - ledgerized synthesis uses protocol-specified models and configuration; Terminal must not expose user-driven model selection for Fit, AssetPack, measurement, measuremint, proof, journal, or settlement behavior.
+- gate pull requests into `version/v28` run maintained gate-quality automation
+  covering draft-canon checks, casing/import checks, package typechecks,
+  package tests, protocol-demonstration QA, and diff hygiene.
+- repository-wide canon-quality automation stays greenable during the V28 draft
+  by checking V27 canonical inputs, V27/V28 posture, V28 draft-family shape,
+  and V28 MVP demonstration QA; full promoted-suite closure is reserved for
+  the V28 promotion workflow.
+- the legacy GA1 workflow is removed; version-specific quality and promotion
+  workflows own V28 gate and promotion automation.
 
 #### Single-deposit Reading QA
 
@@ -578,15 +587,41 @@ Read/Fit result review remains fail-closed:
   cannot close a live source-revision settlement/finality gate unless the same
   source and database/ledger rows are read back from the accepted environment.
 
-### Gate 4: Terminal AssetPack Range Detail
+### Gate 4: Staged Reading, AssetPack Preview, And Settlement UX
 
 Purpose:
-Make AssetPack range ownership and read-right state readable from registry facts.
+Finish the two-stage Reading product experience: synthesize a Read-Need from a
+reader request, let the reader review that Need, run Need-Fit search and
+AssetPack synthesis from the accepted Need, preview the fit without leaking
+protected source, settle the deterministic BTC fee, and deliver the purchased
+AssetPack as a pull request.
 
 Acceptance criteria:
 
-- Terminal exposes AssetPack id, range boundaries, cell count, proof root, source manifest root, access policy id/hash, and ledger anchor state.
-- owner-read, licensed-read, and denied branches are distinct.
+- Terminal separates Read Request, Read-Need review, Need-Fit search,
+  AssetPack preview, BTC settlement, unlock, and pull-request delivery into
+  navigable user-visible stages.
+- the Read-Need synthesis pipeline stores prompt inputs, interpolated context,
+  model outputs, parsed Need, measurement root, review state, feedback history,
+  and resynthesis attempts.
+- the Need-Fit pipeline accepts only reviewed Read-Needs, searches deposited
+  supply, ranks source-bound candidates, synthesizes the AssetPack, and emits
+  fit/no-fit/blocked evidence with candidate, score, proof, and rejection
+  telemetry.
+- AssetPack preview exposes measurements, score posture, fit rationale, roots,
+  fee quote, range projection, and disclosure policy without exposing protected
+  source before settlement.
+- Share-to-Fee calculation is implemented as an auditable structured policy:
+  measurement weights, measurement volumes, admitted fit quality, floor/dust
+  rules, BTC network fee posture, and final quote roots are stored and tested.
+- settlement requires reader BTC payment authorization and readback of fee,
+  BTD ownership/license, journal, anchor, range, and database projection rows
+  before unlock.
+- Terminal exposes AssetPack id, range boundaries, cell count, proof root,
+  source manifest root, access policy id/hash, ledger anchor state, and the
+  pull-request delivery target after settlement.
+- owner-read, licensed-read, pending-settlement, and denied branches are
+  distinct.
 - aggregate compatibility balances are not treated as canonical ownership truth.
 - route and UI labels describe AssetPack ranges and read rights, not fungible balances.
 
@@ -641,7 +676,10 @@ Acceptance criteria:
 - package/API, ORM, protocol-demonstration, UAPI route, Terminal UI, and build checks pass.
 - unversioned-route scan passes.
 - V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth are explicitly staged.
-- `BITCODE_SPEC.txt` remains V27 until the final promotion step.
+- a V28 version-branch pull request into `main` runs promotion-grade
+  automation; only after those validations pass does automation commit the
+  standalone `BITCODE_SPEC.txt` pointer change.
+- `BITCODE_SPEC.txt` remains V27 until the final automated promotion step.
 
 ## Draft Boundary
 
@@ -950,11 +988,11 @@ Promotion must add `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonic
 
 ## validation canon
 
-Minimum V28 validation includes spec-family checks, canon-posture drift checks, JSON checks, unversioned-route scan, package/API/ORM tests, protocol-demonstration tests, Terminal UI checks, commercial-MVP Playwright E2E tests, UAPI build, and `git diff --check`.
+Minimum V28 validation includes spec-family checks, canon-posture drift checks, JSON checks, unversioned-route scan, package/API/ORM tests, protocol-demonstration tests, Terminal UI checks, commercial-MVP Playwright E2E tests, UAPI build, gate-quality workflow checks, version-promotion workflow checks, and `git diff --check`.
 
 ## promotion canon
 
-Promotion requires V28 PROVEN, synchronized SPEC/DELTA/NOTES/PARITY, closed gates, route scan, test/build proof, pull-requested integration from gate-number-prefixed branches into the V28 version branch, and explicit update of `BITCODE_SPEC.txt` from `V27` to `V28` when the version branch is pull-requested back into `main`.
+Promotion requires V28 PROVEN, synchronized SPEC/DELTA/NOTES/PARITY, closed gates, route scan, test/build proof, pull-requested integration from gate-number-prefixed branches into the V28 version branch, and automated update of `BITCODE_SPEC.txt` from `V27` to `V28` only after the V28 version branch is pull-requested into `main` and promotion validations succeed.
 
 ## appendices and canonical supporting material
 

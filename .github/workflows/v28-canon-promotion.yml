@@ -1,0 +1,97 @@
+name: V28 Canon Promotion
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  promote-v28:
+    name: V28 Promotion Validation
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event.pull_request.base.ref == 'main' &&
+          github.event.pull_request.head.ref == 'version/v28' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        )
+      }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout version branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          token: ${{ github.token }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate V28 promotion readiness
+        run: |
+          POINTER="$(cat BITCODE_SPEC.txt)"
+          if [ "$POINTER" = "V27" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V27
+            node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28 --skip-pointer-check
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V28 --skip-pointer-check
+          elif [ "$POINTER" = "V28" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
+          else
+            echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
+            exit 1
+          fi
+          npm --prefix protocol-demonstration run test
+          pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          pnpm --filter @bitcode/pipeline-hosts typecheck
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          git diff --check
+
+      - name: Promote BITCODE_SPEC pointer
+        if: >-
+          ${{
+            github.event_name == 'pull_request' &&
+            github.event.pull_request.head.ref == 'version/v28'
+          }}
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          if [ "$(cat BITCODE_SPEC.txt)" = "V28" ]; then
+            echo "BITCODE_SPEC.txt already points to V28."
+            exit 0
+          fi
+          printf "V28\n" > BITCODE_SPEC.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add BITCODE_SPEC.txt
+          git commit -m "Promote Bitcode canon to V28"
+          git push origin "HEAD:$HEAD_BRANCH"
