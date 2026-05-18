@@ -1,10 +1,10 @@
 # Bitcode Protocol Demonstration
 
-This package is the deterministic demonstration of Bitcode. It is not the
-commercial website, and within this package the correct name is demonstration.
+This package is the deterministic demonstration of Bitcode. Within this package
+the correct name is demonstration.
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V27`; V28 is the active draft target for commercial MVP QA.
+resolves to `V27`; V28 is the active draft target for MVP QA.
 
 ## What This Demonstration Carries
 
@@ -17,17 +17,16 @@ resolves to `V27`; V28 is the active draft target for commercial MVP QA.
 - local validation server through `server.js`
 - proof/checkpoint generation inputs used by the active specification family
 
-Commercial surfaces may mount or compare against demonstration runtime facts,
-but the commercial owners are Terminal, Exchange, Auxillaries, Conversations,
-API, MCP, and ChatGPT App.
+Product surfaces may mount or compare against demonstration runtime facts, but
+those surfaces own their own implementations outside this package.
 
 ## Main Files
 
 - `src/bitcode-demo.js`: deterministic state engine and local Bitcode chain modeling.
 - `src/client-entry.js`: demonstration mount/snapshot/control bridge.
-- `src/local-fit-finding.js`: standalone local Read/Fit witness. It deliberately
-  avoids commercial pipeline, registry, prompt, agent, Vercel, Supabase, and UAPI
-  imports.
+- `src/local-fit-finding.js`: standalone local Need/Need-Fit witness. It
+  deliberately avoids pipeline, registry, prompt, agent, Vercel, Supabase, and
+  UAPI imports.
 - `src/canonical/proven-generator.js`: generated proof and checkpoint appendix builder.
 - `public/app.js`: standalone demonstration behavior.
 - `public/index.html`: direct demonstration shell for local validation and parity checks.
@@ -37,7 +36,7 @@ API, MCP, and ChatGPT App.
 
 ## Relationship To Terminal
 
-The primary commercial review surface is `/terminal`.
+The primary product review surface is `/terminal`.
 
 The demonstration remains essential because Terminal can mount and read:
 
@@ -66,7 +65,7 @@ cd protocol-demonstration
 npm test
 pnpm test:fit-finding
 pnpm test:integration
-pnpm test:v28-commercial-mvp-qa
+pnpm test:v28-mvp-qa
 ```
 
 ## Required Doc Companions

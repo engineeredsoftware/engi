@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { NextRequest } from 'next/server';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -163,6 +164,16 @@ function isUsableSupabaseUrl(value: string | undefined): boolean {
   }
 }
 
+function readSupabaseHost(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    const host = new URL(value).host;
+    return host || null;
+  } catch {
+    return null;
+  }
+}
+
 function isUsableSecretValue(value: string | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 16 && !value.includes('<');
 }
@@ -247,6 +258,7 @@ function summarizeHarnessPreflight(body: AssetPackHarnessRequest): Record<string
     realInferenceEnabled: isEnabled(process.env.BITCODE_ASSET_PACK_REAL_INFERENCE),
     openaiCredentialProvided: isUsableSecretValue(process.env.OPENAI_API_KEY),
     supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
+    supabaseHost: readSupabaseHost(supabaseUrl),
     supabaseServiceRoleProvided: isUsableSecretValue(serviceRole),
     runtimeBudgetMs: Number.isFinite(budgetMs) ? budgetMs : null,
     realInferenceProfile: realInferenceProfile || (isDeployedRuntime() ? 'bounded' : null),
@@ -530,8 +542,10 @@ export async function POST(request: NextRequest): Promise<Response> {
           const repositoryFullName = body.repositoryFullName!;
           const sourceUrl = body.sourceGitUrl || `https://github.com/${repositoryFullName}.git`;
           const mode = body.mode || 'asset_pack_pipeline';
+          const routeRunId = randomUUID();
 
           emitSse(controller, 'harness-started', {
+            runId: routeRunId,
             mode,
             repositoryFullName,
             sourceBranch: body.sourceBranch,
@@ -539,7 +553,15 @@ export async function POST(request: NextRequest): Promise<Response> {
             readId: body.readId,
             depositId: body.depositId,
           });
-          emitSse(controller, 'harness-preflight', summarizeHarnessPreflight(body));
+          emitSse(controller, 'harness-preflight', {
+            runId: routeRunId,
+            ...summarizeHarnessPreflight(body),
+          });
+
+          const commandEnvironment = {
+            ...selectedCommandEnvironment(data.user!.id),
+            BITCODE_PIPELINE_RUN_ID: routeRunId,
+          };
 
           const plan = buildAssetPackSandboxHarness({
             mode,
@@ -570,7 +592,7 @@ export async function POST(request: NextRequest): Promise<Response> {
                   depth: body.sourceDepth || 1,
                   ...(await sourceCredentialsForUser(data.user!.id, body)),
                 },
-            commandEnvironment: selectedCommandEnvironment(data.user!.id),
+            commandEnvironment,
             assumeRepositoryPresent: body.assumeRepositoryPresent === true,
             installDependencies: body.installDependencies !== false,
           });
@@ -579,11 +601,15 @@ export async function POST(request: NextRequest): Promise<Response> {
           const host = new VercelSandboxPipelineHost({
             sandboxFactory,
             stopAfterRun: body.leaveRunning !== true,
-            onEvent: (event) => emitSse(controller, 'harness-event', safeHostEvent(event)),
+            onEvent: (event) => emitSse(controller, 'harness-event', {
+              runId: routeRunId,
+              ...safeHostEvent(event),
+            }),
           });
           const result = await host.runHarness(plan);
 
           emitSse(controller, 'harness-completed', {
+            runId: routeRunId,
             outcome: result.outcome,
             sandboxId: result.sandboxId,
             stopped: result.stopped,

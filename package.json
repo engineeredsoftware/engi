@@ -72,6 +72,8 @@
     "db:schema-types:check": "pnpm -C packages/orm run schema-types:check",
     "db:schema-types:refresh": "pnpm -C packages/orm run schema-types:refresh",
     "db:squash": "bash scripts/db-squash.sh",
+    "qa:v28:pipeline-readback": "node scripts/verify-v28-pipeline-readback.mjs",
+    "test:qa:v28:pipeline-readback": "node --test scripts/verify-v28-pipeline-readback.test.mjs",
     "render:prompts": "pnpm -C packages/pipelines/asset-pack exec ts-node --transpile-only scripts/render-prompts.ts",
     "render:prompts:all": "pnpm -C packages/pipelines/asset-pack exec ts-node --transpile-only scripts/render-prompts.ts --scope=all",
     "qa:pipeline-harness:sandbox": "pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox",

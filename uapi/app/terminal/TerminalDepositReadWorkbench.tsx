@@ -156,11 +156,21 @@ export default function TerminalDepositReadWorkbench({
     let runId: string | null = null;
     let pipelineRunId: string | null = null;
     let lastTelemetryLine: string | null = null;
+    let inferenceProfile: string | null = null;
+    let runtimeBudget: string | null = null;
+    let supabaseHost: string | null = null;
 
     for (const event of harnessEvents) {
       const data = objectValue(event.data);
       if (!data) continue;
+      runId = textValue(data.runId) || runId;
       sandboxId = textValue(data.sandboxId) || sandboxId;
+      inferenceProfile = textValue(data.realInferenceProfile) || inferenceProfile;
+      runtimeBudget =
+        typeof data.runtimeBudgetMs === 'number' && Number.isFinite(data.runtimeBudgetMs)
+          ? `${data.runtimeBudgetMs}ms`
+          : runtimeBudget;
+      supabaseHost = textValue(data.supabaseHost) || supabaseHost;
       if (event.event === 'harness-event') {
         sandboxId = textValue(data.sandboxId) || sandboxId;
         const telemetryEvent = objectValue(data.telemetryEvent);
@@ -175,6 +185,9 @@ export default function TerminalDepositReadWorkbench({
     if (sandboxId) rows.push({ label: 'sandbox', value: shortIdentifier(sandboxId) || sandboxId });
     if (runId) rows.push({ label: 'run', value: shortIdentifier(runId) || runId });
     if (pipelineRunId) rows.push({ label: 'pipeline row', value: shortIdentifier(pipelineRunId) || pipelineRunId });
+    if (inferenceProfile) rows.push({ label: 'profile', value: inferenceProfile });
+    if (runtimeBudget) rows.push({ label: 'budget', value: runtimeBudget });
+    if (supabaseHost) rows.push({ label: 'database', value: supabaseHost });
     if (lastTelemetryLine) rows.push({ label: 'telemetry line', value: lastTelemetryLine });
     return rows;
   }, [harnessEvents, harnessRequestState]);
@@ -182,6 +195,15 @@ export default function TerminalDepositReadWorkbench({
     () => buildTerminalFitPipelineHarnessStreamSnapshot(harnessEvents, harnessState, harnessState === 'failed' ? harnessMessage : null),
     [harnessEvents, harnessMessage, harnessState],
   );
+  useEffect(() => {
+    const runId = harnessStreamSnapshot.runId;
+    if (!runId || harnessState === 'idle' || typeof window === 'undefined') return;
+
+    const nextUrl = new URL(window.location.href);
+    if (nextUrl.searchParams.get('runId') === runId) return;
+    nextUrl.searchParams.set('runId', runId);
+    window.history.replaceState(window.history.state, '', `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+  }, [harnessState, harnessStreamSnapshot.runId]);
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
     recordingKey === null &&
@@ -473,6 +495,7 @@ export default function TerminalDepositReadWorkbench({
                   isStreamingComplete={harnessStreamSnapshot.isStreamingComplete}
                   generationCount={harnessStreamSnapshot.generationCount}
                   error={harnessStreamSnapshot.error}
+                  runId={harnessStreamSnapshot.runId || undefined}
                   metadataRows={harnessIdentifierRows}
                   output={harnessStreamSnapshot.output}
                   outputDetails={harnessStreamSnapshot.outputDetails}

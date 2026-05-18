@@ -170,8 +170,8 @@ Because the current first-gate review path is Terminal-owned, the practical runt
   token env or the authenticated user's GitHub installation token.
 - required readback:
   `supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql` must
-  show run/event/phase/agent/generation/tool telemetry before commercial
-  Read/Fit result review.
+  show run/event/phase/agent/generation/tool telemetry before Read/Fit result
+  review.
 
 ### `package-runtime-validation`
 
@@ -237,7 +237,7 @@ source overlay:
   `resultState='blocked_readiness'`
 - reason for final block: source overlay evidence is not admissible for BTD
   minting, BTC fee settlement, ledger anchor finality, or source-revision
-  commercial settlement
+  settlement
 - DB readback: completed `pipeline_runs` and `deliverable_pipeline_runs`, 603
   events, 12 completed phase rows, 40 completed agent-step rows, and no running
   phase or agent rows for the run

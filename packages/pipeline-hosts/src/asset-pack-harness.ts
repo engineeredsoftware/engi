@@ -818,6 +818,24 @@ function positiveIntegerEnv(name, fallback) {
   return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
 }
 
+function normalizeBtcLedgerNetwork(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === 'regtest') return 'regtest';
+  if (normalized === 'signet') return 'signet';
+  if (normalized === 'mainnet' || normalized === 'bitcoin-mainnet') return 'mainnet';
+  if (
+    normalized === 'testnet' ||
+    normalized === 'testnet3' ||
+    normalized === 'testnet4' ||
+    normalized === 'testnet-4' ||
+    normalized === 'bitcoin-testnet4' ||
+    normalized === 'staging-testnet'
+  ) {
+    return 'testnet';
+  }
+  return 'testnet';
+}
+
 function ledgerWallet(kind, explicit, fallback) {
   const value = String(explicit || '').trim();
   if (value) return value;
@@ -830,7 +848,7 @@ function settlementOwnershipBoundary(fields = {}) {
   const readerWalletId = fields.readerWalletId ||
     ledgerWallet('reader-wallet', process.env.BITCODE_PIPELINE_READER_WALLET_ID, userId || runId);
   const btcFeeSats = fields.btcFeeSats || positiveIntegerEnv('BITCODE_PIPELINE_BTC_FEE_SATS', 546);
-  const btcNetwork = fields.btcNetwork || process.env.BITCODE_PIPELINE_BTC_NETWORK || 'staging-testnet';
+  const btcNetwork = normalizeBtcLedgerNetwork(fields.btcNetwork || process.env.BITCODE_PIPELINE_BTC_NETWORK || 'testnet');
   return {
     schema: 'bitcode.asset-pack.settlement-boundary',
     status: fields.status || 'blocked',
@@ -984,7 +1002,8 @@ async function settleAssetPackLedger(pipelineResultState) {
   ];
   const depositorWalletId = ledgerWallet('depositor-wallet', process.env.BITCODE_PIPELINE_DEPOSITOR_WALLET_ID, manifest.deposit?.id || assetPackId);
   const readerWalletId = ledgerWallet('reader-wallet', process.env.BITCODE_PIPELINE_READER_WALLET_ID, userId || runId);
-  const btcNetwork = String(process.env.BITCODE_PIPELINE_BTC_NETWORK || 'testnet').trim();
+  const requestedBtcNetwork = String(process.env.BITCODE_PIPELINE_BTC_NETWORK || 'testnet').trim();
+  const btcNetwork = normalizeBtcLedgerNetwork(requestedBtcNetwork);
   const btcFeeSats = positiveIntegerEnv('BITCODE_PIPELINE_BTC_FEE_SATS', 546);
 
   try {
@@ -1190,6 +1209,8 @@ async function settleAssetPackLedger(pipelineResultState) {
         actor: 'reader',
         userId,
         walletId: readerWalletId,
+        requestedNetwork: requestedBtcNetwork,
+        ledgerNetwork: btcNetwork,
         serverCustody: false,
       },
       txid: null,
@@ -1211,6 +1232,8 @@ async function settleAssetPackLedger(pipelineResultState) {
         payer: 'reader',
         payerWalletId: readerWalletId,
         depositorWalletId,
+        requestedNetwork: requestedBtcNetwork,
+        ledgerNetwork: btcNetwork,
         serverCustody: false,
         finalityState: 'prepared',
       },
@@ -1239,6 +1262,8 @@ async function settleAssetPackLedger(pipelineResultState) {
         schema: 'bitcode.btd.asset-pack-ledger-anchor',
         runId,
         assetPackId,
+        requestedNetwork: requestedBtcNetwork,
+        ledgerNetwork: btcNetwork,
         sourceManifestRoot,
         settlementJournalRoot,
       },
@@ -1344,7 +1369,7 @@ async function settleAssetPackLedger(pipelineResultState) {
       issued_at: issuedAt,
     });
 
-    const { error: supplyUpdateError } = await supabase
+    const { data: supplyUpdate, error: supplyUpdateError } = await supabase
       .from('btd_supply_state')
       .update({
         total_minted: rangeEndExclusive,
@@ -1354,8 +1379,13 @@ async function settleAssetPackLedger(pipelineResultState) {
         updated_at: new Date().toISOString(),
       })
       .eq('id', 'global')
-      .eq('total_minted', rangeStart);
+      .eq('total_minted', rangeStart)
+      .select('id,total_minted')
+      .maybeSingle();
     if (supplyUpdateError) throw new Error('btd_supply_state update failed: ' + supplyUpdateError.message);
+    if (!supplyUpdate || Number(supplyUpdate.total_minted) !== rangeEndExclusive) {
+      throw new Error('btd_supply_state update readback missing after settlement write.');
+    }
 
     const ids = {
       assetPackId,
@@ -1391,6 +1421,7 @@ async function settleAssetPackLedger(pipelineResultState) {
       readerWalletId,
       btcFee: {
         network: btcNetwork,
+        requestedNetwork: requestedBtcNetwork,
         satsPaid: btcFeeSats,
         finalityState: 'prepared',
         serverCustody: false,

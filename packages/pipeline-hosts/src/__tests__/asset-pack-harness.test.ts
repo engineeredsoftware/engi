@@ -165,6 +165,11 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('execution: execution ? summarizeExecution(execution) : null');
     expect(source).toContain('PipelineHarnessTimeoutError');
     expect(source).toContain('settlementOwnershipBoundary');
+    expect(source).toContain('normalizeBtcLedgerNetwork');
+    expect(source).toContain('requestedNetwork');
+    expect(source).toContain("normalized === 'testnet4'");
+    expect(source).toContain("normalized === 'staging-testnet'");
+    expect(source).toContain("btd_supply_state update readback missing after settlement write.");
     expect(source).toContain('depositor owns minted BTD range');
     expect(source).toContain('reader pays BTC fee');
     expect(source).toContain('verificationEvidence');

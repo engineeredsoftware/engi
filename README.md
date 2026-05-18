@@ -82,5 +82,5 @@ Demonstration verification:
 ```bash
 cd protocol-demonstration
 pnpm test:integration
-pnpm test:v28-commercial-mvp-qa
+pnpm test:v28-mvp-qa
 ```

@@ -271,7 +271,7 @@ function buildDeterministicAssetPackSynthesis(
       proofEvidence,
       reviewNotes: [
         'This AssetPack is synthesized from source-bound depository fit evidence.',
-        'QA overlay runs remain blocked for commercial source-revision settlement until deployed cleanly.'
+        'QA overlay runs remain blocked for source-revision settlement until deployed cleanly.'
       ]
     },
     writtenAssets: {

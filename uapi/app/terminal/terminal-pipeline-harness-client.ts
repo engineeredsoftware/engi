@@ -42,6 +42,7 @@ export type TerminalFitPipelineHarnessEvent = {
 };
 
 export type TerminalFitPipelineHarnessStreamSnapshot = {
+  runId: string | null;
   output: string;
   outputDetails: Record<string, unknown>;
   executionState: Record<string, unknown>;
@@ -250,10 +251,19 @@ function summarizeCandidateIds(value: unknown): string {
   return ids.length === 1 ? `candidate ${ids[0]}` : `candidates ${ids.join(', ')}`;
 }
 
+function numberText(value: unknown): string | null {
+  return typeof value === 'number' && Number.isFinite(value) ? String(value) : null;
+}
+
 function shortIdentifier(value: unknown): string | null {
-  const text = typeof value === 'string' ? value.trim() : '';
+  const text = stringIdentifier(value);
   if (!text) return null;
   return text.length > 16 ? `${text.slice(0, 12)}...` : text;
+}
+
+function stringIdentifier(value: unknown): string | null {
+  const text = typeof value === 'string' ? value.trim() : '';
+  return text || null;
 }
 
 function canonicalPhase(value: unknown, fallback = 'Setup'): string {
@@ -380,6 +390,7 @@ export function buildTerminalFitPipelineHarnessStreamSnapshot(
     step: harnessState,
   };
   let generationCount = 0;
+  let runId: string | null = null;
 
   events.forEach((event, index) => {
     const summary = summarizeTerminalFitPipelineHarnessEvent(event);
@@ -393,6 +404,13 @@ export function buildTerminalFitPipelineHarnessStreamSnapshot(
     const timestamp = harnessEventTimestamp(event);
     const data = recordValue(event.data);
     const telemetryEvent = recordValue(data?.telemetryEvent);
+    const evidence = recordValue(data?.evidence);
+
+    runId =
+      stringIdentifier(data?.runId) ||
+      stringIdentifier(telemetryEvent?.runId) ||
+      stringIdentifier(evidence?.runId) ||
+      runId;
 
     if (type === 'generation') generationCount += 1;
     latestExecutionState = executionState;
@@ -417,6 +435,7 @@ export function buildTerminalFitPipelineHarnessStreamSnapshot(
   });
 
   return {
+    runId,
     output: outputLines.join('\n'),
     outputDetails,
     executionState: latestExecutionState,
@@ -479,7 +498,11 @@ export function summarizeTerminalFitPipelineHarnessEvent(
 ): string {
   const data = recordValue(event.data);
   if (event.event === 'harness-started') {
-    return `Harness started for ${data?.repositoryFullName || 'selected repository'}.`;
+    const runId = shortIdentifier(data?.runId);
+    return [
+      `Harness started for ${data?.repositoryFullName || 'selected repository'}`,
+      runId ? `run ${runId}` : null,
+    ].filter(Boolean).join('; ') + '.';
   }
   if (event.event === 'harness-preflight') {
     const blockers = [
@@ -491,9 +514,17 @@ export function summarizeTerminalFitPipelineHarnessEvent(
       data?.supabaseUrlProvided === false ? 'Supabase URL missing' : null,
       data?.supabaseServiceRoleProvided === false ? 'Supabase service role missing' : null,
     ].filter(Boolean);
+    const profile = data?.realInferenceProfile ? String(data.realInferenceProfile) : null;
+    const budget = numberText(data?.runtimeBudgetMs);
+    const host = data?.supabaseHost ? String(data.supabaseHost) : null;
     return blockers.length
       ? `Harness preflight blocked: ${blockers.join(', ')}.`
-      : 'Harness preflight passed with real inference and database streaming credentials present.';
+      : [
+          'Harness preflight passed with real inference and database streaming credentials present',
+          profile ? `profile ${profile}` : null,
+          budget ? `budget ${budget}ms` : null,
+          host ? `db ${host}` : null,
+        ].filter(Boolean).join('; ') + '.';
   }
   if (event.event === 'harness-completed') {
     const evidence = recordValue(data?.evidence);

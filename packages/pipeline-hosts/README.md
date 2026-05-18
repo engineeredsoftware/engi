@@ -86,7 +86,16 @@ the AssetPack. `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` is scoped to a
 later async completion gate: the sandbox may run for dozens of minutes, but it
 must push final result state and artifacts to a server-side stream/socket
 handler or durable queue rather than relying on the starter route to wait
-synchronously. The current deployed Terminal route rejects `full` preflight.
+synchronously. That push must be correlated by `BITCODE_PIPELINE_RUN_ID`,
+authenticated without leaking secrets in routine telemetry, idempotent across
+retries, and durable before sandbox stop. The current deployed Terminal route
+rejects `full` preflight.
+The deployed route assigns `BITCODE_PIPELINE_RUN_ID` before sandbox creation and
+echoes that id through each SSE event so Terminal can display a stable run id
+before telemetry artifacts are written.
+After a clean deployed run, verify the staging database and ledger readback with
+`pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host <staging-supabase-host>`.
+The verifier emits sanitized counts and V28 blockers without printing secrets.
 The phase-specific
 `BITCODE_ASSET_PACK_*_USE_PTRR=1` flags remain available for local bisection,
 but they are not sufficient as a staging posture because a missed flag silently

@@ -549,7 +549,7 @@ Automated verification after this implementation pass:
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v27-crypto`: 9 passed after standalone demonstration/package-boundary cleanup.
-- `npm --prefix protocol-demonstration run test:v28-commercial-mvp-qa`: 8 passed after adding the boundary-separation checks.
+- `npm --prefix protocol-demonstration run test:v28-mvp-qa`: 13 passed after adding the boundary-separation and local Need-Fit witness checks.
 - `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/readReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
 - `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`: 2 passed after the formal package split.
 - `pnpm -C packages/protocol test`: 2 passed after the formal package split and protocol runtime-source deployment fix.
@@ -1232,6 +1232,12 @@ is disabled on production deployments unless
 come from explicit source token env when present, otherwise from the
 authenticated user's GitHub installation token; these credentials must not
 appear in the streamed events.
+The route allocates the pipeline `runId` before sandbox creation, forwards it as
+`BITCODE_PIPELINE_RUN_ID`, and includes it in every harness SSE event so the
+Terminal stream header can show a stable run id before artifact telemetry starts.
+Its preflight SSE payload also includes the sanitized Supabase host, real
+inference profile, and runtime budget so operators can catch an empty or wrong
+database project before waiting on the sandbox.
 
 After either harness run:
 
@@ -1262,6 +1268,18 @@ After either harness run:
 6. Rerun `v28_qa_terminal_06_read_fit_quality_after_read` and
    `v28_qa_terminal_03_btd_ledger_after_terminal`.
 7. Capture Vercel Sandbox dashboard/log evidence for the same timestamps.
+8. Run the sanitized closure verifier against the same staging project:
+
+```bash
+pnpm qa:v28:pipeline-readback -- \
+  --env-file .env.local \
+  --expected-host tkpyosihuouusyaxtbau.supabase.co \
+  --lookback-hours 48
+```
+
+This command must print `ready_for_v28_result_review` before Pass 2C may be
+closed. It prints only host identity, row counts, blockers, and warnings; it
+must not print Supabase keys, model keys, wallet secrets, or GitHub tokens.
 
 Pass criteria:
 
@@ -1269,6 +1287,9 @@ Pass criteria:
   sandbox cleanly.
 - The repository pipeline run either produces source-bound AssetPack pipeline
   evidence or an explicit `blocked_readiness` error artifact.
+- The Terminal live stream shows run id, Read id, Deposit id, source commit,
+  sandbox id when available, and current telemetry line in the execution stream
+  header/metadata area while the run is still active.
 - Repository pipeline evidence contains depository search result state,
   candidate ranking, selected candidate ids, query root, ranking root, and
   embedding policy.
@@ -1308,13 +1329,19 @@ Blockers:
 
 Subsequent V28 Reading gates prepared by this pass:
 
+These gates are scoped after the current bounded-inference closure gate. They
+must not weaken the current requirement to observe a complete source-bound
+Read/Fit -> AssetPack -> Finish -> ledger readback path. They define the next
+Terminal product shape so the current implementation does not paint itself into
+a synchronous route, raw-prompt Read, or source-leaking preview model.
+
 | Gate | Scope | Acceptance boundary |
 | --- | --- | --- |
-| Need synthesis review | Split "What is the need?" from Fit search. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, and pricing measurement inputs. | User can accept the Need or request resynthesis with feedback. No Fit search, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. |
-| Need-Fit search and synthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, and model/tool telemetry. |
-| Source-safe preview | Show enough proof to decide whether to pay without leaking source. | Preview may show Need/Fit measurements, score bands, roots, candidate ids, proof posture, ownership boundary, and BTC quote. It must not expose protected AssetPack source before settlement. |
-| Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from weighted admitted measurement volume and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
-| Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to server-side stream/socket or durable queue; Terminal can reattach and read final state without the starter route waiting. |
+| Need synthesis review | Split "What is the need?" from Fit search. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, pricing measurement inputs, and a Need measurement root. | User can accept the Need or request resynthesis with feedback. No Fit search, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. The accepted Need id, feedback history, telemetry, and measurement root become the only valid input to Fit search. |
+| Need-Fit search and synthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
+| Source-safe preview | Show enough proof to decide whether to pay without leaking source. | Preview may show Need/Fit measurements, score bands, roots, candidate ids, proof posture, ownership boundary, settlement boundary, and BTC quote. It must not expose protected AssetPack source before settlement. |
+| Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from `sum(measurement_weight * measurement_volume * admitted_fit_quality)` and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
+| Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to a server-side stream/socket handler or durable queue; the push is run-id correlated, authenticated, idempotent, and durable before sandbox stop. Terminal can reattach and read final state without the starter route waiting. |
 
 Observed staging-testnet harness evidence on 2026-05-17:
 
@@ -1457,6 +1484,56 @@ manifest-bound Deposit evidence root fixes:
   deposited source revision, with Supabase database streaming enabled, so the
   same worthy fit can write and read back BTD range, BTC fee, ownership,
   license, journal, ledger anchor, and crypto telemetry rows.
+- Local sanitized environment validation after this run found root
+  `.env.local` REST configuration pointing at Supabase host
+  `rinalyjfecxnmyczrpzo.supabase.co`, while the DB URL points at
+  `db.tkpyosihuouusyaxtbau.supabase.co`. That mixed project posture is not
+  staging closure evidence. The deployed Vercel environment must be checked
+  against one populated staging-testnet database before the clean no-overlay
+  run can close this gate.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co` correctly returns blocked locally
+  with `supabase_host_mismatch:rinalyjfecxnmyczrpzo.supabase.co!=tkpyosihuouusyaxtbau.supabase.co`
+  plus `supabase_rest_db_host_mismatch:rinalyjfecxnmyczrpzo.supabase.co!=db.tkpyosihuouusyaxtbau.supabase.co`
+  and the expected missing pipeline/ledger readback blockers.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 48`
+  reaches the DB project and currently reports 1 `pipeline_runs` row, 1
+  `stream_logs` row, 1 `deliverable_pipeline_runs` row, 1634
+  `deliverable_pipeline_events`, 2
+  `deliverable_pipeline_phase_delegations`, 16
+  `deliverable_pipeline_agent_steps`, 72
+  `deliverable_pipeline_generations`, and 0
+  `deliverable_pipeline_tool_executions` in the lookback window. The generic
+  `phase_executions` table is absent, but this is a warning because the
+  deliverable phase delegation table is populated. The hard blockers remain the
+  REST/DB project mismatch and zero BTD range, BTC fee, journal, anchor,
+  ownership, license, and crypto telemetry settlement rows.
+- `pnpm qa:v28:pipeline-readback -- --env-file uapi/.env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co` correctly returns blocked locally with a
+  placeholder Supabase URL and `supabase_admin_credential_missing_or_not_service_role`.
+- `pnpm test:qa:v28:pipeline-readback` passes 8 Node tests covering pnpm
+  argument forwarding, placeholder/admin credential rejection, host-mismatch
+  no-network behavior, REST/DB host mismatch, ready state when all counts are
+  present, DB URL counting, optional `phase_executions` substitution, and
+  ledger-row blockers.
+
+Pass 2C prompt-to-artifact closure audit:
+
+| Requirement | Current artifact/evidence | Gate state |
+| --- | --- | --- |
+| Vercel Sandbox harness creates a host, runs commands, exports evidence, exports telemetry, and cleans up. | `packages/pipeline-hosts` host/manifest/harness tests pass; local sandbox artifacts were exported for `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO`. | implemented and locally verified |
+| Route-started run id is visible before telemetry starts. | Deployed route code allocates `BITCODE_PIPELINE_RUN_ID`; Terminal stream snapshot and metadata rows consume `runId`; focused UAPI tests cover the stream adapter. | implemented and tested |
+| Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
+| Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget. | implemented and tested |
+| A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, generation/tool rows, and ledger settlement rows. `--readback-source db` can read staging rows even when REST env drift would otherwise hide them. `pnpm test:qa:v28:pipeline-readback` passes 8 verifier tests. | implemented and tested; current readback is blocked by mixed REST/DB project env and missing settlement rows |
+| Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |
+| Search/finding produces query root, ranking root, selected candidate ids, and embedding policy. | Local overlay run selected `manual-deposit-qa` and recorded query/ranking roots with OpenAI `text-embedding-3-small`. | locally verified only |
+| Model-backed telemetry records prompt/context input, raw output, usage, and parsed output for each model-backed stage. | Local overlay run exported 698 telemetry lines including `llm.input`, `llm.output`, `llm.usage`, and `llm.parsedOutput`. | locally verified only |
+| Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | DB readback now shows a recent real-inference run with 1634 deliverable events, 2 phase delegations, 16 agent steps, and 72 generations. It did not reach settlement rows, and local REST env still points at a different Supabase project. | open V28 blocker |
+| Settlement writes and rereads BTD range, BTC fee, ownership/license, journal, anchor, and crypto telemetry rows. | Overlay evidence correctly remains blocked and ledger rows remain zero; no clean settlement readback has been observed. | open V28 blocker |
+| Full-profile inference may run for dozens of minutes without route wait. | Scoped as a subsequent V28 gate requiring sandbox-pushed async completion to a server-side stream/socket handler or durable queue. The push must be run-id correlated, authenticated, idempotent, and durable before sandbox stop. | intentionally out of current gate |
+| Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Need-Fit ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

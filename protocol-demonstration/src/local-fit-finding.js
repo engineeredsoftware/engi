@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 const LOCAL_VECTOR_DIMENSIONS = 32;
 const LOCAL_REVIEW_SCORE = 0.42;
 const LOCAL_WORTHY_SCORE = 0.62;
+const LOCAL_MINIMUM_BTC_FEE_SATS = 1000;
 
 const STOP_WORDS = new Set([
   'the',
@@ -89,9 +90,125 @@ function readCorpus(read) {
   ].join(' ');
 }
 
+function normalizeRead(read) {
+  return {
+    prompt: String(read?.prompt || ''),
+    repositoryFullName: read?.repositoryFullName || null,
+    sourceBranch: read?.sourceBranch || null,
+    sourceCommit: read?.sourceCommit || null,
+    targetArtifactKinds: Array.isArray(read?.targetArtifactKinds) ? read.targetArtifactKinds : [],
+    closureCriteria: Array.isArray(read?.closureCriteria) ? read.closureCriteria : [],
+  };
+}
+
 function isBroadRead(read) {
   const prompt = String(read.prompt || '').toLowerCase();
   return tokensFrom(readCorpus(read)).length < 4 || /\b(anything|everything|all things|fix this)\b/u.test(prompt);
+}
+
+function defaultNeedRequirements(read) {
+  return [
+    read.prompt || 'source-bound Read request',
+    read.repositoryFullName ? `repository ${read.repositoryFullName}` : 'repository must be selected',
+    read.sourceCommit ? `commit ${read.sourceCommit}` : 'source commit must be selected',
+  ];
+}
+
+function defaultNeedClosureCriteria(read) {
+  return read.closureCriteria.length
+    ? read.closureCriteria
+    : [
+        'candidate is source-bound',
+        'proof and measurement evidence are present',
+        'preview avoids protected source disclosure before settlement',
+      ];
+}
+
+function measurementVectorForNeed(read) {
+  const promptVolume = Math.max(1, tokensFrom(read.prompt).length);
+  const targetVolume = Math.max(1, read.targetArtifactKinds.length);
+  const closureVolume = Math.max(1, defaultNeedClosureCriteria(read).length);
+  return [
+    { dimension: 'semantic_relevance', weight: 0.36, volume: promptVolume },
+    { dimension: 'source_binding', weight: 0.24, volume: read.repositoryFullName ? 1 : 0 },
+    { dimension: 'artifact_kind_fit', weight: 0.2, volume: targetVolume },
+    { dimension: 'closure_specificity', weight: 0.2, volume: closureVolume },
+  ];
+}
+
+function weightedMeasurementVolume(vector, fitMultiplier = 1) {
+  return Number(vector
+    .reduce((total, dimension) => total + (dimension.weight * dimension.volume * fitMultiplier), 0)
+    .toFixed(6));
+}
+
+function buildShareToFeeQuote(need, candidate) {
+  const vector = need.pricingMeasurementInputs.measurementVector;
+  const weightedVolume = weightedMeasurementVolume(vector, candidate.finalScore);
+  return {
+    formula: 'sum(measurement.weight * measurement.volume * admitted_fit_quality)',
+    measurementWeightUnit: 'local-demonstration-weight',
+    weightedAdmittedVolume: weightedVolume,
+    sats: Math.max(LOCAL_MINIMUM_BTC_FEE_SATS, Math.round(weightedVolume * 1000)),
+    finalityState: 'not_broadcast',
+    payer: 'reader',
+  };
+}
+
+export function synthesizeReadNeedLocally({ read, feedback = [] }) {
+  const normalizedRead = normalizeRead(read);
+  const closureCriteria = defaultNeedClosureCriteria(normalizedRead);
+  const measurementVector = measurementVectorForNeed(normalizedRead);
+  const needSeed = stableStringify({
+    read: normalizedRead,
+    feedback,
+    closureCriteria,
+    measurementVector,
+  });
+
+  return {
+    needId: `need-${sha256(needSeed).slice(0, 12)}`,
+    reviewState: 'needs_acceptance',
+    read: normalizedRead,
+    requirements: defaultNeedRequirements(normalizedRead),
+    closureCriteria,
+    failureModes: [
+      'repository_mismatch',
+      'source_commit_mismatch',
+      'proof_or_measurement_missing',
+      'source_preview_before_settlement',
+    ],
+    targetArtifactKinds: normalizedRead.targetArtifactKinds,
+    sourceConstraints: {
+      repositoryFullName: normalizedRead.repositoryFullName,
+      sourceBranch: normalizedRead.sourceBranch,
+      sourceCommit: normalizedRead.sourceCommit,
+      protectedSourceDisclosure: 'forbidden_before_settlement',
+    },
+    proofExpectations: [
+      'source-bound candidate ranking root',
+      'proof root',
+      'measurement evidence',
+      'settlement readback before unlock',
+    ],
+    pricingMeasurementInputs: {
+      measurementVector,
+      weightedRequestedVolume: weightedMeasurementVolume(measurementVector),
+      shareToFeeFormula: 'sum(measurement.weight * measurement.volume) before Fit; multiply by admitted Fit quality before quote',
+    },
+    feedback: Array.isArray(feedback) ? feedback.map((entry) => String(entry)) : [],
+  };
+}
+
+export function acceptReadNeedLocally(need) {
+  return {
+    ...need,
+    reviewState: 'accepted',
+    review: {
+      status: 'accepted',
+      nextStage: 'need_fit_search',
+    },
+  };
 }
 
 function sourceBlockers(read, deposit) {
@@ -150,13 +267,16 @@ function rankDeposit(read, deposit) {
   };
 }
 
-function synthesizeAssetPack(read, candidate) {
+function synthesizeAssetPack(need, candidate) {
+  const read = need.read;
   const sourceRevision = {
     repositoryFullName: candidate.deposit.repositoryFullName,
     branch: candidate.deposit.sourceBranch,
     commit: candidate.deposit.sourceCommit,
   };
+  const shareToFeeQuote = buildShareToFeeQuote(need, candidate);
   const proofSeed = stableStringify({
+    needId: need.needId,
     read: read.prompt,
     depositId: candidate.depositId,
     sourceRevision,
@@ -168,6 +288,19 @@ function synthesizeAssetPack(read, candidate) {
     sourceRevision,
     selectedDepositIds: [candidate.depositId],
     proofRoot: `sha256:${sha256(proofSeed)}`,
+    sourceSafePreview: {
+      status: 'preview_only',
+      protectedSource: 'withheld_until_settlement',
+      visibleEvidence: {
+        needId: need.needId,
+        requirements: need.requirements,
+        closureCriteria: need.closureCriteria,
+        selectedDepositIds: [candidate.depositId],
+        scoreBand: candidate.finalScore >= 0.8 ? 'high' : 'reviewable',
+        measurementVector: need.pricingMeasurementInputs.measurementVector,
+        shareToFeeQuote,
+      },
+    },
     journalRoot: `sha256:${sha256(stableStringify({
       assetPack: proofSeed,
       events: ['read-fit-found', 'asset-pack-synthesized', 'settlement-previewed'],
@@ -197,7 +330,9 @@ function synthesizeAssetPack(read, candidate) {
       readerBoundary: 'reader pays BTC fee only in settlement and receives read rights',
       serverCustody: false,
       btcFee: {
-        payer: 'reader',
+        payer: shareToFeeQuote.payer,
+        sats: shareToFeeQuote.sats,
+        weightedAdmittedVolume: shareToFeeQuote.weightedAdmittedVolume,
         finalityState: 'not_broadcast',
         serverCustody: false,
       },
@@ -240,20 +375,38 @@ export function createDepository() {
   ];
 }
 
-export function findReadFitLocally({ read, deposits = createDepository() }) {
-  const normalizedRead = {
-    prompt: String(read?.prompt || ''),
-    repositoryFullName: read?.repositoryFullName || null,
-    sourceBranch: read?.sourceBranch || null,
-    sourceCommit: read?.sourceCommit || null,
-    targetArtifactKinds: Array.isArray(read?.targetArtifactKinds) ? read.targetArtifactKinds : [],
-    closureCriteria: Array.isArray(read?.closureCriteria) ? read.closureCriteria : [],
-  };
+export function findNeedFitLocally({ need, deposits = createDepository() }) {
+  if (!need || need.reviewState !== 'accepted') {
+    return {
+      resultState: 'blocked_readiness',
+      resultReasons: ['A synthesized Need must be accepted before local Fit search.'],
+      need: need || null,
+      needId: need?.needId || null,
+      candidateRanking: [],
+      selectedCandidates: [],
+      assetPack: null,
+      queryRoot: null,
+      rankingRoot: null,
+      embeddingPolicy: {
+        provider: 'local',
+        model: 'deterministic-token-hash',
+        dimensions: LOCAL_VECTOR_DIMENSIONS,
+        distanceMetric: 'cosine',
+      },
+    };
+  }
+
+  const normalizedRead = normalizeRead(need.read);
 
   const candidateRanking = deposits
     .map((deposit) => rankDeposit(normalizedRead, deposit))
     .sort((left, right) => right.finalScore - left.finalScore || left.depositId.localeCompare(right.depositId));
-  const queryRoot = `sha256:${sha256(stableStringify(normalizedRead))}`;
+  const queryRoot = `sha256:${sha256(stableStringify({
+    needId: need.needId,
+    read: normalizedRead,
+    requirements: need.requirements,
+    closureCriteria: need.closureCriteria,
+  }))}`;
   const rankingRoot = `sha256:${sha256(stableStringify(candidateRanking.map((candidate) => ({
     depositId: candidate.depositId,
     finalScore: candidate.finalScore,
@@ -271,6 +424,8 @@ export function findReadFitLocally({ read, deposits = createDepository() }) {
     return {
       resultState: 'blocked_readiness',
       resultReasons: ['No local deposits are available.'],
+      need,
+      needId: need.needId,
       candidateRanking,
       selectedCandidates: [],
       assetPack: null,
@@ -284,6 +439,8 @@ export function findReadFitLocally({ read, deposits = createDepository() }) {
     return {
       resultState: 'blocked_readiness',
       resultReasons: ['The local Read is too broad to fit without target kinds or closure criteria.'],
+      need,
+      needId: need.needId,
       candidateRanking,
       selectedCandidates: [],
       assetPack: null,
@@ -303,6 +460,8 @@ export function findReadFitLocally({ read, deposits = createDepository() }) {
     return {
       resultState: 'no_worthy_fit',
       resultReasons: ['No local deposit matched the source-bound Read.'],
+      need,
+      needId: need.needId,
       candidateRanking,
       selectedCandidates: [],
       assetPack: null,
@@ -319,6 +478,8 @@ export function findReadFitLocally({ read, deposits = createDepository() }) {
         'A local deposit matched, but proof, measurement, or score requirements are incomplete.',
         ...best.warnings,
       ],
+      need,
+      needId: need.needId,
       candidateRanking,
       selectedCandidates: selected,
       assetPack: null,
@@ -331,11 +492,18 @@ export function findReadFitLocally({ read, deposits = createDepository() }) {
   return {
     resultState: 'worthy_fit',
     resultReasons: ['A local source-bound deposit was ranked and synthesized as a minimal AssetPack fit.'],
+    need,
+    needId: need.needId,
     candidateRanking,
     selectedCandidates: selected,
-    assetPack: synthesizeAssetPack(normalizedRead, best),
+    assetPack: synthesizeAssetPack(need, best),
     queryRoot,
     rankingRoot,
     embeddingPolicy,
   };
+}
+
+export function findReadFitLocally({ read, deposits = createDepository(), feedback = [] }) {
+  const need = acceptReadNeedLocally(synthesizeReadNeedLocally({ read, feedback }));
+  return findNeedFitLocally({ need, deposits });
 }

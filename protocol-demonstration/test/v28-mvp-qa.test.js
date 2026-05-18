@@ -45,7 +45,7 @@ const genericLlmsPackageSource = readFileSync(
 const v28SpecSource = readFileSync(new URL('../../BITCODE_SPEC_V28.md', import.meta.url), 'utf8');
 const v28NotesSource = readFileSync(new URL('../../BITCODE_SPEC_V28_NOTES.md', import.meta.url), 'utf8');
 
-const commercialMvpE2eFiles = [
+const productMvpE2eFiles = [
   '../../uapi/tests/e2e/commercial-mvp.helpers.ts',
   '../../uapi/tests/e2e/commercial-mvp.routes.spec.ts',
   '../../uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
@@ -96,8 +96,8 @@ test('V28 BTD tracker hover context lists recent BTD AssetPacks', () => {
   assert.match(mockReviewModeSource, /recentBtdAssetPacks: \[/u);
 });
 
-test('V28 commercial MVP Playwright suite covers product-experiential route and interaction proof', () => {
-  for (const file of commercialMvpE2eFiles) {
+test('V28 MVP Playwright suite covers product-experiential route and interaction proof', () => {
+  for (const file of productMvpE2eFiles) {
     assert.equal(existsSync(new URL(file, import.meta.url)), true, `${file} must exist`);
   }
 
@@ -114,7 +114,7 @@ test('V28 commercial MVP Playwright suite covers product-experiential route and 
   assert.match(helperSource, /api\/auxillaries\/model-preferences/u);
   assert.match(helperSource, /api\/auxillaries\/user\/data-share/u);
 
-  const suiteSource = commercialMvpE2eFiles
+  const suiteSource = productMvpE2eFiles
     .filter((file) => !file.endsWith('helpers.ts'))
     .map((file) => readFileSync(new URL(file, import.meta.url), 'utf8'))
     .join('\n');
@@ -141,7 +141,7 @@ test('V28 commercial MVP Playwright suite covers product-experiential route and 
   assert.match(suiteSource, /setViewportSize/u);
 });
 
-test('V28 commercial provider dependencies are owned at the provider package boundary', () => {
+test('V28 provider dependencies are owned at the provider package boundary', () => {
   assert.match(genericLlmsPackageSource, /"@ai-sdk\/google": "1\.0\.4"/u);
   assert.match(genericLlmsPackageSource, /"@anthropic-ai\/sdk": "0\.15\.0"/u);
   assert.match(genericLlmsPackageSource, /"ai": "4\.3\.16"/u);

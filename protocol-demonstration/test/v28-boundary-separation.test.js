@@ -30,7 +30,7 @@ function collectJavaScriptFiles(root) {
   return files;
 }
 
-test('standalone protocol demonstration runtime does not import commercial source or packages', () => {
+test('standalone protocol demonstration runtime does not import outside source or workspace packages', () => {
   const runtimeFiles = [
     path.join(demonstrationRoot, 'server.js'),
     ...collectJavaScriptFiles(path.join(demonstrationRoot, 'src')),
@@ -48,7 +48,7 @@ test('standalone protocol demonstration stays outside the workspace build graph'
   assert.equal(workspaceSource.includes("- 'protocol-demonstration'"), false);
 });
 
-test('standalone protocol demonstration guards title updates when embedded as a commercial witness', () => {
+test('standalone protocol demonstration guards title updates when embedded as a product witness', () => {
   const appBundle = readFileSync(path.join(demonstrationRoot, 'public', 'app.js'), 'utf8');
 
   assert.match(appBundle, /function shouldUpdateDocumentTitle\(\)/);

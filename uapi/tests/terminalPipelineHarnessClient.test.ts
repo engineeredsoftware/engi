@@ -177,6 +177,23 @@ describe('terminal pipeline harness client', () => {
     ).toBe('Harness preflight blocked: real inference flag missing, full profile requires async completion gate, Supabase service role missing.');
   });
 
+  it('summarizes route preflight profile, budget, and database host when unblocked', () => {
+    expect(
+      summarizeTerminalFitPipelineHarnessEvent({
+        event: 'harness-preflight',
+        data: {
+          realInferenceEnabled: true,
+          openaiCredentialProvided: true,
+          supabaseUrlProvided: true,
+          supabaseServiceRoleProvided: true,
+          realInferenceProfile: 'bounded',
+          runtimeBudgetMs: 600000,
+          supabaseHost: 'staging.supabase.co',
+        },
+      }),
+    ).toBe('Harness preflight passed with real inference and database streaming credentials present; profile bounded; budget 600000ms; db staging.supabase.co.');
+  });
+
   it('summarizes live telemetry artifact events with phase, path, and inspected payload shape', () => {
     const summary = summarizeTerminalFitPipelineHarnessEvent({
       event: 'harness-event',
@@ -214,7 +231,10 @@ describe('terminal pipeline harness client', () => {
       [
         {
           event: 'harness-started',
-          data: { repositoryFullName: 'engineeredsoftware/ENGI' },
+          data: {
+            repositoryFullName: 'engineeredsoftware/ENGI',
+            runId: '2bdcd936-a686-4a10-92e2-9c64cbef4f0e',
+          },
         },
         {
           event: 'harness-event',
@@ -247,7 +267,9 @@ describe('terminal pipeline harness client', () => {
     );
 
     expect(snapshot.output).toContain('Harness started');
+    expect(snapshot.output).toContain('run 2bdcd936-a68...');
     expect(snapshot.output).toContain('Telemetry line 9');
+    expect(snapshot.runId).toBe('2bdcd936-a686-4a10-92e2-9c64cbef4f0e');
     expect(snapshot.executionState.phase).toBe('Finish');
     expect(snapshot.isStreamingComplete).toBe(true);
     expect(snapshot.generationCount).toBe(1);

@@ -677,8 +677,8 @@ Every link must make proof or readiness state visible.
 
 ## staged Reading acceptance path
 
-V28 separates Reading into distinct reviewable stages so commercial buyers can
-decide whether Bitcode understood the need before Bitcode exposes or settles
+V28 separates Reading into distinct reviewable stages so readers can decide
+whether Bitcode understood the need before Bitcode exposes or settles
 source-bearing AssetPack material.
 
 The staged Reading path is:
@@ -695,20 +695,39 @@ The staged Reading path is:
    candidates, measures candidate fit against the Need measurement, synthesizes
    the candidate AssetPack, and returns `worthy_fit`, `no_worthy_fit`, or
    `blocked_readiness` with proof-bearing search/fit telemetry.
-3. **Preview and settlement.** A worthy synthesized AssetPack is previewed
-   without leaking the full source. Preview may show Need measurement, Fit
-   measurement, selected candidate ids, roots, score bands, proof posture,
-   settlement boundary, and price; it must not show protected source material
-   before payment/right settlement. Settlement then records the reader BTC fee,
-   mints or assigns the BTD range according to the standing supply law, writes
-   ownership and read-license rows, anchors/journals the event, and only then
-   unlocks the full AssetPack source/right surface to the buyer/reader.
+3. **Source-safe preview.** A worthy synthesized AssetPack is previewed without
+   leaking the full source. Preview may show Need measurement, Fit measurement,
+   selected candidate ids, roots, score bands, proof posture, ownership
+   boundary, settlement boundary, and price; it must not show protected source
+   material before payment/right settlement.
+4. **Settle and unlock.** Settlement records the reader BTC fee, mints or
+   assigns the BTD range according to the standing supply law, writes ownership
+   and read-license rows, anchors/journals the event, and only then unlocks the
+   full AssetPack source/right surface to the buyer/reader.
 
-The commercial question therefore splits into two explicit operator questions:
+The reader question therefore splits into two explicit operator questions:
 
 - Does Bitcode understand the Read's Need?
 - Did Bitcode find and synthesize a match good enough to preview confidently
   and pay for in BTC without source-IP leakage?
+
+These stages are separately addressable in Terminal and separately journaled in
+the database/ledger readback. A Need stage run cannot be reused as a Fit result
+unless the accepted Need id, Need measurement root, user review state, feedback
+history, and synthesis telemetry are present. A Need-Fit run cannot be promoted
+unless the input Need id and accepted Need measurement root match the latest
+accepted Need revision. Preview cannot unlock source-bearing payloads.
+Settlement cannot proceed unless the previewed AssetPack id, fee quote, BTD
+range projection, wallet authorization, BTC fee transaction, ownership boundary,
+journal entry, and ledger/database readback all agree.
+
+The protocol demonstration carries only the minimal deterministic witness of
+this path: local Need synthesis, explicit Need acceptance, local Need-Fit
+ranking over fixture deposits, source-safe preview, and deterministic fee-quote
+shape. It must remain self-contained and must not import the product pipeline,
+registry, prompt, agent, Vercel, Supabase, UAPI, or package implementations.
+Product code may compare against the witness, but it must own its own runtime
+implementation.
 
 ### Share-to-Fee measurement clarity
 
@@ -721,15 +740,18 @@ must be deterministic from recorded measurements:
   measurement vector;
 - the priced measurement volume is the weighted admitted volume after fit,
   quality, proof, and settlement eligibility gates;
+- the initial deterministic shape is
+  `sum(measurement_weight * measurement_volume * admitted_fit_quality)` before
+  applying the configured BTC fee schedule;
 - BTC price is derived from that priced measurement volume by the configured
   staging-testnet fee schedule and recorded as a reader fee quote;
 - the quote is previewable before payment, but source contents and licensed
   read rights are not unlocked until settlement readback succeeds.
 
-This pricing path is a V28 commercial product acceptance target, but it must
-remain fail-closed: if the Need measurement, Fit measurement, fee schedule,
-wallet authorization, BTC fee, BTD range, or ledger readback is missing, the
-Terminal shows blocked readiness rather than implying settlement.
+This pricing path is a V28 product acceptance target, but it must remain
+fail-closed: if the Need measurement, Fit measurement, fee schedule, wallet
+authorization, BTC fee, BTD range, or ledger readback is missing, the Terminal
+shows blocked readiness rather than implying settlement.
 
 ### Long-running full-profile pipeline gate
 
@@ -743,9 +765,18 @@ That later gate may run for dozens of minutes in Vercel Sandbox. The sandbox
 execution itself must push finished result state, artifacts, and readback
 signals to a server-side stream/socket handler or durable queue; the route that
 starts the run must not be responsible for waiting synchronously for the final
-result. Full-profile acceptance requires the same evidence as bounded profile
-plus durable async completion delivery, resumable status readback, and Terminal
-reattachment to the live execution stream.
+result. The push must be correlated by the pipeline run id, authenticated
+without exposing Vercel/OAI/Supabase/GitHub secrets inside routine telemetry,
+idempotent across retries, and durable before the sandbox stops. Terminal must
+be able to reattach by run id and stream both in-flight events and final
+artifact/readback state after the starter HTTP request has ended.
+
+Full-profile acceptance requires the same evidence as bounded profile plus
+durable async completion delivery, resumable status readback, explicit timeout
+and retry accounting, and Terminal reattachment to the live execution stream.
+Until that gate exists, `full` is a preflight blocker on the deployed route and
+`bounded` remains the current staging-testnet profile for closing the
+source-bound Read/Fit -> AssetPack -> Finish -> ledger readback gate.
 
 ## canonical subsystem surfaces
 
