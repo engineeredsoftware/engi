@@ -78,7 +78,7 @@ export default class GitHubProvider extends VCSProvider {
       author: {
         id: pr.user?.id.toString() || '',
         username: pr.user?.login || '',
-        avatarUrl: pr.user?.avatar_url,
+        avatarUrl: pr.user?.avatar_url || undefined,
       },
       createdAt: new Date(pr.created_at),
       updatedAt: new Date(pr.updated_at),
