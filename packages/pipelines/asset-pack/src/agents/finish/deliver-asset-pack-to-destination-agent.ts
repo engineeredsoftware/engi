@@ -219,9 +219,9 @@ async function deliverPullRequest(
       ...result,
       contentRoot,
       contentBytes: Buffer.byteLength(content, 'utf8'),
-      branch,
-      file,
-      pullRequest,
+      branchResult: branch,
+      fileResult: file,
+      pullRequestResult: pullRequest,
     });
     return result;
   } catch (error) {

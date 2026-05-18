@@ -82,6 +82,12 @@ describe('finish pull-request delivery', () => {
       draft: true,
     }));
     expect(exec.get('finish', 'pullRequestUrl')).toContain('/pull/123');
+    expect(exec.get('finish', 'deliveryReadiness')).toMatchObject({
+      status: 'delivered',
+      prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/123',
+      branch: 'bitcode/asset-pack-run-123',
+      path: '.bitcode/asset-packs/run-123.md',
+    });
     expect(exec.get('finish', 'deliveryPath')).toBe('.bitcode/asset-packs/run-123.md');
     expect(emitToolUsage).toHaveBeenCalledTimes(3);
     expect(emitToolUsage.mock.calls[1][3]).toMatchObject({
