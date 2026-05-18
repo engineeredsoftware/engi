@@ -259,6 +259,63 @@ export function enablePipelineStreaming(
       }, 'id', deliverableRunId).catch(() => {});
     };
 
+    const ensurePhaseDelegationForEvent = async (
+      phaseId: string | null | undefined,
+      phaseName: string | null,
+      now: string
+    ): Promise<string | null> => {
+      if (phaseId) return phaseId;
+      if (!phaseName || !(await ensureDeliverableRun())) return null;
+      const existing = phaseIdByName.get(phaseName);
+      if (existing) return existing;
+
+      const row: import('../types/db').DPPhaseDelegationInsert = {
+        run_id: deliverableRunId,
+        phase_name: phaseName,
+        started_at: now,
+        completed_at: now,
+        status: 'completed',
+        input_data: { inferredFrom: 'tool-execution-event' },
+        output_data: { inferredFrom: 'tool-execution-event' },
+      } as any;
+      const { data, error } = await insertRow('deliverable_pipeline_phase_delegations', row, true);
+      if (!error && data?.id) {
+        phaseIdByName.set(phaseName, data.id);
+        return data.id;
+      }
+      return null;
+    };
+
+    const ensureAgentStepForEvent = async (
+      phaseId: string | null,
+      phaseName: string | null,
+      agentName: string | null,
+      stepType: string | null,
+      now: string
+    ): Promise<string | null> => {
+      if (!(phaseId && agentName && stepType)) return null;
+      const key = agentStepKey(phaseId, phaseName, agentName, stepType);
+      const existing = agentStepMap.get(key);
+      if (existing) return existing;
+
+      const row: import('../types/db').DPAgentStepInsert = {
+        phase_delegation_id: phaseId,
+        agent_name: agentName,
+        step_type: stepType,
+        started_at: now,
+        completed_at: now,
+        status: 'completed',
+        input_data: { inferredFrom: 'tool-execution-event' },
+        output_data: { inferredFrom: 'tool-execution-event' },
+      } as any;
+      const { data, error } = await insertRow('deliverable_pipeline_agent_steps', row, true);
+      if (!error && data?.id) {
+        agentStepMap.set(key, data.id);
+        return data.id;
+      }
+      return null;
+    };
+
     const completeOpenHierarchyRows = async (now: string) => {
       if (!(await ensureDeliverableRun())) return;
       const { data: openPhases } = await (supabase as any)
@@ -299,9 +356,12 @@ export function enablePipelineStreaming(
 
         const structuredTool = normalizeToolExecutionEvent(event);
         if (structuredTool && await ensureDeliverableRun()) {
-          const phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          let phaseId = phaseState.currentPhaseId || (phaseName ? phaseIdByName.get(phaseName) : null);
+          phaseId = await ensurePhaseDelegationForEvent(phaseId ?? null, phaseName, now);
           const key = agentStepKey(phaseId ?? null, phaseName, agentName, stepType);
-          const agentStepId = agentStepMap.get(key) || null;
+          const agentStepId =
+            agentStepMap.get(key) ||
+            await ensureAgentStepForEvent(phaseId ?? null, phaseName, agentName, stepType, now);
           const row: import('../types/db').DPToolExecInsert = {
             agent_step_id: agentStepId,
             substep_id: null,

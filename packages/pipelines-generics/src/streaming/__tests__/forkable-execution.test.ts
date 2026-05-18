@@ -285,4 +285,54 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
       tool_error: null,
     });
   });
+
+  it('creates correlation rows for stored tool status events outside an explicit agent span', async () => {
+    const supabase = new MockSupabase() as any;
+    const runId = '77777777-7777-4777-8777-777777777777';
+    const userId = '88888888-8888-4888-8888-888888888888';
+
+    const exec = new Execution(`exec-${runId}`);
+    const streamer = enablePipelineStreaming(exec as any, {
+      runId,
+      userId,
+      supabase,
+      structuredToDatabase: true,
+    });
+
+    await ExecutionStreamAdapter.emitEvent(exec.id, 'status' as any, {
+      namespace: 'tools',
+      key: 'result',
+      data: {
+        tool: 'bitcode.depository.search',
+        ok: true,
+        input: { read: { id: 'read-1' }, assetCount: 1 },
+        output: { resultState: 'worthy_fit', selectedCandidateCount: 1 },
+        phase: 'setup',
+        agent: 'setup:depository-search',
+        step: 'try',
+      },
+    });
+
+    await (streamer as any).flushStructuredWrites?.();
+
+    expect(supabase.tables.deliverable_pipeline_phase_delegations).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_phase_delegations[0]).toMatchObject({
+      phase_name: 'setup',
+      status: 'completed',
+    });
+    expect(supabase.tables.deliverable_pipeline_agent_steps).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_agent_steps[0]).toMatchObject({
+      phase_delegation_id: 'deliverable_pipeline_phase_delegations-1',
+      agent_name: 'setup:depository-search',
+      status: 'completed',
+    });
+    expect(supabase.tables.deliverable_pipeline_tool_executions).toHaveLength(1);
+    expect(supabase.tables.deliverable_pipeline_tool_executions[0]).toMatchObject({
+      agent_step_id: 'deliverable_pipeline_agent_steps-1',
+      tool_name: 'bitcode.depository.search',
+      tool_input: { read: { id: 'read-1' }, assetCount: 1 },
+      tool_output: { resultState: 'worthy_fit', selectedCandidateCount: 1 },
+      tool_error: null,
+    });
+  });
 });

@@ -411,6 +411,10 @@ async function runDeliveryTool<T>(
       ok: true,
       input: summarizedInput,
       output: summarizedOutput,
+      phase: 'finish',
+      agent: 'finish:asset-pack-delivery-agent',
+      step: 'try',
+      generation: 'tools_execution',
     });
     await emitToolUsage(execution, toolName, summarizedInput, summarizedOutput, null);
     return output;
@@ -422,6 +426,10 @@ async function runDeliveryTool<T>(
       ok: false,
       input: summarizedInput,
       error: { message },
+      phase: 'finish',
+      agent: 'finish:asset-pack-delivery-agent',
+      step: 'try',
+      generation: 'tools_execution',
     });
     await emitToolUsage(execution, toolName, summarizedInput, null, message);
     throw error;
