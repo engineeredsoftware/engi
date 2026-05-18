@@ -24,13 +24,17 @@ jobs:
         id: image
         run: |
           if [ "${GITHUB_REF}" = "refs/heads/main" ] && [ -n "${ECR_REPOSITORY}" ]; then
-            echo "push=true" >> "$GITHUB_OUTPUT"
-            echo "runner_tag=${ECR_REPOSITORY}:latest" >> "$GITHUB_OUTPUT"
-            echo "worker_tag=${ECR_REPOSITORY}:worker" >> "$GITHUB_OUTPUT"
+            {
+              echo "push=true"
+              echo "runner_tag=${ECR_REPOSITORY}:latest"
+              echo "worker_tag=${ECR_REPOSITORY}:worker"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "push=false" >> "$GITHUB_OUTPUT"
-            echo "runner_tag=bitcode-long-runner:ci" >> "$GITHUB_OUTPUT"
-            echo "worker_tag=bitcode-long-runner-worker:ci" >> "$GITHUB_OUTPUT"
+            {
+              echo "push=false"
+              echo "runner_tag=bitcode-long-runner:ci"
+              echo "worker_tag=bitcode-long-runner-worker:ci"
+            } >> "$GITHUB_OUTPUT"
           fi
 
       # Optionally configure AWS credentials – replace with GCP/Azure/Fly
