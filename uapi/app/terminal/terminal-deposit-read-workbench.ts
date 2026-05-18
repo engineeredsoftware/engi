@@ -124,8 +124,8 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
   const selectedRevisionLabel = sourceCommit
     ? `${selectedRepository.fullName}@${sourceBranch}:${sourceCommit.slice(0, 12)}`
     : `${selectedRepository.fullName}@${sourceBranch}`;
-  const readScenarioId = `terminal-commercial-read-fit:${selectedRepository.id}`;
-  const readScenarioFamily = `Terminal commercial Read/Fit QA for ${selectedRepository.fullName}`;
+  const readScenarioId = `terminal-read-fit:${selectedRepository.id}`;
+  const readScenarioFamily = `Terminal Read/Fit QA for ${selectedRepository.fullName}`;
   const readSummary =
     `Read the deposited source revision ${selectedRevisionLabel} for a non-mock Terminal path from wallet and GitHub readiness through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.`;
   const closureCriteria = [
@@ -170,7 +170,7 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
       scenarioFamily: readScenarioFamily,
       repo: selectedRepository.fullName,
       task: readSummary,
-      profileShortLabel: 'Commercial Read/Fit QA',
+      profileShortLabel: 'Read/Fit QA',
     },
     authSession: {
       authSessionId: `${repositoryContext?.provider || 'github'}:${providerAccount}:${selectedRepository.fullName}`,
@@ -197,7 +197,7 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
         matchingDepositedRevision
           ? 'Latest proof-bearing deposit submission is pinned as the source revision for measured Read and fit evaluation.'
           : 'Live repository supply is selected for deposit before any measured Read or fit can be evaluated.',
-      depositProfile: 'Commercial Read/Fit QA',
+      depositProfile: 'Read/Fit QA',
       repoSupplyRef: selectedRepository.fullName,
       selectedInventoryRefs: [selectedRepository.id],
       selectedArtifactKindCounts: { [selectedRepository.language || 'repository']: 1 },
@@ -206,7 +206,7 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
       authRoot: `${providerAccount} · ${repositoryContext?.provider || 'github'}`,
     },
     readingSurface: {
-      parserKind: 'terminal-commercial-read-fit-parser',
+      parserKind: 'terminal-read-fit-parser',
       readId: readScenarioId,
       readSummary,
       taskSummary: readSummary,

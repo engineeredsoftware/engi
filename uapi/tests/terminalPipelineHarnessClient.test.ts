@@ -11,8 +11,8 @@ const workbench: TerminalDepositReadWorkbench = {
   canonLabel: 'V27',
   projectionPrincipal: 'buyer',
   branchMode: 'patch',
-  scenarioLabel: 'Terminal commercial Read/Fit QA for engineeredsoftware/ENGI',
-  profileLabel: 'Commercial Read/Fit QA',
+  scenarioLabel: 'Terminal Read/Fit QA for engineeredsoftware/ENGI',
+  profileLabel: 'Read/Fit QA',
   sourceRevision: {
     repositoryFullName: 'engineeredsoftware/ENGI',
     branch: 'main',
@@ -175,6 +175,22 @@ describe('terminal pipeline harness client', () => {
         },
       }),
     ).toBe('Harness preflight blocked: real inference flag missing, full profile requires async completion gate, Supabase service role missing.');
+  });
+
+  it('does not present missing real inference as a local development blocker when strictness is disabled', () => {
+    expect(
+      summarizeTerminalFitPipelineHarnessEvent({
+        event: 'harness-preflight',
+        data: {
+          realInferenceRequired: false,
+          realInferenceEnabled: false,
+          openaiCredentialProvided: true,
+          supabaseUrlProvided: true,
+          supabaseServiceRoleProvided: true,
+          supabaseHost: 'local.supabase.co',
+        },
+      }),
+    ).toBe('Harness preflight passed with database streaming credentials present; local real-inference strictness off; db local.supabase.co.');
   });
 
   it('summarizes route preflight profile, budget, and database host when unblocked', () => {

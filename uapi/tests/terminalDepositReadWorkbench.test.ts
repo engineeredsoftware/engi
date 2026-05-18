@@ -227,11 +227,11 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
     });
     const workbench = normalizeTerminalDepositReadWorkbench(snapshot);
 
-    expect(workbench?.scenarioLabel).toBe('Terminal commercial Read/Fit QA for engineeredsoftware/ENGI');
-    expect(workbench?.profileLabel).toBe('Commercial Read/Fit QA');
+    expect(workbench?.scenarioLabel).toBe('Terminal Read/Fit QA for engineeredsoftware/ENGI');
+    expect(workbench?.profileLabel).toBe('Read/Fit QA');
     expect(workbench?.read.rows.find((row) => row.label === 'Repository')?.value).toBe('engineeredsoftware/ENGI');
     expect(workbench?.read.rows.find((row) => row.label === 'Parser')?.value).toBe(
-      'terminal-commercial-read-fit-parser',
+      'terminal-read-fit-parser',
     );
     expect(workbench?.read.closureCriteria).toHaveLength(5);
     expect(workbench?.read.targetKinds).toEqual(

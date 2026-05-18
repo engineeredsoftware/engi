@@ -93,6 +93,14 @@ rejects `full` preflight.
 The deployed route assigns `BITCODE_PIPELINE_RUN_ID` before sandbox creation and
 echoes that id through each SSE event so Terminal can display a stable run id
 before telemetry artifacts are written.
+Local application deployments use the same route, stream, and harness code
+without deploying to Vercel. To make local route QA as strict as staging, set
+`BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` alongside
+`BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
+`BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, OpenAI credentials,
+aligned Supabase service-role credentials, and Vercel Sandbox local auth.
+Without the explicit local strict flag, ordinary `next dev` may inspect UI and
+route wiring, but it is not admissible Read/Fit closure evidence.
 After a clean deployed run, verify the staging database and ledger readback with
 `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host <staging-supabase-host>`.
 The verifier emits sanitized counts and V28 blockers without printing secrets.
@@ -124,6 +132,27 @@ production, the route preflight-fails without
 larger harness runtime budget.
 
 ## Live QA
+
+### Local application deployment
+
+For the current no-deploy pass, start the Terminal locally and keep the
+real-inference route gate enabled:
+
+```bash
+BITCODE_ENABLE_PIPELINE_HARNESS_API=1 \
+BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1 \
+BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
+BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
+BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
+pnpm -C uapi dev:remote
+```
+
+The local process must have `OPENAI_API_KEY`, aligned Supabase URL/service-role
+credentials, and either `VERCEL_OIDC_TOKEN` from `vercel link && vercel env pull`
+or the access-token tuple used by `@vercel/sandbox`. This command is a local
+application deployment only; it must not be counted as clean live settlement
+evidence until the resulting database and ledger rows pass SQL readback for the
+accepted environment.
 
 Link a Vercel project and pull local OIDC credentials:
 

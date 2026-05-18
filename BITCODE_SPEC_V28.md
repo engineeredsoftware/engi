@@ -385,7 +385,7 @@ Acceptance criteria:
 
 #### Pipeline host runtime environment for Read/Fit QA
 
-V28 now admits a lightweight deployment harness because the first commercial
+V28 now admits a lightweight deployment harness because the first value-bearing
 Read/Fit result cannot be reviewed from local posture rows alone.
 The harness is not the full V34 distributed deployment program; it is the
 minimum real host contract needed to prove that AssetPack pipeline execution,
@@ -512,6 +512,17 @@ Read/Fit result review remains fail-closed:
   still needs a server-side model credential such as `OPENAI_API_KEY`, real
   Supabase admin/service-role credentials for telemetry persistence, and a
   runtime budget that is shorter than the enclosing Vercel Function window.
+- a local application deployment may stand in for route/UI implementation QA
+  when live deployment is explicitly out of scope. In that mode the operator
+  must run the Terminal application locally with
+  `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1`,
+  `BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, aligned Supabase
+  service-role credentials, OpenAI credentials, and Vercel Sandbox local auth.
+  Local application deployment evidence can prove route preflight, canonical
+  stream rendering, artifact streaming, and SQL readback behavior, but it
+  cannot close a live source-revision settlement/finality gate unless the same
+  source and database/ledger rows are read back from the accepted environment.
 
 ### Gate 4: Terminal AssetPack Range Detail
 

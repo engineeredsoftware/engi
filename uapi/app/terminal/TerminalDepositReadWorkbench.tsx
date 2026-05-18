@@ -157,6 +157,7 @@ export default function TerminalDepositReadWorkbench({
     let pipelineRunId: string | null = null;
     let lastTelemetryLine: string | null = null;
     let inferenceProfile: string | null = null;
+    let inferenceGate: string | null = null;
     let runtimeBudget: string | null = null;
     let supabaseHost: string | null = null;
 
@@ -166,6 +167,12 @@ export default function TerminalDepositReadWorkbench({
       runId = textValue(data.runId) || runId;
       sandboxId = textValue(data.sandboxId) || sandboxId;
       inferenceProfile = textValue(data.realInferenceProfile) || inferenceProfile;
+      inferenceGate =
+        typeof data.realInferenceRequired === 'boolean'
+          ? data.realInferenceRequired
+            ? 'required'
+            : 'local optional'
+          : inferenceGate;
       runtimeBudget =
         typeof data.runtimeBudgetMs === 'number' && Number.isFinite(data.runtimeBudgetMs)
           ? `${data.runtimeBudgetMs}ms`
@@ -185,6 +192,7 @@ export default function TerminalDepositReadWorkbench({
     if (sandboxId) rows.push({ label: 'sandbox', value: shortIdentifier(sandboxId) || sandboxId });
     if (runId) rows.push({ label: 'run', value: shortIdentifier(runId) || runId });
     if (pipelineRunId) rows.push({ label: 'pipeline row', value: shortIdentifier(pipelineRunId) || pipelineRunId });
+    if (inferenceGate) rows.push({ label: 'inference gate', value: inferenceGate });
     if (inferenceProfile) rows.push({ label: 'profile', value: inferenceProfile });
     if (runtimeBudget) rows.push({ label: 'budget', value: runtimeBudget });
     if (supabaseHost) rows.push({ label: 'database', value: supabaseHost });

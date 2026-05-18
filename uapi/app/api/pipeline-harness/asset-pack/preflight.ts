@@ -1,0 +1,154 @@
+export type PipelineHarnessPreflightBody = {
+  repositoryFullName?: string;
+  sourceBranch?: string;
+  sourceCommit?: string;
+  readId?: string;
+  depositId?: string;
+};
+
+type PipelineHarnessRuntimeEnv = Record<string, string | undefined>;
+
+export function isProductionDeployment(env: PipelineHarnessRuntimeEnv = process.env): boolean {
+  return env.VERCEL_ENV === 'production';
+}
+
+export function isDeployedRuntime(env: PipelineHarnessRuntimeEnv = process.env): boolean {
+  return env.VERCEL === '1' || env.NODE_ENV === 'production';
+}
+
+export function isEnabled(value: string | undefined): boolean {
+  return ['1', 'true', 'yes', 'on'].includes(String(value || '').trim().toLowerCase());
+}
+
+export function isPipelineHarnessRealInferenceRequired(env: PipelineHarnessRuntimeEnv = process.env): boolean {
+  return (
+    isDeployedRuntime(env) ||
+    isEnabled(env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE)
+  );
+}
+
+export function isUsableSupabaseUrl(value: string | undefined): boolean {
+  if (!value) return false;
+  try {
+    const host = new URL(value).host;
+    return Boolean(host && host !== 'your-project.supabase.co' && !host.includes('<'));
+  } catch {
+    return false;
+  }
+}
+
+export function readSupabaseHost(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    const host = new URL(value).host;
+    return host || null;
+  } catch {
+    return null;
+  }
+}
+
+export function isUsableSecretValue(value: string | undefined): boolean {
+  return typeof value === 'string' && value.trim().length > 16 && !value.includes('<');
+}
+
+export function readRealInferenceProfile(value: string | undefined): string {
+  return String(value || '').trim().toLowerCase();
+}
+
+export function assertDatabaseStreamingEnvironment(env: Record<string, string>): void {
+  const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_SECRET_KEY || env.SUPABASE_ADMIN_KEY;
+  if (!isUsableSupabaseUrl(url) || !isUsableSecretValue(key)) {
+    throw new Error(
+      'Pipeline harness database streaming requires a non-placeholder Supabase URL and service-role key.'
+    );
+  }
+}
+
+export function assertRealInferenceEnvironment(env: Record<string, string>): void {
+  if (!isPipelineHarnessRealInferenceRequired(env)) return;
+  if (!isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE)) {
+    throw new Error(
+      'Staging pipeline harness requires BITCODE_ASSET_PACK_REAL_INFERENCE=1 so Read/Fit QA cannot run deterministic bring-up branches.'
+    );
+  }
+  if (!env.OPENAI_API_KEY) {
+    throw new Error(
+      'Staging pipeline harness requires OPENAI_API_KEY for real AssetPack PTRR inference.'
+    );
+  }
+  if (readRealInferenceProfile(env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) !== 'bounded') {
+    throw new Error(
+      'The current Terminal harness route requires BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded. Full profile runs are scoped to the later async sandbox completion gate where the sandbox pushes finished state to a server-side stream handler.'
+    );
+  }
+  const budgetMs = Number(env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
+  if (!Number.isFinite(budgetMs) || budgetMs <= 0) {
+    throw new Error('BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS must be a positive millisecond budget.');
+  }
+  if (budgetMs > 600000) {
+    throw new Error(
+      'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS must be <= 600000 when real-inference route strictness is required so the caller can still collect artifacts.'
+    );
+  }
+}
+
+export function normalizeModelEnvironment(env: Record<string, string>): void {
+  const provider = env.BITCODE_LLM_PROVIDER?.trim().toLowerCase();
+  if (provider && !hasModelProviderCredential(provider, env)) {
+    delete env.BITCODE_LLM_PROVIDER;
+    delete env.BITCODE_LLM_MODEL;
+  }
+
+  if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
+    env.BITCODE_LLM_PROVIDER = 'openai';
+  }
+}
+
+function hasModelProviderCredential(provider: string, env: Record<string, string>): boolean {
+  switch (provider) {
+    case 'openai':
+      return Boolean(env.OPENAI_API_KEY);
+    case 'anthropic':
+      return Boolean(env.ANTHROPIC_API_KEY);
+    case 'google':
+      return Boolean(env.GOOGLE_GENERATIVE_AI_API_KEY || env.GEMINI_API_KEY || env.GOOGLE_API_KEY);
+    default:
+      return true;
+  }
+}
+
+export function summarizeHarnessPreflight(
+  body: PipelineHarnessPreflightBody,
+  env: PipelineHarnessRuntimeEnv = process.env
+): Record<string, unknown> {
+  const supabaseUrl = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRole =
+    env.SUPABASE_SERVICE_ROLE_KEY ||
+    env.SUPABASE_SECRET_KEY ||
+    env.SUPABASE_ADMIN_KEY;
+  const budgetMs = Number(env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
+  const realInferenceProfile = readRealInferenceProfile(
+    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE
+  );
+  const realInferenceRequired = isPipelineHarnessRealInferenceRequired(env);
+  return {
+    repositoryFullName: body.repositoryFullName || null,
+    sourceBranch: body.sourceBranch || null,
+    sourceCommit: body.sourceCommit || null,
+    readId: body.readId || null,
+    depositId: body.depositId || null,
+    realInferenceEnabled: isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE),
+    realInferenceRequired,
+    openaiCredentialProvided: isUsableSecretValue(env.OPENAI_API_KEY),
+    supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
+    supabaseHost: readSupabaseHost(supabaseUrl),
+    supabaseServiceRoleProvided: isUsableSecretValue(serviceRole),
+    runtimeBudgetMs: Number.isFinite(budgetMs) ? budgetMs : null,
+    realInferenceProfile: realInferenceProfile || (realInferenceRequired ? 'bounded' : null),
+    fullProfileRequiresAsyncCompletion:
+      realInferenceRequired &&
+      realInferenceProfile === 'full',
+    deployedRuntime: isDeployedRuntime(env),
+  };
+}

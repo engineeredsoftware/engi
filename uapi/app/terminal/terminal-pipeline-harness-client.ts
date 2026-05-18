@@ -505,8 +505,9 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     ].filter(Boolean).join('; ') + '.';
   }
   if (event.event === 'harness-preflight') {
+    const realInferenceRequired = data?.realInferenceRequired !== false;
     const blockers = [
-      data?.realInferenceEnabled === false ? 'real inference flag missing' : null,
+      realInferenceRequired && data?.realInferenceEnabled === false ? 'real inference flag missing' : null,
       data?.fullProfileRequiresAsyncCompletion === true
         ? 'full profile requires async completion gate'
         : null,
@@ -520,7 +521,9 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     return blockers.length
       ? `Harness preflight blocked: ${blockers.join(', ')}.`
       : [
-          'Harness preflight passed with real inference and database streaming credentials present',
+          realInferenceRequired
+            ? 'Harness preflight passed with real inference and database streaming credentials present'
+            : 'Harness preflight passed with database streaming credentials present; local real-inference strictness off',
           profile ? `profile ${profile}` : null,
           budget ? `budget ${budget}ms` : null,
           host ? `db ${host}` : null,

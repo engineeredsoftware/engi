@@ -1518,14 +1518,50 @@ manifest-bound Deposit evidence root fixes:
   present, DB URL counting, optional `phase_executions` substitution, and
   ledger-row blockers.
 
+2026-05-18 local-only implementation pass:
+
+- No live deployment is part of this pass. V28 route, stream, and harness work
+  is validated through local application deployment only.
+- Local Terminal application deployment must start with
+  `BITCODE_ENABLE_PIPELINE_HARNESS_API=1`,
+  `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1`,
+  `BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, and
+  `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS<=600000` so local `next dev`
+  cannot silently run deterministic Read/Fit branches.
+- Local strict route preflight now reports whether real inference is required,
+  whether OpenAI and Supabase service-role credentials are present, the
+  inference profile, the runtime budget, and the database host before sandbox
+  creation. The canonical Terminal execution stream panel remains the operator
+  surface for sandbox id, run id, phase, agent, generation/tool, and parsed
+  output metadata.
+- The pipeline harness route now delegates execution to a route runner boundary,
+  keeping the Next route responsible only for auth, validation, and SSE framing.
+  Focused local tests call the same runner directly, proving strict preflight
+  failure before sandbox creation, strict success event order, command
+  environment forwarding, summarized evidence shape, and secret redaction.
+  The same test file also covers wrapper fail-closed behavior for production
+  disablement, missing auth, and incomplete request bodies before sandbox work.
+- Local application deployment evidence can close route wiring, UI streaming,
+  preflight, and readback-verifier acceptance criteria. It cannot close the
+  clean source-revision settlement/finality gate while live deployment is
+  intentionally out of scope; that gate still requires BTD range, BTC fee,
+  ownership/license, Terminal journal, ledger anchor, and crypto telemetry rows
+  to be written and read back in the accepted environment.
+- Re-running the readback verifier on 2026-05-18 with `.env.local`,
+  `--readback-source db`, and a 48 hour lookback remains correctly blocked:
+  one pipeline run and deliverable stream telemetry are visible, but the REST
+  Supabase host still differs from the DB host and settlement rows remain zero.
+
 Pass 2C prompt-to-artifact closure audit:
 
 | Requirement | Current artifact/evidence | Gate state |
 | --- | --- | --- |
 | Vercel Sandbox harness creates a host, runs commands, exports evidence, exports telemetry, and cleans up. | `packages/pipeline-hosts` host/manifest/harness tests pass; local sandbox artifacts were exported for `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO`. | implemented and locally verified |
-| Route-started run id is visible before telemetry starts. | Deployed route code allocates `BITCODE_PIPELINE_RUN_ID`; Terminal stream snapshot and metadata rows consume `runId`; focused UAPI tests cover the stream adapter. | implemented and tested |
+| Route-started run id is visible before telemetry starts. | The route runner allocates `BITCODE_PIPELINE_RUN_ID`; Terminal stream snapshot and metadata rows consume `runId`; focused UAPI tests cover the stream adapter and runner event order. | implemented and tested |
 | Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
-| Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget. | implemented and tested |
+| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase service-role credentials, and route budget `<=600000`. `uapi/tests/api/pipelineHarnessRoute.test.ts` proves local strict failure and strict success without live deployment. | implemented and tested |
+| Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget; route-runner tests assert secret redaction in completion tails. | implemented and tested |
 | A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, generation/tool rows, and ledger settlement rows. `--readback-source db` can read staging rows even when REST env drift would otherwise hide them. `pnpm test:qa:v28:pipeline-readback` passes 8 verifier tests. | implemented and tested; current readback is blocked by mixed REST/DB project env and missing settlement rows |
 | Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |
 | Search/finding produces query root, ranking root, selected candidate ids, and embedding policy. | Local overlay run selected `manual-deposit-qa` and recorded query/ranking roots with OpenAI `text-embedding-3-small`. | locally verified only |
