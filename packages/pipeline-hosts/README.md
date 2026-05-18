@@ -147,12 +147,15 @@ BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
 pnpm -C uapi dev:remote
 ```
 
-The local process must have `OPENAI_API_KEY`, aligned Supabase URL/service-role
+The local process must have `OPENAI_API_KEY`, aligned Supabase URL/admin-key
 credentials, and either `VERCEL_OIDC_TOKEN` from `vercel link && vercel env pull`
-or the access-token tuple used by `@vercel/sandbox`. This command is a local
-application deployment only; it must not be counted as clean live settlement
-evidence until the resulting database and ledger rows pass SQL readback for the
-accepted environment.
+or the access-token tuple used by `@vercel/sandbox`. `SUPABASE_URL` /
+`NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_DB_URL` / `DATABASE_URL`, when both are
+present, must resolve to the same Supabase project; otherwise the route and dev
+harness fail before sandbox creation so a run cannot write to one project and
+verify another. This command is a local application deployment only; it must not
+be counted as clean live settlement evidence until the resulting database and
+ledger rows pass SQL readback for the accepted environment.
 
 Link a Vercel project and pull local OIDC credentials:
 

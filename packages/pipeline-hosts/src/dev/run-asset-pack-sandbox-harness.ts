@@ -135,16 +135,38 @@ function assertDatabaseStreamingEnvironment(env: Record<string, string>): void {
       'BITCODE_PIPELINE_STREAM_TO_DATABASE=1 requires a non-placeholder Supabase URL and an admin-capable Supabase key.'
     );
   }
+
+  const restHost = normalizeSupabaseHost(readUrlHostname(url));
+  const dbHost = normalizeSupabaseHost(readUrlHostname(process.env.SUPABASE_DB_URL || process.env.DATABASE_URL));
+  if (restHost && dbHost && restHost !== dbHost) {
+    throw new Error(
+      `BITCODE_PIPELINE_STREAM_TO_DATABASE=1 requires matching Supabase REST and DB readback hosts: ${restHost} != ${dbHost}.`
+    );
+  }
 }
 
 function isUsableSupabaseUrl(value: string | undefined): boolean {
   if (!value) return false;
   try {
-    const host = new URL(value).host;
+    const host = new URL(value).hostname;
     return Boolean(host && host !== 'your-project.supabase.co' && !host.includes('<'));
   } catch {
     return false;
   }
+}
+
+function readUrlHostname(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    return new URL(value).hostname || null;
+  } catch {
+    return null;
+  }
+}
+
+function normalizeSupabaseHost(host: string | null): string | null {
+  if (!host) return null;
+  return host.startsWith('db.') ? host.slice(3) : host;
 }
 
 function isUsableSecretValue(value: string | undefined): boolean {

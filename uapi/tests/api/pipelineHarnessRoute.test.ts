@@ -110,6 +110,8 @@ const ENV_KEYS = [
   'SUPABASE_SERVICE_ROLE_KEY',
   'SUPABASE_SECRET_KEY',
   'SUPABASE_ADMIN_KEY',
+  'SUPABASE_DB_URL',
+  'DATABASE_URL',
   'NODE_ENV',
   'VERCEL',
   'VERCEL_ENV',
@@ -159,7 +161,7 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     delete process.env.VERCEL_ENV;
     process.env.NODE_ENV = 'development';
     process.env.SUPABASE_URL = 'https://staging.supabase.co';
-    process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-key-with-safe-length';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'sb_secret_route_key_with_safe_length';
     process.env.OPENAI_API_KEY = 'openai-key-with-safe-length';
     mockGetUser.mockResolvedValue({ data: { user: { id: 'user-local-route' } }, error: null });
     mockBuildAssetPackSandboxHarness.mockImplementation((input) => ({
@@ -243,6 +245,35 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     expect(mockLoadVercelSandboxFactory).not.toHaveBeenCalled();
   });
 
+  it('blocks mixed Supabase REST and DB hosts before sandbox creation', async () => {
+    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
+    process.env.SUPABASE_DB_URL =
+      'postgresql://postgres:password@db.other-staging.supabase.co:5432/postgres?sslmode=require';
+
+    const events: Array<{ event: string; data: any }> = [];
+    await runAssetPackHarnessRoute(
+      validHarnessBody(),
+      'user-local-route',
+      (event, data) => events.push({ event, data }),
+      { runId: 'route-test-run', logErrors: false },
+    );
+
+    expect(events.map((event) => event.event)).toEqual([
+      'harness-started',
+      'harness-preflight',
+      'harness-failed',
+    ]);
+    expect(events[1].data).toMatchObject({
+      supabaseHost: 'staging.supabase.co',
+      supabaseDbHost: 'db.other-staging.supabase.co',
+      supabaseRestDbHostAligned: false,
+    });
+    expect(events[2].data.error).toContain('Supabase REST host must match DB readback host');
+    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+  });
+
   it('forwards strict local route context and redacts secrets from completion output', async () => {
     process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
@@ -289,7 +320,7 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     });
     expect(eventText).toContain('[redacted]');
     expect(eventText).not.toContain('openai-key-with-safe-length');
-    expect(eventText).not.toContain('service-role-key-with-safe-length');
+    expect(eventText).not.toContain('sb_secret_route_key_with_safe_length');
     expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
       expect.objectContaining({
         mode: 'asset_pack_pipeline',

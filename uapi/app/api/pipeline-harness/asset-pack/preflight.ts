@@ -40,27 +40,78 @@ export function isUsableSupabaseUrl(value: string | undefined): boolean {
 export function readSupabaseHost(value: string | undefined): string | null {
   if (!value) return null;
   try {
-    const host = new URL(value).host;
+    const host = new URL(value).hostname;
     return host || null;
   } catch {
     return null;
   }
 }
 
+export function normalizeSupabaseHost(host: string | null): string | null {
+  if (!host) return null;
+  return host.startsWith('db.') ? host.slice(3) : host;
+}
+
 export function isUsableSecretValue(value: string | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 16 && !value.includes('<');
+}
+
+function decodeJwtPayload(value: string | undefined): Record<string, unknown> | null {
+  if (!value) return null;
+  const [, payload] = value.split('.');
+  if (!payload) return null;
+
+  try {
+    const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=');
+    return JSON.parse(Buffer.from(padded, 'base64').toString('utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function isSupabaseSecretKey(value: string | undefined): boolean {
+  return typeof value === 'string' && value.trim().startsWith('sb_secret_');
+}
+
+export function isSupabaseAdminCredential(value: string | undefined): boolean {
+  if (!isUsableSecretValue(value)) return false;
+  if (isSupabaseSecretKey(value)) return true;
+  const payload = decodeJwtPayload(value);
+  return payload?.role === 'service_role';
+}
+
+export function selectSupabaseAdminCredential(
+  env: PipelineHarnessRuntimeEnv = process.env,
+): string | undefined {
+  return [
+    env.SUPABASE_SERVICE_ROLE_KEY,
+    env.SUPABASE_SECRET_KEY,
+    env.SUPABASE_ADMIN_KEY,
+  ].find(isSupabaseAdminCredential);
 }
 
 export function readRealInferenceProfile(value: string | undefined): string {
   return String(value || '').trim().toLowerCase();
 }
 
-export function assertDatabaseStreamingEnvironment(env: Record<string, string>): void {
+export function assertDatabaseStreamingEnvironment(
+  env: Record<string, string>,
+  hostEnv: PipelineHarnessRuntimeEnv = process.env,
+): void {
   const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_SECRET_KEY || env.SUPABASE_ADMIN_KEY;
-  if (!isUsableSupabaseUrl(url) || !isUsableSecretValue(key)) {
+  const key = selectSupabaseAdminCredential(env);
+  if (!isUsableSupabaseUrl(url) || !key) {
     throw new Error(
-      'Pipeline harness database streaming requires a non-placeholder Supabase URL and service-role key.'
+      'Pipeline harness database streaming requires a non-placeholder Supabase URL and admin-capable Supabase key.'
+    );
+  }
+
+  const restHost = normalizeSupabaseHost(readSupabaseHost(url));
+  const dbHost = normalizeSupabaseHost(readSupabaseHost(hostEnv.SUPABASE_DB_URL || hostEnv.DATABASE_URL));
+  if (restHost && dbHost && restHost !== dbHost) {
+    throw new Error(
+      `Pipeline harness Supabase REST host must match DB readback host: ${restHost} != ${dbHost}.`
     );
   }
 }
@@ -123,10 +174,11 @@ export function summarizeHarnessPreflight(
   env: PipelineHarnessRuntimeEnv = process.env
 ): Record<string, unknown> {
   const supabaseUrl = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRole =
-    env.SUPABASE_SERVICE_ROLE_KEY ||
-    env.SUPABASE_SECRET_KEY ||
-    env.SUPABASE_ADMIN_KEY;
+  const supabaseHost = readSupabaseHost(supabaseUrl);
+  const supabaseDbHost = readSupabaseHost(env.SUPABASE_DB_URL || env.DATABASE_URL);
+  const normalizedSupabaseHost = normalizeSupabaseHost(supabaseHost);
+  const normalizedSupabaseDbHost = normalizeSupabaseHost(supabaseDbHost);
+  const serviceRole = selectSupabaseAdminCredential(env);
   const budgetMs = Number(env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
   const realInferenceProfile = readRealInferenceProfile(
     env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE
@@ -142,8 +194,13 @@ export function summarizeHarnessPreflight(
     realInferenceRequired,
     openaiCredentialProvided: isUsableSecretValue(env.OPENAI_API_KEY),
     supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
-    supabaseHost: readSupabaseHost(supabaseUrl),
-    supabaseServiceRoleProvided: isUsableSecretValue(serviceRole),
+    supabaseHost,
+    supabaseDbHost,
+    supabaseRestDbHostAligned:
+      !normalizedSupabaseHost ||
+      !normalizedSupabaseDbHost ||
+      normalizedSupabaseHost === normalizedSupabaseDbHost,
+    supabaseServiceRoleProvided: isSupabaseAdminCredential(serviceRole),
     runtimeBudgetMs: Number.isFinite(budgetMs) ? budgetMs : null,
     realInferenceProfile: realInferenceProfile || (realInferenceRequired ? 'bounded' : null),
     fullProfileRequiresAsyncCompletion:

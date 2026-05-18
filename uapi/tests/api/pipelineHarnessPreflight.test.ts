@@ -3,9 +3,11 @@
  */
 
 import {
+  assertDatabaseStreamingEnvironment,
   assertRealInferenceEnvironment,
   isPipelineHarnessRealInferenceRequired,
   normalizeModelEnvironment,
+  selectSupabaseAdminCredential,
   summarizeHarnessPreflight,
 } from '@/app/api/pipeline-harness/asset-pack/preflight';
 
@@ -22,7 +24,7 @@ describe('pipeline harness preflight', () => {
     const env = {
       NODE_ENV: 'development',
       SUPABASE_URL: 'https://staging.supabase.co',
-      SUPABASE_SERVICE_ROLE_KEY: 'service-role-key-with-length',
+      SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_local_key_with_length',
     } as NodeJS.ProcessEnv;
 
     expect(isPipelineHarnessRealInferenceRequired(env)).toBe(false);
@@ -43,7 +45,7 @@ describe('pipeline harness preflight', () => {
       BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
       OPENAI_API_KEY: 'openai-key-with-safe-length',
       SUPABASE_URL: 'https://staging.supabase.co',
-      SUPABASE_SERVICE_ROLE_KEY: 'service-role-key-with-length',
+      SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_local_key_with_length',
     } as NodeJS.ProcessEnv;
 
     expect(isPipelineHarnessRealInferenceRequired(env)).toBe(true);
@@ -78,7 +80,7 @@ describe('pipeline harness preflight', () => {
       BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
       OPENAI_API_KEY: 'openai-key-with-safe-length',
       SUPABASE_URL: 'https://staging.supabase.co',
-      SUPABASE_SERVICE_ROLE_KEY: 'service-role-key-with-length',
+      SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_local_key_with_length',
     } as NodeJS.ProcessEnv;
 
     expect(summarizeHarnessPreflight(body, env)).toMatchObject({
@@ -102,5 +104,39 @@ describe('pipeline harness preflight', () => {
 
     expect(env.BITCODE_LLM_PROVIDER).toBe('openai');
     expect(env.BITCODE_LLM_MODEL).toBeUndefined();
+  });
+
+  it('selects an admin-capable Supabase key instead of an anon key', () => {
+    const env = {
+      SUPABASE_SERVICE_ROLE_KEY: [
+        'header',
+        Buffer.from(JSON.stringify({ role: 'anon', ref: 'wrong-project' })).toString('base64url'),
+        'signature',
+      ].join('.'),
+      SUPABASE_SECRET_KEY: 'sb_secret_local_key_with_length',
+    };
+
+    expect(selectSupabaseAdminCredential(env)).toBe('sb_secret_local_key_with_length');
+  });
+
+  it('blocks database streaming when REST and DB readback hosts differ', () => {
+    const env = {
+      SUPABASE_URL: 'https://rest-project.supabase.co',
+      SUPABASE_SECRET_KEY: 'sb_secret_local_key_with_length',
+    };
+    const hostEnv = {
+      SUPABASE_DB_URL:
+        'postgresql://postgres:password@db.db-project.supabase.co:5432/postgres?sslmode=require',
+    };
+
+    expect(summarizeHarnessPreflight(body, { ...env, ...hostEnv })).toMatchObject({
+      supabaseHost: 'rest-project.supabase.co',
+      supabaseDbHost: 'db.db-project.supabase.co',
+      supabaseRestDbHostAligned: false,
+      supabaseServiceRoleProvided: true,
+    });
+    expect(() => assertDatabaseStreamingEnvironment(env, hostEnv)).toThrow(
+      'Supabase REST host must match DB readback host',
+    );
   });
 });

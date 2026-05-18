@@ -1189,8 +1189,10 @@ BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY,B
 ```
 
 These Supabase values must be real staging credentials. Placeholder hosts such
-as `your-project.supabase.co` are a preflight blocker, because otherwise the
-sandbox can execute but every stream-event insert fails with transport errors.
+as `your-project.supabase.co`, anon-only keys in admin slots, and mixed REST/DB
+project refs are preflight blockers, because otherwise the sandbox can execute
+but stream-event, settlement, and readback evidence may land in different
+projects.
 
 On Vercel staging/preview, prefer the deployed streaming trigger because it
 uses Vercel automatic OIDC instead of a local Vercel token:
@@ -1552,6 +1554,13 @@ manifest-bound Deposit evidence root fixes:
   `--readback-source db`, and a 48 hour lookback remains correctly blocked:
   one pipeline run and deliverable stream telemetry are visible, but the REST
   Supabase host still differs from the DB host and settlement rows remain zero.
+- Local credential probing without printing secrets confirms the `.env.local`
+  REST keys authenticate to `rinalyjfecxnmyczrpzo`, while the configured DB
+  readback host is `tkpyosihuouusyaxtbau`. The route and standalone dev harness
+  now fail closed when these hosts differ or when an anon JWT is placed in an
+  admin key slot, so the current gate cannot be closed by another run until the
+  accepted Supabase REST/admin credentials and DB readback URL refer to the same
+  project.
 
 Pass 2C prompt-to-artifact closure audit:
 
@@ -1560,7 +1569,7 @@ Pass 2C prompt-to-artifact closure audit:
 | Vercel Sandbox harness creates a host, runs commands, exports evidence, exports telemetry, and cleans up. | `packages/pipeline-hosts` host/manifest/harness tests pass; local sandbox artifacts were exported for `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO`. | implemented and locally verified |
 | Route-started run id is visible before telemetry starts. | The route runner allocates `BITCODE_PIPELINE_RUN_ID`; Terminal stream snapshot and metadata rows consume `runId`; focused UAPI tests cover the stream adapter and runner event order. | implemented and tested |
 | Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
-| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase service-role credentials, and route budget `<=600000`. `uapi/tests/api/pipelineHarnessRoute.test.ts` proves local strict failure and strict success without live deployment. | implemented and tested |
+| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `uapi/tests/api/pipelineHarnessRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
 | Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget; route-runner tests assert secret redaction in completion tails. | implemented and tested |
 | A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, generation/tool rows, and ledger settlement rows. `--readback-source db` can read staging rows even when REST env drift would otherwise hide them. `pnpm test:qa:v28:pipeline-readback` passes 8 verifier tests. | implemented and tested; current readback is blocked by mixed REST/DB project env and missing settlement rows |
 | Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |

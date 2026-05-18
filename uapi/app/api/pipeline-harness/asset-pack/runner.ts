@@ -15,6 +15,7 @@ import {
   isEnabled,
   isPipelineHarnessRealInferenceRequired,
   normalizeModelEnvironment,
+  selectSupabaseAdminCredential,
   summarizeHarnessPreflight,
   type PipelineHarnessPreflightBody,
 } from './preflight';
@@ -209,10 +210,7 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
     env.SUPABASE_URL = env.NEXT_PUBLIC_SUPABASE_URL;
   }
 
-  const serviceRole =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY ||
-    process.env.SUPABASE_ADMIN_KEY;
+  const serviceRole = selectSupabaseAdminCredential(process.env);
   if (serviceRole) {
     env.SUPABASE_SERVICE_ROLE_KEY = serviceRole;
   }
@@ -227,7 +225,7 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   if (realInferenceRequired && isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE) && !env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) {
     env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
   }
-  assertDatabaseStreamingEnvironment(env);
+  assertDatabaseStreamingEnvironment(env, process.env);
   normalizeModelEnvironment(env);
   assertRealInferenceEnvironment(env);
 
@@ -251,9 +249,7 @@ function sourceCredentialsFromEnv(): { username?: string; password?: string } {
 function createAdminSupabase() {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY ||
-    process.env.SUPABASE_ADMIN_KEY;
+    selectSupabaseAdminCredential(process.env);
   if (!url || !key) return null;
 
   return createSupabaseClient(url, key, {

@@ -518,7 +518,12 @@ Read/Fit result review remains fail-closed:
   `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1`,
   `BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
   `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, aligned Supabase
-  service-role credentials, OpenAI credentials, and Vercel Sandbox local auth.
+  admin credentials, OpenAI credentials, and Vercel Sandbox local auth.
+  `SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_DB_URL` /
+  `DATABASE_URL`, when both are present, must resolve to the same Supabase
+  project, and anon JWTs must not satisfy admin-key preflight. Mixed REST/DB
+  project refs are a fail-closed condition because they make telemetry and
+  ledger settlement readback non-comparable.
   Local application deployment evidence can prove route preflight, canonical
   stream rendering, artifact streaming, and SQL readback behavior, but it
   cannot close a live source-revision settlement/finality gate unless the same
