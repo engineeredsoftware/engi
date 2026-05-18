@@ -328,6 +328,11 @@ Acceptance criteria:
   by checking V27 canonical inputs, V27/V28 posture, V28 draft-family shape,
   and V28 MVP demonstration QA; full promoted-suite closure is reserved for
   the V28 promotion workflow.
+- application CI uses root pnpm workspace installation and maintains required
+  uapi lint, typecheck, production build, and mocked Jest coverage checks;
+  full DB/browser E2E, Storybook build, super-linter, and advanced CodeQL are
+  explicit variable-enabled validations until their catalogs are maintained
+  enough to be promoted into always-on branch protection.
 - the legacy GA1 workflow is removed; version-specific quality and promotion
   workflows own V28 gate and promotion automation.
 

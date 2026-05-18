@@ -60,6 +60,12 @@ the version promotion workflow. Version pull requests into `main` run the
 version promotion workflow. For V28, that workflow validates the promotion proof
 posture and, only after promotion validations pass, commits the standalone
 `BITCODE_SPEC.txt` pointer change from `V27` to `V28` on the version branch.
+The application CI workflow uses the root pnpm workspace install, runs uapi
+lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
+explicitly opt-in until their catalogs are refurbished: set
+`ENABLE_FULL_DB_E2E`, `ENABLE_STORYBOOK_BUILD`, `ENABLE_SUPER_LINTER`, or
+`ENABLE_ADVANCED_CODEQL` when those checks are intentionally part of a branch
+or promotion validation.
 
 ## Key Surfaces
 
