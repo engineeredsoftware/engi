@@ -1,6 +1,27 @@
 import GitHubProvider from '../providers/github-provider';
 
-const octokitInstances: Array<{ options: any; users: { getAuthenticated: jest.Mock } }> = [];
+const octokitInstances: Array<{
+  options: any;
+  users: { getAuthenticated: jest.Mock };
+  pulls: { create: jest.Mock; list: jest.Mock };
+}> = [];
+const mockPullsCreate = jest.fn();
+const mockPullsList = jest.fn();
+
+const pullRequestFixture = {
+  id: 101,
+  number: 7,
+  title: 'Deliver AssetPack',
+  body: 'AssetPack delivery',
+  state: 'open',
+  head: { ref: 'bitcode/asset-pack-run' },
+  base: { ref: 'main' },
+  user: { id: 42, login: 'monalisa', avatar_url: 'https://avatars.example.com/u/42' },
+  created_at: '2026-05-18T00:00:00.000Z',
+  updated_at: '2026-05-18T00:01:00.000Z',
+  merged_at: null,
+  html_url: 'https://github.com/engineeredsoftware/ENGI/pull/7'
+};
 
 jest.mock('@octokit/rest', () => {
   return {
@@ -17,9 +38,13 @@ jest.mock('@octokit/rest', () => {
               html_url: 'https://github.com/monalisa'
             }
           })
+        },
+        pulls: {
+          create: mockPullsCreate,
+          list: mockPullsList
         }
       };
-      octokitInstances.push({ options, users: instance.users });
+      octokitInstances.push({ options, users: instance.users, pulls: instance.pulls });
       return instance;
     })
   };
@@ -44,12 +69,8 @@ describe('GitHubProvider', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     octokitInstances.length = 0;
-    jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    mockPullsCreate.mockResolvedValue({ data: pullRequestFixture });
+    mockPullsList.mockResolvedValue({ data: [pullRequestFixture] });
   });
 
   it('builds authorization URLs with scopes and state', () => {
@@ -77,5 +98,46 @@ describe('GitHubProvider', () => {
 
     await provider.validateToken({ accessToken: 'ghs_installation_token' });
     expect(octokitInstances).toHaveLength(2);
+  });
+
+  it('returns the existing pull request when create is retried for the same branch', async () => {
+    const provider = new GitHubProvider(baseConfig);
+
+    const existingPrError = Object.assign(
+      new Error(
+        'Validation Failed: {"resource":"PullRequest","code":"custom","message":"A pull request already exists for engineeredsoftware:bitcode/asset-pack-run."}'
+      ),
+      { status: 422 }
+    );
+
+    mockPullsCreate.mockRejectedValueOnce(existingPrError);
+
+    const result = await provider.createPullRequest(
+      { accessToken: 'ghu_token' },
+      'engineeredsoftware',
+      'ENGI',
+      {
+        title: 'Deliver AssetPack',
+        description: 'AssetPack delivery',
+        sourceBranch: 'bitcode/asset-pack-run',
+        targetBranch: 'main',
+        draft: true
+      }
+    );
+
+    expect(result).toMatchObject({
+      number: 7,
+      url: 'https://github.com/engineeredsoftware/ENGI/pull/7',
+      sourceBranch: 'bitcode/asset-pack-run',
+      targetBranch: 'main'
+    });
+    expect(mockPullsList).toHaveBeenCalledWith({
+      owner: 'engineeredsoftware',
+      repo: 'ENGI',
+      state: 'open',
+      head: 'engineeredsoftware:bitcode/asset-pack-run',
+      base: 'main',
+      per_page: 10
+    });
   });
 });

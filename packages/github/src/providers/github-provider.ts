@@ -40,12 +40,60 @@ import {
 } from '@bitcode/vcs';
 import { log } from '@bitcode/logger';
 
+type GitHubPullRequestData = {
+  id: number;
+  number: number;
+  title: string;
+  body?: string | null;
+  state: string;
+  head: { ref: string };
+  base: { ref: string };
+  user?: {
+    id: number;
+    login: string;
+    avatar_url?: string | null;
+  } | null;
+  created_at: string;
+  updated_at: string;
+  merged_at?: string | null;
+  html_url: string;
+};
+
 /**
  * GitHub VCS Provider
  */
 export default class GitHubProvider extends VCSProvider {
   readonly type = 'github' as const;
   private octokitCache = new Map<string, Octokit>();
+
+  private mapPullRequest(pr: GitHubPullRequestData): VCSPullRequest {
+    return {
+      id: pr.id.toString(),
+      number: pr.number,
+      title: pr.title,
+      description: pr.body || undefined,
+      state: pr.state === 'open' ? 'open' : pr.merged_at ? 'merged' : 'closed',
+      sourceBranch: pr.head.ref,
+      targetBranch: pr.base.ref,
+      author: {
+        id: pr.user?.id.toString() || '',
+        username: pr.user?.login || '',
+        avatarUrl: pr.user?.avatar_url,
+      },
+      createdAt: new Date(pr.created_at),
+      updatedAt: new Date(pr.updated_at),
+      mergedAt: pr.merged_at ? new Date(pr.merged_at) : undefined,
+      url: pr.html_url,
+    };
+  }
+
+  private isExistingPullRequestError(error: unknown): boolean {
+    const err = error as { status?: number; response?: { status?: number }; message?: string };
+    const status = err.status || err.response?.status;
+    const message = err.message?.toLowerCase() || '';
+
+    return status === 422 && message.includes('pull request') && message.includes('already exists');
+  }
 
   /**
    * Get Octokit instance for auth
@@ -580,36 +628,51 @@ export default class GitHubProvider extends VCSProvider {
   ): Promise<VCSPullRequest> {
     return this.executeWithResilience(async () => {
       const octokit = this.getOctokit(auth);
-      const { data: pr } = await octokit.pulls.create({
-        owner,
-        repo,
-        title: data.title,
-        body: data.description,
-        head: data.sourceBranch,
-        base: data.targetBranch,
-        draft: data.draft
-      });
+      let pr: GitHubPullRequestData | undefined;
 
-      const user = await this.getCurrentUser(auth);
+      try {
+        const response = await octokit.pulls.create({
+          owner,
+          repo,
+          title: data.title,
+          body: data.description,
+          head: data.sourceBranch,
+          base: data.targetBranch,
+          draft: data.draft,
+        });
+        pr = response.data;
+      } catch (error) {
+        if (!this.isExistingPullRequestError(error)) {
+          throw error;
+        }
 
-      return {
-        id: pr.id.toString(),
-        number: pr.number,
-        title: pr.title,
-        description: pr.body || undefined,
-        state: pr.state as 'open' | 'closed',
-        sourceBranch: pr.head.ref,
-        targetBranch: pr.base.ref,
-        author: {
-          id: pr.user?.id.toString() || '',
-          username: pr.user?.login || '',
-          avatarUrl: pr.user?.avatar_url
-        },
-        createdAt: new Date(pr.created_at),
-        updatedAt: new Date(pr.updated_at),
-        mergedAt: pr.merged_at ? new Date(pr.merged_at) : undefined,
-        url: pr.html_url
-      };
+        const sourceBranch = data.sourceBranch.includes(':')
+          ? data.sourceBranch.split(':').pop()!
+          : data.sourceBranch;
+        const head = data.sourceBranch.includes(':') ? data.sourceBranch : `${owner}:${sourceBranch}`;
+        const { data: existingPullRequests } = await octokit.pulls.list({
+          owner,
+          repo,
+          state: 'open',
+          head,
+          base: data.targetBranch,
+          per_page: 10,
+        });
+        pr = existingPullRequests.find(existing =>
+          existing.head.ref === sourceBranch &&
+          existing.base.ref === data.targetBranch
+        );
+
+        if (!pr) {
+          throw error;
+        }
+      }
+
+      if (!pr) {
+        throw new VCSError('GitHub pull request creation did not return a pull request', 'OPERATION_FAILED');
+      }
+
+      return this.mapPullRequest(pr);
     }, {
       operationName: 'createPullRequest',
       timeout: this.timeouts.write
@@ -638,24 +701,7 @@ export default class GitHubProvider extends VCSProvider {
         ...this.buildPaginationParams(options)
       });
 
-      return data.map(pr => ({
-        id: pr.id.toString(),
-        number: pr.number,
-        title: pr.title,
-        description: pr.body || undefined,
-        state: pr.state === 'open' ? 'open' : pr.merged_at ? 'merged' : 'closed',
-        sourceBranch: pr.head.ref,
-        targetBranch: pr.base.ref,
-        author: {
-          id: pr.user?.id.toString() || '',
-          username: pr.user?.login || '',
-          avatarUrl: pr.user?.avatar_url
-        },
-        createdAt: new Date(pr.created_at),
-        updatedAt: new Date(pr.updated_at),
-        mergedAt: pr.merged_at ? new Date(pr.merged_at) : undefined,
-        url: pr.html_url
-      }));
+      return data.map(pr => this.mapPullRequest(pr));
     }, {
       operationName: 'listPullRequests'
     });
