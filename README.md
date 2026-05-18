@@ -30,6 +30,27 @@ App.
 - Update source in-place to match the active canon and current draft target.
 - Keep specification notes, QA ledgers, tests, and implementation synchronized.
 
+## Contributor Workflow
+
+The default branch is protected by the active `Bitcode Core Contributions`
+ruleset. Direct pushes to `main` are not part of the normal workflow; expect
+them to be rejected because changes must arrive through pull requests and
+verified signatures.
+
+Use a version branch and gate-numbered branches:
+
+1. Create one base branch per draft target, such as `version/v28`.
+2. Create scoped gate branches from the version branch. Prefix every gate branch
+   with the gate number, for example `v28/gate-3-read-fit-workflow` or
+   `v28/gate-8-promotion-proof`.
+3. Group related work into clear commits with descriptive commit messages.
+4. Continue on the gate branch until that gate's acceptance criteria are
+   implemented, specified, tested, documented, committed, pushed, and ready for
+   closure review.
+5. Open pull requests from gate branches into the version branch as gates close.
+6. Open the version branch back into `main` only after all gates close and the
+   version is formally promoted as canon.
+
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
