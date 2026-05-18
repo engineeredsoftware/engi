@@ -10,6 +10,9 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
     permissions:
       contents: read
       id-token: write  # For OIDC auth to cloud registry (e.g. AWS ECR)
@@ -17,16 +20,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve image tags
+        id: image
+        run: |
+          if [ "${GITHUB_REF}" = "refs/heads/main" ] && [ -n "${ECR_REPOSITORY}" ]; then
+            echo "push=true" >> "$GITHUB_OUTPUT"
+            echo "runner_tag=${ECR_REPOSITORY}:latest" >> "$GITHUB_OUTPUT"
+            echo "worker_tag=${ECR_REPOSITORY}:worker" >> "$GITHUB_OUTPUT"
+          else
+            echo "push=false" >> "$GITHUB_OUTPUT"
+            echo "runner_tag=bitcode-long-runner:ci" >> "$GITHUB_OUTPUT"
+            echo "worker_tag=bitcode-long-runner-worker:ci" >> "$GITHUB_OUTPUT"
+          fi
+
       # Optionally configure AWS credentials – replace with GCP/Azure/Fly
       - name: Configure AWS credentials
-        if: env.AWS_ROLE_TO_ASSUME != ''
+        if: steps.image.outputs.push == 'true' && env.AWS_ROLE_TO_ASSUME != ''
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: us-east-1
 
       - name: Login to Amazon ECR
-        if: env.AWS_ROLE_TO_ASSUME != ''
+        if: steps.image.outputs.push == 'true' && env.AWS_ROLE_TO_ASSUME != ''
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
@@ -41,13 +57,13 @@ jobs:
         with:
           context: .
           file: Dockerfile.long-runner
-          push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ${{ secrets.ECR_REPOSITORY }}:latest
+          push: ${{ steps.image.outputs.push == 'true' }}
+          tags: ${{ steps.image.outputs.runner_tag }}
 
       - name: Build and Push Worker
         uses: docker/build-push-action@v5
         with:
           context: .
           file: Dockerfile.long-runner-worker
-          push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ${{ secrets.ECR_REPOSITORY }}:worker
+          push: ${{ steps.image.outputs.push == 'true' }}
+          tags: ${{ steps.image.outputs.worker_tag }}
