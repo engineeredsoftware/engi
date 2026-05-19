@@ -10,11 +10,17 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
 function archivedSpecPath(version, suffix = '') {
-  return path.join(repoRoot, `_legacy/ENGI_SPEC_${version}${suffix}.md`);
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 26
+    ? path.join(repoRoot, `BITCODE_SPEC_${version}${suffix}.md`)
+    : path.join(repoRoot, `_legacy/ENGI_SPEC_${version}${suffix}.md`);
 }
 
 function archivedProvenOutput(version) {
-  return `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 26
+    ? `BITCODE_SPEC_${version}_PROVEN.md`
+    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
 }
 
 /**
@@ -41,7 +47,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -243,7 +249,9 @@ function deriveCarrierBullet(section) {
  * @param {string} area
  */
 function findParityRow(rows, area) {
-  return rows.find((row) => normalize(row.Area || '') === normalize(area));
+  return rows.find((row) =>
+    normalize(row.Area || row['Parity area'] || row['Pipeline / UX surface'] || row['Gate 8 metadevelopment surface'] || row['Carryforward surface'] || '') === normalize(area)
+  );
 }
 
 /**
@@ -301,6 +309,15 @@ function buildCommandPlan(version, commit) {
   const v25PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V25']];
   const v25PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V25', '--mode', 'promoted']];
   const v25PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V25', '--draft-target', 'V26']];
+  const v28DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V28', '--mode', 'draft', '--current-target', 'V27']];
+  const v28CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V27']];
+  const v28DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V27', '--draft-target', 'V28']];
+  const v28MetadevelopmentReadinessCommand = ['node', ['scripts/check-v28-metadevelopment-readiness.mjs', '--promotion-mode', '--skip-branch-check']];
+  const v28PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V28', '--commit', commit]];
+  const v28PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V28', '--next-draft', 'V29']];
+  const v28PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V28']];
+  const v28PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V28', '--mode', 'promoted']];
+  const v28PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V28', '--draft-target', 'V29']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'protocol-demonstration', 'run', 'typecheck']],
     ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:unit']],
@@ -429,7 +446,27 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, or V25.`);
+  if (version === 'V28') {
+    return [
+      v28DraftSpecCheckCommand,
+      v28CanonicalInputCheckCommand,
+      v28DraftCanonPostureDriftCommand,
+      v28MetadevelopmentReadinessCommand,
+      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
+      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/orbitalsInterfacesPane.test.tsx', '--runInBand']],
+      v28PreparePromotionSpecFamilyCommand,
+      v28PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--check', '--allow-dirty']],
+      v28PromotedCanonicalInputCheckCommand,
+      v28PromotedSpecCheckCommand,
+      v28PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']]
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, or V28.`);
 }
 
 /**
@@ -716,6 +753,59 @@ async function buildDerivedV25CommitMessageBody(commit) {
 }
 
 /**
+ * @param {string} commit
+ * @returns {Promise<string>}
+ */
+async function buildDerivedV28CommitMessageBody(commit) {
+  const { spec, delta, parity } = await readSpecFamily('V28');
+  const scope = extractStatusValue(spec, 'Scope') || 'V28 canonical system specification for commercial Protocol implementation and Terminal MVP QA';
+  const focus = deriveScopeFocus(scope);
+  const decisionSection = extractSection(delta, 'Accepted V28 decisions');
+  const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
+  const parityRows = [
+    ...parseMarkdownTable(extractSection(parity, 'Staging-Testnet Minimal Commercial Parity Matrix')),
+    ...parseMarkdownTable(extractSection(parity, 'Enterprise Reading Pipeline Parity Matrix')),
+    ...parseMarkdownTable(extractSection(parity, 'V28 Metadevelopment Parity Matrix')),
+    ...parseMarkdownTable(extractSection(parity, 'V28 Product-Gate Carryforward Audit'))
+  ];
+
+  /** @type {string[]} */
+  const bullets = [];
+  const protocolDecision = acceptedDecisions.find((item) =>
+    normalize(item).includes('terminal, auxillaries readiness, btd range disclosure')
+  );
+  if (protocolDecision) bullets.push(trimTrailingPeriod(protocolDecision));
+
+  const prioritizedAreas = [
+    'Pipeline runtime deployment reality',
+    'Five-step Terminal Reading UX',
+    'Depository Finding Fits discovery',
+    'Source-safe preview and Share-to-Fee',
+    'Buy AssetPack and settle',
+    'Branching and gate workflow standard',
+    'Canonical promotion automation',
+    'Commit quality and contribution discipline',
+    'Remaining product-gate audit'
+  ];
+  for (const area of prioritizedAreas) {
+    const row = findParityRow(parityRows, area);
+    if (!row) continue;
+    const closureSignal = trimTrailingPeriod(stripMarkdown(row['Closure evidence required'] || row['Closure signal'] || row['Carryforward closure requirement'] || row['Current source evidence'] || ''));
+    if (!closureSignal) continue;
+    bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
+  }
+
+  return [
+    `Promotes V28 as ${focus} for Bitcode.`,
+    '',
+    `Proof-source commit: ${commit}`,
+    '',
+    'The promotion carries:',
+    ...bullets.slice(0, 12).map((bullet) => `- ${bullet}`)
+  ].join('\n');
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @returns {Promise<string>}
@@ -769,7 +859,10 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V25') {
     return buildDerivedV25CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, or V25.`);
+  if (version === 'V28') {
+    return buildDerivedV28CommitMessageBody(commit);
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, or V28.`);
 }
 
 async function main() {
@@ -780,8 +873,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, or V25. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, or V28. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {

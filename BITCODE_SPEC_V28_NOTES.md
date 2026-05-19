@@ -525,10 +525,33 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
      live Reading pipeline telemetry. Placeholder mocks are not acceptance
      evidence.
 
-8. **Gate 8: V28 Promotion Proof**
-   - SPEC, DELTA, NOTES, PARITY, and PROVEN exist.
-   - Terminal tests, MCP/ChatGPT App tests, package/API tests, route tests, UAPI build, and demonstration tests pass.
+8. **Gate 8: V28 Metadevelopment And Promotion Proof**
+   - Branching policy, gate branch naming, quality commit-message discipline,
+     gate workflow checks, and V28 promotion workflow checks are documented and
+     source-validated.
+   - The V28 promotion workflow is maintained as the only path that advances
+     `BITCODE_SPEC.txt`; it runs promotion-grade validation, executes the
+     canonical promotion script, generates `BITCODE_SPEC_V28_PROVEN.md`, and
+     commits promotion artifacts back to `version/v28`.
+   - The parity matrix carries an explicit product-gate carryforward audit so
+     Depositing, Read Request, Read-Need, Finding Fits, AssetPack preview,
+     settlement, delivery, Terminal UX, documentation, proof coverage, and live
+     validation work cannot be hidden as vague future cleanup.
    - V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth are explicitly staged rather than mixed into V28.
+
+## Gate 8 metadevelopment closure notes
+
+Gate 8 is not a commercial-product feature gate. It standardizes how the
+remaining V28 gates close: gate-prefixed branches merge into `version/v28`,
+the version branch is the only branch that can request promotion into `main`,
+and promotion automation must either generate and commit the canonical proof
+appendix or fail closed.
+
+Gate 8 also separates promotion mechanics from product closure. Subsequent V28
+gates still own the commercial product flow: source Depositing, Read Request,
+Need synthesis/review/resynthesis, Finding Fits over the depository, source-safe
+AssetPack preview, BTC settlement, read-license/right transfer, pull-request
+delivery, Terminal usability, proof coverage, and local/live validation.
 
 ## Non-Goals For V28
 
@@ -543,8 +566,10 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 Before V28 implementation closes, rerun at minimum:
 
 - `cat BITCODE_SPEC.txt`
+- `pnpm run check:v28-metadevelopment`
 - `find uapi/app/api -path '*v[0-9]*' -print | sort`
 - `rg -n 'gap blocking|partial blocking|not started|not promoted|not generated yet' BITCODE_SPEC_V28*`
+- `node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run`
 - `pnpm -C packages/api build`
 - `pnpm -C packages/orm build`
 - `npm --prefix protocol-demonstration run test:v27-crypto`

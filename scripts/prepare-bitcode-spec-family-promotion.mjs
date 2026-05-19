@@ -28,10 +28,10 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V25 --commit <sha> [--repo-root <path>]',
+      'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V28 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, and V25.'
+      'Currently implemented for V21, V22, V23, V24, V25, and V28.'
     ].join('\n')
   );
 }
@@ -101,11 +101,39 @@ function rewriteStatusValues(content, values) {
  * @param {string} version
  * @param {string} commit
  * @param {string} content
- * @param {'spec' | 'delta' | 'parity'} kind
+ * @param {'spec' | 'delta' | 'notes' | 'parity'} kind
  */
 function rewritePromotionStatus(version, commit, content, kind) {
+  if (version === 'V28') {
+    const sharedInventory = 'active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion';
+    const scopeByKind = {
+      spec: 'V28 canonical system specification for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails',
+      delta: 'V28 canonical delta for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails',
+      notes: 'V28 canonical notes for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment',
+      parity: 'V28 canonical parity ledger for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V28 is the active commercial Protocol and Terminal MVP canon and the V28 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V27-to-V28 commercial Protocol, Terminal MVP, Reading pipeline, and promotion-proof closure set',
+      notes: 'canonical promotion complete; V28 notes record the accepted commercial-product and metadevelopment closure evidence',
+      parity: 'canonical promotion complete; V28 parity truth, product-gate audit, generated proof, and promotion automation are aligned'
+    };
+    return rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V28`' }
+        : {}),
+      'Current canonical/latest target': '`V28`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family',
+      'V28 state': stateByKind[kind]
+    });
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, and V25. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, and V28. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'
@@ -302,11 +330,19 @@ async function main() {
   if (!commit) throw new Error('A --commit is required.');
 
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
-  const files = [
-    ['spec', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}.md`)],
-    ['delta', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}_DELTA.md`)],
-    ['parity', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}_PARITY_MATRIX.md`)]
-  ];
+  const isRootBitcodeSpecFamily = /^V\d+$/.test(version) && Number(version.slice(1)) >= 26;
+  const files = isRootBitcodeSpecFamily
+    ? [
+        ['spec', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}.md`)],
+        ['delta', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}_DELTA.md`)],
+        ['notes', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}_NOTES.md`)],
+        ['parity', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}_PARITY_MATRIX.md`)]
+      ]
+    : [
+        ['spec', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}.md`)],
+        ['delta', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}_DELTA.md`)],
+        ['parity', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}_PARITY_MATRIX.md`)]
+      ];
 
   for (const [kind, filePath] of files) {
     const original = await fs.readFile(filePath, 'utf8');
@@ -314,7 +350,7 @@ async function main() {
       version,
       commit,
       original,
-      /** @type {'spec' | 'delta' | 'parity'} */ (kind)
+      /** @type {'spec' | 'delta' | 'notes' | 'parity'} */ (kind)
     );
     await fs.writeFile(filePath, rewritten, 'utf8');
   }

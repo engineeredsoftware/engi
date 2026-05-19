@@ -176,9 +176,19 @@ Adds registry-derived organization, MCP API, ChatGPT App access decisions, and p
 
 Adds Terminal-operated deployment lane, telemetry, upgrade, migration, and provider readiness state.
 
-### Gate 8: V28 Promotion Proof
+### Gate 8: V28 Metadevelopment And Promotion Proof
 
-Adds final proof, build/test, unversioned route, and scope-staging closure.
+Adds branch policy, quality commit discipline, gate workflow hardening,
+canonical promotion automation, V28 promotion-script support, unversioned-route
+checking, deterministic ledgerized model posture checks, and a carryforward
+audit for the product gates that follow.
+
+### Gate 9+: Commercial Product Closure Gates
+
+Gate 9 and later gates close the remaining commercial product flow: Depositing,
+Read Request, Read-Need synthesis/review/resynthesis, Finding Fits, AssetPack
+preview, BTC settlement, read-license/right transfer, protected-source unlock,
+PR delivery, Terminal UX, documentation, proof coverage, and live validation.
 
 ## Later Version Handoff
 
