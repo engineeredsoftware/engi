@@ -512,6 +512,10 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 7. **Gate 7: Terminal Operations And Testnet Readiness**
    - Regtest/signet harness, telemetry sinks, alert panels, upgrade readiness, and rollback posture become Terminal-operated.
    - Taproot/PSBT/BTC remains the V28 crypto lane; BSC/opBNB/Binance/BitVM bridge work is future bridge/distribution readiness unless proof-bound artifacts exist.
+   - Terminal operational health now reads from package BTD primitives through
+     `terminal-operational-health.ts`, then renders lane approval, telemetry,
+     upgrade, generated type refresh, VCS, settlement-network, and synthetic
+     testnet mint/reconciliation state in Terminal.
    - Reading pipeline test coverage becomes a gate contract: Read-Need,
      Need-Fit, depository search, embedding/vector search, sandbox harness,
      route preflight, Terminal stream adaptation, and demonstration local

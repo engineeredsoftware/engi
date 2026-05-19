@@ -154,16 +154,17 @@ It links manual screenshots, console logs, server logs, Supabase SQL checks, and
 | ChatGPT App authorization based on range/read-license/policy truth | ChatGPT App MVP parity must use the same registry-derived access posture as MCP and Terminal; retained in V28 MVP scope. | not yet implemented | Gate 6 |
 | Deterministic model posture for ledgerized synthesis | `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` and `uapi/app/auxillaries/components/models/GlobalModelSelection.tsx` still expose broad user-driven model preferences; V28 SPEC now forbids user-selected models for Fit, AssetPack, semantic measurement, measuremint, proof, journal, and settlement paths. Remove, hide, or scope model selection to non-ledgerized conversation UX before promotion. | not yet implemented | Gate 3 / Gate 8 |
 | access-policy legal templates | policy id/hash exists; full templates not complete | pending | Gate 6 |
-| deployment lanes and telemetry surfaced in Terminal | `deployment-lanes.ts`, `telemetry.ts`, deployment-readiness route | implemented prerequisite | Gate 7 |
-| migration/type refresh visible as readiness | V27 migrations and dashboard RLS migration are applied/aligned in staging Supabase; generated type refresh is deferred. | substantially advanced | Gate 7 |
-| GitHub-only provider readiness disclosed | `internal-docs/INTEGRATIONS.md` shows GitHub implemented and broader providers incomplete | implemented prerequisite | Gate 7 |
-| BTD-AssetPack testnet minting and ledgerized synthetic measurement | V27 package primitives exist for measuremint, range, receipts, ledger anchors, Terminal journal, and reconciliation. V28 must prove realistic testnet or testnet-readiness flow with synthetic measurement, BTD-AssetPack mint/read state, journal rows, ledger anchors or blocked ledger readiness, and projection/reconciliation readback. | substantially advanced | Gate 3 / Gate 5 / Gate 7 |
-| Taproot/BNB/Binance research posture | current V28 sources center Bitcoin wallet/PSBT/Taproot-compatible providers; no BSC/opBNB/BEP-20/Binance Web3 Wallet BTD deployment artifact is bound. V28 documents Bitcoin/Taproot-first testnet posture and records BSC/opBNB/Binance/BitVM bridge pilots as future bridge/distribution work unless proof-bound artifacts are added. | accepted boundary | Gate 7 / V36+ |
+| deployment lanes and telemetry surfaced in Terminal | `packages/btd/src/terminal-operational-health.ts`, `deployment-lanes.ts`, `telemetry.ts`, `uapi/app/terminal/TerminalOperationalHealthPanel.tsx`, `uapi/tests/terminalOperationalHealthPanel.test.tsx` | implemented | Gate 7 |
+| migration/type refresh visible as readiness | `terminal-operational-health.ts` builds upgrade readiness from `upgrade.ts` and exposes migration root, rollback root, approval root, and generated type refresh posture in Terminal. | implemented | Gate 7 |
+| GitHub-only provider readiness disclosed | `terminal-operational-health.ts` marks GitHub ready and GitLab, Bitbucket, generic Git future-scoped for Terminal Reading; Terminal renders the provider states. | implemented | Gate 7 |
+| BTD-AssetPack testnet minting and ledgerized synthetic measurement | `terminal-operational-health.ts` builds a synthetic testnet AssetPack readback using measuremint, range allocation, mint receipt, Terminal journal rows, Bitcoin Taproot ledger anchor, observed/projected ledger facts, and reconciliation; `packages/btd/__tests__/terminal-operational-health.test.ts` proves diff/repair shape. | implemented | Gate 3 / Gate 5 / Gate 7 |
+| Taproot/BNB/Binance research posture | Terminal operational health marks Bitcoin Taproot/PSBT ready and BSC, opBNB, and Binance Web3 Wallet disabled until a later Protocol gate admits proof-bound artifacts. | accepted boundary | Gate 7 / V36+ |
 
 ## V28 implementation checklist
 
 | Area | Required V28 result | Judgment |
 | --- | --- | --- |
+| Terminal operations | lane approval posture, broadcaster/observer telemetry, upgrade/migration/generated-type refresh, GitHub-only VCS posture, Bitcoin Taproot/PSBT readiness, disabled Binance-family pilots, and synthetic testnet mint/read reconciliation are rendered from package primitives | implemented |
 | Draft family | SPEC, DELTA, NOTES, PARITY exist | closed |
 | Canon posture | V27 active / V28 draft in source posture carriers | closed |
 | Routes | unversioned UAPI route scan passes | closed |
@@ -179,7 +180,6 @@ It links manual screenshots, console logs, server logs, Supabase SQL checks, and
 | Terminal Read/Fit | Read, Fit, semantic volume, measuremint, policy UX | pending |
 | Terminal range/read | AssetPack range and read-right detail | pending |
 | Terminal journal/reconcile | selected transaction Journal section separates ledger observations, database projections, canonical roots, repair receipts, and blocking drift reasons | substantially advanced |
-| Terminal operations | telemetry, lanes, upgrade, migration readiness | pending |
 
 ## Later-Version Deferrals
 

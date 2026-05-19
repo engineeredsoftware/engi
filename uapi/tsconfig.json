@@ -40,6 +40,9 @@
       "@bitcode/prompts/raw_promptparts/*": [
         "../packages/prompts/src/raw_promptparts/*"
       ],
+      "@bitcode/btd/terminal-operational-health": [
+        "../packages/btd/src/terminal-operational-health.ts"
+      ],
       "@bitcode/pipeline-asset-pack": [
         "../packages/pipelines/asset-pack/src/index.ts"
       ],

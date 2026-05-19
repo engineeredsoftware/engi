@@ -713,6 +713,24 @@ Acceptance criteria:
   they satisfy the same typed envelope, telemetry, and fail-closed contracts as
   the live Reading pipelines.
 
+Implementation evidence:
+
+- `packages/btd/src/terminal-operational-health.ts` is the canonical package
+  adapter for Terminal operational health. It builds the displayed lane,
+  telemetry, upgrade, provider, settlement-network, synthetic testnet minting,
+  Terminal journal, ledger anchor, and ledger/database reconciliation read
+  from BTD primitives rather than a UI-only fixture.
+- `uapi/app/terminal/TerminalOperationalHealthPanel.tsx` renders that package
+  read in Terminal. It keeps all six lanes visible, blocks value-bearing
+  mainnet without an operational approval root, exposes broadcaster/observer
+  severity, displays rollback/migration/generated-type refresh posture, shows
+  GitHub as the active VCS path, and marks BSC/opBNB/Binance Web3 Wallet pilots
+  disabled.
+- Gate 7 implementation tests are
+  `packages/btd/__tests__/terminal-operational-health.test.ts` and
+  `uapi/tests/terminalOperationalHealthPanel.test.tsx`; package-level BTD tests
+  are runnable through `pnpm -C packages/btd test`.
+
 ### Gate 8: V28 Promotion Proof
 
 Purpose:
