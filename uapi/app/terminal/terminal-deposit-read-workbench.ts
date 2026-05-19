@@ -23,6 +23,14 @@ export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
   depositAssetId?: string | null;
   hasWalletOrAttestationProof?: boolean | null;
   hasAssetMeasurementEvidence?: boolean | null;
+  proofRoot?: string | null;
+  measurementRoot?: string | null;
+  reconciliationReadbackRoot?: string | null;
+  depositorySearchDocumentRoot?: string | null;
+  lexicalDocumentRoot?: string | null;
+  vectorDocumentRoot?: string | null;
+  depositorWalletId?: string | null;
+  depositoryIndexState?: string | null;
 };
 
 export type TerminalEnterpriseReadingStepId =
@@ -114,6 +122,15 @@ type ShellSnapshot = {
     selectedOriginKindCounts?: Record<string, number> | null;
     addressingRoot?: string | null;
     authRoot?: string | null;
+    depositAssetId?: string | null;
+    proofRoot?: string | null;
+    measurementRoot?: string | null;
+    reconciliationReadbackRoot?: string | null;
+    depositorySearchDocumentRoot?: string | null;
+    lexicalDocumentRoot?: string | null;
+    vectorDocumentRoot?: string | null;
+    depositorWalletId?: string | null;
+    depositoryIndexState?: string | null;
   } | null;
   readingSurface?: {
     parserKind?: string | null;
@@ -243,6 +260,15 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
       selectedOriginKindCounts: { repository: 1 },
       addressingRoot: `repository:${selectedRepository.id}`,
       authRoot: `${providerAccount} · ${repositoryContext?.provider || 'github'}`,
+      depositAssetId: matchingDepositedRevision?.depositAssetId || null,
+      proofRoot: matchingDepositedRevision?.proofRoot || null,
+      measurementRoot: matchingDepositedRevision?.measurementRoot || null,
+      reconciliationReadbackRoot: matchingDepositedRevision?.reconciliationReadbackRoot || null,
+      depositorySearchDocumentRoot: matchingDepositedRevision?.depositorySearchDocumentRoot || null,
+      lexicalDocumentRoot: matchingDepositedRevision?.lexicalDocumentRoot || null,
+      vectorDocumentRoot: matchingDepositedRevision?.vectorDocumentRoot || null,
+      depositorWalletId: matchingDepositedRevision?.depositorWalletId || null,
+      depositoryIndexState: matchingDepositedRevision?.depositoryIndexState || null,
     },
     readingSurface: {
       parserKind: 'terminal-read-fit-parser',
@@ -408,6 +434,25 @@ export function normalizeTerminalDepositReadWorkbench(
     usesRepositoryContext && selectedRepository
       ? `${providerAccount} · ${repositoryContext?.provider || 'github'}`
       : String(snapshot.depositingSurface?.authRoot || '—');
+  const depositAssetId = textValue(snapshot.depositingSurface?.depositAssetId);
+  const proofRoot = textValue(snapshot.depositingSurface?.proofRoot);
+  const measurementRoot = textValue(snapshot.depositingSurface?.measurementRoot);
+  const reconciliationReadbackRoot = textValue(snapshot.depositingSurface?.reconciliationReadbackRoot);
+  const depositorySearchDocumentRoot = textValue(snapshot.depositingSurface?.depositorySearchDocumentRoot);
+  const lexicalDocumentRoot = textValue(snapshot.depositingSurface?.lexicalDocumentRoot);
+  const vectorDocumentRoot = textValue(snapshot.depositingSurface?.vectorDocumentRoot);
+  const depositorWalletId = textValue(snapshot.depositingSurface?.depositorWalletId);
+  const depositoryIndexState = textValue(snapshot.depositingSurface?.depositoryIndexState);
+  const sourceProofRootCount = [
+    proofRoot,
+    measurementRoot,
+    reconciliationReadbackRoot,
+  ].filter(Boolean).length;
+  const searchDocumentRootCount = [
+    depositorySearchDocumentRoot,
+    lexicalDocumentRoot,
+    vectorDocumentRoot,
+  ].filter(Boolean).length;
   const sourceRevisionRepository = textValue(snapshot.sourceRevision?.repositoryFullName) || repositoryLabel;
   const sourceRevisionBranch =
     textValue(snapshot.sourceRevision?.branch) ||
@@ -436,12 +481,16 @@ export function normalizeTerminalDepositReadWorkbench(
           label: 'Authenticated repos',
           value: numberValue(connectionStatus?.metadata?.repositories || repositoryContext?.repositories.length),
         },
+        { label: 'Source proof roots', value: numberValue(sourceProofRootCount) },
+        { label: 'Search document roots', value: numberValue(searchDocumentRootCount) },
       ]
     : [
         { label: 'Selected refs', value: numberValue(snapshot.inventory?.selectedCount) },
         { label: 'Active inventory', value: numberValue(snapshot.inventory?.activeCount) },
         { label: 'Repo supply entries', value: numberValue(snapshot.repoSupplySummary?.inventoryEntryCount) },
         { label: 'Authenticated repos', value: numberValue(snapshot.repoSupplySummary?.repoCount) },
+        { label: 'Source proof roots', value: numberValue(sourceProofRootCount) },
+        { label: 'Search document roots', value: numberValue(searchDocumentRootCount) },
       ];
 
   return {
@@ -500,6 +549,42 @@ export function normalizeTerminalDepositReadWorkbench(
         {
           label: 'Auth root',
           value: authRoot,
+        },
+        {
+          label: 'Deposit asset',
+          value: depositAssetId || '—',
+        },
+        {
+          label: 'Depositor wallet',
+          value: depositorWalletId || '—',
+        },
+        {
+          label: 'Proof root',
+          value: proofRoot || '—',
+        },
+        {
+          label: 'Measurement root',
+          value: measurementRoot || '—',
+        },
+        {
+          label: 'Readback root',
+          value: reconciliationReadbackRoot || '—',
+        },
+        {
+          label: 'Search document root',
+          value: depositorySearchDocumentRoot || '—',
+        },
+        {
+          label: 'Lexical document root',
+          value: lexicalDocumentRoot || '—',
+        },
+        {
+          label: 'Vector document root',
+          value: vectorDocumentRoot || '—',
+        },
+        {
+          label: 'Depository index',
+          value: depositoryIndexState || '—',
         },
       ],
       selectedEntries: repositorySelectedEntries,

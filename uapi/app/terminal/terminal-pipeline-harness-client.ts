@@ -142,6 +142,9 @@ export function buildTerminalFitPipelineHarnessRequest({
         depositedSourceRevision?.hasWalletOrAttestationProof ?? undefined,
       depositHasAssetMeasurementEvidence:
         depositedSourceRevision?.hasAssetMeasurementEvidence ?? undefined,
+      depositProofRoot: depositedSourceRevision?.proofRoot || null,
+      depositMeasurementRoot: depositedSourceRevision?.measurementRoot || null,
+      depositReconciliationReadbackRoot: depositedSourceRevision?.reconciliationReadbackRoot || null,
       repositoryFullName,
       sourceBranch,
       sourceCommit,

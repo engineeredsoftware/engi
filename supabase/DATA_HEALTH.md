@@ -131,6 +131,12 @@ reusable checks:
   `supabase/queries/v28_qa_terminal_04_deposit_repository_alignment.sql` confirms
   the Terminal Deposit source is the connected GitHub repository inventory and
   flags any live-lane leakage from protocol demonstration `frontier/*` data.
+- `v28_qa_terminal_08_depository_evidence_after_deposit`:
+  `supabase/queries/v28_qa_terminal_08_depository_evidence_after_deposit.sql`
+  checks Gate 9 deposited-source evidence after a Terminal deposit: candidate
+  asset id, proof root, measurement root, reconciliation readback root,
+  lexical/vector document roots, aggregate depository search root, depositor
+  wallet boundary, and vector embedding policy posture.
 - `v28_qa_terminal_03_btd_ledger_after_terminal`:
   `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` checks
   BTD measuremint, ranges, BTC fee receipts, Terminal journal, ledger anchors,

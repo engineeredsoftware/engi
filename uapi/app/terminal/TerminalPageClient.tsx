@@ -316,6 +316,14 @@ export default function TerminalPageClient() {
       depositAssetId: matchingSubmission.candidateAssetId || null,
       hasWalletOrAttestationProof: Boolean(matchingSubmission.candidateAssetId),
       hasAssetMeasurementEvidence: Boolean(matchingSubmission.candidateAssetId),
+      proofRoot: matchingSubmission.depositProofRoot || null,
+      measurementRoot: matchingSubmission.depositMeasurementRoot || null,
+      reconciliationReadbackRoot: matchingSubmission.depositReconciliationReadbackRoot || null,
+      depositorySearchDocumentRoot: matchingSubmission.depositorySearchDocumentRoot || null,
+      lexicalDocumentRoot: matchingSubmission.lexicalDocumentRoot || null,
+      vectorDocumentRoot: matchingSubmission.vectorDocumentRoot || null,
+      depositorWalletId: matchingSubmission.depositorWalletId || null,
+      depositoryIndexState: matchingSubmission.depositoryIndexState || null,
     };
   }, [repositoryContext, runs, showDemonstrationSurfaces]);
   const admittedReadActivityId = useMemo(() => {

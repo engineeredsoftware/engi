@@ -37,6 +37,22 @@ type SubmitState =
   | { kind: 'success'; message: string }
   | { kind: 'error'; message: string };
 
+type TerminalDepositResponseEvidence = {
+  proofRoot?: string | null;
+  measurementRoot?: string | null;
+  reconciliationReadbackRoot?: string | null;
+  depositorySearchDocumentRoot?: string | null;
+  lexicalDocumentRoot?: string | null;
+  vectorDocumentRoot?: string | null;
+  depositorBoundary?: {
+    walletId?: string | null;
+  } | null;
+  indexState?: {
+    lexical?: string | null;
+    vector?: string | null;
+  } | null;
+};
+
 interface TerminalDepositComposerProps {
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   repositoryAnchor?: string | null;
@@ -294,8 +310,14 @@ export default function TerminalDepositComposer({
       }
 
       const payload = (await response.json()) as {
-        asset?: { assetId?: string | null; title?: string | null };
+        asset?: {
+          assetId?: string | null;
+          title?: string | null;
+          depositoryEvidence?: TerminalDepositResponseEvidence | null;
+        };
+        depositoryEvidence?: TerminalDepositResponseEvidence | null;
       };
+      const depositoryEvidence = payload.depositoryEvidence || payload.asset?.depositoryEvidence || null;
 
       await runControl((controls) => controls.refresh?.());
       setTitle('');
@@ -327,9 +349,18 @@ export default function TerminalDepositComposer({
             sourceCommit: displayedSourceCommit || null,
             walletAuthorizationSigned: Boolean(walletAuthorizationProof),
             candidateAssetId: payload.asset?.assetId || null,
+            depositProofRoot: depositoryEvidence?.proofRoot || null,
+            depositMeasurementRoot: depositoryEvidence?.measurementRoot || null,
+            depositReconciliationReadbackRoot: depositoryEvidence?.reconciliationReadbackRoot || null,
+            depositorySearchDocumentRoot: depositoryEvidence?.depositorySearchDocumentRoot || null,
+            lexicalDocumentRoot: depositoryEvidence?.lexicalDocumentRoot || null,
+            vectorDocumentRoot: depositoryEvidence?.vectorDocumentRoot || null,
+            depositorWalletId: depositoryEvidence?.depositorBoundary?.walletId || null,
+            depositoryIndexState: depositoryEvidence?.indexState?.vector || depositoryEvidence?.indexState?.lexical || null,
           },
           output: {
             asset: payload.asset || null,
+            depositoryEvidence,
           },
         });
       } catch (recordError) {
