@@ -609,10 +609,24 @@ Acceptance criteria:
 - the Read-Need synthesis pipeline stores prompt inputs, interpolated context,
   model outputs, parsed Need, measurement root, review state, feedback history,
   and resynthesis attempts.
+- Read-Need synthesis tests cover typed Need construction, measurement roots,
+  source constraints, pricing measurement vectors, review-state transitions,
+  feedback/resynthesis telemetry, and route responses that expose prompt input,
+  interpolated context, model output posture, parsed Need, and next action.
 - the Need-Fit pipeline accepts only reviewed Read-Needs, searches deposited
   supply, ranks source-bound candidates, synthesizes the AssetPack, and emits
   fit/no-fit/blocked evidence with candidate, score, proof, and rejection
   telemetry.
+- Need-Fit tests cover strict accepted-Need admission, depository search,
+  vector/embedding search RPC shape, candidate ranking, source-bound proof and
+  measurement blockers, `worthy_fit`, `no_worthy_fit`, and
+  `blocked_readiness` branches, source-safe preview, Share-to-Fee quote, range
+  projection, settlement boundary, and pull-request delivery target posture.
+- Every Reading pipeline phase must declare its phase, agent, step, substep,
+  prompt/context input, tool input, tool output, model output, parsed typed
+  output, timing/usage, and fail-closed state in telemetry. Until a phase is
+  fully live, tests must require valid typed mocks for the same phase/agent/tool
+  and step/substep envelopes so mock mode cannot drift from the live contract.
 - AssetPack preview exposes measurements, score posture, fit rationale, roots,
   fee quote, range projection, and disclosure policy without exposing protected
   source before settlement.
@@ -689,6 +703,15 @@ Acceptance criteria:
 - GitHub-only VCS readiness is honest; broader provider work remains outside V28 MVP QA unless required by the active surface.
 - realistic testnet BTD-AssetPack minting uses synthetic measurement receipts, Terminal journal rows, ledger anchors or ledger-observed placeholders, and database projections that can be diffed and repaired.
 - Bitcoin Taproot/PSBT posture is first-class; BSC/opBNB/Binance Web3 Wallet pilots remain future bridge/distribution work unless they are represented as disabled readiness or documentation notes.
+- the next-gate Reading test contract is green and treated as acceptance
+  evidence: package Read-Need tests, depository-search tests, embedding/vector
+  search tests, Vercel Sandbox harness plan/host tests, pipeline-harness
+  route/preflight tests, Terminal stream adapter tests, and demonstration
+  local-fit tests all pass and remain mapped to this SPEC.
+- bounded-real-inference readiness is tested separately from deterministic
+  mock posture. Mocked phase/agent/tool/substep outputs are admitted only when
+  they satisfy the same typed envelope, telemetry, and fail-closed contracts as
+  the live Reading pipelines.
 
 ### Gate 8: V28 Promotion Proof
 
@@ -901,6 +924,11 @@ Gate 4 implementation state:
   acceptance actions while preserving the prior Read review boundary. The
   response stores prompt input, interpolated source context, parsed Need,
   measurement root, review state, feedback, and synthesis telemetry.
+- Read-Need test coverage must stay implementation-guiding rather than
+  snapshot-only: it must assert typed Need fields, measurement roots,
+  source-disclosure constraints, pricing measurement vectors, acceptance
+  roots, feedback/resynthesis handling, route telemetry shape, and the rule
+  that raw Read requests cannot directly enter strict Need-Fit execution.
 - Terminal live Need-Fit execution requires an accepted `bitcode.read.need`
   object in addition to Deposit and admitted-Read activity ids. The live
   harness request carries `acceptedReadNeed` and
@@ -911,10 +939,45 @@ Gate 4 implementation state:
   band, disclosure policy, access policy id/hash, deterministic Share-to-Fee
   quote root, BTD range projection, settlement boundary, and locked/unlocked
   read-right state.
+- Need-Fit test coverage must assert depository search semantics before
+  synthesis: embedding policy, vector dimensions, search RPC, source-bound
+  candidate normalization, proof/measurement/readback blockers, mock/frontier
+  leakage rejection, worthy/no-worthy/blocked result states, selection trace,
+  and execution storage of search and fit evidence.
 - The Vercel Sandbox harness writes that source-safe preview into the exported
   evidence artifact before ledger settlement readback. Terminal can stream the
   preview, fee quote, range projection, access state, ledger state, and
   pull-request target without exposing protected source before settlement.
+- Harness and Terminal tests must assert the implementation envelope for the
+  live path: sandbox plan generation, detached execution polling, artifact
+  readback, real-inference preflight, Supabase REST/DB lane matching, secret
+  redaction, accepted-Need forwarding, rich stream summarization, generation
+  and tool telemetry, and canonical stream-panel adaptation.
+- The protocol-demonstration local loop remains the minimal independent
+  witness. Its tests must cover local Need synthesis, explicit Need acceptance,
+  accepted Need-Fit ranking, source-safe preview, deterministic fee quote,
+  no-worthy-fit, and blocked-readiness proof failures without importing product
+  packages or service adapters.
+
+Gate 7 Reading pipeline coverage contract:
+
+- The next gate cannot close unless the focused Reading suites pass together:
+  `packages/pipelines/asset-pack` Read-Need and depository-search tests,
+  `packages/pipeline-hosts` manifest/harness/host tests, UAPI read-review,
+  pipeline-harness route/preflight, Terminal harness stream, vector search
+  tests, and `protocol-demonstration` local fit-finding tests.
+- The coverage set must be updated whenever a Reading phase, agent, tool,
+  step, substep, telemetry field, algorithmic scoring rule, fee formula,
+  settlement boundary, or source-disclosure rule changes. Specification text,
+  tests, and core algorithmic design must move together; deficiencies found by
+  tests require either implementation repair or explicit SPEC correction before
+  gate acceptance.
+- A mocked pipeline phase is acceptable only as a typed contract witness. It
+  must emit the same phase id, agent id, step/substep ids, tool name, prompt
+  input, interpolated context, model output posture, parsed output type,
+  timing/usage shape, result state, and fail-closed errors expected from the
+  real phase. Tests must reject untyped placeholders that could hide live
+  pipeline drift.
 
 ### Long-running full-profile pipeline gate
 

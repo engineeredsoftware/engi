@@ -512,6 +512,14 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 7. **Gate 7: Terminal Operations And Testnet Readiness**
    - Regtest/signet harness, telemetry sinks, alert panels, upgrade readiness, and rollback posture become Terminal-operated.
    - Taproot/PSBT/BTC remains the V28 crypto lane; BSC/opBNB/Binance/BitVM bridge work is future bridge/distribution readiness unless proof-bound artifacts exist.
+   - Reading pipeline test coverage becomes a gate contract: Read-Need,
+     Need-Fit, depository search, embedding/vector search, sandbox harness,
+     route preflight, Terminal stream adaptation, and demonstration local
+     fit-finding suites must pass together.
+   - Valid mocks must carry the same typed phase/agent/tool/step/substep,
+     prompt/context, parsed-output, usage/timing, and fail-closed envelopes as
+     live Reading pipeline telemetry. Placeholder mocks are not acceptance
+     evidence.
 
 8. **Gate 8: V28 Promotion Proof**
    - SPEC, DELTA, NOTES, PARITY, and PROVEN exist.
