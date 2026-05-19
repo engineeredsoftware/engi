@@ -174,12 +174,20 @@ type ReadNeedSourceInput = {
   feedback?: unknown;
 };
 
+const inferredStringListSchema = z.preprocess(
+  (value) => {
+    if (typeof value === 'string') return [value];
+    return value;
+  },
+  z.array(z.string()).default([]),
+);
+
 export const ReadNeedComprehensionSynthesisSchema = z.object({
-  requirements: z.array(z.string()).default([]),
-  closureCriteria: z.array(z.string()).default([]),
-  failureModes: z.array(z.string()).default([]),
-  targetArtifactKinds: z.array(z.string()).default([]),
-  proofExpectations: z.array(z.string()).default([]),
+  requirements: inferredStringListSchema,
+  closureCriteria: inferredStringListSchema,
+  failureModes: inferredStringListSchema,
+  targetArtifactKinds: inferredStringListSchema,
+  proofExpectations: inferredStringListSchema,
 });
 
 function sha256(value: string): string {

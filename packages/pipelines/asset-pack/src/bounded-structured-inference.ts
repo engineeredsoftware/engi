@@ -27,19 +27,34 @@ type ResolvedLLM = {
   source: string;
 };
 
+const stringListSchema = z.preprocess(
+  (value) => {
+    if (typeof value === 'string') return [value];
+    return value;
+  },
+  z.array(z.string()).default([]),
+);
+
 const ReasoningSchema = z.object({
   analysis: z.string().default(''),
-  steps: z.array(z.string()).default([]),
+  steps: stringListSchema,
   conclusion: z.string().default(''),
-  confidence: z.number().min(0).max(1).default(0),
+  confidence: z.coerce.number().min(0).max(1).catch(0),
   useTools: z.array(z.any()).optional(),
 });
 
 const JudgmentSchema = z.object({
-  quality: z.number().min(0).max(1).default(0),
-  issues: z.array(z.string()).default([]),
-  suggestions: z.array(z.string()).default([]),
-  approved: z.boolean().default(false),
+  quality: z.coerce.number().min(0).max(1).catch(0),
+  issues: stringListSchema,
+  suggestions: stringListSchema,
+  approved: z.preprocess((value) => {
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') return true;
+      if (normalized === 'false') return false;
+    }
+    return value;
+  }, z.boolean().default(false)),
 });
 
 export async function runBoundedStructuredInference<T>({
