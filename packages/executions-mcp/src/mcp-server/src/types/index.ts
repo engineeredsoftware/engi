@@ -62,6 +62,14 @@ export interface MCPAuthContext {
   organizationName?: string;
   organizationSlug?: string;
   organizationPermissions?: Record<string, any>;
+  walletId?: string;
+  btdReadAccess?: Array<{
+    assetPackId: string;
+    walletId: string;
+    decision: 'owner_read' | 'licensed_read' | 'denied';
+    reason: string;
+    accessPolicyHash: string;
+  }>;
   btdBalance: number;
   mcpCredentials: Record<string, any>;
 }

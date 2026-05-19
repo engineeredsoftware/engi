@@ -17,6 +17,13 @@ const simpleSystemTextSearchExecute =
 const webSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-web-search').search.execute as jest.Mock);
 const generateDigestMock = (jest.requireMock('@bitcode/digest/run').generateDigest as jest.Mock);
+const READ_ACCESS = {
+  assetPackId: 'asset-pack-1',
+  walletId: 'wallet-reader',
+  decision: 'licensed_read',
+  accessPolicyHash: 'policy-hash',
+  reason: 'wallet_has_valid_policy_matching_license',
+} as const;
 
 describe('ChatGPT App tools', () => {
   beforeEach(() => {
@@ -85,9 +92,13 @@ This product delivers voice-first social conversations for builders.
       const tool = findTool(name);
       expect(tool.meta?.requiresConfirmation).toBe(true);
       expect((tool.inputSchema as any).required).toContain('confirmed');
+      expect((tool.inputSchema as any).required).toContain('readAccess');
       expect((tool.inputSchema as any).properties.confirmed).toMatchObject({
         type: 'boolean',
         const: true,
+      });
+      expect((tool.inputSchema as any).properties.readAccess).toMatchObject({
+        type: 'object',
       });
     }
   });
@@ -172,6 +183,7 @@ This product delivers voice-first social conversations for builders.
       {
         request: 'deploy_to_vercel',
         confirmed: true,
+        readAccess: READ_ACCESS,
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       }
     );
@@ -185,6 +197,7 @@ This product delivers voice-first social conversations for builders.
       exchangeStateRole: 'connected_interface_delivery_mechanism',
       outputMeaning: 'asset_pack_delivery_mechanism',
       targetAnchor: 'vercel:team_bitcode/prj_Yapper',
+      readAccess: READ_ACCESS,
     });
     expect((result.result as any).readyState).toBe('BUILDING');
   });
@@ -195,6 +208,7 @@ This product delivers voice-first social conversations for builders.
       {
         operation: 'createRepository',
         confirmed: true,
+        readAccess: READ_ACCESS,
         accessToken: 'ghp_mock',
         name: 'bitcode-yapper',
         description: 'Bitcode source-to-shares terminal companion fixture',
@@ -215,6 +229,7 @@ This product delivers voice-first social conversations for builders.
       exchangeStateRole: 'connected_interface_delivery_mechanism',
       outputMeaning: 'asset_pack_delivery_mechanism',
       targetAnchor: 'github:bitcode-yapper',
+      readAccess: READ_ACCESS,
     });
   });
 
@@ -234,11 +249,22 @@ This product delivers voice-first social conversations for builders.
     await expect(
       runTool('use_vercel_write_external_mcp', {
         request: 'deploy_to_vercel',
+        readAccess: READ_ACCESS,
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       })
     ).rejects.toThrow(
       'Bitcode ChatGPT App write admission requires confirmed: true before connected-interface writes can execute.',
     );
+  });
+
+  it('rejects ChatGPT App connected-interface writes without registry read access evidence', async () => {
+    await expect(
+      runTool('use_vercel_write_external_mcp', {
+        request: 'deploy_to_vercel',
+        confirmed: true,
+        payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
+      })
+    ).rejects.toThrow(/readAccess/);
   });
 
   it('use_aws_read_external_mcp invokes lambda helper', async () => {
@@ -254,6 +280,7 @@ This product delivers voice-first social conversations for builders.
     const result = await runTool<{ metadata: { provider: string; guidance: string; writeAdmission: Record<string, unknown> } }>('use_aws_write_external_mcp', {
       request: 's3.putObject',
       confirmed: true,
+      readAccess: READ_ACCESS,
       payload: { bucket: 'demo', key: 'config.json', body: '{}' },
     });
     expect(result.metadata.provider).toBe('aws');
@@ -265,6 +292,7 @@ This product delivers voice-first social conversations for builders.
       connectedInterface: 'aws',
       operation: 's3.putObject',
       targetAnchor: 'aws:s3/demo/config.json',
+      readAccess: READ_ACCESS,
     });
   });
 

@@ -1512,7 +1512,7 @@ describe('V27 Terminal journal and ledger/database reconciliation primitives', (
         metaphysicalFacts: [
           {
             factId: 'public-private-fact',
-            factKind: 'read_fit_context',
+            factKind: 'need_fit_context',
             canonicalRoot: 'root',
             private: false,
           },

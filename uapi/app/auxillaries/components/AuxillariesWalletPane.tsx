@@ -277,7 +277,7 @@ export default function AuxillariesWalletPane({
           {
             value: "network",
             label: "Network",
-            hint: "Read $BTD posture through broader market participation first.",
+            hint: "Read $BTD posture through broader registry participation first.",
           },
         ],
       },
@@ -528,7 +528,7 @@ export default function AuxillariesWalletPane({
                     {
                       label: "AssetPack range",
                       value: accessDisclosure.range,
-                      detail: "The commercial source-share object is a contiguous range, not a fungible checkout balance.",
+                      detail: "The AssetPack source-share object is a contiguous range, not a fungible checkout balance.",
                       tone: "violet",
                     },
                     {
@@ -573,7 +573,7 @@ export default function AuxillariesWalletPane({
             <AuxillariesWorkspaceSection
               kicker="Share posture"
               title="Choose how $BTD detail should read back into transactions"
-              description="Use the inner auxillary to decide whether account, organization, or network share posture should dominate when you reopen main operator surfaces."
+              description="Use the inner auxillary to decide whether account, organization, or network registry posture should dominate when you reopen main operator surfaces."
               explainer={auxillaryPaneExplainers.btdShares}
               tone="violet"
             >

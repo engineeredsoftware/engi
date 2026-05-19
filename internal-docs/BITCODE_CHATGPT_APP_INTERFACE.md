@@ -19,7 +19,19 @@ It must not:
 - own Exchange state,
 - bypass Terminal/Exchange proof requirements,
 - write unconfirmed connected-interface changes,
+- write connected-interface changes without owner-read or licensed-read registry evidence for the relevant AssetPack,
 - use generic work-board examples as Bitcode product semantics.
+
+## Gate 6 Read-Access Admission
+
+Write-capable ChatGPT App tools require two independent admission facts:
+
+- `confirmed: true` from the user interaction.
+- `readAccess` evidence with AssetPack id, wallet id, decision, access-policy hash, and reason.
+
+The only admitted write decisions are `owner_read` and `licensed_read`. A balance,
+organization total, or generic account role is not enough to write through a
+connected interface.
 
 ## Requirements For SPEC Promotion
 

@@ -9,9 +9,13 @@ import {
   BtdFungibleMutationRejectedError,
   BTD_MAX_MINTABLE_SUPPLY,
   BITCODE_FEE_ASSET,
+  assertBtdAccessPolicyTemplateCoverage,
   assertBtdMintableSupplyLimit,
+  buildBtdReadAccessProjectionFromRegistryRows,
   calculateLlmBtcFeeEstimate,
   calculateMeasuredBtdFromTokens,
+  evaluateBtdReadAccess,
+  listBtdAccessPolicyTemplates,
 } from '../src';
 
 describe('calculateLlmBtcFeeEstimate', () => {
@@ -61,5 +65,103 @@ describe('BtdFungibleMutationRejectedError', () => {
   it('makes fungible BTD mutation attempts fail closed', () => {
     const err = new BtdFungibleMutationRejectedError('nope');
     expect(err.code).toBe('BTD_IS_NON_FUNGIBLE');
+  });
+});
+
+describe('BTD access policy templates', () => {
+  it('covers owner-read, licensed-read, policy, dispute, and takedown posture', () => {
+    const templates = assertBtdAccessPolicyTemplateCoverage(listBtdAccessPolicyTemplates());
+
+    expect(templates.map((template) => template.kind)).toEqual(
+      expect.arrayContaining([
+        'owner_read',
+        'licensed_read',
+        'derivative_use',
+        'redistribution',
+        'confidentiality',
+        'dispute',
+        'takedown',
+      ]),
+    );
+    expect(templates.flatMap((template) => template.prohibitedClaims)).toEqual(
+      expect.arrayContaining([
+        'price appreciation',
+        'dividend',
+        'copyright transfer',
+        'marketplace royalty',
+      ]),
+    );
+  });
+});
+
+describe('registry-derived read access projection', () => {
+  it('maps range, ownership, and read-license rows into owner-read decisions', () => {
+    const projection = buildBtdReadAccessProjectionFromRegistryRows({
+      assetPackId: 'asset-pack-1',
+      range: {
+        asset_pack_id: 'asset-pack-1',
+        range_start: 10,
+        range_end_exclusive: 15,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash',
+      },
+      ownershipRows: [
+        {
+          to_wallet_id: 'wallet-owner',
+          asset_pack_id: 'asset-pack-1',
+          range_start: 10,
+          range_end_exclusive: 15,
+          access_policy_hash: 'policy-hash',
+        },
+      ],
+    });
+
+    const decision = evaluateBtdReadAccess({
+      walletId: 'wallet-owner',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: projection.ownershipClaims,
+      licenses: projection.licenses,
+      at: '2026-05-19T00:00:00.000Z',
+    });
+
+    expect(projection.range.tokenCount).toBe(5);
+    expect(decision.decision).toBe('owner_read');
+  });
+
+  it('maps registry read-license rows into licensed-read decisions', () => {
+    const projection = buildBtdReadAccessProjectionFromRegistryRows({
+      assetPackId: 'asset-pack-1',
+      range: {
+        asset_pack_id: 'asset-pack-1',
+        range_start: 10,
+        range_end_exclusive: 15,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash',
+      },
+      licenseRows: [
+        {
+          license_id: 'license-1',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          access_policy_hash: 'policy-hash',
+          valid_from: '2026-05-01T00:00:00.000Z',
+          expires_at: '2026-06-01T00:00:00.000Z',
+        },
+      ],
+    });
+
+    const decision = evaluateBtdReadAccess({
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: projection.ownershipClaims,
+      licenses: projection.licenses,
+      at: '2026-05-19T00:00:00.000Z',
+    });
+
+    expect(decision.decision).toBe('licensed_read');
   });
 });

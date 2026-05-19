@@ -1,6 +1,8 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import { BtdRegistryModel } from '../models/btd-registry';
+import { OrganizationBtdTreasuryModel } from '../models/organization-btd-treasury';
+import { OrganizationBtdUsageModel } from '../models/organization-btd-usage';
 
 const repoRoot = path.resolve(__dirname, '../../../..');
 const migrationSource = readFileSync(
@@ -90,6 +92,47 @@ describe('BtdRegistryModel V27 persistence boundary', () => {
     ]);
   });
 
+  it('derives organization holdings and read-license usage from registry rows', async () => {
+    const supabase = createOrganizationRegistrySupabaseMock();
+    const treasury = new OrganizationBtdTreasuryModel(supabase as any);
+    const usage = new OrganizationBtdUsageModel(supabase as any);
+
+    await expect(treasury.getByOrganizationId('org-1')).resolves.toMatchObject({
+      organization_id: 'org-1',
+      source: 'btd_registry',
+      balance: 8,
+      ownedAssetPackCount: 1,
+      ownedCellCount: 8,
+      activeReadLicenseCount: 1,
+      licensedAssetPackCount: 1,
+      walletIds: ['wallet-owner', 'wallet-reader'],
+    });
+    await expect(
+      usage.getReadLicenseUsageByOrganizationId('org-1', new Date('2026-05-19T00:00:00.000Z')),
+    ).resolves.toMatchObject({
+      organization_id: 'org-1',
+      source: 'btd_registry',
+      licenseCount: 3,
+      activeLicenseCount: 1,
+      expiredLicenseCount: 1,
+      revokedLicenseCount: 1,
+      licensedAssetPackIds: ['asset-pack-licensed'],
+    });
+
+    expect(supabase.calls.map((call) => call.table)).toEqual([
+      'organization_members',
+      'user_profiles',
+      'user_profiles',
+      'btd_ownership_events',
+      'btd_read_licenses',
+      'organization_members',
+      'user_profiles',
+      'user_profiles',
+      'btd_ownership_events',
+      'btd_read_licenses',
+    ]);
+  });
+
   it('documents compatibility balance tables as non-canonical read corridors', () => {
     const balanceModel = readFileSync(
       path.join(repoRoot, 'packages/orm/src/models/user-btd-balances.ts'),
@@ -133,4 +176,103 @@ function createSupabaseMock() {
       return builder;
     }),
   };
+}
+
+function createOrganizationRegistrySupabaseMock() {
+  const calls: Array<{ table: string }> = [];
+  const rowsByTable: Record<string, Array<Record<string, unknown>>> = {
+    organization_members: [
+      { organization_id: 'org-1', user_id: 'user-owner', role: 'owner' },
+      { organization_id: 'org-1', user_id: 'user-reader', role: 'member' },
+    ],
+    user_profiles: [
+      {
+        id: 'user-owner',
+        display_name: 'Owner',
+        settings: {
+          walletBinding: {
+            address: 'wallet-owner',
+            provider: 'test',
+            status: 'verified',
+            boundAt: '2026-05-01T00:00:00.000Z',
+          },
+        },
+      },
+      {
+        id: 'user-reader',
+        display_name: 'Reader',
+        settings: {
+          walletBinding: {
+            address: 'wallet-reader',
+            provider: 'test',
+            status: 'verified',
+            boundAt: '2026-05-01T00:00:00.000Z',
+          },
+        },
+      },
+    ],
+    btd_ownership_events: [
+      {
+        to_wallet_id: 'wallet-owner',
+        asset_pack_id: 'asset-pack-owned',
+        range_start: 20,
+        range_end_exclusive: 28,
+      },
+    ],
+    btd_read_licenses: [
+      {
+        license_id: 'license-active',
+        wallet_id: 'wallet-reader',
+        asset_pack_id: 'asset-pack-licensed',
+        valid_from: '2020-01-01T00:00:00.000Z',
+      },
+      {
+        license_id: 'license-expired',
+        wallet_id: 'wallet-reader',
+        asset_pack_id: 'asset-pack-expired',
+        valid_from: '2026-04-01T00:00:00.000Z',
+        expires_at: '2026-05-01T00:00:00.000Z',
+      },
+      {
+        license_id: 'license-revoked',
+        wallet_id: 'wallet-owner',
+        asset_pack_id: 'asset-pack-revoked',
+        valid_from: '2026-05-01T00:00:00.000Z',
+        revoked_at: '2026-05-05T00:00:00.000Z',
+      },
+    ],
+  };
+
+  return {
+    calls,
+    from: jest.fn((table: string) => {
+      calls.push({ table });
+      return createTableQuery(table, rowsByTable[table] ?? []);
+    }),
+  };
+}
+
+function createTableQuery(table: string, rows: Array<Record<string, unknown>>) {
+  let filteredRows = [...rows];
+  const query: any = {
+    select: jest.fn(() => query),
+    eq: jest.fn((column: string, value: unknown) => {
+      filteredRows = filteredRows.filter((row) => row[column] === value);
+      return query;
+    }),
+    in: jest.fn((column: string, values: unknown[]) => {
+      filteredRows = filteredRows.filter((row) => values.includes(row[column]));
+      return query;
+    }),
+    order: jest.fn(() => query),
+    maybeSingle: jest.fn(async () => ({ data: filteredRows[0] ?? null, error: null })),
+    then: (resolve: (value: unknown) => unknown, reject: (reason?: unknown) => unknown) =>
+      Promise.resolve({ data: filteredRows, error: null }).then(resolve, reject),
+  };
+
+  if (!table) {
+    throw new Error('table name is required');
+  }
+
+  return query;
 }

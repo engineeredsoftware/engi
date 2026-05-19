@@ -55,6 +55,52 @@ type ChatGptAppWriteAdmissionInput = {
   connectedInterface: ChatGptAppConnectedInterface;
   operation: string;
   targetAnchor?: string;
+  readAccess: ChatGptAppReadAccessDecision;
+};
+
+type ChatGptAppReadAccessDecision = {
+  assetPackId: string;
+  walletId: string;
+  decision: 'owner_read' | 'licensed_read';
+  accessPolicyHash: string;
+  reason: string;
+};
+
+const CHATGPT_APP_READ_ACCESS_VALIDATOR = z.object({
+  assetPackId: z.string().min(1, 'assetPackId must be provided'),
+  walletId: z.string().min(1, 'walletId must be provided'),
+  decision: z.enum(['owner_read', 'licensed_read']),
+  accessPolicyHash: z.string().min(1, 'accessPolicyHash must be provided'),
+  reason: z.string().min(1, 'reason must be provided')
+}).strict();
+
+const CHATGPT_APP_READ_ACCESS_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    assetPackId: {
+      type: 'string',
+      description: 'AssetPack id whose registry read access admits this connected-interface write'
+    },
+    walletId: {
+      type: 'string',
+      description: 'Wallet id used for the owner-read or licensed-read check'
+    },
+    decision: {
+      type: 'string',
+      enum: ['owner_read', 'licensed_read'],
+      description: 'Registry-derived read access decision'
+    },
+    accessPolicyHash: {
+      type: 'string',
+      description: 'Committed access policy hash that matched the registry decision'
+    },
+    reason: {
+      type: 'string',
+      description: 'Registry-derived reason for the access decision'
+    }
+  },
+  required: ['assetPackId', 'walletId', 'decision', 'accessPolicyHash', 'reason']
 };
 
 function assertConfirmedConnectedInterfaceWrite(confirmed: unknown): void {
@@ -63,6 +109,23 @@ function assertConfirmedConnectedInterfaceWrite(confirmed: unknown): void {
       'Bitcode ChatGPT App write admission requires confirmed: true before connected-interface writes can execute.'
     );
   }
+}
+
+function assertChatGptAppReadAccess(readAccess: unknown): ChatGptAppReadAccessDecision {
+  const parsed = CHATGPT_APP_READ_ACCESS_VALIDATOR.safeParse(readAccess);
+  if (!parsed.success) {
+    throw new Error(
+      'Bitcode ChatGPT App write admission requires readAccess owner-read or licensed-read registry evidence.'
+    );
+  }
+
+  if (parsed.data.decision !== 'owner_read' && parsed.data.decision !== 'licensed_read') {
+    throw new Error(
+      'Bitcode ChatGPT App write admission requires owner-read or licensed-read registry access evidence.'
+    );
+  }
+
+  return parsed.data as ChatGptAppReadAccessDecision;
 }
 
 function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
@@ -76,7 +139,8 @@ function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
     outputMeaning: 'asset_pack_delivery_mechanism',
     connectedInterface: input.connectedInterface,
     operation: input.operation,
-    targetAnchor: input.targetAnchor
+    targetAnchor: input.targetAnchor,
+    readAccess: input.readAccess
   };
 }
 
@@ -655,6 +719,7 @@ const READ_CODE_CHANGES_SCHEMA = {
 const WRITE_CODE_CHANGES_VALIDATOR = z.object({
   operation: z.enum(['createRepository', 'createOrUpdateFile']).describe('Write operation to perform'),
   confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
+  readAccess: CHATGPT_APP_READ_ACCESS_VALIDATOR.describe('Registry owner-read or licensed-read evidence required before connected-interface writes execute'),
   accessToken: z.string().min(1, 'accessToken must be provided').describe('GitHub access token with repo scope'),
   owner: z.string().optional().describe('Owner for file operations (required for createOrUpdateFile)'),
   repo: z.string().optional().describe('Repo for file operations (required for createOrUpdateFile)'),
@@ -669,6 +734,7 @@ const WRITE_CODE_CHANGES_VALIDATOR = z.object({
 
 async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_VALIDATOR>) {
   assertConfirmedConnectedInterfaceWrite(args.confirmed);
+  const readAccess = assertChatGptAppReadAccess(args.readAccess);
 
   const auth: VCSAuth = {
     accessToken: args.accessToken,
@@ -693,7 +759,8 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
         writeAdmission: buildChatGptAppWriteAdmission({
           connectedInterface: 'github',
           operation: args.operation,
-          targetAnchor: `github:${repositoryName}`
+          targetAnchor: `github:${repositoryName}`,
+          readAccess
         })
       }
     };
@@ -738,7 +805,8 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'github',
         operation: args.operation,
-        targetAnchor: `github:${owner}/${repoName}/${path}${args.branch ? `@${args.branch}` : ''}`
+        targetAnchor: `github:${owner}/${repoName}/${path}${args.branch ? `@${args.branch}` : ''}`,
+        readAccess
       })
     }
   };
@@ -758,6 +826,7 @@ const WRITE_CODE_CHANGES_SCHEMA = {
       const: true,
       description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
+    readAccess: CHATGPT_APP_READ_ACCESS_SCHEMA,
     accessToken: {
       type: 'string',
       description: 'GitHub access token with repo scope'
@@ -799,7 +868,7 @@ const WRITE_CODE_CHANGES_SCHEMA = {
       description: 'Branch to commit against (default default branch)'
     }
   },
-  required: ['operation', 'confirmed', 'accessToken']
+  required: ['operation', 'confirmed', 'readAccess', 'accessToken']
 };
 
 const IMPROVE_BEHAVIOR_VALIDATOR = z.object({
@@ -1018,11 +1087,13 @@ const VERCEL_READ_SCHEMA = {
 const VERCEL_WRITE_VALIDATOR = z.object({
   request: z.enum(['deploy_to_vercel', 'buy_domain', 'check_domain_availability']).describe('Vercel write tool to invoke'),
   confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
+  readAccess: CHATGPT_APP_READ_ACCESS_VALIDATOR.describe('Registry owner-read or licensed-read evidence required before connected-interface writes execute'),
   payload: z.record(z.any()).default({}).describe('Parameters to forward to the Vercel MCP tool')
 }).strict();
 
 async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRITE_VALIDATOR>) {
   assertConfirmedConnectedInterfaceWrite(args.confirmed);
+  const readAccess = assertChatGptAppReadAccess(args.readAccess);
 
   let result: unknown;
   let guidance: string;
@@ -1073,7 +1144,8 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'vercel',
         operation: args.request,
-        targetAnchor
+        targetAnchor,
+        readAccess
       })
     }
   };
@@ -1093,12 +1165,13 @@ const VERCEL_WRITE_SCHEMA = {
       const: true,
       description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
+    readAccess: CHATGPT_APP_READ_ACCESS_SCHEMA,
     payload: {
       type: 'object',
       description: 'Parameters to forward to the Vercel MCP tool'
     }
   },
-  required: ['request', 'confirmed']
+  required: ['request', 'confirmed', 'readAccess']
 };
 
 const AWS_READ_VALIDATOR = z.object({
@@ -1169,11 +1242,13 @@ const AWS_READ_SCHEMA = {
 const AWS_WRITE_VALIDATOR = z.object({
   request: z.enum(['s3.putObject', 'dynamo.putItem']).describe('AWS write action to perform'),
   confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
+  readAccess: CHATGPT_APP_READ_ACCESS_VALIDATOR.describe('Registry owner-read or licensed-read evidence required before connected-interface writes execute'),
   payload: z.record(z.any()).default({}).describe('Raw AWS parameters (bucket/key/body, table/item, etc.)')
 }).strict();
 
 async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALIDATOR>) {
   assertConfirmedConnectedInterfaceWrite(args.confirmed);
+  const readAccess = assertChatGptAppReadAccess(args.readAccess);
 
   let result: unknown;
   let guidance: string;
@@ -1205,7 +1280,8 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'aws',
         operation: args.request,
-        targetAnchor
+        targetAnchor,
+        readAccess
       })
     }
   };
@@ -1225,12 +1301,13 @@ const AWS_WRITE_SCHEMA = {
       const: true,
       description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
+    readAccess: CHATGPT_APP_READ_ACCESS_SCHEMA,
     payload: {
       type: 'object',
       description: 'Parameters passed through to the AWS MCP tool'
     }
   },
-  required: ['request', 'confirmed']
+  required: ['request', 'confirmed', 'readAccess']
 };
 
 // ---------------------------------------------------------------------------
