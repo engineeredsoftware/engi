@@ -1070,6 +1070,9 @@ async function settleAssetPackLedger(pipelineResultState) {
         },
         ledgerAnchorId,
         btcFeeReceiptId,
+        ownershipEventId,
+        readLicenseId,
+        journalEntryIds,
         depositorWalletId,
         readerWalletId,
         ownershipBoundary: settlementOwnershipBoundary({
@@ -1445,6 +1448,9 @@ async function settleAssetPackLedger(pipelineResultState) {
       },
       ledgerAnchorId,
       btcFeeReceiptId,
+      ownershipEventId,
+      readLicenseId,
+      journalEntryIds,
       depositorWalletId,
       readerWalletId,
       btcFee: {

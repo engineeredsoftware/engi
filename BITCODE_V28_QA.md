@@ -2028,6 +2028,30 @@ Saved query name: `v28_qa_terminal_03_btd_ledger_after_terminal`
 
 Use `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` after any Terminal action that claims Fit closure, AssetPack minting, BTC fee payment, ledger anchoring, settlement, or reconciliation.
 
+Terminal transaction detail journal diff:
+
+- Open a completed Read/Fit or AssetPack pipeline execution in Terminal and
+  switch `transactionDetail=journal`.
+- Expected payload carriers are `run.ledger_settlement` and
+  `run.terminal_journal` from `/api/executions/history/[runId]`.
+- The Journal section must show ledger observed facts separately from database
+  projected facts and metaphysical canonical facts. Operators should not need
+  the browser Network panel to answer whether journal rows, BTC fee rows,
+  ledger anchors, ownership/license projections, and repair receipts were read.
+- Expected state labels:
+  - `Aligned`: settled status, all readback booleans present, expected journal
+    entries observed, no blocking repairs.
+  - `Retryable`: missing rows or readback while no confirmed/reorged/failed
+    observation blocks the projection.
+  - `Repairable`: reconciliation repair receipts or drift evidence are present
+    and do not require override.
+  - `Approval required`: a confirmed ledger fact contradicts a missing or
+    conflicting database projection.
+  - `Blocked`: reorged/failed finality or a blocking repair receipt prevents
+    unlock.
+- The raw payload accordion remains available for audit, but the default visual
+  state must surface blocking drift reasons and repair receipts directly.
+
 ### Top Chrome Wallet Readiness
 
 Expected V28 behavior:

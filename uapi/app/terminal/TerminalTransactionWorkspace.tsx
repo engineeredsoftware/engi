@@ -82,6 +82,7 @@ const ACTIVITY_ACTION_LABELS: Partial<Record<TerminalActivitySubstructure['id'],
   shippables: 'Show outputs',
   proofs: 'Show proofs',
   history: 'Show history',
+  journal: 'Show journal',
 };
 
 const ACTIVITY_DETAIL_SECTION_BY_SUBSTRUCTURE: Partial<
@@ -90,6 +91,7 @@ const ACTIVITY_DETAIL_SECTION_BY_SUBSTRUCTURE: Partial<
   shippables: 'shippables',
   proofs: 'proofs',
   history: 'history',
+  journal: 'journal',
 };
 
 function buildActivitySubstructures(
@@ -165,6 +167,23 @@ function buildActivitySubstructures(
                 : 'n/a',
           },
           { label: 'BTC fee basis', value: formatUsd(detail?.processingStats.btcFeeUsdEquivalent ?? selectedRun.btcFeeUsdEquivalent) },
+        ],
+      };
+    }
+
+    if (substructure.id === 'journal') {
+      return {
+        ...substructure,
+        summary:
+          'Terminal journal reconciliation separates observed ledger facts, projected database facts, canonical roots, repair receipts, and blocking drift reasons for the selected activity.',
+        metrics: [
+          { label: 'State', value: detail?.ledgerSettlement?.status || 'pending' },
+          { label: 'Journal rows', value: formatNumber(detail?.terminalJournal?.entries.length || 0) },
+        ],
+        rows: [
+          { label: 'AssetPack id', value: detail?.ledgerSettlement?.assetPackId || 'n/a' },
+          { label: 'Ledger anchor', value: detail?.ledgerSettlement?.ledgerAnchorId || 'n/a' },
+          { label: 'BTC fee receipt', value: detail?.ledgerSettlement?.btcFeeReceiptId || 'n/a' },
         ],
       };
     }

@@ -79,6 +79,14 @@ export const ACTIVITY_DETAIL_SECTIONS = [
       'Retain run history, ledger state, policy metadata, and execution accounting as first-class read surfaces in the same window.',
     targetId: 'terminalTransactionHistory',
   },
+  {
+    id: 'journal',
+    label: 'Journal',
+    badge: 'reconciliation',
+    description:
+      'Read Terminal journal entries, ledger observations, database projections, repair receipts, and blocking drift reasons without raw JSON inspection.',
+    targetId: 'terminalTransactionJournal',
+  },
 ] as const;
 
 export const TERMINAL_MVP_SURFACE_MAP = [
@@ -170,7 +178,7 @@ export const CLOSURE_PANEL_SUBSTRUCTURE: Record<
   panelEvaluations: 'proofs',
   panelBranchArtifacts: 'shippables',
   panelSettlement: 'proofs',
-  panelLedger: 'history',
+  panelLedger: 'journal',
 };
 
 export function getTerminalExperience(id: (typeof TERMINAL_EXPERIENCES)[number]['id']) {

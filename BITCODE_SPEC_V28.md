@@ -643,6 +643,26 @@ Acceptance criteria:
 - repair receipts and blocking drift reasons are visible.
 - operator can distinguish retryable, repairable, and approval-required states.
 
+Implementation posture:
+
+- `/api/executions/history/[runId]` must return the selected execution with
+  Terminal journal readback, related BTC fee row, ledger anchor row,
+  AssetPack range row, ownership/license projection rows, recent
+  reconciliation repair receipts, and readback errors as typed detail payload
+  fields rather than requiring browser-network raw JSON inspection.
+- Terminal detail owns a Journal section that separates ledger observed facts,
+  database projected facts, and metaphysical canonical root facts. The visual
+  surface must preserve the raw payload accordion for audit while making the
+  operator state readable at a glance.
+- Confirmed, reorged, and failed finality observations are blocking facts for
+  contradictory projections. Reorged/failed observations block unlock;
+  confirmed observations that contradict missing projections require explicit
+  approval or repair rather than silent retry.
+- Retryable means expected rows or readback are not visible yet without a
+  final blocking observation. Repairable means reconciliation receipts or drift
+  evidence can be applied without override. Approval-required means a
+  confirmed ledger observation contradicts the projected database state.
+
 ### Gate 6: Terminal Organization And Access Policy
 
 Purpose:

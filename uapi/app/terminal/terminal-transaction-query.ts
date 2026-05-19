@@ -46,6 +46,7 @@ export type TerminalTransactionDetailSection =
   | 'closure'
   | 'proofs'
   | 'history'
+  | 'journal'
   | 'activity'
   | 'console';
 const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
@@ -54,6 +55,7 @@ const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
   'closure',
   'proofs',
   'history',
+  'journal',
   'activity',
   'console',
 ];
