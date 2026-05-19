@@ -60,6 +60,16 @@ jobs:
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
 
+      - name: Test staged Reading route and Terminal harness contracts
+        run: |
+          pnpm --dir uapi exec jest --runTestsByPath \
+            tests/api/readReviewRoute.test.ts \
+            tests/api/pipelineHarnessRoute.test.ts \
+            tests/terminalPipelineHarnessClient.test.ts \
+            tests/terminalDepositReadWorkbench.test.ts \
+            tests/pipelineExecutionLogHeader.test.tsx \
+            --runInBand
+
       - name: Test protocol demonstration
         run: npm --prefix protocol-demonstration run test:v28-mvp-qa
 

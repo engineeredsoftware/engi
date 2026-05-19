@@ -12,6 +12,7 @@ import {
   buildTerminalDepositWorkbenchDraft,
   buildTerminalReadAdmissionDraft,
   buildTerminalReadMeasurementDraft,
+  readTerminalRouteError,
   type TerminalActivityRecordDraft,
 } from './terminal-activity-history';
 import { TERMINAL_WORKSPACE_EXPLAINERS } from './terminal-workspace-explainers';
@@ -56,7 +57,47 @@ function shortIdentifier(value: unknown): string | null {
   return text.length > 18 ? `${text.slice(0, 12)}...` : text;
 }
 
+function stringList(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.map((entry) => String(entry || '').trim()).filter(Boolean)
+    : [];
+}
+
+function numericValue(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function terminalReadNeed(value: unknown): TerminalReadNeedState | null {
+  const record = objectValue(value);
+  return record?.schema === 'bitcode.read.need' ? record as TerminalReadNeedState : null;
+}
+
 type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
+type ReadingStageId =
+  | 'read-request'
+  | 'read-need-review'
+  | 'need-fit-search'
+  | 'asset-pack-preview'
+  | 'btc-settlement'
+  | 'unlock'
+  | 'pull-request-delivery';
+
+type TerminalReadNeedState = Record<string, unknown> & {
+  schema?: 'bitcode.read.need';
+  needId?: string;
+  reviewState?: string;
+  measurementRoot?: string;
+  requirements?: string[];
+  closureCriteria?: string[];
+  failureModes?: string[];
+  targetArtifactKinds?: string[];
+  proofExpectations?: string[];
+  feedbackHistory?: string[];
+  pricingMeasurementInputs?: {
+    weightedRequestedVolume?: number;
+    measurementVector?: Array<{ dimension?: string; weight?: number; volume?: number }>;
+  };
+};
 
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
@@ -84,9 +125,16 @@ export default function TerminalDepositReadWorkbench({
   const [harnessMessage, setHarnessMessage] = useState<string | null>(null);
   const [harnessEvents, setHarnessEvents] = useState<TerminalFitPipelineHarnessEvent[]>([]);
   const [harnessUserHasScrolled, setHarnessUserHasScrolled] = useState(false);
+  const [readNeed, setReadNeed] = useState<TerminalReadNeedState | null>(null);
+  const [acceptedReadNeed, setAcceptedReadNeed] = useState<TerminalReadNeedState | null>(null);
+  const [readNeedFeedback, setReadNeedFeedback] = useState('');
+  const [readNeedMessage, setReadNeedMessage] = useState<string | null>(null);
+  const [readNeedAction, setReadNeedAction] = useState<'synthesize' | 'accept' | 'resynthesize' | null>(null);
+  const [readNeedSynthesisCount, setReadNeedSynthesisCount] = useState(0);
   const workbenchSnapshot = useMemo(() => {
-    if (showDemonstrationWorkbench) return snapshot;
-    return buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
+    const liveWorkbenchSnapshot = buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
+    if (showDemonstrationWorkbench) return snapshot || liveWorkbenchSnapshot;
+    return liveWorkbenchSnapshot;
   }, [depositedSourceRevision, repositoryContext, showDemonstrationWorkbench, snapshot]);
   const workbench = useMemo<TerminalDepositReadWorkbenchState | null>(
     () => normalizeTerminalDepositReadWorkbench(workbenchSnapshot, repositoryContext),
@@ -100,6 +148,12 @@ export default function TerminalDepositReadWorkbench({
     setHarnessState('idle');
     setHarnessMessage(null);
     setHarnessEvents([]);
+    setReadNeed(null);
+    setAcceptedReadNeed(null);
+    setReadNeedFeedback('');
+    setReadNeedMessage(null);
+    setReadNeedAction(null);
+    setReadNeedSynthesisCount(0);
   }, [scenarioKey]);
 
   useEffect(() => {
@@ -139,17 +193,21 @@ export default function TerminalDepositReadWorkbench({
         repositoryContext,
         depositedSourceRevision,
         readActivityId: harnessReadActivityId,
+        acceptedReadNeed,
       }),
-    [depositedSourceRevision, harnessReadActivityId, repositoryContext, workbench],
+    [acceptedReadNeed, depositedSourceRevision, harnessReadActivityId, repositoryContext, workbench],
   );
   const harnessIdentifierRows = useMemo(() => {
     const rows: Array<{ label: string; value: string }> = [];
     if (harnessRequestState.ready) {
       rows.push(
         { label: 'read', value: shortIdentifier(harnessRequestState.request.readId) || 'pending' },
+        { label: 'need', value: shortIdentifier(terminalReadNeed(harnessRequestState.request.acceptedReadNeed)?.needId) || 'pending' },
         { label: 'deposit', value: shortIdentifier(harnessRequestState.request.depositId) || 'pending' },
         { label: 'commit', value: shortIdentifier(harnessRequestState.request.sourceCommit) || 'pending' },
       );
+    } else if (acceptedReadNeed?.needId) {
+      rows.push({ label: 'need', value: shortIdentifier(acceptedReadNeed.needId) || acceptedReadNeed.needId });
     }
 
     let sandboxId: string | null = null;
@@ -198,7 +256,7 @@ export default function TerminalDepositReadWorkbench({
     if (supabaseHost) rows.push({ label: 'database', value: supabaseHost });
     if (lastTelemetryLine) rows.push({ label: 'telemetry line', value: lastTelemetryLine });
     return rows;
-  }, [harnessEvents, harnessRequestState]);
+  }, [acceptedReadNeed, harnessEvents, harnessRequestState]);
   const harnessStreamSnapshot = useMemo(
     () => buildTerminalFitPipelineHarnessStreamSnapshot(harnessEvents, harnessState, harnessState === 'failed' ? harnessMessage : null),
     [harnessEvents, harnessMessage, harnessState],
@@ -212,6 +270,59 @@ export default function TerminalDepositReadWorkbench({
     nextUrl.searchParams.set('runId', runId);
     window.history.replaceState(window.history.state, '', `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
   }, [harnessState, harnessStreamSnapshot.runId]);
+  const completedHarnessEvidence = useMemo(() => {
+    for (let index = harnessEvents.length - 1; index >= 0; index -= 1) {
+      const event = harnessEvents[index];
+      if (event.event !== 'harness-completed') continue;
+      const data = objectValue(event.data);
+      const evidence = objectValue(data?.evidence);
+      if (evidence) return evidence;
+    }
+    return null;
+  }, [harnessEvents]);
+  const sourceSafePreview = objectValue(completedHarnessEvidence?.sourceSafePreview);
+  const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
+  const previewFeeQuote = objectValue(sourceSafePreview?.feeQuote);
+  const settledReadback = ledgerSettlement?.status === 'settled';
+  const pullRequestDelivered = settledReadback && Boolean(textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget));
+  const activeReadingStage: ReadingStageId = pullRequestDelivered
+    ? 'pull-request-delivery'
+    : settledReadback
+    ? 'unlock'
+    : sourceSafePreview
+      ? 'asset-pack-preview'
+      : harnessState === 'running' || (acceptedReadNeed && harnessState !== 'idle')
+        ? 'need-fit-search'
+        : acceptedReadNeed
+          ? 'need-fit-search'
+          : readNeed
+            ? 'read-need-review'
+            : 'read-request';
+  const currentReadNeed = acceptedReadNeed || readNeed;
+  const readNeedRows = useMemo(() => {
+    if (!currentReadNeed) return [];
+    return [
+      { label: 'Need id', value: shortIdentifier(currentReadNeed.needId) || currentReadNeed.needId || 'pending' },
+      { label: 'Measurement root', value: shortIdentifier(currentReadNeed.measurementRoot) || currentReadNeed.measurementRoot || 'pending' },
+      { label: 'Review state', value: currentReadNeed.reviewState || 'pending' },
+      { label: 'Target kinds', value: stringList(currentReadNeed.targetArtifactKinds).join(', ') || 'pending' },
+      { label: 'Closure criteria', value: String(stringList(currentReadNeed.closureCriteria).length) },
+      {
+        label: 'Weighted volume',
+        value: String(currentReadNeed.pricingMeasurementInputs?.weightedRequestedVolume ?? 'pending'),
+      },
+      { label: 'Feedback turns', value: String(stringList(currentReadNeed.feedbackHistory).length) },
+    ];
+  }, [currentReadNeed]);
+  const stageCards: Array<{ id: ReadingStageId; label: string; detail: string }> = [
+    { id: 'read-request', label: '1. Read Request', detail: 'Repository, branch, commit, and reader request are framed.' },
+    { id: 'read-need-review', label: '2. Read-Need', detail: 'Need requirements, measurements, proof expectations, and feedback are reviewable.' },
+    { id: 'need-fit-search', label: '3. Need-Fit', detail: 'Only the accepted Need can search deposited source and synthesize a fit.' },
+    { id: 'asset-pack-preview', label: '4. Preview', detail: 'Measurements, roots, score posture, fee quote, and disclosure policy are visible.' },
+    { id: 'btc-settlement', label: '5. BTC settlement', detail: 'Reader fee authorization and settlement readback gate source unlock.' },
+    { id: 'unlock', label: '6. Unlock', detail: 'Owner or licensed read rights unlock only after range and license readback.' },
+    { id: 'pull-request-delivery', label: '7. PR delivery', detail: 'The purchased AssetPack is delivered to the reading repository.' },
+  ];
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
     recordingKey === null &&
@@ -293,6 +404,113 @@ export default function TerminalDepositReadWorkbench({
       setRecordingKey(null);
     }
   };
+
+  const handleSynthesizeReadNeed = useCallback(async (action: 'synthesize_read_need' | 'resynthesize_read_need') => {
+    if (!workbench) return;
+
+    setReadNeedAction(action === 'synthesize_read_need' ? 'synthesize' : 'resynthesize');
+    setReadNeedMessage(null);
+
+    try {
+      const sourceRevision = workbench.sourceRevision;
+      const response = await fetch('/api/read-review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action,
+          readId: harnessReadActivityId || workbench.scenarioLabel,
+          readPrompt: workbench.read.summary,
+          sourceRevision,
+          repositoryFullName: sourceRevision?.repositoryFullName,
+          sourceBranch: sourceRevision?.branch,
+          sourceCommit: sourceRevision?.commit,
+          targetArtifactKinds: workbench.read.targetKinds,
+          closureCriteria: workbench.read.closureCriteria,
+          feedback: readNeedFeedback.trim() ? [readNeedFeedback.trim()] : [],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(await readTerminalRouteError(response, 'Unable to synthesize the Read-Need.'));
+      }
+
+      const payload = objectValue(await response.json());
+      const nextNeed = terminalReadNeed(payload?.readNeed);
+      if (!nextNeed) throw new Error('Read-Need synthesis did not return a typed Need.');
+      setReadNeed(nextNeed);
+      setAcceptedReadNeed(null);
+      setReadNeedSynthesisCount((count) => count + 1);
+      setReadNeedMessage(
+        action === 'synthesize_read_need'
+          ? 'Read-Need synthesized for review before Need-Fit search.'
+          : 'Read-Need resynthesized with feedback for review.',
+      );
+    } catch (error) {
+      setReadNeedMessage(error instanceof Error ? error.message : 'Unable to synthesize the Read-Need.');
+    } finally {
+      setReadNeedAction(null);
+    }
+  }, [harnessReadActivityId, readNeedFeedback, workbench]);
+
+  const handleAcceptReadNeed = useCallback(async () => {
+    if (!readNeed) return;
+
+    setReadNeedAction('accept');
+    setReadNeedMessage(null);
+
+    try {
+      const response = await fetch('/api/read-review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'accept_read_need',
+          readNeed,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(await readTerminalRouteError(response, 'Unable to accept the Read-Need.'));
+      }
+
+      const payload = objectValue(await response.json());
+      const accepted = terminalReadNeed(payload?.acceptedReadNeed || payload?.readNeed);
+      if (!accepted || accepted.reviewState !== 'accepted') {
+        throw new Error('Read-Need acceptance did not return an accepted Need.');
+      }
+      setAcceptedReadNeed(accepted);
+      setReadNeed(accepted);
+      setReadNeedMessage('Read-Need accepted. Need-Fit search can now run against deposited source.');
+      await onRecordActivity?.({
+        type: 'agentic-execution:read-measurement',
+        detailSection: 'activity',
+        summary: `Accepted Read-Need ${accepted.needId || 'for Need-Fit search'}.`,
+        context: {
+          source: 'terminal-staged-reading',
+          needId: accepted.needId,
+          measurementRoot: accepted.measurementRoot,
+          reviewState: accepted.reviewState,
+        },
+        output: {
+          readNeed: accepted,
+          fitSearchAdmission: payload?.fitSearchAdmission || null,
+          assetPackCompletion: {
+            bitcodeActivityState: {
+              readNeed: accepted,
+              fitSearchAdmission: payload?.fitSearchAdmission || null,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      setReadNeedMessage(error instanceof Error ? error.message : 'Unable to accept the Read-Need.');
+    } finally {
+      setReadNeedAction(null);
+    }
+  }, [onRecordActivity, readNeed]);
 
   const handleRunLiveFit = useCallback(async () => {
     if (!harnessRequestState.ready) {
@@ -399,6 +617,147 @@ export default function TerminalDepositReadWorkbench({
         />
       </div>
 
+      <section className="mt-5 rounded-[1.45rem] border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div>
+            <p className="text-[0.66rem] uppercase tracking-[0.2em] text-sky-200/80">staged reading</p>
+            <h3 className="mt-2 text-lg font-semibold text-white">Read Request, Read-Need, Need-Fit, preview, settlement, unlock</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
+              The live pipeline starts from an accepted Read-Need. Preview can expose measurements, roots, score, fee quote, and range posture, while source-bearing AssetPack material stays locked until settlement readback.
+            </p>
+          </div>
+          <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
+            {activeReadingStage.replace(/-/g, ' ')}
+          </span>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-7">
+          {stageCards.map((stage) => {
+            const active = stage.id === activeReadingStage;
+            return (
+              <div
+                key={stage.id}
+                className={`rounded-[1.05rem] border px-3 py-4 text-sm ${
+                  active ? 'border-sky-300/35 bg-sky-300/10' : 'border-white/8 bg-black/20'
+                }`}
+              >
+                <p className="font-semibold text-neutral-100">{stage.label}</p>
+                <p className="mt-2 leading-5 text-neutral-400">{stage.detail}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)]">
+          <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">Read-Need review</p>
+                <p className="mt-2 text-sm leading-6 text-neutral-300">
+                  {currentReadNeed
+                    ? `${currentReadNeed.needId || 'Read-Need'} is ${currentReadNeed.reviewState || 'pending'}.`
+                    : 'Synthesize the reader request into a reviewable Need before searching deposits.'}
+                </p>
+              </div>
+              <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-300">
+                attempts {readNeedSynthesisCount}
+              </span>
+            </div>
+
+            {readNeedMessage ? (
+              <p className="mt-3 rounded-[0.9rem] border border-white/8 bg-white/[0.04] px-3 py-3 text-sm leading-6 text-neutral-200">
+                {readNeedMessage}
+              </p>
+            ) : null}
+
+            <label className="mt-4 block">
+              <span className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">Need feedback</span>
+              <textarea
+                value={readNeedFeedback}
+                onChange={(event) => setReadNeedFeedback(event.target.value)}
+                rows={3}
+                placeholder="Optional feedback before requesting another Read-Need synthesis."
+                className="mt-2 w-full resize-none rounded-[1rem] border border-white/8 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition placeholder:text-neutral-600 focus:border-sky-300/35"
+              />
+            </label>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button
+                type="button"
+                disabled={readNeedAction !== null || !workbench.sourceRevision}
+                onClick={() => {
+                  void handleSynthesizeReadNeed('synthesize_read_need');
+                }}
+                className="rounded-[1.2rem] border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {readNeedAction === 'synthesize' ? 'Synthesizing…' : 'Synthesize Read-Need'}
+              </button>
+              <button
+                type="button"
+                disabled={readNeedAction !== null || !readNeed}
+                onClick={() => {
+                  void handleSynthesizeReadNeed('resynthesize_read_need');
+                }}
+                className="rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {readNeedAction === 'resynthesize' ? 'Resynthesizing…' : 'Resynthesize with feedback'}
+              </button>
+              <button
+                type="button"
+                disabled={readNeedAction !== null || !readNeed || readNeed.reviewState === 'accepted'}
+                onClick={() => {
+                  void handleAcceptReadNeed();
+                }}
+                className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {readNeedAction === 'accept' ? 'Accepting…' : 'Accept Read-Need'}
+              </button>
+              <button
+                type="button"
+                disabled={!canRunLiveFit}
+                onClick={() => {
+                  void handleRunLiveFit();
+                }}
+                className="rounded-[1.2rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {harnessState === 'running' ? 'Running Need-Fit…' : 'Run Need-Fit pipeline'}
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+            <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">Source-safe preview and settlement readback</p>
+            <dl className="mt-3 grid gap-2">
+              {[
+                { label: 'AssetPack', value: textValue(sourceSafePreview?.assetPackId) || 'pending' },
+                { label: 'Fee quote', value: numericValue(previewFeeQuote?.sats) ? `${String(previewFeeQuote?.sats)} sats` : 'pending' },
+                { label: 'Quote root', value: shortIdentifier(previewFeeQuote?.quoteRoot) || 'pending' },
+                { label: 'Range projection', value: objectValue(sourceSafePreview?.rangeProjection)?.tokenCount ? `${String(objectValue(sourceSafePreview?.rangeProjection)?.tokenCount)} cells` : 'pending' },
+                { label: 'Ledger', value: textValue(ledgerSettlement?.status) || 'pending' },
+                { label: 'Access', value: textValue(objectValue(sourceSafePreview?.accessPolicy)?.readRightState) || 'pending settlement' },
+                { label: 'PR target', value: textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget) || 'pending' },
+              ].map((row) => (
+                <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
+                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
+                  <dd className="mt-1 break-words font-mono text-[0.7rem] text-neutral-200">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+
+        {readNeedRows.length ? (
+          <dl className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {readNeedRows.map((row) => (
+              <div key={row.label} className="rounded-[1rem] border border-white/8 bg-black/20 px-4 py-3 text-sm">
+                <dt className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
+                <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+      </section>
+
       <section className="mt-5 rounded-[1.45rem] border border-emerald-400/16 bg-emerald-400/[0.06] px-5 py-5">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
@@ -455,18 +814,16 @@ export default function TerminalDepositReadWorkbench({
           >
             Review fit result posture
           </button>
-          {!showDemonstrationWorkbench ? (
-            <button
-              type="button"
-              disabled={!canRunLiveFit}
-              onClick={() => {
-                void handleRunLiveFit();
-              }}
-              className="rounded-[1.25rem] border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
-            >
-              {liveFitActionLabel}
-            </button>
-          ) : null}
+          <button
+            type="button"
+            disabled={!canRunLiveFit}
+            onClick={() => {
+              void handleRunLiveFit();
+            }}
+            className="rounded-[1.25rem] border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+          >
+            {liveFitActionLabel}
+          </button>
           <button
             type="button"
             disabled={recordingKey !== null || readFitProgress !== 'admitted'}

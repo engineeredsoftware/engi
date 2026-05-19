@@ -1,5 +1,8 @@
 import { createHash } from 'node:crypto';
-import type { DepositorySearchRead } from './depository-search';
+import type {
+  DepositoryFitResultEvidence,
+  DepositorySearchRead,
+} from './depository-search';
 
 export type ReadNeedReviewState =
   | 'needs_acceptance'
@@ -53,6 +56,104 @@ export interface ReadNeedFitAdmission {
   admitted: boolean;
   blockers: string[];
   acceptedNeed: ReadNeed | null;
+}
+
+export type AssetPackReadRightState =
+  | 'owner_read'
+  | 'licensed_read'
+  | 'pending_settlement'
+  | 'denied';
+
+export interface ShareToFeeQuote {
+  formula: string;
+  needId: string;
+  needMeasurementRoot: string;
+  measurementVector: ReadNeedMeasurementDimension[];
+  admittedFitQuality: number;
+  weightedAdmittedVolume: number;
+  sats: number;
+  feeSchedule: {
+    satsPerWeightedVolume: number;
+    minimumSats: number;
+    dustFloorSats: number;
+    networkFeePosture: 'reader_wallet_authorized_before_broadcast';
+  };
+  finalityState: 'preview_not_paid';
+  payer: 'reader';
+  quoteRoot: string;
+}
+
+export interface AssetPackSourceSafePreview {
+  schema: 'bitcode.asset-pack.source-safe-preview';
+  previewId: string;
+  assetPackId: string;
+  need: {
+    needId: string;
+    measurementRoot: string;
+    reviewState: ReadNeedReviewState;
+    acceptanceRoot: string | null;
+  };
+  fit: {
+    resultState: string;
+    resultReasons: string[];
+    admittedFitQuality: number;
+    selectedCandidateAssetIds: string[];
+    queryRoot: string | null;
+    rankingRoot: string | null;
+    searchedAssetCount: number;
+    embeddingPolicy: unknown;
+    scoreBand: 'high' | 'reviewable' | 'blocked' | 'none';
+  };
+  measurements: {
+    needVector: ReadNeedMeasurementDimension[];
+    weightedRequestedVolume: number;
+    weightedAdmittedVolume: number;
+  };
+  roots: {
+    needMeasurementRoot: string;
+    queryRoot: string | null;
+    rankingRoot: string | null;
+    proofRoot: string;
+    sourceManifestRoot: string;
+    previewRoot: string;
+  };
+  feeQuote: ShareToFeeQuote;
+  rangeProjection: {
+    status: 'projected_not_minted';
+    tokenCount: number;
+    normalizedBitcodeVolume: number;
+    rangeStart: number | null;
+    rangeEndExclusive: number | null;
+    projectionRoot: string;
+  };
+  disclosurePolicy: {
+    protectedSourceDisclosure: 'forbidden_before_settlement';
+    visibleBeforeSettlement: string[];
+    withheldBeforeSettlement: string[];
+  };
+  accessPolicy: {
+    accessPolicyId: string;
+    accessPolicyHash: string;
+    readRightState: AssetPackReadRightState;
+  };
+  settlementBoundary: {
+    payer: 'reader';
+    payee: 'depositor';
+    serverCustody: false;
+    btcFeeRequired: true;
+    readbackRequiredBeforeUnlock: true;
+    ownershipTruth: 'asset_pack_range_and_license_rows';
+  };
+  unlock: {
+    state: AssetPackReadRightState;
+    sourceAvailable: boolean;
+    reason: string;
+  };
+  delivery: {
+    pullRequestTarget: string | null;
+    availableAfterSettlement: true;
+  };
+  createdAt: string;
 }
 
 type ReadNeedSourceInput = {
@@ -245,6 +346,10 @@ function weightedMeasurementVolume(vector: ReadNeedMeasurementDimension[], admit
     .toFixed(6));
 }
 
+function clampQuality(value: number): number {
+  return Math.max(0, Math.min(1, Number.isFinite(value) ? value : 0));
+}
+
 export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): ReadNeed {
   const read = normalizeSource(input);
   const targetArtifactKinds = normalizeTargetArtifactKinds(input);
@@ -393,20 +498,244 @@ export function buildShareToFeePreview(input: {
   admittedFitQuality: number;
   satsPerWeightedVolume?: number;
   minimumSats?: number;
-}) {
+  dustFloorSats?: number;
+}): ShareToFeeQuote {
+  const admittedFitQuality = clampQuality(input.admittedFitQuality);
   const weightedAdmittedVolume = weightedMeasurementVolume(
     input.need.pricingMeasurementInputs.measurementVector,
-    Math.max(0, Math.min(1, input.admittedFitQuality))
+    admittedFitQuality
   );
   const satsPerWeightedVolume = input.satsPerWeightedVolume ?? 1000;
   const minimumSats = input.minimumSats ?? 546;
+  const dustFloorSats = input.dustFloorSats ?? 546;
+  const sats = Math.max(minimumSats, dustFloorSats, Math.round(weightedAdmittedVolume * satsPerWeightedVolume));
+  const feeSchedule = {
+    satsPerWeightedVolume,
+    minimumSats,
+    dustFloorSats,
+    networkFeePosture: 'reader_wallet_authorized_before_broadcast' as const,
+  };
+  const quoteRoot = `sha256:${sha256(stableStringify({
+    formula: input.need.pricingMeasurementInputs.shareToFeeFormula,
+    needId: input.need.needId,
+    needMeasurementRoot: input.need.measurementRoot,
+    measurementVector: input.need.pricingMeasurementInputs.measurementVector,
+    admittedFitQuality,
+    weightedAdmittedVolume,
+    sats,
+    feeSchedule,
+  }))}`;
+
   return {
     formula: input.need.pricingMeasurementInputs.shareToFeeFormula,
     needId: input.need.needId,
     needMeasurementRoot: input.need.measurementRoot,
+    measurementVector: input.need.pricingMeasurementInputs.measurementVector,
+    admittedFitQuality,
     weightedAdmittedVolume,
-    sats: Math.max(minimumSats, Math.round(weightedAdmittedVolume * satsPerWeightedVolume)),
+    sats,
+    feeSchedule,
     finalityState: 'preview_not_paid' as const,
     payer: 'reader' as const,
+    quoteRoot,
+  };
+}
+
+function scoreBandFor(quality: number): AssetPackSourceSafePreview['fit']['scoreBand'] {
+  if (quality >= 0.8) return 'high';
+  if (quality >= 0.62) return 'reviewable';
+  if (quality > 0) return 'blocked';
+  return 'none';
+}
+
+function highestSelectedFitQuality(fitResult: DepositoryFitResultEvidence | null | undefined): number {
+  const scores = fitResult?.selectionTrace?.selectedCandidates
+    ?.map((candidate) => candidate.scores.finalScore)
+    .filter((score) => Number.isFinite(score)) || [];
+  return scores.length ? clampQuality(Math.max(...scores)) : 0;
+}
+
+function firstSelectedProofRoot(fitResult: DepositoryFitResultEvidence | null | undefined): string | null {
+  const selected = fitResult?.selectionTrace?.selectedCandidates?.[0];
+  return selected?.proofEvidence?.proofRoot || null;
+}
+
+export function resolveAssetPackReadRightState(input: {
+  hasOwnerClaim?: boolean;
+  hasReadLicense?: boolean;
+  settlementReadbackComplete?: boolean;
+  settlementPending?: boolean;
+  policyDenied?: boolean;
+}): AssetPackReadRightState {
+  if (input.policyDenied) return 'denied';
+  if (input.hasOwnerClaim) return 'owner_read';
+  if (input.hasReadLicense && input.settlementReadbackComplete) return 'licensed_read';
+  if (input.settlementPending !== false) return 'pending_settlement';
+  return 'denied';
+}
+
+export function buildAssetPackSourceSafePreview(input: {
+  need: ReadNeed;
+  fitResult?: DepositoryFitResultEvidence | null;
+  assetPackId?: string | null;
+  proofRoot?: string | null;
+  sourceManifestRoot?: string | null;
+  accessPolicyId?: string | null;
+  accessPolicyHash?: string | null;
+  rangeStart?: number | null;
+  tokenCount?: number | null;
+  pullRequestTarget?: string | null;
+  createdAt?: string;
+}): AssetPackSourceSafePreview {
+  const fitResult = input.fitResult || null;
+  const admittedFitQuality = fitResult?.resultState === 'worthy_fit'
+    ? highestSelectedFitQuality(fitResult)
+    : 0;
+  const feeQuote = buildShareToFeePreview({
+    need: input.need,
+    admittedFitQuality,
+  });
+  const selectedCandidateAssetIds = fitResult?.selectedCandidateAssetIds || [];
+  const assetPackId = firstString(input.assetPackId)
+    || `asset-pack-${sha256(stableStringify({
+      needId: input.need.needId,
+      selectedCandidateAssetIds,
+      queryRoot: fitResult?.queryRoot || null,
+      rankingRoot: fitResult?.rankingRoot || null,
+    })).slice(0, 16)}`;
+  const sourceManifestRoot = firstString(input.sourceManifestRoot)
+    || `sha256:${sha256(stableStringify({
+      assetPackId,
+      selectedCandidateAssetIds,
+      withheld: 'protected_source_before_settlement',
+    }))}`;
+  const proofRoot = firstString(input.proofRoot)
+    || firstSelectedProofRoot(fitResult)
+    || `sha256:${sha256(stableStringify({
+      needId: input.need.needId,
+      assetPackId,
+      queryRoot: fitResult?.queryRoot || null,
+      rankingRoot: fitResult?.rankingRoot || null,
+    }))}`;
+  const accessPolicyId = firstString(input.accessPolicyId) || `access-policy-${sha256(`${assetPackId}:read-rights`).slice(0, 12)}`;
+  const accessPolicyHash = firstString(input.accessPolicyHash) || `sha256:${sha256(stableStringify({
+    accessPolicyId,
+    assetPackId,
+    ownerRead: true,
+    licensedRead: true,
+    confidentiality: 'public_proof_private_source',
+  }))}`;
+  const normalizedBitcodeVolume = Math.max(1, Math.ceil(feeQuote.weightedAdmittedVolume || 1));
+  const tokenCount = Math.max(1, Math.ceil(Number(input.tokenCount || normalizedBitcodeVolume)));
+  const rangeStart = Number.isSafeInteger(input.rangeStart) ? Number(input.rangeStart) : null;
+  const rangeEndExclusive = rangeStart === null ? null : rangeStart + tokenCount;
+  const projectionRoot = `sha256:${sha256(stableStringify({
+    assetPackId,
+    needId: input.need.needId,
+    feeQuoteRoot: feeQuote.quoteRoot,
+    tokenCount,
+    normalizedBitcodeVolume,
+    rangeStart,
+    rangeEndExclusive,
+  }))}`;
+  const previewRoot = `sha256:${sha256(stableStringify({
+    assetPackId,
+    needId: input.need.needId,
+    fitResultState: fitResult?.resultState || 'blocked_readiness',
+    selectedCandidateAssetIds,
+    feeQuoteRoot: feeQuote.quoteRoot,
+    projectionRoot,
+    sourceManifestRoot,
+    proofRoot,
+    accessPolicyHash,
+  }))}`;
+  const readRightState = resolveAssetPackReadRightState({ settlementPending: true });
+
+  return {
+    schema: 'bitcode.asset-pack.source-safe-preview',
+    previewId: `preview-${sha256(previewRoot).slice(0, 16)}`,
+    assetPackId,
+    need: {
+      needId: input.need.needId,
+      measurementRoot: input.need.measurementRoot,
+      reviewState: input.need.reviewState,
+      acceptanceRoot: input.need.review?.acceptanceRoot || null,
+    },
+    fit: {
+      resultState: fitResult?.resultState || 'blocked_readiness',
+      resultReasons: fitResult?.resultReasons || ['Fit search has not produced worthy source-bound evidence.'],
+      admittedFitQuality,
+      selectedCandidateAssetIds,
+      queryRoot: fitResult?.queryRoot || null,
+      rankingRoot: fitResult?.rankingRoot || null,
+      searchedAssetCount: fitResult?.searchedAssetCount || 0,
+      embeddingPolicy: fitResult?.embeddingPolicy || null,
+      scoreBand: scoreBandFor(admittedFitQuality),
+    },
+    measurements: {
+      needVector: input.need.pricingMeasurementInputs.measurementVector,
+      weightedRequestedVolume: input.need.pricingMeasurementInputs.weightedRequestedVolume,
+      weightedAdmittedVolume: feeQuote.weightedAdmittedVolume,
+    },
+    roots: {
+      needMeasurementRoot: input.need.measurementRoot,
+      queryRoot: fitResult?.queryRoot || null,
+      rankingRoot: fitResult?.rankingRoot || null,
+      proofRoot,
+      sourceManifestRoot,
+      previewRoot,
+    },
+    feeQuote,
+    rangeProjection: {
+      status: 'projected_not_minted',
+      tokenCount,
+      normalizedBitcodeVolume,
+      rangeStart,
+      rangeEndExclusive,
+      projectionRoot,
+    },
+    disclosurePolicy: {
+      protectedSourceDisclosure: 'forbidden_before_settlement',
+      visibleBeforeSettlement: [
+        'need measurement',
+        'fit measurement',
+        'selected candidate ids',
+        'roots',
+        'score band',
+        'proof posture',
+        'ownership boundary',
+        'settlement boundary',
+        'BTC quote',
+      ],
+      withheldBeforeSettlement: [
+        'protected source content',
+        'full AssetPack patch',
+        'source-bearing manifest entries',
+        'licensed read payload',
+      ],
+    },
+    accessPolicy: {
+      accessPolicyId,
+      accessPolicyHash,
+      readRightState,
+    },
+    settlementBoundary: {
+      payer: 'reader',
+      payee: 'depositor',
+      serverCustody: false,
+      btcFeeRequired: true,
+      readbackRequiredBeforeUnlock: true,
+      ownershipTruth: 'asset_pack_range_and_license_rows',
+    },
+    unlock: {
+      state: readRightState,
+      sourceAvailable: false,
+      reason: 'AssetPack source remains withheld until BTC fee, BTD range, ownership/license, journal, anchor, and database readback agree.',
+    },
+    delivery: {
+      pullRequestTarget: firstString(input.pullRequestTarget),
+      availableAfterSettlement: true,
+    },
+    createdAt: input.createdAt || new Date().toISOString(),
   };
 }

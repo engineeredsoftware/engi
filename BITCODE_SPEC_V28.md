@@ -875,6 +875,27 @@ fail-closed: if the Need measurement, Fit measurement, fee schedule, wallet
 authorization, BTC fee, BTD range, or ledger readback is missing, the Terminal
 shows blocked readiness rather than implying settlement.
 
+Gate 4 implementation state:
+
+- `/api/read-review` exposes server-side Read-Need synthesis, resynthesis, and
+  acceptance actions while preserving the prior Read review boundary. The
+  response stores prompt input, interpolated source context, parsed Need,
+  measurement root, review state, feedback, and synthesis telemetry.
+- Terminal live Need-Fit execution requires an accepted `bitcode.read.need`
+  object in addition to Deposit and admitted-Read activity ids. The live
+  harness request carries `acceptedReadNeed` and
+  `requireAcceptedReadNeed=true`, so depository candidate recall cannot run
+  from a raw Read request.
+- The AssetPack pipeline package owns the source-safe preview contract:
+  preview id, AssetPack id, Need root, Fit roots, selected candidate ids, score
+  band, disclosure policy, access policy id/hash, deterministic Share-to-Fee
+  quote root, BTD range projection, settlement boundary, and locked/unlocked
+  read-right state.
+- The Vercel Sandbox harness writes that source-safe preview into the exported
+  evidence artifact before ledger settlement readback. Terminal can stream the
+  preview, fee quote, range projection, access state, ledger state, and
+  pull-request target without exposing protected source before settlement.
+
 ### Long-running full-profile pipeline gate
 
 The current V28 route-streaming gate uses

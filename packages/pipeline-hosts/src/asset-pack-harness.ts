@@ -1499,7 +1499,7 @@ try {
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
-  const [{ assetPackPipeline, acceptReadNeed, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
+  const [{ assetPackPipeline, acceptReadNeed, buildAssetPackSourceSafePreview, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
     import('../../packages/pipelines/asset-pack/src/index'),
     import('../../packages/pipelines-generics/src/index'),
   ]);
@@ -1609,6 +1609,16 @@ try {
   resultState = manifest.sourceOverlay ? 'blocked_readiness' : settlementResultState;
   const fitResult = output?.fitResult || output?.fit || null;
   const depositorySearch = output?.depositorySearch || null;
+  const sourceSafePreview = buildAssetPackSourceSafePreview({
+    need: readNeed,
+    fitResult,
+    assetPackId: output?.assetPack?.assetPackId || output?.assetPackId || null,
+    proofRoot: output?.assetPack?.proofRoot || output?.proofRoot || null,
+    sourceManifestRoot: output?.assetPack?.sourceManifestRoot || output?.sourceManifestRoot || null,
+    pullRequestTarget: pullRequestUrl || null,
+  });
+  execution.store('asset-pack/preview', 'sourceSafe', sourceSafePreview);
+  execution.store('asset-pack/preview', 'feeQuote', sourceSafePreview.feeQuote);
   const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
     ? fitResult.resultReasons
     : Array.isArray(depositorySearch?.resultReasons)
@@ -1643,6 +1653,7 @@ try {
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
   output = {
     ...(output || {}),
+    sourceSafePreview,
     ledgerSettlement,
   };
   resultReasons.push(ledgerSettlement.reason);
@@ -1671,6 +1682,7 @@ try {
     output,
     fitResult,
     depositorySearch,
+    sourceSafePreview,
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,

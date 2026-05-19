@@ -33,6 +33,9 @@ export type AssetPackHarnessRequest = PipelineHarnessPreflightBody & {
   sourceGitUrl?: string;
   sourceRevision?: string;
   sourceDepth?: number;
+  readNeed?: unknown;
+  acceptedReadNeed?: unknown;
+  requireAcceptedReadNeed?: boolean;
   connectionId?: string | number | null;
   assumeRepositoryPresent?: boolean;
   installDependencies?: boolean;
@@ -117,6 +120,8 @@ export async function runAssetPackHarnessRoute(
       sourceCommit: body.sourceCommit,
       readId: body.readId,
       depositId: body.depositId,
+      readNeedId: readNeedId(body.acceptedReadNeed || body.readNeed),
+      requireAcceptedReadNeed: body.requireAcceptedReadNeed !== false,
     });
     emit('harness-preflight', {
       runId: routeRunId,
@@ -151,6 +156,7 @@ export async function runAssetPackHarnessRoute(
         branch: body.sourceBranch!,
         commit: body.sourceCommit!,
       },
+      readNeed: body.acceptedReadNeed || body.readNeed,
       source: body.assumeRepositoryPresent
         ? undefined
         : {
@@ -202,6 +208,17 @@ export async function runAssetPackHarnessRoute(
       });
     }
   }
+}
+
+function readNeedId(value: unknown): string | null {
+  const record = recordValue(value);
+  return typeof record?.needId === 'string' ? record.needId : null;
+}
+
+function recordValue(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : null;
 }
 
 function selectedCommandEnvironment(userId: string): Record<string, string> {
@@ -388,6 +405,11 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
   const ledgerSettlement = output?.ledgerSettlement && typeof output.ledgerSettlement === 'object'
     ? (output.ledgerSettlement as Record<string, unknown>)
     : null;
+  const sourceSafePreview = output?.sourceSafePreview && typeof output.sourceSafePreview === 'object'
+    ? (output.sourceSafePreview as Record<string, unknown>)
+    : record.sourceSafePreview && typeof record.sourceSafePreview === 'object'
+      ? (record.sourceSafePreview as Record<string, unknown>)
+      : null;
   const summarizeCandidate = (candidate: unknown) => {
     if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return null;
     const record = candidate as Record<string, unknown>;
@@ -474,6 +496,23 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
       : null,
     outputKeys: output ? Object.keys(output) : [],
     fitResult: summarizeFitLike(fitResult),
+    sourceSafePreview: sourceSafePreview
+      ? {
+          schema: sourceSafePreview.schema,
+          previewId: sourceSafePreview.previewId,
+          assetPackId: sourceSafePreview.assetPackId,
+          need: sourceSafePreview.need,
+          fit: sourceSafePreview.fit,
+          roots: sourceSafePreview.roots,
+          feeQuote: sourceSafePreview.feeQuote,
+          rangeProjection: sourceSafePreview.rangeProjection,
+          disclosurePolicy: sourceSafePreview.disclosurePolicy,
+          accessPolicy: sourceSafePreview.accessPolicy,
+          settlementBoundary: sourceSafePreview.settlementBoundary,
+          unlock: sourceSafePreview.unlock,
+          delivery: sourceSafePreview.delivery,
+        }
+      : null,
     depositorySearch: depositorySearch
       ? {
           ...summarizeFitLike(depositorySearch),

@@ -1384,6 +1384,25 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
 - `buildShareToFeePreview` provides the initial source-safe quote shape from
   accepted Need measurement vector and admitted Fit quality:
   `sum(measurement.weight * measurement.volume * admitted_fit_quality)`.
+- `/api/read-review` now supports `synthesize_read_need`,
+  `resynthesize_read_need`, and `accept_read_need` actions. The synthesis
+  response includes prompt input, interpolated source context, parsed Need,
+  measurement root, review state, feedback, and telemetry; the acceptance
+  response returns the only admissible `acceptedReadNeed` for Need-Fit search.
+- Terminal live harness requests now include `acceptedReadNeed` and
+  `requireAcceptedReadNeed=true`. The live fit button remains blocked until a
+  typed accepted Need is present, even when Deposit and admitted-Read activity
+  rows exist.
+- `buildAssetPackSourceSafePreview` records preview id, AssetPack id, Need/Fit
+  roots, selected candidate ids, score band, deterministic Share-to-Fee quote
+  root, BTD range projection, disclosure policy, access policy id/hash,
+  settlement boundary, and read-right state. The Vercel Sandbox harness exports
+  this object into evidence for Terminal stream readback.
+- Focused validation added for this gate:
+  `pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/read-need.test.ts --runInBand`,
+  `pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand`,
+  and
+  `pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/terminalPipelineHarnessClient.test.ts tests/terminalDepositReadWorkbench.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand`.
 
 Observed staging-testnet harness evidence on 2026-05-17:
 
