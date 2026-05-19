@@ -106,6 +106,23 @@ export type ReadingPipelineContractSummary = {
   returnTypes: string[];
 };
 
+export type ReadingPipelineTelemetryTraceEntry = {
+  pipelineName: ReadingPipelineName;
+  phaseId: string;
+  agentId: string;
+  ptrrStepId: string;
+  ptrrStepName: ReadingPipelinePtrrStepName;
+  kind: ReadingPipelinePtrrStepKind;
+  inputType: string;
+  outputType: string;
+  returnType: string;
+  toolIds: string[];
+  thricifiedGenerationIds: string[];
+  thricifiedGenerations: ReadingPipelineThricifiedGenerationContract[];
+  stores: string[];
+  telemetry: string[];
+};
+
 const READ_NEED_PROMPT_TEMPLATE = [
   'You are the ReadNeedComprehensionSynthesis Need-framing agent.',
   'Synthesize exactly what the reader asked Bitcode to read, no more and no less.',
@@ -137,7 +154,7 @@ const PTRR_STEP_PURPOSE: Record<ReadingPipelinePtrrStepName, string> = {
   retry: 'Recover from failed or incomplete attempts and return the safest typed result.',
 };
 
-type PtrrAgentConfig = {
+type PTRRAgentConfig = {
   pipelineName: ReadingPipelineName;
   phaseKey: string;
   agentKey: string;
@@ -178,7 +195,7 @@ function ptrrPromptRegistry(
 }
 
 function thricifiedGenerationsForPtrrStep(
-  config: PtrrAgentConfig,
+  config: PTRRAgentConfig,
   ptrrStepName: ReadingPipelinePtrrStepName,
   outputType: string,
 ): ReadingPipelineThricifiedGenerationContract[] {
@@ -212,7 +229,7 @@ function thricifiedGenerationsForPtrrStep(
   });
 }
 
-function ptrrAgent(config: PtrrAgentConfig): ReadingPipelineAgentContract {
+function ptrrAgent(config: PTRRAgentConfig): ReadingPipelineAgentContract {
   const agentId = `${config.pipelineName}.${config.phaseKey}.${config.agentKey}`;
   const outputType = config.outputType || config.returnType;
   return {
@@ -629,4 +646,29 @@ export function summarizeReadingPipelineContract(
 
 export function listReadingPipelineContractSummaries(): ReadingPipelineContractSummary[] {
   return READING_PIPELINE_CONTRACTS.map((contract) => summarizeReadingPipelineContract(contract));
+}
+
+export function listReadingPipelineTelemetryTrace(
+  contract: ReadingPipelineContract,
+): ReadingPipelineTelemetryTraceEntry[] {
+  return contract.phases.flatMap((phase) =>
+    phase.agents.flatMap((agent) =>
+      agent.ptrrSteps.map((ptrrStep) => ({
+        pipelineName: contract.pipelineName,
+        phaseId: phase.phaseId,
+        agentId: agent.agentId,
+        ptrrStepId: ptrrStep.ptrrStepId,
+        ptrrStepName: ptrrStep.ptrrStepName,
+        kind: ptrrStep.kind,
+        inputType: ptrrStep.inputType,
+        outputType: ptrrStep.outputType,
+        returnType: agent.returnType,
+        toolIds: ptrrStep.tools.map((tool) => tool.toolId),
+        thricifiedGenerationIds: ptrrStep.thricifiedGenerationIds,
+        thricifiedGenerations: ptrrStep.thricifiedGenerations,
+        stores: [...new Set([...phase.stores, ...ptrrStep.stores])],
+        telemetry: [...new Set(ptrrStep.telemetry)],
+      })),
+    ),
+  );
 }

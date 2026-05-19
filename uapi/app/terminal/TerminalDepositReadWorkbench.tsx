@@ -82,6 +82,11 @@ type TerminalReadNeedState = Record<string, unknown> & {
   needId?: string;
   reviewState?: string;
   measurementRoot?: string;
+  request?: {
+    requestId?: string;
+    previousNeedId?: string | null;
+    feedbackHistory?: string[];
+  };
   requirements?: string[];
   closureCriteria?: string[];
   failureModes?: string[];
@@ -298,6 +303,7 @@ export default function TerminalDepositReadWorkbench({
     if (!currentReadNeed) return [];
     return [
       { label: 'Need id', value: shortIdentifier(currentReadNeed.needId) || currentReadNeed.needId || 'pending' },
+      { label: 'Request id', value: shortIdentifier(currentReadNeed.request?.requestId) || currentReadNeed.request?.requestId || 'pending' },
       { label: 'Measurement root', value: shortIdentifier(currentReadNeed.measurementRoot) || currentReadNeed.measurementRoot || 'pending' },
       { label: 'Review state', value: currentReadNeed.reviewState || 'pending' },
       { label: 'Target kinds', value: stringList(currentReadNeed.targetArtifactKinds).join(', ') || 'pending' },
@@ -307,6 +313,7 @@ export default function TerminalDepositReadWorkbench({
         value: String(currentReadNeed.pricingMeasurementInputs?.weightedRequestedVolume ?? 'pending'),
       },
       { label: 'Feedback turns', value: String(stringList(currentReadNeed.feedbackHistory).length) },
+      { label: 'Previous Need', value: shortIdentifier(currentReadNeed.request?.previousNeedId) || currentReadNeed.request?.previousNeedId || 'none' },
     ];
   }, [currentReadNeed]);
   const stageCards = TERMINAL_ENTERPRISE_READING_STEPS;
@@ -407,6 +414,8 @@ export default function TerminalDepositReadWorkbench({
         },
         body: JSON.stringify({
           action,
+          readNeed: action === 'resynthesize_read_need' ? readNeed : undefined,
+          previousReadNeed: action === 'resynthesize_read_need' ? readNeed : undefined,
           readId: harnessReadActivityId || workbench.scenarioLabel,
           readPrompt: workbench.read.summary,
           sourceRevision,
@@ -480,14 +489,16 @@ export default function TerminalDepositReadWorkbench({
           needId: accepted.needId,
           measurementRoot: accepted.measurementRoot,
           reviewState: accepted.reviewState,
+          readRequest: accepted.request || null,
+          findingFitsAdmission: payload?.findingFitsAdmission || payload?.fitSearchAdmission || null,
         },
         output: {
           readNeed: accepted,
-          fitSearchAdmission: payload?.fitSearchAdmission || null,
+          findingFitsAdmission: payload?.findingFitsAdmission || payload?.fitSearchAdmission || null,
           assetPackCompletion: {
             bitcodeActivityState: {
               readNeed: accepted,
-              fitSearchAdmission: payload?.fitSearchAdmission || null,
+              findingFitsAdmission: payload?.findingFitsAdmission || payload?.fitSearchAdmission || null,
             },
           },
         },
@@ -693,7 +704,7 @@ export default function TerminalDepositReadWorkbench({
               </button>
               <button
                 type="button"
-                disabled={readNeedAction !== null || !readNeed}
+                disabled={readNeedAction !== null || !readNeed || readNeed.reviewState === 'accepted'}
                 onClick={() => {
                   void handleSynthesizeReadNeed('resynthesize_read_need');
                 }}

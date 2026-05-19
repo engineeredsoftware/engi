@@ -72,6 +72,15 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     expect(need.needId).toMatch(/^need-[a-f0-9]{16}$/);
     expect(need.reviewState).toBe('needs_acceptance');
     expect(need.measurementRoot).toMatch(/^sha256:/);
+    expect(need.request).toMatchObject({
+      schema: 'bitcode.read.request',
+      requestId: 'read-1',
+      prompt: input.read.prompt,
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      previousNeedId: null,
+    });
     expect(need.sourceConstraints).toMatchObject({
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
@@ -84,6 +93,27 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
         expect.objectContaining({ dimension: 'source_binding' }),
       ])
     );
+  });
+
+  it('carries Read Request lineage and feedback through resynthesis', () => {
+    const first = synthesizeReadNeedForPipelineInput({
+      ...input,
+      feedback: ['Keep proof roots prominent.'],
+    });
+    const second = synthesizeReadNeedForPipelineInput({
+      ...input,
+      previousReadNeed: first,
+      feedback: ['Exclude settlement completion from Need comprehension.'],
+    });
+
+    expect(second.needId).not.toBe(first.needId);
+    expect(second.request.previousNeedId).toBe(first.needId);
+    expect(second.feedbackHistory).toEqual([
+      'Keep proof roots prominent.',
+      'Exclude settlement completion from Need comprehension.',
+    ]);
+    expect(second.request.feedbackHistory).toEqual(second.feedbackHistory);
+    expect(second.reviewState).toBe('needs_acceptance');
   });
 
   it('accepts a Need as the only admissible input to strict Finding Fits search', () => {

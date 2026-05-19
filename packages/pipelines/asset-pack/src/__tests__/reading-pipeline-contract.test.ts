@@ -4,6 +4,7 @@ import {
   READ_NEED_COMPREHENSION_SYNTHESIS,
   READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
   READING_PIPELINE_CONTRACTS,
+  listReadingPipelineTelemetryTrace,
   listReadingPipelineContractSummaries,
 } from '../reading-pipeline-contract';
 
@@ -137,5 +138,23 @@ describe('Reading pipeline contracts', () => {
         toolCount: 4,
       }),
     ]);
+  });
+
+  it('lists every PTRR step as telemetry-ready trace entries with ThricifiedGeneration substeps', () => {
+    const readNeedTrace = listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT);
+    const findingFitsTrace = listReadingPipelineTelemetryTrace(READ_FINDING_FITS_SYNTHESIS_CONTRACT);
+
+    expect(readNeedTrace).toHaveLength(16);
+    expect(findingFitsTrace).toHaveLength(32);
+    expect(readNeedTrace.map((entry) => entry.ptrrStepId)).toContain(
+      'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
+    );
+
+    for (const entry of [...readNeedTrace, ...findingFitsTrace]) {
+      expect(entry.agentId.startsWith(`${entry.pipelineName}.`)).toBe(true);
+      expect(entry.thricifiedGenerationIds).toHaveLength(3);
+      expect(entry.thricifiedGenerations).toHaveLength(3);
+      expect(entry.telemetry.every((telemetry) => telemetry.startsWith(`${entry.pipelineName}.telemetry.`))).toBe(true);
+    }
   });
 });

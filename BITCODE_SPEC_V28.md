@@ -826,6 +826,24 @@ reviewable Need through `ReadNeedComprehensionSynthesis`, allow feedback and
 resynthesis, persist accepted Need truth, and block Finding Fits until the Need
 is reviewed.
 
+Gate 10 acceptance requires:
+
+- a typed `bitcode.read.request` record embedded in every `bitcode.read.need`
+  so the raw request remains auditable as request truth rather than fit truth;
+- `ReadNeedComprehensionSynthesis` contract trace exposure for every phase,
+  PTRR agent, PTRR step, and ThricifiedGeneration identifier used by route
+  telemetry and Terminal stream/history surfaces;
+- resynthesis lineage: each resynthesized Need records the prior Need id and
+  appends operator feedback without losing earlier feedback turns;
+- accepted Need truth: accepting a Need computes an acceptance root, records
+  review state `accepted`, and emits Finding Fits admission evidence;
+- strict admission: `ReadFindingFitsSynthesis` receives only an accepted
+  `bitcode.read.need` when `requireAcceptedReadNeed=true`; raw Read requests
+  and unaccepted Needs produce blocked readiness;
+- Terminal exposes the first two enterprise Reading steps without raw JSON:
+  synthesize Need, review measurements/proof expectations/feedback, request
+  resynthesis, or accept the Need before the Fit button becomes ready.
+
 ### Gate 11: Finding Fits And Source-Safe AssetPack Preview
 
 Gate 11 owns `ReadFindingFitsSynthesis`: depository search, candidate fit
@@ -1171,8 +1189,9 @@ Gate 4 implementation state:
 
 - `/api/read-review` exposes server-side Read-Need synthesis, resynthesis, and
   acceptance actions while preserving the prior Read review boundary. The
-  response stores prompt input, interpolated source context, parsed Need,
-  measurement root, review state, feedback, and synthesis telemetry.
+  response stores prompt input, interpolated source context, typed
+  `bitcode.read.request`, parsed Need, measurement root, review state,
+  feedback, resynthesis lineage, contract trace, and synthesis telemetry.
 - Read-Need test coverage must stay implementation-guiding rather than
   snapshot-only: it must assert typed Need fields, measurement roots,
   source-disclosure constraints, pricing measurement vectors, acceptance
