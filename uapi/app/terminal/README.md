@@ -1,6 +1,6 @@
 # Terminal Implementation Module
 
-This module owns the commercial Terminal implementation. The canonical product
+This module owns the Terminal implementation. The canonical product
 route is `/terminal`. No retained compatibility route belongs to this surface;
 old route boundaries must be reformed in place into Terminal source.
 
@@ -13,7 +13,7 @@ Its job is to keep one operator route coherent:
 
 ## Main experience model
 
-V28 commercial MVP hardening keeps these product experiences route-correct:
+V28 MVP hardening keeps these product experiences route-correct:
 - `terminal activity`
 - `conversations`
 - `auxillaries`
@@ -33,6 +33,9 @@ presenting them as part of Terminal itself.
   Main Terminal activity and selected-result shell.
 - `terminal-transaction-query.ts`
   Route-owned filter, paging, and selected-activity state.
+- `terminal-journal-reconciliation.ts` and `TerminalTransactionJournalReconciliationCard.tsx`
+  Selected-activity Journal section owner for ledger observations, database
+  projections, canonical root facts, repair receipts, and drift state.
 - `TerminalCommandDeck.tsx`
   Scenario, projection, branch mode, reset, and flow-guide entry posture.
 - `TerminalDepositReadWorkbench.tsx`
@@ -44,7 +47,7 @@ presenting them as part of Terminal itself.
 
 ## Current V28 checkpoint expectations
 
-Commercial MVP checkpoint confidence requires `/terminal` to be:
+MVP checkpoint confidence requires `/terminal` to be:
 - renderable in mock-mode review,
 - route-query owned for activity selection and filtering,
 - user-facing in copy and help posture,
@@ -87,6 +90,13 @@ Reusable Supabase query files for this pass live in `supabase/queries/`:
 Those queries are the operator evidence path for proving Terminal UI, API
 history, GitHub source inventory, and BTD ledger projections stay synchronized
 while the MVP is being QAed.
+
+When `transactionDetail=journal` is selected, the detail route must read
+Terminal journal rows and reconciliation repair receipts through
+`/api/executions/history/[runId]`; the UI may expose the raw payload accordion
+for audit, but the operator-facing visual state must make retryable,
+repairable, approval-required, blocked, and aligned states distinguishable
+without browser-network inspection.
 
 ## Related shared systems
 

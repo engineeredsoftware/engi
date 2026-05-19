@@ -147,8 +147,8 @@ It links manual screenshots, console logs, server logs, Supabase SQL checks, and
 | access policy id/hash shown before commitment | V27 access primitives and `/btd/[assetPackId]` disclosure route | implemented prerequisite | Gate 3 |
 | AssetPack range detail from registry state | `range.ts`, registry route, `/btd/[assetPackId]` | implemented prerequisite | Gate 4 |
 | owner-read/licensed-read/denied branches | `access.ts`, read-access route, licensed-read revenue route | implemented prerequisite | Gate 4 |
-| Terminal journal rows as transaction detail | `terminal-journal.ts`, terminal-journal route | implemented prerequisite | Gate 5 |
-| ledger/database reconciliation as operator read | `reconciliation.ts`, reconciliation route | implemented prerequisite | Gate 5 |
+| Terminal journal rows as transaction detail | `packages/api/src/routes/executions.ts`, `uapi/app/terminal/terminal-transaction-detail-snapshot.ts`, `uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx`, `terminal-journal.ts` | implemented | Gate 5 |
+| ledger/database reconciliation as operator read | `uapi/app/terminal/terminal-journal-reconciliation.ts`, reconciliation repair table readback, `reconciliation.ts` | implemented | Gate 5 |
 | organization holdings and read-license usage from registry | organization BTD models plus V27 registry docs | pending | Gate 6 |
 | MCP authorization based on range/read-license/policy truth | MCP holding-gate work remains aggregate-compatibility oriented; retained in V28 MVP scope. | pending | Gate 6 |
 | ChatGPT App authorization based on range/read-license/policy truth | ChatGPT App MVP parity must use the same registry-derived access posture as MCP and Terminal; retained in V28 MVP scope. | not yet implemented | Gate 6 |
@@ -178,7 +178,7 @@ It links manual screenshots, console logs, server logs, Supabase SQL checks, and
 | Terminal BTC fees | PSBT/finality UX built over V27 primitives | pending |
 | Terminal Read/Fit | Read, Fit, semantic volume, measuremint, policy UX | pending |
 | Terminal range/read | AssetPack range and read-right detail | pending |
-| Terminal journal/reconcile | journal diff and repair detail | pending |
+| Terminal journal/reconcile | selected transaction Journal section separates ledger observations, database projections, canonical roots, repair receipts, and blocking drift reasons | substantially advanced |
 | Terminal operations | telemetry, lanes, upgrade, migration readiness | pending |
 
 ## Later-Version Deferrals

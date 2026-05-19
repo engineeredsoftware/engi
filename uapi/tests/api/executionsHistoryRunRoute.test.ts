@@ -74,6 +74,24 @@ describe('GET /api/executions/history/[runId]', () => {
                   writtenAssetType: 'proof-refresh',
                   deliveryTarget: 'proof',
                 },
+                ledgerSettlement: {
+                  status: 'settled',
+                  settlementAdmissible: true,
+                  reason: 'Rows read back.',
+                  assetPackId: 'asset-pack-run-1',
+                  btdRange: { start: 0, endExclusive: 1, tokenCount: 1 },
+                  ledgerAnchorId: 'ledger-anchor-run-1',
+                  btcFeeReceiptId: 'btc-fee-run-1',
+                  ownershipEventId: 'ownership-mint-run-1',
+                  readLicenseId: 'read-license-run-1',
+                  readback: {
+                    assetPackRange: true,
+                    btcFeeTransaction: true,
+                    ledgerAnchor: true,
+                    terminalJournal: true,
+                  },
+                  journalEntryIds: ['journal-mint-run-1'],
+                },
                 repoSnapshot: {
                   org: 'bitcode',
                   repo: 'terminal',
@@ -132,9 +150,72 @@ describe('GET /api/executions/history/[runId]', () => {
       }),
     };
 
+    const journalBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      in: jest.fn().mockResolvedValue({
+        data: [
+          {
+            journal_entry_id: 'journal-mint-run-1',
+            transaction_kind: 'asset_pack_mint',
+            actor_id: 'depositor-wallet',
+            pre_state_root: 'sha256:before',
+            post_state_root: 'sha256:after',
+            receipt_roots: ['sha256:receipt'],
+            ledger_anchor_ids: ['ledger-anchor-run-1'],
+            exchange_sequence: 1,
+            issued_at: '2026-04-22T12:03:00.000Z',
+          },
+        ],
+        error: null,
+      }),
+    };
+
+    const singleRowBuilder = (data: Record<string, unknown> | null): any => ({
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({ data, error: null }),
+    });
+
+    const repairsBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockResolvedValue({
+        data: [
+          {
+            repair_id: 'repair-run-1',
+            reconciliation_id: 'reconciliation-run-1',
+            fact_id: 'ledger-anchor-run-1',
+            repair_kind: 'projection_confirmed',
+            before_value: 'missing',
+            after_value: 'present',
+            blocking: false,
+            issued_at: '2026-04-22T12:03:30.000Z',
+          },
+        ],
+        error: null,
+      }),
+    };
+
     (supabaseAdmin.from as jest.Mock).mockImplementation((table: string) => {
       if (table === 'executions') return runBuilder;
       if (table === 'execution_events') return eventsBuilder;
+      if (table === 'btd_terminal_journal_entries') return journalBuilder;
+      if (table === 'btd_asset_pack_ranges') {
+        return singleRowBuilder({ asset_pack_id: 'asset-pack-run-1', access_policy_hash: 'sha256:policy' });
+      }
+      if (table === 'btc_fee_transactions') {
+        return singleRowBuilder({ receipt_id: 'btc-fee-run-1', finality_state: 'prepared' });
+      }
+      if (table === 'btd_asset_pack_ledger_anchors') {
+        return singleRowBuilder({ anchor_id: 'ledger-anchor-run-1', finality_state: 'confirmed' });
+      }
+      if (table === 'btd_ownership_events') {
+        return singleRowBuilder({ ownership_event_id: 'ownership-mint-run-1' });
+      }
+      if (table === 'btd_read_licenses') {
+        return singleRowBuilder({ license_id: 'read-license-run-1' });
+      }
+      if (table === 'btd_ledger_database_reconciliation_repairs') return repairsBuilder;
       return { select: jest.fn().mockReturnThis() };
     });
 
@@ -189,9 +270,34 @@ describe('GET /api/executions/history/[runId]', () => {
             writtenAssetType: 'proof-refresh',
             deliveryTarget: 'proof',
           },
+          ledgerSettlement: expect.objectContaining({
+            status: 'settled',
+            assetPackId: 'asset-pack-run-1',
+          }),
+        }),
+        ledger_settlement: expect.objectContaining({
+          status: 'settled',
+          assetPackId: 'asset-pack-run-1',
+        }),
+        terminal_journal: expect.objectContaining({
+          expectedJournalEntryIds: expect.arrayContaining(['journal-mint-run-1']),
+          entries: [
+            expect.objectContaining({
+              journal_entry_id: 'journal-mint-run-1',
+              transaction_kind: 'asset_pack_mint',
+            }),
+          ],
+          repairs: [
+            expect.objectContaining({
+              repair_id: 'repair-run-1',
+            }),
+          ],
         }),
       }),
     );
+    expect(json.terminal_journal.ledgerRows.ledgerAnchors).toEqual([
+      { anchor_id: 'ledger-anchor-run-1', finality_state: 'confirmed' },
+    ]);
     expect(json.run.output.asset_pack_completion.deliveryMechanism.comments).toEqual([
       { title: 'Proof note', url: 'https://example.com/comments/9', number: 9 },
     ]);

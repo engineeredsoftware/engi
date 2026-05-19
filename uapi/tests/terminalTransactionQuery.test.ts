@@ -75,6 +75,9 @@ describe('terminal-transaction-query', () => {
     expect(
       readTerminalTransactionDetailSection(new URLSearchParams('transactionDetail=history')),
     ).toBe('history');
+    expect(
+      readTerminalTransactionDetailSection(new URLSearchParams('transactionDetail=journal')),
+    ).toBe('journal');
     expect(readTerminalTransactionDetailSection(new URLSearchParams(''))).toBe('shippables');
 
     const nextParams = writeTerminalTransactionDetailSection(
@@ -86,7 +89,10 @@ describe('terminal-transaction-query', () => {
     const proofsParams = writeTerminalTransactionDetailSection(nextParams, 'proofs');
     expect(proofsParams.get('transactionDetail')).toBe('proofs');
 
-    const resetToDefault = writeTerminalTransactionDetailSection(proofsParams, 'shippables');
+    const journalParams = writeTerminalTransactionDetailSection(proofsParams, 'journal');
+    expect(journalParams.get('transactionDetail')).toBe('journal');
+
+    const resetToDefault = writeTerminalTransactionDetailSection(journalParams, 'shippables');
     expect(resetToDefault.get('transactionDetail')).toBeNull();
   });
 

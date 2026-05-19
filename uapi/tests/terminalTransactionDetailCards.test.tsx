@@ -4,6 +4,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import TerminalTransactionClosureCard from '@/app/terminal/TerminalTransactionClosureCard';
 import TerminalTransactionHistoryCard from '@/app/terminal/TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from '@/app/terminal/TerminalTransactionIdentityCard';
+import TerminalTransactionJournalReconciliationCard from '@/app/terminal/TerminalTransactionJournalReconciliationCard';
 import TerminalTransactionProofsCard from '@/app/terminal/TerminalTransactionProofsCard';
 
 describe('Terminal transaction detail cards', () => {
@@ -92,6 +93,59 @@ describe('Terminal transaction detail cards', () => {
           }}
           onOpenHistory={onOpenHistory}
         />
+        <TerminalTransactionJournalReconciliationCard
+          reconciliation={{
+            state: 'approval_required',
+            stateLabel: 'Approval required',
+            summary: 'Observed ledger fact contradicts a projection.',
+            metrics: [
+              { label: 'State', value: 'Approval required' },
+              { label: 'Journal entries', value: '1' },
+            ],
+            observedFacts: [
+              {
+                id: 'ledger-anchor-finality',
+                label: 'Ledger anchor finality',
+                value: 'confirmed',
+                state: 'confirmed',
+                source: 'ledger_observed',
+                blocksContradictoryProjection: true,
+              },
+            ],
+            projectedFacts: [
+              {
+                id: 'readback-ledgerAnchor',
+                label: 'ledgerAnchor',
+                value: 'missing',
+                state: 'missing',
+                source: 'database_projected',
+                blocksContradictoryProjection: false,
+              },
+            ],
+            canonicalFacts: [
+              {
+                id: 'settlement-journal-root',
+                label: 'Settlement journal root',
+                value: 'sha256:journal',
+                state: 'root-bound',
+                source: 'metaphysical_canonical',
+                blocksContradictoryProjection: false,
+              },
+            ],
+            journalEntries: [
+              {
+                id: 'journal-anchor-run-1',
+                title: 'asset_pack_anchor',
+                summary: 'depositor-wallet · 3 · sha256:after',
+              },
+            ],
+            repairReceipts: [],
+            blockingReasons: ['Confirmed ledger anchor contradicts the missing database projection.'],
+            payload: {
+              observedFacts: ['ledger-anchor-finality'],
+            },
+          }}
+        />
       </div>,
     );
 
@@ -99,16 +153,20 @@ describe('Terminal transaction detail cards', () => {
     expect(screen.getByText('Selected activity')).toBeTruthy();
     expect(screen.getByText('Proof families')).toBeTruthy();
     expect(screen.getByText('History')).toBeTruthy();
+    expect(screen.getByText('Journal reconciliation')).toBeTruthy();
+    expect(screen.getByText('Ledger observations and database projections')).toBeTruthy();
+    expect(screen.getByText('Metaphysical canonical facts')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByText('selection-materialization').length).toBeGreaterThan(0);
     expect(screen.getAllByText('run-001').length).toBeGreaterThan(0);
+    expect(screen.getByText('asset_pack_anchor')).toBeTruthy();
 
     const closureCard = screen
       .getByText('Closure summary, settlement, and branch follow-through')
-      .closest('div.rounded-\\[1\\.5rem\\]');
+      .closest('div.rounded-\\[1\\.3rem\\]');
     const proofsCard = screen
-      .getByText('Bounded proof stays in activity detail')
-      .closest('div.rounded-\\[1\\.5rem\\]');
+      .getByText('Bounded proof stays with the selected activity')
+      .closest('div.rounded-\\[1\\.3rem\\]');
 
     expect(closureCard).toBeTruthy();
     expect(proofsCard).toBeTruthy();
