@@ -188,7 +188,7 @@ function acceptedReadNeed() {
       status: 'accepted',
       acceptedAt: '2026-05-18T00:00:00.000Z',
       acceptanceRoot: 'sha256:acceptance-root',
-      nextStage: 'need_fit_search',
+      nextStage: 'finding_fits',
     },
   };
 }

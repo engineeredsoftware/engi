@@ -2436,6 +2436,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.408.0
         version: 3.840.0
+      '@bitcode/btd':
+        specifier: workspace:*
+        version: link:../packages/btd
       '@bitcode/email':
         specifier: workspace:*
         version: link:../packages/email
@@ -2448,6 +2451,9 @@ importers:
       '@bitcode/observability':
         specifier: workspace:*
         version: link:../packages/observability
+      '@bitcode/pipeline-asset-pack':
+        specifier: workspace:*
+        version: link:../packages/pipelines/asset-pack
       '@bitcode/pipeline-hosts':
         specifier: workspace:*
         version: link:../packages/pipeline-hosts

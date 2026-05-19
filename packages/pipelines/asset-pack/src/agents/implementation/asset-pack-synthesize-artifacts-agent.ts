@@ -167,6 +167,23 @@ async function runBoundedAssetPackSynthesis(
     execution,
     schema: AssetPackSynthesisOutputSchema,
     fallback: () => baseline,
+    promptTemplate: {
+      templateId: 'ReadFindingFitsSynthesis.prompt.asset-pack-synthesis',
+      system: [
+        'You are the Bitcode AssetPack synthesis agent.',
+        'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
+        'Do not invent files, external proof, pull requests, BTC broadcasts, or ledger settlement.',
+        'Return only typed JSON that can be validated and finished by the pipeline.',
+      ].join('\n'),
+      user: JSON.stringify({
+        requestedShape: '{{requestedShape}}',
+        read: '{{read}}',
+        deliveryMechanismTemplate: '{{deliveryMechanismTemplate}}',
+        sourceRevision: '{{sourceRevision}}',
+        fitResult: '{{fitResult}}',
+        baselineProofEvidence: '{{baselineProofEvidence}}',
+      }, null, 2),
+    },
     systemPrompt: [
       'You are the Bitcode AssetPack synthesis agent.',
       'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
@@ -225,9 +242,11 @@ function buildDeterministicAssetPackSynthesis(
     findExecutionValue(execution, 'fit', 'result') ??
     findExecutionValue(execution, 'depository/search', 'result') ??
     {};
-  const selectedCandidateAssetIds = Array.isArray(fitResult?.selectedCandidateAssetIds)
-    ? fitResult.selectedCandidateAssetIds
-    : [];
+  const fitDepositAssetIds = Array.isArray(fitResult?.fitDepositAssetIds)
+    ? fitResult.fitDepositAssetIds
+    : Array.isArray(fitResult?.selectedCandidateAssetIds)
+      ? fitResult.selectedCandidateAssetIds
+      : [];
   const repository =
     input?.repository ??
     input?.sourceRevision ??
@@ -244,7 +263,7 @@ function buildDeterministicAssetPackSynthesis(
     `Read: ${read}`,
     `Repository revision: ${repositoryLabel}`,
     `Fit result: ${fitResult?.resultState ?? 'not-yet-classified'}`,
-    `Selected candidate assets: ${selectedCandidateAssetIds.join(', ') || 'none'}`,
+    `Fit deposit assets: ${fitDepositAssetIds.join(', ') || 'none'}`,
     `Query root: ${fitResult?.queryRoot ?? 'not recorded'}`,
     `Ranking root: ${fitResult?.rankingRoot ?? 'not recorded'}`,
     `Embedding policy: ${fitResult?.embeddingPolicy?.provider ?? 'unknown'} ${fitResult?.embeddingPolicy?.model ?? ''}`.trim()
@@ -252,7 +271,7 @@ function buildDeterministicAssetPackSynthesis(
   const summary = [
     'Source-bound Read-satisfaction AssetPack synthesized by the staging pipeline.',
     `The pack binds the admitted Read to ${repositoryLabel}.`,
-    `Fit posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${selectedCandidateAssetIds.length} selected candidate(s).`,
+    `Finding Fits posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${fitDepositAssetIds.length} qualifying fit deposit(s).`,
     'Validation must preserve proof, telemetry, delivery, and ledger readback before settlement trust.'
   ].join(' ');
   return {
@@ -278,7 +297,7 @@ function buildDeterministicAssetPackSynthesis(
       summary,
       proofEvidence,
       reviewNotes: [
-        'Read/Fit candidate evidence carried forward for validation and finish.'
+        'Finding Fits deposit evidence carried forward for validation and finish.'
       ]
     },
     assetPack: {
@@ -385,6 +404,7 @@ function compactFitResult(fitResult: any) {
   return {
     resultState: fitResult.resultState,
     resultReasons: fitResult.resultReasons,
+    fitDepositAssetIds: fitResult.fitDepositAssetIds || fitResult.selectedCandidateAssetIds,
     selectedCandidateAssetIds: fitResult.selectedCandidateAssetIds,
     searchedAssetCount: fitResult.searchedAssetCount,
     queryRoot: fitResult.queryRoot,

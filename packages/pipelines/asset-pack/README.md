@@ -28,7 +28,7 @@ configured limit before Finish.
 AssetPackPipeline (SDIVF with DIV iteration)
 ├── Preprocess
 │   ├── Read and source-revision normalization
-│   ├── Depository candidate recall
+│   ├── Depository Finding Fits discovery
 │   ├── Source-bound ranking
 │   └── Fit result-state evidence
 ├── Setup

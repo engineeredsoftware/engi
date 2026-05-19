@@ -5,7 +5,7 @@
  * 1. Provide AssetPacks/AssetPackPartials to third-party destinations
  * 2. Gather completion metrics from all phases
  * 3. Generate AssetPack completion evidence
- * 4. Finalize pipeline execution
+ * 4. Finalize the pipeline run
  */
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';

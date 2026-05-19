@@ -131,6 +131,21 @@ export default async function setupPlanAgent(input: any, execution: any) {
       execution,
       schema: PlanSchema,
       fallback: () => baseline,
+      promptTemplate: {
+        templateId: 'ReadFindingFitsSynthesis.prompt.setup-plan',
+        system: [
+          'You are the Bitcode AssetPack setup-plan agent.',
+          'Produce one concise source-bound plan for a Read/Fit pipeline run.',
+          'Do not claim settlement, delivery, or finality before later phases validate and finish.',
+          'Respond only with JSON shaped as { "plan": string }.',
+        ].join('\n'),
+        user: JSON.stringify({
+          read: '{{read}}',
+          repository: '{{repository}}',
+          fitResult: '{{fitResult}}',
+          baselinePlan: '{{baselinePlan}}',
+        }, null, 2),
+      },
       systemPrompt: [
         'You are the Bitcode AssetPack setup-plan agent.',
         'Produce one concise source-bound plan for a Read/Fit pipeline run.',

@@ -109,6 +109,26 @@ async function runBoundedReadComprehension(input: any, execution: any) {
     execution,
     schema: BoundedReadComprehensionSchema,
     fallback: () => baseline,
+    promptTemplate: {
+      templateId: 'ReadFindingFitsSynthesis.prompt.read-comprehension',
+      system: [
+        'You are a Bitcode setup Read-comprehension agent.',
+        'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',
+        'Return source-bound evidence only. Do not claim settlement or finality beyond provided proof roots/readbacks.',
+        'Respond only with JSON matching the requested shape.',
+      ].join('\n'),
+      user: JSON.stringify({
+        requestedShape: '{{requestedShape}}',
+        read: '{{read}}',
+        definitionOfRead: '{{definitionOfRead}}',
+        repository: '{{repository}}',
+        sourceRevision: '{{sourceRevision}}',
+        deposit: '{{deposit}}',
+        fitResult: '{{fitResult}}',
+        baselineReadModel: '{{baselineReadModel}}',
+        baselineSatisfactionCriteria: '{{baselineSatisfactionCriteria}}',
+      }, null, 2),
+    },
     systemPrompt: [
       'You are a Bitcode setup Read-comprehension agent.',
       'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',

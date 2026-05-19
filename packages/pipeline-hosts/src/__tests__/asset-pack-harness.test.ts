@@ -180,6 +180,11 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('toolInputPresent');
     expect(source).toContain('toolOutputPresent');
     expect(source).toContain('toolErrorPresent');
+    expect(source).toContain('promptTemplatePresent');
+    expect(source).toContain('interpolatedPromptPresent');
+    expect(source).toContain('rawModelResponsePresent');
+    expect(source).toContain('parsedTypedOutputPresent');
+    expect(source).toContain('inferenceAudit');
     expect(source).toContain('Pipeline produced ');
     expect(source).toContain('sourceSafePreview,');
     expect(source).toContain("execution.store('asset-pack/preview', 'feeQuote'");

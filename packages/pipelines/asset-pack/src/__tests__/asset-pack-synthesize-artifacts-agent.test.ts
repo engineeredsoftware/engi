@@ -26,10 +26,10 @@ describe('assetPackSynthesizeArtifacts', () => {
 
     expect(result.assetPack.read).toBe('Read the deposited source revision for terminal closure.');
     expect(result.assetPackSynthesisArtifacts.summary).toContain('engineeredsoftware/ENGI@main@abc123');
-    expect(result.assetPackSynthesisArtifacts.summary).toContain('worthy_fit with 1 selected candidate');
+    expect(result.assetPackSynthesisArtifacts.summary).toContain('worthy_fit with 1 qualifying fit deposit');
     expect(result.assetPackSynthesisArtifacts.proofEvidence).toEqual(
       expect.arrayContaining([
-        'Selected candidate assets: deposit-1',
+        'Fit deposit assets: deposit-1',
         'Query root: sha256:query',
         'Ranking root: sha256:ranking',
         'Embedding policy: openai text-embedding-3-small',

@@ -1,11 +1,12 @@
 import {
   acceptReadNeed,
-  admitNeedFitSearch,
+  admitReadFindingFits,
   buildAssetPackSourceSafePreview,
   buildShareToFeePreview,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
   resolveAssetPackReadRightState,
+  synthesizeReadNeedForPipelineInputWithInference,
   synthesizeReadNeedForPipelineInput,
 } from '../read-need';
 import {
@@ -53,7 +54,17 @@ function depositoryAsset() {
   };
 }
 
-describe('Read-Need synthesis and Need-Fit admission', () => {
+describe('Read-Need synthesis and Finding Fits admission', () => {
+  const originalRealInferenceFlag = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+
+  afterEach(() => {
+    if (originalRealInferenceFlag === undefined) {
+      delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+    } else {
+      process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = originalRealInferenceFlag;
+    }
+  });
+
   it('synthesizes a measured Need that remains pending until accepted', () => {
     const need = synthesizeReadNeedForPipelineInput(input);
 
@@ -75,11 +86,11 @@ describe('Read-Need synthesis and Need-Fit admission', () => {
     );
   });
 
-  it('accepts a Need as the only admissible input to strict Need-Fit search', () => {
+  it('accepts a Need as the only admissible input to strict Finding Fits search', () => {
     const accepted = acceptReadNeed(synthesizeReadNeedForPipelineInput(input), '2026-05-18T00:00:00.000Z');
 
     expect(isAcceptedReadNeed(accepted)).toBe(true);
-    expect(admitNeedFitSearch({ acceptedReadNeed: accepted, requireAcceptedReadNeed: true })).toMatchObject({
+    expect(admitReadFindingFits({ acceptedReadNeed: accepted, requireAcceptedReadNeed: true })).toMatchObject({
       admitted: true,
       acceptedNeed: accepted,
       blockers: [],
@@ -91,7 +102,66 @@ describe('Read-Need synthesis and Need-Fit admission', () => {
     });
   });
 
-  it('blocks strict Need-Fit search before Need acceptance', async () => {
+  it('runs real-inference ReadNeedComprehension through one ThricifiedGeneration contract when enabled', async () => {
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    const llm = jest
+      .fn()
+      .mockResolvedValueOnce({
+        content: JSON.stringify({
+          analysis: 'The reader needs a source-bound Terminal readiness AssetPack.',
+          steps: ['read request', 'bound source revision', 'extract closure criteria'],
+          conclusion: 'Synthesize a narrow Need for Terminal readiness evidence.',
+          confidence: 0.91,
+        }),
+      })
+      .mockResolvedValueOnce({
+        content: JSON.stringify({
+          quality: 0.88,
+          issues: [],
+          suggestions: ['Keep protected source withheld before settlement.'],
+          approved: true,
+        }),
+      })
+      .mockResolvedValueOnce({
+        content: JSON.stringify({
+          requirements: [
+            'Find source-bound evidence for the Terminal Deposit and Reading path.',
+            'Keep the Need constrained to the selected repository revision.',
+          ],
+          closureCriteria: [
+            'Finding Fits discovery must return source-bound fit deposit ids.',
+            'AssetPack preview must expose only measurements and non-source metadata before settlement.',
+          ],
+          failureModes: ['protected_source_disclosed_before_settlement'],
+          targetArtifactKinds: ['asset-pack-evidence', 'proof-root'],
+          proofExpectations: ['ThricifiedGeneration telemetry contains reasoning, judgment, and typed output.'],
+        }),
+      });
+    const execution = fakeInferenceExecution(llm);
+
+    const need = await synthesizeReadNeedForPipelineInputWithInference(input, execution);
+
+    expect(llm).toHaveBeenCalledTimes(3);
+    expect(need.requirements).toContain('Find source-bound evidence for the Terminal Deposit and Reading path.');
+    expect(need.closureCriteria).toContain('Finding Fits discovery must return source-bound fit deposit ids.');
+    expect(need.failureModes).toContain('protected_source_disclosed_before_settlement');
+    expect(need.targetArtifactKinds).toEqual(['asset-pack-evidence', 'proof-root']);
+    expect(need.proofExpectations).toContain(
+      'ThricifiedGeneration telemetry contains reasoning, judgment, and typed output.'
+    );
+    expect(need.reviewState).toBe('needs_acceptance');
+    expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'mode', 'thricified-generation');
+    expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'status', 'success');
+    expect(execution.store).toHaveBeenCalledWith(
+      'llm',
+      'input',
+      expect.objectContaining({
+        generationSequence: ['reason', 'judge', 'structured_output'],
+      })
+    );
+  });
+
+  it('blocks strict Finding Fits search before Need acceptance', async () => {
     const result = await runDepositorySearchForPipelineInput({
       ...input,
       requireAcceptedReadNeed: true,
@@ -101,14 +171,14 @@ describe('Read-Need synthesis and Need-Fit admission', () => {
     expect(result.resultState).toBe('blocked_readiness');
     expect(result.resultReasons).toEqual(
       expect.arrayContaining([
-        'Need-Fit search requires an accepted Read-Need before depository candidate recall.',
+        'Finding Fits search requires an accepted Read-Need before depository discovery.',
         'accepted_read_need_missing',
       ])
     );
     expect(result.candidateRanking).toHaveLength(0);
   });
 
-  it('uses the accepted Need measurement and source constraints for Fit search', async () => {
+  it('uses the accepted Need measurement and source constraints for Finding Fits', async () => {
     const acceptedReadNeed = acceptReadNeed(
       synthesizeReadNeedForPipelineInput(input),
       '2026-05-18T00:00:00.000Z'
@@ -224,3 +294,21 @@ describe('Read-Need synthesis and Need-Fit admission', () => {
     expect(resolveAssetPackReadRightState({ policyDenied: true })).toBe('denied');
   });
 });
+
+function fakeInferenceExecution(llm: jest.Mock) {
+  const values = new Map<string, unknown>();
+  let execution: any;
+  execution = {
+    child: jest.fn(() => execution),
+    getRoot: jest.fn(() => execution),
+    store: jest.fn((namespace: string, key: string, value: unknown) => {
+      values.set(`${namespace}:${key}`, value);
+    }),
+    get: jest.fn((namespace: string, key: string) => values.get(`${namespace}:${key}`)),
+    findUp: jest.fn((namespace: string, key: string) => values.get(`${namespace}:${key}`)),
+    llms: {
+      getDefaultLLM: jest.fn(() => llm),
+    },
+  };
+  return execution;
+}

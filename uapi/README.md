@@ -41,6 +41,10 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 
 - `app/terminal/`
   `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, Deposit/Read workbench, and transaction detail.
+  Gate 7 operations readiness is rendered by
+  `app/terminal/TerminalOperationalHealthPanel.tsx` from the
+  `@bitcode/btd/terminal-operational-health` package read; do not replace it
+  with UI-only lane or telemetry fixtures.
 - `app/exchange/`
   Deferred Exchange activity source retained for V35+ work.
 - `app/auxillaries/`

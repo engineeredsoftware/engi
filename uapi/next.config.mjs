@@ -108,6 +108,7 @@ let nextConfig = {
     '@bitcode/vcs-tools',
     // Core shared libs commonly imported in app/server code
     '@bitcode/protocol',
+    '@bitcode/btd',
     '@bitcode/models',
     '@bitcode/files',
     '@bitcode/logger',

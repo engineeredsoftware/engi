@@ -407,18 +407,18 @@ export function buildTerminalReadAdmissionDraft(
     fitSearchAdmission: {
       admitted: true,
       admissionReason:
-        'Measured Read is admitted for generic source-bound fit search against the selected deposited repository revision.',
-      admittedStages: ['candidate-recall', 'fit-quality-evaluation', 'asset-pack-result-review'],
+        'Measured Read is admitted for source-bound Finding Fits against the selected deposited repository revision.',
+      admittedStages: ['finding-fits-discovery', 'fit-quality-evaluation', 'asset-pack-result-review'],
       blockedStages: ['settlement', 'finality', 'minting'],
     },
-    nextProtocolAction: 'Run fit search and return worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
+    nextProtocolAction: 'Run Finding Fits and return worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
   };
 
   return {
     type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
     sourceRevision: workbench.sourceRevision,
-    summary: `Accepted measured Read for fit search for ${workbench.scenarioLabel}.`,
+    summary: `Accepted measured Read for Finding Fits for ${workbench.scenarioLabel}.`,
     output: {
       readMeasurement,
       readReview,

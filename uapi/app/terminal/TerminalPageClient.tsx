@@ -29,6 +29,7 @@ import TerminalSectionAtlas from './TerminalSectionAtlas';
 import TerminalSurfaceSection from './TerminalSurfaceSection';
 import TerminalSupplySelectionPanel from './TerminalSupplySelectionPanel';
 import TerminalMvpMap from './TerminalMvpMap';
+import TerminalOperationalHealthPanel from './TerminalOperationalHealthPanel';
 import TerminalTransactionWorkspace from './TerminalTransactionWorkspace';
 import TerminalWorkspaceRail from './TerminalWorkspaceRail';
 import {
@@ -479,6 +480,8 @@ export default function TerminalPageClient() {
           </section>
 
           <TerminalMvpMap />
+
+          <TerminalOperationalHealthPanel />
 
           <div className="grid gap-6">
             <div className="min-w-0">

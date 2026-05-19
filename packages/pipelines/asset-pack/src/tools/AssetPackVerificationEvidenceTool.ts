@@ -12,9 +12,9 @@ const ASSET_PACK_VERIFICATION_DOC_CODE_TOOL_PROMPT = {
   format() {
     return [
       'Tool: bitcode.asset-pack.verification',
-      'Purpose: read back source, proof, measurement, and fit-readiness evidence for the current AssetPack Read/Fit execution.',
+      'Purpose: read back source, proof, measurement, and fit-readiness evidence for the current AssetPack Read/Fit pipeline run.',
       'Inputs: optional read, repositoryFullName, sourceBranch, sourceCommit, queryTerms, assets, or depositoryAssets.',
-      'Output: verification-only evidence summary, candidate blockers, proof/measurement/readback readiness, query root, ranking root, and selected candidate ids.',
+      'Output: verification-only evidence summary, fit deposit blockers, proof/measurement/readback readiness, query root, ranking root, and fit deposit ids.',
       'Use during risk admission or readiness review when an agent needs evidence without mutating state, delivering assets, or exposing private AssetPack source.',
     ].join('\n');
   },
@@ -87,53 +87,81 @@ function summarizeCandidate(candidate: DepositoryCandidate): Record<string, unkn
 }
 
 function summarizeVerification(result: DepositorySearchResult): Record<string, unknown> {
-  const selectedCandidates = result.selectedCandidates.map(summarizeCandidate);
-  const blockedCandidates = result.blockedCandidates.map(summarizeCandidate);
-  const candidateRanking = result.candidateRanking.slice(0, 10).map(summarizeCandidate);
-  const selectedVerification = result.selectedCandidates.map((candidate) => candidate.verification);
+  const fitDepositSource: DepositoryCandidate[] = Array.isArray((result as any).fitDeposits)
+    ? (result as any).fitDeposits as DepositoryCandidate[]
+    : result.selectedCandidates || [];
+  const blockedCandidateSource: DepositoryCandidate[] = result.blockedCandidates || [];
+  const rankingSource: DepositoryCandidate[] = result.candidateRanking || fitDepositSource;
+  const fitDeposits = fitDepositSource.map(summarizeCandidate);
+  const blockedCandidates = blockedCandidateSource.map(summarizeCandidate);
+  const fitDepositRanking = rankingSource.slice(0, 10).map(summarizeCandidate);
+  const fitDepositVerification = fitDepositSource.map((deposit: DepositoryCandidate) => deposit.verification);
   const allVerification = [
-    ...result.selectedCandidates,
-    ...result.blockedCandidates,
-    ...result.rejectedCandidates,
-  ].map((candidate) => candidate.verification);
+    ...fitDepositSource,
+    ...blockedCandidateSource,
+    ...(result.rejectedCandidates || []),
+  ].map((deposit: DepositoryCandidate) => deposit.verification);
 
   return {
     schema: 'bitcode.asset-pack.verification-evidence-tool-result',
     resultState: result.resultState,
     resultReasons: result.resultReasons,
     searchedAssetCount: result.searchedAssetCount,
+    fitDepositAssetIds: result.fitDepositAssetIds || result.selectedCandidateAssetIds || [],
     selectedCandidateAssetIds: result.selectedCandidateAssetIds,
     queryRoot: result.queryRoot,
     rankingRoot: result.rankingRoot,
     embeddingPolicy: result.embeddingPolicy,
     readiness: {
-      selectedCandidateCount: result.selectedCandidates.length,
-      blockedCandidateCount: result.blockedCandidates.length,
-      settlementEligibleCandidateCount: result.selectedCandidates.filter(
-        (candidate) => candidate.useTier === 'settlement-eligible',
+      fitDepositCount: fitDepositSource.length,
+      selectedCandidateCount: (result.selectedCandidates || fitDepositSource).length,
+      blockedFitDepositCount: blockedCandidateSource.length,
+      settlementEligibleFitDepositCount: fitDepositSource.filter(
+        (deposit) => deposit.useTier === 'settlement-eligible',
       ).length,
-      sourceBoundCandidateCount: result.selectedCandidates.filter(
-        (candidate) => candidate.verification?.repositoryBound && candidate.verification?.sourceRevisionBound,
+      sourceBoundFitDepositCount: fitDepositSource.filter(
+        (deposit) => deposit.verification?.repositoryBound && deposit.verification?.sourceRevisionBound,
       ).length,
-      proofReadyCandidateCount: result.selectedCandidates.filter(
-        (candidate) => candidate.verification?.hasWalletOrAttestationProof && candidate.verification?.proofRootPresent,
+      proofReadyFitDepositCount: fitDepositSource.filter(
+        (deposit) => deposit.verification?.hasWalletOrAttestationProof && deposit.verification?.proofRootPresent,
       ).length,
-      measurementReadyCandidateCount: result.selectedCandidates.filter(
-        (candidate) => candidate.verification?.hasAssetMeasurementEvidence,
+      measurementReadyFitDepositCount: fitDepositSource.filter(
+        (deposit) => deposit.verification?.hasAssetMeasurementEvidence,
       ).length,
-      readbackReadyCandidateCount: result.selectedCandidates.filter(
-        (candidate) =>
-          !candidate.verification?.reconciliationReadbackRequired ||
-          candidate.verification?.reconciliationReadbackPresent,
+      readbackReadyFitDepositCount: fitDepositSource.filter(
+        (deposit) =>
+          !deposit.verification?.reconciliationReadbackRequired ||
+          deposit.verification?.reconciliationReadbackPresent,
       ).length,
-      selectedWarnings: unique(selectedVerification.map((verification) => verification?.warnings)),
-      selectedBlockers: unique(selectedVerification.map((verification) => verification?.blockers)),
+      settlementEligibleCandidateCount: fitDepositSource.filter(
+        (deposit) => deposit.useTier === 'settlement-eligible',
+      ).length,
+      sourceBoundCandidateCount: fitDepositSource.filter(
+        (deposit) => deposit.verification?.repositoryBound && deposit.verification?.sourceRevisionBound,
+      ).length,
+      proofReadyCandidateCount: fitDepositSource.filter(
+        (deposit) => deposit.verification?.hasWalletOrAttestationProof && deposit.verification?.proofRootPresent,
+      ).length,
+      measurementReadyCandidateCount: fitDepositSource.filter(
+        (deposit) => deposit.verification?.hasAssetMeasurementEvidence,
+      ).length,
+      readbackReadyCandidateCount: fitDepositSource.filter(
+        (deposit) =>
+          !deposit.verification?.reconciliationReadbackRequired ||
+          deposit.verification?.reconciliationReadbackPresent,
+      ).length,
+      selectedWarnings: unique(fitDepositVerification.map((verification) => verification?.warnings)),
+      selectedBlockers: unique(fitDepositVerification.map((verification) => verification?.blockers)),
+      fitDepositWarnings: unique(fitDepositVerification.map((verification) => verification?.warnings)),
+      fitDepositBlockers: unique(fitDepositVerification.map((verification) => verification?.blockers)),
       allWarnings: unique(allVerification.map((verification) => verification?.warnings)),
       allBlockers: unique(allVerification.map((verification) => verification?.blockers)),
     },
-    selectedCandidates,
+    fitDeposits,
+    selectedCandidates: fitDeposits,
     blockedCandidates,
-    candidateRanking,
+    fitDepositRanking,
+    candidateRanking: fitDepositRanking,
   };
 }
 

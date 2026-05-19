@@ -522,6 +522,16 @@ function summarizeStreamEvent(event) {
   const data = event?.data && typeof event.data === 'object' && !Array.isArray(event.data)
     ? event.data
     : null;
+  const llmAudit = event?.namespace === 'llm' && data
+    ? {
+        promptTemplate: summarizeInspectableValue(data.promptTemplate ?? null),
+        interpolatedPrompt: summarizeInspectableValue(data.interpolatedPrompt ?? data.messages ?? null),
+        reasoning: summarizeInspectableValue(data.reasoning ?? null),
+        judgment: summarizeInspectableValue(data.judgment ?? null),
+        rawModelResponse: summarizeInspectableValue(data.rawResponse ?? data.content ?? null),
+        parsedTypedOutput: summarizeInspectableValue(data.parsedTypedOutput ?? data.parsed ?? null),
+      }
+    : null;
   return {
     type: 'pipeline-stream-event',
     stage: stageForStreamEvent(event),
@@ -540,6 +550,13 @@ function summarizeStreamEvent(event) {
     inputMessageCount: Array.isArray(data?.messages) ? data.messages.length : null,
     outputContentLength: typeof data?.content === 'string' ? data.content.length : null,
     parsedOutputPresent: Boolean(data?.parsed),
+    promptTemplatePresent: Boolean(data?.promptTemplate),
+    interpolatedPromptPresent: Boolean(data?.interpolatedPrompt || data?.messages),
+    reasoningPresent: Boolean(data?.reasoning),
+    judgmentPresent: Boolean(data?.judgment),
+    rawModelResponsePresent: Boolean(data?.rawResponse || data?.content),
+    parsedTypedOutputPresent: Boolean(data?.parsedTypedOutput || data?.parsed),
+    inferenceAudit: llmAudit,
     inspectable: summarizeLlmInspectable(event, event?.data ?? null),
   };
 }

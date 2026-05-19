@@ -55,7 +55,7 @@ describe('AssetPack setup agents', () => {
     );
   });
 
-  it('builds a deterministic setup plan from read and fit search state', async () => {
+  it('builds a deterministic setup plan from read and Finding Fits state', async () => {
     const execution = executionStub();
     const result = await setupPlanAgent(
       {

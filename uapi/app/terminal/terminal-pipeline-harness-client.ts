@@ -307,7 +307,13 @@ function classifyHarnessLogType(event: TerminalFitPipelineHarnessEvent): string 
       namespace === 'llm' ||
       key.includes('parsedoutput') ||
       typeof telemetryEvent?.inputMessageCount === 'number' ||
-      typeof telemetryEvent?.outputContentLength === 'number'
+      typeof telemetryEvent?.outputContentLength === 'number' ||
+      telemetryEvent?.promptTemplatePresent === true ||
+      telemetryEvent?.interpolatedPromptPresent === true ||
+      telemetryEvent?.reasoningPresent === true ||
+      telemetryEvent?.judgmentPresent === true ||
+      telemetryEvent?.rawModelResponsePresent === true ||
+      telemetryEvent?.parsedTypedOutputPresent === true
     ) {
       return 'generation';
     }
@@ -439,6 +445,7 @@ export function buildTerminalFitPipelineHarnessStreamSnapshot(
           harnessEvent: event.event,
           harnessPayload: event.data,
           telemetryEvent,
+          inferenceAudit: telemetryEvent?.inferenceAudit || null,
         },
       },
     };
@@ -495,6 +502,12 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     ? `${telemetryEvent.outputContentLength} output chars`
     : null;
   const parsedOutput = telemetryEvent.parsedOutputPresent === true ? 'parsed output present' : null;
+  const promptTemplate = telemetryEvent.promptTemplatePresent === true ? 'prompt template present' : null;
+  const interpolatedPrompt = telemetryEvent.interpolatedPromptPresent === true ? 'interpolated prompt present' : null;
+  const reasoning = telemetryEvent.reasoningPresent === true ? 'reasoning present' : null;
+  const judgment = telemetryEvent.judgmentPresent === true ? 'judgment present' : null;
+  const rawResponse = telemetryEvent.rawModelResponsePresent === true ? 'raw response present' : null;
+  const parsedTypedOutput = telemetryEvent.parsedTypedOutputPresent === true ? 'parsed typed output present' : null;
   const toolDetails = [
     telemetryEvent.toolInputPresent === true ? 'input' : null,
     telemetryEvent.toolOutputPresent === true ? 'output' : null,
@@ -511,7 +524,13 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     inspectableKeys.length ? `inspectable ${inspectableKeys.join(', ')}` : null,
     inputMessageCount,
     outputContentLength,
+    promptTemplate,
+    interpolatedPrompt,
+    reasoning,
+    judgment,
+    rawResponse,
     parsedOutput,
+    parsedTypedOutput,
   ].filter(Boolean).join('; ') + '.';
 }
 

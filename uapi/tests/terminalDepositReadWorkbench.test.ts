@@ -1,10 +1,29 @@
 import {
   buildLiveTerminalDepositReadWorkbenchSnapshot,
   normalizeTerminalDepositReadWorkbench,
+  TERMINAL_ENTERPRISE_READING_STEPS,
 } from '@/app/terminal/terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
 
 describe('normalizeTerminalDepositReadWorkbench', () => {
+  it('locks the enterprise Reading UX to five reviewable steps', () => {
+    expect(TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.id)).toEqual([
+      'request-read',
+      'review-synthesized-need',
+      'request-fit',
+      'review-synthesized-asset-pack',
+      'buy-asset-pack-settle',
+    ]);
+    expect(TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.label)).toEqual([
+      '1. Request Read',
+      '2. Review synthesized Need',
+      '3. Request Fit',
+      '4. Review synthesized AssetPack',
+      '5. Buy AssetPack, settle',
+    ]);
+    expect(TERMINAL_ENTERPRISE_READING_STEPS).toHaveLength(5);
+  });
+
   it('builds deposit, read, and fit sections from the shell snapshot', () => {
     const workbench = normalizeTerminalDepositReadWorkbench(
       {

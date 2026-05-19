@@ -209,11 +209,11 @@ const closureState: TerminalClosureState = {
   canonLabel: 'production workspace posture',
   readReview: {
     id: 'read-review',
-    label: 'Read review before fit search',
-    summary: 'Measured Read accepted for source-to-shares fit search.',
+    label: 'Read review before Finding Fits',
+    summary: 'Measured Read accepted for source-to-shares Finding Fits.',
     metrics: [
       { label: 'Review action', value: 'accept' },
-      { label: 'Fit search admitted', value: 'yes' },
+      { label: 'Finding Fits admitted', value: 'yes' },
     ],
     rows: [{ label: 'Read', value: 'read-auth-rollback' }],
     chips: ['post-measurement-pre-fit', 'source-to-shares'],

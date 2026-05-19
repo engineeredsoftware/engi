@@ -540,7 +540,7 @@ function coerceClosureState(value: unknown): TerminalClosureState | null {
   const verification = coerceClosurePanel(value.verification);
   const readReview = coerceClosurePanel(value.readReview) || {
     id: 'read-review' as const,
-    label: 'Read review before fit search',
+    label: 'Read review before Finding Fits',
     summary: 'Read review was not persisted on this older closure snapshot.',
     metrics: [],
     rows: [],

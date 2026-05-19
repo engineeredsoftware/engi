@@ -99,7 +99,7 @@ The active QA scenario is therefore single-deposit:
 
 - data-space: the latest deposited repository revision row, currently exercised
   with the `engineeredsoftware/ENGI` fixture, with repository, branch, commit,
-  signer, wallet authorization, and asset candidate evidence;
+  signer, wallet authorization, and asset fit deposit evidence;
 - Read: determine whether the deposited repository contains a complete
   Terminal-backed path from wallet/GitHub readiness through Deposit, Read/Fit,
   AssetPack evidence, proof/finality readback, and Supabase/ledger
@@ -148,7 +148,7 @@ The runner must also terminate itself before caller timeout by emitting a
 `PipelineHarnessTimeoutError` blocked-readiness artifact with the last
 execution and stream events.
 
-The minimum commercial telemetry record for a Read/Fit pipeline execution is:
+The minimum commercial telemetry record for a Read/Fit pipeline run is:
 
 - one run row in `pipeline_runs` or `deliverable_pipeline_runs`;
 - event rows in `execution_events`, `stream_logs`, or
@@ -161,7 +161,7 @@ The minimum commercial telemetry record for a Read/Fit pipeline execution is:
   generation context;
 - tool rows in `deliverable_pipeline_tool_executions`, including input, output,
   error, timing, phase, and agent context;
-- fit/depository output carrying `depositorySearch`, candidate ranking,
+- fit/depository output carrying `depositorySearch`, fit deposit ranking,
   `fitResult`, `queryRoot`, `rankingRoot`, selected candidate asset ids, and the
   embedding policy.
 
@@ -512,6 +512,18 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 7. **Gate 7: Terminal Operations And Testnet Readiness**
    - Regtest/signet harness, telemetry sinks, alert panels, upgrade readiness, and rollback posture become Terminal-operated.
    - Taproot/PSBT/BTC remains the V28 crypto lane; BSC/opBNB/Binance/BitVM bridge work is future bridge/distribution readiness unless proof-bound artifacts exist.
+   - Terminal operational health now reads from package BTD primitives through
+     `terminal-operational-health.ts`, then renders lane approval, telemetry,
+     upgrade, generated type refresh, VCS, settlement-network, and synthetic
+     testnet mint/reconciliation state in Terminal.
+   - Reading pipeline test coverage becomes a gate contract: Read-Need,
+     Finding Fits, depository search, embedding/vector search, sandbox harness,
+     route preflight, Terminal stream adaptation, and demonstration local
+     fit-finding suites must pass together.
+   - Valid mocks must carry the same typed phase/agent/tool/PTRR/ThricifiedGeneration,
+     prompt/context, parsed-output, usage/timing, and fail-closed envelopes as
+     live Reading pipeline telemetry. Placeholder mocks are not acceptance
+     evidence.
 
 8. **Gate 8: V28 Promotion Proof**
    - SPEC, DELTA, NOTES, PARITY, and PROVEN exist.

@@ -20,8 +20,10 @@ import type { TerminalRepositoryContextState } from './terminal-repository-conte
 import {
   buildLiveTerminalDepositReadWorkbenchSnapshot,
   normalizeTerminalDepositReadWorkbench,
+  TERMINAL_ENTERPRISE_READING_STEPS,
   type TerminalDepositedSourceRevision,
   type TerminalDepositReadWorkbench as TerminalDepositReadWorkbenchState,
+  type TerminalEnterpriseReadingStepId,
 } from './terminal-deposit-read-workbench';
 import {
   buildTerminalFitPipelineHarnessStreamSnapshot,
@@ -73,14 +75,7 @@ function terminalReadNeed(value: unknown): TerminalReadNeedState | null {
 }
 
 type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
-type ReadingStageId =
-  | 'read-request'
-  | 'read-need-review'
-  | 'need-fit-search'
-  | 'asset-pack-preview'
-  | 'btc-settlement'
-  | 'unlock'
-  | 'pull-request-delivery';
+type ReadingStageId = TerminalEnterpriseReadingStepId;
 
 type TerminalReadNeedState = Record<string, unknown> & {
   schema?: 'bitcode.read.need';
@@ -171,8 +166,8 @@ export default function TerminalDepositReadWorkbench({
       : readFitProgress === 'draft'
         ? 'Record Read before admitting'
         : readFitProgress === 'measured'
-          ? 'Admit measured Read for fit search'
-          : 'Read admitted for fit search';
+          ? 'Admit measured Read for Finding Fits'
+          : 'Read admitted for Finding Fits';
   const fitResultActionLabel =
     recordingKey === 'fit'
       ? 'Recording fit...'
@@ -181,10 +176,10 @@ export default function TerminalDepositReadWorkbench({
         : 'Record fit result posture';
   const liveFitActionLabel =
     harnessState === 'running'
-      ? 'Running live fit...'
+      ? 'Running Finding Fits...'
       : harnessState === 'completed'
-        ? 'Run live fit again'
-        : 'Run live AssetPack fit';
+        ? 'Request Fit again'
+        : 'Request Fit';
   const harnessReadActivityId = recordedAdmittedReadActivityId || admittedReadActivityId;
   const harnessRequestState = useMemo(
     () =>
@@ -286,18 +281,18 @@ export default function TerminalDepositReadWorkbench({
   const settledReadback = ledgerSettlement?.status === 'settled';
   const pullRequestDelivered = settledReadback && Boolean(textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget));
   const activeReadingStage: ReadingStageId = pullRequestDelivered
-    ? 'pull-request-delivery'
+    ? 'buy-asset-pack-settle'
     : settledReadback
-    ? 'unlock'
+    ? 'buy-asset-pack-settle'
     : sourceSafePreview
-      ? 'asset-pack-preview'
+      ? 'review-synthesized-asset-pack'
       : harnessState === 'running' || (acceptedReadNeed && harnessState !== 'idle')
-        ? 'need-fit-search'
+        ? 'request-fit'
         : acceptedReadNeed
-          ? 'need-fit-search'
+          ? 'request-fit'
           : readNeed
-            ? 'read-need-review'
-            : 'read-request';
+            ? 'review-synthesized-need'
+            : 'request-read';
   const currentReadNeed = acceptedReadNeed || readNeed;
   const readNeedRows = useMemo(() => {
     if (!currentReadNeed) return [];
@@ -314,15 +309,7 @@ export default function TerminalDepositReadWorkbench({
       { label: 'Feedback turns', value: String(stringList(currentReadNeed.feedbackHistory).length) },
     ];
   }, [currentReadNeed]);
-  const stageCards: Array<{ id: ReadingStageId; label: string; detail: string }> = [
-    { id: 'read-request', label: '1. Read Request', detail: 'Repository, branch, commit, and reader request are framed.' },
-    { id: 'read-need-review', label: '2. Read-Need', detail: 'Need requirements, measurements, proof expectations, and feedback are reviewable.' },
-    { id: 'need-fit-search', label: '3. Need-Fit', detail: 'Only the accepted Need can search deposited source and synthesize a fit.' },
-    { id: 'asset-pack-preview', label: '4. Preview', detail: 'Measurements, roots, score posture, fee quote, and disclosure policy are visible.' },
-    { id: 'btc-settlement', label: '5. BTC settlement', detail: 'Reader fee authorization and settlement readback gate source unlock.' },
-    { id: 'unlock', label: '6. Unlock', detail: 'Owner or licensed read rights unlock only after range and license readback.' },
-    { id: 'pull-request-delivery', label: '7. PR delivery', detail: 'The purchased AssetPack is delivered to the reading repository.' },
-  ];
+  const stageCards = TERMINAL_ENTERPRISE_READING_STEPS;
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
     recordingKey === null &&
@@ -369,7 +356,7 @@ export default function TerminalDepositReadWorkbench({
         );
         setReadFitProgress('measured');
         setRecordMessage(
-          'Measured Read recorded. Next admit it for source-bound fit search, or stop if the Read is too broad or unrelated to the deposited source.',
+          'Measured Read recorded. Next admit it for source-bound Finding Fits, or stop if the Read is too broad or unrelated to the deposited source.',
         );
       } else {
         await onRecordActivity(buildTerminalFitWorkbenchDraft(workbench));
@@ -396,10 +383,10 @@ export default function TerminalDepositReadWorkbench({
       setRecordedAdmittedReadActivityId(recordActivityId(recorded));
       setReadFitProgress('admitted');
       setRecordMessage(
-        'Measured Read admitted for fit search. Next run or record the fit result posture as worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
+        'Measured Read admitted for Finding Fits. Next run or record the fit result posture as worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
       );
     } catch (error) {
-      setRecordMessage(error instanceof Error ? error.message : 'Unable to admit the measured Read for fit search.');
+      setRecordMessage(error instanceof Error ? error.message : 'Unable to admit the measured Read for Finding Fits.');
     } finally {
       setRecordingKey(null);
     }
@@ -444,7 +431,7 @@ export default function TerminalDepositReadWorkbench({
       setReadNeedSynthesisCount((count) => count + 1);
       setReadNeedMessage(
         action === 'synthesize_read_need'
-          ? 'Read-Need synthesized for review before Need-Fit search.'
+          ? 'Read-Need synthesized for review before Finding Fits.'
           : 'Read-Need resynthesized with feedback for review.',
       );
     } catch (error) {
@@ -483,11 +470,11 @@ export default function TerminalDepositReadWorkbench({
       }
       setAcceptedReadNeed(accepted);
       setReadNeed(accepted);
-      setReadNeedMessage('Read-Need accepted. Need-Fit search can now run against deposited source.');
+      setReadNeedMessage('Read-Need accepted. Finding Fits can now run against deposited source.');
       await onRecordActivity?.({
         type: 'agentic-execution:read-measurement',
         detailSection: 'activity',
-        summary: `Accepted Read-Need ${accepted.needId || 'for Need-Fit search'}.`,
+        summary: `Accepted Read-Need ${accepted.needId || 'for Finding Fits'}.`,
         context: {
           source: 'terminal-staged-reading',
           needId: accepted.needId,
@@ -549,7 +536,19 @@ export default function TerminalDepositReadWorkbench({
         summary="Reading the live deposit-side source, read measurement, and asset-pack fit posture."
         explainer={TERMINAL_WORKSPACE_EXPLAINERS.depositReadChain}
       >
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode workbench…</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">
+          Reading the live Bitcode workbench. The enterprise Reading path runs
+          ReadNeedComprehensionSynthesis before ReadFindingFitsSynthesis, and it remains
+          visible even before a repository is selected.
+        </p>
+        <ol className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {TERMINAL_ENTERPRISE_READING_STEPS.map((stage) => (
+            <li key={stage.id} className="border-l border-sky-300/30 pl-3">
+              <p className="text-sm font-semibold text-neutral-100">{stage.label}</p>
+              <p className="mt-1 text-xs leading-5 text-neutral-400">{stage.detail}</p>
+            </li>
+          ))}
+        </ol>
       </TerminalWorkspaceCard>
     );
   }
@@ -621,7 +620,7 @@ export default function TerminalDepositReadWorkbench({
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-sky-200/80">staged reading</p>
-            <h3 className="mt-2 text-lg font-semibold text-white">Read Request, Read-Need, Need-Fit, preview, settlement, unlock</h3>
+            <h3 className="mt-2 text-lg font-semibold text-white">Request Read, review Need, request Fit, review AssetPack, buy and settle</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
               The live pipeline starts from an accepted Read-Need. Preview can expose measurements, roots, score, fee quote, and range posture, while source-bearing AssetPack material stays locked until settlement readback.
             </p>
@@ -631,7 +630,7 @@ export default function TerminalDepositReadWorkbench({
           </span>
         </div>
 
-        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-7">
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
           {stageCards.map((stage) => {
             const active = stage.id === activeReadingStage;
             return (
@@ -720,7 +719,7 @@ export default function TerminalDepositReadWorkbench({
                 }}
                 className="rounded-[1.2rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15 disabled:cursor-not-allowed disabled:opacity-55"
               >
-                {harnessState === 'running' ? 'Running Need-Fit…' : 'Run Need-Fit pipeline'}
+                {harnessState === 'running' ? 'Running Finding Fits…' : 'Request Fit'}
               </button>
             </div>
           </div>
@@ -764,7 +763,7 @@ export default function TerminalDepositReadWorkbench({
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-200/80">read state</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Measured Read before fit result</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-              Recording a Read stores the measured demand frame. It does not mean Bitcode found a fit. Fit search must then return
+              Recording a Read stores the measured demand frame. It does not mean Bitcode found a fit. Finding Fits must then return
               worthy_fit, no_worthy_fit, or blocked_readiness before settlement or finality can proceed.
             </p>
           </div>
@@ -777,7 +776,7 @@ export default function TerminalDepositReadWorkbench({
           {[
             { id: 'draft', label: '1. Read framed', detail: 'Repository, branch, commit, and demand frame are visible.' },
             { id: 'measured', label: '2. Read measured', detail: 'Read posture is persisted as ledger evidence.' },
-            { id: 'admitted', label: '3. Fit admitted', detail: 'Measured Read may enter source-bound fit search.' },
+            { id: 'admitted', label: '3. Fit admitted', detail: 'Measured Read may enter source-bound Finding Fits.' },
             { id: 'fit-recorded', label: '4. Result recorded', detail: 'Fit result posture is reviewable before proof or settlement.' },
           ].map((step) => {
             const active = step.id === readFitProgress;
