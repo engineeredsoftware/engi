@@ -43,7 +43,9 @@ Use a version branch and gate-numbered branches:
 2. Create scoped gate branches from the version branch. Prefix every gate branch
    with the gate number, for example `v28/gate-3-read-fit-workflow` or
    `v28/gate-8-promotion-proof`.
-3. Group related work into clear commits with descriptive commit messages.
+3. Group related work into clear commits with quality commit messages whose
+   titles and bodies describe the proof, implementation, or documentation
+   change.
 4. Continue on the gate branch until that gate's acceptance criteria are
    implemented, specified, tested, documented, committed, pushed, and ready for
    closure review.
@@ -58,8 +60,10 @@ quality workflow stays green during draft work by checking active/draft posture
 and MVP demonstration proof, while full promoted-suite closure is reserved for
 the version promotion workflow. Version pull requests into `main` run the
 version promotion workflow. For V28, that workflow validates the promotion proof
-posture and, only after promotion validations pass, commits the standalone
-`BITCODE_SPEC.txt` pointer change from `V27` to `V28` on the version branch.
+posture and, only after promotion validations pass, executes the canonical
+promotion script, generates `BITCODE_SPEC_V28_PROVEN.md`, and commits the
+promotion artifacts plus `BITCODE_SPEC.txt` pointer change from `V27` to `V28`
+on the version branch.
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set

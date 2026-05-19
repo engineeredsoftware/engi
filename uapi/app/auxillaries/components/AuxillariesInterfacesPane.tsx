@@ -3,10 +3,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { useUserData } from "@/hooks/useUserData";
-import { SUPPORTED_LLM_MODELS } from "@/utils/model-pricing";
 
 import AuxillariesInterfacesPaneHeader from "@/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader";
-import GlobalModelSelection from "@/app/auxillaries/components/models/GlobalModelSelection";
 import SystemPromptSection from "@/app/auxillaries/components/models/SystemPromptSection";
 import { auxillaryPaneExplainers } from "@/app/auxillaries/components/auxillary-pane-explainers";
 import AuxillariesPreferenceCards, {
@@ -20,19 +18,6 @@ export interface AuxillariesInterfacesPaneProps {
   loading: boolean;
   isOnboardingComplete?: boolean;
   onCompletionStatusChange?: (isComplete: boolean) => void;
-}
-
-interface ModelOption {
-  id: string;
-  name: string;
-  description: string;
-  performance: number;
-  cost: number;
-  specialization?: string;
-  inputUSDPerMTok?: number;
-  outputUSDPerMTok?: number;
-  inputLimit?: number;
-  outputLimit?: number;
 }
 
 type TerminalDetailDensity = "signal" | "balanced" | "full";
@@ -57,52 +42,6 @@ const DEFAULT_INTERFACES_DEFAULTS: InterfacesDefaults = {
   executionBias: "balanced",
 };
 
-function buildModelOptions(): ModelOption[] {
-  const priced = SUPPORTED_LLM_MODELS.flatMap((provider) =>
-    provider.models
-      .map((model) => ({
-        model,
-        cost:
-          (model.inputPriceUSDPerMTok ?? Number.NaN) +
-          (model.outputPriceUSDPerMTok ?? Number.NaN),
-      }))
-      .filter((entry) => !Number.isNaN(entry.cost)),
-  );
-  const costs = priced.map((entry) => entry.cost);
-  const minCost = costs.length ? Math.min(...costs) : 0;
-  const maxCost = costs.length ? Math.max(...costs) : 1;
-  const span = Math.max(0.000001, maxCost - minCost);
-
-  return SUPPORTED_LLM_MODELS.flatMap((provider) =>
-    provider.models.map((model) => {
-      const costUSD =
-        (model.inputPriceUSDPerMTok ?? Number.NaN) +
-        (model.outputPriceUSDPerMTok ?? Number.NaN);
-      let costScore = 50;
-      let performanceScore = 50;
-
-      if (!Number.isNaN(costUSD)) {
-        const normalized = (costUSD - minCost) / span;
-        costScore = Math.round(1 + normalized * 99);
-        performanceScore = Math.round(1 + (1 - normalized) * 99);
-      }
-
-      return {
-        id: model.apiId,
-        name: `${provider.provider.toUpperCase()} · ${model.id}`,
-        description: model.notes || "Live catalog model ready for Bitcode routing.",
-        performance: performanceScore,
-        cost: costScore,
-        specialization: provider.provider,
-        inputUSDPerMTok: model.inputPriceUSDPerMTok,
-        outputUSDPerMTok: model.outputPriceUSDPerMTok,
-        inputLimit: model.inputLimit,
-        outputLimit: model.outputLimit,
-      };
-    }),
-  );
-}
-
 export default function AuxillariesInterfacesPane({
   onSave,
   loading,
@@ -124,15 +63,6 @@ export default function AuxillariesInterfacesPane({
   const [tokenCount, setTokenCount] = useState(
     typeof savedPreferences?.tokenCount === "number" ? savedPreferences.tokenCount : 0,
   );
-  const [selectedGlobalModel, setSelectedGlobalModel] = useState(
-    String(savedPreferences?.defaultModel || savedPreferences?.preferred_model || ""),
-  );
-
-  const modelOptions = useMemo(() => buildModelOptions(), []);
-  const selectedModel = useMemo(
-    () => modelOptions.find((option) => option.id === selectedGlobalModel) || null,
-    [modelOptions, selectedGlobalModel],
-  );
 
   useEffect(() => {
     if (onCompletionStatusChange && !hasCalledCompletionRef.current) {
@@ -153,11 +83,6 @@ export default function AuxillariesInterfacesPane({
     }));
     setGlobalSystemPrompt(String(savedPreferences.globalSystemPrompt || ""));
     setTokenCount(typeof savedPreferences.tokenCount === "number" ? savedPreferences.tokenCount : 0);
-
-    const nextModel = String(savedPreferences.defaultModel || savedPreferences.preferred_model || "");
-    if (nextModel) {
-      setSelectedGlobalModel(nextModel);
-    }
   }, [savedPreferences]);
 
   const updateTokenCounter = (value: string) => {
@@ -311,17 +236,25 @@ export default function AuxillariesInterfacesPane({
   );
 
   const interfacesAutosavePayload = useMemo(
-    () => ({
-      ...(savedPreferences || {}),
-      defaultModel: selectedGlobalModel || null,
-      defaultProvider: selectedModel?.specialization || null,
-      globalSystemPrompt,
-      tokenCount,
-      interfacesDefaults: defaults,
-      workspaceDefaults: defaults,
-      review_profile: savedPreferences?.review_profile || "bitcode-operator-workspace",
-    }),
-    [defaults, globalSystemPrompt, savedPreferences, selectedGlobalModel, selectedModel?.specialization, tokenCount],
+    () => {
+      const preservedPreferences = { ...(savedPreferences || {}) };
+      delete preservedPreferences.defaultModel;
+      delete preservedPreferences.defaultProvider;
+      delete preservedPreferences.preferred_model;
+      delete preservedPreferences.preferredProvider;
+
+      return {
+        ...preservedPreferences,
+        globalSystemPrompt,
+        tokenCount,
+        interfacesDefaults: defaults,
+        workspaceDefaults: defaults,
+        ledgerizedPipelineModels: "registry_deterministic",
+        modelSelectionScope: "non_ledgerized_conversation_only",
+        review_profile: savedPreferences?.review_profile || "bitcode-operator-workspace",
+      };
+    },
+    [defaults, globalSystemPrompt, savedPreferences, tokenCount],
   );
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -396,9 +329,9 @@ export default function AuxillariesInterfacesPane({
                   tone: "violet",
                 },
                 {
-                  label: "Global model",
-                  value: selectedModel?.name || "Use provider default",
-                  detail: "The baseline provider family currently anchored to this auxillary.",
+                  label: "Pipeline models",
+                  value: "Registry fixed",
+                  detail: "Ledgerized Reading uses protocol configuration, not user model preferences.",
                   tone: "amber",
                 },
               ]}
@@ -418,8 +351,8 @@ export default function AuxillariesInterfacesPane({
 
             <AuxillariesWorkspaceSection
               kicker="Prompt baseline"
-              title="Shared instruction baseline"
-              description="Keep a reusable global instruction surface for how Bitcode should reason, summarize, and explain."
+              title="Interface instruction baseline"
+              description="Keep a reusable operator instruction surface for how Bitcode should summarize and explain non-ledgerized interface reads."
               explainer={auxillaryPaneExplainers.interfacesPrompt}
               tone="sky"
             >
@@ -431,22 +364,9 @@ export default function AuxillariesInterfacesPane({
               />
             </AuxillariesWorkspaceSection>
 
-            <AuxillariesWorkspaceSection
-              kicker="Model posture"
-              title="Pick the default model family for this Bitcode read"
-              description="Visible provider cost and limit posture belongs in Interfaces, not in a hidden utility drawer."
-              explainer={auxillaryPaneExplainers.interfacesModels}
-              tone="violet"
-            >
-              <GlobalModelSelection
-                modelOptions={modelOptions}
-                onApplyGlobalModel={setSelectedGlobalModel}
-              />
-            </AuxillariesWorkspaceSection>
-
             <div className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
-                Changes save automatically so Terminal transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same operator defaults.
+                Changes save automatically so Terminal transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same interface defaults. Ledgerized Reading pipelines keep protocol-owned model configuration.
               </p>
             </div>
           </form>

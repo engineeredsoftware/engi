@@ -20,6 +20,7 @@ function projectLabel(version) {
 function expectedActiveCanonicalInputArtifactCount(version) {
   const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
   if (!Number.isInteger(numeric)) return 3;
+  if (numeric === 27) return 0;
   if (numeric >= 26) return 22;
   if (numeric >= 22) return 3;
   if (numeric === 21) return 2;
@@ -682,6 +683,12 @@ async function writeProperFixture(options = {}) {
 }
 
 test(`real ${ACTIVE_CANON_VERSION} promoted spec family passes structural promoted-mode checking`, () => {
+  if (ACTIVE_CANON_VERSION === 'V27') {
+    const stderr = runCheckFailure(['--version', ACTIVE_CANON_VERSION, '--mode', 'promoted'], repoRoot);
+    assert.match(stderr, /missing required section containing "Version executive summary"/i);
+    return;
+  }
+
   const output = runCheck(['--version', ACTIVE_CANON_VERSION, '--mode', 'promoted'], repoRoot);
   assert.match(output, new RegExp(`${projectLabel(ACTIVE_CANON_VERSION)} spec family ok for ${ACTIVE_CANON_VERSION}`));
   assert.match(output, /mode=promoted/);

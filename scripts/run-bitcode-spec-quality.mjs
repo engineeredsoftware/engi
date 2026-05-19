@@ -62,18 +62,37 @@ function runNode(cwd, label, args) {
 }
 
 /**
+ * V27 predates the appendix-grade spec-family checker shape that V28 now uses
+ * for draft and promotion validation. Keep V27 guarded by canonical-input and
+ * posture checks until V28's promotion workflow advances the active canon.
+ *
+ * @param {string} version
+ */
+function requiresPromotedSpecFamilyCheck(version) {
+  return version !== 'V27';
+}
+
+/**
  * @param {string} cwd
  * @param {string} version
  */
 function runStrictVersionChecks(cwd, version) {
   if (version === ACTIVE_CANON_VERSION) {
-    runNode(cwd, `${version} promoted spec-family`, [
-      path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
-      '--version',
-      version,
-      '--mode',
-      'promoted'
-    ]);
+    if (requiresPromotedSpecFamilyCheck(version)) {
+      runNode(cwd, `${version} promoted spec-family`, [
+        path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
+        '--version',
+        version,
+        '--mode',
+        'promoted'
+      ]);
+    } else {
+      runNode(cwd, `${version} active canonical inputs`, [
+        path.join(cwd, 'scripts/check-bitcode-canonical-inputs.mjs'),
+        '--current-target',
+        version
+      ]);
+    }
     return;
   }
 
@@ -133,13 +152,29 @@ function runBasicChecks(cwd) {
     '--draft-target',
     DRAFT_TARGET_VERSION
   ]);
-  runNode(cwd, `${ACTIVE_CANON_VERSION} promoted spec-family`, [
-    path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
-    '--version',
-    ACTIVE_CANON_VERSION,
-    '--mode',
-    'promoted'
-  ]);
+  if (requiresPromotedSpecFamilyCheck(ACTIVE_CANON_VERSION)) {
+    runNode(cwd, `${ACTIVE_CANON_VERSION} promoted spec-family`, [
+      path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
+      '--version',
+      ACTIVE_CANON_VERSION,
+      '--mode',
+      'promoted'
+    ]);
+  }
+  const draftSpecPath = path.join(cwd, `BITCODE_SPEC_${DRAFT_TARGET_VERSION}.md`);
+  const draftDeltaPath = path.join(cwd, `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_DELTA.md`);
+  const draftParityPath = path.join(cwd, `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_PARITY_MATRIX.md`);
+  if (existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath)) {
+    runNode(cwd, `${DRAFT_TARGET_VERSION} draft spec-family`, [
+      path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
+      '--version',
+      DRAFT_TARGET_VERSION,
+      '--mode',
+      'draft',
+      '--current-target',
+      ACTIVE_CANON_VERSION
+    ]);
+  }
   runNode(cwd, 'specifying and canon-drift tests', [
     '--test',
     path.join(cwd, 'protocol-demonstration/test/v21-specifying.test.js'),

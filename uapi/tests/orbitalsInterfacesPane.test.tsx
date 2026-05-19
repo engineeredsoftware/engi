@@ -9,21 +9,6 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
-jest.mock('@/app/auxillaries/components/models/GlobalModelSelection', () => ({
-  __esModule: true,
-  default: function MockGlobalModelSelection({
-    onApplyGlobalModel,
-  }: {
-    onApplyGlobalModel: (value: string) => void;
-  }) {
-    return (
-      <button type="button" onClick={() => onApplyGlobalModel('claude-3-7-sonnet')}>
-        Apply review model
-      </button>
-    );
-  },
-}));
-
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
 describe('AuxillariesInterfacesPane', () => {
@@ -58,7 +43,9 @@ describe('AuxillariesInterfacesPane', () => {
 
     expect(screen.getAllByText('Auxillary step 4')).toHaveLength(2);
     expect(screen.getByText(/Terminal detail and interface defaults/i)).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /Shared instruction baseline/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /Interface instruction baseline/i })).toBeTruthy();
+    expect(screen.getByText(/Registry fixed/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Apply review model/i)).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /signal/i }));
     fireEvent.click(screen.getByRole('button', { name: /chatgpt app/i }));
@@ -67,7 +54,6 @@ describe('AuxillariesInterfacesPane', () => {
         name: /raw bias toward exact payload reading first\./i,
       }),
     );
-    fireEvent.click(screen.getByText('Apply review model'));
     fireEvent.change(screen.getByLabelText(/Global System Prompt/i), {
       target: { value: 'Keep closure exact and user-facing.' },
     });
@@ -80,8 +66,9 @@ describe('AuxillariesInterfacesPane', () => {
         expect(onSave).toHaveBeenCalledWith(
           expect.objectContaining({
             existingSetting: 'keep-me',
-            defaultModel: 'claude-3-7-sonnet',
             globalSystemPrompt: 'Keep closure exact and user-facing.',
+            ledgerizedPipelineModels: 'registry_deterministic',
+            modelSelectionScope: 'non_ledgerized_conversation_only',
             interfacesDefaults: expect.objectContaining({
               terminalDetailDensity: 'signal',
               externalInterfaceEntry: 'chatgpt',
@@ -94,6 +81,10 @@ describe('AuxillariesInterfacesPane', () => {
             }),
           }),
         );
+        const payload = onSave.mock.calls.at(-1)?.[0] as Record<string, unknown>;
+        expect(payload.defaultModel).toBeUndefined();
+        expect(payload.defaultProvider).toBeUndefined();
+        expect(payload.preferred_model).toBeUndefined();
       },
       { timeout: 2000 },
     );

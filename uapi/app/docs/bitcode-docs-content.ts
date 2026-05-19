@@ -451,9 +451,9 @@ const auxillariesSections = [
     eyebrow: 'Interfaces',
     title: 'Interface defaults shape how Terminal, conversations, and proofs open',
     summary:
-      'Interfaces owns global model selection, system prompt posture, Exchange detail density, conversation launch behavior, proof read mode, instruction tone, and execution bias.',
+      'Interfaces owns Terminal detail density, non-ledgerized instruction posture, conversation return behavior, proof read mode, instruction tone, and execution bias.',
     detail:
-      'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, which model family anchors work by default, and whether proof readers see visual, mixed, or raw evidence first.',
+      'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, and whether proof readers see visual, mixed, or raw evidence first. Ledgerized Reading keeps protocol-owned model configuration.',
     reason:
       'Configuration becomes teachable when every preference says what operational consequence it has.',
     points: [

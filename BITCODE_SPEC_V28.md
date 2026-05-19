@@ -759,21 +759,66 @@ Implementation evidence:
   `uapi/tests/terminalOperationalHealthPanel.test.tsx`; package-level BTD tests
   are runnable through `pnpm -C packages/btd test`.
 
-### Gate 8: V28 Promotion Proof
+### Gate 8: V28 Metadevelopment And Promotion Proof
 
 Purpose:
-Promote V28 only after commercial Protocol/Terminal MVP QA, Terminal readiness productization, MCP/ChatGPT App MVP readiness, tests, proof, and documentation are closed.
+Close the repository metadevelopment standard that V28 introduced: version branches, gate-prefixed branches, quality commit messages, maintained gate workflows, promotion workflows, and a carryforward audit that prevents remaining commercial-product work from being hidden inside promotion prose.
 
 Acceptance criteria:
 
-- V28 SPEC, DELTA, NOTES, PARITY, and PROVEN are synchronized.
-- package/API, ORM, protocol-demonstration, UAPI route, Terminal UI, and build checks pass.
-- unversioned-route scan passes.
-- V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth are explicitly staged.
-- a V28 version-branch pull request into `main` runs promotion-grade
-  automation; only after those validations pass does automation commit the
-  standalone `BITCODE_SPEC.txt` pointer change.
-- `BITCODE_SPEC.txt` remains V27 until the final automated promotion step.
+- branch policy is source-documented: V28 work integrates through
+  `version/v28`; gate work occurs on `v28/gate-N-*` branches; gate branches
+  merge into the version branch; only the complete version branch requests
+  promotion into `main`.
+- contribution policy is source-documented: commits are quality-grouped and
+  titled descriptively enough for promotion proof and future operators.
+- the gate workflow checks draft canon posture, import/casing hygiene, package
+  typechecks/tests, focused UAPI route/Terminal tests, demonstration tests,
+  diff hygiene, metadevelopment readiness, and a dry-run V28 promotion plan.
+- the V28 promotion workflow triggers only for `version/v28` pull requests into
+  `main`, runs promotion-grade checks, executes the canonical promotion script,
+  generates/commits `BITCODE_SPEC_V28_PROVEN.md`, and advances
+  `BITCODE_SPEC.txt` only in the automated promotion commit.
+- the V28 parity matrix includes a rich carryforward audit for the commercial
+  product gates that follow Gate 8: Depositing, Read Request, Read-Need
+  synthesis/review/resynthesis, Finding Fits, AssetPack preview, BTC
+  settlement/read-license, PR delivery, Terminal UX, public/internal
+  documentation, proof coverage, and local/live validation.
+- unversioned-route scan passes and `BITCODE_SPEC.txt` remains V27 until the
+  final automated promotion step.
+
+### Gate 9: Commercial Depositing And Depository Evidence
+
+Gate 9 owns source deposit productization after the metadevelopment gate:
+repository inventory, deposit admission, depository evidence storage,
+measurement vectors, wallet/depositor boundaries, search-index population, and
+Terminal visibility for deposited source materials.
+
+### Gate 10: Read Request To Read-Need Comprehension
+
+Gate 10 owns the enterprise Reading start: request Read, synthesize a
+reviewable Need through `ReadNeedComprehensionSynthesis`, allow feedback and
+resynthesis, persist accepted Need truth, and block Finding Fits until the Need
+is reviewed.
+
+### Gate 11: Finding Fits And Source-Safe AssetPack Preview
+
+Gate 11 owns `ReadFindingFitsSynthesis`: depository search, candidate fit
+ranking, fitting deposits as synthesis context, AssetPack measurement, source-
+safe preview, Share-to-Fee quote, and proof-rich Terminal stream visibility.
+
+### Gate 12: Settlement, Rights, Delivery, And Reconciliation
+
+Gate 12 owns BTC settlement, depositor/reader ownership boundaries, read-license
+rows, ledger/database synchronization, protected-source unlock, and PR delivery
+of the purchased AssetPack into the Reading repository.
+
+### Gate 13: Commercial Product Closure And Promotion Readiness
+
+Gate 13 owns final commercial-product closure: website application UX, package
+abstractions, tests, local live validation, staging-testnet readback evidence,
+public/internal documentation, generated proof coverage, and the final
+`version/v28` promotion pull request.
 
 ## Draft Boundary
 

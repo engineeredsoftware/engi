@@ -256,17 +256,18 @@ test.describe('commercial MVP Auxillaries experience', () => {
 
     await page.goto('/auxillaries/interfaces');
     await expectCommercialRouteReady(page, /Interfaces in one contained auxillary read/i);
-    await expect(page.getByText(/Global Model Selection/i)).toBeVisible();
     await expect(page.getByText(/Terminal detail and interface defaults/i)).toBeVisible();
+    await expect(page.getByText('Pipeline models', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('Registry fixed', { exact: true }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Apply to All/i })).toHaveCount(0);
     const modelPreferenceSave = page.waitForResponse((response) => {
       return (
         response.url().includes('/api/auxillaries/model-preferences') &&
         response.request().method() === 'POST'
       );
     });
-    await page.getByRole('button', { name: /Apply to All/i }).first().click();
+    await page.getByRole('button', { name: /raw/i }).first().click();
     await modelPreferenceSave;
-    await expect(page.getByText('Global model', { exact: true }).first()).toBeVisible();
 
     await page.goto('/auxillaries/wallet');
     await expectCommercialRouteReady(page, /Wallet in one contained auxillary read/i);

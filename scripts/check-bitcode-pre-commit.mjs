@@ -16,9 +16,9 @@ const SPEC_RELEVANT_PATHS = [
   /^BITCODE_SPEC\.txt$/u,
   /^packages\/protocol-demonstration\/src\/canonical\/v21-specifying\.js$/u,
   /^package\.json$/u,
-  /^scripts\/(?:check-bitcode-|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-bitcode-git-hooks)/u,
+  /^scripts\/(?:check-bitcode-|check-v28-metadevelopment-readiness|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-bitcode-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,
-  /^\.github\/workflows\/bitcode-canon-quality\.yml$/u
+  /^\.github\/workflows\/(?:bitcode-canon-quality|bitcode-gate-quality|v28-canon-promotion)\.yml$/u
 ];
 
 function projectLabel(version) {
