@@ -1743,6 +1743,47 @@ manifest-bound Deposit evidence root fixes:
   overlay evidence exists in the harness input, manifest, execution context, or
   `BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED=1`.
 
+2026-05-19 local validation refresh for the same Gate 7 evidence:
+
+- Root `.env.local` remains the local staging-testnet source for local
+  application deployment and points REST and DB readback at project
+  `tkpyosihuouusyaxtbau`. The OpenAI generation lane is pinned to
+  `gpt-4.1-mini`, and the embedding lane is pinned to
+  `text-embedding-3-small` with 1536 dimensions.
+- Direct OpenAI validation succeeded for both chat generation and embeddings.
+  The embedding response returned a 1536-dimensional vector for the configured
+  AssetPack depository policy.
+- Live local `/api/read-review` `synthesize_read_need` completed through the
+  `ReadNeedComprehensionSynthesis` route using real OpenAI inference. The
+  response carried `thricified-generation` mode, `success` status, provider
+  `openai`, model `gpt-4.1-mini`, parsed reasoning, parsed judgment, parsed
+  structured output, a measured `ReadNeed`, and a `sha256:` measurement root.
+- Local `/terminal` browser validation against `pnpm -C uapi dev:staging`
+  rendered all five Reading steps with no error overlay, console errors, or
+  page errors: `Request Read`, `Review synthesized Need`, `Request Fit`,
+  `Review synthesized AssetPack`, and `Buy AssetPack, settle`. The same page
+  rendered both pipeline names,
+  `ReadNeedComprehensionSynthesis` and `ReadFindingFitsSynthesis`.
+- Real-model parsing now tolerates common non-contract surface variance without
+  weakening typed output: scalar list fields are normalized to arrays, and
+  nonnumeric PTRR confidence/quality labels fail closed to score `0` instead
+  of crashing the route. The typed `ReadNeed` and bounded structured inference
+  tests cover this behavior.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --lookback-hours 72` returned
+  `ready_for_v28_result_review` through REST readback: 11 pipeline rows, 8513
+  deliverable events, 123 phase delegations, 418 agent steps, 122 generations,
+  14 tool executions, and nonzero BTD range, BTC fee, journal, anchor,
+  ownership, read-license, and crypto telemetry rows.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 72`
+  also returned `ready_for_v28_result_review`. The latest deliverable run is
+  `c38a98cf-403e-4fc7-9c9e-ba615d4af024`, status `completed`, with 695
+  events, 13 phase delegations, 42 agent steps, 5 generations, and 4 tools.
+  The remaining warning is the accepted substitution for the absent generic
+  `phase_executions` table because the canonical deliverable phase hierarchy is
+  populated.
+
 Pass 2C prompt-to-artifact closure audit:
 
 | Requirement | Current artifact/evidence | Gate state |
