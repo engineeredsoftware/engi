@@ -86,6 +86,10 @@ describe('AssetPack depository search', () => {
     });
 
     expect(result.resultState).toBe('worthy_fit');
+    expect(result.fitDepositAssetIds).toEqual([
+      'asset_repository-revision-deposit-engineeredsoftware-engi',
+    ]);
+    expect(result.fitDeposits).toHaveLength(1);
     expect(result.selectedCandidateAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',
     ]);
@@ -106,6 +110,33 @@ describe('AssetPack depository search', () => {
     });
     expect(result.queryRoot).toMatch(/^sha256:/);
     expect(result.rankingRoot).toMatch(/^sha256:/);
+  });
+
+  it('discovers every qualifying fit deposit above the configured thresholds for implementation context', async () => {
+    const result = await searchDepositoryAssetSpace({
+      read,
+      assets: [
+        asset({ assetId: 'fit-deposit-1', title: 'Terminal path deposit one' }),
+        asset({
+          assetId: 'fit-deposit-2',
+          title: 'Terminal path deposit two',
+          contentRoot: 'sha256:test-content-root-two',
+          contentUnits: [
+            {
+              unitId: 'fit-deposit-2:unit-1',
+              unitKind: 'repository-revision',
+              text:
+                'Deposit Read Fit AssetPack evidence proof-root finality readback and Supabase ledger reconciliation for Terminal.',
+            },
+          ],
+        }),
+      ],
+    });
+
+    expect(result.resultState).toBe('worthy_fit');
+    expect(result.fitDepositAssetIds).toEqual(['fit-deposit-1', 'fit-deposit-2']);
+    expect(result.fitDeposits.map((fit) => fit.assetId)).toEqual(result.fitDepositAssetIds);
+    expect(result.selectedCandidateAssetIds).toEqual(result.fitDepositAssetIds);
   });
 
   it('blocks readiness when candidate search finds source evidence without proof', async () => {
@@ -254,6 +285,12 @@ describe('AssetPack depository search', () => {
     expect(findStored(exec, 'depository/search', 'result')?.resultState).toBe('worthy_fit');
     expect(findStored(exec, 'depository/search', 'embeddingPolicy')?.dimensions).toBe(1536);
     expect(output.fitResult.resultState).toBe('worthy_fit');
+    expect(output.fitResult.fitDepositAssetIds).toEqual([
+      'asset_repository-revision-deposit-engineeredsoftware-engi',
+    ]);
+    expect(output.fitResult.selectionTrace.fitDeposits[0]).toMatchObject({
+      assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
+    });
     expect(output.fitResult.embeddingPolicy.model).toBe('text-embedding-3-small');
     expect(['settlement-eligible', 'patch-eligible']).toContain(
       output.fitResult.selectionTrace.selectedCandidates[0].useTier
@@ -289,6 +326,9 @@ describe('AssetPack depository search', () => {
       unitKind: 'repository-revision',
     });
     expect(output.depositorySearch.selectedCandidateAssetIds).toEqual([
+      'asset_repository-revision-deposit-engineeredsoftware-engi',
+    ]);
+    expect(output.depositorySearch.fitDepositAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',
     ]);
   });

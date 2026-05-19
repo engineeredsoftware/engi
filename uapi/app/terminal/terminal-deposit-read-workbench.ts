@@ -25,6 +25,45 @@ export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
   hasAssetMeasurementEvidence?: boolean | null;
 };
 
+export type TerminalEnterpriseReadingStepId =
+  | 'request-read'
+  | 'review-synthesized-need'
+  | 'request-fit'
+  | 'review-synthesized-asset-pack'
+  | 'buy-asset-pack-settle';
+
+export const TERMINAL_ENTERPRISE_READING_STEPS: Array<{
+  id: TerminalEnterpriseReadingStepId;
+  label: string;
+  detail: string;
+}> = [
+  {
+    id: 'request-read',
+    label: '1. Request Read',
+    detail: 'Repository, branch, commit, and reader request are framed.',
+  },
+  {
+    id: 'review-synthesized-need',
+    label: '2. Review synthesized Need',
+    detail: 'Bitcode shows requirements, measurements, constraints, proof expectations, and feedback history.',
+  },
+  {
+    id: 'request-fit',
+    label: '3. Request Fit',
+    detail: 'Only an accepted Need can search deposited source and synthesize fit evidence.',
+  },
+  {
+    id: 'review-synthesized-asset-pack',
+    label: '4. Review synthesized AssetPack',
+    detail: 'Source-safe preview shows measurements, roots, score, fee quote, disclosure policy, and range posture.',
+  },
+  {
+    id: 'buy-asset-pack-settle',
+    label: '5. Buy AssetPack, settle',
+    detail: 'Reader BTC payment, BTD range/license readback, journal, ledger, and pull-request delivery close the purchase.',
+  },
+];
+
 type ShellSnapshot = {
   canonLabel?: string | null;
   sourceRevision?: TerminalSourceRevision | null;
@@ -130,7 +169,7 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
     `Read the deposited source revision ${selectedRevisionLabel} for a non-mock Terminal path from wallet and GitHub readiness through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.`;
   const closureCriteria = [
     'Deposit evidence is bound to repository, branch, commit, and signer.',
-    'Read measurement is accepted before fit search or blocks with a precise reason.',
+    'Read measurement is accepted before Finding Fits discovery or blocks with a precise reason.',
     'Fit evidence references the deposited repository revision and candidate AssetPack.',
     'AssetPack, proof, finality, and reconciliation posture are visible or explicitly blocked.',
     'No mock, frontier, or protocol-demo repository is treated as live staging source.',
@@ -214,7 +253,7 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
       failureModes: [
         'mock repository leakage',
         'missing repository revision evidence',
-        'read review not admitted before fit search',
+        'read review not admitted before Finding Fits discovery',
         'AssetPack fit without proof or finality posture',
         'ledger/database readback drift',
       ],

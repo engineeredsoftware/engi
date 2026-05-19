@@ -107,6 +107,8 @@ function factoryPreprocess(): Executor<any, any> {
     const depositorySearch = await runDepositorySearchForPipelineInput(processedInput, execution);
     try { processedInput.depositorySearchResult = depositorySearch; } catch {}
     try { processedInput.depositCandidates = depositorySearch.selectedCandidates; } catch {}
+    try { processedInput.fitDeposits = depositorySearch.fitDeposits; } catch {}
+    try { processedInput.fitDepositAssetIds = depositorySearch.fitDepositAssetIds; } catch {}
     try {
       processedInput.fitResult = buildDepositoryFitResultEvidence(depositorySearch);
     } catch {}
@@ -267,6 +269,7 @@ export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
 export * from './depository-search';
 export * from './embedding-config';
+export * from './reading-pipeline-contract';
 export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
 export {
   AssetPackComprehendReadAgent,
@@ -276,7 +279,7 @@ export {
 export { AssetPackSynthesizeArtifactsAgent } from './agents/implementation/asset-pack-synthesize-artifacts-agent';
 export {
   acceptReadNeed,
-  admitNeedFitSearch,
+  admitReadFindingFits,
   buildAssetPackSourceSafePreview,
   buildShareToFeePreview,
   isAcceptedReadNeed,
@@ -288,7 +291,7 @@ export {
   type AssetPackReadRightState,
   type AssetPackSourceSafePreview,
   type ReadNeed,
-  type ReadNeedFitAdmission,
+  type ReadFindingFitsAdmission,
   type ReadNeedMeasurementDimension,
   type ReadNeedReviewState,
   type ShareToFeeQuote,

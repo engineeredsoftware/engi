@@ -207,9 +207,9 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
                 canonLabel: 'Bitcode active posture',
                 readReview: {
                   id: 'read-review',
-                  label: 'Read review before fit search',
-                  summary: 'Measured Read accepted for source-to-shares fit search.',
-                  metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+                  label: 'Read review before Finding Fits',
+                  summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+                  metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
                   rows: [
                     { label: 'Review stage', value: 'post-measurement-pre-fit' },
                     { label: 'Protocol focus', value: 'source-to-shares' },
@@ -387,9 +387,9 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
       canonLabel: 'Bitcode active posture',
       readReview: {
         id: 'read-review',
-        label: 'Read review before fit search',
-        summary: 'Measured Read accepted for source-to-shares fit search.',
-        metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+        label: 'Read review before Finding Fits',
+        summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+        metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
         rows: [
           { label: 'Review stage', value: 'post-measurement-pre-fit' },
           { label: 'Protocol focus', value: 'source-to-shares' },

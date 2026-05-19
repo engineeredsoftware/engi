@@ -55,6 +55,11 @@ describe('runBoundedStructuredInference', () => {
       step: 'bounded',
       systemPrompt: 'Return JSON.',
       userPrompt: 'Return a result.',
+      promptTemplate: {
+        templateId: 'test.prompt',
+        system: 'Return JSON.',
+        user: 'Return {{result}}.',
+      },
       schema: ResultSchema,
       fallback: () => ({ summary: 'fallback', accepted: false }),
       execution,
@@ -64,9 +69,22 @@ describe('runBoundedStructuredInference', () => {
     expect(stores).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
+          namespace: 'llm',
+          key: 'input',
+          value: expect.objectContaining({
+            promptTemplate: expect.objectContaining({ templateId: 'test.prompt' }),
+            interpolatedPrompt: expect.objectContaining({ user: 'Return a result.' }),
+          }),
+        }),
+        expect.objectContaining({
           namespace: 'bounded-inference',
           key: 'status',
           value: 'fallback-no-llm',
+        }),
+        expect.objectContaining({
+          namespace: 'bounded-inference',
+          key: 'mode',
+          value: 'thricified-generation',
         }),
       ])
     );
@@ -84,6 +102,11 @@ describe('runBoundedStructuredInference', () => {
         step: 'bounded',
         systemPrompt: 'Return JSON.',
         userPrompt: 'Return a result.',
+        promptTemplate: {
+          templateId: 'test.prompt',
+          system: 'Return JSON.',
+          user: 'Return {{result}}.',
+        },
         schema: ResultSchema,
         fallback: () => ({ summary: 'fallback', accepted: false }),
         execution,
@@ -104,11 +127,33 @@ describe('runBoundedStructuredInference', () => {
   it('uses the execution LLM for real bounded inference and stores parsed output telemetry', async () => {
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
-    const llm = jest.fn(async () => ({
-      content: JSON.stringify({ summary: 'model result', accepted: true }),
-      usage: { inputTokens: 12, outputTokens: 8, totalTokens: 20 },
-      metadata: { provider: 'test-provider', model: 'test-model' },
-    }));
+    const llm = jest
+      .fn()
+      .mockResolvedValueOnce({
+        content: JSON.stringify({
+          analysis: 'Need is precise enough to answer.',
+          steps: ['Read context', 'Plan typed output'],
+          conclusion: 'Return the typed result.',
+          confidence: 0.91,
+        }),
+        usage: { inputTokens: 12, outputTokens: 8, totalTokens: 20 },
+        metadata: { provider: 'test-provider', model: 'test-model' },
+      })
+      .mockResolvedValueOnce({
+        content: JSON.stringify({
+          quality: 0.9,
+          issues: [],
+          suggestions: [],
+          approved: true,
+        }),
+        usage: { inputTokens: 9, outputTokens: 5, totalTokens: 14 },
+        metadata: { provider: 'test-provider', model: 'test-model' },
+      })
+      .mockResolvedValueOnce({
+        content: JSON.stringify({ summary: 'model result', accepted: true }),
+        usage: { inputTokens: 7, outputTokens: 4, totalTokens: 11 },
+        metadata: { provider: 'test-provider', model: 'test-model' },
+      });
     const { execution, stores } = makeExecution(llm);
 
     const result = await runBoundedStructuredInference({
@@ -117,13 +162,19 @@ describe('runBoundedStructuredInference', () => {
       step: 'bounded',
       systemPrompt: 'Return JSON.',
       userPrompt: 'Return a result.',
+      promptTemplate: {
+        templateId: 'test.prompt',
+        system: 'Return JSON.',
+        user: 'Return {{result}}.',
+      },
       schema: ResultSchema,
       fallback: () => ({ summary: 'fallback', accepted: false }),
       execution,
     });
 
     expect(result).toEqual({ summary: 'model result', accepted: true });
-    expect(llm).toHaveBeenCalledWith(
+    expect(llm).toHaveBeenCalledTimes(3);
+    expect(llm).toHaveBeenLastCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           responseFormat: 'json',
@@ -138,8 +189,39 @@ describe('runBoundedStructuredInference', () => {
           value: 'success',
         }),
         expect.objectContaining({
+          namespace: 'bounded-inference',
+          key: 'mode',
+          value: 'thricified-generation',
+        }),
+        expect.objectContaining({
+          namespace: 'llm',
+          key: 'reasoningOutput',
+          value: expect.objectContaining({
+            parsedTypedOutput: expect.objectContaining({ conclusion: 'Return the typed result.' }),
+          }),
+        }),
+        expect.objectContaining({
+          namespace: 'llm',
+          key: 'judgmentOutput',
+          value: expect.objectContaining({
+            parsedTypedOutput: expect.objectContaining({ approved: true }),
+          }),
+        }),
+        expect.objectContaining({
           namespace: 'llm',
           key: 'parsedOutput',
+          value: expect.objectContaining({
+            parsedTypedOutput: { summary: 'model result', accepted: true },
+            reasoning: expect.objectContaining({ confidence: 0.91 }),
+            judgment: expect.objectContaining({ approved: true }),
+          }),
+        }),
+        expect.objectContaining({
+          namespace: 'llm',
+          key: 'output',
+          value: expect.objectContaining({
+            rawResponse: JSON.stringify({ summary: 'model result', accepted: true }),
+          }),
         }),
       ])
     );

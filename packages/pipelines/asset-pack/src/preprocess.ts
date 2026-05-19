@@ -53,7 +53,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     if (typeof (llmRegistry as any).setDefaultProvider === 'function') {
       (llmRegistry as any).setDefaultProvider(provider);
     }
-    // Global default for all pipeline executions
+    // Global default for all pipeline runs.
     llmRegistry.configure('*', { model });
     execution.llms.setLLMRegistry(llmRegistry as any);
   } catch (_) {

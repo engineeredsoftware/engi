@@ -47,9 +47,9 @@ describe('terminal-activity-history', () => {
     canonLabel: 'Bitcode active posture',
     readReview: {
       id: 'read-review',
-      label: 'Read review before fit search',
-      summary: 'Measured Read accepted for source-to-shares fit search.',
-      metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+      label: 'Read review before Finding Fits',
+      summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+      metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
       rows: [{ label: 'Review stage', value: 'post-measurement-pre-fit' }],
       chips: ['source-to-shares'],
     },
@@ -233,7 +233,7 @@ describe('terminal-activity-history', () => {
         ],
         closureCriteria: [
           'deposit evidence is bound to repo, branch, and commit',
-          'read measurement is accepted before fit search',
+          'read measurement is accepted before Finding Fits',
           'fit evidence references the deposited AssetPack candidate',
           'no frontier or mock repository is present',
           'settlement and finality are explicit or blocked with a reason',
@@ -398,7 +398,7 @@ describe('terminal-activity-history', () => {
           canonLabel: 'Bitcode active posture',
           readReview: {
             id: 'read-review',
-            label: 'Read review before fit search',
+            label: 'Read review before Finding Fits',
           },
           verification: {
             id: 'verification',

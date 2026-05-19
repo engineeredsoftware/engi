@@ -5891,7 +5891,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     decisionMode: input.readReviewDecisionMode || input.decisionMode || 'deterministic-fifth-gate-local-review'
   });
   if (!readReview.fitSearchAdmission?.admitted) {
-    throw new Error('Bitcode fit search cannot proceed before the measured Read is accepted for source-to-shares review.');
+    throw new Error('Bitcode Finding Fits cannot proceed before the measured Read is accepted for source-to-shares review.');
   }
   const reviewedReadMeasurement = {
     ...readMeasurement,

@@ -1422,9 +1422,9 @@ export const TERMINAL_ACTION_GUIDES = [
     action: 'Accept, reject, or remeasure Read',
     location: 'Read measurement',
     write:
-      'Choose whether the measured Read is admitted for fit search, rejected, or sent back for remeasurement with feedback.',
+      'Choose whether the measured Read is admitted for Finding Fits, rejected, or sent back for remeasurement with feedback.',
     expectedRead:
-      'Fit search stays blocked until Read review is accepted, and the closure map shows the current review posture.',
+      'Finding Fits stays blocked until Read review is accepted, and the closure map shows the current review posture.',
     proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.readScenarios.summary,
   },
   {

@@ -66,7 +66,7 @@ describe('normalizeTerminalReadScenarios', () => {
         requiredBefore: 'find-fitting-settlement',
         fitSearchAdmission: {
           admitted: false,
-          admissionReason: 'Read must be accepted before fit search begins.',
+          admissionReason: 'Read must be accepted before Finding Fits begins.',
           blockedStages: ['candidate-recall', 'find-fitting-settlement'],
         },
         settlementReview: {

@@ -130,7 +130,7 @@ export async function AssetPackDiscoveryPhaseUnderstandRequirementsAgent(
     ],
     scope: {
       included: [
-        'Deposit candidate recall',
+        'Finding Fits deposit discovery',
         'Read/Fit quality review',
         'Source-bound AssetPack synthesis',
         'Validation and finish evidence',
@@ -297,9 +297,9 @@ export async function AssetPackDiscoveryPhaseResearchApproachAgent(
         methodology: 'Source-bound depository fit synthesis with explicit proof, telemetry, and ledger readback checkpoints.',
         phases: [
           {
-            name: 'Candidate fit review',
-            description: 'Use the preprocessed depository search result and selected candidate ids as the admissible candidate set.',
-            assetPackSynthesisArtifacts: ['fit-receipt', 'candidate-ranking-root']
+            name: 'Fit deposit review',
+            description: 'Use the preprocessed depository search result and fit deposit ids as the admissible knowledge set.',
+            assetPackSynthesisArtifacts: ['fit-receipt', 'fit-deposit-ranking-root']
           },
           {
             name: 'AssetPack synthesis',
@@ -449,8 +449,8 @@ export async function AssetPackDiscoveryPhasePlanImplementationAgent(
         milestones: [
           {
             name: 'Preserve fit evidence',
-            description: 'Carry resultState, candidate asset ids, query root, ranking root, and embedding policy into synthesis artifacts.',
-            completionCriteria: ['fitResult.resultState is retained', 'selected candidate ids are retained']
+            description: 'Carry resultState, fit deposit asset ids, query root, ranking root, and embedding policy into synthesis artifacts.',
+            completionCriteria: ['fitResult.resultState is retained', 'fit deposit ids are retained']
           },
           {
             name: 'Synthesize AssetPack',

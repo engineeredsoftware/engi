@@ -75,7 +75,7 @@ describe('/api/read-review', () => {
     jest.clearAllMocks();
   });
 
-  it('presents a reviewable Read before fit search', async () => {
+  it('presents a reviewable Read before Finding Fits', async () => {
     const response = await GET(
       new Request('http://localhost/api/read-review?scenarioId=scenario-auth'),
     );
@@ -95,7 +95,7 @@ describe('/api/read-review', () => {
     });
   });
 
-  it('records explicit operator review decisions before fit search admission', async () => {
+  it('records explicit operator review decisions before Finding Fits admission', async () => {
     const response = await POST(
       new Request('http://localhost/api/read-review', {
         method: 'POST',
@@ -124,7 +124,7 @@ describe('/api/read-review', () => {
     });
   });
 
-  it('synthesizes a reviewable Read-Need before Need-Fit search', async () => {
+  it('synthesizes a reviewable Read-Need before Finding Fits', async () => {
     const response = await POST(
       new Request('http://localhost/api/read-review', {
         method: 'POST',
@@ -146,7 +146,8 @@ describe('/api/read-review', () => {
 
     expect(response.status).toBe(200);
     expect(mockReviewNeed).not.toHaveBeenCalled();
-    expect(payload.stage).toBe('read_need_review');
+    expect(payload.pipelineName).toBe('ReadNeedComprehensionSynthesis');
+    expect(payload.stage).toBe('review_synthesized_need');
     expect(payload.readNeed).toMatchObject({
       schema: 'bitcode.read.need',
       reviewState: 'needs_acceptance',
@@ -163,12 +164,21 @@ describe('/api/read-review', () => {
     });
     expect(payload.telemetry).toMatchObject({
       schema: 'bitcode.read-need.synthesis-telemetry',
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      phaseId: 'ReadNeedComprehensionSynthesis.comprehend',
+      agentId: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer',
+      ptrrStepId: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
+      returnType: 'ReadNeed',
       measurementRoot: payload.readNeed.measurementRoot,
       reviewState: 'needs_acceptance',
     });
+    expect(payload.telemetry.promptTemplate.templateId).toBe(
+      'ReadNeedComprehensionSynthesis.prompt.need-synthesis',
+    );
+    expect(payload.telemetry.parsedTypedOutput).toMatchObject({ schema: 'bitcode.read.need' });
   });
 
-  it('accepts a synthesized Read-Need as the only Need-Fit input', async () => {
+  it('accepts a synthesized Read-Need as the only Finding Fits input', async () => {
     const synthesisResponse = await POST(
       new Request('http://localhost/api/read-review', {
         method: 'POST',
@@ -196,21 +206,26 @@ describe('/api/read-review', () => {
     const payload = await acceptResponse.json();
 
     expect(acceptResponse.status).toBe(200);
-    expect(payload.stage).toBe('need_fit_ready');
+    expect(payload.pipelineName).toBe('ReadNeedComprehensionSynthesis');
+    expect(payload.nextPipelineName).toBe('ReadFindingFitsSynthesis');
+    expect(payload.stage).toBe('request_fit_ready');
     expect(payload.acceptedReadNeed).toMatchObject({
       schema: 'bitcode.read.need',
       reviewState: 'accepted',
       needId: synthesis.readNeed.needId,
       measurementRoot: synthesis.readNeed.measurementRoot,
     });
-    expect(payload.fitSearchAdmission).toMatchObject({
+    expect(payload.findingFitsAdmission).toMatchObject({
       admitted: true,
       blockers: [],
     });
     expect(payload.telemetry).toMatchObject({
       schema: 'bitcode.read-need.acceptance-telemetry',
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      nextPipelineName: 'ReadFindingFitsSynthesis',
       needId: synthesis.readNeed.needId,
-      nextStage: 'need_fit_search',
+      nextStage: 'finding_fits',
+      returnType: 'AcceptedReadNeed',
     });
   });
 });

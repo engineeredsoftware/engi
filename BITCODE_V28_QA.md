@@ -549,7 +549,7 @@ Automated verification after this implementation pass:
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v27-crypto`: 9 passed after standalone demonstration/package-boundary cleanup.
-- `npm --prefix protocol-demonstration run test:v28-mvp-qa`: 13 passed after adding the boundary-separation and local Need-Fit witness checks.
+- `npm --prefix protocol-demonstration run test:v28-mvp-qa`: 13 passed after adding the boundary-separation and local Finding Fits witness checks.
 - `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/readReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
 - `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`: 2 passed after the formal package split.
 - `pnpm -C packages/protocol test`: 2 passed after the formal package split and protocol runtime-source deployment fix.
@@ -1024,9 +1024,9 @@ Manual steps:
 5. Record the measured Read. Capture the `/api/executions/history` request and
    response; expected status is `201`, and the page must remain in the Read
    chain with a `measured` next-state message.
-6. Admit the measured Read for fit search. Capture the `/api/executions/history`
+6. Admit the measured Read for Finding Fits. Capture the `/api/executions/history`
    request and response; expected status is `201` with
-   `fitSearchAdmission.admitted=true`.
+   `findingFitsAdmission.admitted=true`.
 7. Record Fit result posture. Capture the `/api/executions/history` request and
    response; expected status is `201`.
 8. If a branch, AssetPack, BTC fee, ledger anchor, or settlement control becomes
@@ -1093,7 +1093,7 @@ Blockers:
   reasons, or explicit blocker.
 - Negative controls produce a confident AssetPack instead of no-worthy-fit or
   clarification.
-- Fit search proceeds before Read review/admission.
+- Finding Fits proceeds before Read review/admission.
 - Pipeline output lacks `fit.resultState`, `fit.resultReasons`, query root, or
   ranking root after the AssetPack pipeline entrypoint reports completion.
 - Pipeline output uses an embedding model or dimensions that do not match the
@@ -1325,7 +1325,7 @@ Pass criteria:
 - For the staging-testnet pass, generation rows must be non-zero
   because `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is required. A completed run
   with zero generation rows is only deterministic bring-up evidence.
-- Parsed/cast generation output is stored when a ThriceifiedGeneration parser
+- Parsed/cast generation output is stored when a ThricifiedGeneration parser
   runs, so operators can compare raw model text with typed Fit/search evidence.
 - Query 03 still shows no AssetPack range, BTC fee, ledger anchor, settlement,
   or finality claim without matching projection rows.
@@ -1357,8 +1357,8 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
 
 | Gate | Scope | Acceptance boundary |
 | --- | --- | --- |
-| Need synthesis review | Split "What is the need?" from Fit search. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, pricing measurement inputs, and a Need measurement root. | User can accept the Need or request resynthesis with feedback. No Fit search, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. The accepted Need id, feedback history, telemetry, and measurement root become the only valid input to Fit search. |
-| Need-Fit search and synthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
+| Need synthesis review | Split "What is the need?" from Finding Fits. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, pricing measurement inputs, and a Need measurement root. | User can accept the Need or request resynthesis with feedback. No Finding Fits, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. The accepted Need id, feedback history, telemetry, and measurement root become the only valid input to Finding Fits. |
+| ReadFindingFitsSynthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
 | Source-safe preview | Show enough proof to decide whether to pay without leaking source. | Preview may show Need/Fit measurements, score bands, roots, candidate ids, proof posture, ownership boundary, settlement boundary, and BTC quote. It must not expose protected AssetPack source before settlement. |
 | Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from `sum(measurement_weight * measurement_volume * admitted_fit_quality)` and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
 | Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to a server-side stream/socket handler or durable queue; the push is run-id correlated, authenticated, idempotent, and durable before sandbox stop. Terminal can reattach and read final state without the starter route waiting. |
@@ -1370,16 +1370,16 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
   failure modes, target artifact kinds, source constraints, proof
   expectations, pricing measurement inputs, review state, and feedback
   history.
-- Strict Need-Fit search blocks before depository candidate recall unless an
+- Strict Need-Finding Fits blocks before depository Finding Fits discovery unless an
   accepted Need is present. The blocked state is explicit
   `blocked_readiness` with `accepted_read_need_missing`.
 - The depository search path consumes accepted Need source constraints and
-  measurement roots as the Fit search input, rather than raw prompt text, when
+  measurement roots as the Finding Fits input, rather than raw prompt text, when
   `acceptedReadNeed` is supplied.
 - The Vercel Sandbox harness now lists Need stages in the manifest and
   synthesizes plus accepts a Need before invoking the existing source-bound
   AssetPack pipeline. This preserves the current proven staging-testnet path
-  while Terminal is split into user-visible Need review and Need-Fit execution
+  while Terminal is split into user-visible Need review and ReadFindingFitsSynthesis
   steps.
 - `buildShareToFeePreview` provides the initial source-safe quote shape from
   accepted Need measurement vector and admitted Fit quality:
@@ -1388,7 +1388,7 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
   `resynthesize_read_need`, and `accept_read_need` actions. The synthesis
   response includes prompt input, interpolated source context, parsed Need,
   measurement root, review state, feedback, and telemetry; the acceptance
-  response returns the only admissible `acceptedReadNeed` for Need-Fit search.
+  response returns the only admissible `acceptedReadNeed` for Need-Finding Fits.
 - Terminal live harness requests now include `acceptedReadNeed` and
   `requireAcceptedReadNeed=true`. The live fit button remains blocked until a
   typed accepted Need is present, even when Deposit and admitted-Read activity
@@ -1450,7 +1450,7 @@ Later staging-testnet evidence on 2026-05-17 after the no-overlay deployment:
   `engineeredsoftware/ENGI@main:ee1481634c985afbc349f8d8b837cd1c43a254ac`
   reached real model-backed setup execution. Umbrella pipeline run
   `44a05fd7-f337-42cf-ad3c-d4a607d54a2b` and deliverable pipeline run
-  `b1b04a2d-0376-4200-b08c-7936076f2566` failed before candidate recall or
+  `b1b04a2d-0376-4200-b08c-7936076f2566` failed before Finding Fits discovery or
   AssetPack synthesis.
 - Database readback showed real execution progress: 2 setup phase delegation
   rows, 16 agent-step rows, 72 model-generation rows, 1634 deliverable pipeline
@@ -1521,7 +1521,7 @@ manifest-bound Deposit evidence root fixes:
   flags, with no manual `BITCODE_SANDBOX_DEPOSIT_*_ROOT` overrides. The harness
   materialized manifest-bound `proofRoot`, `measurementRoot`, and
   `reconciliationReadbackRoot` values before pipeline execution.
-- Pipeline run `3b3339b4-5695-46fa-9ce4-2163c7eb1f11` reached candidate recall,
+- Pipeline run `3b3339b4-5695-46fa-9ce4-2163c7eb1f11` reached Finding Fits discovery,
   model-backed setup, model-backed Read comprehension, model-backed synthesis,
   `pipeline-complete`, and `ledger-settlement-readback`.
 - The pipeline selected the proof-bearing candidate `manual-deposit-qa`,
@@ -1760,7 +1760,7 @@ Pass 2C prompt-to-artifact closure audit:
 | Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | Latest source-bound run `c38a98cf-403e-4fc7-9c9e-ba615d4af024` completed without source overlay and wrote/read back umbrella pipeline run `13bc9a38-0f94-446f-98d7-14474d13467a`, deliverable stream rows, phases, agent steps, generation rows, and structured tool rows. | closed for current gate |
 | Settlement writes and rereads BTD range, BTC fee, ownership/license, journal, anchor, and crypto telemetry rows. | AssetPack `asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024` was settled with BTD range `[5, 6)`, 546 sat reader BTC fee prepared without server custody, confirmed ledger anchor, depositor ownership event, reader license, crypto telemetry, and four Terminal journal rows. | closed for current gate |
 | Full-profile inference may run for dozens of minutes without route wait. | Scoped as a subsequent V28 gate requiring sandbox-pushed async completion to a server-side stream/socket handler or durable queue. The push must be run-id correlated, authenticated, idempotent, and durable before sandbox stop. | intentionally out of current gate |
-| Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Need-Fit ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |
+| Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Finding Fits ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 

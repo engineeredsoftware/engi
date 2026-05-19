@@ -17,6 +17,7 @@ export async function GET(request: Request) {
       }),
     );
   } catch (error) {
+    console.error(error);
     return toBitcodeErrorResponse(error);
   }
 }
@@ -26,16 +27,38 @@ export async function POST(request: Request) {
     const body = await readBitcodeRequestBody(request);
     const action = readNeedAction(body);
     if (action === 'synthesize_read_need' || action === 'resynthesize_read_need') {
-      const { synthesizeReadNeedForPipelineInput } = await import('@bitcode/pipeline-asset-pack/read-need');
-      const readNeed = synthesizeReadNeedForPipelineInput(readNeedPipelineInput(body));
+      const { synthesizeReadNeedForPipelineInputWithInference } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const {
+        READ_NEED_COMPREHENSION_SYNTHESIS,
+        READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
+        summarizeReadingPipelineContract,
+      } = await import('@bitcode/pipeline-asset-pack/reading-pipeline-contract');
+      const inferenceCapture = createRouteInferenceCapture();
+      const readNeed = await synthesizeReadNeedForPipelineInputWithInference(
+        readNeedPipelineInput(body),
+        inferenceCapture.execution,
+      );
+      const synthesisStep =
+        READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
+          .flatMap((phase) => phase.agents)
+          .flatMap((agent) => agent.ptrrSteps)
+          .find((step) => step.ptrrStepId === 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try');
 
       return NextResponse.json({
         ok: true,
-        stage: 'read_need_review',
+        pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+        stage: 'review_synthesized_need',
         action,
         readNeed,
         telemetry: {
           schema: 'bitcode.read-need.synthesis-telemetry',
+          pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+          pipelineContract: summarizeReadingPipelineContract(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
+          phaseId: 'ReadNeedComprehensionSynthesis.comprehend',
+          agentId: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer',
+          ptrrStepId: synthesisStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
+          thricifiedGenerationIds: synthesisStep?.thricifiedGenerationIds || [],
+          promptTemplate: synthesisStep?.prompt || null,
           promptInput: readNeed.read,
           interpolatedContext: {
             sourceConstraints: readNeed.sourceConstraints,
@@ -50,43 +73,77 @@ export async function POST(request: Request) {
             failureModes: readNeed.failureModes,
             proofExpectations: readNeed.proofExpectations,
           },
+          rawModelResponse: {
+            runtime: 'structured-read-need-synthesis',
+            outputKind: 'typed-protocol-synthesis',
+            content: readNeed,
+          },
+          thricifiedGeneration: {
+            mode: inferenceCapture.value('bounded-inference', 'mode') || 'deterministic-typed-witness',
+            status: inferenceCapture.value('bounded-inference', 'status') || 'deterministic-fallback',
+            provider: inferenceCapture.value('bounded-inference', 'provider') || null,
+            reasoningOutput: inferenceCapture.value('llm', 'reasoningOutput') || null,
+            judgmentOutput: inferenceCapture.value('llm', 'judgmentOutput') || null,
+            structuredOutput: inferenceCapture.value('llm', 'parsedOutput') || null,
+          },
+          parsedTypedOutput: readNeed,
+          returnType: 'ReadNeed',
           parsedNeed: readNeed,
           measurementRoot: readNeed.measurementRoot,
           reviewState: readNeed.reviewState,
           resynthesisAttempt: action === 'resynthesize_read_need',
         },
-        nextProtocolAction: 'Review and accept the synthesized Read-Need before Need-Fit search.',
+        nextProtocolAction: 'Review and accept the synthesized Read-Need before Finding Fits.',
       });
     }
 
     if (action === 'accept_read_need') {
-      const { acceptReadNeed, admitNeedFitSearch } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const { acceptReadNeed, admitReadFindingFits } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const {
+        READ_NEED_COMPREHENSION_SYNTHESIS,
+        READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
+        READ_FINDING_FITS_SYNTHESIS,
+      } = await import('@bitcode/pipeline-asset-pack/reading-pipeline-contract');
       const readNeed = objectValue(body.readNeed) || objectValue(body.acceptedReadNeed);
       if (!readNeed || readNeed.schema !== 'bitcode.read.need') {
         return NextResponse.json({ error: 'readNeed is required' }, { status: 400 });
       }
 
       const acceptedReadNeed = acceptReadNeed(readNeed as unknown as Parameters<typeof acceptReadNeed>[0]);
-      const fitSearchAdmission = admitNeedFitSearch({
+      const findingFitsAdmission = admitReadFindingFits({
         acceptedReadNeed,
         requireAcceptedReadNeed: true,
       });
+      const acceptanceStep =
+        READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
+          .flatMap((phase) => phase.agents)
+          .flatMap((agent) => agent.ptrrSteps)
+          .find((step) => step.ptrrStepId === 'ReadNeedComprehensionSynthesis.review.operator-review.try');
       return NextResponse.json({
         ok: true,
-        stage: 'need_fit_ready',
+        pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+        nextPipelineName: READ_FINDING_FITS_SYNTHESIS,
+        stage: 'request_fit_ready',
         action,
         acceptedReadNeed,
         readNeed: acceptedReadNeed,
-        fitSearchAdmission,
+        findingFitsAdmission,
         telemetry: {
           schema: 'bitcode.read-need.acceptance-telemetry',
+          pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+          phaseId: 'ReadNeedComprehensionSynthesis.review',
+          agentId: 'ReadNeedComprehensionSynthesis.review.operator-review',
+          ptrrStepId: acceptanceStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.review.operator-review.try',
+          thricifiedGenerationIds: acceptanceStep?.thricifiedGenerationIds || [],
           needId: acceptedReadNeed.needId,
           measurementRoot: acceptedReadNeed.measurementRoot,
           reviewState: acceptedReadNeed.reviewState,
           acceptanceRoot: acceptedReadNeed.review?.acceptanceRoot || null,
-          nextStage: acceptedReadNeed.review?.nextStage || 'need_fit_search',
+          nextStage: acceptedReadNeed.review?.nextStage || 'finding_fits',
+          nextPipelineName: READ_FINDING_FITS_SYNTHESIS,
+          returnType: 'AcceptedReadNeed',
         },
-        nextProtocolAction: 'Run Need-Fit search with the accepted Read-Need.',
+        nextProtocolAction: 'Run Finding Fits with the accepted Read-Need.',
       });
     }
 
@@ -108,6 +165,47 @@ function stringValue(value: unknown): string | null {
 
 function readNeedAction(body: Record<string, unknown>): string | null {
   return stringValue(body.action) || stringValue(body.readNeedAction);
+}
+
+function createRouteInferenceCapture() {
+  const values = new Map<string, unknown>();
+  type CapturedExecution = {
+    child: (name?: string) => CapturedExecution;
+    getRoot: () => CapturedExecution;
+    store: (namespace: string, key: string, value: unknown) => void;
+    get: (namespace: string, key: string) => unknown;
+    findUp: (namespace: string, key: string) => unknown;
+    llms: { getDefaultLLM: () => undefined };
+  };
+  const execution: CapturedExecution = {
+    child() {
+      return execution;
+    },
+    getRoot() {
+      return execution;
+    },
+    store(namespace: string, key: string, value: unknown) {
+      values.set(`${namespace}:${key}`, value);
+    },
+    get(namespace: string, key: string) {
+      return values.get(`${namespace}:${key}`);
+    },
+    findUp(namespace: string, key: string) {
+      return values.get(`${namespace}:${key}`);
+    },
+    llms: {
+      getDefaultLLM() {
+        return undefined;
+      },
+    },
+  };
+
+  return {
+    execution,
+    value(namespace: string, key: string) {
+      return values.get(`${namespace}:${key}`);
+    },
+  };
 }
 
 function readNeedPipelineInput(body: Record<string, unknown>) {

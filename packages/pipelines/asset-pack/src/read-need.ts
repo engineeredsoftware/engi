@@ -1,8 +1,11 @@
 import { createHash } from 'node:crypto';
+import { z } from 'zod';
 import type {
   DepositoryFitResultEvidence,
   DepositorySearchRead,
 } from './depository-search';
+import { runBoundedStructuredInference } from './bounded-structured-inference';
+import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
 
 export type ReadNeedReviewState =
   | 'needs_acceptance'
@@ -48,11 +51,11 @@ export interface ReadNeed {
     status: 'accepted';
     acceptedAt: string;
     acceptanceRoot: string;
-    nextStage: 'need_fit_search';
+    nextStage: 'finding_fits';
   };
 }
 
-export interface ReadNeedFitAdmission {
+export interface ReadFindingFitsAdmission {
   admitted: boolean;
   blockers: string[];
   acceptedNeed: ReadNeed | null;
@@ -97,6 +100,7 @@ export interface AssetPackSourceSafePreview {
     resultState: string;
     resultReasons: string[];
     admittedFitQuality: number;
+    fitDepositAssetIds: string[];
     selectedCandidateAssetIds: string[];
     queryRoot: string | null;
     rankingRoot: string | null;
@@ -169,6 +173,14 @@ type ReadNeedSourceInput = {
   failureModes?: unknown;
   feedback?: unknown;
 };
+
+export const ReadNeedComprehensionSynthesisSchema = z.object({
+  requirements: z.array(z.string()).default([]),
+  closureCriteria: z.array(z.string()).default([]),
+  failureModes: z.array(z.string()).default([]),
+  targetArtifactKinds: z.array(z.string()).default([]),
+  proofExpectations: z.array(z.string()).default([]),
+});
 
 function sha256(value: string): string {
   return createHash('sha256').update(value).digest('hex');
@@ -295,7 +307,7 @@ function defaultRequirements(read: ReturnType<typeof normalizeSource>): string[]
   return [
     'Understand the reader request as a bounded source-reading need before searching the depository.',
     'Find source-bound deposited evidence that satisfies the accepted Need, not merely related prose.',
-    'Preserve proof, measurement, and reconciliation readback requirements through Fit search and AssetPack synthesis.',
+    'Preserve proof, measurement, and reconciliation readback requirements through Finding Fits and AssetPack synthesis.',
     'Prevent protected source disclosure before preview approval and settlement readback.',
     ...(read.repositoryFullName ? [`Bind Fit candidates to repository ${read.repositoryFullName}.`] : []),
     ...(read.sourceCommit ? [`Bind Fit candidates to source commit ${read.sourceCommit}.`] : []),
@@ -305,8 +317,8 @@ function defaultRequirements(read: ReturnType<typeof normalizeSource>): string[]
 function defaultClosureCriteria(read: ReturnType<typeof normalizeSource>): string[] {
   return [
     'The Need has requirements, target artifact kinds, proof expectations, and failure modes.',
-    'Candidate recall is source-bound to the accepted Need repository, branch, and commit constraints.',
-    'The Fit result exposes query root, ranking root, selected candidate ids, score evidence, and proof/readback posture.',
+    'Finding Fits discovery is source-bound to the accepted Need repository, branch, and commit constraints.',
+    'The Fit result exposes query root, ranking root, fit deposit ids, score evidence, and proof/readback posture.',
     'The AssetPack preview excludes protected source material before settlement.',
     'BTC fee, ownership, license, journal, and ledger rows must be read back before unlock.',
     ...(read.prompt ? [`The Fit must satisfy: ${read.prompt}`] : []),
@@ -402,7 +414,7 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
       protectedSourceDisclosure: 'forbidden_before_settlement',
     },
     proofExpectations: [
-      'source-bound candidate ranking root',
+      'source-bound fit deposit ranking root',
       'proof root',
       'measurement evidence',
       'settlement readback before unlock',
@@ -416,6 +428,89 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
   };
 }
 
+export async function synthesizeReadNeedForPipelineInputWithInference(
+  input: ReadNeedSourceInput,
+  execution?: any,
+): Promise<ReadNeed> {
+  const fallbackNeed = synthesizeReadNeedForPipelineInput(input);
+  if (!isAssetPackRealInferenceEnabled()) {
+    return fallbackNeed;
+  }
+
+  const read = normalizeSource(input);
+  const targetArtifactKinds = normalizeTargetArtifactKinds(input);
+  const explicitClosureCriteria = [
+    ...stringArray(input.closureCriteria),
+    ...stringArray(recordValue(input.read)?.closureCriteria),
+    ...stringArray(recordValue(input.readRequest)?.closureCriteria),
+    ...stringArray(recordValue(input.readMeasurement)?.closureCriteria),
+  ];
+  const fallbackStructured = {
+    requirements: fallbackNeed.requirements,
+    closureCriteria: fallbackNeed.closureCriteria,
+    failureModes: fallbackNeed.failureModes,
+    targetArtifactKinds: fallbackNeed.targetArtifactKinds,
+    proofExpectations: fallbackNeed.proofExpectations,
+  };
+  const inferred = await runBoundedStructuredInference({
+    agentName: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer',
+    phase: 'ReadNeedComprehensionSynthesis.comprehend',
+    step: 'try',
+    systemPrompt: [
+      'You are the ReadNeedComprehensionSynthesis PTRR agent for Bitcode Reading.',
+      'Synthesize exactly what the reader asked Bitcode to read, no more and no less.',
+      'Return only source-constrained Need comprehension fields that can later drive ReadFindingFitsSynthesis.',
+      'Do not claim that deposits were searched, that a fit exists, that BTC was paid, or that protected AssetPack source may be shown.',
+    ].join('\n'),
+    userPrompt: JSON.stringify({
+      read,
+      targetArtifactKinds,
+      closureCriteria: explicitClosureCriteria,
+      failureModes: stringArray(input.failureModes),
+      feedbackHistory: stringArray(input.feedback),
+      requiredOutput:
+        'requirements, closureCriteria, failureModes, targetArtifactKinds, proofExpectations',
+    }),
+    promptTemplate: {
+      templateId: 'ReadNeedComprehensionSynthesis.prompt.need-synthesis',
+      system: 'ReadNeedComprehensionSynthesis PTRR agent prompt',
+      user: 'Read request, source constraints, closure criteria, target artifact kinds, failure modes, and feedback history.',
+    },
+    schema: ReadNeedComprehensionSynthesisSchema,
+    fallback: () => fallbackStructured,
+    execution,
+  });
+
+  const inferredRequirements = stringArray(inferred.requirements);
+  const inferredClosureCriteria = stringArray(inferred.closureCriteria);
+  const inferredFailureModes = stringArray(inferred.failureModes);
+  const inferredTargetArtifactKinds = stringArray(inferred.targetArtifactKinds);
+  const inferredProofExpectations = stringArray(inferred.proofExpectations);
+  const closureCriteria = inferredClosureCriteria.length
+    ? inferredClosureCriteria
+    : fallbackNeed.closureCriteria;
+  const synthesized = synthesizeReadNeedForPipelineInput({
+    ...input,
+    closureCriteria,
+    failureModes: inferredFailureModes.length
+      ? inferredFailureModes
+      : fallbackNeed.failureModes,
+    targetArtifactKinds: inferredTargetArtifactKinds.length
+      ? inferredTargetArtifactKinds
+      : fallbackNeed.targetArtifactKinds,
+  });
+
+  return {
+    ...synthesized,
+    requirements: inferredRequirements.length
+      ? inferredRequirements
+      : synthesized.requirements,
+    proofExpectations: inferredProofExpectations.length
+      ? inferredProofExpectations
+      : synthesized.proofExpectations,
+  };
+}
+
 export function acceptReadNeed(
   need: ReadNeed,
   acceptedAt = new Date().toISOString()
@@ -424,7 +519,7 @@ export function acceptReadNeed(
     needId: need.needId,
     measurementRoot: need.measurementRoot,
     acceptedAt,
-    nextStage: 'need_fit_search',
+    nextStage: 'finding_fits',
   }))}`;
   return {
     ...need,
@@ -433,7 +528,7 @@ export function acceptReadNeed(
       status: 'accepted',
       acceptedAt,
       acceptanceRoot,
-      nextStage: 'need_fit_search',
+      nextStage: 'finding_fits',
     },
   };
 }
@@ -465,7 +560,7 @@ export function shouldRequireAcceptedReadNeed(input: unknown): boolean {
   );
 }
 
-export function admitNeedFitSearch(input: unknown): ReadNeedFitAdmission {
+export function admitReadFindingFits(input: unknown): ReadFindingFitsAdmission {
   const acceptedNeed = resolveReadNeedFromPipelineInput(input);
   if (isAcceptedReadNeed(acceptedNeed)) {
     return { admitted: true, blockers: [], acceptedNeed };
@@ -595,18 +690,19 @@ export function buildAssetPackSourceSafePreview(input: {
     need: input.need,
     admittedFitQuality,
   });
-  const selectedCandidateAssetIds = fitResult?.selectedCandidateAssetIds || [];
+  const fitDepositAssetIds = fitResult?.fitDepositAssetIds || fitResult?.selectedCandidateAssetIds || [];
+  const selectedCandidateAssetIds = fitResult?.selectedCandidateAssetIds || fitDepositAssetIds;
   const assetPackId = firstString(input.assetPackId)
     || `asset-pack-${sha256(stableStringify({
       needId: input.need.needId,
-      selectedCandidateAssetIds,
+      fitDepositAssetIds,
       queryRoot: fitResult?.queryRoot || null,
       rankingRoot: fitResult?.rankingRoot || null,
     })).slice(0, 16)}`;
   const sourceManifestRoot = firstString(input.sourceManifestRoot)
     || `sha256:${sha256(stableStringify({
       assetPackId,
-      selectedCandidateAssetIds,
+      fitDepositAssetIds,
       withheld: 'protected_source_before_settlement',
     }))}`;
   const proofRoot = firstString(input.proofRoot)
@@ -642,7 +738,7 @@ export function buildAssetPackSourceSafePreview(input: {
     assetPackId,
     needId: input.need.needId,
     fitResultState: fitResult?.resultState || 'blocked_readiness',
-    selectedCandidateAssetIds,
+    fitDepositAssetIds,
     feeQuoteRoot: feeQuote.quoteRoot,
     projectionRoot,
     sourceManifestRoot,
@@ -663,8 +759,9 @@ export function buildAssetPackSourceSafePreview(input: {
     },
     fit: {
       resultState: fitResult?.resultState || 'blocked_readiness',
-      resultReasons: fitResult?.resultReasons || ['Fit search has not produced worthy source-bound evidence.'],
+      resultReasons: fitResult?.resultReasons || ['Finding Fits has not produced worthy source-bound evidence.'],
       admittedFitQuality,
+      fitDepositAssetIds,
       selectedCandidateAssetIds,
       queryRoot: fitResult?.queryRoot || null,
       rankingRoot: fitResult?.rankingRoot || null,
@@ -699,7 +796,8 @@ export function buildAssetPackSourceSafePreview(input: {
       visibleBeforeSettlement: [
         'need measurement',
         'fit measurement',
-        'selected candidate ids',
+        'fit deposit ids',
+        'selected candidate ids compatibility alias',
         'roots',
         'score band',
         'proof posture',

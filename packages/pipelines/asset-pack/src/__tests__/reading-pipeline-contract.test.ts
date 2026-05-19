@@ -1,0 +1,141 @@
+import {
+  READ_FINDING_FITS_SYNTHESIS,
+  READ_FINDING_FITS_SYNTHESIS_CONTRACT,
+  READ_NEED_COMPREHENSION_SYNTHESIS,
+  READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
+  READING_PIPELINE_CONTRACTS,
+  listReadingPipelineContractSummaries,
+} from '../reading-pipeline-contract';
+
+describe('Reading pipeline contracts', () => {
+  it('names the two V28 Reading pipelines and prefixes every contract id under the pipeline name', () => {
+    expect(READING_PIPELINE_CONTRACTS.map((contract) => contract.pipelineName)).toEqual([
+      READ_NEED_COMPREHENSION_SYNTHESIS,
+      READ_FINDING_FITS_SYNTHESIS,
+    ]);
+
+    for (const contract of READING_PIPELINE_CONTRACTS) {
+      for (const phase of contract.phases) {
+        expect(phase.phaseId.startsWith(`${contract.pipelineName}.`)).toBe(true);
+        for (const agent of phase.agents) {
+          expect(agent.kind).toBe('ptrr-agent');
+          expect(agent.agentId.startsWith(`${contract.pipelineName}.`)).toBe(true);
+          expect(agent.objectiveId.startsWith(`${contract.pipelineName}.`)).toBe(true);
+          expect(agent.promptRegistry.factory).toBe('factoryAgentWithPTRR');
+          expect(agent.promptRegistry.carrier).toBe('prompt+stepPrompts');
+          expect(agent.promptRegistry.agentPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+          expect(agent.promptRegistry.promptPartNamespaces).toEqual({
+            agent: 'agent/*',
+            ptrrStep: 'ptrr/*/purpose',
+            generation: 'generation:*',
+            failsafe: 'failsafe:*',
+          });
+          expect(agent.ptrrSteps.map((step) => step.ptrrStepName)).toEqual(['plan', 'try', 'refine', 'retry']);
+          for (const promptId of Object.values(agent.promptRegistry.ptrrStepPromptIds)) {
+            expect(promptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+          }
+          for (const ptrrStep of agent.ptrrSteps) {
+            expect(ptrrStep.ptrrStepId.startsWith(`${contract.pipelineName}.`)).toBe(true);
+            expect(ptrrStep.thricifiedGenerations).toHaveLength(3);
+            for (const thricifiedGenerationId of ptrrStep.thricifiedGenerationIds) {
+              expect(thricifiedGenerationId.startsWith(`${contract.pipelineName}.thricified-generation.`)).toBe(true);
+            }
+            for (const thricifiedGeneration of ptrrStep.thricifiedGenerations) {
+              expect(thricifiedGeneration.thricifiedGenerationId.startsWith(`${contract.pipelineName}.thricified-generation.`)).toBe(true);
+              expect(thricifiedGeneration.reasonPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+              expect(thricifiedGeneration.judgePromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+              expect(thricifiedGeneration.structuredOutputPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+              expect(thricifiedGeneration.returnTypes).toEqual({
+                reason: 'Reasoning',
+                judge: 'Judgment',
+                structuredOutput: ptrrStep.outputType,
+              });
+            }
+            for (const telemetry of ptrrStep.telemetry) {
+              expect(telemetry.startsWith(`${contract.pipelineName}.telemetry.`)).toBe(true);
+            }
+            for (const tool of ptrrStep.tools) {
+              expect(tool.toolId.startsWith(`${contract.pipelineName}.tool.`)).toBe(true);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  it('locks ReadNeedComprehensionSynthesis to request, comprehend, measure, and review contracts', () => {
+    expect(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.uxStepIds).toEqual([
+      'request-read',
+      'review-synthesized-need',
+    ]);
+    expect(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.map((phase) => phase.phaseId)).toEqual([
+      'ReadNeedComprehensionSynthesis.request',
+      'ReadNeedComprehensionSynthesis.comprehend',
+      'ReadNeedComprehensionSynthesis.measure',
+      'ReadNeedComprehensionSynthesis.review',
+    ]);
+    const modelSteps = READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
+      .flatMap((phase) => phase.agents)
+      .flatMap((agent) => agent.ptrrSteps)
+      .filter((step) => step.kind === 'model-structured');
+    expect(modelSteps).toHaveLength(4);
+    for (const modelStep of modelSteps) {
+      expect(modelStep.prompt?.templateId).toBe('ReadNeedComprehensionSynthesis.prompt.need-synthesis');
+      expect(modelStep.outputType).toBe('ReadNeed');
+    }
+  });
+
+  it('locks ReadFindingFitsSynthesis to accepted-Need admission, depository search, synthesis, preview, and settlement contracts', () => {
+    expect(READ_FINDING_FITS_SYNTHESIS_CONTRACT.uxStepIds).toEqual([
+      'request-fit',
+      'review-synthesized-asset-pack',
+      'buy-asset-pack-settle',
+    ]);
+    expect(READ_FINDING_FITS_SYNTHESIS_CONTRACT.phases.map((phase) => phase.phaseId)).toEqual([
+      'ReadFindingFitsSynthesis.admit',
+      'ReadFindingFitsSynthesis.prepare',
+      'ReadFindingFitsSynthesis.discovery',
+      'ReadFindingFitsSynthesis.implementation',
+      'ReadFindingFitsSynthesis.validate',
+      'ReadFindingFitsSynthesis.preview',
+      'ReadFindingFitsSynthesis.settle',
+    ]);
+    const allSteps = READ_FINDING_FITS_SYNTHESIS_CONTRACT.phases
+      .flatMap((phase) => phase.agents)
+      .flatMap((agent) => agent.ptrrSteps);
+    expect(allSteps.filter((step) => step.kind === 'model-structured')).toHaveLength(16);
+    expect(allSteps.flatMap((step) => step.tools).map((tool) => tool.toolId)).toEqual(
+      expect.arrayContaining([
+        'ReadFindingFitsSynthesis.tool.lexical-depository-search',
+        'ReadFindingFitsSynthesis.tool.vector-depository-search',
+        'ReadFindingFitsSynthesis.tool.verification-evidence',
+        'ReadFindingFitsSynthesis.tool.vcs-create-pull-request',
+      ]),
+    );
+  });
+
+  it('summarizes counts used by V28 promotion proof and Terminal telemetry QA', () => {
+    expect(listReadingPipelineContractSummaries()).toEqual([
+      expect.objectContaining({
+        pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+        phaseCount: 4,
+        agentCount: 4,
+        ptrrAgentCount: 4,
+        ptrrStepCount: 16,
+        modelStructuredPtrrStepCount: 4,
+        thricifiedGenerationCount: 48,
+        toolCount: 0,
+      }),
+      expect.objectContaining({
+        pipelineName: READ_FINDING_FITS_SYNTHESIS,
+        phaseCount: 7,
+        agentCount: 8,
+        ptrrAgentCount: 8,
+        ptrrStepCount: 32,
+        modelStructuredPtrrStepCount: 16,
+        thricifiedGenerationCount: 96,
+        toolCount: 4,
+      }),
+    ]);
+  });
+});

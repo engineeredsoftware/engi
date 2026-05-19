@@ -119,7 +119,7 @@ describe('terminal pipeline harness client', () => {
     expect(state.missing).toContain('accepted Read-Need');
   });
 
-  it('requires accepted Read-Need review before live Need-Fit execution', () => {
+  it('requires accepted Read-Need review before live Finding Fits run', () => {
     const state = buildTerminalFitPipelineHarnessRequest({
       workbench,
       repositoryContext,
@@ -280,10 +280,16 @@ describe('terminal pipeline harness client', () => {
           stage: 'asset-pack-synthesis',
           namespace: 'llm',
           key: 'parsedOutput',
-          executionPath: ['asset_pack', 'synthesis', 'thriceified-generation'],
+          executionPath: ['asset_pack', 'synthesis', 'thricified-generation'],
           runId: '2bdcd936-a686-4a10-92e2-9c64cbef4f0e',
           dataKeys: ['parsed'],
           parsedOutputPresent: true,
+          promptTemplatePresent: true,
+          interpolatedPromptPresent: true,
+          reasoningPresent: true,
+          judgmentPresent: true,
+          rawModelResponsePresent: true,
+          parsedTypedOutputPresent: true,
           inspectable: {
             keys: ['resultState', 'assetPack'],
           },
@@ -294,10 +300,16 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('Telemetry line 8');
     expect(summary).toContain('asset-pack-synthesis store');
     expect(summary).toContain('llm.parsedOutput');
-    expect(summary).toContain('path asset_pack > synthesis > thriceified-generation');
+    expect(summary).toContain('path asset_pack > synthesis > thricified-generation');
     expect(summary).toContain('run 2bdcd936-a68...');
     expect(summary).toContain('inspectable resultState, assetPack');
+    expect(summary).toContain('prompt template present');
+    expect(summary).toContain('interpolated prompt present');
+    expect(summary).toContain('reasoning present');
+    expect(summary).toContain('judgment present');
+    expect(summary).toContain('raw response present');
     expect(summary).toContain('parsed output present');
+    expect(summary).toContain('parsed typed output present');
   });
 
   it('summarizes live tool telemetry with tool name, result state, and input/output posture', () => {
@@ -356,7 +368,17 @@ describe('terminal pipeline harness client', () => {
               },
               inputMessageCount: 2,
               outputContentLength: 1200,
+              promptTemplatePresent: true,
+              interpolatedPromptPresent: true,
+              rawModelResponsePresent: true,
               parsedOutputPresent: true,
+              parsedTypedOutputPresent: true,
+              inferenceAudit: {
+                promptTemplate: { type: 'object', keys: ['templateId'] },
+                interpolatedPrompt: { type: 'object', keys: ['messages'] },
+                rawModelResponse: { type: 'string', length: 1200 },
+                parsedTypedOutput: { type: 'object', keys: ['assetPack'] },
+              },
             },
           },
         },
@@ -411,6 +433,12 @@ describe('terminal pipeline harness client', () => {
           step: 'structured_output',
         },
       },
+    });
+    expect((snapshot.outputDetails[telemetryLine as string] as any).status.metadata.inferenceAudit).toMatchObject({
+      promptTemplate: { type: 'object', keys: ['templateId'] },
+      interpolatedPrompt: { type: 'object', keys: ['messages'] },
+      rawModelResponse: { type: 'string', length: 1200 },
+      parsedTypedOutput: { type: 'object', keys: ['assetPack'] },
     });
     const toolLine = snapshot.output
       .split('\n')

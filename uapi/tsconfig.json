@@ -49,6 +49,9 @@
       "@bitcode/pipeline-asset-pack/read-need": [
         "../packages/pipelines/asset-pack/src/read-need.ts"
       ],
+      "@bitcode/pipeline-asset-pack/reading-pipeline-contract": [
+        "../packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+      ],
       "@bitcode/*": [
         "../packages/*/src",
         "../packages/*"

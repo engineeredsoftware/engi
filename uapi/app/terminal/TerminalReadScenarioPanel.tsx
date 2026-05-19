@@ -154,8 +154,8 @@ export default function TerminalReadScenarioPanel({
       });
       setActionMessage(
         fitSearchAdmission?.admitted
-          ? `Read accepted for source-to-shares fit search. Next: ${nextProtocolAction}.`
-          : `Read review recorded. Fit search remains blocked. Next: ${nextProtocolAction}.`,
+          ? `Read accepted for Finding Fits. Next: ${nextProtocolAction}.`
+          : `Read review recorded. Finding Fits remains blocked. Next: ${nextProtocolAction}.`,
       );
     } catch (error) {
       setActionMessage(error instanceof Error ? error.message : 'Unable to review the active Read.');
@@ -232,7 +232,7 @@ export default function TerminalReadScenarioPanel({
           }}
           className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isReviewing ? 'Reviewing Read…' : 'Accept Read for fit search'}
+          {isReviewing ? 'Reviewing Read…' : 'Accept Read for Finding Fits'}
         </button>
         <button
           type="button"
@@ -295,7 +295,7 @@ export default function TerminalReadScenarioPanel({
                 : readFittingReview?.task || 'Reviewable Read admission is pending.'}
             </h3>
             <p className="mt-2 text-sm leading-6 text-neutral-300">
-              Terminal reads the same `/api/read-review` boundary that Exchange uses before candidate recall,
+              Terminal reads the same `/api/read-review` boundary that Exchange uses before Finding Fits discovery,
               fitting, AssetPack assembly, and present-fit settlement review.
             </p>
           </div>
