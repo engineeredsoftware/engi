@@ -45,6 +45,7 @@ jobs:
           node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V27
           node scripts/check-v28-metadevelopment-readiness.mjs --skip-branch-check
+          node scripts/check-v28-gate9-depository-evidence.mjs
           node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
 
       - name: Validate source casing and imports

@@ -190,6 +190,14 @@ Read Request, Read-Need synthesis/review/resynthesis, Finding Fits, AssetPack
 preview, BTC settlement, read-license/right transfer, protected-source unlock,
 PR delivery, Terminal UX, documentation, proof coverage, and live validation.
 
+Gate 9 introduces the deposited-source evidence spine that later gates consume.
+Depositing now produces proof, measurement, reconciliation readback, lexical
+document, vector document, and aggregate depository search roots; projects those
+roots through Terminal execution history; and carries them into the Read/Fit
+harness deposit reference. The vector document policy is explicit:
+`text-embedding-3-small`, 1536 dimensions, `deliverable_vectors`, and
+`match_deliverable_vectors`.
+
 ## Later Version Handoff
 
 - V29: deeper Terminal workflows and transaction operation beyond V28 MVP QA.

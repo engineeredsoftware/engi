@@ -10,6 +10,14 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   contextSource?: string | null;
   contextWorkbench?: string | null;
   candidateAssetId?: string | null;
+  depositProofRoot?: string | null;
+  depositMeasurementRoot?: string | null;
+  depositReconciliationReadbackRoot?: string | null;
+  depositorySearchDocumentRoot?: string | null;
+  lexicalDocumentRoot?: string | null;
+  vectorDocumentRoot?: string | null;
+  depositorWalletId?: string | null;
+  depositoryIndexState?: string | null;
   participant?: string | null;
   sourceModel?: 'execution-history' | 'protocol-projection' | 'mock-review';
   isOwnTransaction?: boolean;

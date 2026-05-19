@@ -794,6 +794,31 @@ repository inventory, deposit admission, depository evidence storage,
 measurement vectors, wallet/depositor boundaries, search-index population, and
 Terminal visibility for deposited source materials.
 
+Gate 9 acceptance closes only when a deposited repository revision produces a
+single evidence spine usable by later Reading gates:
+
+- the deposit route returns and persists a source-bound depository evidence
+  envelope containing repository, branch, commit, asset id, content root, proof
+  root, measurement root, reconciliation readback root, lexical search document
+  root, vector search document root, and aggregate depository search document
+  root;
+- the depositor boundary is explicit as a wallet/signer ownership boundary,
+  with the deposited asset owned by the depositor before any Reader settlement
+  or read-license transfer;
+- the vector document contract names the embedding policy
+  `text-embedding-3-small`, 1536 dimensions, and the `deliverable_vectors` /
+  `match_deliverable_vectors` store/RPC boundary, while lexical search remains
+  deterministic and source-rooted;
+- Terminal execution-history rows retain the deposit evidence roots and replay
+  them into the latest deposited source revision so the Read/Fit harness can
+  pass proof, measurement, and readback roots into Finding Fits;
+- Terminal Deposit + Read surfaces show the deposit asset id, depositor wallet,
+  source proof roots, search document roots, and index state without requiring
+  operators to inspect raw JSON;
+- the Gate 9 SQL/readback query checks recent deposit rows for repository
+  alignment, candidate asset id, source proof roots, depository search document
+  roots, depositor boundary, and vector embedding policy posture.
+
 ### Gate 10: Read Request To Read-Need Comprehension
 
 Gate 10 owns the enterprise Reading start: request Read, synthesize a

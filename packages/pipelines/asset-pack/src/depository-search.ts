@@ -1258,6 +1258,11 @@ export function normalizePipelineDepositoryAssets(input: unknown): DepositoryAss
         mutableInBranch: false,
         materializationRoot: `.bitcode/source-material/${assetId}`,
       },
+      verificationEvidence: {
+        proofRoot: firstString(depositRecord.proofRoot),
+        measurementRoot: firstString(depositRecord.measurementRoot),
+        reconciliationReadbackRoot: firstString(depositRecord.reconciliationReadbackRoot),
+      },
       hasWalletOrAttestationProof: depositRecord.hasWalletOrAttestationProof === true,
       hasAssetMeasurementEvidence: depositRecord.hasAssetMeasurementEvidence === true,
     },

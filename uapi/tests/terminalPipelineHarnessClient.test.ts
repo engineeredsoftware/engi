@@ -81,6 +81,9 @@ describe('terminal pipeline harness client', () => {
         depositAssetId: 'asset-repository-revision',
         hasWalletOrAttestationProof: true,
         hasAssetMeasurementEvidence: true,
+        proofRoot: 'sha256:proof',
+        measurementRoot: 'sha256:measurement',
+        reconciliationReadbackRoot: 'sha256:readback',
       },
       readActivityId: 'read-admission-activity',
       acceptedReadNeed,
@@ -101,6 +104,9 @@ describe('terminal pipeline harness client', () => {
       depositAssetId: 'asset-repository-revision',
       depositHasWalletOrAttestationProof: true,
       depositHasAssetMeasurementEvidence: true,
+      depositProofRoot: 'sha256:proof',
+      depositMeasurementRoot: 'sha256:measurement',
+      depositReconciliationReadbackRoot: 'sha256:readback',
     });
   });
 

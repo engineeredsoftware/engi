@@ -553,6 +553,23 @@ Need synthesis/review/resynthesis, Finding Fits over the depository, source-safe
 AssetPack preview, BTC settlement, read-license/right transfer, pull-request
 delivery, Terminal usability, proof coverage, and local/live validation.
 
+## Gate 9 depository evidence closure notes
+
+Gate 9 closes the first product gate after metadevelopment by making Deposit
+evidence reusable by later Reading gates. A deposited repository revision must
+emit proof, measurement, reconciliation readback, lexical document, vector
+document, and aggregate depository search roots. Terminal activity history must
+persist those roots and project them back into the latest deposited source
+revision. The Read/Fit harness must receive the same roots in its deposit
+reference so Finding Fits can distinguish real proof-bearing deposited supply
+from local placeholders.
+
+The vector search document policy for V28 Gate 9 is `text-embedding-3-small`,
+1536 dimensions, `deliverable_vectors`, `match_deliverable_vectors`, and cosine
+distance. Gate 9 records the vector document as ready for embedding generation;
+later Finding Fits and live validation gates own provider execution, ranking,
+settlement, and protected-source disclosure boundaries.
+
 ## Non-Goals For V28
 
 - V28 does not implement or QA Exchange product behavior, broad order-book depth, external market routing, wrapper liquidity, or third-party marketplace integration.

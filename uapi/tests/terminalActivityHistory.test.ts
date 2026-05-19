@@ -147,6 +147,14 @@ describe('terminal-activity-history', () => {
         workbench: null,
         candidateAssetId: 'asset_source_001',
         sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        depositProofRoot: 'sha256:proof',
+        depositMeasurementRoot: 'sha256:measurement',
+        depositReconciliationReadbackRoot: 'sha256:readback',
+        depositorySearchDocumentRoot: 'sha256:search-doc',
+        lexicalDocumentRoot: 'sha256:lexical-doc',
+        vectorDocumentRoot: 'sha256:vector-doc',
+        depositorWalletId: 'wallet:tb1p-source',
+        depositoryIndexState: 'ready_for_embedding_generation',
       },
       repo_snapshot: {
         org: 'source-org',
@@ -162,6 +170,14 @@ describe('terminal-activity-history', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       contextSource: 'terminal-deposit-composer',
       candidateAssetId: 'asset_source_001',
+      depositProofRoot: 'sha256:proof',
+      depositMeasurementRoot: 'sha256:measurement',
+      depositReconciliationReadbackRoot: 'sha256:readback',
+      depositorySearchDocumentRoot: 'sha256:search-doc',
+      lexicalDocumentRoot: 'sha256:lexical-doc',
+      vectorDocumentRoot: 'sha256:vector-doc',
+      depositorWalletId: 'wallet:tb1p-source',
+      depositoryIndexState: 'ready_for_embedding_generation',
     });
   });
 

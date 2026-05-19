@@ -249,6 +249,9 @@ describe('AssetPack depository search', () => {
         assetId: 'asset-1',
         hasWalletOrAttestationProof: true,
         hasAssetMeasurementEvidence: true,
+        proofRoot: 'sha256:manifest-proof',
+        measurementRoot: 'sha256:manifest-measurement',
+        reconciliationReadbackRoot: 'sha256:manifest-readback',
       },
     });
 
@@ -256,6 +259,11 @@ describe('AssetPack depository search', () => {
     expect(normalized[0].assetId).toBe('asset-1');
     expect(normalized[0].repositoryFullName).toBe('engineeredsoftware/ENGI');
     expect(normalized[0].hasWalletOrAttestationProof).toBe(true);
+    expect(normalized[0].verificationEvidence).toMatchObject({
+      proofRoot: 'sha256:manifest-proof',
+      measurementRoot: 'sha256:manifest-measurement',
+      reconciliationReadbackRoot: 'sha256:manifest-readback',
+    });
   });
 
   it('stores depository search and fit result evidence during pipeline preprocess', async () => {

@@ -804,8 +804,15 @@ export function createAppContext({
 
     state.assets.unshift(asset);
     state.ledger.accounts[`supplier:${asset.assetId}:pending_claims`] = '0';
+    if (asset.depositoryEvidence?.depositorBoundary?.walletId) {
+      const depositorAssetsKey = `depositor:${asset.depositoryEvidence.depositorBoundary.walletId}:deposited_assets`;
+      const priorDepositorAssetCount = Number(state.ledger.accounts[depositorAssetsKey] || '0');
+      state.ledger.accounts[depositorAssetsKey] = String(
+        Number.isFinite(priorDepositorAssetCount) ? priorDepositorAssetCount + 1 : 1
+      );
+    }
     writeState(state);
-    return { ok: true, asset };
+    return { ok: true, asset, depositoryEvidence: asset.depositoryEvidence || null };
   }
 
   /**
