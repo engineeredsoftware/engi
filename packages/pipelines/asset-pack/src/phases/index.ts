@@ -62,7 +62,7 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
  */
 export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
   try { registerImplementationAgents((execution as any).agents); } catch {}
-  const synthesize = createAgentExecutor('implementation:asset-pack-synthesize-artifacts-agent');
+  const synthesize = createAgentExecutor('implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent');
   return await synthesize(input, execution);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 

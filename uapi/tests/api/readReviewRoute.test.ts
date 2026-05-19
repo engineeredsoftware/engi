@@ -279,7 +279,7 @@ describe('/api/read-review', () => {
 
     expect(acceptResponse.status).toBe(200);
     expect(payload.pipelineName).toBe('ReadNeedComprehensionSynthesis');
-    expect(payload.nextPipelineName).toBe('ReadFindingFitsSynthesis');
+    expect(payload.nextPipelineName).toBe('ReadFitsFindingSynthesis');
     expect(payload.stage).toBe('request_fit_ready');
     expect(payload.acceptedReadNeed).toMatchObject({
       schema: 'bitcode.read.need',
@@ -292,14 +292,14 @@ describe('/api/read-review', () => {
       schema: 'bitcode.read.request',
       requestId: synthesis.readRequest.requestId,
     });
-    expect(payload.findingFitsAdmission).toMatchObject({
+    expect(payload.fitsFindingAdmission).toMatchObject({
       admitted: true,
       blockers: [],
     });
     expect(payload.telemetry).toMatchObject({
       schema: 'bitcode.read-need.acceptance-telemetry',
       pipelineName: 'ReadNeedComprehensionSynthesis',
-      nextPipelineName: 'ReadFindingFitsSynthesis',
+      nextPipelineName: 'ReadFitsFindingSynthesis',
       needId: synthesis.readNeed.needId,
       nextStage: 'finding_fits',
       returnType: 'AcceptedReadNeed',

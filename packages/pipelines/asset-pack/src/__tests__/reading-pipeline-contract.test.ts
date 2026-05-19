@@ -1,6 +1,6 @@
 import {
-  READ_FINDING_FITS_SYNTHESIS,
-  READ_FINDING_FITS_SYNTHESIS_CONTRACT,
+  READ_FITS_FINDING_SYNTHESIS,
+  READ_FITS_FINDING_SYNTHESIS_CONTRACT,
   READ_NEED_COMPREHENSION_SYNTHESIS,
   READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
   READING_PIPELINE_CONTRACTS,
@@ -12,7 +12,7 @@ describe('Reading pipeline contracts', () => {
   it('names the two V28 Reading pipelines and prefixes every contract id under the pipeline name', () => {
     expect(READING_PIPELINE_CONTRACTS.map((contract) => contract.pipelineName)).toEqual([
       READ_NEED_COMPREHENSION_SYNTHESIS,
-      READ_FINDING_FITS_SYNTHESIS,
+      READ_FITS_FINDING_SYNTHESIS,
     ]);
 
     for (const contract of READING_PIPELINE_CONTRACTS) {
@@ -86,31 +86,31 @@ describe('Reading pipeline contracts', () => {
     }
   });
 
-  it('locks ReadFindingFitsSynthesis to accepted-Need admission, depository search, synthesis, preview, and settlement contracts', () => {
-    expect(READ_FINDING_FITS_SYNTHESIS_CONTRACT.uxStepIds).toEqual([
+  it('locks ReadFitsFindingSynthesis to accepted-Need admission, depository search, synthesis, preview, and settlement contracts', () => {
+    expect(READ_FITS_FINDING_SYNTHESIS_CONTRACT.uxStepIds).toEqual([
       'request-fit',
       'review-synthesized-asset-pack',
       'buy-asset-pack-settle',
     ]);
-    expect(READ_FINDING_FITS_SYNTHESIS_CONTRACT.phases.map((phase) => phase.phaseId)).toEqual([
-      'ReadFindingFitsSynthesis.admit',
-      'ReadFindingFitsSynthesis.prepare',
-      'ReadFindingFitsSynthesis.discovery',
-      'ReadFindingFitsSynthesis.implementation',
-      'ReadFindingFitsSynthesis.validate',
-      'ReadFindingFitsSynthesis.preview',
-      'ReadFindingFitsSynthesis.settle',
+    expect(READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases.map((phase) => phase.phaseId)).toEqual([
+      'ReadFitsFindingSynthesis.admit',
+      'ReadFitsFindingSynthesis.prepare',
+      'ReadFitsFindingSynthesis.discovery',
+      'ReadFitsFindingSynthesis.implementation',
+      'ReadFitsFindingSynthesis.validate',
+      'ReadFitsFindingSynthesis.preview',
+      'ReadFitsFindingSynthesis.settle',
     ]);
-    const allSteps = READ_FINDING_FITS_SYNTHESIS_CONTRACT.phases
+    const allSteps = READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases
       .flatMap((phase) => phase.agents)
       .flatMap((agent) => agent.ptrrSteps);
     expect(allSteps.filter((step) => step.kind === 'model-structured')).toHaveLength(16);
     expect(allSteps.flatMap((step) => step.tools).map((tool) => tool.toolId)).toEqual(
       expect.arrayContaining([
-        'ReadFindingFitsSynthesis.tool.lexical-depository-search',
-        'ReadFindingFitsSynthesis.tool.vector-depository-search',
-        'ReadFindingFitsSynthesis.tool.verification-evidence',
-        'ReadFindingFitsSynthesis.tool.vcs-create-pull-request',
+        'ReadFitsFindingSynthesis.tool.lexical-depository-search',
+        'ReadFitsFindingSynthesis.tool.vector-depository-search',
+        'ReadFitsFindingSynthesis.tool.verification-evidence',
+        'ReadFitsFindingSynthesis.tool.vcs-create-pull-request',
       ]),
     );
   });
@@ -128,7 +128,7 @@ describe('Reading pipeline contracts', () => {
         toolCount: 0,
       }),
       expect.objectContaining({
-        pipelineName: READ_FINDING_FITS_SYNTHESIS,
+        pipelineName: READ_FITS_FINDING_SYNTHESIS,
         phaseCount: 7,
         agentCount: 8,
         ptrrAgentCount: 8,
@@ -142,15 +142,15 @@ describe('Reading pipeline contracts', () => {
 
   it('lists every PTRR step as telemetry-ready trace entries with ThricifiedGeneration substeps', () => {
     const readNeedTrace = listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT);
-    const findingFitsTrace = listReadingPipelineTelemetryTrace(READ_FINDING_FITS_SYNTHESIS_CONTRACT);
+    const fitsFindingTrace = listReadingPipelineTelemetryTrace(READ_FITS_FINDING_SYNTHESIS_CONTRACT);
 
     expect(readNeedTrace).toHaveLength(16);
-    expect(findingFitsTrace).toHaveLength(32);
+    expect(fitsFindingTrace).toHaveLength(32);
     expect(readNeedTrace.map((entry) => entry.ptrrStepId)).toContain(
       'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
     );
 
-    for (const entry of [...readNeedTrace, ...findingFitsTrace]) {
+    for (const entry of [...readNeedTrace, ...fitsFindingTrace]) {
       expect(entry.agentId.startsWith(`${entry.pipelineName}.`)).toBe(true);
       expect(entry.thricifiedGenerationIds).toHaveLength(3);
       expect(entry.thricifiedGenerations).toHaveLength(3);

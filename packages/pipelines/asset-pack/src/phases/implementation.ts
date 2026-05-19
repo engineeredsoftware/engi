@@ -9,7 +9,7 @@
 import { createPhaseRunner, type AgentStep, type PhaseConfig } from '@bitcode/pipelines-generics';
 
 function createImplementationSequence(_assetPackWrittenAssetType: string): AgentStep[] {
-  return [{ agent: 'implementation:asset-pack-synthesize-artifacts-agent' }];
+  return [{ agent: 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent' }];
 }
 
 export function createImplementationPhaseConfig(assetPackWrittenAssetType: string): PhaseConfig {
@@ -33,7 +33,7 @@ export function registerImplementationAgentsForType(
 
 export function registerImplementationAgents(agentRegistry: any): void {
   agentRegistry.registerAgent(
-    'implementation:asset-pack-synthesize-artifacts-agent',
-    () => import('../agents/implementation/asset-pack-synthesize-artifacts-agent').then(m => m.default)
+    'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
+    () => import('../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(m => m.default)
   );
 }

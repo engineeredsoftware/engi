@@ -1,6 +1,6 @@
 import {
   acceptReadNeed,
-  admitReadFindingFits,
+  admitReadFitsFinding,
   buildAssetPackSourceSafePreview,
   buildShareToFeePreview,
   isAcceptedReadNeed,
@@ -120,7 +120,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     const accepted = acceptReadNeed(synthesizeReadNeedForPipelineInput(input), '2026-05-18T00:00:00.000Z');
 
     expect(isAcceptedReadNeed(accepted)).toBe(true);
-    expect(admitReadFindingFits({ acceptedReadNeed: accepted, requireAcceptedReadNeed: true })).toMatchObject({
+    expect(admitReadFitsFinding({ acceptedReadNeed: accepted, requireAcceptedReadNeed: true })).toMatchObject({
       admitted: true,
       acceptedNeed: accepted,
       blockers: [],

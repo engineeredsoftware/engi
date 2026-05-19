@@ -1026,7 +1026,7 @@ Manual steps:
    chain with a `measured` next-state message.
 6. Admit the measured Read for Finding Fits. Capture the `/api/executions/history`
    request and response; expected status is `201` with
-   `findingFitsAdmission.admitted=true`.
+   `fitsFindingAdmission.admitted=true`.
 7. Record Fit result posture. Capture the `/api/executions/history` request and
    response; expected status is `201`.
 8. If a branch, AssetPack, BTC fee, ledger anchor, or settlement control becomes
@@ -1358,7 +1358,7 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
 | Gate | Scope | Acceptance boundary |
 | --- | --- | --- |
 | Need synthesis review | Split "What is the need?" from Finding Fits. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, pricing measurement inputs, and a Need measurement root. | User can accept the Need or request resynthesis with feedback. No Finding Fits, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. The accepted Need id, feedback history, telemetry, and measurement root become the only valid input to Finding Fits. |
-| ReadFindingFitsSynthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
+| ReadFitsFindingSynthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
 | Source-safe preview | Show enough proof to decide whether to pay without leaking source. | Preview may show Need/Fit measurements, score bands, roots, candidate ids, proof posture, ownership boundary, settlement boundary, and BTC quote. It must not expose protected AssetPack source before settlement. |
 | Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from `sum(measurement_weight * measurement_volume * admitted_fit_quality)` and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
 | Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to a server-side stream/socket handler or durable queue; the push is run-id correlated, authenticated, idempotent, and durable before sandbox stop. Terminal can reattach and read final state without the starter route waiting. |
@@ -1379,7 +1379,7 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
 - The Vercel Sandbox harness now lists Need stages in the manifest and
   synthesizes plus accepts a Need before invoking the existing source-bound
   AssetPack pipeline. This preserves the current proven staging-testnet path
-  while Terminal is split into user-visible Need review and ReadFindingFitsSynthesis
+  while Terminal is split into user-visible Need review and ReadFitsFindingSynthesis
   steps.
 - `buildShareToFeePreview` provides the initial source-safe quote shape from
   accepted Need measurement vector and admitted Fit quality:
@@ -1673,7 +1673,7 @@ manifest-bound Deposit evidence root fixes:
   `pnpm -C packages/agent-generics exec tsc --noEmit --pretty false`,
   `pnpm -C packages/pipelines-generics test`,
   `pnpm -C packages/pipelines-generics exec tsc --noEmit --pretty false`,
-  `pnpm -C packages/pipelines/asset-pack test -- setup-agents discovery-semantic-mirrors depository-search depository-search-tool asset-pack-synthesize-artifacts-agent runtime-inference-policy bounded-structured-inference`,
+  `pnpm -C packages/pipelines/asset-pack test -- setup-agents discovery-semantic-mirrors depository-search depository-search-tool read-fits-finding-synthesis-asset-pack-synthesis-agent runtime-inference-policy bounded-structured-inference`,
   `pnpm -C packages/pipelines/asset-pack exec tsc --noEmit --pretty false`,
   `pnpm -C packages/pipeline-hosts test -- asset-pack-harness`,
   `pnpm -C packages/pipeline-hosts exec tsc --noEmit --pretty false`,
@@ -1763,7 +1763,7 @@ manifest-bound Deposit evidence root fixes:
   page errors: `Request Read`, `Review synthesized Need`, `Request Fit`,
   `Review synthesized AssetPack`, and `Buy AssetPack, settle`. The same page
   rendered both pipeline names,
-  `ReadNeedComprehensionSynthesis` and `ReadFindingFitsSynthesis`.
+  `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`.
 - Real-model parsing now tolerates common non-contract surface variance without
   weakening typed output: scalar list fields are normalized to arrays, and
   nonnumeric PTRR confidence/quality labels fail closed to score `0` instead

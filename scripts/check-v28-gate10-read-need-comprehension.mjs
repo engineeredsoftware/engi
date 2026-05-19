@@ -10,9 +10,11 @@ const checks = [
     needles: [
       'Gate 10: Read Request To Read-Need Comprehension',
       'ReadNeedComprehensionSynthesis',
+      'ReadFitsFindingSynthesis',
       'request Read, synthesize a',
       'block Finding Fits until the Need',
     ],
+    forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
     file: 'BITCODE_SPEC_V28_PARITY_MATRIX.md',
@@ -20,7 +22,18 @@ const checks = [
       'Read Request capture',
       'Read-Need synthesis, review, and resynthesis',
       'ReadNeedComprehensionSynthesis',
+      'ReadFitsFindingSynthesis',
     ],
+    forbidden: ['ReadFindingFitsSynthesis'],
+  },
+  {
+    file: 'BITCODE_V28_QA.md',
+    needles: [
+      'ReadNeedComprehensionSynthesis',
+      'ReadFitsFindingSynthesis',
+      'fitsFindingAdmission.admitted=true',
+    ],
+    forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
     file: 'packages/pipelines/asset-pack/src/read-need.ts',
@@ -30,19 +43,61 @@ const checks = [
       'previousReadNeed',
       'previousNeedId',
       'synthesizeReadNeedForPipelineInputWithInference',
-      'admitReadFindingFits',
+      'admitReadFitsFinding',
     ],
+    forbidden: ['admitReadFindingFits', 'ReadFindingFitsAdmission'],
   },
   {
     file: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
     needles: [
       'READ_NEED_COMPREHENSION_SYNTHESIS',
+      'READ_FITS_FINDING_SYNTHESIS',
+      'ReadFitsFindingSynthesis',
       'type PTRRAgentConfig',
       'listReadingPipelineTelemetryTrace',
       'factoryAgentWithPTRR',
       'thricifiedGenerationIds',
     ],
-    forbidden: ['PptrAgentConfig', 'PtrrAgentConfig'],
+    forbidden: ['PptrAgentConfig', 'PtrrAgentConfig', 'READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis'],
+  },
+  {
+    file: 'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
+    needles: [
+      'ReadFitsFindingSynthesisSetupPlanAgent',
+      'ReadFitsFindingSynthesis.prompt.setup-plan',
+    ],
+    forbidden: ['asset-pack-setup-plan-agent', 'realSetupPlanAgent'],
+  },
+  {
+    file: 'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
+    needles: [
+      'ReadFitsFindingSynthesisReadComprehensionAgent',
+      'ReadFitsFindingSynthesis.prompt.read-comprehension',
+    ],
+    forbidden: ['asset-pack-comprehend-read-agent', 'AssetPackComprehendReadAgent', 'bitcode-setup-read-comprehension'],
+  },
+  {
+    file: 'packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
+    needles: [
+      'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
+      'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
+    ],
+    forbidden: ['asset-pack-synthesize-artifacts-agent', 'AssetPackSynthesizeArtifactsAgent'],
+  },
+  {
+    file: 'packages/pipelines/asset-pack/src/phases/setup.ts',
+    needles: [
+      'setup:ReadFitsFindingSynthesisSetupPlanAgent',
+      'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
+    ],
+    forbidden: ['setup:asset-pack-setup-plan-agent', 'setup:asset-pack-comprehend-read-agent'],
+  },
+  {
+    file: 'packages/pipelines/asset-pack/src/phases/implementation.ts',
+    needles: [
+      'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
+    ],
+    forbidden: ['implementation:asset-pack-synthesize-artifacts-agent'],
   },
   {
     file: 'uapi/app/api/read-review/route.ts',
@@ -52,8 +107,10 @@ const checks = [
       'accept_read_need',
       'readRequest: readNeed.request',
       'pipelineTrace: listReadingPipelineTelemetryTrace',
-      'findingFitsAdmission',
+      'READ_FITS_FINDING_SYNTHESIS',
+      'fitsFindingAdmission',
     ],
+    forbidden: ['READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
     file: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
@@ -63,8 +120,9 @@ const checks = [
       'Accept Read-Need',
       'Request Fit',
       'previousReadNeed',
-      'findingFitsAdmission',
+      'fitsFindingAdmission',
     ],
+    forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission', 'TerminalFitPipelineHarness', 'readFitProgress'],
   },
   {
     file: 'uapi/tests/api/readReviewRoute.test.ts',

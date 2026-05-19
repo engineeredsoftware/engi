@@ -104,11 +104,11 @@ export async function POST(request: Request) {
     }
 
     if (action === 'accept_read_need') {
-      const { acceptReadNeed, admitReadFindingFits } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const { acceptReadNeed, admitReadFitsFinding } = await import('@bitcode/pipeline-asset-pack/read-need');
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
-        READ_FINDING_FITS_SYNTHESIS,
+        READ_FITS_FINDING_SYNTHESIS,
         listReadingPipelineTelemetryTrace,
         summarizeReadingPipelineContract,
       } = await import('@bitcode/pipeline-asset-pack/reading-pipeline-contract');
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
       }
 
       const acceptedReadNeed = acceptReadNeed(readNeed as unknown as Parameters<typeof acceptReadNeed>[0]);
-      const findingFitsAdmission = admitReadFindingFits({
+      const fitsFindingAdmission = admitReadFitsFinding({
         acceptedReadNeed,
         requireAcceptedReadNeed: true,
       });
@@ -130,13 +130,13 @@ export async function POST(request: Request) {
       return NextResponse.json({
         ok: true,
         pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
-        nextPipelineName: READ_FINDING_FITS_SYNTHESIS,
+        nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
         stage: 'request_fit_ready',
         action,
         acceptedReadNeed,
         readNeed: acceptedReadNeed,
         readRequest: acceptedReadNeed.request,
-        findingFitsAdmission,
+        fitsFindingAdmission,
         telemetry: {
           schema: 'bitcode.read-need.acceptance-telemetry',
           pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
@@ -153,7 +153,7 @@ export async function POST(request: Request) {
           readRequest: acceptedReadNeed.request,
           feedbackHistory: acceptedReadNeed.feedbackHistory,
           nextStage: acceptedReadNeed.review?.nextStage || 'finding_fits',
-          nextPipelineName: READ_FINDING_FITS_SYNTHESIS,
+          nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
           returnType: 'AcceptedReadNeed',
         },
         nextProtocolAction: 'Run Finding Fits with the accepted Read-Need.',

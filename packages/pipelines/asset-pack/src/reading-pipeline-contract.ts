@@ -1,9 +1,9 @@
 export const READ_NEED_COMPREHENSION_SYNTHESIS = 'ReadNeedComprehensionSynthesis' as const;
-export const READ_FINDING_FITS_SYNTHESIS = 'ReadFindingFitsSynthesis' as const;
+export const READ_FITS_FINDING_SYNTHESIS = 'ReadFitsFindingSynthesis' as const;
 
 export type ReadingPipelineName =
   | typeof READ_NEED_COMPREHENSION_SYNTHESIS
-  | typeof READ_FINDING_FITS_SYNTHESIS;
+  | typeof READ_FITS_FINDING_SYNTHESIS;
 
 export type ReadingPipelinePtrrStepName = 'plan' | 'try' | 'refine' | 'retry';
 
@@ -130,15 +130,15 @@ const READ_NEED_PROMPT_TEMPLATE = [
   'Do not search deposits, reveal protected source, quote final settlement, or claim a fit before user Need acceptance.',
 ].join('\n');
 
-const READ_FINDING_FITS_PROMPT_TEMPLATE = [
-  'You are the ReadFindingFitsSynthesis AssetPack synthesis agent.',
+const READ_FITS_FINDING_PROMPT_TEMPLATE = [
+  'You are the ReadFitsFindingSynthesis AssetPack synthesis agent.',
   'Use only the accepted Read-Need and source-bound depository evidence.',
   'Return worthy_fit, no_worthy_fit, or blocked_readiness with search, ranking, synthesis, validation, preview, and settlement-readiness evidence.',
   'Do not expose protected source before settlement and do not claim BTC/ledger finality without readback.',
 ].join('\n');
 
 const readNeedTelemetry = (suffix: string) => `${READ_NEED_COMPREHENSION_SYNTHESIS}.telemetry.${suffix}`;
-const readFitTelemetry = (suffix: string) => `${READ_FINDING_FITS_SYNTHESIS}.telemetry.${suffix}`;
+const readFitsFindingTelemetry = (suffix: string) => `${READ_FITS_FINDING_SYNTHESIS}.telemetry.${suffix}`;
 
 const PTRR_STEP_NAMES: ReadingPipelinePtrrStepName[] = ['plan', 'try', 'refine', 'retry'];
 const THRICIFIED_FAILSAFES: ReadingPipelineThricifiedFailsafe[] = [
@@ -261,7 +261,7 @@ function ptrrAgent(config: PTRRAgentConfig): ReadingPipelineAgentContract {
 export const READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
   pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
   purpose:
-    'Turn an enterprise Read Request into a reviewed, measured, source-constrained Need before ReadFindingFitsSynthesis can run.',
+    'Turn an enterprise Read Request into a reviewed, measured, source-constrained Need before ReadFitsFindingSynthesis can run.',
   uxStepIds: ['request-read', 'review-synthesized-need'],
   phases: [
     {
@@ -366,46 +366,46 @@ export const READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT: ReadingPipelineContract
   ],
 };
 
-export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
-  pipelineName: READ_FINDING_FITS_SYNTHESIS,
+export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
+  pipelineName: READ_FITS_FINDING_SYNTHESIS,
   purpose:
     'Search the Bitcode Depository with an accepted Need, synthesize a source-safe AssetPack preview, and prepare settlement-bound delivery evidence.',
   uxStepIds: ['request-fit', 'review-synthesized-asset-pack', 'buy-asset-pack-settle'],
   phases: [
     {
-      phaseId: 'ReadFindingFitsSynthesis.admit',
+      phaseId: 'ReadFitsFindingSynthesis.admit',
       stores: ['read/need.accepted', 'fit/admission'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'admit',
           agentKey: 'accepted-need-gate',
-          objectiveId: 'ReadFindingFitsSynthesis.admit.accepted-need-gate.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.admit.accepted-need-gate.objective',
           kind: 'deterministic',
-          returnType: 'ReadFindingFitsAdmission',
+          returnType: 'ReadFitsFindingAdmission',
           inputType: 'AcceptedReadNeed',
           stores: ['fit/admission.result'],
           telemetry: [
-            readFitTelemetry('need-id'),
-            readFitTelemetry('measurement-root'),
-            readFitTelemetry('blockers'),
-            readFitTelemetry('admitted'),
+            readFitsFindingTelemetry('need-id'),
+            readFitsFindingTelemetry('measurement-root'),
+            readFitsFindingTelemetry('blockers'),
+            readFitsFindingTelemetry('admitted'),
           ],
         }),
       ],
     },
     {
-      phaseId: 'ReadFindingFitsSynthesis.prepare',
+      phaseId: 'ReadFitsFindingSynthesis.prepare',
       stores: ['setup.plan', 'setup/read-comprehension.model', 'setup/danger-wall.result'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'prepare',
           agentKey: 'setup-plan',
-          objectiveId: 'ReadFindingFitsSynthesis.prepare.setup-plan.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.prepare.setup-plan.objective',
           kind: 'model-structured',
           prompt: {
-            templateId: 'ReadFindingFitsSynthesis.prompt.setup-plan',
+            templateId: 'ReadFitsFindingSynthesis.prompt.setup-plan',
             template:
               'Produce one concise source-bound plan for the accepted Need to Finding Fits run. Do not claim settlement, delivery, or finality.',
             interpolatedContextKeys: ['read', 'repository', 'sourceRevision', 'fitResult'],
@@ -414,20 +414,20 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           inputType: 'AcceptedReadNeed + SourceRevision',
           stores: ['setup.plan', 'setup/plan.result'],
           telemetry: [
-            readFitTelemetry('prompt-template'),
-            readFitTelemetry('interpolated-prompt'),
-            readFitTelemetry('raw-model-response'),
-            readFitTelemetry('parsed-typed-output'),
+            readFitsFindingTelemetry('prompt-template'),
+            readFitsFindingTelemetry('interpolated-prompt'),
+            readFitsFindingTelemetry('raw-model-response'),
+            readFitsFindingTelemetry('parsed-typed-output'),
           ],
         }),
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'prepare',
           agentKey: 'read-comprehension',
-          objectiveId: 'ReadFindingFitsSynthesis.prepare.read-comprehension.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.prepare.read-comprehension.objective',
           kind: 'model-structured',
           prompt: {
-            templateId: 'ReadFindingFitsSynthesis.prompt.read-comprehension',
+            templateId: 'ReadFitsFindingSynthesis.prompt.read-comprehension',
             template:
               'Translate the accepted Need and expressed Read into one auditable Read model for AssetPack synthesis. Return source-bound evidence only.',
             interpolatedContextKeys: ['read', 'definitionOfRead', 'repository', 'sourceRevision', 'deposit', 'fitResult'],
@@ -436,32 +436,32 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           inputType: 'AcceptedReadNeed + DepositorySearchBaseline',
           stores: ['setup/read-comprehension.model', 'setup/read-comprehension.riskAdmissionInput'],
           telemetry: [
-            readFitTelemetry('prompt-template'),
-            readFitTelemetry('interpolated-prompt'),
-            readFitTelemetry('raw-model-response'),
-            readFitTelemetry('parsed-typed-output'),
+            readFitsFindingTelemetry('prompt-template'),
+            readFitsFindingTelemetry('interpolated-prompt'),
+            readFitsFindingTelemetry('raw-model-response'),
+            readFitsFindingTelemetry('parsed-typed-output'),
           ],
         }),
       ],
     },
     {
-      phaseId: 'ReadFindingFitsSynthesis.discovery',
+      phaseId: 'ReadFitsFindingSynthesis.discovery',
       stores: ['depository/search.result', 'fit/result'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'discovery',
           agentKey: 'finding-fits',
-          objectiveId: 'ReadFindingFitsSynthesis.discovery.finding-fits.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.discovery.finding-fits.objective',
           kind: 'tool',
           tools: [
             {
-              toolId: 'ReadFindingFitsSynthesis.tool.lexical-depository-search',
+              toolId: 'ReadFitsFindingSynthesis.tool.lexical-depository-search',
               inputType: 'DepositorySearchRead',
               outputType: 'DepositorySearchResult',
             },
             {
-              toolId: 'ReadFindingFitsSynthesis.tool.vector-depository-search',
+              toolId: 'ReadFitsFindingSynthesis.tool.vector-depository-search',
               inputType: 'EmbeddingSearchRequest',
               outputType: 'EmbeddingSearchResult',
             },
@@ -476,28 +476,28 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
             'fit/depositAssetIds',
           ],
           telemetry: [
-            readFitTelemetry('tool-input'),
-            readFitTelemetry('tool-output'),
-            readFitTelemetry('query-root'),
-            readFitTelemetry('ranking-root'),
-            readFitTelemetry('fit-deposit-ranking'),
+            readFitsFindingTelemetry('tool-input'),
+            readFitsFindingTelemetry('tool-output'),
+            readFitsFindingTelemetry('query-root'),
+            readFitsFindingTelemetry('ranking-root'),
+            readFitsFindingTelemetry('fit-deposit-ranking'),
           ],
         }),
       ],
     },
     {
-      phaseId: 'ReadFindingFitsSynthesis.implementation',
+      phaseId: 'ReadFitsFindingSynthesis.implementation',
       stores: ['implementation.assetPack', 'implementation.assetPackSynthesisArtifacts'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'implementation',
           agentKey: 'asset-pack',
-          objectiveId: 'ReadFindingFitsSynthesis.implementation.asset-pack.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.implementation.asset-pack.objective',
           kind: 'model-structured',
           prompt: {
-            templateId: 'ReadFindingFitsSynthesis.prompt.asset-pack-synthesis',
-            template: READ_FINDING_FITS_PROMPT_TEMPLATE,
+            templateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
+            template: READ_FITS_FINDING_PROMPT_TEMPLATE,
             interpolatedContextKeys: [
               'acceptedReadNeed',
               'depositorySearchResult',
@@ -511,27 +511,27 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           inputType: 'AcceptedReadNeed + DepositoryFitsResult',
           stores: ['implementation.assetPack', 'implementation.writtenAssets'],
           telemetry: [
-            readFitTelemetry('prompt-template'),
-            readFitTelemetry('interpolated-prompt'),
-            readFitTelemetry('raw-model-response'),
-            readFitTelemetry('parsed-typed-output'),
-            readFitTelemetry('usage'),
+            readFitsFindingTelemetry('prompt-template'),
+            readFitsFindingTelemetry('interpolated-prompt'),
+            readFitsFindingTelemetry('raw-model-response'),
+            readFitsFindingTelemetry('parsed-typed-output'),
+            readFitsFindingTelemetry('usage'),
           ],
         }),
       ],
     },
     {
-      phaseId: 'ReadFindingFitsSynthesis.validate',
+      phaseId: 'ReadFitsFindingSynthesis.validate',
       stores: ['validation.discovery.issues', 'validation.implementation.issues', 'validation.readyToFinish'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'validate',
           agentKey: 'fit-quality',
-          objectiveId: 'ReadFindingFitsSynthesis.validate.fit-quality.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.validate.fit-quality.objective',
           kind: 'model-structured',
           prompt: {
-            templateId: 'ReadFindingFitsSynthesis.prompt.fit-quality-validation',
+            templateId: 'ReadFitsFindingSynthesis.prompt.fit-quality-validation',
             template:
               'Validate the source-bound AssetPack synthesized from qualifying fit deposits against the accepted Need, search proof, disclosure policy, and finish-readiness gates.',
             interpolatedContextKeys: [
@@ -543,7 +543,7 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           },
           tools: [
             {
-              toolId: 'ReadFindingFitsSynthesis.tool.verification-evidence',
+              toolId: 'ReadFitsFindingSynthesis.tool.verification-evidence',
               inputType: 'AssetPackVerificationEvidenceInput',
               outputType: 'AssetPackVerificationEvidenceResult',
             },
@@ -552,52 +552,52 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           inputType: 'AssetPackSynthesisOutput',
           stores: ['validation.readyToFinish', 'validation.selfInstruction'],
           telemetry: [
-            readFitTelemetry('prompt-template'),
-            readFitTelemetry('interpolated-prompt'),
-            readFitTelemetry('raw-model-response'),
-            readFitTelemetry('validation-issues'),
-            readFitTelemetry('tool-input'),
-            readFitTelemetry('tool-output'),
-            readFitTelemetry('parsed-typed-output'),
+            readFitsFindingTelemetry('prompt-template'),
+            readFitsFindingTelemetry('interpolated-prompt'),
+            readFitsFindingTelemetry('raw-model-response'),
+            readFitsFindingTelemetry('validation-issues'),
+            readFitsFindingTelemetry('tool-input'),
+            readFitsFindingTelemetry('tool-output'),
+            readFitsFindingTelemetry('parsed-typed-output'),
           ],
         }),
       ],
     },
     {
-      phaseId: 'ReadFindingFitsSynthesis.preview',
+      phaseId: 'ReadFitsFindingSynthesis.preview',
       stores: ['asset-pack/preview.sourceSafe', 'asset-pack/preview.feeQuote'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'preview',
           agentKey: 'source-safe-preview',
-          objectiveId: 'ReadFindingFitsSynthesis.preview.source-safe-preview.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.preview.source-safe-preview.objective',
           kind: 'deterministic',
           returnType: 'AssetPackSourceSafePreview',
           inputType: 'ReadNeed + DepositoryFitResultEvidence',
           stores: ['asset-pack/preview.sourceSafe', 'asset-pack/preview.feeQuote'],
           telemetry: [
-            readFitTelemetry('fee-quote'),
-            readFitTelemetry('range-projection'),
-            readFitTelemetry('disclosure-policy'),
-            readFitTelemetry('access-policy'),
+            readFitsFindingTelemetry('fee-quote'),
+            readFitsFindingTelemetry('range-projection'),
+            readFitsFindingTelemetry('disclosure-policy'),
+            readFitsFindingTelemetry('access-policy'),
           ],
         }),
       ],
     },
     {
-      phaseId: 'ReadFindingFitsSynthesis.settle',
+      phaseId: 'ReadFitsFindingSynthesis.settle',
       stores: ['ledger.settlement', 'finish.deliveryMechanism', 'finish.asset_pack_completion'],
       agents: [
         ptrrAgent({
-          pipelineName: READ_FINDING_FITS_SYNTHESIS,
+          pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'settle',
           agentKey: 'buy-deliver',
-          objectiveId: 'ReadFindingFitsSynthesis.settle.buy-deliver.objective',
+          objectiveId: 'ReadFitsFindingSynthesis.settle.buy-deliver.objective',
           kind: 'settlement',
           tools: [
             {
-              toolId: 'ReadFindingFitsSynthesis.tool.vcs-create-pull-request',
+              toolId: 'ReadFitsFindingSynthesis.tool.vcs-create-pull-request',
               inputType: 'PullRequestDeliveryInput',
               outputType: 'PullRequestDeliveryResult',
             },
@@ -606,11 +606,11 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           inputType: 'AssetPackSourceSafePreview',
           stores: ['ledger.settlement', 'finish.pullRequestUrl', 'finish.asset_pack_completion.result'],
           telemetry: [
-            readFitTelemetry('btc-fee-receipt'),
-            readFitTelemetry('range-readback'),
-            readFitTelemetry('license-readback'),
-            readFitTelemetry('journal-entry-ids'),
-            readFitTelemetry('pull-request'),
+            readFitsFindingTelemetry('btc-fee-receipt'),
+            readFitsFindingTelemetry('range-readback'),
+            readFitsFindingTelemetry('license-readback'),
+            readFitsFindingTelemetry('journal-entry-ids'),
+            readFitsFindingTelemetry('pull-request'),
           ],
         }),
       ],
@@ -620,7 +620,7 @@ export const READ_FINDING_FITS_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
 
 export const READING_PIPELINE_CONTRACTS = [
   READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
-  READ_FINDING_FITS_SYNTHESIS_CONTRACT,
+  READ_FITS_FINDING_SYNTHESIS_CONTRACT,
 ] as const;
 
 export function summarizeReadingPipelineContract(

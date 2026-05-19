@@ -70,7 +70,7 @@ export interface ReadNeed {
   };
 }
 
-export interface ReadFindingFitsAdmission {
+export interface ReadFitsFindingAdmission {
   admitted: boolean;
   blockers: string[];
   acceptedNeed: ReadNeed | null;
@@ -515,7 +515,7 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
     systemPrompt: [
       'You are the ReadNeedComprehensionSynthesis PTRR agent for Bitcode Reading.',
       'Synthesize exactly what the reader asked Bitcode to read, no more and no less.',
-      'Return only source-constrained Need comprehension fields that can later drive ReadFindingFitsSynthesis.',
+      'Return only source-constrained Need comprehension fields that can later drive ReadFitsFindingSynthesis.',
       'Do not claim that deposits were searched, that a fit exists, that BTC was paid, or that protected AssetPack source may be shown.',
     ].join('\n'),
     userPrompt: JSON.stringify({
@@ -617,7 +617,7 @@ export function shouldRequireAcceptedReadNeed(input: unknown): boolean {
   );
 }
 
-export function admitReadFindingFits(input: unknown): ReadFindingFitsAdmission {
+export function admitReadFitsFinding(input: unknown): ReadFitsFindingAdmission {
   const acceptedNeed = resolveReadNeedFromPipelineInput(input);
   if (isAcceptedReadNeed(acceptedNeed)) {
     return { admitted: true, blockers: [], acceptedNeed };
