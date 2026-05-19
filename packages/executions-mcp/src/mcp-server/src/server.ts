@@ -364,7 +364,9 @@ export class BitcodeMCPServer {
       logger.info('MCP tool call received', { tool: name, args: Object.keys(args || {}) });
 
       // Authenticate request
-      const auth = await this.authenticateRequest(authHeader, { pipelines: ['create'] });
+      const auth = await this.authenticateRequest(authHeader, {
+        requiredPermissions: { pipelines: ['create'] },
+      });
       if (!auth.success) {
         throw new Error(`Authentication failed: ${auth.error?.message || 'Unknown error'}`);
       }

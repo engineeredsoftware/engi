@@ -22,6 +22,8 @@ Examples:
 - Source providers bind evidence and repository scope.
 - Delivery providers receive AssetPacks or AssetPack partials.
 - Every write-capable connected interface must fail closed without readiness and admission receipts.
+- MCP and ChatGPT App writes must admit against owner-read or licensed-read registry evidence, not aggregate `$BTD` holding thresholds.
+- Organization `$BTD` posture must read member wallet bindings through BTD registry ownership and read-license rows.
 - Provider payloads must normalize toward Read, fit, AssetPack, settlement, proof, or delivery-mechanism semantics.
 
 ## Current Source Examples

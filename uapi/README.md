@@ -1,9 +1,9 @@
-# `uapi/` Bitcode Commercial Surface
+# `uapi/` Bitcode Interface Surface
 
-`uapi/` is the active commercial interface owner for Bitcode.
-It carries the `/terminal` operator surface, canonical `/auxillaries` reads, redirect-only legacy route aliases where still explicitly retained, Bitcode API routes, and the shared UI systems used by the commercial protocol implementation.
+`uapi/` is the active interface owner for Bitcode.
+It carries the `/terminal` operator surface, canonical `/auxillaries` reads, redirect-only legacy route aliases where still explicitly retained, Bitcode API routes, and the shared UI systems used by the Bitcode protocol implementation.
 
-Active canon follows the top-level `BITCODE_SPEC.txt` pointer while the current draft hardens the commercial MVP experience.
+Active canon follows the top-level `BITCODE_SPEC.txt` pointer while the current draft hardens the MVP experience.
 
 V28 QA scope is intentionally narrower than the full route inventory: Terminal, Auxillaries readiness, wallet-backed identity, GitHub source prerequisites, `$BTD` posture, MCP/API, and ChatGPT App MVP remain active; Exchange and website Conversations are deferred beyond V35 unless retained code contaminates the active V28 surfaces.
 Wallet state in top chrome is tri-state during QA: loading while shared auxillary data is unresolved, connected when a wallet binding or local staged wallet exists, and disconnected only after the read settles without a wallet.
@@ -28,7 +28,7 @@ Wallet state in top chrome is tri-state during QA: loading while shared auxillar
 - `/auxillaries/externals`
 - `/auxillaries/profile`
 - `/auxillaries/interfaces`
-  Canonical auxillary routes for direct auxillary reading without losing the commercial Bitcode framing.
+  Canonical auxillary routes for direct auxillary reading without losing the Bitcode framing.
 
 Redirect-only orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` plus legacy `/auxillaries/btd` and `/auxillaries/connects` route segments are compatibility entry points and should not be treated as the enduring naming model.
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
@@ -176,7 +176,7 @@ pnpm exec jest --runInBand --testMatch '<rootDir>/tests/auxillariesProvider.test
 
 ## README Set
 
-The current commercial interface doc set is:
+The current interface doc set is:
 
 - [README.md](../README.md)
 - [app/terminal/README.md](app/terminal/README.md)
@@ -185,7 +185,7 @@ The current commercial interface doc set is:
 - [components/base/bitcode/README.md](components/base/bitcode/README.md)
 - [components/base/bitcode/execution/README.md](components/base/bitcode/execution/README.md)
 
-Those markdown carriers are part of the commercial interface implementation/proof boundary.
+Those markdown carriers are part of the interface implementation/proof boundary.
 If the route/package/component owners change, this doc set is expected to move with them.
 
 ## Related docs

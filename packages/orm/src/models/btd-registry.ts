@@ -69,6 +69,16 @@ export class BtdRegistryModel {
     return data ?? [];
   }
 
+  async getAssetPackRange(assetPackId: string): Promise<Record<string, unknown> | null> {
+    const { data, error } = await this.table('btd_asset_pack_ranges')
+      .select('*')
+      .eq('asset_pack_id', assetPackId)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data ?? null;
+  }
+
   async listOwnershipClaims(input: {
     walletId: string;
     assetPackId: string;
@@ -93,6 +103,52 @@ export class BtdRegistryModel {
       .eq('asset_pack_id', input.assetPackId)
       .order('valid_from', { ascending: false });
 
+    if (error) throw error;
+    return data ?? [];
+  }
+
+  async listOwnershipClaimsForWallets(input: {
+    walletIds: string[];
+    assetPackId?: string;
+  }): Promise<Record<string, unknown>[]> {
+    const walletIds = uniqueStrings(input.walletIds);
+    if (walletIds.length === 0) {
+      return [];
+    }
+
+    let query = this.table('btd_ownership_events')
+      .select('*')
+      .in('to_wallet_id', walletIds)
+      .order('issued_at', { ascending: false });
+
+    if (input.assetPackId) {
+      query = query.eq('asset_pack_id', input.assetPackId);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data ?? [];
+  }
+
+  async listReadLicensesForWallets(input: {
+    walletIds: string[];
+    assetPackId?: string;
+  }): Promise<Record<string, unknown>[]> {
+    const walletIds = uniqueStrings(input.walletIds);
+    if (walletIds.length === 0) {
+      return [];
+    }
+
+    let query = this.table('btd_read_licenses')
+      .select('*')
+      .in('wallet_id', walletIds)
+      .order('valid_from', { ascending: false });
+
+    if (input.assetPackId) {
+      query = query.eq('asset_pack_id', input.assetPackId);
+    }
+
+    const { data, error } = await query;
     if (error) throw error;
     return data ?? [];
   }
@@ -201,4 +257,14 @@ export class BtdRegistryModel {
     if (error) throw error;
     return data ?? {};
   }
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return Array.from(
+    new Set(
+      values
+        .map((value) => (typeof value === 'string' ? value.trim() : ''))
+        .filter(Boolean),
+    ),
+  );
 }

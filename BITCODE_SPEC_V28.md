@@ -709,6 +709,14 @@ Acceptance criteria:
 - policy templates cover owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture.
 - Terminal copy avoids price-appreciation, dividend, copyright-transfer, or marketplace-royalty promises.
 
+Implementation posture:
+
+- Organization `$BTD` posture is a registry projection. Read models must collect member wallet bindings, then read ownership events and read-license rows from the BTD registry. Aggregate compatibility balances may remain contextual but must not admit organization, MCP, ChatGPT App, or read-license actions.
+- MCP admission may require current owner-read or licensed-read evidence for one or more AssetPacks. Deprecated aggregate holding gates must fail closed and point callers to registry-derived read-access requirements.
+- ChatGPT App write-capable connected-interface tools must require explicit user confirmation and typed read-access evidence carrying AssetPack id, wallet id, owner-read or licensed-read decision, policy hash, and reason.
+- Access-policy templates must remain source-readable and test-covered for owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture.
+- Active Terminal and Auxillaries copy must describe registry, range, ownership, license, and proof posture without implying price appreciation, dividends, copyright transfer, or marketplace royalties.
+
 ### Gate 7: Terminal Operations And Testnet Readiness
 
 Purpose:

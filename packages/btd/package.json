@@ -9,17 +9,18 @@
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },
   "scripts": {
-    "test": "jest --config jest.config.cjs --runInBand"
+    "test": "jest --config jest.config.cjs --runInBand",
+    "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {
     "@bitcode/models": "workspace:*",
     "@bitcode/supabase": "workspace:*"
   },
   "devDependencies": {
-    "@types/jest": "^29.0.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.0.0",
-    "jest": "^29.0.0",
-    "ts-jest": "^29.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.0.0"
   }
 }
