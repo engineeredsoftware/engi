@@ -3,17 +3,19 @@
 ## Status
 
 - Version: `V28`
-- V28 state: draft target notes opened
-- Current canonical/latest target: `V27`
+- V28 state: canonical promotion complete; V28 notes record the accepted commercial-product and metadevelopment closure evidence
+- Current canonical/latest target: `V28`
+- Canonical proof-source commit: `1153286d0785b0d760ea392918575f0083cd570f`
 - Prior canonical anchor: `BITCODE_SPEC_V27.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v28-gate-1-draft-opening-proof.json`; V28 spec-family and canonical-input reports are planned generated artifacts
-- Source parity state: first-gate draft parity opened in `BITCODE_SPEC_V28_PARITY_MATRIX.md`
-- Scope: draft-target notes for V28 commercial Protocol implementation, Terminal MVP QA, MCP API/ChatGPT App MVP, BTD/testnet/ledgerization, and promotion-tail cleanup after V27 `$BTD` tokenomics and cryptographic-commercialization closure. Exchange and website Conversations are deferred beyond V35.
+- Generated structured artifact inventory: active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
+- Source parity state: V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family
+- Scope: V28 canonical notes for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment
 - Active canonical pointer: `BITCODE_SPEC.txt` -> `V27`.
 - Draft target: `V28`.
 - Primary V28 focus: commercial Protocol implementation and Terminal MVP QA across Terminal, Auxillaries, BTD range disclosure, MCP API, ChatGPT App, auth/readiness, wallet/BTC/testnet flows, ledgerized journals, and navigation. Exchange and website Conversations are not V28 closure surfaces.
 - Adjacent later-version focus: V29 owns deeper Terminal workflows; V30 is reserved for post-V29 Protocol/BTD hardening discovered during V28/V29; V31 owns deeper Auxillaries; V32 owns deeper provation and testing; V33 owns deeper Interfaces beyond the V28 MCP API and ChatGPT App MVP; V34 owns deeper Deployment; V35 owns deeper telemetry and documenting; V36+ owns deeper Exchange and website Conversations.
+- Last fully realized canonical target preserved in source: `V28`
 
 This NOTES file does not promote V28.
 It records the deep-review handoff from V26 and V27 promotion so V28 starts with known source/spec/proof issues rather than rediscovering them during implementation.
