@@ -94,6 +94,55 @@ test('runtime promotion preparation rewrites canon posture source and README', a
   assert.match(rewrittenReadme, /V24 is the next draft target after this promotion\./);
 });
 
+test('runtime promotion preparation rewrites current inline demonstration README posture', async () => {
+  const fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'bitcode-runtime-promotion-inline-'));
+  await fs.mkdir(path.join(fixtureRoot, 'protocol-demonstration', 'src'), { recursive: true });
+
+  await fs.writeFile(
+    path.join(fixtureRoot, 'protocol-demonstration', 'src', 'canon-posture.js'),
+    [
+      "// @ts-check",
+      "export const ACTIVE_CANON_VERSION = 'V27';",
+      "export const DRAFT_TARGET_VERSION = 'V28';"
+    ].join('\n'),
+    'utf8'
+  );
+  await fs.writeFile(
+    path.join(fixtureRoot, 'protocol-demonstration', 'README.md'),
+    [
+      '# Bitcode Protocol Demonstration - V27 canonical deterministic local prototype',
+      '',
+      '`BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently',
+      'resolves to `V27`; V28 is the active draft target for MVP QA.',
+      '`BITCODE_SPEC.txt -> V27`. This demo is governed by the active V27 canonical',
+      'spec and `BITCODE_SPEC_V27_PROVEN.md` as the current generated appendix.'
+    ].join('\n'),
+    'utf8'
+  );
+
+  execFileSync(process.execPath, [
+    prepareRuntimeScriptPath,
+    '--version',
+    'V28',
+    '--next-draft',
+    'V29',
+    '--repo-root',
+    fixtureRoot
+  ], {
+    cwd: fixtureRoot,
+    encoding: 'utf8'
+  });
+
+  const rewrittenReadme = await fs.readFile(path.join(fixtureRoot, 'protocol-demonstration', 'README.md'), 'utf8');
+
+  assert.match(rewrittenReadme, /# Bitcode Protocol Demonstration - V28 canonical deterministic local prototype/);
+  assert.match(rewrittenReadme, /resolves to `V28`; V29 is the next draft target after this promotion\./);
+  assert.match(rewrittenReadme, /BITCODE_SPEC\.txt -> V28/);
+  assert.match(rewrittenReadme, /active V28 canonical\s+spec/);
+  assert.match(rewrittenReadme, /BITCODE_SPEC_V28_PROVEN\.md/);
+  assert.doesNotMatch(rewrittenReadme, /active draft target for MVP QA/);
+});
+
 test('V23 spec-family promotion preparation rewrites hand-authored status truth', async () => {
   const fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'bitcode-spec-family-v23-'));
   await fs.mkdir(path.join(fixtureRoot, '_legacy'), { recursive: true });

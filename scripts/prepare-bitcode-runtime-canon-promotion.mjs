@@ -93,6 +93,14 @@ function rewriteReadme(content, version, nextDraft) {
     `- current generated appendix: \`${promotedProvenPath(version)}\``
   );
   rewritten = rewritten.replace(
+    /resolves to `V\d+`; V\d+ is the active draft target for MVP QA\./m,
+    `resolves to \`${version}\`; ${nextDraft} is the next draft target after this promotion.`
+  );
+  rewritten = rewritten.replace(
+    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This demo is governed by the active V\d+ canonical\s+spec and `(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix\./m,
+    `\`BITCODE_SPEC.txt -> ${version}\`. This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
+  );
+  rewritten = rewritten.replace(
     /^Active canon remains `V\d+`\.$/m,
     `Active canon remains \`${version}\`.`
   );
