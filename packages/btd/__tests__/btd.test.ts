@@ -257,4 +257,61 @@ describe('registry-derived read access projection', () => {
 
     expect(decision.decision).toBe('licensed_read');
   });
+
+  it('keeps denied read decisions explicit for policy mismatch and revoked licenses', () => {
+    const projection = buildBtdReadAccessProjectionFromRegistryRows({
+      assetPackId: 'asset-pack-1',
+      range: {
+        asset_pack_id: 'asset-pack-1',
+        range_start: 10,
+        range_end_exclusive: 15,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash',
+      },
+      ownershipRows: [
+        {
+          to_wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          range_start: 10,
+          range_end_exclusive: 15,
+          access_policy_hash: 'stale-policy-hash',
+        },
+      ],
+      licenseRows: [
+        {
+          license_id: 'license-1',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          access_policy_hash: 'policy-hash',
+          valid_from: '2026-05-01T00:00:00.000Z',
+          revoked_at: '2026-05-10T00:00:00.000Z',
+        },
+      ],
+    });
+
+    expect(evaluateBtdReadAccess({
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: [],
+      licenses: projection.licenses,
+      at: '2026-05-19T00:00:00.000Z',
+    })).toMatchObject({
+      decision: 'denied',
+      reason: 'license_revoked',
+    });
+
+    expect(evaluateBtdReadAccess({
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: projection.ownershipClaims,
+      licenses: [],
+      at: '2026-05-19T00:00:00.000Z',
+    })).toMatchObject({
+      decision: 'denied',
+      reason: 'policy_mismatch',
+    });
+  });
 });

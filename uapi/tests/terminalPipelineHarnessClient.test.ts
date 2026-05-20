@@ -195,6 +195,15 @@ describe('terminal pipeline harness client', () => {
               sourceAvailable: true,
             },
           },
+          assetPackDisclosureReview: {
+            access: {
+              sourceVisibility: 'available_after_settlement',
+            },
+            sourceLeakage: {
+              protectedSourceDetected: false,
+              findingCount: 0,
+            },
+          },
         },
       },
     });
@@ -206,6 +215,8 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('ledger settled');
     expect(summary).toContain('fee 546 sats');
     expect(summary).toContain('source licensed_read');
+    expect(summary).toContain('disclosure available_after_settlement');
+    expect(summary).toContain('leakage none');
     expect(summary).toContain('telemetry 72 lines');
   });
 

@@ -301,6 +301,27 @@ Failure to observe prompt, raw-output, parsed-output, or tool telemetry in a run
 - Current validating commands and parity basis: synthesis tests, source-leakage tests, route tests, PR delivery mocks/live checks, and V29 gate checks.
 - Current accepted boundaries: full mainnet value delivery remains approval-gated.
 
+#### V29 AssetPack disclosure rights canon
+
+AssetPack disclosure is a first-class review object, not an incidental UI summary.
+The preview before payment may show Need measurements, Finding Fits measurements, candidate ids, roots, score band, fee quote, range projection, access policy hash, and delivery target.
+It must not show protected source content, the full patch, source-bearing manifest entries, or licensed read payload before the paid unlock is proven.
+
+The disclosure review contract carries:
+
+- `AssetPackSourceSafePreview`, which remains the source-safe preview envelope;
+- `AssetPackDisclosureReview`, which binds preview id, AssetPack id, read-right state, source visibility, reader action, policy fields, range projection, roots, and protected-source leakage findings;
+- owner-read, licensed-read, denied, and pending-settlement distinctions from BTD access primitives;
+- paid unlock state from settlement readback;
+- leakage review that fails closed when patch markers, source-code markers, or forbidden source-bearing fields appear in preview metadata.
+
+Terminal must render disclosure review as an ordinary Reading stage surface.
+Collapsed view shows visibility, reader action, policy root, review root, visible/withheld counts, leakage state, and source unlock state.
+Expanded views may show the review metadata and roots, but they still may not reveal protected source before settlement.
+
+Gate pull request titles are part of the same operator-quality posture.
+Gate PRs into version branches must begin with the uppercase version and gate prefix, for example `V29 Gate 5: AssetPack Disclosure Rights And Preview Depth`, so gate history stays auditable from GitHub alone.
+
 ### Identity, authorization, and sensitive flow
 
 - Current canonical objects and emitted artifacts: wallet identity, signer session, GitHub connection, organization role, read-license, access-policy decision, permission proof.

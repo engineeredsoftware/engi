@@ -3,6 +3,7 @@ import {
   AssetPackWrittenAssetType,
 } from './AssetPackWrittenAssetType';
 import type { AssetPackFitResultState, DepositorySearchResult } from '../depository-search';
+import type { AssetPackDisclosureReview } from '../asset-pack-disclosure';
 import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
 
 /**
@@ -74,6 +75,7 @@ export interface AssetPackOutput {
   fit?: AssetPackOutput['fitResult'];
   depositorySearch?: DepositorySearchResult;
   sourceSafePreview?: AssetPackSourceSafePreview;
+  assetPackDisclosureReview?: AssetPackDisclosureReview;
   feeQuote?: ShareToFeeQuote;
 }
 
@@ -103,6 +105,7 @@ export interface AssetPackPostprocessed {
   fit?: AssetPackOutput['fitResult'];
   depositorySearch?: DepositorySearchResult;
   sourceSafePreview?: AssetPackSourceSafePreview;
+  assetPackDisclosureReview?: AssetPackDisclosureReview;
   feeQuote?: ShareToFeeQuote;
   assetPack?: {
     read?: string;

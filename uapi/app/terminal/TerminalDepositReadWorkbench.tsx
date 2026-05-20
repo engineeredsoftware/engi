@@ -65,6 +65,10 @@ function stringList(value: unknown): string[] {
     : [];
 }
 
+function countList(value: unknown): number {
+  return Array.isArray(value) ? value.length : 0;
+}
+
 function numericValue(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
@@ -281,6 +285,14 @@ export default function TerminalDepositReadWorkbench({
     return null;
   }, [harnessEvents]);
   const sourceSafePreview = objectValue(completedHarnessEvidence?.sourceSafePreview);
+  const assetPackDisclosureReview =
+    objectValue(completedHarnessEvidence?.assetPackDisclosureReview) ||
+    objectValue(sourceSafePreview?.disclosureReview);
+  const disclosureAccess = objectValue(assetPackDisclosureReview?.access);
+  const disclosurePolicy = objectValue(assetPackDisclosureReview?.policy);
+  const disclosureLeakage = objectValue(assetPackDisclosureReview?.sourceLeakage);
+  const disclosureRoots = objectValue(assetPackDisclosureReview?.roots);
+  const disclosureSourceSafe = disclosureLeakage?.protectedSourceDetected !== true;
   const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
   const previewFeeQuote = objectValue(sourceSafePreview?.feeQuote);
   const protectedSourceUnlock =
@@ -302,6 +314,58 @@ export default function TerminalDepositReadWorkbench({
             ? 'review-synthesized-need'
             : 'request-read';
   const currentReadNeed = acceptedReadNeed || readNeed;
+  const disclosureRows = useMemo(
+    () => [
+      {
+        label: 'Visibility',
+        value: textValue(disclosureAccess?.sourceVisibility) || 'withheld before settlement',
+      },
+      {
+        label: 'Reader action',
+        value: textValue(disclosureAccess?.readerAction) || 'pay to unlock',
+      },
+      {
+        label: 'Policy root',
+        value:
+          shortIdentifier(disclosurePolicy?.accessPolicyHash) ||
+          shortIdentifier(objectValue(sourceSafePreview?.accessPolicy)?.accessPolicyHash) ||
+          'pending',
+      },
+      {
+        label: 'Review root',
+        value: shortIdentifier(disclosureRoots?.reviewRoot) || 'pending',
+      },
+      {
+        label: 'Visible facts',
+        value: `${countList(disclosurePolicy?.visibleBeforeSettlement)} before payment`,
+      },
+      {
+        label: 'Withheld facts',
+        value: `${countList(disclosurePolicy?.withheldBeforeSettlement)} until paid`,
+      },
+      {
+        label: 'Leakage',
+        value: disclosureLeakage?.protectedSourceDetected === true
+          ? `${String(disclosureLeakage.findingCount || 'detected')} finding(s)`
+          : disclosureLeakage
+            ? 'none detected'
+            : 'pending',
+      },
+      {
+        label: 'Source',
+        value: protectedSourceUnlock?.sourceAvailable === true ? 'available after settlement' : 'withheld',
+      },
+    ],
+    [
+      disclosureAccess?.readerAction,
+      disclosureAccess?.sourceVisibility,
+      disclosureLeakage,
+      disclosurePolicy,
+      disclosureRoots?.reviewRoot,
+      protectedSourceUnlock?.sourceAvailable,
+      sourceSafePreview?.accessPolicy,
+    ],
+  );
   const readNeedRows = useMemo(() => {
     if (!currentReadNeed) return [];
     return [
@@ -759,6 +823,27 @@ export default function TerminalDepositReadWorkbench({
                 </div>
               ))}
             </dl>
+            <div className="mt-3 rounded-[0.9rem] border border-emerald-400/15 bg-emerald-400/[0.04] px-3 py-3">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p className="text-[0.58rem] uppercase tracking-[0.14em] text-emerald-200/80">Disclosure review</p>
+                  <p className="mt-1 text-xs leading-5 text-neutral-300">
+                    Measurements, roots, fit ids, fee quote, and policy posture are visible. Protected source stays withheld until the paid read-right unlock is proven.
+                  </p>
+                </div>
+                <span className={`rounded-full border px-2.5 py-1 text-[0.6rem] uppercase tracking-[0.12em] ${disclosureSourceSafe ? 'border-emerald-300/20 bg-emerald-300/10 text-emerald-100' : 'border-red-300/20 bg-red-300/10 text-red-100'}`}>
+                  {disclosureSourceSafe ? 'source-safe' : 'blocked'}
+                </span>
+              </div>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {disclosureRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </div>
         </div>
 

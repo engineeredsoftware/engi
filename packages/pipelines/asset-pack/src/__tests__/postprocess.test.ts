@@ -222,7 +222,19 @@ describe('normalizeAssetPackOutput', () => {
       'https://github.com/engineeredsoftware/ENGI/pull/28'
     );
     expect(normalized.feeQuote.quoteRoot).toMatch(/^sha256:/);
+    expect(normalized.assetPackDisclosureReview).toMatchObject({
+      schema: 'bitcode.asset-pack.disclosure-review',
+      access: {
+        readRightState: 'pending_settlement',
+        sourceVisibility: 'withheld_before_settlement',
+        readerAction: 'pay_to_unlock',
+      },
+      sourceLeakage: {
+        protectedSourceDetected: false,
+      },
+    });
     expect(result.sourceSafePreview?.roots.previewRoot).toMatch(/^sha256:/);
+    expect(result.assetPackDisclosureReview?.roots.reviewRoot).toMatch(/^sha256:/);
     expect(result.feeQuote?.finalityState).toBe('preview_not_paid');
     expect(exec.get('asset-pack/preview', 'sourceSafe')?.previewId).toBe(
       normalized.sourceSafePreview.previewId

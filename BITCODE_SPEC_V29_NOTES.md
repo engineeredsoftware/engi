@@ -134,6 +134,23 @@ Accepted Gate 4 posture:
 - Terminal's live harness stream shows pipeline, phase id, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, output schema, raw output posture, and parsed typed output posture through the shared execution log components.
 - Gate 4 does not implement disclosure-depth unlock, settlement repair, organization authority, or full browser proof; later gates own those slices.
 
+## Gate 5 working notes
+
+Gate 5 makes AssetPack disclosure a package-owned contract instead of a Terminal-only summary.
+The Reading pipeline may synthesize the AssetPack and compute its measurements before payment, but protected source remains withheld until the BTD read-right state and settlement unlock prove that the reader owns or is licensed to read the AssetPack source.
+
+Accepted Gate 5 posture:
+
+- `AssetPackSourceSafePreview` remains the pre-payment preview envelope.
+- `AssetPackDisclosureReview` binds source visibility, reader action, policy roots, range projection, fee quote root, and protected-source leakage review to that preview.
+- Source visibility has distinct `withheld_before_settlement`, `available_after_settlement`, and `denied` states.
+- Reader action has distinct `pay_to_unlock`, `read_as_owner`, `read_as_licensee`, and `blocked` states.
+- Leakage review scans preview metadata for source-bearing field names, patch markers, and source-code markers and fails closed before the preview is shown.
+- Postprocessing and the sandbox harness store disclosure review evidence next to source-safe preview evidence so database/ledger readback can explain paid unlock state without exposing protected source.
+- Terminal renders disclosure review as the ordinary Reading preview surface and keeps expandable raw metadata behind the same source-safe boundary.
+- Gate pull request titles must carry the uppercase version and gate prefix so gate closure can be audited from GitHub history.
+- Gate 5 does not implement reconciliation repair, organization authority, full settlement UI depth, or browser proof; later V29 gates own those slices.
+
 ## Later-version boundaries
 
 - V30 remains reserved for Protocol/BTD hardening that is not necessary to close Terminal transaction depth.
