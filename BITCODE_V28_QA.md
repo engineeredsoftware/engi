@@ -2103,3 +2103,44 @@ Expected V28 behavior:
 - a later background revalidation may make the BTC/BTD widget show its own loading posture, but it must not regress to the disconnected CTA while a known wallet exists;
 - client telemetry must include `nav:chrome-identity`, `user-data:fetch-start`, `user-data:read` or `user-data:anonymous-read`, and any fetch failure;
 - server telemetry must include `auxillaries-data:read-start` and `auxillaries-data:read-finish` or `auxillaries-data:read-failed`.
+
+### Gate 11 Finding Fits And Source-Safe Preview QA
+
+Gate 11 local closure proves that `ReadFitsFindingSynthesis` can search the
+depository, preserve every qualifying fit deposit, derive a source-safe preview,
+and expose a deterministic Share-to-Fee quote before Gate 12 settlement unlock.
+
+Required local checks:
+
+```bash
+pnpm run check:v28-gate11
+pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath \
+  src/__tests__/depository-search.test.ts \
+  src/__tests__/read-need.test.ts \
+  src/__tests__/postprocess.test.ts \
+  src/__tests__/depository-search-tool.test.ts \
+  --runInBand --forceExit
+pnpm --filter @bitcode/pipeline-asset-pack typecheck
+```
+
+Expected evidence:
+
+- Finding Fits discovery stores `depository/search.result`,
+  `depository/search.toolTelemetry`, `fit.result`, `fit.selectionTrace`, all
+  threshold-passing `fitDepositAssetIds`, `queryRoot`, `rankingRoot`, and the
+  OpenAI `text-embedding-3-small` embedding policy posture.
+- Tool telemetry uses canonical
+  `ReadFitsFindingSynthesis.tool.lexical-depository-search` and
+  `ReadFitsFindingSynthesis.tool.vector-depository-search` ids. Vector
+  telemetry must at minimum expose the declared vector-store and embedding
+  policy posture until a later gate replaces local lexical fallback with live
+  vector RPC readback.
+- AssetPack postprocess stores `asset-pack/preview.sourceSafe`,
+  `asset-pack/preview.feeQuote`, and `asset-pack/preview.previewRoot` whenever
+  an accepted Need and Finding Fits result are present.
+- The source-safe preview exposes Need/Fit measurements, score band, fit
+  deposit ids, selected candidate ids, roots, proof posture, access policy,
+  ownership boundary, settlement boundary, unlock posture, and BTC quote.
+- The preview must not expose protected source content, full patches,
+  source-bearing manifest entries, licensed read payloads, or PR source changes
+  before settlement. Gate 12 owns paid unlock, rights transfer, and delivery.

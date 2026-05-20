@@ -47,6 +47,7 @@ jobs:
           node scripts/check-v28-metadevelopment-readiness.mjs --skip-branch-check
           node scripts/check-v28-gate9-depository-evidence.mjs
           node scripts/check-v28-gate10-read-need-comprehension.mjs
+          node scripts/check-v28-gate11-read-fits-finding-preview.mjs
           node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
 
       - name: Validate source casing and imports

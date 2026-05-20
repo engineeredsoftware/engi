@@ -184,6 +184,18 @@ by a later V28 gate before `version/v28` can be promoted to `main`.
 | Full demonstration proof-suite alignment | Gate 13 | Refresh the older demonstration proof-member, theorem, public-projection, and V26-proven expectations so they match the active V27/V28 posture or are explicitly retired from V28 promotion proof. | `npm --prefix protocol-demonstration run test`, proof-member/theorem matrix counts, public projection spine assertions, and V26/V28 proven-generator assertions. | The complete demonstration suite is either green under the promoted V28 proof model or every intentionally retired legacy assertion is replaced by a narrower current-canon proof. |
 | Local and staging-testnet validation | Gate 13 | Local non-mocked OpenAI/Supabase/Vercel Sandbox validation plus staging-testnet readback evidence for complete Depositing -> Reading -> settlement -> PR delivery. | `check:v28-metadevelopment`, package tests, UAPI tests, build, demonstration tests, `qa:v28:pipeline-readback`, browser QA, SQL ledger/readback queries. | `version/v28` is promotion-ready only when local and staging-testnet evidence prove the full commercial product flow. |
 
+Gate 11 closure narrows the two Gate 11 carryforward rows to source-safe
+preview readiness: Finding Fits discovery must now produce canonical
+`ReadFitsFindingSynthesis.tool.lexical-depository-search` and
+`ReadFitsFindingSynthesis.tool.vector-depository-search` telemetry, all
+threshold-passing `fitDepositAssetIds`, query/ranking roots, and embedding
+policy posture. AssetPack postprocess must derive a source-safe preview and
+Share-to-Fee quote from the accepted Need and Finding Fits result, exposing only
+measurements, roots, score bands, candidate ids, proof posture, ownership
+boundary, settlement boundary, and BTC quote before settlement. Gate 12 remains
+responsible for paid unlock, rights transfer, ledger reconciliation, and PR
+delivery.
+
 ## V28 implementation matrix
 
 | Area | Current source evidence | Judgment | Gate owner |

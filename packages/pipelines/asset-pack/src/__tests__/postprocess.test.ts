@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { buildAssetPackPostprocessedResult, normalizeAssetPackOutput } from '../postprocess';
 import { Execution } from '@bitcode/execution-generics';
+import { acceptReadNeed, synthesizeReadNeedForPipelineInput } from '../read-need';
 
 describe('normalizeAssetPackOutput', () => {
   it('backfills prUrl, filesModified, and summary from execution', () => {
@@ -137,5 +138,95 @@ describe('normalizeAssetPackOutput', () => {
       title: 'AssetPack PR',
       prUrl: 'https://github.com/acme/repo/pull/26',
     });
+  });
+
+  it('derives and stores source-safe preview evidence from an accepted Need and Finding Fits result', () => {
+    const exec = new Execution('pipeline:asset-pack');
+    const acceptedNeed = acceptReadNeed(synthesizeReadNeedForPipelineInput({
+      read: {
+        id: 'read-1',
+        prompt: 'Find deposited source evidence for a source-safe Terminal AssetPack preview.',
+      },
+      sourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+    }));
+    const fitResult = {
+      schema: 'bitcode.asset-pack.fit-result',
+      resultState: 'worthy_fit',
+      resultReasons: ['Selected 1 proof-bearing fit deposit for this Read.'],
+      fitDepositAssetIds: ['fit-deposit-1'],
+      selectedCandidateAssetIds: ['fit-deposit-1'],
+      queryRoot: 'sha256:query',
+      rankingRoot: 'sha256:ranking',
+      searchedAssetCount: 1,
+      embeddingPolicy: {
+        provider: 'openai',
+        model: 'text-embedding-3-small',
+        dimensions: 1536,
+      },
+      selectionTrace: {
+        selectedCandidates: [
+          {
+            assetId: 'fit-deposit-1',
+            scores: { finalScore: 0.84 },
+            proofEvidence: { proofRoot: 'sha256:proof' },
+          },
+        ],
+        fitDeposits: [],
+        blockedCandidates: [],
+        candidateRanking: [],
+        rejectedCandidateCount: 0,
+      },
+    };
+
+    exec.store('read/need', 'accepted', acceptedNeed);
+    exec.store('fit', 'result', fitResult);
+
+    const normalized = normalizeAssetPackOutput({
+      success: true,
+      summary: 'Measured AssetPack preview ready.',
+      deliveryMechanism: {
+        prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/28',
+      },
+    } as any, exec);
+    const result = buildAssetPackPostprocessedResult(exec, normalized);
+
+    expect(normalized.sourceSafePreview).toMatchObject({
+      schema: 'bitcode.asset-pack.source-safe-preview',
+      need: {
+        needId: acceptedNeed.needId,
+        reviewState: 'accepted',
+      },
+      fit: {
+        resultState: 'worthy_fit',
+        fitDepositAssetIds: ['fit-deposit-1'],
+        scoreBand: 'high',
+      },
+      disclosurePolicy: {
+        protectedSourceDisclosure: 'forbidden_before_settlement',
+      },
+      settlementBoundary: {
+        payer: 'reader',
+        payee: 'depositor',
+        serverCustody: false,
+      },
+      unlock: {
+        state: 'pending_settlement',
+        sourceAvailable: false,
+      },
+    });
+    expect(normalized.sourceSafePreview.delivery.pullRequestTarget).toBe(
+      'https://github.com/engineeredsoftware/ENGI/pull/28'
+    );
+    expect(normalized.feeQuote.quoteRoot).toMatch(/^sha256:/);
+    expect(result.sourceSafePreview?.roots.previewRoot).toMatch(/^sha256:/);
+    expect(result.feeQuote?.finalityState).toBe('preview_not_paid');
+    expect(exec.get('asset-pack/preview', 'sourceSafe')?.previewId).toBe(
+      normalized.sourceSafePreview.previewId
+    );
+    expect(JSON.stringify(normalized.sourceSafePreview)).not.toContain('diff --git');
   });
 });

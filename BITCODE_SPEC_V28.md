@@ -850,6 +850,31 @@ Gate 11 owns `ReadFitsFindingSynthesis`: depository search, candidate fit
 ranking, fitting deposits as synthesis context, AssetPack measurement, source-
 safe preview, Share-to-Fee quote, and proof-rich Terminal stream visibility.
 
+Gate 11 acceptance requires:
+
+- discovery records all `fitDepositAssetIds` above the review and semantic
+  thresholds, preserves the ranked candidate trace, and fails closed with
+  `blocked_readiness` or `no_worthy_fit` instead of inventing source outside
+  the depository;
+- lexical and vector depository search tool telemetry use canonical
+  `ReadFitsFindingSynthesis.tool.*` ids and carry input read constraints,
+  selected fit deposits, query root, ranking root, and embedding policy posture;
+- implementation and postprocess carry the Finding Fits result into a
+  `bitcode.asset-pack.source-safe-preview` object with Need/Fit measurements,
+  fit score band, candidate ids, proof roots, source-manifest root, preview
+  root, access policy, settlement boundary, and unlock posture;
+- Share-to-Fee quote is deterministic:
+  `sum(measurement.weight * measurement.volume * admitted_fit_quality)` over
+  the accepted Need measurement vector and the admitted fit quality, with BTC
+  sats, quote root, payer, and network-fee posture visible before settlement;
+- protected source, full patches, source-bearing manifest entries, and licensed
+  read payloads stay withheld before settlement. Terminal may show only
+  measurements, non-source metadata, roots, candidate ids, proof posture,
+  ownership boundary, settlement boundary, and fee quote;
+- Terminal stream/history surfaces render the source-safe preview and fee quote
+  without requiring Network-panel JSON inspection, while preserving expandable
+  raw evidence for audit.
+
 ### Gate 12: Settlement, Rights, Delivery, And Reconciliation
 
 Gate 12 owns BTC settlement, depositor/reader ownership boundaries, read-license
