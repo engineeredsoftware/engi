@@ -5,7 +5,7 @@ import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 
 // Mock setup agents to ensure deterministic, fast dry-run
 jest.mock('../agents/setup/asset-pack-clone-vcs-repository-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true, repository: { owner: 'acme', name: 'repo', ref: 'main' } }) }));
-jest.mock('../agents/setup/asset-pack-comprehend-read-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true }) }));
+jest.mock('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true }) }));
 jest.mock('../agents/setup/asset-pack-danger-wall-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({

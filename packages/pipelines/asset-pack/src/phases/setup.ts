@@ -12,9 +12,9 @@ const setupPhaseConfig: PhaseConfig = {
   phaseName: 'setup',
   sequence: [
     { agent: 'setup:asset-pack-clone-vcs-repository-agent' },
-    { agent: 'setup:asset-pack-setup-plan-agent' },
+    { agent: 'setup:ReadFitsFindingSynthesisSetupPlanAgent' },
     { agent: 'setup:parallel-context-bootstrap', parallel: [
-      { agent: 'setup:asset-pack-comprehend-read-agent' },
+      { agent: 'setup:ReadFitsFindingSynthesisReadComprehensionAgent' },
       // Optional when available:
       // { agent: 'setup:asset-pack-initialize-lsp-agent' }
     ]},
@@ -51,16 +51,16 @@ export function registerSetupAgents(agentRegistry: any): void {
     () => import('../agents/setup/asset-pack-initialize-lsp-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
-    'setup:asset-pack-setup-plan-agent',
-    () => import('../agents/setup/asset-pack-setup-plan-agent').then(m => m.default)
+    'setup:ReadFitsFindingSynthesisSetupPlanAgent',
+    () => import('../agents/setup/read-fits-finding-synthesis-setup-plan-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
-    'setup:asset-pack-comprehend-read-agent',
-    () => import('../agents/setup/asset-pack-comprehend-read-agent').then(m => m.default)
+    'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
+    () => import('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:asset-pack-comprehend-read-definition-agent',
-    () => import('../agents/setup/asset-pack-comprehend-read-agent').then(m => m.default)
+    () => import('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:asset-pack-danger-wall-agent',

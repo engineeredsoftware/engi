@@ -570,6 +570,26 @@ distance. Gate 9 records the vector document as ready for embedding generation;
 later Finding Fits and live validation gates own provider execution, ranking,
 settlement, and protected-source disclosure boundaries.
 
+## Gate 10 Read-Need comprehension closure notes
+
+Gate 10 closes the first two enterprise Reading UX steps. The raw request is
+stored as `bitcode.read.request` and embedded in the synthesized
+`bitcode.read.need`. This keeps request capture auditable without allowing a
+raw request to drive depository discovery.
+
+ReadNeedComprehensionSynthesis route telemetry now carries a contract trace for
+all request, comprehend, measure, and review phase PTRR agents, their four PTRR
+steps, and the three ThricifiedGeneration identifiers under each step. The
+route-level telemetry also includes prompt template, interpolated context, raw
+structured response posture, parsed typed output, measurement root, review
+state, and resynthesis lineage.
+
+Resynthesis appends operator feedback and records the previous Need id. Need
+acceptance computes an acceptance root and returns Finding Fits admission
+evidence. Terminal uses that accepted Need as the only live harness input for
+Finding Fits while keeping the previous measured-Read history path visible for
+readback compatibility.
+
 ## Non-Goals For V28
 
 - V28 does not implement or QA Exchange product behavior, broad order-book depth, external market routing, wrapper liquidity, or third-party marketplace integration.

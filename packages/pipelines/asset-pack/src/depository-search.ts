@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { buildAssetPackEmbeddingPolicy } from './embedding-config';
 import {
-  admitReadFindingFits,
+  admitReadFitsFinding,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
   resolveReadNeedFromPipelineInput,
@@ -1318,7 +1318,7 @@ function storeDepositorySearchToolResult(
   });
 }
 
-function buildBlockedReadFindingFitsResult(input: {
+function buildBlockedReadFitsFindingResult(input: {
   read: DepositorySearchRead;
   assets: DepositoryAsset[];
   blockers: string[];
@@ -1366,7 +1366,7 @@ export async function runDepositorySearchForPipelineInput(
   input: unknown,
   execution?: { store?: (namespace: string, key: string, value: unknown) => void; parent?: unknown }
 ): Promise<DepositorySearchResult> {
-  const admission = admitReadFindingFits(input);
+  const admission = admitReadFitsFinding(input);
   const read = normalizeDepositorySearchRead(input);
   const assets = normalizePipelineDepositoryAssets(input);
   const providers = [createLexicalDepositorySearchProvider()];
@@ -1376,7 +1376,7 @@ export async function runDepositorySearchForPipelineInput(
         assets,
         providers,
       })
-    : buildBlockedReadFindingFitsResult({
+    : buildBlockedReadFitsFindingResult({
         read,
         assets,
         blockers: admission.blockers,

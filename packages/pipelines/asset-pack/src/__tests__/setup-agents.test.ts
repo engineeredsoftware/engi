@@ -1,7 +1,7 @@
 // @ts-nocheck
 import cloneRepositoryAgent from '../agents/setup/asset-pack-clone-vcs-repository-agent';
-import setupPlanAgent from '../agents/setup/asset-pack-setup-plan-agent';
-import runComprehendReadAgent from '../agents/setup/asset-pack-comprehend-read-agent';
+import runReadFitsFindingSynthesisSetupPlanAgent from '../agents/setup/read-fits-finding-synthesis-setup-plan-agent';
+import runReadFitsFindingSynthesisReadComprehensionAgent from '../agents/setup/read-fits-finding-synthesis-read-comprehension-agent';
 import dangerWallAgent, {
   normalizeRiskAdmissionResult,
 } from '../agents/setup/asset-pack-danger-wall-agent';
@@ -57,7 +57,7 @@ describe('AssetPack setup agents', () => {
 
   it('builds a deterministic setup plan from read and Finding Fits state', async () => {
     const execution = executionStub();
-    const result = await setupPlanAgent(
+    const result = await runReadFitsFindingSynthesisSetupPlanAgent(
       {
         read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
         repository: {
@@ -86,7 +86,7 @@ describe('AssetPack setup agents', () => {
 
   it('builds deterministic Read comprehension evidence for danger-wall and discovery', async () => {
     const execution = executionStub();
-    const result = await runComprehendReadAgent(
+    const result = await runReadFitsFindingSynthesisReadComprehensionAgent(
       {
         read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
         repository: {

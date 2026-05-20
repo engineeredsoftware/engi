@@ -37,8 +37,8 @@ const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')
 });
 
-export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanSchema>>({
-  name: 'asset-pack-setup-plan-agent',
+export const ReadFitsFindingSynthesisSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanSchema>>({
+  name: 'ReadFitsFindingSynthesisSetupPlanAgent',
   description: 'Derive concise setup plan from repository context and expressed read',
   outputSchema: PlanSchema,
   // Minimal prompt hierarchy to satisfy lint and provide usable strings.
@@ -120,19 +120,19 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
   retry: { }
 });
 // Bring-up path: provide a fast stub in test/debug-only mode.
-export default async function setupPlanAgent(input: any, execution: any) {
+export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: any, execution: any) {
   const shouldUsePtrr = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR');
   if (!shouldUsePtrr && isAssetPackBoundedRealInferenceProfile()) {
     const baseline = buildDeterministicSetupPlan(input, execution);
     const inferred = await runBoundedStructuredInference({
-      agentName: 'asset-pack-setup-plan-agent',
+      agentName: 'ReadFitsFindingSynthesisSetupPlanAgent',
       phase: 'setup',
       step: 'setup-plan',
       execution,
       schema: PlanSchema,
       fallback: () => baseline,
       promptTemplate: {
-        templateId: 'ReadFindingFitsSynthesis.prompt.setup-plan',
+        templateId: 'ReadFitsFindingSynthesis.prompt.setup-plan',
         system: [
           'You are the Bitcode AssetPack setup-plan agent.',
           'Produce one concise source-bound plan for a Read/Fit pipeline run.',
@@ -192,9 +192,9 @@ export default async function setupPlanAgent(input: any, execution: any) {
   if (useStub) {
     if (emitStubLifecycle) {
       try {
-        execution?.store?.('agent:asset-pack-setup-plan-agent', 'start', {
+        execution?.store?.('agent:ReadFitsFindingSynthesisSetupPlanAgent', 'start', {
           phase: 'setup',
-          agent: 'asset-pack-setup-plan-agent',
+          agent: 'ReadFitsFindingSynthesisSetupPlanAgent',
           step: 'Plan'
         } as any);
       } catch {}
@@ -202,16 +202,16 @@ export default async function setupPlanAgent(input: any, execution: any) {
     const result = { plan: 'Prepare concise context; Reason about setup; Return minimal plan.' };
     if (emitStubLifecycle) {
       try {
-        execution?.store?.('agent:asset-pack-setup-plan-agent', 'complete', {
+        execution?.store?.('agent:ReadFitsFindingSynthesisSetupPlanAgent', 'complete', {
           phase: 'setup',
-          agent: 'asset-pack-setup-plan-agent',
+          agent: 'ReadFitsFindingSynthesisSetupPlanAgent',
           step: 'Plan'
         } as any);
       } catch {}
     }
     return result;
   }
-  return await realSetupPlanAgent(input, execution);
+  return await ReadFitsFindingSynthesisSetupPlanAgent(input, execution);
 }
 
 function buildDeterministicSetupPlan(input: any, execution: any): z.infer<typeof PlanSchema> {

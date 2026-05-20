@@ -1,8 +1,8 @@
 import {
-  buildTerminalFitPipelineHarnessStreamSnapshot,
-  buildTerminalFitPipelineHarnessRequest,
-  drainTerminalFitPipelineHarnessSseBuffer,
-  summarizeTerminalFitPipelineHarnessEvent,
+  buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot,
+  buildTerminalReadFitsFindingSynthesisHarnessRequest,
+  drainTerminalReadFitsFindingSynthesisHarnessSseBuffer,
+  summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
 } from '@/app/terminal/terminal-pipeline-harness-client';
 import type { TerminalDepositReadWorkbench } from '@/app/terminal/terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
@@ -70,7 +70,7 @@ const acceptedReadNeed = {
 
 describe('terminal pipeline harness client', () => {
   it('builds an authenticated live fit harness request from deposited revision and admitted Read evidence', () => {
-    const state = buildTerminalFitPipelineHarnessRequest({
+    const state = buildTerminalReadFitsFindingSynthesisHarnessRequest({
       workbench,
       repositoryContext,
       depositedSourceRevision: {
@@ -111,7 +111,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('reports missing source-bound evidence before running the live harness', () => {
-    const state = buildTerminalFitPipelineHarnessRequest({
+    const state = buildTerminalReadFitsFindingSynthesisHarnessRequest({
       workbench,
       repositoryContext,
       depositedSourceRevision: null,
@@ -126,7 +126,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('requires accepted Read-Need review before live Finding Fits run', () => {
-    const state = buildTerminalFitPipelineHarnessRequest({
+    const state = buildTerminalReadFitsFindingSynthesisHarnessRequest({
       workbench,
       repositoryContext,
       depositedSourceRevision: {
@@ -150,7 +150,7 @@ describe('terminal pipeline harness client', () => {
 
   it('drains server-sent harness events while preserving partial buffers', () => {
     const events: Array<{ event: string; data: unknown }> = [];
-    const tail = drainTerminalFitPipelineHarnessSseBuffer(
+    const tail = drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
       'event: harness-started\ndata: {"repositoryFullName":"engineeredsoftware/ENGI"}\n\nevent: harness-event\ndata: {',
       (event) => events.push(event),
     );
@@ -165,7 +165,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('summarizes completed harness evidence with fit, candidate, telemetry, and ledger posture', () => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent({
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
       event: 'harness-completed',
       data: {
         outcome: 'completed',
@@ -202,7 +202,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes command lifecycle harness events for operator debugging', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-event',
         data: { type: 'command-completed', label: 'asset-pack-pipeline-run', exitCode: 0 },
       }),
@@ -211,7 +211,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes route preflight blockers before sandbox creation', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: false,
@@ -226,7 +226,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes staging lane mismatch before sandbox creation', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: true,
@@ -243,7 +243,7 @@ describe('terminal pipeline harness client', () => {
 
   it('does not present missing real inference as a local development blocker when strictness is disabled', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceRequired: false,
@@ -259,7 +259,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes route preflight profile, budget, and database host when unblocked', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: true,
@@ -275,7 +275,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('summarizes live telemetry artifact events with phase, path, and inspected payload shape', () => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent({
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
       event: 'harness-event',
       data: {
         type: 'telemetry-artifact-event',
@@ -319,7 +319,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('summarizes live tool telemetry with tool name, result state, and input/output posture', () => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent({
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
       event: 'harness-event',
       data: {
         type: 'telemetry-artifact-event',
@@ -347,7 +347,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('adapts live harness events into the canonical execution stream panel payload', () => {
-    const snapshot = buildTerminalFitPipelineHarnessStreamSnapshot(
+    const snapshot = buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
       [
         {
           event: 'harness-started',

@@ -598,7 +598,7 @@ Purpose:
 Finish the enterprise Reading product experience around two named pipelines
 and five reviewable Terminal steps. `ReadNeedComprehensionSynthesis` turns a
 reader's Read Request into a measured Need that the reader can review.
-`ReadFindingFitsSynthesis` accepts only that reviewed Need, searches the Bitcode
+`ReadFitsFindingSynthesis` accepts only that reviewed Need, searches the Bitcode
 Depository for every qualifying fit deposit above the configured confidence and
 quality thresholds, synthesizes a source-safe AssetPack from those deposits
 when enough fit evidence exists, and prepares BTC settlement and pull-request
@@ -613,13 +613,13 @@ Acceptance criteria:
   comprehension, Need measurement, and operator review. All phase ids, agent
   ids, PTRR step ids, ThricifiedGeneration ids, prompt ids, and telemetry ids are prefixed under
   `ReadNeedComprehensionSynthesis`.
-- `ReadFindingFitsSynthesis` owns accepted-Need admission, setup/read
+- `ReadFitsFindingSynthesis` owns accepted-Need admission, setup/read
   comprehension, depository discovery, vector/lexical Finding Fits search,
   AssetPack implementation from qualifying fit deposits, validation,
   source-safe preview, Share-to-Fee pricing, settlement readback, and
   pull-request delivery. All phase ids, agent ids, PTRR step ids,
   ThricifiedGeneration ids, tool ids, prompt ids, and telemetry ids are prefixed under
-  `ReadFindingFitsSynthesis`.
+  `ReadFitsFindingSynthesis`.
 - the Read-Need comprehension pipeline stores prompt templates, prompt inputs,
   interpolated context, raw model responses when used, parsed typed Need,
   measurement root, review state, feedback history, resynthesis attempts, and
@@ -826,9 +826,27 @@ reviewable Need through `ReadNeedComprehensionSynthesis`, allow feedback and
 resynthesis, persist accepted Need truth, and block Finding Fits until the Need
 is reviewed.
 
+Gate 10 acceptance requires:
+
+- a typed `bitcode.read.request` record embedded in every `bitcode.read.need`
+  so the raw request remains auditable as request truth rather than fit truth;
+- `ReadNeedComprehensionSynthesis` contract trace exposure for every phase,
+  PTRR agent, PTRR step, and ThricifiedGeneration identifier used by route
+  telemetry and Terminal stream/history surfaces;
+- resynthesis lineage: each resynthesized Need records the prior Need id and
+  appends operator feedback without losing earlier feedback turns;
+- accepted Need truth: accepting a Need computes an acceptance root, records
+  review state `accepted`, and emits Finding Fits admission evidence;
+- strict admission: `ReadFitsFindingSynthesis` receives only an accepted
+  `bitcode.read.need` when `requireAcceptedReadNeed=true`; raw Read requests
+  and unaccepted Needs produce blocked readiness;
+- Terminal exposes the first two enterprise Reading steps without raw JSON:
+  synthesize Need, review measurements/proof expectations/feedback, request
+  resynthesis, or accept the Need before the Fit button becomes ready.
+
 ### Gate 11: Finding Fits And Source-Safe AssetPack Preview
 
-Gate 11 owns `ReadFindingFitsSynthesis`: depository search, candidate fit
+Gate 11 owns `ReadFitsFindingSynthesis`: depository search, candidate fit
 ranking, fitting deposits as synthesis context, AssetPack measurement, source-
 safe preview, Share-to-Fee quote, and proof-rich Terminal stream visibility.
 
@@ -961,7 +979,7 @@ The Terminal enterprise Reading path is exactly five user steps:
    history. Terminal shows the full Need; the user can accept it or request
    resynthesis with feedback. No depository search, BTC fee, BTD mint, or
    AssetPack source disclosure is allowed before Need acceptance.
-3. **Request Fit.** `ReadFindingFitsSynthesis` accepts only the latest accepted
+3. **Request Fit.** `ReadFitsFindingSynthesis` accepts only the latest accepted
    Need. The pipeline verifies Need schema/review/measurement roots, prepares
    setup and read-comprehension context, then the discovery phase searches the
    Depository through lexical and vector channels, admits every deposit whose
@@ -969,7 +987,7 @@ The Terminal enterprise Reading path is exactly five user steps:
    above the configured thresholds, ranks those fits, and returns
    `worthy_fit`, `no_worthy_fit`, or `blocked_readiness`.
 4. **Review synthesized AssetPack.** When a worthy fit exists,
-   `ReadFindingFitsSynthesis` implementation uses the discovered fit deposits
+   `ReadFitsFindingSynthesis` implementation uses the discovered fit deposits
    as contextual knowledge to synthesize a source-safe AssetPack preview for
    the accepted Need. Preview may show Need measurement, Fit measurement, fit
    deposit ids, roots, score bands, proof posture, ownership boundary,
@@ -1045,26 +1063,26 @@ and `retry`. Every PTRR step owns three ThricifiedGeneration units for
 `prepare-concise-context`, `chunk-then-sum`, and `stitch-until-complete`; each
 ThricifiedGeneration is the strict reason, judge, structured-output sequence.
 
-`ReadFindingFitsSynthesis` has seven phases, eight PTRR agents, thirty-two
+`ReadFitsFindingSynthesis` has seven phases, eight PTRR agents, thirty-two
 declared PTRR steps, ninety-six ThricifiedGeneration units, sixteen
 model-structured PTRR steps, and four tool contracts:
 
 | Phase | PTRR agent | Agent objective | Return type |
 | --- | --- | --- | --- |
-| `ReadFindingFitsSynthesis.admit` | `ReadFindingFitsSynthesis.admit.accepted-need-gate` | verify accepted Need: schema, review state, measurement root | `ReadFindingFitsAdmission` |
-| `ReadFindingFitsSynthesis.prepare` | `ReadFindingFitsSynthesis.prepare.setup-plan` | setup plan: summarize Read, source revision, fit boundaries | `PlanSchema` |
-| `ReadFindingFitsSynthesis.prepare` | `ReadFindingFitsSynthesis.prepare.read-comprehension` | comprehend Read: primary intent, satisfaction criteria, entities, risk admission | `BoundedReadComprehensionSchema` |
-| `ReadFindingFitsSynthesis.discovery` | `ReadFindingFitsSynthesis.discovery.finding-fits` | discover fit deposits: build query, lexical search, vector search, admit qualifying fit deposits, rank fit deposits | `DepositoryFitsResult` |
-| `ReadFindingFitsSynthesis.implementation` | `ReadFindingFitsSynthesis.implementation.asset-pack` | structured AssetPack synthesis from fit deposits: plan pack, write evidence, bind proof, prepare preview | `AssetPackSynthesisOutput` |
-| `ReadFindingFitsSynthesis.validate` | `ReadFindingFitsSynthesis.validate.fit-quality` | source/proof readiness: validate search, synthesis, disclosure, finish readiness | `ReadyToFinishOutput` |
-| `ReadFindingFitsSynthesis.preview` | `ReadFindingFitsSynthesis.preview.source-safe-preview` | measure fee and lock source: Share-to-Fee, range projection, access policy, source lock | `AssetPackSourceSafePreview` |
-| `ReadFindingFitsSynthesis.settle` | `ReadFindingFitsSynthesis.settle.buy-deliver` | buy and deliver: reader BTC fee, range/license/journal readback, pull request, completion | `AssetPackCompletionOutput` |
+| `ReadFitsFindingSynthesis.admit` | `ReadFitsFindingSynthesis.admit.accepted-need-gate` | verify accepted Need: schema, review state, measurement root | `ReadFitsFindingAdmission` |
+| `ReadFitsFindingSynthesis.prepare` | `ReadFitsFindingSynthesis.prepare.setup-plan` | setup plan: summarize Read, source revision, fit boundaries | `PlanSchema` |
+| `ReadFitsFindingSynthesis.prepare` | `ReadFitsFindingSynthesis.prepare.read-comprehension` | comprehend Read: primary intent, satisfaction criteria, entities, risk admission | `BoundedReadComprehensionSchema` |
+| `ReadFitsFindingSynthesis.discovery` | `ReadFitsFindingSynthesis.discovery.finding-fits` | discover fit deposits: build query, lexical search, vector search, admit qualifying fit deposits, rank fit deposits | `DepositoryFitsResult` |
+| `ReadFitsFindingSynthesis.implementation` | `ReadFitsFindingSynthesis.implementation.asset-pack` | structured AssetPack synthesis from fit deposits: plan pack, write evidence, bind proof, prepare preview | `AssetPackSynthesisOutput` |
+| `ReadFitsFindingSynthesis.validate` | `ReadFitsFindingSynthesis.validate.fit-quality` | source/proof readiness: validate search, synthesis, disclosure, finish readiness | `ReadyToFinishOutput` |
+| `ReadFitsFindingSynthesis.preview` | `ReadFitsFindingSynthesis.preview.source-safe-preview` | measure fee and lock source: Share-to-Fee, range projection, access policy, source lock | `AssetPackSourceSafePreview` |
+| `ReadFitsFindingSynthesis.settle` | `ReadFitsFindingSynthesis.settle.buy-deliver` | buy and deliver: reader BTC fee, range/license/journal readback, pull request, completion | `AssetPackCompletionOutput` |
 
 The required tool contracts are
-`ReadFindingFitsSynthesis.tool.lexical-depository-search`,
-`ReadFindingFitsSynthesis.tool.vector-depository-search`,
-`ReadFindingFitsSynthesis.tool.verification-evidence`, and
-`ReadFindingFitsSynthesis.tool.vcs-create-pull-request`. Every inference telemetry
+`ReadFitsFindingSynthesis.tool.lexical-depository-search`,
+`ReadFitsFindingSynthesis.tool.vector-depository-search`,
+`ReadFitsFindingSynthesis.tool.verification-evidence`, and
+`ReadFitsFindingSynthesis.tool.vcs-create-pull-request`. Every inference telemetry
 line must expose prompt template, interpolated prompt/messages, raw response,
 parsed typed output, schema/return type, usage/timing, execution state, and
 fail-closed status. Every tool telemetry line must expose tool id, input
@@ -1088,15 +1106,15 @@ Terminal step 2: review synthesized Need
   -> ReadNeedComprehensionSynthesis.review
   -> accepted bitcode.read.need
 Terminal step 3: request Fit
-  -> ReadFindingFitsSynthesis.admit
-  -> ReadFindingFitsSynthesis.prepare
-  -> ReadFindingFitsSynthesis.discovery
+  -> ReadFitsFindingSynthesis.admit
+  -> ReadFitsFindingSynthesis.prepare
+  -> ReadFitsFindingSynthesis.discovery
 Terminal step 4: review synthesized AssetPack
-  -> ReadFindingFitsSynthesis.implementation
-  -> ReadFindingFitsSynthesis.validate
-  -> ReadFindingFitsSynthesis.preview
+  -> ReadFitsFindingSynthesis.implementation
+  -> ReadFitsFindingSynthesis.validate
+  -> ReadFitsFindingSynthesis.preview
 Terminal step 5: buy AssetPack, settle
-  -> ReadFindingFitsSynthesis.settle
+  -> ReadFitsFindingSynthesis.settle
   -> BTC fee readback + BTD range/license/journal readback + pull request
 ```
 
@@ -1128,7 +1146,7 @@ Prompt and return-type audit:
 | Pipeline | Model-structured PTRR agents | Model-structured PTRR steps | Model prompt templates | Parsed return types |
 | --- | ---: | ---: | --- | --- |
 | `ReadNeedComprehensionSynthesis` | 1 | 4 | `ReadNeedComprehensionSynthesis.prompt.need-synthesis` | `ReadNeed` |
-| `ReadFindingFitsSynthesis` | 4 | 16 | `ReadFindingFitsSynthesis.prompt.setup-plan`; `ReadFindingFitsSynthesis.prompt.read-comprehension`; `ReadFindingFitsSynthesis.prompt.asset-pack-synthesis`; `ReadFindingFitsSynthesis.prompt.fit-quality-validation` | `PlanSchema`; `BoundedReadComprehensionSchema`; `AssetPackSynthesisOutput`; `ReadyToFinishOutput` |
+| `ReadFitsFindingSynthesis` | 4 | 16 | `ReadFitsFindingSynthesis.prompt.setup-plan`; `ReadFitsFindingSynthesis.prompt.read-comprehension`; `ReadFitsFindingSynthesis.prompt.asset-pack-synthesis`; `ReadFitsFindingSynthesis.prompt.fit-quality-validation` | `PlanSchema`; `BoundedReadComprehensionSchema`; `AssetPackSynthesisOutput`; `ReadyToFinishOutput` |
 
 Every model-structured PTRR step records the common prompt registry posture:
 `factoryAgentWithPTRR` with the `prompt` + `stepPrompts` carrier, agent
@@ -1141,7 +1159,7 @@ Tool audit:
 | Pipeline | Tool count | Tool ids | Return types |
 | --- | ---: | --- | --- |
 | `ReadNeedComprehensionSynthesis` | 0 | none | none |
-| `ReadFindingFitsSynthesis` | 4 | `ReadFindingFitsSynthesis.tool.lexical-depository-search`; `ReadFindingFitsSynthesis.tool.vector-depository-search`; `ReadFindingFitsSynthesis.tool.verification-evidence`; `ReadFindingFitsSynthesis.tool.vcs-create-pull-request` | `DepositorySearchResult`; `EmbeddingSearchResult`; `AssetPackVerificationEvidenceResult`; `PullRequestDeliveryResult` |
+| `ReadFitsFindingSynthesis` | 4 | `ReadFitsFindingSynthesis.tool.lexical-depository-search`; `ReadFitsFindingSynthesis.tool.vector-depository-search`; `ReadFitsFindingSynthesis.tool.verification-evidence`; `ReadFitsFindingSynthesis.tool.vcs-create-pull-request` | `DepositorySearchResult`; `EmbeddingSearchResult`; `AssetPackVerificationEvidenceResult`; `PullRequestDeliveryResult` |
 
 ### Share-to-Fee measurement clarity
 
@@ -1171,8 +1189,9 @@ Gate 4 implementation state:
 
 - `/api/read-review` exposes server-side Read-Need synthesis, resynthesis, and
   acceptance actions while preserving the prior Read review boundary. The
-  response stores prompt input, interpolated source context, parsed Need,
-  measurement root, review state, feedback, and synthesis telemetry.
+  response stores prompt input, interpolated source context, typed
+  `bitcode.read.request`, parsed Need, measurement root, review state,
+  feedback, resynthesis lineage, contract trace, and synthesis telemetry.
 - Read-Need test coverage must stay implementation-guiding rather than
   snapshot-only: it must assert typed Need fields, measurement roots,
   source-disclosure constraints, pricing measurement vectors, acceptance

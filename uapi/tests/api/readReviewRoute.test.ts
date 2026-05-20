@@ -148,6 +148,15 @@ describe('/api/read-review', () => {
     expect(mockReviewNeed).not.toHaveBeenCalled();
     expect(payload.pipelineName).toBe('ReadNeedComprehensionSynthesis');
     expect(payload.stage).toBe('review_synthesized_need');
+    expect(payload.readRequest).toMatchObject({
+      schema: 'bitcode.read.request',
+      requestId: 'read-activity',
+      prompt: 'Find a source-bound Terminal AssetPack fit.',
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      targetArtifactKinds: ['asset-pack-evidence', 'proof-root'],
+    });
     expect(payload.readNeed).toMatchObject({
       schema: 'bitcode.read.need',
       reviewState: 'needs_acceptance',
@@ -171,11 +180,74 @@ describe('/api/read-review', () => {
       returnType: 'ReadNeed',
       measurementRoot: payload.readNeed.measurementRoot,
       reviewState: 'needs_acceptance',
+      readRequest: payload.readRequest,
     });
+    expect(payload.telemetry.pipelineContract).toMatchObject({
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      phaseCount: 4,
+      ptrrStepCount: 16,
+      thricifiedGenerationCount: 48,
+    });
+    expect(payload.telemetry.pipelineTrace).toHaveLength(16);
+    expect(payload.telemetry.pipelineTrace[0]).toMatchObject({
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      thricifiedGenerationIds: expect.any(Array),
+    });
+    expect(payload.telemetry.pipelineTrace[0].thricifiedGenerationIds).toHaveLength(3);
     expect(payload.telemetry.promptTemplate.templateId).toBe(
       'ReadNeedComprehensionSynthesis.prompt.need-synthesis',
     );
     expect(payload.telemetry.parsedTypedOutput).toMatchObject({ schema: 'bitcode.read.need' });
+  });
+
+  it('resynthesizes a Read-Need with feedback while preserving previous Need lineage', async () => {
+    const firstResponse = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'synthesize_read_need',
+          readId: 'read-activity',
+          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          sourceRevision: {
+            repositoryFullName: 'engineeredsoftware/ENGI',
+            branch: 'main',
+            commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+          },
+          feedback: ['Prefer proof-first closure language.'],
+        }),
+      }),
+    );
+    const first = await firstResponse.json();
+    const secondResponse = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'resynthesize_read_need',
+          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          sourceRevision: {
+            repositoryFullName: 'engineeredsoftware/ENGI',
+            branch: 'main',
+            commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+          },
+          readNeed: first.readNeed,
+          feedback: ['Exclude settlement finality claims from the Need.'],
+        }),
+      }),
+    );
+    const second = await secondResponse.json();
+
+    expect(secondResponse.status).toBe(200);
+    expect(second.readNeed.needId).not.toBe(first.readNeed.needId);
+    expect(second.readNeed.request.previousNeedId).toBe(first.readNeed.needId);
+    expect(second.readNeed.feedbackHistory).toEqual([
+      'Prefer proof-first closure language.',
+      'Exclude settlement finality claims from the Need.',
+    ]);
+    expect(second.telemetry).toMatchObject({
+      resynthesisAttempt: true,
+      previousNeedId: first.readNeed.needId,
+      feedbackHistory: second.readNeed.feedbackHistory,
+    });
   });
 
   it('accepts a synthesized Read-Need as the only Finding Fits input', async () => {
@@ -207,22 +279,27 @@ describe('/api/read-review', () => {
 
     expect(acceptResponse.status).toBe(200);
     expect(payload.pipelineName).toBe('ReadNeedComprehensionSynthesis');
-    expect(payload.nextPipelineName).toBe('ReadFindingFitsSynthesis');
+    expect(payload.nextPipelineName).toBe('ReadFitsFindingSynthesis');
     expect(payload.stage).toBe('request_fit_ready');
     expect(payload.acceptedReadNeed).toMatchObject({
       schema: 'bitcode.read.need',
       reviewState: 'accepted',
       needId: synthesis.readNeed.needId,
       measurementRoot: synthesis.readNeed.measurementRoot,
+      request: synthesis.readRequest,
     });
-    expect(payload.findingFitsAdmission).toMatchObject({
+    expect(payload.readRequest).toMatchObject({
+      schema: 'bitcode.read.request',
+      requestId: synthesis.readRequest.requestId,
+    });
+    expect(payload.fitsFindingAdmission).toMatchObject({
       admitted: true,
       blockers: [],
     });
     expect(payload.telemetry).toMatchObject({
       schema: 'bitcode.read-need.acceptance-telemetry',
       pipelineName: 'ReadNeedComprehensionSynthesis',
-      nextPipelineName: 'ReadFindingFitsSynthesis',
+      nextPipelineName: 'ReadFitsFindingSynthesis',
       needId: synthesis.readNeed.needId,
       nextStage: 'finding_fits',
       returnType: 'AcceptedReadNeed',

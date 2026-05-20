@@ -18,11 +18,26 @@ export interface ReadNeedMeasurementDimension {
   volume: number;
 }
 
+export interface ReadNeedRequest {
+  schema: 'bitcode.read.request';
+  requestId: string;
+  prompt: string;
+  repositoryFullName?: string | null;
+  sourceBranch?: string | null;
+  sourceCommit?: string | null;
+  targetArtifactKinds: string[];
+  closureCriteria: string[];
+  failureModes: string[];
+  feedbackHistory: string[];
+  previousNeedId?: string | null;
+}
+
 export interface ReadNeed {
   schema: 'bitcode.read.need';
   needId: string;
   reviewState: ReadNeedReviewState;
   measurementRoot: string;
+  request: ReadNeedRequest;
   read: {
     id?: string | null;
     prompt: string;
@@ -55,7 +70,7 @@ export interface ReadNeed {
   };
 }
 
-export interface ReadFindingFitsAdmission {
+export interface ReadFitsFindingAdmission {
   admitted: boolean;
   blockers: string[];
   acceptedNeed: ReadNeed | null;
@@ -172,6 +187,8 @@ type ReadNeedSourceInput = {
   closureCriteria?: unknown;
   failureModes?: unknown;
   feedback?: unknown;
+  readNeed?: unknown;
+  previousReadNeed?: unknown;
 };
 
 const inferredStringListSchema = z.preprocess(
@@ -232,6 +249,10 @@ function stringArray(value: unknown): string[] {
     .filter(Boolean);
 }
 
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
 function getPath(value: unknown, path: string[]): unknown {
   let cursor = value;
   for (const part of path) {
@@ -243,6 +264,13 @@ function getPath(value: unknown, path: string[]): unknown {
 
 function normalizeArtifactKind(value: string): string {
   return value.toLowerCase().replace(/[_\s]+/g, '-');
+}
+
+function priorReadNeed(input: ReadNeedSourceInput): Record<string, unknown> | null {
+  const direct = recordValue(input.readNeed);
+  if (direct?.schema === 'bitcode.read.need') return direct;
+  const previous = recordValue(input.previousReadNeed);
+  return previous?.schema === 'bitcode.read.need' ? previous : null;
 }
 
 function normalizeSource(input: ReadNeedSourceInput) {
@@ -373,6 +401,7 @@ function clampQuality(value: number): number {
 export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): ReadNeed {
   const read = normalizeSource(input);
   const targetArtifactKinds = normalizeTargetArtifactKinds(input);
+  const previousNeed = priorReadNeed(input);
   const explicitClosureCriteria = [
     ...stringArray(input.closureCriteria),
     ...stringArray(recordValue(input.read)?.closureCriteria),
@@ -380,7 +409,7 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
     ...stringArray(recordValue(input.readMeasurement)?.closureCriteria),
   ];
   const closureCriteria = explicitClosureCriteria.length
-    ? [...new Set(explicitClosureCriteria)]
+    ? uniqueStrings(explicitClosureCriteria)
     : defaultClosureCriteria(read);
   const failureModes = [
     ...defaultFailureModes(),
@@ -388,13 +417,31 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
     ...stringArray(recordValue(input.read)?.failureModes),
     ...stringArray(recordValue(input.readRequest)?.failureModes),
   ];
-  const feedbackHistory = stringArray(input.feedback);
+  const feedbackHistory = uniqueStrings([
+    ...stringArray(previousNeed?.feedbackHistory),
+    ...stringArray(recordValue(previousNeed?.request)?.feedbackHistory),
+    ...stringArray(recordValue(input.readRequest)?.feedback),
+    ...stringArray(input.feedback),
+  ]);
   const measurementVector = measurementVectorForNeed(read, targetArtifactKinds, closureCriteria);
+  const readRequest: ReadNeedRequest = {
+    schema: 'bitcode.read.request',
+    requestId: read.id || `request-${sha256(stableStringify({ read, targetArtifactKinds })).slice(0, 16)}`,
+    prompt: read.prompt,
+    repositoryFullName: read.repositoryFullName,
+    sourceBranch: read.sourceBranch,
+    sourceCommit: read.sourceCommit,
+    targetArtifactKinds,
+    closureCriteria,
+    failureModes: uniqueStrings(failureModes),
+    feedbackHistory,
+    previousNeedId: firstString(previousNeed?.needId),
+  };
   const seed = {
+    request: readRequest,
     read,
     targetArtifactKinds,
     closureCriteria,
-    failureModes,
     feedbackHistory,
     measurementVector,
   };
@@ -410,10 +457,11 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
     needId: `need-${sha256(stableStringify(seed)).slice(0, 16)}`,
     reviewState: 'needs_acceptance',
     measurementRoot,
+    request: readRequest,
     read,
     requirements: defaultRequirements(read),
     closureCriteria,
-    failureModes: [...new Set(failureModes)],
+    failureModes: readRequest.failureModes,
     targetArtifactKinds,
     sourceConstraints: {
       repositoryFullName: read.repositoryFullName,
@@ -467,7 +515,7 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
     systemPrompt: [
       'You are the ReadNeedComprehensionSynthesis PTRR agent for Bitcode Reading.',
       'Synthesize exactly what the reader asked Bitcode to read, no more and no less.',
-      'Return only source-constrained Need comprehension fields that can later drive ReadFindingFitsSynthesis.',
+      'Return only source-constrained Need comprehension fields that can later drive ReadFitsFindingSynthesis.',
       'Do not claim that deposits were searched, that a fit exists, that BTC was paid, or that protected AssetPack source may be shown.',
     ].join('\n'),
     userPrompt: JSON.stringify({
@@ -475,7 +523,8 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
       targetArtifactKinds,
       closureCriteria: explicitClosureCriteria,
       failureModes: stringArray(input.failureModes),
-      feedbackHistory: stringArray(input.feedback),
+      feedbackHistory: fallbackNeed.feedbackHistory,
+      previousNeedId: fallbackNeed.request.previousNeedId,
       requiredOutput:
         'requirements, closureCriteria, failureModes, targetArtifactKinds, proofExpectations',
     }),
@@ -568,7 +617,7 @@ export function shouldRequireAcceptedReadNeed(input: unknown): boolean {
   );
 }
 
-export function admitReadFindingFits(input: unknown): ReadFindingFitsAdmission {
+export function admitReadFitsFinding(input: unknown): ReadFitsFindingAdmission {
   const acceptedNeed = resolveReadNeedFromPipelineInput(input);
   if (isAcceptedReadNeed(acceptedNeed)) {
     return { admitted: true, blockers: [], acceptedNeed };

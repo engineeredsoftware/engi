@@ -31,6 +31,7 @@ export async function POST(request: Request) {
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
+        listReadingPipelineTelemetryTrace,
         summarizeReadingPipelineContract,
       } = await import('@bitcode/pipeline-asset-pack/reading-pipeline-contract');
       const inferenceCapture = createRouteInferenceCapture();
@@ -50,10 +51,12 @@ export async function POST(request: Request) {
         stage: 'review_synthesized_need',
         action,
         readNeed,
+        readRequest: readNeed.request,
         telemetry: {
           schema: 'bitcode.read-need.synthesis-telemetry',
           pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
           pipelineContract: summarizeReadingPipelineContract(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
+          pipelineTrace: listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
           phaseId: 'ReadNeedComprehensionSynthesis.comprehend',
           agentId: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer',
           ptrrStepId: synthesisStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
@@ -89,6 +92,9 @@ export async function POST(request: Request) {
           parsedTypedOutput: readNeed,
           returnType: 'ReadNeed',
           parsedNeed: readNeed,
+          readRequest: readNeed.request,
+          previousNeedId: readNeed.request.previousNeedId || null,
+          feedbackHistory: readNeed.feedbackHistory,
           measurementRoot: readNeed.measurementRoot,
           reviewState: readNeed.reviewState,
           resynthesisAttempt: action === 'resynthesize_read_need',
@@ -98,11 +104,13 @@ export async function POST(request: Request) {
     }
 
     if (action === 'accept_read_need') {
-      const { acceptReadNeed, admitReadFindingFits } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const { acceptReadNeed, admitReadFitsFinding } = await import('@bitcode/pipeline-asset-pack/read-need');
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
-        READ_FINDING_FITS_SYNTHESIS,
+        READ_FITS_FINDING_SYNTHESIS,
+        listReadingPipelineTelemetryTrace,
+        summarizeReadingPipelineContract,
       } = await import('@bitcode/pipeline-asset-pack/reading-pipeline-contract');
       const readNeed = objectValue(body.readNeed) || objectValue(body.acceptedReadNeed);
       if (!readNeed || readNeed.schema !== 'bitcode.read.need') {
@@ -110,7 +118,7 @@ export async function POST(request: Request) {
       }
 
       const acceptedReadNeed = acceptReadNeed(readNeed as unknown as Parameters<typeof acceptReadNeed>[0]);
-      const findingFitsAdmission = admitReadFindingFits({
+      const fitsFindingAdmission = admitReadFitsFinding({
         acceptedReadNeed,
         requireAcceptedReadNeed: true,
       });
@@ -122,15 +130,18 @@ export async function POST(request: Request) {
       return NextResponse.json({
         ok: true,
         pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
-        nextPipelineName: READ_FINDING_FITS_SYNTHESIS,
+        nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
         stage: 'request_fit_ready',
         action,
         acceptedReadNeed,
         readNeed: acceptedReadNeed,
-        findingFitsAdmission,
+        readRequest: acceptedReadNeed.request,
+        fitsFindingAdmission,
         telemetry: {
           schema: 'bitcode.read-need.acceptance-telemetry',
           pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+          pipelineContract: summarizeReadingPipelineContract(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
+          pipelineTrace: listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
           phaseId: 'ReadNeedComprehensionSynthesis.review',
           agentId: 'ReadNeedComprehensionSynthesis.review.operator-review',
           ptrrStepId: acceptanceStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.review.operator-review.try',
@@ -139,8 +150,10 @@ export async function POST(request: Request) {
           measurementRoot: acceptedReadNeed.measurementRoot,
           reviewState: acceptedReadNeed.reviewState,
           acceptanceRoot: acceptedReadNeed.review?.acceptanceRoot || null,
+          readRequest: acceptedReadNeed.request,
+          feedbackHistory: acceptedReadNeed.feedbackHistory,
           nextStage: acceptedReadNeed.review?.nextStage || 'finding_fits',
-          nextPipelineName: READ_FINDING_FITS_SYNTHESIS,
+          nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
           returnType: 'AcceptedReadNeed',
         },
         nextProtocolAction: 'Run Finding Fits with the accepted Read-Need.',
@@ -242,6 +255,8 @@ function readNeedPipelineInput(body: Record<string, unknown>) {
     },
     readRequest,
     sourceRevision,
+    previousReadNeed: body.previousReadNeed || body.readNeed,
+    readNeed: body.readNeed,
     targetArtifactKinds: body.targetArtifactKinds || body.targetKinds,
     targetKinds: body.targetKinds,
     closureCriteria: body.closureCriteria,

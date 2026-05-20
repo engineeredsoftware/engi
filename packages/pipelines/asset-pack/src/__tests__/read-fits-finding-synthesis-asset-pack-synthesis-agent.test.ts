@@ -1,8 +1,8 @@
 // @ts-nocheck
-import assetPackSynthesizeArtifacts from '../agents/implementation/asset-pack-synthesize-artifacts-agent';
+import runReadFitsFindingSynthesisAssetPackSynthesisAgent from '../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('assetPackSynthesizeArtifacts', () => {
+describe('runReadFitsFindingSynthesisAssetPackSynthesisAgent', () => {
   it('recovers Read, source revision, and fit evidence from execution context', async () => {
     const root = new Execution('pipeline:asset-pack');
     root.store('read', 'request', {
@@ -22,7 +22,7 @@ describe('assetPackSynthesizeArtifacts', () => {
     });
 
     const phase = root.child('phase:implementation');
-    const result = await assetPackSynthesizeArtifacts({ overallComplexity: 'moderate' }, phase);
+    const result = await runReadFitsFindingSynthesisAssetPackSynthesisAgent({ overallComplexity: 'moderate' }, phase);
 
     expect(result.assetPack.read).toBe('Read the deposited source revision for terminal closure.');
     expect(result.assetPackSynthesisArtifacts.summary).toContain('engineeredsoftware/ENGI@main@abc123');

@@ -198,6 +198,14 @@ harness deposit reference. The vector document policy is explicit:
 `text-embedding-3-small`, 1536 dimensions, `deliverable_vectors`, and
 `match_deliverable_vectors`.
 
+Gate 10 introduces the first two enterprise Reading steps as typed protocol
+state. `/api/read-review` can synthesize, resynthesize, and accept
+Read-Needs; every Need embeds its `bitcode.read.request`, feedback lineage, and
+prior Need id when resynthesized. Route telemetry exposes the
+ReadNeedComprehensionSynthesis contract trace across phases, PTRR agents,
+PTRR steps, and ThricifiedGeneration identifiers. Terminal cannot request
+Finding Fits from this path until an accepted `bitcode.read.need` is present.
+
 ## Later Version Handoff
 
 - V29: deeper Terminal workflows and transaction operation beyond V28 MVP QA.

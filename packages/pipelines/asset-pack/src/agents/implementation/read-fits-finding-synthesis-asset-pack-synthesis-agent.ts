@@ -68,11 +68,11 @@ function createAssetPackSynthesisPrompt(): Prompt {
 
 const prompt = createAssetPackSynthesisPrompt();
 
-export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
+export const ReadFitsFindingSynthesisAssetPackSynthesisAgent = factoryAgentWithPTRR<
   z.infer<typeof AssetPackSynthesisInputSchema>,
   z.infer<typeof AssetPackSynthesisOutputSchema>
 >({
-  name: 'asset-pack-synthesize-artifacts-agent',
+  name: 'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
   description: 'Synthesizes Read-satisfying AssetPack artifacts without selecting a delivery mechanism',
   outputSchema: AssetPackSynthesisOutputSchema,
   tools: [],
@@ -89,7 +89,7 @@ export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
   retry: { maxAttempts: 1 },
 });
 
-export default async function assetPackSynthesizeArtifacts(input: any, execution: any) {
+export default async function runReadFitsFindingSynthesisAssetPackSynthesisAgent(input: any, execution: any) {
   const storedReadRequest = findExecutionValue(execution, 'read', 'request');
   const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
   const read =
@@ -109,7 +109,7 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
   const result = isAssetPackBoundedRealInferenceProfile()
     ? await runBoundedAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate)
     : shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR')
-      ? await AssetPackSynthesizeArtifactsAgent(
+      ? await ReadFitsFindingSynthesisAssetPackSynthesisAgent(
       {
         ...input,
         read,
@@ -161,14 +161,14 @@ async function runBoundedAssetPackSynthesis(
   const fitResult = resolveFitResult(input, execution);
   const sourceRevision = resolveSourceRevision(input, execution);
   const inferred = await runBoundedStructuredInference({
-    agentName: 'asset-pack-synthesize-artifacts-agent',
+    agentName: 'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
     phase: 'implementation',
     step: 'synthesis',
     execution,
     schema: AssetPackSynthesisOutputSchema,
     fallback: () => baseline,
     promptTemplate: {
-      templateId: 'ReadFindingFitsSynthesis.prompt.asset-pack-synthesis',
+      templateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
       system: [
         'You are the Bitcode AssetPack synthesis agent.',
         'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',

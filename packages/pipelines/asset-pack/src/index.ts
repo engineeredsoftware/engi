@@ -272,14 +272,14 @@ export * from './embedding-config';
 export * from './reading-pipeline-contract';
 export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
 export {
-  AssetPackComprehendReadAgent,
-  AssetPackComprehendReadDefinitionAgent,
-  runComprehendReadAgent,
-} from './agents/setup/asset-pack-comprehend-read-agent';
-export { AssetPackSynthesizeArtifactsAgent } from './agents/implementation/asset-pack-synthesize-artifacts-agent';
+  ReadFitsFindingSynthesisReadComprehensionAgent,
+  ReadFitsFindingSynthesisReadDefinitionComprehensionAgent,
+  runReadFitsFindingSynthesisReadComprehensionAgent,
+} from './agents/setup/read-fits-finding-synthesis-read-comprehension-agent';
+export { ReadFitsFindingSynthesisAssetPackSynthesisAgent } from './agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent';
 export {
   acceptReadNeed,
-  admitReadFindingFits,
+  admitReadFitsFinding,
   buildAssetPackSourceSafePreview,
   buildShareToFeePreview,
   isAcceptedReadNeed,
@@ -288,10 +288,12 @@ export {
   resolveReadNeedFromPipelineInput,
   shouldRequireAcceptedReadNeed,
   synthesizeReadNeedForPipelineInput,
+  synthesizeReadNeedForPipelineInputWithInference,
   type AssetPackReadRightState,
   type AssetPackSourceSafePreview,
   type ReadNeed,
-  type ReadFindingFitsAdmission,
+  type ReadNeedRequest,
+  type ReadFitsFindingAdmission,
   type ReadNeedMeasurementDimension,
   type ReadNeedReviewState,
   type ShareToFeeQuote,

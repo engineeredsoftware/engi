@@ -26,11 +26,11 @@ import {
   type TerminalEnterpriseReadingStepId,
 } from './terminal-deposit-read-workbench';
 import {
-  buildTerminalFitPipelineHarnessStreamSnapshot,
-  buildTerminalFitPipelineHarnessRequest,
-  streamTerminalFitPipelineHarness,
-  summarizeTerminalFitPipelineHarnessEvent,
-  type TerminalFitPipelineHarnessEvent,
+  buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot,
+  buildTerminalReadFitsFindingSynthesisHarnessRequest,
+  streamTerminalReadFitsFindingSynthesisHarness,
+  summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
+  type TerminalReadFitsFindingSynthesisHarnessEvent,
 } from './terminal-pipeline-harness-client';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
 import { jumpToShellSection } from './terminal-shell-reading';
@@ -74,7 +74,7 @@ function terminalReadNeed(value: unknown): TerminalReadNeedState | null {
   return record?.schema === 'bitcode.read.need' ? record as TerminalReadNeedState : null;
 }
 
-type ReadFitProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
+type ReadFitsFindingProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
 type ReadingStageId = TerminalEnterpriseReadingStepId;
 
 type TerminalReadNeedState = Record<string, unknown> & {
@@ -82,6 +82,11 @@ type TerminalReadNeedState = Record<string, unknown> & {
   needId?: string;
   reviewState?: string;
   measurementRoot?: string;
+  request?: {
+    requestId?: string;
+    previousNeedId?: string | null;
+    feedbackHistory?: string[];
+  };
   requirements?: string[];
   closureCriteria?: string[];
   failureModes?: string[];
@@ -114,11 +119,11 @@ export default function TerminalDepositReadWorkbench({
   const { snapshot } = useTerminalShellBridge();
   const [recordingKey, setRecordingKey] = useState<'deposit' | 'read' | 'read-admission' | 'fit' | null>(null);
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
-  const [readFitProgress, setReadFitProgress] = useState<ReadFitProgressState>('draft');
+  const [readFitsFindingProgress, setReadFitsFindingProgress] = useState<ReadFitsFindingProgressState>('draft');
   const [recordedAdmittedReadActivityId, setRecordedAdmittedReadActivityId] = useState<string | null>(null);
   const [harnessState, setHarnessState] = useState<'idle' | 'running' | 'completed' | 'failed'>('idle');
   const [harnessMessage, setHarnessMessage] = useState<string | null>(null);
-  const [harnessEvents, setHarnessEvents] = useState<TerminalFitPipelineHarnessEvent[]>([]);
+  const [harnessEvents, setHarnessEvents] = useState<TerminalReadFitsFindingSynthesisHarnessEvent[]>([]);
   const [harnessUserHasScrolled, setHarnessUserHasScrolled] = useState(false);
   const [readNeed, setReadNeed] = useState<TerminalReadNeedState | null>(null);
   const [acceptedReadNeed, setAcceptedReadNeed] = useState<TerminalReadNeedState | null>(null);
@@ -138,7 +143,7 @@ export default function TerminalDepositReadWorkbench({
   const scenarioKey = `${workbench?.scenarioLabel || ''}:${workbench?.sourceRevision?.commit || ''}`;
 
   useEffect(() => {
-    setReadFitProgress('draft');
+    setReadFitsFindingProgress('draft');
     setRecordedAdmittedReadActivityId(null);
     setHarnessState('idle');
     setHarnessMessage(null);
@@ -153,7 +158,7 @@ export default function TerminalDepositReadWorkbench({
 
   useEffect(() => {
     if (!admittedReadActivityId) return;
-    setReadFitProgress((currentProgress) => (currentProgress === 'draft' ? 'admitted' : currentProgress));
+    setReadFitsFindingProgress((currentProgress) => (currentProgress === 'draft' ? 'admitted' : currentProgress));
   }, [admittedReadActivityId]);
 
   const selectedEntryChips = useMemo(() => {
@@ -163,15 +168,15 @@ export default function TerminalDepositReadWorkbench({
   const readAdmissionActionLabel =
     recordingKey === 'read-admission'
       ? 'Admitting Read...'
-      : readFitProgress === 'draft'
+      : readFitsFindingProgress === 'draft'
         ? 'Record Read before admitting'
-        : readFitProgress === 'measured'
+        : readFitsFindingProgress === 'measured'
           ? 'Admit measured Read for Finding Fits'
           : 'Read admitted for Finding Fits';
   const fitResultActionLabel =
     recordingKey === 'fit'
       ? 'Recording fit...'
-      : readFitProgress === 'fit-recorded'
+      : readFitsFindingProgress === 'fit-recorded'
         ? 'Fit result recorded'
         : 'Record fit result posture';
   const liveFitActionLabel =
@@ -183,7 +188,7 @@ export default function TerminalDepositReadWorkbench({
   const harnessReadActivityId = recordedAdmittedReadActivityId || admittedReadActivityId;
   const harnessRequestState = useMemo(
     () =>
-      buildTerminalFitPipelineHarnessRequest({
+      buildTerminalReadFitsFindingSynthesisHarnessRequest({
         workbench,
         repositoryContext,
         depositedSourceRevision,
@@ -253,7 +258,7 @@ export default function TerminalDepositReadWorkbench({
     return rows;
   }, [acceptedReadNeed, harnessEvents, harnessRequestState]);
   const harnessStreamSnapshot = useMemo(
-    () => buildTerminalFitPipelineHarnessStreamSnapshot(harnessEvents, harnessState, harnessState === 'failed' ? harnessMessage : null),
+    () => buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(harnessEvents, harnessState, harnessState === 'failed' ? harnessMessage : null),
     [harnessEvents, harnessMessage, harnessState],
   );
   useEffect(() => {
@@ -298,6 +303,7 @@ export default function TerminalDepositReadWorkbench({
     if (!currentReadNeed) return [];
     return [
       { label: 'Need id', value: shortIdentifier(currentReadNeed.needId) || currentReadNeed.needId || 'pending' },
+      { label: 'Request id', value: shortIdentifier(currentReadNeed.request?.requestId) || currentReadNeed.request?.requestId || 'pending' },
       { label: 'Measurement root', value: shortIdentifier(currentReadNeed.measurementRoot) || currentReadNeed.measurementRoot || 'pending' },
       { label: 'Review state', value: currentReadNeed.reviewState || 'pending' },
       { label: 'Target kinds', value: stringList(currentReadNeed.targetArtifactKinds).join(', ') || 'pending' },
@@ -307,6 +313,7 @@ export default function TerminalDepositReadWorkbench({
         value: String(currentReadNeed.pricingMeasurementInputs?.weightedRequestedVolume ?? 'pending'),
       },
       { label: 'Feedback turns', value: String(stringList(currentReadNeed.feedbackHistory).length) },
+      { label: 'Previous Need', value: shortIdentifier(currentReadNeed.request?.previousNeedId) || currentReadNeed.request?.previousNeedId || 'none' },
     ];
   }, [currentReadNeed]);
   const stageCards = TERMINAL_ENTERPRISE_READING_STEPS;
@@ -354,13 +361,13 @@ export default function TerminalDepositReadWorkbench({
             { sourceRevision: workbench.sourceRevision },
           ),
         );
-        setReadFitProgress('measured');
+        setReadFitsFindingProgress('measured');
         setRecordMessage(
           'Measured Read recorded. Next admit it for source-bound Finding Fits, or stop if the Read is too broad or unrelated to the deposited source.',
         );
       } else {
         await onRecordActivity(buildTerminalFitWorkbenchDraft(workbench));
-        setReadFitProgress('fit-recorded');
+        setReadFitsFindingProgress('fit-recorded');
         setRecordMessage(
           'Fit posture recorded. This records current fit evidence/readiness; settlement and finality remain blocked unless a worthy fit is evidenced.',
         );
@@ -381,7 +388,7 @@ export default function TerminalDepositReadWorkbench({
     try {
       const recorded = await onRecordActivity(buildTerminalReadAdmissionDraft(workbench));
       setRecordedAdmittedReadActivityId(recordActivityId(recorded));
-      setReadFitProgress('admitted');
+      setReadFitsFindingProgress('admitted');
       setRecordMessage(
         'Measured Read admitted for Finding Fits. Next run or record the fit result posture as worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
       );
@@ -407,6 +414,8 @@ export default function TerminalDepositReadWorkbench({
         },
         body: JSON.stringify({
           action,
+          readNeed: action === 'resynthesize_read_need' ? readNeed : undefined,
+          previousReadNeed: action === 'resynthesize_read_need' ? readNeed : undefined,
           readId: harnessReadActivityId || workbench.scenarioLabel,
           readPrompt: workbench.read.summary,
           sourceRevision,
@@ -480,14 +489,16 @@ export default function TerminalDepositReadWorkbench({
           needId: accepted.needId,
           measurementRoot: accepted.measurementRoot,
           reviewState: accepted.reviewState,
+          readRequest: accepted.request || null,
+          fitsFindingAdmission: payload?.fitsFindingAdmission || payload?.fitSearchAdmission || null,
         },
         output: {
           readNeed: accepted,
-          fitSearchAdmission: payload?.fitSearchAdmission || null,
+          fitsFindingAdmission: payload?.fitsFindingAdmission || payload?.fitSearchAdmission || null,
           assetPackCompletion: {
             bitcodeActivityState: {
               readNeed: accepted,
-              fitSearchAdmission: payload?.fitSearchAdmission || null,
+              fitsFindingAdmission: payload?.fitsFindingAdmission || payload?.fitSearchAdmission || null,
             },
           },
         },
@@ -512,10 +523,10 @@ export default function TerminalDepositReadWorkbench({
     setHarnessUserHasScrolled(false);
 
     try {
-      await streamTerminalFitPipelineHarness(harnessRequestState.request, {
+      await streamTerminalReadFitsFindingSynthesisHarness(harnessRequestState.request, {
         onEvent: (event) => {
           setHarnessEvents((currentEvents) => [...currentEvents.slice(-79), event]);
-          setHarnessMessage(summarizeTerminalFitPipelineHarnessEvent(event));
+          setHarnessMessage(summarizeTerminalReadFitsFindingSynthesisHarnessEvent(event));
         },
       });
       setHarnessState('completed');
@@ -538,7 +549,7 @@ export default function TerminalDepositReadWorkbench({
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">
           Reading the live Bitcode workbench. The enterprise Reading path runs
-          ReadNeedComprehensionSynthesis before ReadFindingFitsSynthesis, and it remains
+          ReadNeedComprehensionSynthesis before ReadFitsFindingSynthesis, and it remains
           visible even before a repository is selected.
         </p>
         <ol className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
@@ -693,7 +704,7 @@ export default function TerminalDepositReadWorkbench({
               </button>
               <button
                 type="button"
-                disabled={readNeedAction !== null || !readNeed}
+                disabled={readNeedAction !== null || !readNeed || readNeed.reviewState === 'accepted'}
                 onClick={() => {
                   void handleSynthesizeReadNeed('resynthesize_read_need');
                 }}
@@ -768,7 +779,7 @@ export default function TerminalDepositReadWorkbench({
             </p>
           </div>
           <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
-            {readFitProgress.replace('-', ' ')}
+            {readFitsFindingProgress.replace('-', ' ')}
           </span>
         </div>
 
@@ -779,7 +790,7 @@ export default function TerminalDepositReadWorkbench({
             { id: 'admitted', label: '3. Fit admitted', detail: 'Measured Read may enter source-bound Finding Fits.' },
             { id: 'fit-recorded', label: '4. Result recorded', detail: 'Fit result posture is reviewable before proof or settlement.' },
           ].map((step) => {
-            const active = step.id === readFitProgress;
+            const active = step.id === readFitsFindingProgress;
             return (
               <div
                 key={step.id}
@@ -797,7 +808,7 @@ export default function TerminalDepositReadWorkbench({
         <div className="mt-5 flex flex-wrap gap-3">
           <button
             type="button"
-            disabled={recordingKey !== null || readFitProgress !== 'measured'}
+            disabled={recordingKey !== null || readFitsFindingProgress !== 'measured'}
             onClick={() => {
               void handleRecordReadAdmission();
             }}
@@ -825,7 +836,7 @@ export default function TerminalDepositReadWorkbench({
           </button>
           <button
             type="button"
-            disabled={recordingKey !== null || readFitProgress !== 'admitted'}
+            disabled={recordingKey !== null || readFitsFindingProgress !== 'admitted'}
             onClick={() => {
               void handleRecord('fit');
             }}
@@ -897,7 +908,7 @@ export default function TerminalDepositReadWorkbench({
           </button>
           <button
             type="button"
-            disabled={recordingKey !== null || readFitProgress === 'fit-recorded'}
+            disabled={recordingKey !== null || readFitsFindingProgress === 'fit-recorded'}
             onClick={() => {
               void handleRecord('fit');
             }}
