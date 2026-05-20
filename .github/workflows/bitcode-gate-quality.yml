@@ -40,17 +40,12 @@ jobs:
 
       - name: Validate draft canon posture
         run: |
-          test "$(cat BITCODE_SPEC.txt)" = "V27"
-          node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
-          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
-          node scripts/check-bitcode-canonical-inputs.mjs --current-target V27
-          node scripts/check-v28-metadevelopment-readiness.mjs --skip-branch-check
-          node scripts/check-v28-gate9-depository-evidence.mjs
-          node scripts/check-v28-gate10-read-need-comprehension.mjs
-          node scripts/check-v28-gate11-read-fits-finding-preview.mjs
-          node scripts/check-v28-gate12-settlement-rights-delivery.mjs
-          node scripts/check-v28-gate13-product-closure-promotion-readiness.mjs
-          node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
+          test "$(cat BITCODE_SPEC.txt)" = "V28"
+          node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
+          node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
+          node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
+          node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
 
       - name: Validate source casing and imports
         run: |
