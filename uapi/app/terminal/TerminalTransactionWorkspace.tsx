@@ -219,6 +219,7 @@ function buildActivitySubstructures(
 interface TerminalTransactionWorkspaceProps {
   runs: WorkspaceRun[];
   selectedRun: WorkspaceRun | null;
+  routeSearchParams: URLSearchParams;
   filters: TransactionFilters;
   onFiltersChange: (nextFilters: TransactionFilters) => void;
   onResetFilters: () => void;
@@ -237,6 +238,7 @@ interface TerminalTransactionWorkspaceProps {
 export default function TerminalTransactionWorkspace({
   runs,
   selectedRun,
+  routeSearchParams,
   filters,
   onFiltersChange,
   onResetFilters,
@@ -360,6 +362,7 @@ export default function TerminalTransactionWorkspace({
       transactionDataMode={transactionDataMode}
       detailSection={detailSection}
       onDetailSectionChange={onDetailSectionChange}
+      routeSearchParams={routeSearchParams}
       onRecordActivity={onRecordActivity}
       surface={surface}
     />

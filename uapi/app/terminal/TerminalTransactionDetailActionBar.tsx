@@ -7,6 +7,8 @@ import type { TerminalTransactionDetailSection } from './terminal-transaction-qu
 type DetailAction = {
   id: TerminalTransactionDetailSection;
   label: string;
+  disabled?: boolean;
+  disabledReason?: string;
 };
 
 const DETAIL_ACTIONS: DetailAction[] = [
@@ -22,6 +24,7 @@ const DETAIL_ACTIONS: DetailAction[] = [
 
 interface TerminalTransactionDetailActionBarProps {
   activeSection: TerminalTransactionDetailSection;
+  detailActions?: DetailAction[];
   onChangeSection: (section: TerminalTransactionDetailSection) => void;
   onRunClosure: () => void;
   onRefreshDetail: () => void;
@@ -33,6 +36,7 @@ interface TerminalTransactionDetailActionBarProps {
 
 export default function TerminalTransactionDetailActionBar({
   activeSection,
+  detailActions = DETAIL_ACTIONS,
   onChangeSection,
   onRunClosure,
   onRefreshDetail,
@@ -41,7 +45,17 @@ export default function TerminalTransactionDetailActionBar({
   mockMode,
   surface = 'terminal',
 }: TerminalTransactionDetailActionBarProps) {
-  const visibleActions = mockMode ? DETAIL_ACTIONS.filter((action) => action.id !== 'console') : DETAIL_ACTIONS;
+  const visibleActions = mockMode
+    ? detailActions.map((action) =>
+        action.id === 'console'
+          ? {
+              ...action,
+              disabled: true,
+              disabledReason: action.disabledReason || 'Console detail is available only for live execution-history rows.',
+            }
+          : action,
+      )
+    : detailActions;
   const isExchangeSurface = surface === 'exchange';
   const witnessActionDisabled = isActing || !shellReady;
   const witnessActionDisabledTooltip = isActing
@@ -104,20 +118,29 @@ export default function TerminalTransactionDetailActionBar({
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {visibleActions.map((action) => (
-          <button
-            key={action.id}
-            type="button"
-            onClick={() => onChangeSection(action.id)}
-            className={`rounded-full border px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] transition ${
-              activeSection === action.id
-                ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-100'
-                : 'border-white/10 bg-white/5 text-neutral-200 hover:border-emerald-300/35 hover:bg-emerald-400/10'
-            }`}
-          >
-            {action.label}
-          </button>
-        ))}
+        {visibleActions.map((action) => {
+          const sectionButton = (
+            <button
+              key={action.id}
+              type="button"
+              disabled={action.disabled}
+              onClick={() => onChangeSection(action.id)}
+              className={`rounded-full border px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] transition disabled:cursor-not-allowed disabled:opacity-45 ${
+                activeSection === action.id
+                  ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-100'
+                  : 'border-white/10 bg-white/5 text-neutral-200 hover:border-emerald-300/35 hover:bg-emerald-400/10'
+              }`}
+            >
+              {action.label}
+            </button>
+          );
+
+          return action.disabled && action.disabledReason ? (
+            <DisabledTooltipWrapper key={action.id} tooltip={action.disabledReason} placement="top">
+              {sectionButton}
+            </DisabledTooltipWrapper>
+          ) : sectionButton;
+        })}
       </div>
     </section>
   );

@@ -158,6 +158,7 @@ The V29 domain model extends V28 operationally:
 - `AssetPackPreview`: source-safe measurements, quality score, disclosure policy, access policy, fee quote, range projection, and protected-source lock.
 - `SettlementUnlock`: BTC fee proof, BTD range/read-license/right transfer, paid disclosure decision, delivery admission, and reconciliation state.
 - `TerminalTransaction`: URL-addressable activity combining execution, pipeline, agent, tool, prompt, ledger, database, delivery, and proof state.
+- `TerminalTransactionReadModel`: typed operator projection of a selected `TerminalTransaction`, including route state, active detail section, low-detail summary, section availability, expandable audit posture, and source-safe raw-payload boundary.
 
 ## V29 whole Bitcode operator chain
 
@@ -178,6 +179,25 @@ Readiness
 ```
 
 Each transition must be observable as an execution, pipeline, PTRR agent, PTRR step, ThricifiedGeneration, tool call, ledger journal row, database projection, or repair receipt where applicable.
+
+## V29 Terminal transaction read-model canon
+
+Terminal transaction reading is route-owned.
+When Terminal has a selected transaction, `/terminal?transactionId=<id>` is the recoverable address.
+`transactionDetail` selects a typed detail section and defaults to source-safe Shippables when omitted.
+
+The Terminal transaction read model must contain:
+
+- selected transaction identity, activity type, lens, status, participant, repository, branch, timing, and proof posture;
+- route state with canonical hrefs for each section and with the former `runId` carrier removed on write;
+- low-detail default summary, metrics, and posture chips sufficient for ordinary operation without opening raw JSON;
+- section read models for Shippables, identity, closure, proofs, history, journal, activity stream, and console;
+- explicit section availability: available, empty, or blocked with an operator-readable reason;
+- expandable detail metadata preserving row counts, metric counts, payload availability, and target DOM section ids;
+- a source-safe disclosure boundary: protected AssetPack source is never displayed before settlement, and raw payloads remain audit detail rather than the default operator contract.
+
+The model is deterministic from execution history, detail readback, route query state, and data mode.
+It must tolerate partial live readback by preserving a fallback selected-run projection while naming empty or blocked sections.
 
 ## V29 canonical subsystem surfaces
 

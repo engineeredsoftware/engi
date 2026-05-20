@@ -53,6 +53,7 @@ import {
   writeTerminalDebugEnabled,
   writeTerminalEnvironmentMode,
   resetTerminalTransactionFilters,
+  shouldRecoverTerminalTransactionRoute,
   writeTerminalTransactionFilters,
   writeTerminalTransactionId,
   writeTerminalTransactionPagination,
@@ -271,13 +272,14 @@ export default function TerminalPageClient() {
   }, [repositoryContext, showDemonstrationSurfaces]);
 
   useEffect(() => {
-    if (!runs.length) return;
-    if (selectedTransactionId && runs.some((run) => run.id === selectedTransactionId)) return;
-    const hasRouteContext =
-      typeof window !== 'undefined'
-        ? window.location.pathname === TERMINAL_ROUTE && window.location.search.length > 1
-        : searchParams.toString().length > 0;
-    if (!hasRouteContext) return;
+    if (
+      !shouldRecoverTerminalTransactionRoute({
+        transactionIds: runs.map((run) => run.id),
+        selectedTransactionId,
+      })
+    ) {
+      return;
+    }
     const nextParams = writeTerminalTransactionId(readCurrentTerminalSearchParams(), runs[0].id);
     replaceTerminalSearchParams(nextParams);
   }, [
@@ -496,6 +498,7 @@ export default function TerminalPageClient() {
               <TerminalTransactionWorkspace
                 runs={runs}
                 selectedRun={selectedRun}
+                routeSearchParams={routeSearchParams}
                 isLoadingRuns={isLoadingRuns}
                 runsError={runsError}
                 transactionDataMode={transactionDataMode}

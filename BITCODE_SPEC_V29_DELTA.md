@@ -85,6 +85,16 @@ Gate 1 opens V29 correctly:
 
 Gate 2 owns URL-addressable transaction state, Terminal state machine, detail panes, execution-to-transaction read models, low-detail defaults, expandable detail, and no raw-JSON dependency for ordinary operators.
 
+Closure acceptance:
+
+- the Terminal writes a selected transaction id into the route whenever live, projected, or review-fallback activity is selectable;
+- former `runId` links continue resolving but are rewritten to `transactionId`;
+- a typed `TerminalTransactionReadModel` derives the selected activity's low-detail operator summary, section navigation, active detail focus, and expandable audit posture;
+- Shippables, identity, closure, proofs, history, journal, activity stream, and console sections expose availability, target ids, route hrefs, and blocking reasons without raw JSON inspection;
+- console detail is blocked outside live execution-history mode rather than presented as an inert or misleading section;
+- unit tests cover route recovery, section availability, legacy query migration, low-detail defaults, and filter/pagination preservation;
+- V29 SPEC, DELTA, NOTES, PARITY, Terminal README, package scripts, and gate-quality workflow name the Gate 2 closure surface.
+
 ### Gate 3: Wallet Signer Session And BTC Fee Operations
 
 Gate 3 owns wallet connection depth, signer-session recovery, BTC fee quote lifecycle, PSBT handoff, broadcast/finality/replacement/reorg/failure states, blocked-readiness receipts, and no server-custody posture.

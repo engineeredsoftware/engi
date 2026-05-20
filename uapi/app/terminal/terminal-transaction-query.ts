@@ -230,6 +230,16 @@ export function writeTerminalTransactionPagination(
   return nextParams;
 }
 
+export function shouldRecoverTerminalTransactionRoute({
+  transactionIds,
+  selectedTransactionId,
+}: {
+  transactionIds: string[];
+  selectedTransactionId: string | null;
+}) {
+  return transactionIds.length > 0 && (!selectedTransactionId || !transactionIds.includes(selectedTransactionId));
+}
+
 export function resetTerminalTransactionFilters(searchParams: URLSearchParams) {
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.delete(SEARCH_PARAM_KEYS.search);
