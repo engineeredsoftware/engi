@@ -1458,16 +1458,16 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
         runner: 'node --test',
         requiredForV18Canon: true,
         validates: [
-          'V18 proof-member semantic matrix: 45 members x 8 scenarios x 2 branch modes = 720 cells',
-          'V18 theorem evidence matrix: 57 theorems x 8 scenarios x 2 branch modes = 912 cells',
+          'V18 proof-member semantic matrix: current proof catalog x 8 scenarios x 2 branch modes = 736 cells',
+          'V18 theorem evidence matrix: current proof catalog x 8 scenarios x 2 branch modes = 928 cells',
           'V18 state-machine matrix: repeated-run, reset-after-run, mixed-deposit, and no-survivor workflow cells = 200 cells',
           'generated matrix artifacts expose predicate ids, evidence paths, evidence digest refs, pass/fail, and failure reasons'
         ],
         matrixCellCounts: {
-          proofMemberSemantic: 720,
-          theoremEvidence: 912,
+          proofMemberSemantic: 736,
+          theoremEvidence: 928,
           stateMachine: 200,
-          total: 1832
+          total: 1864
         }
       },
       e2e: {

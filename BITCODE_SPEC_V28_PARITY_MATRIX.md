@@ -206,6 +206,17 @@ read back together. Terminal must show the unlock state, read-license id, BTC
 fee receipt id, ledger status, and PR target without treating unpaid preview
 metadata as source access.
 
+Gate 13 closure closes the two final carryforward rows by making promotion
+readiness executable: the full `protocol-demonstration` suite is green under
+the active V27/V28 posture, the staging-testnet readback verifier is required
+for complete Depositing -> Reading -> settlement -> delivery evidence through
+the Supabase Data API, bounded DB readback remains available for stricter local
+network lanes, and the promotion workflow validates every Gate 9-13 check
+before it can promote `version/v28` into `main`. Older demonstration matrices
+now track the current proof catalog counts and the V26-proven generator no
+longer overstates superseded promotion readiness while V27 remains the active
+canon pointer.
+
 ## V28 implementation matrix
 
 | Area | Current source evidence | Judgment | Gate owner |

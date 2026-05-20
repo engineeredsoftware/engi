@@ -911,7 +911,36 @@ Gate 12 acceptance requires:
 Gate 13 owns final commercial-product closure: website application UX, package
 abstractions, tests, local live validation, staging-testnet readback evidence,
 public/internal documentation, generated proof coverage, and the final
-`version/v28` promotion pull request.
+`version/v28` promotion pull request. This version/v28 promotion pull request
+is the only path that may advance `BITCODE_SPEC.txt` to V28.
+
+Gate 13 acceptance requires:
+
+- the full `protocol-demonstration` proof suite passes, not only the V28 MVP
+  witness subset. The older proof-member, theorem-evidence, public projection,
+  and V26-proven expectations must either match the active V27/V28 posture or
+  explicitly record superseded promotion-readiness as false;
+- the staging-testnet readback verifier is green against project
+  `tkpyosihuouusyaxtbau` / `tkpyosihuouusyaxtbau.supabase.co`, proving recent
+  Depositing -> Reading -> settlement -> PR-delivery evidence can be reread
+  through the Supabase Data API from pipeline, stream, phase, agent-step,
+  generation, tool, ledger, journal, BTC fee, BTD range, ownership,
+  read-license, crypto telemetry, and delivery rows. DB readback is a stricter
+  optional lane when local network access can reach the Supabase Postgres host
+  or pooler, and it must fail fast with bounded connection/query timeouts;
+- local promotion readiness includes `check:v28-gate9` through
+  `check:v28-gate13`, BTD primitive typecheck/tests, pipeline package
+  typecheck/tests, UAPI Terminal/route focused tests, readback verifier tests,
+  full demonstration proof-suite tests, V28 MVP demonstration tests, source
+  casing/import checks, and promotion dry-run;
+- the V28 promotion workflow runs only for a `version/v28` pull request into
+  `main`, validates every Gate 9-13 closure check plus promotion-grade tests,
+  and writes `BITCODE_SPEC.txt` plus generated V28 proof artifacts only after
+  those validations pass;
+- no protected source visibility, BTC fee, read-license, or BTD ownership
+  claims are promoted from stale manual notes alone. Promotion evidence must be
+  source-controlled, testable, and replayable or explicitly named as external
+  staging-testnet readback evidence in QA.
 
 ## Draft Boundary
 

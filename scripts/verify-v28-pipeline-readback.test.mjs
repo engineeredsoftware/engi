@@ -266,6 +266,57 @@ describe('verify-v28-pipeline-readback', () => {
     assert.deepEqual(seenTables.sort(), REQUIRED_TABLES.sort());
   });
 
+  it('uses one bounded database client for DB readback counts and health', async () => {
+    let constructions = 0;
+    let connects = 0;
+    let ends = 0;
+    const queries = [];
+
+    const report = await buildVerificationReport(
+      {
+        envFiles: [],
+        expectedHost: 'tkpyosihuouusyaxtbau.supabase.co',
+        readbackSource: 'db',
+        lookbackHours: 48,
+      },
+      {
+        baseEnv: {
+          SUPABASE_DB_URL: 'postgresql://postgres:secret@db.tkpyosihuouusyaxtbau.supabase.co:5432/postgres',
+        },
+        PgClient: class MockPgClient {
+          constructor(config) {
+            constructions += 1;
+            assert.equal(config.connectionTimeoutMillis, 8000);
+            assert.equal(config.query_timeout, 8000);
+            assert.equal(config.statement_timeout, 8000);
+          }
+
+          async connect() {
+            connects += 1;
+          }
+
+          async query(sql) {
+            queries.push(String(sql));
+            if (/with\s+latest_run\s+as/i.test(String(sql))) {
+              return { rows: [defaultLatestDeliverableRun()] };
+            }
+            return { rows: [{ count: 1 }] };
+          }
+
+          async end() {
+            ends += 1;
+          }
+        },
+      },
+    );
+
+    assert.equal(report.gate.state, 'ready_for_v28_result_review');
+    assert.equal(constructions, 1);
+    assert.equal(connects, 1);
+    assert.equal(ends, 1);
+    assert.equal(queries.length, REQUIRED_TABLES.length + 1);
+  });
+
   it('accepts deliverable phase delegation rows when the generic phase table is absent', async () => {
     const report = await buildVerificationReport(
       {
