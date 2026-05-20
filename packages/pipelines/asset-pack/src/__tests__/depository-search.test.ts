@@ -292,6 +292,36 @@ describe('AssetPack depository search', () => {
     expect(findStored(exec, 'fit', 'resultState')).toBe('worthy_fit');
     expect(findStored(exec, 'depository/search', 'result')?.resultState).toBe('worthy_fit');
     expect(findStored(exec, 'depository/search', 'embeddingPolicy')?.dimensions).toBe(1536);
+    expect(findStored(exec, 'depository/search', 'toolTelemetry')).toEqual([
+      expect.objectContaining({
+        tool: 'ReadFitsFindingSynthesis.tool.lexical-depository-search',
+        phase: 'ReadFitsFindingSynthesis.discovery',
+        agent: 'ReadFitsFindingSynthesis.discovery.finding-fits',
+        step: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
+        output: expect.objectContaining({
+          resultState: 'worthy_fit',
+          fitDepositAssetIds: ['asset_repository-revision-deposit-engineeredsoftware-engi'],
+          queryRoot: expect.stringMatching(/^sha256:/),
+          rankingRoot: expect.stringMatching(/^sha256:/),
+        }),
+      }),
+      expect.objectContaining({
+        tool: 'ReadFitsFindingSynthesis.tool.vector-depository-search',
+        output: expect.objectContaining({
+          resultState: 'embedding_policy_declared',
+          vectorStore: expect.objectContaining({
+            table: 'deliverable_vectors',
+            rpc: 'match_deliverable_vectors',
+          }),
+        }),
+      }),
+    ]);
+    expect(findStored(exec, 'tools', 'lexical-depository-search')?.tool).toBe(
+      'ReadFitsFindingSynthesis.tool.lexical-depository-search'
+    );
+    expect(findStored(exec, 'tools', 'vector-depository-search')?.tool).toBe(
+      'ReadFitsFindingSynthesis.tool.vector-depository-search'
+    );
     expect(output.fitResult.resultState).toBe('worthy_fit');
     expect(output.fitResult.fitDepositAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',

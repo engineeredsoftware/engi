@@ -269,6 +269,11 @@ const DEFAULT_THRESHOLDS: DepositorySearchThresholds = {
   maxSelectedCandidates: 3,
 };
 
+export const READ_FITS_FINDING_SYNTHESIS_TOOL_IDS = {
+  lexicalDepositorySearch: 'ReadFitsFindingSynthesis.tool.lexical-depository-search',
+  vectorDepositorySearch: 'ReadFitsFindingSynthesis.tool.vector-depository-search',
+} as const;
+
 const STOP_WORDS = new Set([
   'the',
   'and',
@@ -1280,42 +1285,67 @@ function storeDepositorySearchToolResult(
 ): void {
   if (!execution?.store) return;
   const { read, assets, result, providerIds } = input;
-  execution.store('tools', 'result', {
-    tool: 'bitcode.depository.search',
-    ok: true,
-    input: {
-      read: {
-        id: read.id || null,
-        repositoryFullName: read.repositoryFullName || null,
-        sourceBranch: read.sourceBranch || null,
-        sourceCommit: read.sourceCommit || null,
-        targetArtifactKinds: read.targetArtifactKinds,
-        closureCriteriaCount: read.closureCriteria.length,
-        failureModeCount: read.failureModes.length,
-      },
-      assetCount: assets.length,
-      providerIds,
+  const toolInput = {
+    read: {
+      id: read.id || null,
+      repositoryFullName: read.repositoryFullName || null,
+      sourceBranch: read.sourceBranch || null,
+      sourceCommit: read.sourceCommit || null,
+      targetArtifactKinds: read.targetArtifactKinds,
+      closureCriteriaCount: read.closureCriteria.length,
+      failureModeCount: read.failureModes.length,
     },
+    assetCount: assets.length,
+    providerIds,
+  };
+  const toolOutput = {
+    schema: result.schema,
+    resultState: result.resultState,
+    resultReasons: result.resultReasons,
+    searchedAssetCount: result.searchedAssetCount,
+    fitDepositAssetIds: result.fitDepositAssetIds,
+    fitDepositCount: result.fitDeposits.length,
+    selectedCandidateAssetIds: result.selectedCandidateAssetIds,
+    selectedCandidateCount: result.selectedCandidates.length,
+    blockedCandidateCount: result.blockedCandidates.length,
+    rejectedCandidateCount: result.rejectedCandidates.length,
+    queryRoot: result.queryRoot,
+    rankingRoot: result.rankingRoot,
+    embeddingPolicy: result.embeddingPolicy,
+  };
+  const lexicalTelemetry = {
+    tool: READ_FITS_FINDING_SYNTHESIS_TOOL_IDS.lexicalDepositorySearch,
+    ok: true,
+    input: toolInput,
+    output: toolOutput,
+    phase: 'ReadFitsFindingSynthesis.discovery',
+    agent: 'ReadFitsFindingSynthesis.discovery.finding-fits',
+    step: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
+    generation: 'tools_execution',
+  };
+  const vectorTelemetry = {
+    tool: READ_FITS_FINDING_SYNTHESIS_TOOL_IDS.vectorDepositorySearch,
+    ok: true,
+    input: toolInput,
     output: {
-      schema: result.schema,
-      resultState: result.resultState,
-      resultReasons: result.resultReasons,
-      searchedAssetCount: result.searchedAssetCount,
-      fitDepositAssetIds: result.fitDepositAssetIds,
-      fitDepositCount: result.fitDeposits.length,
+      resultState: 'embedding_policy_declared',
       selectedCandidateAssetIds: result.selectedCandidateAssetIds,
-      selectedCandidateCount: result.selectedCandidates.length,
-      blockedCandidateCount: result.blockedCandidates.length,
-      rejectedCandidateCount: result.rejectedCandidates.length,
+      fitDepositAssetIds: result.fitDepositAssetIds,
       queryRoot: result.queryRoot,
       rankingRoot: result.rankingRoot,
       embeddingPolicy: result.embeddingPolicy,
+      vectorStore: result.embeddingPolicy.vectorStore,
     },
-    phase: 'setup',
-    agent: 'setup:depository-search',
-    step: 'try',
+    phase: 'ReadFitsFindingSynthesis.discovery',
+    agent: 'ReadFitsFindingSynthesis.discovery.finding-fits',
+    step: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
     generation: 'tools_execution',
-  });
+  };
+
+  execution.store('tools', 'result', lexicalTelemetry);
+  execution.store('tools', 'lexical-depository-search', lexicalTelemetry);
+  execution.store('tools', 'vector-depository-search', vectorTelemetry);
+  execution.store('depository/search', 'toolTelemetry', [lexicalTelemetry, vectorTelemetry]);
 }
 
 function buildBlockedReadFitsFindingResult(input: {
@@ -1406,12 +1436,17 @@ export async function runDepositorySearchForPipelineInput(
   if (execution?.store) {
     storeEvidence(execution);
     storeEvidence(execution.parent as { store?: (namespace: string, key: string, value: unknown) => void });
-    storeDepositorySearchToolResult(execution, {
+    const toolEvidence = {
       read,
       assets,
       result,
       providerIds: providers.map((provider) => provider.id),
-    });
+    };
+    storeDepositorySearchToolResult(execution, toolEvidence);
+    storeDepositorySearchToolResult(
+      execution.parent as { store?: (namespace: string, key: string, value: unknown) => void },
+      toolEvidence
+    );
   }
 
   return result;

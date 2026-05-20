@@ -633,7 +633,7 @@ export default function TerminalDepositReadWorkbench({
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-sky-200/80">staged reading</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Request Read, review Need, request Fit, review AssetPack, buy and settle</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-              The live pipeline starts from an accepted Read-Need. Preview can expose measurements, roots, score, fee quote, and range posture, while source-bearing AssetPack material stays locked until settlement readback.
+              The live pipeline starts from an accepted Read-Need. Preview can expose measurements, roots, score, fee quote, and range posture. Protected source unlock requires settlement.
             </p>
           </div>
           <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">

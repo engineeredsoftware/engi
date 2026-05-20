@@ -3,6 +3,7 @@ import {
   AssetPackWrittenAssetType,
 } from './AssetPackWrittenAssetType';
 import type { AssetPackFitResultState, DepositorySearchResult } from '../depository-search';
+import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
 
 /**
  * AssetPack synthesis uses written-asset and shippable /
@@ -72,6 +73,8 @@ export interface AssetPackOutput {
   };
   fit?: AssetPackOutput['fitResult'];
   depositorySearch?: DepositorySearchResult;
+  sourceSafePreview?: AssetPackSourceSafePreview;
+  feeQuote?: ShareToFeeQuote;
 }
 
 export type AssetPackWrittenAssetTypeValue =
@@ -99,6 +102,8 @@ export interface AssetPackPostprocessed {
   fitResult?: AssetPackOutput['fitResult'];
   fit?: AssetPackOutput['fitResult'];
   depositorySearch?: DepositorySearchResult;
+  sourceSafePreview?: AssetPackSourceSafePreview;
+  feeQuote?: ShareToFeeQuote;
   assetPack?: {
     read?: string;
     writtenAssetType?: AssetPackWrittenAssetType;

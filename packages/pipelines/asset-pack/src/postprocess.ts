@@ -4,6 +4,11 @@ import {
   resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from './semantic-resolution';
+import {
+  buildAssetPackSourceSafePreview,
+  isAcceptedReadNeed,
+  type AssetPackSourceSafePreview,
+} from './read-need';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -72,6 +77,11 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   }
   if (depositorySearch) {
     (enhanced as any).depositorySearch = depositorySearch;
+  }
+  const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, prUrl);
+  if (sourceSafePreview) {
+    (enhanced as any).sourceSafePreview = sourceSafePreview;
+    (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
     enhanced.deliveryMechanism = { ...enhanced.shippable };
@@ -146,6 +156,13 @@ export function buildAssetPackPostprocessedResult(
     (execution as any).findUp?.('depository/search', 'result') ||
     (execution as any).get?.('depository/search', 'result') ||
     (normalized as any).depositorySearch;
+  const sourceSafePreview =
+    ((normalized as any).sourceSafePreview as AssetPackSourceSafePreview | undefined) ||
+    ensureAssetPackSourceSafePreview(
+      execution,
+      normalized,
+      normalized.deliveryMechanism?.prUrl || normalized.shippable?.prUrl
+    );
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -185,6 +202,12 @@ export function buildAssetPackPostprocessedResult(
         }
       : {}),
     ...(depositorySearch ? { depositorySearch } : {}),
+    ...(sourceSafePreview
+      ? {
+          sourceSafePreview,
+          feeQuote: sourceSafePreview.feeQuote,
+        }
+      : {}),
     read:
       normalized.read ||
       (execution.get('pipeline', 'expressedRead') as string) ||
@@ -212,6 +235,63 @@ export function buildAssetPackPostprocessedResult(
         }
       : {}),
   };
+}
+
+function ensureAssetPackSourceSafePreview(
+  execution: Execution,
+  output: AssetPackOutput,
+  pullRequestTarget?: string | null
+): AssetPackSourceSafePreview | null {
+  const storedPreview =
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'sourceSafe') ||
+    findStoredExecutionValue(execution, 'asset-pack', 'sourceSafePreview');
+  if (storedPreview?.schema === 'bitcode.asset-pack.source-safe-preview') {
+    return storedPreview as AssetPackSourceSafePreview;
+  }
+
+  const acceptedNeed =
+    findStoredExecutionValue(execution, 'read/need', 'accepted') ||
+    findStoredExecutionValue(execution, 'read', 'acceptedNeed');
+  if (!isAcceptedReadNeed(acceptedNeed)) {
+    return null;
+  }
+
+  const fitResult =
+    (output as any).fitResult ||
+    findStoredExecutionValue(execution, 'fit', 'result');
+  if (!fitResult?.schema) {
+    return null;
+  }
+
+  const assetPackId =
+    firstString(
+      (output as any).assetPackId,
+      output.assetPackSynthesisArtifacts?.assetPackId,
+      output.writtenAssets?.assetPackId,
+      output.writtenAsset?.payload?.assetPackId,
+      output.deliveryMechanism?.payload?.assetPackId
+    ) || undefined;
+  const preview = buildAssetPackSourceSafePreview({
+    need: acceptedNeed,
+    fitResult,
+    assetPackId,
+    pullRequestTarget: firstString(pullRequestTarget, output.deliveryMechanism?.prUrl, output.shippable?.prUrl),
+  });
+
+  try {
+    execution.store('asset-pack/preview', 'sourceSafe', preview as any);
+    execution.store('asset-pack/preview', 'feeQuote', preview.feeQuote as any);
+    execution.store('asset-pack/preview', 'previewRoot', preview.roots.previewRoot);
+  } catch {}
+
+  return preview;
+}
+
+function firstString(...values: unknown[]): string | null {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return null;
 }
 
 function findStoredExecutionValue(execution: Execution, namespace: string, key: string): any {
