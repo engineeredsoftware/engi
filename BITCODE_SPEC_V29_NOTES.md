@@ -3,59 +3,95 @@
 ## Status
 
 - Version: `V29`
-- V29 state: future notes scaffold only
-- Current canonical/latest target: `V27`
-- Current active draft target: `V28`
-- Prior canonical anchor: `BITCODE_SPEC_V27.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: none for V29 yet
-- Source parity state: not opened; V29 source parity begins only after V29 draft opening
-- Scope: future notes for deeper Terminal work after V28 commercial Protocol/Terminal MVP QA.
-
-This NOTES file does not promote V29 and does not open V29 implementation.
-It preserves roadmap intent so V28 can remain focused on commercial Protocol/Terminal MVP QA, bugfixing, audit, and hardening.
+- V29 state: draft target opened; V29 notes now track active V28 canon and V29 Terminal-depth gate planning
+- Current canonical/latest target: `V28`
+- Prior canonical anchor: `BITCODE_SPEC_V28.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v29-spec-family-report.json`, draft `.bitcode/v29-canonical-input-report.json`, future `.bitcode/v29-canon-posture-drift-report.json`, and no `BITCODE_SPEC_V29_PROVEN.md` until promotion
+- Source parity state: notes opened from V28 handoff; source implementation begins gate-by-gate after Gate 1
+- Scope: V29 notes for deeper Terminal workflow, transaction operation, evidence readability, wallet/BTC operation, settlement repair, organization permission, and promotion-readiness work.
 
 ## Notes companion rule
 
-This file is planning memory only.
-Requirements become binding only when V29 is explicitly opened as the draft-target SPEC family.
+This file is a required companion to `BITCODE_SPEC_V29.md`.
+It may carry planning detail, QA observations, and simplified reading, but it must not override the main V29 SPEC.
+Binding V29 requirements must be reflected in SPEC, DELTA, and PARITY before a gate closes.
 
 ## Concise current-system reading
 
-V27 is active canon.
-V28 is current draft target and owns commercial Protocol implementation, Terminal MVP QA, MCP API/ChatGPT App MVP, BTD/testnet/ledgerization, and demonstration-to-commercial boundary cleanup.
-V29 is expected to deepen Terminal after the Terminal/Protocol shell, Auxillaries active shell, BTD disclosure, MCP/ChatGPT MVP, and route QA are stable.
+V28 is active canon.
+V29 is the current draft target and owns deeper Terminal transaction operation over the promoted V28 commercial Reading system.
 
-## Intended V29 focus
+The V28 system already defines:
 
-V29 owns deeper Terminal:
+- source Depositing into the Bitcode depository;
+- Read Request to reviewed Read-Need comprehension;
+- Finding Fits over fit deposits in the depository;
+- source-safe AssetPack preview before settlement;
+- BTC fee posture, BTD range/read-license/right transfer, and delivery;
+- ledger/database reconciliation, telemetry, and promotion governance at MVP depth.
 
-- full Read submission, measurement, review, Fit, proof, dedupe, measuremint, and settlement workflows;
-- wallet connection, signer-session recovery, BTC fee preparation, PSBT handoff, broadcast, replacement, reorg, and failure recovery depth;
-- AssetPack range detail, owner-read, licensed-read, denied-state, and access-policy review as ordinary operator workflows;
-- Terminal journal diffing, reconciliation repair, ledger/database/metaphysical state separation, and proof-root surfacing;
-- organization holdings, team roles, read-license usage, and registry-derived Terminal permission decisions;
-- Terminal-specific route, UI, accessibility, responsive, error-state, and Playwright coverage.
-- Terminal prose, labels, explainers, and read/write guidance refined for clearer commercial comprehension while preserving V27 technical law.
+V29's job is to make those flows operationally excellent in Terminal: recoverable, navigable, typed, inspectable, accessible, and promotion-proven.
 
-## Inputs deferred from V28 QA
+## Simplified-spec reading rule
 
-- May 7, 2026 V28 manual QA accepted Terminal as the primary operator surface at MVP level but identified prose clarity as a Terminal-focused improvement.
-- V29 should improve Terminal copy, hierarchy, explanatory precision, and operator sequencing around Deposit, Read, Fit, proof, AssetPack, BTC fee posture, BTD range/read-right posture, and selected activity detail.
-- This is not a V28 blocker unless specific wording prevents a user from completing basic V28 MVP navigation or materially misstates Bitcode law.
-- May 7, 2026 follow-up QA clarified that Terminal should not present itself as a market-wide master-detail product surface. V28 must fix that MVP architecture and any obvious dead/ambiguous click targets; V29 should then deepen Terminal-specific sequencing, density management, task progression, and richer Deposit/Read result reading without reintroducing Exchange-style market language.
-- V28 introduces a formal `@bitcode/protocol` package and removes direct commercial imports from the standalone `protocol-demonstration`, but some package internals are intentionally fresh ports for parity. V29 must continue commercializing those demonstration-origin internals into formal packages, narrower APIs, durable package tests, and Terminal-owned protocol adapters.
-- The standalone `protocol-demonstration` should remain a sibling reference guide and proof witness outside the workspace build graph. V29 should use it to reveal commercial implementation gaps, not as runtime code imported by commercial UAPI, Terminal, Auxillaries, MCP, ChatGPT App, or package consumers.
+For a simplified reading of V29:
 
-## Boundaries
+1. V28 is the current law.
+2. V29 does not change the law of BTD supply, BTC fee asset, or source-safe paid unlock.
+3. V29 improves how a commercial operator uses Terminal to carry a transaction from readiness through paid delivery and repair.
+4. If a Terminal state is important for money, source visibility, rights, proof, or delivery, it must be visible, typed, and recoverable.
+5. `BITCODE_SPEC.txt` must remain `V28` until the V29 promotion workflow commits the canonical pointer change.
 
-V29 deepens Terminal only after V28 establishes commercial Protocol/Terminal MVP coherence.
-It must not absorb V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface finalization, V34 deployment depth, V35 telemetry/documentation depth, or V36+ Exchange/Conversations depth except for narrow Terminal-owned hooks.
+## V29 gate plan
 
-V29 must also avoid reopening V28's demonstration/commercial boundary.
-Any Terminal feature that currently depends on freshly ported demonstration-origin modules should be formalized in-place inside commercial packages or replaced with package-native primitives, while the standalone demonstration stays a reference implementation.
+1. **Gate 1: V29 Objectives And Gating**
+   - Open the V29 spec family.
+   - Retarget workflows and branch/readme posture to active V28 / draft V29.
+   - Add a Gate 1 checker and define all V29 gates.
 
-## Return To V28
+2. **Gate 2: Terminal Transaction Read Models And Navigation**
+   - Build URL-addressable Terminal transaction state, typed read models, default-low-detail navigation, and expandable detail panes.
 
-Do not start V29 implementation during V28.
-Record Terminal gaps found during V28 QA as future V29 inputs unless they block V28 commercial Protocol/Terminal MVP usability.
+3. **Gate 3: Wallet Signer Session And BTC Fee Operations**
+   - Deepen signer-session recovery, BTC fee quote, PSBT handoff, broadcast, replacement, reorg, failure, and blocked-readiness states.
+
+4. **Gate 4: Reading Transaction Recovery And Pipeline Observability**
+   - Make `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` execution telemetry fully readable in Terminal at execution, phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, raw output, and parsed output levels.
+
+5. **Gate 5: AssetPack Disclosure Rights And Preview Depth**
+   - Deepen source-safe preview, AssetPack range detail, owner-read/licensed-read/denied state, disclosure policy review, paid unlock, and source-leakage tests.
+
+6. **Gate 6: Settlement Reconciliation And Repair**
+   - Make ledger/database/metaphysical separation, journal diffing, reconciliation repair, proof roots, and delivery recovery ordinary Terminal workflows.
+
+7. **Gate 7: Organization Permissions And Interface Authority**
+   - Deepen org holdings, roles, read-license usage, registry-derived permission decisions, and MCP/ChatGPT action authority parity.
+
+8. **Gate 8: Demonstration-Origin Commercial Formalization**
+   - Continue moving freshly ported internals into package-native APIs and durable tests while preserving the standalone demonstration boundary.
+
+9. **Gate 9: Terminal UX Quality And Browser Proof**
+   - Close accessibility, responsive, copy, loading/empty/error/blocked states, browser checks, and Playwright coverage for the complete Terminal cockpit.
+
+10. **Gate 10: Local And Staging Promotion Readiness**
+    - Run non-mocked local validation, staging-testnet readback, generated proof artifacts, promotion dry-run, and `version/v29` promotion readiness.
+
+## Gate 1 closure notes
+
+Gate 1 is complete only when the V29 family exists, validates, and is wired to CI.
+It intentionally does not claim Terminal product closure.
+
+Gate 1 accepted evidence:
+
+- `BITCODE_SPEC_V29.md`, DELTA, NOTES, and PARITY exist.
+- `BITCODE_SPEC.txt` remains `V28`.
+- workflows and README describe V28 active / V29 draft posture.
+- `pnpm run check:v29-gate1` validates branch, posture, workflow, docs, and spec-family shape.
+
+## Later-version boundaries
+
+- V30 remains reserved for Protocol/BTD hardening that is not necessary to close Terminal transaction depth.
+- V31+ scopes remain future unless a later spec family reopens them.
+- Exchange and website Conversations remain outside V29 product depth.
+- Value-bearing mainnet remains separately approved.

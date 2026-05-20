@@ -1,0 +1,94 @@
+# Bitcode Spec V29 Parity Matrix
+
+## Status
+
+- Version: `V29`
+- V29 state: draft target opened; parity now tracks V29 gates over active V28 canon
+- Current canonical/latest target: `V28`
+- Prior canonical anchor: `BITCODE_SPEC_V28.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v29-spec-family-report.json`, draft `.bitcode/v29-canonical-input-report.json`, future `.bitcode/v29-canon-posture-drift-report.json`, and no `BITCODE_SPEC_V29_PROVEN.md` until promotion
+- Source parity state: Gate 1 parity is documentation/workflow/checker closure; product-source rows start as pending V29 gate work
+- State: draft target parity matrix opened
+- Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V28`
+- Scope: V29 parity ledger for Terminal transaction depth, wallet/BTC operations, Reading pipeline observability, AssetPack disclosure, settlement repair, organization permissions, UX quality, and promotion readiness
+- Spec companion: `BITCODE_SPEC_V29.md`
+- Notes companion: `BITCODE_SPEC_V29_NOTES.md`
+- Delta companion: `BITCODE_SPEC_V29_DELTA.md`
+- Generated proof appendix: none until V29 promotion
+
+## Purpose
+
+The V29 parity matrix prevents Terminal-depth work from becoming vague product polish.
+Each gate must name source surfaces, tests, proof evidence, documentation, and accepted boundaries before it closes.
+
+## Audit basis
+
+Gate 1 audit basis:
+
+- `BITCODE_SPEC.txt`
+- `BITCODE_SPEC_V28.md`
+- `BITCODE_SPEC_V28_DELTA.md`
+- `BITCODE_SPEC_V28_NOTES.md`
+- `BITCODE_SPEC_V28_PARITY_MATRIX.md`
+- `BITCODE_SPEC_V28_PROVEN.md`
+- `BITCODE_SPEC_V29_NOTES.md`
+- `README.md`
+- `AGENTS.md`
+- `.github/workflows/bitcode-gate-quality.yml`
+- `.github/workflows/bitcode-canon-quality.yml`
+- `package.json`
+- `protocol-demonstration/src/canon-posture.js`
+- Terminal, Reading pipeline, BTD, pipeline-host, UAPI, and workflow surfaces named by V28 promotion.
+
+No `_legacy/` source is active source truth.
+
+## V29 implementation matrix
+
+| Area | Gate | Source evidence | Judgment | Closure requirement |
+| --- | --- | --- | --- | --- |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V29.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v29/gate-1-objectives-and-gating` | drafted | V29 family validates in draft mode over active V28 and `check:v29-gate1` passes. |
+| Workflow retargeting | Gate 1 | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | drafted | CI checks V28 active / V29 draft posture instead of stale V27/V28 posture. |
+| Terminal transaction read models | Gate 2 | `uapi/app/terminal`, API execution routes, read-model adapters | pending | Terminal transaction state is URL-addressable, recoverable, and typed. |
+| Wallet signer/BTC operations | Gate 3 | `packages/btd`, wallet API, BTC fee route, Terminal wallet UI | pending | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
+| Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack`, `packages/pipeline-hosts`, Terminal stream components | pending | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt telemetry is complete and readable. |
+| AssetPack disclosure rights | Gate 5 | BTD access primitives, AssetPack preview UI, disclosure policy tests | pending | Source-safe preview and paid unlock are proven without source leakage. |
+| Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, Terminal repair UI | pending | Ledger, database, and metaphysical state drift is visible and repairable. |
+| Organization permission authority | Gate 7 | access policy, org holdings, MCP/ChatGPT gates, Terminal permission UI | pending | Registry-derived roles, holdings, and read-license authority govern actions. |
+| Commercial formalization | Gate 8 | packages/protocol, package tests, import scans, docs | pending | Demonstration-origin commercial internals are package-native and no runtime demo imports remain. |
+| Terminal UX quality | Gate 9 | Playwright/Jest/a11y/responsive/browser QA | pending | Complete transaction cockpit is usable by default and inspectable in detail. |
+| Promotion readiness | Gate 10 | promotion workflow, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | pending | `version/v29` can promote to `main` only after all V29 checks pass. |
+
+## V29 implementation checklist
+
+| Area | Required V29 result | Judgment |
+| --- | --- | --- |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V28` during V29 gate work | drafted |
+| Gate branch pattern | V29 work happens on `version/v29` or `v29/gate-N-*` branches | drafted |
+| Spec-family shape | V29 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
+| Gate 1 script | `pnpm run check:v29-gate1` fails closed on stale posture or missing gates | drafted |
+| Product implementation gates | Gates 2-9 close Terminal transaction depth with tests and docs | pending |
+| Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
+
+## Gate 1 Parity
+
+| Requirement | Source evidence | Current V29 judgment |
+| --- | --- | --- |
+| Active canon remains V28 during V29 draft opening | `BITCODE_SPEC.txt` contains `V28` | drafted |
+| Runtime draft target is V29 | `protocol-demonstration/src/canon-posture.js` declares V28 active and V29 draft | drafted |
+| V29 SPEC family exists as draft | `BITCODE_SPEC_V29.md`, DELTA, NOTES, and PARITY | drafted |
+| Gate-quality workflow is V29-aware | `.github/workflows/bitcode-gate-quality.yml` | drafted |
+| Canon-quality workflow is V29-aware | `.github/workflows/bitcode-canon-quality.yml` | drafted |
+| README reflects V28/V29 posture | `README.md` | drafted |
+| V29 Gate 1 checker exists | `scripts/check-v29-gate1-objectives-and-gating.mjs` and package script | drafted |
+
+## accepted boundaries
+
+- Gate 1 does not implement Terminal product depth.
+- Gate 1 does not create `BITCODE_SPEC_V29_PROVEN.md`.
+- Gate 1 does not promote `BITCODE_SPEC.txt` to V29.
+- Gate 1 may retarget workflows to active V28 / draft V29 so later gates are greenable.
+
+## completion condition
+
+Gate 1 is complete when the V29 draft family validates, `check:v29-gate1` passes, workflow posture is V29-aware, README/docs reflect V29 initiation, and the gate branch is committed and pushed for review into `version/v29`.
