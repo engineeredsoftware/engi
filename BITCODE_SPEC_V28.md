@@ -881,6 +881,31 @@ Gate 12 owns BTC settlement, depositor/reader ownership boundaries, read-license
 rows, ledger/database synchronization, protected-source unlock, and PR delivery
 of the purchased AssetPack into the Reading repository.
 
+Gate 12 acceptance requires:
+
+- settlement is represented as a typed unlock decision, not as UI inference:
+  the `bitcode.asset-pack.settlement-unlock` envelope keeps source-bearing
+  AssetPack material unavailable unless ledger settlement status is `settled`,
+  settlement is admissible, required readback rows are all present, and
+  pull-request delivery readback exists when delivery is required;
+- BTC payment posture is reader-paid and server-noncustodial. The fee receipt,
+  wallet authorization/session, network, sats, finality state, and receipt id
+  remain visible before unlock and must not imply server custody of private
+  keys;
+- depositor/reader boundaries stay separate: the depositor owns the minted BTD
+  range for the deposited source evidence, while the reader receives a
+  policy-matching read license only after payment/readback;
+- required readback covers semantic measurement, measure-mint receipt,
+  AssetPack range, BTD cell, ownership event, read license, mint receipt, BTC
+  fee transaction, ledger anchor, Terminal journal rows, and crypto telemetry;
+- source-safe preview is upgraded only by settlement readback. After settlement,
+  the preview access state becomes `licensed_read`, unlock reports
+  `sourceAvailable=true`, and delivery points at the pull request. Before that,
+  the preview stays `pending_settlement` or `denied`;
+- Terminal exposes ledger status, unlock state, read-license id, BTC fee receipt
+  id, and PR target in the five-step Reading flow, while expandable stream
+  metadata retains full settlement and readback evidence.
+
 ### Gate 13: Commercial Product Closure And Promotion Readiness
 
 Gate 13 owns final commercial-product closure: website application UX, package

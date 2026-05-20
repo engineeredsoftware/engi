@@ -70,6 +70,20 @@ jest.mock('@bitcode/pipeline-hosts', () => ({
               },
               ledgerSettlement: {
                 status: 'blocked',
+                protectedSourceUnlock: {
+                  schema: 'bitcode.asset-pack.settlement-unlock',
+                  state: 'denied',
+                  sourceAvailable: false,
+                  reason: 'settlement blocked in route test',
+                },
+              },
+              sourceSafePreview: {
+                schema: 'bitcode.asset-pack.source-safe-preview',
+                unlock: {
+                  state: 'denied',
+                  sourceAvailable: false,
+                  reason: 'settlement blocked in route test',
+                },
               },
             },
           },
@@ -451,6 +465,19 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
         resultState: 'blocked_readiness',
         fitResult: {
           resultState: 'worthy_fit',
+        },
+        ledgerSettlement: {
+          status: 'blocked',
+          protectedSourceUnlock: {
+            state: 'denied',
+            sourceAvailable: false,
+          },
+        },
+        sourceSafePreview: {
+          unlock: {
+            state: 'denied',
+            sourceAvailable: false,
+          },
         },
       },
     });

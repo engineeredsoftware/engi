@@ -1522,9 +1522,14 @@ try {
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
-  const [{ assetPackPipeline, acceptReadNeed, buildAssetPackSourceSafePreview, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
+  const [
+    { assetPackPipeline, acceptReadNeed, buildAssetPackSourceSafePreview, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput },
+    { enablePipelineStreaming, factoryPipelineExecution },
+    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
+  ] = await Promise.all([
     import('../../packages/pipelines/asset-pack/src/index'),
     import('../../packages/pipelines-generics/src/index'),
+    import('../../packages/btd/src/settlement'),
   ]);
   execution = factoryPipelineExecution('asset_pack', undefined, {
     pipelineName: 'asset_pack',
@@ -1674,12 +1679,25 @@ try {
   });
 
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
+  const settlementUnlock = buildAssetPackSettlementUnlock({
+    ledgerSettlement,
+    pullRequestTarget: pullRequestUrl || null,
+    requirePullRequestDelivery: deliveryRequired,
+  });
+  const settledSourceSafePreview = applyAssetPackSettlementUnlockToPreview(sourceSafePreview, settlementUnlock);
+  execution.store('asset-pack/preview', 'sourceSafe', settledSourceSafePreview);
+  execution.store('asset-pack/settlement', 'unlock', settlementUnlock);
+  execution.store('asset-pack/settlement', 'readLicenseId', settlementUnlock.readLicenseId);
   output = {
     ...(output || {}),
-    sourceSafePreview,
-    ledgerSettlement,
+    sourceSafePreview: settledSourceSafePreview,
+    ledgerSettlement: {
+      ...ledgerSettlement,
+      protectedSourceUnlock: settlementUnlock,
+    },
   };
   resultReasons.push(ledgerSettlement.reason);
+  resultReasons.push(settlementUnlock.reason);
   if (pipelineResultState === 'worthy_fit' && ledgerSettlement.settlementAdmissible !== true) {
     resultState = 'blocked_readiness';
     resultReasons.push('Settlement remains blocked until ledger writeback and readback are complete.');
@@ -1705,12 +1723,12 @@ try {
     output,
     fitResult,
     depositorySearch,
-    sourceSafePreview,
+    sourceSafePreview: settledSourceSafePreview,
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,
     shippables: output?.shippables || null,
-    ledgerSettlement,
+    ledgerSettlement: output.ledgerSettlement,
     execution: summarizeExecution(execution),
     events,
     startedAt,

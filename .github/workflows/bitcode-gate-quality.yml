@@ -48,6 +48,7 @@ jobs:
           node scripts/check-v28-gate9-depository-evidence.mjs
           node scripts/check-v28-gate10-read-need-comprehension.mjs
           node scripts/check-v28-gate11-read-fits-finding-preview.mjs
+          node scripts/check-v28-gate12-settlement-rights-delivery.mjs
           node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
 
       - name: Validate source casing and imports
@@ -57,11 +58,13 @@ jobs:
 
       - name: Type-check gate packages
         run: |
+          pnpm --filter @bitcode/btd typecheck
           pnpm --filter @bitcode/pipeline-asset-pack typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
 
       - name: Test gate packages
         run: |
+          pnpm --filter @bitcode/btd test
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
 
