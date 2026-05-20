@@ -151,6 +151,23 @@ Accepted Gate 5 posture:
 - Gate pull request titles must carry the uppercase version and gate prefix so gate closure can be audited from GitHub history.
 - Gate 5 does not implement reconciliation repair, organization authority, full settlement UI depth, or browser proof; later V29 gates own those slices.
 
+## Gate 6 working notes
+
+Gate 6 hardens the settlement truth boundary after source-safe preview and before paid unlock/delivery are treated as admissible.
+
+Implementation notes:
+
+- Reconciliation must always separate ledger-observed facts from database-projected facts and private metaphysical canonical facts.
+- Metaphysical facts remain private root commitments; they are not rendered as protected source.
+- Repair receipts classify drift, while repair actions describe the operational next step.
+- Settlement conservation drift is not a warning; it blocks unlock because BTC debit/credit truth must conserve before BTD rights are transferred or source is delivered.
+- Delivery recovery is surfaced only after settlement is aligned and delivery evidence exists but the pull-request shippable is not visible in the transaction read model.
+
+Operator notes:
+
+- Terminal journal detail is the ordinary repair cockpit for this gate: drift classes, blockers, repair actions, proof roots, journal entries, and repair receipts must be visible without opening network logs.
+- Raw payload remains audit material, not the primary operator interface.
+
 ## Later-version boundaries
 
 - V30 remains reserved for Protocol/BTD hardening that is not necessary to close Terminal transaction depth.

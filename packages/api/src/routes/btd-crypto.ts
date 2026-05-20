@@ -302,6 +302,7 @@ export interface BtdLedgerDatabaseReconciliationInput {
   ledgerFacts: LedgerObservedFact[];
   databaseFacts: DatabaseProjectedFact[];
   metaphysicalFacts?: MetaphysicalCanonicalFact[];
+  settlementConservationChecks?: Parameters<typeof reconcileLedgerDatabaseProjection>[0]['settlementConservationChecks'];
   commitToRegistry?: boolean;
   actorId?: string;
   issuedAt?: string;
@@ -926,6 +927,7 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
     ledgerFacts: input.ledgerFacts,
     databaseFacts: input.databaseFacts,
     metaphysicalFacts: input.metaphysicalFacts,
+    settlementConservationChecks: input.settlementConservationChecks,
     issuedAt: input.issuedAt,
   });
   const terminalJournalEntry = buildTerminalJournalEntry({
@@ -950,6 +952,10 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
       report.reconciliationId,
       ...report.repairs.map((repair) => repair.repairId),
       ...report.metaphysicalFacts.map((fact) => fact.receiptRoot ?? fact.canonicalRoot),
+      report.proofRoots.ledgerObservedRoot,
+      report.proofRoots.databaseProjectionRoot,
+      report.proofRoots.repairPlanRoot,
+      report.proofRoots.settlementConservationRoot,
     ],
     ledgerAnchorIds: input.ledgerFacts.map((fact) => fact.factId),
     exchangeSequence: BigInt(Math.max(1, input.ledgerFacts.length + input.databaseFacts.length)),

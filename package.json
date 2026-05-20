@@ -49,6 +49,7 @@
     "check:v29-gate3": "node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs",
     "check:v29-gate4": "node scripts/check-v29-gate4-reading-pipeline-observability.mjs",
     "check:v29-gate5": "node scripts/check-v29-gate5-assetpack-disclosure-rights.mjs",
+    "check:v29-gate6": "node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

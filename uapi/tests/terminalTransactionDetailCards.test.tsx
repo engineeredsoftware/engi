@@ -140,6 +140,22 @@ describe('Terminal transaction detail cards', () => {
               },
             ],
             repairReceipts: [],
+            repairActions: [
+              {
+                id: 'ledger-anchor-run-1:project_ledger_fact',
+                title: 'project_ledger_fact',
+                summary: 'Project the confirmed ledger anchor into the database.',
+                supportingText: 'operator approval required',
+              },
+            ],
+            proofRoots: [
+              {
+                id: 'settlement-journal-root:sha256:journal',
+                title: 'Settlement journal root',
+                summary: 'sha256:journal',
+              },
+            ],
+            driftKindCounts: [{ label: 'missing_database_projection', value: '1' }],
             blockingReasons: ['Confirmed ledger anchor contradicts the missing database projection.'],
             payload: {
               observedFacts: ['ledger-anchor-finality'],
@@ -156,6 +172,8 @@ describe('Terminal transaction detail cards', () => {
     expect(screen.getByText('Journal reconciliation')).toBeTruthy();
     expect(screen.getByText('Ledger observations and database projections')).toBeTruthy();
     expect(screen.getByText('Metaphysical canonical facts')).toBeTruthy();
+    expect(screen.getByText('Repair actions')).toBeTruthy();
+    expect(screen.getByText('Proof roots')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByText('selection-materialization').length).toBeGreaterThan(0);
     expect(screen.getAllByText('run-001').length).toBeGreaterThan(0);

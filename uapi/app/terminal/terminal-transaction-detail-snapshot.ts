@@ -78,9 +78,13 @@ export type TerminalReconciliationRepairSnapshot = {
   reconciliationId: string;
   factId: string;
   repairKind: string;
+  driftKind: string | null;
+  repairActionKind: string | null;
   beforeValue: string;
   afterValue: string;
   blocking: boolean;
+  requiresOperatorApproval: boolean;
+  proofRoot: string | null;
   issuedAt: string | null;
   raw: TerminalJsonRecord;
 };
@@ -386,9 +390,13 @@ function coerceRepairReceipt(value: unknown): TerminalReconciliationRepairSnapsh
     reconciliationId: coerceString(value.reconciliation_id) || coerceString(value.reconciliationId) || 'n/a',
     factId: coerceString(value.fact_id) || coerceString(value.factId) || 'n/a',
     repairKind: coerceString(value.repair_kind) || coerceString(value.repairKind) || 'n/a',
+    driftKind: coerceString(value.drift_kind) || coerceString(value.driftKind),
+    repairActionKind: coerceString(value.repair_action_kind) || coerceString(value.repairActionKind),
     beforeValue: coerceString(value.before_value) || coerceString(value.beforeValue) || 'n/a',
     afterValue: coerceString(value.after_value) || coerceString(value.afterValue) || 'n/a',
     blocking: Boolean(value.blocking),
+    requiresOperatorApproval: Boolean(value.requires_operator_approval || value.requiresOperatorApproval),
+    proofRoot: coerceString(value.proof_root) || coerceString(value.proofRoot),
     issuedAt: coerceString(value.issued_at) || coerceString(value.issuedAt),
     raw: value,
   };

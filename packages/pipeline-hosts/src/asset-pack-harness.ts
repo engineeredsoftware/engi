@@ -1499,16 +1499,24 @@ async function settleAssetPackLedger(pipelineResultState) {
       journalEntryIds,
       depositorWalletId,
       readerWalletId,
-      btcFee: {
-        network: btcNetwork,
-        requestedNetwork: requestedBtcNetwork,
-        satsPaid: btcFeeSats,
-        finalityState: 'prepared',
-        serverCustody: false,
-      },
-      ownershipBoundary: settlementOwnershipBoundary({
-        status: 'settled',
-        depositorWalletId,
+        btcFee: {
+          network: btcNetwork,
+          requestedNetwork: requestedBtcNetwork,
+          satsPaid: btcFeeSats,
+          finalityState: 'prepared',
+          serverCustody: false,
+        },
+        proofRoots: {
+          sourceManifestRoot,
+          measurementReceiptRoot,
+          fitReceiptRoot,
+          proofRoot,
+          settlementJournalRoot,
+          accessPolicyHash,
+        },
+        ownershipBoundary: settlementOwnershipBoundary({
+          status: 'settled',
+          depositorWalletId,
         readerWalletId,
         btcFeeSats,
         btcNetwork,
@@ -1566,10 +1574,12 @@ try {
     },
     { enablePipelineStreaming, factoryPipelineExecution },
     { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
+    { reconcileLedgerDatabaseProjection },
   ] = await Promise.all([
     import('../../packages/pipelines/asset-pack/src/index'),
     import('../../packages/pipelines-generics/src/index'),
     import('../../packages/btd/src/settlement'),
+    import('../../packages/btd/src/reconciliation'),
   ]);
   readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
   resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
@@ -1725,6 +1735,85 @@ try {
   });
 
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
+  const ledgerDatabaseReconciliation = ledgerSettlement?.assetPackId
+    ? reconcileLedgerDatabaseProjection({
+        reconciliationId: 'harness-reconciliation-' + runId,
+        ledgerFacts: [
+          {
+            factId: ledgerSettlement.assetPackId,
+            ledgerRoot: ledgerSettlement.proofRoots?.proofRoot || rootOf({ assetPackId: ledgerSettlement.assetPackId }),
+            finalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+          },
+          ...(ledgerSettlement.btcFeeReceiptId
+            ? [{
+                factId: ledgerSettlement.btcFeeReceiptId,
+                ledgerRoot: rootOf({
+                  btcFeeReceiptId: ledgerSettlement.btcFeeReceiptId,
+                  satsPaid: ledgerSettlement.btcFee?.satsPaid || 0,
+                  finalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+                }),
+                finalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+              }]
+            : []),
+          ...(ledgerSettlement.ledgerAnchorId
+            ? [{
+                factId: ledgerSettlement.ledgerAnchorId,
+                ledgerRoot: ledgerSettlement.proofRoots?.settlementJournalRoot || ledgerSettlement.ledgerAnchorId,
+                finalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+              }]
+            : []),
+        ],
+        databaseFacts: [
+          ...(ledgerSettlement.readback?.assetPackRange
+            ? [{
+                factId: ledgerSettlement.assetPackId,
+                projectedLedgerRoot: ledgerSettlement.proofRoots?.proofRoot || rootOf({ assetPackId: ledgerSettlement.assetPackId }),
+                projectedFinalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+              }]
+            : []),
+          ...(ledgerSettlement.readback?.btcFeeTransaction && ledgerSettlement.btcFeeReceiptId
+            ? [{
+                factId: ledgerSettlement.btcFeeReceiptId,
+                projectedLedgerRoot: rootOf({
+                  btcFeeReceiptId: ledgerSettlement.btcFeeReceiptId,
+                  satsPaid: ledgerSettlement.btcFee?.satsPaid || 0,
+                  finalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+                }),
+                projectedFinalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+              }]
+            : []),
+          ...(ledgerSettlement.readback?.ledgerAnchor && ledgerSettlement.ledgerAnchorId
+            ? [{
+                factId: ledgerSettlement.ledgerAnchorId,
+                projectedLedgerRoot: ledgerSettlement.proofRoots?.settlementJournalRoot || ledgerSettlement.ledgerAnchorId,
+                projectedFinalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+              }]
+            : []),
+        ],
+        settlementConservationChecks: ledgerSettlement.btcFee
+          ? [{
+              checkId: 'btc-fee-conservation-' + runId,
+              expectedDebitSats: Number(ledgerSettlement.btcFee.satsPaid || 0),
+              observedDebitSats: ledgerSettlement.readback?.btcFeeTransaction ? Number(ledgerSettlement.btcFee.satsPaid || 0) : 0,
+              expectedCreditSats: Number(ledgerSettlement.btcFee.satsPaid || 0),
+              observedCreditSats: ledgerSettlement.readback?.btcFeeTransaction ? Number(ledgerSettlement.btcFee.satsPaid || 0) : 0,
+              paymentReceiptRoot: ledgerSettlement.btcFeeReceiptId || undefined,
+            }]
+          : [],
+        metaphysicalFacts: [
+          {
+            factId: 'protected-source-boundary-' + runId,
+            factKind: 'private_source_metadata',
+            canonicalRoot: ledgerSettlement.proofRoots?.sourceManifestRoot || manifestRoot || rootOf(manifest.sourceRevision || {}),
+            receiptRoot: ledgerSettlement.proofRoots?.accessPolicyHash || undefined,
+            private: true,
+          },
+        ],
+      })
+    : null;
+  if (ledgerDatabaseReconciliation) {
+    execution.store('asset-pack/settlement', 'ledgerDatabaseReconciliation', ledgerDatabaseReconciliation);
+  }
   const settlementUnlock = buildAssetPackSettlementUnlock({
     ledgerSettlement,
     pullRequestTarget: pullRequestUrl || null,
@@ -1749,6 +1838,7 @@ try {
     ledgerSettlement: {
       ...ledgerSettlement,
       protectedSourceUnlock: settlementUnlock,
+      ledgerDatabaseReconciliation,
     },
   };
   resultReasons.push(ledgerSettlement.reason);
@@ -1763,6 +1853,8 @@ try {
     status: ledgerSettlement.status,
     settlementAdmissible: ledgerSettlement.settlementAdmissible,
     assetPackId: ledgerSettlement.assetPackId || null,
+    reconciliationState: ledgerDatabaseReconciliation?.state || null,
+    repairActionCount: ledgerDatabaseReconciliation?.repairActions?.length || 0,
   });
   const readingPipelineObservabilityCoverage = summarizeReadingPipelineObservabilityCoverageFn
     ? summarizeReadingPipelineObservabilityCoverageFn(events)
@@ -1788,6 +1880,7 @@ try {
     deliveryMechanism: output?.deliveryMechanism || null,
     shippables: output?.shippables || null,
     ledgerSettlement: output.ledgerSettlement,
+    ledgerDatabaseReconciliation,
     execution: summarizeExecution(execution),
     readingPipelineObservabilityInventory,
     readingPipelineObservabilityCoverage,
