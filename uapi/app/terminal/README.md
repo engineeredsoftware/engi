@@ -40,6 +40,10 @@ presenting them as part of Terminal itself.
 - `terminal-journal-reconciliation.ts` and `TerminalTransactionJournalReconciliationCard.tsx`
   Selected-activity Journal section owner for ledger observations, database
   projections, canonical root facts, repair receipts, and drift state.
+- `terminal-wallet-btc-operation.ts` and `TerminalTransactionWalletBtcCard.tsx`
+  Selected-activity Wallet/BTC section owner for signer recovery, fee quote,
+  PSBT handoff, transaction id, finality, blocked readiness, and no-custody
+  posture.
 - `TerminalCommandDeck.tsx`
   Scenario, projection, branch mode, reset, and flow-guide entry posture.
 - `TerminalDepositReadWorkbench.tsx`
@@ -112,9 +116,14 @@ Former `runId` links are still accepted on read and rewritten on write.
 
 Ordinary operators should read the low-detail model first: summary, proof
 posture, metrics, posture chips, and section availability. Shippables,
-identity, closure, proofs, history, journal, activity stream, and console each
-declare whether they are available, empty, or blocked. Raw payloads remain audit
-material behind expansion, not the normal navigation contract.
+identity, Wallet/BTC, closure, proofs, history, journal, activity stream, and
+console each declare whether they are available, empty, or blocked. Raw payloads
+remain audit material behind expansion, not the normal navigation contract.
+
+The Wallet/BTC section projects BTC fee operation state without exposing wallet
+secrets or protected AssetPack source. It should show quote root, wallet session,
+payer wallet, PSBT handoff, txid, state, confirmations, blockers, and server
+custody posture as ordinary rows before the operator opens raw ledger payloads.
 
 ## Related shared systems
 

@@ -43,6 +43,7 @@ const TERMINAL_ENVIRONMENT_MODE_VALUES: TerminalEnvironmentMode[] = [
 export type TerminalTransactionDetailSection =
   | 'shippables'
   | 'transaction'
+  | 'wallet-btc'
   | 'closure'
   | 'proofs'
   | 'history'
@@ -52,6 +53,7 @@ export type TerminalTransactionDetailSection =
 const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
   'shippables',
   'transaction',
+  'wallet-btc',
   'closure',
   'proofs',
   'history',

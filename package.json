@@ -46,6 +46,7 @@
     "check:v28-gate13": "node scripts/check-v28-gate13-product-closure-promotion-readiness.mjs",
     "check:v29-gate1": "node scripts/check-v29-gate1-objectives-and-gating.mjs",
     "check:v29-gate2": "node scripts/check-v29-gate2-terminal-transaction-read-models.mjs",
+    "check:v29-gate3": "node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",
