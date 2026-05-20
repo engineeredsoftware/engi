@@ -30,7 +30,7 @@ export const NormalizationPressure = Object.freeze({
 export const RealizationStage = Object.freeze({
   DEPOSITING: 'depositing',
   READING: 'reading',
-  DEPOSIT_TO_NEED_FIT: 'deposit-to-read-fit',
+  DEPOSIT_TO_READ_FIT: 'deposit-to-read-fit',
   ASSET_PACK: 'asset-pack',
   BRANCH: 'branch-materialization',
   PROOF: 'proof-closure',

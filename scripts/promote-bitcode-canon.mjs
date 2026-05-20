@@ -313,6 +313,11 @@ function buildCommandPlan(version, commit) {
   const v28CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V27']];
   const v28DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V27', '--draft-target', 'V28']];
   const v28MetadevelopmentReadinessCommand = ['node', ['scripts/check-v28-metadevelopment-readiness.mjs', '--promotion-mode', '--skip-branch-check']];
+  const v28Gate9Command = ['node', ['scripts/check-v28-gate9-depository-evidence.mjs']];
+  const v28Gate10Command = ['node', ['scripts/check-v28-gate10-read-need-comprehension.mjs']];
+  const v28Gate11Command = ['node', ['scripts/check-v28-gate11-read-fits-finding-preview.mjs']];
+  const v28Gate12Command = ['node', ['scripts/check-v28-gate12-settlement-rights-delivery.mjs']];
+  const v28Gate13Command = ['node', ['scripts/check-v28-gate13-product-closure-promotion-readiness.mjs']];
   const v28PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V28', '--commit', commit]];
   const v28PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V28', '--next-draft', 'V29']];
   const v28PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V28']];
@@ -452,9 +457,20 @@ function buildCommandPlan(version, commit) {
       v28CanonicalInputCheckCommand,
       v28DraftCanonPostureDriftCommand,
       v28MetadevelopmentReadinessCommand,
+      v28Gate9Command,
+      v28Gate10Command,
+      v28Gate11Command,
+      v28Gate12Command,
+      v28Gate13Command,
+      ['pnpm', ['test:qa:v28:pipeline-readback']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
       ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/orbitalsInterfacesPane.test.tsx', '--runInBand']],
       v28PreparePromotionSpecFamilyCommand,
       v28PrepareRuntimePromotionCommand,

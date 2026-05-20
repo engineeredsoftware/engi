@@ -2180,3 +2180,63 @@ Expected evidence:
 - Missing read-license, BTC fee, ownership, journal, ledger anchor, telemetry,
   or delivery readback leaves protected source withheld and records the blocking
   readback key.
+
+### Gate 13 Commercial Product Closure And Promotion Readiness QA
+
+Gate 13 closure proves that V28 is ready for a `version/v28` promotion pull
+request by requiring the final product, demonstration, readback, and promotion
+checks to be executable instead of manually inferred.
+
+Required local checks:
+
+```bash
+pnpm run check:v28-gate13
+npm --prefix protocol-demonstration test
+npm --prefix protocol-demonstration run test:v28-mvp-qa
+pnpm test:qa:v28:pipeline-readback
+pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source rest --lookback-hours 96
+# Optional stricter lane when local network can reach the Supabase Postgres host or pooler:
+pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 96
+node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
+```
+
+Expected evidence:
+
+- The full demonstration proof suite passes with the current proof catalog:
+  V18 proof-member semantic matrix has 736 cells, V18 theorem-evidence matrix
+  has 928 cells, and V26-proven preview records `promotionReady=false` when the
+  active canon pointer is not V26.
+- The V28 MVP demonstration witness remains self-contained and passes its
+  bounded Need/Finding Fits/AssetPack preview tests without importing product
+  packages or UAPI runtime code.
+- The pipeline readback verifier tests prove host mismatch, stale/missing
+  credentials, missing ledger rows, missing tool rows, and failed deliverable
+  runs fail closed; the staging-testnet Data API readback command must report a
+  recent ready run for project `tkpyosihuouusyaxtbau`. DB readback is a stricter
+  optional lane when local network access can reach the Supabase Postgres host
+  or pooler, and it must fail fast with bounded connection/query timeouts rather
+  than hanging gate validation.
+- Gate Quality and V28 Canon Promotion workflows include `check:v28-gate13`,
+  BTD primitive checks, full demonstration tests, readback verifier tests, and
+  the promotion dry-run. Promotion must only write the V28 pointer and generated
+  proof artifacts from a `version/v28` pull request into `main`.
+
+Observed Gate 13 local evidence on 2026-05-20:
+
+- `--readback-source rest --lookback-hours 96` against
+  `tkpyosihuouusyaxtbau.supabase.co` returned
+  `ready_for_v28_result_review`: `pipeline_runs=11`, `stream_logs=11`,
+  `deliverable_pipeline_runs=11`, `deliverable_pipeline_events=8513`,
+  `deliverable_pipeline_phase_delegations=123`,
+  `deliverable_pipeline_agent_steps=418`,
+  `deliverable_pipeline_generations=122`,
+  `deliverable_pipeline_tool_executions=14`,
+  `btd_asset_pack_ranges=6`, `btc_fee_transactions=6`,
+  `btd_terminal_journal_entries=24`,
+  `btd_asset_pack_ledger_anchors=6`, `btd_ownership_events=6`,
+  `btd_read_licenses=6`, and `btd_crypto_telemetry_events=6`.
+  `phase_executions` remains substituted by deliverable phase delegation rows.
+- `--readback-source db --lookback-hours 96` reached the expected DB host but
+  timed out locally at connection/query time. The verifier now fails fast with
+  bounded DB client settings, so this is recorded as local Postgres network
+  reachability rather than a hanging product gate.

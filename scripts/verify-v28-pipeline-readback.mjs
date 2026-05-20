@@ -6,6 +6,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const DEFAULT_LOOKBACK_HOURS = 48;
+const DEFAULT_DB_TIMEOUT_MS = 8000;
 
 const PIPELINE_TABLES = [
   'pipeline_runs',
@@ -259,6 +260,16 @@ function loadPgClientClass() {
   return requireFromOrm('pg').Client;
 }
 
+function createPgClient({ dbUrl, PgClient = loadPgClientClass() }) {
+  return new PgClient({
+    connectionString: normalizePgConnectionString(dbUrl),
+    ssl: { rejectUnauthorized: false },
+    connectionTimeoutMillis: DEFAULT_DB_TIMEOUT_MS,
+    query_timeout: DEFAULT_DB_TIMEOUT_MS,
+    statement_timeout: DEFAULT_DB_TIMEOUT_MS,
+  });
+}
+
 function normalizePgConnectionString(dbUrl) {
   try {
     const parsed = new URL(dbUrl);
@@ -269,14 +280,8 @@ function normalizePgConnectionString(dbUrl) {
   }
 }
 
-async function countRecentRowsFromDb({ dbUrl, table, sinceIso, PgClient = loadPgClientClass() }) {
-  const client = new PgClient({
-    connectionString: normalizePgConnectionString(dbUrl),
-    ssl: { rejectUnauthorized: false },
-  });
-
+async function countRecentRowsFromDbClient({ client, table, sinceIso }) {
   try {
-    await client.connect();
     const result = await client.query(
       `select count(*)::int as count from public.${quotePgIdentifier(table)} where created_at >= $1`,
       [sinceIso],
@@ -292,19 +297,11 @@ async function countRecentRowsFromDb({ dbUrl, table, sinceIso, PgClient = loadPg
       count: null,
       error: error instanceof Error ? error.message : String(error),
     };
-  } finally {
-    await client.end().catch(() => {});
   }
 }
 
-async function readLatestDeliverableRunHealthFromDb({ dbUrl, sinceIso, PgClient = loadPgClientClass() }) {
-  const client = new PgClient({
-    connectionString: normalizePgConnectionString(dbUrl),
-    ssl: { rejectUnauthorized: false },
-  });
-
+async function readLatestDeliverableRunHealthFromDbClient({ client, sinceIso }) {
   try {
-    await client.connect();
     const result = await client.query(
       `
       with latest_run as (
@@ -409,6 +406,47 @@ async function readLatestDeliverableRunHealthFromDb({ dbUrl, sinceIso, PgClient 
         agentSteps: 0,
         generations: 0,
         tools: 0,
+      },
+    };
+  }
+}
+
+async function readDbCountsAndHealth({ dbUrl, sinceIso, PgClient = loadPgClientClass() }) {
+  const client = createPgClient({ dbUrl, PgClient });
+
+  try {
+    await client.connect();
+    const counts = [];
+    for (const table of COUNTABLE_TABLES) {
+      counts.push(await countRecentRowsFromDbClient({ client, table, sinceIso }));
+    }
+    const latestDeliverableRun = await readLatestDeliverableRunHealthFromDbClient({
+      client,
+      sinceIso,
+    });
+    return { counts, latestDeliverableRun };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return {
+      counts: COUNTABLE_TABLES.map((table) => ({
+        table,
+        count: null,
+        error: message,
+      })),
+      latestDeliverableRun: {
+        id: null,
+        pipelineRunId: null,
+        status: null,
+        createdAt: null,
+        completedAt: null,
+        error: message,
+        counts: {
+          events: 0,
+          phases: 0,
+          agentSteps: 0,
+          generations: 0,
+          tools: 0,
+        },
       },
     };
   } finally {
@@ -643,19 +681,13 @@ export async function buildVerificationReport(
     !isPlaceholderUrl(dbUrl) &&
     dbHostMatchesExpectation
   ) {
-    counts = await Promise.all(
-      COUNTABLE_TABLES.map((table) => countRecentRowsFromDb({
-        dbUrl,
-        table,
-        sinceIso,
-        PgClient,
-      })),
-    );
-    latestDeliverableRun = await readLatestDeliverableRunHealthFromDb({
+    const readback = await readDbCountsAndHealth({
       dbUrl,
       sinceIso,
       PgClient,
     });
+    counts = readback.counts;
+    latestDeliverableRun = readback.latestDeliverableRun;
   }
 
   const gate = buildGateState({
