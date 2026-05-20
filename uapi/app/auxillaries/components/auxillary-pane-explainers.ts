@@ -23,26 +23,26 @@ export const auxillaryPaneExplainers: Record<
     kicker: "Interfaces auxillary",
     title: "Instruction baseline",
     summary:
-      "The global prompt baseline carries the user-visible posture Bitcode should keep when it reasons or explains.",
+      "The interface prompt baseline carries the user-visible posture Bitcode should keep when it summarizes or explains non-ledgerized reads.",
     detail:
-      "Use a bounded baseline here when you want calmer, more exact Bitcode behavior without rewriting every transaction or interface locally.",
+      "Use a bounded baseline here when you want calmer, more exact interface behavior without rewriting every transaction or interface locally.",
     points: [
       "Keep formal or decisive tone consistent",
       "Bias toward throughput, quality, or balanced review",
-      "Preserve one reusable default instruction surface",
+      "Preserve one reusable non-ledgerized instruction surface",
     ],
   },
   interfacesModels: {
     kicker: "Interfaces auxillary",
-    title: "Model posture",
+    title: "Ledgerized model posture",
     summary:
-      "Global model posture lets you decide what provider family should anchor the Bitcode Terminal by default.",
+      "Ledgerized Reading pipelines use protocol-owned model configuration rather than user-selected model defaults.",
     detail:
-      "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across Terminal, MCP API, and ChatGPT App work.",
+      "Conversation-only model preferences may exist outside V28 closure, but Terminal Reading, Finding Fits, AssetPack synthesis, proof, and settlement paths remain deterministic.",
     points: [
-      "Apply one default model family to the Bitcode Terminal",
-      "Review visible cost and context posture before switching",
-      "Keep model choice explicit rather than implicit",
+      "Do not route ledgerized synthesis through user model preferences",
+      "Keep provider and model evidence in telemetry",
+      "Treat conversation-only model choice as outside settlement authority",
     ],
   },
   btdWallet: {

@@ -130,7 +130,7 @@ export function normalizeTerminalReadFittingReview(payload: unknown): TerminalRe
     status: stringValue(review.status || reviewableRead.status, 'ready-for-review'),
     action: stringValue(review.action || recordValue(root.reviewDecision).action, 'pending operator review'),
     fitSearchAdmitted: fitSearchAdmission.admitted === true,
-    admissionReason: stringValue(fitSearchAdmission.admissionReason, 'Read must be accepted before fit search begins.'),
+    admissionReason: stringValue(fitSearchAdmission.admissionReason, 'Read must be accepted before Finding Fits begins.'),
     blockedStages: stringList(fitSearchAdmission.blockedStages || candidateFitRequirements.blockedStages),
     admittedStages: stringList(fitSearchAdmission.admittedStages || candidateFitRequirements.admittedStages),
     allowedActions: stringList(review.allowedActions || root.allowedActions || reviewableRead.allowedActions),

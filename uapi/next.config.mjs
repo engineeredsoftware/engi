@@ -108,6 +108,7 @@ let nextConfig = {
     '@bitcode/vcs-tools',
     // Core shared libs commonly imported in app/server code
     '@bitcode/protocol',
+    '@bitcode/btd',
     '@bitcode/models',
     '@bitcode/files',
     '@bitcode/logger',
@@ -133,6 +134,12 @@ let nextConfig = {
   },
   env: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    SUPABASE_PUBLISHABLE_KEY: process.env.SUPABASE_PUBLISHABLE_KEY,
     // Disable “use” / auth entry points across the marketing site.
     NEXT_PUBLIC_DISABLE_USING: process.env.NEXT_PUBLIC_DISABLE_USING ?? 'true',
     NEXT_PUBLIC_MASTER_MOCK_MODE: process.env.NEXT_PUBLIC_MASTER_MOCK_MODE,

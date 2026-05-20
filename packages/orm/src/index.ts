@@ -147,7 +147,9 @@ export { OrganizationsModel } from './models/organizations';
 export { OrganizationMembersModel } from './models/organization-members';
 export { UserApiKeysModel } from './models/user-api-keys';
 export { OrganizationBtdTreasuryModel } from './models/organization-btd-treasury';
+export type { OrganizationBtdTreasuryBalance } from './models/organization-btd-treasury';
 export { OrganizationBtdUsageModel } from './models/organization-btd-usage';
+export type { OrganizationBtdReadLicenseUsage } from './models/organization-btd-usage';
 
 /**
  * Example usage:

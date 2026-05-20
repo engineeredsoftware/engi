@@ -34,6 +34,7 @@ const SANDBOX_PNPM_VERSION = '10.33.0';
 export interface BuildAssetPackSandboxHarnessOptions {
   mode?: PipelineHarnessMode;
   read: PipelineReadRequest;
+  readNeed?: unknown;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
   source?: PipelineSandboxSource;
@@ -80,6 +81,8 @@ export function buildAssetPackSandboxHarness(
   const manifest = buildAssetPackPipelineHarnessManifest({
     mode,
     read: options.read,
+    readNeed: options.readNeed,
+    requireAcceptedReadNeed: true,
     deposit,
     sourceRevision: options.sourceRevision,
     sourceOverlay,
@@ -519,6 +522,16 @@ function summarizeStreamEvent(event) {
   const data = event?.data && typeof event.data === 'object' && !Array.isArray(event.data)
     ? event.data
     : null;
+  const llmAudit = event?.namespace === 'llm' && data
+    ? {
+        promptTemplate: summarizeInspectableValue(data.promptTemplate ?? null),
+        interpolatedPrompt: summarizeInspectableValue(data.interpolatedPrompt ?? data.messages ?? null),
+        reasoning: summarizeInspectableValue(data.reasoning ?? null),
+        judgment: summarizeInspectableValue(data.judgment ?? null),
+        rawModelResponse: summarizeInspectableValue(data.rawResponse ?? data.content ?? null),
+        parsedTypedOutput: summarizeInspectableValue(data.parsedTypedOutput ?? data.parsed ?? null),
+      }
+    : null;
   return {
     type: 'pipeline-stream-event',
     stage: stageForStreamEvent(event),
@@ -537,6 +550,13 @@ function summarizeStreamEvent(event) {
     inputMessageCount: Array.isArray(data?.messages) ? data.messages.length : null,
     outputContentLength: typeof data?.content === 'string' ? data.content.length : null,
     parsedOutputPresent: Boolean(data?.parsed),
+    promptTemplatePresent: Boolean(data?.promptTemplate),
+    interpolatedPromptPresent: Boolean(data?.interpolatedPrompt || data?.messages),
+    reasoningPresent: Boolean(data?.reasoning),
+    judgmentPresent: Boolean(data?.judgment),
+    rawModelResponsePresent: Boolean(data?.rawResponse || data?.content),
+    parsedTypedOutputPresent: Boolean(data?.parsedTypedOutput || data?.parsed),
+    inferenceAudit: llmAudit,
     inspectable: summarizeLlmInspectable(event, event?.data ?? null),
   };
 }
@@ -1067,6 +1087,9 @@ async function settleAssetPackLedger(pipelineResultState) {
         },
         ledgerAnchorId,
         btcFeeReceiptId,
+        ownershipEventId,
+        readLicenseId,
+        journalEntryIds,
         depositorWalletId,
         readerWalletId,
         ownershipBoundary: settlementOwnershipBoundary({
@@ -1442,6 +1465,9 @@ async function settleAssetPackLedger(pipelineResultState) {
       },
       ledgerAnchorId,
       btcFeeReceiptId,
+      ownershipEventId,
+      readLicenseId,
+      journalEntryIds,
       depositorWalletId,
       readerWalletId,
       btcFee: {
@@ -1496,9 +1522,14 @@ try {
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
-  const [{ assetPackPipeline }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
+  const [
+    { assetPackPipeline, acceptReadNeed, buildAssetPackSourceSafePreview, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput },
+    { enablePipelineStreaming, factoryPipelineExecution },
+    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
+  ] = await Promise.all([
     import('../../packages/pipelines/asset-pack/src/index'),
     import('../../packages/pipelines-generics/src/index'),
+    import('../../packages/btd/src/settlement'),
   ]);
   execution = factoryPipelineExecution('asset_pack', undefined, {
     pipelineName: 'asset_pack',
@@ -1540,9 +1571,29 @@ try {
     record({ type: 'artifact-streaming-enabled', stage: 'telemetry-readback' });
   }
 
+  const readNeed = isAcceptedReadNeed(manifest.readNeed)
+    ? manifest.readNeed
+    : acceptReadNeed(synthesizeReadNeedForPipelineInput({
+        read: manifest.read,
+        readRequest: manifest.read,
+        sourceRevision: manifest.sourceRevision,
+        repository: {
+          fullName: manifest.sourceRevision.repositoryFullName,
+          branch: manifest.sourceRevision.branch,
+          commit: manifest.sourceRevision.commit,
+        },
+      }));
+  execution.store('read/need', 'accepted', readNeed);
+  execution.store('read/need', 'needId', readNeed.needId);
+  execution.store('read/need', 'measurementRoot', readNeed.measurementRoot);
+  execution.store('read/need', 'reviewState', readNeed.reviewState);
+
   const input = {
     read: manifest.read.prompt,
     definitionOfRead: manifest.read.prompt,
+    readNeed,
+    acceptedReadNeed: readNeed,
+    requireAcceptedReadNeed: manifest.requireAcceptedReadNeed !== false,
     repository: {
       fullName: manifest.sourceRevision.repositoryFullName,
       branch: manifest.sourceRevision.branch,
@@ -1586,6 +1637,16 @@ try {
   resultState = manifest.sourceOverlay ? 'blocked_readiness' : settlementResultState;
   const fitResult = output?.fitResult || output?.fit || null;
   const depositorySearch = output?.depositorySearch || null;
+  const sourceSafePreview = buildAssetPackSourceSafePreview({
+    need: readNeed,
+    fitResult,
+    assetPackId: output?.assetPack?.assetPackId || output?.assetPackId || null,
+    proofRoot: output?.assetPack?.proofRoot || output?.proofRoot || null,
+    sourceManifestRoot: output?.assetPack?.sourceManifestRoot || output?.sourceManifestRoot || null,
+    pullRequestTarget: pullRequestUrl || null,
+  });
+  execution.store('asset-pack/preview', 'sourceSafe', sourceSafePreview);
+  execution.store('asset-pack/preview', 'feeQuote', sourceSafePreview.feeQuote);
   const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
     ? fitResult.resultReasons
     : Array.isArray(depositorySearch?.resultReasons)
@@ -1618,11 +1679,25 @@ try {
   });
 
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
+  const settlementUnlock = buildAssetPackSettlementUnlock({
+    ledgerSettlement,
+    pullRequestTarget: pullRequestUrl || null,
+    requirePullRequestDelivery: deliveryRequired,
+  });
+  const settledSourceSafePreview = applyAssetPackSettlementUnlockToPreview(sourceSafePreview, settlementUnlock);
+  execution.store('asset-pack/preview', 'sourceSafe', settledSourceSafePreview);
+  execution.store('asset-pack/settlement', 'unlock', settlementUnlock);
+  execution.store('asset-pack/settlement', 'readLicenseId', settlementUnlock.readLicenseId);
   output = {
     ...(output || {}),
-    ledgerSettlement,
+    sourceSafePreview: settledSourceSafePreview,
+    ledgerSettlement: {
+      ...ledgerSettlement,
+      protectedSourceUnlock: settlementUnlock,
+    },
   };
   resultReasons.push(ledgerSettlement.reason);
+  resultReasons.push(settlementUnlock.reason);
   if (pipelineResultState === 'worthy_fit' && ledgerSettlement.settlementAdmissible !== true) {
     resultState = 'blocked_readiness';
     resultReasons.push('Settlement remains blocked until ledger writeback and readback are complete.');
@@ -1648,11 +1723,12 @@ try {
     output,
     fitResult,
     depositorySearch,
+    sourceSafePreview: settledSourceSafePreview,
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,
     shippables: output?.shippables || null,
-    ledgerSettlement,
+    ledgerSettlement: output.ledgerSettlement,
     execution: summarizeExecution(execution),
     events,
     startedAt,

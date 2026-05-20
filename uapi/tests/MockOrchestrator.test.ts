@@ -200,16 +200,13 @@ describe('MockOrchestrator', () => {
 
   describe('Cache Management', () => {
     it('should cache mock data for better performance', async () => {
-      const start1 = performance.now();
       await orchestrator.getMockData('ASSET_PACKS');
-      const duration1 = performance.now() - start1;
-
-      const start2 = performance.now();
       await orchestrator.getMockData('ASSET_PACKS');
-      const duration2 = performance.now() - start2;
 
-      // Second call should be faster due to caching
-      expect(duration2).toBeLessThan(duration1);
+      const metrics = orchestrator.getPerformanceMetrics();
+      expect(metrics.mocking.totalMockCalls).toBe(2);
+      expect(metrics.mocking.cacheHitRatio).toBe(0.5);
+      expect(metrics.features.ASSET_PACKS?.cacheHitRatio).toBe(0.5);
     });
 
     it('should clear cache on reset', async () => {

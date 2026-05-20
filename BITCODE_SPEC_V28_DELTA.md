@@ -3,15 +3,16 @@
 ## Status
 
 - Version: `V28`
-- V28 state: draft target delta opened
-- Current canonical/latest target: `V27`
+- V28 state: canonical promotion complete; this delta records the promoted V27-to-V28 commercial Protocol, Terminal MVP, Reading pipeline, and promotion-proof closure set
+- Current canonical/latest target: `V28`
+- Canonical proof-source commit: `1153286d0785b0d760ea392918575f0083cd570f`
 - Prior canonical anchor: `BITCODE_SPEC_V27.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v28-gate-1-draft-opening-proof.json`; V28 spec-family and canonical-input reports are planned generated artifacts
-- Source parity state: first-gate draft parity opened in `BITCODE_SPEC_V28_PARITY_MATRIX.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
+- Source parity state: V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
-- Scope: commercial Protocol implementation and Terminal MVP delta from V27 tokenomics and crypto-commercial rails, with MCP API and ChatGPT App MVP retained and Exchange plus website Conversations deferred beyond V35
+- Scope: V28 canonical delta for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails
 - Spec companion: `BITCODE_SPEC_V28.md`
 - Notes companion: `BITCODE_SPEC_V28_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V28_PARITY_MATRIX.md`
@@ -176,9 +177,35 @@ Adds registry-derived organization, MCP API, ChatGPT App access decisions, and p
 
 Adds Terminal-operated deployment lane, telemetry, upgrade, migration, and provider readiness state.
 
-### Gate 8: V28 Promotion Proof
+### Gate 8: V28 Metadevelopment And Promotion Proof
 
-Adds final proof, build/test, unversioned route, and scope-staging closure.
+Adds branch policy, quality commit discipline, gate workflow hardening,
+canonical promotion automation, V28 promotion-script support, unversioned-route
+checking, deterministic ledgerized model posture checks, and a carryforward
+audit for the product gates that follow.
+
+### Gate 9+: Commercial Product Closure Gates
+
+Gate 9 and later gates close the remaining commercial product flow: Depositing,
+Read Request, Read-Need synthesis/review/resynthesis, Finding Fits, AssetPack
+preview, BTC settlement, read-license/right transfer, protected-source unlock,
+PR delivery, Terminal UX, documentation, proof coverage, and live validation.
+
+Gate 9 introduces the deposited-source evidence spine that later gates consume.
+Depositing now produces proof, measurement, reconciliation readback, lexical
+document, vector document, and aggregate depository search roots; projects those
+roots through Terminal execution history; and carries them into the Read/Fit
+harness deposit reference. The vector document policy is explicit:
+`text-embedding-3-small`, 1536 dimensions, `deliverable_vectors`, and
+`match_deliverable_vectors`.
+
+Gate 10 introduces the first two enterprise Reading steps as typed protocol
+state. `/api/read-review` can synthesize, resynthesize, and accept
+Read-Needs; every Need embeds its `bitcode.read.request`, feedback lineage, and
+prior Need id when resynthesized. Route telemetry exposes the
+ReadNeedComprehensionSynthesis contract trace across phases, PTRR agents,
+PTRR steps, and ThricifiedGeneration identifiers. Terminal cannot request
+Finding Fits from this path until an accepted `bitcode.read.need` is present.
 
 ## Later Version Handoff
 

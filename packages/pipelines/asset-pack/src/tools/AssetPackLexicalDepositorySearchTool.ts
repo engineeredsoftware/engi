@@ -12,10 +12,10 @@ const LEXICAL_DEPOSITORY_SEARCH_DOC_CODE_TOOL_PROMPT = {
   format() {
     return [
       'Tool: lexical-depository-search',
-      'Purpose: read back or rerun Bitcode depository candidate recall for the current Read/Fit execution.',
+      'Purpose: read back or rerun Bitcode depository Finding Fits discovery for the current Read/Fit pipeline run.',
       'Inputs: optional read, repositoryFullName, sourceBranch, sourceCommit, queryTerms, assets, or depositoryAssets.',
-      'Output: depository search state, selected candidate ids, query/ranking roots, slim ranking evidence, and fit result evidence.',
-      'Use when a PTRR agent needs to verify the already computed Read/Fit depository search result before AssetPack synthesis.',
+      'Output: depository search state, fit deposit ids, query/ranking roots, slim ranking evidence, and fit result evidence.',
+      'Use when a PTRR agent needs to verify the already computed Finding Fits depository result before AssetPack synthesis.',
     ].join('\n');
   },
 };
@@ -52,14 +52,29 @@ function readPipelineInput(execution: any): Record<string, unknown> {
 }
 
 function summarizeSearch(result: DepositorySearchResult): Record<string, unknown> {
+  const fitDeposits = Array.isArray((result as any).fitDeposits)
+    ? (result as any).fitDeposits
+    : result.selectedCandidates || [];
+  const selectedCandidates = result.selectedCandidates || fitDeposits;
+  const blockedCandidates = result.blockedCandidates || [];
+  const candidateRanking = result.candidateRanking || selectedCandidates;
+  const fitDepositAssetIds = result.fitDepositAssetIds || result.selectedCandidateAssetIds || [];
   let fitResult: unknown;
   try {
-    fitResult = buildDepositoryFitResultEvidence(result);
+    fitResult = buildDepositoryFitResultEvidence({
+      ...result,
+      fitDeposits,
+      selectedCandidates,
+      blockedCandidates,
+      candidateRanking,
+      fitDepositAssetIds,
+    } as DepositorySearchResult);
   } catch {
     fitResult = {
       schema: 'bitcode.asset-pack.fit-result',
       resultState: result.resultState,
       resultReasons: result.resultReasons,
+      fitDepositAssetIds,
       selectedCandidateAssetIds: result.selectedCandidateAssetIds,
       queryRoot: result.queryRoot,
       rankingRoot: result.rankingRoot,
@@ -74,12 +89,14 @@ function summarizeSearch(result: DepositorySearchResult): Record<string, unknown
     resultReasons: result.resultReasons,
     searchedAssetCount: result.searchedAssetCount,
     selectedCandidateAssetIds: result.selectedCandidateAssetIds,
+    fitDepositAssetIds,
     queryRoot: result.queryRoot,
     rankingRoot: result.rankingRoot,
     embeddingPolicy: result.embeddingPolicy,
-    selectedCandidates: result.selectedCandidates.map(slimCandidate),
-    blockedCandidates: result.blockedCandidates.map(slimCandidate),
-    candidateRanking: result.candidateRanking.slice(0, 10).map(slimCandidate),
+    fitDeposits: fitDeposits.map(slimCandidate),
+    selectedCandidates: selectedCandidates.map(slimCandidate),
+    blockedCandidates: blockedCandidates.map(slimCandidate),
+    candidateRanking: candidateRanking.slice(0, 10).map(slimCandidate),
     fitResult,
   };
 }

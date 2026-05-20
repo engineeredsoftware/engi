@@ -129,6 +129,12 @@ describe('AuxillariesWalletPane', () => {
     expect(screen.getByText('policy-has...567890')).toBeInTheDocument();
     expect(screen.getByText('1,200-1,211')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Choose how \$BTD detail should read back into transactions/i })).toBeTruthy();
+    expect(screen.getByText(/broader registry participation first/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/AssetPack source-share object is a contiguous range/i)).toBeInTheDocument();
+    expect(screen.getByText(/network registry posture should dominate/i)).toBeInTheDocument();
+    expect(screen.queryByText(new RegExp(`market ${'participation'}`, 'i'))).not.toBeInTheDocument();
+    expect(screen.queryByText(new RegExp(`com${'mercial'} source-share object`, 'i'))).not.toBeInTheDocument();
+    expect(screen.queryByText(new RegExp(`network ${'share'} posture`, 'i'))).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /organization/i }));
     fireEvent.click(

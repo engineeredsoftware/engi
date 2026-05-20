@@ -3,12 +3,13 @@
 ## Status
 
 - Version: `V28`
-- V28 state: draft target opened
-- Current canonical/latest target: `V27`
+- V28 state: canonical promotion complete; V28 is the active commercial Protocol and Terminal MVP canon and the V28 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V28`
+- Canonical proof-source commit: `1153286d0785b0d760ea392918575f0083cd570f`
 - Prior canonical anchor: `BITCODE_SPEC_V27.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v28-gate-1-draft-opening-proof.json`; V28 spec-family and canonical-input reports are planned generated artifacts
-- Source parity state: first-gate draft parity opened in `BITCODE_SPEC_V28_PARITY_MATRIX.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
+- Source parity state: V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V28'`
@@ -18,6 +19,8 @@
 - Delta companion: `BITCODE_SPEC_V28_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V28_PARITY_MATRIX.md`
 - Generated proof appendix: none until V28 promotion
+- Scope: V28 canonical system specification for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails
+- Last fully realized canonical target preserved in source: `V28`
 
 V28 begins from the promoted V27 tokenomics and cryptographic-commercial implementation.
 V28 does not reopen `$BTD` supply law, measureminting law, BTC fee separation, AssetPack range identity, access-right separation, or V27 crypto receipt invariants.
@@ -149,6 +152,10 @@ V28 requires:
 - compatibility storage carriers are hidden behind Bitcode vocabulary and registry-derived read models;
 - no new versioned UAPI route family is introduced;
 - implementation source remains implicitly versioned to the active canon and current gate: routes, file names, CSS, constants, tests, and identifiers must not introduce explicit version/gate/work-in-progress names without a bounded compatibility instruction;
+- repository contribution flow uses a V28 version branch as the draft integration
+  branch, with scoped gate-number-prefixed branches opened from it and
+  pull-requested back into it only when their gate acceptance criteria are
+  implemented, specified, tested, documented, and ready for closure review;
 - value-bearing mainnet remains gated by explicit operational approval;
 - V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth remain staged unless V28 requires a narrow Protocol/Terminal/MCP/ChatGPT hook.
 
@@ -317,6 +324,20 @@ Acceptance criteria:
 - source deposit, Read discovery, preliminary Fit, and uncommitted proof never imply minting.
 - access policy id/hash is shown before mint or licensed-read commitment.
 - ledgerized synthesis uses protocol-specified models and configuration; Terminal must not expose user-driven model selection for Fit, AssetPack, measurement, measuremint, proof, journal, or settlement behavior.
+- gate pull requests into `version/v28` run maintained gate-quality automation
+  covering draft-canon checks, casing/import checks, package typechecks,
+  package tests, protocol-demonstration QA, and diff hygiene.
+- repository-wide canon-quality automation stays greenable during the V28 draft
+  by checking V27 canonical inputs, V27/V28 posture, V28 draft-family shape,
+  and V28 MVP demonstration QA; full promoted-suite closure is reserved for
+  the V28 promotion workflow.
+- application CI uses root pnpm workspace installation and maintains required
+  uapi lint, typecheck, production build, and mocked Jest coverage checks;
+  full DB/browser E2E, Storybook build, super-linter, and advanced CodeQL are
+  explicit variable-enabled validations until their catalogs are maintained
+  enough to be promoted into always-on branch protection.
+- the legacy GA1 workflow is removed; version-specific quality and promotion
+  workflows own V28 gate and promotion automation.
 
 #### Single-deposit Reading QA
 
@@ -342,19 +363,19 @@ Acceptance criteria:
   with repository, branch, commit, signer, and wallet authorization posture;
 - the Read and Fit rows must carry the same repository, branch, and commit as
   the deposited source revision;
-- candidate recall must prefer source and proof surfaces that explain the
+- Finding Fits discovery must prefer source and proof surfaces that explain the
   product-critical path, including Terminal Deposit/Read components, execution
   history persistence, repository source selection, wallet/GitHub readiness,
   QA SQL, and BTD/ledger proof readback;
 - depository search must be a reusable AssetPack primitive, not a UI-only
   posture: every pipeline run stores searched asset count, query root, ranking
-  root, selected candidate ids, rejected/blocker reasons, proof/measurement
+  root, fit deposit ids, rejected/blocker reasons, proof/measurement
   posture, embedding policy, and result state under the execution evidence
   tree;
 - risk-admission and readiness agents have an evidence-only verification tool,
   `bitcode.asset-pack.verification`, that reads back the current depository
   search result or reruns search from pipeline input, then returns bounded
-  proof, measurement, readback, source-binding, selected-candidate, blocker,
+  proof, measurement, readback, source-binding, fit-deposit, blocker,
   warning, query-root, ranking-root, and embedding-policy evidence. The tool
   must not mutate state, deliver assets, mint, settle, or expose private
   AssetPack source before settlement;
@@ -400,7 +421,7 @@ Acceptance criteria:
 V28 now admits a lightweight deployment harness because the first value-bearing
 Read/Fit result cannot be reviewed from local posture rows alone.
 The harness is not the full V34 distributed deployment program; it is the
-minimum real host contract needed to prove that AssetPack pipeline execution,
+minimum real host contract needed to prove that AssetPack pipeline run,
 agent/prompt/tool context, artifact export, and telemetry readback are running
 before Terminal may classify a Read as `worthy_fit` or `no_worthy_fit`.
 
@@ -427,12 +448,12 @@ The V28 pipeline harness must write a manifest before execution containing:
   and asset measurement posture but has not stored root fields, the harness
   must materialize deterministic manifest-bound roots from the Deposit id,
   AssetPack id, Read id, repository, branch, and commit. These roots are
-  admissible as harness evidence roots for candidate recall and Fit review;
+  admissible as harness evidence roots for Finding Fits discovery and Fit review;
   they are not external finality claims and still require SQL/ledger readback
   before settlement.
 - repository full name, branch, and commit;
 - host capability summary;
-- expected stages: deposit search, candidate ranking, Read comprehension,
+- expected stages: deposit search, fit deposit ranking, Read comprehension,
   AssetPack synthesis, validation, Finish, and telemetry readback;
 - expected SQL evidence surfaces: `executions`, `execution_events`,
   `pipeline_runs`, `run_jobs`, `stream_logs`, `phase_executions`,
@@ -440,7 +461,7 @@ The V28 pipeline harness must write a manifest before execution containing:
   `deliverable_pipeline_phase_delegations`, `deliverable_pipeline_agent_steps`,
   `deliverable_pipeline_generations`, and `deliverable_pipeline_tool_executions`;
 - PTRR agent executions must resolve the evidence tools registered by their
-  parent pipeline execution. A requested evidence tool must either execute and
+  parent pipeline run. A requested evidence tool must either execute and
   persist tool telemetry or fail as typed blocked-readiness evidence; missing
   registry linkage is not admissible live-pipeline behavior. Artifact stream
   events must carry the tool name, input/output/error presence, and ok/error
@@ -491,7 +512,7 @@ Read/Fit result review remains fail-closed:
   pushes finished state to a server-side stream/socket handler. A run with
   omitted per-agent `*_USE_PTRR` flags is not an acceptable staging posture
   unless the global real-inference flag and explicit profile are present.
-- manifest-only Deposit supply can satisfy candidate recall but cannot produce
+- manifest-only Deposit supply can satisfy Finding Fits discovery but cannot produce
   `worthy_fit` unless proof and measurement posture are explicitly visible to
   the pipeline input and the downstream readback queries confirm them. Boolean
   wallet/measurement posture must be converted into deterministic
@@ -499,7 +520,7 @@ Read/Fit result review remains fail-closed:
   evaluation; if that conversion cannot be made, the run must return explicit
   `blocked_readiness`. Manifest-bound roots support Read/Fit selection but do
   not claim BTC fee broadcast, BTD minting, or external ledger finality.
-- every SDIVF phase, PTRR agent step, ThriceifiedGeneration, and tool execution
+- every SDIVF phase, PTRR agent step, ThricifiedGeneration, and tool execution
   must be inspectable as prompt/context input, raw model/tool output,
   parsed/typed output, usage/timing metadata, and phase/agent/step/failsafe
   correlation. A harness failure must still export the execution tree so
@@ -574,15 +595,75 @@ Read/Fit result review remains fail-closed:
   cannot close a live source-revision settlement/finality gate unless the same
   source and database/ledger rows are read back from the accepted environment.
 
-### Gate 4: Terminal AssetPack Range Detail
+### Gate 4: Enterprise Reading Pipelines And Settlement UX
 
 Purpose:
-Make AssetPack range ownership and read-right state readable from registry facts.
+Finish the enterprise Reading product experience around two named pipelines
+and five reviewable Terminal steps. `ReadNeedComprehensionSynthesis` turns a
+reader's Read Request into a measured Need that the reader can review.
+`ReadFitsFindingSynthesis` accepts only that reviewed Need, searches the Bitcode
+Depository for every qualifying fit deposit above the configured confidence and
+quality thresholds, synthesizes a source-safe AssetPack from those deposits
+when enough fit evidence exists, and prepares BTC settlement and pull-request
+delivery evidence.
 
 Acceptance criteria:
 
-- Terminal exposes AssetPack id, range boundaries, cell count, proof root, source manifest root, access policy id/hash, and ledger anchor state.
-- owner-read, licensed-read, and denied branches are distinct.
+- Terminal separates exactly five enterprise Reading user steps: request Read,
+  review synthesized Need, request Fit, review synthesized AssetPack, and buy
+  AssetPack/settle.
+- `ReadNeedComprehensionSynthesis` owns request normalization, Need
+  comprehension, Need measurement, and operator review. All phase ids, agent
+  ids, PTRR step ids, ThricifiedGeneration ids, prompt ids, and telemetry ids are prefixed under
+  `ReadNeedComprehensionSynthesis`.
+- `ReadFitsFindingSynthesis` owns accepted-Need admission, setup/read
+  comprehension, depository discovery, vector/lexical Finding Fits search,
+  AssetPack implementation from qualifying fit deposits, validation,
+  source-safe preview, Share-to-Fee pricing, settlement readback, and
+  pull-request delivery. All phase ids, agent ids, PTRR step ids,
+  ThricifiedGeneration ids, tool ids, prompt ids, and telemetry ids are prefixed under
+  `ReadFitsFindingSynthesis`.
+- the Read-Need comprehension pipeline stores prompt templates, prompt inputs,
+  interpolated context, raw model responses when used, parsed typed Need,
+  measurement root, review state, feedback history, resynthesis attempts, and
+  acceptance roots.
+- Read-Need synthesis tests cover typed Need construction, measurement roots,
+  source constraints, pricing measurement vectors, review-state transitions,
+  feedback/resynthesis telemetry, and route responses that expose prompt input,
+  prompt templates, interpolated context, raw output posture, parsed typed
+  output, and next action.
+- the Finding Fits pipeline accepts only reviewed Read-Needs, searches
+  deposited supply, ranks source-bound deposit fits, admits every qualifying
+  fit deposit above the configured thresholds, synthesizes the AssetPack from
+  those fit deposits, and emits fit/no-fit/blocked evidence with fit deposit
+  ids, score, proof, measurement, readback, and rejection telemetry.
+- Finding Fits tests cover strict accepted-Need admission, depository search,
+  vector/embedding search RPC shape, fit deposit ranking, source-bound proof
+  and measurement blockers, `worthy_fit`, `no_worthy_fit`, and
+  `blocked_readiness` branches, source-safe preview, Share-to-Fee quote, range
+  projection, settlement boundary, and pull-request delivery target posture.
+- Every Reading pipeline phase must declare its phase, agent, PTRR step,
+  ThricifiedGeneration ids, prompt template, interpolated prompt/context input,
+  tool input, tool output, raw model response, parsed typed output,
+  timing/usage, and fail-closed state in telemetry. Until a phase is fully
+  live, tests must require valid typed mocks for the same
+  phase/agent/tool/PTRR/ThricifiedGeneration envelopes so mock mode cannot
+  drift from the live contract.
+- AssetPack preview exposes measurements, score posture, fit rationale, fit
+  deposit ids, roots, fee quote, range projection, and disclosure policy
+  without exposing protected source or source-bearing patches before
+  settlement.
+- Share-to-Fee calculation is implemented as an auditable structured policy:
+  measurement weights, measurement volumes, admitted fit quality, floor/dust
+  rules, BTC network fee posture, and final quote roots are stored and tested.
+- settlement requires reader BTC payment authorization and readback of fee,
+  BTD ownership/license transfer to the paying reader, journal, anchor, range,
+  and database projection rows before unlock.
+- Terminal exposes AssetPack id, range boundaries, cell count, proof root,
+  source manifest root, access policy id/hash, ledger anchor state, and the
+  pull-request delivery target after settlement.
+- owner-read, licensed-read, pending-settlement, and denied branches are
+  distinct.
 - aggregate compatibility balances are not treated as canonical ownership truth.
 - route and UI labels describe AssetPack ranges and read rights, not fungible balances.
 
@@ -599,6 +680,26 @@ Acceptance criteria:
 - repair receipts and blocking drift reasons are visible.
 - operator can distinguish retryable, repairable, and approval-required states.
 
+Implementation posture:
+
+- `/api/executions/history/[runId]` must return the selected execution with
+  Terminal journal readback, related BTC fee row, ledger anchor row,
+  AssetPack range row, ownership/license projection rows, recent
+  reconciliation repair receipts, and readback errors as typed detail payload
+  fields rather than requiring browser-network raw JSON inspection.
+- Terminal detail owns a Journal section that separates ledger observed facts,
+  database projected facts, and metaphysical canonical root facts. The visual
+  surface must preserve the raw payload accordion for audit while making the
+  operator state readable at a glance.
+- Confirmed, reorged, and failed finality observations are blocking facts for
+  contradictory projections. Reorged/failed observations block unlock;
+  confirmed observations that contradict missing projections require explicit
+  approval or repair rather than silent retry.
+- Retryable means expected rows or readback are not visible yet without a
+  final blocking observation. Repairable means reconciliation receipts or drift
+  evidence can be applied without override. Approval-required means a
+  confirmed ledger observation contradicts the projected database state.
+
 ### Gate 6: Terminal Organization And Access Policy
 
 Purpose:
@@ -610,6 +711,14 @@ Acceptance criteria:
 - MCP-triggered and ChatGPT App-triggered actions use owner-read or licensed-read checks rather than aggregate holding gates.
 - policy templates cover owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture.
 - Terminal copy avoids price-appreciation, dividend, copyright-transfer, or marketplace-royalty promises.
+
+Implementation posture:
+
+- Organization `$BTD` posture is a registry projection. Read models must collect member wallet bindings, then read ownership events and read-license rows from the BTD registry. Aggregate compatibility balances may remain contextual but must not admit organization, MCP, ChatGPT App, or read-license actions.
+- MCP admission may require current owner-read or licensed-read evidence for one or more AssetPacks. Deprecated aggregate holding gates must fail closed and point callers to registry-derived read-access requirements.
+- ChatGPT App write-capable connected-interface tools must require explicit user confirmation and typed read-access evidence carrying AssetPack id, wallet id, owner-read or licensed-read decision, policy hash, and reason.
+- Access-policy templates must remain source-readable and test-covered for owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture.
+- Active Terminal and Auxillaries copy must describe registry, range, ownership, license, and proof posture without implying price appreciation, dividends, copyright transfer, or marketplace royalties.
 
 ### Gate 7: Terminal Operations And Testnet Readiness
 
@@ -625,19 +734,216 @@ Acceptance criteria:
 - GitHub-only VCS readiness is honest; broader provider work remains outside V28 MVP QA unless required by the active surface.
 - realistic testnet BTD-AssetPack minting uses synthetic measurement receipts, Terminal journal rows, ledger anchors or ledger-observed placeholders, and database projections that can be diffed and repaired.
 - Bitcoin Taproot/PSBT posture is first-class; BSC/opBNB/Binance Web3 Wallet pilots remain future bridge/distribution work unless they are represented as disabled readiness or documentation notes.
+- the next-gate Reading test contract is green and treated as acceptance
+  evidence: package Read-Need tests, depository-search tests, embedding/vector
+  search tests, Vercel Sandbox harness plan/host tests, pipeline-harness
+  route/preflight tests, Terminal stream adapter tests, and demonstration
+  local-fit tests all pass and remain mapped to this SPEC.
+- bounded-real-inference readiness is tested separately from deterministic
+  mock posture. Mocked phase/agent/tool/ThricifiedGeneration outputs are admitted only when
+  they satisfy the same typed envelope, telemetry, and fail-closed contracts as
+  the live Reading pipelines.
 
-### Gate 8: V28 Promotion Proof
+Implementation evidence:
+
+- `packages/btd/src/terminal-operational-health.ts` is the canonical package
+  adapter for Terminal operational health. It builds the displayed lane,
+  telemetry, upgrade, provider, settlement-network, synthetic testnet minting,
+  Terminal journal, ledger anchor, and ledger/database reconciliation read
+  from BTD primitives rather than a UI-only fixture.
+- `uapi/app/terminal/TerminalOperationalHealthPanel.tsx` renders that package
+  read in Terminal. It keeps all six lanes visible, blocks value-bearing
+  mainnet without an operational approval root, exposes broadcaster/observer
+  severity, displays rollback/migration/generated-type refresh posture, shows
+  GitHub as the active VCS path, and marks BSC/opBNB/Binance Web3 Wallet pilots
+  disabled.
+- Gate 7 implementation tests are
+  `packages/btd/__tests__/terminal-operational-health.test.ts` and
+  `uapi/tests/terminalOperationalHealthPanel.test.tsx`; package-level BTD tests
+  are runnable through `pnpm -C packages/btd test`.
+
+### Gate 8: V28 Metadevelopment And Promotion Proof
 
 Purpose:
-Promote V28 only after commercial Protocol/Terminal MVP QA, Terminal readiness productization, MCP/ChatGPT App MVP readiness, tests, proof, and documentation are closed.
+Close the repository metadevelopment standard that V28 introduced: version branches, gate-prefixed branches, quality commit messages, maintained gate workflows, promotion workflows, and a carryforward audit that prevents remaining commercial-product work from being hidden inside promotion prose.
 
 Acceptance criteria:
 
-- V28 SPEC, DELTA, NOTES, PARITY, and PROVEN are synchronized.
-- package/API, ORM, protocol-demonstration, UAPI route, Terminal UI, and build checks pass.
-- unversioned-route scan passes.
-- V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth are explicitly staged.
-- `BITCODE_SPEC.txt` remains V27 until the final promotion step.
+- branch policy is source-documented: V28 work integrates through
+  `version/v28`; gate work occurs on `v28/gate-N-*` branches; gate branches
+  merge into the version branch; only the complete version branch requests
+  promotion into `main`.
+- contribution policy is source-documented: commits are quality-grouped and
+  titled descriptively enough for promotion proof and future operators.
+- the gate workflow checks draft canon posture, import/casing hygiene, package
+  typechecks/tests, focused UAPI route/Terminal tests, demonstration tests,
+  diff hygiene, metadevelopment readiness, and a dry-run V28 promotion plan.
+- the V28 promotion workflow triggers only for `version/v28` pull requests into
+  `main`, runs promotion-grade checks, executes the canonical promotion script,
+  generates/commits `BITCODE_SPEC_V28_PROVEN.md`, and advances
+  `BITCODE_SPEC.txt` only in the automated promotion commit.
+- the V28 parity matrix includes a rich carryforward audit for the commercial
+  product gates that follow Gate 8: Depositing, Read Request, Read-Need
+  synthesis/review/resynthesis, Finding Fits, AssetPack preview, BTC
+  settlement/read-license, PR delivery, Terminal UX, public/internal
+  documentation, proof coverage, and local/live validation.
+- unversioned-route scan passes and `BITCODE_SPEC.txt` remains V27 until the
+  final automated promotion step.
+
+### Gate 9: Commercial Depositing And Depository Evidence
+
+Gate 9 owns source deposit productization after the metadevelopment gate:
+repository inventory, deposit admission, depository evidence storage,
+measurement vectors, wallet/depositor boundaries, search-index population, and
+Terminal visibility for deposited source materials.
+
+Gate 9 acceptance closes only when a deposited repository revision produces a
+single evidence spine usable by later Reading gates:
+
+- the deposit route returns and persists a source-bound depository evidence
+  envelope containing repository, branch, commit, asset id, content root, proof
+  root, measurement root, reconciliation readback root, lexical search document
+  root, vector search document root, and aggregate depository search document
+  root;
+- the depositor boundary is explicit as a wallet/signer ownership boundary,
+  with the deposited asset owned by the depositor before any Reader settlement
+  or read-license transfer;
+- the vector document contract names the embedding policy
+  `text-embedding-3-small`, 1536 dimensions, and the `deliverable_vectors` /
+  `match_deliverable_vectors` store/RPC boundary, while lexical search remains
+  deterministic and source-rooted;
+- Terminal execution-history rows retain the deposit evidence roots and replay
+  them into the latest deposited source revision so the Read/Fit harness can
+  pass proof, measurement, and readback roots into Finding Fits;
+- Terminal Deposit + Read surfaces show the deposit asset id, depositor wallet,
+  source proof roots, search document roots, and index state without requiring
+  operators to inspect raw JSON;
+- the Gate 9 SQL/readback query checks recent deposit rows for repository
+  alignment, candidate asset id, source proof roots, depository search document
+  roots, depositor boundary, and vector embedding policy posture.
+
+### Gate 10: Read Request To Read-Need Comprehension
+
+Gate 10 owns the enterprise Reading start: request Read, synthesize a
+reviewable Need through `ReadNeedComprehensionSynthesis`, allow feedback and
+resynthesis, persist accepted Need truth, and block Finding Fits until the Need
+is reviewed.
+
+Gate 10 acceptance requires:
+
+- a typed `bitcode.read.request` record embedded in every `bitcode.read.need`
+  so the raw request remains auditable as request truth rather than fit truth;
+- `ReadNeedComprehensionSynthesis` contract trace exposure for every phase,
+  PTRR agent, PTRR step, and ThricifiedGeneration identifier used by route
+  telemetry and Terminal stream/history surfaces;
+- resynthesis lineage: each resynthesized Need records the prior Need id and
+  appends operator feedback without losing earlier feedback turns;
+- accepted Need truth: accepting a Need computes an acceptance root, records
+  review state `accepted`, and emits Finding Fits admission evidence;
+- strict admission: `ReadFitsFindingSynthesis` receives only an accepted
+  `bitcode.read.need` when `requireAcceptedReadNeed=true`; raw Read requests
+  and unaccepted Needs produce blocked readiness;
+- Terminal exposes the first two enterprise Reading steps without raw JSON:
+  synthesize Need, review measurements/proof expectations/feedback, request
+  resynthesis, or accept the Need before the Fit button becomes ready.
+
+### Gate 11: Finding Fits And Source-Safe AssetPack Preview
+
+Gate 11 owns `ReadFitsFindingSynthesis`: depository search, candidate fit
+ranking, fitting deposits as synthesis context, AssetPack measurement, source-
+safe preview, Share-to-Fee quote, and proof-rich Terminal stream visibility.
+
+Gate 11 acceptance requires:
+
+- discovery records all `fitDepositAssetIds` above the review and semantic
+  thresholds, preserves the ranked candidate trace, and fails closed with
+  `blocked_readiness` or `no_worthy_fit` instead of inventing source outside
+  the depository;
+- lexical and vector depository search tool telemetry use canonical
+  `ReadFitsFindingSynthesis.tool.*` ids and carry input read constraints,
+  selected fit deposits, query root, ranking root, and embedding policy posture;
+- implementation and postprocess carry the Finding Fits result into a
+  `bitcode.asset-pack.source-safe-preview` object with Need/Fit measurements,
+  fit score band, candidate ids, proof roots, source-manifest root, preview
+  root, access policy, settlement boundary, and unlock posture;
+- Share-to-Fee quote is deterministic:
+  `sum(measurement.weight * measurement.volume * admitted_fit_quality)` over
+  the accepted Need measurement vector and the admitted fit quality, with BTC
+  sats, quote root, payer, and network-fee posture visible before settlement;
+- protected source, full patches, source-bearing manifest entries, and licensed
+  read payloads stay withheld before settlement. Terminal may show only
+  measurements, non-source metadata, roots, candidate ids, proof posture,
+  ownership boundary, settlement boundary, and fee quote;
+- Terminal stream/history surfaces render the source-safe preview and fee quote
+  without requiring Network-panel JSON inspection, while preserving expandable
+  raw evidence for audit.
+
+### Gate 12: Settlement, Rights, Delivery, And Reconciliation
+
+Gate 12 owns BTC settlement, depositor/reader ownership boundaries, read-license
+rows, ledger/database synchronization, protected-source unlock, and PR delivery
+of the purchased AssetPack into the Reading repository.
+
+Gate 12 acceptance requires:
+
+- settlement is represented as a typed unlock decision, not as UI inference:
+  the `bitcode.asset-pack.settlement-unlock` envelope keeps source-bearing
+  AssetPack material unavailable unless ledger settlement status is `settled`,
+  settlement is admissible, required readback rows are all present, and
+  pull-request delivery readback exists when delivery is required;
+- BTC payment posture is reader-paid and server-noncustodial. The fee receipt,
+  wallet authorization/session, network, sats, finality state, and receipt id
+  remain visible before unlock and must not imply server custody of private
+  keys;
+- depositor/reader boundaries stay separate: the depositor owns the minted BTD
+  range for the deposited source evidence, while the reader receives a
+  policy-matching read license only after payment/readback;
+- required readback covers semantic measurement, measure-mint receipt,
+  AssetPack range, BTD cell, ownership event, read license, mint receipt, BTC
+  fee transaction, ledger anchor, Terminal journal rows, and crypto telemetry;
+- source-safe preview is upgraded only by settlement readback. After settlement,
+  the preview access state becomes `licensed_read`, unlock reports
+  `sourceAvailable=true`, and delivery points at the pull request. Before that,
+  the preview stays `pending_settlement` or `denied`;
+- Terminal exposes ledger status, unlock state, read-license id, BTC fee receipt
+  id, and PR target in the five-step Reading flow, while expandable stream
+  metadata retains full settlement and readback evidence.
+
+### Gate 13: Commercial Product Closure And Promotion Readiness
+
+Gate 13 owns final commercial-product closure: website application UX, package
+abstractions, tests, local live validation, staging-testnet readback evidence,
+public/internal documentation, generated proof coverage, and the final
+`version/v28` promotion pull request. This version/v28 promotion pull request
+is the only path that may advance `BITCODE_SPEC.txt` to V28.
+
+Gate 13 acceptance requires:
+
+- the full `protocol-demonstration` proof suite passes, not only the V28 MVP
+  witness subset. The older proof-member, theorem-evidence, public projection,
+  and V26-proven expectations must either match the active V27/V28 posture or
+  explicitly record superseded promotion-readiness as false;
+- the staging-testnet readback verifier is green against project
+  `tkpyosihuouusyaxtbau` / `tkpyosihuouusyaxtbau.supabase.co`, proving recent
+  Depositing -> Reading -> settlement -> PR-delivery evidence can be reread
+  through the Supabase Data API from pipeline, stream, phase, agent-step,
+  generation, tool, ledger, journal, BTC fee, BTD range, ownership,
+  read-license, crypto telemetry, and delivery rows. DB readback is a stricter
+  optional lane when local network access can reach the Supabase Postgres host
+  or pooler, and it must fail fast with bounded connection/query timeouts;
+- local promotion readiness includes `check:v28-gate9` through
+  `check:v28-gate13`, BTD primitive typecheck/tests, pipeline package
+  typecheck/tests, UAPI Terminal/route focused tests, readback verifier tests,
+  full demonstration proof-suite tests, V28 MVP demonstration tests, source
+  casing/import checks, and promotion dry-run;
+- the V28 promotion workflow runs only for a `version/v28` pull request into
+  `main`, validates every Gate 9-13 closure check plus promotion-grade tests,
+  and writes `BITCODE_SPEC.txt` plus generated V28 proof artifacts only after
+  those validations pass;
+- no protected source visibility, BTC fee, read-license, or BTD ownership
+  claims are promoted from stale manual notes alone. Promotion evidence must be
+  source-controlled, testable, and replayable or explicitly named as external
+  staging-testnet readback evidence in QA.
 
 ## Draft Boundary
 
@@ -742,29 +1048,39 @@ V28 separates Reading into distinct reviewable stages so readers can decide
 whether Bitcode understood the need before Bitcode exposes or settles
 source-bearing AssetPack material.
 
-The staged Reading path is:
+The Terminal enterprise Reading path is exactly five user steps:
 
-1. **Need synthesis.** The user Read request is input to a Need pipeline. The
-   pipeline synthesizes a measured Need object with requirements, closure
-   criteria, failure modes, target artifact kinds, source constraints,
-   proof/settlement expectations, and pricing measurement inputs. Terminal
-   shows this Need in full detail. The user can accept it or request another
-   synthesis with feedback. No depository Fit search, BTC fee, BTD mint, or
+1. **Request Read.** The enterprise reader supplies the repository/source
+   scope and exact request. Bitcode records the source revision, target
+   artifact kinds, closure criteria, and failure modes as
+   `ReadNeedComprehensionSynthesis.request` input.
+2. **Review synthesized Need.** `ReadNeedComprehensionSynthesis` synthesizes a
+   measured `bitcode.read.need` with requirements, closure criteria, failure
+   modes, target artifact kinds, source constraints, proof/settlement
+   expectations, pricing measurement inputs, prompt telemetry, and feedback
+   history. Terminal shows the full Need; the user can accept it or request
+   resynthesis with feedback. No depository search, BTC fee, BTD mint, or
    AssetPack source disclosure is allowed before Need acceptance.
-2. **Need-Fit synthesis.** An accepted Read-Need is input to the AssetPack
-   synthesis pipeline. This stage searches the deposited asset-space, ranks
-   candidates, measures candidate fit against the Need measurement, synthesizes
-   the candidate AssetPack, and returns `worthy_fit`, `no_worthy_fit`, or
-   `blocked_readiness` with proof-bearing search/fit telemetry.
-3. **Source-safe preview.** A worthy synthesized AssetPack is previewed without
-   leaking the full source. Preview may show Need measurement, Fit measurement,
-   selected candidate ids, roots, score bands, proof posture, ownership
-   boundary, settlement boundary, and price; it must not show protected source
-   material before payment/right settlement.
-4. **Settle and unlock.** Settlement records the reader BTC fee, mints or
-   assigns the BTD range according to the standing supply law, writes ownership
-   and read-license rows, anchors/journals the event, and only then unlocks the
-   full AssetPack source/right surface to the buyer/reader.
+3. **Request Fit.** `ReadFitsFindingSynthesis` accepts only the latest accepted
+   Need. The pipeline verifies Need schema/review/measurement roots, prepares
+   setup and read-comprehension context, then the discovery phase searches the
+   Depository through lexical and vector channels, admits every deposit whose
+   source-bound score, confidence, proof, measurement, and readback posture are
+   above the configured thresholds, ranks those fits, and returns
+   `worthy_fit`, `no_worthy_fit`, or `blocked_readiness`.
+4. **Review synthesized AssetPack.** When a worthy fit exists,
+   `ReadFitsFindingSynthesis` implementation uses the discovered fit deposits
+   as contextual knowledge to synthesize a source-safe AssetPack preview for
+   the accepted Need. Preview may show Need measurement, Fit measurement, fit
+   deposit ids, roots, score bands, proof posture, ownership boundary,
+   settlement boundary, and price; it must not show protected source material
+   or source-bearing patch contents before payment/right settlement.
+5. **Buy AssetPack, settle.** Settlement records the reader BTC fee, mints or
+   assigns the BTD range according to the standing supply law, transfers or
+   licenses the BTD rights to the reader who paid for the AssetPack, writes
+   ownership and read-license rows, anchors/journals the event, verifies
+   database/ledger readback, and only then unlocks and delivers the full
+   source-bearing AssetPack as a pull request to the reading repository.
 
 The reader question therefore splits into two explicit operator questions:
 
@@ -772,23 +1088,160 @@ The reader question therefore splits into two explicit operator questions:
 - Did Bitcode find and synthesize a match good enough to preview confidently
   and pay for in BTC without source-IP leakage?
 
-These stages are separately addressable in Terminal and separately journaled in
+These five steps are separately addressable in Terminal and separately journaled in
 the database/ledger readback. A Need stage run cannot be reused as a Fit result
 unless the accepted Need id, Need measurement root, user review state, feedback
-history, and synthesis telemetry are present. A Need-Fit run cannot be promoted
-unless the input Need id and accepted Need measurement root match the latest
-accepted Need revision. Preview cannot unlock source-bearing payloads.
+history, and synthesis telemetry are present. A Finding Fits run cannot be
+promoted unless the input Need id and accepted Need measurement root match the
+latest accepted Need revision. Preview cannot unlock source-bearing payloads.
 Settlement cannot proceed unless the previewed AssetPack id, fee quote, BTD
 range projection, wallet authorization, BTC fee transaction, ownership boundary,
 journal entry, and ledger/database readback all agree.
 
+The product pipeline now carries a typed `bitcode.read.need` object before
+Finding Fits search. The Need object contains `needId`, `measurementRoot`,
+requirements, closure criteria, failure modes, target artifact kinds, source
+constraints, proof expectations, pricing measurement inputs, review state, and
+feedback history. Strict Finding Fits run is admitted only when
+`acceptedReadNeed` is present and has `reviewState='accepted'`; otherwise the
+pipeline returns `blocked_readiness` before depository discovery. The
+Vercel Sandbox harness synthesizes and accepts a Need before invoking the
+bounded source-bound AssetPack pipeline so the closed staging-testnet evidence
+path remains runnable while Terminal moves to the separate user review step.
+`BITCODE_PIPELINE_REQUIRE_ACCEPTED_READ_NEED=1` or request-level
+`requireAcceptedReadNeed=true` activates the strict boundary for API and route
+callers.
+
 The protocol demonstration carries only the minimal deterministic witness of
-this path: local Need synthesis, explicit Need acceptance, local Need-Fit
+this path: local Need synthesis, explicit Need acceptance, local Finding Fits
 ranking over fixture deposits, source-safe preview, and deterministic fee-quote
 shape. It must remain self-contained and must not import the product pipeline,
 registry, prompt, agent, Vercel, Supabase, UAPI, or package implementations.
 Product code may compare against the witness, but it must own its own runtime
 implementation.
+
+### Reading pipeline contract inventory
+
+`packages/pipelines/asset-pack/src/reading-pipeline-contract.ts` is the
+source-owned inventory for V28 Reading pipeline names, prompt/agent/tool
+contracts, PTRR step ids, ThricifiedGeneration ids, return types, telemetry
+fields, and proof counts.
+Specification, Terminal UX, API route telemetry, and tests must stay aligned to
+that inventory.
+
+`ReadNeedComprehensionSynthesis` has four phases, four PTRR agents, sixteen
+declared PTRR steps, forty-eight ThricifiedGeneration units, four
+model-structured PTRR steps, and no tools:
+
+| Phase | PTRR agent | Agent objective | Return type |
+| --- | --- | --- | --- |
+| `ReadNeedComprehensionSynthesis.request` | `ReadNeedComprehensionSynthesis.request.normalize` | normalize source context: extract read prompt, bind source revision, normalize target artifact kinds | `ReadNeedSourceInput` |
+| `ReadNeedComprehensionSynthesis.comprehend` | `ReadNeedComprehensionSynthesis.comprehend.need-synthesizer` | synthesize Need: classify intent, bound requirements, bound non-goals, derive closure | `ReadNeed` |
+| `ReadNeedComprehensionSynthesis.measure` | `ReadNeedComprehensionSynthesis.measure.need-measurement` | weighted requested volume: semantic relevance, source binding, artifact fit, closure specificity | `ReadNeedPricingMeasurementInputs` |
+| `ReadNeedComprehensionSynthesis.review` | `ReadNeedComprehensionSynthesis.review.operator-review` | accept or resynthesize: render full Need, record feedback, accept Need, compute acceptance root | `AcceptedReadNeed` or `ResynthesisRequestedReadNeed` |
+
+Every PTRR agent above owns exactly four PTRR steps: `plan`, `try`, `refine`,
+and `retry`. Every PTRR step owns three ThricifiedGeneration units for
+`prepare-concise-context`, `chunk-then-sum`, and `stitch-until-complete`; each
+ThricifiedGeneration is the strict reason, judge, structured-output sequence.
+
+`ReadFitsFindingSynthesis` has seven phases, eight PTRR agents, thirty-two
+declared PTRR steps, ninety-six ThricifiedGeneration units, sixteen
+model-structured PTRR steps, and four tool contracts:
+
+| Phase | PTRR agent | Agent objective | Return type |
+| --- | --- | --- | --- |
+| `ReadFitsFindingSynthesis.admit` | `ReadFitsFindingSynthesis.admit.accepted-need-gate` | verify accepted Need: schema, review state, measurement root | `ReadFitsFindingAdmission` |
+| `ReadFitsFindingSynthesis.prepare` | `ReadFitsFindingSynthesis.prepare.setup-plan` | setup plan: summarize Read, source revision, fit boundaries | `PlanSchema` |
+| `ReadFitsFindingSynthesis.prepare` | `ReadFitsFindingSynthesis.prepare.read-comprehension` | comprehend Read: primary intent, satisfaction criteria, entities, risk admission | `BoundedReadComprehensionSchema` |
+| `ReadFitsFindingSynthesis.discovery` | `ReadFitsFindingSynthesis.discovery.finding-fits` | discover fit deposits: build query, lexical search, vector search, admit qualifying fit deposits, rank fit deposits | `DepositoryFitsResult` |
+| `ReadFitsFindingSynthesis.implementation` | `ReadFitsFindingSynthesis.implementation.asset-pack` | structured AssetPack synthesis from fit deposits: plan pack, write evidence, bind proof, prepare preview | `AssetPackSynthesisOutput` |
+| `ReadFitsFindingSynthesis.validate` | `ReadFitsFindingSynthesis.validate.fit-quality` | source/proof readiness: validate search, synthesis, disclosure, finish readiness | `ReadyToFinishOutput` |
+| `ReadFitsFindingSynthesis.preview` | `ReadFitsFindingSynthesis.preview.source-safe-preview` | measure fee and lock source: Share-to-Fee, range projection, access policy, source lock | `AssetPackSourceSafePreview` |
+| `ReadFitsFindingSynthesis.settle` | `ReadFitsFindingSynthesis.settle.buy-deliver` | buy and deliver: reader BTC fee, range/license/journal readback, pull request, completion | `AssetPackCompletionOutput` |
+
+The required tool contracts are
+`ReadFitsFindingSynthesis.tool.lexical-depository-search`,
+`ReadFitsFindingSynthesis.tool.vector-depository-search`,
+`ReadFitsFindingSynthesis.tool.verification-evidence`, and
+`ReadFitsFindingSynthesis.tool.vcs-create-pull-request`. Every inference telemetry
+line must expose prompt template, interpolated prompt/messages, raw response,
+parsed typed output, schema/return type, usage/timing, execution state, and
+fail-closed status. Every tool telemetry line must expose tool id, input
+posture, output posture, error posture, result state, and execution state.
+The contract encodes `ptrrStepId` as `<PipelineName>.<phase>.<agent>.<plan|try|refine|retry>`,
+`thricifiedGenerationIds` as
+`<PipelineName>.thricified-generation.<phase>.<agent>.<plan|try|refine|retry>.<failsafe>`,
+reason/judge/structured-output prompt ids under
+`<PipelineName>.prompt.<phase>.<agent>.<plan|try|refine|retry>.<failsafe>.*`,
+and telemetry ids as `<PipelineName>.telemetry.<field>`, so tests can reject
+generic or ambiguous phase evidence before promotion.
+
+Pipeline run diagram:
+
+```text
+Terminal step 1: request Read
+  -> ReadNeedComprehensionSynthesis.request
+  -> ReadNeedComprehensionSynthesis.comprehend
+  -> ReadNeedComprehensionSynthesis.measure
+Terminal step 2: review synthesized Need
+  -> ReadNeedComprehensionSynthesis.review
+  -> accepted bitcode.read.need
+Terminal step 3: request Fit
+  -> ReadFitsFindingSynthesis.admit
+  -> ReadFitsFindingSynthesis.prepare
+  -> ReadFitsFindingSynthesis.discovery
+Terminal step 4: review synthesized AssetPack
+  -> ReadFitsFindingSynthesis.implementation
+  -> ReadFitsFindingSynthesis.validate
+  -> ReadFitsFindingSynthesis.preview
+Terminal step 5: buy AssetPack, settle
+  -> ReadFitsFindingSynthesis.settle
+  -> BTC fee readback + BTD range/license/journal readback + pull request
+```
+
+Terminal UX diagram:
+
+```text
+[1 Request Read]
+  low-detail form: repository, branch/commit, Read Request, target artifacts
+  expandable detail: source revision, parser, closure criteria, failure modes
+[2 Review Need]
+  low-detail review: synthesized Need summary, requirements, non-goals
+  expandable detail: prompt template, interpolated context, parsed Need,
+  measurement vector, feedback history, resynthesis attempts, acceptance root
+[3 Request Fit]
+  low-detail action: run Fit against accepted Need
+  expandable detail: accepted Need id/root, depository search query, blockers
+[4 Review AssetPack]
+  low-detail preview: fit score band, rationale, fee quote, source-safe roots
+  expandable detail: fit deposit ranking, proof posture, range projection,
+  disclosure policy, source lock, no-fit/blocked reasons
+[5 Buy AssetPack, Settle]
+  low-detail action: authorize BTC fee and unlock delivery after readback
+  expandable detail: PSBT/finality state, ownership/license rows, journal,
+  anchor/reconciliation posture, pull-request target
+```
+
+Prompt and return-type audit:
+
+| Pipeline | Model-structured PTRR agents | Model-structured PTRR steps | Model prompt templates | Parsed return types |
+| --- | ---: | ---: | --- | --- |
+| `ReadNeedComprehensionSynthesis` | 1 | 4 | `ReadNeedComprehensionSynthesis.prompt.need-synthesis` | `ReadNeed` |
+| `ReadFitsFindingSynthesis` | 4 | 16 | `ReadFitsFindingSynthesis.prompt.setup-plan`; `ReadFitsFindingSynthesis.prompt.read-comprehension`; `ReadFitsFindingSynthesis.prompt.asset-pack-synthesis`; `ReadFitsFindingSynthesis.prompt.fit-quality-validation` | `PlanSchema`; `BoundedReadComprehensionSchema`; `AssetPackSynthesisOutput`; `ReadyToFinishOutput` |
+
+Every model-structured PTRR step records the common prompt registry posture:
+`factoryAgentWithPTRR` with the `prompt` + `stepPrompts` carrier, agent
+prompt id, PTRR step prompt id, prompt template id, interpolated context, raw
+response, parsed typed output, and the ThricifiedGeneration reason, judge, and
+structured-output prompt ids for all three failsafe contexts.
+
+Tool audit:
+
+| Pipeline | Tool count | Tool ids | Return types |
+| --- | ---: | --- | --- |
+| `ReadNeedComprehensionSynthesis` | 0 | none | none |
+| `ReadFitsFindingSynthesis` | 4 | `ReadFitsFindingSynthesis.tool.lexical-depository-search`; `ReadFitsFindingSynthesis.tool.vector-depository-search`; `ReadFitsFindingSynthesis.tool.verification-evidence`; `ReadFitsFindingSynthesis.tool.vcs-create-pull-request` | `DepositorySearchResult`; `EmbeddingSearchResult`; `AssetPackVerificationEvidenceResult`; `PullRequestDeliveryResult` |
 
 ### Share-to-Fee measurement clarity
 
@@ -797,7 +1250,7 @@ deterministic pricing/readiness interface. The initial Share-to-Fee calculation
 must be deterministic from recorded measurements:
 
 - each Need measurement vector dimension has a volume and a measurement weight;
-- each candidate Fit measurement vector is evaluated against the accepted Need
+- each fit deposit measurement vector is evaluated against the accepted Need
   measurement vector;
 - the priced measurement volume is the weighted admitted volume after fit,
   quality, proof, and settlement eligibility gates;
@@ -814,6 +1267,68 @@ fail-closed: if the Need measurement, Fit measurement, fee schedule, wallet
 authorization, BTC fee, BTD range, or ledger readback is missing, the Terminal
 shows blocked readiness rather than implying settlement.
 
+Gate 4 implementation state:
+
+- `/api/read-review` exposes server-side Read-Need synthesis, resynthesis, and
+  acceptance actions while preserving the prior Read review boundary. The
+  response stores prompt input, interpolated source context, typed
+  `bitcode.read.request`, parsed Need, measurement root, review state,
+  feedback, resynthesis lineage, contract trace, and synthesis telemetry.
+- Read-Need test coverage must stay implementation-guiding rather than
+  snapshot-only: it must assert typed Need fields, measurement roots,
+  source-disclosure constraints, pricing measurement vectors, acceptance
+  roots, feedback/resynthesis handling, route telemetry shape, and the rule
+  that raw Read requests cannot directly enter strict Finding Fits run.
+- Terminal live Finding Fits run requires an accepted `bitcode.read.need`
+  object in addition to Deposit and admitted-Read activity ids. The live
+  harness request carries `acceptedReadNeed` and
+  `requireAcceptedReadNeed=true`, so depository discovery cannot run
+  from a raw Read request.
+- The AssetPack pipeline package owns the source-safe preview contract:
+  preview id, AssetPack id, Need root, Fit roots, fit deposit ids, score
+  band, disclosure policy, access policy id/hash, deterministic Share-to-Fee
+  quote root, BTD range projection, settlement boundary, and locked/unlocked
+  read-right state.
+- Finding Fits test coverage must assert depository search semantics before
+  synthesis: embedding policy, vector dimensions, search RPC, source-bound
+  fit deposit normalization, proof/measurement/readback blockers, mock/frontier
+  leakage rejection, worthy/no-worthy/blocked result states, selection trace,
+  and Execution-store persistence of search and fit evidence.
+- The Vercel Sandbox harness writes that source-safe preview into the exported
+  evidence artifact before ledger settlement readback. Terminal can stream the
+  preview, fee quote, range projection, access state, ledger state, and
+  pull-request target without exposing protected source before settlement.
+- Harness and Terminal tests must assert the implementation envelope for the
+  live path: sandbox plan generation, detached sandbox command polling, artifact
+  readback, real-inference preflight, Supabase REST/DB lane matching, secret
+  redaction, accepted-Need forwarding, rich stream summarization, generation
+  and tool telemetry, and canonical stream-panel adaptation.
+- The protocol-demonstration local loop remains the minimal independent
+  witness. Its tests must cover local Need synthesis, explicit Need acceptance,
+  accepted Finding Fits ranking, source-safe preview, deterministic fee quote,
+  no-worthy-fit, and blocked-readiness proof failures without importing product
+  packages or service adapters.
+
+Gate 7 Reading pipeline coverage contract:
+
+- The next gate cannot close unless the focused Reading suites pass together:
+  `packages/pipelines/asset-pack` Read-Need and depository-search tests,
+  `packages/pipeline-hosts` manifest/harness/host tests, UAPI read-review,
+  pipeline-harness route/preflight, Terminal harness stream, vector search
+  tests, and `protocol-demonstration` local fit-finding tests.
+- The coverage set must be updated whenever a Reading phase, agent, tool,
+  PTRR step, ThricifiedGeneration id, telemetry field, algorithmic scoring rule, fee formula,
+  settlement boundary, or source-disclosure rule changes. Specification text,
+  tests, and core algorithmic design must move together; deficiencies found by
+  tests require either implementation repair or explicit SPEC correction before
+  gate acceptance.
+- A mocked pipeline phase is acceptable only as a typed contract witness. It
+  must emit the same phase id, agent id, PTRR step id, ThricifiedGeneration ids, tool name, prompt
+  input, interpolated context, model output posture, parsed output type,
+  timing/usage shape, result state, and fail-closed errors expected from the
+  real phase. Tests must reject untyped placeholders that could hide live
+  pipeline drift.
+
 ### Long-running full-profile pipeline gate
 
 The current V28 route-streaming gate uses
@@ -823,7 +1338,7 @@ window. `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=full` is scoped to a
 subsequent V28 gate.
 
 That later gate may run for dozens of minutes in Vercel Sandbox. The sandbox
-execution itself must push finished result state, artifacts, and readback
+pipeline command must push finished result state, artifacts, and readback
 signals to a server-side stream/socket handler or durable queue; the route that
 starts the run must not be responsible for waiting synchronously for the final
 result. The push must be correlated by the pipeline run id, authenticated
@@ -834,7 +1349,7 @@ artifact/readback state after the starter HTTP request has ended.
 
 Full-profile acceptance requires the same evidence as bounded profile plus
 durable async completion delivery, resumable status readback, explicit timeout
-and retry accounting, and Terminal reattachment to the live execution stream.
+and retry accounting, and Terminal reattachment to the live pipeline stream.
 Until that gate exists, `full` is a preflight blocker on the deployed route and
 `bounded` remains the current staging-testnet profile for closing the
 source-bound Read/Fit -> AssetPack -> Finish -> ledger readback gate.
@@ -863,7 +1378,7 @@ Current accepted boundaries: V28 productizes Terminal reads without redefining i
 
 ### Fit, recall, ranking, and verification
 
-Current canonical objects and emitted artifacts: Fit review rows, depository search results, recall candidates, verification decisions, selected candidate ids, query roots, ranking roots, embedding policy.
+Current canonical objects and emitted artifacts: Fit review rows, depository search results, recall candidates, verification decisions, fit deposit ids, query roots, ranking roots, embedding policy.
 Current algorithms and derivation rules: deposit-to-read fit, recall, vector/lexical source-bound ranking, proof/measurement gating, and verification decisions are explicit before settlement.
 Current invariants and fail-closed conditions: no-survivor asset pack blocks range commitment; broad Reads block readiness; unrelated Reads return no-worthy-fit; mock/frontier repository leakage blocks readiness; embedding model/dimension drift blocks vector recall promotion.
 Current proof obligations: prove candidate qualities, rejection reasons, source revision binding, proof posture, measurement posture, embedding model/dimensions/vector store, and ranking determinism.
@@ -932,11 +1447,11 @@ Promotion must add `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonic
 
 ## validation canon
 
-Minimum V28 validation includes spec-family checks, canon-posture drift checks, JSON checks, unversioned-route scan, package/API/ORM tests, protocol-demonstration tests, Terminal UI checks, commercial-MVP Playwright E2E tests, UAPI build, and `git diff --check`.
+Minimum V28 validation includes spec-family checks, canon-posture drift checks, JSON checks, unversioned-route scan, package/API/ORM tests, protocol-demonstration tests, Terminal UI checks, commercial-MVP Playwright E2E tests, UAPI build, gate-quality workflow checks, version-promotion workflow checks, and `git diff --check`.
 
 ## promotion canon
 
-Promotion requires V28 PROVEN, synchronized SPEC/DELTA/NOTES/PARITY, closed gates, route scan, test/build proof, and explicit update of `BITCODE_SPEC.txt` from `V27` to `V28`.
+Promotion requires V28 PROVEN, synchronized SPEC/DELTA/NOTES/PARITY, closed gates, route scan, test/build proof, pull-requested integration from gate-number-prefixed branches into the V28 version branch, and automated update of `BITCODE_SPEC.txt` from `V27` to `V28` only after the V28 version branch is pull-requested into `main` and promotion validations succeed.
 
 ## appendices and canonical supporting material
 

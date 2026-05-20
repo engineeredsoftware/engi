@@ -196,6 +196,8 @@ export function buildProtocolProjectedRunDetail(
     closureFocus: agenticExecution.closureFocus,
     closureFollowThrough: null,
     closureState: null,
+    ledgerSettlement: null,
+    terminalJournal: null,
     bitcodeActivityState:
       workbench || activeScenario || supplySelection || repository
         ? {

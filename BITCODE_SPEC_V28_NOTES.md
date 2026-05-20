@@ -3,17 +3,19 @@
 ## Status
 
 - Version: `V28`
-- V28 state: draft target notes opened
-- Current canonical/latest target: `V27`
+- V28 state: canonical promotion complete; V28 notes record the accepted commercial-product and metadevelopment closure evidence
+- Current canonical/latest target: `V28`
+- Canonical proof-source commit: `1153286d0785b0d760ea392918575f0083cd570f`
 - Prior canonical anchor: `BITCODE_SPEC_V27.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v28-gate-1-draft-opening-proof.json`; V28 spec-family and canonical-input reports are planned generated artifacts
-- Source parity state: first-gate draft parity opened in `BITCODE_SPEC_V28_PARITY_MATRIX.md`
-- Scope: draft-target notes for V28 commercial Protocol implementation, Terminal MVP QA, MCP API/ChatGPT App MVP, BTD/testnet/ledgerization, and promotion-tail cleanup after V27 `$BTD` tokenomics and cryptographic-commercialization closure. Exchange and website Conversations are deferred beyond V35.
+- Generated structured artifact inventory: active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
+- Source parity state: V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family
+- Scope: V28 canonical notes for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment
 - Active canonical pointer: `BITCODE_SPEC.txt` -> `V27`.
 - Draft target: `V28`.
 - Primary V28 focus: commercial Protocol implementation and Terminal MVP QA across Terminal, Auxillaries, BTD range disclosure, MCP API, ChatGPT App, auth/readiness, wallet/BTC/testnet flows, ledgerized journals, and navigation. Exchange and website Conversations are not V28 closure surfaces.
 - Adjacent later-version focus: V29 owns deeper Terminal workflows; V30 is reserved for post-V29 Protocol/BTD hardening discovered during V28/V29; V31 owns deeper Auxillaries; V32 owns deeper provation and testing; V33 owns deeper Interfaces beyond the V28 MCP API and ChatGPT App MVP; V34 owns deeper Deployment; V35 owns deeper telemetry and documenting; V36+ owns deeper Exchange and website Conversations.
+- Last fully realized canonical target preserved in source: `V28`
 
 This NOTES file does not promote V28.
 It records the deep-review handoff from V26 and V27 promotion so V28 starts with known source/spec/proof issues rather than rediscovering them during implementation.
@@ -99,7 +101,7 @@ The active QA scenario is therefore single-deposit:
 
 - data-space: the latest deposited repository revision row, currently exercised
   with the `engineeredsoftware/ENGI` fixture, with repository, branch, commit,
-  signer, wallet authorization, and asset candidate evidence;
+  signer, wallet authorization, and asset fit deposit evidence;
 - Read: determine whether the deposited repository contains a complete
   Terminal-backed path from wallet/GitHub readiness through Deposit, Read/Fit,
   AssetPack evidence, proof/finality readback, and Supabase/ledger
@@ -148,7 +150,7 @@ The runner must also terminate itself before caller timeout by emitting a
 `PipelineHarnessTimeoutError` blocked-readiness artifact with the last
 execution and stream events.
 
-The minimum commercial telemetry record for a Read/Fit pipeline execution is:
+The minimum commercial telemetry record for a Read/Fit pipeline run is:
 
 - one run row in `pipeline_runs` or `deliverable_pipeline_runs`;
 - event rows in `execution_events`, `stream_logs`, or
@@ -161,7 +163,7 @@ The minimum commercial telemetry record for a Read/Fit pipeline execution is:
   generation context;
 - tool rows in `deliverable_pipeline_tool_executions`, including input, output,
   error, timing, phase, and agent context;
-- fit/depository output carrying `depositorySearch`, candidate ranking,
+- fit/depository output carrying `depositorySearch`, fit deposit ranking,
   `fitResult`, `queryRoot`, `rankingRoot`, selected candidate asset ids, and the
   embedding policy.
 
@@ -512,11 +514,83 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 7. **Gate 7: Terminal Operations And Testnet Readiness**
    - Regtest/signet harness, telemetry sinks, alert panels, upgrade readiness, and rollback posture become Terminal-operated.
    - Taproot/PSBT/BTC remains the V28 crypto lane; BSC/opBNB/Binance/BitVM bridge work is future bridge/distribution readiness unless proof-bound artifacts exist.
+   - Terminal operational health now reads from package BTD primitives through
+     `terminal-operational-health.ts`, then renders lane approval, telemetry,
+     upgrade, generated type refresh, VCS, settlement-network, and synthetic
+     testnet mint/reconciliation state in Terminal.
+   - Reading pipeline test coverage becomes a gate contract: Read-Need,
+     Finding Fits, depository search, embedding/vector search, sandbox harness,
+     route preflight, Terminal stream adaptation, and demonstration local
+     fit-finding suites must pass together.
+   - Valid mocks must carry the same typed phase/agent/tool/PTRR/ThricifiedGeneration,
+     prompt/context, parsed-output, usage/timing, and fail-closed envelopes as
+     live Reading pipeline telemetry. Placeholder mocks are not acceptance
+     evidence.
 
-8. **Gate 8: V28 Promotion Proof**
-   - SPEC, DELTA, NOTES, PARITY, and PROVEN exist.
-   - Terminal tests, MCP/ChatGPT App tests, package/API tests, route tests, UAPI build, and demonstration tests pass.
+8. **Gate 8: V28 Metadevelopment And Promotion Proof**
+   - Branching policy, gate branch naming, quality commit-message discipline,
+     gate workflow checks, and V28 promotion workflow checks are documented and
+     source-validated.
+   - The V28 promotion workflow is maintained as the only path that advances
+     `BITCODE_SPEC.txt`; it runs promotion-grade validation, executes the
+     canonical promotion script, generates `BITCODE_SPEC_V28_PROVEN.md`, and
+     commits promotion artifacts back to `version/v28`.
+   - The parity matrix carries an explicit product-gate carryforward audit so
+     Depositing, Read Request, Read-Need, Finding Fits, AssetPack preview,
+     settlement, delivery, Terminal UX, documentation, proof coverage, and live
+     validation work cannot be hidden as vague future cleanup.
    - V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth beyond the V28 MVP, V34 deployment depth, V35 telemetry/documenting depth, and V36+ Exchange/Conversations depth are explicitly staged rather than mixed into V28.
+
+## Gate 8 metadevelopment closure notes
+
+Gate 8 is not a commercial-product feature gate. It standardizes how the
+remaining V28 gates close: gate-prefixed branches merge into `version/v28`,
+the version branch is the only branch that can request promotion into `main`,
+and promotion automation must either generate and commit the canonical proof
+appendix or fail closed.
+
+Gate 8 also separates promotion mechanics from product closure. Subsequent V28
+gates still own the commercial product flow: source Depositing, Read Request,
+Need synthesis/review/resynthesis, Finding Fits over the depository, source-safe
+AssetPack preview, BTC settlement, read-license/right transfer, pull-request
+delivery, Terminal usability, proof coverage, and local/live validation.
+
+## Gate 9 depository evidence closure notes
+
+Gate 9 closes the first product gate after metadevelopment by making Deposit
+evidence reusable by later Reading gates. A deposited repository revision must
+emit proof, measurement, reconciliation readback, lexical document, vector
+document, and aggregate depository search roots. Terminal activity history must
+persist those roots and project them back into the latest deposited source
+revision. The Read/Fit harness must receive the same roots in its deposit
+reference so Finding Fits can distinguish real proof-bearing deposited supply
+from local placeholders.
+
+The vector search document policy for V28 Gate 9 is `text-embedding-3-small`,
+1536 dimensions, `deliverable_vectors`, `match_deliverable_vectors`, and cosine
+distance. Gate 9 records the vector document as ready for embedding generation;
+later Finding Fits and live validation gates own provider execution, ranking,
+settlement, and protected-source disclosure boundaries.
+
+## Gate 10 Read-Need comprehension closure notes
+
+Gate 10 closes the first two enterprise Reading UX steps. The raw request is
+stored as `bitcode.read.request` and embedded in the synthesized
+`bitcode.read.need`. This keeps request capture auditable without allowing a
+raw request to drive depository discovery.
+
+ReadNeedComprehensionSynthesis route telemetry now carries a contract trace for
+all request, comprehend, measure, and review phase PTRR agents, their four PTRR
+steps, and the three ThricifiedGeneration identifiers under each step. The
+route-level telemetry also includes prompt template, interpolated context, raw
+structured response posture, parsed typed output, measurement root, review
+state, and resynthesis lineage.
+
+Resynthesis appends operator feedback and records the previous Need id. Need
+acceptance computes an acceptance root and returns Finding Fits admission
+evidence. Terminal uses that accepted Need as the only live harness input for
+Finding Fits while keeping the previous measured-Read history path visible for
+readback compatibility.
 
 ## Non-Goals For V28
 
@@ -531,8 +605,10 @@ The minimum useful V28 gate plan is Protocol/Terminal-MVP-first:
 Before V28 implementation closes, rerun at minimum:
 
 - `cat BITCODE_SPEC.txt`
+- `pnpm run check:v28-metadevelopment`
 - `find uapi/app/api -path '*v[0-9]*' -print | sort`
 - `rg -n 'gap blocking|partial blocking|not started|not promoted|not generated yet' BITCODE_SPEC_V28*`
+- `node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run`
 - `pnpm -C packages/api build`
 - `pnpm -C packages/orm build`
 - `npm --prefix protocol-demonstration run test:v27-crypto`

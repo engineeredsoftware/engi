@@ -1,5 +1,11 @@
 import { createHash } from 'node:crypto';
 import { buildAssetPackEmbeddingPolicy } from './embedding-config';
+import {
+  admitReadFitsFinding,
+  isAcceptedReadNeed,
+  readNeedToDepositorySearchRead,
+  resolveReadNeedFromPipelineInput,
+} from './read-need';
 
 export type AssetPackFitResultState =
   | 'worthy_fit'
@@ -214,6 +220,8 @@ export interface DepositorySearchResult {
   read: DepositorySearchRead;
   thresholds: DepositorySearchThresholds;
   searchedAssetCount: number;
+  fitDepositAssetIds: string[];
+  fitDeposits: DepositoryCandidate[];
   selectedCandidateAssetIds: string[];
   selectedCandidates: DepositoryCandidate[];
   rejectedCandidates: DepositoryCandidate[];
@@ -225,10 +233,13 @@ export interface DepositorySearchResult {
   createdAt: string;
 }
 
+export type DepositoryFitsResult = DepositorySearchResult;
+
 export interface DepositoryFitResultEvidence {
   schema: 'bitcode.asset-pack.fit-result';
   resultState: AssetPackFitResultState;
   resultReasons: string[];
+  fitDepositAssetIds: string[];
   selectedCandidateAssetIds: string[];
   queryRoot: string;
   rankingRoot: string;
@@ -236,6 +247,7 @@ export interface DepositoryFitResultEvidence {
   embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
   selectionTrace: {
     selectedCandidates: DepositoryCandidateFitEvidence[];
+    fitDeposits: DepositoryCandidateFitEvidence[];
     blockedCandidates: DepositoryCandidateFitEvidence[];
     candidateRanking: DepositoryCandidateFitEvidence[];
     rejectedCandidateCount: number;
@@ -256,6 +268,11 @@ const DEFAULT_THRESHOLDS: DepositorySearchThresholds = {
   semanticScore: 0.18,
   maxSelectedCandidates: 3,
 };
+
+export const READ_FITS_FINDING_SYNTHESIS_TOOL_IDS = {
+  lexicalDepositorySearch: 'ReadFitsFindingSynthesis.tool.lexical-depository-search',
+  vectorDepositorySearch: 'ReadFitsFindingSynthesis.tool.vector-depository-search',
+} as const;
 
 const STOP_WORDS = new Set([
   'the',
@@ -840,6 +857,7 @@ export function buildDepositoryFitResultEvidence(
     schema: 'bitcode.asset-pack.fit-result',
     resultState: result.resultState,
     resultReasons: result.resultReasons,
+    fitDepositAssetIds: result.fitDepositAssetIds,
     selectedCandidateAssetIds: result.selectedCandidateAssetIds,
     queryRoot: result.queryRoot,
     rankingRoot: result.rankingRoot,
@@ -847,6 +865,7 @@ export function buildDepositoryFitResultEvidence(
     embeddingPolicy: result.embeddingPolicy,
     selectionTrace: {
       selectedCandidates: result.selectedCandidates.map(summarizeDepositoryCandidateForFitEvidence),
+      fitDeposits: result.fitDeposits.map(summarizeDepositoryCandidateForFitEvidence),
       blockedCandidates: result.blockedCandidates.map(summarizeDepositoryCandidateForFitEvidence),
       candidateRanking: result.candidateRanking.map(summarizeDepositoryCandidateForFitEvidence),
       rejectedCandidateCount: result.rejectedCandidates.length,
@@ -899,7 +918,7 @@ function resultStateFor(input: {
     return {
       resultState: 'worthy_fit',
       resultReasons: [
-        `Selected ${worthy.length} proof-bearing AssetPack candidate${worthy.length === 1 ? '' : 's'} for this Read.`,
+        `Selected ${worthy.length} proof-bearing fit deposit${worthy.length === 1 ? '' : 's'} for this Read.`,
       ],
     };
   }
@@ -990,6 +1009,8 @@ export async function searchDepositoryAssetSpace(
     read: input.read,
     thresholds,
     searchedAssetCount: assets.length,
+    fitDepositAssetIds: selected.map((candidate) => candidate.assetId),
+    fitDeposits: selected,
     selectedCandidateAssetIds: selected.map((candidate) => candidate.assetId),
     selectedCandidates: selected,
     rejectedCandidates: rejected,
@@ -1031,6 +1052,11 @@ export function createLexicalDepositorySearchProvider(): DepositorySearchProvide
 }
 
 export function normalizeDepositorySearchRead(input: unknown): DepositorySearchRead {
+  const acceptedNeed = resolveReadNeedFromPipelineInput(input);
+  if (isAcceptedReadNeed(acceptedNeed)) {
+    return readNeedToDepositorySearchRead(acceptedNeed);
+  }
+
   const record = recordValue(input) || {};
   const readRecord = recordValue(record.read);
   const sourceRevision = recordValue(record.sourceRevision);
@@ -1237,6 +1263,11 @@ export function normalizePipelineDepositoryAssets(input: unknown): DepositoryAss
         mutableInBranch: false,
         materializationRoot: `.bitcode/source-material/${assetId}`,
       },
+      verificationEvidence: {
+        proofRoot: firstString(depositRecord.proofRoot),
+        measurementRoot: firstString(depositRecord.measurementRoot),
+        reconciliationReadbackRoot: firstString(depositRecord.reconciliationReadbackRoot),
+      },
       hasWalletOrAttestationProof: depositRecord.hasWalletOrAttestationProof === true,
       hasAssetMeasurementEvidence: depositRecord.hasAssetMeasurementEvidence === true,
     },
@@ -1254,58 +1285,142 @@ function storeDepositorySearchToolResult(
 ): void {
   if (!execution?.store) return;
   const { read, assets, result, providerIds } = input;
-  execution.store('tools', 'result', {
-    tool: 'bitcode.depository.search',
-    ok: true,
-    input: {
-      read: {
-        id: read.id || null,
-        repositoryFullName: read.repositoryFullName || null,
-        sourceBranch: read.sourceBranch || null,
-        sourceCommit: read.sourceCommit || null,
-        targetArtifactKinds: read.targetArtifactKinds,
-        closureCriteriaCount: read.closureCriteria.length,
-        failureModeCount: read.failureModes.length,
-      },
-      assetCount: assets.length,
-      providerIds,
+  const toolInput = {
+    read: {
+      id: read.id || null,
+      repositoryFullName: read.repositoryFullName || null,
+      sourceBranch: read.sourceBranch || null,
+      sourceCommit: read.sourceCommit || null,
+      targetArtifactKinds: read.targetArtifactKinds,
+      closureCriteriaCount: read.closureCriteria.length,
+      failureModeCount: read.failureModes.length,
     },
+    assetCount: assets.length,
+    providerIds,
+  };
+  const toolOutput = {
+    schema: result.schema,
+    resultState: result.resultState,
+    resultReasons: result.resultReasons,
+    searchedAssetCount: result.searchedAssetCount,
+    fitDepositAssetIds: result.fitDepositAssetIds,
+    fitDepositCount: result.fitDeposits.length,
+    selectedCandidateAssetIds: result.selectedCandidateAssetIds,
+    selectedCandidateCount: result.selectedCandidates.length,
+    blockedCandidateCount: result.blockedCandidates.length,
+    rejectedCandidateCount: result.rejectedCandidates.length,
+    queryRoot: result.queryRoot,
+    rankingRoot: result.rankingRoot,
+    embeddingPolicy: result.embeddingPolicy,
+  };
+  const lexicalTelemetry = {
+    tool: READ_FITS_FINDING_SYNTHESIS_TOOL_IDS.lexicalDepositorySearch,
+    ok: true,
+    input: toolInput,
+    output: toolOutput,
+    phase: 'ReadFitsFindingSynthesis.discovery',
+    agent: 'ReadFitsFindingSynthesis.discovery.finding-fits',
+    step: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
+    generation: 'tools_execution',
+  };
+  const vectorTelemetry = {
+    tool: READ_FITS_FINDING_SYNTHESIS_TOOL_IDS.vectorDepositorySearch,
+    ok: true,
+    input: toolInput,
     output: {
-      schema: result.schema,
-      resultState: result.resultState,
-      resultReasons: result.resultReasons,
-      searchedAssetCount: result.searchedAssetCount,
+      resultState: 'embedding_policy_declared',
       selectedCandidateAssetIds: result.selectedCandidateAssetIds,
-      selectedCandidateCount: result.selectedCandidates.length,
-      blockedCandidateCount: result.blockedCandidates.length,
-      rejectedCandidateCount: result.rejectedCandidates.length,
+      fitDepositAssetIds: result.fitDepositAssetIds,
       queryRoot: result.queryRoot,
       rankingRoot: result.rankingRoot,
       embeddingPolicy: result.embeddingPolicy,
+      vectorStore: result.embeddingPolicy.vectorStore,
     },
-    phase: 'setup',
-    agent: 'setup:depository-search',
-    step: 'try',
+    phase: 'ReadFitsFindingSynthesis.discovery',
+    agent: 'ReadFitsFindingSynthesis.discovery.finding-fits',
+    step: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
     generation: 'tools_execution',
-  });
+  };
+
+  execution.store('tools', 'result', lexicalTelemetry);
+  execution.store('tools', 'lexical-depository-search', lexicalTelemetry);
+  execution.store('tools', 'vector-depository-search', vectorTelemetry);
+  execution.store('depository/search', 'toolTelemetry', [lexicalTelemetry, vectorTelemetry]);
+}
+
+function buildBlockedReadFitsFindingResult(input: {
+  read: DepositorySearchRead;
+  assets: DepositoryAsset[];
+  blockers: string[];
+}): DepositorySearchResult {
+  const embeddingPolicy = buildAssetPackEmbeddingPolicy();
+  const createdAt = new Date().toISOString();
+  const thresholds = { ...DEFAULT_THRESHOLDS };
+  const queryRoot = `sha256:${sha256(stableStringify({
+    read: input.read,
+    thresholds,
+    embeddingPolicy,
+    blockers: input.blockers,
+  }))}`;
+  const rankingRoot = `sha256:${sha256(stableStringify({
+    blockedBeforeRanking: true,
+    blockers: input.blockers,
+    assetCount: input.assets.length,
+  }))}`;
+
+  return {
+    schema: 'bitcode.asset-pack.depository-search',
+    resultState: 'blocked_readiness',
+    resultReasons: [
+      'Finding Fits search requires an accepted Read-Need before depository discovery.',
+      ...input.blockers,
+    ],
+    read: input.read,
+    thresholds,
+    searchedAssetCount: input.assets.length,
+    fitDepositAssetIds: [],
+    fitDeposits: [],
+    selectedCandidateAssetIds: [],
+    selectedCandidates: [],
+    rejectedCandidates: [],
+    blockedCandidates: [],
+    candidateRanking: [],
+    embeddingPolicy,
+    queryRoot,
+    rankingRoot,
+    createdAt,
+  };
 }
 
 export async function runDepositorySearchForPipelineInput(
   input: unknown,
   execution?: { store?: (namespace: string, key: string, value: unknown) => void; parent?: unknown }
 ): Promise<DepositorySearchResult> {
+  const admission = admitReadFitsFinding(input);
   const read = normalizeDepositorySearchRead(input);
   const assets = normalizePipelineDepositoryAssets(input);
   const providers = [createLexicalDepositorySearchProvider()];
-  const result = await searchDepositoryAssetSpace({
-    read,
-    assets,
-    providers,
-  });
+  const result = admission.admitted
+    ? await searchDepositoryAssetSpace({
+        read,
+        assets,
+        providers,
+      })
+    : buildBlockedReadFitsFindingResult({
+        read,
+        assets,
+        blockers: admission.blockers,
+      });
 
   const fitResult = buildDepositoryFitResultEvidence(result);
   const storeEvidence = (target?: { store?: (namespace: string, key: string, value: unknown) => void }) => {
     if (!target?.store) return;
+    if (admission.acceptedNeed) {
+      target.store('read/need', 'accepted', admission.acceptedNeed);
+      target.store('read/need', 'measurementRoot', admission.acceptedNeed.measurementRoot);
+      target.store('read/need', 'needId', admission.acceptedNeed.needId);
+    }
+    target.store('read/finding-fits', 'admission', admission);
     target.store('depository/search', 'result', result);
     target.store('depository/search', 'candidateRanking', result.candidateRanking);
     target.store('depository/search', 'selectedCandidates', result.selectedCandidates);
@@ -1321,12 +1436,17 @@ export async function runDepositorySearchForPipelineInput(
   if (execution?.store) {
     storeEvidence(execution);
     storeEvidence(execution.parent as { store?: (namespace: string, key: string, value: unknown) => void });
-    storeDepositorySearchToolResult(execution, {
+    const toolEvidence = {
       read,
       assets,
       result,
       providerIds: providers.map((provider) => provider.id),
-    });
+    };
+    storeDepositorySearchToolResult(execution, toolEvidence);
+    storeDepositorySearchToolResult(
+      execution.parent as { store?: (namespace: string, key: string, value: unknown) => void },
+      toolEvidence
+    );
   }
 
   return result;

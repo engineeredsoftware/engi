@@ -24,8 +24,8 @@ test('V18 theorem evidence matrix executes all canonical theorem cells', () => {
 
   assert.equal(matrix.matrixId, V18_THEOREM_EVIDENCE_MATRIX_ID);
   assert.equal(matrix.sourceRunCount, 16);
-  assert.equal(matrix.cellCount, 912);
-  assert.equal(matrix.passedCellCount, 912);
+  assert.equal(matrix.cellCount, 928);
+  assert.equal(matrix.passedCellCount, 928);
   assert.deepEqual(matrix.failedCells, []);
   assert.deepEqual(matrix.acceptedExclusions, []);
   assertV18MatrixClosed(matrix);
@@ -46,6 +46,6 @@ test('V18 theorem evidence matrix executes all canonical theorem cells', () => {
   }
 
   assert.equal(familyCounts.get('prompt-completeness'), 128);
-  assert.equal(familyCounts.get('settlement-source-to-shares'), 112);
+  assert.equal(familyCounts.get('settlement-source-to-shares'), 128);
   assert.equal(familyCounts.get('proof-contract'), 96);
 });

@@ -36,10 +36,10 @@ const BoundedReadComprehensionSchema = z.object({
   validationMessage: z.string().optional(),
 }).passthrough();
 
-export const AssetPackComprehendReadAgent = bitcodeSetupReadComprehensionAgent;
+export const ReadFitsFindingSynthesisReadComprehensionAgent = bitcodeSetupReadComprehensionAgent;
 
 // Wrapper export that stores classification into execution state
-export async function runComprehendReadAgent(input: any, execution: any) {
+export async function runReadFitsFindingSynthesisReadComprehensionAgent(input: any, execution: any) {
   const expressedRead =
     input?.read ??
     input?.expressedRead ??
@@ -57,7 +57,7 @@ export async function runComprehendReadAgent(input: any, execution: any) {
   const out = isAssetPackBoundedRealInferenceProfile()
     ? await runBoundedReadComprehension(agentInput, execution)
     : shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR')
-      ? await AssetPackComprehendReadAgent(agentInput, execution)
+      ? await ReadFitsFindingSynthesisReadComprehensionAgent(agentInput, execution)
       : buildDeterministicReadComprehension(agentInput, execution);
   try {
     const result = out as any;
@@ -97,18 +97,38 @@ export async function runComprehendReadAgent(input: any, execution: any) {
   return out;
 }
 
-export const AssetPackComprehendReadDefinitionAgent = AssetPackComprehendReadAgent;
-export default runComprehendReadAgent;
+export const ReadFitsFindingSynthesisReadDefinitionComprehensionAgent = ReadFitsFindingSynthesisReadComprehensionAgent;
+export default runReadFitsFindingSynthesisReadComprehensionAgent;
 
 async function runBoundedReadComprehension(input: any, execution: any) {
   const baseline = buildDeterministicReadComprehension(input, execution);
   const inferred = await runBoundedStructuredInference({
-    agentName: 'bitcode-setup-read-comprehension',
+    agentName: 'ReadFitsFindingSynthesisReadComprehensionAgent',
     phase: 'setup',
     step: 'read-comprehension',
     execution,
     schema: BoundedReadComprehensionSchema,
     fallback: () => baseline,
+    promptTemplate: {
+      templateId: 'ReadFitsFindingSynthesis.prompt.read-comprehension',
+      system: [
+        'You are a Bitcode setup Read-comprehension agent.',
+        'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',
+        'Return source-bound evidence only. Do not claim settlement or finality beyond provided proof roots/readbacks.',
+        'Respond only with JSON matching the requested shape.',
+      ].join('\n'),
+      user: JSON.stringify({
+        requestedShape: '{{requestedShape}}',
+        read: '{{read}}',
+        definitionOfRead: '{{definitionOfRead}}',
+        repository: '{{repository}}',
+        sourceRevision: '{{sourceRevision}}',
+        deposit: '{{deposit}}',
+        fitResult: '{{fitResult}}',
+        baselineReadModel: '{{baselineReadModel}}',
+        baselineSatisfactionCriteria: '{{baselineSatisfactionCriteria}}',
+      }, null, 2),
+    },
     systemPrompt: [
       'You are a Bitcode setup Read-comprehension agent.',
       'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',

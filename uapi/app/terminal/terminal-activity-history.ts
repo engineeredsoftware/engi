@@ -191,6 +191,15 @@ function buildRepoSnapshot(
   };
 }
 
+function readNestedString(value: unknown, path: string[]): string | null {
+  let cursor: unknown = value;
+  for (const part of path) {
+    if (!isRecord(cursor)) return null;
+    cursor = cursor[part];
+  }
+  return typeof cursor === 'string' && cursor.trim() ? cursor.trim() : null;
+}
+
 export function buildTerminalExecutionHistoryRequest(
   draft: TerminalActivityRecordDraft,
   options: {
@@ -407,18 +416,18 @@ export function buildTerminalReadAdmissionDraft(
     fitSearchAdmission: {
       admitted: true,
       admissionReason:
-        'Measured Read is admitted for generic source-bound fit search against the selected deposited repository revision.',
-      admittedStages: ['candidate-recall', 'fit-quality-evaluation', 'asset-pack-result-review'],
+        'Measured Read is admitted for source-bound Finding Fits against the selected deposited repository revision.',
+      admittedStages: ['finding-fits-discovery', 'fit-quality-evaluation', 'asset-pack-result-review'],
       blockedStages: ['settlement', 'finality', 'minting'],
     },
-    nextProtocolAction: 'Run fit search and return worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
+    nextProtocolAction: 'Run Finding Fits and return worthy_fit, no_worthy_fit, or blocked_readiness evidence.',
   };
 
   return {
     type: 'agentic-execution:read-measurement',
     detailSection: 'activity',
     sourceRevision: workbench.sourceRevision,
-    summary: `Accepted measured Read for fit search for ${workbench.scenarioLabel}.`,
+    summary: `Accepted measured Read for Finding Fits for ${workbench.scenarioLabel}.`,
     output: {
       readMeasurement,
       readReview,
@@ -655,6 +664,25 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     contextSource: contextString('source'),
     contextWorkbench: contextString('workbench'),
     candidateAssetId: contextString('candidateAssetId'),
+    depositProofRoot:
+      contextString('depositProofRoot') || readNestedString(run.output, ['depositoryEvidence', 'proofRoot']),
+    depositMeasurementRoot:
+      contextString('depositMeasurementRoot') || readNestedString(run.output, ['depositoryEvidence', 'measurementRoot']),
+    depositReconciliationReadbackRoot:
+      contextString('depositReconciliationReadbackRoot') ||
+      readNestedString(run.output, ['depositoryEvidence', 'reconciliationReadbackRoot']),
+    depositorySearchDocumentRoot:
+      contextString('depositorySearchDocumentRoot') ||
+      readNestedString(run.output, ['depositoryEvidence', 'depositorySearchDocumentRoot']),
+    lexicalDocumentRoot:
+      contextString('lexicalDocumentRoot') || readNestedString(run.output, ['depositoryEvidence', 'lexicalDocumentRoot']),
+    vectorDocumentRoot:
+      contextString('vectorDocumentRoot') || readNestedString(run.output, ['depositoryEvidence', 'vectorDocumentRoot']),
+    depositorWalletId:
+      contextString('depositorWalletId') ||
+      readNestedString(run.output, ['depositoryEvidence', 'depositorBoundary', 'walletId']),
+    depositoryIndexState:
+      contextString('depositoryIndexState') || readNestedString(run.output, ['depositoryEvidence', 'indexState', 'vector']),
     participant: repoSnapshot?.org || 'connected account',
     isOwnTransaction: true,
     transactionLens: agenticExecution.lens,

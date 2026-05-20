@@ -46,6 +46,20 @@ type ExecutionEventRow = {
   phase: string | null;
 };
 
+type TerminalJournalReadback = {
+  expectedJournalEntryIds: string[];
+  entries: JsonRecord[];
+  repairs: JsonRecord[];
+  ledgerRows: {
+    assetPackRanges: JsonRecord[];
+    btcFeeTransactions: JsonRecord[];
+    ledgerAnchors: JsonRecord[];
+    ownershipEvents: JsonRecord[];
+    readLicenses: JsonRecord[];
+  };
+  readErrors: string[];
+};
+
 function toErrorMessage(error: unknown, fallback: string) {
   if (error instanceof Error && error.message) return error.message;
   if (typeof error === 'string' && error.trim()) return error;
@@ -427,6 +441,17 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   };
 }
 
+function buildLedgerSettlement(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
+
+  return (
+    asRecord(assetPackCompletion?.ledgerSettlement) ||
+    asRecord(output?.ledgerSettlement) ||
+    null
+  );
+}
+
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
   const agenticExecution = buildAgenticExecutionSummary({
     type: row.type,
@@ -457,6 +482,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     written_asset_type: buildWrittenAssetType(row),
     asset_pack: buildAssetPack(row),
     asset_pack_completion: buildNormalizedAssetPackCompletion(row),
+    ledger_settlement: buildLedgerSettlement(row),
     error: row.error ?? null,
   };
 }
@@ -628,8 +654,159 @@ export async function getExecutionHistoryRunRoute(
     );
   }
 
+  const normalizedRun = normalizeExecutionHistoryRow(run);
+  const terminalJournal = await fetchTerminalJournalReadback(run.id, normalizedRun);
+
   return createJsonResponse({
-    run: normalizeExecutionHistoryRow(run),
+    run: {
+      ...normalizedRun,
+      terminal_journal: terminalJournal,
+    },
     events: (events || []).map(normalizeExecutionEventRow),
+    terminal_journal: terminalJournal,
   });
+}
+
+function readNormalizedLedgerSettlement(run: JsonRecord) {
+  return (
+    asRecord(run.ledger_settlement) ||
+    asRecord(asRecord(run.asset_pack_completion)?.ledgerSettlement) ||
+    asRecord(asRecord(run.output)?.ledgerSettlement) ||
+    null
+  );
+}
+
+function readStringArray(value: unknown) {
+  return asArray(value)
+    .map((entry) => asString(entry))
+    .filter((entry): entry is string => Boolean(entry));
+}
+
+function dedupeStrings(values: Array<string | null | undefined>) {
+  return Array.from(new Set(values.filter((value): value is string => Boolean(value))));
+}
+
+function expectedHarnessJournalEntryIds(runId: string, ledgerSettlement: JsonRecord | null) {
+  if (!ledgerSettlement) return [];
+
+  return dedupeStrings([
+    ...readStringArray(ledgerSettlement?.journalEntryIds),
+    `journal-mint-${runId}`,
+    `journal-btc-fee-${runId}`,
+    `journal-anchor-${runId}`,
+    `journal-settlement-${runId}`,
+  ]);
+}
+
+async function readRowsByIds(table: string, column: string, ids: string[], readErrors: string[]) {
+  if (!ids.length) return [];
+
+  const { data, error } = await supabaseAdmin
+    .from(table)
+    .select('*')
+    .in(column, ids);
+
+  if (error) {
+    readErrors.push(`${table} readback failed: ${toErrorMessage(error, 'unknown error')}`);
+    return [];
+  }
+
+  return asArray<JsonRecord>(data).filter((entry) => asRecord(entry));
+}
+
+async function readRowById(table: string, column: string, id: string | null, readErrors: string[]) {
+  if (!id) return [];
+
+  const { data, error } = await supabaseAdmin
+    .from(table)
+    .select('*')
+    .eq(column, id)
+    .maybeSingle();
+
+  if (error) {
+    readErrors.push(`${table} readback failed: ${toErrorMessage(error, 'unknown error')}`);
+    return [];
+  }
+
+  return asRecord(data) ? [data] : [];
+}
+
+async function readRecentRepairRows(runId: string, factIds: string[], readErrors: string[]) {
+  const { data, error } = await supabaseAdmin
+    .from('btd_ledger_database_reconciliation_repairs')
+    .select('*')
+    .order('issued_at', { ascending: false })
+    .limit(100);
+
+  if (error) {
+    readErrors.push(`btd_ledger_database_reconciliation_repairs readback failed: ${toErrorMessage(error, 'unknown error')}`);
+    return [];
+  }
+
+  const factIdSet = new Set(factIds);
+  return asArray<JsonRecord>(data)
+    .filter((row) => {
+      const repairId = asString(row.repair_id);
+      const reconciliationId = asString(row.reconciliation_id);
+      const factId = asString(row.fact_id);
+      return (
+        Boolean(repairId?.includes(runId)) ||
+        Boolean(reconciliationId?.includes(runId)) ||
+        Boolean(factId && factIdSet.has(factId))
+      );
+    })
+    .slice(0, 25);
+}
+
+async function fetchTerminalJournalReadback(runId: string, normalizedRun: JsonRecord): Promise<TerminalJournalReadback> {
+  const readErrors: string[] = [];
+  const ledgerSettlement = readNormalizedLedgerSettlement(normalizedRun);
+  const assetPackId = asString(ledgerSettlement?.assetPackId);
+  const ledgerAnchorId = asString(ledgerSettlement?.ledgerAnchorId);
+  const btcFeeReceiptId = asString(ledgerSettlement?.btcFeeReceiptId);
+  const ownershipEventId = asString(ledgerSettlement?.ownershipEventId) || `ownership-mint-${runId}`;
+  const readLicenseId = asString(ledgerSettlement?.readLicenseId) || `read-license-${runId}`;
+  const expectedJournalEntryIds = expectedHarnessJournalEntryIds(runId, ledgerSettlement);
+  const entries = await readRowsByIds(
+    'btd_terminal_journal_entries',
+    'journal_entry_id',
+    expectedJournalEntryIds,
+    readErrors,
+  );
+  const [
+    assetPackRanges,
+    btcFeeTransactions,
+    ledgerAnchors,
+    ownershipEvents,
+    readLicenses,
+  ] = await Promise.all([
+    readRowById('btd_asset_pack_ranges', 'asset_pack_id', assetPackId, readErrors),
+    readRowById('btc_fee_transactions', 'receipt_id', btcFeeReceiptId, readErrors),
+    readRowById('btd_asset_pack_ledger_anchors', 'anchor_id', ledgerAnchorId, readErrors),
+    readRowById('btd_ownership_events', 'ownership_event_id', ownershipEventId, readErrors),
+    readRowById('btd_read_licenses', 'license_id', readLicenseId, readErrors),
+  ]);
+  const factIds = dedupeStrings([
+    assetPackId,
+    ledgerAnchorId,
+    btcFeeReceiptId,
+    ownershipEventId,
+    readLicenseId,
+    ...expectedJournalEntryIds,
+  ]);
+  const repairs = await readRecentRepairRows(runId, factIds, readErrors);
+
+  return {
+    expectedJournalEntryIds,
+    entries: entries.sort((left, right) => Number(left.exchange_sequence || 0) - Number(right.exchange_sequence || 0)),
+    repairs,
+    ledgerRows: {
+      assetPackRanges,
+      btcFeeTransactions,
+      ledgerAnchors,
+      ownershipEvents,
+      readLicenses,
+    },
+    readErrors,
+  };
 }

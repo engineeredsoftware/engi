@@ -198,15 +198,15 @@ export function normalizeTerminalClosureState(snapshot: ShellSnapshot): Terminal
     canonLabel: stringValue(snapshot.canonLabel, 'Bitcode active posture'),
     readReview: {
       id: 'read-review',
-      label: stringValue(readReview.label, 'Read review before fit search'),
+      label: stringValue(readReview.label, 'Read review before Finding Fits'),
       summary: stringValue(
         readReview.admissionReason || readReview.measuredTask,
-        'Measured Read must be accepted, rejected, or sent back for remeasurement before Bitcode can search for fitting AssetPacks.',
+        'Measured Read must be accepted, rejected, or sent back for remeasurement before Bitcode can run Finding Fits for AssetPacks.',
       ),
       metrics: [
         { label: 'Review action', value: stringValue(readReview.reviewAction) },
         { label: 'Review status', value: stringValue(readReview.reviewStatus) },
-        { label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' },
+        { label: 'Finding Fits admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' },
         { label: 'Protocol focus', value: stringValue(readReview.protocolFocus, 'source-to-shares') },
       ],
       rows: [

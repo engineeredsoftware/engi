@@ -11,6 +11,9 @@ This package owns:
 - contributor allocation, access evaluation, ancestry review, and revenue routing
 - wallet-signed BTC fee receipts, ledger anchors, Exchange rights transfers,
   Terminal journals, reconciliation, telemetry, and upgrade receipts
+- Terminal operational health reads that compose deployment lanes, telemetry,
+  upgrade posture, provider readiness, settlement-network posture, synthetic
+  testnet minting, journal rows, ledger anchors, and reconciliation state
 
 `$BTD` is not a fungible fee token. BTC pays fees. `$BTD` represents a
 non-fungible AssetPack share/read-right and the measured Bitcode amount in
@@ -33,4 +36,11 @@ import {
   measureProofAddressableSemanticVolume,
   readBtdHoldings,
 } from '@bitcode/btd';
+```
+
+Terminal should consume the operational-health subpath when it needs the
+client-safe read model without importing storage-backed package entry points:
+
+```ts
+import { buildTerminalOperationalHealthRead } from '@bitcode/btd/terminal-operational-health';
 ```

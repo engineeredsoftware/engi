@@ -461,6 +461,156 @@ function stableHashObject(value) {
 }
 
 /**
+ * @param {any} input
+ * @param {{
+ *   assetId: string,
+ *   title: string,
+ *   artifactKind: string,
+ *   artifactType: string,
+ *   contentRoot: string,
+ *   contentUnits: any[],
+ *   addressingSurface: any,
+ *   artifactSelectionSurface: any,
+ *   signingSurface: any,
+ *   githubAppAuthSurface: any,
+ *   assetMeasurement: any,
+ *   measurementProvenance: any[]
+ * }} inputState
+ * @returns {any}
+ */
+function buildDepositoryEvidence(input, inputState) {
+  const repositoryFullName = inputState.addressingSurface.repo || input.sourceRepo || input.authSession?.repo || null;
+  const sourceBranch = inputState.addressingSurface.ref || input.sourceRef || input.sourceBranch || input.authSession?.defaultRef || null;
+  const sourceCommit = inputState.addressingSurface.commit || input.sourceCommit || null;
+  const signerAddress = inputState.signingSurface.signerAddress || input.signerAddress || null;
+  const walletId = signerAddress ? `wallet:${signerAddress}` : null;
+  const proofRoot = stableHashObject({
+    kind: 'deposit-proof',
+    assetId: inputState.assetId,
+    contentRoot: inputState.contentRoot,
+    signerAddress,
+    signatureChecksPass: inputState.signingSurface.signatureChecksPass,
+    attestationHash: inputState.signingSurface.attestationHash,
+    authPayloadHash: inputState.githubAppAuthSurface.authPayloadHash
+  });
+  const measurementRoot = stableHashObject({
+    kind: 'deposit-measurement',
+    assetId: inputState.assetId,
+    contentRoot: inputState.contentRoot,
+    staticReceiptIds: (inputState.assetMeasurement.staticExecutionReceipts || []).map((receipt) => receipt.receiptId),
+    contentUnitHashes: inputState.contentUnits.map((unit) => unit.unitHash)
+  });
+  const reconciliationReadbackRoot = stableHashObject({
+    kind: 'deposit-reconciliation-readback',
+    assetId: inputState.assetId,
+    repositoryFullName,
+    sourceBranch,
+    sourceCommit,
+    proofRoot,
+    measurementRoot,
+    addressingRoot: inputState.addressingSurface.addressingRoot,
+    selectedInventoryRoot: inputState.artifactSelectionSurface.selectedInventoryRoot
+  });
+  const lexicalDocument = {
+    schema: 'bitcode.depository.lexical-document',
+    documentId: `lexical:${inputState.assetId}`,
+    assetId: inputState.assetId,
+    title: inputState.title,
+    artifactKind: inputState.artifactKind,
+    artifactType: inputState.artifactType,
+    repositoryFullName,
+    sourceBranch,
+    sourceCommit,
+    contentRoot: inputState.contentRoot,
+    contentUnitIds: inputState.contentUnits.map((unit) => unit.unitId),
+    contentUnitRoots: inputState.contentUnits.map((unit) => unit.unitHash),
+    searchableTermsRoot: stableHashObject({
+      title: inputState.title,
+      artifactKind: inputState.artifactKind,
+      repositoryFullName,
+      sourceBranch,
+      sourceCommit,
+      paths: inputState.addressingSurface.sourcePaths || []
+    })
+  };
+  const vectorDocument = {
+    schema: 'bitcode.depository.vector-document',
+    documentId: `vector:${inputState.assetId}`,
+    assetId: inputState.assetId,
+    sourceTextRoot: stableHashObject({
+      assetId: inputState.assetId,
+      contentRoot: inputState.contentRoot,
+      contentUnitRoots: inputState.contentUnits.map((unit) => unit.unitHash)
+    }),
+    embeddingPolicy: {
+      model: 'text-embedding-3-small',
+      dimensions: 1536,
+      inputKind: 'source-bound-depository-document',
+      vectorStore: {
+        table: 'deliverable_vectors',
+        rpc: 'match_deliverable_vectors',
+        distanceMetric: 'cosine'
+      }
+    },
+    indexState: 'ready_for_embedding_generation'
+  };
+  const lexicalDocumentRoot = stableHashObject(lexicalDocument);
+  const vectorDocumentRoot = stableHashObject(vectorDocument);
+  const depositorySearchDocumentRoot = stableHashObject({
+    schema: 'bitcode.depository.search-document-set',
+    assetId: inputState.assetId,
+    lexicalDocumentRoot,
+    vectorDocumentRoot,
+    proofRoot,
+    measurementRoot,
+    reconciliationReadbackRoot
+  });
+
+  return {
+    schema: 'bitcode.depository.deposit-evidence',
+    assetId: inputState.assetId,
+    repositoryFullName,
+    sourceBranch,
+    sourceCommit,
+    contentRoot: inputState.contentRoot,
+    proofRoot,
+    measurementRoot,
+    reconciliationReadbackRoot,
+    depositorySearchDocumentRoot,
+    lexicalDocumentRoot,
+    vectorDocumentRoot,
+    searchDocuments: {
+      lexical: {
+        ...lexicalDocument,
+        documentRoot: lexicalDocumentRoot
+      },
+      vector: {
+        ...vectorDocument,
+        documentRoot: vectorDocumentRoot
+      }
+    },
+    depositorBoundary: {
+      walletId,
+      signerAddress,
+      signerClass: 'depositor',
+      ownershipState: 'depositor-owned-before-read-settlement',
+      readerVisibilityBeforeSettlement: 'measurements-and-non-source-metadata-only'
+    },
+    indexState: {
+      lexical: 'ready',
+      vector: vectorDocument.indexState,
+      table: 'deliverable_vectors',
+      rpc: 'match_deliverable_vectors'
+    },
+    sourceProofRoots: {
+      addressingRoot: inputState.addressingSurface.addressingRoot,
+      selectedInventoryRoot: inputState.artifactSelectionSurface.selectedInventoryRoot,
+      authPayloadHash: inputState.githubAppAuthSurface.authPayloadHash
+    }
+  };
+}
+
+/**
  * @param {string} surfaceId
  * @param {readonly unknown[]} [values=[]]
  * @returns {string | null}
@@ -3025,6 +3175,20 @@ export function makeCandidateAsset(input) {
     ],
     staticExecutionReceipts: [assetCodeAnalysisReceipt, ...collectStaticExecutionReceipts(contentUnits)]
   };
+  const depositoryEvidence = buildDepositoryEvidence(input, {
+    assetId,
+    title: input.title,
+    artifactKind,
+    artifactType,
+    contentRoot,
+    contentUnits,
+    addressingSurface,
+    artifactSelectionSurface,
+    signingSurface,
+    githubAppAuthSurface,
+    assetMeasurement,
+    measurementProvenance: assetMeasurement.provenance
+  });
 
   return {
     assetId,
@@ -3032,6 +3196,19 @@ export function makeCandidateAsset(input) {
     title: input.title,
     artifactKind,
     artifactType,
+    repositoryFullName: depositoryEvidence.repositoryFullName,
+    sourceBranch: depositoryEvidence.sourceBranch,
+    sourceCommit: depositoryEvidence.sourceCommit,
+    hasWalletOrAttestationProof: true,
+    hasAssetMeasurementEvidence: true,
+    proofRoot: depositoryEvidence.proofRoot,
+    measurementRoot: depositoryEvidence.measurementRoot,
+    reconciliationReadbackRoot: depositoryEvidence.reconciliationReadbackRoot,
+    depositorySearchDocumentRoot: depositoryEvidence.depositorySearchDocumentRoot,
+    lexicalDocumentRoot: depositoryEvidence.lexicalDocumentRoot,
+    vectorDocumentRoot: depositoryEvidence.vectorDocumentRoot,
+    depositorWalletId: depositoryEvidence.depositorBoundary.walletId,
+    depositoryEvidence,
     sourceMaterialBinding: {
       mode: input.bindingMode || 'read-only-mounted-copy',
       confidentiality: 'private-required',
@@ -3101,7 +3278,13 @@ export function makeCandidateAsset(input) {
       benchmarkRunId: input.benchmarkRunId || 'gha_run_auth_001',
       reproSteps: input.reproSteps || ['rerun benchmark workflow', 'inspect issuer compatibility logs'],
       pinnedEnvironment: input.pinnedEnvironment || 'ubuntu-24.04 + node 22 + rust stable',
-      proofLogs: input.proofLogs || []
+      proofLogs: input.proofLogs || [],
+      proofRoot: depositoryEvidence.proofRoot,
+      measurementRoot: depositoryEvidence.measurementRoot,
+      reconciliationReadbackRoot: depositoryEvidence.reconciliationReadbackRoot,
+      depositorySearchDocumentRoot: depositoryEvidence.depositorySearchDocumentRoot,
+      lexicalDocumentRoot: depositoryEvidence.lexicalDocumentRoot,
+      vectorDocumentRoot: depositoryEvidence.vectorDocumentRoot
     },
     metadata: {
       author: input.author,
@@ -5891,7 +6074,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     decisionMode: input.readReviewDecisionMode || input.decisionMode || 'deterministic-fifth-gate-local-review'
   });
   if (!readReview.fitSearchAdmission?.admitted) {
-    throw new Error('Bitcode fit search cannot proceed before the measured Read is accepted for source-to-shares review.');
+    throw new Error('Bitcode Finding Fits cannot proceed before the measured Read is accepted for source-to-shares review.');
   }
   const reviewedReadMeasurement = {
     ...readMeasurement,

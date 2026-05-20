@@ -21,6 +21,7 @@ import TerminalTransactionClosureCard from './TerminalTransactionClosureCard';
 import TerminalTransactionDetailHero from './TerminalTransactionDetailHero';
 import TerminalTransactionHistoryCard from './TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from './TerminalTransactionIdentityCard';
+import TerminalTransactionJournalReconciliationCard from './TerminalTransactionJournalReconciliationCard';
 import TerminalTransactionProofsCard from './TerminalTransactionProofsCard';
 import {
   buildTerminalClosureAssetPackCompletion,
@@ -28,6 +29,7 @@ import {
   type TerminalActivityRecordDraft,
 } from './terminal-activity-history';
 import { normalizeTerminalClosureState } from './terminal-closure-state';
+import { buildTerminalJournalReconciliation } from './terminal-journal-reconciliation';
 import {
   buildTerminalTransactionClosurePayload,
   buildTerminalTransactionClosureFollowThrough,
@@ -97,6 +99,7 @@ export default function TerminalTransactionDetailSurface({
   const showClosure = detailSection === 'closure';
   const showProofs = detailSection === 'proofs';
   const showHistory = detailSection === 'history';
+  const showJournal = detailSection === 'journal';
   const showActivity = detailSection === 'activity';
   const showConsole = detailSection === 'console' && !usesMockTransactions;
   const selectedActivityNoun =
@@ -117,6 +120,9 @@ export default function TerminalTransactionDetailSurface({
     if (showHistory) {
       return `${normalizedSummary} Ledger-linked activity history and recent closure continuity are the active ${activeFocusNoun}.`;
     }
+    if (showJournal) {
+      return `${normalizedSummary} Journal reconciliation, ledger observations, database projections, and root-bound canonical facts are the active ${activeFocusNoun}.`;
+    }
     if (showActivity) {
       return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active ${activeFocusNoun}.`;
     }
@@ -124,7 +130,7 @@ export default function TerminalTransactionDetailSurface({
       return `${normalizedSummary} The execution console remains available when you read the lower-level witness detail.`;
     }
     return `${normalizedSummary} Finish-delivered pull-request Shippables, stored AssetPack evidence, and summary text are the active ${activeFocusNoun}.`;
-  }, [activeFocusNoun, normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
+  }, [activeFocusNoun, normalizedSummary, showActivity, showClosure, showConsole, showHistory, showJournal, showProofs, showTransaction]);
   const transactionPayload = useMemo(
     () => ({
       transaction: {
@@ -183,6 +189,10 @@ export default function TerminalTransactionDetailSurface({
   const closurePayload = useMemo(
     () => buildTerminalTransactionClosurePayload(selectedRun, detail, closureState, closureFollowThrough),
     [closureFollowThrough, closureState, detail, selectedRun],
+  );
+  const journalReconciliation = useMemo(
+    () => buildTerminalJournalReconciliation(detail),
+    [detail],
   );
   const writtenAssets = detail?.writtenAssets || null;
   const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
@@ -389,6 +399,12 @@ export default function TerminalTransactionDetailSurface({
                 onOpenHistory={() => jumpToShellSection('panelLedger')}
                 payload={historyPayload}
               />
+            </div>
+          ) : null}
+
+          {showJournal ? (
+            <div id="terminalTransactionJournal">
+              <TerminalTransactionJournalReconciliationCard reconciliation={journalReconciliation} />
             </div>
           ) : null}
         </div>

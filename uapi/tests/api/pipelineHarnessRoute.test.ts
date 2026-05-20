@@ -70,6 +70,20 @@ jest.mock('@bitcode/pipeline-hosts', () => ({
               },
               ledgerSettlement: {
                 status: 'blocked',
+                protectedSourceUnlock: {
+                  schema: 'bitcode.asset-pack.settlement-unlock',
+                  state: 'denied',
+                  sourceAvailable: false,
+                  reason: 'settlement blocked in route test',
+                },
+              },
+              sourceSafePreview: {
+                schema: 'bitcode.asset-pack.source-safe-preview',
+                unlock: {
+                  state: 'denied',
+                  sourceAvailable: false,
+                  reason: 'settlement blocked in route test',
+                },
               },
             },
           },
@@ -154,6 +168,42 @@ function validHarnessBody(overrides: Record<string, unknown> = {}) {
     depositId: 'deposit-activity',
     assumeRepositoryPresent: true,
     ...overrides,
+  };
+}
+
+function acceptedReadNeed() {
+  return {
+    schema: 'bitcode.read.need',
+    needId: 'need-route-test',
+    reviewState: 'accepted',
+    measurementRoot: 'sha256:need-measurement-root',
+    read: {
+      id: 'read-activity',
+      prompt: 'Find a source-bound Terminal AssetPack fit.',
+    },
+    requirements: ['source-bound fit'],
+    closureCriteria: ['Candidate is source-bound.'],
+    failureModes: ['repository_mismatch'],
+    targetArtifactKinds: ['asset-pack-evidence'],
+    sourceConstraints: {
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      protectedSourceDisclosure: 'forbidden_before_settlement',
+    },
+    proofExpectations: ['proof root'],
+    pricingMeasurementInputs: {
+      measurementVector: [{ dimension: 'semantic_relevance', weight: 1, volume: 1 }],
+      weightedRequestedVolume: 1,
+      shareToFeeFormula: 'sum(measurement.weight * measurement.volume * admitted_fit_quality)',
+    },
+    feedbackHistory: [],
+    review: {
+      status: 'accepted',
+      acceptedAt: '2026-05-18T00:00:00.000Z',
+      acceptanceRoot: 'sha256:acceptance-root',
+      nextStage: 'finding_fits',
+    },
   };
 }
 
@@ -416,6 +466,19 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
         fitResult: {
           resultState: 'worthy_fit',
         },
+        ledgerSettlement: {
+          status: 'blocked',
+          protectedSourceUnlock: {
+            state: 'denied',
+            sourceAvailable: false,
+          },
+        },
+        sourceSafePreview: {
+          unlock: {
+            state: 'denied',
+            sourceAvailable: false,
+          },
+        },
       },
     });
     expect(eventText).toContain('[redacted]');
@@ -442,5 +505,45 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
         schema: 'bitcode.pipeline-harness.manifest',
       },
     });
+  });
+
+  it('forwards accepted Read-Need into the sandbox harness plan', async () => {
+    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
+    const readNeed = acceptedReadNeed();
+
+    const events: Array<{ event: string; data: any }> = [];
+    await runAssetPackHarnessRoute(
+      validHarnessBody({
+        acceptedReadNeed: readNeed,
+        requireAcceptedReadNeed: true,
+      }),
+      'user-local-route',
+      (event, data) => events.push({ event, data }),
+      {
+        runId: 'route-test-run',
+        logErrors: false,
+        fetchImpl: async () => ({
+          ok: true,
+          status: 200,
+          statusText: 'OK',
+          json: async () => ([]),
+        } as Response),
+      },
+    );
+
+    expect(events[0]).toMatchObject({
+      event: 'harness-started',
+      data: {
+        readNeedId: 'need-route-test',
+        requireAcceptedReadNeed: true,
+      },
+    });
+    expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
+      expect.objectContaining({
+        readNeed,
+      }),
+    );
   });
 });

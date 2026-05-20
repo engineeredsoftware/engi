@@ -13,13 +13,21 @@
 import { createClient } from '@bitcode/supabase';
 import { logger } from '@bitcode/logger';
 import {
+  BtdRegistryModel,
   UsersModel,
   UserProfilesModel,
   UserApiKeysModel,
   UserBtdBalancesModel,
   OrganizationsModel,
-  OrganizationMembersModel
+  OrganizationMembersModel,
+  readBitcodeWalletBindingFromProfile,
+  type UserProfile,
 } from '@bitcode/orm';
+import {
+  buildBtdReadAccessProjectionFromRegistryRows,
+  evaluateBtdReadAccess,
+  type BtdAccessDecisionKind,
+} from '@bitcode/btd';
 import type { MCPAuthContext } from '../types';
 import * as crypto from 'crypto';
 import { LRUCache } from '../caching-utilities/lru-cache';
@@ -48,8 +56,22 @@ export interface MCPAuthOptions {
     resources?: Array<'read' | 'export'>;
   };
   minimumRole?: 'viewer' | 'member' | 'admin' | 'owner';
+  /**
+   * Deprecated compatibility input. Gate code must require registry-derived
+   * owner-read or licensed-read instead of aggregate BTD holding thresholds.
+   */
   minimumBtdHolding?: number;
+  requiredReadAccess?: MCPReadAccessRequirement | MCPReadAccessRequirement[];
 }
+
+export interface MCPReadAccessRequirement {
+  assetPackId: string;
+  walletId?: string;
+  allowedDecisions?: Array<Exclude<BtdAccessDecisionKind, 'denied'>>;
+  at?: string;
+}
+
+type MCPWalletProfileSource = UserProfile & Record<string, unknown>;
 
 export const authCache = new LRUCache<string, MCPAuthContext>(10000);
 
@@ -99,6 +121,7 @@ export async function authenticateMCPRequest(
     // Initialize ORM models
     const supabase = createClient();
     const users = new UsersModel(supabase);
+    const userProfiles = new UserProfilesModel(supabase);
     const userApiKeys = new UserApiKeysModel(supabase);
     const userBtdBalances = new UserBtdBalancesModel(supabase);
     const organizations = new OrganizationsModel(supabase);
@@ -148,6 +171,17 @@ export async function authenticateMCPRequest(
       };
     }
 
+    const profile = await userProfiles.getByUserId(user.id).catch((error: unknown) => {
+      logger.warn('MCP authentication could not read user wallet profile', {
+        userId: user.id,
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return null;
+    });
+    const walletBinding = readBitcodeWalletBindingFromProfile(
+      profile as MCPWalletProfileSource | null,
+    );
+
     // Build initial auth context
     const context: MCPAuthContext = {
       userId: user.id,
@@ -163,6 +197,8 @@ export async function authenticateMCPRequest(
         resources: { read: true, export: false }
       },
       btdBalance: 0,
+      walletId: walletBinding?.address ?? undefined,
+      btdReadAccess: [],
       mcpCredentials: {}
     } as MCPAuthContext;
 
@@ -244,10 +280,10 @@ export async function authenticateMCPRequest(
   }
 }
 
-function validateAuthenticatedContext(
+async function validateAuthenticatedContext(
   context: MCPAuthContext,
   options: MCPAuthOptions = {}
-): AuthResult {
+): Promise<AuthResult> {
   if (options.requireOrganization && !context.organizationId) {
     return {
       success: false,
@@ -276,13 +312,14 @@ function validateAuthenticatedContext(
     }
   }
 
-  if (options.minimumBtdHolding && options.minimumBtdHolding > 0 && context.btdBalance < options.minimumBtdHolding) {
+  if (options.minimumBtdHolding && options.minimumBtdHolding > 0) {
     return {
       success: false,
       error: {
-        code: 'INSUFFICIENT_BTD_HOLDING',
-        message: `Requires at least ${options.minimumBtdHolding} BTD share/read-right holding (current holding: ${context.btdBalance})`,
-        statusCode: 402
+        code: 'REGISTRY_READ_ACCESS_REQUIRED',
+        message:
+          'Aggregate BTD holding thresholds are not valid MCP admission gates. Require owner-read or licensed-read registry access instead.',
+        statusCode: 403
       }
     };
   }
@@ -299,10 +336,111 @@ function validateAuthenticatedContext(
     };
   }
 
+  const readAccessResult = await validateRequiredReadAccess(context, options);
+  if (!readAccessResult.success) {
+    return readAccessResult;
+  }
+
   return {
     success: true,
-    context
+    context: readAccessResult.context ?? context
   };
+}
+
+async function validateRequiredReadAccess(
+  context: MCPAuthContext,
+  options: MCPAuthOptions,
+): Promise<AuthResult> {
+  const requirements = normalizeReadAccessRequirements(options.requiredReadAccess);
+  if (requirements.length === 0) {
+    return { success: true, context };
+  }
+
+  const registry = new BtdRegistryModel(createClient());
+  const decisions: NonNullable<MCPAuthContext['btdReadAccess']> = [];
+
+  for (const requirement of requirements) {
+    const walletId = requirement.walletId ?? context.walletId;
+    if (!walletId) {
+      return {
+        success: false,
+        error: {
+          code: 'WALLET_BINDING_REQUIRED',
+          message: 'Registry-derived read access requires a wallet binding.',
+          statusCode: 403,
+        },
+      };
+    }
+
+    const range = await registry.getAssetPackRange(requirement.assetPackId);
+    if (!range) {
+      return {
+        success: false,
+        error: {
+          code: 'ASSET_PACK_RANGE_NOT_FOUND',
+          message: 'No registry AssetPack range exists for the requested read access check.',
+          statusCode: 404,
+        },
+      };
+    }
+
+    const [ownershipRows, licenseRows] = await Promise.all([
+      registry.listOwnershipClaims({ walletId, assetPackId: requirement.assetPackId }),
+      registry.listReadLicenses({ walletId, assetPackId: requirement.assetPackId }),
+    ]);
+    const projection = buildBtdReadAccessProjectionFromRegistryRows({
+      assetPackId: requirement.assetPackId,
+      range,
+      ownershipRows,
+      licenseRows,
+    });
+    const decision = evaluateBtdReadAccess({
+      walletId,
+      assetPackId: requirement.assetPackId,
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: projection.ownershipClaims,
+      licenses: projection.licenses,
+      at: requirement.at,
+    });
+    const allowedDecisions = requirement.allowedDecisions ?? ['owner_read', 'licensed_read'];
+
+    decisions.push({
+      assetPackId: requirement.assetPackId,
+      walletId,
+      decision: decision.decision,
+      reason: decision.reason,
+      accessPolicyHash: decision.accessPolicyHash,
+    });
+
+    if (!allowedDecisions.includes(decision.decision as Exclude<BtdAccessDecisionKind, 'denied'>)) {
+      return {
+        success: false,
+        error: {
+          code: 'INSUFFICIENT_BTD_READ_ACCESS',
+          message: `Registry read access denied for AssetPack ${requirement.assetPackId}: ${decision.reason}.`,
+          statusCode: 403,
+        },
+      };
+    }
+  }
+
+  return {
+    success: true,
+    context: {
+      ...context,
+      btdReadAccess: [...(context.btdReadAccess ?? []), ...decisions],
+    },
+  };
+}
+
+function normalizeReadAccessRequirements(
+  input: MCPAuthOptions['requiredReadAccess'],
+): MCPReadAccessRequirement[] {
+  if (!input) {
+    return [];
+  }
+
+  return Array.isArray(input) ? input : [input];
 }
 
 function getMissingPermissions(

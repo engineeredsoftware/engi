@@ -674,7 +674,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                 {
                   icon: BanknotesIcon,
                   title: 'Granular Budgets',
-                  body: 'Topical procurement allowances can help fit search decide when paid knowledge is worth the spend.',
+                  body: 'Topical procurement allowances can help Finding Fits decide when paid knowledge is worth the spend.',
                 },
                 {
                   icon: ChartBarIcon,

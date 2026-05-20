@@ -68,11 +68,11 @@ function createAssetPackSynthesisPrompt(): Prompt {
 
 const prompt = createAssetPackSynthesisPrompt();
 
-export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
+export const ReadFitsFindingSynthesisAssetPackSynthesisAgent = factoryAgentWithPTRR<
   z.infer<typeof AssetPackSynthesisInputSchema>,
   z.infer<typeof AssetPackSynthesisOutputSchema>
 >({
-  name: 'asset-pack-synthesize-artifacts-agent',
+  name: 'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
   description: 'Synthesizes Read-satisfying AssetPack artifacts without selecting a delivery mechanism',
   outputSchema: AssetPackSynthesisOutputSchema,
   tools: [],
@@ -89,7 +89,7 @@ export const AssetPackSynthesizeArtifactsAgent = factoryAgentWithPTRR<
   retry: { maxAttempts: 1 },
 });
 
-export default async function assetPackSynthesizeArtifacts(input: any, execution: any) {
+export default async function runReadFitsFindingSynthesisAssetPackSynthesisAgent(input: any, execution: any) {
   const storedReadRequest = findExecutionValue(execution, 'read', 'request');
   const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
   const read =
@@ -109,7 +109,7 @@ export default async function assetPackSynthesizeArtifacts(input: any, execution
   const result = isAssetPackBoundedRealInferenceProfile()
     ? await runBoundedAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate)
     : shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR')
-      ? await AssetPackSynthesizeArtifactsAgent(
+      ? await ReadFitsFindingSynthesisAssetPackSynthesisAgent(
       {
         ...input,
         read,
@@ -161,12 +161,29 @@ async function runBoundedAssetPackSynthesis(
   const fitResult = resolveFitResult(input, execution);
   const sourceRevision = resolveSourceRevision(input, execution);
   const inferred = await runBoundedStructuredInference({
-    agentName: 'asset-pack-synthesize-artifacts-agent',
+    agentName: 'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
     phase: 'implementation',
     step: 'synthesis',
     execution,
     schema: AssetPackSynthesisOutputSchema,
     fallback: () => baseline,
+    promptTemplate: {
+      templateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
+      system: [
+        'You are the Bitcode AssetPack synthesis agent.',
+        'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
+        'Do not invent files, external proof, pull requests, BTC broadcasts, or ledger settlement.',
+        'Return only typed JSON that can be validated and finished by the pipeline.',
+      ].join('\n'),
+      user: JSON.stringify({
+        requestedShape: '{{requestedShape}}',
+        read: '{{read}}',
+        deliveryMechanismTemplate: '{{deliveryMechanismTemplate}}',
+        sourceRevision: '{{sourceRevision}}',
+        fitResult: '{{fitResult}}',
+        baselineProofEvidence: '{{baselineProofEvidence}}',
+      }, null, 2),
+    },
     systemPrompt: [
       'You are the Bitcode AssetPack synthesis agent.',
       'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
@@ -225,9 +242,11 @@ function buildDeterministicAssetPackSynthesis(
     findExecutionValue(execution, 'fit', 'result') ??
     findExecutionValue(execution, 'depository/search', 'result') ??
     {};
-  const selectedCandidateAssetIds = Array.isArray(fitResult?.selectedCandidateAssetIds)
-    ? fitResult.selectedCandidateAssetIds
-    : [];
+  const fitDepositAssetIds = Array.isArray(fitResult?.fitDepositAssetIds)
+    ? fitResult.fitDepositAssetIds
+    : Array.isArray(fitResult?.selectedCandidateAssetIds)
+      ? fitResult.selectedCandidateAssetIds
+      : [];
   const repository =
     input?.repository ??
     input?.sourceRevision ??
@@ -244,7 +263,7 @@ function buildDeterministicAssetPackSynthesis(
     `Read: ${read}`,
     `Repository revision: ${repositoryLabel}`,
     `Fit result: ${fitResult?.resultState ?? 'not-yet-classified'}`,
-    `Selected candidate assets: ${selectedCandidateAssetIds.join(', ') || 'none'}`,
+    `Fit deposit assets: ${fitDepositAssetIds.join(', ') || 'none'}`,
     `Query root: ${fitResult?.queryRoot ?? 'not recorded'}`,
     `Ranking root: ${fitResult?.rankingRoot ?? 'not recorded'}`,
     `Embedding policy: ${fitResult?.embeddingPolicy?.provider ?? 'unknown'} ${fitResult?.embeddingPolicy?.model ?? ''}`.trim()
@@ -252,7 +271,7 @@ function buildDeterministicAssetPackSynthesis(
   const summary = [
     'Source-bound Read-satisfaction AssetPack synthesized by the staging pipeline.',
     `The pack binds the admitted Read to ${repositoryLabel}.`,
-    `Fit posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${selectedCandidateAssetIds.length} selected candidate(s).`,
+    `Finding Fits posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${fitDepositAssetIds.length} qualifying fit deposit(s).`,
     'Validation must preserve proof, telemetry, delivery, and ledger readback before settlement trust.'
   ].join(' ');
   return {
@@ -278,7 +297,7 @@ function buildDeterministicAssetPackSynthesis(
       summary,
       proofEvidence,
       reviewNotes: [
-        'Read/Fit candidate evidence carried forward for validation and finish.'
+        'Finding Fits deposit evidence carried forward for validation and finish.'
       ]
     },
     assetPack: {
@@ -385,6 +404,7 @@ function compactFitResult(fitResult: any) {
   return {
     resultState: fitResult.resultState,
     resultReasons: fitResult.resultReasons,
+    fitDepositAssetIds: fitResult.fitDepositAssetIds || fitResult.selectedCandidateAssetIds,
     selectedCandidateAssetIds: fitResult.selectedCandidateAssetIds,
     searchedAssetCount: fitResult.searchedAssetCount,
     queryRoot: fitResult.queryRoot,

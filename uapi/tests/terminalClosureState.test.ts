@@ -6,7 +6,7 @@ describe('normalizeTerminalClosureState', () => {
       canonLabel: 'production workspace posture',
       closureSurface: {
         readReview: {
-          label: 'Read review before fit search',
+          label: 'Read review before Finding Fits',
           readId: 'read-auth-rollback',
           protocolFocus: 'source-to-shares',
           reviewStage: 'post-measurement-pre-fit',
@@ -15,7 +15,7 @@ describe('normalizeTerminalClosureState', () => {
           reviewer: 'bitcode-system:read-review',
           decisionMode: 'deterministic-local-review',
           fitSearchAdmitted: true,
-          admissionReason: 'Measured Read accepted for source-to-shares fit search.',
+          admissionReason: 'Measured Read accepted for source-to-shares Finding Fits.',
           allowedActions: ['accept', 'reject', 'remeasure-with-feedback'],
           measuredTask: 'Recover an auth rollback.',
           measurementHash: 'sha256:measurement',
@@ -109,7 +109,7 @@ describe('normalizeTerminalClosureState', () => {
     });
 
     expect(closure?.verification.metrics.find((entry) => entry.label === 'Candidates')?.value).toBe('5');
-    expect(closure?.readReview.metrics.find((entry) => entry.label === 'Fit search admitted')?.value).toBe('yes');
+    expect(closure?.readReview.metrics.find((entry) => entry.label === 'Finding Fits admitted')?.value).toBe('yes');
     expect(closure?.readReview.rows.find((entry) => entry.label === 'Allowed actions')?.value).toContain(
       'remeasure-with-feedback',
     );

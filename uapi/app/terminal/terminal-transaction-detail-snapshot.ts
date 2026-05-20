@@ -40,6 +40,65 @@ type ProcessingStats = {
   averageLatencyMs: number | null;
 };
 
+export type TerminalJsonRecord = Record<string, unknown>;
+
+export type TerminalLedgerSettlementSnapshot = {
+  status: string | null;
+  settlementAdmissible: boolean | null;
+  reason: string | null;
+  assetPackId: string | null;
+  btdRange: TerminalJsonRecord | null;
+  ledgerAnchorId: string | null;
+  btcFeeReceiptId: string | null;
+  depositorWalletId: string | null;
+  readerWalletId: string | null;
+  btcFee: TerminalJsonRecord | null;
+  ownershipBoundary: TerminalJsonRecord | null;
+  readback: Record<string, boolean>;
+  journalEntryIds: string[];
+  ownershipEventId: string | null;
+  readLicenseId: string | null;
+};
+
+export type TerminalJournalEntrySnapshot = {
+  journalEntryId: string;
+  transactionKind: string;
+  actorId: string;
+  preStateRoot: string;
+  postStateRoot: string;
+  receiptRoots: string[];
+  ledgerAnchorIds: string[];
+  exchangeSequence: number | null;
+  issuedAt: string | null;
+  raw: TerminalJsonRecord;
+};
+
+export type TerminalReconciliationRepairSnapshot = {
+  repairId: string;
+  reconciliationId: string;
+  factId: string;
+  repairKind: string;
+  beforeValue: string;
+  afterValue: string;
+  blocking: boolean;
+  issuedAt: string | null;
+  raw: TerminalJsonRecord;
+};
+
+export type TerminalJournalReadbackSnapshot = {
+  expectedJournalEntryIds: string[];
+  entries: TerminalJournalEntrySnapshot[];
+  repairs: TerminalReconciliationRepairSnapshot[];
+  ledgerRows: {
+    assetPackRanges: TerminalJsonRecord[];
+    btcFeeTransactions: TerminalJsonRecord[];
+    ledgerAnchors: TerminalJsonRecord[];
+    ownershipEvents: TerminalJsonRecord[];
+    readLicenses: TerminalJsonRecord[];
+  };
+  readErrors: string[];
+};
+
 export interface TerminalRunDetailSnapshot {
   summary: string | null;
   shippables: ShippablesDoc | null;
@@ -52,6 +111,8 @@ export interface TerminalRunDetailSnapshot {
   closureFocus: string | null;
   closureFollowThrough: TerminalRunDetailClosureFollowThrough | null;
   closureState: TerminalClosureState | null;
+  ledgerSettlement: TerminalLedgerSettlementSnapshot | null;
+  terminalJournal: TerminalJournalReadbackSnapshot | null;
   bitcodeActivityState: {
     depositWorkbench?: TerminalDepositReadWorkbench | null;
     fitWorkbench?: TerminalDepositReadWorkbench | null;
@@ -249,6 +310,125 @@ function coerceChips(value: unknown) {
   return value.filter((entry): entry is string => typeof entry === 'string' && entry.trim().length > 0);
 }
 
+function coerceBooleanRecord(value: unknown): Record<string, boolean> {
+  if (!isRecord(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([, entry]) => typeof entry === 'boolean')
+      .map(([key, entry]) => [key, entry]),
+  ) as Record<string, boolean>;
+}
+
+function coerceRecordArray(value: unknown): TerminalJsonRecord[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((entry): entry is TerminalJsonRecord => isRecord(entry));
+}
+
+function coerceLedgerSettlement(value: unknown): TerminalLedgerSettlementSnapshot | null {
+  if (!isRecord(value)) return null;
+  const readback = coerceBooleanRecord(value.readback);
+  const journalEntryIds = coerceChips(value.journalEntryIds);
+  const hasSettlementShape =
+    coerceString(value.status) ||
+    coerceString(value.assetPackId) ||
+    coerceString(value.ledgerAnchorId) ||
+    coerceString(value.btcFeeReceiptId) ||
+    Object.keys(readback).length > 0 ||
+    journalEntryIds.length > 0;
+
+  if (!hasSettlementShape) return null;
+
+  return {
+    status: coerceString(value.status),
+    settlementAdmissible: typeof value.settlementAdmissible === 'boolean' ? value.settlementAdmissible : null,
+    reason: coerceString(value.reason),
+    assetPackId: coerceString(value.assetPackId),
+    btdRange: isRecord(value.btdRange) ? value.btdRange : null,
+    ledgerAnchorId: coerceString(value.ledgerAnchorId),
+    btcFeeReceiptId: coerceString(value.btcFeeReceiptId),
+    depositorWalletId: coerceString(value.depositorWalletId),
+    readerWalletId: coerceString(value.readerWalletId),
+    btcFee: isRecord(value.btcFee) ? value.btcFee : null,
+    ownershipBoundary: isRecord(value.ownershipBoundary) ? value.ownershipBoundary : null,
+    readback,
+    journalEntryIds,
+    ownershipEventId: coerceString(value.ownershipEventId),
+    readLicenseId: coerceString(value.readLicenseId),
+  };
+}
+
+function coerceJournalEntry(value: unknown): TerminalJournalEntrySnapshot | null {
+  if (!isRecord(value)) return null;
+  const journalEntryId = coerceString(value.journal_entry_id) || coerceString(value.journalEntryId);
+  if (!journalEntryId) return null;
+
+  return {
+    journalEntryId,
+    transactionKind: coerceString(value.transaction_kind) || coerceString(value.transactionKind) || 'unknown',
+    actorId: coerceString(value.actor_id) || coerceString(value.actorId) || 'unknown',
+    preStateRoot: coerceString(value.pre_state_root) || coerceString(value.preStateRoot) || 'n/a',
+    postStateRoot: coerceString(value.post_state_root) || coerceString(value.postStateRoot) || 'n/a',
+    receiptRoots: coerceChips(value.receipt_roots || value.receiptRoots),
+    ledgerAnchorIds: coerceChips(value.ledger_anchor_ids || value.ledgerAnchorIds),
+    exchangeSequence: coerceNumber(value.exchange_sequence) ?? coerceNumber(value.exchangeSequence),
+    issuedAt: coerceString(value.issued_at) || coerceString(value.issuedAt),
+    raw: value,
+  };
+}
+
+function coerceRepairReceipt(value: unknown): TerminalReconciliationRepairSnapshot | null {
+  if (!isRecord(value)) return null;
+  const repairId = coerceString(value.repair_id) || coerceString(value.repairId);
+  if (!repairId) return null;
+
+  return {
+    repairId,
+    reconciliationId: coerceString(value.reconciliation_id) || coerceString(value.reconciliationId) || 'n/a',
+    factId: coerceString(value.fact_id) || coerceString(value.factId) || 'n/a',
+    repairKind: coerceString(value.repair_kind) || coerceString(value.repairKind) || 'n/a',
+    beforeValue: coerceString(value.before_value) || coerceString(value.beforeValue) || 'n/a',
+    afterValue: coerceString(value.after_value) || coerceString(value.afterValue) || 'n/a',
+    blocking: Boolean(value.blocking),
+    issuedAt: coerceString(value.issued_at) || coerceString(value.issuedAt),
+    raw: value,
+  };
+}
+
+function coerceTerminalJournalReadback(value: unknown): TerminalJournalReadbackSnapshot | null {
+  if (!isRecord(value)) return null;
+  const entries = Array.isArray(value.entries)
+    ? value.entries.map(coerceJournalEntry).filter((entry): entry is TerminalJournalEntrySnapshot => Boolean(entry))
+    : [];
+  const repairs = Array.isArray(value.repairs)
+    ? value.repairs.map(coerceRepairReceipt).filter((entry): entry is TerminalReconciliationRepairSnapshot => Boolean(entry))
+    : [];
+  const ledgerRows = isRecord(value.ledgerRows) ? value.ledgerRows : {};
+  const readErrors = coerceChips(value.readErrors);
+  const expectedJournalEntryIds = coerceChips(value.expectedJournalEntryIds);
+  const hasReadback =
+    entries.length ||
+    repairs.length ||
+    readErrors.length ||
+    expectedJournalEntryIds.length ||
+    Object.values(ledgerRows).some((entry) => Array.isArray(entry) && entry.length > 0);
+
+  if (!hasReadback) return null;
+
+  return {
+    expectedJournalEntryIds,
+    entries,
+    repairs,
+    ledgerRows: {
+      assetPackRanges: coerceRecordArray(ledgerRows.assetPackRanges),
+      btcFeeTransactions: coerceRecordArray(ledgerRows.btcFeeTransactions),
+      ledgerAnchors: coerceRecordArray(ledgerRows.ledgerAnchors),
+      ownershipEvents: coerceRecordArray(ledgerRows.ownershipEvents),
+      readLicenses: coerceRecordArray(ledgerRows.readLicenses),
+    },
+    readErrors,
+  };
+}
+
 function coerceCandidates(value: unknown): TerminalClosureCandidate[] | undefined {
   if (!Array.isArray(value)) return undefined;
   return value
@@ -360,7 +540,7 @@ function coerceClosureState(value: unknown): TerminalClosureState | null {
   const verification = coerceClosurePanel(value.verification);
   const readReview = coerceClosurePanel(value.readReview) || {
     id: 'read-review' as const,
-    label: 'Read review before fit search',
+    label: 'Read review before Finding Fits',
     summary: 'Read review was not persisted on this older closure snapshot.',
     metrics: [],
     rows: [],
@@ -577,6 +757,8 @@ export function buildTerminalRunDetailFromSelectedRun(
     closureFocus: selectedRun.closureFocus || null,
     closureFollowThrough: null,
     closureState: null,
+    ledgerSettlement: null,
+    terminalJournal: null,
     bitcodeActivityState: null,
     historyItemCount: selectedRun.itemCount || 0,
     eventCount: 0,
@@ -623,6 +805,15 @@ export function normalizeTerminalRunDetailPayload(
   const closureFollowThrough =
     coerceClosureFollowThrough(assetPackCompletion?.closureFollowThrough) || base.closureFollowThrough;
   const closureState = coerceClosureState(assetPackCompletion?.closurePanels) || base.closureState;
+  const ledgerSettlement =
+    coerceLedgerSettlement(run.ledger_settlement) ||
+    coerceLedgerSettlement(assetPackCompletion?.ledgerSettlement) ||
+    base.ledgerSettlement;
+  const terminalJournal =
+    coerceTerminalJournalReadback((payload as TerminalRunHistoryPayload & { terminal_journal?: unknown }).terminal_journal) ||
+    coerceTerminalJournalReadback(run.terminal_journal) ||
+    coerceTerminalJournalReadback(isRecord(run.output) ? run.output.terminal_journal : null) ||
+    base.terminalJournal;
   const bitcodeActivityState =
     coerceBitcodeActivityState(assetPackCompletion?.bitcodeActivityState) || base.bitcodeActivityState;
   const runProcessingStats = coerceProcessingStats(run.processing_stats);
@@ -660,6 +851,8 @@ export function normalizeTerminalRunDetailPayload(
     closureFocus: base.closureFocus,
     closureFollowThrough,
     closureState,
+    ledgerSettlement,
+    terminalJournal,
     bitcodeActivityState,
     historyItemCount: Array.isArray(run.items) ? run.items.length : base.historyItemCount,
     eventCount: Array.isArray((payload as TerminalRunHistoryPayload).events)

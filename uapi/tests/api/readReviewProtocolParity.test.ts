@@ -27,7 +27,7 @@ function mapBitcodeError(error: unknown) {
     error instanceof Error ? (error as Error & { statusCode?: number }) : new Error('Unknown error.');
   const message = resolvedError.message || 'Unknown error.';
   const status =
-    resolvedError.statusCode || (/fit search cannot proceed/i.test(message) ? 409 : 500);
+    resolvedError.statusCode || (/Finding Fits cannot proceed/i.test(message) ? 409 : 500);
 
   return new Response(JSON.stringify({ error: message }), {
     status,
@@ -232,7 +232,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
         body: JSON.stringify({
           scenarioId: 'auth-issuer-rollback',
           readReviewAction: 'remeasure-with-feedback',
-          readReviewFeedback: ['Clarify rollback ordering before fit search.'],
+          readReviewFeedback: ['Clarify rollback ordering before Finding Fits.'],
         }),
       }),
     );
@@ -252,7 +252,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
     expect(reviewPayload.nextProtocolAction).toContain('/api/read-review');
   });
 
-  it('blocks commercial branch materialization when the protocol Read review rejects fit search', async () => {
+  it('blocks commercial branch materialization when the protocol Read review rejects Finding Fits', async () => {
     const protocol = (await import(
       '@bitcode/protocol/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
@@ -283,7 +283,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
     const payload = await response.json();
 
     expect(response.status).toBe(409);
-    expect(payload.error).toMatch(/fit search cannot proceed/i);
+    expect(payload.error).toMatch(/Finding Fits cannot proceed/i);
   });
 
   it('carries accepted source-to-shares settlement artifacts through the commercial branch route', async () => {

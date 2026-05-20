@@ -1,0 +1,2496 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "bitcode-market-infrastructure",
+    "version": "1.0.0",
+    "description": "Technical knowledge exchange platform exposing comprehensive capabilities through MCP"
+  },
+  "x-mcp-specification": {
+    "version": "2024-11-05",
+    "capabilities": [
+      "Pipeline Management",
+      "Advanced Intelligence",
+      "Enterprise Integration",
+      "LSP Integration",
+      "Observability",
+      "Cross-Repository Learning"
+    ]
+  },
+  "paths": {
+    "/mcp/tools/bitcode/pipelines/asset-pack/create": {
+      "post": {
+        "summary": "Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.",
+        "description": "Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.\n\nThis is Bitcode's most powerful pipeline, capable of:\n• Feature implementation with written assets and optional pull request delivery\n• Comprehensive code reviews with detailed suggestions\n• Bug fixes with root cause analysis and testing\n• Technical documentation and blog posts\n• Architecture diagrams and API specifications\n• Frontend scaffolding for React/Vue/Angular\n• Project scope analysis and implementation planning\n• Code refactoring proposals with impact analysis\n\nSupports multimodal inputs including Figma designs, documents, images, audio, and video.\nReal-time streaming provides live updates during read measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.\n\nAdmitted subtypes:\n• pull_request - Complete feature implementation with PR\n• pr_review - Comprehensive code review with suggestions\n• issue - Bug analysis and fixes with testing\n• comment - Code explanation and documentation\n• blog_post - Technical writing and documentation\n• diagram - Architecture and flow diagrams\n• api_spec - OpenAPI specification generation\n• frontend_scaffolder - Component scaffolding\n• scope_analysis - Project complexity analysis\n• implementation_plan - Detailed technical planning\n• refactor_proposal - Code improvement recommendations",
+        "operationId": "bitcode___pipelines_asset_pack_create",
+        "tags": [
+          "Pipeline Management"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task": {
+                    "type": "string",
+                    "description": "Detailed task description (minimum 10 characters)"
+                  },
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "attachments": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "connections": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "mcpConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "streaming": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "organizationId": {
+                    "type": "string"
+                  },
+                  "modelPreferences": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "subtype": {
+                    "type": "string",
+                    "enum": [
+                      "pull_request",
+                      "pr_review",
+                      "issue",
+                      "comment",
+                      "blog_post",
+                      "diagram",
+                      "api_spec",
+                      "frontend_scaffolder",
+                      "scope_analysis",
+                      "implementation_plan",
+                      "refactor_proposal"
+                    ],
+                    "description": "Specific Shippable subtype or AssetPack written-asset focus"
+                  },
+                  "options": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "task",
+                  "repository",
+                  "attachments",
+                  "connections",
+                  "mcpConfig",
+                  "streaming",
+                  "subtype",
+                  "options"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 200,
+            "factors": [
+              "Base tool execution",
+              "Pipeline execution",
+              "AI agent coordination"
+            ]
+          },
+          "useCases": [
+            "Feature Development",
+            "Test Generation",
+            "Documentation",
+            "Code Refactoring"
+          ],
+          "relatedTools": [
+            "bitcode://monitoring/pipeline/status",
+            "bitcode://intelligence/effectiveness/track"
+          ]
+        }
+      }
+    },
+    "/mcp/tools/bitcode/intelligence/effectiveness/track": {
+      "post": {
+        "summary": "Effectiveness tracking system with real-time quality measurement.",
+        "description": "Effectiveness tracking system with real-time quality measurement.\n\nThis system provides measurable insight into code change effectiveness:\n• Real-time before/after quality measurement\n• ML-powered effectiveness prediction for proposed changes  \n• Continuous learning from outcome data to improve recommendations\n• Optimization recommendations for target quality metrics\n\nEnables effectiveness-driven development with measurable quality improvements.",
+        "operationId": "bitcode___intelligence_effectiveness_track",
+        "tags": [
+          "Advanced Intelligence"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "measure",
+                      "predict",
+                      "learn",
+                      "optimize"
+                    ],
+                    "description": "Type of effectiveness operation to perform"
+                  },
+                  "pipelineId": {
+                    "type": "string"
+                  },
+                  "beforeMetrics": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "afterMetrics": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "proposedChanges": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "outcomes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "targetMetrics": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "constraints": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "timeframe": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeConfidence": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "timeframe",
+                  "includeConfidence"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 150,
+            "factors": [
+              "Base tool execution",
+              "ML processing",
+              "Cross-repository analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/intelligence/cross-repo/learn": {
+      "post": {
+        "summary": "Advanced cross-repository learning engine for pattern discovery and propagation.",
+        "description": "Advanced cross-repository learning engine for pattern discovery and propagation.\n\nSophisticated pattern extraction and knowledge transfer:\n• Extract successful patterns from high-performing repositories\n• Intelligent pattern propagation with context adaptation\n• Cross-repository similarity analysis and clustering\n• Knowledge graph visualization of repository relationships\n• Automated recommendations based on successful patterns\n\nEnables knowledge transfer and standardization across your entire codebase ecosystem.",
+        "operationId": "bitcode___intelligence_cross_repo_learn",
+        "tags": [
+          "Advanced Intelligence"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "extract",
+                      "propagate",
+                      "analyze",
+                      "recommend"
+                    ],
+                    "description": "Cross-repository learning operation"
+                  },
+                  "sourceRepositories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "patterns": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "targetRepositories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "analysisType": {
+                    "type": "string",
+                    "enum": [
+                      "pattern_similarity",
+                      "success_correlation",
+                      "repository_clustering",
+                      "knowledge_graph",
+                      "trend_analysis",
+                      "anomaly_detection"
+                    ]
+                  },
+                  "repositoryContext": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeVisualization": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "maxResults": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "includeVisualization",
+                  "maxResults"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "advanced",
+          "measuredBtdEstimate": {
+            "estimated": 150,
+            "factors": [
+              "Base tool execution",
+              "ML processing",
+              "Cross-repository analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/intelligence/research/advanced": {
+      "post": {
+        "summary": "Multi-provider web research with URL intelligence and synthesis.",
+        "description": "Multi-provider web research with URL intelligence and synthesis.\n\nMulti-wave research orchestration across diverse sources:\n• GitHub, Stack Overflow, academic papers, documentation sites\n• URL credibility assessment and content quality analysis\n• Cross-source result synthesis and correlation\n• Technology-aware query generation and refinement\n• Real-time research quality assessment with gap analysis\n\nProvides comprehensive, credible research with intelligent synthesis.",
+        "operationId": "bitcode___intelligence_research_advanced",
+        "tags": [
+          "Advanced Intelligence"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "Research query with detailed context"
+                  },
+                  "researchType": {
+                    "type": "string",
+                    "enum": [
+                      "technical_investigation",
+                      "solution_discovery",
+                      "best_practices",
+                      "vulnerability_research",
+                      "framework_comparison",
+                      "library_evaluation",
+                      "pattern_research",
+                      "performance_optimization",
+                      "security_analysis"
+                    ],
+                    "description": "Type of research to conduct"
+                  },
+                  "providers": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "filters": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "synthesisType": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "maxResults": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeUrlIntelligence": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "contextAware": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "query",
+                  "researchType",
+                  "providers",
+                  "synthesisType",
+                  "maxResults",
+                  "includeUrlIntelligence",
+                  "contextAware"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 225,
+            "factors": [
+              "Base tool execution",
+              "ML processing",
+              "Cross-repository analysis",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "Documentation"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/intelligence/multimodal/process": {
+      "post": {
+        "summary": "Comprehensive multimodal processing engine for all attachment types.",
+        "description": "Comprehensive multimodal processing engine for all attachment types.\n\nAdvanced multimodal intelligence processing:\n• Image analysis with design pattern recognition\n• Audio transcription and content analysis\n• Video processing with scene understanding\n• Document extraction with intelligent parsing\n• Figma design analysis with implementation guidance\n• Cross-modal synthesis for unified understanding\n\nTransforms any media type into actionable technical knowledge evidence.",
+        "operationId": "bitcode___intelligence_multimodal_process",
+        "tags": [
+          "Advanced Intelligence"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "attachments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    },
+                    "description": "Attachments to process"
+                  },
+                  "processingType": {
+                    "type": "string",
+                    "enum": [
+                      "comprehensive_analysis",
+                      "content_extraction",
+                      "intelligence_synthesis",
+                      "requirement_extraction",
+                      "design_analysis",
+                      "accessibility_audit",
+                      "performance_analysis",
+                      "security_scan"
+                    ],
+                    "description": "Type of multimodal processing"
+                  },
+                  "outputFormat": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "crossModalSynthesis": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeImplementationGuidance": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "contextRepository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "qualityThreshold": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "attachments",
+                  "processingType",
+                  "outputFormat",
+                  "crossModalSynthesis",
+                  "includeImplementationGuidance",
+                  "qualityThreshold"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 150,
+            "factors": [
+              "Base tool execution",
+              "ML processing",
+              "Cross-repository analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/intelligence/enterprise/orchestrate": {
+      "post": {
+        "summary": "Enterprise intelligence orchestrator for organization-wide insights.",
+        "description": "Enterprise intelligence orchestrator for organization-wide insights.\n\nStrategic enterprise intelligence coordination:\n• Team productivity analysis with skill gap identification\n• Knowledge mapping across departments and projects\n• Collaboration pattern analysis and optimization\n• Innovation metrics and strategic planning support\n• Risk assessment with mitigation recommendations\n• Industry benchmarking and competitive analysis\n\nProvides executive-level intelligence for strategic decision-making.",
+        "operationId": "bitcode___intelligence_enterprise_orchestrate",
+        "tags": [
+          "Advanced Intelligence"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "team_analysis",
+                      "productivity_optimization",
+                      "knowledge_mapping",
+                      "skill_gap_analysis",
+                      "collaboration_patterns",
+                      "innovation_metrics",
+                      "risk_assessment",
+                      "strategic_planning"
+                    ],
+                    "description": "Enterprise intelligence operation"
+                  },
+                  "organizationId": {
+                    "type": "string",
+                    "description": "Organization ID for analysis"
+                  },
+                  "scope": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "timeHorizon": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisDepth": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeRecommendations": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeBenchmarking": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "confidentialityLevel": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "organizationId",
+                  "scope",
+                  "timeHorizon",
+                  "analysisDepth",
+                  "includeRecommendations",
+                  "includeBenchmarking",
+                  "confidentialityLevel"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 150,
+            "factors": [
+              "Base tool execution",
+              "ML processing",
+              "Cross-repository analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/intelligence/marketplace/analyze": {
+      "post": {
+        "summary": "Sophisticated marketplace and procurement intelligence system.",
+        "description": "Sophisticated marketplace and procurement intelligence system.\n\nAdvanced solution discovery and quality assessment:\n• AI-powered solution discovery with requirement matching\n• Quality assessment with fraud detection and risk evaluation\n• Provider analysis with reputation and performance tracking\n• Price optimization recommendations with market analysis\n• Trend analysis for technology adoption and pricing\n• Competitive intelligence for strategic procurement\n\nEnables intelligent procurement with risk mitigation and value optimization.",
+        "operationId": "bitcode___intelligence_marketplace_analyze",
+        "tags": [
+          "Advanced Intelligence"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "solution_discovery",
+                      "quality_assessment",
+                      "provider_analysis",
+                      "price_optimization",
+                      "risk_evaluation",
+                      "trend_analysis"
+                    ],
+                    "description": "Marketplace operation type"
+                  },
+                  "requirements": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "listingId": {
+                    "type": "string"
+                  },
+                  "providerId": {
+                    "type": "string"
+                  },
+                  "searchQuery": {
+                    "type": "string"
+                  },
+                  "filters": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeCompetitiveAnalysis": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "riskTolerance": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "includeCompetitiveAnalysis",
+                  "riskTolerance"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "advanced",
+          "measuredBtdEstimate": {
+            "estimated": 150,
+            "factors": [
+              "Base tool execution",
+              "ML processing",
+              "Cross-repository analysis"
+            ]
+          },
+          "useCases": [
+            "Performance Optimization"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/enterprise/webhook/orchestrate": {
+      "post": {
+        "summary": "Advanced enterprise webhook orchestration with intelligent routing and transformation.",
+        "description": "Advanced enterprise webhook orchestration with intelligent routing and transformation.\n\nComprehensive webhook management system:\n• Intelligent webhook routing with conditional logic\n• Advanced authentication including HMAC and JWT validation\n• Retry policies with exponential backoff and circuit breakers\n• Rate limiting and traffic shaping for webhook endpoints\n• Real-time analytics with performance monitoring\n• Batch webhook operations for enterprise-scale automation\n• Webhook transformation and payload filtering\n• Enterprise-grade security with audit logging\n\nEnables sophisticated event-driven architectures with enterprise reliability.",
+        "operationId": "bitcode___enterprise_webhook_orchestrate",
+        "tags": [
+          "Enterprise Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "create_webhook",
+                      "update_webhook",
+                      "delete_webhook",
+                      "list_webhooks",
+                      "test_webhook",
+                      "webhook_analytics",
+                      "webhook_routing",
+                      "batch_webhooks"
+                    ],
+                    "description": "Webhook operation type"
+                  },
+                  "webhook": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "testPayload": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analyticsTimeRange": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "webhookIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "routingRules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 75,
+            "factors": [
+              "Base tool execution",
+              "API integrations",
+              "Data processing"
+            ]
+          },
+          "useCases": [
+            "Security Analysis",
+            "Performance Optimization",
+            "Business Intelligence"
+          ],
+          "relatedTools": [
+            "bitcode://observability/logs/analytics",
+            "bitcode://lsp/diagnostic/analyze"
+          ]
+        }
+      }
+    },
+    "/mcp/tools/bitcode/enterprise/api/manage": {
+      "post": {
+        "summary": "Complete enterprise API lifecycle management with governance and analytics.",
+        "description": "Complete enterprise API lifecycle management with governance and analytics.\n\nFull-featured API management platform:\n• API versioning with semantic versioning and retirement management\n• Comprehensive rate limiting with tiered access controls\n• API governance with automated compliance checking\n• Interactive documentation generation with OpenAPI 3.0\n• Advanced authentication schemes with OAuth2 and JWT support\n• Performance monitoring with detailed analytics\n• Automated testing with comprehensive test suite execution\n• CORS configuration and security policy enforcement\n\nProvides enterprise-grade API management with governance and observability.",
+        "operationId": "bitcode___enterprise_api_manage",
+        "tags": [
+          "Enterprise Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "create_api",
+                      "update_api",
+                      "delete_api",
+                      "list_apis",
+                      "version_api",
+                      "deploy_api",
+                      "api_analytics",
+                      "api_governance",
+                      "rate_limit_config",
+                      "api_documentation",
+                      "api_testing"
+                    ],
+                    "description": "API management operation"
+                  },
+                  "api": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "versioningStrategy": {
+                    "type": "string",
+                    "enum": [
+                      "semver",
+                      "date",
+                      "sequential"
+                    ]
+                  },
+                  "environment": {
+                    "type": "string",
+                    "enum": [
+                      "development",
+                      "staging",
+                      "production"
+                    ]
+                  },
+                  "governanceRules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "testSuite": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 113,
+            "factors": [
+              "Base tool execution",
+              "API integrations",
+              "Data processing",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "Feature Development",
+            "Security Analysis",
+            "Test Generation",
+            "Documentation",
+            "Business Intelligence"
+          ],
+          "relatedTools": [
+            "bitcode://observability/logs/analytics",
+            "bitcode://lsp/diagnostic/analyze"
+          ]
+        }
+      }
+    },
+    "/mcp/tools/bitcode/enterprise/integration/marketplace": {
+      "post": {
+        "summary": "Enterprise integration marketplace with pre-built connectors and custom development.",
+        "description": "Enterprise integration marketplace with pre-built connectors and custom development.\n\nComprehensive integration ecosystem:\n• Browse and install pre-built integrations for popular enterprise tools\n• Custom connector development with multiple runtime support\n• Data mapping and transformation with visual designer\n• Event-driven integration patterns with intelligent triggers\n• Integration analytics with performance monitoring\n• Marketplace publishing for sharing custom integrations\n• Version management and rollback capabilities\n• Enterprise security compliance with audit trails\n\nAccelerates enterprise integration with proven patterns and custom solutions.",
+        "operationId": "bitcode___enterprise_integration_marketplace",
+        "tags": [
+          "Enterprise Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "browse_integrations",
+                      "install_integration",
+                      "configure_integration",
+                      "update_integration",
+                      "uninstall_integration",
+                      "integration_analytics",
+                      "custom_connector",
+                      "marketplace_publish"
+                    ],
+                    "description": "Integration marketplace operation"
+                  },
+                  "filters": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "integration": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "connector": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 75,
+            "factors": [
+              "Base tool execution",
+              "API integrations",
+              "Data processing"
+            ]
+          },
+          "useCases": [
+            "Security Analysis",
+            "Performance Optimization",
+            "Business Intelligence"
+          ],
+          "relatedTools": [
+            "bitcode://observability/logs/analytics",
+            "bitcode://lsp/diagnostic/analyze"
+          ]
+        }
+      }
+    },
+    "/mcp/tools/bitcode/enterprise/observability/configure": {
+      "post": {
+        "summary": "Advanced enterprise observability and telemetry with business intelligence.",
+        "description": "Advanced enterprise observability and telemetry with business intelligence.\n\nComplete observability platform:\n• Multi-dimensional metrics with custom aggregations\n• Distributed tracing with sampling strategies\n• Centralized logging with intelligent retention policies\n• Real-time alerting with escalation and notification routing\n• Interactive dashboards with collaborative features\n• Performance profiling with bottleneck identification\n• Anomaly detection with machine learning algorithms\n• Business intelligence integration with KPI tracking\n\nProvides comprehensive observability for enterprise-scale applications.",
+        "operationId": "bitcode___enterprise_observability_configure",
+        "tags": [
+          "Enterprise Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "setup_monitoring",
+                      "configure_alerts",
+                      "create_dashboard",
+                      "export_metrics",
+                      "trace_analysis",
+                      "log_analysis",
+                      "performance_profiling",
+                      "business_intelligence",
+                      "anomaly_detection"
+                    ],
+                    "description": "Observability operation type"
+                  },
+                  "monitoringConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "alerts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "dashboard": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 113,
+            "factors": [
+              "Base tool execution",
+              "API integrations",
+              "Data processing",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "Feature Development"
+          ],
+          "relatedTools": [
+            "bitcode://observability/logs/analytics",
+            "bitcode://lsp/diagnostic/analyze"
+          ]
+        }
+      }
+    },
+    "/mcp/tools/bitcode/lsp/semantic/analyze": {
+      "post": {
+        "summary": "Deep semantic analysis engine with symbol resolution and dependency mapping.",
+        "description": "Deep semantic analysis engine with symbol resolution and dependency mapping.\n\nAdvanced semantic understanding capabilities:\n• Complete symbol analysis with type inference and relationship mapping\n• Dependency graph construction with cycle detection and modularity metrics\n• Semantic search with intelligent ranking and contextual suggestions\n• Call graph analysis with hotspot identification and dead code detection\n• Cross-language analysis with unified symbol resolution\n• Real-time hover information and signature help\n\nProvides comprehensive code understanding for intelligent development assistance.",
+        "operationId": "bitcode___lsp_semantic_analyze",
+        "tags": [
+          "LSP Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "symbol_analysis",
+                      "dependency_graph",
+                      "type_inference",
+                      "call_graph",
+                      "reference_analysis",
+                      "definition_lookup",
+                      "semantic_search",
+                      "code_lens",
+                      "hover_information",
+                      "signature_help",
+                      "workspace_symbols",
+                      "document_symbols"
+                    ],
+                    "description": "LSP semantic analysis operation"
+                  },
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "targets": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "position": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "searchQuery": {
+                    "type": "string"
+                  },
+                  "filters": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "outputFormat": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeSourceCode": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeDocumentation": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "repository",
+                  "outputFormat",
+                  "includeSourceCode",
+                  "includeDocumentation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 75,
+            "factors": [
+              "Base tool execution",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/lsp/intelligence/navigate": {
+      "post": {
+        "summary": "Advanced code navigation and intelligent refactoring with change impact analysis.",
+        "description": "Advanced code navigation and intelligent refactoring with change impact analysis.\n\nSophisticated code intelligence features:\n• Multi-language reference finding with usage pattern analysis\n• Safe symbol renaming with conflict detection and preview\n• Intelligent method extraction with parameter inference\n• Implementation finding across inheritance hierarchies\n• Code action suggestions with automated fixes\n• Smart import organization and dependency management\n\nEnables confident code navigation and refactoring with enterprise-grade safety.",
+        "operationId": "bitcode___lsp_intelligence_navigate",
+        "tags": [
+          "LSP Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "find_references",
+                      "find_implementations",
+                      "find_declarations",
+                      "rename_symbol",
+                      "extract_method",
+                      "extract_variable",
+                      "inline_method",
+                      "move_symbol",
+                      "organize_imports",
+                      "auto_fix",
+                      "code_actions",
+                      "format_document",
+                      "fold_ranges",
+                      "selection_ranges"
+                    ],
+                    "description": "Code intelligence operation"
+                  },
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "symbol": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "refactoringConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "range": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "codeActionKind": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "quickfix",
+                        "refactor",
+                        "refactor.extract",
+                        "refactor.inline",
+                        "refactor.rewrite",
+                        "source",
+                        "source.organizeImports",
+                        "source.fixAll",
+                        "source.addMissingImports"
+                      ]
+                    }
+                  },
+                  "formattingOptions": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "executeActions": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "dryRun": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "repository",
+                  "executeActions",
+                  "dryRun"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "Feature Development",
+            "Code Refactoring"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/lsp/diagnostic/analyze": {
+      "post": {
+        "summary": "Comprehensive diagnostic engine with multi-axis code quality analysis.",
+        "description": "Comprehensive diagnostic engine with multi-axis code quality analysis.\n\nAdvanced diagnostic capabilities:\n• Multi-language syntax and semantic validation\n• Performance analysis with bottleneck identification\n• Security vulnerability scanning with remediation suggestions\n• Code complexity analysis with maintainability metrics\n• Test coverage analysis with gap identification\n• Dependency audit with vulnerability assessment\n\nProvides comprehensive code health assessment with actionable insights.",
+        "operationId": "bitcode___lsp_diagnostic_analyze",
+        "tags": [
+          "LSP Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "run_diagnostics",
+                      "lint_analysis",
+                      "type_checking",
+                      "syntax_validation",
+                      "security_scan",
+                      "performance_analysis",
+                      "code_complexity",
+                      "test_coverage",
+                      "dependency_audit",
+                      "code_metrics",
+                      "quality_gates",
+                      "compliance_check"
+                    ],
+                    "description": "Diagnostic operation type"
+                  },
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "scope": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "diagnosticConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "qualityThresholds": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisPreferences": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "outputConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "repository"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 75,
+            "factors": [
+              "Base tool execution",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/lsp/workspace/intelligence": {
+      "post": {
+        "summary": "Workspace-wide intelligence with architectural insights and project understanding.",
+        "description": "Workspace-wide intelligence with architectural insights and project understanding.\n\nComprehensive workspace analysis:\n• Project structure analysis with architectural pattern detection\n• Module dependency mapping with coupling analysis\n• API surface analysis with breaking change detection\n• Change impact analysis with transitive dependency tracking\n• Technical debt assessment with remediation planning\n• Knowledge graph construction with relationship visualization\n\nProvides executive-level project intelligence for strategic decision-making.",
+        "operationId": "bitcode___lsp_workspace_intelligence",
+        "tags": [
+          "LSP Integration"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "workspace_analysis",
+                      "project_structure",
+                      "architecture_overview",
+                      "module_dependencies",
+                      "api_surface",
+                      "change_impact",
+                      "hotspot_analysis",
+                      "technical_debt",
+                      "code_ownership",
+                      "knowledge_graph",
+                      "migration_analysis"
+                    ],
+                    "description": "Workspace intelligence operation"
+                  },
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisScope": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "changeAnalysis": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "architectureConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "knowledgeGraphConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "migrationConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "visualizationConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "repository"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/observability/metrics/realtime": {
+      "post": {
+        "summary": "Advanced real-time metrics collection, querying, and alerting system.",
+        "description": "Advanced real-time metrics collection, querying, and alerting system.\n\nComprehensive metrics platform:\n• Real-time metrics collection with multiple data types\n• Advanced querying with aggregations and filtering\n• Intelligent alerting with multi-channel notifications\n• Interactive dashboards with customizable visualizations\n• Metrics streaming for real-time monitoring\n• Anomaly detection with machine learning algorithms\n• Historical analysis with trend identification\n• Performance benchmarking and comparison\n\nProvides enterprise-grade metrics infrastructure for complete observability.",
+        "operationId": "bitcode___observability_metrics_realtime",
+        "tags": [
+          "Observability"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "collect_metrics",
+                      "query_metrics",
+                      "create_alert",
+                      "manage_dashboards",
+                      "stream_metrics",
+                      "export_metrics",
+                      "aggregate_metrics",
+                      "metric_analysis"
+                    ],
+                    "description": "Metrics operation type"
+                  },
+                  "metrics": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "query": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "alert": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "dashboard": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "streamConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/observability/tracing/distributed": {
+      "post": {
+        "summary": "Sophisticated distributed tracing with performance profiling and bottleneck detection.",
+        "description": "Sophisticated distributed tracing with performance profiling and bottleneck detection.\n\nAdvanced tracing capabilities:\n• End-to-end distributed trace analysis\n• Performance profiling with flame graphs and hotspot identification\n• Service topology mapping with dependency visualization\n• Latency analysis with percentile calculations\n• Error correlation across service boundaries\n• Bottleneck detection with root cause analysis\n• Request flow visualization with timing breakdown\n• Cross-service performance optimization recommendations\n\nEnables deep performance understanding in distributed systems.",
+        "operationId": "bitcode___observability_tracing_distributed",
+        "tags": [
+          "Observability"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "start_trace",
+                      "end_trace",
+                      "add_span",
+                      "trace_analysis",
+                      "performance_profiling",
+                      "bottleneck_detection",
+                      "trace_correlation",
+                      "service_map",
+                      "latency_analysis",
+                      "error_tracking"
+                    ],
+                    "description": "Tracing operation type"
+                  },
+                  "trace": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "span": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "profilingConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "serviceMapConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "advanced",
+          "measuredBtdEstimate": {
+            "estimated": 75,
+            "factors": [
+              "Base tool execution",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "Performance Optimization"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/observability/intelligence/business": {
+      "post": {
+        "summary": "Business intelligence platform for engineering metrics and strategic insights.",
+        "description": "Business intelligence platform for engineering metrics and strategic insights.\n\nStrategic analytics capabilities:\n• Technical productivity metrics with team comparisons\n• ROI calculation for engineering investments\n• Technical debt analysis with cost implications\n• Velocity trends with predictive forecasting\n• Quality metrics with benchmark comparisons\n• Innovation tracking with patent and contribution analysis\n• Executive dashboards with strategic KPIs\n• Industry benchmarking with competitive analysis\n\nProvides C-level insights for engineering organization optimization.",
+        "operationId": "bitcode___observability_intelligence_business",
+        "tags": [
+          "Observability"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "engineering_metrics",
+                      "productivity_analysis",
+                      "team_performance",
+                      "cost_analysis",
+                      "roi_calculation",
+                      "trend_analysis",
+                      "forecasting",
+                      "benchmarking",
+                      "executive_dashboard",
+                      "strategic_insights"
+                    ],
+                    "description": "Business intelligence operation"
+                  },
+                  "scope": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "metricsConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisPreferences": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "outputConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "benchmarkConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "scope",
+                  "metricsConfig"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "moderate",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "Business Intelligence"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/observability/logs/analytics": {
+      "post": {
+        "summary": "Advanced log analytics with pattern detection, anomaly analysis, and compliance reporting.",
+        "description": "Advanced log analytics with pattern detection, anomaly analysis, and compliance reporting.\n\nComprehensive log intelligence:\n• Real-time log ingestion with intelligent parsing\n• Pattern detection using machine learning algorithms\n• Anomaly detection with behavioral analysis\n• Security analysis with threat detection\n• Compliance reporting with audit trails\n• Log correlation across services and timeframes\n• Error analysis with impact assessment\n• Predictive alerting based on log patterns\n\nTransforms logs into actionable intelligence for operational excellence.",
+        "operationId": "bitcode___observability_logs_analytics",
+        "tags": [
+          "Observability"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "log_ingestion",
+                      "log_analysis",
+                      "pattern_detection",
+                      "anomaly_detection",
+                      "log_correlation",
+                      "error_analysis",
+                      "log_search",
+                      "log_aggregation",
+                      "compliance_reporting",
+                      "security_analysis"
+                    ],
+                    "description": "Log analytics operation"
+                  },
+                  "logs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "analysisConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "searchQuery": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "patternConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "anomalyConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "complianceConfig": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "operation"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "Business Intelligence"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/analysis/repository/analyze": {
+      "post": {
+        "summary": "Perform comprehensive AI-powered repository analysis.",
+        "description": "Perform comprehensive AI-powered repository analysis.\n\nAdvanced analysis capabilities including:\n• Architecture pattern detection and evaluation\n• Security vulnerability assessment with OWASP compliance\n• Performance bottleneck identification and optimization\n• Code quality metrics and maintainability scoring\n• Dependency analysis with vulnerability scanning\n• Technical debt assessment and remediation planning\n\nSupports multiple analysis depths from surface-level scanning to deep architectural review.\nGenerates actionable insights with confidence scoring and remediation guidance.",
+        "operationId": "bitcode___analysis_repository_analyze",
+        "tags": [
+          "Analysis"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisType": {
+                    "type": "string",
+                    "enum": [
+                      "architecture",
+                      "dependencies",
+                      "security",
+                      "performance",
+                      "quality",
+                      "complexity",
+                      "patterns",
+                      "technical_debt"
+                    ],
+                    "description": "Type of analysis to perform"
+                  },
+                  "depth": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeMetrics": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "outputFormat": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "repository",
+                  "analysisType",
+                  "depth",
+                  "includeMetrics",
+                  "outputFormat"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 75,
+            "factors": [
+              "Base tool execution",
+              "Comprehensive analysis"
+            ]
+          },
+          "useCases": [
+            "General Technical Work"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/analysis/intelligence/synthesize": {
+      "post": {
+        "summary": "Synthesize technical knowledge across repositories and time periods.",
+        "description": "Synthesize technical knowledge across repositories and time periods.\n\nAI-powered intelligence synthesis providing:\n• Cross-repository pattern identification\n• Technical productivity trend analysis\n• Quality and security posture evolution\n• Technology adoption and migration insights\n• Team performance and collaboration patterns\n• Predictive insights for technical decisions\n\nGenerates strategic insights for technical leadership with confidence-scored recommendations.",
+        "operationId": "bitcode___analysis_intelligence_synthesize",
+        "tags": [
+          "Analysis"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "scope": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "timeframe": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "repositories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Complex type"
+                    }
+                  },
+                  "analysisTypes": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeRecommendations": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "confidenceThreshold": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "scope",
+                  "timeframe",
+                  "analysisTypes",
+                  "includeRecommendations",
+                  "confidenceThreshold"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "advanced",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "Security Analysis",
+            "Performance Optimization"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/analysis/patterns/detect": {
+      "post": {
+        "summary": "Detect and analyze code patterns across repositories.",
+        "description": "Detect and analyze code patterns across repositories.\n\nPattern detection including:\n• Design patterns (Observer, Factory, Strategy, etc.)\n• Anti-patterns (God Object, Spaghetti Code, etc.)\n• Architectural patterns (MVC, MVP, MVVM, etc.)\n• Performance patterns and optimization opportunities\n• Testing patterns and coverage gaps\n• Security patterns and vulnerability patterns\n\nProvides pattern confidence scoring, code examples, and refactoring recommendations.",
+        "operationId": "bitcode___analysis_patterns_detect",
+        "tags": [
+          "Analysis"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "patternTypes": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "language": {
+                    "type": "string"
+                  },
+                  "includeExamples": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "severity": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "repository",
+                  "patternTypes",
+                  "includeExamples",
+                  "severity"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "simple",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "Code Refactoring"
+          ],
+          "relatedTools": []
+        }
+      }
+    },
+    "/mcp/tools/bitcode/analysis/dependencies/analyze": {
+      "post": {
+        "summary": "Comprehensive dependency analysis and risk assessment.",
+        "description": "Comprehensive dependency analysis and risk assessment.\n\nDependency analysis including:\n• Direct and transitive dependency mapping\n• Security vulnerability scanning across dependency tree\n• License compatibility analysis and compliance checking\n• Update availability and breaking change detection\n• Dependency size and performance impact analysis\n• Unused dependency identification\n\nProvides dependency graph visualization and update recommendations with risk assessment.",
+        "operationId": "bitcode___analysis_dependencies_analyze",
+        "tags": [
+          "Analysis"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "repository": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "analysisDepth": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeVulnerabilities": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeLicenses": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "includeUpdates": {
+                    "type": "object",
+                    "description": "Complex type"
+                  },
+                  "outputFormat": {
+                    "type": "object",
+                    "description": "Complex type"
+                  }
+                },
+                "required": [
+                  "repository",
+                  "analysisDepth",
+                  "includeVulnerabilities",
+                  "includeLicenses",
+                  "includeUpdates",
+                  "outputFormat"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "metadata": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-mcp-tool": {
+          "complexity": "expert",
+          "measuredBtdEstimate": {
+            "estimated": 50,
+            "factors": [
+              "Base tool execution"
+            ]
+          },
+          "useCases": [
+            "Performance Optimization"
+          ],
+          "relatedTools": []
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

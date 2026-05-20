@@ -4,10 +4,12 @@ import type {
 } from './terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
 
-export type TerminalFitPipelineHarnessRequest = {
+export type TerminalReadFitsFindingSynthesisHarnessRequest = {
   mode: 'asset_pack_pipeline';
   readId: string;
   readPrompt: string;
+  acceptedReadNeed: unknown;
+  requireAcceptedReadNeed: true;
   depositId: string;
   depositAssetId?: string | null;
   depositHasWalletOrAttestationProof?: boolean;
@@ -24,10 +26,10 @@ export type TerminalFitPipelineHarnessRequest = {
   sourceDepth: number;
 };
 
-export type TerminalFitPipelineHarnessRequestState =
+export type TerminalReadFitsFindingSynthesisHarnessRequestState =
   | {
       ready: true;
-      request: TerminalFitPipelineHarnessRequest;
+      request: TerminalReadFitsFindingSynthesisHarnessRequest;
       missing: [];
     }
   | {
@@ -36,12 +38,12 @@ export type TerminalFitPipelineHarnessRequestState =
       missing: string[];
     };
 
-export type TerminalFitPipelineHarnessEvent = {
+export type TerminalReadFitsFindingSynthesisHarnessEvent = {
   event: string;
   data: unknown;
 };
 
-export type TerminalFitPipelineHarnessStreamSnapshot = {
+export type TerminalReadFitsFindingSynthesisHarnessStreamSnapshot = {
   runId: string | null;
   output: string;
   outputDetails: Record<string, unknown>;
@@ -52,7 +54,7 @@ export type TerminalFitPipelineHarnessStreamSnapshot = {
 };
 
 type StreamCallbacks = {
-  onEvent?: (event: TerminalFitPipelineHarnessEvent) => void;
+  onEvent?: (event: TerminalReadFitsFindingSynthesisHarnessEvent) => void;
 };
 
 function normalizedText(value?: string | null): string {
@@ -67,17 +69,19 @@ function githubCloneUrl(repositoryFullName: string): string {
   return `https://github.com/${repositoryFullName}.git`;
 }
 
-export function buildTerminalFitPipelineHarnessRequest({
+export function buildTerminalReadFitsFindingSynthesisHarnessRequest({
   workbench,
   repositoryContext,
   depositedSourceRevision,
   readActivityId,
+  acceptedReadNeed,
 }: {
   workbench: TerminalDepositReadWorkbench | null;
   repositoryContext?: TerminalRepositoryContextState | null;
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
   readActivityId?: string | null;
-}): TerminalFitPipelineHarnessRequestState {
+  acceptedReadNeed?: unknown;
+}): TerminalReadFitsFindingSynthesisHarnessRequestState {
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const sourceRevision = workbench?.sourceRevision || null;
   const repositoryFullName = normalizedText(
@@ -101,6 +105,9 @@ export function buildTerminalFitPipelineHarnessRequest({
   );
   const depositId = normalizedText(depositedSourceRevision?.activityId || '');
   const readId = normalizedText(readActivityId || '');
+  const acceptedNeed = recordValue(acceptedReadNeed);
+  const acceptedNeedId = normalizedText(acceptedNeed?.needId as string | undefined);
+  const acceptedNeedReviewState = normalizedText(acceptedNeed?.reviewState as string | undefined);
 
   const missing = [
     !workbench ? 'read-fit workbench' : null,
@@ -109,6 +116,7 @@ export function buildTerminalFitPipelineHarnessRequest({
     !sourceCommit ? 'source commit' : null,
     !depositId ? 'deposit activity' : null,
     !readId ? 'admitted Read activity' : null,
+    !acceptedNeedId || acceptedNeedReviewState !== 'accepted' ? 'accepted Read-Need' : null,
   ].filter((entry): entry is string => Boolean(entry));
 
   if (missing.length > 0 || !workbench) {
@@ -126,12 +134,17 @@ export function buildTerminalFitPipelineHarnessRequest({
       mode: 'asset_pack_pipeline',
       readId,
       readPrompt: workbench.read.summary,
+      acceptedReadNeed,
+      requireAcceptedReadNeed: true,
       depositId,
       depositAssetId: depositedSourceRevision?.depositAssetId || null,
       depositHasWalletOrAttestationProof:
         depositedSourceRevision?.hasWalletOrAttestationProof ?? undefined,
       depositHasAssetMeasurementEvidence:
         depositedSourceRevision?.hasAssetMeasurementEvidence ?? undefined,
+      depositProofRoot: depositedSourceRevision?.proofRoot || null,
+      depositMeasurementRoot: depositedSourceRevision?.measurementRoot || null,
+      depositReconciliationReadbackRoot: depositedSourceRevision?.reconciliationReadbackRoot || null,
       repositoryFullName,
       sourceBranch,
       sourceCommit,
@@ -142,9 +155,9 @@ export function buildTerminalFitPipelineHarnessRequest({
   };
 }
 
-export function parseTerminalFitPipelineHarnessSseBlock(
+export function parseTerminalReadFitsFindingSynthesisHarnessSseBlock(
   block: string,
-): TerminalFitPipelineHarnessEvent | null {
+): TerminalReadFitsFindingSynthesisHarnessEvent | null {
   const lines = block.split(/\r?\n/);
   let event = 'message';
   const dataLines: string[] = [];
@@ -170,9 +183,9 @@ export function parseTerminalFitPipelineHarnessSseBlock(
   return { event, data };
 }
 
-export function drainTerminalFitPipelineHarnessSseBuffer(
+export function drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
   buffer: string,
-  onEvent: (event: TerminalFitPipelineHarnessEvent) => void,
+  onEvent: (event: TerminalReadFitsFindingSynthesisHarnessEvent) => void,
 ): string {
   let remaining = buffer.replace(/\r\n/g, '\n');
   let separatorIndex = remaining.indexOf('\n\n');
@@ -180,7 +193,7 @@ export function drainTerminalFitPipelineHarnessSseBuffer(
   while (separatorIndex >= 0) {
     const block = remaining.slice(0, separatorIndex);
     remaining = remaining.slice(separatorIndex + 2);
-    const event = parseTerminalFitPipelineHarnessSseBlock(block);
+    const event = parseTerminalReadFitsFindingSynthesisHarnessSseBlock(block);
     if (event) onEvent(event);
     separatorIndex = remaining.indexOf('\n\n');
   }
@@ -188,8 +201,8 @@ export function drainTerminalFitPipelineHarnessSseBuffer(
   return remaining;
 }
 
-export async function streamTerminalFitPipelineHarness(
-  request: TerminalFitPipelineHarnessRequest,
+export async function streamTerminalReadFitsFindingSynthesisHarness(
+  request: TerminalReadFitsFindingSynthesisHarnessRequest,
   callbacks: StreamCallbacks = {},
 ): Promise<void> {
   const response = await fetch('/api/pipeline-harness/asset-pack', {
@@ -215,7 +228,7 @@ export async function streamTerminalFitPipelineHarness(
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
-    buffer = drainTerminalFitPipelineHarnessSseBuffer(
+    buffer = drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
       buffer + decoder.decode(value, { stream: true }),
       (event) => callbacks.onEvent?.(event),
     );
@@ -223,12 +236,12 @@ export async function streamTerminalFitPipelineHarness(
 
   const finalChunk = decoder.decode();
   if (finalChunk) {
-    buffer = drainTerminalFitPipelineHarnessSseBuffer(buffer + finalChunk, (event) =>
+    buffer = drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(buffer + finalChunk, (event) =>
       callbacks.onEvent?.(event),
     );
   }
   if (buffer.trim()) {
-    const event = parseTerminalFitPipelineHarnessSseBlock(buffer);
+    const event = parseTerminalReadFitsFindingSynthesisHarnessSseBlock(buffer);
     if (event) callbacks.onEvent?.(event);
   }
 }
@@ -276,7 +289,7 @@ function canonicalPhase(value: unknown, fallback = 'Setup'): string {
   return fallback;
 }
 
-function classifyHarnessLogType(event: TerminalFitPipelineHarnessEvent): string {
+function classifyHarnessLogType(event: TerminalReadFitsFindingSynthesisHarnessEvent): string {
   const data = recordValue(event.data);
   const type = data?.type ? String(data.type) : '';
   const telemetryEvent = recordValue(data?.telemetryEvent);
@@ -297,7 +310,13 @@ function classifyHarnessLogType(event: TerminalFitPipelineHarnessEvent): string 
       namespace === 'llm' ||
       key.includes('parsedoutput') ||
       typeof telemetryEvent?.inputMessageCount === 'number' ||
-      typeof telemetryEvent?.outputContentLength === 'number'
+      typeof telemetryEvent?.outputContentLength === 'number' ||
+      telemetryEvent?.promptTemplatePresent === true ||
+      telemetryEvent?.interpolatedPromptPresent === true ||
+      telemetryEvent?.reasoningPresent === true ||
+      telemetryEvent?.judgmentPresent === true ||
+      telemetryEvent?.rawModelResponsePresent === true ||
+      telemetryEvent?.parsedTypedOutputPresent === true
     ) {
       return 'generation';
     }
@@ -307,7 +326,7 @@ function classifyHarnessLogType(event: TerminalFitPipelineHarnessEvent): string 
   return 'thinking';
 }
 
-function buildHarnessExecutionState(event: TerminalFitPipelineHarnessEvent): Record<string, unknown> {
+function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarnessEvent): Record<string, unknown> {
   if (event.event === 'harness-completed') {
     return {
       phase: 'Finish',
@@ -359,7 +378,7 @@ function buildHarnessExecutionState(event: TerminalFitPipelineHarnessEvent): Rec
   };
 }
 
-function harnessEventTimestamp(event: TerminalFitPipelineHarnessEvent): string | undefined {
+function harnessEventTimestamp(event: TerminalReadFitsFindingSynthesisHarnessEvent): string | undefined {
   const data = recordValue(event.data);
   const telemetryEvent = recordValue(data?.telemetryEvent);
   const timestamp =
@@ -371,17 +390,17 @@ function harnessEventTimestamp(event: TerminalFitPipelineHarnessEvent): string |
   return timestamp ? String(timestamp) : undefined;
 }
 
-function harnessProgress(event: TerminalFitPipelineHarnessEvent): 'error' | 'success' | 'in-progress' {
+function harnessProgress(event: TerminalReadFitsFindingSynthesisHarnessEvent): 'error' | 'success' | 'in-progress' {
   if (event.event === 'harness-failed') return 'error';
   if (event.event === 'harness-completed') return 'success';
   return 'in-progress';
 }
 
-export function buildTerminalFitPipelineHarnessStreamSnapshot(
-  events: TerminalFitPipelineHarnessEvent[],
+export function buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
+  events: TerminalReadFitsFindingSynthesisHarnessEvent[],
   harnessState: 'idle' | 'running' | 'completed' | 'failed',
   streamError: string | null = null,
-): TerminalFitPipelineHarnessStreamSnapshot {
+): TerminalReadFitsFindingSynthesisHarnessStreamSnapshot {
   const outputDetails: Record<string, unknown> = {};
   const outputLines: string[] = [];
   let latestExecutionState: Record<string, unknown> = {
@@ -393,7 +412,7 @@ export function buildTerminalFitPipelineHarnessStreamSnapshot(
   let runId: string | null = null;
 
   events.forEach((event, index) => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent(event);
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent(event);
     let line = summary;
     if (outputDetails[line]) {
       line = `${summary} #${index + 1}`;
@@ -429,6 +448,7 @@ export function buildTerminalFitPipelineHarnessStreamSnapshot(
           harnessEvent: event.event,
           harnessPayload: event.data,
           telemetryEvent,
+          inferenceAudit: telemetryEvent?.inferenceAudit || null,
         },
       },
     };
@@ -485,6 +505,12 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     ? `${telemetryEvent.outputContentLength} output chars`
     : null;
   const parsedOutput = telemetryEvent.parsedOutputPresent === true ? 'parsed output present' : null;
+  const promptTemplate = telemetryEvent.promptTemplatePresent === true ? 'prompt template present' : null;
+  const interpolatedPrompt = telemetryEvent.interpolatedPromptPresent === true ? 'interpolated prompt present' : null;
+  const reasoning = telemetryEvent.reasoningPresent === true ? 'reasoning present' : null;
+  const judgment = telemetryEvent.judgmentPresent === true ? 'judgment present' : null;
+  const rawResponse = telemetryEvent.rawModelResponsePresent === true ? 'raw response present' : null;
+  const parsedTypedOutput = telemetryEvent.parsedTypedOutputPresent === true ? 'parsed typed output present' : null;
   const toolDetails = [
     telemetryEvent.toolInputPresent === true ? 'input' : null,
     telemetryEvent.toolOutputPresent === true ? 'output' : null,
@@ -501,18 +527,26 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     inspectableKeys.length ? `inspectable ${inspectableKeys.join(', ')}` : null,
     inputMessageCount,
     outputContentLength,
+    promptTemplate,
+    interpolatedPrompt,
+    reasoning,
+    judgment,
+    rawResponse,
     parsedOutput,
+    parsedTypedOutput,
   ].filter(Boolean).join('; ') + '.';
 }
 
-export function summarizeTerminalFitPipelineHarnessEvent(
-  event: TerminalFitPipelineHarnessEvent,
+export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
+  event: TerminalReadFitsFindingSynthesisHarnessEvent,
 ): string {
   const data = recordValue(event.data);
   if (event.event === 'harness-started') {
     const runId = shortIdentifier(data?.runId);
+    const needId = shortIdentifier(data?.readNeedId);
     return [
       `Harness started for ${data?.repositoryFullName || 'selected repository'}`,
+      needId ? `Need ${needId}` : null,
       runId ? `run ${runId}` : null,
     ].filter(Boolean).join('; ') + '.';
   }
@@ -549,6 +583,9 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     const fitResult = recordValue(evidence?.fitResult);
     const depositorySearch = recordValue(evidence?.depositorySearch);
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
+    const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
+    const feeQuote = recordValue(sourceSafePreview?.feeQuote);
+    const unlock = recordValue(sourceSafePreview?.unlock) || recordValue(ledgerSettlement?.protectedSourceUnlock);
     const fitState = String(fitResult?.resultState || evidence?.resultState || 'unknown');
     const searchedAssetCount = depositorySearch?.searchedAssetCount;
     const ledgerStatus = ledgerSettlement?.status
@@ -561,6 +598,14 @@ export function summarizeTerminalFitPipelineHarnessEvent(
     const telemetryText = telemetryLineCount > 0
       ? ` telemetry ${telemetryLineCount} lines`
       : ' telemetry artifact pending';
+    const feeQuoteText = typeof feeQuote?.sats === 'number'
+      ? ` fee ${feeQuote.sats} sats`
+      : null;
+    const unlockText = unlock?.sourceAvailable === true
+      ? ` source ${String(unlock.state || 'available')}`
+      : unlock?.state
+        ? ` source ${String(unlock.state)}`
+        : null;
     const searchText = typeof searchedAssetCount === 'number'
       ? ` searched ${searchedAssetCount} assets`
       : ' searched asset count unknown';
@@ -570,6 +615,8 @@ export function summarizeTerminalFitPipelineHarnessEvent(
       searchText,
       selectedCandidateText,
       ledgerStatus,
+      feeQuoteText,
+      unlockText,
       telemetryText,
     ].filter(Boolean).join('; ') + '.';
   }

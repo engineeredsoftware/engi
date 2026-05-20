@@ -82,6 +82,8 @@ const detail: TerminalRunDetailSnapshot = {
       },
     ],
   },
+  ledgerSettlement: null,
+  terminalJournal: null,
   closureState: {
     canonLabel: 'persisted closure posture',
     verification: {
@@ -207,11 +209,11 @@ const closureState: TerminalClosureState = {
   canonLabel: 'production workspace posture',
   readReview: {
     id: 'read-review',
-    label: 'Read review before fit search',
-    summary: 'Measured Read accepted for source-to-shares fit search.',
+    label: 'Read review before Finding Fits',
+    summary: 'Measured Read accepted for source-to-shares Finding Fits.',
     metrics: [
       { label: 'Review action', value: 'accept' },
-      { label: 'Fit search admitted', value: 'yes' },
+      { label: 'Finding Fits admitted', value: 'yes' },
     ],
     rows: [{ label: 'Read', value: 'read-auth-rollback' }],
     chips: ['post-measurement-pre-fit', 'source-to-shares'],
@@ -319,6 +321,20 @@ describe('terminal-transaction-detail helpers', () => {
   it('builds identity rows for the selected activity', () => {
     expect(buildTerminalTransactionIdentityRows(selectedTransaction, detail)).toEqual([
       { label: 'Activity id', value: 'tx-001' },
+      { label: 'Activity type', value: 'agentic-execution:asset-pack' },
+      { label: 'Status', value: 'completed' },
+      { label: 'Action lens', value: 'closure' },
+      { label: 'Participant', value: 'n/a' },
+      { label: 'Ownership', value: 'network' },
+      { label: 'Activity summary', value: 'Normalized detail summary.' },
+      { label: 'Proof posture', value: 'proof witness ready' },
+      { label: 'Closure focus', value: 'bounded disclosure' },
+      { label: 'Token total', value: '2,200' },
+      { label: 'Measured BTD', value: '24.5' },
+      { label: 'BTC fee basis', value: '$1.62' },
+      { label: 'Latency', value: '930 ms' },
+      { label: 'History items', value: '5' },
+      { label: 'Event count', value: '3' },
       { label: 'Repository', value: 'bitcode/bitcode' },
       { label: 'Branch', value: 'main' },
       { label: 'Commit', value: 'abc123' },

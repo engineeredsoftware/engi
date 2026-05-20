@@ -53,7 +53,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     if (typeof (llmRegistry as any).setDefaultProvider === 'function') {
       (llmRegistry as any).setDefaultProvider(provider);
     }
-    // Global default for all pipeline executions
+    // Global default for all pipeline runs.
     llmRegistry.configure('*', { model });
     execution.llms.setLLMRegistry(llmRegistry as any);
   } catch (_) {
@@ -109,12 +109,12 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     execution.agents.registerAgent('setup:asset-pack-clone-vcs-repository-agent', cloneAgent);
   } catch {}
   try {
-    const setupPlan = (await import('./agents/setup/asset-pack-setup-plan-agent')).default as any;
-    execution.agents.registerAgent('setup:asset-pack-setup-plan-agent', setupPlan);
+    const setupPlan = (await import('./agents/setup/read-fits-finding-synthesis-setup-plan-agent')).default as any;
+    execution.agents.registerAgent('setup:ReadFitsFindingSynthesisSetupPlanAgent', setupPlan);
   } catch {}
   try {
-    const comprehendAgent = (await import('./agents/setup/asset-pack-comprehend-read-agent')).default as any;
-    execution.agents.registerAgent('setup:asset-pack-comprehend-read-agent', comprehendAgent);
+    const comprehendAgent = (await import('./agents/setup/read-fits-finding-synthesis-read-comprehension-agent')).default as any;
+    execution.agents.registerAgent('setup:ReadFitsFindingSynthesisReadComprehensionAgent', comprehendAgent);
     execution.agents.registerAgent('setup:asset-pack-comprehend-read-definition-agent', comprehendAgent);
   } catch {}
   try {

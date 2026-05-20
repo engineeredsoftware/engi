@@ -15,6 +15,7 @@ const DETAIL_ACTIONS: DetailAction[] = [
   { id: 'closure', label: 'Closure' },
   { id: 'proofs', label: 'Proofs' },
   { id: 'history', label: 'History' },
+  { id: 'journal', label: 'Journal' },
   { id: 'activity', label: 'Execution stream' },
   { id: 'console', label: 'Console' },
 ];

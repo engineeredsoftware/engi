@@ -1,8 +1,8 @@
 import {
-  buildTerminalFitPipelineHarnessStreamSnapshot,
-  buildTerminalFitPipelineHarnessRequest,
-  drainTerminalFitPipelineHarnessSseBuffer,
-  summarizeTerminalFitPipelineHarnessEvent,
+  buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot,
+  buildTerminalReadFitsFindingSynthesisHarnessRequest,
+  drainTerminalReadFitsFindingSynthesisHarnessSseBuffer,
+  summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
 } from '@/app/terminal/terminal-pipeline-harness-client';
 import type { TerminalDepositReadWorkbench } from '@/app/terminal/terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
@@ -61,9 +61,16 @@ const repositoryContext: TerminalRepositoryContextState = {
   },
 };
 
+const acceptedReadNeed = {
+  schema: 'bitcode.read.need',
+  needId: 'need-terminal-test',
+  reviewState: 'accepted',
+  measurementRoot: 'sha256:need-measurement-root',
+};
+
 describe('terminal pipeline harness client', () => {
   it('builds an authenticated live fit harness request from deposited revision and admitted Read evidence', () => {
-    const state = buildTerminalFitPipelineHarnessRequest({
+    const state = buildTerminalReadFitsFindingSynthesisHarnessRequest({
       workbench,
       repositoryContext,
       depositedSourceRevision: {
@@ -74,8 +81,12 @@ describe('terminal pipeline harness client', () => {
         depositAssetId: 'asset-repository-revision',
         hasWalletOrAttestationProof: true,
         hasAssetMeasurementEvidence: true,
+        proofRoot: 'sha256:proof',
+        measurementRoot: 'sha256:measurement',
+        reconciliationReadbackRoot: 'sha256:readback',
       },
       readActivityId: 'read-admission-activity',
+      acceptedReadNeed,
     });
 
     expect(state.ready).toBe(true);
@@ -87,29 +98,59 @@ describe('terminal pipeline harness client', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       sourceGitUrl: 'https://github.com/engineeredsoftware/ENGI.git',
       readId: 'read-admission-activity',
+      acceptedReadNeed,
+      requireAcceptedReadNeed: true,
       depositId: 'deposit-activity',
       depositAssetId: 'asset-repository-revision',
       depositHasWalletOrAttestationProof: true,
       depositHasAssetMeasurementEvidence: true,
+      depositProofRoot: 'sha256:proof',
+      depositMeasurementRoot: 'sha256:measurement',
+      depositReconciliationReadbackRoot: 'sha256:readback',
     });
   });
 
   it('reports missing source-bound evidence before running the live harness', () => {
-    const state = buildTerminalFitPipelineHarnessRequest({
+    const state = buildTerminalReadFitsFindingSynthesisHarnessRequest({
       workbench,
       repositoryContext,
       depositedSourceRevision: null,
       readActivityId: null,
+      acceptedReadNeed: null,
     });
 
     expect(state.ready).toBe(false);
     expect(state.missing).toContain('deposit activity');
     expect(state.missing).toContain('admitted Read activity');
+    expect(state.missing).toContain('accepted Read-Need');
+  });
+
+  it('requires accepted Read-Need review before live Finding Fits run', () => {
+    const state = buildTerminalReadFitsFindingSynthesisHarnessRequest({
+      workbench,
+      repositoryContext,
+      depositedSourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        activityId: 'deposit-activity',
+      },
+      readActivityId: 'read-admission-activity',
+      acceptedReadNeed: {
+        schema: 'bitcode.read.need',
+        needId: 'need-terminal-test',
+        reviewState: 'needs_acceptance',
+        measurementRoot: 'sha256:need-measurement-root',
+      },
+    });
+
+    expect(state.ready).toBe(false);
+    expect(state.missing).toContain('accepted Read-Need');
   });
 
   it('drains server-sent harness events while preserving partial buffers', () => {
     const events: Array<{ event: string; data: unknown }> = [];
-    const tail = drainTerminalFitPipelineHarnessSseBuffer(
+    const tail = drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
       'event: harness-started\ndata: {"repositoryFullName":"engineeredsoftware/ENGI"}\n\nevent: harness-event\ndata: {',
       (event) => events.push(event),
     );
@@ -124,7 +165,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('summarizes completed harness evidence with fit, candidate, telemetry, and ledger posture', () => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent({
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
       event: 'harness-completed',
       data: {
         outcome: 'completed',
@@ -139,7 +180,20 @@ describe('terminal pipeline harness client', () => {
             searchedAssetCount: 1,
           },
           ledgerSettlement: {
-            status: 'blocked',
+            status: 'settled',
+            protectedSourceUnlock: {
+              state: 'licensed_read',
+              sourceAvailable: true,
+            },
+          },
+          sourceSafePreview: {
+            feeQuote: {
+              sats: 546,
+            },
+            unlock: {
+              state: 'licensed_read',
+              sourceAvailable: true,
+            },
           },
         },
       },
@@ -149,13 +203,15 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('fit worthy_fit');
     expect(summary).toContain('searched 1 assets');
     expect(summary).toContain('candidate asset-repository-revision');
-    expect(summary).toContain('ledger blocked');
+    expect(summary).toContain('ledger settled');
+    expect(summary).toContain('fee 546 sats');
+    expect(summary).toContain('source licensed_read');
     expect(summary).toContain('telemetry 72 lines');
   });
 
   it('summarizes command lifecycle harness events for operator debugging', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-event',
         data: { type: 'command-completed', label: 'asset-pack-pipeline-run', exitCode: 0 },
       }),
@@ -164,7 +220,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes route preflight blockers before sandbox creation', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: false,
@@ -179,7 +235,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes staging lane mismatch before sandbox creation', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: true,
@@ -196,7 +252,7 @@ describe('terminal pipeline harness client', () => {
 
   it('does not present missing real inference as a local development blocker when strictness is disabled', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceRequired: false,
@@ -212,7 +268,7 @@ describe('terminal pipeline harness client', () => {
 
   it('summarizes route preflight profile, budget, and database host when unblocked', () => {
     expect(
-      summarizeTerminalFitPipelineHarnessEvent({
+      summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
         event: 'harness-preflight',
         data: {
           realInferenceEnabled: true,
@@ -228,7 +284,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('summarizes live telemetry artifact events with phase, path, and inspected payload shape', () => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent({
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
       event: 'harness-event',
       data: {
         type: 'telemetry-artifact-event',
@@ -239,10 +295,16 @@ describe('terminal pipeline harness client', () => {
           stage: 'asset-pack-synthesis',
           namespace: 'llm',
           key: 'parsedOutput',
-          executionPath: ['asset_pack', 'synthesis', 'thriceified-generation'],
+          executionPath: ['asset_pack', 'synthesis', 'thricified-generation'],
           runId: '2bdcd936-a686-4a10-92e2-9c64cbef4f0e',
           dataKeys: ['parsed'],
           parsedOutputPresent: true,
+          promptTemplatePresent: true,
+          interpolatedPromptPresent: true,
+          reasoningPresent: true,
+          judgmentPresent: true,
+          rawModelResponsePresent: true,
+          parsedTypedOutputPresent: true,
           inspectable: {
             keys: ['resultState', 'assetPack'],
           },
@@ -253,14 +315,20 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('Telemetry line 8');
     expect(summary).toContain('asset-pack-synthesis store');
     expect(summary).toContain('llm.parsedOutput');
-    expect(summary).toContain('path asset_pack > synthesis > thriceified-generation');
+    expect(summary).toContain('path asset_pack > synthesis > thricified-generation');
     expect(summary).toContain('run 2bdcd936-a68...');
     expect(summary).toContain('inspectable resultState, assetPack');
+    expect(summary).toContain('prompt template present');
+    expect(summary).toContain('interpolated prompt present');
+    expect(summary).toContain('reasoning present');
+    expect(summary).toContain('judgment present');
+    expect(summary).toContain('raw response present');
     expect(summary).toContain('parsed output present');
+    expect(summary).toContain('parsed typed output present');
   });
 
   it('summarizes live tool telemetry with tool name, result state, and input/output posture', () => {
-    const summary = summarizeTerminalFitPipelineHarnessEvent({
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
       event: 'harness-event',
       data: {
         type: 'telemetry-artifact-event',
@@ -288,7 +356,7 @@ describe('terminal pipeline harness client', () => {
   });
 
   it('adapts live harness events into the canonical execution stream panel payload', () => {
-    const snapshot = buildTerminalFitPipelineHarnessStreamSnapshot(
+    const snapshot = buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
       [
         {
           event: 'harness-started',
@@ -315,7 +383,17 @@ describe('terminal pipeline harness client', () => {
               },
               inputMessageCount: 2,
               outputContentLength: 1200,
+              promptTemplatePresent: true,
+              interpolatedPromptPresent: true,
+              rawModelResponsePresent: true,
               parsedOutputPresent: true,
+              parsedTypedOutputPresent: true,
+              inferenceAudit: {
+                promptTemplate: { type: 'object', keys: ['templateId'] },
+                interpolatedPrompt: { type: 'object', keys: ['messages'] },
+                rawModelResponse: { type: 'string', length: 1200 },
+                parsedTypedOutput: { type: 'object', keys: ['assetPack'] },
+              },
             },
           },
         },
@@ -370,6 +448,12 @@ describe('terminal pipeline harness client', () => {
           step: 'structured_output',
         },
       },
+    });
+    expect((snapshot.outputDetails[telemetryLine as string] as any).status.metadata.inferenceAudit).toMatchObject({
+      promptTemplate: { type: 'object', keys: ['templateId'] },
+      interpolatedPrompt: { type: 'object', keys: ['messages'] },
+      rawModelResponse: { type: 'string', length: 1200 },
+      parsedTypedOutput: { type: 'object', keys: ['assetPack'] },
     });
     const toolLine = snapshot.output
       .split('\n')

@@ -451,9 +451,9 @@ const auxillariesSections = [
     eyebrow: 'Interfaces',
     title: 'Interface defaults shape how Terminal, conversations, and proofs open',
     summary:
-      'Interfaces owns global model selection, system prompt posture, Exchange detail density, conversation launch behavior, proof read mode, instruction tone, and execution bias.',
+      'Interfaces owns Terminal detail density, non-ledgerized instruction posture, conversation return behavior, proof read mode, instruction tone, and execution bias.',
     detail:
-      'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, which model family anchors work by default, and whether proof readers see visual, mixed, or raw evidence first.',
+      'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, and whether proof readers see visual, mixed, or raw evidence first. Ledgerized Reading keeps protocol-owned model configuration.',
     reason:
       'Configuration becomes teachable when every preference says what operational consequence it has.',
     points: [
@@ -1422,9 +1422,9 @@ export const TERMINAL_ACTION_GUIDES = [
     action: 'Accept, reject, or remeasure Read',
     location: 'Read measurement',
     write:
-      'Choose whether the measured Read is admitted for fit search, rejected, or sent back for remeasurement with feedback.',
+      'Choose whether the measured Read is admitted for Finding Fits, rejected, or sent back for remeasurement with feedback.',
     expectedRead:
-      'Fit search stays blocked until Read review is accepted, and the closure map shows the current review posture.',
+      'Finding Fits stays blocked until Read review is accepted, and the closure map shows the current review posture.',
     proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.readScenarios.summary,
   },
   {

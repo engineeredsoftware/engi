@@ -33,6 +33,9 @@ export type AssetPackHarnessRequest = PipelineHarnessPreflightBody & {
   sourceGitUrl?: string;
   sourceRevision?: string;
   sourceDepth?: number;
+  readNeed?: unknown;
+  acceptedReadNeed?: unknown;
+  requireAcceptedReadNeed?: boolean;
   connectionId?: string | number | null;
   assumeRepositoryPresent?: boolean;
   installDependencies?: boolean;
@@ -78,6 +81,12 @@ const TRUSTED_COMMAND_ENV_KEYS = [
   'BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR',
   'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
   'BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE',
+  'BITCODE_PIPELINE_BTC_NETWORK',
+  'BITCODE_PIPELINE_BTC_FEE_SATS',
+  'BITCODE_PIPELINE_DEPOSITOR_WALLET_ID',
+  'BITCODE_PIPELINE_READER_WALLET_ID',
+  'BITCODE_PIPELINE_WALLET_SESSION_ID',
+  'BITCODE_PIPELINE_BTD_VOLUME',
 ] as const;
 
 const REDACTED_OUTPUT_ENV_KEYS = [
@@ -117,6 +126,8 @@ export async function runAssetPackHarnessRoute(
       sourceCommit: body.sourceCommit,
       readId: body.readId,
       depositId: body.depositId,
+      readNeedId: readNeedId(body.acceptedReadNeed || body.readNeed),
+      requireAcceptedReadNeed: body.requireAcceptedReadNeed !== false,
     });
     emit('harness-preflight', {
       runId: routeRunId,
@@ -151,6 +162,7 @@ export async function runAssetPackHarnessRoute(
         branch: body.sourceBranch!,
         commit: body.sourceCommit!,
       },
+      readNeed: body.acceptedReadNeed || body.readNeed,
       source: body.assumeRepositoryPresent
         ? undefined
         : {
@@ -202,6 +214,17 @@ export async function runAssetPackHarnessRoute(
       });
     }
   }
+}
+
+function readNeedId(value: unknown): string | null {
+  const record = recordValue(value);
+  return typeof record?.needId === 'string' ? record.needId : null;
+}
+
+function recordValue(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : null;
 }
 
 function selectedCommandEnvironment(userId: string): Record<string, string> {
@@ -388,6 +411,14 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
   const ledgerSettlement = output?.ledgerSettlement && typeof output.ledgerSettlement === 'object'
     ? (output.ledgerSettlement as Record<string, unknown>)
     : null;
+  const protectedSourceUnlock = ledgerSettlement?.protectedSourceUnlock && typeof ledgerSettlement.protectedSourceUnlock === 'object'
+    ? (ledgerSettlement.protectedSourceUnlock as Record<string, unknown>)
+    : null;
+  const sourceSafePreview = output?.sourceSafePreview && typeof output.sourceSafePreview === 'object'
+    ? (output.sourceSafePreview as Record<string, unknown>)
+    : record.sourceSafePreview && typeof record.sourceSafePreview === 'object'
+      ? (record.sourceSafePreview as Record<string, unknown>)
+      : null;
   const summarizeCandidate = (candidate: unknown) => {
     if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return null;
     const record = candidate as Record<string, unknown>;
@@ -474,6 +505,23 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
       : null,
     outputKeys: output ? Object.keys(output) : [],
     fitResult: summarizeFitLike(fitResult),
+    sourceSafePreview: sourceSafePreview
+      ? {
+          schema: sourceSafePreview.schema,
+          previewId: sourceSafePreview.previewId,
+          assetPackId: sourceSafePreview.assetPackId,
+          need: sourceSafePreview.need,
+          fit: sourceSafePreview.fit,
+          roots: sourceSafePreview.roots,
+          feeQuote: sourceSafePreview.feeQuote,
+          rangeProjection: sourceSafePreview.rangeProjection,
+          disclosurePolicy: sourceSafePreview.disclosurePolicy,
+          accessPolicy: sourceSafePreview.accessPolicy,
+          settlementBoundary: sourceSafePreview.settlementBoundary,
+          unlock: sourceSafePreview.unlock,
+          delivery: sourceSafePreview.delivery,
+        }
+      : null,
     depositorySearch: depositorySearch
       ? {
           ...summarizeFitLike(depositorySearch),
@@ -501,10 +549,14 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
           btdRange: ledgerSettlement.btdRange,
           ledgerAnchorId: ledgerSettlement.ledgerAnchorId,
           btcFeeReceiptId: ledgerSettlement.btcFeeReceiptId,
+          ownershipEventId: ledgerSettlement.ownershipEventId,
+          readLicenseId: ledgerSettlement.readLicenseId,
+          journalEntryIds: ledgerSettlement.journalEntryIds,
           depositorWalletId: ledgerSettlement.depositorWalletId,
           readerWalletId: ledgerSettlement.readerWalletId,
           btcFee: ledgerSettlement.btcFee,
           ownershipBoundary: ledgerSettlement.ownershipBoundary,
+          protectedSourceUnlock,
           readback: ledgerSettlement.readback,
         }
       : null,

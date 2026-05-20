@@ -142,9 +142,9 @@ describe('Bitcode execution-history write/read parity', () => {
     canonLabel: 'Bitcode active posture',
     readReview: {
       id: 'read-review',
-      label: 'Read review before fit search',
-      summary: 'Measured Read accepted for source-to-shares fit search.',
-      metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+      label: 'Read review before Finding Fits',
+      summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+      metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
       rows: [{ label: 'Review stage', value: 'post-measurement-pre-fit' }],
       chips: ['source-to-shares'],
     },
@@ -368,7 +368,7 @@ describe('Bitcode execution-history write/read parity', () => {
         asset_pack_completion: expect.objectContaining({
           closurePanels: expect.objectContaining({
             readReview: expect.objectContaining({
-              label: 'Read review before fit search',
+              label: 'Read review before Finding Fits',
             }),
           }),
         }),

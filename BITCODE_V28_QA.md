@@ -549,7 +549,7 @@ Automated verification after this implementation pass:
 - `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v27-crypto`: 9 passed after standalone demonstration/package-boundary cleanup.
-- `npm --prefix protocol-demonstration run test:v28-mvp-qa`: 13 passed after adding the boundary-separation and local Need-Fit witness checks.
+- `npm --prefix protocol-demonstration run test:v28-mvp-qa`: 13 passed after adding the boundary-separation and local Finding Fits witness checks.
 - `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/readReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
 - `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`: 2 passed after the formal package split.
 - `pnpm -C packages/protocol test`: 2 passed after the formal package split and protocol runtime-source deployment fix.
@@ -1024,9 +1024,9 @@ Manual steps:
 5. Record the measured Read. Capture the `/api/executions/history` request and
    response; expected status is `201`, and the page must remain in the Read
    chain with a `measured` next-state message.
-6. Admit the measured Read for fit search. Capture the `/api/executions/history`
+6. Admit the measured Read for Finding Fits. Capture the `/api/executions/history`
    request and response; expected status is `201` with
-   `fitSearchAdmission.admitted=true`.
+   `fitsFindingAdmission.admitted=true`.
 7. Record Fit result posture. Capture the `/api/executions/history` request and
    response; expected status is `201`.
 8. If a branch, AssetPack, BTC fee, ledger anchor, or settlement control becomes
@@ -1093,7 +1093,7 @@ Blockers:
   reasons, or explicit blocker.
 - Negative controls produce a confident AssetPack instead of no-worthy-fit or
   clarification.
-- Fit search proceeds before Read review/admission.
+- Finding Fits proceeds before Read review/admission.
 - Pipeline output lacks `fit.resultState`, `fit.resultReasons`, query root, or
   ranking root after the AssetPack pipeline entrypoint reports completion.
 - Pipeline output uses an embedding model or dimensions that do not match the
@@ -1325,7 +1325,7 @@ Pass criteria:
 - For the staging-testnet pass, generation rows must be non-zero
   because `BITCODE_ASSET_PACK_REAL_INFERENCE=1` is required. A completed run
   with zero generation rows is only deterministic bring-up evidence.
-- Parsed/cast generation output is stored when a ThriceifiedGeneration parser
+- Parsed/cast generation output is stored when a ThricifiedGeneration parser
   runs, so operators can compare raw model text with typed Fit/search evidence.
 - Query 03 still shows no AssetPack range, BTC fee, ledger anchor, settlement,
   or finality claim without matching projection rows.
@@ -1357,11 +1357,52 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
 
 | Gate | Scope | Acceptance boundary |
 | --- | --- | --- |
-| Need synthesis review | Split "What is the need?" from Fit search. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, pricing measurement inputs, and a Need measurement root. | User can accept the Need or request resynthesis with feedback. No Fit search, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. The accepted Need id, feedback history, telemetry, and measurement root become the only valid input to Fit search. |
-| Need-Fit search and synthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
+| Need synthesis review | Split "What is the need?" from Finding Fits. The Read request enters a Need pipeline, producing requirements, closure criteria, failure modes, target artifact kinds, proof expectations, pricing measurement inputs, and a Need measurement root. | User can accept the Need or request resynthesis with feedback. No Finding Fits, source preview, BTC fee, or BTD settlement is allowed before Need acceptance. The accepted Need id, feedback history, telemetry, and measurement root become the only valid input to Finding Fits. |
+| ReadFitsFindingSynthesis | Input is the accepted Read-Need, not raw prompt text. The AssetPack synthesis pipeline searches deposited supply, ranks candidates, measures Fit against the Need, and synthesizes the candidate AssetPack. | Result is `worthy_fit`, `no_worthy_fit`, or `blocked_readiness` with query root, ranking root, selected ids, proof/measurement posture, embedding policy, model/tool telemetry, and a source-safe candidate AssetPack id. |
 | Source-safe preview | Show enough proof to decide whether to pay without leaking source. | Preview may show Need/Fit measurements, score bands, roots, candidate ids, proof posture, ownership boundary, settlement boundary, and BTC quote. It must not expose protected AssetPack source before settlement. |
 | Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from `sum(measurement_weight * measurement_volume * admitted_fit_quality)` and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
 | Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to a server-side stream/socket handler or durable queue; the push is run-id correlated, authenticated, idempotent, and durable before sandbox stop. Terminal can reattach and read final state without the starter route waiting. |
+
+2026-05-18 implementation start for the staged Reading gate:
+
+- `@bitcode/pipeline-asset-pack` now owns a typed `bitcode.read.need`
+  contract with `needId`, `measurementRoot`, requirements, closure criteria,
+  failure modes, target artifact kinds, source constraints, proof
+  expectations, pricing measurement inputs, review state, and feedback
+  history.
+- Strict Need-Finding Fits blocks before depository Finding Fits discovery unless an
+  accepted Need is present. The blocked state is explicit
+  `blocked_readiness` with `accepted_read_need_missing`.
+- The depository search path consumes accepted Need source constraints and
+  measurement roots as the Finding Fits input, rather than raw prompt text, when
+  `acceptedReadNeed` is supplied.
+- The Vercel Sandbox harness now lists Need stages in the manifest and
+  synthesizes plus accepts a Need before invoking the existing source-bound
+  AssetPack pipeline. This preserves the current proven staging-testnet path
+  while Terminal is split into user-visible Need review and ReadFitsFindingSynthesis
+  steps.
+- `buildShareToFeePreview` provides the initial source-safe quote shape from
+  accepted Need measurement vector and admitted Fit quality:
+  `sum(measurement.weight * measurement.volume * admitted_fit_quality)`.
+- `/api/read-review` now supports `synthesize_read_need`,
+  `resynthesize_read_need`, and `accept_read_need` actions. The synthesis
+  response includes prompt input, interpolated source context, parsed Need,
+  measurement root, review state, feedback, and telemetry; the acceptance
+  response returns the only admissible `acceptedReadNeed` for Need-Finding Fits.
+- Terminal live harness requests now include `acceptedReadNeed` and
+  `requireAcceptedReadNeed=true`. The live fit button remains blocked until a
+  typed accepted Need is present, even when Deposit and admitted-Read activity
+  rows exist.
+- `buildAssetPackSourceSafePreview` records preview id, AssetPack id, Need/Fit
+  roots, selected candidate ids, score band, deterministic Share-to-Fee quote
+  root, BTD range projection, disclosure policy, access policy id/hash,
+  settlement boundary, and read-right state. The Vercel Sandbox harness exports
+  this object into evidence for Terminal stream readback.
+- Focused validation added for this gate:
+  `pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/read-need.test.ts --runInBand`,
+  `pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand`,
+  and
+  `pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/terminalPipelineHarnessClient.test.ts tests/terminalDepositReadWorkbench.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand`.
 
 Observed staging-testnet harness evidence on 2026-05-17:
 
@@ -1409,7 +1450,7 @@ Later staging-testnet evidence on 2026-05-17 after the no-overlay deployment:
   `engineeredsoftware/ENGI@main:ee1481634c985afbc349f8d8b837cd1c43a254ac`
   reached real model-backed setup execution. Umbrella pipeline run
   `44a05fd7-f337-42cf-ad3c-d4a607d54a2b` and deliverable pipeline run
-  `b1b04a2d-0376-4200-b08c-7936076f2566` failed before candidate recall or
+  `b1b04a2d-0376-4200-b08c-7936076f2566` failed before Finding Fits discovery or
   AssetPack synthesis.
 - Database readback showed real execution progress: 2 setup phase delegation
   rows, 16 agent-step rows, 72 model-generation rows, 1634 deliverable pipeline
@@ -1480,7 +1521,7 @@ manifest-bound Deposit evidence root fixes:
   flags, with no manual `BITCODE_SANDBOX_DEPOSIT_*_ROOT` overrides. The harness
   materialized manifest-bound `proofRoot`, `measurementRoot`, and
   `reconciliationReadbackRoot` values before pipeline execution.
-- Pipeline run `3b3339b4-5695-46fa-9ce4-2163c7eb1f11` reached candidate recall,
+- Pipeline run `3b3339b4-5695-46fa-9ce4-2163c7eb1f11` reached Finding Fits discovery,
   model-backed setup, model-backed Read comprehension, model-backed synthesis,
   `pipeline-complete`, and `ledger-settlement-readback`.
 - The pipeline selected the proof-bearing candidate `manual-deposit-qa`,
@@ -1632,7 +1673,7 @@ manifest-bound Deposit evidence root fixes:
   `pnpm -C packages/agent-generics exec tsc --noEmit --pretty false`,
   `pnpm -C packages/pipelines-generics test`,
   `pnpm -C packages/pipelines-generics exec tsc --noEmit --pretty false`,
-  `pnpm -C packages/pipelines/asset-pack test -- setup-agents discovery-semantic-mirrors depository-search depository-search-tool asset-pack-synthesize-artifacts-agent runtime-inference-policy bounded-structured-inference`,
+  `pnpm -C packages/pipelines/asset-pack test -- setup-agents discovery-semantic-mirrors depository-search depository-search-tool read-fits-finding-synthesis-asset-pack-synthesis-agent runtime-inference-policy bounded-structured-inference`,
   `pnpm -C packages/pipelines/asset-pack exec tsc --noEmit --pretty false`,
   `pnpm -C packages/pipeline-hosts test -- asset-pack-harness`,
   `pnpm -C packages/pipeline-hosts exec tsc --noEmit --pretty false`,
@@ -1702,6 +1743,47 @@ manifest-bound Deposit evidence root fixes:
   overlay evidence exists in the harness input, manifest, execution context, or
   `BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED=1`.
 
+2026-05-19 local validation refresh for the same Gate 7 evidence:
+
+- Root `.env.local` remains the local staging-testnet source for local
+  application deployment and points REST and DB readback at project
+  `tkpyosihuouusyaxtbau`. The OpenAI generation lane is pinned to
+  `gpt-4.1-mini`, and the embedding lane is pinned to
+  `text-embedding-3-small` with 1536 dimensions.
+- Direct OpenAI validation succeeded for both chat generation and embeddings.
+  The embedding response returned a 1536-dimensional vector for the configured
+  AssetPack depository policy.
+- Live local `/api/read-review` `synthesize_read_need` completed through the
+  `ReadNeedComprehensionSynthesis` route using real OpenAI inference. The
+  response carried `thricified-generation` mode, `success` status, provider
+  `openai`, model `gpt-4.1-mini`, parsed reasoning, parsed judgment, parsed
+  structured output, a measured `ReadNeed`, and a `sha256:` measurement root.
+- Local `/terminal` browser validation against `pnpm -C uapi dev:staging`
+  rendered all five Reading steps with no error overlay, console errors, or
+  page errors: `Request Read`, `Review synthesized Need`, `Request Fit`,
+  `Review synthesized AssetPack`, and `Buy AssetPack, settle`. The same page
+  rendered both pipeline names,
+  `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`.
+- Real-model parsing now tolerates common non-contract surface variance without
+  weakening typed output: scalar list fields are normalized to arrays, and
+  nonnumeric PTRR confidence/quality labels fail closed to score `0` instead
+  of crashing the route. The typed `ReadNeed` and bounded structured inference
+  tests cover this behavior.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --lookback-hours 72` returned
+  `ready_for_v28_result_review` through REST readback: 11 pipeline rows, 8513
+  deliverable events, 123 phase delegations, 418 agent steps, 122 generations,
+  14 tool executions, and nonzero BTD range, BTC fee, journal, anchor,
+  ownership, read-license, and crypto telemetry rows.
+- `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host
+  tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 72`
+  also returned `ready_for_v28_result_review`. The latest deliverable run is
+  `c38a98cf-403e-4fc7-9c9e-ba615d4af024`, status `completed`, with 695
+  events, 13 phase delegations, 42 agent steps, 5 generations, and 4 tools.
+  The remaining warning is the accepted substitution for the absent generic
+  `phase_executions` table because the canonical deliverable phase hierarchy is
+  populated.
+
 Pass 2C prompt-to-artifact closure audit:
 
 | Requirement | Current artifact/evidence | Gate state |
@@ -1719,7 +1801,7 @@ Pass 2C prompt-to-artifact closure audit:
 | Clean deployed no-overlay run writes and rereads pipeline rows from the populated staging-testnet database. | Latest source-bound run `c38a98cf-403e-4fc7-9c9e-ba615d4af024` completed without source overlay and wrote/read back umbrella pipeline run `13bc9a38-0f94-446f-98d7-14474d13467a`, deliverable stream rows, phases, agent steps, generation rows, and structured tool rows. | closed for current gate |
 | Settlement writes and rereads BTD range, BTC fee, ownership/license, journal, anchor, and crypto telemetry rows. | AssetPack `asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024` was settled with BTD range `[5, 6)`, 546 sat reader BTC fee prepared without server custody, confirmed ledger anchor, depositor ownership event, reader license, crypto telemetry, and four Terminal journal rows. | closed for current gate |
 | Full-profile inference may run for dozens of minutes without route wait. | Scoped as a subsequent V28 gate requiring sandbox-pushed async completion to a server-side stream/socket handler or durable queue. The push must be run-id correlated, authenticated, idempotent, and durable before sandbox stop. | intentionally out of current gate |
-| Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Need-Fit ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |
+| Demonstration remains a self-contained minimal Reading witness. | `protocol-demonstration/src/local-fit-finding.js` now models Need synthesis, Need acceptance, Finding Fits ranking, source-safe preview, and deterministic BTC fee quote without importing product pipeline code. `npm --prefix protocol-demonstration run test:v28-mvp-qa` passes 13 tests. | implemented and tested |
 
 ## 2026-05-13 Staging Deployment Readiness Gate
 
@@ -1987,6 +2069,30 @@ Saved query name: `v28_qa_terminal_03_btd_ledger_after_terminal`
 
 Use `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` after any Terminal action that claims Fit closure, AssetPack minting, BTC fee payment, ledger anchoring, settlement, or reconciliation.
 
+Terminal transaction detail journal diff:
+
+- Open a completed Read/Fit or AssetPack pipeline execution in Terminal and
+  switch `transactionDetail=journal`.
+- Expected payload carriers are `run.ledger_settlement` and
+  `run.terminal_journal` from `/api/executions/history/[runId]`.
+- The Journal section must show ledger observed facts separately from database
+  projected facts and metaphysical canonical facts. Operators should not need
+  the browser Network panel to answer whether journal rows, BTC fee rows,
+  ledger anchors, ownership/license projections, and repair receipts were read.
+- Expected state labels:
+  - `Aligned`: settled status, all readback booleans present, expected journal
+    entries observed, no blocking repairs.
+  - `Retryable`: missing rows or readback while no confirmed/reorged/failed
+    observation blocks the projection.
+  - `Repairable`: reconciliation repair receipts or drift evidence are present
+    and do not require override.
+  - `Approval required`: a confirmed ledger fact contradicts a missing or
+    conflicting database projection.
+  - `Blocked`: reorged/failed finality or a blocking repair receipt prevents
+    unlock.
+- The raw payload accordion remains available for audit, but the default visual
+  state must surface blocking drift reasons and repair receipts directly.
+
 ### Top Chrome Wallet Readiness
 
 Expected V28 behavior:
@@ -1997,3 +2103,140 @@ Expected V28 behavior:
 - a later background revalidation may make the BTC/BTD widget show its own loading posture, but it must not regress to the disconnected CTA while a known wallet exists;
 - client telemetry must include `nav:chrome-identity`, `user-data:fetch-start`, `user-data:read` or `user-data:anonymous-read`, and any fetch failure;
 - server telemetry must include `auxillaries-data:read-start` and `auxillaries-data:read-finish` or `auxillaries-data:read-failed`.
+
+### Gate 11 Finding Fits And Source-Safe Preview QA
+
+Gate 11 local closure proves that `ReadFitsFindingSynthesis` can search the
+depository, preserve every qualifying fit deposit, derive a source-safe preview,
+and expose a deterministic Share-to-Fee quote before Gate 12 settlement unlock.
+
+Required local checks:
+
+```bash
+pnpm run check:v28-gate11
+pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath \
+  src/__tests__/depository-search.test.ts \
+  src/__tests__/read-need.test.ts \
+  src/__tests__/postprocess.test.ts \
+  src/__tests__/depository-search-tool.test.ts \
+  --runInBand --forceExit
+pnpm --filter @bitcode/pipeline-asset-pack typecheck
+```
+
+Expected evidence:
+
+- Finding Fits discovery stores `depository/search.result`,
+  `depository/search.toolTelemetry`, `fit.result`, `fit.selectionTrace`, all
+  threshold-passing `fitDepositAssetIds`, `queryRoot`, `rankingRoot`, and the
+  OpenAI `text-embedding-3-small` embedding policy posture.
+- Tool telemetry uses canonical
+  `ReadFitsFindingSynthesis.tool.lexical-depository-search` and
+  `ReadFitsFindingSynthesis.tool.vector-depository-search` ids. Vector
+  telemetry must at minimum expose the declared vector-store and embedding
+  policy posture until a later gate replaces local lexical fallback with live
+  vector RPC readback.
+- AssetPack postprocess stores `asset-pack/preview.sourceSafe`,
+  `asset-pack/preview.feeQuote`, and `asset-pack/preview.previewRoot` whenever
+  an accepted Need and Finding Fits result are present.
+- The source-safe preview exposes Need/Fit measurements, score band, fit
+  deposit ids, selected candidate ids, roots, proof posture, access policy,
+  ownership boundary, settlement boundary, unlock posture, and BTC quote.
+- The preview must not expose protected source content, full patches,
+  source-bearing manifest entries, licensed read payloads, or PR source changes
+  before settlement. Gate 12 owns paid unlock, rights transfer, and delivery.
+
+### Gate 12 Settlement, Rights, Delivery, And Reconciliation QA
+
+Gate 12 local closure proves that paid AssetPack unlock is derived from typed
+settlement/readback evidence and never from source-safe preview metadata alone.
+
+Required local checks:
+
+```bash
+pnpm run check:v28-gate12
+pnpm --filter @bitcode/btd typecheck
+pnpm --filter @bitcode/btd test
+pnpm --filter @bitcode/pipeline-hosts typecheck
+pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+pnpm --dir uapi exec jest --runTestsByPath \
+  tests/api/pipelineHarnessRoute.test.ts \
+  tests/terminalPipelineHarnessClient.test.ts \
+  tests/terminalDepositReadWorkbench.test.ts \
+  --runInBand
+```
+
+Expected evidence:
+
+- `packages/btd` exports `bitcode.asset-pack.settlement-unlock` construction
+  and preview application helpers. They return `licensed_read` and
+  `sourceAvailable=true` only after settlement is settled/admissible, all
+  required readback keys are true, and required pull-request delivery exists.
+- The sandbox harness applies settlement unlock after ledger settlement
+  readback, stores `asset-pack/settlement.unlock`, and embeds
+  `ledgerSettlement.protectedSourceUnlock` plus the updated source-safe preview
+  in evidence.
+- Route and Terminal stream summaries surface ledger status, fee quote,
+  source-unlock state, read-license id, BTC fee receipt id, and PR target.
+- Missing read-license, BTC fee, ownership, journal, ledger anchor, telemetry,
+  or delivery readback leaves protected source withheld and records the blocking
+  readback key.
+
+### Gate 13 Commercial Product Closure And Promotion Readiness QA
+
+Gate 13 closure proves that V28 is ready for a `version/v28` promotion pull
+request by requiring the final product, demonstration, readback, and promotion
+checks to be executable instead of manually inferred.
+
+Required local checks:
+
+```bash
+pnpm run check:v28-gate13
+npm --prefix protocol-demonstration test
+npm --prefix protocol-demonstration run test:v28-mvp-qa
+pnpm test:qa:v28:pipeline-readback
+pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source rest --lookback-hours 96
+# Optional stricter lane when local network can reach the Supabase Postgres host or pooler:
+pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 96
+node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
+```
+
+Expected evidence:
+
+- The full demonstration proof suite passes with the current proof catalog:
+  V18 proof-member semantic matrix has 736 cells, V18 theorem-evidence matrix
+  has 928 cells, and V26-proven preview records `promotionReady=false` when the
+  active canon pointer is not V26.
+- The V28 MVP demonstration witness remains self-contained and passes its
+  bounded Need/Finding Fits/AssetPack preview tests without importing product
+  packages or UAPI runtime code.
+- The pipeline readback verifier tests prove host mismatch, stale/missing
+  credentials, missing ledger rows, missing tool rows, and failed deliverable
+  runs fail closed; the staging-testnet Data API readback command must report a
+  recent ready run for project `tkpyosihuouusyaxtbau`. DB readback is a stricter
+  optional lane when local network access can reach the Supabase Postgres host
+  or pooler, and it must fail fast with bounded connection/query timeouts rather
+  than hanging gate validation.
+- Gate Quality and V28 Canon Promotion workflows include `check:v28-gate13`,
+  BTD primitive checks, full demonstration tests, readback verifier tests, and
+  the promotion dry-run. Promotion must only write the V28 pointer and generated
+  proof artifacts from a `version/v28` pull request into `main`.
+
+Observed Gate 13 local evidence on 2026-05-20:
+
+- `--readback-source rest --lookback-hours 96` against
+  `tkpyosihuouusyaxtbau.supabase.co` returned
+  `ready_for_v28_result_review`: `pipeline_runs=11`, `stream_logs=11`,
+  `deliverable_pipeline_runs=11`, `deliverable_pipeline_events=8513`,
+  `deliverable_pipeline_phase_delegations=123`,
+  `deliverable_pipeline_agent_steps=418`,
+  `deliverable_pipeline_generations=122`,
+  `deliverable_pipeline_tool_executions=14`,
+  `btd_asset_pack_ranges=6`, `btc_fee_transactions=6`,
+  `btd_terminal_journal_entries=24`,
+  `btd_asset_pack_ledger_anchors=6`, `btd_ownership_events=6`,
+  `btd_read_licenses=6`, and `btd_crypto_telemetry_events=6`.
+  `phase_executions` remains substituted by deliverable phase delegation rows.
+- `--readback-source db --lookback-hours 96` reached the expected DB host but
+  timed out locally at connection/query time. The verifier now fails fast with
+  bounded DB client settings, so this is recorded as local Postgres network
+  reachability rather than a hanging product gate.

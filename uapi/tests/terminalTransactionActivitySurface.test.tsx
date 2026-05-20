@@ -32,11 +32,19 @@ const detail: TerminalRunDetailSnapshot = {
   summary: 'Normalized detail summary.',
   shippables: null,
   repoSnapshot: null,
-  processingStats: null,
+  processingStats: {
+    time: null,
+    tokenTotal: null,
+    measuredBtd: null,
+    btcFeeUsdEquivalent: null,
+    averageLatencyMs: null,
+  },
   proofStatus: 'proof witness ready',
   closureFocus: 'bounded disclosure',
   closureFollowThrough: null,
   closureState: null,
+  ledgerSettlement: null,
+  terminalJournal: null,
   bitcodeActivityState: {
     repositoryAnchor: {
       provider: 'github',

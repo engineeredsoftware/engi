@@ -29,6 +29,7 @@ import TerminalSectionAtlas from './TerminalSectionAtlas';
 import TerminalSurfaceSection from './TerminalSurfaceSection';
 import TerminalSupplySelectionPanel from './TerminalSupplySelectionPanel';
 import TerminalMvpMap from './TerminalMvpMap';
+import TerminalOperationalHealthPanel from './TerminalOperationalHealthPanel';
 import TerminalTransactionWorkspace from './TerminalTransactionWorkspace';
 import TerminalWorkspaceRail from './TerminalWorkspaceRail';
 import {
@@ -315,6 +316,14 @@ export default function TerminalPageClient() {
       depositAssetId: matchingSubmission.candidateAssetId || null,
       hasWalletOrAttestationProof: Boolean(matchingSubmission.candidateAssetId),
       hasAssetMeasurementEvidence: Boolean(matchingSubmission.candidateAssetId),
+      proofRoot: matchingSubmission.depositProofRoot || null,
+      measurementRoot: matchingSubmission.depositMeasurementRoot || null,
+      reconciliationReadbackRoot: matchingSubmission.depositReconciliationReadbackRoot || null,
+      depositorySearchDocumentRoot: matchingSubmission.depositorySearchDocumentRoot || null,
+      lexicalDocumentRoot: matchingSubmission.lexicalDocumentRoot || null,
+      vectorDocumentRoot: matchingSubmission.vectorDocumentRoot || null,
+      depositorWalletId: matchingSubmission.depositorWalletId || null,
+      depositoryIndexState: matchingSubmission.depositoryIndexState || null,
     };
   }, [repositoryContext, runs, showDemonstrationSurfaces]);
   const admittedReadActivityId = useMemo(() => {
@@ -479,6 +488,8 @@ export default function TerminalPageClient() {
           </section>
 
           <TerminalMvpMap />
+
+          <TerminalOperationalHealthPanel />
 
           <div className="grid gap-6">
             <div className="min-w-0">

@@ -24,8 +24,8 @@ test('V18 proof-member semantic matrix executes all canonical member cells', () 
 
   assert.equal(matrix.matrixId, V18_PROOF_MEMBER_MATRIX_ID);
   assert.equal(matrix.sourceRunCount, 16);
-  assert.equal(matrix.cellCount, 720);
-  assert.equal(matrix.passedCellCount, 720);
+  assert.equal(matrix.cellCount, 736);
+  assert.equal(matrix.passedCellCount, 736);
   assert.deepEqual(matrix.failedCells, []);
   assert.deepEqual(matrix.acceptedExclusions, []);
   assertV18MatrixClosed(matrix);
@@ -43,7 +43,7 @@ test('V18 proof-member semantic matrix executes all canonical member cells', () 
     familyCounts.set(cell.proofFamily, (familyCounts.get(cell.proofFamily) || 0) + 1);
   }
 
-  assert.equal(familyCounts.get('settlement-source-to-shares'), 112);
+  assert.equal(familyCounts.get('settlement-source-to-shares'), 128);
   assert.equal(familyCounts.get('static-code-analysis'), 64);
   assert.equal(familyCounts.get('prompt-completeness'), 80);
 });

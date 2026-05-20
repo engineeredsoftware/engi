@@ -47,9 +47,9 @@ describe('terminal-activity-history', () => {
     canonLabel: 'Bitcode active posture',
     readReview: {
       id: 'read-review',
-      label: 'Read review before fit search',
-      summary: 'Measured Read accepted for source-to-shares fit search.',
-      metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+      label: 'Read review before Finding Fits',
+      summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+      metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
       rows: [{ label: 'Review stage', value: 'post-measurement-pre-fit' }],
       chips: ['source-to-shares'],
     },
@@ -147,6 +147,14 @@ describe('terminal-activity-history', () => {
         workbench: null,
         candidateAssetId: 'asset_source_001',
         sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+        depositProofRoot: 'sha256:proof',
+        depositMeasurementRoot: 'sha256:measurement',
+        depositReconciliationReadbackRoot: 'sha256:readback',
+        depositorySearchDocumentRoot: 'sha256:search-doc',
+        lexicalDocumentRoot: 'sha256:lexical-doc',
+        vectorDocumentRoot: 'sha256:vector-doc',
+        depositorWalletId: 'wallet:tb1p-source',
+        depositoryIndexState: 'ready_for_embedding_generation',
       },
       repo_snapshot: {
         org: 'source-org',
@@ -162,6 +170,14 @@ describe('terminal-activity-history', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       contextSource: 'terminal-deposit-composer',
       candidateAssetId: 'asset_source_001',
+      depositProofRoot: 'sha256:proof',
+      depositMeasurementRoot: 'sha256:measurement',
+      depositReconciliationReadbackRoot: 'sha256:readback',
+      depositorySearchDocumentRoot: 'sha256:search-doc',
+      lexicalDocumentRoot: 'sha256:lexical-doc',
+      vectorDocumentRoot: 'sha256:vector-doc',
+      depositorWalletId: 'wallet:tb1p-source',
+      depositoryIndexState: 'ready_for_embedding_generation',
     });
   });
 
@@ -233,7 +249,7 @@ describe('terminal-activity-history', () => {
         ],
         closureCriteria: [
           'deposit evidence is bound to repo, branch, and commit',
-          'read measurement is accepted before fit search',
+          'read measurement is accepted before Finding Fits',
           'fit evidence references the deposited AssetPack candidate',
           'no frontier or mock repository is present',
           'settlement and finality are explicit or blocked with a reason',
@@ -398,7 +414,7 @@ describe('terminal-activity-history', () => {
           canonLabel: 'Bitcode active posture',
           readReview: {
             id: 'read-review',
-            label: 'Read review before fit search',
+            label: 'Read review before Finding Fits',
           },
           verification: {
             id: 'verification',

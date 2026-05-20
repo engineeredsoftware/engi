@@ -6,10 +6,12 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { authenticateMCPRequest, authCache, validatePermissions } from '../../auth/middleware';
 import { createClient } from '@bitcode/supabase';
 import {
+  BtdRegistryModel,
   OrganizationsModel,
   OrganizationMembersModel,
   UserApiKeysModel,
   UserBtdBalancesModel,
+  UserProfilesModel,
   UsersModel
 } from '@bitcode/orm';
 
@@ -22,15 +24,21 @@ jest.mock('@bitcode/orm', () => ({
   UserProfilesModel: jest.fn(),
   UserApiKeysModel: jest.fn(),
   UserBtdBalancesModel: jest.fn(),
+  BtdRegistryModel: jest.fn(),
   OrganizationsModel: jest.fn(),
-  OrganizationMembersModel: jest.fn()
+  OrganizationMembersModel: jest.fn(),
+  readBitcodeWalletBindingFromProfile: jest.fn((profile) => profile?.wallet_binding ?? null)
 }));
 
 const mockGetByKeyHash = jest.fn();
 const mockUpdateLastUsed = jest.fn();
 const mockGetById = jest.fn();
+const mockGetProfileByUserId = jest.fn();
 const mockReadBtdHoldingAmount = jest.fn();
 const mockGetMembership = jest.fn();
+const mockGetAssetPackRange = jest.fn();
+const mockListOwnershipClaims = jest.fn();
+const mockListReadLicenses = jest.fn();
 
 const resetOrmMocks = () => {
   (createClient as jest.Mock).mockReturnValue({ supabase: 'test' });
@@ -44,6 +52,10 @@ const resetOrmMocks = () => {
     getById: mockGetById
   }));
 
+  (UserProfilesModel as unknown as jest.Mock).mockImplementation(() => ({
+    getByUserId: mockGetProfileByUserId
+  }));
+
   (UserBtdBalancesModel as unknown as jest.Mock).mockImplementation(() => ({
     readBtdHoldingAmount: mockReadBtdHoldingAmount
   }));
@@ -54,6 +66,12 @@ const resetOrmMocks = () => {
 
   (OrganizationMembersModel as unknown as jest.Mock).mockImplementation(() => ({
     getMembership: mockGetMembership
+  }));
+
+  (BtdRegistryModel as unknown as jest.Mock).mockImplementation(() => ({
+    getAssetPackRange: mockGetAssetPackRange,
+    listOwnershipClaims: mockListOwnershipClaims,
+    listReadLicenses: mockListReadLicenses
   }));
 };
 
@@ -94,6 +112,12 @@ describe('Authentication Middleware', () => {
           resources: ['read']
         }
       });
+      mockGetProfileByUserId.mockResolvedValue({
+        wallet_binding: {
+          address: 'wallet-operator',
+          status: 'verified'
+        }
+      });
       mockReadBtdHoldingAmount.mockResolvedValue(120);
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
@@ -112,6 +136,7 @@ describe('Authentication Middleware', () => {
         apiKeyName: 'Bitcode Test Key',
         organizationName: 'Bitcode Labs',
         organizationSlug: 'bitcode-labs',
+        walletId: 'wallet-operator',
         btdBalance: 120
       });
       expect(result.context?.permissions.pipelines.create).toBe(true);
@@ -136,6 +161,7 @@ describe('Authentication Middleware', () => {
           full_name: 'Bitcode Operator',
           organization_id: undefined
         });
+      mockGetProfileByUserId.mockResolvedValue(null);
       mockReadBtdHoldingAmount.mockResolvedValue(50);
 
       const first = await authenticateMCPRequest('Bearer key_test123', {
@@ -177,6 +203,7 @@ describe('Authentication Middleware', () => {
         full_name: 'Bitcode Operator',
         organization_id: undefined
       });
+      mockGetProfileByUserId.mockResolvedValue(null);
       mockReadBtdHoldingAmount.mockResolvedValue(50);
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
@@ -191,7 +218,7 @@ describe('Authentication Middleware', () => {
       expect(result.error?.message).toContain('pipelines.create');
     });
 
-    it('fails closed when minimum BTD holding is not satisfied', async () => {
+    it('fails closed when an aggregate minimum BTD holding gate is requested', async () => {
       mockGetByKeyHash.mockResolvedValue({
         id: 'key123',
         user_id: 'user123',
@@ -206,6 +233,7 @@ describe('Authentication Middleware', () => {
         full_name: 'Bitcode Operator',
         organization_id: undefined
       });
+      mockGetProfileByUserId.mockResolvedValue(null);
       mockReadBtdHoldingAmount.mockResolvedValue(10);
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
@@ -214,8 +242,116 @@ describe('Authentication Middleware', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toMatchObject({
-        code: 'INSUFFICIENT_BTD_HOLDING',
-        statusCode: 402
+        code: 'REGISTRY_READ_ACCESS_REQUIRED',
+        statusCode: 403
+      });
+    });
+
+    it('admits MCP requests with registry-derived licensed-read access', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById.mockResolvedValueOnce({
+        id: 'user123',
+        email: 'operator@example.com',
+        full_name: 'Bitcode Operator',
+        organization_id: undefined
+      });
+      mockGetProfileByUserId.mockResolvedValue({
+        wallet_binding: {
+          address: 'wallet-reader',
+          status: 'verified'
+        }
+      });
+      mockReadBtdHoldingAmount.mockResolvedValue(0);
+      mockGetAssetPackRange.mockResolvedValue({
+        asset_pack_id: 'asset-pack-1',
+        range_start: 0,
+        range_end_exclusive: 5,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash'
+      });
+      mockListOwnershipClaims.mockResolvedValue([]);
+      mockListReadLicenses.mockResolvedValue([
+        {
+          license_id: 'license-1',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          access_policy_hash: 'policy-hash',
+          valid_from: '2026-05-01T00:00:00.000Z'
+        }
+      ]);
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        requiredPermissions: { resources: ['read'] },
+        requiredReadAccess: {
+          assetPackId: 'asset-pack-1',
+          at: '2026-05-19T00:00:00.000Z'
+        }
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.context?.btdReadAccess).toEqual([
+        expect.objectContaining({
+          assetPackId: 'asset-pack-1',
+          walletId: 'wallet-reader',
+          decision: 'licensed_read',
+          accessPolicyHash: 'policy-hash'
+        })
+      ]);
+    });
+
+    it('rejects MCP requests without owner-read or licensed-read registry access', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById.mockResolvedValueOnce({
+        id: 'user123',
+        email: 'operator@example.com',
+        full_name: 'Bitcode Operator',
+        organization_id: undefined
+      });
+      mockGetProfileByUserId.mockResolvedValue({
+        wallet_binding: {
+          address: 'wallet-reader',
+          status: 'verified'
+        }
+      });
+      mockReadBtdHoldingAmount.mockResolvedValue(0);
+      mockGetAssetPackRange.mockResolvedValue({
+        asset_pack_id: 'asset-pack-1',
+        range_start: 0,
+        range_end_exclusive: 5,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash'
+      });
+      mockListOwnershipClaims.mockResolvedValue([]);
+      mockListReadLicenses.mockResolvedValue([]);
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        requiredPermissions: { resources: ['read'] },
+        requiredReadAccess: {
+          assetPackId: 'asset-pack-1',
+          at: '2026-05-19T00:00:00.000Z'
+        }
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatchObject({
+        code: 'INSUFFICIENT_BTD_READ_ACCESS',
+        statusCode: 403
       });
     });
   });

@@ -253,7 +253,7 @@ test('V25 proven generator renders a Bitcode-branded appendix with BTD rename cl
   assert.ok(generated.markdown.includes('BTD'));
 });
 
-test('V26 proven generator renders the active Bitcode appendix with all eight gates procedurally closed', () => {
+test('V26 proven generator renders active Bitcode posture without overstating superseded promotion readiness', () => {
   const generated = generateCanonicalProvenMarkdown({
     version: 'V26',
     canonicalCommit: 'draft-v26',
@@ -269,6 +269,23 @@ test('V26 proven generator renders the active Bitcode appendix with all eight ga
   ]);
   assert.equal(generated.data.v26.activeCanonicalTarget, ACTIVE_CANON_VERSION);
   assert.equal(generated.data.v26.draftPreview, ACTIVE_CANON_VERSION !== 'V26');
+
+  if (ACTIVE_CANON_VERSION !== 'V26') {
+    assert.equal(generated.data.v26.checkpointReady, false);
+    assert.equal(generated.data.v26.throughFourthGateReady, false);
+    assert.equal(generated.data.v26.fourthGatePromotedClosed, false);
+    assert.equal(generated.data.v26.throughFourthGatePromotionReady, false);
+    assert.equal(generated.data.v26.promotionReady, false);
+    assert.equal(generated.data.v26.specFamilyReport.passed, false);
+    assert.equal(generated.data.v26.specFamilyReport.mode, 'draft');
+    assert.equal(generated.data.v26.canonicalInputReport.passed, true);
+    assert.equal(generated.data.aggregate.fullyProven, false);
+    assert.ok(generated.markdown.includes('# Bitcode Spec V26 Proven'));
+    assert.ok(generated.markdown.includes('- draftPreview: `true`'));
+    assert.ok(generated.markdown.includes('- promotionReady: `false`'));
+    return;
+  }
+
   assert.equal(generated.data.v26.checkpointReady, true);
   assert.equal(generated.data.v26.throughFourthGateReady, true);
   assert.equal(generated.data.v26.fourthGatePromotedClosed, true);

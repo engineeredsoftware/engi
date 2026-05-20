@@ -44,6 +44,17 @@ helpers used only by the harness are installed under `.bitcode/pipeline-harness`
 so historical deposited source revisions do not need to carry newer harness
 dependencies.
 
+The harness manifest includes the staged Reading boundary. The active stage
+sequence begins with Need synthesis, Need review, and Finding Fits discovery
+before fit deposit ranking and AssetPack synthesis. The live runner synthesizes a
+typed `bitcode.read.need` object from the Read request, source revision, and
+Deposit context, accepts it for the current harness invocation, and passes it
+to the AssetPack pipeline as `acceptedReadNeed` with
+`requireAcceptedReadNeed=true`. Product routes that already have a user-reviewed
+Need should pass that accepted object directly; if strict Finding Fits run is
+requested without an accepted Need, depository discovery must return
+`blocked_readiness` before searching the depository.
+
 Structured database telemetry is part of the harness contract. A real Read/Fit
 pipeline run must write the deliverable hierarchy:
 `deliverable_pipeline_runs`, `deliverable_pipeline_events`,
@@ -51,7 +62,7 @@ pipeline run must write the deliverable hierarchy:
 `deliverable_pipeline_agent_steps`, `deliverable_pipeline_generations`, and
 `deliverable_pipeline_tool_executions`. Generation rows should retain the
 interpolated model messages when available, raw and parsed output, model
-identity, token usage, and phase/agent/step context.
+identity, token usage, and phase/agent/PTRR step context.
 Tool rows are required when PTRR agents request evidence tools. The AssetPack
 pipeline registers `bitcode.asset-pack.verification` as an evidence-only
 verification readback tool for risk-admission and readiness work; a live
@@ -62,11 +73,11 @@ agent asked and what the tool returned. Stored `tools/*` status results from
 finish delivery are tool executions too; branch creation, file writes, and
 pull-request creation must land in the same structured table as explicit
 `tool-use` events. Artifact telemetry must preserve tool name, ok/error state,
-and input/output/error presence so the execution log can identify each
-phase-agent-step tool invocation.
+and input/output/error presence so the log can identify each
+phase-agent-PTRR-step tool invocation.
 Failed runs must still export `evidence.json` with the execution tree and
 last-known stream events so staging operators can see which SDIVF phase, PTRR
-agent, generation, or tool last produced input/output evidence.
+agent, ThricifiedGeneration, or tool last produced input/output evidence.
 The runner subscribes to stream events for artifact telemetry even when database
 streaming is disabled; database streaming adds persistence, not basic event
 visibility.

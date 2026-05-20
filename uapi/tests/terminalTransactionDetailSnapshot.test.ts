@@ -69,6 +69,8 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
         closureFocus: 'read measurement + ledger refresh',
         closureFollowThrough: null,
         closureState: null,
+        ledgerSettlement: null,
+        terminalJournal: null,
         bitcodeActivityState: {
           repositoryAnchor: {
             provider: 'github',
@@ -205,9 +207,9 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
                 canonLabel: 'Bitcode active posture',
                 readReview: {
                   id: 'read-review',
-                  label: 'Read review before fit search',
-                  summary: 'Measured Read accepted for source-to-shares fit search.',
-                  metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+                  label: 'Read review before Finding Fits',
+                  summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+                  metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
                   rows: [
                     { label: 'Review stage', value: 'post-measurement-pre-fit' },
                     { label: 'Protocol focus', value: 'source-to-shares' },
@@ -299,6 +301,47 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
                   paths: ['src/app.ts'],
                 },
               },
+              ledgerSettlement: {
+                status: 'settled',
+                settlementAdmissible: true,
+                reason: 'Rows read back.',
+                assetPackId: 'asset-pack-run-1',
+                btdRange: { start: 0, endExclusive: 1, tokenCount: 1 },
+                ledgerAnchorId: 'ledger-anchor-run-1',
+                btcFeeReceiptId: 'btc-fee-run-1',
+                readback: {
+                  assetPackRange: true,
+                  btcFeeTransaction: true,
+                  ledgerAnchor: true,
+                  terminalJournal: true,
+                },
+                journalEntryIds: ['journal-mint-run-1'],
+              },
+            },
+            terminal_journal: {
+              expectedJournalEntryIds: ['journal-mint-run-1'],
+              entries: [
+                {
+                  journal_entry_id: 'journal-mint-run-1',
+                  transaction_kind: 'asset_pack_mint',
+                  actor_id: 'depositor-wallet',
+                  pre_state_root: 'sha256:before',
+                  post_state_root: 'sha256:after',
+                  receipt_roots: ['sha256:receipt'],
+                  ledger_anchor_ids: ['ledger-anchor-run-1'],
+                  exchange_sequence: 5,
+                  issued_at: '2026-05-18T12:00:00.000Z',
+                },
+              ],
+              repairs: [],
+              ledgerRows: {
+                assetPackRanges: [{ asset_pack_id: 'asset-pack-run-1', access_policy_hash: 'sha256:policy' }],
+                btcFeeTransactions: [{ receipt_id: 'btc-fee-run-1', finality_state: 'prepared' }],
+                ledgerAnchors: [{ anchor_id: 'ledger-anchor-run-1', finality_state: 'confirmed' }],
+                ownershipEvents: [],
+                readLicenses: [],
+              },
+              readErrors: [],
             },
           },
         },
@@ -344,9 +387,9 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
       canonLabel: 'Bitcode active posture',
       readReview: {
         id: 'read-review',
-        label: 'Read review before fit search',
-        summary: 'Measured Read accepted for source-to-shares fit search.',
-        metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+        label: 'Read review before Finding Fits',
+        summary: 'Measured Read accepted for source-to-shares Finding Fits.',
+        metrics: [{ label: 'Finding Fits admitted', value: 'yes' }],
         rows: [
           { label: 'Review stage', value: 'post-measurement-pre-fit' },
           { label: 'Protocol focus', value: 'source-to-shares' },
@@ -397,6 +440,27 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
         },
       ],
       recentHistory: [{ label: 'run-001', summary: 'bitcode/bitcode · completed · credited 2' }],
+    });
+    expect(snapshot.ledgerSettlement).toMatchObject({
+      status: 'settled',
+      assetPackId: 'asset-pack-run-1',
+      readback: {
+        terminalJournal: true,
+      },
+      journalEntryIds: ['journal-mint-run-1'],
+    });
+    expect(snapshot.terminalJournal).toMatchObject({
+      expectedJournalEntryIds: ['journal-mint-run-1'],
+      entries: [
+        {
+          journalEntryId: 'journal-mint-run-1',
+          transactionKind: 'asset_pack_mint',
+          exchangeSequence: 5,
+        },
+      ],
+      ledgerRows: {
+        btcFeeTransactions: [{ receipt_id: 'btc-fee-run-1', finality_state: 'prepared' }],
+      },
     });
     expect(snapshot.historyItemCount).toBe(2);
     expect(snapshot.eventCount).toBe(3);

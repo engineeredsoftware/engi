@@ -27,9 +27,9 @@ export default function GlobalModelSelection({
 }: GlobalModelSelectionProps) {
   return (
     <div className="global-model-selection">
-      <h3>Global Model Selection</h3>
+      <h3>Conversation Model Selection</h3>
       <p className="section-description">
-        Apply a model to all operations or configure individual operations below
+        Scope model preferences to non-ledgerized conversation behavior only
       </p>
       
       <div className="global-model-options">
@@ -87,7 +87,7 @@ export default function GlobalModelSelection({
                 onApplyGlobalModel(model.id);
               }}
             >
-              Apply to All
+              Apply conversation default
             </button>
           </div>
         ))}

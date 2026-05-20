@@ -1,10 +1,29 @@
 import {
   buildLiveTerminalDepositReadWorkbenchSnapshot,
   normalizeTerminalDepositReadWorkbench,
+  TERMINAL_ENTERPRISE_READING_STEPS,
 } from '@/app/terminal/terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
 
 describe('normalizeTerminalDepositReadWorkbench', () => {
+  it('locks the enterprise Reading UX to five reviewable steps', () => {
+    expect(TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.id)).toEqual([
+      'request-read',
+      'review-synthesized-need',
+      'request-fit',
+      'review-synthesized-asset-pack',
+      'buy-asset-pack-settle',
+    ]);
+    expect(TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.label)).toEqual([
+      '1. Request Read',
+      '2. Review synthesized Need',
+      '3. Request Fit',
+      '4. Review synthesized AssetPack',
+      '5. Buy AssetPack, settle',
+    ]);
+    expect(TERMINAL_ENTERPRISE_READING_STEPS).toHaveLength(5);
+  });
+
   it('builds deposit, read, and fit sections from the shell snapshot', () => {
     const workbench = normalizeTerminalDepositReadWorkbench(
       {
@@ -292,6 +311,15 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
       commit: depositedCommit,
       activityId: 'deposit-run-001',
       createdAt: '2026-05-15T13:43:15.359Z',
+      depositAssetId: 'asset_source_001',
+      proofRoot: 'sha256:proof',
+      measurementRoot: 'sha256:measurement',
+      reconciliationReadbackRoot: 'sha256:readback',
+      depositorySearchDocumentRoot: 'sha256:search-doc',
+      lexicalDocumentRoot: 'sha256:lexical-doc',
+      vectorDocumentRoot: 'sha256:vector-doc',
+      depositorWalletId: 'wallet:tb1p-source',
+      depositoryIndexState: 'ready_for_embedding_generation',
     });
     const workbench = normalizeTerminalDepositReadWorkbench(snapshot, repositoryContext);
 
@@ -307,5 +335,17 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
     expect(workbench?.fit.rows.find((row) => row.label === 'Fit result')?.value).toBe('blocked_readiness');
     expect(workbench?.read.summary).toContain(depositedCommit.slice(0, 12));
     expect(workbench?.read.summary).not.toContain(branchHeadCommit.slice(0, 12));
+    expect(workbench?.deposit.metrics.find((metric) => metric.label === 'Source proof roots')?.value).toBe('3');
+    expect(workbench?.deposit.metrics.find((metric) => metric.label === 'Search document roots')?.value).toBe('3');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Deposit asset')?.value).toBe('asset_source_001');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Proof root')?.value).toBe('sha256:proof');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Measurement root')?.value).toBe('sha256:measurement');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Readback root')?.value).toBe('sha256:readback');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Search document root')?.value).toBe('sha256:search-doc');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Vector document root')?.value).toBe('sha256:vector-doc');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Depositor wallet')?.value).toBe('wallet:tb1p-source');
+    expect(workbench?.deposit.rows.find((row) => row.label === 'Depository index')?.value).toBe(
+      'ready_for_embedding_generation',
+    );
   });
 });

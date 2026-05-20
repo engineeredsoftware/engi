@@ -265,7 +265,7 @@ const MarketingFeaturesGrid = () => {
                 <div className={infoCardClass}>
                   <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Measured Read</h4>
                   <p className="text-xs text-gray-400">
-                    Bitcode synthesizes a reviewable Read from repository evidence before any fit search or AssetPack settlement begins.
+                    Bitcode synthesizes a reviewable Read from repository evidence before any Finding Fits or AssetPack settlement begins.
                   </p>
                 </div>
                 <div className={infoCardClass}>
