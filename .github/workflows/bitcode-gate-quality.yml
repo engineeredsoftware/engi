@@ -46,6 +46,7 @@ jobs:
           node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
           node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
+          node scripts/check-v29-gate2-terminal-transaction-read-models.mjs --skip-branch-check
 
       - name: Validate source casing and imports
         run: |
@@ -71,6 +72,8 @@ jobs:
             tests/api/pipelineHarnessRoute.test.ts \
             tests/terminalPipelineHarnessClient.test.ts \
             tests/terminalDepositReadWorkbench.test.ts \
+            tests/terminalTransactionQuery.test.ts \
+            tests/terminalTransactionReadModel.test.ts \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 

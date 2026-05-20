@@ -187,6 +187,7 @@ export default function ExchangePageClient() {
           <TerminalTransactionWorkspace
             runs={runs}
             selectedRun={selectedRun}
+            routeSearchParams={routeSearchParams}
             isLoadingRuns={isLoadingRuns}
             runsError={runsError}
             transactionDataMode={transactionDataMode}

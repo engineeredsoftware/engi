@@ -33,6 +33,10 @@ presenting them as part of Terminal itself.
   Main Terminal activity and selected-result shell.
 - `terminal-transaction-query.ts`
   Route-owned filter, paging, and selected-activity state.
+- `terminal-transaction-read-model.ts`
+  Typed selected-transaction projection for recoverable route hrefs, low-detail
+  operator summary, detail-section availability, and expandable audit posture
+  before raw payload inspection.
 - `terminal-journal-reconciliation.ts` and `TerminalTransactionJournalReconciliationCard.tsx`
   Selected-activity Journal section owner for ledger observations, database
   projections, canonical root facts, repair receipts, and drift state.
@@ -97,6 +101,20 @@ Terminal journal rows and reconciliation repair receipts through
 for audit, but the operator-facing visual state must make retryable,
 repairable, approval-required, blocked, and aligned states distinguishable
 without browser-network inspection.
+
+## V29 transaction-depth checkpoint
+
+The selected activity is now modeled as a `TerminalTransactionReadModel`.
+Terminal must write `transactionId` into the route for the first selectable row
+so a bare `/terminal` load becomes recoverable as soon as live, projected, or
+review-fallback activity exists. Detail focus is carried by `transactionDetail`.
+Former `runId` links are still accepted on read and rewritten on write.
+
+Ordinary operators should read the low-detail model first: summary, proof
+posture, metrics, posture chips, and section availability. Shippables,
+identity, closure, proofs, history, journal, activity stream, and console each
+declare whether they are available, empty, or blocked. Raw payloads remain audit
+material behind expansion, not the normal navigation contract.
 
 ## Related shared systems
 

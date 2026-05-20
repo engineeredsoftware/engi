@@ -35,8 +35,8 @@ import {
   buildTerminalTransactionClosureFollowThrough,
   buildTerminalTransactionClosureRows,
   buildTerminalTransactionIdentityRows,
-  buildTerminalTransactionOverviewMetrics,
 } from './terminal-transaction-detail';
+import { buildTerminalTransactionReadModel } from './terminal-transaction-read-model';
 import { jumpToShellSection } from './terminal-shell-reading';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
 
@@ -61,6 +61,7 @@ interface TerminalTransactionDetailSurfaceProps {
   transactionDataMode: TransactionDataMode;
   detailSection: TerminalTransactionDetailSection;
   onDetailSectionChange: (detailSection: TerminalTransactionDetailSection) => void;
+  routeSearchParams: URLSearchParams;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   surface?: 'terminal' | 'exchange';
 }
@@ -73,6 +74,7 @@ export default function TerminalTransactionDetailSurface({
   transactionDataMode,
   detailSection,
   onDetailSectionChange,
+  routeSearchParams,
   onRecordActivity,
   surface = 'terminal',
 }: TerminalTransactionDetailSurfaceProps) {
@@ -101,36 +103,29 @@ export default function TerminalTransactionDetailSurface({
   const showHistory = detailSection === 'history';
   const showJournal = detailSection === 'journal';
   const showActivity = detailSection === 'activity';
-  const showConsole = detailSection === 'console' && !usesMockTransactions;
+  const transactionReadModel = useMemo(
+    () =>
+      buildTerminalTransactionReadModel({
+        selectedRun,
+        detail,
+        detailSection,
+        dataMode: transactionDataMode,
+        searchParams: routeSearchParams,
+    }),
+    [detail, detailSection, routeSearchParams, selectedRun, transactionDataMode],
+  );
+  const showConsole = detailSection === 'console' && transactionReadModel.activeSection.availability !== 'blocked';
   const selectedActivityNoun =
     surface === 'exchange' ? 'selected Bitcode activity detail' : 'selected Terminal activity result';
-  const activeFocusNoun = surface === 'exchange' ? 'detail focus' : 'result focus';
   const normalizedSummary =
     detail?.summary || `The ${selectedActivityNoun} is loaded.`;
   const sectionSummary = useMemo(() => {
-    if (showTransaction) {
-      return `${normalizedSummary} Activity identity, repository, and timing posture are the active ${activeFocusNoun}.`;
-    }
-    if (showClosure) {
-      return `${normalizedSummary} Closure proof, settlement follow-through, and re-run controls are the active ${activeFocusNoun}.`;
-    }
-    if (showProofs) {
-      return `${normalizedSummary} Proof families and bounded verification posture are the active ${activeFocusNoun}.`;
-    }
-    if (showHistory) {
-      return `${normalizedSummary} Ledger-linked activity history and recent closure continuity are the active ${activeFocusNoun}.`;
-    }
-    if (showJournal) {
-      return `${normalizedSummary} Journal reconciliation, ledger observations, database projections, and root-bound canonical facts are the active ${activeFocusNoun}.`;
-    }
-    if (showActivity) {
-      return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active ${activeFocusNoun}.`;
-    }
-    if (showConsole) {
-      return `${normalizedSummary} The execution console remains available when you read the lower-level witness detail.`;
-    }
-    return `${normalizedSummary} Finish-delivered pull-request Shippables, stored AssetPack evidence, and summary text are the active ${activeFocusNoun}.`;
-  }, [activeFocusNoun, normalizedSummary, showActivity, showClosure, showConsole, showHistory, showJournal, showProofs, showTransaction]);
+    const activeSectionBlocker = transactionReadModel.activeSection.blocker
+      ? ` ${transactionReadModel.activeSection.blocker}`
+      : '';
+    const activeSectionSummary = `${transactionReadModel.activeSection.summary}${activeSectionBlocker}`;
+    return `${normalizedSummary} ${activeSectionSummary}`;
+  }, [normalizedSummary, transactionReadModel.activeSection]);
   const transactionPayload = useMemo(
     () => ({
       transaction: {
@@ -225,7 +220,6 @@ export default function TerminalTransactionDetailSurface({
     );
   }
 
-  const overviewMetrics = buildTerminalTransactionOverviewMetrics(selectedRun, detail);
   const identityRows = buildTerminalTransactionIdentityRows(selectedRun, detail);
   const closureRows = buildTerminalTransactionClosureRows(detail);
 
@@ -296,16 +290,26 @@ export default function TerminalTransactionDetailSurface({
       <div className="grid gap-6">
         <div className="space-y-5">
           <TerminalTransactionDetailHero
-            title={selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type)}
+            title={transactionReadModel.lowDetail.title}
             summary={sectionSummary}
-            proofPosture={detail.proofStatus || 'closure state in flight'}
+            proofPosture={transactionReadModel.lowDetail.proofPosture}
             modeLabel={getTransactionDataModeLabel(transactionDataMode)}
-            metrics={overviewMetrics}
+            metrics={transactionReadModel.lowDetail.metrics}
+            routeHref={surface === 'terminal' ? transactionReadModel.route.href : undefined}
+            activeSectionLabel={transactionReadModel.activeSection.label}
+            activeSectionAvailability={transactionReadModel.activeSection.availability}
+            postureChips={transactionReadModel.lowDetail.postureChips}
             surface={surface}
           />
 
           <TerminalTransactionDetailActionBar
             activeSection={detailSection}
+            detailActions={transactionReadModel.sections.map((section) => ({
+              id: section.id,
+              label: section.label,
+              disabled: section.availability === 'blocked',
+              disabledReason: section.blocker || undefined,
+            }))}
             onChangeSection={onDetailSectionChange}
             onRunClosure={() => {
               void handleRunClosure();

@@ -49,7 +49,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V29.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v29/gate-1-objectives-and-gating` | drafted | V29 family validates in draft mode over active V28 and `check:v29-gate1` passes. |
 | Workflow retargeting | Gate 1 | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | drafted | CI checks V28 active / V29 draft posture instead of stale V27/V28 posture. |
-| Terminal transaction read models | Gate 2 | `uapi/app/terminal`, API execution routes, read-model adapters | pending | Terminal transaction state is URL-addressable, recoverable, and typed. |
+| Terminal transaction read models | Gate 2 | `uapi/app/terminal/terminal-transaction-read-model.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | drafted | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
 | Wallet signer/BTC operations | Gate 3 | `packages/btd`, wallet API, BTC fee route, Terminal wallet UI | pending | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
 | Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack`, `packages/pipeline-hosts`, Terminal stream components | pending | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt telemetry is complete and readable. |
 | AssetPack disclosure rights | Gate 5 | BTD access primitives, AssetPack preview UI, disclosure policy tests | pending | Source-safe preview and paid unlock are proven without source leakage. |
@@ -67,7 +67,8 @@ No `_legacy/` source is active source truth.
 | Gate branch pattern | V29 work happens on `version/v29` or `v29/gate-N-*` branches | drafted |
 | Spec-family shape | V29 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
 | Gate 1 script | `pnpm run check:v29-gate1` fails closed on stale posture or missing gates | drafted |
-| Product implementation gates | Gates 2-9 close Terminal transaction depth with tests and docs | pending |
+| Gate 2 read model | `pnpm run check:v29-gate2` proves typed route-owned Terminal transaction reading | drafted |
+| Product implementation gates | Gates 3-9 close remaining Terminal transaction depth with tests and docs | pending |
 | Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
 
 ## Gate 1 Parity
@@ -92,3 +93,25 @@ No `_legacy/` source is active source truth.
 ## completion condition
 
 Gate 1 is complete when the V29 draft family validates, `check:v29-gate1` passes, workflow posture is V29-aware, README/docs reflect V29 initiation, and the gate branch is committed and pushed for review into `version/v29`.
+
+## Gate 2 Parity
+
+| Requirement | Source evidence | Current V29 judgment |
+| --- | --- | --- |
+| Selected transactions are URL-addressable | `terminal-transaction-query.ts`, `TerminalPageClient.tsx` | drafted |
+| Detail focus is typed and recoverable | `terminal-transaction-read-model.ts`, `TerminalTransactionDetailActionBar.tsx` | drafted |
+| Low-detail read model exists before raw payloads | `terminal-transaction-read-model.ts`, `TerminalTransactionDetailHero.tsx` | drafted |
+| Section navigation exposes availability and blockers | `terminal-transaction-read-model.ts`, `TerminalTransactionDetailSurface.tsx` | drafted |
+| Console is blocked outside live execution-history mode | `terminal-transaction-read-model.ts`, UAPI read-model tests | drafted |
+| Gate 2 checker is wired to package scripts and CI | `scripts/check-v29-gate2-terminal-transaction-read-models.mjs`, `package.json`, gate workflow | drafted |
+
+## Gate 2 accepted boundaries
+
+- Gate 2 does not implement wallet signing, PSBT, broadcast, reorg, or replacement depth.
+- Gate 2 does not implement deeper Reading pipeline telemetry; Gate 4 owns that work.
+- Gate 2 does not expose protected AssetPack source before settlement.
+- Gate 2 does not add versioned API routes or source identifiers.
+
+## Gate 2 completion condition
+
+Gate 2 is complete when Terminal selected transaction state rewrites recoverable URLs, a typed read model drives detail navigation and low-detail summaries, focused tests pass, `check:v29-gate2` passes, CI invokes the checker, docs name the implemented source surfaces, and the gate branch is committed and pushed for review into `version/v29`.

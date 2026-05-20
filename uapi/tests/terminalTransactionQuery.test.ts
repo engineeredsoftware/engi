@@ -6,6 +6,7 @@ import {
   readTerminalTransactionId,
   readTerminalTransactionPagination,
   resetTerminalTransactionFilters,
+  shouldRecoverTerminalTransactionRoute,
   writeTerminalDebugEnabled,
   writeTerminalEnvironmentMode,
   writeTerminalTransactionDetailSection,
@@ -105,6 +106,33 @@ describe('terminal-transaction-query', () => {
     expect(nextParams.get('transactionId')).toBe('tx-456');
     expect(nextParams.get('runId')).toBeNull();
     expect(nextParams.get('provider')).toBe('github');
+  });
+
+  it('decides when Terminal should recover selected transaction route state', () => {
+    expect(
+      shouldRecoverTerminalTransactionRoute({
+        transactionIds: ['tx-1', 'tx-2'],
+        selectedTransactionId: null,
+      }),
+    ).toBe(true);
+    expect(
+      shouldRecoverTerminalTransactionRoute({
+        transactionIds: ['tx-1', 'tx-2'],
+        selectedTransactionId: 'tx-missing',
+      }),
+    ).toBe(true);
+    expect(
+      shouldRecoverTerminalTransactionRoute({
+        transactionIds: ['tx-1', 'tx-2'],
+        selectedTransactionId: 'tx-2',
+      }),
+    ).toBe(false);
+    expect(
+      shouldRecoverTerminalTransactionRoute({
+        transactionIds: [],
+        selectedTransactionId: null,
+      }),
+    ).toBe(false);
   });
 
   it('reads and writes transaction pagination through route query state', () => {

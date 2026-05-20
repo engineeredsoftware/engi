@@ -52,6 +52,7 @@ For a simplified reading of V29:
 
 2. **Gate 2: Terminal Transaction Read Models And Navigation**
    - Build URL-addressable Terminal transaction state, typed read models, default-low-detail navigation, and expandable detail panes.
+   - Acceptance detail: selected transactions must recover through `transactionId`, detail focus must recover through `transactionDetail`, the first selectable row must write itself into a bare Terminal URL, and the operator-facing model must expose section summaries and blockers before raw payloads.
 
 3. **Gate 3: Wallet Signer Session And BTC Fee Operations**
    - Deepen signer-session recovery, BTC fee quote, PSBT handoff, broadcast, replacement, reorg, failure, and blocked-readiness states.
@@ -88,6 +89,22 @@ Gate 1 accepted evidence:
 - `BITCODE_SPEC.txt` remains `V28`.
 - workflows and README describe V28 active / V29 draft posture.
 - `pnpm run check:v29-gate1` validates branch, posture, workflow, docs, and spec-family shape.
+
+## Gate 2 working notes
+
+Gate 2 closes the first product-source V29 slice.
+Its read model is intentionally not a new protocol primitive and not a versioned API route.
+It is the Terminal projection that lets operators recover, share, and inspect a selected transaction without depending on browser network logs or raw JSON.
+
+The low-detail default should answer:
+
+- which transaction is selected;
+- whether the selected detail section is available, empty, or blocked;
+- where to navigate next inside the transaction;
+- which facts are proof, ledger, database, delivery, or execution facts;
+- whether deeper audit payloads exist behind an expansion.
+
+The detailed view may still carry raw payload accordions for audit, but the ordinary collapsed view must be typed and readable.
 
 ## Later-version boundaries
 
