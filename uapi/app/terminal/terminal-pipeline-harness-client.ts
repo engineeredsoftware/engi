@@ -585,6 +585,7 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
     const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
     const feeQuote = recordValue(sourceSafePreview?.feeQuote);
+    const unlock = recordValue(sourceSafePreview?.unlock) || recordValue(ledgerSettlement?.protectedSourceUnlock);
     const fitState = String(fitResult?.resultState || evidence?.resultState || 'unknown');
     const searchedAssetCount = depositorySearch?.searchedAssetCount;
     const ledgerStatus = ledgerSettlement?.status
@@ -600,6 +601,11 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const feeQuoteText = typeof feeQuote?.sats === 'number'
       ? ` fee ${feeQuote.sats} sats`
       : null;
+    const unlockText = unlock?.sourceAvailable === true
+      ? ` source ${String(unlock.state || 'available')}`
+      : unlock?.state
+        ? ` source ${String(unlock.state)}`
+        : null;
     const searchText = typeof searchedAssetCount === 'number'
       ? ` searched ${searchedAssetCount} assets`
       : ' searched asset count unknown';
@@ -610,6 +616,7 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       selectedCandidateText,
       ledgerStatus,
       feeQuoteText,
+      unlockText,
       telemetryText,
     ].filter(Boolean).join('; ') + '.';
   }

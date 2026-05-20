@@ -180,11 +180,19 @@ describe('terminal pipeline harness client', () => {
             searchedAssetCount: 1,
           },
           ledgerSettlement: {
-            status: 'blocked',
+            status: 'settled',
+            protectedSourceUnlock: {
+              state: 'licensed_read',
+              sourceAvailable: true,
+            },
           },
           sourceSafePreview: {
             feeQuote: {
               sats: 546,
+            },
+            unlock: {
+              state: 'licensed_read',
+              sourceAvailable: true,
             },
           },
         },
@@ -195,8 +203,9 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('fit worthy_fit');
     expect(summary).toContain('searched 1 assets');
     expect(summary).toContain('candidate asset-repository-revision');
-    expect(summary).toContain('ledger blocked');
+    expect(summary).toContain('ledger settled');
     expect(summary).toContain('fee 546 sats');
+    expect(summary).toContain('source licensed_read');
     expect(summary).toContain('telemetry 72 lines');
   });
 

@@ -9,8 +9,10 @@ import {
   BtdFungibleMutationRejectedError,
   BTD_MAX_MINTABLE_SUPPLY,
   BITCODE_FEE_ASSET,
+  applyAssetPackSettlementUnlockToPreview,
   assertBtdAccessPolicyTemplateCoverage,
   assertBtdMintableSupplyLimit,
+  buildAssetPackSettlementUnlock,
   buildBtdReadAccessProjectionFromRegistryRows,
   calculateLlmBtcFeeEstimate,
   calculateMeasuredBtdFromTokens,
@@ -41,6 +43,97 @@ describe('calculateLlmBtcFeeEstimate', () => {
     expect(() =>
       calculateLlmBtcFeeEstimate('unknown-model', { inputTokens: 10, outputTokens: 10 }),
     ).toThrow();
+  });
+});
+
+describe('AssetPack settlement unlock', () => {
+  const completeReadback = {
+    semanticMeasurement: true,
+    measureMintReceipt: true,
+    assetPackRange: true,
+    btdCell: true,
+    ownershipEvent: true,
+    readLicense: true,
+    mintReceipt: true,
+    btcFeeTransaction: true,
+    ledgerAnchor: true,
+    terminalJournal: true,
+    cryptoTelemetry: true,
+  };
+
+  it('unlocks protected source only after settlement, readback, license, and delivery agree', () => {
+    const unlock = buildAssetPackSettlementUnlock({
+      ledgerSettlement: {
+        status: 'settled',
+        settlementAdmissible: true,
+        assetPackId: 'asset-pack-1',
+        ledgerAnchorId: 'ledger-anchor-1',
+        btcFeeReceiptId: 'btc-fee-1',
+        ownershipEventId: 'ownership-1',
+        readLicenseId: 'license-1',
+        depositorWalletId: 'wallet-depositor',
+        readerWalletId: 'wallet-reader',
+        readback: completeReadback,
+      },
+      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+    });
+
+    expect(unlock).toMatchObject({
+      schema: 'bitcode.asset-pack.settlement-unlock',
+      state: 'licensed_read',
+      sourceAvailable: true,
+      settlementAdmissible: true,
+      deliveryAvailable: true,
+      assetPackId: 'asset-pack-1',
+      readLicenseId: 'license-1',
+      btcFeeReceiptId: 'btc-fee-1',
+      missingReadbackKeys: [],
+    });
+
+    const preview = applyAssetPackSettlementUnlockToPreview(
+      {
+        accessPolicy: { readRightState: 'pending_settlement' },
+        unlock: { state: 'pending_settlement', sourceAvailable: false },
+        delivery: { pullRequestTarget: null, availableAfterSettlement: true },
+      },
+      unlock,
+    );
+
+    expect(preview).toMatchObject({
+      accessPolicy: { readRightState: 'licensed_read' },
+      unlock: {
+        state: 'licensed_read',
+        sourceAvailable: true,
+      },
+      delivery: {
+        pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+      },
+      settlementUnlock: unlock,
+    });
+  });
+
+  it('keeps protected source withheld when any settlement readback key is missing', () => {
+    const unlock = buildAssetPackSettlementUnlock({
+      ledgerSettlement: {
+        status: 'settled',
+        settlementAdmissible: true,
+        assetPackId: 'asset-pack-1',
+        readLicenseId: 'license-1',
+        readback: {
+          ...completeReadback,
+          readLicense: false,
+        },
+      },
+      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+    });
+
+    expect(unlock).toMatchObject({
+      state: 'pending_settlement',
+      sourceAvailable: false,
+      settlementAdmissible: false,
+      missingReadbackKeys: ['readLicense'],
+    });
+    expect(unlock.reason).toContain('readLicense');
   });
 });
 

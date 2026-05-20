@@ -196,6 +196,16 @@ boundary, settlement boundary, and BTC quote before settlement. Gate 12 remains
 responsible for paid unlock, rights transfer, ledger reconciliation, and PR
 delivery.
 
+Gate 12 closure narrows the two Gate 12 carryforward rows to paid-unlock
+readiness: settlement must produce a typed
+`bitcode.asset-pack.settlement-unlock` decision from ledger settlement evidence,
+readback booleans, and delivery posture. Protected source can become available
+only when BTC fee, BTD range, ownership event, read-license row, mint receipt,
+ledger anchor, Terminal journal, crypto telemetry, and pull-request delivery
+read back together. Terminal must show the unlock state, read-license id, BTC
+fee receipt id, ledger status, and PR target without treating unpaid preview
+metadata as source access.
+
 ## V28 implementation matrix
 
 | Area | Current source evidence | Judgment | Gate owner |

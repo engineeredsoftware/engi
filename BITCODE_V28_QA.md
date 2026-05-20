@@ -2144,3 +2144,39 @@ Expected evidence:
 - The preview must not expose protected source content, full patches,
   source-bearing manifest entries, licensed read payloads, or PR source changes
   before settlement. Gate 12 owns paid unlock, rights transfer, and delivery.
+
+### Gate 12 Settlement, Rights, Delivery, And Reconciliation QA
+
+Gate 12 local closure proves that paid AssetPack unlock is derived from typed
+settlement/readback evidence and never from source-safe preview metadata alone.
+
+Required local checks:
+
+```bash
+pnpm run check:v28-gate12
+pnpm --filter @bitcode/btd typecheck
+pnpm --filter @bitcode/btd test
+pnpm --filter @bitcode/pipeline-hosts typecheck
+pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+pnpm --dir uapi exec jest --runTestsByPath \
+  tests/api/pipelineHarnessRoute.test.ts \
+  tests/terminalPipelineHarnessClient.test.ts \
+  tests/terminalDepositReadWorkbench.test.ts \
+  --runInBand
+```
+
+Expected evidence:
+
+- `packages/btd` exports `bitcode.asset-pack.settlement-unlock` construction
+  and preview application helpers. They return `licensed_read` and
+  `sourceAvailable=true` only after settlement is settled/admissible, all
+  required readback keys are true, and required pull-request delivery exists.
+- The sandbox harness applies settlement unlock after ledger settlement
+  readback, stores `asset-pack/settlement.unlock`, and embeds
+  `ledgerSettlement.protectedSourceUnlock` plus the updated source-safe preview
+  in evidence.
+- Route and Terminal stream summaries surface ledger status, fee quote,
+  source-unlock state, read-license id, BTC fee receipt id, and PR target.
+- Missing read-license, BTC fee, ownership, journal, ledger anchor, telemetry,
+  or delivery readback leaves protected source withheld and records the blocking
+  readback key.

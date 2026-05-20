@@ -171,6 +171,7 @@ export * from './reconciliation';
 export * from './replay';
 export * from './revenue';
 export * from './semantic-volume';
+export * from './settlement';
 export * from './supply';
 export * from './telemetry';
 export * from './terminal-journal';

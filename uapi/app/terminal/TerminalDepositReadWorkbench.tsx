@@ -283,6 +283,9 @@ export default function TerminalDepositReadWorkbench({
   const sourceSafePreview = objectValue(completedHarnessEvidence?.sourceSafePreview);
   const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
   const previewFeeQuote = objectValue(sourceSafePreview?.feeQuote);
+  const protectedSourceUnlock =
+    objectValue(sourceSafePreview?.unlock) ||
+    objectValue(ledgerSettlement?.protectedSourceUnlock);
   const settledReadback = ledgerSettlement?.status === 'settled';
   const pullRequestDelivered = settledReadback && Boolean(textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget));
   const activeReadingStage: ReadingStageId = pullRequestDelivered
@@ -745,6 +748,9 @@ export default function TerminalDepositReadWorkbench({
                 { label: 'Range projection', value: objectValue(sourceSafePreview?.rangeProjection)?.tokenCount ? `${String(objectValue(sourceSafePreview?.rangeProjection)?.tokenCount)} cells` : 'pending' },
                 { label: 'Ledger', value: textValue(ledgerSettlement?.status) || 'pending' },
                 { label: 'Access', value: textValue(objectValue(sourceSafePreview?.accessPolicy)?.readRightState) || 'pending settlement' },
+                { label: 'Unlock', value: protectedSourceUnlock?.sourceAvailable === true ? 'source available' : textValue(protectedSourceUnlock?.state) || 'withheld' },
+                { label: 'Read license', value: shortIdentifier(ledgerSettlement?.readLicenseId) || 'pending' },
+                { label: 'BTC fee', value: shortIdentifier(ledgerSettlement?.btcFeeReceiptId) || 'pending' },
                 { label: 'PR target', value: textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget) || 'pending' },
               ].map((row) => (
                 <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
