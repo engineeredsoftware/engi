@@ -157,6 +157,9 @@ The V29 domain model extends V28 operationally:
 - `FindingFitsResult`: all threshold-passing fit deposits, search roots, ranking roots, blockers, no-worthy-fit posture, and selected synthesis context.
 - `AssetPackPreview`: source-safe measurements, quality score, disclosure policy, access policy, fee quote, range projection, and protected-source lock.
 - `SettlementUnlock`: BTC fee proof, BTD range/read-license/right transfer, paid disclosure decision, delivery admission, and reconciliation state.
+- `BtcFeeQuote`: deterministic BTC fee quote with quote root, measurement root, purpose, network, sats, pricing version, expiration, and lifecycle state.
+- `WalletSignerSessionRecovery`: signer-session posture proving whether the Reader wallet can sign a PSBT without server custody.
+- `BtcFeeOperationPosture`: operational state over quote, signer, PSBT, broadcast, finality, replacement, reorg, failure, and blocked readiness.
 - `TerminalTransaction`: URL-addressable activity combining execution, pipeline, agent, tool, prompt, ledger, database, delivery, and proof state.
 - `TerminalTransactionReadModel`: typed operator projection of a selected `TerminalTransaction`, including route state, active detail section, low-detail summary, section availability, expandable audit posture, and source-safe raw-payload boundary.
 
@@ -191,13 +194,36 @@ The Terminal transaction read model must contain:
 - selected transaction identity, activity type, lens, status, participant, repository, branch, timing, and proof posture;
 - route state with canonical hrefs for each section and with the former `runId` carrier removed on write;
 - low-detail default summary, metrics, and posture chips sufficient for ordinary operation without opening raw JSON;
-- section read models for Shippables, identity, closure, proofs, history, journal, activity stream, and console;
+- section read models for Shippables, identity, Wallet/BTC, closure, proofs, history, journal, activity stream, and console;
 - explicit section availability: available, empty, or blocked with an operator-readable reason;
 - expandable detail metadata preserving row counts, metric counts, payload availability, and target DOM section ids;
 - a source-safe disclosure boundary: protected AssetPack source is never displayed before settlement, and raw payloads remain audit detail rather than the default operator contract.
 
 The model is deterministic from execution history, detail readback, route query state, and data mode.
 It must tolerate partial live readback by preserving a fallback selected-run projection while naming empty or blocked sections.
+
+## V29 Wallet/BTC operation canon
+
+Wallet and BTC fee state is an ordinary Terminal transaction surface, not an opaque settlement footnote.
+The canonical wallet/BTC operation model is owned by `packages/btd` and projected by Terminal.
+
+The operation model must contain:
+
+- quote lifecycle: quoted, accepted, expired, superseded, and failed;
+- deterministic quote root over quote id, purpose, network, sats, measurement root, issue time, and expiration;
+- signer recovery: missing, prepared authorization required, stored authorization requiring live reconnect, expired, revoked, failed, network mismatch, capability missing, server-custody rejected, or live authorized;
+- PSBT handoff: accepted quote prepares a PSBT; the wallet signs; the signed PSBT broadcasts;
+- finality states: prepared, signed, broadcast, confirmed, replaced, reorged, and failed;
+- blocked-readiness receipts naming the blocker id, summary, required action, quote id, wallet session id, receipt id, and no-server-custody posture;
+- Terminal read rows and metrics for state, network, sats, confirmations, quote root, wallet session, payer wallet, PSBT handoff, txid, server custody, and next action.
+
+No server component may custody the Reader private key.
+Server-side routes may prepare receipts, validate proofs, serialize quote/posture evidence, and persist registry rows only when explicitly requested.
+They must not claim signature, broadcast, finality, settlement unlock, or rights transfer without matching receipt and readback evidence.
+
+The Terminal Wallet/BTC section is source-safe before settlement.
+It may reveal quote roots, state labels, txids, and readiness blockers.
+It may not expose protected AssetPack source, wallet secrets, provider tokens, or private signing material.
 
 ## V29 canonical subsystem surfaces
 
@@ -265,10 +291,10 @@ It must tolerate partial live readback by preserving a fallback selected-run pro
 
 - Current canonical objects and emitted artifacts: BTC fee quote, PSBT, payment observation, settlement unlock, BTD range, source-to-shares, journal entry, ledger anchor, reconciliation report.
 - Current algorithms and derivation rules: Share-to-Fee pricing is deterministic from measurement weights and measurement volume; BTC fee payment gates protected-source unlock and read-license/right transfer.
-- Current invariants and fail-closed conditions: settlement conservation drift, missing payment proof, stale fee quote, reorg, replacement, broadcast failure, or custody ambiguity blocks finality.
-- Current proof obligations: quote root, PSBT state, txid or blocked-readiness receipt, ledger anchor, source-to-shares report, and reconciliation result.
-- Current source-bearing implementation basis: `packages/btd` fee/range/journal/reconciliation primitives, UAPI settlement routes, Terminal payment UI, and Supabase projections.
-- Current validating commands and parity basis: BTD tests, settlement route tests, staging ledger/database readback, and V29 gate checks.
+- Current invariants and fail-closed conditions: settlement conservation drift, missing payment proof, stale fee quote, unaccepted quote, missing signer capability, reorg, replacement, broadcast failure, or custody ambiguity blocks finality.
+- Current proof obligations: quote root, signer recovery state, PSBT state, txid or blocked-readiness receipt, ledger anchor, source-to-shares report, and reconciliation result.
+- Current source-bearing implementation basis: `packages/btd` fee/range/journal/reconciliation primitives, UAPI settlement routes, Terminal Wallet/BTC section, and Supabase projections.
+- Current validating commands and parity basis: BTD tests, settlement route tests, Terminal wallet/BTC tests, staging ledger/database readback, and V29 gate checks.
 - Current accepted boundaries: value-bearing mainnet stays outside V29 unless separately approved.
 
 ### Proof contract, witnesses, and replay

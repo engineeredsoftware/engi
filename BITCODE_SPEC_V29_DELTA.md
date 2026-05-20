@@ -99,6 +99,16 @@ Closure acceptance:
 
 Gate 3 owns wallet connection depth, signer-session recovery, BTC fee quote lifecycle, PSBT handoff, broadcast/finality/replacement/reorg/failure states, blocked-readiness receipts, and no server-custody posture.
 
+Closure acceptance:
+
+- `packages/btd` defines `BtcFeeQuote`, `WalletSignerSessionRecovery`, `BtcFeeBlockedReadinessReceipt`, and `BtcFeeOperationPosture`.
+- BTC fee quotes have deterministic quote roots, accepted/expired/superseded/failed lifecycle transitions, BTC-only fee asset, and measurement-root pricing posture.
+- Signer recovery distinguishes missing, prepared, stored reconnect, expired, revoked, failed, network mismatch, capability missing, server-custody rejected, and live authorized states.
+- BTC fee operation posture maps accepted quote, PSBT-ready, signed, broadcast, confirmed, replaced, reorged, failed, and blocked states into next actions and settlement booleans.
+- The BTC fee API serializes operation posture and accepts JSON-safe quote carriers without mutating registry rows unless explicitly requested.
+- Terminal adds a Wallet/BTC transaction detail section with source-safe metrics, rows, blockers, quote root, signer session, PSBT handoff, txid, finality, and server-custody posture.
+- Gate-quality CI runs the Gate 3 checker plus BTD operation and Terminal Wallet/BTC tests.
+
 ### Gate 4: Reading Transaction Recovery And Pipeline Observability
 
 Gate 4 owns deep Terminal visibility over `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`, including execution, phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, output, and typed parse telemetry.

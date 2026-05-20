@@ -47,6 +47,7 @@ jobs:
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
           node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
           node scripts/check-v29-gate2-terminal-transaction-read-models.mjs --skip-branch-check
+          node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs --skip-branch-check
 
       - name: Validate source casing and imports
         run: |
@@ -62,6 +63,7 @@ jobs:
       - name: Test gate packages
         run: |
           pnpm --filter @bitcode/btd test
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
 
@@ -74,6 +76,7 @@ jobs:
             tests/terminalDepositReadWorkbench.test.ts \
             tests/terminalTransactionQuery.test.ts \
             tests/terminalTransactionReadModel.test.ts \
+            tests/terminalWalletBtcOperation.test.ts \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 

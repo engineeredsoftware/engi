@@ -56,6 +56,7 @@ For a simplified reading of V29:
 
 3. **Gate 3: Wallet Signer Session And BTC Fee Operations**
    - Deepen signer-session recovery, BTC fee quote, PSBT handoff, broadcast, replacement, reorg, failure, and blocked-readiness states.
+   - Acceptance detail: BTC quote lifecycle and signer recovery are package-owned primitives; API responses expose JSON-safe operation posture; Terminal exposes Wallet/BTC as a route-owned transaction detail section with blockers before raw payloads.
 
 4. **Gate 4: Reading Transaction Recovery And Pipeline Observability**
    - Make `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` execution telemetry fully readable in Terminal at execution, phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, raw output, and parsed output levels.
@@ -105,6 +106,19 @@ The low-detail default should answer:
 - whether deeper audit payloads exist behind an expansion.
 
 The detailed view may still carry raw payload accordions for audit, but the ordinary collapsed view must be typed and readable.
+
+## Gate 3 working notes
+
+Gate 3 makes wallet and BTC fee operation readable and typed before the later settlement-repair gate.
+
+Accepted Gate 3 posture:
+
+- BTC fee quote lifecycle and quote-root derivation live in `packages/btd`.
+- Signer-session recovery is explicit and never implies server custody.
+- PSBT, signed, broadcast, confirmed, replaced, reorged, failed, and blocked readiness are represented as operation posture, not prose-only route errors.
+- The BTC fee API can serialize the operation posture and normalize JSON-safe quote carriers.
+- Terminal has a Wallet/BTC detail section so fee readiness is visible before raw ledger payload inspection.
+- Gate 3 does not implement settlement reconciliation repair; Gate 6 owns drift repair and ledger/database reconciliation action depth.
 
 ## Later-version boundaries
 

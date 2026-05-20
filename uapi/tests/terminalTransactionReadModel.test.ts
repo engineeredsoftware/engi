@@ -78,7 +78,14 @@ const detail: TerminalRunDetailSnapshot = {
     btcFeeReceiptId: null,
     depositorWalletId: 'wallet-depositor',
     readerWalletId: 'wallet-reader',
-    btcFee: null,
+    btcFee: {
+      receiptId: 'btc-fee-1',
+      finalityState: 'broadcast',
+      network: 'testnet',
+      satsPaid: '1200',
+      walletSessionId: 'wallet-session-1',
+      serverCustody: false,
+    },
     ownershipBoundary: null,
     readback: { assetPackRange: true },
     journalEntryIds: ['journal-1'],
@@ -136,6 +143,11 @@ describe('terminal transaction read model', () => {
       id: 'proofs',
       availability: 'available',
       factFamily: 'proof',
+    });
+    expect(model.sections.find((section) => section.id === 'wallet-btc')).toMatchObject({
+      label: 'Wallet/BTC',
+      availability: 'available',
+      factFamily: 'wallet',
     });
   });
 

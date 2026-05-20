@@ -36,7 +36,11 @@ import {
   buildPostBtdReadAccessRoute,
   buildPostBtdTerminalJournalRoute,
 } from '../btd-crypto';
-import { createBtdMeasureMintState } from '@bitcode/btd';
+import {
+  advanceBtcFeeQuote,
+  buildBtcFeeQuote,
+  createBtdMeasureMintState,
+} from '@bitcode/btd';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
 
@@ -57,6 +61,23 @@ function walletSessionInput() {
     },
     authorizedAt: issuedAt,
   };
+}
+
+function acceptedFeeQuote() {
+  return advanceBtcFeeQuote(
+    buildBtcFeeQuote({
+      quoteId: 'quote-api-1',
+      feePurpose: 'asset_pack_anchor',
+      network: 'signet',
+      sats: 1200n,
+      satsPerVbyte: 4,
+      measurementRoot: 'measurement-root-api-1',
+      relatedAssetPackId: 'asset-pack-api-1',
+      issuedAt,
+      expiresAt: '2026-05-06T01:00:00.000Z',
+    }),
+    { state: 'accepted' },
+  );
 }
 
 function mintDraftInput() {
@@ -511,6 +532,7 @@ describe('BTD crypto API builders', () => {
       receiptId: 'btc-fee-api-1',
       feePurpose: 'asset_pack_anchor',
       payerSession: walletSessionInput(),
+      feeQuote: acceptedFeeQuote(),
       psbt: 'cHNidP8BAHECAAAAA',
       satsPaid: 1200n,
       satsPerVbyte: 4,
@@ -546,6 +568,12 @@ describe('BTD crypto API builders', () => {
     expect(prepared.receipt.feeAsset).toBe('BTC');
     expect(prepared.receipt.walletAuthorizationProof.proofKind).toBe('message_signature');
     expect(prepared.receipt.exchangeSequence).toBe(11n);
+    expect(prepared.operationPosture).toMatchObject({
+      phase: 'psbt_ready',
+      canSignPsbt: true,
+      noServerCustody: true,
+      quote: { quoteId: 'quote-api-1' },
+    });
     expect(prepared.terminalJournalEntry.transactionKind).toBe('btc_fee_payment');
     expect(confirmed.receipt.txid).toBe('btc-txid-api-1');
     expect(confirmed.receipt.confirmations).toBe(2);
@@ -915,6 +943,10 @@ describe('BTD crypto API builders', () => {
           receiptId: 'btc-fee-api-1',
           feePurpose: 'asset_pack_anchor',
           payerSession: walletSessionInput(),
+          feeQuote: {
+            ...acceptedFeeQuote(),
+            sats: '1200',
+          },
           psbt: 'cHNidP8BAHECAAAAA',
           satsPaid: '1200',
           satsPerVbyte: 4,
@@ -933,6 +965,14 @@ describe('BTD crypto API builders', () => {
     expect(body.receipt.feeAsset).toBe('BTC');
     expect(body.receipt.serverCustody).toBe(false);
     expect(body.receipt.exchangeSequence).toBe('11');
+    expect(body.operationPosture).toMatchObject({
+      phase: 'psbt_ready',
+      canSignPsbt: true,
+      quote: {
+        quoteId: 'quote-api-1',
+        sats: '1200',
+      },
+    });
     expect(body.committed).toBe(true);
     expect(insertBtcFeeTransaction).toHaveBeenCalledWith(
       expect.objectContaining({

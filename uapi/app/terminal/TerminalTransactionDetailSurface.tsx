@@ -23,6 +23,7 @@ import TerminalTransactionHistoryCard from './TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from './TerminalTransactionIdentityCard';
 import TerminalTransactionJournalReconciliationCard from './TerminalTransactionJournalReconciliationCard';
 import TerminalTransactionProofsCard from './TerminalTransactionProofsCard';
+import TerminalTransactionWalletBtcCard from './TerminalTransactionWalletBtcCard';
 import {
   buildTerminalClosureAssetPackCompletion,
   readTerminalRouteError,
@@ -37,6 +38,7 @@ import {
   buildTerminalTransactionIdentityRows,
 } from './terminal-transaction-detail';
 import { buildTerminalTransactionReadModel } from './terminal-transaction-read-model';
+import { buildTerminalWalletBtcOperationProjection } from './terminal-wallet-btc-operation';
 import { jumpToShellSection } from './terminal-shell-reading';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
 
@@ -98,6 +100,7 @@ export default function TerminalTransactionDetailSurface({
   const shellReady = Boolean(controls);
   const showShippables = detailSection === 'shippables';
   const showTransaction = detailSection === 'transaction';
+  const showWalletBtc = detailSection === 'wallet-btc';
   const showClosure = detailSection === 'closure';
   const showProofs = detailSection === 'proofs';
   const showHistory = detailSection === 'history';
@@ -188,6 +191,10 @@ export default function TerminalTransactionDetailSurface({
   const journalReconciliation = useMemo(
     () => buildTerminalJournalReconciliation(detail),
     [detail],
+  );
+  const walletBtcOperation = useMemo(
+    () => buildTerminalWalletBtcOperationProjection({ selectedRun, detail }),
+    [detail, selectedRun],
   );
   const writtenAssets = detail?.writtenAssets || null;
   const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
@@ -330,6 +337,12 @@ export default function TerminalTransactionDetailSurface({
               payload={transactionPayload}
             />
           </div>
+
+          {showWalletBtc ? (
+            <div id="terminalTransactionWalletBtc">
+              <TerminalTransactionWalletBtcCard operation={walletBtcOperation} />
+            </div>
+          ) : null}
 
           {showShippables && mergedAssetPackSurface ? (
             <section

@@ -22,8 +22,10 @@ import {
   type AssetPackExchangeOrderKind,
   type AssetPackRightsTransferReceipt,
   type BtcFeeFinalityState,
+  type BtcFeeOperationPosture,
   type DatabaseProjectedFact,
   type BtcFeePurpose,
+  type BtcFeeQuote,
   type BtcFeeTransactionReceipt,
   type LedgerObservedFact,
   type LedgerFinalityState,
@@ -55,6 +57,9 @@ import {
   buildV27CryptoTelemetryRecord,
   buildPreparedAssetPackLedgerAnchor,
   buildPreparedBtcFeeTransactionReceipt,
+  buildBtcFeeOperationPosture,
+  assertBtcFeeQuote,
+  assertBtcFeeQuoteActive,
   buildLicensedReadRevenueRoute,
   buildPlannedBtdProtocolUpgradeReceipt,
   buildTerminalJournalEntry,
@@ -203,6 +208,7 @@ export interface BtdBtcFeeTransactionInput {
   relatedAssetPackId?: string;
   relatedOrderId?: string;
   previousReceipt?: BtcFeeTransactionReceipt;
+  feeQuote?: BtcFeeQuote;
   txid?: string;
   vout?: number;
   observedFinalityState?: Exclude<BtcFeeFinalityState, 'prepared' | 'signed'>;
@@ -358,6 +364,7 @@ export interface BtdBtcFeeTransactionSettlement {
   actorId: string;
   action: BtdBtcFeeTransactionAction;
   receipt: BtcFeeTransactionReceipt;
+  operationPosture: BtcFeeOperationPosture;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   registryWrite?: Awaited<ReturnType<BtdRegistryModel['insertBtcFeeTransaction']>>;
   committed: boolean;
@@ -715,7 +722,15 @@ export function buildBtdBtcFeeTransactionSettlement(
 ): Omit<BtdBtcFeeTransactionSettlement, 'registryWrite' | 'committed'> {
   const actorId = assertNonEmptyString(input.actorId, 'actorId');
   const issuedAt = input.issuedAt ?? new Date().toISOString();
-  const receipt = buildBtcFeeReceiptForAction(input);
+  const feeQuote = normalizeBtcFeeQuote(input.feeQuote);
+  const receipt = buildBtcFeeReceiptForAction({ ...input, feeQuote, issuedAt });
+  const payerSession = input.payerSession ? normalizeWalletSignerSession(input.payerSession) : undefined;
+  const operationPosture = buildBtcFeeOperationPosture({
+    quote: feeQuote,
+    receipt,
+    payerSession,
+    at: issuedAt,
+  });
   const terminalJournalEntry = buildTerminalJournalEntry({
     journalEntryId: stableId('terminal-btd-btc-fee', [
       receipt.receiptId,
@@ -745,6 +760,7 @@ export function buildBtdBtcFeeTransactionSettlement(
     actorId,
     action: input.action,
     receipt,
+    operationPosture,
     terminalJournalEntry,
   };
 }
@@ -1605,6 +1621,19 @@ function buildBtcFeeReceiptForAction(
         throw new Error('BTC fee prepare requires terminalJournalRoot.');
       }
 
+      if (input.feeQuote) {
+        const feeQuote = assertBtcFeeQuoteActive(input.feeQuote, input.issuedAt);
+        if (feeQuote.state !== 'accepted') {
+          throw new Error('BTC fee prepare requires an accepted feeQuote.');
+        }
+        if (feeQuote.feePurpose !== input.feePurpose) {
+          throw new Error('BTC fee quote purpose does not match prepare input.');
+        }
+        if (feeQuote.sats !== BigInt(input.satsPaid)) {
+          throw new Error('BTC fee quote sats do not match prepare input.');
+        }
+      }
+
       return buildPreparedBtcFeeTransactionReceipt({
         receiptId: input.receiptId,
         feePurpose: input.feePurpose,
@@ -1856,6 +1885,17 @@ function normalizeBtcFeeTransactionReceipt(
     satsPaid: BigInt(receipt.satsPaid),
     exchangeSequence: BigInt(receipt.exchangeSequence),
     serverCustody: false,
+  });
+}
+
+function normalizeBtcFeeQuote(quote: BtcFeeQuote | undefined): BtcFeeQuote | undefined {
+  if (!quote) {
+    return undefined;
+  }
+
+  return assertBtcFeeQuote({
+    ...quote,
+    sats: BigInt(quote.sats),
   });
 }
 

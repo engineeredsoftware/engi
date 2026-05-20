@@ -16,6 +16,7 @@ export type TerminalTransactionSectionAvailability = 'available' | 'empty' | 'bl
 export type TerminalTransactionFactFamily =
   | 'delivery'
   | 'identity'
+  | 'wallet'
   | 'settlement'
   | 'proof'
   | 'ledger'
@@ -85,6 +86,13 @@ const SECTION_DEFINITIONS: Array<{
     targetId: 'terminalTransactionTransaction',
     summary: 'Transaction identity, route selection, repository, participant, and timing facts.',
     factFamily: 'identity',
+  },
+  {
+    id: 'wallet-btc',
+    label: 'Wallet/BTC',
+    targetId: 'terminalTransactionWalletBtc',
+    summary: 'Wallet signer session, BTC fee quote, PSBT handoff, broadcast, finality, and blocked readiness.',
+    factFamily: 'wallet',
   },
   {
     id: 'closure',
@@ -214,6 +222,22 @@ function resolveSectionAvailability({
       metricCount: 4,
       rowCount: detail ? 8 : 5,
       payloadAvailable: Boolean(detail),
+    };
+  }
+
+  if (sectionId === 'wallet-btc') {
+    const hasWalletBtc =
+      Boolean(detail?.ledgerSettlement?.btcFee) ||
+      Boolean(detail?.ledgerSettlement?.btcFeeReceiptId) ||
+      Boolean(detail?.ledgerSettlement?.ownershipBoundary);
+    return {
+      availability: hasWalletBtc ? 'available' : 'empty',
+      blocker: hasWalletBtc
+        ? null
+        : 'No wallet signer session, BTC fee quote, PSBT, or finality readback is attached yet.',
+      metricCount: 4,
+      rowCount: hasWalletBtc ? 8 : 0,
+      payloadAvailable: hasWalletBtc,
     };
   }
 
