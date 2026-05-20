@@ -762,9 +762,15 @@ describe('BTD crypto API builders', () => {
     });
 
     expect(settlement.report.blocking).toBe(true);
+    expect(settlement.report.state).toBe('approval_required');
     expect(settlement.report.repairs[0].repairKind).toBe('ledger_finality_state');
+    expect(settlement.report.repairs[0].repairActionKind).toBe('update_finality_state');
+    expect(settlement.report.proofRoots.repairPlanRoot).toMatch(/^btd-proof-root:repair-plan:/);
     expect(settlement.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
     expect(settlement.terminalJournalEntry.transactionKind).toBe('ledger_database_reconciliation');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(
+      settlement.report.proofRoots.repairPlanRoot,
+    );
   });
 
   it('builds deployment readiness, telemetry, and upgrade settlements', () => {
@@ -1230,6 +1236,15 @@ describe('BTD crypto API builders', () => {
               private: true,
             },
           ],
+          settlementConservationChecks: [
+            {
+              checkId: 'settlement-conservation-api-1',
+              expectedDebitSats: 1000,
+              observedDebitSats: 1000,
+              expectedCreditSats: 1000,
+              observedCreditSats: 900,
+            },
+          ],
           commitToRegistry: true,
           issuedAt,
         }),
@@ -1240,6 +1255,8 @@ describe('BTD crypto API builders', () => {
     expect(response.status).toBe(200);
     expect(body.kind).toBe('btd_ledger_database_reconciliation_settlement');
     expect(body.report.blocking).toBe(true);
+    expect(body.report.state).toBe('blocked');
+    expect(body.report.driftKindCounts.settlement_conservation_drift).toBe(1);
     expect(body.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
     expect(body.committed).toBe(true);
     expect(insertReconciliationRepair).toHaveBeenCalledWith(

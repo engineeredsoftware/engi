@@ -18,6 +18,7 @@ import {
   calculateMeasuredBtdFromTokens,
   evaluateBtdReadAccess,
   listBtdAccessPolicyTemplates,
+  reconcileLedgerDatabaseProjection,
 } from '../src';
 
 describe('calculateLlmBtcFeeEstimate', () => {
@@ -184,6 +185,74 @@ describe('BTD access policy templates', () => {
         'marketplace royalty',
       ]),
     );
+  });
+});
+
+describe('ledger/database reconciliation repair', () => {
+  it('classifies drift, emits repair actions, and preserves proof roots', () => {
+    const report = reconcileLedgerDatabaseProjection({
+      reconciliationId: 'reconciliation-gate6',
+      ledgerFacts: [
+        {
+          factId: 'anchor-1',
+          ledgerRoot: 'ledger-root-1',
+          finalityState: 'confirmed',
+        },
+      ],
+      databaseFacts: [
+        {
+          factId: 'anchor-1',
+          projectedLedgerRoot: 'stale-root',
+          projectedFinalityState: 'broadcast',
+        },
+        {
+          factId: 'orphan-projection-1',
+          projectedLedgerRoot: 'orphan-root',
+          projectedFinalityState: 'confirmed',
+        },
+      ],
+      settlementConservationChecks: [
+        {
+          checkId: 'settlement-check-1',
+          expectedDebitSats: 1000,
+          observedDebitSats: 1000,
+          expectedCreditSats: 1000,
+          observedCreditSats: 900,
+          feeQuoteRoot: 'fee-quote-root',
+          paymentReceiptRoot: 'payment-receipt-root',
+        },
+      ],
+      metaphysicalFacts: [
+        {
+          factId: 'encrypted-source-pointer',
+          factKind: 'encrypted_storage_pointer',
+          canonicalRoot: 'encrypted-storage-root',
+          private: true,
+        },
+      ],
+      issuedAt: '2026-05-20T12:00:00.000Z',
+    });
+
+    expect(report.state).toBe('blocked');
+    expect(report.blocking).toBe(true);
+    expect(report.driftKindCounts).toMatchObject({
+      ledger_root_mismatch: 1,
+      ledger_finality_mismatch: 1,
+      database_orphan_projection: 1,
+      settlement_conservation_drift: 1,
+    });
+    expect(report.repairs.map((repair) => repair.repairActionKind)).toEqual(
+      expect.arrayContaining([
+        'project_ledger_fact',
+        'update_finality_state',
+        'quarantine_database_projection',
+        'pause_settlement_unlock',
+      ]),
+    );
+    expect(report.repairActions).toHaveLength(report.repairs.length);
+    expect(report.repairActions.every((action) => action.proofRoot.startsWith('btd-proof-root:'))).toBe(true);
+    expect(report.proofRoots.repairPlanRoot).toMatch(/^btd-proof-root:repair-plan:/);
+    expect(report.settlementConservation.status).toBe('drifted');
   });
 });
 

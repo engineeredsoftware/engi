@@ -140,6 +140,16 @@ Closure acceptance:
 
 Gate 6 owns ledger/database/metaphysical separation, journal diffing, reconciliation repair actions, proof-root surfacing, settlement conservation drift handling, and delivery recovery.
 
+Closure acceptance:
+
+- `@bitcode/btd` reconciliation reports carry `state`, `driftKindCounts`, `repairActions`, deterministic proof roots, and settlement conservation status while preserving private metaphysical canonical facts.
+- Projection repair receipts classify missing database projections, ledger-root mismatches, ledger-finality mismatches, database-only orphan projections, and settlement conservation drift.
+- Repair actions use canonical action kinds: retry database readback, project ledger fact, update finality state, quarantine database projection, pause settlement unlock, and recover delivery.
+- The Vercel Sandbox pipeline harness records `ledgerDatabaseReconciliation` evidence after settlement/readback and emits reconciliation state plus repair-action counts in telemetry.
+- Terminal journal detail renders drift classes, blocking reasons, ledger observed facts, database projected facts, metaphysical canonical facts, Terminal journal entries, repair actions, proof roots, and repair receipts without requiring browser-network inspection.
+- Focused BTD, API, pipeline-harness, and Terminal tests prove repair classification, conservation drift blocking, delivery recovery visibility, and proof-root projection.
+- `check:v29-gate6` and the gate-quality workflow fail closed when Gate 6 specification, implementation, tests, or workflow wiring is missing.
+
 ### Gate 7: Organization Permissions And Interface Authority
 
 Gate 7 owns organization holdings, roles, read-license usage, registry-derived permission decisions, MCP/ChatGPT action authority alignment, and Terminal permission explainers.

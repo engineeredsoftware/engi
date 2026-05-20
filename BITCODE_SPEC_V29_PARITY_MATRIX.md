@@ -53,7 +53,7 @@ No `_legacy/` source is active source truth.
 | Wallet signer/BTC operations | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, BTC fee route, Terminal Wallet/BTC detail section, BTD and UAPI tests, Gate 3 checker | drafted | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
 | Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | drafted | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
 | AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | drafted | Source-safe preview and paid unlock are proven without protected-source leakage. |
-| Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, Terminal repair UI | pending | Ledger, database, and metaphysical state drift is visible and repairable. |
+| Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, sandbox harness settlement evidence, Terminal repair UI, Gate 6 checker | drafted | Ledger, database, and metaphysical state drift is classified, proof-rooted, repair-actioned, and visible. |
 | Organization permission authority | Gate 7 | access policy, org holdings, MCP/ChatGPT gates, Terminal permission UI | pending | Registry-derived roles, holdings, and read-license authority govern actions. |
 | Commercial formalization | Gate 8 | packages/protocol, package tests, import scans, docs | pending | Demonstration-origin commercial internals are package-native and no runtime demo imports remain. |
 | Terminal UX quality | Gate 9 | Playwright/Jest/a11y/responsive/browser QA | pending | Complete transaction cockpit is usable by default and inspectable in detail. |
@@ -182,6 +182,31 @@ Gate 4 is complete when Reading pipeline observability is package-owned, stream 
 
 - Gate 5 does not reveal protected AssetPack source before settlement.
 - Gate 5 does not perform settlement reconciliation repair; Gate 6 owns ledger/database drift and repair.
+
+## Gate 6 Parity
+
+Gate 6 closes the settlement reconciliation slice by making drift ordinary data instead of hidden operator guesswork.
+
+Accepted surfaces:
+
+- `packages/btd/src/reconciliation.ts` is the canonical reconciliation primitive for ledger observed facts, database projected facts, private metaphysical canonical facts, settlement conservation checks, projection repair receipts, repair actions, drift-kind counts, report state, and proof roots.
+- `packages/api/src/routes/btd-crypto.ts` accepts settlement conservation checks and binds reconciliation proof roots into the Terminal journal entry for reconciliation settlements.
+- `packages/pipeline-hosts/src/asset-pack-harness.ts` stores `asset-pack/settlement.ledgerDatabaseReconciliation`, includes it in evidence, and streams reconciliation state/repair-action count after ledger readback.
+- `uapi/app/terminal/terminal-journal-reconciliation.ts` projects the selected transaction into observed facts, projected facts, canonical facts, drift classes, blocking reasons, repair actions, proof roots, and repair receipts.
+- `uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx` renders the above as a low-detail operator surface with raw payload still available behind expansion.
+
+Accepted failure states:
+
+- Confirmed ledger facts missing from database projection require operator-approved projection repair.
+- Reorged or failed fee/anchor finality blocks settlement unlock.
+- Database-only orphan projection blocks until quarantined or matched to a ledger observation.
+- BTC fee settlement conservation drift blocks unlock and delivery.
+- Post-settlement missing pull-request delivery produces a delivery recovery action without exposing protected source.
+
+Gate 6 completion condition:
+
+- `pnpm run check:v29-gate6` passes.
+- Focused BTD, API, pipeline-hosts, and UAPI tests prove repair classification, conservation drift, proof roots, and Terminal repair visibility.
 - Gate 5 does not implement organization authority beyond read-right state distinctions; Gate 7 owns registry-derived roles and holdings.
 - Gate 5 does not add browser proof or full UX polish; Gate 9 owns that surface.
 - Gate 5 does not add versioned API routes or source identifiers.

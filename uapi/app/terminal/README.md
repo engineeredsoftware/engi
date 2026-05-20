@@ -132,6 +132,15 @@ prompt/tool/schema posture, and result shape. Expanded metadata remains the
 place for prompt templates, interpolated prompts, raw model responses, parsed
 typed outputs, tool inputs/outputs, and harness evidence coverage.
 
+The Journal section is also the settlement reconciliation repair cockpit.
+It must distinguish ledger-observed facts, database-projected facts, and
+metaphysical canonical root facts; classify drift; show blocking reasons;
+surface repair actions; list proof roots; and keep repair receipts readable.
+BTC fee conservation drift blocks unlock, confirmed ledger facts missing from
+database projection require approval, and settled transactions with missing
+pull-request delivery surface delivery recovery without exposing protected
+AssetPack source before payment.
+
 ## Related shared systems
 
 - [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)

@@ -67,6 +67,7 @@ jobs:
           node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs --skip-branch-check
           node scripts/check-v29-gate4-reading-pipeline-observability.mjs --skip-branch-check
           node scripts/check-v29-gate5-assetpack-disclosure-rights.mjs --skip-branch-check
+          node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs --skip-branch-check
 
       - name: Validate source casing and imports
         run: |
@@ -76,6 +77,7 @@ jobs:
       - name: Type-check gate packages
         run: |
           pnpm --filter @bitcode/btd typecheck
+          pnpm --filter @bitcode/api build
           pnpm --filter @bitcode/pipeline-asset-pack typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
 
@@ -84,6 +86,8 @@ jobs:
           pnpm --filter @bitcode/btd test
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
+          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand
@@ -99,6 +103,8 @@ jobs:
             tests/terminalTransactionQuery.test.ts \
             tests/terminalTransactionReadModel.test.ts \
             tests/terminalWalletBtcOperation.test.ts \
+            tests/terminalJournalReconciliation.test.ts \
+            tests/terminalTransactionDetailCards.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 

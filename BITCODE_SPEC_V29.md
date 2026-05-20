@@ -225,6 +225,43 @@ The Terminal Wallet/BTC section is source-safe before settlement.
 It may reveal quote roots, state labels, txids, and readiness blockers.
 It may not expose protected AssetPack source, wallet secrets, provider tokens, or private signing material.
 
+## V29 settlement reconciliation repair canon
+
+Settlement reconciliation is an ordinary Terminal workflow, not an after-action database debug task.
+The canonical report is produced from:
+
+- ledger observed facts: fee receipts, ledger anchors, journal entries, BTD ranges, ownership events, read licenses, and finality state;
+- database projected facts: the Supabase readback rows that claim those ledger facts are durable in the application projection;
+- private metaphysical canonical facts: protected source metadata, need/fit context, access policy documents, encrypted storage pointers, disputes, and telemetry context represented only by roots;
+- settlement conservation checks: BTC debit/credit and fee/payment roots that must conserve before unlock;
+- delivery evidence: post-settlement pull-request visibility and recovery posture.
+
+Drift is classified before repair:
+
+- `missing_database_projection`: the ledger has a fact that the database projection has not read back;
+- `ledger_root_mismatch`: the database projection points at a different root than the ledger observation;
+- `ledger_finality_mismatch`: the projected finality differs from the observed finality;
+- `database_orphan_projection`: the database projects a fact that has no matching ledger observation;
+- `settlement_conservation_drift`: BTC debit/credit or fee/payment accounting does not conserve.
+
+Repair actions are canonical and auditable:
+
+- `retry_database_readback`;
+- `project_ledger_fact`;
+- `update_finality_state`;
+- `quarantine_database_projection`;
+- `pause_settlement_unlock`;
+- `recover_delivery`.
+
+The reconciliation state is one of aligned, retryable, repairable, approval required, or blocked.
+Confirmed ledger facts that are missing from the database require operator-approved projection repair.
+Reorged or failed finality, database-only orphan projection, or settlement conservation drift blocks unlock and delivery.
+Delivery recovery is allowed only when settlement is otherwise aligned and the full AssetPack delivery target is not visible.
+
+Terminal must show drift classes, blockers, repair actions, proof roots, observed facts, projected facts, canonical facts, journal entries, and repair receipts before raw payloads.
+The Vercel Sandbox harness must store the reconciliation report as settlement evidence when it claims ledger readback.
+The API may persist schema-compatible repair receipts while richer repair actions and proof roots remain report evidence until the registry schema is formally expanded.
+
 ## V29 canonical subsystem surfaces
 
 ### Depositing and asset supply
