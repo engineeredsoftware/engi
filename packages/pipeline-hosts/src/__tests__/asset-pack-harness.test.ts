@@ -187,6 +187,14 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('rawModelResponsePresent');
     expect(source).toContain('parsedTypedOutputPresent');
     expect(source).toContain('inferenceAudit');
+    expect(source).toContain('buildReadingPipelineObservabilityInventory');
+    expect(source).toContain('resolveReadingPipelineTelemetryProjection');
+    expect(source).toContain('summarizeReadingPipelineObservabilityCoverage');
+    expect(source).toContain('readingPipelineTelemetry');
+    expect(source).toContain('ptrrStepId');
+    expect(source).toContain('thricifiedGenerationId');
+    expect(source).toContain('outputSchema');
+    expect(source).toContain('readingPipelineObservabilityCoverage');
     expect(source).toContain('Pipeline produced ');
     expect(source).toContain('sourceSafePreview,');
     expect(source).toContain('protectedSourceUnlock');

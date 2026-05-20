@@ -60,6 +60,7 @@ For a simplified reading of V29:
 
 4. **Gate 4: Reading Transaction Recovery And Pipeline Observability**
    - Make `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` execution telemetry fully readable in Terminal at execution, phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, raw output, and parsed output levels.
+   - Acceptance detail: the asset-pack package owns the observability inventory/projection; the sandbox harness stamps live stream events with contract identifiers and coverage; Terminal renders those identifiers in the shared execution stream header, row summary, and expandable metadata.
 
 5. **Gate 5: AssetPack Disclosure Rights And Preview Depth**
    - Deepen source-safe preview, AssetPack range detail, owner-read/licensed-read/denied state, disclosure policy review, paid unlock, and source-leakage tests.
@@ -119,6 +120,19 @@ Accepted Gate 3 posture:
 - The BTC fee API can serialize the operation posture and normalize JSON-safe quote carriers.
 - Terminal has a Wallet/BTC detail section so fee readiness is visible before raw ledger payload inspection.
 - Gate 3 does not implement settlement reconciliation repair; Gate 6 owns drift repair and ledger/database reconciliation action depth.
+
+## Gate 4 working notes
+
+Gate 4 makes Reading pipeline telemetry readable without changing the underlying execution primitive names.
+Execution remains the base primitive, Reading pipelines compose phases, each phase owns PTRR agents, each PTRR agent owns plan/try/refine/retry steps, and each step carries ThricifiedGeneration prompt/output evidence.
+
+Accepted Gate 4 posture:
+
+- `reading-pipeline-contract.ts` remains the source of pipeline, phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, and return-type contracts.
+- `reading-pipeline-observability.ts` projects live stream events onto those contracts and reports observability coverage.
+- The sandbox harness records contract-aware telemetry events and stores coverage in exported evidence.
+- Terminal's live harness stream shows pipeline, phase id, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, output schema, raw output posture, and parsed typed output posture through the shared execution log components.
+- Gate 4 does not implement disclosure-depth unlock, settlement repair, organization authority, or full browser proof; later gates own those slices.
 
 ## Later-version boundaries
 

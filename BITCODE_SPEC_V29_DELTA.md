@@ -113,6 +113,15 @@ Closure acceptance:
 
 Gate 4 owns deep Terminal visibility over `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`, including execution, phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, output, and typed parse telemetry.
 
+Closure acceptance:
+
+- `@bitcode/pipeline-asset-pack` exposes a Reading pipeline observability inventory and `ReadingPipelineTelemetryProjection` over the existing Reading pipeline contracts.
+- The inventory accounts for both Reading pipelines, 11 phases, 12 PTRR agents, 48 PTRR steps, 144 ThricifiedGenerations, all registered prompt templates, all ThricifiedGeneration prompt ids, and the four Finding Fits tools.
+- The Vercel Sandbox harness annotates stream events with pipeline name, phase id, PTRR agent id, PTRR step id, ThricifiedGeneration id, prompt template id, generation prompt ids, tool id, output schema, return type, and prompt/raw/parsed/tool evidence posture.
+- Harness evidence includes Reading observability inventory and coverage readback so local/staging failures show exactly which telemetry levels were not observed.
+- Terminal converts harness SSE events into the shared execution log shape with contract-aware execution state, summary rows, and expandable metadata for prompt template, interpolated prompt, raw response, parsed typed output, tools, and output schema.
+- Gate-quality CI runs the Gate 4 checker plus focused asset-pack, pipeline-host, Terminal harness, and execution-log header tests.
+
 ### Gate 5: AssetPack Disclosure Rights And Preview Depth
 
 Gate 5 owns AssetPack range detail, owner-read/licensed-read/denied-state flows, source-safe preview, disclosure policy review, paid unlock state, and protected-source leakage tests.

@@ -166,11 +166,19 @@ const COMPACT_WIDTH_THRESHOLD = 420;
 interface LogLine {
   text: string;
   phase?: string;
+  pipeline?: string;
+  phaseId?: string;
   agent?: string;
+  agentId?: string;
   step?: string;
+  ptrrStepId?: string;
+  ptrrStepName?: string;
   failsafe?: string;
   generation?: string;
   tool?: any;
+  promptTemplateId?: string;
+  outputSchema?: string;
+  returnType?: string;
   iteration?: number;
   timestamp?: string;
   details?: any;
@@ -399,43 +407,105 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       else if (storedChunk) {
         // First check for executionState in status
         if (storedChunk.status?.executionState) {
-          const { phase, agent, step, tool, failsafe, generation } = storedChunk.status.executionState;
+          const {
+            phase,
+            agent,
+            step,
+            tool,
+            failsafe,
+            generation,
+            pipeline,
+            phaseId,
+            agentId,
+            ptrrStepId,
+            ptrrStepName,
+            promptTemplateId,
+            outputSchema,
+            returnType,
+          } = storedChunk.status.executionState;
           logLine.phase = normalizePhaseName(phase);
+          logLine.pipeline = pipeline;
+          logLine.phaseId = phaseId;
           logLine.agent = agent;
+          logLine.agentId = agentId;
           logLine.step = normalizeStepName(step);
+          logLine.ptrrStepId = ptrrStepId;
+          logLine.ptrrStepName = ptrrStepName;
           logLine.failsafe = failsafe;
           logLine.generation = generation;
           logLine.tool = tool;
+          logLine.promptTemplateId = promptTemplateId;
+          logLine.outputSchema = outputSchema;
+          logLine.returnType = returnType;
 
           // Add step, failsafe, generation, and tool to the details for better display
-          if (step || failsafe || generation || tool) {
+          if (step || failsafe || generation || tool || pipeline || phaseId || ptrrStepId || outputSchema) {
             logLine.details = {
               ...storedChunk,
+              pipeline,
+              phaseId,
+              agentId,
               step: normalizeStepName(step),
+              ptrrStepId,
+              ptrrStepName,
               failsafe,
               generation,
-              tool
+              tool,
+              promptTemplateId,
+              outputSchema,
+              returnType,
             };
           }
         }
         // Then check for executionState in metadata as fallback
         else if (storedChunk.status?.metadata?.executionState) {
-          const { phase, agent, step, tool, failsafe, generation } = storedChunk.status.metadata.executionState;
+          const {
+            phase,
+            agent,
+            step,
+            tool,
+            failsafe,
+            generation,
+            pipeline,
+            phaseId,
+            agentId,
+            ptrrStepId,
+            ptrrStepName,
+            promptTemplateId,
+            outputSchema,
+            returnType,
+          } = storedChunk.status.metadata.executionState;
           logLine.phase = normalizePhaseName(phase);
+          logLine.pipeline = pipeline;
+          logLine.phaseId = phaseId;
           logLine.agent = agent;
+          logLine.agentId = agentId;
           logLine.step = normalizeStepName(step);
+          logLine.ptrrStepId = ptrrStepId;
+          logLine.ptrrStepName = ptrrStepName;
           logLine.failsafe = failsafe;
           logLine.generation = generation;
           logLine.tool = tool;
+          logLine.promptTemplateId = promptTemplateId;
+          logLine.outputSchema = outputSchema;
+          logLine.returnType = returnType;
 
           // Add step, failsafe, generation, and tool to the details for better display
-          if (step || failsafe || generation || tool) {
+          if (step || failsafe || generation || tool || pipeline || phaseId || ptrrStepId || outputSchema) {
             logLine.details = {
               ...storedChunk,
+              pipeline,
+              phaseId,
+              agentId,
               step: normalizeStepName(step),
+              ptrrStepId,
+              ptrrStepName,
               failsafe,
               generation,
-              tool
+              tool,
+              promptTemplateId,
+              outputSchema,
+              returnType,
             };
           }
         }
@@ -708,10 +778,17 @@ function renderLogLine(
     const v = String(m || '');
     switch (v) {
       case 'prepare_concise_context': return 'Prepare Context';
+      case 'prepare-concise-context': return 'Prepare Context';
       case 'chunk_then_sum': return 'Chunk Then Sum';
+      case 'chunk-then-sum': return 'Chunk Then Sum';
       case 'stitch_until_complete': return 'Stitch Until Complete';
+      case 'stitch-until-complete': return 'Stitch Until Complete';
       default: return v;
     }
+  };
+  const formatContractId = (value?: string, segments = 3) => {
+    const parts = String(value || '').split('.').filter(Boolean);
+    return parts.length > segments ? parts.slice(-segments).join('.') : parts.join('.') || String(value || '');
   };
 
   if (compact) {
@@ -1095,16 +1172,40 @@ function renderLogLine(
                             <span className="text-xs text-emerald-300">{logLine.phase}</span>
                           </div>
                         )}
+                        {logLine.pipeline && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Pipeline:</span>
+                            <span className="text-xs text-emerald-300">{logLine.pipeline}</span>
+                          </div>
+                        )}
+                        {logLine.phaseId && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Phase ID:</span>
+                            <span className="text-xs text-emerald-300">{formatContractId(logLine.phaseId, 2)}</span>
+                          </div>
+                        )}
                         {logLine.agent && (
                           <div className="flex items-center space-x-1">
                             <span className="text-xs text-gray-500">Agent:</span>
                             <span className="text-xs text-emerald-300">{logLine.agent}</span>
                           </div>
                         )}
+                        {logLine.agentId && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">PTRR Agent:</span>
+                            <span className="text-xs text-emerald-300">{formatContractId(logLine.agentId, 3)}</span>
+                          </div>
+                        )}
                         {logLine.step && (
                           <div className="flex items-center space-x-1">
                             <span className="text-xs text-gray-500">Step:</span>
                             <span className="text-xs text-emerald-300">{logLine.step}</span>
+                          </div>
+                        )}
+                        {logLine.ptrrStepId && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">PTRR Step:</span>
+                            <span className="text-xs text-emerald-300">{formatContractId(logLine.ptrrStepId, 3)}</span>
                           </div>
                         )}
                         {logLine.failsafe && (
@@ -1117,6 +1218,18 @@ function renderLogLine(
                           <div className="flex items-center space-x-1">
                             <span className="text-xs text-gray-500">Generation:</span>
                             <span className="text-xs text-emerald-300">{formatMeta(logLine.generation)}</span>
+                          </div>
+                        )}
+                        {logLine.promptTemplateId && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Prompt:</span>
+                            <span className="text-xs text-emerald-300">{formatContractId(logLine.promptTemplateId, 2)}</span>
+                          </div>
+                        )}
+                        {(logLine.outputSchema || logLine.returnType) && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Schema:</span>
+                            <span className="text-xs text-emerald-300">{logLine.outputSchema || logLine.returnType}</span>
                           </div>
                         )}
                         {logLine.tool && (

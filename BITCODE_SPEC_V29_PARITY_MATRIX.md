@@ -51,7 +51,7 @@ No `_legacy/` source is active source truth.
 | Workflow retargeting | Gate 1 | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | drafted | CI checks V28 active / V29 draft posture instead of stale V27/V28 posture. |
 | Terminal transaction read models | Gate 2 | `uapi/app/terminal/terminal-transaction-read-model.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | drafted | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
 | Wallet signer/BTC operations | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, BTC fee route, Terminal Wallet/BTC detail section, BTD and UAPI tests, Gate 3 checker | drafted | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
-| Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack`, `packages/pipeline-hosts`, Terminal stream components | pending | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt telemetry is complete and readable. |
+| Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | drafted | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
 | AssetPack disclosure rights | Gate 5 | BTD access primitives, AssetPack preview UI, disclosure policy tests | pending | Source-safe preview and paid unlock are proven without source leakage. |
 | Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, Terminal repair UI | pending | Ledger, database, and metaphysical state drift is visible and repairable. |
 | Organization permission authority | Gate 7 | access policy, org holdings, MCP/ChatGPT gates, Terminal permission UI | pending | Registry-derived roles, holdings, and read-license authority govern actions. |
@@ -69,6 +69,7 @@ No `_legacy/` source is active source truth.
 | Gate 1 script | `pnpm run check:v29-gate1` fails closed on stale posture or missing gates | drafted |
 | Gate 2 read model | `pnpm run check:v29-gate2` proves typed route-owned Terminal transaction reading | drafted |
 | Gate 3 wallet/BTC operation | `pnpm run check:v29-gate3` proves quote lifecycle, signer recovery, blocked readiness, API posture, and Terminal Wallet/BTC detail | drafted |
+| Gate 4 Reading observability | `pnpm run check:v29-gate4` proves contract-aware Reading stream telemetry and Terminal rendering | drafted |
 | Product implementation gates | Gates 3-9 close remaining Terminal transaction depth with tests and docs | pending |
 | Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
 
@@ -139,3 +140,26 @@ Gate 2 is complete when Terminal selected transaction state rewrites recoverable
 ## Gate 3 completion condition
 
 Gate 3 is complete when package primitives model BTC quotes, signer recovery, operation posture, and blocked readiness; API responses serialize operation posture; Terminal has a Wallet/BTC route-owned detail section; focused package and UAPI tests pass; `check:v29-gate3` passes; CI invokes the checker and tests; docs name the implemented source surfaces; and the gate branch is committed and pushed for review into `version/v29`.
+
+## Gate 4 Parity
+
+| Requirement | Source evidence | Current V29 judgment |
+| --- | --- | --- |
+| Reading pipeline contracts remain the source of truth | `reading-pipeline-contract.ts`, contract tests | drafted |
+| Observability inventory covers both Reading pipelines and all contract levels | `reading-pipeline-observability.ts`, observability tests | drafted |
+| Live sandbox harness stamps stream events with contract ids and output posture | `packages/pipeline-hosts/src/asset-pack-harness.ts`, harness tests | drafted |
+| Harness evidence exports inventory and coverage readback | `readingPipelineObservabilityInventory`, `readingPipelineObservabilityCoverage`, harness tests | drafted |
+| Terminal summaries and execution state expose pipeline, phase, PTRR, ThricifiedGeneration, prompt, tool, and schema fields | `terminal-pipeline-harness-client.ts`, Terminal harness tests | drafted |
+| Shared execution log header renders contract-aware identifiers without raw JSON first | `pipeline-execution-log-header.tsx`, header tests | drafted |
+| Gate 4 checker is wired to package scripts and CI | `scripts/check-v29-gate4-reading-pipeline-observability.mjs`, `package.json`, gate workflow | drafted |
+
+## Gate 4 accepted boundaries
+
+- Gate 4 does not add a new execution primitive; it projects existing execution, pipeline, PTRR, and ThricifiedGeneration primitives.
+- Gate 4 does not expose protected AssetPack source before settlement.
+- Gate 4 does not close disclosure-depth unlock, settlement repair, organization authority, or full browser proof.
+- Gate 4 does not add versioned API routes or source identifiers.
+
+## Gate 4 completion condition
+
+Gate 4 is complete when Reading pipeline observability is package-owned, stream events are contract-projected in the sandbox harness, Terminal renders the projection through shared execution components, focused package and UAPI tests pass, `check:v29-gate4` passes, CI invokes the checker and tests, docs name the implemented source surfaces, and the gate branch is committed and pushed for review into `version/v29`.
