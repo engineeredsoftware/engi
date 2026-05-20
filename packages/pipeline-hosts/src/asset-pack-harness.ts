@@ -392,6 +392,9 @@ let checkpointTimer = null;
 let heartbeatTimer = null;
 let checkpointInFlight = Promise.resolve();
 let lastCheckpointAt = 0;
+let readingPipelineObservabilityInventory = null;
+let resolveReadingPipelineTelemetryProjectionFn = null;
+let summarizeReadingPipelineObservabilityCoverageFn = null;
 
 function normalizeResultState(candidate) {
   return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
@@ -532,6 +535,15 @@ function summarizeStreamEvent(event) {
         parsedTypedOutput: summarizeInspectableValue(data.parsedTypedOutput ?? data.parsed ?? null),
       }
     : null;
+  const readingPipelineTelemetry = resolveReadingPipelineTelemetryProjectionFn
+    ? resolveReadingPipelineTelemetryProjectionFn({
+        ...event,
+        data: {
+          ...(data || {}),
+          telemetryEvent: event,
+        },
+      })
+    : null;
   return {
     type: 'pipeline-stream-event',
     stage: stageForStreamEvent(event),
@@ -558,6 +570,19 @@ function summarizeStreamEvent(event) {
     parsedTypedOutputPresent: Boolean(data?.parsedTypedOutput || data?.parsed),
     inferenceAudit: llmAudit,
     inspectable: summarizeLlmInspectable(event, event?.data ?? null),
+    readingPipelineTelemetry,
+    pipelineName: readingPipelineTelemetry?.pipelineName || null,
+    phaseId: readingPipelineTelemetry?.phaseId || null,
+    agentId: readingPipelineTelemetry?.agentId || null,
+    ptrrStepId: readingPipelineTelemetry?.ptrrStepId || null,
+    ptrrStepName: readingPipelineTelemetry?.ptrrStepName || null,
+    thricifiedGenerationId: readingPipelineTelemetry?.thricifiedGenerationId || null,
+    thricifiedFailsafe: readingPipelineTelemetry?.thricifiedFailsafe || null,
+    promptTemplateId: readingPipelineTelemetry?.promptTemplateId || null,
+    generationPromptIds: readingPipelineTelemetry?.generationPromptIds || null,
+    toolId: readingPipelineTelemetry?.toolId || null,
+    outputSchema: readingPipelineTelemetry?.outputSchema || null,
+    returnType: readingPipelineTelemetry?.returnType || null,
   };
 }
 
@@ -672,6 +697,10 @@ function checkpointEvidence(reason) {
     output,
     error,
     execution: execution ? summarizeExecution(execution) : null,
+    readingPipelineObservabilityInventory,
+    readingPipelineObservabilityCoverage: summarizeReadingPipelineObservabilityCoverageFn
+      ? summarizeReadingPipelineObservabilityCoverageFn(events)
+      : null,
     events,
     startedAt,
     checkpointAt: new Date().toISOString(),
@@ -1523,7 +1552,16 @@ try {
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
   const [
-    { assetPackPipeline, acceptReadNeed, buildAssetPackSourceSafePreview, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput },
+    {
+      assetPackPipeline,
+      acceptReadNeed,
+      buildAssetPackSourceSafePreview,
+      buildReadingPipelineObservabilityInventory,
+      isAcceptedReadNeed,
+      resolveReadingPipelineTelemetryProjection,
+      summarizeReadingPipelineObservabilityCoverage,
+      synthesizeReadNeedForPipelineInput,
+    },
     { enablePipelineStreaming, factoryPipelineExecution },
     { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
   ] = await Promise.all([
@@ -1531,6 +1569,9 @@ try {
     import('../../packages/pipelines-generics/src/index'),
     import('../../packages/btd/src/settlement'),
   ]);
+  readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
+  resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
+  summarizeReadingPipelineObservabilityCoverageFn = summarizeReadingPipelineObservabilityCoverage;
   execution = factoryPipelineExecution('asset_pack', undefined, {
     pipelineName: 'asset_pack',
     family: 'asset_pack',
@@ -1709,6 +1750,9 @@ try {
     settlementAdmissible: ledgerSettlement.settlementAdmissible,
     assetPackId: ledgerSettlement.assetPackId || null,
   });
+  const readingPipelineObservabilityCoverage = summarizeReadingPipelineObservabilityCoverageFn
+    ? summarizeReadingPipelineObservabilityCoverageFn(events)
+    : null;
 
   const evidence = {
     schema: 'bitcode.pipeline-harness.evidence',
@@ -1730,6 +1774,8 @@ try {
     shippables: output?.shippables || null,
     ledgerSettlement: output.ledgerSettlement,
     execution: summarizeExecution(execution),
+    readingPipelineObservabilityInventory,
+    readingPipelineObservabilityCoverage,
     events,
     startedAt,
     completedAt: new Date().toISOString(),
@@ -1774,6 +1820,10 @@ try {
     output,
     error,
     execution: execution ? summarizeExecution(execution) : null,
+    readingPipelineObservabilityInventory,
+    readingPipelineObservabilityCoverage: summarizeReadingPipelineObservabilityCoverageFn
+      ? summarizeReadingPipelineObservabilityCoverageFn(events)
+      : null,
     events,
     startedAt,
     completedAt: new Date().toISOString(),

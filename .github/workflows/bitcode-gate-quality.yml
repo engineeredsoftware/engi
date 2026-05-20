@@ -48,6 +48,7 @@ jobs:
           node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
           node scripts/check-v29-gate2-terminal-transaction-read-models.mjs --skip-branch-check
           node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs --skip-branch-check
+          node scripts/check-v29-gate4-reading-pipeline-observability.mjs --skip-branch-check
 
       - name: Validate source casing and imports
         run: |
@@ -65,6 +66,7 @@ jobs:
           pnpm --filter @bitcode/btd test
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
 
       - name: Test staged Reading route and Terminal harness contracts

@@ -125,6 +125,13 @@ secrets or protected AssetPack source. It should show quote root, wallet session
 payer wallet, PSBT handoff, txid, state, confirmations, blockers, and server
 custody posture as ordinary rows before the operator opens raw ledger payloads.
 
+The live Reading harness stream projects `ReadNeedComprehensionSynthesis` and
+`ReadFitsFindingSynthesis` telemetry into the shared execution panel. Collapsed
+rows should identify the pipeline, phase, PTRR step, ThricifiedGeneration,
+prompt/tool/schema posture, and result shape. Expanded metadata remains the
+place for prompt templates, interpolated prompts, raw model responses, parsed
+typed outputs, tool inputs/outputs, and harness evidence coverage.
+
 ## Related shared systems
 
 - [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)

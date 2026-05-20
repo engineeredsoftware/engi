@@ -12,6 +12,15 @@ interface PipelineRunLogHeaderProps {
     failsafe?: FailsafeStep;
     generation?: GenerationStep;
     tool?: string | { name?: string };
+    pipeline?: string;
+    phaseId?: string;
+    agentId?: string;
+    ptrrStepId?: string;
+    ptrrStepName?: string;
+    thricifiedGenerationId?: string;
+    promptTemplateId?: string;
+    outputSchema?: string;
+    returnType?: string;
   };
   isStreamingComplete: boolean;
   generationCount: number;
@@ -40,16 +49,34 @@ export function PipelineExecutionLogHeader({
   const generation = executionState?.generation;
   const tool = executionState?.tool;
   const toolLabel = typeof tool === 'string' ? tool : tool?.name || '';
+  const pipelineLabel = executionState?.pipeline;
+  const ptrrStepLabel = executionState?.ptrrStepId || executionState?.ptrrStepName;
+  const schemaLabel = executionState?.outputSchema || executionState?.returnType;
 
   const formatMeta = (m?: FailsafeStep | string) => {
     const v = String(m || '');
     switch (v) {
       case 'prepare_concise_context': return 'Prepare Context';
+      case 'prepare-concise-context': return 'Prepare Context';
       case 'chunk_then_sum': return 'Chunk Then Sum';
+      case 'chunk-then-sum': return 'Chunk Then Sum';
       case 'stitch_until_complete': return 'Stitch Until Complete';
+      case 'stitch-until-complete': return 'Stitch Until Complete';
       default: return v || 'Meta NA';
     }
   };
+  const compactIdentifier = (value?: string, segments = 3) => {
+    const parts = String(value || '').split('.').filter(Boolean);
+    return parts.length > segments ? parts.slice(-segments).join('.') : parts.join('.') || '';
+  };
+  const headerMetadataRows = [
+    pipelineLabel ? { label: 'pipeline', value: pipelineLabel } : null,
+    executionState?.phaseId ? { label: 'phase id', value: compactIdentifier(executionState.phaseId, 2) } : null,
+    executionState?.agentId ? { label: 'PTRR agent', value: compactIdentifier(executionState.agentId, 3) } : null,
+    ptrrStepLabel ? { label: 'PTRR step', value: compactIdentifier(String(ptrrStepLabel), 3) } : null,
+    schemaLabel ? { label: 'schema', value: String(schemaLabel) } : null,
+    ...metadataRows,
+  ].filter((row): row is { label: string; value: string } => Boolean(row?.value));
 
   return (
     <div className="relative px-4 py-3 border-b border-[#1f2937] flex flex-wrap items-center justify-between backdrop-blur-sm">
@@ -79,6 +106,11 @@ export function PipelineExecutionLogHeader({
               <span className="text-xs font-medium bg-sky-400/10 text-sky-400 px-2 py-0.5 rounded whitespace-nowrap">
                 {agent || "Non Agent"}
               </span>
+              {pipelineLabel && (
+                <span className="text-xs font-medium bg-violet-400/10 text-violet-300 px-2 py-0.5 rounded whitespace-nowrap">
+                  {pipelineLabel}
+                </span>
+              )}
 
               {/* Show current step if available and different from agent name */}
               {step && step !== agent && (
@@ -127,9 +159,9 @@ export function PipelineExecutionLogHeader({
               </div>
             </div>
 
-            {metadataRows.length ? (
+            {headerMetadataRows.length ? (
               <dl className={`mt-2 flex items-center gap-1.5 overflow-x-auto pb-1 ${styles.hideScrollbar}`}>
-                {metadataRows.map((row) => (
+                {headerMetadataRows.map((row) => (
                   <div
                     key={`${row.label}:${row.value}`}
                     className="flex min-w-0 items-center gap-1 rounded border border-gray-700/50 bg-gray-900/70 px-1.5 py-0.5 text-[0.62rem]"

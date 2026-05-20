@@ -247,6 +247,40 @@ It may not expose protected AssetPack source, wallet secrets, provider tokens, o
 - Current validating commands and parity basis: pipeline contract tests, route tests, prompt rendering/audit checks, local live OpenAI validation, and V29 gate checks.
 - Current accepted boundaries: full-profile async push completion can deepen in V29 gates but cannot bypass source-safe preview or settlement boundaries.
 
+#### V29 Reading pipeline observability canon
+
+Reading pipeline observability is contract-projected, not ad hoc.
+The asset-pack package owns the inventory for `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`, and live harness events must project back to that inventory whenever they are emitted.
+
+The observable contract levels are:
+
+- execution;
+- phase;
+- PTRR agent;
+- PTRR step;
+- ThricifiedGeneration;
+- prompt;
+- tool;
+- raw output;
+- parsed output.
+
+For every live Reading stream event that can be associated with a contract, Terminal-visible telemetry carries:
+
+- pipeline name;
+- phase id;
+- PTRR agent id;
+- PTRR step id and step name;
+- ThricifiedGeneration id and failsafe;
+- prompt template id and generation prompt ids;
+- tool id, input type, and output type when the event is tool-backed;
+- declared return type and output schema;
+- prompt template/interpolated prompt presence;
+- reasoning, judgment, raw model response, and parsed typed output presence.
+
+The Vercel Sandbox harness must export both the observability inventory and an observability coverage summary in its evidence artifact.
+Coverage readback is not a settlement proof by itself; it is the operational proof that Terminal can debug a live Reading run without relying on browser network logs.
+Failure to observe prompt, raw-output, parsed-output, or tool telemetry in a run that reaches those stages is a blocked-readiness signal for Gate 4+ QA.
+
 ### Fit, recall, ranking, and verification
 
 - Current canonical objects and emitted artifacts: FindingFits query root, lexical search result, vector search result, fit deposit list, candidate score, ranking root, blocker list, and verification decision.

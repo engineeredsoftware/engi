@@ -14,6 +14,12 @@ describe('PipelineExecutionLogHeader', () => {
           step: 'try' as any,
           generation: 'structured-output' as any,
           tool: 'bitcode.asset-pack.verification',
+          pipeline: 'ReadFitsFindingSynthesis',
+          phaseId: 'ReadFitsFindingSynthesis.discovery',
+          agentId: 'ReadFitsFindingSynthesis.discovery.finding-fits',
+          ptrrStepId: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
+          ptrrStepName: 'try',
+          outputSchema: 'DepositoryFitsResult',
         }}
         isStreamingComplete={false}
         generationCount={2}
@@ -23,5 +29,9 @@ describe('PipelineExecutionLogHeader', () => {
     );
 
     expect(screen.getByText('bitcode.asset-pack.verification')).toBeTruthy();
+    expect(screen.getAllByText('ReadFitsFindingSynthesis').length).toBeGreaterThan(0);
+    expect(screen.getByText('ReadFitsFindingSynthesis.discovery')).toBeTruthy();
+    expect(screen.getByText('discovery.finding-fits.try')).toBeTruthy();
+    expect(screen.getByText('DepositoryFitsResult')).toBeTruthy();
   });
 });
