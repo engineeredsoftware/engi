@@ -51,6 +51,8 @@ Use a version branch and gate-numbered branches:
    implemented, specified, tested, documented, committed, pushed, and ready for
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
+   Title gate PRs with the uppercase version and gate prefix plus a topical
+   title, for example `V29 Gate 5: AssetPack Disclosure Rights And Preview Depth`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 

@@ -126,6 +126,16 @@ Closure acceptance:
 
 Gate 5 owns AssetPack range detail, owner-read/licensed-read/denied-state flows, source-safe preview, disclosure policy review, paid unlock state, and protected-source leakage tests.
 
+Closure acceptance:
+
+- `@bitcode/pipeline-asset-pack` exposes `AssetPackDisclosureReview` as the first-class review object between source-safe preview and paid source unlock.
+- The disclosure review binds preview id, AssetPack id, BTD read-right state, source visibility, reader action, policy fields, range projection, proof roots, fee quote root, and protected-source leakage review.
+- Protected source leakage detection fails closed for source-bearing field names, patch markers, and source-code markers inside pre-settlement preview metadata.
+- AssetPack postprocessing and the Vercel Sandbox harness store `assetPackDisclosureReview`, `asset-pack/preview.disclosureReview`, and `asset-pack/preview.disclosureReviewRoot` alongside source-safe preview evidence.
+- BTD tests cover owner-read, licensed-read, and denied-state boundaries so paid unlock cannot blur ownership, license, and denial semantics.
+- Terminal renders disclosure review as part of the source-safe preview surface with visibility, reader action, policy root, review root, visible/withheld counts, leakage state, and source unlock state before raw evidence.
+- Gate-quality CI enforces focused disclosure tests and gate PR titles beginning with the uppercase version and gate prefix, such as `V29 Gate 5: AssetPack Disclosure Rights And Preview Depth`.
+
 ### Gate 6: Settlement Reconciliation And Repair
 
 Gate 6 owns ledger/database/metaphysical separation, journal diffing, reconciliation repair actions, proof-root surfacing, settlement conservation drift handling, and delivery recovery.

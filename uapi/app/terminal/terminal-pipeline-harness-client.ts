@@ -635,8 +635,11 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const depositorySearch = recordValue(evidence?.depositorySearch);
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
     const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
+    const assetPackDisclosureReview = recordValue(evidence?.assetPackDisclosureReview);
     const feeQuote = recordValue(sourceSafePreview?.feeQuote);
     const unlock = recordValue(sourceSafePreview?.unlock) || recordValue(ledgerSettlement?.protectedSourceUnlock);
+    const disclosureAccess = recordValue(assetPackDisclosureReview?.access);
+    const disclosureLeakage = recordValue(assetPackDisclosureReview?.sourceLeakage);
     const fitState = String(fitResult?.resultState || evidence?.resultState || 'unknown');
     const searchedAssetCount = depositorySearch?.searchedAssetCount;
     const ledgerStatus = ledgerSettlement?.status
@@ -657,6 +660,14 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       : unlock?.state
         ? ` source ${String(unlock.state)}`
         : null;
+    const disclosureText = disclosureAccess?.sourceVisibility
+      ? ` disclosure ${String(disclosureAccess.sourceVisibility)}`
+      : null;
+    const leakageText = disclosureLeakage?.protectedSourceDetected === true
+      ? ` leakage ${String(disclosureLeakage.findingCount || 'detected')}`
+      : disclosureLeakage
+        ? ' leakage none'
+        : null;
     const searchText = typeof searchedAssetCount === 'number'
       ? ` searched ${searchedAssetCount} assets`
       : ' searched asset count unknown';
@@ -668,6 +679,8 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       ledgerStatus,
       feeQuoteText,
       unlockText,
+      disclosureText,
+      leakageText,
       telemetryText,
     ].filter(Boolean).join('; ') + '.';
   }

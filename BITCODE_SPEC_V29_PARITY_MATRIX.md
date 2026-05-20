@@ -52,7 +52,7 @@ No `_legacy/` source is active source truth.
 | Terminal transaction read models | Gate 2 | `uapi/app/terminal/terminal-transaction-read-model.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | drafted | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
 | Wallet signer/BTC operations | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, BTC fee route, Terminal Wallet/BTC detail section, BTD and UAPI tests, Gate 3 checker | drafted | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
 | Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | drafted | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
-| AssetPack disclosure rights | Gate 5 | BTD access primitives, AssetPack preview UI, disclosure policy tests | pending | Source-safe preview and paid unlock are proven without source leakage. |
+| AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | drafted | Source-safe preview and paid unlock are proven without protected-source leakage. |
 | Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, Terminal repair UI | pending | Ledger, database, and metaphysical state drift is visible and repairable. |
 | Organization permission authority | Gate 7 | access policy, org holdings, MCP/ChatGPT gates, Terminal permission UI | pending | Registry-derived roles, holdings, and read-license authority govern actions. |
 | Commercial formalization | Gate 8 | packages/protocol, package tests, import scans, docs | pending | Demonstration-origin commercial internals are package-native and no runtime demo imports remain. |
@@ -70,7 +70,8 @@ No `_legacy/` source is active source truth.
 | Gate 2 read model | `pnpm run check:v29-gate2` proves typed route-owned Terminal transaction reading | drafted |
 | Gate 3 wallet/BTC operation | `pnpm run check:v29-gate3` proves quote lifecycle, signer recovery, blocked readiness, API posture, and Terminal Wallet/BTC detail | drafted |
 | Gate 4 Reading observability | `pnpm run check:v29-gate4` proves contract-aware Reading stream telemetry and Terminal rendering | drafted |
-| Product implementation gates | Gates 3-9 close remaining Terminal transaction depth with tests and docs | pending |
+| Gate 5 AssetPack disclosure | `pnpm run check:v29-gate5` proves source-safe disclosure review, leakage detection, Terminal preview rendering, and PR title enforcement | drafted |
+| Product implementation gates | Gates 6-9 close remaining Terminal transaction depth with tests and docs | pending |
 | Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
 
 ## Gate 1 Parity
@@ -163,3 +164,28 @@ Gate 3 is complete when package primitives model BTC quotes, signer recovery, op
 ## Gate 4 completion condition
 
 Gate 4 is complete when Reading pipeline observability is package-owned, stream events are contract-projected in the sandbox harness, Terminal renders the projection through shared execution components, focused package and UAPI tests pass, `check:v29-gate4` passes, CI invokes the checker and tests, docs name the implemented source surfaces, and the gate branch is committed and pushed for review into `version/v29`.
+
+## Gate 5 Parity
+
+| Requirement | Source evidence | Current V29 judgment |
+| --- | --- | --- |
+| AssetPack disclosure review is package-owned | `asset-pack-disclosure.ts`, package exports, disclosure tests | drafted |
+| Source visibility separates pending, paid, owner, licensee, and denied states | `buildAssetPackDisclosureReview`, BTD access tests | drafted |
+| Protected source leakage fails closed before preview display | `reviewAssetPackProtectedSourceLeakage`, `assertAssetPackDisclosureSourceSafe`, disclosure tests | drafted |
+| Postprocessing persists disclosure review and review root | `postprocess.ts`, postprocess tests | drafted |
+| Sandbox harness stores and exports disclosure review evidence | `packages/pipeline-hosts/src/asset-pack-harness.ts`, harness tests | drafted |
+| Terminal preview surface renders disclosure policy before raw evidence | `TerminalDepositReadWorkbench.tsx`, Terminal harness client tests | drafted |
+| Gate PR title enforcement is automated | `.github/workflows/bitcode-gate-quality.yml`, PR template, AGENTS/README instructions | drafted |
+| Gate 5 checker is wired to package scripts and CI | `scripts/check-v29-gate5-assetpack-disclosure-rights.mjs`, `package.json`, gate workflow | drafted |
+
+## Gate 5 accepted boundaries
+
+- Gate 5 does not reveal protected AssetPack source before settlement.
+- Gate 5 does not perform settlement reconciliation repair; Gate 6 owns ledger/database drift and repair.
+- Gate 5 does not implement organization authority beyond read-right state distinctions; Gate 7 owns registry-derived roles and holdings.
+- Gate 5 does not add browser proof or full UX polish; Gate 9 owns that surface.
+- Gate 5 does not add versioned API routes or source identifiers.
+
+## Gate 5 completion condition
+
+Gate 5 is complete when AssetPack disclosure review is package-owned, postprocess and sandbox harness evidence include source-safe disclosure review roots, protected-source leakage tests fail closed, Terminal renders the disclosure review through the Reading preview surface, gate PR title enforcement is active, focused package and UAPI tests pass, `check:v29-gate5` passes, CI invokes the checker and tests, docs name the implemented source surfaces, and the gate branch is committed and pushed for review into `version/v29`.

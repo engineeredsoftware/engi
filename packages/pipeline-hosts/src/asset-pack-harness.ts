@@ -1555,8 +1555,10 @@ try {
     {
       assetPackPipeline,
       acceptReadNeed,
+      buildAssetPackDisclosureReview,
       buildAssetPackSourceSafePreview,
       buildReadingPipelineObservabilityInventory,
+      assertAssetPackDisclosureSourceSafe,
       isAcceptedReadNeed,
       resolveReadingPipelineTelemetryProjection,
       summarizeReadingPipelineObservabilityCoverage,
@@ -1688,6 +1690,9 @@ try {
   });
   execution.store('asset-pack/preview', 'sourceSafe', sourceSafePreview);
   execution.store('asset-pack/preview', 'feeQuote', sourceSafePreview.feeQuote);
+  const sourceSafeDisclosureReview = buildAssetPackDisclosureReview({ preview: sourceSafePreview });
+  assertAssetPackDisclosureSourceSafe(sourceSafeDisclosureReview);
+  execution.store('asset-pack/preview', 'disclosureReview', sourceSafeDisclosureReview);
   const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
     ? fitResult.resultReasons
     : Array.isArray(depositorySearch?.resultReasons)
@@ -1726,12 +1731,21 @@ try {
     requirePullRequestDelivery: deliveryRequired,
   });
   const settledSourceSafePreview = applyAssetPackSettlementUnlockToPreview(sourceSafePreview, settlementUnlock);
+  const assetPackDisclosureReview = buildAssetPackDisclosureReview({
+    preview: settledSourceSafePreview,
+    readRightState: settlementUnlock.state,
+    sourceAvailable: settlementUnlock.sourceAvailable,
+    reason: settlementUnlock.reason,
+  });
+  assertAssetPackDisclosureSourceSafe(assetPackDisclosureReview);
   execution.store('asset-pack/preview', 'sourceSafe', settledSourceSafePreview);
+  execution.store('asset-pack/preview', 'disclosureReview', assetPackDisclosureReview);
   execution.store('asset-pack/settlement', 'unlock', settlementUnlock);
   execution.store('asset-pack/settlement', 'readLicenseId', settlementUnlock.readLicenseId);
   output = {
     ...(output || {}),
     sourceSafePreview: settledSourceSafePreview,
+    assetPackDisclosureReview,
     ledgerSettlement: {
       ...ledgerSettlement,
       protectedSourceUnlock: settlementUnlock,
@@ -1768,6 +1782,7 @@ try {
     fitResult,
     depositorySearch,
     sourceSafePreview: settledSourceSafePreview,
+    assetPackDisclosureReview,
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,

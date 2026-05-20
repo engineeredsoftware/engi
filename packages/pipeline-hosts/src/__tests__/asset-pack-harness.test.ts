@@ -163,6 +163,8 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('pipeline-stream-event');
     expect(source).toContain('synthesizeReadNeedForPipelineInput');
     expect(source).toContain('buildAssetPackSourceSafePreview');
+    expect(source).toContain('buildAssetPackDisclosureReview');
+    expect(source).toContain('assertAssetPackDisclosureSourceSafe');
     expect(source).toContain('buildAssetPackSettlementUnlock');
     expect(source).toContain('applyAssetPackSettlementUnlockToPreview');
     expect(source).toContain('acceptedReadNeed: readNeed');
@@ -197,6 +199,8 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('readingPipelineObservabilityCoverage');
     expect(source).toContain('Pipeline produced ');
     expect(source).toContain('sourceSafePreview,');
+    expect(source).toContain('assetPackDisclosureReview,');
+    expect(source).toContain("execution.store('asset-pack/preview', 'disclosureReview'");
     expect(source).toContain('protectedSourceUnlock');
     expect(source).toContain("execution.store('asset-pack/settlement', 'unlock'");
     expect(source).toContain("execution.store('asset-pack/preview', 'feeQuote'");

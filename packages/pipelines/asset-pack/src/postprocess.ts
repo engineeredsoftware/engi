@@ -9,6 +9,11 @@ import {
   isAcceptedReadNeed,
   type AssetPackSourceSafePreview,
 } from './read-need';
+import {
+  assertAssetPackDisclosureSourceSafe,
+  buildAssetPackDisclosureReview,
+  type AssetPackDisclosureReview,
+} from './asset-pack-disclosure';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -80,7 +85,9 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   }
   const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, prUrl);
   if (sourceSafePreview) {
+    const assetPackDisclosureReview = ensureAssetPackDisclosureReview(execution, sourceSafePreview);
     (enhanced as any).sourceSafePreview = sourceSafePreview;
+    (enhanced as any).assetPackDisclosureReview = assetPackDisclosureReview;
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
@@ -163,6 +170,9 @@ export function buildAssetPackPostprocessedResult(
       normalized,
       normalized.deliveryMechanism?.prUrl || normalized.shippable?.prUrl
     );
+  const assetPackDisclosureReview = sourceSafePreview
+    ? ensureAssetPackDisclosureReview(execution, sourceSafePreview)
+    : undefined;
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -205,6 +215,7 @@ export function buildAssetPackPostprocessedResult(
     ...(sourceSafePreview
       ? {
           sourceSafePreview,
+          assetPackDisclosureReview,
           feeQuote: sourceSafePreview.feeQuote,
         }
       : {}),
@@ -285,6 +296,26 @@ function ensureAssetPackSourceSafePreview(
   } catch {}
 
   return preview;
+}
+
+function ensureAssetPackDisclosureReview(
+  execution: Execution,
+  sourceSafePreview: AssetPackSourceSafePreview,
+): AssetPackDisclosureReview {
+  const storedReview =
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'disclosureReview') ||
+    findStoredExecutionValue(execution, 'asset-pack', 'disclosureReview');
+  if (storedReview?.schema === 'bitcode.asset-pack.disclosure-review') {
+    return storedReview as AssetPackDisclosureReview;
+  }
+
+  const review = buildAssetPackDisclosureReview({ preview: sourceSafePreview });
+  assertAssetPackDisclosureSourceSafe(review);
+  try {
+    execution.store('asset-pack/preview', 'disclosureReview', review as any);
+    execution.store('asset-pack/preview', 'disclosureReviewRoot', review.roots.reviewRoot);
+  } catch {}
+  return review;
 }
 
 function firstString(...values: unknown[]): string | null {
