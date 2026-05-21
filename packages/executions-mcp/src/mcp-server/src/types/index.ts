@@ -70,6 +70,14 @@ export interface MCPAuthContext {
     reason: string;
     accessPolicyHash: string;
   }>;
+  interfaceAuthority?: Array<{
+    interfaceSurface: 'mcp';
+    action: string;
+    decision: 'allowed' | 'denied';
+    reason: string;
+    authorityRoot: string;
+    sourceVisibility: string;
+  }>;
   btdBalance: number;
   mcpCredentials: Record<string, any>;
 }

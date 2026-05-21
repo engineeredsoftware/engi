@@ -206,6 +206,10 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain("execution.store('asset-pack/preview', 'feeQuote'");
     expect(source).toContain('reconcileLedgerDatabaseProjection');
     expect(source).toContain("execution.store('asset-pack/settlement', 'ledgerDatabaseReconciliation'");
+    expect(source).toContain("execution.store('asset-pack/settlement', 'organizationAuthority'");
+    expect(source).toContain('organizationAuthorityDecision');
+    expect(source).toContain('organizationAuthorityRoot');
+    expect(source).toContain('organizationAuthority,');
     expect(source).toContain('ledgerDatabaseReconciliation,');
     expect(source).toContain('repairActionCount');
     expect(source).toContain('ledgerSettlement,');

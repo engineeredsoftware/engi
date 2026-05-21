@@ -162,6 +162,7 @@ describe('terminal transaction read model', () => {
         writtenAssets: null,
         closureFollowThrough: null,
         terminalJournal: null,
+        organizationAuthority: null,
         eventCount: 0,
       },
       detailSection: 'console',

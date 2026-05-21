@@ -5,6 +5,7 @@ import TerminalTransactionClosureCard from '@/app/terminal/TerminalTransactionCl
 import TerminalTransactionHistoryCard from '@/app/terminal/TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from '@/app/terminal/TerminalTransactionIdentityCard';
 import TerminalTransactionJournalReconciliationCard from '@/app/terminal/TerminalTransactionJournalReconciliationCard';
+import TerminalTransactionOrganizationAuthorityCard from '@/app/terminal/TerminalTransactionOrganizationAuthorityCard';
 import TerminalTransactionProofsCard from '@/app/terminal/TerminalTransactionProofsCard';
 
 describe('Terminal transaction detail cards', () => {
@@ -162,6 +163,41 @@ describe('Terminal transaction detail cards', () => {
             },
           }}
         />
+        <TerminalTransactionOrganizationAuthorityCard
+          authority={{
+            state: 'allowed',
+            stateLabel: 'Allowed',
+            summary: 'Registry-derived authority admits protected-source delivery.',
+            metrics: [
+              { label: 'State', value: 'Allowed' },
+              { label: 'Allowed', value: '1' },
+            ],
+            decisions: [
+              {
+                id: 'mcp:deliver',
+                title: 'mcp · deliver asset pack',
+                summary: 'allowed · role_authorized · protected_source_allowed',
+                supportingText: 'github:engineeredsoftware/ENGI/pull/42',
+              },
+            ],
+            blockers: [],
+            proofRoots: [
+              {
+                id: 'mcp:deliver:authorityRoot',
+                title: 'mcp · deliver asset pack authorityRoot',
+                summary: 'btd-proof-root:organization-interface-authority:abc123',
+              },
+            ],
+            payload: {
+              organizationAuthority: [
+                {
+                  action: 'deliver_asset_pack',
+                  decision: 'allowed',
+                },
+              ],
+            },
+          }}
+        />
       </div>,
     );
 
@@ -174,6 +210,10 @@ describe('Terminal transaction detail cards', () => {
     expect(screen.getByText('Metaphysical canonical facts')).toBeTruthy();
     expect(screen.getByText('Repair actions')).toBeTruthy();
     expect(screen.getByText('Proof roots')).toBeTruthy();
+    expect(screen.getByText('Organization authority')).toBeTruthy();
+    expect(screen.getByText('Role, read-license, settlement, and interface permission')).toBeTruthy();
+    expect(screen.getByText('Permission decisions')).toBeTruthy();
+    expect(screen.getByText('Authority proof roots')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByText('selection-materialization').length).toBeGreaterThan(0);
     expect(screen.getAllByText('run-001').length).toBeGreaterThan(0);

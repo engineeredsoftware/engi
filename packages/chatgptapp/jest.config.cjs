@@ -1,5 +1,6 @@
 const tsJestPreset = require('ts-jest/presets/js-with-ts/jest-preset');
 const customModuleNameMapper = {
+  '^@bitcode/btd$': '<rootDir>/../btd/src/authority.ts',
   '^@bitcode/tools-generics$': '<rootDir>/src/__stubs__/tools-generics.ts',
   '^@bitcode/prompts/prompt$': '<rootDir>/../prompts/src/prompt.ts',
   '^@bitcode/prompts/parts/PromptPart$': '<rootDir>/../prompts/src/parts/PromptPart.ts',

@@ -354,6 +354,165 @@ describe('Authentication Middleware', () => {
         statusCode: 403
       });
     });
+
+    it('admits MCP delivery only when organization authority and registry read access agree', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById
+        .mockResolvedValueOnce({
+          id: 'user123',
+          email: 'operator@example.com',
+          full_name: 'Bitcode Operator',
+          organization_id: 'org123'
+        })
+        .mockResolvedValueOnce({
+          id: 'org123',
+          name: 'Bitcode Labs',
+          slug: 'bitcode-labs'
+        });
+      mockGetMembership.mockResolvedValue({
+        role: 'member',
+        permissions: {
+          resources: ['read'],
+          asset_pack: ['deliver']
+        }
+      });
+      mockGetProfileByUserId.mockResolvedValue({
+        wallet_binding: {
+          address: 'wallet-reader',
+          status: 'verified'
+        }
+      });
+      mockReadBtdHoldingAmount.mockResolvedValue(0);
+      mockGetAssetPackRange.mockResolvedValue({
+        asset_pack_id: 'asset-pack-1',
+        range_start: 0,
+        range_end_exclusive: 5,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash'
+      });
+      mockListOwnershipClaims.mockResolvedValue([]);
+      mockListReadLicenses.mockResolvedValue([
+        {
+          license_id: 'license-1',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          access_policy_hash: 'policy-hash',
+          valid_from: '2026-05-01T00:00:00.000Z'
+        }
+      ]);
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        requireOrganization: true,
+        requiredPermissions: { resources: ['read'] },
+        requiredReadAccess: {
+          assetPackId: 'asset-pack-1',
+          at: '2026-05-19T00:00:00.000Z'
+        },
+        requiredInterfaceAuthority: {
+          action: 'deliver_asset_pack',
+          settlementState: 'settled',
+          confirmed: true,
+          targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+          at: '2026-05-19T00:00:00.000Z'
+        }
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.context?.interfaceAuthority).toEqual([
+        expect.objectContaining({
+          interfaceSurface: 'mcp',
+          action: 'deliver_asset_pack',
+          decision: 'allowed',
+          sourceVisibility: 'protected_source_allowed'
+        })
+      ]);
+    });
+
+    it('rejects MCP delivery when interface authority is missing settlement and confirmation', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById
+        .mockResolvedValueOnce({
+          id: 'user123',
+          email: 'operator@example.com',
+          full_name: 'Bitcode Operator',
+          organization_id: 'org123'
+        })
+        .mockResolvedValueOnce({
+          id: 'org123',
+          name: 'Bitcode Labs',
+          slug: 'bitcode-labs'
+        });
+      mockGetMembership.mockResolvedValue({
+        role: 'member',
+        permissions: {
+          resources: ['read'],
+          asset_pack: ['deliver']
+        }
+      });
+      mockGetProfileByUserId.mockResolvedValue({
+        wallet_binding: {
+          address: 'wallet-reader',
+          status: 'verified'
+        }
+      });
+      mockReadBtdHoldingAmount.mockResolvedValue(0);
+      mockGetAssetPackRange.mockResolvedValue({
+        asset_pack_id: 'asset-pack-1',
+        range_start: 0,
+        range_end_exclusive: 5,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash'
+      });
+      mockListOwnershipClaims.mockResolvedValue([]);
+      mockListReadLicenses.mockResolvedValue([
+        {
+          license_id: 'license-1',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          access_policy_hash: 'policy-hash',
+          valid_from: '2026-05-01T00:00:00.000Z'
+        }
+      ]);
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        requireOrganization: true,
+        requiredPermissions: { resources: ['read'] },
+        requiredReadAccess: {
+          assetPackId: 'asset-pack-1',
+          at: '2026-05-19T00:00:00.000Z'
+        },
+        requiredInterfaceAuthority: {
+          action: 'deliver_asset_pack',
+          settlementState: 'pending',
+          confirmed: false,
+          at: '2026-05-19T00:00:00.000Z'
+        }
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatchObject({
+        code: 'INSUFFICIENT_INTERFACE_AUTHORITY',
+        statusCode: 403
+      });
+      expect(result.error?.message).toContain('settlement_required');
+      expect(result.error?.message).toContain('explicit_confirmation_required');
+    });
   });
 
   describe('validatePermissions', () => {

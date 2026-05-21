@@ -44,6 +44,7 @@ export type TerminalTransactionDetailSection =
   | 'shippables'
   | 'transaction'
   | 'wallet-btc'
+  | 'authority'
   | 'closure'
   | 'proofs'
   | 'history'
@@ -54,6 +55,7 @@ const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
   'shippables',
   'transaction',
   'wallet-btc',
+  'authority',
   'closure',
   'proofs',
   'history',

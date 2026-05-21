@@ -84,6 +84,7 @@ const detail: TerminalRunDetailSnapshot = {
   },
   ledgerSettlement: null,
   terminalJournal: null,
+  organizationAuthority: null,
   closureState: {
     canonLabel: 'persisted closure posture',
     verification: {

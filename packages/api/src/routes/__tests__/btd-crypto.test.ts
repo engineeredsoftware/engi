@@ -22,6 +22,7 @@ import {
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
+  buildBtdOrganizationInterfaceAuthorityDecision,
   buildBtdReadAccessDecision,
   buildBtdTerminalJournalSettlement,
   buildGetBtdRegistrySnapshotRoute,
@@ -33,6 +34,7 @@ import {
   buildPostBtdLedgerDatabaseReconciliationRoute,
   buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
+  buildPostBtdOrganizationInterfaceAuthorityRoute,
   buildPostBtdReadAccessRoute,
   buildPostBtdTerminalJournalRoute,
 } from '../btd-crypto';
@@ -461,6 +463,99 @@ describe('BTD crypto API builders', () => {
 
     expect((await expiredResponse.json()).decision.reason).toBe('license_expired');
     expect((await mismatchResponse.json()).decision.reason).toBe('policy_mismatch');
+  });
+
+  it('builds organization interface authority decisions with source visibility and proof roots', () => {
+    const decision = buildBtdOrganizationInterfaceAuthorityDecision({
+      actorId: 'user-1',
+      organizationId: 'org-api-1',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['asset_pack:deliver'],
+      interfaceSurface: 'mcp',
+      action: 'deliver_asset_pack',
+      walletId: 'wallet-reader',
+      settlementState: 'settled',
+      confirmed: true,
+      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      readAccessDecision: {
+        decision: 'owner_read',
+        accessPolicyHash: 'policy-api-hash',
+        reason: 'wallet_owns_policy_matching_range',
+      },
+      at: issuedAt,
+    });
+
+    expect(decision).toMatchObject({
+      routeKind: 'btd_organization_interface_authority_route_decision',
+      kind: 'btd_organization_interface_authority_decision',
+      decision: 'allowed',
+      interfaceSurface: 'mcp',
+      action: 'deliver_asset_pack',
+      sourceVisibility: 'protected_source_allowed',
+      reason: 'role_authorized',
+    });
+    expect(decision.reasons).toEqual(expect.arrayContaining(['owner_read_access_authorized']));
+    expect(decision.proofRoots.authorityRoot).toMatch(/^btd-proof-root:organization-interface-authority:/);
+  });
+
+  it('returns JSON-safe organization interface authority decisions from the route boundary', async () => {
+    const route = buildPostBtdOrganizationInterfaceAuthorityRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/organization-interface-authority', {
+        method: 'POST',
+        body: JSON.stringify({
+          organizationId: 'org-api-1',
+          organizationRole: 'member',
+          organizationPermissionGrants: ['reading:request_finding_fits'],
+          interfaceSurface: 'terminal',
+          action: 'request_finding_fits',
+          at: issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.routeKind).toBe('btd_organization_interface_authority_route_decision');
+    expect(body.decision).toBe('allowed');
+    expect(body.sourceVisibility).toBe('source_safe_preview');
+    expect(body.satisfied.role).toBe(true);
+    expect(body.proofRoots.interfaceRoot).toMatch(/^btd-proof-root:interface-authority:/);
+  });
+
+  it('keeps organization authority denials explicit at the route boundary', async () => {
+    const route = buildPostBtdOrganizationInterfaceAuthorityRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/organization-interface-authority', {
+        method: 'POST',
+        body: JSON.stringify({
+          organizationId: 'org-api-1',
+          organizationRole: 'viewer',
+          interfaceSurface: 'chatgpt_app',
+          action: 'deliver_asset_pack',
+          settlementState: 'pending',
+          confirmed: false,
+          at: issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.decision).toBe('denied');
+    expect(body.reasons).toEqual(
+      expect.arrayContaining([
+        'role_insufficient',
+        'wallet_binding_missing',
+        'registry_read_access_required',
+        'settlement_required',
+        'explicit_confirmation_required',
+      ]),
+    );
   });
 
   it('builds licensed-read revenue settlement receipts with holdback and route state', () => {

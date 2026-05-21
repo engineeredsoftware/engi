@@ -2,10 +2,11 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": "../..",
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "noEmit": true,
     "types": ["node", "jest"],
     "paths": {
+      "@bitcode/btd": ["packages/btd/src/authority.ts"],
       "@bitcode/tools-generics": ["packages/chatgptapp/src/__stubs__/tools-generics.ts"],
       "@bitcode/generic-tools-simple-system-text-search": ["packages/chatgptapp/src/__stubs__/generic-tools-simple-system-text-search.ts"],
       "@bitcode/generic-tools-web-search": ["packages/chatgptapp/src/__stubs__/generic-tools-web-search.ts"],

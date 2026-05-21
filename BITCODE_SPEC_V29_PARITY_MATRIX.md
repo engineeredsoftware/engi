@@ -54,7 +54,7 @@ No `_legacy/` source is active source truth.
 | Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | drafted | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
 | AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | drafted | Source-safe preview and paid unlock are proven without protected-source leakage. |
 | Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, sandbox harness settlement evidence, Terminal repair UI, Gate 6 checker | drafted | Ledger, database, and metaphysical state drift is classified, proof-rooted, repair-actioned, and visible. |
-| Organization permission authority | Gate 7 | access policy, org holdings, MCP/ChatGPT gates, Terminal permission UI | pending | Registry-derived roles, holdings, and read-license authority govern actions. |
+| Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | drafted | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
 | Commercial formalization | Gate 8 | packages/protocol, package tests, import scans, docs | pending | Demonstration-origin commercial internals are package-native and no runtime demo imports remain. |
 | Terminal UX quality | Gate 9 | Playwright/Jest/a11y/responsive/browser QA | pending | Complete transaction cockpit is usable by default and inspectable in detail. |
 | Promotion readiness | Gate 10 | promotion workflow, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | pending | `version/v29` can promote to `main` only after all V29 checks pass. |
@@ -71,7 +71,8 @@ No `_legacy/` source is active source truth.
 | Gate 3 wallet/BTC operation | `pnpm run check:v29-gate3` proves quote lifecycle, signer recovery, blocked readiness, API posture, and Terminal Wallet/BTC detail | drafted |
 | Gate 4 Reading observability | `pnpm run check:v29-gate4` proves contract-aware Reading stream telemetry and Terminal rendering | drafted |
 | Gate 5 AssetPack disclosure | `pnpm run check:v29-gate5` proves source-safe disclosure review, leakage detection, Terminal preview rendering, and PR title enforcement | drafted |
-| Product implementation gates | Gates 6-9 close remaining Terminal transaction depth with tests and docs | pending |
+| Gate 7 organization authority | `pnpm run check:v29-gate7` proves shared org/interface authority across BTD, API, MCP, ChatGPT App, harness, and Terminal | drafted |
+| Product implementation gates | Gates 8-9 close remaining Terminal transaction depth with tests and docs | pending |
 | Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
 
 ## Gate 1 Parity
@@ -207,10 +208,37 @@ Gate 6 completion condition:
 
 - `pnpm run check:v29-gate6` passes.
 - Focused BTD, API, pipeline-hosts, and UAPI tests prove repair classification, conservation drift, proof roots, and Terminal repair visibility.
-- Gate 5 does not implement organization authority beyond read-right state distinctions; Gate 7 owns registry-derived roles and holdings.
-- Gate 5 does not add browser proof or full UX polish; Gate 9 owns that surface.
-- Gate 5 does not add versioned API routes or source identifiers.
 
 ## Gate 5 completion condition
 
 Gate 5 is complete when AssetPack disclosure review is package-owned, postprocess and sandbox harness evidence include source-safe disclosure review roots, protected-source leakage tests fail closed, Terminal renders the disclosure review through the Reading preview surface, gate PR title enforcement is active, focused package and UAPI tests pass, `check:v29-gate5` passes, CI invokes the checker and tests, docs name the implemented source surfaces, and the gate branch is committed and pushed for review into `version/v29`.
+
+## Gate 7 Parity
+
+Gate 7 closes the organization authority slice by making action permission a shared BTD decision instead of interface-local convention.
+
+Accepted surfaces:
+
+- `packages/btd/src/authority.ts` is the canonical organization/interface authority primitive for role checks, explicit grants, wallet binding, registry read access, settlement, explicit confirmation, repair approval, source visibility, and authority proof roots.
+- `packages/api/src/routes/btd-crypto.ts` and `uapi/app/api/btd/organization-interface-authority/route.ts` expose JSON-safe authority decisions for application routes.
+- `packages/executions-mcp/src/mcp-server/src/auth/middleware.ts` can require interface authority after existing permission and BTD read-access checks.
+- `packages/chatgptapp/src/tools.ts` requires explicit confirmation, registry read-access evidence, and organization authority evidence before connected-interface writes.
+- `packages/pipeline-hosts/src/asset-pack-harness.ts` stores and emits `organizationAuthority` beside settlement unlock and reconciliation evidence.
+- `uapi/app/terminal/terminal-organization-authority.ts` and `TerminalTransactionOrganizationAuthorityCard.tsx` project the selected transaction into authority metrics, blockers, decision rows, proof roots, and raw payload.
+
+Accepted failure states:
+
+- Missing role, insufficient role, or missing explicit grant blocks authority.
+- Missing wallet binding blocks fee payment, source unlock, and delivery when those actions require Reader wallet proof.
+- Missing or denied registry read access blocks protected-source unlock and delivery.
+- Pending settlement blocks protected-source visibility even when role evidence exists.
+- Missing explicit confirmation blocks payment, delivery, repair, and administration actions that cross sensitive boundaries.
+- Interfaces may deny actions even when the organization role could authorize them elsewhere.
+
+Gate 7 completion condition:
+
+- `pnpm run check:v29-gate7` passes.
+- Focused BTD, API, MCP, ChatGPT App, pipeline-hosts, and UAPI tests prove organization holdings, active/expired/revoked license usage, paid delivery admission, unpaid denial, interface denial, connected-interface write gating, harness evidence, and Terminal visibility.
+- Gate-quality CI invokes the Gate 7 checker and focused tests.
+- Gate 7 does not add broad enterprise RBAC administration beyond Terminal transaction authority; later versions may deepen team policy authoring.
+- Gate 7 does not reveal protected source before settlement and does not add versioned API routes or source identifiers.

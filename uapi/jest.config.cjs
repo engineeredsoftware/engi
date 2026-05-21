@@ -142,6 +142,7 @@ module.exports = {
     '<rootDir>/tests/terminalPipelineHarnessClient.test.ts',
     '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',
     '<rootDir>/tests/terminalJournalReconciliation.test.ts',
+    '<rootDir>/tests/terminalOrganizationAuthority.test.ts',
     '<rootDir>/tests/terminalTransactionActivitySurface.test.tsx',
     '<rootDir>/tests/terminalTransactionDetail.test.ts',
     '<rootDir>/tests/terminalTransactionDetailCards.test.tsx',

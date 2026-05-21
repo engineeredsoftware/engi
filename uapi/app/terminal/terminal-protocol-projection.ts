@@ -198,6 +198,7 @@ export function buildProtocolProjectedRunDetail(
     closureState: null,
     ledgerSettlement: null,
     terminalJournal: null,
+    organizationAuthority: null,
     bitcodeActivityState:
       workbench || activeScenario || supplySelection || repository
         ? {
