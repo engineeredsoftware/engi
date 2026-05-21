@@ -313,7 +313,8 @@ Accepted surfaces:
 
 - `scripts/check-v29-gate10-local-staging-promotion-readiness.mjs` validates
   the Gate 10 specification, QA ledger, scripts, workflow wiring, runtime
-  posture, and promotion-mode behavior.
+  posture, and promotion-mode behavior before and after the generated V29/V30
+  protocol package posture rewrite.
 - `.github/workflows/bitcode-gate-quality.yml` runs all V29 gate checks in
   draft posture and switches to promoted V29 checks after the promotion commit.
 - `.github/workflows/bitcode-canon-quality.yml` accepts both V28 active / V29

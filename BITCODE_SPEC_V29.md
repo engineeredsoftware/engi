@@ -277,6 +277,9 @@ The promotion-readiness contract has five parts:
 `packages/protocol/data/state.json` are commercial runtime posture carriers.
 They must align to V28 active / V29 draft during Gate 10 work and be rewritten
 to V29 active / V30 draft by promotion automation.
+The Gate 10 checker is promotion-mode aware: it must accept the V28/V29 package
+posture before the generated canon commit and the V29/V30 package posture after
+the generated canon commit.
 
 Gate 10 does not itself promote `BITCODE_SPEC.txt`.
 It closes when `version/v29` can be pull-requested to `main` and the V29

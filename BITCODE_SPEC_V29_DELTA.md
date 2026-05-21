@@ -202,7 +202,8 @@ Closure acceptance:
 
 - `check:v29-gate10` validates the V29 promotion-readiness surface from a clean
   Gate 10 branch and can run in `--promotion-mode` after `BITCODE_SPEC.txt`
-  advances to `V29`.
+  advances to `V29`, including the promoted V29 active / V30 draft protocol
+  package posture.
 - Gate-quality CI invokes all V29 gate scripts while V29 is still a draft and
   switches to promoted V29 validation after the promotion workflow writes the
   canonical pointer commit.
