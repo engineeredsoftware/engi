@@ -220,7 +220,12 @@ export default function TerminalTransactionDetailSurface({
 
   if (isLoadingDetail && !detail) {
     return (
-      <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
+      <div
+        data-testid="terminal-detail-loading-state"
+        role="status"
+        aria-live="polite"
+        className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400"
+      >
         Loading Bitcode activity…
       </div>
     );
@@ -228,7 +233,11 @@ export default function TerminalTransactionDetailSurface({
 
   if (!detail) {
     return (
-      <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
+      <div
+        data-testid="terminal-detail-empty-state"
+        role="status"
+        className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400"
+      >
         Selected Bitcode activity is not available yet for this context.
       </div>
     );
@@ -294,9 +303,17 @@ export default function TerminalTransactionDetailSurface({
   };
 
   return (
-    <div className="space-y-6">
+    <section
+      data-testid="terminal-selected-activity-detail"
+      aria-labelledby="terminalTransactionDetailTitle"
+      className="space-y-6"
+    >
       {detailError ? (
-        <div className="rounded-[1.4rem] border border-amber-500/20 bg-amber-500/10 px-4 py-4 text-sm text-amber-100">
+        <div
+          data-testid="terminal-detail-readback-warning"
+          role="alert"
+          className="rounded-[1.4rem] border border-amber-500/20 bg-amber-500/10 px-4 py-4 text-sm text-amber-100"
+        >
           {detailError}
         </div>
       ) : null}
@@ -314,6 +331,7 @@ export default function TerminalTransactionDetailSurface({
             activeSectionAvailability={transactionReadModel.activeSection.availability}
             postureChips={transactionReadModel.lowDetail.postureChips}
             surface={surface}
+            titleId="terminalTransactionDetailTitle"
           />
 
           <TerminalTransactionDetailActionBar
@@ -383,14 +401,22 @@ export default function TerminalTransactionDetailSurface({
               />
             </section>
           ) : showShippables ? (
-            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
+            <div
+              data-testid="terminal-shippables-empty-state"
+              role="status"
+              className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300"
+            >
               No materialized AssetPack evidence or Finish delivery mechanism is attached to this Bitcode activity yet. The same
               activity result still keeps proofs, history, and closure reading available.
             </div>
           ) : null}
 
           {actionError ? (
-            <div className="rounded-[1.4rem] border border-red-500/20 bg-red-500/10 px-4 py-4 text-sm text-red-200">
+            <div
+              data-testid="terminal-detail-action-error"
+              role="alert"
+              className="rounded-[1.4rem] border border-red-500/20 bg-red-500/10 px-4 py-4 text-sm text-red-200"
+            >
               {actionError}
             </div>
           ) : null}
@@ -467,6 +493,6 @@ export default function TerminalTransactionDetailSurface({
           </div>
         </section>
       ) : null}
-    </div>
+    </section>
   );
 }

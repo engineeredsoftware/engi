@@ -472,12 +472,26 @@ export default function TerminalPageClient() {
       ) : null}
       <TerminalShellBridgeProvider>
         <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
-          <div className="mx-auto flex w-full max-w-none flex-col gap-6 px-4 pb-24 pt-32 tablet:px-6 desktop:px-8">
-          <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
+          <a
+            href="#terminalTransactionWorkspace"
+            className="sr-only fixed left-4 top-4 z-50 rounded-full border border-emerald-300/40 bg-[#06101d] px-4 py-2 text-sm font-medium text-emerald-50 shadow-xl focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-emerald-300/50"
+          >
+            Skip to selected Terminal activity
+          </a>
+          <main
+            id="terminalMain"
+            data-testid="terminal-cockpit-root"
+            aria-labelledby="terminalPageTitle"
+            className="mx-auto flex w-full max-w-none flex-col gap-6 px-4 pb-24 pt-32 tablet:px-6 desktop:px-8"
+          >
+          <section
+            aria-labelledby="terminalPageTitle"
+            className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]"
+          >
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-4xl">
                 <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode Terminal</p>
-                <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
+                <h1 id="terminalPageTitle" className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
                   Deposit, Read, and read recent Bitcode activity
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
@@ -655,7 +669,7 @@ export default function TerminalPageClient() {
               </TerminalSurfaceSection>
             </div>
           </div>
-          </div>
+          </main>
         </div>
         {FEATURE_FLAGS.TERMINAL_DEBUG_WIDGET ? (
           <TerminalFloatingDebugWidget

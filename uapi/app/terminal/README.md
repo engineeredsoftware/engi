@@ -149,6 +149,23 @@ authority payload inspection. Terminal may show source-safe previews without a
 paid unlock, but protected-source unlock and delivery remain blocked until the
 same `organizationAuthority` evidence admits the action.
 
+## V29 Terminal UX browser proof checkpoint
+
+The Terminal cockpit is now browser-proofed as a transaction operation surface,
+not only a collection of panels. The route must expose a named `main` landmark,
+a keyboard-reachable skip link into `#terminalTransactionWorkspace`, named
+workspace/detail regions, explicit loading/empty/error/blocked state semantics,
+and contained table overflow for phone through widescreen viewports.
+
+The browser-proof contract lives in `terminal-ux-browser-proof.ts`. It names the
+required landmarks, state semantics, viewport set, route checks, and evidence
+files used by Gate 9. The focused Jest test proves the contract and UI state
+semantics; the focused Playwright spec proves the cockpit through a real browser
+in deterministic mock mode. Playwright readiness waits on the Terminal route
+itself through `PLAYWRIGHT_READY_URL` so an open dev-server port is not mistaken
+for a rendered cockpit. Gate 9 does not reveal protected AssetPack source, does
+not redesign Reading, and does not add versioned routes.
+
 ## Related shared systems
 
 - [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)

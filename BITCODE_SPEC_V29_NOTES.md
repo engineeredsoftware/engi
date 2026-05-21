@@ -76,6 +76,7 @@ For a simplified reading of V29:
 
 9. **Gate 9: Terminal UX Quality And Browser Proof**
    - Close accessibility, responsive, copy, loading/empty/error/blocked states, browser checks, and Playwright coverage for the complete Terminal cockpit.
+   - Acceptance detail: the Terminal page exposes a named cockpit `main`, skip navigation into the selected transaction workspace, named workspace/detail regions, source-safe low-detail defaults, explicit state semantics, and deterministic Playwright coverage for landmarks, blocked Console posture, route-owned selection, and phone/tablet/laptop/widescreen readability.
 
 10. **Gate 10: Local And Staging Promotion Readiness**
     - Run non-mocked local validation, staging-testnet readback, generated proof artifacts, promotion dry-run, and `version/v29` promotion readiness.
@@ -208,6 +209,34 @@ Gate 8 completion condition:
 - `pnpm run check:v29-gate8` passes.
 - Protocol package tests pass.
 - The spec family, package README, root scripts, and CI all name and enforce the package-native boundary.
+
+## Gate 9 working notes
+
+Gate 9 closes the Terminal cockpit quality slice.
+It treats UX quality as protocol evidence: operators must be able to read the transaction state, section availability, source-safe preview posture, blocked actions, and activity stream without relying on browser network logs.
+
+Accepted surfaces:
+
+- `uapi/app/terminal/terminal-ux-browser-proof.ts` records the browser-proof contract: required landmarks, state semantics, viewports, route checks, and evidence files.
+- `TerminalPageClient.tsx` owns the named cockpit `main` landmark and skip link.
+- `TerminalTransactionWorkspace.tsx` owns the named transaction workspace region, loading/empty/error semantics, and selected result status.
+- `TerminalTransactionDetailSurface.tsx`, `TerminalTransactionDetailHero.tsx`, and `TerminalTransactionDetailActionBar.tsx` own the selected activity detail region, low-detail source-safe header, section controls, blocked Console posture, and action errors.
+- `BitcodeTransactionsTable.tsx` and `BitcodeTransactionsDataTable.tsx` keep transaction table overflow contained while exposing loading, empty, error, and selectable-row states to tests and assistive technology.
+- `uapi/tests/terminalUxBrowserProof.test.tsx` proves the typed state contract.
+- `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` proves the cockpit in a real browser in deterministic mock mode.
+
+Gate 9 accepted boundaries:
+
+- Gate 9 does not redesign the five-step Reading product flow; it makes the current transaction cockpit accessible and provable.
+- Gate 9 does not reveal protected AssetPack source before settlement.
+- Gate 9 does not add versioned routes, gate-named runtime routes, or work-in-progress source identifiers.
+- Gate 9 does not require live staging credentials; Gate 10 owns non-mocked local/staging promotion readiness.
+
+Gate 9 completion condition:
+
+- `pnpm run check:v29-gate9` passes.
+- Focused UAPI Jest coverage and Terminal Playwright browser proof pass locally.
+- Gate-quality CI invokes the Gate 9 checker, focused Jest test, and focused Playwright browser proof.
 
 ## Later-version boundaries
 

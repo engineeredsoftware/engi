@@ -81,17 +81,25 @@ export default function TerminalTransactionActivitySurface({
 
   if (!activity) {
     return (
-      <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-8 text-sm text-neutral-400">
+      <div
+        data-testid="terminal-activity-empty-state"
+        role="status"
+        className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-8 text-sm text-neutral-400"
+      >
         No activity stream is available for this selected Bitcode activity yet.
       </div>
     );
   }
 
   return (
-    <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
+    <section
+      data-testid="terminal-activity-stream-surface"
+      aria-labelledby="terminalActivityStreamTitle"
+      className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]"
+    >
       <div className="border-b border-white/8 px-5 py-4">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode activity</p>
-        <h3 className="mt-2 text-lg font-semibold text-white">Execution activity and work updates</h3>
+        <h3 id="terminalActivityStreamTitle" className="mt-2 text-lg font-semibold text-white">Execution activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
           Read the selected Bitcode activity&apos;s execution stream, state, and iteration updates directly from the Bitcode Terminal.
           Current convergence keeps execution primitives explicit here while the broader Bitcode activity family also admits

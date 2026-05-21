@@ -56,7 +56,7 @@ No `_legacy/` source is active source truth.
 | Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, sandbox harness settlement evidence, Terminal repair UI, Gate 6 checker | drafted | Ledger, database, and metaphysical state drift is classified, proof-rooted, repair-actioned, and visible. |
 | Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | drafted | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
 | Commercial formalization | Gate 8 | `packages/protocol/src/index.js`, `packages/protocol/src/canon-posture.js`, root scripts, protocol package tests, import scans, docs, Gate 8 checker | drafted | Demonstration-origin commercial internals are package-native and no direct demonstration-source imports remain in commercial/runtime sources. |
-| Terminal UX quality | Gate 9 | Playwright/Jest/a11y/responsive/browser QA | pending | Complete transaction cockpit is usable by default and inspectable in detail. |
+| Terminal UX quality | Gate 9 | Terminal UX contract, Playwright/Jest/a11y/responsive/browser QA | drafted | Complete transaction cockpit is usable by default and inspectable in detail. |
 | Promotion readiness | Gate 10 | promotion workflow, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | pending | `version/v29` can promote to `main` only after all V29 checks pass. |
 
 ## V29 implementation checklist
@@ -73,7 +73,7 @@ No `_legacy/` source is active source truth.
 | Gate 5 AssetPack disclosure | `pnpm run check:v29-gate5` proves source-safe disclosure review, leakage detection, Terminal preview rendering, and PR title enforcement | drafted |
 | Gate 7 organization authority | `pnpm run check:v29-gate7` proves shared org/interface authority across BTD, API, MCP, ChatGPT App, harness, and Terminal | drafted |
 | Gate 8 commercial formalization | `pnpm run check:v29-gate8` proves package-native protocol exports, V28/V29 posture, script import cleanup, docs, tests, and CI wiring | drafted |
-| Product implementation gates | Gate 9 closes remaining Terminal transaction UX quality with browser proof | pending |
+| Gate 9 Terminal UX browser proof | `pnpm run check:v29-gate9` proves named landmarks, explicit state semantics, responsive browser coverage, focused Jest coverage, and CI wiring | drafted |
 | Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
 
 ## Gate 1 Parity
@@ -272,3 +272,31 @@ Gate 8 completion condition:
 - Focused protocol package typecheck/test and the UAPI commercial protocol boundary test pass.
 - V29 SPEC, DELTA, NOTES, PARITY, protocol package README, package scripts, and gate-quality workflow name the formalized package-native boundary.
 - Root scripts use protocol package exports for canonical helpers and do not directly import `protocol-demonstration/src/*`.
+
+## Gate 9 Parity
+
+Gate 9 closes the Terminal UX quality and browser-proof slice by making the transaction cockpit readable, keyboard reachable, responsive, and test-proven.
+
+Accepted surfaces:
+
+- `uapi/app/terminal/terminal-ux-browser-proof.ts` exports the typed contract for Gate 9 landmarks, viewports, states, route checks, and evidence files.
+- `TerminalPageClient.tsx` exposes a named `main` cockpit region and skip link to the selected transaction workspace.
+- `TerminalTransactionWorkspace.tsx` exposes a named transaction workspace region, selected activity status, and explicit loading, empty, and error states.
+- `TerminalTransactionDetailSurface.tsx`, `TerminalTransactionDetailHero.tsx`, and `TerminalTransactionDetailActionBar.tsx` expose a named selected activity detail region, source-safe low-detail detail hero, route-owned section controls, blocked Console posture, and action error alerts.
+- `BitcodeTransactionsTable.tsx` and `BitcodeTransactionsDataTable.tsx` expose table state semantics while containing table overflow inside the table scroller.
+- `uapi/tests/terminalUxBrowserProof.test.tsx` proves the contract and UI state semantics.
+- `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` proves the cockpit through a real browser in deterministic mock mode.
+- `.github/workflows/bitcode-gate-quality.yml` runs the Gate 9 checker, focused Jest test, Playwright browser install, and focused Terminal browser proof.
+
+Accepted boundaries:
+
+- Gate 9 does not redesign Reading into a different flow.
+- Gate 9 does not reveal protected AssetPack source before settlement.
+- Gate 9 does not add versioned API routes or gate/work-in-progress runtime identifiers.
+- Gate 9 does not perform non-mocked staging promotion readiness; Gate 10 owns that slice.
+
+Gate 9 completion condition:
+
+- `pnpm run check:v29-gate9` passes.
+- Focused UAPI Jest coverage and Playwright Terminal browser proof pass.
+- V29 SPEC, DELTA, NOTES, PARITY, Terminal README, package scripts, and gate-quality workflow name the browser-proof contract.

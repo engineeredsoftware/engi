@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
 import {
@@ -371,16 +372,19 @@ export default function TerminalTransactionWorkspace({
   return (
     <section
       id="terminalTransactionWorkspace"
+      data-testid="terminal-transaction-workspace"
+      aria-labelledby="terminalTransactionWorkspaceTitle"
+      aria-describedby="terminalTransactionWorkspaceSummary"
       className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,10,20,0.96),rgba(4,8,16,0.94))] shadow-[0_32px_110px_rgba(0,0,0,0.48)]"
     >
       <div className="border-b border-white/8 px-6 py-5">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-4xl">
             <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">{surfaceKicker}</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
+            <h2 id="terminalTransactionWorkspaceTitle" className="mt-2 text-2xl font-semibold tracking-tight text-white">
               {surfaceTitle}
             </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
+            <p id="terminalTransactionWorkspaceSummary" className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
               {surfaceSummary}
             </p>
           </div>
@@ -400,19 +404,46 @@ export default function TerminalTransactionWorkspace({
             </div>
           ) : null}
         </div>
+        <p
+          data-testid="terminal-transaction-status-strip"
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+        >
+          {isLoadingRuns
+            ? loadingLabel
+            : runsError
+              ? `Terminal activity failed: ${runsError}`
+              : selectedRun
+                ? `Selected activity ${selectedRun.id} is active in ${getTransactionDataModeLabel(transactionDataMode)}.`
+                : 'No Terminal activity is selected.'}
+        </p>
       </div>
 
       <div className="px-6 py-6">
         {isLoadingRuns ? (
-          <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
+          <div
+            data-testid="terminal-workspace-loading-state"
+            role="status"
+            aria-live="polite"
+            className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400"
+          >
             {loadingLabel}
           </div>
         ) : runsError ? (
-          <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/10 px-5 py-5 text-sm text-red-200">
+          <div
+            data-testid="terminal-workspace-error-state"
+            role="alert"
+            className="rounded-[1.5rem] border border-red-500/20 bg-red-500/10 px-5 py-5 text-sm text-red-200"
+          >
             {runsError}
           </div>
         ) : !selectedRun ? (
-          <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
+          <div
+            data-testid="terminal-workspace-empty-state"
+            role="status"
+            className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400"
+          >
             {TERMINAL_SURFACE_COPY.detail.emptySelection}
           </div>
         ) : (

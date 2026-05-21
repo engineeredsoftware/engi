@@ -149,6 +149,7 @@ module.exports = {
     '<rootDir>/tests/terminalTransactionDetailSnapshot.test.ts',
     '<rootDir>/tests/terminalTransactionQuery.test.ts',
     '<rootDir>/tests/terminalTransactionReadModel.test.ts',
+    '<rootDir>/tests/terminalUxBrowserProof.test.tsx',
     '<rootDir>/tests/terminalWalletBtcOperation.test.ts',
     '<rootDir>/tests/terminalCoreNativeSections.test.tsx',
     '<rootDir>/tests/terminalDepositComposer.test.ts',

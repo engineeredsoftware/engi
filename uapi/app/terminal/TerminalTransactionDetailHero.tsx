@@ -15,6 +15,7 @@ interface TerminalTransactionDetailHeroProps {
   activeSectionAvailability?: string;
   postureChips?: string[];
   surface?: 'terminal' | 'exchange';
+  titleId?: string;
 }
 
 export default function TerminalTransactionDetailHero({
@@ -28,16 +29,20 @@ export default function TerminalTransactionDetailHero({
   activeSectionAvailability,
   postureChips = [],
   surface = 'terminal',
+  titleId,
 }: TerminalTransactionDetailHeroProps) {
   const kicker =
     surface === 'exchange' ? 'Exchange selected activity detail' : 'Bitcode Terminal activity result';
 
   return (
-    <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
+    <article
+      data-testid="terminal-selected-activity-hero"
+      className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5"
+    >
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">{kicker}</p>
-          <h3 className="mt-2 text-xl font-semibold text-white">{title}</h3>
+          <h3 id={titleId} className="mt-2 text-xl font-semibold text-white">{title}</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">{summary}</p>
         </div>
         <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">

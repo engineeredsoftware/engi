@@ -223,6 +223,29 @@ The Terminal transaction read model must contain:
 The model is deterministic from execution history, detail readback, route query state, and data mode.
 It must tolerate partial live readback by preserving a fallback selected-run projection while naming empty or blocked sections.
 
+## V29 Terminal UX quality and browser-proof canon
+
+The Terminal transaction cockpit is a protocol-facing operator interface.
+It must be readable by default, keyboard reachable, responsive, and browser-proven.
+
+The cockpit must expose:
+
+- one named `main` landmark for the Terminal route;
+- a keyboard-reachable skip link to the selected transaction workspace;
+- a named transaction workspace region for activity selection, filtering, and selected-result digest;
+- a named selected activity detail region for the low-detail detail hero, route-owned section controls, and source-safe detail surfaces;
+- explicit loading, empty, failed, blocked, and source-safe preview states with `status` or `alert` semantics where appropriate;
+- contained table overflow so phone and tablet viewports do not acquire document-level horizontal overflow;
+- route-owned detail controls whose current, available, empty, and blocked states are understandable before raw payload expansion.
+
+The browser-proof contract is package-local to Terminal and exported by `uapi/app/terminal/terminal-ux-browser-proof.ts`.
+It identifies the required landmarks, viewports, state semantics, route checks, and evidence files.
+The focused Jest test proves the contract and state semantics.
+The focused Playwright spec proves the cockpit in a real browser in deterministic mock mode across key route and responsive states.
+
+Gate 9 acceptance does not change Reading law, source disclosure law, settlement law, or organization authority law.
+It makes the current V29 Terminal cockpit commercially operable enough that later local/staging promotion readiness can debug failures from the UI rather than from browser network logs alone.
+
 ## V29 Wallet/BTC operation canon
 
 Wallet and BTC fee state is an ordinary Terminal transaction surface, not an opaque settlement footnote.

@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 import type { TerminalTransactionDetailSection } from './terminal-transaction-query';
@@ -86,13 +88,17 @@ export default function TerminalTransactionDetailActionBar({
   );
 
   return (
-    <section className="rounded-[1.3rem] border border-white/8 bg-black/20 px-4 py-4">
+    <section
+      data-testid="terminal-detail-action-bar"
+      aria-labelledby="terminalDetailActionBarTitle"
+      className="rounded-[1.3rem] border border-white/8 bg-black/20 px-4 py-4"
+    >
       <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">
             {isExchangeSurface ? 'Exchange detail interaction' : 'Activity interaction'}
           </p>
-          <h3 className="mt-1.5 text-lg font-semibold text-white">
+          <h3 id="terminalDetailActionBarTitle" className="mt-1.5 text-lg font-semibold text-white">
             {isExchangeSurface ? 'Route-owned Exchange detail focus' : 'Route-owned result focus and closure actions'}
           </h3>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
@@ -118,13 +124,19 @@ export default function TerminalTransactionDetailActionBar({
         ) : null}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div
+        data-testid="terminal-detail-section-controls"
+        className="mt-4 flex flex-wrap gap-2"
+        role="group"
+        aria-label="Selected activity detail sections"
+      >
         {visibleActions.map((action) => {
           const sectionButton = (
             <button
               key={action.id}
               type="button"
               disabled={action.disabled}
+              aria-pressed={activeSection === action.id}
               onClick={() => onChangeSection(action.id)}
               className={`rounded-full border px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] transition disabled:cursor-not-allowed disabled:opacity-45 ${
                 activeSection === action.id
