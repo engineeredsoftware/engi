@@ -218,6 +218,27 @@ Gate 4 receipt precision:
   root, read right, and ledger projection root.
 - Rights-transfer receipts require confirmed BTC fee finality before the BTD
   right/license transfer can admit protected source visibility to the Reader.
+
+Gate 6 source-to-shares precision:
+
+- `SourceToSharesProof` is package-owned in `@bitcode/btd` and is the reusable
+  accounting boundary for later Exchange work.
+- Proof inputs bind accepted Need root, Finding Fits result root, admitted fit
+  deposits, per-deposit measurement roots, normalized measurement units,
+  fit/provenance quality basis points, BTD range projection, accepted BTC fee
+  quote, payment observation, and optional ancestry review.
+- Contribution weights are deterministic largest-remainder basis points over
+  measured fit-deposit weights. The trace records total clipped weight,
+  remainder order, tie-break policy, and provisional/final shares.
+- BTD range slices and BTC fee allocations are both derived from the same
+  contribution weights. Range slices may be zero-cell/refit-tail slices when the
+  measuremint tail or small range leaves a contributor with no cell.
+- Settlement conservation carries distinct no-overpayment and no-underpayment
+  theorem verdicts, exact allocation conservation, blocker reasons, a
+  conservation root, and a reconciliation-compatible check.
+- A source-to-shares proof may represent balanced, overpayment, underpayment, or
+  drifted state, but only balanced state is settlement-admissible for protected
+  source unlock and delivery.
   Prepared, signed, broadcast, replaced, reorged, and failed fee receipts do
   not unlock protected source.
 
@@ -688,9 +709,9 @@ Terminal renders those roots with blockers and decision rows so operators can un
 - current member verdict shape: prepared, signed, broadcast, confirmed, blocked, reconciled.
 - current theorem-by-theorem closure reading: no paid source unlock without fee and right-transfer readback.
 - current theorem-to-replay grouping: quote root, payment path, ledger observation, BTD state, reconciliation.
-- minimum artifact/replay binding set: fee quote root, txid or blocked receipt, range id, license id, journal id.
-- current proof-object fields: quote, payment, range, license, reconciliation, blocker.
-- generated-artifact and test bindings: BTD tests, settlement route tests, staging readback.
+- minimum artifact/replay binding set: fee quote root, payment receipt root, txid or blocked receipt, BTD range slice roots, contribution weights, conservation root, license id, journal id.
+- current proof-object fields: quote, payment observation, fit deposits, contribution weights, range slices, settlement allocations, no-overpayment, no-underpayment, zero-cell/refit tail, ancestry evidence, reconciliation check, blocker.
+- generated-artifact and test bindings: BTD source-to-shares tests, settlement route tests, staging readback.
 - fail-closed conditions: settlement conservation drift, stale quote, or chain reorg.
 
 ### Disclosure-boundary

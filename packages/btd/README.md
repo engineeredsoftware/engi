@@ -15,6 +15,10 @@ This package owns:
   Reader and Depositor identities, source-safe preview roots, paid unlock,
   delivery admission, and ledger projection roots without leaking protected
   source before settlement
+- source-to-shares proof cleanup: contribution measurement, deterministic
+  largest-remainder share weights, BTD range slices, exact BTC fee allocation,
+  settlement conservation, zero-cell/refit tail posture, ancestry evidence, and
+  no-overpayment/no-underpayment theorem verdicts
 - ledger/database/object-storage projection reconciliation, including
   deterministic repair classes, source-safe object artifact roots,
   secret-free Supabase staging-testnet readback receipts, quarantine/retry
@@ -49,7 +53,9 @@ import {
   buildBtdRightsTransferReceipt,
   buildBtdRegistrySnapshot,
   buildSupabaseStagingTestnetProjectionReadback,
+  buildSourceToSharesProof,
   reconcileLedgerDatabaseProjection,
+  sourceToSharesProofToSettlementConservationCheck,
   toBtdJsonSafe,
   calculateLlmBtcFeeEstimate,
   buildLicensedReadRevenueRoute,

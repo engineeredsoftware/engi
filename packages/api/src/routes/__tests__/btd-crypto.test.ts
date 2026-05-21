@@ -25,6 +25,7 @@ import {
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
   buildBtdReadAccessDecision,
+  buildBtdSourceToSharesProofSettlement,
   buildBtdTerminalJournalSettlement,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
@@ -41,6 +42,7 @@ import {
   buildPostBtdMintDraftRoute,
   buildPostBtdOrganizationInterfaceAuthorityRoute,
   buildPostBtdReadAccessRoute,
+  buildPostBtdSourceToSharesProofRoute,
   buildPostBtdTerminalJournalRoute,
 } from '../btd-crypto';
 
@@ -143,6 +145,63 @@ function mintDraftRequestBody(overrides: Record<string, unknown> = {}) {
       ...contributor,
       normalizedContributionVolume: contributor.normalizedContributionVolume.toString(),
     })),
+    ...overrides,
+  };
+}
+
+function sourceToSharesProofBody(overrides: Record<string, unknown> = {}) {
+  return {
+    readId: 'read-api-source-to-shares-1',
+    assetPackId: 'asset-pack-api-source-to-shares-1',
+    acceptedNeedRoot: 'accepted-need-api-root',
+    findingFitsResultRoot: 'finding-fits-api-root',
+    fitDeposits: [
+      {
+        depositId: 'deposit-api-a',
+        assetPackId: 'fit-asset-api-a',
+        depositorWalletId: 'wallet-depositor-api-a',
+        sourceManifestRoot: 'source-api-root-a',
+        findingFitsResultRoot: 'finding-fits-api-root-a',
+        measurementRoot: 'measurement-api-root-a',
+        normalizedMeasurementUnits: '20000',
+        fitQualityBps: 10000,
+        provenanceBps: 10000,
+        accepted: true,
+      },
+      {
+        depositId: 'deposit-api-b',
+        assetPackId: 'fit-asset-api-b',
+        depositorWalletId: 'wallet-depositor-api-b',
+        sourceManifestRoot: 'source-api-root-b',
+        findingFitsResultRoot: 'finding-fits-api-root-b',
+        measurementRoot: 'measurement-api-root-b',
+        normalizedMeasurementUnits: '10000',
+        fitQualityBps: 10000,
+        provenanceBps: 10000,
+        accepted: true,
+      },
+    ],
+    btdRange: {
+      assetPackId: 'asset-pack-api-source-to-shares-1',
+      rangeStart: 40,
+      rangeEndExclusive: 43,
+      tokenCount: 3,
+      measureMintReceiptRoot: 'measuremint-api-root',
+    },
+    feeQuote: {
+      quoteId: 'quote-api-source-to-shares-1',
+      quoteRoot: 'quote-api-source-root',
+      grossSats: '9000',
+    },
+    paymentObservation: {
+      paymentReceiptRoot: 'payment-api-source-root',
+      observedDebitSats: '9000',
+      observedCreditSats: '9000',
+      finalityState: 'confirmed',
+      txid: 'txid-api-source-to-shares',
+    },
+    exchangeSequence: '18',
+    issuedAt,
     ...overrides,
   };
 }
@@ -879,6 +938,35 @@ describe('BTD crypto API builders', () => {
     );
   });
 
+  it('builds source-to-shares proof settlements with exact conservation roots', () => {
+    const settlement = buildBtdSourceToSharesProofSettlement({
+      actorId: 'user-1',
+      ...sourceToSharesProofBody(),
+      exchangeSequence: 18n,
+    } as any);
+
+    expect(settlement.kind).toBe('btd_source_to_shares_proof_settlement');
+    expect(settlement.proof.contributionWeights.map((entry) => entry.shareBps)).toEqual([
+      6667,
+      3333,
+    ]);
+    expect(settlement.proof.settlementConservation).toMatchObject({
+      state: 'balanced',
+      settlementAdmissible: true,
+      allocationConserved: true,
+    });
+    expect(
+      settlement.proof.settlementAllocations.reduce(
+        (sum, route) => sum + route.allocatedSats,
+        0n,
+      ),
+    ).toBe(9000n);
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('settlement_finalization');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(
+      settlement.proof.settlementConservation.conservationRoot,
+    );
+  });
+
   it('builds deployment readiness, telemetry, and upgrade settlements', () => {
     const readiness = buildBtdDeploymentReadinessSettlement({
       actorId: 'user-1',
@@ -1423,6 +1511,28 @@ describe('BTD crypto API builders', () => {
         blocking: true,
       }),
     );
+  });
+
+  it('returns JSON-safe source-to-shares proofs from the route boundary', async () => {
+    const route = buildPostBtdSourceToSharesProofRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/source-to-shares-proof', {
+        method: 'POST',
+        body: JSON.stringify(sourceToSharesProofBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_source_to_shares_proof_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.proof.feeQuote.priceAsset).toBe('BTC');
+    expect(body.proof.feeQuote.grossSats).toBe('9000');
+    expect(body.proof.settlementConservation.noOverpayment.passed).toBe(true);
+    expect(body.proof.settlementConservation.noUnderpayment.passed).toBe(true);
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('18');
   });
 
   it('returns JSON-safe deployment readiness settlements and persists telemetry or upgrades', async () => {

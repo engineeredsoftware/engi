@@ -143,6 +143,14 @@ are retryable unlock blockers, and settled transactions with missing
 pull-request delivery surface delivery recovery without exposing protected
 AssetPack source before payment.
 
+Source-to-shares settlement evidence should enter the Terminal as a package
+proof, not as route-local accounting. The BTD source-to-shares proof binds
+fit-deposit measurements, contribution weights, BTD range slices, exact BTC fee
+allocation, conservation verdicts, zero-cell/refit tail posture, ancestry
+evidence, and a reconciliation-compatible conservation check. Operators should
+read no-overpayment and no-underpayment separately so overpaid, underpaid, and
+drifted settlements are repairable without exposing protected AssetPack source.
+
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
 wallet binding, owner-read or licensed-read access, settlement state,
