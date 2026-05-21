@@ -87,6 +87,7 @@ jobs:
             node scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs --skip-branch-check
             node scripts/check-v30-gate7-bridge-readiness-research-boundaries.mjs --skip-branch-check
             node scripts/check-v30-gate8-protocol-telemetry-proof-hooks.mjs --skip-branch-check
+            node scripts/check-v30-gate9-interface-integration-regression-proof.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -131,6 +132,8 @@ jobs:
             tests/terminalDepositReadWorkbench.test.ts \
             tests/terminalTransactionQuery.test.ts \
             tests/terminalTransactionReadModel.test.ts \
+            tests/terminalProtocolProjection.test.ts \
+            tests/terminalInterfaceIntegrationRegression.test.ts \
             tests/terminalWalletBtcOperation.test.ts \
             tests/terminalJournalReconciliation.test.ts \
             tests/terminalOrganizationAuthority.test.ts \

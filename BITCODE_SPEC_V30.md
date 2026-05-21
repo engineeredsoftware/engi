@@ -349,6 +349,28 @@ The focused Playwright spec proves the cockpit in a real browser in deterministi
 Gate 9 acceptance does not change Reading law, source disclosure law, settlement law, or organization authority law.
 It makes the current V30 Terminal cockpit commercially operable enough that later local/staging promotion readiness can debug failures from the UI rather than from browser network logs alone.
 
+### Gate 9 interface integration regression proof
+
+Gate 9 adds a package-owned proof that current interface surfaces consume the
+Protocol/BTD rails instead of duplicating them:
+
+- `BtdInterfaceIntegrationRegressionProof` covers Terminal, API, MCP,
+  ChatGPT App, Auxillaries hook, and Exchange hook surfaces.
+- `BtdInterfaceIntegrationRecordInput` and
+  `@bitcode/btd/interface-integration-contract` give browser-facing
+  interfaces a client-safe contract for surface and object-family coverage.
+- `/btd/interface-integration-regression` wraps the package proof in a
+  source-safe Terminal journal `proof_admission` boundary.
+- The proof covers BTD registry, read access, BTD receipts, BTC fee operation,
+  ledger projection, source-to-shares proof, Protocol telemetry,
+  organization authority, and Terminal journal object families.
+- Every record must set `packageOwned: true`,
+  `routeLocalReimplementation: false`, `sourceSafeLowDetailIntact: true`, and
+  `transactionCockpitRegression: false`.
+- The proof fails closed on missing surfaces, missing object families,
+  protected source, secrets, route-local policy copies, or low-detail cockpit
+  regression.
+
 ## V30 local and staging promotion readiness canon
 
 V30 promotion is admissible only when the version branch can prove both source

@@ -166,6 +166,8 @@ export * from './authority';
 export * from './constants';
 export * from './deployment-lanes';
 export * from './exchange';
+export * from './interface-integration';
+export * from './interface-integration-contract';
 export * from './ledger-anchor';
 export * from './measuremint';
 export * from './plans';

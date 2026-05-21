@@ -76,6 +76,16 @@ The `tools/list` call should display the canonical Bitcode identifiers below wit
 
 Refer to `TLDR.md` for a quick-start checklist and `TODO.md` for the active backlog.
 
+## Protocol/BTD interface integration
+
+The ChatGPT App consumes the shared
+`@bitcode/btd/interface-integration-contract` surface through
+`src/interface-integration.ts`. That record is source-safe and states that
+ChatGPT write carriers reuse package-owned read-access, organization-authority,
+and Protocol telemetry objects rather than copying BTD policy locally. The
+record is regression evidence for the same connected-interface contract the
+Terminal and API expose.
+
 ## Prompt playbook
 
 **Golden prompts**

@@ -1,4 +1,5 @@
 import { getBitcodeTools, type BitcodeToolExecutionResult } from '../tools';
+import { buildChatGptAppInterfaceIntegrationRecord } from '../interface-integration';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -112,6 +113,18 @@ This product delivers voice-first social conversations for builders.
         type: 'object',
       });
     }
+  });
+
+  it('declares the ChatGPT App interface integration record through the package-owned BTD contract', () => {
+    expect(buildChatGptAppInterfaceIntegrationRecord()).toMatchObject({
+      surface: 'chatgpt_app',
+      packageExport: '@bitcode/btd/interface-integration-contract',
+      packageOwned: true,
+      routeLocalReimplementation: false,
+      sourceSafeLowDetailIntact: true,
+      transactionCockpitRegression: false,
+      objectFamilies: expect.arrayContaining(['read_access', 'organization_authority']),
+    });
   });
 
   it('answer_codebase_query returns annotated matches', async () => {

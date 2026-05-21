@@ -305,6 +305,20 @@ Closure acceptance:
 - low-detail source-safe UX remains intact;
 - focused regression tests prove no V29 transaction cockpit behavior regresses.
 
+Gate 9 implementation centers on:
+
+- `packages/btd/src/interface-integration-contract.ts` for client-safe
+  surface and object-family contracts;
+- `packages/btd/src/interface-integration.ts` for
+  `BtdInterfaceIntegrationRegressionProof` and source-safe fail-closed
+  record validation;
+- `buildBtdInterfaceIntegrationRegressionSettlement` and
+  `/btd/interface-integration-regression` for JSON-safe API admission;
+- Terminal, MCP, and ChatGPT App adapter records proving package-owned
+  consumption without route-local BTD policy copies;
+- focused BTD, API, MCP, ChatGPT App, and Terminal tests for source-safe
+  low-detail regression closure.
+
 ### Gate 10: V30 Promotion Readiness
 
 Gate 10 owns final local/staging proof, generated artifacts, and V30 promotion workflow support.

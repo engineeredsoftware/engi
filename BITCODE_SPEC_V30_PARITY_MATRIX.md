@@ -62,7 +62,7 @@ No `_legacy/` source is active source truth.
 | Source-to-shares proof cleanup | Gate 6 | `packages/btd/src/source-to-shares.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Measurement contribution, fee allocation, zero-cell/refit tail, ancestry evidence, and conservation invariants are testable. |
 | Bridge-readiness research boundaries | Gate 7 | `packages/btd/src/bridge-readiness.ts`, BTD/API tests, route boundary, docs, gate checker | drafted | Bridge paths are typed research-only records until admitted by explicit future proof and policy. |
 | Protocol telemetry/proof hooks | Gate 8 | `packages/btd/src/telemetry.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Receipts, fee states, projections, source-to-shares proofs, and bridge-readiness posture emit source-safe telemetry and proof hooks. |
-| Interface integration regression | Gate 9 | Terminal/API/MCP/ChatGPT App adapters and tests | pending | Existing interfaces consume package-owned objects without regressing V29 behavior. |
+| Interface integration regression | Gate 9 | `packages/btd/src/interface-integration.ts`, `packages/api/src/routes/btd-crypto.ts`, Terminal/MCP/ChatGPT adapters and tests, gate checker | drafted | Existing interfaces consume package-owned objects without regressing V29 behavior. |
 | Promotion readiness | Gate 10 | V30 promotion workflow, generated `.bitcode/v30-*`, `BITCODE_SPEC_V30_PROVEN.md` | pending | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
 
 ## V30 implementation checklist
@@ -228,6 +228,25 @@ No `_legacy/` source is active source truth.
 - Gate 8 does not generate promotion artifacts yet; it reserves `.bitcode/v30-protocol-telemetry-proof-hooks.json` as a source-safe generated inventory.
 - Gate 8 may expose telemetry/proof hooks to Terminal/API callers for operator review.
 - Gate 8 does not promote V30 or change the active canon pointer.
+
+## Gate 9 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| Interface integration proof is package-owned | `packages/btd/src/interface-integration.ts`, `packages/btd/src/interface-integration-contract.ts`, `packages/btd/src/index.ts` | drafted |
+| Terminal can consume client-safe package contracts | `uapi/app/terminal/terminal-interface-integration-regression.ts`, `uapi/app/terminal/terminal-protocol-projection.ts` | drafted |
+| API exposes JSON-safe proof admission | `buildBtdInterfaceIntegrationRegressionSettlement`, `buildPostBtdInterfaceIntegrationRegressionRoute`, `uapi/app/api/btd/interface-integration-regression/route.ts` | drafted |
+| MCP and ChatGPT App declare package-owned object records | `packages/executions-mcp/src/mcp-server/src/interface-integration.ts`, `packages/chatgptapp/src/interface-integration.ts` | drafted |
+| Source-safe low-detail and transaction cockpit regression are tested | BTD interface-integration tests, BTD crypto route tests, Terminal projection tests, MCP auth test, ChatGPT tools test | drafted |
+| Gate checker protects interface integration boundaries | `scripts/check-v30-gate9-interface-integration-regression-proof.mjs`, `pnpm run check:v30-gate9`, gate-quality workflow | drafted |
+
+## Gate 9 accepted boundaries
+
+- Gate 9 does not redesign Reading, settlement, source disclosure, organization authority, MCP, ChatGPT App, Auxillaries, or Exchange.
+- Gate 9 does not expose protected AssetPack source, prompts, raw source, private keys, service keys, model keys, JWT-looking secrets, or database passwords.
+- Gate 9 admits only source-safe interface integration records and a proof-admission route; it does not commit ledger state or deliver AssetPacks.
+- Gate 9 proves current interfaces consume package-owned BTD object families without route-local policy copies.
+- Gate 9 does not promote V30 or change the active canon pointer.
 
 ## completion condition
 

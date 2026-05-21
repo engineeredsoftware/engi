@@ -19,6 +19,8 @@ import {
   type BtdBtcFeeTransactionSettlement,
   type BtdDeploymentReadinessInput,
   type BtdDeploymentReadinessSettlement,
+  type BtdInterfaceIntegrationRegressionInput,
+  type BtdInterfaceIntegrationRegressionSettlement,
   type BtdLedgerDatabaseReconciliationInput,
   type BtdLedgerDatabaseReconciliationSettlement,
   type BtdLicensedReadRevenueInput,
@@ -47,6 +49,7 @@ import {
   buildBtdBridgeReadinessResearchSettlement,
   buildBtdBtcFeeTransactionSettlement,
   buildBtdDeploymentReadinessSettlement,
+  buildBtdInterfaceIntegrationRegressionSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
@@ -71,6 +74,7 @@ export {
   buildBtdBridgeReadinessResearchSettlement,
   buildBtdBtcFeeTransactionSettlement,
   buildBtdDeploymentReadinessSettlement,
+  buildBtdInterfaceIntegrationRegressionSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
@@ -675,6 +679,39 @@ export function buildPostBtdProtocolTelemetryRoute(options: BtdRouteOptions = {}
   });
 }
 
+export function buildPostBtdInterfaceIntegrationRegressionRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/interface-integration-regression', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: Omit<BtdInterfaceIntegrationRegressionInput, 'actorId' | 'exchangeSequence'> & {
+      exchangeSequence: string | number;
+    };
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    let settlement: BtdInterfaceIntegrationRegressionSettlement;
+    try {
+      settlement = buildBtdInterfaceIntegrationRegressionSettlement({
+        ...body,
+        actorId: user.userId,
+        exchangeSequence: parseBtdRequiredBigInt(body.exchangeSequence, 'exchangeSequence'),
+      });
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+
+    return createJsonResponse(toJsonSafe(settlement));
+  });
+}
+
 export function buildPostBtdDeploymentReadinessRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/deployment-readiness', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -737,6 +774,8 @@ export const postBtdLedgerDatabaseReconciliation =
 export const postBtdSourceToSharesProof = buildPostBtdSourceToSharesProofRoute();
 export const postBtdBridgeReadinessResearch = buildPostBtdBridgeReadinessResearchRoute();
 export const postBtdProtocolTelemetry = buildPostBtdProtocolTelemetryRoute();
+export const postBtdInterfaceIntegrationRegression =
+  buildPostBtdInterfaceIntegrationRegressionRoute();
 export const postBtdDeploymentReadiness = buildPostBtdDeploymentReadinessRoute();
 
 function toBadRequestMessage(error: unknown): string {

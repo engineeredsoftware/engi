@@ -21,6 +21,7 @@ import {
   buildBtdBtcFeeTransactionSettlement,
   buildBtdBridgeReadinessResearchSettlement,
   buildBtdDeploymentReadinessSettlement,
+  buildBtdInterfaceIntegrationRegressionSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
@@ -41,6 +42,7 @@ import {
   buildPostBtdBtcFeeTransactionRoute,
   buildPostBtdBridgeReadinessResearchRoute,
   buildPostBtdDeploymentReadinessRoute,
+  buildPostBtdInterfaceIntegrationRegressionRoute,
   buildPostBtdLedgerDatabaseReconciliationRoute,
   buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
@@ -49,6 +51,7 @@ import {
   buildPostBtdReadAccessRoute,
   buildPostBtdSourceToSharesProofRoute,
   buildPostBtdTerminalJournalRoute,
+  postBtdInterfaceIntegrationRegression,
 } from '../btd-crypto';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
@@ -254,6 +257,86 @@ function protocolTelemetryBody(overrides: Record<string, unknown> = {}) {
       },
     ],
     exchangeSequence: '20',
+    issuedAt,
+    ...overrides,
+  };
+}
+
+function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> = {}) {
+  const recordBase = {
+    packageOwned: true,
+    routeLocalReimplementation: false,
+    sourceSafeLowDetailIntact: true,
+    transactionCockpitRegression: false,
+    notes: ['package-owned object consumed source-safely'],
+    issuedAt,
+  };
+
+  return {
+    records: [
+      {
+        ...recordBase,
+        surface: 'terminal',
+        consumerId: 'terminal-transaction-cockpit',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        objectFamilies: ['btd_registry', 'read_access', 'terminal_journal'],
+        proofRoot: 'terminal-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'api',
+        consumerId: 'btd-api-route-boundary',
+        packageExport: '@bitcode/btd',
+        adapterPath: 'packages/api/src/routes/btd-crypto.ts',
+        objectFamilies: [
+          'btd_receipts',
+          'btc_fee_operation',
+          'ledger_projection',
+          'protocol_telemetry',
+        ],
+        proofRoot: 'api-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'mcp',
+        consumerId: 'bitcode-mcp-interface',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
+        objectFamilies: ['source_to_shares_proof', 'organization_authority'],
+        proofRoot: 'mcp-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'chatgpt_app',
+        consumerId: 'bitcode-chatgpt-app-interface',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'packages/chatgptapp/src/interface-integration.ts',
+        objectFamilies: ['read_access', 'organization_authority'],
+        proofRoot: 'chatgpt-app-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'auxillaries_hook',
+        consumerId: 'auxillaries-interface-hook',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        objectFamilies: ['btd_registry', 'organization_authority'],
+        proofRoot: 'auxillaries-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'exchange_hook',
+        consumerId: 'exchange-interface-hook',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        objectFamilies: ['btd_receipts', 'btc_fee_operation', 'ledger_projection'],
+        proofRoot: 'exchange-interface-proof-root',
+      },
+    ],
+    lowDetailProofRoot: 'terminal-low-detail-source-safe-proof-root',
+    transactionCockpitProofRoot: 'terminal-transaction-cockpit-regression-proof-root',
+    exchangeSequence: '21',
     issuedAt,
     ...overrides,
   };
@@ -1680,6 +1763,59 @@ describe('BTD crypto API builders', () => {
     expect(body.envelope.telemetry[0].event).toBe('btd.source_to_shares_proof.emitted');
     expect(body.envelope.proofHooks[0].proofFamily).toBe('source_to_shares');
     expect(body.terminalJournalEntry.exchangeSequence).toBe('20');
+  });
+
+  it('returns JSON-safe interface integration regression proof from the route boundary', async () => {
+    const direct = buildBtdInterfaceIntegrationRegressionSettlement({
+      ...(interfaceIntegrationRegressionBody() as any),
+      exchangeSequence: 21n,
+      actorId: 'user-1',
+    });
+    const route = buildPostBtdInterfaceIntegrationRegressionRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/interface-integration-regression', {
+        method: 'POST',
+        body: JSON.stringify(interfaceIntegrationRegressionBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(direct.kind).toBe('btd_interface_integration_regression_settlement');
+    expect(postBtdInterfaceIntegrationRegression).toBeDefined();
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_interface_integration_regression_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.proof.coverage.surfaces.missing).toEqual([]);
+    expect(body.proof.coverage.objectFamilies.missing).toEqual([]);
+    expect(body.proof.packageOwned).toBe(true);
+    expect(body.proof.routeLocalReimplementation).toBe(false);
+    expect(body.proof.sourceSafeLowDetailIntact).toBe(true);
+    expect(body.proof.transactionCockpitRegression).toBe(false);
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('21');
+  });
+
+  it('fails interface integration regression when source-safe low detail is not proven', async () => {
+    const route = buildPostBtdInterfaceIntegrationRegressionRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const body = interfaceIntegrationRegressionBody({
+      records: (interfaceIntegrationRegressionBody().records as any[]).map((record, index) => ({
+        ...record,
+        sourceSafeLowDetailIntact: index === 0 ? false : record.sourceSafeLowDetailIntact,
+      })),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/interface-integration-regression', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(payload.error).toContain('source-safe low-detail UX');
   });
 
   it('returns JSON-safe deployment readiness settlements and persists telemetry or upgrades', async () => {

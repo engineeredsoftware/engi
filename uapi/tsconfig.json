@@ -43,6 +43,9 @@
       "@bitcode/btd/terminal-operational-health": [
         "../packages/btd/src/terminal-operational-health.ts"
       ],
+      "@bitcode/btd/interface-integration-contract": [
+        "../packages/btd/src/interface-integration-contract.ts"
+      ],
       "@bitcode/pipeline-asset-pack": [
         "../packages/pipelines/asset-pack/src/index.ts"
       ],

@@ -67,6 +67,11 @@ import {
   settleAssetPackExchangeOrder,
 } from './exchange';
 import type {
+  BtdInterfaceIntegrationRecordInput,
+  BtdInterfaceIntegrationRegressionProof,
+} from './interface-integration';
+import { buildBtdInterfaceIntegrationRegressionProof } from './interface-integration';
+import type {
   AssetPackLedgerAnchor,
   LedgerFinalityState,
 } from './ledger-anchor';
@@ -463,6 +468,16 @@ export interface BtdProtocolTelemetryBoundaryInput {
   issuedAt?: string;
 }
 
+export interface BtdInterfaceIntegrationRegressionInput {
+  proofId?: string;
+  records: BtdInterfaceIntegrationRecordInput[];
+  lowDetailProofRoot: string;
+  transactionCockpitProofRoot: string;
+  exchangeSequence: bigint;
+  actorId?: string;
+  issuedAt?: string;
+}
+
 export type BtdDeploymentReadinessAction =
   | 'deployment_lane'
   | 'telemetry_event'
@@ -588,6 +603,14 @@ export interface BtdProtocolTelemetrySettlement {
   kind: 'btd_protocol_telemetry_settlement';
   actorId: string;
   envelope: BtdProtocolTelemetryEnvelope;
+  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  committed: false;
+}
+
+export interface BtdInterfaceIntegrationRegressionSettlement {
+  kind: 'btd_interface_integration_regression_settlement';
+  actorId: string;
+  proof: BtdInterfaceIntegrationRegressionProof;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   committed: false;
 }
@@ -1427,6 +1450,57 @@ export function buildBtdProtocolTelemetrySettlement(
     kind: 'btd_protocol_telemetry_settlement',
     actorId,
     envelope,
+    terminalJournalEntry,
+    committed: false,
+  };
+}
+
+export function buildBtdInterfaceIntegrationRegressionSettlement(
+  input: BtdInterfaceIntegrationRegressionInput & { actorId: string },
+): BtdInterfaceIntegrationRegressionSettlement {
+  const actorId = assertNonEmptyString(input.actorId, 'actorId');
+  if (typeof input.exchangeSequence !== 'bigint' || input.exchangeSequence <= 0n) {
+    throw new Error('Interface integration regression settlement requires a positive Exchange sequence.');
+  }
+
+  const proof = buildBtdInterfaceIntegrationRegressionProof({
+    proofId: input.proofId,
+    records: input.records,
+    lowDetailProofRoot: input.lowDetailProofRoot,
+    transactionCockpitProofRoot: input.transactionCockpitProofRoot,
+    issuedAt: input.issuedAt,
+  });
+  const terminalJournalEntry = buildTerminalJournalEntry({
+    journalEntryId: buildBtdStableId('terminal-btd-interface-integration-regression', [
+      proof.proofId,
+      input.exchangeSequence.toString(),
+    ]),
+    transactionKind: 'proof_admission',
+    actorId,
+    preStateRoot: buildBtdStableId('interface-integration-pre-state', [
+      proof.lowDetailProofRoot,
+      proof.transactionCockpitProofRoot,
+    ]),
+    postStateRoot: buildBtdStableId('interface-integration-post-state', [
+      proof.proofRoot,
+      proof.coverage.surfaces.observed.join(','),
+      proof.coverage.objectFamilies.observed.join(','),
+    ]),
+    receiptRoots: [
+      proof.proofRoot,
+      proof.lowDetailProofRoot,
+      proof.transactionCockpitProofRoot,
+      ...proof.records.map((record) => record.recordRoot),
+    ],
+    ledgerAnchorIds: [],
+    exchangeSequence: input.exchangeSequence,
+    issuedAt: proof.issuedAt,
+  });
+
+  return {
+    kind: 'btd_interface_integration_regression_settlement',
+    actorId,
+    proof,
     terminalJournalEntry,
     committed: false,
   };

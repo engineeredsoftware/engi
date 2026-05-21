@@ -161,6 +161,14 @@ export interface TerminalRunDetailSnapshot {
         inventorySource?: string | null;
       };
     } | null;
+    interfaceIntegrationRegression?: {
+      surfaceCount: number;
+      objectFamilyCount: number;
+      recordCount: number;
+      lowDetailSourceSafe: true;
+      routeLocalReimplementation: false;
+      transactionCockpitRegression: false;
+    };
   } | null;
   historyItemCount: number;
   eventCount: number;

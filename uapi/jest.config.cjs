@@ -140,6 +140,8 @@ module.exports = {
     '<rootDir>/tests/terminalSupplySelectionPanel.test.tsx',
     '<rootDir>/tests/terminalDepositReadWorkbench.test.ts',
     '<rootDir>/tests/terminalPipelineHarnessClient.test.ts',
+    '<rootDir>/tests/terminalProtocolProjection.test.ts',
+    '<rootDir>/tests/terminalInterfaceIntegrationRegression.test.ts',
     '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',
     '<rootDir>/tests/terminalJournalReconciliation.test.ts',
     '<rootDir>/tests/terminalOrganizationAuthority.test.ts',
