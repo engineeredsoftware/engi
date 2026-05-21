@@ -68,6 +68,25 @@ V30 owns Protocol/BTD hardening:
    - Narrow package APIs for shared Protocol/BTD objects used by API, Terminal, MCP, ChatGPT App, and future Auxillaries/Exchange work.
    - Require package-owned builders, validators, parsers, tests, and JSON-safe serialization before cross-interface use.
 
+## Gate 2 protocol package API boundary notes
+
+Gate 2 moves reusable BTD route-facing construction into
+`packages/btd/src/api-boundaries.ts`. `packages/api/src/routes/btd-crypto.ts`
+remains the route owner: it authenticates requests, parses request bodies,
+resolves registry projections, commits explicit persistence writes, and returns
+JSON responses. It no longer owns BTD mint draft admission, registry snapshot
+construction, read-access policy derivation, BTC-fee settlement receipts,
+AssetPack ledger anchors, Exchange settlement receipts, Terminal journal
+settlements, reconciliation reports, deployment-readiness receipts, BigInt
+parsing, or JSON-safe conversion.
+
+The package test `packages/btd/__tests__/api-boundaries.test.ts` is the local
+contract for package-owned builders/parsers/serialization. The API route test
+imports those builders from `@bitcode/btd` and keeps route-handler coverage in
+the API package. `pnpm run check:v30-gate2` closes the gate by checking this
+seam, package README ownership language, and commercial runtime avoidance of
+standalone demonstration imports.
+
 3. **Gate 3: Bitcoin Taproot PSBT Fee Rigor**
    - Harden BTC fee quote, signer recovery, PSBT, Taproot/script posture, broadcast, replacement, reorg, finality, and testnet/mainnet boundaries.
 

@@ -6,6 +6,14 @@ Unified Bitcode API orchestration layer. This package owns route-level request l
 
 Interface-owned route bindings such as `uapi/app/api/*` should stay thin. They import formal route handlers from `packages/api` entry modules such as `@bitcode/api/src/routes/*`, while those handlers import narrower functionality from the appropriate subsystem packages.
 
+For BTD routes, the accepted import direction is route code importing
+package-owned builders, parsers, validators, and JSON serializers from
+`@bitcode/btd`. The route-owned behavior is limited to authentication, request body
+parsing, registry projection reads, explicit persistence commits, response
+status decisions, and framework-compatible response serialization. Route code
+must not duplicate BTD policy, mint admission, receipt derivation, settlement
+state construction, or JSON-safe conversion already exported by `@bitcode/btd`.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

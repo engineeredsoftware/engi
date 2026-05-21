@@ -14,6 +14,9 @@ This package owns:
 - Terminal operational health reads that compose deployment lanes, telemetry,
   upgrade posture, provider readiness, settlement-network posture, synthetic
   testnet minting, journal rows, ledger anchors, and reconciliation state
+- `api-boundaries.ts`, the framework-agnostic BTD API boundary for shared route
+  objects, BigInt parsers, validators, settlement builders, registry snapshot
+  builders, read-access decision builders, and JSON-safe serialization
 
 `$BTD` is not a fungible fee token. BTC pays fees. `$BTD` represents a
 non-fungible AssetPack share/read-right and the measured Bitcode amount in
@@ -30,6 +33,9 @@ import {
   buildGenerationBitcodeAccounting,
   BTD_MAX_MINTABLE_SUPPLY,
   applyBtdMeasureMint,
+  buildBtdMintDraft,
+  buildBtdRegistrySnapshot,
+  toBtdJsonSafe,
   calculateLlmBtcFeeEstimate,
   buildLicensedReadRevenueRoute,
   getBtdBalance,
@@ -37,6 +43,12 @@ import {
   readBtdHoldings,
 } from '@bitcode/btd';
 ```
+
+Accepted imports point into `@bitcode/btd` or the documented
+`@bitcode/btd/terminal-operational-health` subpath. API routes, Terminal, MCP,
+ChatGPT App, Auxillaries, and Exchange must not copy BTD admission, receipt,
+settlement, parser, validator, or serializer logic locally when this package
+exports the boundary object.
 
 Terminal should consume the operational-health subpath when it needs the
 client-safe read model without importing storage-backed package entry points:

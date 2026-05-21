@@ -55,7 +55,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V30.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v30/gate-1-roadmap-and-gating` | drafted | V30 family validates in draft mode over active V29 and `check:v30-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V29 active, V30 draft, and coherent V31-V37 responsibilities. |
-| Protocol package API boundaries | Gate 2 | `packages/protocol`, `packages/btd`, `packages/api`, package READMEs/tests | pending | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
+| Protocol package API boundaries | Gate 2 | `packages/btd/src/api-boundaries.ts`, `packages/api/src/routes/btd-crypto.ts`, package READMEs/tests | drafted | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
 | Bitcoin Taproot PSBT fee rigor | Gate 3 | BTD fee/signer/PSBT primitives, API route adapters, tests | pending | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, and proof-rooted. |
 | BTD AssetPack mint/read receipts | Gate 4 | BTD receipt primitives, asset-pack postprocess, harness evidence, Terminal/API readback | pending | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
 | Testnet ledger projection hardening | Gate 5 | BTD reconciliation, Supabase readback, object-storage evidence, repair tests | pending | Ledger/database/object-storage projections are synchronized or blocked with deterministic repair posture. |
@@ -93,6 +93,25 @@ No `_legacy/` source is active source truth.
 
 - Gate 1 does not implement Protocol/BTD package hardening.
 - Gate 1 does not create `BITCODE_SPEC_V30_PROVEN.md`.
+
+## Gate 2 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| Package-owned BTD builders and parsers exist | `packages/btd/src/api-boundaries.ts` exports mint, registry, read-access, fee, ledger-anchor, Exchange, journal, reconciliation, deployment-readiness builders plus `parseBtdRequiredBigInt`, `parseBtdOptionalBigInt`, and `toBtdJsonSafe` | drafted |
+| API route delegates BTD policy and receipt derivation | `packages/api/src/routes/btd-crypto.ts` imports package builders from `@bitcode/btd` and keeps route code scoped to auth, request parsing, registry projection reads/writes, and responses | drafted |
+| Package tests cover the boundary | `packages/btd/__tests__/api-boundaries.test.ts` proves mint drafts, registry snapshots, read-access decisions, parsers, and JSON-safe serialization | drafted |
+| Route tests consume package-owned builders | `packages/api/src/routes/__tests__/btd-crypto.test.ts` imports BTD builders from `@bitcode/btd` and route handlers from the API route module | drafted |
+| Commercial runtime avoids standalone demonstration imports | `scripts/check-v30-gate2-protocol-package-api-boundaries.mjs` scans runtime source import statements for `protocol-demonstration/src` and `@bitcode/protocol-demonstration` | drafted |
+| Package READMEs state accepted imports | `packages/btd/README.md`, `packages/api/README.md`, and `packages/protocol/README.md` name package ownership and accepted import direction | drafted |
+| Gate checker protects the seam | `pnpm run check:v30-gate2` and gate-quality workflow call `scripts/check-v30-gate2-protocol-package-api-boundaries.mjs` | drafted |
+
+## Gate 2 accepted boundaries
+
+- Gate 2 does not change the active canon pointer.
+- Gate 2 does not introduce bridge chain-of-record behavior.
+- Gate 2 does not admit value-bearing mainnet settlement.
+- Gate 2 does not remove existing API route persistence adapters; it narrows their policy and receipt derivation responsibilities to package calls.
 - Gate 1 does not promote `BITCODE_SPEC.txt` to V30.
 - Gate 1 may retarget workflows to active V29 / draft V30 so later gates are greenable.
 - Gate 1 may update roadmap scope for V31-V37 to align with V28/V29 promotion learning without opening those versions.
