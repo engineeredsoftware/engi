@@ -28,6 +28,8 @@ import {
   type BtdReadAccessDecision,
   type BtdReadLicense,
   type BtdOwnershipClaim,
+  type BtdSourceToSharesProofInput,
+  type BtdSourceToSharesProofSettlement,
   type BtdTerminalJournalInput,
   type BtdTerminalJournalSettlement,
   type TerminalJournalEntry,
@@ -46,6 +48,7 @@ import {
   buildBtdOrganizationInterfaceAuthorityDecision,
   buildBtdReadAccessDecision,
   buildBtdRegistrySnapshot,
+  buildBtdSourceToSharesProofSettlement,
   buildBtdStableId as stableId,
   buildBtdTerminalJournalSettlement,
   buildLicensedReadRevenueRoute,
@@ -67,6 +70,7 @@ export {
   buildBtdOrganizationInterfaceAuthorityDecision,
   buildBtdReadAccessDecision,
   buildBtdRegistrySnapshot,
+  buildBtdSourceToSharesProofSettlement,
   buildBtdTerminalJournalSettlement,
 };
 
@@ -564,6 +568,39 @@ export function buildPostBtdLedgerDatabaseReconciliationRoute(options: BtdRouteO
   });
 }
 
+export function buildPostBtdSourceToSharesProofRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/source-to-shares-proof', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: Omit<BtdSourceToSharesProofInput, 'actorId' | 'exchangeSequence'> & {
+      exchangeSequence: string | number;
+    };
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    let settlement: BtdSourceToSharesProofSettlement;
+    try {
+      settlement = buildBtdSourceToSharesProofSettlement({
+        ...body,
+        actorId: user.userId,
+        exchangeSequence: parseBtdRequiredBigInt(body.exchangeSequence, 'exchangeSequence'),
+      });
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+
+    return createJsonResponse(toJsonSafe(settlement));
+  });
+}
+
 export function buildPostBtdDeploymentReadinessRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/deployment-readiness', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -623,6 +660,7 @@ export const postBtdAssetPackExchange = buildPostBtdAssetPackExchangeRoute();
 export const postBtdTerminalJournal = buildPostBtdTerminalJournalRoute();
 export const postBtdLedgerDatabaseReconciliation =
   buildPostBtdLedgerDatabaseReconciliationRoute();
+export const postBtdSourceToSharesProof = buildPostBtdSourceToSharesProofRoute();
 export const postBtdDeploymentReadiness = buildPostBtdDeploymentReadinessRoute();
 
 function toBadRequestMessage(error: unknown): string {

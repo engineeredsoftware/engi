@@ -167,6 +167,30 @@ persists schema-compatible repair receipts; richer drift classes, repair
 actions, readback receipts, and proof roots remain in the report payload until a
 future schema expansion admits more columns.
 
+## Gate 6 source-to-shares cleanup notes
+
+Gate 6 moves settlement-source-to-shares accounting into the BTD package instead
+of relying on older protocol-local artifact builders. The package primitive
+normalizes accepted fit deposits into contribution weights through a deterministic
+largest-remainder method, allocates BTD range slices with zero-cell/refit-tail
+posture when a fit receives no cell, allocates BTC fee credits exactly by the
+same contribution weights, and emits one proof root that binds the fee quote,
+payment observation, measurements, fit deposits, range slices, allocation roots,
+settlement conservation, and ancestry evidence.
+
+The proof intentionally keeps no-overpayment and no-underpayment as distinct
+theorem verdicts. This lets a repair cockpit distinguish a Reader overpayment
+from an inadmissible underpayment instead of collapsing both into generic
+conservation drift. The same proof emits a reconciliation-compatible settlement
+conservation check so Gate 5 ledger/database repair can pause unlock or delivery
+from the source-to-shares proof directly.
+
+The source-to-shares API route does not write a new registry table in Gate 6.
+It returns a JSON-safe proof settlement and a Terminal journal entry. Later
+Exchange work may persist richer proof rows after schema admission, but it must
+reuse the package proof rather than recomputing contribution weights, range
+slices, or BTC fee allocations.
+
 4. **Gate 4: BTD AssetPack Mint And Read Receipts**
    - Make BTD mint, read, and rights-transfer receipts typed, proof-rooted, stored, streamed, and source-safe.
 

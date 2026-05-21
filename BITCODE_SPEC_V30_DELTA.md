@@ -221,6 +221,29 @@ Closure acceptance:
 - no-overpayment and no-underpayment invariants are testable;
 - later Exchange work can reuse the proof without reinterpreting V30 accounting.
 
+Gate 6 implementation centers on `packages/btd/src/source-to-shares.ts`.
+`SourceToSharesProof` is package-owned and binds accepted Need roots, Finding
+Fits result roots, admitted fit deposits, per-deposit measurement roots,
+normalized measurement units, fit/provenance basis points, deterministic
+largest-remainder contribution weights, BTD range slices, accepted BTC fee
+quote, payment observation, exact source credit allocation, settlement
+conservation, zero-cell/refit tail posture, and ancestry review evidence when
+available.
+
+The proof separates conservation from settlement admission. It can represent a
+balanced, overpayment, underpayment, or drifted settlement without losing the
+proof roots needed for repair. `noOverpayment` and `noUnderpayment` are separate
+theorem verdicts, while `allocationConserved` proves that source credit
+allocation sums to the accepted BTC fee quote. Only a balanced proof is
+settlement-admissible. The proof exposes a reconciliation-compatible
+`SettlementConservationCheck` so ledger/database repair can consume the same
+accounting without route-local reinterpretation.
+
+Gate 6 evidence is covered by `packages/btd/__tests__/source-to-shares.test.ts`,
+`packages/api/src/routes/__tests__/btd-crypto.test.ts`,
+`uapi/app/api/btd/source-to-shares-proof/route.ts`, and
+`scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs`.
+
 ### Gate 7: Bridge Readiness Research Boundaries
 
 Gate 7 records bridge-readiness without false chain-of-record claims.

@@ -59,7 +59,7 @@ No `_legacy/` source is active source truth.
 | Bitcoin Taproot PSBT fee rigor | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/src/bitcoin-fees.ts`, BTD/API tests, gate checker | drafted | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, Taproot/PSBT aware, and proof-rooted. |
 | BTD AssetPack mint/read receipts | Gate 4 | `packages/btd/src/receipts.ts`, `packages/btd/src/api-boundaries.ts`, asset-pack harness evidence, Terminal detail snapshot/read model tests, gate checker | drafted | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
 | Testnet ledger projection hardening | Gate 5 | `packages/btd/src/reconciliation.ts`, API route tests, asset-pack harness evidence, Terminal journal reconciliation UI/tests, gate checker | drafted | Ledger/database/object-storage/private facts are distinct; staging-testnet readback is secret-free; drift, quarantine, retry, and unlock blocking are tested. |
-| Source-to-shares proof cleanup | Gate 6 | BTD/source-to-shares proof primitives, settlement conservation tests | pending | Measurement contribution, fee allocation, zero-cell/refit tail, and conservation invariants are testable. |
+| Source-to-shares proof cleanup | Gate 6 | `packages/btd/src/source-to-shares.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Measurement contribution, fee allocation, zero-cell/refit tail, ancestry evidence, and conservation invariants are testable. |
 | Bridge-readiness research boundaries | Gate 7 | Protocol/BTD research notes, policy posture tests, docs | pending | Bridge paths are documented as research until admitted by explicit future proof and policy. |
 | Protocol telemetry/proof hooks | Gate 8 | telemetry schema, proof hooks, generated-artifact inventory, tests | pending | Receipts, fee states, projections, and source-to-shares facts emit source-safe telemetry and proof hooks. |
 | Interface integration regression | Gate 9 | Terminal/API/MCP/ChatGPT App adapters and tests | pending | Existing interfaces consume package-owned objects without regressing V29 behavior. |
@@ -174,6 +174,23 @@ No `_legacy/` source is active source truth.
 - Gate 5 does not make protected AssetPack source visible before paid unlock and delivery admission.
 - Gate 5 does not implement source-to-shares contribution accounting; Gate 6 owns that.
 - Gate 5 does not promote V30 or change the active canon pointer.
+
+## Gate 6 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| Source-to-shares proof is package-owned | `packages/btd/src/source-to-shares.ts`, `packages/btd/src/api-boundaries.ts` | drafted |
+| Contribution weights, range slices, BTC fee allocation, and conservation are deterministic | `packages/btd/__tests__/source-to-shares.test.ts` | drafted |
+| API and Next route consume the package proof without route-local accounting | `packages/api/src/routes/btd-crypto.ts`, `uapi/app/api/btd/source-to-shares-proof/route.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts` | drafted |
+| Gate checker protects source-to-shares cleanup | `scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs`, `pnpm run check:v30-gate6`, gate-quality workflow | drafted |
+
+## Gate 6 accepted boundaries
+
+- Gate 6 does not create a new physical source-to-shares registry table; the API route returns proof payloads and Terminal journal entries until schema admission.
+- Gate 6 does not expose protected source before paid unlock and delivery admission.
+- Gate 6 does not alter `$BTD` supply law or measureminting curve.
+- Gate 6 does not admit bridge chain-of-record semantics; Gate 7 owns bridge-readiness boundaries.
+- Gate 6 does not promote V30 or change the active canon pointer.
 
 ## completion condition
 

@@ -104,6 +104,8 @@ import {
 } from './revenue';
 import type { SemanticVolumeUnitInput } from './semantic-volume';
 import { measureProofAddressableSemanticVolume } from './semantic-volume';
+import type { SourceToSharesProofInput } from './source-to-shares';
+import { buildSourceToSharesProof } from './source-to-shares';
 import { createBtdSupplyState } from './supply';
 import type {
   V27CryptoTelemetryEvent,
@@ -428,6 +430,12 @@ export interface BtdLedgerDatabaseReconciliationInput {
   issuedAt?: string;
 }
 
+export interface BtdSourceToSharesProofInput extends SourceToSharesProofInput {
+  exchangeSequence: bigint;
+  actorId?: string;
+  commitToRegistry?: boolean;
+}
+
 export type BtdDeploymentReadinessAction =
   | 'deployment_lane'
   | 'telemetry_event'
@@ -531,6 +539,14 @@ export interface BtdLedgerDatabaseReconciliationSettlement {
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   registryWrites?: unknown[];
   committed: boolean;
+}
+
+export interface BtdSourceToSharesProofSettlement {
+  kind: 'btd_source_to_shares_proof_settlement';
+  actorId: string;
+  proof: ReturnType<typeof buildSourceToSharesProof>;
+  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  committed: false;
 }
 
 export interface BtdDeploymentReadinessSettlement {
@@ -1227,6 +1243,54 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
     actorId,
     report,
     terminalJournalEntry,
+  };
+}
+
+export function buildBtdSourceToSharesProofSettlement(
+  input: BtdSourceToSharesProofInput & { actorId: string },
+): BtdSourceToSharesProofSettlement {
+  const actorId = assertNonEmptyString(input.actorId, 'actorId');
+  if (typeof input.exchangeSequence !== 'bigint' || input.exchangeSequence <= 0n) {
+    throw new Error('Source-to-shares proof settlement requires a positive Exchange sequence.');
+  }
+
+  const proof = buildSourceToSharesProof(input);
+  const terminalJournalEntry = buildTerminalJournalEntry({
+    journalEntryId: buildBtdStableId('terminal-btd-source-to-shares-proof', [
+      proof.proofId,
+      input.exchangeSequence.toString(),
+    ]),
+    transactionKind: 'settlement_finalization',
+    actorId,
+    preStateRoot: buildBtdStableId('source-to-shares-pre-state', [
+      proof.readId,
+      proof.acceptedNeedRoot,
+    ]),
+    postStateRoot: buildBtdStableId('source-to-shares-post-state', [
+      proof.proofRoot,
+      proof.settlementConservation.state,
+      String(proof.settlementConservation.settlementAdmissible),
+    ]),
+    receiptRoots: [
+      proof.proofRoot,
+      proof.feeQuote.quoteRoot,
+      proof.paymentObservation.paymentReceiptRoot,
+      proof.settlementConservation.conservationRoot,
+      proof.zeroCellRefitTail.tailRoot,
+      proof.ancestryEvidence.reviewRoot,
+      ...proof.settlementAllocations.map((allocation) => allocation.allocationRoot),
+    ],
+    ledgerAnchorIds: proof.paymentObservation.txid ? [proof.paymentObservation.txid] : [],
+    exchangeSequence: input.exchangeSequence,
+    issuedAt: proof.issuedAt,
+  });
+
+  return {
+    kind: 'btd_source_to_shares_proof_settlement',
+    actorId,
+    proof,
+    terminalJournalEntry,
+    committed: false,
   };
 }
 
