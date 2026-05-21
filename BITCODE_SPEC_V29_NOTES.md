@@ -168,6 +168,26 @@ Operator notes:
 - Terminal journal detail is the ordinary repair cockpit for this gate: drift classes, blockers, repair actions, proof roots, journal entries, and repair receipts must be visible without opening network logs.
 - Raw payload remains audit material, not the primary operator interface.
 
+## Gate 7 working notes
+
+Gate 7 makes organization authority package-owned and interface-shared.
+
+Accepted Gate 7 posture:
+
+- BTD authority evaluates Terminal, API, MCP, and ChatGPT App surfaces against the same action requirement table.
+- Registry-derived organization holdings and read-license usage are summarized as authority evidence, not aggregate spendable balance.
+- Protected-source actions require owner-read or licensed-read access plus settled payment where the action crosses the source boundary.
+- ChatGPT App writes remain impossible without explicit user confirmation, read-access evidence, and organization authority evidence.
+- MCP can request interface authority after its existing permission and read-access checks.
+- Terminal exposes authority as a normal selected-activity detail section with collapsed metrics, blockers, decision rows, proof roots, and raw payload.
+- Sandbox harness output carries `organizationAuthority` so staging-testnet Reading runs can be debugged from Terminal.
+
+Gate 7 completion condition:
+
+- `pnpm run check:v29-gate7` passes.
+- Focused BTD, API, MCP, ChatGPT App, pipeline-hosts, and UAPI tests cover the authority primitive and interface surfaces.
+- Spec, delta, notes, parity, Terminal README, package scripts, and gate-quality workflow name the Gate 7 closure surface.
+
 ## Later-version boundaries
 
 - V30 remains reserved for Protocol/BTD hardening that is not necessary to close Terminal transaction depth.

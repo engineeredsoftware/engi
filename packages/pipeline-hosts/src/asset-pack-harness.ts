@@ -1571,16 +1571,18 @@ try {
       resolveReadingPipelineTelemetryProjection,
       summarizeReadingPipelineObservabilityCoverage,
       synthesizeReadNeedForPipelineInput,
-    },
-    { enablePipelineStreaming, factoryPipelineExecution },
-    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
-    { reconcileLedgerDatabaseProjection },
-  ] = await Promise.all([
-    import('../../packages/pipelines/asset-pack/src/index'),
-    import('../../packages/pipelines-generics/src/index'),
-    import('../../packages/btd/src/settlement'),
-    import('../../packages/btd/src/reconciliation'),
-  ]);
+	    },
+	    { enablePipelineStreaming, factoryPipelineExecution },
+	    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
+	    { reconcileLedgerDatabaseProjection },
+	    { evaluateBtdOrganizationInterfaceAuthority },
+	  ] = await Promise.all([
+	    import('../../packages/pipelines/asset-pack/src/index'),
+	    import('../../packages/pipelines-generics/src/index'),
+	    import('../../packages/btd/src/settlement'),
+	    import('../../packages/btd/src/reconciliation'),
+	    import('../../packages/btd/src/authority'),
+	  ]);
   readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
   resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
   summarizeReadingPipelineObservabilityCoverageFn = summarizeReadingPipelineObservabilityCoverage;
@@ -1827,14 +1829,38 @@ try {
     reason: settlementUnlock.reason,
   });
   assertAssetPackDisclosureSourceSafe(assetPackDisclosureReview);
+	  const organizationAuthority = [
+	    evaluateBtdOrganizationInterfaceAuthority({
+	      actorId: userId || readerWalletId,
+	      organizationId: manifest.organizationId || manifest.organization?.id || 'staging-testnet-organization',
+	      organizationRole: 'admin',
+	      organizationPermissionGrants: ['asset_pack:deliver'],
+	      interfaceSurface: 'terminal',
+	      action: 'deliver_asset_pack',
+	      walletId: readerWalletId,
+	      targetAnchor: pullRequestUrl || null,
+	      readAccessDecision: settlementUnlock.sourceAvailable
+	        ? {
+	            decision: 'licensed_read',
+	            accessPolicyHash: ledgerSettlement.accessPolicyHash || sourceSafePreview?.accessPolicy?.accessPolicyHash || 'policy-pending',
+	            reason: settlementUnlock.reason,
+	          }
+	        : null,
+	      settlementState: settlementUnlock.sourceAvailable ? 'settled' : 'pending',
+	      confirmed: ledgerSettlement.settlementAdmissible === true,
+	      repairApprovalState: 'not_required',
+	    }),
+	  ];
   execution.store('asset-pack/preview', 'sourceSafe', settledSourceSafePreview);
   execution.store('asset-pack/preview', 'disclosureReview', assetPackDisclosureReview);
   execution.store('asset-pack/settlement', 'unlock', settlementUnlock);
   execution.store('asset-pack/settlement', 'readLicenseId', settlementUnlock.readLicenseId);
+  execution.store('asset-pack/settlement', 'organizationAuthority', organizationAuthority);
   output = {
     ...(output || {}),
     sourceSafePreview: settledSourceSafePreview,
     assetPackDisclosureReview,
+    organizationAuthority,
     ledgerSettlement: {
       ...ledgerSettlement,
       protectedSourceUnlock: settlementUnlock,
@@ -1855,6 +1881,8 @@ try {
     assetPackId: ledgerSettlement.assetPackId || null,
     reconciliationState: ledgerDatabaseReconciliation?.state || null,
     repairActionCount: ledgerDatabaseReconciliation?.repairActions?.length || 0,
+    organizationAuthorityDecision: organizationAuthority[0].decision,
+    organizationAuthorityRoot: organizationAuthority[0].proofRoots.authorityRoot,
   });
   const readingPipelineObservabilityCoverage = summarizeReadingPipelineObservabilityCoverageFn
     ? summarizeReadingPipelineObservabilityCoverageFn(events)
@@ -1880,6 +1908,7 @@ try {
     deliveryMechanism: output?.deliveryMechanism || null,
     shippables: output?.shippables || null,
     ledgerSettlement: output.ledgerSettlement,
+    organizationAuthority,
     ledgerDatabaseReconciliation,
     execution: summarizeExecution(execution),
     readingPipelineObservabilityInventory,

@@ -154,6 +154,17 @@ Closure acceptance:
 
 Gate 7 owns organization holdings, roles, read-license usage, registry-derived permission decisions, MCP/ChatGPT action authority alignment, and Terminal permission explainers.
 
+Closure acceptance:
+
+- `packages/btd/src/authority.ts` defines the shared organization/interface authority primitive, action requirements, registry holdings/read-license summary, source visibility, and proof roots.
+- BTD tests prove organization holdings, active/expired/revoked read-license usage, paid delivery admission, unpaid unlock denial, and unsupported ChatGPT administration denial.
+- `packages/api/src/routes/btd-crypto.ts` exposes JSON-safe organization authority decisions and `uapi/app/api/btd/organization-interface-authority/route.ts` binds the route.
+- MCP auth can require interface authority after registry-derived owner-read or licensed-read evidence.
+- ChatGPT App connected-interface write carriers require explicit confirmation, registry read-access evidence, and organization authority evidence before write execution.
+- The sandbox harness emits `organizationAuthority` evidence alongside settlement unlock and ledger/database reconciliation.
+- Terminal adds an Authority detail section rendering decision rows, blockers, and proof roots from the same payload.
+- `pnpm run check:v29-gate7` passes with focused BTD, API, MCP, ChatGPT App, pipeline-hosts, and UAPI tests.
+
 ### Gate 8: Demonstration-Origin Commercial Formalization
 
 Gate 8 owns cleanup of freshly ported demonstration-origin internals into package-native APIs, no demonstration runtime imports, durable package tests, and updated internal/public documentation.

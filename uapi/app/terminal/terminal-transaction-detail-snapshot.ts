@@ -117,6 +117,7 @@ export interface TerminalRunDetailSnapshot {
   closureState: TerminalClosureState | null;
   ledgerSettlement: TerminalLedgerSettlementSnapshot | null;
   terminalJournal: TerminalJournalReadbackSnapshot | null;
+  organizationAuthority: TerminalJsonRecord[] | null;
   bitcodeActivityState: {
     depositWorkbench?: TerminalDepositReadWorkbench | null;
     fitWorkbench?: TerminalDepositReadWorkbench | null;
@@ -435,6 +436,19 @@ function coerceTerminalJournalReadback(value: unknown): TerminalJournalReadbackS
     },
     readErrors,
   };
+}
+
+function coerceOrganizationAuthority(value: unknown): TerminalJsonRecord[] | null {
+  if (Array.isArray(value)) {
+    const records = coerceRecordArray(value);
+    return records.length ? records : null;
+  }
+  if (isRecord(value)) {
+    const decisions = coerceRecordArray(value.decisions);
+    if (decisions.length) return decisions;
+    return [value];
+  }
+  return null;
 }
 
 function coerceCandidates(value: unknown): TerminalClosureCandidate[] | undefined {
@@ -767,6 +781,7 @@ export function buildTerminalRunDetailFromSelectedRun(
     closureState: null,
     ledgerSettlement: null,
     terminalJournal: null,
+    organizationAuthority: null,
     bitcodeActivityState: null,
     historyItemCount: selectedRun.itemCount || 0,
     eventCount: 0,
@@ -822,6 +837,13 @@ export function normalizeTerminalRunDetailPayload(
     coerceTerminalJournalReadback(run.terminal_journal) ||
     coerceTerminalJournalReadback(isRecord(run.output) ? run.output.terminal_journal : null) ||
     base.terminalJournal;
+  const organizationAuthority =
+    coerceOrganizationAuthority(run.organization_authority) ||
+    coerceOrganizationAuthority(run.organizationAuthority) ||
+    coerceOrganizationAuthority(isRecord(run.output) ? run.output.organizationAuthority : null) ||
+    coerceOrganizationAuthority(assetPackCompletion?.organizationAuthority) ||
+    coerceOrganizationAuthority(assetPackCompletion?.interfaceAuthority) ||
+    base.organizationAuthority;
   const bitcodeActivityState =
     coerceBitcodeActivityState(assetPackCompletion?.bitcodeActivityState) || base.bitcodeActivityState;
   const runProcessingStats = coerceProcessingStats(run.processing_stats);
@@ -861,6 +883,7 @@ export function normalizeTerminalRunDetailPayload(
     closureState,
     ledgerSettlement,
     terminalJournal,
+    organizationAuthority,
     bitcodeActivityState,
     historyItemCount: Array.isArray(run.items) ? run.items.length : base.historyItemCount,
     eventCount: Array.isArray((payload as TerminalRunHistoryPayload).events)

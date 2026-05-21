@@ -14,6 +14,7 @@ type DetailAction = {
 const DETAIL_ACTIONS: DetailAction[] = [
   { id: 'shippables', label: 'Shippables' },
   { id: 'transaction', label: 'Identity' },
+  { id: 'authority', label: 'Authority' },
   { id: 'closure', label: 'Closure' },
   { id: 'proofs', label: 'Proofs' },
   { id: 'history', label: 'History' },

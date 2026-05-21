@@ -369,6 +369,40 @@ Gate PRs into version branches must begin with the uppercase version and gate pr
 - Current validating commands and parity basis: wallet tests, access tests, API route tests, Terminal permission tests, and staging auth readback.
 - Current accepted boundaries: broad enterprise RBAC depth can expand inside V29 only when tied to Terminal transaction operation.
 
+#### V29 organization interface authority canon
+
+Organization permission authority is a BTD primitive, not a per-interface convention.
+The canonical decision is `BtdOrganizationInterfaceAuthorityDecision`.
+It binds actor id, organization id, organization role, organization permission grants, interface surface, action, wallet binding, registry read-access decision, settlement state, explicit confirmation state, repair approval state, target anchor, source visibility, and proof roots.
+
+Gate 7 defines the current action set:
+
+- `read_transaction`
+- `request_read`
+- `review_need`
+- `request_finding_fits`
+- `review_asset_pack_preview`
+- `pay_btc_fee`
+- `unlock_asset_pack_source`
+- `deliver_asset_pack`
+- `repair_projection`
+- `administer_organization`
+
+Each action has a minimum organization role, optional explicit permission grants, wallet-binding requirement, registry read-access requirement, settled-payment requirement, explicit-confirmation requirement, repair-approval requirement, and source-visibility result.
+Protected-source actions fail closed unless role/grant, wallet binding, owner-read or licensed-read registry access, settlement, and interface admission all agree.
+Source-safe preview actions may remain visible without protected source.
+
+The same authority primitive must be used by:
+
+- Terminal, as the ordinary permission explainer for selected activity detail;
+- API routes, as the JSON-safe route decision for interface owners;
+- MCP, as organization-scoped action authority over read-license and delivery operations;
+- ChatGPT App, as connected-interface write admission over confirmed delivery writes;
+- the sandbox harness, as emitted evidence for live Reading/AssetPack completion readback.
+
+Authority proof roots include role root, permission root, read-access root, interface root, and aggregate authority root.
+Terminal renders those roots with blockers and decision rows so operators can understand why a transaction can or cannot pay, unlock, deliver, repair, or administer without opening network logs.
+
 ### Disclosure and projection
 
 - Current canonical objects and emitted artifacts: disclosure policy, projection policy, redaction decision, preview metadata, owner-read/licensed-read/denied state.

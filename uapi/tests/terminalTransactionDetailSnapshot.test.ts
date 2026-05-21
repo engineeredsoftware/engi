@@ -71,6 +71,7 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
         closureState: null,
         ledgerSettlement: null,
         terminalJournal: null,
+        organizationAuthority: null,
         bitcodeActivityState: {
           repositoryAnchor: {
             provider: 'github',
@@ -317,6 +318,21 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
                 },
                 journalEntryIds: ['journal-mint-run-1'],
               },
+              organizationAuthority: [
+                {
+                  kind: 'btd_organization_interface_authority_decision',
+                  decision: 'allowed',
+                  interfaceSurface: 'terminal',
+                  action: 'deliver_asset_pack',
+                  reason: 'role_authorized',
+                  sourceVisibility: 'protected_source_allowed',
+                  targetAnchor: 'github:bitcode/bitcode/pull/2',
+                  proofRoots: {
+                    authorityRoot: 'btd-proof-root:organization-interface-authority:abc123',
+                    roleRoot: 'btd-proof-root:organization-role:def456',
+                  },
+                },
+              ],
             },
             terminal_journal: {
               expectedJournalEntryIds: ['journal-mint-run-1'],
@@ -462,6 +478,13 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
         btcFeeTransactions: [{ receipt_id: 'btc-fee-run-1', finality_state: 'prepared' }],
       },
     });
+    expect(snapshot.organizationAuthority).toEqual([
+      expect.objectContaining({
+        action: 'deliver_asset_pack',
+        decision: 'allowed',
+        sourceVisibility: 'protected_source_allowed',
+      }),
+    ]);
     expect(snapshot.historyItemCount).toBe(2);
     expect(snapshot.eventCount).toBe(3);
   });

@@ -13,8 +13,13 @@ import {
   type BtdMeasureMintState,
   type BtdOwnershipClaim,
   type BtdReadLicense,
+  type BtdInterfaceAuthoritySurface,
+  type BtdOrganizationPermissionAction,
+  type BtdOrganizationRole,
+  type BtdRepairApprovalState,
   type BtdRevenueRecipientInput,
   type BtdRevenueRouteException,
+  type BtdSettlementAuthorityState,
   type BtdProtocolUpgradeReceipt,
   type BtdProtocolUpgradeState,
   type AssetPackLedgerAnchor,
@@ -69,6 +74,7 @@ import {
   createAssetPackExchangeOrder,
   createBtdMeasureMintState,
   createBtdSupplyState,
+  evaluateBtdOrganizationInterfaceAuthority,
   evaluateBtdReadAccess,
   measureProofAddressableSemanticVolume,
   reviewBtdAncestorEdges,
@@ -151,6 +157,27 @@ export interface BtdReadAccessDecision {
     confidentiality: BtdAccessPolicy['confidentiality'];
   };
 }
+
+export interface BtdOrganizationInterfaceAuthorityInput {
+  organizationId: string;
+  organizationRole?: BtdOrganizationRole | null;
+  organizationPermissionGrants?: string[];
+  interfaceSurface: BtdInterfaceAuthoritySurface;
+  action: BtdOrganizationPermissionAction;
+  walletId?: string | null;
+  readAccessDecision?: ReturnType<typeof evaluateBtdReadAccess> | null;
+  settlementState?: BtdSettlementAuthorityState;
+  confirmed?: boolean;
+  repairApprovalState?: BtdRepairApprovalState;
+  targetAnchor?: string | null;
+  at?: string;
+}
+
+export type BtdOrganizationInterfaceAuthorityRouteDecision = ReturnType<
+  typeof evaluateBtdOrganizationInterfaceAuthority
+> & {
+  routeKind: 'btd_organization_interface_authority_route_decision';
+};
 
 export interface BtdLicensedReadRevenueInput {
   paymentId: string;
@@ -607,6 +634,20 @@ export function buildBtdReadAccessDecision(
       redistributionAllowed: input.accessPolicy.redistributionAllowed,
       confidentiality: input.accessPolicy.confidentiality,
     },
+  };
+}
+
+export function buildBtdOrganizationInterfaceAuthorityDecision(
+  input: BtdOrganizationInterfaceAuthorityInput & { actorId: string },
+): BtdOrganizationInterfaceAuthorityRouteDecision {
+  const decision = evaluateBtdOrganizationInterfaceAuthority({
+    ...input,
+    actorId: assertNonEmptyString(input.actorId, 'actorId'),
+  });
+
+  return {
+    ...decision,
+    routeKind: 'btd_organization_interface_authority_route_decision',
   };
 }
 
@@ -1188,6 +1229,37 @@ export function buildPostBtdReadAccessRoute(options: BtdRouteOptions = {}) {
   });
 }
 
+export function buildPostBtdOrganizationInterfaceAuthorityRoute(
+  options: BtdRouteOptions = {},
+) {
+  return traceRoute('/btd/organization-interface-authority', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: BtdOrganizationInterfaceAuthorityInput;
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    try {
+      const decision = buildBtdOrganizationInterfaceAuthorityDecision({
+        ...body,
+        actorId: user.userId,
+      });
+
+      return createJsonResponse(toJsonSafe(decision));
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+  });
+}
+
 export function buildPostBtdLicensedReadRevenueRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/licensed-read-revenue', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -1558,6 +1630,8 @@ export function buildPostBtdDeploymentReadinessRoute(options: BtdRouteOptions = 
 export const getBtdRegistrySnapshot = buildGetBtdRegistrySnapshotRoute();
 export const postBtdMintDraft = buildPostBtdMintDraftRoute();
 export const postBtdReadAccess = buildPostBtdReadAccessRoute();
+export const postBtdOrganizationInterfaceAuthority =
+  buildPostBtdOrganizationInterfaceAuthorityRoute();
 export const postBtdLicensedReadRevenue = buildPostBtdLicensedReadRevenueRoute();
 export const postBtdAncestryReview = buildPostBtdAncestryReviewRoute();
 export const postBtdBtcFeeTransaction = buildPostBtdBtcFeeTransactionRoute();

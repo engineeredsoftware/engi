@@ -71,6 +71,7 @@ function detailWithBtcFee(finalityState = 'confirmed'): TerminalRunDetailSnapsho
       readLicenseId: 'license-1',
     },
     terminalJournal: null,
+    organizationAuthority: null,
     bitcodeActivityState: null,
     historyItemCount: 0,
     eventCount: 0,

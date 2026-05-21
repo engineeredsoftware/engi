@@ -160,6 +160,7 @@ export * from './bitcoin-provider';
 export * from './access';
 export * from './allocation';
 export * from './ancestry';
+export * from './authority';
 export * from './constants';
 export * from './deployment-lanes';
 export * from './exchange';

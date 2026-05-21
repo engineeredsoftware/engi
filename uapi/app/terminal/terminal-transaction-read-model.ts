@@ -17,6 +17,7 @@ export type TerminalTransactionFactFamily =
   | 'delivery'
   | 'identity'
   | 'wallet'
+  | 'authority'
   | 'settlement'
   | 'proof'
   | 'ledger'
@@ -93,6 +94,13 @@ const SECTION_DEFINITIONS: Array<{
     targetId: 'terminalTransactionWalletBtc',
     summary: 'Wallet signer session, BTC fee quote, PSBT handoff, broadcast, finality, and blocked readiness.',
     factFamily: 'wallet',
+  },
+  {
+    id: 'authority',
+    label: 'Authority',
+    targetId: 'terminalTransactionAuthority',
+    summary: 'Organization role, read-license, settlement, confirmation, and interface authority decisions.',
+    factFamily: 'authority',
   },
   {
     id: 'closure',
@@ -238,6 +246,19 @@ function resolveSectionAvailability({
       metricCount: 4,
       rowCount: hasWalletBtc ? 8 : 0,
       payloadAvailable: hasWalletBtc,
+    };
+  }
+
+  if (sectionId === 'authority') {
+    const decisionCount = detail?.organizationAuthority?.length || 0;
+    return {
+      availability: decisionCount > 0 ? 'available' : 'empty',
+      blocker: decisionCount > 0
+        ? null
+        : 'No organization role, read-license, settlement, or interface authority projection is attached yet.',
+      metricCount: 4,
+      rowCount: decisionCount,
+      payloadAvailable: decisionCount > 0,
     };
   }
 

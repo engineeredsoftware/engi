@@ -141,6 +141,14 @@ database projection require approval, and settled transactions with missing
 pull-request delivery surface delivery recovery without exposing protected
 AssetPack source before payment.
 
+The Organization Authority section is the selected-activity permission
+explainer. It projects registry-derived organization role, explicit grants,
+wallet binding, owner-read or licensed-read access, settlement state,
+confirmation state, interface admission, blockers, and proof roots before raw
+authority payload inspection. Terminal may show source-safe previews without a
+paid unlock, but protected-source unlock and delivery remain blocked until the
+same `organizationAuthority` evidence admits the action.
+
 ## Related shared systems
 
 - [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)

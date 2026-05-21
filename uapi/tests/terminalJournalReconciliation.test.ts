@@ -19,6 +19,7 @@ function detail(overrides: Partial<TerminalRunDetailSnapshot>): TerminalRunDetai
     closureState: null,
     ledgerSettlement: null,
     terminalJournal: null,
+    organizationAuthority: null,
     bitcodeActivityState: null,
     historyItemCount: 0,
     eventCount: 0,

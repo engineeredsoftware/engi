@@ -45,6 +45,7 @@ const detail: TerminalRunDetailSnapshot = {
   closureState: null,
   ledgerSettlement: null,
   terminalJournal: null,
+  organizationAuthority: null,
   bitcodeActivityState: {
     repositoryAnchor: {
       provider: 'github',

@@ -25,8 +25,12 @@ import {
 } from '@bitcode/orm';
 import {
   buildBtdReadAccessProjectionFromRegistryRows,
+  evaluateBtdOrganizationInterfaceAuthority,
   evaluateBtdReadAccess,
+  type BtdOrganizationPermissionAction,
+  type BtdRepairApprovalState,
   type BtdAccessDecisionKind,
+  type BtdSettlementAuthorityState,
 } from '@bitcode/btd';
 import type { MCPAuthContext } from '../types';
 import * as crypto from 'crypto';
@@ -62,12 +66,22 @@ export interface MCPAuthOptions {
    */
   minimumBtdHolding?: number;
   requiredReadAccess?: MCPReadAccessRequirement | MCPReadAccessRequirement[];
+  requiredInterfaceAuthority?: MCPInterfaceAuthorityRequirement | MCPInterfaceAuthorityRequirement[];
 }
 
 export interface MCPReadAccessRequirement {
   assetPackId: string;
   walletId?: string;
   allowedDecisions?: Array<Exclude<BtdAccessDecisionKind, 'denied'>>;
+  at?: string;
+}
+
+export interface MCPInterfaceAuthorityRequirement {
+  action: BtdOrganizationPermissionAction;
+  targetAnchor?: string;
+  settlementState?: BtdSettlementAuthorityState;
+  confirmed?: boolean;
+  repairApprovalState?: BtdRepairApprovalState;
   at?: string;
 }
 
@@ -199,6 +213,7 @@ export async function authenticateMCPRequest(
       btdBalance: 0,
       walletId: walletBinding?.address ?? undefined,
       btdReadAccess: [],
+      interfaceAuthority: [],
       mcpCredentials: {}
     } as MCPAuthContext;
 
@@ -341,9 +356,17 @@ async function validateAuthenticatedContext(
     return readAccessResult;
   }
 
+  const interfaceAuthorityResult = validateRequiredInterfaceAuthority(
+    readAccessResult.context ?? context,
+    options,
+  );
+  if (!interfaceAuthorityResult.success) {
+    return interfaceAuthorityResult;
+  }
+
   return {
     success: true,
-    context: readAccessResult.context ?? context
+    context: interfaceAuthorityResult.context ?? readAccessResult.context ?? context
   };
 }
 
@@ -441,6 +464,111 @@ function normalizeReadAccessRequirements(
   }
 
   return Array.isArray(input) ? input : [input];
+}
+
+function validateRequiredInterfaceAuthority(
+  context: MCPAuthContext,
+  options: MCPAuthOptions,
+): AuthResult {
+  const requirements = normalizeInterfaceAuthorityRequirements(options.requiredInterfaceAuthority);
+  if (requirements.length === 0) {
+    return { success: true, context };
+  }
+
+  if (!context.organizationId) {
+    return {
+      success: false,
+      error: {
+        code: 'ORGANIZATION_AUTHORITY_REQUIRED',
+        message: 'MCP interface authority requires an organization-scoped actor.',
+        statusCode: 403,
+      },
+    };
+  }
+
+  const authorityDecisions = [];
+  for (const requirement of requirements) {
+    const readAccess = firstAllowedReadAccess(context);
+    const decision = evaluateBtdOrganizationInterfaceAuthority({
+      actorId: context.userId,
+      organizationId: context.organizationId,
+      organizationRole: context.organizationRole,
+      organizationPermissionGrants: flattenOrganizationPermissionGrants(context),
+      interfaceSurface: 'mcp',
+      action: requirement.action,
+      walletId: context.walletId,
+      readAccessDecision: readAccess
+        ? {
+            decision: readAccess.decision,
+            accessPolicyHash: readAccess.accessPolicyHash,
+            reason: readAccess.reason as any,
+          }
+        : null,
+      settlementState: requirement.settlementState,
+      confirmed: requirement.confirmed,
+      repairApprovalState: requirement.repairApprovalState,
+      targetAnchor: requirement.targetAnchor,
+      at: requirement.at,
+    });
+
+    authorityDecisions.push({
+      interfaceSurface: 'mcp' as const,
+      action: requirement.action,
+      decision: decision.decision,
+      reason: decision.reason,
+      authorityRoot: decision.proofRoots.authorityRoot,
+      sourceVisibility: decision.sourceVisibility,
+    });
+
+    if (decision.decision !== 'allowed') {
+      return {
+        success: false,
+        error: {
+          code: 'INSUFFICIENT_INTERFACE_AUTHORITY',
+          message: `MCP interface authority denied ${requirement.action}: ${decision.reasons.join(', ')}.`,
+          statusCode: 403,
+        },
+      };
+    }
+  }
+
+  return {
+    success: true,
+    context: {
+      ...context,
+      interfaceAuthority: [...(context.interfaceAuthority ?? []), ...authorityDecisions],
+    },
+  };
+}
+
+function normalizeInterfaceAuthorityRequirements(
+  input: MCPAuthOptions['requiredInterfaceAuthority'],
+): MCPInterfaceAuthorityRequirement[] {
+  if (!input) {
+    return [];
+  }
+
+  return Array.isArray(input) ? input : [input];
+}
+
+function firstAllowedReadAccess(context: MCPAuthContext) {
+  return context.btdReadAccess?.find(
+    (decision) => decision.decision === 'owner_read' || decision.decision === 'licensed_read',
+  ) ?? null;
+}
+
+function flattenOrganizationPermissionGrants(context: MCPAuthContext): string[] {
+  const grants = [...(context.scopes ?? [])];
+  const organizationPermissions = context.organizationPermissions ?? {};
+  for (const [resource, permissions] of Object.entries(organizationPermissions)) {
+    if (!Array.isArray(permissions)) continue;
+    for (const permission of permissions) {
+      if (typeof permission === 'string' && permission.trim()) {
+        grants.push(`${resource}:${permission.trim()}`);
+      }
+    }
+  }
+  return Array.from(new Set(grants));
 }
 
 function getMissingPermissions(

@@ -22,6 +22,7 @@ import TerminalTransactionDetailHero from './TerminalTransactionDetailHero';
 import TerminalTransactionHistoryCard from './TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from './TerminalTransactionIdentityCard';
 import TerminalTransactionJournalReconciliationCard from './TerminalTransactionJournalReconciliationCard';
+import TerminalTransactionOrganizationAuthorityCard from './TerminalTransactionOrganizationAuthorityCard';
 import TerminalTransactionProofsCard from './TerminalTransactionProofsCard';
 import TerminalTransactionWalletBtcCard from './TerminalTransactionWalletBtcCard';
 import {
@@ -31,6 +32,7 @@ import {
 } from './terminal-activity-history';
 import { normalizeTerminalClosureState } from './terminal-closure-state';
 import { buildTerminalJournalReconciliation } from './terminal-journal-reconciliation';
+import { buildTerminalOrganizationAuthorityProjection } from './terminal-organization-authority';
 import {
   buildTerminalTransactionClosurePayload,
   buildTerminalTransactionClosureFollowThrough,
@@ -101,6 +103,7 @@ export default function TerminalTransactionDetailSurface({
   const showShippables = detailSection === 'shippables';
   const showTransaction = detailSection === 'transaction';
   const showWalletBtc = detailSection === 'wallet-btc';
+  const showAuthority = detailSection === 'authority';
   const showClosure = detailSection === 'closure';
   const showProofs = detailSection === 'proofs';
   const showHistory = detailSection === 'history';
@@ -195,6 +198,10 @@ export default function TerminalTransactionDetailSurface({
   const walletBtcOperation = useMemo(
     () => buildTerminalWalletBtcOperationProjection({ selectedRun, detail }),
     [detail, selectedRun],
+  );
+  const organizationAuthority = useMemo(
+    () => buildTerminalOrganizationAuthorityProjection(detail),
+    [detail],
   );
   const writtenAssets = detail?.writtenAssets || null;
   const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
@@ -341,6 +348,12 @@ export default function TerminalTransactionDetailSurface({
           {showWalletBtc ? (
             <div id="terminalTransactionWalletBtc">
               <TerminalTransactionWalletBtcCard operation={walletBtcOperation} />
+            </div>
+          ) : null}
+
+          {showAuthority ? (
+            <div id="terminalTransactionAuthority">
+              <TerminalTransactionOrganizationAuthorityCard authority={organizationAuthority} />
             </div>
           ) : null}
 
