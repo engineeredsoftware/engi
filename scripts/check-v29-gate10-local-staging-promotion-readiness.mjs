@@ -178,8 +178,11 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V29')") &&
       prepareSpecScript.includes('V29 canonical system specification for Terminal transaction depth') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V29_PROVEN.md'),
-    'Spec-family promotion preparation must rewrite V29 hand-authored status truth.',
+      prepareSpecScript.includes('BITCODE_SPEC_V29_PROVEN.md') &&
+      prepareSpecScript.includes('rewritePromotedParityJudgments') &&
+      prepareSpecScript.includes('implementation matrix') &&
+      prepareSpecScript.includes('implementation checklist'),
+    'Spec-family promotion preparation must rewrite V29 hand-authored status truth and promoted parity judgments.',
   );
   assertCheck(
     failures,

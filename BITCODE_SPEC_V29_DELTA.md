@@ -216,7 +216,8 @@ Closure acceptance:
   pull requests into `main`, validates the source branch, runs promotion-grade
   proof, and commits the generated V29 promotion artifacts back to `version/v29`.
 - `prepare-bitcode-spec-family-promotion.mjs` rewrites V29 hand-authored status
-  truth for promoted mode.
+  truth and the promoted V29 implementation matrix/checklist judgments for
+  promoted mode.
 - `prepare-bitcode-runtime-canon-promotion.mjs` rewrites both standalone
   demonstration posture and commercial `packages/protocol` posture for V29
   active / V30 draft.
