@@ -228,11 +228,14 @@ function main() {
     failures,
     packageJson.includes('"check:v29-gate9"') &&
       uapiPackage.includes('"test:e2e:terminal-ux"') &&
+      uapiPackage.includes('NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321') &&
+      uapiPackage.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key') &&
+      uapiPackage.includes('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=mock-publishable-key') &&
       gateWorkflow.includes('check-v29-gate9-terminal-ux-browser-proof.mjs') &&
       gateWorkflow.includes('terminalUxBrowserProof.test.tsx') &&
       gateWorkflow.includes('test:e2e:terminal-ux') &&
       gateWorkflow.includes('playwright install chromium --with-deps'),
-    'Package scripts and gate-quality workflow must invoke Gate 9 checker, focused Jest, and Terminal browser proof.',
+    'Package scripts and gate-quality workflow must invoke self-contained Gate 9 checker, focused Jest, and Terminal browser proof.',
   );
 
   if (failures.length) {
