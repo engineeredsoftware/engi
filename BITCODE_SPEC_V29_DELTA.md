@@ -196,3 +196,30 @@ Closure acceptance:
 ### Gate 10: Local And Staging Promotion Readiness
 
 Gate 10 owns non-mocked local validation, staging-testnet readback, generated proof artifacts, V29 promotion workflow support, promotion dry-run, and final version branch readiness.
+
+Closure acceptance:
+
+- `check:v29-gate10` validates the V29 promotion-readiness surface from a clean
+  Gate 10 branch and can run in `--promotion-mode` after `BITCODE_SPEC.txt`
+  advances to `V29`.
+- Gate-quality CI invokes all V29 gate scripts while V29 is still a draft and
+  switches to promoted V29 validation after the promotion workflow writes the
+  canonical pointer commit.
+- Canon-quality CI validates either V28 active / V29 draft posture or V29 active
+  / V30 draft posture so the version branch remains green before and after
+  promotion automation commits generated canon.
+- `promote:canon -- --version V29 --commit <sha> --dry-run` renders a V29
+  command plan naming all local proof suites, staging-testnet readback
+  verifier, Terminal browser proof, generated `.bitcode/v29-*` reports,
+  `BITCODE_SPEC_V29_PROVEN.md`, and promoted-family checks.
+- `.github/workflows/v29-canon-promotion.yml` runs only for `version/v29`
+  pull requests into `main`, validates the source branch, runs promotion-grade
+  proof, and commits the generated V29 promotion artifacts back to `version/v29`.
+- `prepare-bitcode-spec-family-promotion.mjs` rewrites V29 hand-authored status
+  truth for promoted mode.
+- `prepare-bitcode-runtime-canon-promotion.mjs` rewrites both standalone
+  demonstration posture and commercial `packages/protocol` posture for V29
+  active / V30 draft.
+- `BITCODE_V29_QA.md`, README, V29 SPEC, DELTA, NOTES, PARITY, package scripts,
+  and workflows describe local/staging readiness without committing secrets or
+  staging credentials.

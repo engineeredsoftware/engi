@@ -20,12 +20,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Validate active canon and V29 draft posture
+      - name: Validate active canon and V29 posture
         run: |
-          node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
-          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
-          node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
-          node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+          POINTER="$(cat BITCODE_SPEC.txt)"
+          if [ "$POINTER" = "V28" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
+            node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
+            node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+          elif [ "$POINTER" = "V29" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V29
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V29 --draft-target V30
+            node scripts/check-bitcode-spec-family.mjs --version V29 --mode promoted --current-target V29
+          else
+            echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
+            exit 1
+          fi
 
   bitcode-demonstration-mvp:
     name: Bitcode Demonstration MVP
@@ -54,11 +64,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run V29 strict draft conformance for spec-title changes
+      - name: Run V29 strict conformance for spec-title changes
         run: |
           case "$SPEC_TITLE" in
             spec:\ V29*|spec:\ v29*)
-              node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V29" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V29 --mode promoted --current-target V29
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+              fi
               ;;
             *)
               echo "Skipping strict spec-title conformance; title is not a V29 spec change."

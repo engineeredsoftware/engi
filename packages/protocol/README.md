@@ -21,5 +21,10 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
+V29 Gate 10 treats this package as promotion-critical runtime posture.
+`packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
+must remain aligned to `V28` active, `V29` draft during gate work, then be
+rewritten by promotion automation to `V29` active, `V30` draft.
+
 The package boundary is enforced by `packages/protocol` tests, the UAPI
 commercial protocol boundary test, and `check:v29-gate8`.

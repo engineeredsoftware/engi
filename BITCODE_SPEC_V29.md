@@ -246,6 +246,41 @@ The focused Playwright spec proves the cockpit in a real browser in deterministi
 Gate 9 acceptance does not change Reading law, source disclosure law, settlement law, or organization authority law.
 It makes the current V29 Terminal cockpit commercially operable enough that later local/staging promotion readiness can debug failures from the UI rather than from browser network logs alone.
 
+## V29 local and staging promotion readiness canon
+
+V29 promotion is admissible only when the version branch can prove both source
+closure and promotion automation without relying on unstated operator memory.
+Gate 10 owns that closure.
+
+The promotion-readiness contract has five parts:
+
+- all V29 gate scripts are invoked by gate-quality CI while `BITCODE_SPEC.txt`
+  remains `V28`;
+- gate-quality and canon-quality workflows also accept the promoted state after
+  the V29 promotion workflow commits `BITCODE_SPEC.txt -> V29`;
+- the canonical promotion command supports `--version V29`, validates the V29
+  draft family, runs local proof suites, prepares V29 hand-authored status
+  truth, prepares runtime canon posture for V29 active / V30 draft, generates
+  `BITCODE_SPEC_V29_PROVEN.md`, writes `.bitcode/v29-*` proof artifacts, and
+  then validates the promoted V29 family;
+- the version-promotion workflow runs only for a `version/v29` pull request into
+  `main`, validates the same proof surface, and commits the generated promotion
+  artifacts back to the version branch;
+- local and staging-testnet QA evidence remains source-safe: environment
+  readiness, pipeline readback, Terminal browser proof, ledger/database
+  reconciliation posture, protocol package posture, and promotion dry-run are
+  named without committing secrets.
+
+`packages/protocol/src/canon-posture.js` and
+`packages/protocol/data/state.json` are commercial runtime posture carriers.
+They must align to V28 active / V29 draft during Gate 10 work and be rewritten
+to V29 active / V30 draft by promotion automation.
+
+Gate 10 does not itself promote `BITCODE_SPEC.txt`.
+It closes when `version/v29` can be pull-requested to `main` and the V29
+promotion workflow has enough scripted proof to produce the standalone
+canonical promotion commit.
+
 ## V29 Wallet/BTC operation canon
 
 Wallet and BTC fee state is an ordinary Terminal transaction surface, not an opaque settlement footnote.

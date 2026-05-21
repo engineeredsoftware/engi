@@ -66,6 +66,9 @@ run the version promotion workflow. For V29, promotion work must validate the
 Terminal-depth proof posture, generate `BITCODE_SPEC_V29_PROVEN.md`, and commit
 promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V28` to
 `V29` on the version branch.
+Gate 10 is the local/staging promotion-readiness gate; run
+`pnpm run check:v29-gate10` before opening the final gate PR. The V29 promotion
+workflow is [v29-canon-promotion.yml](.github/workflows/v29-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set
