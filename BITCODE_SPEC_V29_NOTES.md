@@ -81,6 +81,42 @@ For a simplified reading of V29:
 10. **Gate 10: Local And Staging Promotion Readiness**
     - Run non-mocked local validation, staging-testnet readback, generated proof artifacts, promotion dry-run, and `version/v29` promotion readiness.
 
+## Gate 10 working notes
+
+Gate 10 is the final V29 gate before the version branch can be requested into
+`main`.
+It is not a product redesign gate.
+It proves that every preceding Terminal-depth gate is promotable and that the
+automation can safely advance canon.
+
+Accepted Gate 10 posture:
+
+- V29 remains draft while Gate 10 is implemented; `BITCODE_SPEC.txt` stays
+  `V28` until the V29 promotion workflow creates the canonical promotion commit.
+- Gate-quality CI runs the Gate 10 checker and remains greenable before and
+  after promotion by branching on the active pointer.
+- Canon-quality CI similarly accepts V28/V29 draft posture before promotion and
+  V29/V30 promoted posture after promotion.
+- `promote-bitcode-canon.mjs` supports V29 and names every required local proof
+  suite, the staging-testnet readback verifier, Terminal browser proof, runtime
+  posture preparation, generated proof creation, and promoted-family validation.
+- `.github/workflows/v29-canon-promotion.yml` owns the `version/v29` to `main`
+  promotion proof and generated-artifact commit.
+- `packages/protocol/src/canon-posture.js`, `packages/protocol/data/state.json`,
+  and the standalone demonstration posture are kept aligned so local/staging
+  readback does not present stale active/draft truth.
+- The V29 QA ledger records staging-testnet readback expectations and required
+  local proof commands without writing environment values into tracked files.
+
+Gate 10 completion condition:
+
+- `pnpm run check:v29-gate10` passes.
+- `npm run promote:canon -- --version V29 --commit HEAD --dry-run` prints a V29
+  promotion plan.
+- The focused local suites named by the gate checker pass or are intentionally
+  delegated to the promotion workflow with documented rationale.
+- The gate branch is committed, pushed, and pull-requested into `version/v29`.
+
 ## Gate 1 closure notes
 
 Gate 1 is complete only when the V29 family exists, validates, and is wired to CI.

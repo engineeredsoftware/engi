@@ -57,20 +57,31 @@ jobs:
 
       - name: Validate draft canon posture
         run: |
-          test "$(cat BITCODE_SPEC.txt)" = "V28"
-          node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
-          node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
-          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
-          node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
-          node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
-          node scripts/check-v29-gate2-terminal-transaction-read-models.mjs --skip-branch-check
-          node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs --skip-branch-check
-          node scripts/check-v29-gate4-reading-pipeline-observability.mjs --skip-branch-check
-          node scripts/check-v29-gate5-assetpack-disclosure-rights.mjs --skip-branch-check
-          node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs --skip-branch-check
-          node scripts/check-v29-gate7-organization-permission-authority.mjs --skip-branch-check
-          node scripts/check-v29-gate8-demonstration-origin-formalization.mjs --skip-branch-check
-          node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs --skip-branch-check
+          POINTER="$(cat BITCODE_SPEC.txt)"
+          if [ "$POINTER" = "V28" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
+            node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
+            node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
+            node scripts/check-v29-gate2-terminal-transaction-read-models.mjs --skip-branch-check
+            node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs --skip-branch-check
+            node scripts/check-v29-gate4-reading-pipeline-observability.mjs --skip-branch-check
+            node scripts/check-v29-gate5-assetpack-disclosure-rights.mjs --skip-branch-check
+            node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs --skip-branch-check
+            node scripts/check-v29-gate7-organization-permission-authority.mjs --skip-branch-check
+            node scripts/check-v29-gate8-demonstration-origin-formalization.mjs --skip-branch-check
+            node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs --skip-branch-check
+            node scripts/check-v29-gate10-local-staging-promotion-readiness.mjs --skip-branch-check
+          elif [ "$POINTER" = "V29" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V29 --mode promoted --current-target V29
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V29
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V29 --draft-target V30
+            node scripts/check-v29-gate10-local-staging-promotion-readiness.mjs --promotion-mode --skip-branch-check
+          else
+            echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
+            exit 1
+          fi
 
       - name: Validate source casing and imports
         run: |

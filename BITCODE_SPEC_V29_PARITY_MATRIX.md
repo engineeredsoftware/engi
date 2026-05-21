@@ -57,7 +57,7 @@ No `_legacy/` source is active source truth.
 | Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | drafted | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
 | Commercial formalization | Gate 8 | `packages/protocol/src/index.js`, `packages/protocol/src/canon-posture.js`, root scripts, protocol package tests, import scans, docs, Gate 8 checker | drafted | Demonstration-origin commercial internals are package-native and no direct demonstration-source imports remain in commercial/runtime sources. |
 | Terminal UX quality | Gate 9 | Terminal UX contract, Playwright/Jest/a11y/responsive/browser QA | drafted | Complete transaction cockpit is usable by default and inspectable in detail. |
-| Promotion readiness | Gate 10 | promotion workflow, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | pending | `version/v29` can promote to `main` only after all V29 checks pass. |
+| Promotion readiness | Gate 10 | promotion workflow, promotion command plan, V29 QA ledger, runtime posture preparation, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | drafted | `version/v29` can promote to `main` only after all V29 checks pass and promotion automation can commit generated canon. |
 
 ## V29 implementation checklist
 
@@ -74,7 +74,7 @@ No `_legacy/` source is active source truth.
 | Gate 7 organization authority | `pnpm run check:v29-gate7` proves shared org/interface authority across BTD, API, MCP, ChatGPT App, harness, and Terminal | drafted |
 | Gate 8 commercial formalization | `pnpm run check:v29-gate8` proves package-native protocol exports, V28/V29 posture, script import cleanup, docs, tests, and CI wiring | drafted |
 | Gate 9 Terminal UX browser proof | `pnpm run check:v29-gate9` proves named landmarks, explicit state semantics, responsive browser coverage, focused Jest coverage, and CI wiring | drafted |
-| Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
+| Gate 10 promotion readiness | `pnpm run check:v29-gate10` proves local/staging readiness, V29 promotion workflow support, runtime posture preparation, promotion dry-run, and generated-canon automation | drafted |
 
 ## Gate 1 Parity
 
@@ -300,3 +300,53 @@ Gate 9 completion condition:
 - `pnpm run check:v29-gate9` passes.
 - Focused UAPI Jest coverage and Playwright Terminal browser proof pass.
 - V29 SPEC, DELTA, NOTES, PARITY, Terminal README, package scripts, and gate-quality workflow name the browser-proof contract.
+
+## Gate 10 Parity
+
+Gate 10 closes the local/staging and promotion-readiness slice by proving that
+the version branch can become canon through automation rather than operator
+memory.
+
+Accepted surfaces:
+
+- `scripts/check-v29-gate10-local-staging-promotion-readiness.mjs` validates
+  the Gate 10 specification, QA ledger, scripts, workflow wiring, runtime
+  posture, and promotion-mode behavior.
+- `.github/workflows/bitcode-gate-quality.yml` runs all V29 gate checks in
+  draft posture and switches to promoted V29 checks after the promotion commit.
+- `.github/workflows/bitcode-canon-quality.yml` accepts both V28 active / V29
+  draft and V29 active / V30 draft states.
+- `.github/workflows/v29-canon-promotion.yml` is the version promotion workflow
+  for `version/v29` pull requests into `main`; it validates, promotes,
+  generates `BITCODE_SPEC_V29_PROVEN.md`, writes `.bitcode/v29-*`, and commits
+  the pointer update back to the version branch.
+- `scripts/promote-bitcode-canon.mjs` supports `--version V29`, includes every
+  V29 gate check, local proof suites, staging-testnet readback verifier,
+  Terminal browser proof, runtime/spec preparation, generated proof creation,
+  and promoted-family validation.
+- `scripts/prepare-bitcode-spec-family-promotion.mjs` rewrites V29
+  hand-authored status truth for promoted mode.
+- `scripts/prepare-bitcode-runtime-canon-promotion.mjs` rewrites standalone
+  demonstration posture and commercial `packages/protocol` posture/data for V29
+  active / V30 draft.
+- `BITCODE_V29_QA.md` names the local and staging-testnet evidence packet
+  without storing environment secrets.
+
+Accepted boundaries:
+
+- Gate 10 does not merge `version/v29` to `main`; it prepares the version branch
+  for that pull request.
+- Gate 10 does not commit `BITCODE_SPEC_V29_PROVEN.md`; the promotion workflow
+  owns generated canon.
+- Gate 10 does not require value-bearing mainnet behavior.
+- Gate 10 does not add versioned runtime routes or source identifiers.
+
+Gate 10 completion condition:
+
+- `pnpm run check:v29-gate10` passes.
+- `npm run promote:canon -- --version V29 --commit HEAD --dry-run` produces a
+  V29 command plan.
+- Gate-quality CI invokes the Gate 10 checker.
+- V29 SPEC, DELTA, NOTES, PARITY, QA ledger, README, package scripts, promotion
+  scripts, runtime posture preparation, and workflows name the promotion
+  readiness boundary.
