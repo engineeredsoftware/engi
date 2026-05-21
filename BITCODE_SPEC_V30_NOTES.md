@@ -231,6 +231,26 @@ No Gate 7 code may mint, wrap, transfer, settle, or unlock BTD through a bridge.
 The only current chain-of-record posture is `bitcoin_btd_registry` plus
 `no_bridge_chain_of_record`.
 
+## Gate 8 Protocol telemetry notes
+
+Gate 8 turns Protocol/BTD observability into package-owned typed telemetry
+instead of leaving receipts, fee states, ledger projections, source-to-shares
+proofs, and bridge-readiness posture as unrelated payload fragments.
+
+The accepted implementation is `BtdProtocolTelemetryEnvelope` in
+`packages/btd/src/telemetry.ts`. It contains source-safe telemetry records and
+`BtdProtocolProofHook` rows that name theorem ids, replay step ids, witness
+artifact paths, generated artifact paths, evidence roots, and telemetry roots.
+The envelope is compatible with V32 provation and V35 documentation/
+observability because it carries replayable source-safe proof facts without
+requiring protected source.
+
+Gate 8 rejects event/subject mismatches and secret-shaped metadata before a row
+can reach Terminal, API, generated proof, or persistence surfaces. The API
+boundary exposes `/btd/protocol-telemetry` as a JSON-safe proof-admission route;
+it does not commit source-bearing artifacts, and it does not replace existing
+crypto telemetry rows used for deployment readiness health.
+
 ## Gate 1 working notes
 
 Gate 1 is complete only when the V30 family exists, validates in draft mode over active V29, and makes the roadmap truthful enough to drive V31 through V37 without stale V27/V28/V29 posture.

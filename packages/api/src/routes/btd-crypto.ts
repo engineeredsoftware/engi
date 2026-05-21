@@ -26,6 +26,8 @@ import {
   type BtdMintDraft,
   type BtdMintDraftInput,
   type BtdOrganizationInterfaceAuthorityRouteInput,
+  type BtdProtocolTelemetryBoundaryInput,
+  type BtdProtocolTelemetrySettlement,
   type BtdReadAccessInput,
   type BtdReadAccessDecision,
   type BtdReadLicense,
@@ -49,6 +51,7 @@ import {
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
+  buildBtdProtocolTelemetrySettlement,
   buildBtdReadAccessDecision,
   buildBtdRegistrySnapshot,
   buildBtdSourceToSharesProofSettlement,
@@ -72,6 +75,7 @@ export {
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
+  buildBtdProtocolTelemetrySettlement,
   buildBtdReadAccessDecision,
   buildBtdRegistrySnapshot,
   buildBtdSourceToSharesProofSettlement,
@@ -638,6 +642,39 @@ export function buildPostBtdBridgeReadinessResearchRoute(options: BtdRouteOption
   });
 }
 
+export function buildPostBtdProtocolTelemetryRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/protocol-telemetry', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: Omit<BtdProtocolTelemetryBoundaryInput, 'actorId' | 'exchangeSequence'> & {
+      exchangeSequence: string | number;
+    };
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    let settlement: BtdProtocolTelemetrySettlement;
+    try {
+      settlement = buildBtdProtocolTelemetrySettlement({
+        ...body,
+        actorId: user.userId,
+        exchangeSequence: parseBtdRequiredBigInt(body.exchangeSequence, 'exchangeSequence'),
+      });
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+
+    return createJsonResponse(toJsonSafe(settlement));
+  });
+}
+
 export function buildPostBtdDeploymentReadinessRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/deployment-readiness', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -699,6 +736,7 @@ export const postBtdLedgerDatabaseReconciliation =
   buildPostBtdLedgerDatabaseReconciliationRoute();
 export const postBtdSourceToSharesProof = buildPostBtdSourceToSharesProofRoute();
 export const postBtdBridgeReadinessResearch = buildPostBtdBridgeReadinessResearchRoute();
+export const postBtdProtocolTelemetry = buildPostBtdProtocolTelemetryRoute();
 export const postBtdDeploymentReadiness = buildPostBtdDeploymentReadinessRoute();
 
 function toBadRequestMessage(error: unknown): string {

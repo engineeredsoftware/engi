@@ -110,10 +110,16 @@ import type { SourceToSharesProofInput } from './source-to-shares';
 import { buildSourceToSharesProof } from './source-to-shares';
 import { createBtdSupplyState } from './supply';
 import type {
+  BtdProtocolProofHookInput,
+  BtdProtocolTelemetryInput,
+  BtdProtocolTelemetryEnvelope,
   V27CryptoTelemetryEvent,
   V27CryptoTelemetryRecord,
 } from './telemetry';
-import { buildV27CryptoTelemetryRecord } from './telemetry';
+import {
+  buildBtdProtocolTelemetryEnvelope,
+  buildV27CryptoTelemetryRecord,
+} from './telemetry';
 import type {
   TerminalJournalEntry,
   TerminalJournalProjection,
@@ -448,6 +454,15 @@ export interface BtdBridgeReadinessResearchInput {
   issuedAt?: string;
 }
 
+export interface BtdProtocolTelemetryBoundaryInput {
+  envelopeId?: string;
+  telemetry: BtdProtocolTelemetryInput[];
+  proofHooks: BtdProtocolProofHookInput[];
+  exchangeSequence: bigint;
+  actorId?: string;
+  issuedAt?: string;
+}
+
 export type BtdDeploymentReadinessAction =
   | 'deployment_lane'
   | 'telemetry_event'
@@ -565,6 +580,14 @@ export interface BtdBridgeReadinessResearchSettlement {
   kind: 'btd_bridge_readiness_research_settlement';
   actorId: string;
   posture: ReturnType<typeof buildBridgeReadinessResearchPosture>;
+  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  committed: false;
+}
+
+export interface BtdProtocolTelemetrySettlement {
+  kind: 'btd_protocol_telemetry_settlement';
+  actorId: string;
+  envelope: BtdProtocolTelemetryEnvelope;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   committed: false;
 }
@@ -1353,6 +1376,57 @@ export function buildBtdBridgeReadinessResearchSettlement(
     kind: 'btd_bridge_readiness_research_settlement',
     actorId,
     posture,
+    terminalJournalEntry,
+    committed: false,
+  };
+}
+
+export function buildBtdProtocolTelemetrySettlement(
+  input: BtdProtocolTelemetryBoundaryInput & { actorId: string },
+): BtdProtocolTelemetrySettlement {
+  const actorId = assertNonEmptyString(input.actorId, 'actorId');
+  if (typeof input.exchangeSequence !== 'bigint' || input.exchangeSequence <= 0n) {
+    throw new Error('Protocol telemetry settlement requires a positive Exchange sequence.');
+  }
+
+  const envelope = buildBtdProtocolTelemetryEnvelope({
+    envelopeId: input.envelopeId,
+    telemetry: input.telemetry,
+    proofHooks: input.proofHooks,
+    issuedAt: input.issuedAt,
+  });
+  const terminalJournalEntry = buildTerminalJournalEntry({
+    journalEntryId: buildBtdStableId('terminal-btd-protocol-telemetry', [
+      envelope.envelopeId,
+      input.exchangeSequence.toString(),
+    ]),
+    transactionKind: 'proof_admission',
+    actorId,
+    preStateRoot: buildBtdStableId('protocol-telemetry-pre-state', [
+      envelope.telemetry[0].subjectKind,
+      envelope.telemetry[0].subjectId,
+    ]),
+    postStateRoot: buildBtdStableId('protocol-telemetry-post-state', [
+      envelope.telemetryRoot,
+      envelope.proofRoot,
+    ]),
+    receiptRoots: [
+      envelope.telemetryRoot,
+      envelope.proofRoot,
+      ...envelope.telemetry.map((record) => record.telemetryRoot),
+      ...envelope.proofHooks.map((hook) => hook.hookRoot),
+    ],
+    ledgerAnchorIds: envelope.telemetry
+      .map((record) => record.ledgerAnchorId)
+      .filter((ledgerAnchorId): ledgerAnchorId is string => Boolean(ledgerAnchorId)),
+    exchangeSequence: input.exchangeSequence,
+    issuedAt: envelope.issuedAt,
+  });
+
+  return {
+    kind: 'btd_protocol_telemetry_settlement',
+    actorId,
+    envelope,
     terminalJournalEntry,
     committed: false,
   };
