@@ -89,7 +89,9 @@ import type {
   DatabaseProjectedFact,
   LedgerObservedFact,
   MetaphysicalCanonicalFact,
+  ObjectStorageArtifactFact,
   ProjectionRepairReceipt,
+  SupabaseStagingTestnetProjectionReadback,
 } from './reconciliation';
 import { reconcileLedgerDatabaseProjection } from './reconciliation';
 import type {
@@ -417,7 +419,9 @@ export interface BtdLedgerDatabaseReconciliationInput {
   reconciliationId: string;
   ledgerFacts: LedgerObservedFact[];
   databaseFacts: DatabaseProjectedFact[];
+  objectStorageArtifacts?: ObjectStorageArtifactFact[];
   metaphysicalFacts?: MetaphysicalCanonicalFact[];
+  stagingTestnetReadback?: SupabaseStagingTestnetProjectionReadback | null;
   settlementConservationChecks?: Parameters<typeof reconcileLedgerDatabaseProjection>[0]['settlementConservationChecks'];
   commitToRegistry?: boolean;
   actorId?: string;
@@ -1177,7 +1181,9 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
     reconciliationId: input.reconciliationId,
     ledgerFacts: input.ledgerFacts,
     databaseFacts: input.databaseFacts,
+    objectStorageArtifacts: input.objectStorageArtifacts,
     metaphysicalFacts: input.metaphysicalFacts,
+    stagingTestnetReadback: input.stagingTestnetReadback,
     settlementConservationChecks: input.settlementConservationChecks,
     issuedAt: input.issuedAt,
   });
@@ -1202,9 +1208,12 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
     receiptRoots: [
       report.reconciliationId,
       ...report.repairs.map((repair) => repair.repairId),
+      ...report.objectStorageArtifacts.map((artifact) => artifact.storageRoot),
       ...report.metaphysicalFacts.map((fact) => fact.receiptRoot ?? fact.canonicalRoot),
       report.proofRoots.ledgerObservedRoot,
       report.proofRoots.databaseProjectionRoot,
+      report.proofRoots.objectStorageRoot,
+      report.proofRoots.stagingTestnetReadbackRoot,
       report.proofRoots.repairPlanRoot,
       report.proofRoots.settlementConservationRoot,
     ],

@@ -58,6 +58,7 @@
     "check:v30-gate2": "node scripts/check-v30-gate2-protocol-package-api-boundaries.mjs",
     "check:v30-gate3": "node scripts/check-v30-gate3-bitcoin-taproot-psbt-fee-rigor.mjs",
     "check:v30-gate4": "node scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs",
+    "check:v30-gate5": "node scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

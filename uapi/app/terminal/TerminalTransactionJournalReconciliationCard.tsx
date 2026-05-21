@@ -92,6 +92,11 @@ export default function TerminalTransactionJournalReconciliationCard({
           facts={reconciliation.projectedFacts}
         />
         <FactSection
+          title="Object storage artifacts"
+          summary="Durable source-safe artifact roots for evidence, telemetry, preview, delivery, and ledger projection payloads."
+          facts={reconciliation.objectStorageFacts}
+        />
+        <FactSection
           title="Metaphysical canonical facts"
           summary="Root-bound identifiers and hashes that define the canonical settlement shape without exposing protected source."
           facts={reconciliation.canonicalFacts}

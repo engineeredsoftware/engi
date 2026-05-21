@@ -205,6 +205,12 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain("execution.store('asset-pack/settlement', 'unlock'");
     expect(source).toContain("execution.store('asset-pack/preview', 'feeQuote'");
     expect(source).toContain('reconcileLedgerDatabaseProjection');
+    expect(source).toContain('buildSupabaseStagingTestnetProjectionReadback');
+    expect(source).toContain('objectStorageArtifacts');
+    expect(source).toContain('buildProjectionTableReadbacks');
+    expect(source).toContain('pipeline_evidence');
+    expect(source).toContain('asset_pack_source_safe_preview');
+    expect(source).toContain('staging-testnet-readback-');
     expect(source).toContain("execution.store('asset-pack/settlement', 'ledgerDatabaseReconciliation'");
     expect(source).toContain("execution.store('asset-pack/settlement', 'organizationAuthority'");
     expect(source).toContain('organizationAuthorityDecision');

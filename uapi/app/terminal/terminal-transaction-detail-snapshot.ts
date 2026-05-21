@@ -57,6 +57,7 @@ export type TerminalLedgerSettlementSnapshot = {
   assetPackMintReceipt?: TerminalJsonRecord | null;
   readReceipt?: TerminalJsonRecord | null;
   rightsTransferReceipt?: TerminalJsonRecord | null;
+  ledgerDatabaseReconciliation?: TerminalJsonRecord | null;
   readback: Record<string, boolean>;
   journalEntryIds: string[];
   ownershipEventId: string | null;
@@ -350,6 +351,9 @@ function coerceLedgerSettlement(value: unknown): TerminalLedgerSettlementSnapsho
       value.rights_transfer_receipt ||
       value.btd_rights_transfer_receipt,
   );
+  const ledgerDatabaseReconciliation = coerceJsonRecord(
+    value.ledgerDatabaseReconciliation || value.ledger_database_reconciliation,
+  );
   const hasSettlementShape =
     coerceString(value.status) ||
     coerceString(value.assetPackId) ||
@@ -358,6 +362,7 @@ function coerceLedgerSettlement(value: unknown): TerminalLedgerSettlementSnapsho
     assetPackMintReceipt ||
     readReceipt ||
     rightsTransferReceipt ||
+    ledgerDatabaseReconciliation ||
     Object.keys(readback).length > 0 ||
     journalEntryIds.length > 0;
 
@@ -378,6 +383,7 @@ function coerceLedgerSettlement(value: unknown): TerminalLedgerSettlementSnapsho
     assetPackMintReceipt,
     readReceipt,
     rightsTransferReceipt,
+    ledgerDatabaseReconciliation,
     readback,
     journalEntryIds,
     ownershipEventId: coerceString(value.ownershipEventId),

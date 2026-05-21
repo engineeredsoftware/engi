@@ -178,6 +178,39 @@ Closure acceptance:
 - Supabase staging-testnet readback can prove synchronized or blocked state without secrets in tracked files;
 - reconciliation tests cover drift, quarantine, retry, and unlock blocking.
 
+Gate 5 implementation centers on `packages/btd/src/reconciliation.ts`.
+`LedgerDatabaseReconciliationReport` now carries distinct ledger-observed
+facts, database-projected facts, object-storage artifact facts, private
+metaphysical facts, settlement-conservation checks, and optional
+`SupabaseStagingTestnetProjectionReadback` evidence. Object-storage facts name
+artifact kind, source visibility, durable root, protected-source/encryption
+posture, and manifest root. Supabase readback receipts name only safe project
+and host identifiers, table counts, synchronized-or-blocked state, credential
+presence, and proof roots; secret-looking values are rejected.
+
+The deterministic repair surface now includes
+`missing_object_storage_artifact`, `object_storage_root_mismatch`, and
+`staging_testnet_readback_blocked` drift classes plus
+`retry_object_storage_write`, `retry_staging_testnet_readback`, and
+`quarantine_object_storage_artifact` repair actions. Missing durable artifacts
+block unlock as retryable repairs, object-storage root mismatches require
+quarantine/approval, and staging-testnet readback failures remain blocked until
+the table readback proves synchronized.
+
+The Sandbox harness emits object-storage artifact roots and secret-free
+staging-testnet readback receipts into settlement reconciliation evidence.
+Terminal reconciliation now renders object-storage artifacts as a fourth fact
+group beside ledger, database, and metaphysical facts and includes report proof
+roots and repair actions in the existing journal repair cockpit.
+
+Gate 5 evidence is covered by
+`packages/btd/__tests__/reconciliation.test.ts`,
+`packages/api/src/routes/__tests__/btd-crypto.test.ts`,
+`packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts`,
+`uapi/tests/terminalJournalReconciliation.test.ts`,
+`uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and
+`scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs`.
+
 ### Gate 6: Source-To-Shares Proof Cleanup
 
 Gate 6 cleans contribution measurement and settlement conservation.

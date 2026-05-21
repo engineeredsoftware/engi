@@ -137,6 +137,36 @@ coerce receipt payloads under camelCase or database-style snake_case keys, and
 the transaction read model counts receipt payloads in closure and journal
 availability.
 
+## Gate 5 testnet ledger projection notes
+
+Gate 5 extends the V29 reconciliation cockpit from ledger/database/private-root
+separation into a four-fact projection model:
+
+- ledger observed facts remain fee, anchor, journal, range, ownership, license,
+  and finality observations;
+- database projected facts remain Supabase rows and projected roots/finality;
+- object-storage artifact facts now carry source-safe preview, evidence,
+  telemetry, delivery, and ledger-projection roots separately from database
+  rows;
+- private metaphysical facts remain root-only protected source and policy
+  context.
+
+Object storage may prove a durable artifact exists, but it may not leak
+protected source before settlement. Unencrypted protected source artifacts are
+rejected. Encrypted protected source artifacts are admissible only as roots and
+encrypted posture, not visible source.
+
+Supabase staging-testnet readback is an explicit receipt. It records project
+ref, REST host, optional DB host, admin credential presence state, table readback
+counts, synchronized-or-blocked state, and proof root. It rejects secret-shaped
+values so tracked files, telemetry, and persisted proof payloads cannot carry
+service-role JWTs, `sb_secret__` keys, OpenAI keys, or database passwords.
+
+Gate 5 keeps the existing registry table shape for repair rows. The API
+persists schema-compatible repair receipts; richer drift classes, repair
+actions, readback receipts, and proof roots remain in the report payload until a
+future schema expansion admits more columns.
+
 4. **Gate 4: BTD AssetPack Mint And Read Receipts**
    - Make BTD mint, read, and rights-transfer receipts typed, proof-rooted, stored, streamed, and source-safe.
 
