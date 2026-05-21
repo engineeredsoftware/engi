@@ -667,6 +667,17 @@ describe('BTD crypto API builders', () => {
       phase: 'psbt_ready',
       canSignPsbt: true,
       noServerCustody: true,
+      psbtHandoffState: 'prepared_unsigned',
+      broadcastState: 'not_broadcast',
+      networkPolicy: {
+        admitted: true,
+        environment: 'staging-testnet',
+        mainnet: false,
+      },
+      taprootScriptPosture: {
+        commitmentMethod: 'taproot',
+        taprootAdmitted: true,
+      },
       quote: { quoteId: 'quote-api-1' },
     });
     expect(prepared.terminalJournalEntry.transactionKind).toBe('btc_fee_payment');
@@ -1069,6 +1080,12 @@ describe('BTD crypto API builders', () => {
     expect(body.operationPosture).toMatchObject({
       phase: 'psbt_ready',
       canSignPsbt: true,
+      psbtHandoffState: 'prepared_unsigned',
+      broadcastState: 'not_broadcast',
+      networkPolicy: {
+        admitted: true,
+        environment: 'staging-testnet',
+      },
       quote: {
         quoteId: 'quote-api-1',
         sats: '1200',

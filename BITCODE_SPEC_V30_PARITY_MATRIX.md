@@ -56,7 +56,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V30.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v30/gate-1-roadmap-and-gating` | drafted | V30 family validates in draft mode over active V29 and `check:v30-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V29 active, V30 draft, and coherent V31-V37 responsibilities. |
 | Protocol package API boundaries | Gate 2 | `packages/btd/src/api-boundaries.ts`, `packages/api/src/routes/btd-crypto.ts`, package READMEs/tests | drafted | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
-| Bitcoin Taproot PSBT fee rigor | Gate 3 | BTD fee/signer/PSBT primitives, API route adapters, tests | pending | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, and proof-rooted. |
+| Bitcoin Taproot PSBT fee rigor | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/src/bitcoin-fees.ts`, BTD/API tests, gate checker | drafted | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, Taproot/PSBT aware, and proof-rooted. |
 | BTD AssetPack mint/read receipts | Gate 4 | BTD receipt primitives, asset-pack postprocess, harness evidence, Terminal/API readback | pending | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
 | Testnet ledger projection hardening | Gate 5 | BTD reconciliation, Supabase readback, object-storage evidence, repair tests | pending | Ledger/database/object-storage projections are synchronized or blocked with deterministic repair posture. |
 | Source-to-shares proof cleanup | Gate 6 | BTD/source-to-shares proof primitives, settlement conservation tests | pending | Measurement contribution, fee allocation, zero-cell/refit tail, and conservation invariants are testable. |
@@ -112,6 +112,26 @@ No `_legacy/` source is active source truth.
 - Gate 2 does not introduce bridge chain-of-record behavior.
 - Gate 2 does not admit value-bearing mainnet settlement.
 - Gate 2 does not remove existing API route persistence adapters; it narrows their policy and receipt derivation responsibilities to package calls.
+
+## Gate 3 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| BTC fee quotes validate PSBT-usable timestamp windows | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/__tests__/btc-fee-operation.test.ts` | drafted |
+| Wallet signer recovery rejects server custody explicitly | `buildWalletSignerSessionRecovery`, `packages/btd/__tests__/btc-fee-operation.test.ts` | drafted |
+| PSBT handoff is typed across prepared, signed, broadcast, finality, replacement/reorg repair, and failure | `BtcFeePsbtHandoffState`, `deriveBtcFeePsbtHandoffState`, `BtcFeeOperationPosture` | drafted |
+| Taproot/script posture is proof-rooted and attached to fee operation posture | `BtcFeeTaprootPsbtPosture`, `buildBtcFeeTaprootPsbtPosture`, API route tests | drafted |
+| Testnet/mainnet distinction blocks value-bearing production-mainnet settlement unless explicitly approved | `BtcFeeNetworkPolicy`, `buildBtcFeeNetworkPolicy`, `network-policy` blocked-readiness tests | drafted |
+| Signed receipts require signed PSBT evidence before broadcast | `packages/btd/src/bitcoin-fees.ts`, `packages/btd/__tests__/btc-fee-operation.test.ts` | drafted |
+| API settlement route serializes the added operation posture safely | `packages/api/src/routes/__tests__/btd-crypto.test.ts` | drafted |
+| Gate checker protects the BTC fee rigor surface | `scripts/check-v30-gate3-bitcoin-taproot-psbt-fee-rigor.mjs`, `pnpm run check:v30-gate3`, gate-quality workflow | drafted |
+
+## Gate 3 accepted boundaries
+
+- Gate 3 does not admit value-bearing production-mainnet settlement by default.
+- Gate 3 does not implement a bridge chain-of-record path.
+- Gate 3 does not custody Reader private keys or sign PSBTs server-side.
+- Gate 3 does not replace later Gate 4 BTD mint, read, and rights-transfer receipts.
 - Gate 1 does not promote `BITCODE_SPEC.txt` to V30.
 - Gate 1 may retarget workflows to active V29 / draft V30 so later gates are greenable.
 - Gate 1 may update roadmap scope for V31-V37 to align with V28/V29 promotion learning without opening those versions.

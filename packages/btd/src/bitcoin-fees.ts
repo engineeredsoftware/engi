@@ -124,6 +124,10 @@ export function advanceBtcFeeTransactionReceipt(
   const txid = next.txid ?? receipt.txid;
   const confirmations = next.confirmations ?? receipt.confirmations;
 
+  if (next.finalityState === 'signed') {
+    assertNonEmptyString(next.psbt, 'signedPsbt');
+  }
+
   if (['broadcast', 'confirmed', 'replaced', 'reorged'].includes(next.finalityState)) {
     assertNonEmptyString(txid, 'txid');
   }

@@ -45,6 +45,61 @@ export type WalletSignerSessionRecoveryState =
   | 'capability_missing'
   | 'server_custody_rejected';
 
+export type BtcFeeNetworkEnvironment =
+  | 'local'
+  | 'staging-testnet'
+  | 'production-mainnet';
+
+export type BtcFeePsbtHandoffState =
+  | 'not_prepared'
+  | 'prepared_unsigned'
+  | 'signed_ready_to_broadcast'
+  | 'broadcast_submitted'
+  | 'finality_observed'
+  | 'replacement_or_reorg_repair_required'
+  | 'failed';
+
+export type BtcFeeBroadcastObservationState =
+  | 'not_broadcast'
+  | 'broadcast'
+  | 'confirmed'
+  | 'replaced'
+  | 'reorged'
+  | 'failed';
+
+export type BtcFeeBitcoinCommitmentMethod =
+  | 'taproot'
+  | 'op_return'
+  | 'standard_output_commitment'
+  | 'unknown';
+
+export type BtcFeeTaprootScriptPath = 'key_path' | 'script_path' | 'unknown';
+
+export interface BtcFeeNetworkPolicy {
+  kind: 'btc.fee_network_policy';
+  network: BitcoinNetwork | null;
+  environment: BtcFeeNetworkEnvironment;
+  valueBearing: boolean;
+  admitted: boolean;
+  operationalApprovalRequired: boolean;
+  mainnet: boolean;
+  proofRoot: string;
+  blocker: string | null;
+}
+
+export interface BtcFeeTaprootPsbtPosture {
+  kind: 'btc.fee_taproot_psbt_posture';
+  chain: 'bitcoin';
+  network: BitcoinNetwork | null;
+  commitmentMethod: BtcFeeBitcoinCommitmentMethod;
+  scriptPath: BtcFeeTaprootScriptPath;
+  taprootRequired: boolean;
+  taprootAdmitted: boolean;
+  psbtHandoffState: BtcFeePsbtHandoffState;
+  broadcastState: BtcFeeBroadcastObservationState;
+  proofRoot: string;
+}
+
 export interface WalletSignerSessionRecovery {
   state: WalletSignerSessionRecoveryState;
   canSign: boolean;
@@ -74,6 +129,7 @@ export type BtcFeeBlockedReadinessBlockerId =
   | 'wallet-network'
   | 'wallet-capability'
   | 'wallet-server-custody'
+  | 'network-policy'
   | 'fee-quote'
   | 'fee-quote-expired'
   | 'fee-quote-not-accepted'
@@ -101,6 +157,10 @@ export interface BtcFeeOperationPosture {
   quote: BtcFeeQuote | null;
   receipt: BtcFeeTransactionReceipt | null;
   signerRecovery: WalletSignerSessionRecovery;
+  networkPolicy: BtcFeeNetworkPolicy;
+  taprootScriptPosture: BtcFeeTaprootPsbtPosture;
+  psbtHandoffState: BtcFeePsbtHandoffState;
+  broadcastState: BtcFeeBroadcastObservationState;
   blockedReadiness: BtcFeeBlockedReadinessReceipt | null;
   canPreparePsbt: boolean;
   canSignPsbt: boolean;
@@ -131,30 +191,35 @@ export function buildBtcFeeQuote(input: {
   relatedAssetPackId?: string;
   relatedOrderId?: string;
 }): BtcFeeQuote {
+  const quoteId = assertNonEmptyString(input.quoteId, 'quoteId');
+  const network = assertBitcoinNetwork(input.network);
+  const measurementRoot = assertNonEmptyString(input.measurementRoot, 'measurementRoot');
+  const expiresAt = assertNonEmptyString(input.expiresAt, 'expiresAt');
   const sats = toBigIntAmount(input.sats, 'sats');
   if (sats <= 0n) {
     throw new Error('BTC fee quote sats must be positive.');
   }
 
   const issuedAt = input.issuedAt ?? new Date().toISOString();
+  assertBtcFeeQuoteTimestamps(issuedAt, expiresAt);
   const quoteRoot = stableBtcOperationRoot('btc-fee-quote', [
-    input.quoteId,
+    quoteId,
     input.feePurpose,
-    input.network,
+    network,
     sats.toString(),
-    input.measurementRoot,
+    measurementRoot,
     issuedAt,
-    input.expiresAt,
+    expiresAt,
   ]);
 
   return {
     kind: 'btc.fee_quote',
-    quoteId: assertNonEmptyString(input.quoteId, 'quoteId'),
+    quoteId,
     feePurpose: input.feePurpose,
-    network: assertBitcoinNetwork(input.network),
+    network,
     sats,
     satsPerVbyte: input.satsPerVbyte,
-    measurementRoot: assertNonEmptyString(input.measurementRoot, 'measurementRoot'),
+    measurementRoot,
     quoteRoot,
     pricingVersion: 'measurement-weight-volume',
     state: 'quoted',
@@ -162,7 +227,7 @@ export function buildBtcFeeQuote(input: {
     relatedAssetPackId: input.relatedAssetPackId,
     relatedOrderId: input.relatedOrderId,
     issuedAt,
-    expiresAt: assertNonEmptyString(input.expiresAt, 'expiresAt'),
+    expiresAt,
   };
 }
 
@@ -198,6 +263,7 @@ export function assertBtcFeeQuote(quote: BtcFeeQuote): BtcFeeQuote {
   assertNonEmptyString(quote.quoteRoot, 'quoteRoot');
   assertNonEmptyString(quote.issuedAt, 'issuedAt');
   assertNonEmptyString(quote.expiresAt, 'expiresAt');
+  assertBtcFeeQuoteTimestamps(quote.issuedAt, quote.expiresAt);
   return quote;
 }
 
@@ -350,16 +416,131 @@ export function buildBtcFeeBlockedReadinessReceipt(input: {
   };
 }
 
+export function buildBtcFeeNetworkPolicy(input: {
+  network?: BitcoinNetwork | null;
+  environment?: BtcFeeNetworkEnvironment;
+  valueBearing?: boolean;
+  valueBearingMainnetApproved?: boolean;
+}): BtcFeeNetworkPolicy {
+  const network = input.network ? assertBitcoinNetwork(input.network) : null;
+  const environment = input.environment ?? 'staging-testnet';
+  const valueBearing = input.valueBearing !== false;
+  const mainnet = network === 'mainnet';
+  const operationalApprovalRequired = mainnet && valueBearing;
+  const admitted = !operationalApprovalRequired || input.valueBearingMainnetApproved === true;
+  const blocker = admitted
+    ? null
+    : 'Value-bearing BTC fee settlement on mainnet requires explicit operational approval.';
+
+  return {
+    kind: 'btc.fee_network_policy',
+    network,
+    environment,
+    valueBearing,
+    admitted,
+    operationalApprovalRequired,
+    mainnet,
+    proofRoot: stableBtcOperationRoot('btc-fee-network-policy', [
+      network ?? 'no-network',
+      environment,
+      valueBearing ? 'value-bearing' : 'non-value-bearing',
+      input.valueBearingMainnetApproved === true ? 'approved' : 'not-approved',
+    ]),
+    blocker,
+  };
+}
+
+export function deriveBtcFeePsbtHandoffState(
+  receipt?: BtcFeeTransactionReceipt | null,
+): BtcFeePsbtHandoffState {
+  if (!receipt) return 'not_prepared';
+  switch (receipt.finalityState) {
+    case 'prepared':
+      return 'prepared_unsigned';
+    case 'signed':
+      return 'signed_ready_to_broadcast';
+    case 'broadcast':
+      return 'broadcast_submitted';
+    case 'confirmed':
+      return 'finality_observed';
+    case 'replaced':
+    case 'reorged':
+      return 'replacement_or_reorg_repair_required';
+    case 'failed':
+      return 'failed';
+  }
+}
+
+export function deriveBtcFeeBroadcastState(
+  receipt?: BtcFeeTransactionReceipt | null,
+): BtcFeeBroadcastObservationState {
+  if (!receipt) return 'not_broadcast';
+  if (receipt.finalityState === 'prepared' || receipt.finalityState === 'signed') {
+    return 'not_broadcast';
+  }
+  return receipt.finalityState;
+}
+
+export function buildBtcFeeTaprootPsbtPosture(input: {
+  network?: BitcoinNetwork | null;
+  receipt?: BtcFeeTransactionReceipt | null;
+  commitmentMethod?: BtcFeeBitcoinCommitmentMethod;
+  scriptPath?: BtcFeeTaprootScriptPath;
+}): BtcFeeTaprootPsbtPosture {
+  const network = input.network ? assertBitcoinNetwork(input.network) : null;
+  const commitmentMethod = input.commitmentMethod ?? 'taproot';
+  const scriptPath = input.scriptPath ?? (commitmentMethod === 'taproot' ? 'key_path' : 'unknown');
+  const psbtHandoffState = deriveBtcFeePsbtHandoffState(input.receipt);
+  const broadcastState = deriveBtcFeeBroadcastState(input.receipt);
+  const taprootRequired = true;
+  const taprootAdmitted = commitmentMethod === 'taproot';
+
+  return {
+    kind: 'btc.fee_taproot_psbt_posture',
+    chain: 'bitcoin',
+    network,
+    commitmentMethod,
+    scriptPath,
+    taprootRequired,
+    taprootAdmitted,
+    psbtHandoffState,
+    broadcastState,
+    proofRoot: stableBtcOperationRoot('btc-fee-taproot-psbt-posture', [
+      network ?? 'no-network',
+      commitmentMethod,
+      scriptPath,
+      psbtHandoffState,
+      broadcastState,
+    ]),
+  };
+}
+
 export function buildBtcFeeOperationPosture(input: {
   quote?: BtcFeeQuote | null;
   receipt?: BtcFeeTransactionReceipt | null;
   payerSession?: WalletSignerSession | null;
   at?: string;
   allowStoredAuthorizedSession?: boolean;
+  environment?: BtcFeeNetworkEnvironment;
+  valueBearingMainnetApproved?: boolean;
+  commitmentMethod?: BtcFeeBitcoinCommitmentMethod;
+  scriptPath?: BtcFeeTaprootScriptPath;
 }): BtcFeeOperationPosture {
   const quote = input.quote ? assertBtcFeeQuote(input.quote) : null;
   const receipt = input.receipt || null;
   const network = quote?.network || receipt?.network || input.payerSession?.network || null;
+  const networkPolicy = buildBtcFeeNetworkPolicy({
+    network,
+    environment: input.environment,
+    valueBearing: Boolean(quote || receipt),
+    valueBearingMainnetApproved: input.valueBearingMainnetApproved,
+  });
+  const taprootScriptPosture = buildBtcFeeTaprootPsbtPosture({
+    network,
+    receipt,
+    commitmentMethod: input.commitmentMethod,
+    scriptPath: input.scriptPath,
+  });
   const signerRecovery = buildWalletSignerSessionRecovery({
     session: input.payerSession,
     network,
@@ -372,9 +553,24 @@ export function buildBtcFeeOperationPosture(input: {
       quote,
       receipt,
       signerRecovery,
+      networkPolicy,
+      taprootScriptPosture,
       blockerId: signerBlockerId(signerRecovery.state),
       summary: signerRecovery.blocker || 'Wallet signer session is not ready.',
       requiredAction: signerRecovery.nextAction,
+    });
+  }
+
+  if (!networkPolicy.admitted) {
+    return blockedPosture({
+      quote,
+      receipt,
+      signerRecovery,
+      networkPolicy,
+      taprootScriptPosture,
+      blockerId: 'network-policy',
+      summary: networkPolicy.blocker || 'BTC fee network policy is blocked.',
+      requiredAction: 'Use testnet/signet or obtain value-bearing mainnet operational approval.',
     });
   }
 
@@ -383,6 +579,8 @@ export function buildBtcFeeOperationPosture(input: {
       quote,
       receipt,
       signerRecovery,
+      networkPolicy,
+      taprootScriptPosture,
       blockerId: 'fee-quote',
       summary: 'No BTC fee quote is attached.',
       requiredAction: 'Create a BTC fee quote before preparing a PSBT.',
@@ -396,6 +594,8 @@ export function buildBtcFeeOperationPosture(input: {
       quote,
       receipt,
       signerRecovery,
+      networkPolicy,
+      taprootScriptPosture,
       blockerId: error instanceof Error && /expired/i.test(error.message) ? 'fee-quote-expired' : 'fee-quote',
       summary: error instanceof Error ? error.message : 'BTC fee quote is not active.',
       requiredAction: 'Refresh the BTC fee quote before preparing settlement.',
@@ -407,6 +607,8 @@ export function buildBtcFeeOperationPosture(input: {
       quote,
       receipt,
       signerRecovery,
+      networkPolicy,
+      taprootScriptPosture,
       blockerId: 'fee-quote-not-accepted',
       summary: 'BTC fee quote has not been accepted for PSBT handoff.',
       requiredAction: 'Accept the BTC fee quote before preparing a PSBT.',
@@ -419,6 +621,8 @@ export function buildBtcFeeOperationPosture(input: {
       quote,
       receipt,
       signerRecovery,
+      networkPolicy,
+      taprootScriptPosture,
       canPreparePsbt: true,
       canSignPsbt: false,
       canBroadcast: false,
@@ -434,6 +638,8 @@ export function buildBtcFeeOperationPosture(input: {
     quote,
     receipt,
     signerRecovery,
+    networkPolicy,
+    taprootScriptPosture,
     canPreparePsbt: false,
     canSignPsbt: receipt.finalityState === 'prepared',
     canBroadcast: receipt.finalityState === 'signed',
@@ -476,6 +682,8 @@ function blockedPosture(input: {
   quote: BtcFeeQuote | null;
   receipt: BtcFeeTransactionReceipt | null;
   signerRecovery: WalletSignerSessionRecovery;
+  networkPolicy: BtcFeeNetworkPolicy;
+  taprootScriptPosture: BtcFeeTaprootPsbtPosture;
   blockerId: BtcFeeBlockedReadinessBlockerId;
   summary: string;
   requiredAction: string;
@@ -485,6 +693,8 @@ function blockedPosture(input: {
     quote: input.quote,
     receipt: input.receipt,
     signerRecovery: input.signerRecovery,
+    networkPolicy: input.networkPolicy,
+    taprootScriptPosture: input.taprootScriptPosture,
     blockedReadiness: buildBtcFeeBlockedReadinessReceipt({
       blockerId: input.blockerId,
       summary: input.summary,
@@ -503,7 +713,16 @@ function blockedPosture(input: {
 }
 
 type BtcFeeOperationPostureDraft =
-  Omit<BtcFeeOperationPosture, 'kind' | 'feeAsset' | 'network' | 'noServerCustody' | 'blockedReadiness'> & {
+  Omit<
+    BtcFeeOperationPosture,
+    | 'kind'
+    | 'feeAsset'
+    | 'network'
+    | 'noServerCustody'
+    | 'blockedReadiness'
+    | 'psbtHandoffState'
+    | 'broadcastState'
+  > & {
     blockedReadiness?: BtcFeeBlockedReadinessReceipt | null;
   };
 
@@ -514,6 +733,8 @@ function operationPosture(input: BtcFeeOperationPostureDraft): BtcFeeOperationPo
     network: input.quote?.network || input.receipt?.network || input.signerRecovery.network,
     noServerCustody: true,
     ...input,
+    psbtHandoffState: input.taprootScriptPosture.psbtHandoffState,
+    broadcastState: input.taprootScriptPosture.broadcastState,
     blockedReadiness: input.blockedReadiness || null,
   };
 }
@@ -550,4 +771,16 @@ function stableBtcOperationRoot(prefix: string, parts: string[]): string {
     hash = Math.imul(hash, 0x01000193);
   }
   return `${prefix}-${(hash >>> 0).toString(16).padStart(8, '0')}`;
+}
+
+function assertBtcFeeQuoteTimestamps(issuedAt: string, expiresAt: string): void {
+  if (!Number.isFinite(Date.parse(issuedAt))) {
+    throw new Error('BTC fee quote issuedAt must be a valid timestamp.');
+  }
+  if (!Number.isFinite(Date.parse(expiresAt))) {
+    throw new Error('BTC fee quote expiresAt must be a valid timestamp.');
+  }
+  if (Date.parse(expiresAt) <= Date.parse(issuedAt)) {
+    throw new Error('BTC fee quote expiresAt must be after issuedAt.');
+  }
 }
