@@ -1,6 +1,8 @@
 import {
+  buildBtdAssetPackExchangeSettlement,
   buildBtdMintDraft,
   buildBtdReadAccessDecision,
+  buildBtdReadReceiptBoundarySettlement,
   buildBtdRegistrySnapshot,
   createBtdMeasureMintState,
   parseBtdOptionalBigInt,
@@ -38,10 +40,26 @@ describe('BTD API boundaries', () => {
       exchangeSequence: 1n,
       actorId: 'actor-boundary-1',
       issuedAt,
+      depositorWalletId: 'wallet-depositor-boundary',
+      sourceSafePreviewRoot: 'source-safe-preview-root-boundary',
+      findingFitsResultRoot: 'finding-fits-root-boundary',
+      settlementConservationRoot: 'settlement-conservation-root-boundary',
+      ledgerProjectionRoot: 'ledger-projection-root-boundary',
     });
 
     expect(draft.kind).toBe('btd_mint_draft');
     expect(draft.measureMint.tokenCount).toBe(10_500_000);
+    expect(draft.assetPackMintReceipt).toMatchObject({
+      kind: 'btd.asset_pack_mint_receipt',
+      depositorWalletId: 'wallet-depositor-boundary',
+      sourceSafePreviewRoot: 'source-safe-preview-root-boundary',
+      findingFitsResultRoot: 'finding-fits-root-boundary',
+      ledgerProjectionRoot: 'ledger-projection-root-boundary',
+      protectedSourceVisible: false,
+    });
+    expect(draft.terminalJournalEntry.receiptRoots).toContain(
+      draft.assetPackMintReceipt?.receiptRoot,
+    );
     expect(draft.terminalJournalEntry.transactionKind).toBe('asset_pack_mint');
     expect(draft.terminalJournalEntry.actorId).toBe('actor-boundary-1');
   });
@@ -118,5 +136,125 @@ describe('BTD API boundaries', () => {
     expect(decision.kind).toBe('btd_read_access_decision');
     expect(decision.decision.decision).toBe('licensed_read');
     expect(decision.policyDisclosure.accessPolicyHash).toBe('policy-boundary-hash');
+  });
+
+  it('binds source-safe read receipts and paid rights-transfer receipts at package boundaries', () => {
+    const preview = buildBtdReadReceiptBoundarySettlement({
+      actorId: 'actor-boundary-1',
+      assetPackId: 'asset-pack-boundary-1',
+      readId: 'read-boundary-1',
+      readRequestId: 'read-request-boundary-1',
+      acceptedNeedRoot: 'accepted-need-root-boundary',
+      findingFitsResultRoot: 'finding-fits-root-boundary',
+      readerWalletId: 'wallet-reader-boundary',
+      depositorWalletId: 'wallet-depositor-boundary',
+      rangeStart: 0,
+      rangeEndExclusive: 10,
+      sourceManifestRoot: 'source-root-boundary',
+      sourceSafePreviewRoot: 'source-safe-preview-root-boundary',
+      accessPolicyHash: 'policy-boundary-hash',
+      disclosureState: 'source_safe_preview',
+      readRightState: 'none',
+      deliveryAdmissionState: 'blocked',
+      ledgerProjectionRoot: 'ledger-projection-root-boundary',
+      exchangeSequence: 4n,
+      issuedAt,
+    });
+
+    expect(preview.readReceipt).toMatchObject({
+      kind: 'btd.read_receipt',
+      disclosureState: 'source_safe_preview',
+      deliveryAdmissionState: 'blocked',
+      protectedSourceVisible: false,
+      paidUnlockRoot: null,
+    });
+    expect(preview.terminalJournalEntry.transactionKind).toBe('read_submission');
+    expect(preview.terminalJournalEntry.receiptRoots).toContain(preview.readReceipt.receiptRoot);
+
+    expect(() =>
+      buildBtdReadReceiptBoundarySettlement({
+        ...preview.readReceipt,
+        actorId: 'actor-boundary-1',
+        exchangeSequence: 5n,
+        protectedSourceVisible: true,
+      }),
+    ).toThrow('Protected source cannot be visible before paid unlock.');
+
+    const created = buildBtdAssetPackExchangeSettlement({
+      action: 'create_order',
+      orderId: 'order-boundary-1',
+      orderKind: 'sell',
+      assetPackId: 'asset-pack-boundary-1',
+      rangeStart: 0,
+      rangeEndExclusive: 10,
+      makerWalletId: 'wallet-depositor-boundary',
+      priceSats: '1200',
+      accessPolicyHash: 'policy-boundary-hash',
+      createdAtExchangeSequence: 6n,
+      actorId: 'actor-boundary-1',
+      issuedAt,
+    });
+    const accepted = buildBtdAssetPackExchangeSettlement({
+      action: 'accept_order',
+      previousOrder: created.order,
+      takerWalletId: 'wallet-reader-boundary',
+      actorId: 'actor-boundary-1',
+      issuedAt,
+    });
+    const settled = buildBtdAssetPackExchangeSettlement({
+      action: 'settle_order',
+      previousOrder: accepted.order,
+      settledAtExchangeSequence: 7n,
+      ledgerAnchorId: 'ledger-anchor-boundary-1',
+      actorId: 'actor-boundary-1',
+      issuedAt,
+    });
+    const transferred = buildBtdAssetPackExchangeSettlement({
+      action: 'transfer_rights',
+      previousOrder: settled.order,
+      receiptId: 'legacy-transfer-boundary-1',
+      fromWalletId: 'wallet-depositor-boundary',
+      toWalletId: 'wallet-reader-boundary',
+      btcFeeReceiptId: 'btc-fee-boundary-1',
+      btcFeeFinalityState: 'confirmed',
+      readLicenseId: 'read-license-boundary-1',
+      sourceSafePreviewRoot: 'source-safe-preview-root-boundary',
+      paidUnlockRoot: 'paid-unlock-root-boundary',
+      deliveryAdmissionRoot: 'delivery-admission-root-boundary',
+      ledgerProjectionRoot: 'ledger-projection-root-boundary',
+      actorId: 'actor-boundary-1',
+      issuedAt,
+    });
+
+    expect(transferred.btdRightsTransferReceipt).toMatchObject({
+      kind: 'btd.rights_transfer_receipt',
+      readerWalletId: 'wallet-reader-boundary',
+      depositorWalletId: 'wallet-depositor-boundary',
+      btcFeeFinalityState: 'confirmed',
+      deliveryAdmissionState: 'admitted',
+      protectedSourceVisible: true,
+    });
+    expect(transferred.terminalJournalEntry.receiptRoots).toContain(
+      transferred.btdRightsTransferReceipt?.receiptRoot,
+    );
+
+    expect(() =>
+      buildBtdAssetPackExchangeSettlement({
+        action: 'transfer_rights',
+        previousOrder: settled.order,
+        receiptId: 'legacy-transfer-boundary-2',
+        fromWalletId: 'wallet-depositor-boundary',
+        toWalletId: 'wallet-reader-boundary',
+        btcFeeReceiptId: 'btc-fee-boundary-2',
+        btcFeeFinalityState: 'broadcast',
+        readLicenseId: 'read-license-boundary-2',
+        sourceSafePreviewRoot: 'source-safe-preview-root-boundary',
+        paidUnlockRoot: 'paid-unlock-root-boundary',
+        deliveryAdmissionRoot: 'delivery-admission-root-boundary',
+        ledgerProjectionRoot: 'ledger-projection-root-boundary',
+        actorId: 'actor-boundary-1',
+        issuedAt,
+      }),
+    ).toThrow('Rights transfer receipt requires confirmed BTC fee finality.');
   });
 });

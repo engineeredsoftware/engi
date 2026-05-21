@@ -175,6 +175,14 @@ function countJournalRows(detail: TerminalRunDetailSnapshot | null) {
   );
 }
 
+function countBtdSettlementReceipts(detail: TerminalRunDetailSnapshot | null) {
+  return [
+    detail?.ledgerSettlement?.assetPackMintReceipt,
+    detail?.ledgerSettlement?.readReceipt,
+    detail?.ledgerSettlement?.rightsTransferReceipt,
+  ].filter(Boolean).length;
+}
+
 function createSectionHref(
   searchParams: URLSearchParams,
   transactionId: string,
@@ -263,16 +271,18 @@ function resolveSectionAvailability({
   }
 
   if (sectionId === 'closure') {
+    const receiptCount = countBtdSettlementReceipts(detail);
     const hasClosure =
       Boolean(detail?.closureState) ||
       Boolean(detail?.closureFollowThrough) ||
       Boolean(detail?.ledgerSettlement) ||
+      receiptCount > 0 ||
       Boolean(detail?.processingStats.tokenTotal);
     return {
       availability: hasClosure ? 'available' : 'empty',
       blocker: hasClosure ? null : 'Closure, settlement, and processing detail has not been projected for this row yet.',
-      metricCount: detail?.closureFollowThrough?.settlementMetrics.length || 4,
-      rowCount: detail?.closureFollowThrough?.branchArtifacts.length || 0,
+      metricCount: detail?.closureFollowThrough?.settlementMetrics.length || receiptCount || 4,
+      rowCount: (detail?.closureFollowThrough?.branchArtifacts.length || 0) + receiptCount,
       payloadAvailable: hasClosure,
     };
   }
@@ -303,12 +313,13 @@ function resolveSectionAvailability({
 
   if (sectionId === 'journal') {
     const journalRows = countJournalRows(detail);
-    const hasLedger = journalRows > 0 || Boolean(detail?.ledgerSettlement);
+    const receiptCount = countBtdSettlementReceipts(detail);
+    const hasLedger = journalRows > 0 || receiptCount > 0 || Boolean(detail?.ledgerSettlement);
     return {
       availability: hasLedger ? 'available' : 'empty',
       blocker: hasLedger ? null : 'No journal readback, ledger observation, or repair receipt is attached yet.',
       metricCount: 3,
-      rowCount: journalRows,
+      rowCount: journalRows + receiptCount,
       payloadAvailable: hasLedger,
     };
   }

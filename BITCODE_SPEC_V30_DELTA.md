@@ -143,6 +143,30 @@ Closure acceptance:
 - protected source remains hidden before settlement;
 - receipts are stored, streamed, and rendered through existing execution and Terminal surfaces.
 
+Gate 4 implementation centers on `packages/btd/src/receipts.ts` and the
+package API boundary in `packages/btd/src/api-boundaries.ts`.
+`BtdAssetPackMintReceipt` extends mint evidence with depositor identity,
+source-safe preview root, Finding Fits result root, settlement conservation
+root, paid unlock root, delivery admission root, and ledger projection root.
+`BtdReadReceipt` records the Reader/Depositor boundary for source-safe preview
+or paid unlock and rejects protected source visibility before paid unlock.
+`BtdRightsTransferReceipt` requires confirmed BTC fee finality, a read license,
+paid unlock, delivery admission, range projection, and ledger projection before
+protected source can cross to the Reader.
+
+The Sandbox harness now stores typed mint/read receipt payloads in settlement
+evidence and emits receipt roots in readback telemetry. Terminal detail
+snapshots coerce mint/read/rights-transfer receipts from settlement payloads,
+and the Terminal transaction read model counts those receipts in closure and
+journal surfaces so operators can inspect them through the existing rich
+execution detail UI.
+
+Gate 4 evidence is covered by
+`packages/btd/__tests__/api-boundaries.test.ts`,
+`uapi/tests/terminalTransactionDetailSnapshot.test.ts`,
+`uapi/tests/terminalTransactionReadModel.test.ts`, and
+`scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs`.
+
 ### Gate 5: Testnet Ledger Projection Hardening
 
 Gate 5 hardens ledger/database/object-storage projection and repair.

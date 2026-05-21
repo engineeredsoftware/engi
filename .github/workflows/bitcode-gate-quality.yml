@@ -82,6 +82,7 @@ jobs:
             node scripts/check-v30-gate1-roadmap-and-gating.mjs --skip-branch-check
             node scripts/check-v30-gate2-protocol-package-api-boundaries.mjs --skip-branch-check
             node scripts/check-v30-gate3-bitcoin-taproot-psbt-fee-rigor.mjs --skip-branch-check
+            node scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

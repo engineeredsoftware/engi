@@ -57,7 +57,7 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V29 active, V30 draft, and coherent V31-V37 responsibilities. |
 | Protocol package API boundaries | Gate 2 | `packages/btd/src/api-boundaries.ts`, `packages/api/src/routes/btd-crypto.ts`, package READMEs/tests | drafted | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
 | Bitcoin Taproot PSBT fee rigor | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/src/bitcoin-fees.ts`, BTD/API tests, gate checker | drafted | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, Taproot/PSBT aware, and proof-rooted. |
-| BTD AssetPack mint/read receipts | Gate 4 | BTD receipt primitives, asset-pack postprocess, harness evidence, Terminal/API readback | pending | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
+| BTD AssetPack mint/read receipts | Gate 4 | `packages/btd/src/receipts.ts`, `packages/btd/src/api-boundaries.ts`, asset-pack harness evidence, Terminal detail snapshot/read model tests, gate checker | drafted | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
 | Testnet ledger projection hardening | Gate 5 | BTD reconciliation, Supabase readback, object-storage evidence, repair tests | pending | Ledger/database/object-storage projections are synchronized or blocked with deterministic repair posture. |
 | Source-to-shares proof cleanup | Gate 6 | BTD/source-to-shares proof primitives, settlement conservation tests | pending | Measurement contribution, fee allocation, zero-cell/refit tail, and conservation invariants are testable. |
 | Bridge-readiness research boundaries | Gate 7 | Protocol/BTD research notes, policy posture tests, docs | pending | Bridge paths are documented as research until admitted by explicit future proof and policy. |
@@ -93,6 +93,9 @@ No `_legacy/` source is active source truth.
 
 - Gate 1 does not implement Protocol/BTD package hardening.
 - Gate 1 does not create `BITCODE_SPEC_V30_PROVEN.md`.
+- Gate 1 does not promote `BITCODE_SPEC.txt` to V30.
+- Gate 1 may retarget workflows to active V29 / draft V30 so later gates are greenable.
+- Gate 1 may update roadmap scope for V31-V37 to align with V28/V29 promotion learning without opening those versions.
 
 ## Gate 2 Parity
 
@@ -132,9 +135,28 @@ No `_legacy/` source is active source truth.
 - Gate 3 does not implement a bridge chain-of-record path.
 - Gate 3 does not custody Reader private keys or sign PSBTs server-side.
 - Gate 3 does not replace later Gate 4 BTD mint, read, and rights-transfer receipts.
-- Gate 1 does not promote `BITCODE_SPEC.txt` to V30.
-- Gate 1 may retarget workflows to active V29 / draft V30 so later gates are greenable.
-- Gate 1 may update roadmap scope for V31-V37 to align with V28/V29 promotion learning without opening those versions.
+
+## Gate 4 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| BTD package owns typed AssetPack mint, read, and rights-transfer receipts | `packages/btd/src/receipts.ts` exports `BtdAssetPackMintReceipt`, `BtdReadReceipt`, `BtdRightsTransferReceipt`, and their builders/assertions | drafted |
+| Receipts bind AssetPack ids, BTD ranges, Reader/Depositor identities, source-safe preview roots, paid unlock, delivery admission, and ledger projection roots | Receipt interfaces/builders require those roots and identities, with BTD range conservation checks | drafted |
+| Protected source remains hidden before paid unlock | `assertReadDisclosureBoundary` rejects protected source visibility before `paid_unlocked`; `BtdAssetPackMintReceipt` is always `source_safe_preview` | drafted |
+| Rights transfer requires confirmed BTC finality before protected source unlock | `buildBtdRightsTransferReceipt` and API-boundary tests require `btcFeeFinalityState: 'confirmed'` | drafted |
+| API boundary exposes package-owned receipt construction | `buildBtdMintDraft`, `buildBtdReadReceiptBoundarySettlement`, and `buildBtdAssetPackExchangeSettlement` compose receipt builders | drafted |
+| Sandbox harness stores and streams receipt evidence | `packages/pipeline-hosts/src/asset-pack-harness.ts` stores mint/read receipt payloads in ledger settlement evidence and emits receipt roots in readback telemetry | drafted |
+| Terminal renders receipt readback through existing detail surfaces | `terminal-transaction-detail-snapshot.ts` coerces receipt payloads and `terminal-transaction-read-model.ts` counts them in closure/journal sections | drafted |
+| Tests cover package and Terminal receipt posture | `packages/btd/__tests__/api-boundaries.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionReadModel.test.ts` | drafted |
+| Gate checker protects the receipt surface | `scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs`, `pnpm run check:v30-gate4`, gate-quality workflow | drafted |
+
+## Gate 4 accepted boundaries
+
+- Gate 4 does not require production-mainnet BTC settlement.
+- Gate 4 does not broadcast Bitcoin transactions or custody wallet keys.
+- Gate 4 does not make protected source visible before paid unlock and delivery admission.
+- Gate 4 does not harden all ledger/database/object-storage projection repair; Gate 5 owns that.
+- Gate 4 does not finish source-to-shares contribution cleanup; Gate 6 owns that.
 
 ## completion condition
 

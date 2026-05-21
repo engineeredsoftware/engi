@@ -54,6 +54,9 @@ export type TerminalLedgerSettlementSnapshot = {
   readerWalletId: string | null;
   btcFee: TerminalJsonRecord | null;
   ownershipBoundary: TerminalJsonRecord | null;
+  assetPackMintReceipt?: TerminalJsonRecord | null;
+  readReceipt?: TerminalJsonRecord | null;
+  rightsTransferReceipt?: TerminalJsonRecord | null;
   readback: Record<string, boolean>;
   journalEntryIds: string[];
   ownershipEventId: string | null;
@@ -329,15 +332,32 @@ function coerceRecordArray(value: unknown): TerminalJsonRecord[] {
   return value.filter((entry): entry is TerminalJsonRecord => isRecord(entry));
 }
 
+function coerceJsonRecord(value: unknown): TerminalJsonRecord | null {
+  return isRecord(value) ? value : null;
+}
+
 function coerceLedgerSettlement(value: unknown): TerminalLedgerSettlementSnapshot | null {
   if (!isRecord(value)) return null;
   const readback = coerceBooleanRecord(value.readback);
   const journalEntryIds = coerceChips(value.journalEntryIds);
+  const assetPackMintReceipt = coerceJsonRecord(
+    value.assetPackMintReceipt || value.asset_pack_mint_receipt,
+  );
+  const readReceipt = coerceJsonRecord(value.readReceipt || value.read_receipt);
+  const rightsTransferReceipt = coerceJsonRecord(
+    value.rightsTransferReceipt ||
+      value.btdRightsTransferReceipt ||
+      value.rights_transfer_receipt ||
+      value.btd_rights_transfer_receipt,
+  );
   const hasSettlementShape =
     coerceString(value.status) ||
     coerceString(value.assetPackId) ||
     coerceString(value.ledgerAnchorId) ||
     coerceString(value.btcFeeReceiptId) ||
+    assetPackMintReceipt ||
+    readReceipt ||
+    rightsTransferReceipt ||
     Object.keys(readback).length > 0 ||
     journalEntryIds.length > 0;
 
@@ -355,6 +375,9 @@ function coerceLedgerSettlement(value: unknown): TerminalLedgerSettlementSnapsho
     readerWalletId: coerceString(value.readerWalletId),
     btcFee: isRecord(value.btcFee) ? value.btcFee : null,
     ownershipBoundary: isRecord(value.ownershipBoundary) ? value.ownershipBoundary : null,
+    assetPackMintReceipt,
+    readReceipt,
+    rightsTransferReceipt,
     readback,
     journalEntryIds,
     ownershipEventId: coerceString(value.ownershipEventId),

@@ -11,6 +11,10 @@ This package owns:
 - contributor allocation, access evaluation, ancestry review, and revenue routing
 - wallet-signed BTC fee receipts, ledger anchors, Exchange rights transfers,
   Terminal journals, reconciliation, telemetry, and upgrade receipts
+- typed AssetPack mint/read/rights-transfer receipts that bind BTD ranges,
+  Reader and Depositor identities, source-safe preview roots, paid unlock,
+  delivery admission, and ledger projection roots without leaking protected
+  source before settlement
 - BTC fee operation posture, including quote lifecycle, signer recovery,
   no-server-custody PSBT handoff, Taproot/script posture, broadcast/finality
   observation, replacement/reorg repair, and testnet/mainnet network policy
@@ -37,6 +41,8 @@ import {
   BTD_MAX_MINTABLE_SUPPLY,
   applyBtdMeasureMint,
   buildBtdMintDraft,
+  buildBtdReadReceiptBoundarySettlement,
+  buildBtdRightsTransferReceipt,
   buildBtdRegistrySnapshot,
   toBtdJsonSafe,
   calculateLlmBtcFeeEstimate,
