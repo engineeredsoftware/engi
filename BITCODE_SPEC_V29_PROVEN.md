@@ -1,11 +1,11 @@
 # Bitcode Spec V29 Proven
 
 - canonicalVersion: `V29`
-- canonicalCommit: `c02638a13a464b1a15430cf9072fd13a4391435d`
-- canonicalCommitRecordedAt: `2026-05-21T14:33:57-03:00`
+- canonicalCommit: `f7efcd0107a02200bc756ff9e7d236c74395a9f6`
+- canonicalCommitRecordedAt: `2026-05-21T15:02:25-03:00`
 - worktreeState: `clean`
 - generatorId: `bitcode.proven-generator.v1`
-- generatedAt: `2026-05-21T14:33:57-03:00`
+- generatedAt: `2026-05-21T15:02:25-03:00`
 - outputPath: `BITCODE_SPEC_V29_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
 - branchModes: `patch`, `context`

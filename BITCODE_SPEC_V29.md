@@ -5,7 +5,7 @@
 - Version: `V29`
 - V29 state: canonical promotion complete; V29 is the active Terminal transaction-depth canon and the V29 hand-authored plus generated canon are aligned
 - Current canonical/latest target: `V29`
-- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
+- Canonical proof-source commit: `f7efcd0107a02200bc756ff9e7d236c74395a9f6`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
