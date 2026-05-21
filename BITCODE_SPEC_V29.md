@@ -147,6 +147,27 @@ Layer boundaries:
 - Ledger records and journals are source-of-truth for settlement/finality; Supabase/PostgreSQL projections must not contradict them.
 - Source-safe previews may expose measurements, roots, score bands, policy ids, fee quote roots, and settlement posture; they may not expose protected source before payment.
 
+## V29 demonstration-origin commercial formalization canon
+
+V29 Gate 8 makes demonstration-origin canonical helpers package-native commercial APIs.
+The formal package boundary is `packages/protocol` exposed as `@bitcode/protocol`.
+Commercial scripts, workflows, API surfaces, Terminal code, and package tests must import canonical posture, spec-family checks, canon-drift checks, canonical-input checks, and proof generation from `packages/protocol/src/index.js` or from the package export.
+They must not import `protocol-demonstration/src/*` runtime modules.
+
+`protocol-demonstration/` remains valuable, but it is a standalone minimal witness, not a commercial runtime dependency.
+It may be executed by its own test and proof workflows.
+It may be cited as historical evidence by generated proof inventories.
+It must not be the imported implementation source for gate checks, promotion scripts, commercial APIs, or Terminal runtime code.
+
+The commercial protocol package owns the active/draft posture while V29 is in flight:
+
+- `ACTIVE_CANON_VERSION = 'V28'`;
+- `DRAFT_TARGET_VERSION = 'V29'`;
+- spec-family, canonical-input, canon-posture-drift, and proven-generation helpers are exported through the package index;
+- package tests and Gate 8 checks fail closed on direct demonstration-source imports.
+
+This formalization preserves the demonstration boundary while allowing V29 promotion and later gates to operate from package-owned commercial source.
+
 ## V29 canonical domain model
 
 The V29 domain model extends V28 operationally:

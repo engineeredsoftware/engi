@@ -31,3 +31,24 @@ export function startServer(
 
 export const ACTIVE_CANON_VERSION: string;
 export const DRAFT_TARGET_VERSION: string;
+
+export interface BitcodeProtocolReport {
+  passed: boolean;
+  [key: string]: unknown;
+}
+
+export interface BitcodeProvenMarkdownPackage {
+  data: unknown;
+  markdown: string;
+  artifacts?: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export const PROVEN_GENERATOR_ID: string;
+
+export function buildV21SpecFamilyReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function buildV21CanonicalInputReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function buildV21GeneratedArtifactContents(input?: Record<string, unknown>): unknown;
+export function buildCanonPostureDriftReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function defaultProvenOutputPath(version: string): string;
+export function generateCanonicalProvenMarkdown(input?: Record<string, unknown>): BitcodeProvenMarkdownPackage;

@@ -55,7 +55,7 @@ No `_legacy/` source is active source truth.
 | AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | drafted | Source-safe preview and paid unlock are proven without protected-source leakage. |
 | Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, sandbox harness settlement evidence, Terminal repair UI, Gate 6 checker | drafted | Ledger, database, and metaphysical state drift is classified, proof-rooted, repair-actioned, and visible. |
 | Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | drafted | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
-| Commercial formalization | Gate 8 | packages/protocol, package tests, import scans, docs | pending | Demonstration-origin commercial internals are package-native and no runtime demo imports remain. |
+| Commercial formalization | Gate 8 | `packages/protocol/src/index.js`, `packages/protocol/src/canon-posture.js`, root scripts, protocol package tests, import scans, docs, Gate 8 checker | drafted | Demonstration-origin commercial internals are package-native and no direct demonstration-source imports remain in commercial/runtime sources. |
 | Terminal UX quality | Gate 9 | Playwright/Jest/a11y/responsive/browser QA | pending | Complete transaction cockpit is usable by default and inspectable in detail. |
 | Promotion readiness | Gate 10 | promotion workflow, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | pending | `version/v29` can promote to `main` only after all V29 checks pass. |
 
@@ -72,7 +72,8 @@ No `_legacy/` source is active source truth.
 | Gate 4 Reading observability | `pnpm run check:v29-gate4` proves contract-aware Reading stream telemetry and Terminal rendering | drafted |
 | Gate 5 AssetPack disclosure | `pnpm run check:v29-gate5` proves source-safe disclosure review, leakage detection, Terminal preview rendering, and PR title enforcement | drafted |
 | Gate 7 organization authority | `pnpm run check:v29-gate7` proves shared org/interface authority across BTD, API, MCP, ChatGPT App, harness, and Terminal | drafted |
-| Product implementation gates | Gates 8-9 close remaining Terminal transaction depth with tests and docs | pending |
+| Gate 8 commercial formalization | `pnpm run check:v29-gate8` proves package-native protocol exports, V28/V29 posture, script import cleanup, docs, tests, and CI wiring | drafted |
+| Product implementation gates | Gate 9 closes remaining Terminal transaction UX quality with browser proof | pending |
 | Promotion gate | Gate 10 closes generated proof and promotion automation | pending |
 
 ## Gate 1 Parity
@@ -242,3 +243,32 @@ Gate 7 completion condition:
 - Gate-quality CI invokes the Gate 7 checker and focused tests.
 - Gate 7 does not add broad enterprise RBAC administration beyond Terminal transaction authority; later versions may deepen team policy authoring.
 - Gate 7 does not reveal protected source before settlement and does not add versioned API routes or source identifiers.
+
+## Gate 8 Parity
+
+Gate 8 closes the demonstration-origin commercial formalization slice by moving gate-critical helpers behind the protocol package boundary.
+
+Accepted surfaces:
+
+- `packages/protocol/src/index.js` exports canonical posture, spec-family validation, canonical-input validation, canon-posture-drift validation, generated artifact builders, and canonical proven-generation helpers.
+- `packages/protocol/src/index.d.ts` declares the same package-native API surface for consumers that type-check against the protocol package.
+- `packages/protocol/src/canon-posture.js` declares active V28 and draft V29 while V29 gates are in progress.
+- Root scripts for spec-family checks, canonical-input checks, canon-posture drift, spec quality, pre-commit posture, and proven generation import through the protocol package source boundary.
+- `packages/protocol/test/protocol-package-boundary.test.js` proves package exports, posture, provenance-helper availability, repository-revision deposit behavior, and direct demonstration-source import boundaries.
+- `uapi/tests/protocolCommercialBoundary.test.ts` remains the commercial application boundary scan proving UAPI depends on `@bitcode/protocol` and not the standalone demonstration package.
+- `.github/workflows/bitcode-gate-quality.yml` runs the Gate 8 checker, protocol package typecheck/test, and the commercial protocol boundary test.
+
+Accepted boundaries:
+
+- Gate 8 does not delete the standalone protocol demonstration.
+- Gate 8 does not forbid generated proof inventories or historical documentation from citing `protocol-demonstration/` as evidence.
+- Gate 8 forbids direct imports from standalone demonstration source in commercial/runtime source and root scripts.
+- Gate 8 does not promote `BITCODE_SPEC.txt` to V29.
+- Gate 8 does not add versioned API routes or source identifiers.
+
+Gate 8 completion condition:
+
+- `pnpm run check:v29-gate8` passes.
+- Focused protocol package typecheck/test and the UAPI commercial protocol boundary test pass.
+- V29 SPEC, DELTA, NOTES, PARITY, protocol package README, package scripts, and gate-quality workflow name the formalized package-native boundary.
+- Root scripts use protocol package exports for canonical helpers and do not directly import `protocol-demonstration/src/*`.
