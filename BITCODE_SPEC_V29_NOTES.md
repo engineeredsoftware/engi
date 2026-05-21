@@ -3,13 +3,15 @@
 ## Status
 
 - Version: `V29`
-- V29 state: draft target opened; V29 notes now track active V28 canon and V29 Terminal-depth gate planning
-- Current canonical/latest target: `V28`
+- V29 state: canonical promotion complete; V29 notes record the accepted Terminal-depth, local/staging, and promotion-readiness evidence
+- Current canonical/latest target: `V29`
+- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v29-spec-family-report.json`, draft `.bitcode/v29-canonical-input-report.json`, future `.bitcode/v29-canon-posture-drift-report.json`, and no `BITCODE_SPEC_V29_PROVEN.md` until promotion
-- Source parity state: notes opened from V28 handoff; source implementation begins gate-by-gate after Gate 1
-- Scope: V29 notes for deeper Terminal workflow, transaction operation, evidence readability, wallet/BTC operation, settlement repair, organization permission, and promotion-readiness work.
+- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
+- Scope: V29 canonical notes for Terminal transaction depth, local/staging readiness, and promotion automation over V28
+- Last fully realized canonical target preserved in source: `V29`
 
 ## Notes companion rule
 

@@ -3,12 +3,13 @@
 ## Status
 
 - Version: `V29`
-- V29 state: draft target opened; V29 owns deeper Terminal transaction operation after V28 promotion and must not alter the active V28 canon pointer until promotion
-- Current canonical/latest target: `V28`
+- V29 state: canonical promotion complete; V29 is the active Terminal transaction-depth canon and the V29 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V29`
+- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v29-spec-family-report.json`, draft `.bitcode/v29-canonical-input-report.json`, future `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality evidence, and no `BITCODE_SPEC_V29_PROVEN.md` until promotion
-- Source parity state: V29 Gate 1 opens the draft specification and quality gates; product-source parity begins from V28 Terminal, Reading, AssetPack, settlement, ledger, and workflow implementation truth
+- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V28`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V29'`
@@ -19,6 +20,7 @@
 - Parity companion: `BITCODE_SPEC_V29_PARITY_MATRIX.md`
 - Generated proof appendix: none until V29 promotion
 - Scope: V29 canonical system specification for Terminal transaction depth, operator recovery, wallet/BTC settlement operation, AssetPack disclosure and rights review, ledger/database reconciliation, organization permission decisions, and promotion-ready workflow proof over V28
+- Last fully realized canonical target preserved in source: `V29`
 
 V29 begins from promoted V28.
 V28 made Depositing, Read Request, Read-Need Comprehension, Finding Fits, AssetPack synthesis, source-safe preview, settlement posture, delivery, and promotion governance coherent enough for canon.

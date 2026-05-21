@@ -3,19 +3,21 @@
 ## Status
 
 - Version: `V29`
-- V29 state: draft target opened; parity now tracks V29 gates over active V28 canon
-- Current canonical/latest target: `V28`
+- V29 state: canonical promotion complete; V29 parity truth, product-gate audit, generated proof, and promotion automation are aligned
+- Current canonical/latest target: `V29`
+- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v29-spec-family-report.json`, draft `.bitcode/v29-canonical-input-report.json`, future `.bitcode/v29-canon-posture-drift-report.json`, and no `BITCODE_SPEC_V29_PROVEN.md` until promotion
-- Source parity state: Gate 1 parity is documentation/workflow/checker closure; product-source rows start as pending V29 gate work
+- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V28`
-- Scope: V29 parity ledger for Terminal transaction depth, wallet/BTC operations, Reading pipeline observability, AssetPack disclosure, settlement repair, organization permissions, UX quality, and promotion readiness
+- Scope: V29 canonical parity ledger for Terminal transaction depth, local/staging readiness, and promotion automation over V28
 - Spec companion: `BITCODE_SPEC_V29.md`
 - Notes companion: `BITCODE_SPEC_V29_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V29_DELTA.md`
 - Generated proof appendix: none until V29 promotion
+- Last fully realized canonical target preserved in source: `V29`
 
 ## Purpose
 
@@ -47,34 +49,34 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V29.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v29/gate-1-objectives-and-gating` | drafted | V29 family validates in draft mode over active V28 and `check:v29-gate1` passes. |
-| Workflow retargeting | Gate 1 | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | drafted | CI checks V28 active / V29 draft posture instead of stale V27/V28 posture. |
-| Terminal transaction read models | Gate 2 | `uapi/app/terminal/terminal-transaction-read-model.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | drafted | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
-| Wallet signer/BTC operations | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, BTC fee route, Terminal Wallet/BTC detail section, BTD and UAPI tests, Gate 3 checker | drafted | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
-| Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | drafted | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
-| AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | drafted | Source-safe preview and paid unlock are proven without protected-source leakage. |
-| Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, sandbox harness settlement evidence, Terminal repair UI, Gate 6 checker | drafted | Ledger, database, and metaphysical state drift is classified, proof-rooted, repair-actioned, and visible. |
-| Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | drafted | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
-| Commercial formalization | Gate 8 | `packages/protocol/src/index.js`, `packages/protocol/src/canon-posture.js`, root scripts, protocol package tests, import scans, docs, Gate 8 checker | drafted | Demonstration-origin commercial internals are package-native and no direct demonstration-source imports remain in commercial/runtime sources. |
-| Terminal UX quality | Gate 9 | Terminal UX contract, Playwright/Jest/a11y/responsive/browser QA | drafted | Complete transaction cockpit is usable by default and inspectable in detail. |
-| Promotion readiness | Gate 10 | promotion workflow, promotion command plan, V29 QA ledger, runtime posture preparation, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | drafted | `version/v29` can promote to `main` only after all V29 checks pass and promotion automation can commit generated canon. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V29.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v29/gate-1-objectives-and-gating` | closed | V29 family validates in draft mode over active V28 and `check:v29-gate1` passes. |
+| Workflow retargeting | Gate 1 | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | closed | CI checks V28 active / V29 draft posture instead of stale V27/V28 posture. |
+| Terminal transaction read models | Gate 2 | `uapi/app/terminal/terminal-transaction-read-model.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | closed | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
+| Wallet signer/BTC operations | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, BTC fee route, Terminal Wallet/BTC detail section, BTD and UAPI tests, Gate 3 checker | closed | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
+| Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | closed | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
+| AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | closed | Source-safe preview and paid unlock are proven without protected-source leakage. |
+| Settlement reconciliation repair | Gate 6 | BTD journal/reconciliation, Supabase readback, sandbox harness settlement evidence, Terminal repair UI, Gate 6 checker | closed | Ledger, database, and metaphysical state drift is classified, proof-rooted, repair-actioned, and visible. |
+| Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | closed | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
+| Commercial formalization | Gate 8 | `packages/protocol/src/index.js`, `packages/protocol/src/canon-posture.js`, root scripts, protocol package tests, import scans, docs, Gate 8 checker | closed | Demonstration-origin commercial internals are package-native and no direct demonstration-source imports remain in commercial/runtime sources. |
+| Terminal UX quality | Gate 9 | Terminal UX contract, Playwright/Jest/a11y/responsive/browser QA | closed | Complete transaction cockpit is usable by default and inspectable in detail. |
+| Promotion readiness | Gate 10 | promotion workflow, promotion command plan, V29 QA ledger, runtime posture preparation, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | closed | `version/v29` can promote to `main` only after all V29 checks pass and promotion automation can commit generated canon. |
 
 ## V29 implementation checklist
 
 | Area | Required V29 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V28` during V29 gate work | drafted |
-| Gate branch pattern | V29 work happens on `version/v29` or `v29/gate-N-*` branches | drafted |
-| Spec-family shape | V29 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v29-gate1` fails closed on stale posture or missing gates | drafted |
-| Gate 2 read model | `pnpm run check:v29-gate2` proves typed route-owned Terminal transaction reading | drafted |
-| Gate 3 wallet/BTC operation | `pnpm run check:v29-gate3` proves quote lifecycle, signer recovery, blocked readiness, API posture, and Terminal Wallet/BTC detail | drafted |
-| Gate 4 Reading observability | `pnpm run check:v29-gate4` proves contract-aware Reading stream telemetry and Terminal rendering | drafted |
-| Gate 5 AssetPack disclosure | `pnpm run check:v29-gate5` proves source-safe disclosure review, leakage detection, Terminal preview rendering, and PR title enforcement | drafted |
-| Gate 7 organization authority | `pnpm run check:v29-gate7` proves shared org/interface authority across BTD, API, MCP, ChatGPT App, harness, and Terminal | drafted |
-| Gate 8 commercial formalization | `pnpm run check:v29-gate8` proves package-native protocol exports, V28/V29 posture, script import cleanup, docs, tests, and CI wiring | drafted |
-| Gate 9 Terminal UX browser proof | `pnpm run check:v29-gate9` proves named landmarks, explicit state semantics, responsive browser coverage, focused Jest coverage, and CI wiring | drafted |
-| Gate 10 promotion readiness | `pnpm run check:v29-gate10` proves local/staging readiness, V29 promotion workflow support, runtime posture preparation, promotion dry-run, and generated-canon automation | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V28` during V29 gate work | closed |
+| Gate branch pattern | V29 work happens on `version/v29` or `v29/gate-N-*` branches | closed |
+| Spec-family shape | V29 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v29-gate1` fails closed on stale posture or missing gates | closed |
+| Gate 2 read model | `pnpm run check:v29-gate2` proves typed route-owned Terminal transaction reading | closed |
+| Gate 3 wallet/BTC operation | `pnpm run check:v29-gate3` proves quote lifecycle, signer recovery, blocked readiness, API posture, and Terminal Wallet/BTC detail | closed |
+| Gate 4 Reading observability | `pnpm run check:v29-gate4` proves contract-aware Reading stream telemetry and Terminal rendering | closed |
+| Gate 5 AssetPack disclosure | `pnpm run check:v29-gate5` proves source-safe disclosure review, leakage detection, Terminal preview rendering, and PR title enforcement | closed |
+| Gate 7 organization authority | `pnpm run check:v29-gate7` proves shared org/interface authority across BTD, API, MCP, ChatGPT App, harness, and Terminal | closed |
+| Gate 8 commercial formalization | `pnpm run check:v29-gate8` proves package-native protocol exports, V28/V29 posture, script import cleanup, docs, tests, and CI wiring | closed |
+| Gate 9 Terminal UX browser proof | `pnpm run check:v29-gate9` proves named landmarks, explicit state semantics, responsive browser coverage, focused Jest coverage, and CI wiring | closed |
+| Gate 10 promotion readiness | `pnpm run check:v29-gate10` proves local/staging readiness, V29 promotion workflow support, runtime posture preparation, promotion dry-run, and generated-canon automation | closed |
 
 ## Gate 1 Parity
 

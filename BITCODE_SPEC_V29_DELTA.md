@@ -3,15 +3,16 @@
 ## Status
 
 - Version: `V29`
-- V29 state: draft target opened; this delta records V29's planned Terminal-depth changes over promoted V28
-- Current canonical/latest target: `V28`
+- V29 state: canonical promotion complete; this delta records the promoted V28-to-V29 Terminal transaction-depth and promotion-readiness closure set
+- Current canonical/latest target: `V29`
+- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v29-spec-family-report.json`, draft `.bitcode/v29-canonical-input-report.json`, future `.bitcode/v29-canon-posture-drift-report.json`, and no `BITCODE_SPEC_V29_PROVEN.md` until promotion
-- Source parity state: V29 delta truth is opened in documentation and gate-quality scripts; product implementation begins only through V29 gate branches
+- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V28`
-- Scope: V29 delta for deeper Terminal transaction operation after V28 commercial Reading, AssetPack, settlement, delivery, and promotion closure
+- Scope: V29 canonical delta for Terminal transaction depth, operator recovery, wallet/BTC settlement operation, AssetPack disclosure and rights review, ledger/database reconciliation, organization permission decisions, and promotion-ready workflow proof over V28
 - Spec companion: `BITCODE_SPEC_V29.md`
 - Notes companion: `BITCODE_SPEC_V29_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V29_PARITY_MATRIX.md`

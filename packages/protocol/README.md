@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V28` active, `V29` draft during V29 work);
+- active/draft canon posture (`V29` active, `V30` draft after V29 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - canonical proven-generation helpers;
@@ -23,8 +23,7 @@ Current exported commercial helpers include:
 
 V29 Gate 10 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V28` active, `V29` draft during gate work, then be
-rewritten by promotion automation to `V29` active, `V30` draft.
+must remain aligned to `V29` active, `V30` draft after promotion.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
 commercial protocol boundary test, and `check:v29-gate8`.
