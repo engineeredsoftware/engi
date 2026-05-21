@@ -13,6 +13,8 @@ import {
   type BtdAssetPackExchangeSettlement,
   type BtdAssetPackLedgerAnchorInput,
   type BtdAssetPackLedgerAnchorSettlement,
+  type BtdBridgeReadinessResearchInput,
+  type BtdBridgeReadinessResearchSettlement,
   type BtdBtcFeeTransactionInput,
   type BtdBtcFeeTransactionSettlement,
   type BtdDeploymentReadinessInput,
@@ -40,6 +42,7 @@ import {
   buildBtdAncestryReviewSettlement,
   buildBtdAssetPackExchangeSettlement,
   buildBtdAssetPackLedgerAnchorSettlement,
+  buildBtdBridgeReadinessResearchSettlement,
   buildBtdBtcFeeTransactionSettlement,
   buildBtdDeploymentReadinessSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
@@ -62,6 +65,7 @@ export {
   buildBtdAncestryReviewSettlement,
   buildBtdAssetPackExchangeSettlement,
   buildBtdAssetPackLedgerAnchorSettlement,
+  buildBtdBridgeReadinessResearchSettlement,
   buildBtdBtcFeeTransactionSettlement,
   buildBtdDeploymentReadinessSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
@@ -601,6 +605,39 @@ export function buildPostBtdSourceToSharesProofRoute(options: BtdRouteOptions = 
   });
 }
 
+export function buildPostBtdBridgeReadinessResearchRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/bridge-readiness-research', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: Omit<BtdBridgeReadinessResearchInput, 'actorId' | 'exchangeSequence'> & {
+      exchangeSequence: string | number;
+    };
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    let settlement: BtdBridgeReadinessResearchSettlement;
+    try {
+      settlement = buildBtdBridgeReadinessResearchSettlement({
+        ...body,
+        actorId: user.userId,
+        exchangeSequence: parseBtdRequiredBigInt(body.exchangeSequence, 'exchangeSequence'),
+      });
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+
+    return createJsonResponse(toJsonSafe(settlement));
+  });
+}
+
 export function buildPostBtdDeploymentReadinessRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/deployment-readiness', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -661,6 +698,7 @@ export const postBtdTerminalJournal = buildPostBtdTerminalJournalRoute();
 export const postBtdLedgerDatabaseReconciliation =
   buildPostBtdLedgerDatabaseReconciliationRoute();
 export const postBtdSourceToSharesProof = buildPostBtdSourceToSharesProofRoute();
+export const postBtdBridgeReadinessResearch = buildPostBtdBridgeReadinessResearchRoute();
 export const postBtdDeploymentReadiness = buildPostBtdDeploymentReadinessRoute();
 
 function toBadRequestMessage(error: unknown): string {

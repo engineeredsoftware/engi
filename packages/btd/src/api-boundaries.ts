@@ -39,6 +39,8 @@ import {
   assertBtcFeeQuoteActive,
   buildBtcFeeOperationPosture,
 } from './btc-fee-operation';
+import type { BridgeReadinessResearchRecordInput } from './bridge-readiness';
+import { buildBridgeReadinessResearchPosture } from './bridge-readiness';
 import type {
   BitcoinNetwork,
   LedgerNetwork,
@@ -436,6 +438,16 @@ export interface BtdSourceToSharesProofInput extends SourceToSharesProofInput {
   commitToRegistry?: boolean;
 }
 
+export interface BtdBridgeReadinessResearchInput {
+  postureId: string;
+  records?: BridgeReadinessResearchRecordInput[];
+  policyRoot?: string;
+  exchangeSequence: bigint;
+  actorId?: string;
+  commitToRegistry?: boolean;
+  issuedAt?: string;
+}
+
 export type BtdDeploymentReadinessAction =
   | 'deployment_lane'
   | 'telemetry_event'
@@ -545,6 +557,14 @@ export interface BtdSourceToSharesProofSettlement {
   kind: 'btd_source_to_shares_proof_settlement';
   actorId: string;
   proof: ReturnType<typeof buildSourceToSharesProof>;
+  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  committed: false;
+}
+
+export interface BtdBridgeReadinessResearchSettlement {
+  kind: 'btd_bridge_readiness_research_settlement';
+  actorId: string;
+  posture: ReturnType<typeof buildBridgeReadinessResearchPosture>;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   committed: false;
 }
@@ -1289,6 +1309,50 @@ export function buildBtdSourceToSharesProofSettlement(
     kind: 'btd_source_to_shares_proof_settlement',
     actorId,
     proof,
+    terminalJournalEntry,
+    committed: false,
+  };
+}
+
+export function buildBtdBridgeReadinessResearchSettlement(
+  input: BtdBridgeReadinessResearchInput & { actorId: string },
+): BtdBridgeReadinessResearchSettlement {
+  const actorId = assertNonEmptyString(input.actorId, 'actorId');
+  if (typeof input.exchangeSequence !== 'bigint' || input.exchangeSequence <= 0n) {
+    throw new Error('Bridge-readiness research settlement requires a positive Exchange sequence.');
+  }
+
+  const posture = buildBridgeReadinessResearchPosture(input);
+  const terminalJournalEntry = buildTerminalJournalEntry({
+    journalEntryId: buildBtdStableId('terminal-btd-bridge-readiness-research', [
+      posture.postureId,
+      input.exchangeSequence.toString(),
+    ]),
+    transactionKind: 'proof_admission',
+    actorId,
+    preStateRoot: buildBtdStableId('bridge-readiness-pre-state', [
+      posture.activeBtdChainOfRecord,
+      'research-only',
+    ]),
+    postStateRoot: buildBtdStableId('bridge-readiness-post-state', [
+      posture.proofRoot,
+      posture.bridgeChainOfRecordTruth,
+      String(posture.allNonAdmitted),
+    ]),
+    receiptRoots: [
+      posture.proofRoot,
+      posture.policyRoot,
+      ...posture.records.map((record) => record.researchRoot),
+    ],
+    ledgerAnchorIds: [],
+    exchangeSequence: input.exchangeSequence,
+    issuedAt: posture.issuedAt,
+  });
+
+  return {
+    kind: 'btd_bridge_readiness_research_settlement',
+    actorId,
+    posture,
     terminalJournalEntry,
     committed: false,
   };

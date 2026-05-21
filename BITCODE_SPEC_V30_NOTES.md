@@ -212,6 +212,25 @@ slices, or BTC fee allocations.
 10. **Gate 10: V30 Promotion Readiness**
     - Close local/staging proof, generated artifacts, V30 promotion workflow, and post-promotion V30 active / V31 draft posture.
 
+## Gate 7 bridge-readiness research notes
+
+Gate 7 keeps bridge work honest by making bridge candidates typed research
+posture instead of latent implementation claims.
+Taproot, BitVM, BSC/opBNB, Binance Web3 Wallet, and future distribution paths
+are all represented as records with feasibility, risks, rereview triggers,
+required proof, and required policy, but every record remains
+`research_only`.
+
+The accepted implementation is package-owned:
+`packages/btd/src/bridge-readiness.ts` builds
+`BridgeReadinessResearchPosture`; `packages/btd/src/api-boundaries.ts` wraps it
+in a Terminal journal `proof_admission` settlement; and
+`packages/api/src/routes/btd-crypto.ts` exposes the source-safe
+`/btd/bridge-readiness-research` route.
+No Gate 7 code may mint, wrap, transfer, settle, or unlock BTD through a bridge.
+The only current chain-of-record posture is `bitcoin_btd_registry` plus
+`no_bridge_chain_of_record`.
+
 ## Gate 1 working notes
 
 Gate 1 is complete only when the V30 family exists, validates in draft mode over active V29, and makes the roadmap truthful enough to drive V31 through V37 without stale V27/V28/V29 posture.

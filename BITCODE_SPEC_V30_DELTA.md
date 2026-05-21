@@ -254,6 +254,19 @@ Closure acceptance:
 - each record names feasibility, risks, current non-admission, rereview triggers, and required proof before admission;
 - no bridge path is treated as current `$BTD` chain-of-record truth.
 
+Gate 7 implementation centers `BridgeReadinessResearchPosture` in
+`packages/btd/src/bridge-readiness.ts`.
+It deliberately models bridge and distribution candidates as research facts,
+not as live chain-of-record adapters.
+The package builder synthesizes the required Taproot, BitVM, BSC/opBNB,
+Binance Web3 Wallet, and future-distribution records, rejects duplicate paths,
+rejects secret-looking posture text, and fails closed when a caller attempts
+`chainOfRecordAdmitted`.
+The BTD API boundary exposes `/btd/bridge-readiness-research` as a source-safe
+route for policy/readiness posture only; it returns a Terminal journal
+`proof_admission` entry and never writes bridge ownership, settlement, or fee
+state.
+
 ### Gate 8: Protocol Telemetry And Proof Hooks
 
 Gate 8 adds Protocol/BTD telemetry and proof hooks.

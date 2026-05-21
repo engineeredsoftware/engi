@@ -157,6 +157,7 @@ export function buildGenerationBitcodeAccounting(
 export * from './bitcoin-fees';
 export * from './btc-fee-operation';
 export * from './bitcoin-provider';
+export * from './bridge-readiness';
 export * from './access';
 export * from './allocation';
 export * from './ancestry';
