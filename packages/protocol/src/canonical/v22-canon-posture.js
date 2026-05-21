@@ -18,7 +18,7 @@ import { buildV21GeneratedArtifactContents } from './v21-specifying.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-export const DEFAULT_V22_CANON_POSTURE_REPO_ROOT = path.resolve(__dirname, '../../..');
+export const DEFAULT_V22_CANON_POSTURE_REPO_ROOT = path.resolve(__dirname, '../../../..');
 export const V22_CANON_POSTURE_REPORT_ID = 'v22-canon-posture-drift-report';
 export const V22_CANON_POSTURE_GENERATOR_ID = 'bitcode.v22-canon-posture.v1';
 export const V23_CANON_POSTURE_REPORT_ID = 'v23-canon-posture-drift-report';

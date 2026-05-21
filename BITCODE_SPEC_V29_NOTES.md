@@ -188,6 +188,27 @@ Gate 7 completion condition:
 - Focused BTD, API, MCP, ChatGPT App, pipeline-hosts, and UAPI tests cover the authority primitive and interface surfaces.
 - Spec, delta, notes, parity, Terminal README, package scripts, and gate-quality workflow name the Gate 7 closure surface.
 
+## Gate 8 working notes
+
+Gate 8 is a commercial-source boundary cleanup gate.
+Earlier versions intentionally kept some proof and canon helpers close to the standalone demonstration so the minimal witness could remain easy to audit.
+V29 keeps that witness, but the commercial repository now needs package-native imports for every helper used by scripts, workflows, Terminal, APIs, and promotion checks.
+
+Accepted Gate 8 posture:
+
+- `@bitcode/protocol` is the package boundary for canonical posture, spec-family, canonical-input, canon-posture-drift, and proven-generation helpers.
+- `protocol-demonstration/` remains executable as a standalone minimal witness and may remain cited in proof inventories.
+- Commercial/runtime code and root scripts must not import from `protocol-demonstration/src/*`.
+- The protocol package posture must say active V28 and draft V29 until promotion.
+- The protocol package tests own the durable import-boundary scan so future gates cannot silently regress into demonstration runtime imports.
+- Gate-quality CI must run protocol package typecheck/test, the Gate 8 checker, and the UAPI commercial protocol boundary test.
+
+Gate 8 completion condition:
+
+- `pnpm run check:v29-gate8` passes.
+- Protocol package tests pass.
+- The spec family, package README, root scripts, and CI all name and enforce the package-native boundary.
+
 ## Later-version boundaries
 
 - V30 remains reserved for Protocol/BTD hardening that is not necessary to close Terminal transaction depth.

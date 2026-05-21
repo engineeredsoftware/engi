@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DEFAULT_REPO_ROOT = path.resolve(__dirname, '../../..');
+const DEFAULT_REPO_ROOT = path.resolve(__dirname, '../../../..');
 
 const PRODUCT_READINESS_AUDIT_ROWS = [
   {

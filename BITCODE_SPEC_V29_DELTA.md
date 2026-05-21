@@ -169,6 +169,16 @@ Closure acceptance:
 
 Gate 8 owns cleanup of freshly ported demonstration-origin internals into package-native APIs, no demonstration runtime imports, durable package tests, and updated internal/public documentation.
 
+Closure acceptance:
+
+- `@bitcode/protocol` exports active/draft canon posture, spec-family checks, canonical-input checks, canon-posture-drift checks, and canonical proven-generation helpers through the package index and type declarations.
+- Root scripts for spec quality, spec-family validation, canonical-input validation, canon-posture drift, pre-commit posture, and proven generation import those helpers from the protocol package instead of `protocol-demonstration/src/*`.
+- Commercial/runtime source scans fail closed on direct imports from standalone demonstration source.
+- The protocol package records active V28 / draft V29 posture while V29 is being developed.
+- Protocol package tests prove exported helpers, posture, provenance-helper availability, repository-revision deposit behavior, and direct demonstration-source import boundaries.
+- Gate-quality CI runs the Gate 8 checker, protocol package typecheck/test, and the UAPI commercial protocol boundary test.
+- V29 SPEC, DELTA, NOTES, PARITY, protocol package README, package scripts, and gate-quality workflow name the Gate 8 formalization boundary.
+
 ### Gate 9: Terminal UX Quality And Browser Proof
 
 Gate 9 owns accessibility, responsive layout, copy/prose clarity, empty/loading/blocked/failed states, Playwright coverage, and visual/browser verification for the complete Terminal transaction cockpit.
