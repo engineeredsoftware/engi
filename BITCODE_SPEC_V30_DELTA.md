@@ -93,6 +93,18 @@ Closure acceptance:
 - no commercial runtime code imports `protocol-demonstration/src/*`;
 - package READMEs name ownership boundaries and accepted imports.
 
+Gate 2 implementation centers the currently shared BTD route objects in
+`packages/btd/src/api-boundaries.ts`. API routes may authenticate, parse request
+bodies, resolve registry projections, commit explicit persistence writes, and
+serialize responses, but BTD mint drafts, registry snapshots, read-access
+decisions, BTC-fee settlements, ledger anchors, Exchange settlements, Terminal
+journal settlements, reconciliation settlements, deployment-readiness receipts,
+BigInt parsing, and JSON-safe conversion are package-owned.
+
+The package boundary is proven by `packages/btd/__tests__/api-boundaries.test.ts`,
+`packages/api/src/routes/__tests__/btd-crypto.test.ts`, and
+`scripts/check-v30-gate2-protocol-package-api-boundaries.mjs`.
+
 ### Gate 3: Bitcoin Taproot PSBT Fee Rigor
 
 Gate 3 hardens Bitcoin fee and signer semantics.

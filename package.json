@@ -55,6 +55,7 @@
     "check:v29-gate9": "node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs",
     "check:v29-gate10": "node scripts/check-v29-gate10-local-staging-promotion-readiness.mjs",
     "check:v30-gate1": "node scripts/check-v30-gate1-roadmap-and-gating.mjs",
+    "check:v30-gate2": "node scripts/check-v30-gate2-protocol-package-api-boundaries.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

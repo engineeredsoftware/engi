@@ -14,6 +14,7 @@ jest.mock(
 );
 
 import {
+  advanceBtcFeeQuote,
   buildBtdAncestryReviewSettlement,
   buildBtdAssetPackLedgerAnchorSettlement,
   buildBtdAssetPackExchangeSettlement,
@@ -25,6 +26,10 @@ import {
   buildBtdOrganizationInterfaceAuthorityDecision,
   buildBtdReadAccessDecision,
   buildBtdTerminalJournalSettlement,
+  buildBtcFeeQuote,
+  createBtdMeasureMintState,
+} from '@bitcode/btd';
+import {
   buildGetBtdRegistrySnapshotRoute,
   buildPostBtdAncestryReviewRoute,
   buildPostBtdAssetPackLedgerAnchorRoute,
@@ -38,11 +43,6 @@ import {
   buildPostBtdReadAccessRoute,
   buildPostBtdTerminalJournalRoute,
 } from '../btd-crypto';
-import {
-  advanceBtcFeeQuote,
-  buildBtcFeeQuote,
-  createBtdMeasureMintState,
-} from '@bitcode/btd';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
 
@@ -215,7 +215,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires accepted Read.');
+    expect(body.error).toBe('BTD mint draft requires accepted Read.');
   });
 
   it('fails mint drafts closed when Fit admission is absent', async () => {
@@ -231,7 +231,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires accepted Fit.');
+    expect(body.error).toBe('BTD mint draft requires accepted Finding Fits result.');
   });
 
   it('fails mint drafts closed when uncommitted proof inputs are missing', async () => {
@@ -263,7 +263,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires a positive Exchange sequence.');
+    expect(body.error).toBe('BTD mint draft requires a positive Exchange sequence.');
   });
 
   it('builds read-access decisions without merging owner-read and licensed-read rights', () => {

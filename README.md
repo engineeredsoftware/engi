@@ -69,7 +69,11 @@ and commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V29` to `V30` on the version branch.
 Gate 10 is the local/staging promotion-readiness gate; run the V30 Gate 10
 checker before opening the final gate PR. V30 Gate 1 wires the first checker as
-`pnpm run check:v30-gate1`.
+`pnpm run check:v30-gate1`. V30 Gate 2 wires the Protocol/BTD package boundary
+checker as `pnpm run check:v30-gate2`; shared BTD objects consumed by API,
+Terminal, MCP, ChatGPT App, Auxillaries, or Exchange must be built, parsed,
+validated, and JSON-serialized by package owners before route or interface code
+uses them.
 The promoted V29 closure remains reproducible through `pnpm run check:v29-gate10`
 and [v29-canon-promotion.yml](.github/workflows/v29-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
