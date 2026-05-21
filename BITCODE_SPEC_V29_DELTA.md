@@ -183,6 +183,16 @@ Closure acceptance:
 
 Gate 9 owns accessibility, responsive layout, copy/prose clarity, empty/loading/blocked/failed states, Playwright coverage, and visual/browser verification for the complete Terminal transaction cockpit.
 
+Closure acceptance:
+
+- Terminal exposes one named cockpit `main` landmark, a keyboard-reachable skip link to the selected transaction workspace, named regions for the transaction workspace and selected activity detail, and accessible controls for route-owned detail sections.
+- The default operator path remains low-detail: activity summary, selected result digest, section availability, blockers, and source-safe preview metadata are readable before raw payload expansion.
+- Loading, empty, failed, blocked, and source-safe preview states are represented by typed UI states with `status` or `alert` semantics where appropriate, not only by browser-network inspection.
+- The complete cockpit is responsive across phone, tablet, laptop, and widescreen viewports without document-level horizontal overflow; table overflow remains contained inside the table scroller.
+- Browser proof is executable through a focused Playwright spec that opens Terminal in deterministic mock mode, verifies landmarks, skip navigation, blocked Console posture, source-safe detail, route-owned selection, and responsive readability.
+- Focused Jest coverage proves the UI state contract and the exported browser-proof contract that CI and documentation name.
+- `check:v29-gate9` fails closed unless V29 specification, Terminal README, Terminal UX contract, Jest tests, Playwright spec, package scripts, and gate-quality workflow all name the Gate 9 browser-proof surface.
+
 ### Gate 10: Local And Staging Promotion Readiness
 
 Gate 10 owns non-mocked local validation, staging-testnet readback, generated proof artifacts, V29 promotion workflow support, promotion dry-run, and final version branch readiness.

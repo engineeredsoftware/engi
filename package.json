@@ -52,6 +52,7 @@
     "check:v29-gate6": "node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs",
     "check:v29-gate7": "node scripts/check-v29-gate7-organization-permission-authority.mjs",
     "check:v29-gate8": "node scripts/check-v29-gate8-demonstration-origin-formalization.mjs",
+    "check:v29-gate9": "node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

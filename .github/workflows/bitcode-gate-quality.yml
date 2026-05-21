@@ -70,6 +70,7 @@ jobs:
           node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs --skip-branch-check
           node scripts/check-v29-gate7-organization-permission-authority.mjs --skip-branch-check
           node scripts/check-v29-gate8-demonstration-origin-formalization.mjs --skip-branch-check
+          node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs --skip-branch-check
 
       - name: Validate source casing and imports
         run: |
@@ -116,8 +117,15 @@ jobs:
             tests/protocolCommercialBoundary.test.ts \
             tests/terminalTransactionDetailCards.test.tsx \
             tests/terminalTransactionDetailSnapshot.test.ts \
+            tests/terminalUxBrowserProof.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
+
+      - name: Install Terminal browser proof browser
+        run: pnpm --dir uapi exec playwright install chromium --with-deps
+
+      - name: Browser proof Terminal cockpit
+        run: pnpm --dir uapi run test:e2e:terminal-ux
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback
