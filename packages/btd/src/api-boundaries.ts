@@ -79,7 +79,12 @@ import {
   createBtdMeasureMintState,
 } from './measuremint';
 import { allocateAssetPackRange } from './range';
-import { buildBtdMintReceipt } from './receipts';
+import {
+  buildBtdAssetPackMintReceipt,
+  buildBtdMintReceipt,
+  buildBtdReadReceipt,
+  buildBtdRightsTransferReceipt,
+} from './receipts';
 import type {
   DatabaseProjectedFact,
   LedgerObservedFact,
@@ -148,6 +153,13 @@ export interface BtdMintDraftInput {
   exchangeSequence: bigint;
   actorId?: string;
   issuedAt?: string;
+  depositorWalletId?: string;
+  sourceSafePreviewRoot?: string;
+  findingFitsResultRoot?: string;
+  settlementConservationRoot?: string;
+  ledgerProjectionRoot?: string;
+  paidUnlockRoot?: string | null;
+  deliveryAdmissionRoot?: string | null;
 }
 
 export interface BtdMintDraft {
@@ -157,10 +169,48 @@ export interface BtdMintDraft {
   measureMint: ReturnType<typeof applyBtdMeasureMint>['receipt'];
   rangeAllocation?: ReturnType<typeof allocateAssetPackRange>;
   mintReceipt?: ReturnType<typeof buildBtdMintReceipt>;
+  assetPackMintReceipt?: ReturnType<typeof buildBtdAssetPackMintReceipt>;
   contributorAllocation?: ReturnType<typeof allocateBtdContributorCells>;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   blocking: boolean;
   zeroCell: boolean;
+}
+
+export interface BtdReadReceiptBoundaryInput {
+  actorId: string;
+  receiptId?: string;
+  assetPackId: string;
+  readId: string;
+  readRequestId: string;
+  acceptedNeedRoot: string;
+  findingFitsResultRoot: string;
+  readerWalletId: string;
+  depositorWalletId: string;
+  rangeStart: number;
+  rangeEndExclusive: number;
+  tokenCount?: number;
+  sourceManifestRoot: string;
+  sourceSafePreviewRoot: string;
+  accessPolicyHash: string;
+  disclosureState: Parameters<typeof buildBtdReadReceipt>[0]['disclosureState'];
+  readRightState: Parameters<typeof buildBtdReadReceipt>[0]['readRightState'];
+  paidUnlockRoot?: string | null;
+  deliveryAdmissionState: Parameters<typeof buildBtdReadReceipt>[0]['deliveryAdmissionState'];
+  deliveryAdmissionRoot?: string | null;
+  ledgerProjectionRoot: string;
+  protectedSourceVisible?: boolean;
+  exchangeSequence: bigint;
+  commitToRegistry?: boolean;
+  issuedAt?: string;
+}
+
+export interface BtdReadReceiptBoundarySettlement {
+  kind: 'btd_read_receipt_boundary_settlement';
+  actorId: string;
+  readReceipt: ReturnType<typeof buildBtdReadReceipt>;
+  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  registryWrite?: unknown;
+  committed: boolean;
 }
 
 export interface BtdReadAccessInput {
@@ -331,6 +381,15 @@ export interface BtdAssetPackExchangeInput {
   fromWalletId?: string;
   toWalletId?: string;
   btcFeeReceiptId?: string;
+  btcFeeFinalityState?: BtcFeeFinalityState;
+  readLicenseId?: string;
+  readerWalletId?: string;
+  depositorWalletId?: string;
+  sourceSafePreviewRoot?: string;
+  paidUnlockRoot?: string;
+  deliveryAdmissionRoot?: string;
+  ledgerProjectionRoot?: string;
+  protectedSourceVisible?: boolean;
   commitToRegistry?: boolean;
   actorId?: string;
   issuedAt?: string;
@@ -444,6 +503,7 @@ export interface BtdAssetPackExchangeSettlement {
   action: BtdAssetPackExchangeAction;
   order?: AssetPackExchangeOrder;
   rightsTransfer?: AssetPackRightsTransferReceipt;
+  btdRightsTransferReceipt?: ReturnType<typeof buildBtdRightsTransferReceipt>;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   registryWrite?: unknown;
   committed: boolean;
@@ -584,6 +644,21 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
         )
       : undefined;
   const mintReceipt = rangeAllocation ? buildBtdMintReceipt(rangeAllocation, issuedAt) : undefined;
+  const assetPackMintReceipt =
+    mintReceipt && shouldBuildAssetPackMintReceipt(input)
+      ? buildBtdAssetPackMintReceipt({
+          mintReceipt,
+          readId: input.readId,
+          depositorWalletId: input.depositorWalletId,
+          sourceSafePreviewRoot: input.sourceSafePreviewRoot,
+          findingFitsResultRoot: input.findingFitsResultRoot ?? input.fitReceiptRoot,
+          settlementConservationRoot: input.settlementConservationRoot,
+          ledgerProjectionRoot: input.ledgerProjectionRoot,
+          paidUnlockRoot: input.paidUnlockRoot,
+          deliveryAdmissionRoot: input.deliveryAdmissionRoot,
+          issuedAt,
+        })
+      : undefined;
   const contributorAllocation =
     rangeAllocation && input.contributors?.length
       ? allocateBtdContributorCells({
@@ -598,6 +673,7 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
     measurement.measurementId,
     buildBtdStableId('btd-measure-mint', [input.assetPackId, input.exchangeSequence.toString()]),
     mintReceipt ? buildBtdStableId('btd-asset-pack-mint', [input.assetPackId, mintReceipt.issuedAt]) : null,
+    assetPackMintReceipt?.receiptRoot ?? null,
     contributorAllocation
       ? buildBtdStableId('btd-contributor-allocation', [input.assetPackId, contributorAllocation.issuedAt])
       : null,
@@ -627,6 +703,7 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
     measureMint: measureMint.receipt,
     rangeAllocation,
     mintReceipt,
+    assetPackMintReceipt,
     contributorAllocation,
     terminalJournalEntry,
     blocking: false,
@@ -673,6 +750,71 @@ export function buildBtdReadAccessDecision(
       redistributionAllowed: input.accessPolicy.redistributionAllowed,
       confidentiality: input.accessPolicy.confidentiality,
     },
+  };
+}
+
+export function buildBtdReadReceiptBoundarySettlement(
+  input: BtdReadReceiptBoundaryInput,
+): Omit<BtdReadReceiptBoundarySettlement, 'committed'> {
+  const actorId = assertNonEmptyString(input.actorId, 'actorId');
+  const readReceipt = buildBtdReadReceipt({
+    receiptId: input.receiptId,
+    assetPackId: input.assetPackId,
+    readId: input.readId,
+    readRequestId: input.readRequestId,
+    acceptedNeedRoot: input.acceptedNeedRoot,
+    findingFitsResultRoot: input.findingFitsResultRoot,
+    readerWalletId: input.readerWalletId,
+    depositorWalletId: input.depositorWalletId,
+    rangeStart: input.rangeStart,
+    rangeEndExclusive: input.rangeEndExclusive,
+    tokenCount: input.tokenCount,
+    sourceManifestRoot: input.sourceManifestRoot,
+    sourceSafePreviewRoot: input.sourceSafePreviewRoot,
+    accessPolicyHash: input.accessPolicyHash,
+    disclosureState: input.disclosureState,
+    readRightState: input.readRightState,
+    paidUnlockRoot: input.paidUnlockRoot,
+    deliveryAdmissionState: input.deliveryAdmissionState,
+    deliveryAdmissionRoot: input.deliveryAdmissionRoot,
+    ledgerProjectionRoot: input.ledgerProjectionRoot,
+    protectedSourceVisible: input.protectedSourceVisible,
+    issuedAt: input.issuedAt,
+  });
+  const transactionKind =
+    readReceipt.deliveryAdmissionState === 'admitted'
+      ? 'licensed_read_purchase'
+      : 'read_submission';
+  const terminalJournalEntry = buildTerminalJournalEntry({
+    journalEntryId: buildBtdStableId('terminal-btd-read-receipt', [
+      readReceipt.assetPackId,
+      readReceipt.readId,
+      readReceipt.readerWalletId,
+      readReceipt.disclosureState,
+    ]),
+    transactionKind,
+    actorId,
+    preStateRoot: buildBtdStableId('btd-read-receipt-pre-state', [
+      readReceipt.assetPackId,
+      readReceipt.readId,
+    ]),
+    postStateRoot: buildBtdStableId('btd-read-receipt-post-state', [
+      readReceipt.assetPackId,
+      readReceipt.readId,
+      readReceipt.disclosureState,
+      readReceipt.deliveryAdmissionState,
+    ]),
+    receiptRoots: [readReceipt.receiptRoot],
+    ledgerAnchorIds: [],
+    exchangeSequence: input.exchangeSequence,
+    issuedAt: input.issuedAt,
+  });
+
+  return {
+    kind: 'btd_read_receipt_boundary_settlement',
+    actorId,
+    readReceipt,
+    terminalJournalEntry,
   };
 }
 
@@ -893,6 +1035,32 @@ export function buildBtdAssetPackExchangeSettlement(
 ): Omit<BtdAssetPackExchangeSettlement, 'committed'> {
   const actorId = assertNonEmptyString(input.actorId, 'actorId');
   const { order, rightsTransfer, exchangeSequence } = buildAssetPackExchangeForAction(input);
+  const btdRightsTransferReceipt =
+    rightsTransfer && shouldBuildBtdRightsTransferReceipt(input)
+      ? buildBtdRightsTransferReceipt({
+          orderId: rightsTransfer.orderId,
+          assetPackId: rightsTransfer.assetPackId,
+          rangeStart: rightsTransfer.rangeStart,
+          rangeEndExclusive: rightsTransfer.rangeEndExclusive,
+          fromWalletId: rightsTransfer.fromWalletId,
+          toWalletId: rightsTransfer.toWalletId,
+          readerWalletId: input.readerWalletId ?? rightsTransfer.toWalletId,
+          depositorWalletId: input.depositorWalletId ?? rightsTransfer.fromWalletId,
+          priceSats: rightsTransfer.priceSats,
+          accessPolicyHash: rightsTransfer.accessPolicyHash,
+          btcFeeReceiptId: rightsTransfer.btcFeeReceiptId,
+          btcFeeFinalityState: input.btcFeeFinalityState,
+          readLicenseId: input.readLicenseId,
+          sourceSafePreviewRoot: input.sourceSafePreviewRoot,
+          paidUnlockRoot: input.paidUnlockRoot,
+          deliveryAdmissionRoot: input.deliveryAdmissionRoot,
+          ledgerAnchorId: rightsTransfer.ledgerAnchorId,
+          ledgerProjectionRoot: input.ledgerProjectionRoot,
+          exchangeSequence: rightsTransfer.exchangeSequence,
+          protectedSourceVisible: input.protectedSourceVisible,
+          issuedAt: input.issuedAt,
+        })
+      : undefined;
   const receiptRoot = rightsTransfer?.receiptId ?? order?.orderId;
   if (!receiptRoot) {
     throw new Error('AssetPack Exchange settlement requires an order or rights-transfer receipt.');
@@ -912,9 +1080,11 @@ export function buildBtdAssetPackExchangeSettlement(
     postStateRoot: buildBtdStableId('asset-pack-exchange-post-state', [
       order?.orderId ?? rightsTransfer?.orderId ?? receiptRoot,
       order?.orderState ?? 'rights_transfer',
-      rightsTransfer?.btcFeeReceiptId ?? 'no-fee',
+      btdRightsTransferReceipt?.paidUnlockRoot ?? rightsTransfer?.btcFeeReceiptId ?? 'no-fee',
     ]),
-    receiptRoots: [receiptRoot],
+    receiptRoots: [receiptRoot, btdRightsTransferReceipt?.receiptRoot].filter(
+      (value): value is string => Boolean(value),
+    ),
     ledgerAnchorIds: [order?.ledgerAnchorId, rightsTransfer?.ledgerAnchorId].filter(
       (value): value is string => Boolean(value),
     ),
@@ -928,6 +1098,7 @@ export function buildBtdAssetPackExchangeSettlement(
     action: input.action,
     order,
     rightsTransfer,
+    btdRightsTransferReceipt,
     terminalJournalEntry,
   };
 }
@@ -1209,6 +1380,22 @@ function assertMintDraftAdmission(input: BtdMintDraftInput): void {
   }
 }
 
+function shouldBuildAssetPackMintReceipt(
+  input: BtdMintDraftInput,
+): input is BtdMintDraftInput & {
+  depositorWalletId: string;
+  sourceSafePreviewRoot: string;
+  settlementConservationRoot: string;
+  ledgerProjectionRoot: string;
+} {
+  return Boolean(
+    input.depositorWalletId &&
+      input.sourceSafePreviewRoot &&
+      input.settlementConservationRoot &&
+      input.ledgerProjectionRoot,
+  );
+}
+
 function normalizeMeasureMintState(state?: BtdMeasureMintState): BtdMeasureMintState {
   if (!state) {
     return createBtdMeasureMintState();
@@ -1479,6 +1666,26 @@ function buildAssetPackExchangeForAction(input: BtdAssetPackExchangeInput): {
         `Unsupported AssetPack Exchange action: ${(input as { action: string }).action}.`,
       );
   }
+}
+
+function shouldBuildBtdRightsTransferReceipt(
+  input: BtdAssetPackExchangeInput,
+): input is BtdAssetPackExchangeInput & {
+  btcFeeFinalityState: BtcFeeFinalityState;
+  readLicenseId: string;
+  sourceSafePreviewRoot: string;
+  paidUnlockRoot: string;
+  deliveryAdmissionRoot: string;
+  ledgerProjectionRoot: string;
+} {
+  return Boolean(
+    input.btcFeeFinalityState &&
+      input.readLicenseId &&
+      input.sourceSafePreviewRoot &&
+      input.paidUnlockRoot &&
+      input.deliveryAdmissionRoot &&
+      input.ledgerProjectionRoot,
+  );
 }
 
 function normalizeWalletSignerSession(

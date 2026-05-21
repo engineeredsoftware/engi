@@ -209,6 +209,18 @@ V30 closes through ten gates:
 9. **Gate 9: Interface Integration And Regression Proof** proves current interfaces consume package-owned objects without V29 behavior regression.
 10. **Gate 10: V30 Promotion Readiness** validates local/staging proof, generated artifacts, V30 promotion workflow support, and post-promotion V30 active / V31 draft posture.
 
+Gate 4 receipt precision:
+
+- Mint receipts are source-safe by construction. They may bind a paid unlock
+  root later, but their own `protectedSourceVisible` posture is always false.
+- Read receipts can represent preview, blocked, or paid-unlocked reading. Any
+  paid delivery admission must include a paid unlock root, delivery admission
+  root, read right, and ledger projection root.
+- Rights-transfer receipts require confirmed BTC fee finality before the BTD
+  right/license transfer can admit protected source visibility to the Reader.
+  Prepared, signed, broadcast, replaced, reorged, and failed fee receipts do
+  not unlock protected source.
+
 ## V30 whole Bitcode operator chain
 
 The V30 Terminal operator chain is:

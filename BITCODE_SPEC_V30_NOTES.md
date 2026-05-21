@@ -108,6 +108,35 @@ failure. Signed receipt advancement requires a signed PSBT. Broadcast,
 confirmed, replaced, and reorged observations require transaction id evidence.
 Server-custody signer posture remains rejected before PSBT handoff.
 
+## Gate 4 BTD AssetPack mint and read receipt notes
+
+Gate 4 moves BTD receipt posture from route/runtime convention into package
+owned primitives:
+
+- `BtdAssetPackMintReceipt` binds the deposited AssetPack id, BTD range,
+  depositor wallet, source manifest root, source-safe preview root, Finding
+  Fits result root, proof root, settlement conservation root, access policy,
+  and ledger projection root. It is always source-safe and never exposes
+  protected source.
+- `BtdReadReceipt` binds the Reader wallet, Depositor wallet, accepted Need
+  root, Finding Fits root, source-safe preview root, paid unlock state, read
+  right state, delivery admission state, and ledger projection root. It rejects
+  protected source visibility unless the read is paid-unlocked.
+- `BtdRightsTransferReceipt` binds the settled BTD range and read license to a
+  confirmed BTC fee receipt, paid unlock root, delivery admission root, ledger
+  anchor, ledger projection root, and Reader/Depositor identities. It is the
+  receipt boundary where protected source can become visible to the paying
+  Reader.
+
+The package API boundary exposes builders for mint receipts, read-receipt
+settlements, and rights-transfer receipts so API routes and harness code do not
+reimplement receipt policy. The Sandbox harness emits mint/read receipt payloads
+and receipt roots inside ledger settlement evidence; rights-transfer receipts
+remain absent until BTC fee finality is confirmed. Terminal detail snapshots
+coerce receipt payloads under camelCase or database-style snake_case keys, and
+the transaction read model counts receipt payloads in closure and journal
+availability.
+
 4. **Gate 4: BTD AssetPack Mint And Read Receipts**
    - Make BTD mint, read, and rights-transfer receipts typed, proof-rooted, stored, streamed, and source-safe.
 
