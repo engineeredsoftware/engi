@@ -25,9 +25,11 @@ import {
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
+  buildBtdProtocolTelemetrySettlement,
   buildBtdReadAccessDecision,
   buildBtdSourceToSharesProofSettlement,
   buildBtdTerminalJournalSettlement,
+  buildBtdProtocolTelemetryRecord,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
 } from '@bitcode/btd';
@@ -43,6 +45,7 @@ import {
   buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
   buildPostBtdOrganizationInterfaceAuthorityRoute,
+  buildPostBtdProtocolTelemetryRoute,
   buildPostBtdReadAccessRoute,
   buildPostBtdSourceToSharesProofRoute,
   buildPostBtdTerminalJournalRoute,
@@ -212,6 +215,45 @@ function bridgeReadinessResearchBody(overrides: Record<string, unknown> = {}) {
   return {
     postureId: 'bridge-readiness-api-1',
     exchangeSequence: '19',
+    issuedAt,
+    ...overrides,
+  };
+}
+
+function protocolTelemetryBody(overrides: Record<string, unknown> = {}) {
+  const telemetry = {
+    event: 'btd.source_to_shares_proof.emitted' as const,
+    subjectKind: 'source_to_shares_proof' as const,
+    subjectId: 'source-to-shares-api-1',
+    root: 'source-to-shares-api-root',
+    receiptRoot: 'source-to-shares-api-receipt-root',
+    proofRoot: 'source-to-shares-api-proof-root',
+    artifactPath: '.bitcode/source-to-shares-api-proof.json',
+    metadata: {
+      sourceSafe: true,
+      settlementAdmissible: true,
+    },
+    issuedAt,
+  };
+  const record = buildBtdProtocolTelemetryRecord(telemetry);
+
+  return {
+    telemetry: [telemetry],
+    proofHooks: [
+      {
+        proofFamily: 'source_to_shares' as const,
+        subjectKind: 'source_to_shares_proof' as const,
+        subjectId: 'source-to-shares-api-1',
+        evidenceRoot: 'source-to-shares-api-root',
+        telemetryRoot: record.telemetryRoot,
+        theoremIds: ['source-safe', 'settlement-conserved'],
+        replayStepIds: ['emit-telemetry', 'bind-source-to-shares-proof'],
+        witnessArtifactPaths: ['.bitcode/source-to-shares-api-proof.json'],
+        generatedArtifactPath: '.bitcode/generated/source-to-shares-api-proof.json',
+        issuedAt,
+      },
+    ],
+    exchangeSequence: '20',
     issuedAt,
     ...overrides,
   };
@@ -1002,6 +1044,32 @@ describe('BTD crypto API builders', () => {
     expect(settlement.terminalJournalEntry.receiptRoots).toContain(settlement.posture.proofRoot);
   });
 
+  it('builds Protocol telemetry settlements with source-safe proof hooks', () => {
+    const settlement = buildBtdProtocolTelemetrySettlement({
+      actorId: 'user-1',
+      ...protocolTelemetryBody(),
+      exchangeSequence: 20n,
+    } as any);
+
+    expect(settlement.kind).toBe('btd_protocol_telemetry_settlement');
+    expect(settlement.committed).toBe(false);
+    expect(settlement.envelope.compatibleWith).toEqual(['V32', 'V35']);
+    expect(settlement.envelope.sourceSafety.sourceSafe).toBe(true);
+    expect(settlement.envelope.telemetry[0]).toMatchObject({
+      event: 'btd.source_to_shares_proof.emitted',
+      subjectKind: 'source_to_shares_proof',
+    });
+    expect(settlement.envelope.telemetry[0].sourceSafety.containsProtectedSource).toBe(false);
+    expect(settlement.envelope.proofHooks[0]).toMatchObject({
+      proofFamily: 'source_to_shares',
+      subjectKind: 'source_to_shares_proof',
+    });
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('proof_admission');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(
+      settlement.envelope.telemetryRoot,
+    );
+  });
+
   it('builds deployment readiness, telemetry, and upgrade settlements', () => {
     const readiness = buildBtdDeploymentReadinessSettlement({
       actorId: 'user-1',
@@ -1590,6 +1658,28 @@ describe('BTD crypto API builders', () => {
     expect(body.posture.allNonAdmitted).toBe(true);
     expect(body.posture.records).toHaveLength(5);
     expect(body.terminalJournalEntry.exchangeSequence).toBe('19');
+  });
+
+  it('returns JSON-safe Protocol telemetry proof hooks from the route boundary', async () => {
+    const route = buildPostBtdProtocolTelemetryRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/protocol-telemetry', {
+        method: 'POST',
+        body: JSON.stringify(protocolTelemetryBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_protocol_telemetry_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.envelope.compatibleWith).toEqual(['V32', 'V35']);
+    expect(body.envelope.sourceSafety.containsSecret).toBe(false);
+    expect(body.envelope.telemetry[0].event).toBe('btd.source_to_shares_proof.emitted');
+    expect(body.envelope.proofHooks[0].proofFamily).toBe('source_to_shares');
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('20');
   });
 
   it('returns JSON-safe deployment readiness settlements and persists telemetry or upgrades', async () => {

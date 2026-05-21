@@ -23,6 +23,10 @@ This package owns:
   Binance Web3 Wallet, and future distribution paths; every bridge posture is
   research-only and cannot become current `$BTD` chain-of-record truth without
   explicit future proof and policy admission
+- Protocol telemetry proof hooks through `BtdProtocolTelemetryEnvelope`,
+  source-safe `BtdProtocolTelemetryRecord` rows, and
+  `BtdProtocolProofHook` bindings for receipts, BTC fee states, ledger
+  projections, source-to-shares proofs, and bridge-readiness posture
 - ledger/database/object-storage projection reconciliation, including
   deterministic repair classes, source-safe object artifact roots,
   secret-free Supabase staging-testnet readback receipts, quarantine/retry
@@ -59,6 +63,7 @@ import {
   buildSupabaseStagingTestnetProjectionReadback,
   buildSourceToSharesProof,
   buildBridgeReadinessResearchPosture,
+  buildBtdProtocolTelemetryEnvelope,
   reconcileLedgerDatabaseProjection,
   sourceToSharesProofToSettlementConservationCheck,
   toBtdJsonSafe,

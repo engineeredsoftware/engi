@@ -277,6 +277,24 @@ Closure acceptance:
 - telemetry avoids protected source and secrets;
 - proof hooks are compatible with V32 provation and V35 documentation/observability work.
 
+Gate 8 implementation centers:
+
+- `packages/btd/src/telemetry.ts` owns `BtdProtocolTelemetryEnvelope`,
+  `BtdProtocolTelemetryRecord`, `BtdProtocolProofHook`, source-safety checks,
+  event/subject matching, and V32/V35 proof compatibility markers.
+- `packages/btd/src/api-boundaries.ts` owns
+  `buildBtdProtocolTelemetrySettlement`, binding telemetry envelopes into a
+  Terminal journal `proof_admission` row without committing source-bearing
+  artifacts.
+- `packages/api/src/routes/btd-crypto.ts` and
+  `/btd/protocol-telemetry` expose the JSON-safe route boundary.
+- `packages/btd/__tests__/telemetry.test.ts` and the BTD crypto route tests
+  prove typed emission, source/secret rejection, proof-hook replay facts, and
+  route JSON safety.
+- `.bitcode/v30-protocol-telemetry-proof-hooks.json` is reserved as a
+  generated source-safe inventory artifact for promotion proof; it is not a
+  protected-source carrier.
+
 ### Gate 9: Interface Integration And Regression Proof
 
 Gate 9 proves existing interfaces can consume the hardened Protocol/BTD rails.

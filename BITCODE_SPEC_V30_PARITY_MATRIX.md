@@ -61,7 +61,7 @@ No `_legacy/` source is active source truth.
 | Testnet ledger projection hardening | Gate 5 | `packages/btd/src/reconciliation.ts`, API route tests, asset-pack harness evidence, Terminal journal reconciliation UI/tests, gate checker | drafted | Ledger/database/object-storage/private facts are distinct; staging-testnet readback is secret-free; drift, quarantine, retry, and unlock blocking are tested. |
 | Source-to-shares proof cleanup | Gate 6 | `packages/btd/src/source-to-shares.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Measurement contribution, fee allocation, zero-cell/refit tail, ancestry evidence, and conservation invariants are testable. |
 | Bridge-readiness research boundaries | Gate 7 | `packages/btd/src/bridge-readiness.ts`, BTD/API tests, route boundary, docs, gate checker | drafted | Bridge paths are typed research-only records until admitted by explicit future proof and policy. |
-| Protocol telemetry/proof hooks | Gate 8 | telemetry schema, proof hooks, generated-artifact inventory, tests | pending | Receipts, fee states, projections, and source-to-shares facts emit source-safe telemetry and proof hooks. |
+| Protocol telemetry/proof hooks | Gate 8 | `packages/btd/src/telemetry.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Receipts, fee states, projections, source-to-shares proofs, and bridge-readiness posture emit source-safe telemetry and proof hooks. |
 | Interface integration regression | Gate 9 | Terminal/API/MCP/ChatGPT App adapters and tests | pending | Existing interfaces consume package-owned objects without regressing V29 behavior. |
 | Promotion readiness | Gate 10 | V30 promotion workflow, generated `.bitcode/v30-*`, `BITCODE_SPEC_V30_PROVEN.md` | pending | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
 
@@ -209,6 +209,25 @@ No `_legacy/` source is active source truth.
 - Gate 7 does not store secrets or protected source in bridge-readiness records.
 - Gate 7 may expose source-safe research posture to Terminal/API callers for operator review.
 - Gate 7 does not promote V30 or change the active canon pointer.
+
+## Gate 8 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| Protocol telemetry is package-owned | `packages/btd/src/telemetry.ts`, `packages/btd/src/index.ts` | drafted |
+| Receipt, BTC fee, ledger projection, source-to-shares, and bridge-readiness subjects are typed | `BTD_PROTOCOL_TELEMETRY_SUBJECT_KINDS`, `packages/btd/__tests__/telemetry.test.ts` | drafted |
+| Telemetry rows and proof hooks reject protected source and secrets | `sourceSafety`, metadata source-safety tests | drafted |
+| Proof hooks carry theorem, replay, witness, generated artifact, evidence, and telemetry roots | `BtdProtocolProofHook`, `buildBtdProtocolProofHook`, focused tests | drafted |
+| API and Terminal boundary expose JSON-safe proof-admission telemetry | `buildBtdProtocolTelemetrySettlement`, `buildPostBtdProtocolTelemetryRoute`, `uapi/app/api/btd/protocol-telemetry/route.ts` | drafted |
+| Gate checker protects telemetry/proof-hook boundaries | `scripts/check-v30-gate8-protocol-telemetry-proof-hooks.mjs`, `pnpm run check:v30-gate8`, gate-quality workflow | drafted |
+
+## Gate 8 accepted boundaries
+
+- Gate 8 does not expose protected source, prompt bodies, private source text, private keys, service-role keys, OpenAI keys, JWT-looking secrets, or database passwords in telemetry.
+- Gate 8 does not replace deployment-readiness crypto telemetry persistence; it adds Protocol/BTD source-safe proof hooks that later V32 and V35 work can consume.
+- Gate 8 does not generate promotion artifacts yet; it reserves `.bitcode/v30-protocol-telemetry-proof-hooks.json` as a source-safe generated inventory.
+- Gate 8 may expose telemetry/proof hooks to Terminal/API callers for operator review.
+- Gate 8 does not promote V30 or change the active canon pointer.
 
 ## completion condition
 

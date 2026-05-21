@@ -158,6 +158,15 @@ feasibility, risks, rereview triggers, required proof, and required policy, and
 the selected-activity detail must preserve `no_bridge_chain_of_record` as the
 current `$BTD` truth until a future promoted spec admits otherwise.
 
+Protocol telemetry proof hooks should enter Terminal through
+`/btd/protocol-telemetry`, not through route-local log projection. The BTD
+package emits `BtdProtocolTelemetryEnvelope` objects with source-safe telemetry
+records and proof hooks for receipts, BTC fee states, ledger projections,
+source-to-shares proofs, and bridge-readiness posture. Collapsed rows should
+show event, subject kind, subject id, severity, and proof compatibility;
+expanded metadata may show roots, theorem ids, replay steps, witness artifact
+paths, and generated artifact paths, but never protected source or secrets.
+
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
 wallet binding, owner-read or licensed-read access, settlement state,

@@ -205,7 +205,7 @@ V30 closes through ten gates:
 5. **Gate 5: Testnet Ledger Projection Hardening** hardens ledger/database/object-storage projection, repair classes, and staging-testnet readback.
 6. **Gate 6: Source-To-Shares Proof Cleanup** cleans contribution measurement, settlement conservation, zero-cell/refit tail, ancestry, and no-overpayment/no-underpayment proof.
 7. **Gate 7: Bridge Readiness Research Boundaries** records bridge research without admitting any bridge as chain-of-record truth.
-8. **Gate 8: Protocol Telemetry And Proof Hooks** adds source-safe telemetry and proof hooks for receipts, fee states, projection, and source-to-shares facts.
+8. **Gate 8: Protocol Telemetry And Proof Hooks** adds source-safe telemetry and proof hooks for receipts, fee states, projection, source-to-shares facts, and bridge-readiness posture.
 9. **Gate 9: Interface Integration And Regression Proof** proves current interfaces consume package-owned objects without V29 behavior regression.
 10. **Gate 10: V30 Promotion Readiness** validates local/staging proof, generated artifacts, V30 promotion workflow support, and post-promotion V30 active / V31 draft posture.
 
@@ -261,6 +261,31 @@ Gate 7 bridge-readiness research boundaries:
 - Terminal and API surfaces may show bridge-readiness posture as operational
   research evidence, but they must fail closed on any payload attempting to
   set `chainOfRecordAdmitted` or to mark a bridge as current BTD truth.
+
+Gate 8 Protocol telemetry proof hooks:
+
+- `BtdProtocolTelemetryEnvelope` is the package-owned source-safe carrier for
+  Protocol/BTD observability that V32 provation and V35 documentation can
+  replay without reading protected source or secrets.
+- `BtdProtocolTelemetryRecord` rows cover exactly these V30 subjects:
+  `btd_receipt`, `btc_fee_state`, `ledger_projection`,
+  `source_to_shares_proof`, and `bridge_readiness_posture`.
+- `BtdProtocolProofHook` binds each record to theorem ids, replay step ids,
+  witness artifact paths, optional generated artifact paths, the evidence root,
+  and the telemetry root.
+- Telemetry events must match subject kinds; a BTC fee event cannot be emitted
+  as a receipt, a ledger projection cannot be emitted as a bridge posture, and
+  every mismatch fails closed.
+- Telemetry metadata is scalar and source-safe. Payloads with protected source,
+  private source text, API keys, service-role keys, JWT-looking secrets, or
+  private keys fail closed before becoming Terminal, API, or generated proof
+  evidence.
+- The BTD API exposes `/btd/protocol-telemetry` as the source-safe boundary for
+  these records. It returns a Terminal journal `proof_admission` entry and does
+  not commit generated proof artifacts or source-bearing material.
+- Gate 8 creates the generated-artifact inventory slot
+  `.bitcode/v30-protocol-telemetry-proof-hooks.json`; promotion may generate
+  it only from source-safe telemetry/proof-hook facts.
 
 ## V30 whole Bitcode operator chain
 
@@ -783,6 +808,7 @@ V30 continues operator-quality proof: Terminal workflow claims must be backed by
 | `.bitcode/v30-spec-family-report.json` | yes | yes | validates the hand-authored V30 family shape |
 | `.bitcode/v30-canonical-input-report.json` | yes | yes | records canonical input closure for active V29 plus V30 draft |
 | `.bitcode/v30-canon-posture-drift-report.json` | gate-dependent | yes | proves runtime/docs active/draft posture |
+| `.bitcode/v30-protocol-telemetry-proof-hooks.json` | gate-dependent | yes | records source-safe Protocol telemetry and proof-hook inventory for provation/documentation |
 | `BITCODE_SPEC_V30_PROVEN.md` | no | yes | generated proof appendix for promoted V30 |
 
 ### V30 specifying generated artifacts
