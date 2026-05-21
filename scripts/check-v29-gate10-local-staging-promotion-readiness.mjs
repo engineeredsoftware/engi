@@ -193,20 +193,25 @@ function main() {
     'Runtime promotion preparation must update commercial package posture, package data, and package README.',
   );
 
+  const expectedActiveCanon = pointer === 'V29' ? 'V29' : 'V28';
+  const expectedDraftTarget = pointer === 'V29' ? 'V30' : 'V29';
+  const expectedProtocolReadmePosture =
+    pointer === 'V29' ? 'V29` active, `V30` draft after V29 promotion' : 'V28` active, `V29` draft';
+
   assertCheck(
     failures,
-    packageCanonPosture.includes("ACTIVE_CANON_VERSION = 'V28'") &&
-      packageCanonPosture.includes("DRAFT_TARGET_VERSION = 'V29'") &&
-      packageState.includes('"activeCanonVersion": "V28"') &&
-      packageState.includes('"draftTargetVersion": "V29"') &&
-      packageState.includes('"activeProvenAppendixPath": "BITCODE_SPEC_V28_PROVEN.md"') &&
-      packageState.includes('"draftSpecPath": "BITCODE_SPEC_V29.md"'),
-    'Protocol package posture and seed state must be aligned to V28 active / V29 draft before promotion.',
+    packageCanonPosture.includes(`ACTIVE_CANON_VERSION = '${expectedActiveCanon}'`) &&
+      packageCanonPosture.includes(`DRAFT_TARGET_VERSION = '${expectedDraftTarget}'`) &&
+      packageState.includes(`"activeCanonVersion": "${expectedActiveCanon}"`) &&
+      packageState.includes(`"draftTargetVersion": "${expectedDraftTarget}"`) &&
+      packageState.includes(`"activeProvenAppendixPath": "BITCODE_SPEC_${expectedActiveCanon}_PROVEN.md"`) &&
+      packageState.includes(`"draftSpecPath": "BITCODE_SPEC_${expectedDraftTarget}.md"`),
+    `Protocol package posture and seed state must be aligned to ${expectedActiveCanon} active / ${expectedDraftTarget} draft.`,
   );
   assertCheck(
     failures,
-    protocolReadme.includes('V28` active, `V29` draft') && protocolReadme.includes('Gate 10'),
-    'Protocol package README must name the draft posture and Gate 10 promotion boundary.',
+    protocolReadme.includes(expectedProtocolReadmePosture) && protocolReadme.includes('Gate 10'),
+    `Protocol package README must name the ${expectedActiveCanon}/${expectedDraftTarget} posture and Gate 10 promotion boundary.`,
   );
   assertCheck(
     failures,

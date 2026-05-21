@@ -45,9 +45,13 @@ test('@bitcode/protocol does not import the standalone protocol demonstration', 
 
 test('@bitcode/protocol commercial formalization exports package-native canon helpers', async () => {
   const protocol = await import('../src/index.js');
+  const pointer = readFileSync(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim();
+  const expectedActiveCanon = pointer === 'V29' ? 'V29' : 'V28';
+  const expectedDraftTarget = pointer === 'V29' ? 'V30' : 'V29';
+  const expectedSpecFamilyMode = pointer === 'V29' ? 'promoted' : 'draft';
 
-  assert.equal(protocol.ACTIVE_CANON_VERSION, 'V28');
-  assert.equal(protocol.DRAFT_TARGET_VERSION, 'V29');
+  assert.equal(protocol.ACTIVE_CANON_VERSION, expectedActiveCanon);
+  assert.equal(protocol.DRAFT_TARGET_VERSION, expectedDraftTarget);
   assert.equal(typeof protocol.buildV21SpecFamilyReport, 'function');
   assert.equal(typeof protocol.buildV21CanonicalInputReport, 'function');
   assert.equal(typeof protocol.buildV21GeneratedArtifactContents, 'function');
@@ -55,13 +59,13 @@ test('@bitcode/protocol commercial formalization exports package-native canon he
   assert.equal(typeof protocol.PROVEN_GENERATOR_ID, 'string');
   assert.equal(typeof protocol.defaultProvenOutputPath, 'function');
   assert.equal(typeof protocol.generateCanonicalProvenMarkdown, 'function');
-  assert.equal(protocol.defaultProvenOutputPath('V28'), 'BITCODE_SPEC_V28_PROVEN.md');
+  assert.equal(protocol.defaultProvenOutputPath(expectedActiveCanon), `BITCODE_SPEC_${expectedActiveCanon}_PROVEN.md`);
   const specFamilyReport = protocol.buildV21SpecFamilyReport({
     version: 'V29',
-    mode: 'draft',
-    currentTarget: 'V28',
+    mode: expectedSpecFamilyMode,
+    currentTarget: expectedActiveCanon,
   });
-  const canonicalInputReport = protocol.buildV21CanonicalInputReport({ currentTarget: 'V28' });
+  const canonicalInputReport = protocol.buildV21CanonicalInputReport({ currentTarget: expectedActiveCanon });
   assert.equal(specFamilyReport.passed, true);
   assert.equal(canonicalInputReport.passed, true);
 });

@@ -3,32 +3,38 @@
 ## Status
 
 - Version: `V30`
-- V30 state: future notes scaffold only
-- Current canonical/latest target: `V27`
-- Current active draft target: `V28`
-- Prior canonical anchor: `BITCODE_SPEC_V27.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
+- V30 state: notes-only draft opening
+- Current canonical/latest target: `V29`
+- Current active draft target: `V30`
+- Canonical pointer: `BITCODE_SPEC.txt` -> `V29`
+- Active canonical anchor: `BITCODE_SPEC_V29.md`
+- Active generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
+- Prior canonical anchor: `BITCODE_SPEC_V29.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
 - Generated structured artifact inventory: none for V30 yet
-- Source parity state: not opened; V30 source parity begins only after V30 draft opening
+- Source parity state: notes-only draft opening; V30 source parity begins only after V30 first-gate work
 - Scope: future notes for Protocol/BTD hardening after V28 commercial Protocol/Terminal MVP and V29 deeper Terminal work. Exchange is deferred beyond V35.
 
 This NOTES file does not promote V30 and does not open V30 implementation.
-It preserves roadmap intent so V28 can remain focused on commercial Protocol/Terminal MVP QA, bugfixing, audit, and hardening.
+It preserves roadmap intent so V30 first-gate work can open from promoted V29 without rediscovering deferred Protocol/BTD hardening pressure.
 
-## Notes companion rule
+## Notes-only draft rule
 
-This file is planning memory only.
-Requirements become binding only when V30 is explicitly opened as the draft-target SPEC family.
+This file is planning memory only and is not first-gate implementation.
+Requirements become binding only when V30 is explicitly opened as a full draft-target SPEC family.
 
 ## Concise current-system reading
 
-V27 is active canon.
-V28 is current draft target and owns commercial Protocol implementation, Terminal MVP QA, MCP API/ChatGPT App MVP, BTD/testnet/ledgerization, and demonstration-to-commercial boundary cleanup.
-V29 is expected to deepen Terminal workflows.
+V29 is active canon.
 V30 is expected to harden Protocol/BTD surfaces after V28/V29 reveal implementation pressure.
 Exchange is not V30 work.
 
-## Intended V30 focus
+## Deferred from V29
+
+V29 canonically closes deeper Terminal transaction depth, local/staging promotion readiness, and promotion automation.
+V30 inherits deferred hardening pressure around Bitcoin fee boundaries, GitHub delivery evidence, compute/runtime capability truth, storage/readback posture, and build/process proof surfaces.
+
+## Candidate V30 workstreams
 
 V30 owns Protocol/BTD hardening:
 
@@ -40,13 +46,8 @@ V30 owns Protocol/BTD hardening:
 - source-to-shares proof cleanup revealed by V28/V29;
 - Protocol/BTD-specific tests, proofs, and telemetry hooks needed before Exchange returns beyond V35.
 
-## Boundaries
+## Non-goals during V30 opening
 
 V30 must not redefine `$BTD` supply, BTC fee separation, AssetPack range identity, owner-read/licensed-read law, measureminting, or ancestry.
 V30 must not absorb V31 Auxillaries expansion, V32 provation/testing depth, V33 interface depth, V34 deployment depth, or V35 telemetry/documenting depth except for narrow Protocol/BTD-owned hooks.
 V30 must not absorb Exchange or website Conversations; those return beyond V35.
-
-## Return To V28
-
-Do not start V30 implementation during V28.
-Use this scaffold only to keep V28 focused on commercial Protocol/Terminal MVP QA and hardening.

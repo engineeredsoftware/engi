@@ -5,7 +5,7 @@
 - Version: `V29`
 - V29 state: canonical promotion complete; V29 is the active Terminal transaction-depth canon and the V29 hand-authored plus generated canon are aligned
 - Current canonical/latest target: `V29`
-- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
+- Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
@@ -277,6 +277,9 @@ The promotion-readiness contract has five parts:
 `packages/protocol/data/state.json` are commercial runtime posture carriers.
 They must align to V28 active / V29 draft during Gate 10 work and be rewritten
 to V29 active / V30 draft by promotion automation.
+The Gate 10 checker is promotion-mode aware: it must accept the V28/V29 package
+posture before the generated canon commit and the V29/V30 package posture after
+the generated canon commit.
 
 Gate 10 does not itself promote `BITCODE_SPEC.txt`.
 It closes when `version/v29` can be pull-requested to `main` and the V29

@@ -5,7 +5,7 @@
 - Version: `V29`
 - V29 state: canonical promotion complete; this delta records the promoted V28-to-V29 Terminal transaction-depth and promotion-readiness closure set
 - Current canonical/latest target: `V29`
-- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
+- Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
@@ -202,7 +202,8 @@ Closure acceptance:
 
 - `check:v29-gate10` validates the V29 promotion-readiness surface from a clean
   Gate 10 branch and can run in `--promotion-mode` after `BITCODE_SPEC.txt`
-  advances to `V29`.
+  advances to `V29`, including the promoted V29 active / V30 draft protocol
+  package posture.
 - Gate-quality CI invokes all V29 gate scripts while V29 is still a draft and
   switches to promoted V29 validation after the promotion workflow writes the
   canonical pointer commit.

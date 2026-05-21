@@ -5,7 +5,7 @@
 - Version: `V29`
 - V29 state: canonical promotion complete; V29 parity truth, product-gate audit, generated proof, and promotion automation are aligned
 - Current canonical/latest target: `V29`
-- Canonical proof-source commit: `c02638a13a464b1a15430cf9072fd13a4391435d`
+- Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
@@ -313,7 +313,8 @@ Accepted surfaces:
 
 - `scripts/check-v29-gate10-local-staging-promotion-readiness.mjs` validates
   the Gate 10 specification, QA ledger, scripts, workflow wiring, runtime
-  posture, and promotion-mode behavior.
+  posture, and promotion-mode behavior before and after the generated V29/V30
+  protocol package posture rewrite.
 - `.github/workflows/bitcode-gate-quality.yml` runs all V29 gate checks in
   draft posture and switches to promoted V29 checks after the promotion commit.
 - `.github/workflows/bitcode-canon-quality.yml` accepts both V28 active / V29
