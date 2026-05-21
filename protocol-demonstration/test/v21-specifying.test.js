@@ -20,8 +20,8 @@ function projectLabel(version) {
 function expectedActiveCanonicalInputArtifactCount(version) {
   const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
   if (!Number.isInteger(numeric)) return 3;
-  if (numeric === 27 || numeric === 28) return 0;
-  if (numeric >= 26) return 22;
+  if (numeric >= 27) return 0;
+  if (numeric === 26) return 22;
   if (numeric >= 22) return 3;
   if (numeric === 21) return 2;
   return 6;

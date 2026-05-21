@@ -20,7 +20,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-bitcode-draft-notes.mjs --version V27 --current-target V26 [options]',
+      'Usage: node scripts/check-bitcode-draft-notes.mjs --version V30 --current-target V29 [options]',
       '',
       'Options:',
       '  --version <VN>          Draft target version to validate.',
@@ -55,9 +55,9 @@ function main() {
   const requiredPhrases = [
     `Spec ${version} Notes`,
     '## Status',
-    `Canonical pointer: \`${path.join(repoRoot, 'BITCODE_SPEC.txt')}\` -> \`${currentTarget}\``,
-    `Active canonical anchor: \`${path.join(repoRoot, `${activeSpecPrefix}_${currentTarget}.md`)}\``,
-    `Active generated proof appendix: \`${path.join(repoRoot, `${activeSpecPrefix}_${currentTarget}_PROVEN.md`)}\``,
+    `Canonical pointer: \`BITCODE_SPEC.txt\` -> \`${currentTarget}\``,
+    `Active canonical anchor: \`${activeSpecPrefix}_${currentTarget}.md\``,
+    `Active generated proof appendix: \`${activeSpecPrefix}_${currentTarget}_PROVEN.md\``,
     `${version} state: notes-only draft opening`,
     '## Notes-only draft rule',
     `## Deferred from ${currentTarget}`,
@@ -67,8 +67,8 @@ function main() {
     'compute',
     'storage',
     'build/process',
-    '## Candidate V27 workstreams',
-    '## Non-goals during V26 closure'
+    `## Candidate ${version} workstreams`,
+    `## Non-goals during ${version} opening`
   ];
 
   for (const phrase of requiredPhrases) {
