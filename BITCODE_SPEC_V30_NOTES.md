@@ -251,6 +251,22 @@ boundary exposes `/btd/protocol-telemetry` as a JSON-safe proof-admission route;
 it does not commit source-bearing artifacts, and it does not replace existing
 crypto telemetry rows used for deployment readiness health.
 
+## Gate 9 interface integration notes
+
+Gate 9 makes interface reuse explicit. The accepted package shape is
+`BtdInterfaceIntegrationRegressionProof` plus the browser-safe
+`@bitcode/btd/interface-integration-contract` subpath. Terminal uses the
+contract without importing storage-backed BTD entry points into the client.
+API uses `buildBtdInterfaceIntegrationRegressionSettlement` and exposes
+`/btd/interface-integration-regression` as a JSON-safe proof-admission route.
+MCP and ChatGPT App expose small adapter records that name their package-owned
+BTD object consumption.
+
+The proof is not a new user journey. It is regression evidence that the V30
+rails can be consumed by current interfaces without losing low-detail source
+safety, reintroducing route-local BTD policy copies, or changing the selected
+Terminal transaction behavior promoted in V29.
+
 ## Gate 1 working notes
 
 Gate 1 is complete only when the V30 family exists, validates in draft mode over active V29, and makes the roadmap truthful enough to drive V31 through V37 without stale V27/V28/V29 posture.

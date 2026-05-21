@@ -131,7 +131,7 @@ describe('terminal-protocol-projection', () => {
         branch: 'main',
       },
       bitcodeActivityState: {
-        giveWorkbench: {
+        depositWorkbench: {
           projectionPrincipal: 'depositor',
           scenarioLabel: 'auth-remediation',
         },
@@ -213,6 +213,14 @@ describe('terminal-protocol-projection', () => {
           repository: {
             fullName: 'bitcode/terminal',
           },
+        },
+        interfaceIntegrationRegression: {
+          surfaceCount: 6,
+          objectFamilyCount: 9,
+          recordCount: 6,
+          lowDetailSourceSafe: true,
+          routeLocalReimplementation: false,
+          transactionCockpitRegression: false,
         },
       },
     });

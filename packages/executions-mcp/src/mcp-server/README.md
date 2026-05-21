@@ -9,6 +9,12 @@ The **Bitcode MCP Server** is the Exchange-facing Model Context Protocol interfa
 
 This server should teach Bitcode activity, repository scope, attachments/connections as ingress/input context, and asset packs as output meaning. It should not read like a parallel product or a generic engineering-intelligence platform.
 
+The MCP server consumes the shared
+`@bitcode/btd/interface-integration-contract` through
+`src/interface-integration.ts`. That source-safe record proves the machine
+interface uses package-owned source-to-shares, organization authority, and
+Protocol telemetry objects rather than route-local BTD policy copies.
+
 ## 🚀 Features
 
 ### Core Capabilities

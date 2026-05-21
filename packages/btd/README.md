@@ -27,6 +27,12 @@ This package owns:
   source-safe `BtdProtocolTelemetryRecord` rows, and
   `BtdProtocolProofHook` bindings for receipts, BTC fee states, ledger
   projections, source-to-shares proofs, and bridge-readiness posture
+- Interface integration regression proof through
+  `BtdInterfaceIntegrationRegressionProof`, the client-safe
+  `@bitcode/btd/interface-integration-contract` subpath, and source-safe
+  records proving Terminal, API, MCP, ChatGPT App, Auxillaries hooks, and
+  Exchange hooks consume package-owned Protocol/BTD objects without local
+  policy copies
 - ledger/database/object-storage projection reconciliation, including
   deterministic repair classes, source-safe object artifact roots,
   secret-free Supabase staging-testnet readback receipts, quarantine/retry
@@ -64,6 +70,7 @@ import {
   buildSourceToSharesProof,
   buildBridgeReadinessResearchPosture,
   buildBtdProtocolTelemetryEnvelope,
+  buildBtdInterfaceIntegrationRegressionProof,
   reconcileLedgerDatabaseProjection,
   sourceToSharesProofToSettlementConservationCheck,
   toBtdJsonSafe,
@@ -87,3 +94,11 @@ client-safe read model without importing storage-backed package entry points:
 ```ts
 import { buildTerminalOperationalHealthRead } from '@bitcode/btd/terminal-operational-health';
 ```
+
+Terminal and other browser-facing interfaces should consume
+`@bitcode/btd/interface-integration-contract` when they only need source-safe
+surface and object-family contracts. Server-side boundaries can use
+`buildBtdInterfaceIntegrationRegressionProof` or
+`buildBtdInterfaceIntegrationRegressionSettlement` to prove those records
+without reimplementing BTD receipt, fee, ledger, telemetry, access, authority,
+or journal policy in route-local code.

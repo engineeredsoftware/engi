@@ -7,6 +7,7 @@
     "types": ["node", "jest"],
     "paths": {
       "@bitcode/btd": ["packages/btd/src/authority.ts"],
+      "@bitcode/btd/interface-integration-contract": ["packages/btd/src/interface-integration-contract.ts"],
       "@bitcode/tools-generics": ["packages/chatgptapp/src/__stubs__/tools-generics.ts"],
       "@bitcode/generic-tools-simple-system-text-search": ["packages/chatgptapp/src/__stubs__/generic-tools-simple-system-text-search.ts"],
       "@bitcode/generic-tools-web-search": ["packages/chatgptapp/src/__stubs__/generic-tools-web-search.ts"],

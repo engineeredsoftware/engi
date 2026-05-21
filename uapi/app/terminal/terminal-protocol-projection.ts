@@ -7,6 +7,7 @@ import type { TerminalRepositoryContextState } from './terminal-repository-conte
 import type { WorkspaceRun } from './terminal-run-data';
 import { normalizeTerminalSupplySelection } from './terminal-supply-selection';
 import type { TerminalRunDetailSnapshot } from './terminal-transaction-detail-snapshot';
+import { buildTerminalInterfaceIntegrationRegressionSummary } from './terminal-interface-integration-regression';
 
 function normalizeWhitespace(value?: string | null) {
   return value?.trim() || '';
@@ -171,6 +172,7 @@ export function buildProtocolProjectedRunDetail(
   const supplySelection = normalizeTerminalSupplySelection(snapshot, repositoryContext);
   const selectedAuthSession =
     supplySelection?.authSessions.find((session) => session.selected) || supplySelection?.authSessions[0] || null;
+  const interfaceIntegrationRegression = buildTerminalInterfaceIntegrationRegressionSummary();
 
   return {
     summary: readSummary(snapshot, repositoryLabel, scenarioLabel, canonicalType),
@@ -260,6 +262,14 @@ export function buildProtocolProjectedRunDetail(
                   },
                 }
               : {}),
+            interfaceIntegrationRegression: {
+              surfaceCount: interfaceIntegrationRegression.surfaces.length,
+              objectFamilyCount: interfaceIntegrationRegression.objectFamilies.length,
+              recordCount: interfaceIntegrationRegression.records.length,
+              lowDetailSourceSafe: interfaceIntegrationRegression.lowDetailSourceSafe,
+              routeLocalReimplementation: interfaceIntegrationRegression.routeLocalReimplementation,
+              transactionCockpitRegression: interfaceIntegrationRegression.transactionCockpitRegression,
+            },
           }
         : null,
     historyItemCount: readItemCount(snapshot),

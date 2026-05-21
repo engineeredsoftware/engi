@@ -167,6 +167,15 @@ show event, subject kind, subject id, severity, and proof compatibility;
 expanded metadata may show roots, theorem ids, replay steps, witness artifact
 paths, and generated artifact paths, but never protected source or secrets.
 
+Interface integration regression proof enters Terminal through the client-safe
+`@bitcode/btd/interface-integration-contract` subpath and the server-side
+`/btd/interface-integration-regression` route. Terminal records the current
+Terminal, API, MCP, ChatGPT App, Auxillaries hook, and Exchange hook consumers
+as package-owned BTD object consumers. The low-detail cockpit must remain
+source-safe, and the proof must reject route-local BTD policy copies, source
+leakage, or selected-transaction behavior regression before Gate 10 promotion
+readiness.
+
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
 wallet binding, owner-read or licensed-read access, settlement state,

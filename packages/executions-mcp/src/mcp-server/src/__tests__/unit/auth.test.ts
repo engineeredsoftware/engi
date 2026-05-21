@@ -4,6 +4,7 @@
 
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { authenticateMCPRequest, authCache, validatePermissions } from '../../auth/middleware';
+import { buildMcpInterfaceIntegrationRecord } from '../../interface-integration';
 import { createClient } from '@bitcode/supabase';
 import {
   BtdRegistryModel,
@@ -83,6 +84,18 @@ describe('Authentication Middleware', () => {
   });
 
   describe('authenticateMCPRequest', () => {
+    it('declares the MCP interface integration record through the package-owned BTD contract', () => {
+      expect(buildMcpInterfaceIntegrationRecord()).toMatchObject({
+        surface: 'mcp',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        packageOwned: true,
+        routeLocalReimplementation: false,
+        sourceSafeLowDetailIntact: true,
+        transactionCockpitRegression: false,
+        objectFamilies: expect.arrayContaining(['source_to_shares_proof', 'organization_authority']),
+      });
+    });
+
     it('authenticates a valid API key and derives current Bitcode permissions', async () => {
       mockGetByKeyHash.mockResolvedValue({
         id: 'key123',
