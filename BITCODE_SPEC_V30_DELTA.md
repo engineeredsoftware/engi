@@ -116,6 +116,22 @@ Closure acceptance:
 - testnet/mainnet distinction is policy-enforced and proof-rooted;
 - focused BTD/API tests prove fee lifecycle and blocked-readiness behavior.
 
+Gate 3 implementation centers these semantics in
+`packages/btd/src/btc-fee-operation.ts` and `packages/btd/src/bitcoin-fees.ts`.
+`BtcFeeNetworkPolicy` admits local and staging-testnet fee operation while
+blocking value-bearing production-mainnet settlement unless explicit operational
+approval is attached. `BtcFeeTaprootPsbtPosture` names the Bitcoin commitment
+method, script path, PSBT handoff state, and broadcast observation state so
+prepared, signed, broadcast, confirmed, replaced, reorged, and failed receipts
+remain distinguishable. Signed receipts require a signed PSBT, quote timestamps
+must be usable for PSBT preparation, and server-custody signer sessions remain
+fail-closed before handoff.
+
+Gate 3 evidence is covered by
+`packages/btd/__tests__/btc-fee-operation.test.ts`,
+`packages/api/src/routes/__tests__/btd-crypto.test.ts`, and
+`scripts/check-v30-gate3-bitcoin-taproot-psbt-fee-rigor.mjs`.
+
 ### Gate 4: BTD AssetPack Mint And Read Receipts
 
 Gate 4 creates typed BTD receipt boundaries.

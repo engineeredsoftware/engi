@@ -183,7 +183,9 @@ The V30 domain model extends V29 operationally:
 - `SettlementUnlock`: BTC fee proof, BTD range/read-license/right transfer, paid disclosure decision, delivery admission, and reconciliation state.
 - `BtcFeeQuote`: deterministic BTC fee quote with quote root, measurement root, purpose, network, sats, pricing version, expiration, and lifecycle state.
 - `WalletSignerSessionRecovery`: signer-session posture proving whether the Reader wallet can sign a PSBT without server custody.
-- `BtcFeeOperationPosture`: operational state over quote, signer, PSBT, broadcast, finality, replacement, reorg, failure, and blocked readiness.
+- `BtcFeeNetworkPolicy`: proof-rooted environment and network admission posture over local, staging-testnet, and production-mainnet value-bearing BTC settlement.
+- `BtcFeeTaprootPsbtPosture`: proof-rooted Taproot commitment, script path, PSBT handoff, broadcast observation, replacement, reorg, and finality posture.
+- `BtcFeeOperationPosture`: operational state over quote, signer, network policy, Taproot/script posture, PSBT, broadcast, finality, replacement, reorg, failure, and blocked readiness.
 - `BtdAssetPackMintReceipt`: typed receipt binding AssetPack id, BTD range, depositor ownership, source-safe preview root, mint measurement root, settlement conservation root, and ledger projection root.
 - `BtdReadReceipt`: typed receipt binding Reader, read request, accepted Need, Finding Fits result root, source-safe preview root, paid/unpaid disclosure state, read-right state, and delivery admission.
 - `BtdRightsTransferReceipt`: typed receipt binding BTC fee finality, BTD owner or license transition, range projection, paid unlock, delivery proof, and reconciliation status.
@@ -317,7 +319,9 @@ The operation model must contain:
 - quote lifecycle: quoted, accepted, expired, superseded, and failed;
 - deterministic quote root over quote id, purpose, network, sats, measurement root, issue time, and expiration;
 - signer recovery: missing, prepared authorization required, stored authorization requiring live reconnect, expired, revoked, failed, network mismatch, capability missing, server-custody rejected, or live authorized;
-- PSBT handoff: accepted quote prepares a PSBT; the wallet signs; the signed PSBT broadcasts;
+- network policy: local and staging-testnet may exercise value-bearing BTC settlement for QA; production-mainnet value-bearing settlement remains blocked until explicit operational approval is attached and proof-rooted;
+- Taproot/script posture: Bitcoin fee and anchor paths default to Taproot, name the admitted script path, and expose non-Taproot posture as audit evidence rather than silently treating it as equivalent;
+- PSBT handoff: accepted quote prepares an unsigned PSBT; the wallet signs; the signed PSBT is ready for broadcast; broadcast and finality observations are separate states;
 - finality states: prepared, signed, broadcast, confirmed, replaced, reorged, and failed;
 - blocked-readiness receipts naming the blocker id, summary, required action, quote id, wallet session id, receipt id, and no-server-custody posture;
 - Terminal read rows and metrics for state, network, sats, confirmations, quote root, wallet session, payer wallet, PSBT handoff, txid, server custody, and next action.

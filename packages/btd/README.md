@@ -11,6 +11,9 @@ This package owns:
 - contributor allocation, access evaluation, ancestry review, and revenue routing
 - wallet-signed BTC fee receipts, ledger anchors, Exchange rights transfers,
   Terminal journals, reconciliation, telemetry, and upgrade receipts
+- BTC fee operation posture, including quote lifecycle, signer recovery,
+  no-server-custody PSBT handoff, Taproot/script posture, broadcast/finality
+  observation, replacement/reorg repair, and testnet/mainnet network policy
 - Terminal operational health reads that compose deployment lanes, telemetry,
   upgrade posture, provider readiness, settlement-network posture, synthetic
   testnet minting, journal rows, ledger anchors, and reconciliation state

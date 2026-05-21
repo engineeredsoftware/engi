@@ -90,6 +90,24 @@ standalone demonstration imports.
 3. **Gate 3: Bitcoin Taproot PSBT Fee Rigor**
    - Harden BTC fee quote, signer recovery, PSBT, Taproot/script posture, broadcast, replacement, reorg, finality, and testnet/mainnet boundaries.
 
+## Gate 3 Bitcoin Taproot PSBT fee rigor notes
+
+Gate 3 makes BTC fee operation inspectable before any later BTD receipt,
+projection, or interface depends on it. `BtcFeeOperationPosture` now carries the
+network policy, Taproot/PSBT posture, PSBT handoff state, and broadcast
+observation state beside quote, signer, receipt, and blocked-readiness data.
+
+The network policy deliberately treats staging-testnet as the operational lane
+for current QA. Production-mainnet value-bearing settlement is not admitted by
+default. It must carry explicit operational approval before the posture leaves
+blocked-readiness, and that approval state contributes to the policy proof root.
+
+The PSBT path distinguishes prepared unsigned PSBT, signed ready-to-broadcast
+PSBT, broadcast submission, finality observation, replacement/reorg repair, and
+failure. Signed receipt advancement requires a signed PSBT. Broadcast,
+confirmed, replaced, and reorged observations require transaction id evidence.
+Server-custody signer posture remains rejected before PSBT handoff.
+
 4. **Gate 4: BTD AssetPack Mint And Read Receipts**
    - Make BTD mint, read, and rights-transfer receipts typed, proof-rooted, stored, streamed, and source-safe.
 
