@@ -63,6 +63,7 @@
     "check:v30-gate7": "node scripts/check-v30-gate7-bridge-readiness-research-boundaries.mjs",
     "check:v30-gate8": "node scripts/check-v30-gate8-protocol-telemetry-proof-hooks.mjs",
     "check:v30-gate9": "node scripts/check-v30-gate9-interface-integration-regression-proof.mjs",
+    "check:v30-gate10": "node scripts/check-v30-gate10-promotion-readiness.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

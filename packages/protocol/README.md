@@ -26,6 +26,9 @@ V29 Gate 10.
 V30 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
 must remain aligned to `V29` active, `V30` draft until V30 promotion.
+V30 Gate 10 promotes this package posture by rewriting those same runtime
+carriers to `V30` active, `V31` draft and regenerating the V30 generated
+appendix plus `.bitcode/v30-*` promotion artifacts.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
 commercial protocol boundary test, and V30 gate checks.

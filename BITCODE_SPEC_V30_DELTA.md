@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V29`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: none for V30 yet; draft gates must create V30 reports and generated proof only as acceptance evidence
+- Generated structured artifact inventory: V30 Gate 10 generates `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and `BITCODE_SPEC_V30_PROVEN.md` as promotion evidence
 - Source parity state: V30 source parity is draft-opened for Protocol/BTD package APIs, Bitcoin/Taproot/PSBT rigor, BTD receipts, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness boundaries, telemetry hooks, and promotion automation
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
@@ -329,3 +329,12 @@ Closure acceptance:
 - V30 promotion workflow validates source branch, local proof commands, staging-testnet readback evidence, generated `.bitcode/v30-*` reports, and `BITCODE_SPEC_V30_PROVEN.md`;
 - promotion scripts support V30 and rewrite post-promotion active V30 / draft V31 posture;
 - `version/v30` can be requested into `main` only after all V30 gates close.
+
+Gate 10 implementation centers:
+
+- `scripts/check-v30-gate10-promotion-readiness.mjs`;
+- `.github/workflows/v30-canon-promotion.yml`;
+- V30 support in `scripts/promote-bitcode-canon.mjs`;
+- V30 status rewriting in `scripts/prepare-bitcode-spec-family-promotion.mjs`;
+- V30 generated appendix/artifact support in `packages/protocol/src/canonical/proven-generator.js`;
+- generated `.bitcode/v30-*` artifacts and source-safe `BITCODE_V30_QA.md`.
