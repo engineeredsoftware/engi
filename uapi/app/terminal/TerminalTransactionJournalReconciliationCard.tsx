@@ -55,6 +55,19 @@ export default function TerminalTransactionJournalReconciliationCard({
       <div className="space-y-5">
         <BitcodeMetricGrid metrics={reconciliation.metrics} columnsClassName="sm:grid-cols-4" />
 
+        {reconciliation.driftKindCounts.length ? (
+          <section className="border-t border-amber-300/20 pt-4">
+            <p className="text-[0.62rem] uppercase tracking-[0.18em] text-amber-200/80">
+              Drift classes
+            </p>
+            <BitcodeMetricGrid
+              metrics={reconciliation.driftKindCounts}
+              columnsClassName="sm:grid-cols-3"
+              className="mt-3"
+            />
+          </section>
+        ) : null}
+
         {reconciliation.blockingReasons.length ? (
           <section className="border-t border-red-400/20 pt-4">
             <p className="text-[0.62rem] uppercase tracking-[0.18em] text-red-200/80">
@@ -92,6 +105,28 @@ export default function TerminalTransactionJournalReconciliationCard({
             items={reconciliation.journalEntries}
             listClassName="mt-3"
             emptyMessage="No Terminal journal entries are readable for this activity yet."
+          />
+        </section>
+
+        <section className="border-t border-white/8 pt-4">
+          <p className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+            Repair actions
+          </p>
+          <BitcodeDetailCollection
+            items={reconciliation.repairActions}
+            listClassName="mt-3"
+            emptyMessage="No repair action is currently required for this activity."
+          />
+        </section>
+
+        <section className="border-t border-white/8 pt-4">
+          <p className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+            Proof roots
+          </p>
+          <BitcodeDetailCollection
+            items={reconciliation.proofRoots}
+            listClassName="mt-3"
+            emptyMessage="No proof roots are readable for this reconciliation yet."
           />
         </section>
 

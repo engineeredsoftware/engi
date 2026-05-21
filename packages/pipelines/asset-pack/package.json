@@ -6,8 +6,10 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./asset-pack-disclosure": "./src/asset-pack-disclosure.ts",
     "./read-need": "./src/read-need.ts",
     "./reading-pipeline-contract": "./src/reading-pipeline-contract.ts",
+    "./reading-pipeline-observability": "./src/reading-pipeline-observability.ts",
     "./depository-search": "./src/depository-search.ts"
   },
   "scripts": {

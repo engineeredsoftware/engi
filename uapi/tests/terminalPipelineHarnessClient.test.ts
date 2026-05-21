@@ -195,6 +195,15 @@ describe('terminal pipeline harness client', () => {
               sourceAvailable: true,
             },
           },
+          assetPackDisclosureReview: {
+            access: {
+              sourceVisibility: 'available_after_settlement',
+            },
+            sourceLeakage: {
+              protectedSourceDetected: false,
+              findingCount: 0,
+            },
+          },
         },
       },
     });
@@ -206,6 +215,8 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('ledger settled');
     expect(summary).toContain('fee 546 sats');
     expect(summary).toContain('source licensed_read');
+    expect(summary).toContain('disclosure available_after_settlement');
+    expect(summary).toContain('leakage none');
     expect(summary).toContain('telemetry 72 lines');
   });
 
@@ -298,6 +309,19 @@ describe('terminal pipeline harness client', () => {
           executionPath: ['asset_pack', 'synthesis', 'thricified-generation'],
           runId: '2bdcd936-a686-4a10-92e2-9c64cbef4f0e',
           dataKeys: ['parsed'],
+          readingPipelineTelemetry: {
+            pipelineName: 'ReadFitsFindingSynthesis',
+            level: 'parsed-output',
+            phaseId: 'ReadFitsFindingSynthesis.implementation',
+            agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
+            ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
+            ptrrStepName: 'try',
+            thricifiedGenerationId:
+              'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
+            promptTemplateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
+            outputSchema: 'AssetPackSynthesisOutput',
+            returnType: 'AssetPackSynthesisOutput',
+          },
           parsedOutputPresent: true,
           promptTemplatePresent: true,
           interpolatedPromptPresent: true,
@@ -317,6 +341,12 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('llm.parsedOutput');
     expect(summary).toContain('path asset_pack > synthesis > thricified-generation');
     expect(summary).toContain('run 2bdcd936-a68...');
+    expect(summary).toContain('pipeline ReadFitsFindingSynthesis');
+    expect(summary).toContain('phase ReadFitsFindingSynthesis.implementation');
+    expect(summary).toContain('PTRR implementation.asset-pack.try');
+    expect(summary).toContain('ThricifiedGeneration implementation.asset-pack.try.prepare-concise-context');
+    expect(summary).toContain('prompt prompt.asset-pack-synthesis');
+    expect(summary).toContain('schema AssetPackSynthesisOutput');
     expect(summary).toContain('inspectable resultState, assetPack');
     expect(summary).toContain('prompt template present');
     expect(summary).toContain('interpolated prompt present');
@@ -381,6 +411,18 @@ describe('terminal pipeline harness client', () => {
                 agent: 'asset-pack-synthesis-agent',
                 step: 'structured_output',
               },
+              readingPipelineTelemetry: {
+                pipelineName: 'ReadFitsFindingSynthesis',
+                phaseId: 'ReadFitsFindingSynthesis.implementation',
+                agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
+                ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
+                ptrrStepName: 'try',
+                thricifiedGenerationId:
+                  'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
+                promptTemplateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
+                outputSchema: 'AssetPackSynthesisOutput',
+                returnType: 'AssetPackSynthesisOutput',
+              },
               inputMessageCount: 2,
               outputContentLength: 1200,
               promptTemplatePresent: true,
@@ -408,7 +450,17 @@ describe('terminal pipeline harness client', () => {
               stage: 'setup',
               namespace: 'tools',
               key: 'result',
-              tool: 'bitcode.asset-pack.verification',
+              tool: 'ReadFitsFindingSynthesis.tool.verification-evidence',
+              readingPipelineTelemetry: {
+                pipelineName: 'ReadFitsFindingSynthesis',
+                phaseId: 'ReadFitsFindingSynthesis.validate',
+                agentId: 'ReadFitsFindingSynthesis.validate.fit-quality',
+                ptrrStepId: 'ReadFitsFindingSynthesis.validate.fit-quality.try',
+                ptrrStepName: 'try',
+                toolId: 'ReadFitsFindingSynthesis.tool.verification-evidence',
+                outputSchema: 'AssetPackVerificationEvidenceResult',
+                returnType: 'ReadyToFinishOutput',
+              },
               executionState: {
                 phase: 'setup',
                 agent: 'bitcode-read-risk-admission',
@@ -445,7 +497,14 @@ describe('terminal pipeline harness client', () => {
         executionState: {
           phase: 'Implementation',
           agent: 'asset-pack-synthesis-agent',
-          step: 'structured_output',
+          step: 'try',
+          pipeline: 'ReadFitsFindingSynthesis',
+          phaseId: 'ReadFitsFindingSynthesis.implementation',
+          agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
+          ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
+          ptrrStepName: 'try',
+          promptTemplateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
+          outputSchema: 'AssetPackSynthesisOutput',
         },
       },
     });
@@ -465,7 +524,13 @@ describe('terminal pipeline harness client', () => {
           phase: 'Setup',
           agent: 'bitcode-read-risk-admission',
           step: 'try',
-          tool: 'bitcode.asset-pack.verification',
+          tool: 'ReadFitsFindingSynthesis.tool.verification-evidence',
+          pipeline: 'ReadFitsFindingSynthesis',
+          phaseId: 'ReadFitsFindingSynthesis.validate',
+          agentId: 'ReadFitsFindingSynthesis.validate.fit-quality',
+          ptrrStepId: 'ReadFitsFindingSynthesis.validate.fit-quality.try',
+          ptrrStepName: 'try',
+          outputSchema: 'AssetPackVerificationEvidenceResult',
         },
       },
     });

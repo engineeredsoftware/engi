@@ -5,6 +5,7 @@ import TerminalTransactionClosureCard from '@/app/terminal/TerminalTransactionCl
 import TerminalTransactionHistoryCard from '@/app/terminal/TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from '@/app/terminal/TerminalTransactionIdentityCard';
 import TerminalTransactionJournalReconciliationCard from '@/app/terminal/TerminalTransactionJournalReconciliationCard';
+import TerminalTransactionOrganizationAuthorityCard from '@/app/terminal/TerminalTransactionOrganizationAuthorityCard';
 import TerminalTransactionProofsCard from '@/app/terminal/TerminalTransactionProofsCard';
 
 describe('Terminal transaction detail cards', () => {
@@ -140,9 +141,60 @@ describe('Terminal transaction detail cards', () => {
               },
             ],
             repairReceipts: [],
+            repairActions: [
+              {
+                id: 'ledger-anchor-run-1:project_ledger_fact',
+                title: 'project_ledger_fact',
+                summary: 'Project the confirmed ledger anchor into the database.',
+                supportingText: 'operator approval required',
+              },
+            ],
+            proofRoots: [
+              {
+                id: 'settlement-journal-root:sha256:journal',
+                title: 'Settlement journal root',
+                summary: 'sha256:journal',
+              },
+            ],
+            driftKindCounts: [{ label: 'missing_database_projection', value: '1' }],
             blockingReasons: ['Confirmed ledger anchor contradicts the missing database projection.'],
             payload: {
               observedFacts: ['ledger-anchor-finality'],
+            },
+          }}
+        />
+        <TerminalTransactionOrganizationAuthorityCard
+          authority={{
+            state: 'allowed',
+            stateLabel: 'Allowed',
+            summary: 'Registry-derived authority admits protected-source delivery.',
+            metrics: [
+              { label: 'State', value: 'Allowed' },
+              { label: 'Allowed', value: '1' },
+            ],
+            decisions: [
+              {
+                id: 'mcp:deliver',
+                title: 'mcp · deliver asset pack',
+                summary: 'allowed · role_authorized · protected_source_allowed',
+                supportingText: 'github:engineeredsoftware/ENGI/pull/42',
+              },
+            ],
+            blockers: [],
+            proofRoots: [
+              {
+                id: 'mcp:deliver:authorityRoot',
+                title: 'mcp · deliver asset pack authorityRoot',
+                summary: 'btd-proof-root:organization-interface-authority:abc123',
+              },
+            ],
+            payload: {
+              organizationAuthority: [
+                {
+                  action: 'deliver_asset_pack',
+                  decision: 'allowed',
+                },
+              ],
             },
           }}
         />
@@ -156,6 +208,12 @@ describe('Terminal transaction detail cards', () => {
     expect(screen.getByText('Journal reconciliation')).toBeTruthy();
     expect(screen.getByText('Ledger observations and database projections')).toBeTruthy();
     expect(screen.getByText('Metaphysical canonical facts')).toBeTruthy();
+    expect(screen.getByText('Repair actions')).toBeTruthy();
+    expect(screen.getByText('Proof roots')).toBeTruthy();
+    expect(screen.getByText('Organization authority')).toBeTruthy();
+    expect(screen.getByText('Role, read-license, settlement, and interface permission')).toBeTruthy();
+    expect(screen.getByText('Permission decisions')).toBeTruthy();
+    expect(screen.getByText('Authority proof roots')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByText('selection-materialization').length).toBeGreaterThan(0);
     expect(screen.getAllByText('run-001').length).toBeGreaterThan(0);

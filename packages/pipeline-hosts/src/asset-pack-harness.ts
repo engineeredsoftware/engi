@@ -392,6 +392,9 @@ let checkpointTimer = null;
 let heartbeatTimer = null;
 let checkpointInFlight = Promise.resolve();
 let lastCheckpointAt = 0;
+let readingPipelineObservabilityInventory = null;
+let resolveReadingPipelineTelemetryProjectionFn = null;
+let summarizeReadingPipelineObservabilityCoverageFn = null;
 
 function normalizeResultState(candidate) {
   return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
@@ -532,6 +535,15 @@ function summarizeStreamEvent(event) {
         parsedTypedOutput: summarizeInspectableValue(data.parsedTypedOutput ?? data.parsed ?? null),
       }
     : null;
+  const readingPipelineTelemetry = resolveReadingPipelineTelemetryProjectionFn
+    ? resolveReadingPipelineTelemetryProjectionFn({
+        ...event,
+        data: {
+          ...(data || {}),
+          telemetryEvent: event,
+        },
+      })
+    : null;
   return {
     type: 'pipeline-stream-event',
     stage: stageForStreamEvent(event),
@@ -558,6 +570,19 @@ function summarizeStreamEvent(event) {
     parsedTypedOutputPresent: Boolean(data?.parsedTypedOutput || data?.parsed),
     inferenceAudit: llmAudit,
     inspectable: summarizeLlmInspectable(event, event?.data ?? null),
+    readingPipelineTelemetry,
+    pipelineName: readingPipelineTelemetry?.pipelineName || null,
+    phaseId: readingPipelineTelemetry?.phaseId || null,
+    agentId: readingPipelineTelemetry?.agentId || null,
+    ptrrStepId: readingPipelineTelemetry?.ptrrStepId || null,
+    ptrrStepName: readingPipelineTelemetry?.ptrrStepName || null,
+    thricifiedGenerationId: readingPipelineTelemetry?.thricifiedGenerationId || null,
+    thricifiedFailsafe: readingPipelineTelemetry?.thricifiedFailsafe || null,
+    promptTemplateId: readingPipelineTelemetry?.promptTemplateId || null,
+    generationPromptIds: readingPipelineTelemetry?.generationPromptIds || null,
+    toolId: readingPipelineTelemetry?.toolId || null,
+    outputSchema: readingPipelineTelemetry?.outputSchema || null,
+    returnType: readingPipelineTelemetry?.returnType || null,
   };
 }
 
@@ -672,6 +697,10 @@ function checkpointEvidence(reason) {
     output,
     error,
     execution: execution ? summarizeExecution(execution) : null,
+    readingPipelineObservabilityInventory,
+    readingPipelineObservabilityCoverage: summarizeReadingPipelineObservabilityCoverageFn
+      ? summarizeReadingPipelineObservabilityCoverageFn(events)
+      : null,
     events,
     startedAt,
     checkpointAt: new Date().toISOString(),
@@ -1470,16 +1499,24 @@ async function settleAssetPackLedger(pipelineResultState) {
       journalEntryIds,
       depositorWalletId,
       readerWalletId,
-      btcFee: {
-        network: btcNetwork,
-        requestedNetwork: requestedBtcNetwork,
-        satsPaid: btcFeeSats,
-        finalityState: 'prepared',
-        serverCustody: false,
-      },
-      ownershipBoundary: settlementOwnershipBoundary({
-        status: 'settled',
-        depositorWalletId,
+        btcFee: {
+          network: btcNetwork,
+          requestedNetwork: requestedBtcNetwork,
+          satsPaid: btcFeeSats,
+          finalityState: 'prepared',
+          serverCustody: false,
+        },
+        proofRoots: {
+          sourceManifestRoot,
+          measurementReceiptRoot,
+          fitReceiptRoot,
+          proofRoot,
+          settlementJournalRoot,
+          accessPolicyHash,
+        },
+        ownershipBoundary: settlementOwnershipBoundary({
+          status: 'settled',
+          depositorWalletId,
         readerWalletId,
         btcFeeSats,
         btcNetwork,
@@ -1523,14 +1560,32 @@ try {
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
   const [
-    { assetPackPipeline, acceptReadNeed, buildAssetPackSourceSafePreview, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput },
-    { enablePipelineStreaming, factoryPipelineExecution },
-    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
-  ] = await Promise.all([
-    import('../../packages/pipelines/asset-pack/src/index'),
-    import('../../packages/pipelines-generics/src/index'),
-    import('../../packages/btd/src/settlement'),
-  ]);
+    {
+      assetPackPipeline,
+      acceptReadNeed,
+      buildAssetPackDisclosureReview,
+      buildAssetPackSourceSafePreview,
+      buildReadingPipelineObservabilityInventory,
+      assertAssetPackDisclosureSourceSafe,
+      isAcceptedReadNeed,
+      resolveReadingPipelineTelemetryProjection,
+      summarizeReadingPipelineObservabilityCoverage,
+      synthesizeReadNeedForPipelineInput,
+	    },
+	    { enablePipelineStreaming, factoryPipelineExecution },
+	    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
+	    { reconcileLedgerDatabaseProjection },
+	    { evaluateBtdOrganizationInterfaceAuthority },
+	  ] = await Promise.all([
+	    import('../../packages/pipelines/asset-pack/src/index'),
+	    import('../../packages/pipelines-generics/src/index'),
+	    import('../../packages/btd/src/settlement'),
+	    import('../../packages/btd/src/reconciliation'),
+	    import('../../packages/btd/src/authority'),
+	  ]);
+  readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
+  resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
+  summarizeReadingPipelineObservabilityCoverageFn = summarizeReadingPipelineObservabilityCoverage;
   execution = factoryPipelineExecution('asset_pack', undefined, {
     pipelineName: 'asset_pack',
     family: 'asset_pack',
@@ -1647,6 +1702,9 @@ try {
   });
   execution.store('asset-pack/preview', 'sourceSafe', sourceSafePreview);
   execution.store('asset-pack/preview', 'feeQuote', sourceSafePreview.feeQuote);
+  const sourceSafeDisclosureReview = buildAssetPackDisclosureReview({ preview: sourceSafePreview });
+  assertAssetPackDisclosureSourceSafe(sourceSafeDisclosureReview);
+  execution.store('asset-pack/preview', 'disclosureReview', sourceSafeDisclosureReview);
   const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
     ? fitResult.resultReasons
     : Array.isArray(depositorySearch?.resultReasons)
@@ -1679,21 +1737,134 @@ try {
   });
 
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
+  const ledgerDatabaseReconciliation = ledgerSettlement?.assetPackId
+    ? reconcileLedgerDatabaseProjection({
+        reconciliationId: 'harness-reconciliation-' + runId,
+        ledgerFacts: [
+          {
+            factId: ledgerSettlement.assetPackId,
+            ledgerRoot: ledgerSettlement.proofRoots?.proofRoot || rootOf({ assetPackId: ledgerSettlement.assetPackId }),
+            finalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+          },
+          ...(ledgerSettlement.btcFeeReceiptId
+            ? [{
+                factId: ledgerSettlement.btcFeeReceiptId,
+                ledgerRoot: rootOf({
+                  btcFeeReceiptId: ledgerSettlement.btcFeeReceiptId,
+                  satsPaid: ledgerSettlement.btcFee?.satsPaid || 0,
+                  finalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+                }),
+                finalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+              }]
+            : []),
+          ...(ledgerSettlement.ledgerAnchorId
+            ? [{
+                factId: ledgerSettlement.ledgerAnchorId,
+                ledgerRoot: ledgerSettlement.proofRoots?.settlementJournalRoot || ledgerSettlement.ledgerAnchorId,
+                finalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+              }]
+            : []),
+        ],
+        databaseFacts: [
+          ...(ledgerSettlement.readback?.assetPackRange
+            ? [{
+                factId: ledgerSettlement.assetPackId,
+                projectedLedgerRoot: ledgerSettlement.proofRoots?.proofRoot || rootOf({ assetPackId: ledgerSettlement.assetPackId }),
+                projectedFinalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+              }]
+            : []),
+          ...(ledgerSettlement.readback?.btcFeeTransaction && ledgerSettlement.btcFeeReceiptId
+            ? [{
+                factId: ledgerSettlement.btcFeeReceiptId,
+                projectedLedgerRoot: rootOf({
+                  btcFeeReceiptId: ledgerSettlement.btcFeeReceiptId,
+                  satsPaid: ledgerSettlement.btcFee?.satsPaid || 0,
+                  finalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+                }),
+                projectedFinalityState: ledgerSettlement.btcFee?.finalityState || 'prepared',
+              }]
+            : []),
+          ...(ledgerSettlement.readback?.ledgerAnchor && ledgerSettlement.ledgerAnchorId
+            ? [{
+                factId: ledgerSettlement.ledgerAnchorId,
+                projectedLedgerRoot: ledgerSettlement.proofRoots?.settlementJournalRoot || ledgerSettlement.ledgerAnchorId,
+                projectedFinalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+              }]
+            : []),
+        ],
+        settlementConservationChecks: ledgerSettlement.btcFee
+          ? [{
+              checkId: 'btc-fee-conservation-' + runId,
+              expectedDebitSats: Number(ledgerSettlement.btcFee.satsPaid || 0),
+              observedDebitSats: ledgerSettlement.readback?.btcFeeTransaction ? Number(ledgerSettlement.btcFee.satsPaid || 0) : 0,
+              expectedCreditSats: Number(ledgerSettlement.btcFee.satsPaid || 0),
+              observedCreditSats: ledgerSettlement.readback?.btcFeeTransaction ? Number(ledgerSettlement.btcFee.satsPaid || 0) : 0,
+              paymentReceiptRoot: ledgerSettlement.btcFeeReceiptId || undefined,
+            }]
+          : [],
+        metaphysicalFacts: [
+          {
+            factId: 'protected-source-boundary-' + runId,
+            factKind: 'private_source_metadata',
+            canonicalRoot: ledgerSettlement.proofRoots?.sourceManifestRoot || manifestRoot || rootOf(manifest.sourceRevision || {}),
+            receiptRoot: ledgerSettlement.proofRoots?.accessPolicyHash || undefined,
+            private: true,
+          },
+        ],
+      })
+    : null;
+  if (ledgerDatabaseReconciliation) {
+    execution.store('asset-pack/settlement', 'ledgerDatabaseReconciliation', ledgerDatabaseReconciliation);
+  }
   const settlementUnlock = buildAssetPackSettlementUnlock({
     ledgerSettlement,
     pullRequestTarget: pullRequestUrl || null,
     requirePullRequestDelivery: deliveryRequired,
   });
   const settledSourceSafePreview = applyAssetPackSettlementUnlockToPreview(sourceSafePreview, settlementUnlock);
+  const assetPackDisclosureReview = buildAssetPackDisclosureReview({
+    preview: settledSourceSafePreview,
+    readRightState: settlementUnlock.state,
+    sourceAvailable: settlementUnlock.sourceAvailable,
+    reason: settlementUnlock.reason,
+  });
+  assertAssetPackDisclosureSourceSafe(assetPackDisclosureReview);
+	  const organizationAuthority = [
+	    evaluateBtdOrganizationInterfaceAuthority({
+	      actorId: userId || readerWalletId,
+	      organizationId: manifest.organizationId || manifest.organization?.id || 'staging-testnet-organization',
+	      organizationRole: 'admin',
+	      organizationPermissionGrants: ['asset_pack:deliver'],
+	      interfaceSurface: 'terminal',
+	      action: 'deliver_asset_pack',
+	      walletId: readerWalletId,
+	      targetAnchor: pullRequestUrl || null,
+	      readAccessDecision: settlementUnlock.sourceAvailable
+	        ? {
+	            decision: 'licensed_read',
+	            accessPolicyHash: ledgerSettlement.accessPolicyHash || sourceSafePreview?.accessPolicy?.accessPolicyHash || 'policy-pending',
+	            reason: settlementUnlock.reason,
+	          }
+	        : null,
+	      settlementState: settlementUnlock.sourceAvailable ? 'settled' : 'pending',
+	      confirmed: ledgerSettlement.settlementAdmissible === true,
+	      repairApprovalState: 'not_required',
+	    }),
+	  ];
   execution.store('asset-pack/preview', 'sourceSafe', settledSourceSafePreview);
+  execution.store('asset-pack/preview', 'disclosureReview', assetPackDisclosureReview);
   execution.store('asset-pack/settlement', 'unlock', settlementUnlock);
   execution.store('asset-pack/settlement', 'readLicenseId', settlementUnlock.readLicenseId);
+  execution.store('asset-pack/settlement', 'organizationAuthority', organizationAuthority);
   output = {
     ...(output || {}),
     sourceSafePreview: settledSourceSafePreview,
+    assetPackDisclosureReview,
+    organizationAuthority,
     ledgerSettlement: {
       ...ledgerSettlement,
       protectedSourceUnlock: settlementUnlock,
+      ledgerDatabaseReconciliation,
     },
   };
   resultReasons.push(ledgerSettlement.reason);
@@ -1708,7 +1879,14 @@ try {
     status: ledgerSettlement.status,
     settlementAdmissible: ledgerSettlement.settlementAdmissible,
     assetPackId: ledgerSettlement.assetPackId || null,
+    reconciliationState: ledgerDatabaseReconciliation?.state || null,
+    repairActionCount: ledgerDatabaseReconciliation?.repairActions?.length || 0,
+    organizationAuthorityDecision: organizationAuthority[0].decision,
+    organizationAuthorityRoot: organizationAuthority[0].proofRoots.authorityRoot,
   });
+  const readingPipelineObservabilityCoverage = summarizeReadingPipelineObservabilityCoverageFn
+    ? summarizeReadingPipelineObservabilityCoverageFn(events)
+    : null;
 
   const evidence = {
     schema: 'bitcode.pipeline-harness.evidence',
@@ -1724,12 +1902,17 @@ try {
     fitResult,
     depositorySearch,
     sourceSafePreview: settledSourceSafePreview,
+    assetPackDisclosureReview,
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,
     shippables: output?.shippables || null,
     ledgerSettlement: output.ledgerSettlement,
+    organizationAuthority,
+    ledgerDatabaseReconciliation,
     execution: summarizeExecution(execution),
+    readingPipelineObservabilityInventory,
+    readingPipelineObservabilityCoverage,
     events,
     startedAt,
     completedAt: new Date().toISOString(),
@@ -1774,6 +1957,10 @@ try {
     output,
     error,
     execution: execution ? summarizeExecution(execution) : null,
+    readingPipelineObservabilityInventory,
+    readingPipelineObservabilityCoverage: summarizeReadingPipelineObservabilityCoverageFn
+      ? summarizeReadingPipelineObservabilityCoverageFn(events)
+      : null,
     events,
     startedAt,
     completedAt: new Date().toISOString(),

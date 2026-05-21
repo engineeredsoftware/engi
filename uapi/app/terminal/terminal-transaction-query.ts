@@ -43,6 +43,8 @@ const TERMINAL_ENVIRONMENT_MODE_VALUES: TerminalEnvironmentMode[] = [
 export type TerminalTransactionDetailSection =
   | 'shippables'
   | 'transaction'
+  | 'wallet-btc'
+  | 'authority'
   | 'closure'
   | 'proofs'
   | 'history'
@@ -52,6 +54,8 @@ export type TerminalTransactionDetailSection =
 const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
   'shippables',
   'transaction',
+  'wallet-btc',
+  'authority',
   'closure',
   'proofs',
   'history',
@@ -228,6 +232,16 @@ export function writeTerminalTransactionPagination(
   }
 
   return nextParams;
+}
+
+export function shouldRecoverTerminalTransactionRoute({
+  transactionIds,
+  selectedTransactionId,
+}: {
+  transactionIds: string[];
+  selectedTransactionId: string | null;
+}) {
+  return transactionIds.length > 0 && (!selectedTransactionId || !transactionIds.includes(selectedTransactionId));
 }
 
 export function resetTerminalTransactionFilters(searchParams: URLSearchParams) {

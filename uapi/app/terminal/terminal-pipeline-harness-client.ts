@@ -274,6 +274,13 @@ function shortIdentifier(value: unknown): string | null {
   return text.length > 16 ? `${text.slice(0, 12)}...` : text;
 }
 
+function contractIdentifier(value: unknown, segments = 3): string | null {
+  const text = stringIdentifier(value);
+  if (!text) return null;
+  const parts = text.split('.').filter(Boolean);
+  return parts.length > segments ? parts.slice(-segments).join('.') : text;
+}
+
 function stringIdentifier(value: unknown): string | null {
   const text = typeof value === 'string' ? value.trim() : '';
   return text || null;
@@ -345,6 +352,9 @@ function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarne
   const data = recordValue(event.data);
   const telemetryEvent = recordValue(data?.telemetryEvent);
   const telemetryExecutionState = recordValue(telemetryEvent?.executionState);
+  const readingTelemetry =
+    recordValue(telemetryEvent?.readingPipelineTelemetry) ||
+    recordValue(data?.readingPipelineTelemetry);
   const type = data?.type ? String(data.type) : event.event;
   const stage = telemetryEvent?.stage || telemetryExecutionState?.phase || type;
   const streamEventType = telemetryEvent?.streamEventType || telemetryEvent?.type || type;
@@ -361,20 +371,34 @@ function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarne
       data?.label ||
       'asset-pack-pipeline-harness',
     step:
+      readingTelemetry?.ptrrStepName ||
       telemetryExecutionState?.step ||
       telemetryEvent?.step ||
       streamEventType ||
       type,
-    failsafe: telemetryExecutionState?.failsafe || telemetryEvent?.failsafe,
+    pipeline: readingTelemetry?.pipelineName || telemetryEvent?.pipelineName,
+    phaseId: readingTelemetry?.phaseId || telemetryEvent?.phaseId,
+    agentId: readingTelemetry?.agentId || telemetryEvent?.agentId,
+    ptrrStepId: readingTelemetry?.ptrrStepId || telemetryEvent?.ptrrStepId,
+    ptrrStepName: readingTelemetry?.ptrrStepName || telemetryEvent?.ptrrStepName,
+    failsafe:
+      readingTelemetry?.thricifiedFailsafe ||
+      telemetryExecutionState?.failsafe ||
+      telemetryEvent?.failsafe,
     generation:
+      readingTelemetry?.thricifiedGenerationId ||
       telemetryExecutionState?.generation ||
       telemetryEvent?.generation ||
       (classifyHarnessLogType(event) === 'generation' ? [namespace, key].filter(Boolean).join('.') || 'model' : undefined),
     tool:
+      readingTelemetry?.toolId ||
       telemetryExecutionState?.tool ||
       telemetryEvent?.tool ||
       telemetryEvent?.toolName ||
       (classifyHarnessLogType(event) === 'tool-use' ? type : undefined),
+    promptTemplateId: readingTelemetry?.promptTemplateId || telemetryEvent?.promptTemplateId,
+    outputSchema: readingTelemetry?.outputSchema || telemetryEvent?.outputSchema,
+    returnType: readingTelemetry?.returnType || telemetryEvent?.returnType,
   };
 }
 
@@ -423,6 +447,9 @@ export function buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
     const timestamp = harnessEventTimestamp(event);
     const data = recordValue(event.data);
     const telemetryEvent = recordValue(data?.telemetryEvent);
+    const readingPipelineTelemetry =
+      recordValue(telemetryEvent?.readingPipelineTelemetry) ||
+      recordValue(data?.readingPipelineTelemetry);
     const evidence = recordValue(data?.evidence);
 
     runId =
@@ -448,6 +475,7 @@ export function buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
           harnessEvent: event.event,
           harnessPayload: event.data,
           telemetryEvent,
+          readingPipelineTelemetry,
           inferenceAudit: telemetryEvent?.inferenceAudit || null,
         },
       },
@@ -472,6 +500,9 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   }
 
   const executionState = recordValue(telemetryEvent.executionState);
+  const readingTelemetry =
+    recordValue(telemetryEvent.readingPipelineTelemetry) ||
+    recordValue(data.readingPipelineTelemetry);
   const streamType = String(
     telemetryEvent.streamEventType ||
       telemetryEvent.type ||
@@ -492,7 +523,11 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   const dataKeys = stringList(telemetryEvent.dataKeys, 4);
   const inspectable = recordValue(telemetryEvent.inspectable);
   const inspectableKeys = stringList(inspectable?.keys, 4);
-  const tool = telemetryEvent.tool ? String(telemetryEvent.tool) : null;
+  const tool = readingTelemetry?.toolId
+    ? String(readingTelemetry.toolId)
+    : telemetryEvent.tool
+      ? String(telemetryEvent.tool)
+      : null;
   const toolState = typeof telemetryEvent.toolOk === 'boolean'
     ? telemetryEvent.toolOk
       ? 'ok'
@@ -511,6 +546,14 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   const judgment = telemetryEvent.judgmentPresent === true ? 'judgment present' : null;
   const rawResponse = telemetryEvent.rawModelResponsePresent === true ? 'raw response present' : null;
   const parsedTypedOutput = telemetryEvent.parsedTypedOutputPresent === true ? 'parsed typed output present' : null;
+  const pipelineName = readingTelemetry?.pipelineName || telemetryEvent.pipelineName;
+  const phaseId = readingTelemetry?.phaseId || telemetryEvent.phaseId;
+  const ptrrStepId = readingTelemetry?.ptrrStepId || telemetryEvent.ptrrStepId;
+  const thricifiedGenerationId =
+    readingTelemetry?.thricifiedGenerationId || telemetryEvent.thricifiedGenerationId;
+  const promptTemplateId = readingTelemetry?.promptTemplateId || telemetryEvent.promptTemplateId;
+  const outputSchema = readingTelemetry?.outputSchema || telemetryEvent.outputSchema;
+  const returnType = readingTelemetry?.returnType || telemetryEvent.returnType;
   const toolDetails = [
     telemetryEvent.toolInputPresent === true ? 'input' : null,
     telemetryEvent.toolOutputPresent === true ? 'output' : null,
@@ -522,6 +565,14 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     namespace || key ? [namespace, key].filter(Boolean).join('.') : null,
     executionPath ? `path ${executionPath}` : null,
     runId ? `run ${runId}` : null,
+    pipelineName ? `pipeline ${String(pipelineName)}` : null,
+    phaseId ? `phase ${contractIdentifier(phaseId, 2)}` : null,
+    ptrrStepId ? `PTRR ${contractIdentifier(ptrrStepId, 3)}` : null,
+    thricifiedGenerationId
+      ? `ThricifiedGeneration ${contractIdentifier(thricifiedGenerationId, 4)}`
+      : null,
+    promptTemplateId ? `prompt ${contractIdentifier(promptTemplateId, 2)}` : null,
+    outputSchema ? `schema ${String(outputSchema)}` : returnType ? `return ${String(returnType)}` : null,
     tool ? `tool ${tool}${toolState ? ` ${toolState}` : ''}${toolDetails ? ` ${toolDetails}` : ''}` : null,
     dataKeys.length ? `data ${dataKeys.join(', ')}` : null,
     inspectableKeys.length ? `inspectable ${inspectableKeys.join(', ')}` : null,
@@ -584,8 +635,11 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const depositorySearch = recordValue(evidence?.depositorySearch);
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
     const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
+    const assetPackDisclosureReview = recordValue(evidence?.assetPackDisclosureReview);
     const feeQuote = recordValue(sourceSafePreview?.feeQuote);
     const unlock = recordValue(sourceSafePreview?.unlock) || recordValue(ledgerSettlement?.protectedSourceUnlock);
+    const disclosureAccess = recordValue(assetPackDisclosureReview?.access);
+    const disclosureLeakage = recordValue(assetPackDisclosureReview?.sourceLeakage);
     const fitState = String(fitResult?.resultState || evidence?.resultState || 'unknown');
     const searchedAssetCount = depositorySearch?.searchedAssetCount;
     const ledgerStatus = ledgerSettlement?.status
@@ -606,6 +660,14 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       : unlock?.state
         ? ` source ${String(unlock.state)}`
         : null;
+    const disclosureText = disclosureAccess?.sourceVisibility
+      ? ` disclosure ${String(disclosureAccess.sourceVisibility)}`
+      : null;
+    const leakageText = disclosureLeakage?.protectedSourceDetected === true
+      ? ` leakage ${String(disclosureLeakage.findingCount || 'detected')}`
+      : disclosureLeakage
+        ? ' leakage none'
+        : null;
     const searchText = typeof searchedAssetCount === 'number'
       ? ` searched ${searchedAssetCount} assets`
       : ' searched asset count unknown';
@@ -617,6 +679,8 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       ledgerStatus,
       feeQuoteText,
       unlockText,
+      disclosureText,
+      leakageText,
       telemetryText,
     ].filter(Boolean).join('; ') + '.';
   }

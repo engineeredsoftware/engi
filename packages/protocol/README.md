@@ -2,12 +2,28 @@
 
 Formal Bitcode protocol package for commercial source.
 
-V28 starts the separation between the deterministic `protocol-demonstration`
-reference and commercial runtime imports. Commercial surfaces should import
-protocol state, API context, and protocol primitives from this package rather
-than importing the standalone demonstration package.
+V29 Gate 8 makes this package the package-native boundary for canonical helpers
+that were originally ported from the standalone `protocol-demonstration`
+witness. Commercial scripts, API/runtime code, and workflow checks must import
+canon posture, spec-family checks, canonical-input checks, canon-drift checks,
+and proven-generation helpers from `@bitcode/protocol` or
+`packages/protocol/src/index.js`.
 
-Some implementation internals are still freshly ported from the demonstration
-and intentionally retain source proximity for parity. V29 must continue
-commercializing those internals into narrower packages and cleaner module
-boundaries.
+They must not import `protocol-demonstration/src/*`. The demonstration remains
+a standalone minimal witness and may still be executed or cited by proof
+inventories, but it is not a commercial runtime implementation dependency.
+
+Current exported commercial helpers include:
+
+- active/draft canon posture (`V29` active, `V30` draft after V29 promotion);
+- spec-family and canonical-input validation helpers;
+- canon-posture drift reporting;
+- canonical proven-generation helpers;
+- the package app/server context used by commercial interfaces.
+
+V29 Gate 10 treats this package as promotion-critical runtime posture.
+`packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
+must remain aligned to `V29` active, `V30` draft after promotion.
+
+The package boundary is enforced by `packages/protocol` tests, the UAPI
+commercial protocol boundary test, and `check:v29-gate8`.

@@ -49,7 +49,7 @@ const COLLECTED_PROVEN_RUN_CACHE = new Map();
 const BASE_PROVEN_DATA_CACHE = new Map();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const REPO_ROOT = path.resolve(__dirname, '../../..');
+const REPO_ROOT = path.resolve(__dirname, '../../../..');
 
 /**
  * @param {string} version

@@ -6,7 +6,7 @@
   "types": "src/index.ts",
   "scripts": {
     "build": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --config jest.config.cjs",
     "dev": "tsc --watch"
   },
   "dependencies": {

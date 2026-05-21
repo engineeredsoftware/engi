@@ -33,9 +33,17 @@ presenting them as part of Terminal itself.
   Main Terminal activity and selected-result shell.
 - `terminal-transaction-query.ts`
   Route-owned filter, paging, and selected-activity state.
+- `terminal-transaction-read-model.ts`
+  Typed selected-transaction projection for recoverable route hrefs, low-detail
+  operator summary, detail-section availability, and expandable audit posture
+  before raw payload inspection.
 - `terminal-journal-reconciliation.ts` and `TerminalTransactionJournalReconciliationCard.tsx`
   Selected-activity Journal section owner for ledger observations, database
   projections, canonical root facts, repair receipts, and drift state.
+- `terminal-wallet-btc-operation.ts` and `TerminalTransactionWalletBtcCard.tsx`
+  Selected-activity Wallet/BTC section owner for signer recovery, fee quote,
+  PSBT handoff, transaction id, finality, blocked readiness, and no-custody
+  posture.
 - `TerminalCommandDeck.tsx`
   Scenario, projection, branch mode, reset, and flow-guide entry posture.
 - `TerminalDepositReadWorkbench.tsx`
@@ -97,6 +105,66 @@ Terminal journal rows and reconciliation repair receipts through
 for audit, but the operator-facing visual state must make retryable,
 repairable, approval-required, blocked, and aligned states distinguishable
 without browser-network inspection.
+
+## V29 transaction-depth checkpoint
+
+The selected activity is now modeled as a `TerminalTransactionReadModel`.
+Terminal must write `transactionId` into the route for the first selectable row
+so a bare `/terminal` load becomes recoverable as soon as live, projected, or
+review-fallback activity exists. Detail focus is carried by `transactionDetail`.
+Former `runId` links are still accepted on read and rewritten on write.
+
+Ordinary operators should read the low-detail model first: summary, proof
+posture, metrics, posture chips, and section availability. Shippables,
+identity, Wallet/BTC, closure, proofs, history, journal, activity stream, and
+console each declare whether they are available, empty, or blocked. Raw payloads
+remain audit material behind expansion, not the normal navigation contract.
+
+The Wallet/BTC section projects BTC fee operation state without exposing wallet
+secrets or protected AssetPack source. It should show quote root, wallet session,
+payer wallet, PSBT handoff, txid, state, confirmations, blockers, and server
+custody posture as ordinary rows before the operator opens raw ledger payloads.
+
+The live Reading harness stream projects `ReadNeedComprehensionSynthesis` and
+`ReadFitsFindingSynthesis` telemetry into the shared execution panel. Collapsed
+rows should identify the pipeline, phase, PTRR step, ThricifiedGeneration,
+prompt/tool/schema posture, and result shape. Expanded metadata remains the
+place for prompt templates, interpolated prompts, raw model responses, parsed
+typed outputs, tool inputs/outputs, and harness evidence coverage.
+
+The Journal section is also the settlement reconciliation repair cockpit.
+It must distinguish ledger-observed facts, database-projected facts, and
+metaphysical canonical root facts; classify drift; show blocking reasons;
+surface repair actions; list proof roots; and keep repair receipts readable.
+BTC fee conservation drift blocks unlock, confirmed ledger facts missing from
+database projection require approval, and settled transactions with missing
+pull-request delivery surface delivery recovery without exposing protected
+AssetPack source before payment.
+
+The Organization Authority section is the selected-activity permission
+explainer. It projects registry-derived organization role, explicit grants,
+wallet binding, owner-read or licensed-read access, settlement state,
+confirmation state, interface admission, blockers, and proof roots before raw
+authority payload inspection. Terminal may show source-safe previews without a
+paid unlock, but protected-source unlock and delivery remain blocked until the
+same `organizationAuthority` evidence admits the action.
+
+## V29 Terminal UX browser proof checkpoint
+
+The Terminal cockpit is now browser-proofed as a transaction operation surface,
+not only a collection of panels. The route must expose a named `main` landmark,
+a keyboard-reachable skip link into `#terminalTransactionWorkspace`, named
+workspace/detail regions, explicit loading/empty/error/blocked state semantics,
+and contained table overflow for phone through widescreen viewports.
+
+The browser-proof contract lives in `terminal-ux-browser-proof.ts`. It names the
+required landmarks, state semantics, viewport set, route checks, and evidence
+files used by Gate 9. The focused Jest test proves the contract and UI state
+semantics; the focused Playwright spec proves the cockpit through a real browser
+in deterministic mock mode. Playwright readiness waits on the Terminal route
+itself through `PLAYWRIGHT_READY_URL` so an open dev-server port is not mistaken
+for a rendered cockpit. Gate 9 does not reveal protected AssetPack source, does
+not redesign Reading, and does not add versioned routes.
 
 ## Related shared systems
 

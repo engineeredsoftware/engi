@@ -24,6 +24,13 @@ const READ_ACCESS = {
   accessPolicyHash: 'policy-hash',
   reason: 'wallet_has_valid_policy_matching_license',
 } as const;
+const ORGANIZATION_AUTHORITY = {
+  organizationId: 'org-1',
+  organizationRole: 'member',
+  organizationPermissionGrants: ['asset_pack:deliver'],
+  walletId: 'wallet-reader',
+  settlementState: 'settled',
+} as const;
 
 describe('ChatGPT App tools', () => {
   beforeEach(() => {
@@ -93,11 +100,15 @@ This product delivers voice-first social conversations for builders.
       expect(tool.meta?.requiresConfirmation).toBe(true);
       expect((tool.inputSchema as any).required).toContain('confirmed');
       expect((tool.inputSchema as any).required).toContain('readAccess');
+      expect((tool.inputSchema as any).required).toContain('organizationAuthority');
       expect((tool.inputSchema as any).properties.confirmed).toMatchObject({
         type: 'boolean',
         const: true,
       });
       expect((tool.inputSchema as any).properties.readAccess).toMatchObject({
+        type: 'object',
+      });
+      expect((tool.inputSchema as any).properties.organizationAuthority).toMatchObject({
         type: 'object',
       });
     }
@@ -184,6 +195,7 @@ This product delivers voice-first social conversations for builders.
         request: 'deploy_to_vercel',
         confirmed: true,
         readAccess: READ_ACCESS,
+        organizationAuthority: ORGANIZATION_AUTHORITY,
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       }
     );
@@ -198,6 +210,12 @@ This product delivers voice-first social conversations for builders.
       outputMeaning: 'asset_pack_delivery_mechanism',
       targetAnchor: 'vercel:team_bitcode/prj_Yapper',
       readAccess: READ_ACCESS,
+      organizationAuthority: expect.objectContaining({
+        decision: 'allowed',
+        interfaceSurface: 'chatgpt_app',
+        action: 'deliver_asset_pack',
+        sourceVisibility: 'protected_source_allowed',
+      }),
     });
     expect((result.result as any).readyState).toBe('BUILDING');
   });
@@ -209,6 +227,7 @@ This product delivers voice-first social conversations for builders.
         operation: 'createRepository',
         confirmed: true,
         readAccess: READ_ACCESS,
+        organizationAuthority: ORGANIZATION_AUTHORITY,
         accessToken: 'ghp_mock',
         name: 'bitcode-yapper',
         description: 'Bitcode source-to-shares terminal companion fixture',
@@ -230,6 +249,11 @@ This product delivers voice-first social conversations for builders.
       outputMeaning: 'asset_pack_delivery_mechanism',
       targetAnchor: 'github:bitcode-yapper',
       readAccess: READ_ACCESS,
+      organizationAuthority: expect.objectContaining({
+        decision: 'allowed',
+        interfaceSurface: 'chatgpt_app',
+        action: 'deliver_asset_pack',
+      }),
     });
   });
 
@@ -250,6 +274,7 @@ This product delivers voice-first social conversations for builders.
       runTool('use_vercel_write_external_mcp', {
         request: 'deploy_to_vercel',
         readAccess: READ_ACCESS,
+        organizationAuthority: ORGANIZATION_AUTHORITY,
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       })
     ).rejects.toThrow(
@@ -262,9 +287,36 @@ This product delivers voice-first social conversations for builders.
       runTool('use_vercel_write_external_mcp', {
         request: 'deploy_to_vercel',
         confirmed: true,
+        organizationAuthority: ORGANIZATION_AUTHORITY,
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       })
     ).rejects.toThrow(/readAccess/);
+  });
+
+  it('rejects ChatGPT App connected-interface writes without organization authority evidence', async () => {
+    await expect(
+      runTool('use_vercel_write_external_mcp', {
+        request: 'deploy_to_vercel',
+        confirmed: true,
+        readAccess: READ_ACCESS,
+        payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
+      })
+    ).rejects.toThrow(/organizationAuthority/);
+  });
+
+  it('rejects ChatGPT App connected-interface writes when organization authority is unpaid', async () => {
+    await expect(
+      runTool('use_vercel_write_external_mcp', {
+        request: 'deploy_to_vercel',
+        confirmed: true,
+        readAccess: READ_ACCESS,
+        organizationAuthority: {
+          ...ORGANIZATION_AUTHORITY,
+          settlementState: 'pending',
+        },
+        payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
+      })
+    ).rejects.toThrow(/settlement_required/);
   });
 
   it('use_aws_read_external_mcp invokes lambda helper', async () => {
@@ -281,6 +333,7 @@ This product delivers voice-first social conversations for builders.
       request: 's3.putObject',
       confirmed: true,
       readAccess: READ_ACCESS,
+      organizationAuthority: ORGANIZATION_AUTHORITY,
       payload: { bucket: 'demo', key: 'config.json', body: '{}' },
     });
     expect(result.metadata.provider).toBe('aws');
@@ -293,6 +346,10 @@ This product delivers voice-first social conversations for builders.
       operation: 's3.putObject',
       targetAnchor: 'aws:s3/demo/config.json',
       readAccess: READ_ACCESS,
+      organizationAuthority: expect.objectContaining({
+        decision: 'allowed',
+        interfaceSurface: 'chatgpt_app',
+      }),
     });
   });
 

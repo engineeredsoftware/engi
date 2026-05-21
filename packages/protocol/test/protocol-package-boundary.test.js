@@ -7,7 +7,9 @@ import test from 'node:test';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(__dirname, '..');
+const repoRoot = path.resolve(packageRoot, '..', '..');
 const importBoundaryPattern = /(?:import\s+(?:[^'"]+\s+from\s+)?|import\s*\(|require\s*\()\s*['"][^'"]*(?:@bitcode\/protocol-demonstration|protocol-demonstration\/)/;
+const demonstrationSourceImportPattern = /(?:import\s+(?:[^'"]+\s+from\s+)?|import\s*\(|require\s*\()\s*['"][^'"]*(?:@bitcode\/protocol-demonstration|protocol-demonstration\/src)/;
 
 function collectRuntimeFiles(root) {
   const files = [];
@@ -39,6 +41,42 @@ test('@bitcode/protocol does not import the standalone protocol demonstration', 
   assert.deepEqual(violations, []);
   const protocol = await import('../src/index.js');
   assert.equal(typeof protocol.createAppContext, 'function');
+});
+
+test('@bitcode/protocol commercial formalization exports package-native canon helpers', async () => {
+  const protocol = await import('../src/index.js');
+  const pointer = readFileSync(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim();
+  const expectedActiveCanon = pointer === 'V29' ? 'V29' : 'V28';
+  const expectedDraftTarget = pointer === 'V29' ? 'V30' : 'V29';
+  const expectedSpecFamilyMode = pointer === 'V29' ? 'promoted' : 'draft';
+
+  assert.equal(protocol.ACTIVE_CANON_VERSION, expectedActiveCanon);
+  assert.equal(protocol.DRAFT_TARGET_VERSION, expectedDraftTarget);
+  assert.equal(typeof protocol.buildV21SpecFamilyReport, 'function');
+  assert.equal(typeof protocol.buildV21CanonicalInputReport, 'function');
+  assert.equal(typeof protocol.buildV21GeneratedArtifactContents, 'function');
+  assert.equal(typeof protocol.buildCanonPostureDriftReport, 'function');
+  assert.equal(typeof protocol.PROVEN_GENERATOR_ID, 'string');
+  assert.equal(typeof protocol.defaultProvenOutputPath, 'function');
+  assert.equal(typeof protocol.generateCanonicalProvenMarkdown, 'function');
+  assert.equal(protocol.defaultProvenOutputPath(expectedActiveCanon), `BITCODE_SPEC_${expectedActiveCanon}_PROVEN.md`);
+  const specFamilyReport = protocol.buildV21SpecFamilyReport({
+    version: 'V29',
+    mode: expectedSpecFamilyMode,
+    currentTarget: expectedActiveCanon,
+  });
+  const canonicalInputReport = protocol.buildV21CanonicalInputReport({ currentTarget: expectedActiveCanon });
+  assert.equal(specFamilyReport.passed, true);
+  assert.equal(canonicalInputReport.passed, true);
+});
+
+test('commercial scripts do not directly import standalone demonstration source', () => {
+  const runtimeFiles = collectRuntimeFiles(path.join(repoRoot, 'scripts'));
+  const violations = runtimeFiles
+    .filter((filePath) => demonstrationSourceImportPattern.test(readFileSync(filePath, 'utf8')))
+    .map((filePath) => path.relative(repoRoot, filePath));
+
+  assert.deepEqual(violations, []);
 });
 
 test('@bitcode/protocol witness bundle does not overwrite commercial route titles when embedded', () => {

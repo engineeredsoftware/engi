@@ -19,6 +19,7 @@ function detail(overrides: Partial<TerminalRunDetailSnapshot>): TerminalRunDetai
     closureState: null,
     ledgerSettlement: null,
     terminalJournal: null,
+    organizationAuthority: null,
     bitcodeActivityState: null,
     historyItemCount: 0,
     eventCount: 0,
@@ -86,6 +87,10 @@ describe('terminal journal reconciliation', () => {
     expect(result.projectedFacts.every((fact) => fact.source === 'database_projected')).toBe(true);
     expect(result.canonicalFacts.every((fact) => fact.source === 'metaphysical_canonical')).toBe(true);
     expect(result.blockingReasons).toEqual([]);
+    expect(result.repairActions).toEqual([]);
+    expect(result.proofRoots.map((root) => root.title)).toEqual(
+      expect.arrayContaining(['pre-state root', 'post-state root', 'receipt root', 'Settlement journal root']),
+    );
   });
 
   it('requires approval when confirmed ledger facts contradict database projection', () => {
@@ -139,6 +144,14 @@ describe('terminal journal reconciliation', () => {
 
     expect(result.state).toBe('approval_required');
     expect(result.blockingReasons).toContain('Confirmed ledger anchor contradicts the missing database projection.');
+    expect(result.repairActions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          title: 'project_ledger_fact',
+          supportingText: 'operator approval required',
+        }),
+      ]),
+    );
   });
 
   it('blocks reorged or failed ledger facts and surfaces repair receipts', () => {
@@ -170,9 +183,13 @@ describe('terminal journal reconciliation', () => {
               reconciliationId: 'reconciliation-run-3',
               factId: 'btc-fee-run-3',
               repairKind: 'fee_finality_repair',
+              driftKind: 'ledger_finality_mismatch',
+              repairActionKind: 'pause_settlement_unlock',
               beforeValue: 'confirmed',
               afterValue: 'reorged',
               blocking: true,
+              requiresOperatorApproval: true,
+              proofRoot: 'btd-proof-root:projection-repair:fee-finality',
               issuedAt: '2026-05-18T12:30:00.000Z',
               raw: {},
             },
@@ -191,10 +208,64 @@ describe('terminal journal reconciliation', () => {
 
     expect(result.state).toBe('blocked');
     expect(result.repairReceipts[0].title).toBe('fee_finality_repair blocks projection');
+    expect(result.repairActions[0]).toMatchObject({
+      title: 'pause_settlement_unlock',
+      supportingText: 'operator approval required',
+    });
+    expect(result.driftKindCounts).toContainEqual({ label: 'ledger_finality_mismatch', value: '1' });
     expect(result.blockingReasons).toEqual(
       expect.arrayContaining([
         'BTC fee finality is reorged; database projection cannot unlock until repaired.',
         'Repair repair-run-3 blocks btc-fee-run-3.',
+      ]),
+    );
+  });
+
+  it('blocks settlement conservation drift and surfaces delivery recovery', () => {
+    const result = buildTerminalJournalReconciliation(
+      detail({
+        ledgerSettlement: {
+          status: 'settled',
+          settlementAdmissible: true,
+          reason: 'fee readback drift',
+          assetPackId: 'asset-pack-run-4',
+          btdRange: null,
+          ledgerAnchorId: 'ledger-anchor-run-4',
+          btcFeeReceiptId: 'btc-fee-run-4',
+          depositorWalletId: null,
+          readerWalletId: null,
+          btcFee: { finalityState: 'confirmed', sats: 1200 },
+          ownershipBoundary: null,
+          readback: { btcFeeTransaction: true, terminalJournal: true },
+          journalEntryIds: [],
+          ownershipEventId: null,
+          readLicenseId: 'read-license-run-4',
+        },
+        deliveryMechanism: { pullRequest: null, summary: 'Delivery evidence exists without visible PR.' },
+        terminalJournal: {
+          expectedJournalEntryIds: [],
+          entries: [],
+          repairs: [],
+          ledgerRows: {
+            assetPackRanges: [],
+            btcFeeTransactions: [{ receipt_id: 'btc-fee-run-4', finality_state: 'confirmed', sats_paid: '1000' }],
+            ledgerAnchors: [],
+            ownershipEvents: [],
+            readLicenses: [],
+          },
+          readErrors: [],
+        },
+      }),
+    );
+
+    expect(result.state).toBe('blocked');
+    expect(result.blockingReasons).toContain(
+      'BTC fee sats do not conserve across settlement quote and database readback (1200 quoted, 1000 observed).',
+    );
+    expect(result.repairActions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ title: 'pause_settlement_unlock' }),
+        expect.objectContaining({ title: 'recover_delivery' }),
       ]),
     );
   });

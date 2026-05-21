@@ -78,9 +78,13 @@ export type TerminalReconciliationRepairSnapshot = {
   reconciliationId: string;
   factId: string;
   repairKind: string;
+  driftKind: string | null;
+  repairActionKind: string | null;
   beforeValue: string;
   afterValue: string;
   blocking: boolean;
+  requiresOperatorApproval: boolean;
+  proofRoot: string | null;
   issuedAt: string | null;
   raw: TerminalJsonRecord;
 };
@@ -113,6 +117,7 @@ export interface TerminalRunDetailSnapshot {
   closureState: TerminalClosureState | null;
   ledgerSettlement: TerminalLedgerSettlementSnapshot | null;
   terminalJournal: TerminalJournalReadbackSnapshot | null;
+  organizationAuthority: TerminalJsonRecord[] | null;
   bitcodeActivityState: {
     depositWorkbench?: TerminalDepositReadWorkbench | null;
     fitWorkbench?: TerminalDepositReadWorkbench | null;
@@ -386,9 +391,13 @@ function coerceRepairReceipt(value: unknown): TerminalReconciliationRepairSnapsh
     reconciliationId: coerceString(value.reconciliation_id) || coerceString(value.reconciliationId) || 'n/a',
     factId: coerceString(value.fact_id) || coerceString(value.factId) || 'n/a',
     repairKind: coerceString(value.repair_kind) || coerceString(value.repairKind) || 'n/a',
+    driftKind: coerceString(value.drift_kind) || coerceString(value.driftKind),
+    repairActionKind: coerceString(value.repair_action_kind) || coerceString(value.repairActionKind),
     beforeValue: coerceString(value.before_value) || coerceString(value.beforeValue) || 'n/a',
     afterValue: coerceString(value.after_value) || coerceString(value.afterValue) || 'n/a',
     blocking: Boolean(value.blocking),
+    requiresOperatorApproval: Boolean(value.requires_operator_approval || value.requiresOperatorApproval),
+    proofRoot: coerceString(value.proof_root) || coerceString(value.proofRoot),
     issuedAt: coerceString(value.issued_at) || coerceString(value.issuedAt),
     raw: value,
   };
@@ -427,6 +436,19 @@ function coerceTerminalJournalReadback(value: unknown): TerminalJournalReadbackS
     },
     readErrors,
   };
+}
+
+function coerceOrganizationAuthority(value: unknown): TerminalJsonRecord[] | null {
+  if (Array.isArray(value)) {
+    const records = coerceRecordArray(value);
+    return records.length ? records : null;
+  }
+  if (isRecord(value)) {
+    const decisions = coerceRecordArray(value.decisions);
+    if (decisions.length) return decisions;
+    return [value];
+  }
+  return null;
 }
 
 function coerceCandidates(value: unknown): TerminalClosureCandidate[] | undefined {
@@ -759,6 +781,7 @@ export function buildTerminalRunDetailFromSelectedRun(
     closureState: null,
     ledgerSettlement: null,
     terminalJournal: null,
+    organizationAuthority: null,
     bitcodeActivityState: null,
     historyItemCount: selectedRun.itemCount || 0,
     eventCount: 0,
@@ -814,6 +837,13 @@ export function normalizeTerminalRunDetailPayload(
     coerceTerminalJournalReadback(run.terminal_journal) ||
     coerceTerminalJournalReadback(isRecord(run.output) ? run.output.terminal_journal : null) ||
     base.terminalJournal;
+  const organizationAuthority =
+    coerceOrganizationAuthority(run.organization_authority) ||
+    coerceOrganizationAuthority(run.organizationAuthority) ||
+    coerceOrganizationAuthority(isRecord(run.output) ? run.output.organizationAuthority : null) ||
+    coerceOrganizationAuthority(assetPackCompletion?.organizationAuthority) ||
+    coerceOrganizationAuthority(assetPackCompletion?.interfaceAuthority) ||
+    base.organizationAuthority;
   const bitcodeActivityState =
     coerceBitcodeActivityState(assetPackCompletion?.bitcodeActivityState) || base.bitcodeActivityState;
   const runProcessingStats = coerceProcessingStats(run.processing_stats);
@@ -853,6 +883,7 @@ export function normalizeTerminalRunDetailPayload(
     closureState,
     ledgerSettlement,
     terminalJournal,
+    organizationAuthority,
     bitcodeActivityState,
     historyItemCount: Array.isArray(run.items) ? run.items.length : base.historyItemCount,
     eventCount: Array.isArray((payload as TerminalRunHistoryPayload).events)

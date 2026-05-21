@@ -47,16 +47,26 @@ export default function BitcodeTransactionsDataTable({
   error,
 }: BitcodeTransactionsDataTableProps) {
   return (
-    <div className="mt-4 min-h-[20rem] overflow-hidden rounded-[1.15rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
+    <div
+      data-testid="bitcode-transactions-data-table-shell"
+      className="mt-4 min-h-[20rem] overflow-hidden rounded-[1.15rem] border border-white/8 bg-[rgba(4,8,18,0.84)]"
+    >
       {isLoading ? (
-        <div className="px-5 py-10 text-sm text-neutral-400">Loading Bitcode transactions…</div>
+        <div
+          data-testid="bitcode-transactions-loading-state"
+          role="status"
+          aria-live="polite"
+          className="px-5 py-10 text-sm text-neutral-400"
+        >
+          Loading Bitcode transactions…
+        </div>
       ) : error ? (
-        <div className="px-5 py-5 text-sm text-red-200">{error}</div>
+        <div data-testid="bitcode-transactions-error-state" role="alert" className="px-5 py-5 text-sm text-red-200">{error}</div>
       ) : records.length === 0 ? (
-        <div className="px-5 py-10 text-sm text-neutral-400">No Bitcode transactions match the current filters.</div>
+        <div data-testid="bitcode-transactions-empty-state" role="status" className="px-5 py-10 text-sm text-neutral-400">No Bitcode transactions match the current filters.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse text-left">
+          <table aria-label="Recent Bitcode transactions" className="min-w-full border-collapse text-left">
             <thead className="border-b border-white/8 bg-white/5 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
               <tr>
                 <th className="px-3 py-2.5">

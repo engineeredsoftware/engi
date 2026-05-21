@@ -16,8 +16,11 @@ import {
   buildBtdReadAccessProjectionFromRegistryRows,
   calculateLlmBtcFeeEstimate,
   calculateMeasuredBtdFromTokens,
+  evaluateBtdOrganizationInterfaceAuthority,
   evaluateBtdReadAccess,
   listBtdAccessPolicyTemplates,
+  reconcileLedgerDatabaseProjection,
+  summarizeBtdOrganizationRegistryAuthority,
 } from '../src';
 
 describe('calculateLlmBtcFeeEstimate', () => {
@@ -187,6 +190,74 @@ describe('BTD access policy templates', () => {
   });
 });
 
+describe('ledger/database reconciliation repair', () => {
+  it('classifies drift, emits repair actions, and preserves proof roots', () => {
+    const report = reconcileLedgerDatabaseProjection({
+      reconciliationId: 'reconciliation-gate6',
+      ledgerFacts: [
+        {
+          factId: 'anchor-1',
+          ledgerRoot: 'ledger-root-1',
+          finalityState: 'confirmed',
+        },
+      ],
+      databaseFacts: [
+        {
+          factId: 'anchor-1',
+          projectedLedgerRoot: 'stale-root',
+          projectedFinalityState: 'broadcast',
+        },
+        {
+          factId: 'orphan-projection-1',
+          projectedLedgerRoot: 'orphan-root',
+          projectedFinalityState: 'confirmed',
+        },
+      ],
+      settlementConservationChecks: [
+        {
+          checkId: 'settlement-check-1',
+          expectedDebitSats: 1000,
+          observedDebitSats: 1000,
+          expectedCreditSats: 1000,
+          observedCreditSats: 900,
+          feeQuoteRoot: 'fee-quote-root',
+          paymentReceiptRoot: 'payment-receipt-root',
+        },
+      ],
+      metaphysicalFacts: [
+        {
+          factId: 'encrypted-source-pointer',
+          factKind: 'encrypted_storage_pointer',
+          canonicalRoot: 'encrypted-storage-root',
+          private: true,
+        },
+      ],
+      issuedAt: '2026-05-20T12:00:00.000Z',
+    });
+
+    expect(report.state).toBe('blocked');
+    expect(report.blocking).toBe(true);
+    expect(report.driftKindCounts).toMatchObject({
+      ledger_root_mismatch: 1,
+      ledger_finality_mismatch: 1,
+      database_orphan_projection: 1,
+      settlement_conservation_drift: 1,
+    });
+    expect(report.repairs.map((repair) => repair.repairActionKind)).toEqual(
+      expect.arrayContaining([
+        'project_ledger_fact',
+        'update_finality_state',
+        'quarantine_database_projection',
+        'pause_settlement_unlock',
+      ]),
+    );
+    expect(report.repairActions).toHaveLength(report.repairs.length);
+    expect(report.repairActions.every((action) => action.proofRoot.startsWith('btd-proof-root:'))).toBe(true);
+    expect(report.proofRoots.repairPlanRoot).toMatch(/^btd-proof-root:repair-plan:/);
+    expect(report.settlementConservation.status).toBe('drifted');
+  });
+});
+
 describe('registry-derived read access projection', () => {
   it('maps range, ownership, and read-license rows into owner-read decisions', () => {
     const projection = buildBtdReadAccessProjectionFromRegistryRows({
@@ -256,5 +327,200 @@ describe('registry-derived read access projection', () => {
     });
 
     expect(decision.decision).toBe('licensed_read');
+  });
+
+  it('keeps denied read decisions explicit for policy mismatch and revoked licenses', () => {
+    const projection = buildBtdReadAccessProjectionFromRegistryRows({
+      assetPackId: 'asset-pack-1',
+      range: {
+        asset_pack_id: 'asset-pack-1',
+        range_start: 10,
+        range_end_exclusive: 15,
+        token_count: 5,
+        access_policy_id: 'policy-1',
+        access_policy_hash: 'policy-hash',
+      },
+      ownershipRows: [
+        {
+          to_wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          range_start: 10,
+          range_end_exclusive: 15,
+          access_policy_hash: 'stale-policy-hash',
+        },
+      ],
+      licenseRows: [
+        {
+          license_id: 'license-1',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-1',
+          access_policy_hash: 'policy-hash',
+          valid_from: '2026-05-01T00:00:00.000Z',
+          revoked_at: '2026-05-10T00:00:00.000Z',
+        },
+      ],
+    });
+
+    expect(evaluateBtdReadAccess({
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: [],
+      licenses: projection.licenses,
+      at: '2026-05-19T00:00:00.000Z',
+    })).toMatchObject({
+      decision: 'denied',
+      reason: 'license_revoked',
+    });
+
+    expect(evaluateBtdReadAccess({
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: projection.accessPolicy,
+      ownershipClaims: projection.ownershipClaims,
+      licenses: [],
+      at: '2026-05-19T00:00:00.000Z',
+    })).toMatchObject({
+      decision: 'denied',
+      reason: 'policy_mismatch',
+    });
+  });
+});
+
+describe('organization interface authority', () => {
+  it('summarizes organization holdings and read-license usage from registry rows', () => {
+    const summary = summarizeBtdOrganizationRegistryAuthority({
+      organizationId: 'org-1',
+      walletIds: ['wallet-owner', 'wallet-reader', 'wallet-reader'],
+      ownershipRows: [
+        {
+          to_wallet_id: 'wallet-owner',
+          asset_pack_id: 'asset-pack-1',
+          range_start: 0,
+          range_end_exclusive: 7,
+        },
+      ],
+      readLicenseRows: [
+        {
+          license_id: 'license-active',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-2',
+          valid_from: '2026-05-01T00:00:00.000Z',
+        },
+        {
+          license_id: 'license-expired',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-3',
+          valid_from: '2026-04-01T00:00:00.000Z',
+          expires_at: '2026-05-02T00:00:00.000Z',
+        },
+        {
+          license_id: 'license-revoked',
+          wallet_id: 'wallet-reader',
+          asset_pack_id: 'asset-pack-4',
+          valid_from: '2026-04-01T00:00:00.000Z',
+          revoked_at: '2026-05-03T00:00:00.000Z',
+        },
+      ],
+      at: '2026-05-19T00:00:00.000Z',
+    });
+
+    expect(summary).toMatchObject({
+      organizationId: 'org-1',
+      source: 'btd_registry',
+      walletIds: ['wallet-owner', 'wallet-reader'],
+      ownedCellCount: 7,
+      ownedAssetPackIds: ['asset-pack-1'],
+      readLicenseCount: 3,
+      activeReadLicenseCount: 1,
+      expiredReadLicenseCount: 1,
+      revokedReadLicenseCount: 1,
+      licensedAssetPackIds: ['asset-pack-2'],
+    });
+    expect(summary.authorityRoot).toMatch(/^btd-proof-root:organization-registry-authority:/);
+  });
+
+  it('allows paid AssetPack delivery only with role, wallet, settlement, confirmation, and registry read access', () => {
+    const decision = evaluateBtdOrganizationInterfaceAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'member',
+      organizationPermissionGrants: ['asset_pack:deliver'],
+      interfaceSurface: 'chatgpt_app',
+      action: 'deliver_asset_pack',
+      walletId: 'wallet-reader',
+      settlementState: 'settled',
+      confirmed: true,
+      readAccessDecision: {
+        decision: 'licensed_read',
+        accessPolicyHash: 'policy-hash',
+        reason: 'wallet_has_valid_policy_matching_license',
+      },
+      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      at: '2026-05-19T00:00:00.000Z',
+    });
+
+    expect(decision).toMatchObject({
+      kind: 'btd_organization_interface_authority_decision',
+      decision: 'allowed',
+      interfaceSurface: 'chatgpt_app',
+      action: 'deliver_asset_pack',
+      sourceVisibility: 'protected_source_allowed',
+      satisfied: {
+        role: true,
+        permissionGrant: true,
+        walletBinding: true,
+        registryReadAccess: true,
+        settlement: true,
+        explicitConfirmation: true,
+        interfaceAction: true,
+      },
+    });
+    expect(decision.reasons).toEqual(
+      expect.arrayContaining([
+        'role_authorized',
+        'explicit_permission_grant_authorized',
+        'licensed_read_access_authorized',
+      ]),
+    );
+    expect(decision.proofRoots.authorityRoot).toMatch(/^btd-proof-root:organization-interface-authority:/);
+  });
+
+  it('fails closed for unpaid protected-source unlock and unsupported ChatGPT administration', () => {
+    const unpaidUnlock = evaluateBtdOrganizationInterfaceAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'admin',
+      interfaceSurface: 'terminal',
+      action: 'unlock_asset_pack_source',
+      walletId: 'wallet-reader',
+      settlementState: 'pending',
+      readAccessDecision: {
+        decision: 'owner_read',
+        accessPolicyHash: 'policy-hash',
+        reason: 'wallet_owns_policy_matching_range',
+      },
+      at: '2026-05-19T00:00:00.000Z',
+    });
+    const chatGptAdmin = evaluateBtdOrganizationInterfaceAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'owner',
+      interfaceSurface: 'chatgpt_app',
+      action: 'administer_organization',
+      confirmed: true,
+      at: '2026-05-19T00:00:00.000Z',
+    });
+
+    expect(unpaidUnlock).toMatchObject({
+      decision: 'denied',
+      reason: 'settlement_required',
+      sourceVisibility: 'blocked',
+    });
+    expect(chatGptAdmin).toMatchObject({
+      decision: 'denied',
+      reason: 'interface_action_not_authorized',
+      sourceVisibility: 'source_safe_preview',
+    });
   });
 });

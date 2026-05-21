@@ -22,6 +22,7 @@ import {
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
+  buildBtdOrganizationInterfaceAuthorityDecision,
   buildBtdReadAccessDecision,
   buildBtdTerminalJournalSettlement,
   buildGetBtdRegistrySnapshotRoute,
@@ -33,10 +34,15 @@ import {
   buildPostBtdLedgerDatabaseReconciliationRoute,
   buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
+  buildPostBtdOrganizationInterfaceAuthorityRoute,
   buildPostBtdReadAccessRoute,
   buildPostBtdTerminalJournalRoute,
 } from '../btd-crypto';
-import { createBtdMeasureMintState } from '@bitcode/btd';
+import {
+  advanceBtcFeeQuote,
+  buildBtcFeeQuote,
+  createBtdMeasureMintState,
+} from '@bitcode/btd';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
 
@@ -57,6 +63,23 @@ function walletSessionInput() {
     },
     authorizedAt: issuedAt,
   };
+}
+
+function acceptedFeeQuote() {
+  return advanceBtcFeeQuote(
+    buildBtcFeeQuote({
+      quoteId: 'quote-api-1',
+      feePurpose: 'asset_pack_anchor',
+      network: 'signet',
+      sats: 1200n,
+      satsPerVbyte: 4,
+      measurementRoot: 'measurement-root-api-1',
+      relatedAssetPackId: 'asset-pack-api-1',
+      issuedAt,
+      expiresAt: '2026-05-06T01:00:00.000Z',
+    }),
+    { state: 'accepted' },
+  );
 }
 
 function mintDraftInput() {
@@ -442,6 +465,99 @@ describe('BTD crypto API builders', () => {
     expect((await mismatchResponse.json()).decision.reason).toBe('policy_mismatch');
   });
 
+  it('builds organization interface authority decisions with source visibility and proof roots', () => {
+    const decision = buildBtdOrganizationInterfaceAuthorityDecision({
+      actorId: 'user-1',
+      organizationId: 'org-api-1',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['asset_pack:deliver'],
+      interfaceSurface: 'mcp',
+      action: 'deliver_asset_pack',
+      walletId: 'wallet-reader',
+      settlementState: 'settled',
+      confirmed: true,
+      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      readAccessDecision: {
+        decision: 'owner_read',
+        accessPolicyHash: 'policy-api-hash',
+        reason: 'wallet_owns_policy_matching_range',
+      },
+      at: issuedAt,
+    });
+
+    expect(decision).toMatchObject({
+      routeKind: 'btd_organization_interface_authority_route_decision',
+      kind: 'btd_organization_interface_authority_decision',
+      decision: 'allowed',
+      interfaceSurface: 'mcp',
+      action: 'deliver_asset_pack',
+      sourceVisibility: 'protected_source_allowed',
+      reason: 'role_authorized',
+    });
+    expect(decision.reasons).toEqual(expect.arrayContaining(['owner_read_access_authorized']));
+    expect(decision.proofRoots.authorityRoot).toMatch(/^btd-proof-root:organization-interface-authority:/);
+  });
+
+  it('returns JSON-safe organization interface authority decisions from the route boundary', async () => {
+    const route = buildPostBtdOrganizationInterfaceAuthorityRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/organization-interface-authority', {
+        method: 'POST',
+        body: JSON.stringify({
+          organizationId: 'org-api-1',
+          organizationRole: 'member',
+          organizationPermissionGrants: ['reading:request_finding_fits'],
+          interfaceSurface: 'terminal',
+          action: 'request_finding_fits',
+          at: issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.routeKind).toBe('btd_organization_interface_authority_route_decision');
+    expect(body.decision).toBe('allowed');
+    expect(body.sourceVisibility).toBe('source_safe_preview');
+    expect(body.satisfied.role).toBe(true);
+    expect(body.proofRoots.interfaceRoot).toMatch(/^btd-proof-root:interface-authority:/);
+  });
+
+  it('keeps organization authority denials explicit at the route boundary', async () => {
+    const route = buildPostBtdOrganizationInterfaceAuthorityRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/organization-interface-authority', {
+        method: 'POST',
+        body: JSON.stringify({
+          organizationId: 'org-api-1',
+          organizationRole: 'viewer',
+          interfaceSurface: 'chatgpt_app',
+          action: 'deliver_asset_pack',
+          settlementState: 'pending',
+          confirmed: false,
+          at: issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.decision).toBe('denied');
+    expect(body.reasons).toEqual(
+      expect.arrayContaining([
+        'role_insufficient',
+        'wallet_binding_missing',
+        'registry_read_access_required',
+        'settlement_required',
+        'explicit_confirmation_required',
+      ]),
+    );
+  });
+
   it('builds licensed-read revenue settlement receipts with holdback and route state', () => {
     const settlement = buildBtdLicensedReadRevenueSettlement({
       actorId: 'user-1',
@@ -511,6 +627,7 @@ describe('BTD crypto API builders', () => {
       receiptId: 'btc-fee-api-1',
       feePurpose: 'asset_pack_anchor',
       payerSession: walletSessionInput(),
+      feeQuote: acceptedFeeQuote(),
       psbt: 'cHNidP8BAHECAAAAA',
       satsPaid: 1200n,
       satsPerVbyte: 4,
@@ -546,6 +663,12 @@ describe('BTD crypto API builders', () => {
     expect(prepared.receipt.feeAsset).toBe('BTC');
     expect(prepared.receipt.walletAuthorizationProof.proofKind).toBe('message_signature');
     expect(prepared.receipt.exchangeSequence).toBe(11n);
+    expect(prepared.operationPosture).toMatchObject({
+      phase: 'psbt_ready',
+      canSignPsbt: true,
+      noServerCustody: true,
+      quote: { quoteId: 'quote-api-1' },
+    });
     expect(prepared.terminalJournalEntry.transactionKind).toBe('btc_fee_payment');
     expect(confirmed.receipt.txid).toBe('btc-txid-api-1');
     expect(confirmed.receipt.confirmations).toBe(2);
@@ -734,9 +857,15 @@ describe('BTD crypto API builders', () => {
     });
 
     expect(settlement.report.blocking).toBe(true);
+    expect(settlement.report.state).toBe('approval_required');
     expect(settlement.report.repairs[0].repairKind).toBe('ledger_finality_state');
+    expect(settlement.report.repairs[0].repairActionKind).toBe('update_finality_state');
+    expect(settlement.report.proofRoots.repairPlanRoot).toMatch(/^btd-proof-root:repair-plan:/);
     expect(settlement.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
     expect(settlement.terminalJournalEntry.transactionKind).toBe('ledger_database_reconciliation');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(
+      settlement.report.proofRoots.repairPlanRoot,
+    );
   });
 
   it('builds deployment readiness, telemetry, and upgrade settlements', () => {
@@ -915,6 +1044,10 @@ describe('BTD crypto API builders', () => {
           receiptId: 'btc-fee-api-1',
           feePurpose: 'asset_pack_anchor',
           payerSession: walletSessionInput(),
+          feeQuote: {
+            ...acceptedFeeQuote(),
+            sats: '1200',
+          },
           psbt: 'cHNidP8BAHECAAAAA',
           satsPaid: '1200',
           satsPerVbyte: 4,
@@ -933,6 +1066,14 @@ describe('BTD crypto API builders', () => {
     expect(body.receipt.feeAsset).toBe('BTC');
     expect(body.receipt.serverCustody).toBe(false);
     expect(body.receipt.exchangeSequence).toBe('11');
+    expect(body.operationPosture).toMatchObject({
+      phase: 'psbt_ready',
+      canSignPsbt: true,
+      quote: {
+        quoteId: 'quote-api-1',
+        sats: '1200',
+      },
+    });
     expect(body.committed).toBe(true);
     expect(insertBtcFeeTransaction).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -1190,6 +1331,15 @@ describe('BTD crypto API builders', () => {
               private: true,
             },
           ],
+          settlementConservationChecks: [
+            {
+              checkId: 'settlement-conservation-api-1',
+              expectedDebitSats: 1000,
+              observedDebitSats: 1000,
+              expectedCreditSats: 1000,
+              observedCreditSats: 900,
+            },
+          ],
           commitToRegistry: true,
           issuedAt,
         }),
@@ -1200,6 +1350,8 @@ describe('BTD crypto API builders', () => {
     expect(response.status).toBe(200);
     expect(body.kind).toBe('btd_ledger_database_reconciliation_settlement');
     expect(body.report.blocking).toBe(true);
+    expect(body.report.state).toBe('blocked');
+    expect(body.report.driftKindCounts.settlement_conservation_drift).toBe(1);
     expect(body.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
     expect(body.committed).toBe(true);
     expect(insertReconciliationRepair).toHaveBeenCalledWith(

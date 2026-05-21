@@ -38,19 +38,50 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate gate pull request title
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BASE_REF: ${{ github.base_ref }}
+          PR_HEAD_REF: ${{ github.head_ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ "$PR_BASE_REF" == version/* && "$PR_HEAD_REF" =~ ^v([0-9]+)/gate-([0-9]+)- ]]; then
+            expected_version="V${BASH_REMATCH[1]}"
+            expected_gate="${BASH_REMATCH[2]}"
+            if [[ ! "$PR_TITLE" =~ ^${expected_version}[[:space:]]+Gate[[:space:]]+${expected_gate}:[[:space:]].+ ]]; then
+              echo "Gate pull request titles must begin with: ${expected_version} Gate ${expected_gate}:"
+              echo "Observed: ${PR_TITLE}"
+              exit 1
+            fi
+          fi
+
       - name: Validate draft canon posture
         run: |
-          test "$(cat BITCODE_SPEC.txt)" = "V27"
-          node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
-          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
-          node scripts/check-bitcode-canonical-inputs.mjs --current-target V27
-          node scripts/check-v28-metadevelopment-readiness.mjs --skip-branch-check
-          node scripts/check-v28-gate9-depository-evidence.mjs
-          node scripts/check-v28-gate10-read-need-comprehension.mjs
-          node scripts/check-v28-gate11-read-fits-finding-preview.mjs
-          node scripts/check-v28-gate12-settlement-rights-delivery.mjs
-          node scripts/check-v28-gate13-product-closure-promotion-readiness.mjs
-          node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run
+          POINTER="$(cat BITCODE_SPEC.txt)"
+          if [ "$POINTER" = "V28" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
+            node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
+            node scripts/check-v29-gate1-objectives-and-gating.mjs --skip-branch-check
+            node scripts/check-v29-gate2-terminal-transaction-read-models.mjs --skip-branch-check
+            node scripts/check-v29-gate3-wallet-signer-btc-operations.mjs --skip-branch-check
+            node scripts/check-v29-gate4-reading-pipeline-observability.mjs --skip-branch-check
+            node scripts/check-v29-gate5-assetpack-disclosure-rights.mjs --skip-branch-check
+            node scripts/check-v29-gate6-settlement-reconciliation-repair.mjs --skip-branch-check
+            node scripts/check-v29-gate7-organization-permission-authority.mjs --skip-branch-check
+            node scripts/check-v29-gate8-demonstration-origin-formalization.mjs --skip-branch-check
+            node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs --skip-branch-check
+            node scripts/check-v29-gate10-local-staging-promotion-readiness.mjs --skip-branch-check
+          elif [ "$POINTER" = "V29" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V29 --mode promoted --current-target V29
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V29
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V29 --draft-target V30
+            node scripts/check-v29-gate10-local-staging-promotion-readiness.mjs --promotion-mode --skip-branch-check
+          else
+            echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
+            exit 1
+          fi
 
       - name: Validate source casing and imports
         run: |
@@ -60,14 +91,27 @@ jobs:
       - name: Type-check gate packages
         run: |
           pnpm --filter @bitcode/btd typecheck
+          pnpm --filter @bitcode/api build
+          pnpm --dir packages/executions-mcp/src/mcp-server run type-check
+          pnpm --dir packages/chatgptapp exec tsc --noEmit --pretty false
           pnpm --filter @bitcode/pipeline-asset-pack typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
+          pnpm --filter @bitcode/protocol typecheck
 
       - name: Test gate packages
         run: |
           pnpm --filter @bitcode/btd test
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
+          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
+          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand
+          pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts --runInBand
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/protocol test
 
       - name: Test staged Reading route and Terminal harness contracts
         run: |
@@ -76,8 +120,23 @@ jobs:
             tests/api/pipelineHarnessRoute.test.ts \
             tests/terminalPipelineHarnessClient.test.ts \
             tests/terminalDepositReadWorkbench.test.ts \
+            tests/terminalTransactionQuery.test.ts \
+            tests/terminalTransactionReadModel.test.ts \
+            tests/terminalWalletBtcOperation.test.ts \
+            tests/terminalJournalReconciliation.test.ts \
+            tests/terminalOrganizationAuthority.test.ts \
+            tests/protocolCommercialBoundary.test.ts \
+            tests/terminalTransactionDetailCards.test.tsx \
+            tests/terminalTransactionDetailSnapshot.test.ts \
+            tests/terminalUxBrowserProof.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
+
+      - name: Install Terminal browser proof browser
+        run: pnpm --dir uapi exec playwright install chromium --with-deps
+
+      - name: Browser proof Terminal cockpit
+        run: pnpm --dir uapi run test:e2e:terminal-ux
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback

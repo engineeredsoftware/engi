@@ -28,7 +28,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V26 [--next-draft V27] [--repo-root <path>]',
+      'Usage: node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V29 [--next-draft V30] [--repo-root <path>]',
       '',
       'Rewrites the preserved protocol/runtime canon-posture surfaces for canonical promotion.'
     ].join('\n')
@@ -59,6 +59,16 @@ function promotedProvenPath(version) {
 }
 
 /**
+ * @param {string} version
+ * @returns {string}
+ */
+function inheritedCanonSurfaceLabelFor(version) {
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  if (!Number.isInteger(numeric) || numeric <= 16) return '';
+  return Array.from({ length: numeric - 16 }, (_, index) => `V${index + 16}`).join('/');
+}
+
+/**
  * @param {string} content
  * @param {string} version
  * @param {string} nextDraft
@@ -66,7 +76,11 @@ function promotedProvenPath(version) {
 function rewriteCanonPostureSource(content, version, nextDraft) {
   return content
     .replace(/export const ACTIVE_CANON_VERSION = 'V\d+';/, `export const ACTIVE_CANON_VERSION = '${version}';`)
-    .replace(/export const DRAFT_TARGET_VERSION = 'V\d+';/, `export const DRAFT_TARGET_VERSION = '${nextDraft}';`);
+    .replace(/export const DRAFT_TARGET_VERSION = 'V\d+';/, `export const DRAFT_TARGET_VERSION = '${nextDraft}';`)
+    .replace(
+      /inheritedCanonSurfaceLabel: 'V\d+(?:\/V\d+)*'/,
+      `inheritedCanonSurfaceLabel: '${inheritedCanonSurfaceLabelFor(version)}'`
+    );
 }
 
 /**
@@ -111,6 +125,57 @@ function rewriteReadme(content, version, nextDraft) {
   return rewritten;
 }
 
+/**
+ * @param {string} content
+ * @param {string} version
+ * @param {string} nextDraft
+ */
+function rewritePackageReadme(content, version, nextDraft) {
+  return content.replace(
+    /active\/draft canon posture \(`V\d+` active, `V\d+` draft(?: during V\d+ work| after V\d+ promotion)?\);/m,
+    `active/draft canon posture (\`${version}\` active, \`${nextDraft}\` draft after ${version} promotion);`
+  ).replace(
+    /must remain aligned to `V\d+` active, `V\d+` draft during gate work, then be\s+rewritten by promotion automation to `V\d+` active, `V\d+` draft\./m,
+    `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
+  );
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ * @param {string} nextDraft
+ */
+function rewriteRuntimeDataState(content, version, nextDraft) {
+  const activeSpec = `${projectLabel(version)} Spec ${version} active canon / ${nextDraft} system draft`;
+  return content
+    .replace(/"specVersion": "Bitcode Spec V\d+ active canon \/ V\d+ system draft"/, `"specVersion": "${activeSpec}"`)
+    .replace(/"activeCanonVersion": "V\d+"/, `"activeCanonVersion": "${version}"`)
+    .replace(/"draftTargetVersion": "V\d+"/, `"draftTargetVersion": "${nextDraft}"`)
+    .replace(/"operatorLabel": "V\d+ active canon \/ V\d+ system draft"/, `"operatorLabel": "${version} active canon / ${nextDraft} system draft"`)
+    .replace(/"specVersionLabel": "Bitcode Spec V\d+ active canon \/ V\d+ system draft"/, `"specVersionLabel": "${activeSpec}"`)
+    .replace(/"policyRef": "policy:\/\/bitcode\/spec-v\d+-active-v\d+-system-draft\/current"/, `"policyRef": "policy://bitcode/spec-${version.toLowerCase()}-active-${nextDraft.toLowerCase()}-system-draft/current"`)
+    .replace(/"activeProvenAppendixPath": "BITCODE_SPEC_V\d+_PROVEN\.md"/, `"activeProvenAppendixPath": "${promotedProvenPath(version)}"`)
+    .replace(/"draftSpecPath": "BITCODE_SPEC_V\d+\.md"/, `"draftSpecPath": "BITCODE_SPEC_${nextDraft}.md"`)
+    .replace(/"draftDeltaPath": "BITCODE_SPEC_V\d+_DELTA\.md"/, `"draftDeltaPath": "BITCODE_SPEC_${nextDraft}_DELTA.md"`)
+    .replace(/"draftParityPath": "BITCODE_SPEC_V\d+_PARITY_MATRIX\.md"/, `"draftParityPath": "BITCODE_SPEC_${nextDraft}_PARITY_MATRIX.md"`)
+    .replace(/"inheritedCanonSurfaceLabel": "V\d+(?:\/V\d+)*"/, `"inheritedCanonSurfaceLabel": "${inheritedCanonSurfaceLabelFor(version)}"`);
+}
+
+/**
+ * @param {string} filePath
+ * @returns {Promise<string | null>}
+ */
+async function readOptionalFile(filePath) {
+  try {
+    return await fs.readFile(filePath, 'utf8');
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
@@ -126,18 +191,36 @@ async function main() {
   const nextDraft = args.nextDraft || deriveNextDraft(version);
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
 
-  const canonPosturePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'src', 'canon-posture.js');
-  const readmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
+  const demonstrationCanonPosturePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'src', 'canon-posture.js');
+  const demonstrationReadmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
+  const packageCanonPosturePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'src', 'canon-posture.js');
+  const packageReadmePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'README.md');
+  const packageDataStatePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'data', 'state.json');
 
-  const [canonPostureContent, readmeContent] = await Promise.all([
-    fs.readFile(canonPosturePath, 'utf8'),
-    fs.readFile(readmePath, 'utf8')
+  const [demonstrationCanonPostureContent, demonstrationReadmeContent] = await Promise.all([
+    fs.readFile(demonstrationCanonPosturePath, 'utf8'),
+    fs.readFile(demonstrationReadmePath, 'utf8')
+  ]);
+  const [packageCanonPostureContent, packageReadmeContent, packageDataStateContent] = await Promise.all([
+    readOptionalFile(packageCanonPosturePath),
+    readOptionalFile(packageReadmePath),
+    readOptionalFile(packageDataStatePath)
   ]);
 
-  await Promise.all([
-    fs.writeFile(canonPosturePath, rewriteCanonPostureSource(canonPostureContent, version, nextDraft), 'utf8'),
-    fs.writeFile(readmePath, rewriteReadme(readmeContent, version, nextDraft), 'utf8')
-  ]);
+  const writes = [
+    fs.writeFile(demonstrationCanonPosturePath, rewriteCanonPostureSource(demonstrationCanonPostureContent, version, nextDraft), 'utf8'),
+    fs.writeFile(demonstrationReadmePath, rewriteReadme(demonstrationReadmeContent, version, nextDraft), 'utf8')
+  ];
+  if (packageCanonPostureContent !== null) {
+    writes.push(fs.writeFile(packageCanonPosturePath, rewriteCanonPostureSource(packageCanonPostureContent, version, nextDraft), 'utf8'));
+  }
+  if (packageReadmeContent !== null) {
+    writes.push(fs.writeFile(packageReadmePath, rewritePackageReadme(packageReadmeContent, version, nextDraft), 'utf8'));
+  }
+  if (packageDataStateContent !== null) {
+    writes.push(fs.writeFile(packageDataStatePath, rewriteRuntimeDataState(packageDataStateContent, version, nextDraft), 'utf8'));
+  }
+  await Promise.all(writes);
 
   process.stdout.write(
     `Prepared runtime canon posture for ${version} active canon and ${nextDraft} draft target\n`

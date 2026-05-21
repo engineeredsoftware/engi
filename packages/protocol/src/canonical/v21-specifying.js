@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-export const DEFAULT_V21_SPECIFYING_REPO_ROOT = path.resolve(__dirname, '../../..');
+export const DEFAULT_V21_SPECIFYING_REPO_ROOT = path.resolve(__dirname, '../../../..');
 
 export const COMMON_REQUIRED_SPEC_SECTIONS = [
   'Status',

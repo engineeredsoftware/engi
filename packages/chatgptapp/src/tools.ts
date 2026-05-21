@@ -10,6 +10,11 @@ import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-tex
 import { search as webSearch } from '@bitcode/generic-tools-web-search';
 import { generateDigest } from '@bitcode/digest/run';
 import {
+  evaluateBtdOrganizationInterfaceAuthority,
+  type BtdOrganizationRole,
+  type BtdSettlementAuthorityState,
+} from '@bitcode/btd';
+import {
   vercelGetDeploymentEventsTool,
   vercelGetDeploymentTool,
   vercelListDeploymentsTool,
@@ -56,6 +61,7 @@ type ChatGptAppWriteAdmissionInput = {
   operation: string;
   targetAnchor?: string;
   readAccess: ChatGptAppReadAccessDecision;
+  organizationAuthority: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
 };
 
 type ChatGptAppReadAccessDecision = {
@@ -66,12 +72,30 @@ type ChatGptAppReadAccessDecision = {
   reason: string;
 };
 
+type ChatGptAppOrganizationAuthorityInput = {
+  organizationId: string;
+  organizationRole: BtdOrganizationRole;
+  organizationPermissionGrants?: string[];
+  walletId?: string;
+  settlementState: BtdSettlementAuthorityState;
+  repairApprovalState?: 'not_required' | 'required' | 'approved';
+};
+
 const CHATGPT_APP_READ_ACCESS_VALIDATOR = z.object({
   assetPackId: z.string().min(1, 'assetPackId must be provided'),
   walletId: z.string().min(1, 'walletId must be provided'),
   decision: z.enum(['owner_read', 'licensed_read']),
   accessPolicyHash: z.string().min(1, 'accessPolicyHash must be provided'),
   reason: z.string().min(1, 'reason must be provided')
+}).strict();
+
+const CHATGPT_APP_ORGANIZATION_AUTHORITY_VALIDATOR = z.object({
+  organizationId: z.string().min(1, 'organizationId must be provided'),
+  organizationRole: z.enum(['viewer', 'member', 'admin', 'owner']),
+  organizationPermissionGrants: z.array(z.string()).default([]),
+  walletId: z.string().optional(),
+  settlementState: z.enum(['not_required', 'pending', 'settled']),
+  repairApprovalState: z.enum(['not_required', 'required', 'approved']).optional()
 }).strict();
 
 const CHATGPT_APP_READ_ACCESS_SCHEMA = {
@@ -103,6 +127,42 @@ const CHATGPT_APP_READ_ACCESS_SCHEMA = {
   required: ['assetPackId', 'walletId', 'decision', 'accessPolicyHash', 'reason']
 };
 
+const CHATGPT_APP_ORGANIZATION_AUTHORITY_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    organizationId: {
+      type: 'string',
+      description: 'Organization id whose role and grants authorize the ChatGPT connected-interface write'
+    },
+    organizationRole: {
+      type: 'string',
+      enum: ['viewer', 'member', 'admin', 'owner'],
+      description: 'Registry-derived organization role for the actor'
+    },
+    organizationPermissionGrants: {
+      type: 'array',
+      items: { type: 'string' },
+      description: 'Optional registry-derived organization permission grants'
+    },
+    walletId: {
+      type: 'string',
+      description: 'Wallet id bound to the actor; defaults to readAccess.walletId when omitted'
+    },
+    settlementState: {
+      type: 'string',
+      enum: ['not_required', 'pending', 'settled'],
+      description: 'Settlement state for protected-source delivery'
+    },
+    repairApprovalState: {
+      type: 'string',
+      enum: ['not_required', 'required', 'approved'],
+      description: 'Repair approval state when the write repairs a projection'
+    }
+  },
+  required: ['organizationId', 'organizationRole', 'settlementState']
+};
+
 function assertConfirmedConnectedInterfaceWrite(confirmed: unknown): void {
   if (confirmed !== true) {
     throw new Error(
@@ -128,6 +188,45 @@ function assertChatGptAppReadAccess(readAccess: unknown): ChatGptAppReadAccessDe
   return parsed.data as ChatGptAppReadAccessDecision;
 }
 
+function assertChatGptAppOrganizationAuthority(
+  organizationAuthority: unknown,
+  input: {
+    operation: string;
+    targetAnchor?: string;
+    readAccess: ChatGptAppReadAccessDecision;
+  }
+) {
+  const parsed = CHATGPT_APP_ORGANIZATION_AUTHORITY_VALIDATOR.safeParse(organizationAuthority);
+  if (!parsed.success) {
+    throw new Error(
+      'Bitcode ChatGPT App write admission requires organizationAuthority role, settlement, and registry grant evidence.'
+    );
+  }
+
+  const decision = evaluateBtdOrganizationInterfaceAuthority({
+    actorId: 'chatgpt_app_connected_interface',
+    organizationId: parsed.data.organizationId,
+    organizationRole: parsed.data.organizationRole,
+    organizationPermissionGrants: parsed.data.organizationPermissionGrants,
+    interfaceSurface: 'chatgpt_app',
+    action: 'deliver_asset_pack',
+    walletId: parsed.data.walletId ?? input.readAccess.walletId,
+    readAccessDecision: input.readAccess as any,
+    settlementState: parsed.data.settlementState,
+    confirmed: true,
+    repairApprovalState: parsed.data.repairApprovalState,
+    targetAnchor: input.targetAnchor ?? input.operation,
+  });
+
+  if (decision.decision !== 'allowed') {
+    throw new Error(
+      `Bitcode ChatGPT App write admission denied by organization authority: ${decision.reasons.join(', ')}.`
+    );
+  }
+
+  return decision;
+}
+
 function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
   return {
     admitted: true,
@@ -140,7 +239,8 @@ function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
     connectedInterface: input.connectedInterface,
     operation: input.operation,
     targetAnchor: input.targetAnchor,
-    readAccess: input.readAccess
+    readAccess: input.readAccess,
+    organizationAuthority: input.organizationAuthority
   };
 }
 
@@ -720,6 +820,7 @@ const WRITE_CODE_CHANGES_VALIDATOR = z.object({
   operation: z.enum(['createRepository', 'createOrUpdateFile']).describe('Write operation to perform'),
   confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
   readAccess: CHATGPT_APP_READ_ACCESS_VALIDATOR.describe('Registry owner-read or licensed-read evidence required before connected-interface writes execute'),
+  organizationAuthority: CHATGPT_APP_ORGANIZATION_AUTHORITY_VALIDATOR.describe('Organization role and settlement evidence required before ChatGPT App delivery writes execute'),
   accessToken: z.string().min(1, 'accessToken must be provided').describe('GitHub access token with repo scope'),
   owner: z.string().optional().describe('Owner for file operations (required for createOrUpdateFile)'),
   repo: z.string().optional().describe('Repo for file operations (required for createOrUpdateFile)'),
@@ -745,6 +846,12 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
   if (args.operation === 'createRepository') {
     const provider = new GitHubProvider(getVCSConfig('github'));
     const repositoryName = args.name ?? `bitcode-${Date.now()}`;
+    const targetAnchor = `github:${repositoryName}`;
+    const organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+      operation: args.operation,
+      targetAnchor,
+      readAccess
+    });
     const repo = await provider.createRepository(auth, {
       name: repositoryName,
       description: args.description,
@@ -759,8 +866,9 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
         writeAdmission: buildChatGptAppWriteAdmission({
           connectedInterface: 'github',
           operation: args.operation,
-          targetAnchor: `github:${repositoryName}`,
-          readAccess
+          targetAnchor,
+          readAccess,
+          organizationAuthority
         })
       }
     };
@@ -772,6 +880,12 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
   if (!owner || !repoName || !path) {
     throw new Error('owner, repo, and path must be provided for createOrUpdateFile');
   }
+  const targetAnchor = `github:${owner}/${repoName}/${path}${args.branch ? `@${args.branch}` : ''}`;
+  const organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+    operation: args.operation,
+    targetAnchor,
+    readAccess
+  });
 
   const octokit = new Octokit({ auth: args.accessToken });
   let sha: string | undefined;
@@ -805,8 +919,9 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'github',
         operation: args.operation,
-        targetAnchor: `github:${owner}/${repoName}/${path}${args.branch ? `@${args.branch}` : ''}`,
-        readAccess
+        targetAnchor,
+        readAccess,
+        organizationAuthority
       })
     }
   };
@@ -827,6 +942,7 @@ const WRITE_CODE_CHANGES_SCHEMA = {
       description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
     readAccess: CHATGPT_APP_READ_ACCESS_SCHEMA,
+    organizationAuthority: CHATGPT_APP_ORGANIZATION_AUTHORITY_SCHEMA,
     accessToken: {
       type: 'string',
       description: 'GitHub access token with repo scope'
@@ -868,7 +984,7 @@ const WRITE_CODE_CHANGES_SCHEMA = {
       description: 'Branch to commit against (default default branch)'
     }
   },
-  required: ['operation', 'confirmed', 'readAccess', 'accessToken']
+  required: ['operation', 'confirmed', 'readAccess', 'organizationAuthority', 'accessToken']
 };
 
 const IMPROVE_BEHAVIOR_VALIDATOR = z.object({
@@ -1088,6 +1204,7 @@ const VERCEL_WRITE_VALIDATOR = z.object({
   request: z.enum(['deploy_to_vercel', 'buy_domain', 'check_domain_availability']).describe('Vercel write tool to invoke'),
   confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
   readAccess: CHATGPT_APP_READ_ACCESS_VALIDATOR.describe('Registry owner-read or licensed-read evidence required before connected-interface writes execute'),
+  organizationAuthority: CHATGPT_APP_ORGANIZATION_AUTHORITY_VALIDATOR.describe('Organization role and settlement evidence required before ChatGPT App delivery writes execute'),
   payload: z.record(z.any()).default({}).describe('Parameters to forward to the Vercel MCP tool')
 }).strict();
 
@@ -1098,18 +1215,30 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
   let result: unknown;
   let guidance: string;
   let targetAnchor = 'vercel:unscoped';
+  let organizationAuthority!: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
 
   switch (args.request) {
     case 'deploy_to_vercel':
+      targetAnchor = `vercel:${args.payload.teamId ?? 'team_bitcode'}/${args.payload.projectId ?? 'prj_Yapper'}`;
+      organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+        operation: args.request,
+        targetAnchor,
+        readAccess
+      });
       result = await vercelDeployProjectTool.execute({
         projectId: args.payload.projectId ?? 'prj_Yapper',
         teamId: args.payload.teamId ?? 'team_bitcode',
         message: args.payload.message
       });
-      targetAnchor = `vercel:${args.payload.teamId ?? 'team_bitcode'}/${args.payload.projectId ?? 'prj_Yapper'}`;
       guidance = 'Deployment requested—explain the pending status and remind the user to monitor readiness.';
       break;
     case 'buy_domain':
+      targetAnchor = `vercel:domain/${args.payload.name ?? 'yapper.app'}`;
+      organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+        operation: args.request,
+        targetAnchor,
+        readAccess
+      });
       result = await vercelBuyDomainTool.execute({
         name: args.payload.name ?? 'yapper.app',
         expectedPrice: args.payload.expectedPrice,
@@ -1120,14 +1249,18 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
           email: 'builder@bitcode.dev'
         }
       });
-      targetAnchor = `vercel:domain/${args.payload.name ?? 'yapper.app'}`;
       guidance = 'Domain purchase simulated—note renewal details and next steps for DNS configuration.';
       break;
     case 'check_domain_availability':
+      targetAnchor = `vercel:domain-availability/${Array.isArray(args.payload?.names) ? args.payload.names.join(',') : String(args.payload?.name ?? 'yapper.app')}`;
+      organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+        operation: args.request,
+        targetAnchor,
+        readAccess
+      });
       result = await vercelCheckDomainAvailabilityTool.execute({
         names: Array.isArray(args.payload?.names) ? args.payload.names : [String(args.payload?.name ?? 'yapper.app')]
       });
-      targetAnchor = `vercel:domain-availability/${Array.isArray(args.payload?.names) ? args.payload.names.join(',') : String(args.payload?.name ?? 'yapper.app')}`;
       guidance = 'Domain availability report ready—guide the user toward the best available option.';
       break;
     default:
@@ -1145,7 +1278,8 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
         connectedInterface: 'vercel',
         operation: args.request,
         targetAnchor,
-        readAccess
+        readAccess,
+        organizationAuthority
       })
     }
   };
@@ -1166,12 +1300,13 @@ const VERCEL_WRITE_SCHEMA = {
       description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
     readAccess: CHATGPT_APP_READ_ACCESS_SCHEMA,
+    organizationAuthority: CHATGPT_APP_ORGANIZATION_AUTHORITY_SCHEMA,
     payload: {
       type: 'object',
       description: 'Parameters to forward to the Vercel MCP tool'
     }
   },
-  required: ['request', 'confirmed', 'readAccess']
+  required: ['request', 'confirmed', 'readAccess', 'organizationAuthority']
 };
 
 const AWS_READ_VALIDATOR = z.object({
@@ -1243,6 +1378,7 @@ const AWS_WRITE_VALIDATOR = z.object({
   request: z.enum(['s3.putObject', 'dynamo.putItem']).describe('AWS write action to perform'),
   confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
   readAccess: CHATGPT_APP_READ_ACCESS_VALIDATOR.describe('Registry owner-read or licensed-read evidence required before connected-interface writes execute'),
+  organizationAuthority: CHATGPT_APP_ORGANIZATION_AUTHORITY_VALIDATOR.describe('Organization role and settlement evidence required before ChatGPT App delivery writes execute'),
   payload: z.record(z.any()).default({}).describe('Raw AWS parameters (bucket/key/body, table/item, etc.)')
 }).strict();
 
@@ -1253,17 +1389,28 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
   let result: unknown;
   let guidance: string;
   let targetAnchor = 'aws:unscoped';
+  let organizationAuthority!: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
   switch (args.request) {
     case 's3.putObject':
-      result = await awsS3PutObjectTool.execute(args.payload as Parameters<typeof awsS3PutObjectTool.execute>[0]);
       targetAnchor = `aws:s3/${String(args.payload.bucket ?? 'bitcode-demo')}/${String(args.payload.key ?? 'config/demo.json')}`;
+      organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+        operation: args.request,
+        targetAnchor,
+        readAccess
+      });
+      result = await awsS3PutObjectTool.execute(args.payload as Parameters<typeof awsS3PutObjectTool.execute>[0]);
       guidance = 'Uploaded to S3—confirm the path in follow-up so collaborators can fetch it easily.';
       break;
     case 'dynamo.putItem':
+      targetAnchor = `aws:dynamodb/${String(args.payload.table ?? 'bitcode-demo-table')}`;
+      organizationAuthority = assertChatGptAppOrganizationAuthority(args.organizationAuthority, {
+        operation: args.request,
+        targetAnchor,
+        readAccess
+      });
       result = await awsDynamoPutItemTool.execute(
         args.payload as Parameters<typeof awsDynamoPutItemTool.execute>[0]
       );
-      targetAnchor = `aws:dynamodb/${String(args.payload.table ?? 'bitcode-demo-table')}`;
       guidance = 'Stored the record in DynamoDB; let’s document the schema impact in PRODUCT.md.';
       break;
     default:
@@ -1281,7 +1428,8 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
         connectedInterface: 'aws',
         operation: args.request,
         targetAnchor,
-        readAccess
+        readAccess,
+        organizationAuthority
       })
     }
   };
@@ -1302,12 +1450,13 @@ const AWS_WRITE_SCHEMA = {
       description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
     readAccess: CHATGPT_APP_READ_ACCESS_SCHEMA,
+    organizationAuthority: CHATGPT_APP_ORGANIZATION_AUTHORITY_SCHEMA,
     payload: {
       type: 'object',
       description: 'Parameters passed through to the AWS MCP tool'
     }
   },
-  required: ['request', 'confirmed', 'readAccess']
+  required: ['request', 'confirmed', 'readAccess', 'organizationAuthority']
 };
 
 // ---------------------------------------------------------------------------

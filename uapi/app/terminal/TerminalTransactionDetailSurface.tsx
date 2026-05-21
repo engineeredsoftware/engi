@@ -22,7 +22,9 @@ import TerminalTransactionDetailHero from './TerminalTransactionDetailHero';
 import TerminalTransactionHistoryCard from './TerminalTransactionHistoryCard';
 import TerminalTransactionIdentityCard from './TerminalTransactionIdentityCard';
 import TerminalTransactionJournalReconciliationCard from './TerminalTransactionJournalReconciliationCard';
+import TerminalTransactionOrganizationAuthorityCard from './TerminalTransactionOrganizationAuthorityCard';
 import TerminalTransactionProofsCard from './TerminalTransactionProofsCard';
+import TerminalTransactionWalletBtcCard from './TerminalTransactionWalletBtcCard';
 import {
   buildTerminalClosureAssetPackCompletion,
   readTerminalRouteError,
@@ -30,13 +32,15 @@ import {
 } from './terminal-activity-history';
 import { normalizeTerminalClosureState } from './terminal-closure-state';
 import { buildTerminalJournalReconciliation } from './terminal-journal-reconciliation';
+import { buildTerminalOrganizationAuthorityProjection } from './terminal-organization-authority';
 import {
   buildTerminalTransactionClosurePayload,
   buildTerminalTransactionClosureFollowThrough,
   buildTerminalTransactionClosureRows,
   buildTerminalTransactionIdentityRows,
-  buildTerminalTransactionOverviewMetrics,
 } from './terminal-transaction-detail';
+import { buildTerminalTransactionReadModel } from './terminal-transaction-read-model';
+import { buildTerminalWalletBtcOperationProjection } from './terminal-wallet-btc-operation';
 import { jumpToShellSection } from './terminal-shell-reading';
 import { useTerminalShellBridge } from './terminal-shell-bridge';
 
@@ -61,6 +65,7 @@ interface TerminalTransactionDetailSurfaceProps {
   transactionDataMode: TransactionDataMode;
   detailSection: TerminalTransactionDetailSection;
   onDetailSectionChange: (detailSection: TerminalTransactionDetailSection) => void;
+  routeSearchParams: URLSearchParams;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   surface?: 'terminal' | 'exchange';
 }
@@ -73,6 +78,7 @@ export default function TerminalTransactionDetailSurface({
   transactionDataMode,
   detailSection,
   onDetailSectionChange,
+  routeSearchParams,
   onRecordActivity,
   surface = 'terminal',
 }: TerminalTransactionDetailSurfaceProps) {
@@ -96,41 +102,36 @@ export default function TerminalTransactionDetailSurface({
   const shellReady = Boolean(controls);
   const showShippables = detailSection === 'shippables';
   const showTransaction = detailSection === 'transaction';
+  const showWalletBtc = detailSection === 'wallet-btc';
+  const showAuthority = detailSection === 'authority';
   const showClosure = detailSection === 'closure';
   const showProofs = detailSection === 'proofs';
   const showHistory = detailSection === 'history';
   const showJournal = detailSection === 'journal';
   const showActivity = detailSection === 'activity';
-  const showConsole = detailSection === 'console' && !usesMockTransactions;
+  const transactionReadModel = useMemo(
+    () =>
+      buildTerminalTransactionReadModel({
+        selectedRun,
+        detail,
+        detailSection,
+        dataMode: transactionDataMode,
+        searchParams: routeSearchParams,
+    }),
+    [detail, detailSection, routeSearchParams, selectedRun, transactionDataMode],
+  );
+  const showConsole = detailSection === 'console' && transactionReadModel.activeSection.availability !== 'blocked';
   const selectedActivityNoun =
     surface === 'exchange' ? 'selected Bitcode activity detail' : 'selected Terminal activity result';
-  const activeFocusNoun = surface === 'exchange' ? 'detail focus' : 'result focus';
   const normalizedSummary =
     detail?.summary || `The ${selectedActivityNoun} is loaded.`;
   const sectionSummary = useMemo(() => {
-    if (showTransaction) {
-      return `${normalizedSummary} Activity identity, repository, and timing posture are the active ${activeFocusNoun}.`;
-    }
-    if (showClosure) {
-      return `${normalizedSummary} Closure proof, settlement follow-through, and re-run controls are the active ${activeFocusNoun}.`;
-    }
-    if (showProofs) {
-      return `${normalizedSummary} Proof families and bounded verification posture are the active ${activeFocusNoun}.`;
-    }
-    if (showHistory) {
-      return `${normalizedSummary} Ledger-linked activity history and recent closure continuity are the active ${activeFocusNoun}.`;
-    }
-    if (showJournal) {
-      return `${normalizedSummary} Journal reconciliation, ledger observations, database projections, and root-bound canonical facts are the active ${activeFocusNoun}.`;
-    }
-    if (showActivity) {
-      return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active ${activeFocusNoun}.`;
-    }
-    if (showConsole) {
-      return `${normalizedSummary} The execution console remains available when you read the lower-level witness detail.`;
-    }
-    return `${normalizedSummary} Finish-delivered pull-request Shippables, stored AssetPack evidence, and summary text are the active ${activeFocusNoun}.`;
-  }, [activeFocusNoun, normalizedSummary, showActivity, showClosure, showConsole, showHistory, showJournal, showProofs, showTransaction]);
+    const activeSectionBlocker = transactionReadModel.activeSection.blocker
+      ? ` ${transactionReadModel.activeSection.blocker}`
+      : '';
+    const activeSectionSummary = `${transactionReadModel.activeSection.summary}${activeSectionBlocker}`;
+    return `${normalizedSummary} ${activeSectionSummary}`;
+  }, [normalizedSummary, transactionReadModel.activeSection]);
   const transactionPayload = useMemo(
     () => ({
       transaction: {
@@ -194,6 +195,14 @@ export default function TerminalTransactionDetailSurface({
     () => buildTerminalJournalReconciliation(detail),
     [detail],
   );
+  const walletBtcOperation = useMemo(
+    () => buildTerminalWalletBtcOperationProjection({ selectedRun, detail }),
+    [detail, selectedRun],
+  );
+  const organizationAuthority = useMemo(
+    () => buildTerminalOrganizationAuthorityProjection(detail),
+    [detail],
+  );
   const writtenAssets = detail?.writtenAssets || null;
   const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
   const mergedAssetPackSurface =
@@ -211,7 +220,12 @@ export default function TerminalTransactionDetailSurface({
 
   if (isLoadingDetail && !detail) {
     return (
-      <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
+      <div
+        data-testid="terminal-detail-loading-state"
+        role="status"
+        aria-live="polite"
+        className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400"
+      >
         Loading Bitcode activity…
       </div>
     );
@@ -219,13 +233,16 @@ export default function TerminalTransactionDetailSurface({
 
   if (!detail) {
     return (
-      <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
+      <div
+        data-testid="terminal-detail-empty-state"
+        role="status"
+        className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400"
+      >
         Selected Bitcode activity is not available yet for this context.
       </div>
     );
   }
 
-  const overviewMetrics = buildTerminalTransactionOverviewMetrics(selectedRun, detail);
   const identityRows = buildTerminalTransactionIdentityRows(selectedRun, detail);
   const closureRows = buildTerminalTransactionClosureRows(detail);
 
@@ -286,9 +303,17 @@ export default function TerminalTransactionDetailSurface({
   };
 
   return (
-    <div className="space-y-6">
+    <section
+      data-testid="terminal-selected-activity-detail"
+      aria-labelledby="terminalTransactionDetailTitle"
+      className="space-y-6"
+    >
       {detailError ? (
-        <div className="rounded-[1.4rem] border border-amber-500/20 bg-amber-500/10 px-4 py-4 text-sm text-amber-100">
+        <div
+          data-testid="terminal-detail-readback-warning"
+          role="alert"
+          className="rounded-[1.4rem] border border-amber-500/20 bg-amber-500/10 px-4 py-4 text-sm text-amber-100"
+        >
           {detailError}
         </div>
       ) : null}
@@ -296,16 +321,27 @@ export default function TerminalTransactionDetailSurface({
       <div className="grid gap-6">
         <div className="space-y-5">
           <TerminalTransactionDetailHero
-            title={selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type)}
+            title={transactionReadModel.lowDetail.title}
             summary={sectionSummary}
-            proofPosture={detail.proofStatus || 'closure state in flight'}
+            proofPosture={transactionReadModel.lowDetail.proofPosture}
             modeLabel={getTransactionDataModeLabel(transactionDataMode)}
-            metrics={overviewMetrics}
+            metrics={transactionReadModel.lowDetail.metrics}
+            routeHref={surface === 'terminal' ? transactionReadModel.route.href : undefined}
+            activeSectionLabel={transactionReadModel.activeSection.label}
+            activeSectionAvailability={transactionReadModel.activeSection.availability}
+            postureChips={transactionReadModel.lowDetail.postureChips}
             surface={surface}
+            titleId="terminalTransactionDetailTitle"
           />
 
           <TerminalTransactionDetailActionBar
             activeSection={detailSection}
+            detailActions={transactionReadModel.sections.map((section) => ({
+              id: section.id,
+              label: section.label,
+              disabled: section.availability === 'blocked',
+              disabledReason: section.blocker || undefined,
+            }))}
             onChangeSection={onDetailSectionChange}
             onRunClosure={() => {
               void handleRunClosure();
@@ -326,6 +362,18 @@ export default function TerminalTransactionDetailSurface({
               payload={transactionPayload}
             />
           </div>
+
+          {showWalletBtc ? (
+            <div id="terminalTransactionWalletBtc">
+              <TerminalTransactionWalletBtcCard operation={walletBtcOperation} />
+            </div>
+          ) : null}
+
+          {showAuthority ? (
+            <div id="terminalTransactionAuthority">
+              <TerminalTransactionOrganizationAuthorityCard authority={organizationAuthority} />
+            </div>
+          ) : null}
 
           {showShippables && mergedAssetPackSurface ? (
             <section
@@ -353,14 +401,22 @@ export default function TerminalTransactionDetailSurface({
               />
             </section>
           ) : showShippables ? (
-            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
+            <div
+              data-testid="terminal-shippables-empty-state"
+              role="status"
+              className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300"
+            >
               No materialized AssetPack evidence or Finish delivery mechanism is attached to this Bitcode activity yet. The same
               activity result still keeps proofs, history, and closure reading available.
             </div>
           ) : null}
 
           {actionError ? (
-            <div className="rounded-[1.4rem] border border-red-500/20 bg-red-500/10 px-4 py-4 text-sm text-red-200">
+            <div
+              data-testid="terminal-detail-action-error"
+              role="alert"
+              className="rounded-[1.4rem] border border-red-500/20 bg-red-500/10 px-4 py-4 text-sm text-red-200"
+            >
               {actionError}
             </div>
           ) : null}
@@ -437,6 +493,6 @@ export default function TerminalTransactionDetailSurface({
           </div>
         </section>
       ) : null}
-    </div>
+    </section>
   );
 }

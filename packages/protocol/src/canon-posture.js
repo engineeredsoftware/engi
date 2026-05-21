@@ -1,7 +1,7 @@
 // @ts-check
 
-export const ACTIVE_CANON_VERSION = 'V27';
-export const DRAFT_TARGET_VERSION = 'V28';
+export const ACTIVE_CANON_VERSION = 'V29';
+export const DRAFT_TARGET_VERSION = 'V30';
 export const CURRENT_CANON_OPERATOR_LABEL = `${ACTIVE_CANON_VERSION} active canon / ${DRAFT_TARGET_VERSION} system draft`;
 
 /**
@@ -48,7 +48,7 @@ export function buildCanonPosture() {
     draftSpecPath: DRAFT_SPEC_PATH,
     draftDeltaPath: DRAFT_DELTA_PATH,
     draftParityPath: DRAFT_PARITY_PATH,
-    inheritedCanonSurfaceLabel: 'V16/V17/V18/V19/V20/V21/V22/V23/V24/V25/V26/V27',
+    inheritedCanonSurfaceLabel: 'V16/V17/V18/V19/V20/V21/V22/V23/V24/V25/V26/V27/V28',
     heroEyebrow: `${CURRENT_PROJECT_LABEL} transactions and activity`,
     heroLede: 'Set the active scenario, select supply, and follow the flow from deposit through settlement.',
     heroTip: 'Use the guide and lower runtime surfaces when you read exact replay, proof, or settlement detail.'
