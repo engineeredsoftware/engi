@@ -43,6 +43,25 @@ describe('terminal journal reconciliation', () => {
           readerWalletId: 'reader-wallet',
           btcFee: { finalityState: 'prepared' },
           ownershipBoundary: null,
+          ledgerDatabaseReconciliation: {
+            objectStorageArtifacts: [
+              {
+                factId: 'asset-pack-run-1',
+                artifactId: 'preview-artifact-run-1',
+                artifactKind: 'asset_pack_source_safe_preview',
+                storageRoot: 'sha256:preview-storage-root',
+                sourceVisibility: 'source_safe',
+                durable: true,
+                containsProtectedSource: false,
+                encrypted: false,
+              },
+            ],
+            proofRoots: {
+              objectStorageRoot: 'btd-proof-root:object-storage-artifacts:terminal',
+              stagingTestnetReadbackRoot: 'btd-proof-root:supabase-projection-readback:terminal',
+            },
+            repairs: [],
+          },
           readback: {
             assetPackRange: true,
             btcFeeTransaction: true,
@@ -85,11 +104,24 @@ describe('terminal journal reconciliation', () => {
     expect(result.state).toBe('aligned');
     expect(result.observedFacts.every((fact) => fact.source === 'ledger_observed')).toBe(true);
     expect(result.projectedFacts.every((fact) => fact.source === 'database_projected')).toBe(true);
+    expect(result.objectStorageFacts.every((fact) => fact.source === 'object_storage_artifact')).toBe(true);
     expect(result.canonicalFacts.every((fact) => fact.source === 'metaphysical_canonical')).toBe(true);
+    expect(result.objectStorageFacts[0]).toMatchObject({
+      id: 'asset-pack-run-1',
+      state: 'source_safe',
+      blocksContradictoryProjection: false,
+    });
     expect(result.blockingReasons).toEqual([]);
     expect(result.repairActions).toEqual([]);
     expect(result.proofRoots.map((root) => root.title)).toEqual(
-      expect.arrayContaining(['pre-state root', 'post-state root', 'receipt root', 'Settlement journal root']),
+      expect.arrayContaining([
+        'pre-state root',
+        'post-state root',
+        'receipt root',
+        'Settlement journal root',
+        'objectStorageRoot',
+        'stagingTestnetReadbackRoot',
+      ]),
     );
   });
 

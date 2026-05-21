@@ -326,6 +326,15 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
                   receiptRoot: 'rights-transfer-receipt-root-run-1',
                   protectedSourceVisible: true,
                 },
+                ledger_database_reconciliation: {
+                  kind: 'btd.ledger_database_reconciliation',
+                  objectStorageArtifacts: [
+                    {
+                      artifactId: 'preview-artifact-run-1',
+                      storageRoot: 'sha256:preview-storage-root',
+                    },
+                  ],
+                },
                 readback: {
                   assetPackRange: true,
                   btcFeeTransaction: true,
@@ -488,6 +497,14 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
       },
       rightsTransferReceipt: {
         receiptRoot: 'rights-transfer-receipt-root-run-1',
+      },
+      ledgerDatabaseReconciliation: {
+        objectStorageArtifacts: [
+          {
+            artifactId: 'preview-artifact-run-1',
+            storageRoot: 'sha256:preview-storage-root',
+          },
+        ],
       },
     });
     expect(snapshot.terminalJournal).toMatchObject({

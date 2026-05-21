@@ -913,6 +913,45 @@ function normalizeBtcLedgerNetwork(value) {
   return 'testnet';
 }
 
+function hostFromUrl(value) {
+  if (!value) return null;
+  try {
+    return new URL(value).hostname;
+  } catch {
+    return null;
+  }
+}
+
+const READBACK_TABLE_NAMES = {
+  semanticMeasurement: 'btd_semantic_volume_measurements',
+  measureMintReceipt: 'btd_measure_mint_receipts',
+  assetPackRange: 'btd_asset_pack_ranges',
+  btdCell: 'btd_cells',
+  ownershipEvent: 'btd_ownership_events',
+  readLicense: 'btd_read_licenses',
+  mintReceipt: 'btd_mint_receipts',
+  btcFeeTransaction: 'btc_fee_transactions',
+  ledgerAnchor: 'btd_asset_pack_ledger_anchors',
+  terminalJournal: 'btd_terminal_journal_entries',
+  cryptoTelemetry: 'btd_crypto_telemetry_events',
+};
+
+function buildProjectionTableReadbacks(readback) {
+  return Object.entries(readback || {}).map(([key, present]) => ({
+    table: READBACK_TABLE_NAMES[key] || key,
+    expectedCount: 1,
+    observedCount: present ? 1 : 0,
+    synchronized: Boolean(present),
+    proofRoot: rootOf({ table: READBACK_TABLE_NAMES[key] || key, present: Boolean(present) }),
+  }));
+}
+
+function supabaseProjectRefFromHost(host) {
+  if (!host) return 'staging-testnet-unresolved';
+  const [projectRef] = String(host).split('.');
+  return projectRef || 'staging-testnet-unresolved';
+}
+
 function ledgerWallet(kind, explicit, fallback) {
   const value = String(explicit || '').trim();
   if (value) return value;
@@ -1649,7 +1688,7 @@ try {
 	    },
 	    { enablePipelineStreaming, factoryPipelineExecution },
 	    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
-	    { reconcileLedgerDatabaseProjection },
+	    { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
 	    { evaluateBtdOrganizationInterfaceAuthority },
       btdReceiptBuilders,
 	  ] = await Promise.all([
@@ -1817,6 +1856,25 @@ try {
   });
 
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
+  const supabaseRestHost = hostFromUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      process.env.SUPABASE_URL ||
+      process.env.BITCODE_SUPABASE_URL
+  );
+  const supabaseDatabaseHost = hostFromUrl(process.env.SUPABASE_DB_URL || process.env.DATABASE_URL);
+  const stagingTestnetReadback = ledgerSettlement?.readback
+    ? buildSupabaseStagingTestnetProjectionReadback({
+        readbackId: 'staging-testnet-readback-' + runId,
+        lane: 'staging-testnet',
+        supabaseProjectRef:
+          process.env.BITCODE_SUPABASE_PROJECT_REF ||
+          supabaseProjectRefFromHost(supabaseRestHost),
+        restHost: supabaseRestHost || 'staging-testnet-unresolved.supabase.co',
+        databaseHost: supabaseDatabaseHost || undefined,
+        adminCredentialState: supabase ? 'provided_out_of_band' : 'missing',
+        tableReadbacks: buildProjectionTableReadbacks(ledgerSettlement.readback),
+      })
+    : null;
   const ledgerDatabaseReconciliation = ledgerSettlement?.assetPackId
     ? reconcileLedgerDatabaseProjection({
         reconciliationId: 'harness-reconciliation-' + runId,
@@ -1851,6 +1909,11 @@ try {
                 factId: ledgerSettlement.assetPackId,
                 projectedLedgerRoot: ledgerSettlement.proofRoots?.proofRoot || rootOf({ assetPackId: ledgerSettlement.assetPackId }),
                 projectedFinalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+                projectedObjectStorageRoot: rootOf({
+                  artifactPath: '${EVIDENCE_PATH}',
+                  assetPackId: ledgerSettlement.assetPackId,
+                  manifestRoot,
+                }),
               }]
             : []),
           ...(ledgerSettlement.readback?.btcFeeTransaction && ledgerSettlement.btcFeeReceiptId
@@ -1872,6 +1935,48 @@ try {
               }]
             : []),
         ],
+        objectStorageArtifacts: [
+          {
+            factId: ledgerSettlement.assetPackId,
+            artifactId: 'pipeline-evidence-' + runId,
+            artifactKind: 'pipeline_evidence',
+            storageRoot: rootOf({
+              artifactPath: '${EVIDENCE_PATH}',
+              assetPackId: ledgerSettlement.assetPackId,
+              manifestRoot,
+            }),
+            manifestRoot: manifestRoot ? 'sha256:' + manifestRoot : undefined,
+            sourceVisibility: 'proof_public',
+            durable: true,
+            containsProtectedSource: false,
+            encrypted: false,
+          },
+          {
+            factId: 'pipeline-telemetry-' + runId,
+            artifactId: 'pipeline-telemetry-' + runId,
+            artifactKind: 'pipeline_telemetry',
+            storageRoot: rootOf({ artifactPath: '${TELEMETRY_PATH}', runId }),
+            manifestRoot: manifestRoot ? 'sha256:' + manifestRoot : undefined,
+            sourceVisibility: 'proof_public',
+            durable: true,
+            containsProtectedSource: false,
+            encrypted: false,
+          },
+          {
+            factId: 'source-safe-preview-' + runId,
+            artifactId: 'source-safe-preview-' + runId,
+            artifactKind: 'asset_pack_source_safe_preview',
+            storageRoot:
+              ledgerSettlement.assetPackMintReceipt?.sourceSafePreviewRoot ||
+              rootOf({ sourceSafePreview, protectedSourceVisible: false }),
+            manifestRoot: ledgerSettlement.proofRoots?.sourceManifestRoot,
+            sourceVisibility: 'source_safe',
+            durable: true,
+            containsProtectedSource: false,
+            encrypted: false,
+          },
+        ],
+        stagingTestnetReadback,
         settlementConservationChecks: ledgerSettlement.btcFee
           ? [{
               checkId: 'btc-fee-conservation-' + runId,

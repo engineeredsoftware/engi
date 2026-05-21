@@ -353,7 +353,9 @@ The canonical report is produced from:
 
 - ledger observed facts: fee receipts, ledger anchors, journal entries, BTD ranges, ownership events, read licenses, and finality state;
 - database projected facts: the Supabase readback rows that claim those ledger facts are durable in the application projection;
+- object-storage artifact facts: source-safe preview, pipeline evidence, telemetry, delivery manifest, and ledger projection artifact roots that prove artifacts are durable without exposing protected source;
 - private metaphysical canonical facts: protected source metadata, need/fit context, access policy documents, encrypted storage pointers, disputes, and telemetry context represented only by roots;
+- staging-testnet readback facts: secret-free Supabase project reference, REST/DB hosts, out-of-band admin-credential state, table readback counts, and synchronized-or-blocked state;
 - settlement conservation checks: BTC debit/credit and fee/payment roots that must conserve before unlock;
 - delivery evidence: post-settlement pull-request visibility and recovery posture.
 
@@ -363,24 +365,33 @@ Drift is classified before repair:
 - `ledger_root_mismatch`: the database projection points at a different root than the ledger observation;
 - `ledger_finality_mismatch`: the projected finality differs from the observed finality;
 - `database_orphan_projection`: the database projects a fact that has no matching ledger observation;
+- `missing_object_storage_artifact`: the ledger or projection expects an artifact root that is not durable yet;
+- `object_storage_root_mismatch`: the database projection and object-storage artifact root disagree;
+- `staging_testnet_readback_blocked`: staging-testnet Supabase readback cannot prove the expected rows without retry;
 - `settlement_conservation_drift`: BTC debit/credit or fee/payment accounting does not conserve.
 
 Repair actions are canonical and auditable:
 
 - `retry_database_readback`;
+- `retry_object_storage_write`;
+- `retry_staging_testnet_readback`;
 - `project_ledger_fact`;
 - `update_finality_state`;
 - `quarantine_database_projection`;
+- `quarantine_object_storage_artifact`;
 - `pause_settlement_unlock`;
 - `recover_delivery`.
 
 The reconciliation state is one of aligned, retryable, repairable, approval required, or blocked.
 Confirmed ledger facts that are missing from the database require operator-approved projection repair.
 Reorged or failed finality, database-only orphan projection, or settlement conservation drift blocks unlock and delivery.
+Missing durable object-storage artifacts are retryable unlock blockers.
+Object-storage root mismatches require quarantine until the artifact and projection agree.
 Delivery recovery is allowed only when settlement is otherwise aligned and the full AssetPack delivery target is not visible.
 
-Terminal must show drift classes, blockers, repair actions, proof roots, observed facts, projected facts, canonical facts, journal entries, and repair receipts before raw payloads.
+Terminal must show drift classes, blockers, repair actions, proof roots, observed facts, projected facts, object-storage facts, canonical facts, journal entries, and repair receipts before raw payloads.
 The Vercel Sandbox harness must store the reconciliation report as settlement evidence when it claims ledger readback.
+Supabase staging-testnet readback receipts must never store service-role JWTs, `sb_secret__` keys, OpenAI keys, database passwords, or any raw secret in tracked code or persisted proof payloads; only host/project identifiers, credential presence state, and proof roots are admissible.
 The API may persist schema-compatible repair receipts while richer repair actions and proof roots remain report evidence until the registry schema is formally expanded.
 
 ## V30 canonical subsystem surfaces

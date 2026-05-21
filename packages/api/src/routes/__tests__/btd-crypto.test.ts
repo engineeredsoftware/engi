@@ -1338,6 +1338,24 @@ describe('BTD crypto API builders', () => {
               projectedLedgerRoot: 'confirmed-root',
               projectedFinalityState: 'broadcast',
             },
+            {
+              factId: 'artifact-api-1',
+              projectedLedgerRoot: 'artifact-ledger-root',
+              projectedFinalityState: 'prepared',
+              projectedObjectStorageRoot: 'artifact-database-root',
+            },
+          ],
+          objectStorageArtifacts: [
+            {
+              factId: 'artifact-api-1',
+              artifactId: 'artifact-api-1',
+              artifactKind: 'pipeline_evidence',
+              storageRoot: 'artifact-storage-root',
+              sourceVisibility: 'proof_public',
+              durable: true,
+              containsProtectedSource: false,
+              encrypted: false,
+            },
           ],
           metaphysicalFacts: [
             {
@@ -1348,6 +1366,27 @@ describe('BTD crypto API builders', () => {
               private: true,
             },
           ],
+          stagingTestnetReadback: {
+            kind: 'btd.supabase_projection_readback',
+            readbackId: 'staging-readback-api-1',
+            lane: 'staging-testnet',
+            supabaseProjectRef: 'tkpyosihuouusyaxtbau',
+            restHost: 'tkpyosihuouusyaxtbau.supabase.co',
+            adminCredentialState: 'provided_out_of_band',
+            secretValuesStored: false,
+            tableReadbacks: [
+              {
+                table: 'btd_asset_pack_ranges',
+                expectedCount: 1,
+                observedCount: 1,
+                synchronized: true,
+              },
+            ],
+            state: 'synchronized',
+            blockingReasons: [],
+            proofRoot: 'btd-proof-root:supabase-projection-readback:api',
+            issuedAt,
+          },
           settlementConservationChecks: [
             {
               checkId: 'settlement-conservation-api-1',
@@ -1369,6 +1408,9 @@ describe('BTD crypto API builders', () => {
     expect(body.report.blocking).toBe(true);
     expect(body.report.state).toBe('blocked');
     expect(body.report.driftKindCounts.settlement_conservation_drift).toBe(1);
+    expect(body.report.driftKindCounts.object_storage_root_mismatch).toBe(1);
+    expect(body.report.objectStorageArtifacts[0].storageRoot).toBe('artifact-storage-root');
+    expect(body.report.stagingTestnetReadback.secretValuesStored).toBe(false);
     expect(body.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
     expect(body.committed).toBe(true);
     expect(insertReconciliationRepair).toHaveBeenCalledWith(

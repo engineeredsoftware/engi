@@ -58,7 +58,7 @@ No `_legacy/` source is active source truth.
 | Protocol package API boundaries | Gate 2 | `packages/btd/src/api-boundaries.ts`, `packages/api/src/routes/btd-crypto.ts`, package READMEs/tests | drafted | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
 | Bitcoin Taproot PSBT fee rigor | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/src/bitcoin-fees.ts`, BTD/API tests, gate checker | drafted | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, Taproot/PSBT aware, and proof-rooted. |
 | BTD AssetPack mint/read receipts | Gate 4 | `packages/btd/src/receipts.ts`, `packages/btd/src/api-boundaries.ts`, asset-pack harness evidence, Terminal detail snapshot/read model tests, gate checker | drafted | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
-| Testnet ledger projection hardening | Gate 5 | BTD reconciliation, Supabase readback, object-storage evidence, repair tests | pending | Ledger/database/object-storage projections are synchronized or blocked with deterministic repair posture. |
+| Testnet ledger projection hardening | Gate 5 | `packages/btd/src/reconciliation.ts`, API route tests, asset-pack harness evidence, Terminal journal reconciliation UI/tests, gate checker | drafted | Ledger/database/object-storage/private facts are distinct; staging-testnet readback is secret-free; drift, quarantine, retry, and unlock blocking are tested. |
 | Source-to-shares proof cleanup | Gate 6 | BTD/source-to-shares proof primitives, settlement conservation tests | pending | Measurement contribution, fee allocation, zero-cell/refit tail, and conservation invariants are testable. |
 | Bridge-readiness research boundaries | Gate 7 | Protocol/BTD research notes, policy posture tests, docs | pending | Bridge paths are documented as research until admitted by explicit future proof and policy. |
 | Protocol telemetry/proof hooks | Gate 8 | telemetry schema, proof hooks, generated-artifact inventory, tests | pending | Receipts, fee states, projections, and source-to-shares facts emit source-safe telemetry and proof hooks. |
@@ -150,6 +150,15 @@ No `_legacy/` source is active source truth.
 | Tests cover package and Terminal receipt posture | `packages/btd/__tests__/api-boundaries.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionReadModel.test.ts` | drafted |
 | Gate checker protects the receipt surface | `scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs`, `pnpm run check:v30-gate4`, gate-quality workflow | drafted |
 
+## Gate 5 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| Ledger projection report separates four fact classes | `packages/btd/src/reconciliation.ts`, `uapi/app/terminal/terminal-journal-reconciliation.ts`, `uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx` | drafted |
+| Object-storage and staging-testnet repair classes are deterministic | `packages/btd/__tests__/reconciliation.test.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts` | drafted |
+| Harness and Terminal consume the same report evidence | `packages/pipeline-hosts/src/asset-pack-harness.ts`, `packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts`, `uapi/tests/terminalJournalReconciliation.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts` | drafted |
+| Gate checker protects projection hardening | `scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs`, `pnpm run check:v30-gate5`, gate-quality workflow | drafted |
+
 ## Gate 4 accepted boundaries
 
 - Gate 4 does not require production-mainnet BTC settlement.
@@ -157,6 +166,14 @@ No `_legacy/` source is active source truth.
 - Gate 4 does not make protected source visible before paid unlock and delivery admission.
 - Gate 4 does not harden all ledger/database/object-storage projection repair; Gate 5 owns that.
 - Gate 4 does not finish source-to-shares contribution cleanup; Gate 6 owns that.
+
+## Gate 5 accepted boundaries
+
+- Gate 5 does not expand the physical reconciliation repair registry schema.
+- Gate 5 does not store or print Supabase service-role JWTs, `sb_secret__` keys, OpenAI keys, database passwords, or Vercel tokens.
+- Gate 5 does not make protected AssetPack source visible before paid unlock and delivery admission.
+- Gate 5 does not implement source-to-shares contribution accounting; Gate 6 owns that.
+- Gate 5 does not promote V30 or change the active canon pointer.
 
 ## completion condition
 

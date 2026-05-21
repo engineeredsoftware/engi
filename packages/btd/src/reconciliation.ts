@@ -3,6 +3,8 @@ import { assertNonEmptyString } from './constants';
 export type ProjectionRepairKind =
   | 'ledger_finality_state'
   | 'ledger_anchor_root'
+  | 'object_storage_artifact'
+  | 'staging_testnet_readback'
   | 'terminal_post_state'
   | 'receipt_root'
   | 'settlement_conservation'
@@ -13,13 +15,19 @@ export type ProjectionDriftKind =
   | 'ledger_root_mismatch'
   | 'ledger_finality_mismatch'
   | 'database_orphan_projection'
+  | 'missing_object_storage_artifact'
+  | 'object_storage_root_mismatch'
+  | 'staging_testnet_readback_blocked'
   | 'settlement_conservation_drift';
 
 export type ProjectionRepairActionKind =
   | 'retry_database_readback'
+  | 'retry_object_storage_write'
+  | 'retry_staging_testnet_readback'
   | 'project_ledger_fact'
   | 'update_finality_state'
   | 'quarantine_database_projection'
+  | 'quarantine_object_storage_artifact'
   | 'pause_settlement_unlock'
   | 'recover_delivery';
 
@@ -53,6 +61,59 @@ export interface DatabaseProjectedFact {
   factId: string;
   projectedLedgerRoot: string;
   projectedFinalityState: 'prepared' | 'broadcast' | 'confirmed' | 'reorged' | 'failed';
+  projectedObjectStorageRoot?: string;
+}
+
+export type ObjectStorageArtifactKind =
+  | 'pipeline_evidence'
+  | 'pipeline_telemetry'
+  | 'asset_pack_source_safe_preview'
+  | 'asset_pack_protected_source_encrypted'
+  | 'delivery_manifest'
+  | 'ledger_projection_artifact';
+
+export type ObjectStorageSourceVisibility =
+  | 'proof_public'
+  | 'source_safe'
+  | 'encrypted_protected_source';
+
+export interface ObjectStorageArtifactFact {
+  factId: string;
+  artifactId: string;
+  artifactKind: ObjectStorageArtifactKind;
+  storageRoot: string;
+  manifestRoot?: string;
+  sourceVisibility: ObjectStorageSourceVisibility;
+  durable: boolean;
+  containsProtectedSource: boolean;
+  encrypted: boolean;
+}
+
+export type SupabaseProjectionLane = 'local' | 'staging-testnet' | 'production-mainnet';
+export type SupabaseProjectionCredentialState = 'provided_out_of_band' | 'missing';
+
+export interface SupabaseProjectionTableReadback {
+  table: string;
+  expectedCount: number;
+  observedCount: number;
+  synchronized: boolean;
+  proofRoot?: string;
+}
+
+export interface SupabaseStagingTestnetProjectionReadback {
+  kind: 'btd.supabase_projection_readback';
+  readbackId: string;
+  lane: SupabaseProjectionLane;
+  supabaseProjectRef: string;
+  restHost: string;
+  databaseHost?: string;
+  adminCredentialState: SupabaseProjectionCredentialState;
+  secretValuesStored: false;
+  tableReadbacks: SupabaseProjectionTableReadback[];
+  state: 'synchronized' | 'blocked';
+  blockingReasons: string[];
+  proofRoot: string;
+  issuedAt: string;
 }
 
 export type MetaphysicalCanonicalFactKind =
@@ -105,7 +166,9 @@ export interface SettlementConservationProjection {
 export interface LedgerDatabaseReconciliationProofRoots {
   ledgerObservedRoot: string;
   databaseProjectionRoot: string;
+  objectStorageRoot: string;
   metaphysicalCanonicalRoot: string;
+  stagingTestnetReadbackRoot: string;
   repairPlanRoot: string;
   settlementConservationRoot: string;
 }
@@ -119,22 +182,91 @@ export interface LedgerDatabaseReconciliationReport {
   driftKindCounts: Record<ProjectionDriftKind, number>;
   proofRoots: LedgerDatabaseReconciliationProofRoots;
   settlementConservation: SettlementConservationProjection;
+  objectStorageArtifacts: ObjectStorageArtifactFact[];
   metaphysicalFacts: MetaphysicalCanonicalFact[];
+  stagingTestnetReadback: SupabaseStagingTestnetProjectionReadback | null;
   blocking: boolean;
+}
+
+export function buildSupabaseStagingTestnetProjectionReadback(input: {
+  readbackId: string;
+  lane: SupabaseProjectionLane;
+  supabaseProjectRef: string;
+  restHost: string;
+  databaseHost?: string;
+  adminCredentialState: SupabaseProjectionCredentialState;
+  tableReadbacks: SupabaseProjectionTableReadback[];
+  issuedAt?: string;
+}): SupabaseStagingTestnetProjectionReadback {
+  const readbackId = assertNonEmptyString(input.readbackId, 'readbackId');
+  const tableReadbacks = input.tableReadbacks.map(assertSupabaseProjectionTableReadback);
+  const blockingReasons = tableReadbacks
+    .filter((entry) => !entry.synchronized)
+    .map(
+      (entry) =>
+        `${entry.table} expected ${entry.expectedCount} row(s) and observed ${entry.observedCount}.`,
+    );
+
+  if (input.adminCredentialState === 'missing') {
+    blockingReasons.push('Supabase admin credential is missing from the untracked environment.');
+  }
+
+  const restHost = assertSecretFreeIdentifier(input.restHost, 'restHost');
+  const databaseHost = input.databaseHost
+    ? assertSecretFreeIdentifier(input.databaseHost, 'databaseHost')
+    : undefined;
+  const supabaseProjectRef = assertSecretFreeIdentifier(
+    input.supabaseProjectRef,
+    'supabaseProjectRef',
+  );
+
+  return {
+    kind: 'btd.supabase_projection_readback',
+    readbackId,
+    lane: input.lane,
+    supabaseProjectRef,
+    restHost,
+    databaseHost,
+    adminCredentialState: input.adminCredentialState,
+    secretValuesStored: false,
+    tableReadbacks,
+    state: blockingReasons.length ? 'blocked' : 'synchronized',
+    blockingReasons,
+    proofRoot: stableProofRoot('supabase-projection-readback', [
+      readbackId,
+      input.lane,
+      supabaseProjectRef,
+      restHost,
+      databaseHost ?? null,
+      input.adminCredentialState,
+      tableReadbacks,
+      blockingReasons,
+    ]),
+    issuedAt: input.issuedAt ?? new Date().toISOString(),
+  };
 }
 
 export function reconcileLedgerDatabaseProjection(input: {
   reconciliationId: string;
   ledgerFacts: LedgerObservedFact[];
   databaseFacts: DatabaseProjectedFact[];
+  objectStorageArtifacts?: ObjectStorageArtifactFact[];
   metaphysicalFacts?: MetaphysicalCanonicalFact[];
+  stagingTestnetReadback?: SupabaseStagingTestnetProjectionReadback | null;
   settlementConservationChecks?: SettlementConservationCheck[];
   issuedAt?: string;
 }): LedgerDatabaseReconciliationReport {
   const reconciliationId = assertNonEmptyString(input.reconciliationId, 'reconciliationId');
   const databaseByFactId = new Map(input.databaseFacts.map((fact) => [fact.factId, fact]));
   const ledgerFactIds = new Set(input.ledgerFacts.map((fact) => fact.factId));
+  const objectStorageArtifacts = (input.objectStorageArtifacts ?? []).map(
+    assertObjectStorageArtifactFact,
+  );
+  const objectStorageFactIds = new Set(objectStorageArtifacts.map((fact) => fact.factId));
   const metaphysicalFacts = (input.metaphysicalFacts ?? []).map(assertMetaphysicalFact);
+  const stagingTestnetReadback = input.stagingTestnetReadback
+    ? assertSupabaseStagingTestnetProjectionReadback(input.stagingTestnetReadback)
+    : null;
   const settlementConservationChecks = (input.settlementConservationChecks ?? []).map(
     assertSettlementConservationCheck,
   );
@@ -204,7 +336,9 @@ export function reconcileLedgerDatabaseProjection(input: {
 
   for (const databaseFact of input.databaseFacts) {
     assertDatabaseFact(databaseFact);
-    if (ledgerFactIds.has(databaseFact.factId)) continue;
+    if (ledgerFactIds.has(databaseFact.factId) || objectStorageFactIds.has(databaseFact.factId)) {
+      continue;
+    }
     repairs.push(buildRepairReceipt({
       reconciliationId,
       factId: databaseFact.factId,
@@ -216,6 +350,61 @@ export function reconcileLedgerDatabaseProjection(input: {
       after: 'quarantined_until_ledger_observation',
       blocking: true,
       requiresOperatorApproval: true,
+      issuedAt,
+    }));
+  }
+
+  for (const artifact of objectStorageArtifacts) {
+    const projected = databaseByFactId.get(artifact.factId);
+
+    if (!artifact.durable) {
+      repairs.push(buildRepairReceipt({
+        reconciliationId,
+        factId: artifact.factId,
+        suffix: 'object_storage_missing',
+        repairKind: 'object_storage_artifact',
+        driftKind: 'missing_object_storage_artifact',
+        repairActionKind: 'retry_object_storage_write',
+        before: 'missing',
+        after: artifact.storageRoot,
+        blocking: true,
+        requiresOperatorApproval: false,
+        issuedAt,
+      }));
+    }
+
+    if (
+      projected?.projectedObjectStorageRoot &&
+      projected.projectedObjectStorageRoot !== artifact.storageRoot
+    ) {
+      repairs.push(buildRepairReceipt({
+        reconciliationId,
+        factId: artifact.factId,
+        suffix: 'object_storage_root',
+        repairKind: 'object_storage_artifact',
+        driftKind: 'object_storage_root_mismatch',
+        repairActionKind: 'quarantine_object_storage_artifact',
+        before: projected.projectedObjectStorageRoot,
+        after: artifact.storageRoot,
+        blocking: true,
+        requiresOperatorApproval: true,
+        issuedAt,
+      }));
+    }
+  }
+
+  if (stagingTestnetReadback?.state === 'blocked') {
+    repairs.push(buildRepairReceipt({
+      reconciliationId,
+      factId: stagingTestnetReadback.readbackId,
+      suffix: 'staging_testnet_readback',
+      repairKind: 'staging_testnet_readback',
+      driftKind: 'staging_testnet_readback_blocked',
+      repairActionKind: 'retry_staging_testnet_readback',
+      before: stagingTestnetReadback.blockingReasons.join('; ') || 'blocked',
+      after: 'synchronized',
+      blocking: true,
+      requiresOperatorApproval: false,
       issuedAt,
     }));
   }
@@ -246,7 +435,11 @@ export function reconcileLedgerDatabaseProjection(input: {
   const proofRoots = {
     ledgerObservedRoot: stableProofRoot('ledger-observed', input.ledgerFacts),
     databaseProjectionRoot: stableProofRoot('database-projected', input.databaseFacts),
+    objectStorageRoot: stableProofRoot('object-storage-artifacts', objectStorageArtifacts),
     metaphysicalCanonicalRoot: stableProofRoot('metaphysical-canonical', metaphysicalFacts),
+    stagingTestnetReadbackRoot:
+      stagingTestnetReadback?.proofRoot ??
+      stableProofRoot('supabase-projection-readback', ['not-provided', reconciliationId]),
     repairPlanRoot: stableProofRoot('repair-plan', repairs),
     settlementConservationRoot: settlementConservation.proofRoot,
   };
@@ -261,7 +454,9 @@ export function reconcileLedgerDatabaseProjection(input: {
     driftKindCounts,
     proofRoots,
     settlementConservation,
+    objectStorageArtifacts,
     metaphysicalFacts,
+    stagingTestnetReadback,
     blocking,
   };
 }
@@ -274,6 +469,36 @@ function assertLedgerFact(fact: LedgerObservedFact): void {
 function assertDatabaseFact(fact: DatabaseProjectedFact): void {
   assertNonEmptyString(fact.factId, 'factId');
   assertNonEmptyString(fact.projectedLedgerRoot, 'projectedLedgerRoot');
+  if (fact.projectedObjectStorageRoot !== undefined) {
+    assertNonEmptyString(fact.projectedObjectStorageRoot, 'projectedObjectStorageRoot');
+  }
+}
+
+function assertObjectStorageArtifactFact(
+  fact: ObjectStorageArtifactFact,
+): ObjectStorageArtifactFact {
+  assertNonEmptyString(fact.factId, 'factId');
+  assertNonEmptyString(fact.artifactId, 'artifactId');
+  assertNonEmptyString(fact.artifactKind, 'artifactKind');
+  assertNonEmptyString(fact.storageRoot, 'storageRoot');
+  if (fact.manifestRoot !== undefined) {
+    assertNonEmptyString(fact.manifestRoot, 'manifestRoot');
+  }
+  assertNonEmptyString(fact.sourceVisibility, 'sourceVisibility');
+
+  if (fact.containsProtectedSource && !fact.encrypted) {
+    throw new Error('Object storage artifacts containing protected source must be encrypted.');
+  }
+  if (fact.containsProtectedSource && fact.sourceVisibility !== 'encrypted_protected_source') {
+    throw new Error(
+      'Object storage protected source artifacts must be marked encrypted_protected_source.',
+    );
+  }
+  if (!fact.containsProtectedSource && fact.sourceVisibility === 'encrypted_protected_source') {
+    throw new Error('Encrypted protected source visibility requires protected source content.');
+  }
+
+  return fact;
 }
 
 function assertMetaphysicalFact(fact: MetaphysicalCanonicalFact): MetaphysicalCanonicalFact {
@@ -303,6 +528,46 @@ function assertSettlementConservationCheck(
     assertNonEmptyString(check.paymentReceiptRoot, 'paymentReceiptRoot');
   }
   return check;
+}
+
+function assertSupabaseProjectionTableReadback(
+  check: SupabaseProjectionTableReadback,
+): SupabaseProjectionTableReadback {
+  assertSecretFreeIdentifier(check.table, 'table');
+  assertNonNegativeSats(check.expectedCount, 'expectedCount');
+  assertNonNegativeSats(check.observedCount, 'observedCount');
+  if (check.proofRoot !== undefined) assertNonEmptyString(check.proofRoot, 'proofRoot');
+  return check;
+}
+
+function assertSupabaseStagingTestnetProjectionReadback(
+  readback: SupabaseStagingTestnetProjectionReadback,
+): SupabaseStagingTestnetProjectionReadback {
+  assertNonEmptyString(readback.readbackId, 'readbackId');
+  assertSecretFreeIdentifier(readback.supabaseProjectRef, 'supabaseProjectRef');
+  assertSecretFreeIdentifier(readback.restHost, 'restHost');
+  if (readback.databaseHost !== undefined) {
+    assertSecretFreeIdentifier(readback.databaseHost, 'databaseHost');
+  }
+  if (readback.secretValuesStored !== false) {
+    throw new Error('Supabase projection readback receipts must not store secret values.');
+  }
+  readback.tableReadbacks.forEach(assertSupabaseProjectionTableReadback);
+  assertNonEmptyString(readback.proofRoot, 'proofRoot');
+  return readback;
+}
+
+function assertSecretFreeIdentifier(value: string, label: string): string {
+  const identifier = assertNonEmptyString(value, label);
+  if (
+    /sb_secret__/u.test(identifier) ||
+    /service_role/u.test(identifier) ||
+    /sk-(?:proj|live|test)-/u.test(identifier) ||
+    /^eyJ[\w-]+\.[\w-]+\.[\w-]+$/u.test(identifier)
+  ) {
+    throw new Error(`${label} must not contain a secret value.`);
+  }
+  return identifier;
 }
 
 function assertNonNegativeSats(value: number, field: string): void {
@@ -372,8 +637,14 @@ function describeRepairAction(repair: ProjectionRepairReceipt): string {
       return `Project ledger fact ${repair.factId} into the database from ${repair.before} to ${repair.after}.`;
     case 'update_finality_state':
       return `Update database finality for ${repair.factId} from ${repair.before} to ${repair.after}.`;
+    case 'retry_object_storage_write':
+      return `Retry object-storage artifact write for ${repair.factId} before unlock or delivery.`;
+    case 'retry_staging_testnet_readback':
+      return `Retry staging-testnet projection readback for ${repair.factId}.`;
     case 'quarantine_database_projection':
       return `Quarantine database projection ${repair.factId} until a matching ledger observation exists.`;
+    case 'quarantine_object_storage_artifact':
+      return `Quarantine object-storage projection ${repair.factId} until the artifact root agrees.`;
     case 'pause_settlement_unlock':
       return `Pause settlement unlock for ${repair.factId} until the drift is reconciled.`;
     case 'recover_delivery':
@@ -389,6 +660,9 @@ function countDriftKinds(repairs: ProjectionRepairReceipt[]): Record<ProjectionD
     ledger_root_mismatch: 0,
     ledger_finality_mismatch: 0,
     database_orphan_projection: 0,
+    missing_object_storage_artifact: 0,
+    object_storage_root_mismatch: 0,
+    staging_testnet_readback_blocked: 0,
     settlement_conservation_drift: 0,
   };
   for (const repair of repairs) {

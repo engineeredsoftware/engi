@@ -16,7 +16,7 @@ interface TerminalTransactionJournalReconciliationCardProps {
   reconciliation: TerminalJournalReconciliationSnapshot;
 }
 
-function factRows(facts: TerminalJournalReconciliationFact[]) {
+function factRows(facts: readonly TerminalJournalReconciliationFact[] = []) {
   return facts.map((fact) => ({
     label: fact.label,
     value: `${fact.value} · ${fact.state}${fact.blocksContradictoryProjection ? ' · blocks contradictory projection' : ''}`,
@@ -30,7 +30,7 @@ function FactSection({
 }: {
   title: string;
   summary: string;
-  facts: TerminalJournalReconciliationFact[];
+  facts?: readonly TerminalJournalReconciliationFact[];
 }) {
   return (
     <section className="border-t border-white/8 pt-4">
@@ -90,6 +90,11 @@ export default function TerminalTransactionJournalReconciliationCard({
           title="Database projected facts"
           summary="Readback projection booleans reported by the pipeline settlement path."
           facts={reconciliation.projectedFacts}
+        />
+        <FactSection
+          title="Object storage artifacts"
+          summary="Durable source-safe artifact roots for evidence, telemetry, preview, delivery, and ledger projection payloads."
+          facts={reconciliation.objectStorageFacts}
         />
         <FactSection
           title="Metaphysical canonical facts"
