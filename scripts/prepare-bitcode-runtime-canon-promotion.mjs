@@ -137,6 +137,9 @@ function rewritePackageReadme(content, version, nextDraft) {
   ).replace(
     /must remain aligned to `V\d+` active, `V\d+` draft during gate work, then be\s+rewritten by promotion automation to `V\d+` active, `V\d+` draft\./m,
     `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
+  ).replace(
+    /must remain aligned to `V\d+` active, `V\d+` draft until V\d+ promotion\./m,
+    `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
   );
 }
 

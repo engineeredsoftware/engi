@@ -11,7 +11,7 @@
 - Active generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: none for V30 yet
+- Generated structured artifact inventory: V30 Gate 10 generates `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and `BITCODE_SPEC_V30_PROVEN.md`
 - Source parity state: V30 source parity begins with Gate 1 roadmap/gating and then closes through Protocol/BTD package API, Bitcoin/PSBT, BTD receipt, ledger projection, source-to-shares, bridge-readiness, telemetry/proof, interface-regression, and promotion-readiness gates
 - Scope: future notes for Protocol/BTD hardening after V28 commercial Protocol/Terminal MVP and V29 deeper Terminal work. Exchange is deferred beyond V35.
 
@@ -249,7 +249,36 @@ Gate 8 rejects event/subject mismatches and secret-shaped metadata before a row
 can reach Terminal, API, generated proof, or persistence surfaces. The API
 boundary exposes `/btd/protocol-telemetry` as a JSON-safe proof-admission route;
 it does not commit source-bearing artifacts, and it does not replace existing
-crypto telemetry rows used for deployment readiness health.
+crypto telemetry rows used for deployment readiness health. Gate 10 carries
+that same source-safety rule into generated promotion artifacts.
+
+## Gate 10 promotion-readiness notes
+
+Gate 10 is the V30 promotion-control closure. It does not change the active
+pointer directly; it makes the version branch ready for the V30 promotion
+workflow to do so from a clean `version/v30` pull request into `main`.
+
+The promotion-readiness implementation must validate four layers:
+
+- local proof: every V30 gate checker, Protocol package checks, BTD package
+  checks, pipeline package checks, UAPI route/Terminal tests, browser cockpit
+  proof, pipeline readback, and protocol demonstration QA;
+- generated proof: `.bitcode/v30-spec-family-report.json`,
+  `.bitcode/v30-canonical-input-report.json`,
+  `.bitcode/v30-canon-posture-drift-report.json`,
+  `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and
+  `BITCODE_SPEC_V30_PROVEN.md`;
+- workflow proof: gate-quality accepts V29/V30 draft state and V30/V31 promoted
+  state, canon-quality accepts V30 after promotion, and
+  `v30-canon-promotion.yml` commits the generated canon artifacts;
+- staging-testnet readback: evidence is source-safe and names environment
+  readiness, Terminal cockpit readback, ledger/database/object-storage
+  reconciliation, package posture, and promotion dry-run status without
+  committing secrets.
+
+After promotion, runtime posture carriers must report V30 active and V31 as the
+next draft target. V31's full draft family is opened by V31 Gate 1; V30 Gate 10
+only prepares the post-promotion pointer and runtime posture.
 
 ## Gate 9 interface integration notes
 

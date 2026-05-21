@@ -47,7 +47,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28, V29.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28, V29, V30.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -216,7 +216,7 @@ function parseMarkdownTable(section) {
  */
 function deriveScopeFocus(scope) {
   const stripped = stripMarkdown(scope || '');
-  const match = stripped.match(/^V\d+\s+draft\s+specification\s+for\s+(.+?)(?:\s+after\s+.+)?$/i);
+  const match = stripped.match(/^V\d+\s+draft\s+(?:system\s+)?specification\s+for\s+(.+?)(?:\s+after\s+.+)?$/i);
   if (match) return trimTrailingPeriod(match[1]);
   const canonicalDraftMatch = stripped.match(/^V\d+\s+canonical\s+(?:system\s+)?(?:specification|delta|parity ledger)\s+draft\s+for\s+(.+?)(?:\s+after\s+.+)?$/i);
   if (canonicalDraftMatch) return trimTrailingPeriod(canonicalDraftMatch[1]);
@@ -341,6 +341,24 @@ function buildCommandPlan(version, commit) {
   const v29PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V29']];
   const v29PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V29', '--mode', 'promoted']];
   const v29PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V29', '--draft-target', 'V30']];
+  const v30DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V30', '--mode', 'draft', '--current-target', 'V29']];
+  const v30CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V29']];
+  const v30DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V29', '--draft-target', 'V30']];
+  const v30Gate1Command = ['node', ['scripts/check-v30-gate1-roadmap-and-gating.mjs', '--skip-branch-check']];
+  const v30Gate2Command = ['node', ['scripts/check-v30-gate2-protocol-package-api-boundaries.mjs', '--skip-branch-check']];
+  const v30Gate3Command = ['node', ['scripts/check-v30-gate3-bitcoin-taproot-psbt-fee-rigor.mjs', '--skip-branch-check']];
+  const v30Gate4Command = ['node', ['scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs', '--skip-branch-check']];
+  const v30Gate5Command = ['node', ['scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs', '--skip-branch-check']];
+  const v30Gate6Command = ['node', ['scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs', '--skip-branch-check']];
+  const v30Gate7Command = ['node', ['scripts/check-v30-gate7-bridge-readiness-research-boundaries.mjs', '--skip-branch-check']];
+  const v30Gate8Command = ['node', ['scripts/check-v30-gate8-protocol-telemetry-proof-hooks.mjs', '--skip-branch-check']];
+  const v30Gate9Command = ['node', ['scripts/check-v30-gate9-interface-integration-regression-proof.mjs', '--skip-branch-check']];
+  const v30Gate10Command = ['node', ['scripts/check-v30-gate10-promotion-readiness.mjs', '--promotion-mode', '--skip-branch-check']];
+  const v30PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V30', '--commit', commit]];
+  const v30PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V30', '--next-draft', 'V31']];
+  const v30PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V30']];
+  const v30PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V30', '--mode', 'promoted']];
+  const v30PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V30', '--draft-target', 'V31']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'protocol-demonstration', 'run', 'typecheck']],
     ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:unit']],
@@ -539,7 +557,46 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, or V29.`);
+  if (version === 'V30') {
+    return [
+      v30DraftSpecCheckCommand,
+      v30CanonicalInputCheckCommand,
+      v30DraftCanonPostureDriftCommand,
+      v30Gate1Command,
+      v30Gate2Command,
+      v30Gate3Command,
+      v30Gate4Command,
+      v30Gate5Command,
+      v30Gate6Command,
+      v30Gate7Command,
+      v30Gate8Command,
+      v30Gate9Command,
+      v30Gate10Command,
+      ['pnpm', ['test:qa:v28:pipeline-readback']],
+      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
+      v30PreparePromotionSpecFamilyCommand,
+      v30PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--check', '--allow-dirty']],
+      v30PromotedCanonicalInputCheckCommand,
+      v30PromotedSpecCheckCommand,
+      v30PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']]
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, or V30.`);
 }
 
 /**
@@ -929,6 +986,59 @@ async function buildDerivedV29CommitMessageBody(commit) {
 }
 
 /**
+ * @param {string} commit
+ * @returns {Promise<string>}
+ */
+async function buildDerivedV30CommitMessageBody(commit) {
+  const { spec, delta, parity } = await readSpecFamily('V30');
+  const scope = extractStatusValue(spec, 'Scope') || 'V30 canonical system specification for Protocol/BTD hardening';
+  const focus = deriveScopeFocus(scope);
+  const decisionSection = extractSection(delta, 'Accepted V30 decisions');
+  const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
+  const parityRows = [
+    ...parseMarkdownTable(extractSection(parity, 'V30 implementation matrix')),
+    ...parseMarkdownTable(extractSection(parity, 'V30 implementation checklist'))
+  ];
+
+  /** @type {string[]} */
+  const bullets = [];
+  for (const decision of acceptedDecisions.slice(0, 4)) {
+    bullets.push(trimTrailingPeriod(decision));
+  }
+
+  const prioritizedAreas = [
+    'Protocol package API boundaries',
+    'Bitcoin Taproot PSBT fee rigor',
+    'BTD AssetPack mint/read receipts',
+    'Testnet ledger projection hardening',
+    'Source-to-shares proof cleanup',
+    'Bridge-readiness research boundaries',
+    'Protocol telemetry/proof hooks',
+    'Interface integration regression',
+    'Promotion readiness'
+  ];
+  for (const area of prioritizedAreas) {
+    const row = findParityRow(parityRows, area);
+    if (!row) continue;
+    const closureSignal = trimTrailingPeriod(
+      stripMarkdown(row['Required V30 result'] || row['Closure signal'] || row['Source evidence'] || '')
+        .replace('.bitcode/v30-,', '.bitcode/v30-*,')
+    );
+    if (!closureSignal) continue;
+    bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
+  }
+
+  return [
+    `Promotes V30 as ${focus} for Bitcode.`,
+    '',
+    `Proof-source commit: ${commit}`,
+    '',
+    'The promotion carries:',
+    ...bullets.slice(0, 14).map((bullet) => `- ${bullet}`)
+  ].join('\n');
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @returns {Promise<string>}
@@ -988,7 +1098,10 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V29') {
     return buildDerivedV29CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, or V29.`);
+  if (version === 'V30') {
+    return buildDerivedV30CommitMessageBody(commit);
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, or V30.`);
 }
 
 async function main() {
@@ -999,8 +1112,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, V28, or V29. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, V28, V29, or V30. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {

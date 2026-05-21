@@ -331,6 +331,12 @@ function buildV21LikeProfile(version) {
     requiredGeneratedArtifactPaths: [
       `.bitcode/${versionLower}-spec-family-report.json`,
       `.bitcode/${versionLower}-canonical-input-report.json`,
+      ...(version === 'V30'
+        ? [
+          '.bitcode/v30-canon-posture-drift-report.json',
+          '.bitcode/v30-protocol-telemetry-proof-hooks.json'
+        ]
+        : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1398,6 +1404,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V26') {
     artifacts.push(...buildV21LikeProfile('V26').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V30') {
+    artifacts.push(...buildV21LikeProfile('V30').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

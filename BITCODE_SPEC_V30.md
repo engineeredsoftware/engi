@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V29`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: none for V30 yet; V30 gate work must create `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, and `BITCODE_SPEC_V30_PROVEN.md` only as promotion evidence
-- Source parity state: V30 source parity is draft-opened for Protocol/BTD package hardening, Bitcoin/PSBT rigor, BTD receipt boundaries, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness boundaries, telemetry hooks, and promotion automation
+- Generated structured artifact inventory: V30 Gate 10 generates `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and `BITCODE_SPEC_V30_PROVEN.md` as promotion evidence
+- Source parity state: V30 source parity is draft-opened for Protocol/BTD package hardening, Bitcoin/PSBT rigor, BTD receipt boundaries, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness boundaries, telemetry hooks, interface regression, and promotion automation
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V30'`
@@ -408,6 +408,17 @@ Gate 10 does not itself promote `BITCODE_SPEC.txt`.
 It closes when `version/v30` can be pull-requested to `main` and the V30
 promotion workflow has enough scripted proof to produce the standalone
 canonical promotion commit.
+
+Gate 10's source implementation is the V30 promotion-readiness control surface:
+`scripts/check-v30-gate10-promotion-readiness.mjs`,
+`scripts/promote-bitcode-canon.mjs`, `scripts/generate-bitcode-proven.mjs`,
+`scripts/prepare-bitcode-spec-family-promotion.mjs`,
+`scripts/prepare-bitcode-runtime-canon-promotion.mjs`,
+`.github/workflows/v30-canon-promotion.yml`, and the generated
+`.bitcode/v30-*` artifacts must agree on the same V29 draft / V30 promoted
+transition. The generated telemetry artifact is source-safe and exists to bind
+Gate 8 Protocol telemetry/proof hooks into promotion proof without exposing
+protected source or secrets.
 
 ## V30 Wallet/BTC operation canon
 
