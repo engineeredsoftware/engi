@@ -5,7 +5,7 @@
 - Version: `V29`
 - V29 state: canonical promotion complete; this delta records the promoted V28-to-V29 Terminal transaction-depth and promotion-readiness closure set
 - Current canonical/latest target: `V29`
-- Canonical proof-source commit: `b13d6f75488c3a9eeb8bb80c7fba20cb8f4b96e9`
+- Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
