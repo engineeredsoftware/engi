@@ -19,6 +19,10 @@ This package owns:
   largest-remainder share weights, BTD range slices, exact BTC fee allocation,
   settlement conservation, zero-cell/refit tail posture, ancestry evidence, and
   no-overpayment/no-underpayment theorem verdicts
+- bridge-readiness research boundaries for Taproot, BitVM, BSC/opBNB,
+  Binance Web3 Wallet, and future distribution paths; every bridge posture is
+  research-only and cannot become current `$BTD` chain-of-record truth without
+  explicit future proof and policy admission
 - ledger/database/object-storage projection reconciliation, including
   deterministic repair classes, source-safe object artifact roots,
   secret-free Supabase staging-testnet readback receipts, quarantine/retry
@@ -54,6 +58,7 @@ import {
   buildBtdRegistrySnapshot,
   buildSupabaseStagingTestnetProjectionReadback,
   buildSourceToSharesProof,
+  buildBridgeReadinessResearchPosture,
   reconcileLedgerDatabaseProjection,
   sourceToSharesProofToSettlementConservationCheck,
   toBtdJsonSafe,

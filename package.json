@@ -60,6 +60,7 @@
     "check:v30-gate4": "node scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs",
     "check:v30-gate5": "node scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs",
     "check:v30-gate6": "node scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs",
+    "check:v30-gate7": "node scripts/check-v30-gate7-bridge-readiness-research-boundaries.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

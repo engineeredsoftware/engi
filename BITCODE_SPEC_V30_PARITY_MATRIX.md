@@ -60,7 +60,7 @@ No `_legacy/` source is active source truth.
 | BTD AssetPack mint/read receipts | Gate 4 | `packages/btd/src/receipts.ts`, `packages/btd/src/api-boundaries.ts`, asset-pack harness evidence, Terminal detail snapshot/read model tests, gate checker | drafted | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
 | Testnet ledger projection hardening | Gate 5 | `packages/btd/src/reconciliation.ts`, API route tests, asset-pack harness evidence, Terminal journal reconciliation UI/tests, gate checker | drafted | Ledger/database/object-storage/private facts are distinct; staging-testnet readback is secret-free; drift, quarantine, retry, and unlock blocking are tested. |
 | Source-to-shares proof cleanup | Gate 6 | `packages/btd/src/source-to-shares.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Measurement contribution, fee allocation, zero-cell/refit tail, ancestry evidence, and conservation invariants are testable. |
-| Bridge-readiness research boundaries | Gate 7 | Protocol/BTD research notes, policy posture tests, docs | pending | Bridge paths are documented as research until admitted by explicit future proof and policy. |
+| Bridge-readiness research boundaries | Gate 7 | `packages/btd/src/bridge-readiness.ts`, BTD/API tests, route boundary, docs, gate checker | drafted | Bridge paths are typed research-only records until admitted by explicit future proof and policy. |
 | Protocol telemetry/proof hooks | Gate 8 | telemetry schema, proof hooks, generated-artifact inventory, tests | pending | Receipts, fee states, projections, and source-to-shares facts emit source-safe telemetry and proof hooks. |
 | Interface integration regression | Gate 9 | Terminal/API/MCP/ChatGPT App adapters and tests | pending | Existing interfaces consume package-owned objects without regressing V29 behavior. |
 | Promotion readiness | Gate 10 | V30 promotion workflow, generated `.bitcode/v30-*`, `BITCODE_SPEC_V30_PROVEN.md` | pending | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
@@ -191,6 +191,24 @@ No `_legacy/` source is active source truth.
 - Gate 6 does not alter `$BTD` supply law or measureminting curve.
 - Gate 6 does not admit bridge chain-of-record semantics; Gate 7 owns bridge-readiness boundaries.
 - Gate 6 does not promote V30 or change the active canon pointer.
+
+## Gate 7 Parity
+
+| Requirement | Source evidence | Current V30 judgment |
+| --- | --- | --- |
+| Bridge-readiness posture is package-owned | `packages/btd/src/bridge-readiness.ts`, `packages/btd/src/index.ts` | drafted |
+| Taproot, BitVM, BSC/opBNB, Binance Web3 Wallet, and future distribution paths are covered | `BRIDGE_READINESS_RESEARCH_PATHS`, `packages/btd/__tests__/bridge-readiness.test.ts` | drafted |
+| Every bridge path remains research-only and not current BTD chain-of-record truth | `assertNoBridgeChainOfRecordAdmission`, `bridgeChainOfRecordTruth: no_bridge_chain_of_record` | drafted |
+| API and Terminal boundary expose source-safe research posture only | `buildBtdBridgeReadinessResearchSettlement`, `buildPostBtdBridgeReadinessResearchRoute`, `uapi/app/api/btd/bridge-readiness-research/route.ts` | drafted |
+| Gate checker protects bridge research boundaries | `scripts/check-v30-gate7-bridge-readiness-research-boundaries.mjs`, `pnpm run check:v30-gate7`, gate-quality workflow | drafted |
+
+## Gate 7 accepted boundaries
+
+- Gate 7 does not implement a bridge chain-of-record path.
+- Gate 7 does not mint, wrap, transfer, settle, unlock, or deliver `$BTD` through Taproot, BitVM, BSC/opBNB, Binance Web3 Wallet, or any future distribution path.
+- Gate 7 does not store secrets or protected source in bridge-readiness records.
+- Gate 7 may expose source-safe research posture to Terminal/API callers for operator review.
+- Gate 7 does not promote V30 or change the active canon pointer.
 
 ## completion condition
 

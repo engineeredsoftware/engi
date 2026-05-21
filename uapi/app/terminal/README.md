@@ -151,6 +151,13 @@ evidence, and a reconciliation-compatible conservation check. Operators should
 read no-overpayment and no-underpayment separately so overpaid, underpaid, and
 drifted settlements are repairable without exposing protected AssetPack source.
 
+Bridge-readiness research evidence should also enter Terminal through the BTD
+package boundary. Taproot, BitVM, BSC/opBNB, Binance Web3 Wallet, and future
+distribution paths are visible only as research posture: each path names
+feasibility, risks, rereview triggers, required proof, and required policy, and
+the selected-activity detail must preserve `no_bridge_chain_of_record` as the
+current `$BTD` truth until a future promoted spec admits otherwise.
+
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
 wallet binding, owner-read or licensed-read access, settlement state,

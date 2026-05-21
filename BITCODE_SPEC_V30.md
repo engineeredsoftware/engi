@@ -242,6 +242,26 @@ Gate 6 source-to-shares precision:
   Prepared, signed, broadcast, replaced, reorged, and failed fee receipts do
   not unlock protected source.
 
+Gate 7 bridge-readiness research boundaries:
+
+- `BridgeReadinessResearchPosture` is package-owned in `@bitcode/btd` and is
+  the reusable policy boundary for bridge and distribution research.
+- The required research paths are Taproot, BitVM, BSC/opBNB, Binance Web3
+  Wallet, and future distribution paths. Each path must have a posture record
+  naming feasibility, risks, current non-admission, rereview triggers, required
+  proof before admission, and required policy before admission.
+- V30 admits no bridge path as current `$BTD` chain-of-record truth.
+  The posture root must retain `bitcoin_btd_registry` as the active BTD chain
+  of record and `no_bridge_chain_of_record` as the bridge truth.
+- Bridge-readiness records are source-safe research facts. They may not contain
+  secrets or protected source, and they may not become wrappers, transfers,
+  settlement rails, ownership claims, or fee rails without a future promoted
+  version that supplies proof, policy, repair, telemetry, and disclosure
+  admission.
+- Terminal and API surfaces may show bridge-readiness posture as operational
+  research evidence, but they must fail closed on any payload attempting to
+  set `chainOfRecordAdmitted` or to mark a bridge as current BTD truth.
+
 ## V30 whole Bitcode operator chain
 
 The V30 Terminal operator chain is:

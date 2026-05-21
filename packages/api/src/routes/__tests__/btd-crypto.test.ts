@@ -19,6 +19,7 @@ import {
   buildBtdAssetPackLedgerAnchorSettlement,
   buildBtdAssetPackExchangeSettlement,
   buildBtdBtcFeeTransactionSettlement,
+  buildBtdBridgeReadinessResearchSettlement,
   buildBtdDeploymentReadinessSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
@@ -36,6 +37,7 @@ import {
   buildPostBtdAssetPackLedgerAnchorRoute,
   buildPostBtdAssetPackExchangeRoute,
   buildPostBtdBtcFeeTransactionRoute,
+  buildPostBtdBridgeReadinessResearchRoute,
   buildPostBtdDeploymentReadinessRoute,
   buildPostBtdLedgerDatabaseReconciliationRoute,
   buildPostBtdLicensedReadRevenueRoute,
@@ -201,6 +203,15 @@ function sourceToSharesProofBody(overrides: Record<string, unknown> = {}) {
       txid: 'txid-api-source-to-shares',
     },
     exchangeSequence: '18',
+    issuedAt,
+    ...overrides,
+  };
+}
+
+function bridgeReadinessResearchBody(overrides: Record<string, unknown> = {}) {
+  return {
+    postureId: 'bridge-readiness-api-1',
+    exchangeSequence: '19',
     issuedAt,
     ...overrides,
   };
@@ -967,6 +978,30 @@ describe('BTD crypto API builders', () => {
     );
   });
 
+  it('builds bridge-readiness research settlements without chain-of-record admission', () => {
+    const settlement = buildBtdBridgeReadinessResearchSettlement({
+      actorId: 'user-1',
+      ...bridgeReadinessResearchBody(),
+      exchangeSequence: 19n,
+    } as any);
+
+    expect(settlement.kind).toBe('btd_bridge_readiness_research_settlement');
+    expect(settlement.committed).toBe(false);
+    expect(settlement.posture.bridgeChainOfRecordTruth).toBe('no_bridge_chain_of_record');
+    expect(settlement.posture.records.map((record) => record.path)).toEqual([
+      'bitcoin_taproot_anchor',
+      'bitvm_execution_bridge',
+      'bsc_opbnb_distribution',
+      'binance_web3_wallet_distribution',
+      'future_distribution_path',
+    ]);
+    expect(settlement.posture.records.every((record) => record.chainOfRecordAdmitted === false)).toBe(
+      true,
+    );
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('proof_admission');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(settlement.posture.proofRoot);
+  });
+
   it('builds deployment readiness, telemetry, and upgrade settlements', () => {
     const readiness = buildBtdDeploymentReadinessSettlement({
       actorId: 'user-1',
@@ -1533,6 +1568,28 @@ describe('BTD crypto API builders', () => {
     expect(body.proof.settlementConservation.noOverpayment.passed).toBe(true);
     expect(body.proof.settlementConservation.noUnderpayment.passed).toBe(true);
     expect(body.terminalJournalEntry.exchangeSequence).toBe('18');
+  });
+
+  it('returns JSON-safe bridge-readiness research posture from the route boundary', async () => {
+    const route = buildPostBtdBridgeReadinessResearchRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/bridge-readiness-research', {
+        method: 'POST',
+        body: JSON.stringify(bridgeReadinessResearchBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_bridge_readiness_research_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.posture.activeBtdChainOfRecord).toBe('bitcoin_btd_registry');
+    expect(body.posture.bridgeChainOfRecordTruth).toBe('no_bridge_chain_of_record');
+    expect(body.posture.allNonAdmitted).toBe(true);
+    expect(body.posture.records).toHaveLength(5);
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('19');
   });
 
   it('returns JSON-safe deployment readiness settlements and persists telemetry or upgrades', async () => {
