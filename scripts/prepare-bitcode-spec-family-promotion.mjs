@@ -98,6 +98,54 @@ function rewriteStatusValues(content, values) {
 }
 
 /**
+ * @param {string} content
+ * @param {string} heading
+ * @returns {string}
+ */
+function rewritePromotedParityTableJudgments(content, heading) {
+  const headingPattern = new RegExp(`^## ${heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'm');
+  const headingMatch = content.match(headingPattern);
+  if (!headingMatch || typeof headingMatch.index !== 'number') return content;
+
+  const sectionStart = headingMatch.index;
+  const nextHeadingMatch = content.slice(sectionStart + headingMatch[0].length).match(/^##\s/m);
+  const sectionEnd = nextHeadingMatch
+    ? sectionStart + headingMatch[0].length + nextHeadingMatch.index
+    : content.length;
+  const section = content.slice(sectionStart, sectionEnd);
+  const lines = section.split('\n');
+  const headerIndex = lines.findIndex((line) => line.trim().startsWith('|'));
+  if (headerIndex < 0) return content;
+
+  const headers = lines[headerIndex].split('|').slice(1, -1).map((cell) => cell.trim());
+  const judgmentIndex = headers.findIndex((header) => header === 'Judgment');
+  if (judgmentIndex < 0) return content;
+
+  const rewrittenLines = lines.map((line, index) => {
+    if (index <= headerIndex + 1 || !line.trim().startsWith('|')) return line;
+    const cells = line.split('|');
+    const cellIndex = judgmentIndex + 1;
+    if (!cells[cellIndex] || cells[cellIndex].trim() !== 'drafted') return line;
+    cells[cellIndex] = ' closed ';
+    return cells.join('|');
+  });
+
+  return `${content.slice(0, sectionStart)}${rewrittenLines.join('\n')}${content.slice(sectionEnd)}`;
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ * @returns {string}
+ */
+function rewritePromotedParityJudgments(content, version) {
+  return [
+    `${version} implementation matrix`,
+    `${version} implementation checklist`
+  ].reduce((rewritten, heading) => rewritePromotedParityTableJudgments(rewritten, heading), content);
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @param {string} content
@@ -146,7 +194,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
       notes: 'canonical promotion complete; V29 notes record the accepted Terminal-depth, local/staging, and promotion-readiness evidence',
       parity: 'canonical promotion complete; V29 parity truth, product-gate audit, generated proof, and promotion automation are aligned'
     };
-    return rewriteStatusValues(content, {
+    const rewritten = rewriteStatusValues(content, {
       Scope: scopeByKind[kind],
       ...(kind !== 'delta'
         ? { 'Last fully realized canonical target preserved in source': '`V29`' }
@@ -158,6 +206,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
         'V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family',
       'V29 state': stateByKind[kind]
     });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {

@@ -460,6 +460,80 @@ test('runtime promotion preparation rewrites optional protocol package posture c
   assert.match(rewrittenPackageState, /"inheritedCanonSurfaceLabel": "V16\/V17\/V18\/V19\/V20\/V21\/V22\/V23\/V24\/V25\/V26\/V27\/V28"/);
 });
 
+test('V29 spec-family promotion preparation rewrites status truth and promoted parity judgments', async () => {
+  const fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'bitcode-spec-family-v29-'));
+  const status = [
+    '## Status',
+    '',
+    '- Current canonical/latest target: `V28`',
+    '- Source parity state: draft',
+    '- V29 state: draft implementation underway'
+  ].join('\n');
+  const parity = [
+    '# Bitcode Spec V29 Parity Matrix',
+    '',
+    status,
+    '',
+    '## V29 implementation matrix',
+    '',
+    '| Area | Gate | Source evidence | Judgment | Closure requirement |',
+    '| --- | --- | --- | --- | --- |',
+    '| Promotion readiness | Gate 10 | promotion workflow | drafted | Generated canon can be committed. |',
+    '',
+    '## V29 implementation checklist',
+    '',
+    '| Area | Required V29 result | Judgment |',
+    '| --- | --- | --- |',
+    '| Gate 10 promotion readiness | promotion dry-run and generated-canon automation | drafted |',
+    '',
+    '## Other table',
+    '',
+    '| Area | Judgment |',
+    '| --- | --- |',
+    '| Draft-only audit | drafted |'
+  ].join('\n');
+  /** @type {Array<[string, string]>} */
+  const files = [
+    ['BITCODE_SPEC_V29.md', `# Bitcode Spec V29\n\n${status}\n\n## Body\nx\n`],
+    ['BITCODE_SPEC_V29_DELTA.md', `# Bitcode Spec V29 Delta\n\n${status}\n\n## Body\nx\n`],
+    ['BITCODE_SPEC_V29_NOTES.md', `# Bitcode Spec V29 Notes\n\n${status}\n\n## Body\nx\n`],
+    ['BITCODE_SPEC_V29_PARITY_MATRIX.md', parity]
+  ];
+  await Promise.all(files.map(([relativePath, content]) => fs.writeFile(path.join(fixtureRoot, relativePath), content, 'utf8')));
+
+  const output = execFileSync(process.execPath, [
+    prepareSpecFamilyScriptPath,
+    '--version',
+    'V29',
+    '--commit',
+    'deadbeef',
+    '--repo-root',
+    fixtureRoot
+  ], {
+    cwd: fixtureRoot,
+    encoding: 'utf8'
+  });
+
+  assert.match(output, /Prepared V29 hand-authored spec family for promotion with proof-source commit deadbeef/);
+
+  for (const relativePath of files.map(([relativePath]) => relativePath)) {
+    const rewritten = await fs.readFile(path.join(fixtureRoot, relativePath), 'utf8');
+    assert.match(rewritten, /Current canonical\/latest target: `V29`/);
+    assert.match(rewritten, /Canonical proof-source commit: `deadbeef`/);
+    const versionStateLine = rewritten.match(/^- V29 state: (.+)$/m);
+    const stateValue = versionStateLine?.[1];
+    if (typeof stateValue !== 'string') {
+      throw new Error(`Missing V29 state line in ${relativePath}`);
+    }
+    assert.doesNotMatch(stateValue, /draft|pending|in progress/i);
+  }
+
+  const rewrittenParity = await fs.readFile(path.join(fixtureRoot, 'BITCODE_SPEC_V29_PARITY_MATRIX.md'), 'utf8');
+  assert.match(rewrittenParity, /\| Promotion readiness \| Gate 10 \| promotion workflow \| closed \|/);
+  assert.match(rewrittenParity, /\| Gate 10 promotion readiness \| promotion dry-run and generated-canon automation \| closed \|/);
+  assert.match(rewrittenParity, /\| Draft-only audit \| drafted \|/);
+});
+
 test('V25 promotion dry-run includes drift detection and runtime posture preparation', () => {
   const output = execFileSync(process.execPath, [
     promoteScriptPath,

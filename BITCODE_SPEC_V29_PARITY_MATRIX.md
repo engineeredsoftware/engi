@@ -325,7 +325,8 @@ Accepted surfaces:
   Terminal browser proof, runtime/spec preparation, generated proof creation,
   and promoted-family validation.
 - `scripts/prepare-bitcode-spec-family-promotion.mjs` rewrites V29
-  hand-authored status truth for promoted mode.
+  hand-authored status truth and the promoted V29 implementation
+  matrix/checklist judgments for promoted mode.
 - `scripts/prepare-bitcode-runtime-canon-promotion.mjs` rewrites standalone
   demonstration posture and commercial `packages/protocol` posture/data for V29
   active / V30 draft.
