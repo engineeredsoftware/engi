@@ -22,6 +22,7 @@ import {
   buildBtdBridgeReadinessResearchSettlement,
   buildBtdDeploymentReadinessSettlement,
   buildBtdInterfaceIntegrationRegressionSettlement,
+  buildBtdInterfaceAuthorizationPolicy,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
@@ -33,6 +34,7 @@ import {
   buildBtdProtocolTelemetryRecord,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
+  getBtdInterfaceAuthorizationPolicyFixture,
 } from '@bitcode/btd';
 import {
   buildGetBtdRegistrySnapshotRoute,
@@ -352,6 +354,26 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
 }
 
 describe('BTD crypto API builders', () => {
+  it('shares the package-owned InterfaceAuthorizationPolicy fixture for API request admission', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('api-request-read-allowed');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+
+    expect(fixture.fixturePath).toBe('packages/api/src/routes/__tests__/btd-crypto.test.ts');
+    expect(policy).toMatchObject({
+      interfaceSurface: 'api',
+      action: 'request_read',
+      decision: 'allowed',
+      denialCodes: [],
+      actor: {
+        organizationId: 'org-api-1',
+        teamId: 'team-api-reading',
+        organizationRole: 'member',
+      },
+      sourceVisibility: 'source_safe_preview',
+    });
+    expect(policy.proofRoots.policyRoot).toMatch(/^btd-interface-auth:interface-authorization-policy:/);
+  });
+
   it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {
     const draft = buildBtdMintDraft(mintDraftInput());
 

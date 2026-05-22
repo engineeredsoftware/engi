@@ -136,6 +136,13 @@ Closure acceptance:
 - API, MCP, ChatGPT App, and Terminal handoff tests share policy fixtures;
 - missing or stale authority fails closed with readable denial.
 
+Gate 5 implementation binds `InterfaceAuthorizationPolicy` to the BTD package,
+publishes `.bitcode/v33-interface-authorization-policy.json`, and ensures MCP
+pipeline writes plus ChatGPT App connected-interface writes carry the policy
+root in write-admission metadata. The policy does not unlock source by itself:
+locked AssetPack delivery still requires settlement, read-license evidence,
+AssetPack rights, and an admitted interface action.
+
 ### Gate 6: Read License And AssetPack Rights Interface Contracts
 
 Gate 6 proves paid/unpaid Reading boundaries across interfaces.

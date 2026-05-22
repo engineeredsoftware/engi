@@ -8,6 +8,7 @@
     "paths": {
       "@bitcode/btd": ["packages/btd/src/authority.ts"],
       "@bitcode/btd/chatgpt-app-action-contract": ["packages/btd/src/chatgpt-app-action-contract.ts"],
+      "@bitcode/btd/interface-authorization-policy": ["packages/btd/src/interface-authorization-policy.ts"],
       "@bitcode/btd/interface-integration-contract": ["packages/btd/src/interface-integration-contract.ts"],
       "@bitcode/tools-generics": ["packages/chatgptapp/src/__stubs__/tools-generics.ts"],
       "@bitcode/generic-tools-simple-system-text-search": ["packages/chatgptapp/src/__stubs__/generic-tools-simple-system-text-search.ts"],

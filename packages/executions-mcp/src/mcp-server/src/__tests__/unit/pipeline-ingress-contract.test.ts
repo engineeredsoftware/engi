@@ -65,6 +65,10 @@ import {
   type MCPAuthContext,
 } from '../../types';
 import {
+  buildBtdInterfaceAuthorizationPolicy,
+  getBtdInterfaceAuthorizationPolicyFixture,
+} from '@bitcode/btd';
+import {
   buildPipelineInputContext,
   queuePipelineJob,
   monitorPipelineExecution,
@@ -76,6 +80,9 @@ const mockedMonitorPipelineExecution = jest.mocked(monitorPipelineExecution);
 const AUTH_CONTEXT: MCPAuthContext = {
   userId: 'user-1',
   organizationId: 'org-1',
+  organizationRole: 'member',
+  apiKeyId: 'api-key-1',
+  scopes: ['reading:request_finding_fits'],
   permissions: {
     pipelines: { create: true, read: true, cancel: true, retry: true },
     organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: true },
@@ -147,6 +154,26 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       kind: 'repository_connection',
       provider: 'github',
       connectionId: 42,
+    });
+  });
+
+  it('shares the package-owned InterfaceAuthorizationPolicy fixture for MCP Finding Fits admission', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('mcp-finding-fits-allowed');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+
+    expect(fixture.fixturePath).toBe(
+      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    );
+    expect(policy).toMatchObject({
+      interfaceSurface: 'mcp',
+      action: 'request_finding_fits',
+      decision: 'allowed',
+      actor: {
+        organizationId: 'org-mcp-1',
+        teamId: 'team-mcp-reading',
+        organizationRole: 'member',
+      },
+      sourceVisibility: 'source_safe_preview',
     });
   });
 
@@ -262,6 +289,11 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         attachmentCount: 1,
         connectionCount: 1,
         outputMeaning: 'asset_packs',
+        interfaceAuthorizationPolicy: expect.objectContaining({
+          decision: 'allowed',
+          denialCodes: [],
+          policyRoot: expect.stringMatching(/^btd-interface-auth:interface-authorization-policy:/),
+        }),
       },
     });
     expect(result.inputContext).toMatchObject({
@@ -396,6 +428,9 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         ingressBasis: 'provider_credential',
         repositoryProvider: 'github',
         repositoryAnchor: 'github:bitcode-labs/terminal',
+        interfaceAuthorizationPolicy: expect.objectContaining({
+          decision: 'allowed',
+        }),
       },
     });
   });
@@ -452,6 +487,9 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         ingressBasis: 'provider_credential',
         repositoryProvider: 'github',
         repositoryAnchor: 'github:bitcode-labs/terminal',
+        interfaceAuthorizationPolicy: expect.objectContaining({
+          decision: 'allowed',
+        }),
       },
     });
     expect(result.assetPacks).toEqual([

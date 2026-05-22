@@ -7,6 +7,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./chatgpt-app-action-contract": "./src/chatgpt-app-action-contract.ts",
+    "./interface-authorization-policy": "./src/interface-authorization-policy.ts",
     "./interface-integration-contract": "./src/interface-integration-contract.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },

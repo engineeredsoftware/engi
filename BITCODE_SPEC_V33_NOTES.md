@@ -51,6 +51,15 @@ Do not read `_legacy/` as active law.
 9. Gate 9: Interface Consumer UX Regression Proof.
 10. Gate 10: V33 Promotion Readiness.
 
+## Gate 5 working notes
+
+Gate 5 owns the shared `InterfaceAuthorizationPolicy` primitive. The policy is
+not an adapter convenience; it is the package-owned fail-closed admission object
+for API, MCP, ChatGPT App, and Terminal handoffs. Gate 5 must keep readable
+denial state available for missing/stale authority and keep locked source
+blocked until read-license, AssetPack rights, settlement, wallet, organization,
+and repair posture are all admitted.
+
 ## Interface-depth notes
 
 - MCP API and ChatGPT App are commercial interfaces, not demonstration surfaces.
@@ -86,6 +95,14 @@ Each action binds package-owned input/output schemas, `interface.authorization.c
 Denied states include `SCHEMA_VALIDATION_FAILED`, `READ_NEED_REQUIRED`, `FINDING_FITS_REQUIRED`, `ASSET_PACK_PREVIEW_REQUIRED`, `FEE_QUOTE_REQUIRED`, `SETTLEMENT_REQUIRED`, `READ_LICENSE_REQUIRED`, `ORGANIZATION_AUTHORITY_REQUIRED`, and `CONFIRMATION_REQUIRED`.
 The ChatGPT App tool registry consumes the package-owned contracts through `buildBtdChatGptAppActionContractRegistry`, while `renderBtdChatGptAppSourceSafeResponse` keeps locked AssetPack contents invisible.
 The generated source-safe artifact is `.bitcode/v33-chatgpt-app-action-contracts.json`, checked by `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4`.
+
+## Gate 5 closure note
+
+Gate 5 introduces `InterfaceAuthorizationPolicy` in `packages/btd/src/interface-authorization-policy.ts`.
+The shared fixtures cover API request admission, MCP Finding Fits admission, ChatGPT App locked AssetPack delivery, Terminal BTC fee admission, stale authority denial, and unpaid delivery denial.
+The policy records auth issuer freshness, organization/team/member/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial messages, repair actions, and deterministic policy roots.
+MCP pipeline writes and ChatGPT App connected-interface writes carry `interfaceAuthorizationPolicy` metadata in write-admission output.
+The generated source-safe artifact is `.bitcode/v33-interface-authorization-policy.json`, checked by `check:v33-interface-authorization-policy` and `check:v33-gate5`.
 
 ## Carryforward from V32
 

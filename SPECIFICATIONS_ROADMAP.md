@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V32`
 - Current active canon: `BITCODE_SPEC_V32.md`
 - Current draft target: `BITCODE_SPEC_V33.md`
-- Current working gate: V33 Gate 4 ChatGPT App Action And Tool Contracts, which makes ChatGPT App Reading actions package-derived and source-safe, binds Read, Need, Finding Fits, preview, fee, settlement, and delivery action ids to `ChatGptAppActionContract`, proves denial repair states such as `READ_LICENSE_REQUIRED` and `SETTLEMENT_REQUIRED`, and generates `.bitcode/v33-chatgpt-app-action-contracts.json`.
+- Current working gate: V33 Gate 5 Interface Authorization Policy Fail-Closed, which centralizes auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and shared API/MCP/ChatGPT App/Terminal fixtures in `InterfaceAuthorizationPolicy`, generating `.bitcode/v33-interface-authorization-policy.json`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
