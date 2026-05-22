@@ -74,3 +74,9 @@ V31 owns deeper Auxillaries:
 ## Gate 1 closure note
 
 Gate 1 is closed only when the V31 draft family validates over V30, the roadmap is truthful, V31 workflows are greenable, contributor docs show the V31 gate workflow, and `check:v31-gate1` fails closed on stale posture or missing Auxillaries scope.
+
+## Gate 2 closure note
+
+Gate 2 is closed only when Auxillaries support-state contracts are package-owned and JSON-safe.
+Routes may still authenticate, read/write explicit storage rows, and return framework responses, but readiness and policy objects for Profile, Connects, Interfaces, Wallet, BTD, organization, diagnostics, and recovery must be built through `packages/api/src/routes/auxillaries-contract.ts`.
+The route payload can preserve existing UI fields for compatibility, but provider tokens, wallet secrets, service keys, database credentials, private prompts, and protected source must be redacted before any UI, telemetry, or proof-hook consumption.

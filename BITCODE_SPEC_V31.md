@@ -226,6 +226,7 @@ Gate 2 contract precision:
 - Auxillaries API routes may authenticate, parse requests, and persist explicit route writes, but profile/account readiness, connection readiness, interface admission, wallet/BTD pane state, organization authority, readiness diagnostics, and recovery run objects must be built by package-owned helpers.
 - JSON-safe output must redact provider tokens, API keys, wallet secrets, private prompts, protected source, and service credentials.
 - `uapi/app/auxillaries` components consume these contracts as product state and must not rederive hidden policy logic.
+- The package-owned V31 contract builder is `buildAuxillariesContractSnapshot`; its JSON-safe route payload compatibility builder is `buildAuxillaryDataPayload`, and every route/mock bridge must pass through these builders before UI consumption.
 
 Gate 3 profile/account precision:
 

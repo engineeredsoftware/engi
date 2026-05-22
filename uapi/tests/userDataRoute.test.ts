@@ -49,12 +49,13 @@ describe('GET /api/auxillaries/data', () => {
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toEqual({
+    expect(body).toEqual(expect.objectContaining({
       profile: null,
       githubConnection: null,
       walletConnectionStatus: null,
       repositoryConnectionStatus: null,
       repositories: [],
+      organizations: [],
       repositoryInventorySource: null,
       btdBalance: 0,
       btcFeeBalance: null,
@@ -63,7 +64,12 @@ describe('GET /api/auxillaries/data', () => {
       onboardedPanes: [],
       onboarded_steps: [],
       isOnboardingComplete: false,
-    });
+      auxillariesContract: expect.objectContaining({
+        kind: 'auxillaries_contract_snapshot',
+        profileState: expect.objectContaining({ accountReadiness: 'blocked' }),
+      }),
+      readinessDiagnostics: expect.any(Array),
+    }));
     expect(mockFrom).not.toHaveBeenCalled();
   });
 
@@ -146,7 +152,7 @@ describe('GET /api/auxillaries/data', () => {
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toEqual({
+    expect(body).toEqual(expect.objectContaining({
       profile: expect.objectContaining({
         id: 'user-1',
         username: 'test',
@@ -176,6 +182,7 @@ describe('GET /api/auxillaries/data', () => {
           defaultBranch: 'main',
         }),
       ],
+      organizations: ['bitcode'],
       repositoryInventorySource: 'stored_repository_inventory',
       btdBalance: 50,
       btcFeeBalance: null,
@@ -184,7 +191,26 @@ describe('GET /api/auxillaries/data', () => {
       onboardedPanes: ['profile', 'interfaces', 'wallet'],
       onboarded_steps: ['profile', 'interfaces', 'wallet'],
       isOnboardingComplete: false,
-    });
+      auxillariesContract: expect.objectContaining({
+        kind: 'auxillaries_contract_snapshot',
+        profileState: expect.objectContaining({
+          username: 'test',
+          accountReadiness: 'ready',
+        }),
+        connectionReadiness: [
+          expect.objectContaining({
+            provider: 'github',
+            connected: true,
+            valid: true,
+          }),
+        ],
+      }),
+      walletBtdPaneState: expect.objectContaining({
+        walletCapability: expect.objectContaining({
+          address: 'bc1qbitcodeoperator',
+        }),
+      }),
+    }));
     // Ensure queries were scoped correctly
     expect(profileBuilder.eq).toHaveBeenCalledWith('id', 'user-1');
     expect(connectionBuilder.eq).toHaveBeenCalledWith('provider', 'github');

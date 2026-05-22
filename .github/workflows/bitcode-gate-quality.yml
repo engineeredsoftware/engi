@@ -96,6 +96,7 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V30 --draft-target V31
             node scripts/check-v30-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             node scripts/check-v31-gate1-spec-roadmap-opening.mjs --skip-branch-check
+            node scripts/check-v31-gate2-auxillaries-package-route-contracts.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -122,6 +123,7 @@ jobs:
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
+          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand
           pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand
@@ -134,6 +136,7 @@ jobs:
       - name: Test staged Reading route and Terminal harness contracts
         run: |
           pnpm --dir uapi exec jest --runTestsByPath \
+            tests/userDataRoute.test.ts \
             tests/api/readReviewRoute.test.ts \
             tests/api/pipelineHarnessRoute.test.ts \
             tests/terminalPipelineHarnessClient.test.ts \

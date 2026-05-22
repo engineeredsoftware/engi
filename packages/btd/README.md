@@ -88,6 +88,12 @@ ChatGPT App, Auxillaries, and Exchange must not copy BTD admission, receipt,
 settlement, parser, validator, or serializer logic locally when this package
 exports the boundary object.
 
+Auxillaries is an accepted BTD consumer, not a BTD policy owner. Wallet and BTD
+support panes can surface range, read-right, treasury, signer, settlement, and
+no-custody posture from this package through source-safe summaries, but they
+must not rederive `$BTD` mint, read-access, rights-transfer, BTC fee, bridge,
+or source-disclosure law locally.
+
 Terminal should consume the operational-health subpath when it needs the
 client-safe read model without importing storage-backed package entry points:
 

@@ -16,6 +16,15 @@ Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the 
 
 ## Ownership
 
+- `auxillary-onboarding-contract.ts`
+  Interface bridge over the package-owned Auxillaries route contract. It
+  re-exports `AuxillariesContractSnapshot`, `AuxillariesProfileState`,
+  `AuxillariesConnectionReadiness`, `AuxillariesInterfaceAdmission`,
+  `AuxillariesWalletBtdPaneState`, `OrganizationPolicyAuthority`,
+  `AuxillariesReadinessDiagnostic`, and `AuxillariesRecoveryRun` from
+  `@bitcode/api/src/routes/auxillaries-contract`. UI code may consume these
+  objects but must not rederive readiness, policy, source-safety, or proof-root
+  logic locally.
 - `[pane]/page.tsx`
   Redirect-only compatibility owner for pane aliases.
 - `components/auxillary-pane-meta.ts`

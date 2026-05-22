@@ -56,6 +56,15 @@ const relatedVectors = await client.assetPackVectors.listByAssetPackEvidenceId(a
 - **Schema Contracts**: Generated database types and typed model helpers kept in lockstep with Supabase migrations
 - **Data Health Checks**: `pnpm -C packages/orm run data-health -- --suite daily` validates live Supabase projection health when a Postgres connection string is supplied through `SUPABASE_DB_URL`, `DATABASE_URL`, or compatible env.
 
+## Auxillaries Profile Contract Boundary
+
+`profile-contract.ts` owns database-shaped profile hydration, wallet-binding
+normalization, and profile settings merge helpers. Auxillaries API routes should
+import these helpers from `@bitcode/orm` and then pass hydrated records into
+`@bitcode/api` Auxillaries contract builders. ORM does not own UI-ready
+readiness diagnostics, interface admission, organization policy, or source-safe
+payload redaction; those route contracts belong to `@bitcode/api`.
+
 ## Architecture
 
 Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search, profile contracts, generated types, and data-health checks support Bitcode Terminal, wallet, GitHub, AssetPack, and proof-facing storage without admitting experimental non-Bitcode query corridors.

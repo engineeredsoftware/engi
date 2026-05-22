@@ -74,7 +74,32 @@ export function readBitcodeWalletCapabilityFromProfile(profile: ProfileRecord) {
 }
 
 export function hydrateBitcodeProfile(profile: ProfileRecord) {
-  return profile ? { ...profile } : null;
+  if (!profile) return null;
+
+  const settingsProfile = profile.settings?.bitcodeProfile || {};
+  const walletBinding = readBitcodeWalletBindingFromProfile(profile);
+
+  return {
+    ...profile,
+    company_name: settingsProfile.companyName ?? profile.company_name ?? null,
+    team_members: Array.isArray(settingsProfile.teamMembers)
+      ? settingsProfile.teamMembers
+      : Array.isArray(profile.team_members)
+        ? profile.team_members
+        : [],
+    email: settingsProfile.email ?? profile.email ?? null,
+    is_verified:
+      typeof settingsProfile.isVerified === 'boolean'
+        ? settingsProfile.isVerified
+        : typeof profile.is_verified === 'boolean'
+          ? profile.is_verified
+          : null,
+    wallet_address: walletBinding?.address ?? profile.wallet_address ?? null,
+    wallet_provider: walletBinding?.provider ?? profile.wallet_provider ?? null,
+    wallet_binding_status: walletBinding?.status ?? profile.wallet_binding_status ?? null,
+    wallet_bound_at: walletBinding?.boundAt ?? profile.wallet_bound_at ?? null,
+    wallet_binding: walletBinding,
+  };
 }
 
 export function mergeBitcodeProfileSettings(profile: ProfileRecord, patch: Record<string, any>) {
