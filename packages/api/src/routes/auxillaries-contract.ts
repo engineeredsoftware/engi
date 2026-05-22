@@ -1,4 +1,5 @@
 import { createHash } from 'crypto';
+import { buildBtdWalletBtdSupportProjection } from '@bitcode/btd';
 
 export const AUXILLARY_FLOW_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
 export const AUXILLARIES_CONTRACT_VERSION = 'v31-draft-auxillaries-contracts' as const;
@@ -85,6 +86,9 @@ export interface AuxillaryBtdAssetPackSummary {
   label?: string;
   rangeStart?: number;
   rangeEndExclusive?: number;
+  readRightState?: 'owner_read' | 'licensed_read' | 'pending_settlement' | 'denied' | 'unknown';
+  accessPolicyHash?: string | null;
+  sourceSafePreviewRoot?: string | null;
   acquiredAt?: string | null;
 }
 
@@ -234,24 +238,50 @@ export interface AuxillariesWalletBtdPaneState {
     provider: string | null;
     address: string | null;
     verificationState: string | null;
+    network: string | null;
     noCustody: true;
+    serverCustody: false;
+    capabilities: Array<'message_sign' | 'psbt_sign' | 'rights_transfer'>;
+    walletCapabilityRoot: string;
   };
   signerPosture: {
     ready: boolean;
     state: 'verified' | 'manual' | 'pending' | 'missing' | 'invalid';
     requiredAction: 'none' | 'connect_wallet' | 'verify_wallet_signature' | 'repair_wallet_binding';
+    canSignPsbt: boolean;
+    canSignRightsTransfer: boolean;
+    serverCustody: false;
+  };
+  networkReadiness: {
+    state: AuxillariesReadinessState;
+    network: string | null;
+    requiredAction: 'none' | 'connect_wallet' | 'verify_network' | 'repair_wallet_binding';
+    blocker: string | null;
   };
   btdReadRightSummary: {
     aggregateBtd: number;
     assetPackCount: number;
     recentAssetPackIds: string[];
+    rangeCount: number;
+    totalRangeCells: number;
+    ownerReadCount: number;
+    licensedReadCount: number;
+    pendingSettlementCount: number;
+    deniedCount: number;
+    unknownCount: number;
+    protectedSourceVisible: false;
+    sourceSafePreviewRoots: string[];
   };
   treasurySummary: {
     btcFeeBalance: number | null;
     feeAsset: 'BTC';
     noCustody: true;
+    treasuryScope: 'account';
+    organizationTreasurySeparated: true;
+    exchangeMarketState: 'not_exchange_market_state';
   };
   settlementReadiness: AuxillariesReadinessState;
+  settlementBlockers: string[];
   sourceSafetyClass: AuxillariesSourceSafetyClass;
   btdSupportRoot: string;
 }
@@ -1118,61 +1148,40 @@ export function buildAuxillariesWalletBtdPaneState(input: {
   const verificationState = readString(walletStatus?.verificationState) ?? binding?.status ?? null;
   const connected = readBoolean(walletStatus?.connected) ?? Boolean(address);
   const valid = readBoolean(walletStatus?.valid) ?? verificationState === 'verified';
-  const signerState: AuxillariesWalletBtdPaneState['signerPosture']['state'] = !address
-    ? 'missing'
-    : valid || verificationState === 'verified'
-      ? 'verified'
-      : verificationState === 'pending'
-        ? 'pending'
-        : verificationState === 'manual'
-          ? 'manual'
-          : connected
-            ? 'invalid'
-            : 'missing';
-  const recentAssetPacks = Array.isArray(input.recentBtdAssetPacks) ? input.recentBtdAssetPacks : [];
-  const aggregateBtd = typeof input.btdBalance === 'number' && Number.isFinite(input.btdBalance)
-    ? input.btdBalance
-    : 0;
-  const withoutRoot = {
-    kind: 'AuxillariesWalletBtdPaneState' as const,
-    walletCapability: {
-      hasBinding: Boolean(address),
-      provider,
+  const walletMetadata = asRecord(walletStatus?.metadata);
+  const projection = buildBtdWalletBtdSupportProjection({
+    wallet: {
       address,
+      provider,
       verificationState,
-      noCustody: true as const,
+      connected,
+      valid,
+      network:
+        readString(walletStatus?.network) ??
+        readString(walletMetadata?.network) ??
+        null,
     },
-    signerPosture: {
-      ready: signerState === 'verified',
-      state: signerState,
-      requiredAction:
-        signerState === 'verified'
-          ? 'none' as const
-          : signerState === 'missing'
-            ? 'connect_wallet' as const
-            : signerState === 'manual' || signerState === 'pending'
-              ? 'verify_wallet_signature' as const
-              : 'repair_wallet_binding' as const,
-    },
-    btdReadRightSummary: {
-      aggregateBtd,
-      assetPackCount: recentAssetPacks.length,
-      recentAssetPackIds: recentAssetPacks.map((assetPack) => assetPack.assetPackId).filter(Boolean),
-    },
-    treasurySummary: {
-      btcFeeBalance: typeof input.btcFeeBalance === 'number' && Number.isFinite(input.btcFeeBalance)
-        ? input.btcFeeBalance
-        : null,
-      feeAsset: 'BTC' as const,
-      noCustody: true as const,
-    },
-    settlementReadiness: signerState === 'verified' ? 'ready' as const : 'degraded' as const,
+    aggregateBtd: input.btdBalance,
+    btcFeeBalance: input.btcFeeBalance,
+    recentAssetPacks: Array.isArray(input.recentBtdAssetPacks)
+      ? input.recentBtdAssetPacks
+      : [],
+  });
+  const withoutRoot: Omit<AuxillariesWalletBtdPaneState, 'btdSupportRoot'> = {
+    kind: 'AuxillariesWalletBtdPaneState' as const,
+    walletCapability: projection.walletCapability,
+    signerPosture: projection.signerPosture,
+    networkReadiness: projection.networkReadiness,
+    btdReadRightSummary: projection.btdReadRightSummary,
+    treasurySummary: projection.treasurySummary,
+    settlementReadiness: projection.settlementReadiness,
+    settlementBlockers: projection.settlementBlockers,
     sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
   };
 
   return {
     ...withoutRoot,
-    btdSupportRoot: stableProofRoot('auxillaries-wallet-btd-pane-state', withoutRoot),
+    btdSupportRoot: projection.btdSupportRoot,
   };
 }
 

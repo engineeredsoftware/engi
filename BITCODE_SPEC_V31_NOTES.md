@@ -91,6 +91,14 @@ Route hydration must include template preference and notification readback where
 ## Gate 4 closure note
 
 Gate 4 is closed only when Connects provider state is a source-safe readiness contract rather than a raw OAuth/VCS status blob.
+That source-safe provider connection posture remains closed after later V31 gates advance the roadmap.
 Provider readiness must name provider id/name, installation state, credential posture, token presence class, scopes class, last readback status, blocker, repair action, and proof root without exposing raw provider credentials.
 VCS and GitHub Auxillaries routes may use credentials internally to validate or repair a connection, but responses, UI metadata, telemetry, and recovery proof hooks must carry only classified posture and before/after readiness roots.
 The Externals pane can display compact provider proof detail, but it must consume `connectionReadiness` and `recoveryRuns` from the package-owned Auxillaries contract instead of locally deciding provider law.
+
+## Gate 5 closure note
+
+Gate 5 is closed only when Wallet/BTD support is package-owned and source-safe.
+`@bitcode/btd` must derive no-custody wallet capability, signer posture, network readiness, BTD range/read-right counts, account treasury posture, settlement blockers, and support roots.
+`packages/api` may map that projection into `AuxillariesWalletBtdPaneState`, but UI and routes must not rederive BTD read-access, settlement, rights-transfer, or no-custody law locally.
+The Wallet pane must consume `walletBtdPaneState` from `/api/auxillaries/data`, render signer/network/range/read-right/settlement/treasury readiness, keep protected source invisible before paid unlock, and state that account treasury support is not Exchange market state.

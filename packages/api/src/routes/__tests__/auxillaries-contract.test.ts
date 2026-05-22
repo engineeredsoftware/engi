@@ -45,6 +45,7 @@ describe('Auxillaries package route contracts', () => {
         address: 'tb1pauxcontract',
         verificationState: 'verified',
         metadata: {
+          network: 'testnet',
           private_key: 'wallet-secret',
           connectedAt: '2026-05-21T00:00:00.000Z',
         },
@@ -80,6 +81,8 @@ describe('Auxillaries package route contracts', () => {
           assetPackId: 'asset-pack-1',
           rangeStart: 1,
           rangeEndExclusive: 3,
+          readRightState: 'owner_read',
+          sourceSafePreviewRoot: 'source-safe-preview-root',
         },
       ],
       modelPreferences: {
@@ -149,6 +152,39 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.walletBtdPaneState.signerPosture).toMatchObject({
       ready: true,
       state: 'verified',
+      canSignPsbt: true,
+      serverCustody: false,
+    });
+    expect(payload.walletBtdPaneState.walletCapability).toMatchObject({
+      network: 'testnet',
+      noCustody: true,
+      serverCustody: false,
+      capabilities: expect.arrayContaining(['message_sign', 'psbt_sign', 'rights_transfer']),
+    });
+    expect(payload.walletBtdPaneState.networkReadiness).toMatchObject({
+      state: 'ready',
+      network: 'testnet',
+      blocker: null,
+    });
+    expect(payload.walletBtdPaneState.btdReadRightSummary).toMatchObject({
+      aggregateBtd: 128,
+      assetPackCount: 1,
+      rangeCount: 1,
+      totalRangeCells: 2,
+      ownerReadCount: 1,
+      protectedSourceVisible: false,
+      sourceSafePreviewRoots: ['source-safe-preview-root'],
+    });
+    expect(payload.walletBtdPaneState.treasurySummary).toMatchObject({
+      feeAsset: 'BTC',
+      noCustody: true,
+      treasuryScope: 'account',
+      organizationTreasurySeparated: true,
+      exchangeMarketState: 'not_exchange_market_state',
+    });
+    expect(payload.walletBtdPaneState).toMatchObject({
+      settlementReadiness: 'ready',
+      settlementBlockers: [],
     });
     expect(payload.organizationAuthority.policyDecision).toBe('allowed');
     expect(payload.auxillariesContract.contractVersion).toBe(AUXILLARIES_CONTRACT_VERSION);
@@ -163,6 +199,7 @@ describe('Auxillaries package route contracts', () => {
     expect(JSON.stringify(payload)).not.toContain('wallet-secret');
     expect(JSON.stringify(payload)).not.toContain('repository source');
     expect(JSON.stringify(payload)).not.toContain('private prompt body');
+    expect(JSON.stringify(payload.walletBtdPaneState)).not.toContain('asset pack source');
     expect(JSON.stringify(payload.connectionReadiness[0].metadata)).not.toContain('provider-token');
     expect(assertAuxillariesJsonSafe(payload)).toBeUndefined();
   });

@@ -41,6 +41,15 @@ and a readiness root. Routes may validate credentials privately, but API
 responses, UI metadata, telemetry, and recovery proof hooks must only serialize
 classified readiness and `AuxillariesRecoveryRun` before/after roots.
 
+Wallet/BTD support state is package-owned through `@bitcode/btd` and mapped
+here as `AuxillariesWalletBtdPaneState`. Route payloads may include wallet
+binding facts, BTD holding counts, recent AssetPack ids/ranges, and BTC fee
+posture, but the no-custody signer posture, network readiness, range/read-right
+summary, account treasury boundary, settlement blockers, and support roots must
+come from the BTD projection. API responses must keep protected AssetPack source
+hidden, keep wallet private material out of JSON, and mark the Wallet/BTD
+treasury support state as separate from Exchange market state.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs
