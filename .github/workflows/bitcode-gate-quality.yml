@@ -102,6 +102,7 @@ jobs:
             node scripts/check-v31-gate5-wallet-btd-pane-readiness.mjs --skip-branch-check
             node scripts/check-v31-gate6-organization-team-role-policy-authority.mjs --skip-branch-check
             node scripts/check-v31-gate7-interfaces-pane-admission-cross-surface-contracts.mjs --skip-branch-check
+            node scripts/check-v31-gate8-auxillaries-ux-accessibility-responsive-proof.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -143,6 +144,9 @@ jobs:
           pnpm --dir uapi exec jest --runTestsByPath \
             tests/userDataRoute.test.ts \
             tests/auxillariesWalletPane.test.tsx \
+            tests/auxillariesContent.access.test.tsx \
+            tests/auxillariesWorkspacePanels.access.test.tsx \
+            tests/auxillariesWorkspacePanels.test.tsx \
             tests/api/auxillariesGithubConnectionRoute.test.ts \
             tests/api/vcsRoutes.test.ts \
             tests/auxillariesExternalsPane.test.tsx \

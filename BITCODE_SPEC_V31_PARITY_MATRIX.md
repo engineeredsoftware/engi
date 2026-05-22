@@ -138,17 +138,17 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Interfaces pane exposes admitted surfaces | `AuxillariesInterfaceAdmission` records in `packages/api/src/routes/auxillaries-contract.ts` enumerate Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks; `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` renders the catalog | drafted |
-| Each surface names auth, actions, policy, source-safety, blockers, and readiness | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` asserts auth mode, `supportedActions`, current `allowedActions`, `policyRequirements`, `sourceSafetyClass`, blockers, readiness, and roots | drafted |
-| Deferred Exchange and Conversations remain explicitly out of scope | Exchange and Conversations hook records are blocked with `deferredProductDepth` values and deferred blockers; `uapi/tests/orbitalsInterfacesPane.test.tsx` reads those blockers in the catalog | drafted |
+| Interfaces pane exposes admitted surfaces | `AuxillariesInterfaceAdmission` records in `packages/api/src/routes/auxillaries-contract.ts` enumerate Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks; `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` renders the catalog | closed |
+| Each surface names auth, actions, policy, source-safety, blockers, and readiness | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` asserts auth mode, `supportedActions`, current `allowedActions`, `policyRequirements`, `sourceSafetyClass`, blockers, readiness, and roots | closed |
+| Deferred Exchange and Conversations remain explicitly out of scope | Exchange and Conversations hook records are blocked with `deferredProductDepth` values and deferred blockers; `uapi/tests/orbitalsInterfacesPane.test.tsx` reads those blockers in the catalog | closed |
 
 ## Gate 8 Parity
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Guided low-detail UX is default | Auxillaries component tests | pending |
-| Audit detail is expandable without layout breakage | responsive/browser proof | pending |
-| Keyboard, focus, labels, state announcements, contrast, and reduced motion are tested | accessibility proof | pending |
+| Guided low-detail UX is default | `uapi/app/auxillaries/components/AuxillariesContent.tsx` renders the contained active-pane summary and readiness chips before audit expansion; `uapi/tests/auxillariesContent.access.test.tsx` asserts the named main, active pane, status, ready/loading state, and skip link | closed |
+| Audit detail is expandable without layout breakage | `uapi/app/auxillaries/components/AuxillariesContent.tsx` renders source-safe `details` audit metadata; `uapi/styles/auxillaries-bitcode.css` keeps audit grids responsive at desktop/tablet/mobile breakpoints | closed |
+| Keyboard, focus, labels, state announcements, contrast, and reduced motion are tested | `uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts`, `uapi/tests/auxillariesContent.access.test.tsx`, and `uapi/tests/auxillariesWorkspacePanels.access.test.tsx` cover landmarks, labels, `aria-current`, `aria-disabled`, status announcements, evidence files, and viewport posture; route CSS covers focus-visible rings, contrast chips, wrapping, and `prefers-reduced-motion` | closed |
 
 ## Gate 9 Parity
 

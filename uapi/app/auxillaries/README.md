@@ -87,6 +87,26 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.
 
+## V31 UX and accessibility posture
+
+The contained Auxillaries surface is a guided support plane before it is an
+audit surface.
+It must render one named main landmark, a keyboard-reachable skip link to the
+active support pane, named pane navigation, and a named active-pane region with
+state announcement for loading and ready posture.
+
+Every pane keeps the same low-detail shell:
+
+- compact active-pane summary and source-safe readiness chips are visible by default;
+- audit metadata is expandable through a native `details` control and does not require raw JSON for normal operation;
+- selector buttons remain native buttons with `aria-current`, `aria-disabled`, and screen-reader state descriptions;
+- route-scoped CSS owns focus-visible rings, mobile/desktop wrapping, overflow safety, contrast-preserving chips, and reduced-motion behavior.
+
+`auxillaries-ux-accessibility-proof.ts` is the compact proof contract for this
+surface: it names the required landmarks, source-safe states, supported
+viewport posture, and evidence files that must stay synchronized with the gate
+tests and route CSS.
+
 ## Leather wallet contract
 
 Leather is supported through the injected `window.LeatherProvider.request` API.

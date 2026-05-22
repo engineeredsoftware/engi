@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 7 Interfaces Pane Admission And Cross-Surface Contracts, which turns the Interfaces pane into the source-safe admission catalog for Terminal, API, MCP, ChatGPT App, Exchange, Conversations, and future hooks with auth mode, supported actions, current admitted actions, policy requirements, source-safety class, blockers, readiness, deferred-product boundaries, and proof roots.
+- Current working gate: V31 Gate 8 Auxillaries UX Accessibility And Responsive Proof, which makes the Auxillaries support plane low-detail by default with a named main landmark, keyboard skip link, named pane navigation, active-pane state announcements, expandable audit detail, responsive mobile/desktop layout, focus/label/contrast posture, and reduced-motion proof.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

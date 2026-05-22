@@ -109,6 +109,7 @@ module.exports = {
     '<rootDir>/tests/useUserDataHydration.test.tsx',
     '<rootDir>/tests/featureFlagsMockMode.test.ts',
     '<rootDir>/tests/bitcoinWalletClient.test.ts',
+    '<rootDir>/tests/auxillariesContent.access.test.tsx',
     '<rootDir>/tests/auxillariesWorkspacePanels.access.test.tsx',
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
     '<rootDir>/tests/auxillariesExternalsPane.test.tsx',
