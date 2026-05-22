@@ -58,6 +58,16 @@ denial reasons, source visibility, recovery route, and proof root. API
 responses must expose only the source-safe authority object shared by
 Auxillaries and Terminal.
 
+Interface admission state is package-owned in `AuxillariesInterfaceAdmission`.
+The catalog emitted by `buildAuxillariesInterfaceAdmissions` covers Terminal,
+API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface
+hooks. Each record carries auth mode, `supportedActions`, current
+`allowedActions`, policy requirements, legacy-compatible policy constraints,
+source-safety class, blockers, readiness, deferred-product depth, and an
+interface-admission root. Exchange market law and Conversations product depth
+remain blocked/deferred in V31; route and UI code may display the source-safe
+record but must not implement those product laws locally.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

@@ -28,6 +28,7 @@ const ANONYMOUS_USER_DATA = {
     profileState: null,
     auxillariesContract: null,
     connectionReadiness: [],
+    interfaceAdmissions: [],
     walletBtdPaneState: null,
     organizationAuthority: null,
     readinessDiagnostics: [],
@@ -250,6 +251,7 @@ function useUserData() {
         : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const recentBtdAssetPacks = Array.isArray(data?.recentBtdAssetPacks) ? data.recentBtdAssetPacks : [];
     const connectionReadiness = Array.isArray(data?.connectionReadiness) ? data.connectionReadiness : [];
+    const interfaceAdmissions = Array.isArray(data?.interfaceAdmissions) ? data.interfaceAdmissions : [];
     const walletBtdPaneState =
         data?.walletBtdPaneState && typeof data.walletBtdPaneState === 'object'
             ? data.walletBtdPaneState
@@ -278,6 +280,7 @@ function useUserData() {
         btcFeeBalance,
         recentBtdAssetPacks,
         connectionReadiness,
+        interfaceAdmissions,
         walletBtdPaneState,
         organizationAuthority,
         recoveryRuns,

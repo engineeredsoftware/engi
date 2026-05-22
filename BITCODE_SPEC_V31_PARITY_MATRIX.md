@@ -129,18 +129,18 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Organization authority is package-owned | `BtdOrganizationPolicyAuthority` and `buildBtdOrganizationPolicyAuthority` in `packages/btd/src/authority.ts`; `OrganizationPolicyAuthority` aliases that object in `packages/api/src/routes/auxillaries-contract.ts` | drafted |
-| Role, grants, policy, wallet binding, and denial reasons are typed | BTD tests cover allowed settlement-adjacent policy authority and protected-source denial; API tests assert organization/team/member/grant/policy/multi-sig route emission; Profile pane tests render the shared authority object | drafted |
-| Protected actions fail closed unless all authority inputs admit them | `packages/btd/__tests__/btd.test.ts` covers missing grant, wallet, policy, interface admission, multi-sig, settlement, read access, and confirmation denial reasons with blocked source visibility | drafted |
-| Terminal and Auxillaries consume one authority object | `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, and `uapi/app/terminal/terminal-organization-authority.ts` consume/project `organizationAuthority` without route-local policy rederivation | drafted |
+| Organization authority is package-owned | `BtdOrganizationPolicyAuthority` and `buildBtdOrganizationPolicyAuthority` in `packages/btd/src/authority.ts`; `OrganizationPolicyAuthority` aliases that object in `packages/api/src/routes/auxillaries-contract.ts` | closed |
+| Role, grants, policy, wallet binding, and denial reasons are typed | BTD tests cover allowed settlement-adjacent policy authority and protected-source denial; API tests assert organization/team/member/grant/policy/multi-sig route emission; Profile pane tests render the shared authority object | closed |
+| Protected actions fail closed unless all authority inputs admit them | `packages/btd/__tests__/btd.test.ts` covers missing grant, wallet, policy, interface admission, multi-sig, settlement, read access, and confirmation denial reasons with blocked source visibility | closed |
+| Terminal and Auxillaries consume one authority object | `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, and `uapi/app/terminal/terminal-organization-authority.ts` consume/project `organizationAuthority` without route-local policy rederivation | closed |
 
 ## Gate 7 Parity
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Interfaces pane exposes admitted surfaces | Interfaces pane records and tests | pending |
-| Each surface names auth, actions, policy, source-safety, blockers, and readiness | package/API/MCP/ChatGPT App contract tests | pending |
-| Deferred Exchange and Conversations remain explicitly out of scope | specs, checker, and UI labels | pending |
+| Interfaces pane exposes admitted surfaces | `AuxillariesInterfaceAdmission` records in `packages/api/src/routes/auxillaries-contract.ts` enumerate Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks; `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` renders the catalog | drafted |
+| Each surface names auth, actions, policy, source-safety, blockers, and readiness | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` asserts auth mode, `supportedActions`, current `allowedActions`, `policyRequirements`, `sourceSafetyClass`, blockers, readiness, and roots | drafted |
+| Deferred Exchange and Conversations remain explicitly out of scope | Exchange and Conversations hook records are blocked with `deferredProductDepth` values and deferred blockers; `uapi/tests/orbitalsInterfacesPane.test.tsx` reads those blockers in the catalog | drafted |
 
 ## Gate 8 Parity
 
