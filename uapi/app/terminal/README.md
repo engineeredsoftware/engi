@@ -178,11 +178,14 @@ readiness.
 
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
-wallet binding, owner-read or licensed-read access, settlement state,
-confirmation state, interface admission, blockers, and proof roots before raw
-authority payload inspection. Terminal may show source-safe previews without a
-paid unlock, but protected-source unlock and delivery remain blocked until the
-same `organizationAuthority` evidence admits the action.
+wallet binding, owner-read or licensed-read access, policy id/hash, multi-sig
+readiness, settlement state, confirmation state, interface admission, blockers,
+and proof roots before raw authority payload inspection. Terminal projects the
+same `BtdOrganizationPolicyAuthority` object that Auxillaries receives as
+`organizationAuthority`, including the wrapped interface decision when present.
+Terminal may show source-safe previews without a paid unlock, but
+protected-source unlock and delivery remain blocked until the same authority
+evidence admits the action.
 
 ## V29 Terminal UX browser proof checkpoint
 

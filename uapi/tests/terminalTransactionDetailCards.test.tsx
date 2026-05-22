@@ -211,7 +211,7 @@ describe('Terminal transaction detail cards', () => {
     expect(screen.getByText('Repair actions')).toBeTruthy();
     expect(screen.getByText('Proof roots')).toBeTruthy();
     expect(screen.getByText('Organization authority')).toBeTruthy();
-    expect(screen.getByText('Role, read-license, settlement, and interface permission')).toBeTruthy();
+    expect(screen.getByText('Role, policy, wallet, multi-sig, settlement, and interface permission')).toBeTruthy();
     expect(screen.getByText('Permission decisions')).toBeTruthy();
     expect(screen.getByText('Authority proof roots')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);

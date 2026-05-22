@@ -100,6 +100,7 @@ jobs:
             node scripts/check-v31-gate3-profile-account-state.mjs --skip-branch-check
             node scripts/check-v31-gate4-connects-provider-readiness.mjs --skip-branch-check
             node scripts/check-v31-gate5-wallet-btd-pane-readiness.mjs --skip-branch-check
+            node scripts/check-v31-gate6-organization-team-role-policy-authority.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

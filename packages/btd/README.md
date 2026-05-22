@@ -102,6 +102,14 @@ or source-disclosure law locally.
 The Auxillaries support projection is account-treasury support, not Exchange
 market state, and always keeps protected source invisible before paid unlock.
 
+Organization policy authority is also package-owned. Auxillaries and Terminal
+should consume `BtdOrganizationPolicyAuthority` from this package, including
+organization/team/member identity, role, explicit grant set, wallet binding,
+policy id/hash, multi-sig readiness, policy decision, denial reasons, recovery
+route, source visibility, and authority root. Settlement-adjacent and
+protected-source actions must fail closed here before any interface renders or
+ships source-bearing output.
+
 Terminal should consume the operational-health subpath when it needs the
 client-safe read model without importing storage-backed package entry points:
 
