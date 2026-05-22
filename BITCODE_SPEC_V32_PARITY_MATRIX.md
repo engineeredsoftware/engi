@@ -67,6 +67,12 @@ Gate 1 audit basis:
 - `scripts/check-v32-gate6-interface-contract-regression-suites.mjs`
 - `packages/btd/src/interface-contract-regression.ts`
 - `packages/btd/__tests__/v32-interface-contract-regression.test.ts`
+- `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`
+- `scripts/generate-v32-browser-accessibility-responsive-visual-proof.mjs`
+- `scripts/check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs`
+- `uapi/app/bitcode-browser-accessibility-responsive-proof.ts`
+- `uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts`
+- `uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`
 - `packages/protocol/README.md`
 - `protocol-demonstration/README.md`
 - `packages/protocol/src/canon-posture.js`
@@ -108,7 +114,9 @@ No `_legacy/` source is active source truth.
 | Gate 5 scripts | `pnpm run generate:v32-ledger-btd-settlement-failure-states`, `pnpm run check:v32-ledger-btd-settlement-failure-states`, and `pnpm run check:v32-gate5` fail closed on stale, incomplete, source-unsafe, or undocumented economic proof coverage | drafted |
 | Gate 6 artifact | `.bitcode/v32-interface-contract-regression-suite.json` records source-safe interface contract rows, shared fixtures, auth boundaries, policy denials, source-safety classes, and deferred blockers | drafted |
 | Gate 6 scripts | `pnpm run generate:v32-interface-contract-regression-suites`, `pnpm run check:v32-interface-contract-regression-suites`, and `pnpm run check:v32-gate6` fail closed on stale, incomplete, source-unsafe, or undocumented interface proof coverage | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, Gate 5, and Gate 6 checkers | drafted |
+| Gate 7 artifact | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` records Terminal and Auxillaries browser, accessibility, responsive, and deterministic visual proof coverage | drafted |
+| Gate 7 scripts | `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, `pnpm run check:v32-browser-accessibility-responsive-visual-proof`, and `pnpm run check:v32-gate7` fail closed on stale, incomplete, source-unsafe, or screenshot-only proof coverage | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, Gate 5, Gate 6, and Gate 7 checkers | drafted |
 | Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
 
 ## Gate 1 Parity
@@ -174,9 +182,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| Browser proof covers Terminal and Auxillaries | planned Playwright/Jest evidence | draft-required |
-| Accessibility and responsive states are asserted | planned a11y/responsive tests | draft-required |
-| Visual proof is deterministic enough for CI | planned visual proof strategy | draft-required |
+| Browser proof covers Terminal and Auxillaries | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`, `uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts` prove Terminal plus the active Terminal-hosted Auxillaries support-plane entry points | drafted |
+| Accessibility and responsive states are asserted | Gate 7 artifact covers keyboard path, landmark labels, focus state, status announcements, contrast-sensitive tokens, reduced-motion, overflow/wrapping, and four canonical viewports | drafted |
+| Visual proof is deterministic enough for CI | Gate 7 artifact and browser proof prefer semantic layout metrics, stateful roles, route-state contracts, and `no-screenshot-only-approval` | drafted |
 
 ## Gate 8 Parity
 
@@ -252,3 +260,5 @@ Gate 4 is complete when `.bitcode/v32-reading-pipeline-proof-coverage.json` exis
 Gate 5 is complete when `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json` exists, is deterministic from `pnpm run generate:v32-ledger-btd-settlement-failure-states`, covers BTC fee phases and blocked-readiness receipts, BTD mint/read/rights-transfer receipts, source-to-shares conservation, projection drift and repair actions, encrypted protected-source storage, paid unlock, and PR delivery readback, passes focused BTD settlement failure-state tests plus `pnpm run check:v32-ledger-btd-settlement-failure-states` and `pnpm run check:v32-gate5`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
 
 Gate 6 is complete when `.bitcode/v32-interface-contract-regression-suite.json` exists, is deterministic from `pnpm run generate:v32-interface-contract-regression-suites`, covers active `terminal`, `api`, `mcp`, `chatgpt_app`, and `auxillaries_hook` contracts plus blocked/deferred `exchange_hook` and `conversations_hook` rows, proves auth-boundary, policy-denial, source-safety-class, and protected-source nondisclosure assertions, passes focused interface contract tests plus `pnpm run check:v32-interface-contract-regression-suites` and `pnpm run check:v32-gate6`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
+
+Gate 7 is complete when `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` exists, is deterministic from `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, covers Terminal and Auxillaries default/guided/detail states across canonical viewports through the active Terminal-hosted Auxillaries entry points, proves keyboard path, landmark labels, focus state, status announcements, contrast-sensitive tokens, reduced-motion, overflow/wrapping, and `no-screenshot-only-approval` visual strategy, passes focused Jest and Playwright browser proofs plus `pnpm run check:v32-browser-accessibility-responsive-visual-proof` and `pnpm run check:v32-gate7`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.

@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 6 Interface Contract Regression Suites, which proves shared source-safe contracts across Terminal, API, MCP, ChatGPT App, Auxillaries, and blocked/deferred `exchange_hook` plus `conversations_hook` rows with auth-boundary, policy-denial, source-safety-class, and protected-source nondisclosure assertions.
+- Current working gate: V32 Gate 7 Browser Accessibility Responsive Visual Coverage, which proves Terminal and the Terminal-hosted Auxillaries support-plane default/guided/detail states across canonical viewports with keyboard path, landmark labels, focus state, status announcements, contrast-sensitive tokens, reduced-motion, overflow/wrapping, and `no-screenshot-only-approval` deterministic visual semantics.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

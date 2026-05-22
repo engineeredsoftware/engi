@@ -58,19 +58,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
+      "expectedArtifact": ".bitcode/v32-browser-accessibility-responsive-visual-proof.json",
       "failureModes": [
         "route-state-drift",
         "stream-payload-shape-drift",
         "unredacted-protected-source-in-detail-pane",
         "operator-detail-overflow"
       ],
-      "fixture": "uapi/tests/terminalTransactionReadModel.test.ts; uapi/tests/terminalPipelineHarnessClient.test.ts; uapi/tests/pipelineExecutionLogHeader.test.tsx; uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "fixture": "uapi/tests/terminalTransactionReadModel.test.ts; uapi/tests/terminalPipelineHarnessClient.test.ts; uapi/tests/pipelineExecutionLogHeader.test.tsx; uapi/tests/terminalInterfaceIntegrationRegression.test.ts; uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
       "owner": "uapi/app/terminal",
       "plannedGate": "Gate 6 and Gate 7",
       "promotedBehavior": "URL-addressable Terminal transactions, live execution streams, transaction detail cards, wallet/BTC posture, and source-safe operator readback.",
       "repairPosture": "Gate 6 hardens transaction contract fixtures; Gate 7 proves browser/accessibility/responsive presentation.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx tests/terminalInterfaceIntegrationRegression.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
+      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx tests/terminalInterfaceIntegrationRegression.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof",
       "requiredContexts": [
         "TerminalTransaction",
         "TerminalTransactionReadModel",
@@ -135,19 +135,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
+      "expectedArtifact": ".bitcode/v32-browser-accessibility-responsive-visual-proof.json",
       "failureModes": [
         "provider-readiness-drift",
         "policy-denial-missing-reason",
         "wallet-btd-projection-mismatch",
         "recovery-run-without-before-after-roots"
       ],
-      "fixture": "packages/api/src/routes/__tests__/auxillaries-contract.test.ts; uapi/tests/userDataRoute.test.ts; uapi/tests/auxillariesWalletPane.test.tsx; uapi/tests/auxillariesExternalsPane.test.tsx; uapi/tests/auxillariesContent.access.test.tsx",
+      "fixture": "packages/api/src/routes/__tests__/auxillaries-contract.test.ts; uapi/tests/userDataRoute.test.ts; uapi/tests/auxillariesWalletPane.test.tsx; uapi/tests/auxillariesExternalsPane.test.tsx; uapi/tests/auxillariesContent.access.test.tsx; uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
       "owner": "packages/api; packages/orm; uapi/app/auxillaries",
       "plannedGate": "Gate 6 and Gate 7",
       "promotedBehavior": "Profile, account, provider readiness, interface admission, wallet/BTD pane, organization authority, diagnostics, recovery, and telemetry proof hooks.",
       "repairPosture": "Gate 6 turns inherited Auxillaries contracts into shared regression fixtures; Gate 7 expands browser/accessibility evidence.",
-      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand && pnpm --dir uapi exec jest --runTestsByPath tests/userDataRoute.test.ts tests/auxillariesWalletPane.test.tsx tests/auxillariesExternalsPane.test.tsx tests/auxillariesContent.access.test.tsx --runInBand && pnpm run check:v32-interface-contract-regression-suites",
+      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand && pnpm --dir uapi exec jest --runTestsByPath tests/userDataRoute.test.ts tests/auxillariesWalletPane.test.tsx tests/auxillariesExternalsPane.test.tsx tests/auxillariesContent.access.test.tsx tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof",
       "requiredContexts": [
         "AuxillariesProfileState",
         "AuxillariesConnectionReadiness",
