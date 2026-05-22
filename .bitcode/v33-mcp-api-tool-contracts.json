@@ -125,7 +125,7 @@
   ],
   "sourceEvidence": [
     {
-      "digest": "sha256:89e6b3da4670910348568e172186313fcf7e619af7448f4aacceb28405d4e7b9",
+      "digest": "sha256:ed7ff68bb55bd47afc9c538b346a3df3b4559c4278f21f5551cb00a212d98c03",
       "relativePath": "packages/btd/src/mcp-tool-contract.ts",
       "requiredTokens": [
         {

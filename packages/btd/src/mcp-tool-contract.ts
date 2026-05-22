@@ -146,7 +146,9 @@ export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
       description: [
         'Create and execute a Bitcode AssetPack pipeline for complete software engineering Reads.',
         '',
-        'This tool admits source-safe Reading requests, repository/provider ingress, attachments, streaming preference, and Shippable subtype focus.',
+        'This is Bitcode\'s primary Reading pipeline entry point for feature implementation, review, bug repair, technical writing, architecture diagrams, API specifications, frontend scaffolding, scope analysis, implementation planning, and refactor proposals.',
+        'It admits source-safe Reading requests, repository/provider ingress, attachments, streaming preference, and Shippable subtype focus.',
+        'Supported subtypes include pull_request, pr_review, issue, comment, blog_post, diagram, api_spec, frontend_scaffolder, scope_analysis, implementation_plan, and refactor_proposal.',
         'It queues the package-owned AssetPack pipeline and returns source-safe execution, preview, and monitoring metadata.',
         'Protected AssetPack contents remain locked until settlement and rights transfer are admitted by the Protocol/BTD layer.',
       ].join('\n'),
