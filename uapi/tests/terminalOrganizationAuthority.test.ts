@@ -1,5 +1,10 @@
 import { buildTerminalOrganizationAuthorityProjection } from '@/app/terminal/terminal-organization-authority';
 import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
+import {
+  buildBtdInterfaceAuthorizationPolicy,
+  getBtdInterfaceAuthorizationPolicyFixture,
+  renderBtdInterfaceAuthorizationDeniedState,
+} from '@bitcode/btd/interface-authorization-policy';
 
 function detailWithAuthority(
   organizationAuthority: TerminalRunDetailSnapshot['organizationAuthority'],
@@ -32,6 +37,42 @@ function detailWithAuthority(
 }
 
 describe('terminal organization authority projection', () => {
+  it('shares the package-owned InterfaceAuthorizationPolicy fixture for Terminal BTC fee admission', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('terminal-btc-fee-allowed');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+
+    expect(fixture.fixturePath).toBe('uapi/tests/terminalOrganizationAuthority.test.ts');
+    expect(policy).toMatchObject({
+      interfaceSurface: 'terminal',
+      action: 'pay_btc_fee',
+      decision: 'allowed',
+      walletCapability: {
+        state: 'verified',
+        walletId: 'wallet-terminal-reader',
+        canSignBtc: true,
+      },
+      actor: {
+        organizationId: 'org-terminal-1',
+        teamId: 'team-terminal-reading',
+        organizationRole: 'admin',
+      },
+    });
+  });
+
+  it('renders stale Terminal authority as a readable fail-closed denial', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('terminal-stale-authority-denied');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+    const denied = renderBtdInterfaceAuthorizationDeniedState(policy);
+
+    expect(policy.decision).toBe('denied');
+    expect(denied).toMatchObject({
+      status: 'denied',
+      code: 'STALE_AUTHORITY',
+      repairActions: ['refresh-interface-authentication'],
+    });
+    expect(denied.message).toMatch(/refresh the session/i);
+  });
+
   it('projects allowed decisions and authority proof roots', () => {
     const projection = buildTerminalOrganizationAuthorityProjection(
       detailWithAuthority([

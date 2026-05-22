@@ -16,6 +16,9 @@ import {
   type BtdSettlementAuthorityState,
 } from '@bitcode/btd';
 import {
+  buildBtdInterfaceAuthorizationPolicy,
+} from '@bitcode/btd/interface-authorization-policy';
+import {
   buildBtdChatGptAppActionContractRegistry,
   renderBtdChatGptAppSourceSafeResponse,
   type BtdChatGptAppActionContract,
@@ -68,8 +71,20 @@ type ChatGptAppWriteAdmissionInput = {
   operation: string;
   targetAnchor?: string;
   readAccess: ChatGptAppReadAccessDecision;
-  organizationAuthority: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
+  organizationAuthority: ChatGptAppOrganizationAuthorityDecision;
 };
+
+type ChatGptAppOrganizationAuthorityDecision =
+  ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority> & {
+    interfaceAuthorizationPolicy: {
+      policyId: string;
+      decision: 'allowed' | 'denied';
+      denialCodes: string[];
+      policyRoot: string;
+      readableDenial: string | null;
+      repairActions: string[];
+    };
+  };
 
 type ChatGptAppReadAccessDecision = {
   assetPackId: string;
@@ -210,28 +225,81 @@ function assertChatGptAppOrganizationAuthority(
     );
   }
 
-  const decision = evaluateBtdOrganizationInterfaceAuthority({
-    actorId: 'chatgpt_app_connected_interface',
-    organizationId: parsed.data.organizationId,
-    organizationRole: parsed.data.organizationRole,
-    organizationPermissionGrants: parsed.data.organizationPermissionGrants,
+  const issuedAt = new Date().toISOString();
+  const policy = buildBtdInterfaceAuthorizationPolicy({
+    policyId: `chatgpt-app-write:${input.operation}`,
     interfaceSurface: 'chatgpt_app',
     action: 'deliver_asset_pack',
-    walletId: parsed.data.walletId ?? input.readAccess.walletId,
-    readAccessDecision: input.readAccess as any,
-    settlementState: parsed.data.settlementState,
+    authIssuer: {
+      issuerKind: 'chatgpt_session',
+      issuerId: 'chatgpt-app-connected-interface',
+      issuedAt,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+      issuerRoot: stableChatGptAuthorizationRoot('chatgpt-auth-issuer', [
+        input.operation,
+        input.targetAnchor ?? '',
+      ]),
+    },
+    actorId: 'chatgpt_app_connected_interface',
+    organizationId: parsed.data.organizationId,
+    teamId: parsed.data.organizationId,
+    memberId: 'chatgpt_app_connected_interface',
+    organizationRole: parsed.data.organizationRole,
+    organizationPermissionGrants: parsed.data.organizationPermissionGrants,
+    walletCapability: {
+      state: 'verified',
+      walletId: parsed.data.walletId ?? input.readAccess.walletId,
+      canAuthorizeDelivery: true,
+      capabilityRoot: stableChatGptAuthorizationRoot('chatgpt-wallet-capability', [
+        parsed.data.walletId ?? input.readAccess.walletId,
+      ]),
+    },
+    readLicense: {
+      state: input.readAccess.decision,
+      assetPackId: input.readAccess.assetPackId,
+      walletId: input.readAccess.walletId,
+      accessPolicyHash: input.readAccess.accessPolicyHash,
+      reason: input.readAccess.reason,
+    },
+    assetPackRights: {
+      state: input.readAccess.decision === 'owner_read' ? 'owned' : 'licensed',
+      assetPackId: input.readAccess.assetPackId,
+    },
+    protectedSource: {
+      disclosureState: 'requested_locked_source',
+      settlementState: parsed.data.settlementState,
+      previewOnly: false,
+    },
     confirmed: true,
-    repairApprovalState: parsed.data.repairApprovalState,
+    repairPosture: {
+      state: parsed.data.repairApprovalState === 'approved'
+        ? 'approved'
+        : parsed.data.repairApprovalState === 'required'
+          ? 'required'
+          : 'not_required',
+    },
     targetAnchor: input.targetAnchor ?? input.operation,
+    at: issuedAt,
   });
+  const decision = policy.organizationAuthority.actionDecision;
 
-  if (decision.decision !== 'allowed') {
+  if (policy.decision !== 'allowed' || !decision || decision.decision !== 'allowed') {
     throw new Error(
-      `Bitcode ChatGPT App write admission denied by organization authority: ${decision.reasons.join(', ')}.`
+      `Bitcode ChatGPT App write admission denied by interface authorization policy: ${policy.denialCodes.join(', ')}.`
     );
   }
 
-  return decision;
+  return {
+    ...decision,
+    interfaceAuthorizationPolicy: {
+      policyId: policy.policyId,
+      decision: policy.decision,
+      denialCodes: policy.denialCodes,
+      policyRoot: policy.proofRoots.policyRoot,
+      readableDenial: policy.readableDenial,
+      repairActions: policy.repairActions,
+    },
+  };
 }
 
 function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
@@ -249,6 +317,13 @@ function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
     readAccess: input.readAccess,
     organizationAuthority: input.organizationAuthority
   };
+}
+
+function stableChatGptAuthorizationRoot(scope: string, payload: unknown): string {
+  return `${scope}:${createHash('sha256')
+    .update(JSON.stringify(payload))
+    .digest('hex')
+    .slice(0, 24)}`;
 }
 
 const PRODUCT_MD_TEMPLATE = `###### What is this document?
@@ -1222,7 +1297,7 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
   let result: unknown;
   let guidance: string;
   let targetAnchor = 'vercel:unscoped';
-  let organizationAuthority!: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
+  let organizationAuthority!: ChatGptAppOrganizationAuthorityDecision;
 
   switch (args.request) {
     case 'deploy_to_vercel':
@@ -1396,7 +1471,7 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
   let result: unknown;
   let guidance: string;
   let targetAnchor = 'aws:unscoped';
-  let organizationAuthority!: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
+  let organizationAuthority!: ChatGptAppOrganizationAuthorityDecision;
   switch (args.request) {
     case 's3.putObject':
       targetAnchor = `aws:s3/${String(args.payload.bucket ?? 'bitcode-demo')}/${String(args.payload.key ?? 'config/demo.json')}`;

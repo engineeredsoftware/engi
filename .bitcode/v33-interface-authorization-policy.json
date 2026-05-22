@@ -1,0 +1,283 @@
+{
+  "artifactId": "v33-interface-authorization-policy",
+  "artifactRoot": "v33-interface-authorization-policy-artifact:fe21a2248fa8fef9fc2e5f15",
+  "coverage": {
+    "assetPackRights": true,
+    "authIssuer": true,
+    "credentialsSerialized": false,
+    "missingOrStaleAuthorityFailsClosed": true,
+    "organizationTeamRole": true,
+    "protectedSourceDisclosure": true,
+    "protectedSourceVisible": false,
+    "readLicensePosture": true,
+    "repairPosture": true,
+    "sharedFixturesAcrossApiMcpChatGptAndTerminal": true,
+    "walletCapability": true
+  },
+  "currentTarget": "V32",
+  "docsEvidence": [
+    {
+      "digest": "sha256:eefb1a2efc409ef74941c3740ede3028259d8f39f42c35c062d7fd1a2c90bc40",
+      "relativePath": "BITCODE_SPEC_V33.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "InterfaceAuthorizationPolicy"
+        },
+        {
+          "present": true,
+          "token": "Gate 5"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:0303e818a46e788357bb574f631dd77ab5fee43857889d0bfdd6cbdfa1ef6c98",
+      "relativePath": "BITCODE_SPEC_V33_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Interface Authorization Policy Fail-Closed"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:cb82b6710dba08a1c70a7932d641c0dbbf17e481cbf6b15ffb22eac8f65eda7c",
+      "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Interface authorization policy"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:642b916a0458ca10669748da3a2dfc92998ea8c2802c19a81215de6ff5090a75",
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V33 Gate 5 Interface Authorization Policy Fail-Closed"
+        }
+      ]
+    }
+  ],
+  "docsEvidenceComplete": true,
+  "fixtureRows": [
+    {
+      "action": "request_read",
+      "expectedDecision": "allowed",
+      "expectedDenialCodes": [],
+      "fixtureId": "api-request-read-allowed",
+      "interfaceSurface": "api",
+      "policyRoot": "v33-interface-authorization-policy:75c90ac8e842c13ed235703b"
+    },
+    {
+      "action": "request_finding_fits",
+      "expectedDecision": "allowed",
+      "expectedDenialCodes": [],
+      "fixtureId": "mcp-finding-fits-allowed",
+      "interfaceSurface": "mcp",
+      "policyRoot": "v33-interface-authorization-policy:538adf9779e618fcc19b8296"
+    },
+    {
+      "action": "deliver_asset_pack",
+      "expectedDecision": "allowed",
+      "expectedDenialCodes": [],
+      "fixtureId": "chatgpt-delivery-allowed",
+      "interfaceSurface": "chatgpt_app",
+      "policyRoot": "v33-interface-authorization-policy:d0d5ae959fcaa711014271d3"
+    },
+    {
+      "action": "pay_btc_fee",
+      "expectedDecision": "allowed",
+      "expectedDenialCodes": [],
+      "fixtureId": "terminal-btc-fee-allowed",
+      "interfaceSurface": "terminal",
+      "policyRoot": "v33-interface-authorization-policy:da91cd0c4011a990e53b3e13"
+    },
+    {
+      "action": "pay_btc_fee",
+      "expectedDecision": "denied",
+      "expectedDenialCodes": [
+        "STALE_AUTHORITY"
+      ],
+      "fixtureId": "terminal-stale-authority-denied",
+      "interfaceSurface": "terminal",
+      "policyRoot": "v33-interface-authorization-policy:99e13431d7db5ec9aea2c13a"
+    },
+    {
+      "action": "deliver_asset_pack",
+      "expectedDecision": "denied",
+      "expectedDenialCodes": [
+        "READ_LICENSE_REQUIRED",
+        "ASSET_PACK_RIGHTS_REQUIRED",
+        "PROTECTED_SOURCE_DISCLOSURE_BLOCKED"
+      ],
+      "fixtureId": "chatgpt-unpaid-delivery-denied",
+      "interfaceSurface": "chatgpt_app",
+      "policyRoot": "v33-interface-authorization-policy:391b538ba07da19428363f97"
+    }
+  ],
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "missingSurfaces": [],
+  "observedSurfaces": [
+    "api",
+    "chatgpt_app",
+    "mcp",
+    "terminal"
+  ],
+  "passed": true,
+  "requiredDenialCodes": [
+    "MISSING_AUTH_ISSUER",
+    "STALE_AUTHORITY",
+    "MISSING_ACTOR",
+    "MISSING_ORGANIZATION",
+    "MISSING_TEAM",
+    "MISSING_ROLE",
+    "ORGANIZATION_AUTHORITY_DENIED",
+    "WALLET_CAPABILITY_REQUIRED",
+    "READ_LICENSE_REQUIRED",
+    "ASSET_PACK_RIGHTS_REQUIRED",
+    "PROTECTED_SOURCE_DISCLOSURE_BLOCKED",
+    "REPAIR_APPROVAL_REQUIRED"
+  ],
+  "requiredSurfaces": [
+    "api",
+    "mcp",
+    "chatgpt_app",
+    "terminal"
+  ],
+  "schemaId": "bitcode.v33.interfaceAuthorizationPolicy.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:0186e2a2fde98ef264a6e68436a188fa036b2490ddaa6f39d5cd1d082290f40c",
+      "relativePath": "packages/btd/src/interface-authorization-policy.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildBtdInterfaceAuthorizationPolicy"
+        },
+        {
+          "present": true,
+          "token": "buildBtdInterfaceAuthorizationPolicyFixtures"
+        },
+        {
+          "present": true,
+          "token": "renderBtdInterfaceAuthorizationDeniedState"
+        },
+        {
+          "present": true,
+          "token": "STALE_AUTHORITY"
+        },
+        {
+          "present": true,
+          "token": "PROTECTED_SOURCE_DISCLOSURE_BLOCKED"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:01098e7c683c6394a4ff691826030685ad237675e71f4335fd60373bdfc4f563",
+      "relativePath": "packages/chatgptapp/src/tools.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildBtdInterfaceAuthorizationPolicy"
+        },
+        {
+          "present": true,
+          "token": "interfaceAuthorizationPolicy"
+        },
+        {
+          "present": true,
+          "token": "Bitcode ChatGPT App write admission denied by interface authorization policy"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:017f8c2535f2b7370fd74046958245e5f7dd43773bbfdef9070db087b8397126",
+      "relativePath": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildBtdInterfaceAuthorizationPolicy"
+        },
+        {
+          "present": true,
+          "token": "mcp-pipeline-create-request-finding-fits"
+        },
+        {
+          "present": true,
+          "token": "interfaceAuthorizationPolicy"
+        }
+      ]
+    }
+  ],
+  "sourceEvidenceComplete": true,
+  "sourceSafetyVerdict": "source-safe-interface-authorization-policy-metadata",
+  "testEvidence": [
+    {
+      "digest": "sha256:f5c511f19bd9c4b7c945a3588958083f65e3d953cf43cd50587d37e0e4776159",
+      "relativePath": "packages/btd/__tests__/interface-authorization-policy.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "publishes shared policy fixtures for API, MCP, ChatGPT App, and Terminal"
+        },
+        {
+          "present": true,
+          "token": "fails closed with readable repair posture for stale authority"
+        },
+        {
+          "present": true,
+          "token": "fails closed before locked AssetPack delivery"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:e58de6e13efe30106121ecdaf760c426630d5a98fed09b763d858acfa80e6301",
+      "relativePath": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceAuthorizationPolicy fixture for API request admission"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:415091f36d1faa66a2f59485d6d596173b86e57b5dea252542d9adb4b6439bf9",
+      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceAuthorizationPolicy fixture for MCP Finding Fits admission"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:e61c9a25b23d7ee7751ebb7f616c6df5ea5f3ee2975ad797c0d74635aa4fff12",
+      "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceAuthorizationPolicy fixture for ChatGPT App delivery"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:d3e23b4f4074e45ea8f932bd51056f67eac765f4f3df405593b74af455a86556",
+      "relativePath": "uapi/tests/terminalOrganizationAuthority.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceAuthorizationPolicy fixture for Terminal BTC fee admission"
+        },
+        {
+          "present": true,
+          "token": "renders stale Terminal authority as a readable fail-closed denial"
+        }
+      ]
+    }
+  ],
+  "testEvidenceComplete": true,
+  "version": "V33"
+}

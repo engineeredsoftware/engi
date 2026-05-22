@@ -201,6 +201,19 @@ V33 closes through ten gates:
 9. **Gate 9: Interface Consumer UX Regression Proof** proves MCP, ChatGPT App, public API, Terminal handoff, and denied-state readability through source-safe fixtures.
 10. **Gate 10: V33 Promotion Readiness** generates V33 proof artifacts, promotion readiness, and active V33 / draft V34 posture.
 
+### V33 Gate 5 Interface Authorization Policy Fail-Closed
+
+Gate 5 makes `InterfaceAuthorizationPolicy` the shared package-owned policy object
+for interface action admission. The policy covers auth issuer freshness,
+organization/team/member/role posture, wallet capability, read-license posture,
+AssetPack rights, locked-source disclosure, repair posture, readable denial
+messages, repair actions, and proof roots. API, MCP, ChatGPT App, and Terminal
+handoff tests must use shared policy fixtures instead of surface-local
+authorization copies. Missing auth issuer, stale authority, missing organization
+scope, missing wallet capability, unpaid read license, missing AssetPack rights,
+and locked-source disclosure attempts fail closed before source-bearing output
+can cross an interface boundary.
+
 ## V33 whole Bitcode operator chain
 
 The V33 operator chain keeps V32 behavior and adds interface consistency:
@@ -535,6 +548,7 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | `.bitcode/v33-interface-contract-catalog.json` | `scripts/generate-v33-interface-contract-catalog.mjs` | `check:v33-interface-contract-catalog` and `check:v33-gate2` | source-safe-interface-contract-catalog-metadata | Gate 2 required |
 | `.bitcode/v33-mcp-api-tool-contracts.json` | `scripts/generate-v33-mcp-api-tool-contracts.mjs` | `check:v33-mcp-api-tool-contracts` and `check:v33-gate3` | source-safe-mcp-api-tool-contract-metadata | Gate 3 required |
 | `.bitcode/v33-chatgpt-app-action-contracts.json` | `scripts/generate-v33-chatgpt-app-action-contracts.mjs` | `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4` | source-safe-chatgpt-app-action-contract-metadata | Gate 4 required |
+| `.bitcode/v33-interface-authorization-policy.json` | `scripts/generate-v33-interface-authorization-policy.mjs` | `check:v33-interface-authorization-policy` and `check:v33-gate5` | source-safe-interface-authorization-policy-metadata | Gate 5 required |
 
 ### V33 specifying generated artifacts
 
@@ -542,7 +556,8 @@ V33 starts with `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonic
 Gate 2 adds `.bitcode/v33-interface-contract-catalog.json`, which serializes source-safe `InterfaceContractCatalog` metadata for `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook` with deferred hooks marked `deferred_not_admitted`.
 Gate 3 adds `.bitcode/v33-mcp-api-tool-contracts.json`, which serializes source-safe `McpToolContract` metadata for `bitcode://pipelines/asset-pack/create`, including schema ids, denied states, proof-root fields, examples, package-derived discovery posture, and protected-source invisibility.
 Gate 4 adds `.bitcode/v33-chatgpt-app-action-contracts.json`, which serializes source-safe `ChatGptAppActionContract` metadata for `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`, including package-owned schemas, source-safe response renderers, proof-root projection, readable denial states such as `READ_LICENSE_REQUIRED`, and repair actions.
-Later gates may add authorization policy, schema compatibility, telemetry replay, and promotion readiness artifacts.
+Gate 5 adds `.bitcode/v33-interface-authorization-policy.json`, which serializes source-safe `InterfaceAuthorizationPolicy` metadata for API, MCP, ChatGPT App, and Terminal handoff fixtures, including auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and missing/stale authority fail-closed coverage.
+Later gates may add schema compatibility, telemetry replay, and promotion readiness artifacts.
 
 ### Shared generated-artifact fields
 

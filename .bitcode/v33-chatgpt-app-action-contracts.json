@@ -443,7 +443,7 @@
       ]
     },
     {
-      "digest": "sha256:088af1a5895656f9d3e5f7bac544cf6549b87c6575b0388914f3695090e4599b",
+      "digest": "sha256:01098e7c683c6394a4ff691826030685ad237675e71f4335fd60373bdfc4f563",
       "relativePath": "packages/chatgptapp/src/tools.ts",
       "requiredTokens": [
         {
@@ -471,11 +471,11 @@
       "relativePath": "packages/btd/src/chatgpt-app-action-contract.ts"
     },
     {
-      "digest": "sha256:813ac51681b167fda157744124a260e5ec7436b8864c6a742f953102b7a00a08",
+      "digest": "sha256:a718fd3ec8e9ccac14a04f5f3b5a0bde99863841be8a1f742b9d461bfb32b431",
       "relativePath": "packages/btd/src/index.ts"
     },
     {
-      "digest": "sha256:088af1a5895656f9d3e5f7bac544cf6549b87c6575b0388914f3695090e4599b",
+      "digest": "sha256:01098e7c683c6394a4ff691826030685ad237675e71f4335fd60373bdfc4f563",
       "relativePath": "packages/chatgptapp/src/tools.ts"
     }
   ],
@@ -528,7 +528,7 @@
       "relativePath": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
     },
     {
-      "digest": "sha256:1196162b7949e519c7277b0387c6506abc0813dcc6dad0aea73df7cfbab9e834",
+      "digest": "sha256:e61c9a25b23d7ee7751ebb7f616c6df5ea5f3ee2975ad797c0d74635aa4fff12",
       "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts"
     },
     {

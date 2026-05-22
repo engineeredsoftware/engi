@@ -46,6 +46,9 @@
       "@bitcode/btd/interface-integration-contract": [
         "../packages/btd/src/interface-integration-contract.ts"
       ],
+      "@bitcode/btd/interface-authorization-policy": [
+        "../packages/btd/src/interface-authorization-policy.ts"
+      ],
       "@bitcode/pipeline-asset-pack": [
         "../packages/pipelines/asset-pack/src/index.ts"
       ],
