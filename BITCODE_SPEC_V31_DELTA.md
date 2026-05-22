@@ -127,6 +127,13 @@ Closure acceptance:
 - GitHub and provider connection routes emit source-safe readiness/recovery evidence;
 - recovery runs record before/after readiness roots and never leak tokens.
 
+Gate 4 implementation centers:
+
+- `AuxillariesConnectionReadiness` now names provider id/name, token presence class, scopes class, readback state, blocker, repair action, source-safe metadata, and `providerReadinessRoot`.
+- VCS connection and GitHub Auxillaries routes emit `providerReadiness` and source-safe `recoveryRun` evidence while keeping access tokens out of responses.
+- The Externals pane consumes `connectionReadiness` and `recoveryRuns` from `/api/auxillaries/data`, rendering classified provider posture and compact proof roots without local readiness rederivation.
+- Focused package, route, and pane tests prove classified provider readiness, before/after recovery roots, UI projection, and response redaction.
+
 ### Gate 5: Wallet And BTD Pane Readiness
 
 Gate 5 connects Wallet and BTD panes to V30 wallet/BTD primitives.

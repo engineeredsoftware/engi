@@ -14,6 +14,20 @@ import AuxillariesExternalsPaneHeader from '@/app/auxillaries/components/headers
 import AuxillariesDataSharingPanel from '@/app/auxillaries/components/AuxillariesDataSharingPanel';
 import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
 
+function formatProviderClass(value: unknown) {
+  return typeof value === 'string' && value.trim()
+    ? value.replace(/_/g, ' ')
+    : 'unknown';
+}
+
+function compactRoot(value: unknown) {
+  return typeof value === 'string' && value.length > 12
+    ? `${value.slice(0, 8)}...${value.slice(-6)}`
+    : typeof value === 'string'
+      ? value
+      : 'unavailable';
+}
+
 export interface AuxillariesExternalsPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
@@ -29,6 +43,7 @@ export default function AuxillariesExternalsPane({
 }: AuxillariesExternalsPaneProps) {
   const { user } = useAuth();
   const {
+    data: auxillaryData,
     hasGitHubConnection,
     hasValidGitHubConnection = hasGitHubConnection,
     hasWalletConnection,
@@ -43,6 +58,13 @@ export default function AuxillariesExternalsPane({
     isLoading,
     refresh,
   } = useUserData();
+  const providerReadiness = Array.isArray(auxillaryData?.connectionReadiness)
+    ? auxillaryData.connectionReadiness.find((readiness: any) => readiness?.provider === 'github') ??
+      auxillaryData.connectionReadiness[0]
+    : null;
+  const latestRecoveryRun = Array.isArray(auxillaryData?.recoveryRuns)
+    ? auxillaryData.recoveryRuns[0]
+    : null;
 
   const hasExternalsIdentity = Boolean(user || hasWalletConnection);
 
@@ -247,6 +269,46 @@ export default function AuxillariesExternalsPane({
                       ) : null}
                     </div>
                   </div>
+                  {providerReadiness ? (
+                    <div
+                      data-testid="auxillaries-provider-readiness"
+                      className="mt-3 rounded-2xl border border-emerald-300/14 bg-emerald-400/8 p-4"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200/72">
+                            Provider readiness
+                          </p>
+                          <p className="mt-2 text-sm font-medium text-white">
+                            {providerReadiness.providerName || providerReadiness.provider || 'Provider'}:
+                            {' '}
+                            {formatProviderClass(providerReadiness.lastReadbackStatus)}
+                          </p>
+                        </div>
+                        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                          {compactRoot(providerReadiness.providerReadinessRoot)}
+                        </span>
+                      </div>
+                      <div className="mt-3 grid gap-2 text-xs leading-6 text-white/68 tablet:grid-cols-2">
+                        <p>Provider id: {providerReadiness.providerId || providerReadiness.provider}</p>
+                        <p>Token: {formatProviderClass(providerReadiness.tokenPresenceClass)}</p>
+                        <p>Scopes: {formatProviderClass(providerReadiness.scopesClass)}</p>
+                        <p>Repair: {formatProviderClass(providerReadiness.repairAction ?? providerReadiness.requiredRepairAction)}</p>
+                      </div>
+                      {providerReadiness.blocker ? (
+                        <p className="mt-3 text-xs leading-6 text-amber-200/82">
+                          Blocker: {providerReadiness.blocker}
+                        </p>
+                      ) : null}
+                      {latestRecoveryRun ? (
+                        <p className="mt-3 text-xs leading-6 text-white/64">
+                          Latest recovery: {latestRecoveryRun.outcome} from{' '}
+                          {compactRoot(latestRecoveryRun.beforeReadinessRoot)} to{' '}
+                          {compactRoot(latestRecoveryRun.afterReadinessRoot)}.
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : null}
                   {!hasWalletConnection && (
                     <div className="mt-3">
                       <Link

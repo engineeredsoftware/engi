@@ -113,9 +113,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Provider readiness is source-safe | provider connection contracts and tests | pending |
-| Recovery runs record before/after readiness roots | recovery route and execution tests | pending |
-| Tokens and credentials never enter telemetry/UI metadata | source-safety tests and scans | pending |
+| Provider readiness is source-safe | `AuxillariesConnectionReadiness` in `packages/api/src/routes/auxillaries-contract.ts` carries provider id/name, token presence class, scopes class, last readback, blocker, repair action, source-safe metadata, and `providerReadinessRoot` | drafted |
+| Recovery runs record before/after readiness roots | `uapi/app/api/vcs/[provider]/connection/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, and `uapi/tests/api/auxillariesGithubConnectionRoute.test.ts` emit and test before/after readiness roots | drafted |
+| Tokens and credentials never enter telemetry/UI metadata | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts`, `uapi/tests/api/vcsRoutes.test.ts`, `uapi/tests/api/auxillariesGithubConnectionRoute.test.ts`, and `uapi/tests/auxillariesExternalsPane.test.tsx` cover response/UI redaction and source-safe projection | drafted |
 
 ## Gate 5 Parity
 

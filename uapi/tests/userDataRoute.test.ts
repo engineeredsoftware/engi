@@ -9,11 +9,19 @@ jest.mock('@/app/api/vcs/_shared', () => ({
     connected: false,
     provider,
     valid: false,
+    tokenPresenceClass: 'missing',
+    scopesClass: 'missing',
+    lastReadbackStatus: 'not_attempted',
+    blocker: `connects.${provider}.connect_provider`,
   })),
   buildStoredConnectionStatus: jest.fn((provider: string, connection: Record<string, unknown>, valid: boolean) => ({
     connected: true,
     provider,
     valid,
+    scopes: ['repo', 'contents:write'],
+    tokenPresenceClass: 'present_source_safe',
+    lastReadbackStatus: valid ? 'succeeded' : 'failed',
+    blocker: valid ? null : `connects.${provider}.reauthorize_provider`,
     metadata: connection.connectionData ?? null,
   })),
   getStoredConnection: jest.fn(),
@@ -77,6 +85,14 @@ describe('GET /api/auxillaries/data', () => {
         kind: 'auxillaries_contract_snapshot',
         profileState: expect.objectContaining({ accountReadiness: 'blocked' }),
       }),
+      connectionReadiness: [
+        expect.objectContaining({
+          provider: 'github',
+          tokenPresenceClass: 'missing',
+          scopesClass: 'missing',
+          lastReadbackStatus: 'not_attempted',
+        }),
+      ],
       readinessDiagnostics: expect.any(Array),
     }));
     expect(mockFrom).not.toHaveBeenCalled();
@@ -254,9 +270,15 @@ describe('GET /api/auxillaries/data', () => {
         }),
         connectionReadiness: [
           expect.objectContaining({
+            providerId: 'github',
+            providerName: 'GitHub',
             provider: 'github',
             connected: true,
             valid: true,
+            tokenPresenceClass: 'present_source_safe',
+            scopesClass: 'repo_read_write',
+            lastReadbackStatus: 'succeeded',
+            blocker: null,
           }),
         ],
       }),

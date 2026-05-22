@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
 import { createRouteWrapper } from '@bitcode/middleware';
+import {
+  buildAuxillariesConnectionReadiness,
+  buildAuxillariesRecoveryRun,
+} from '@bitcode/api/src/routes/auxillaries-contract';
 
 import {
   buildDisconnectedConnectionStatus,
@@ -21,23 +25,56 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
   const provider = await resolveRouteProvider(context);
 
   if (isMockVcsMode()) {
-    return NextResponse.json(getMockConnectionStatus(provider));
+    const connectionStatus = getMockConnectionStatus(provider);
+    return NextResponse.json({
+      ...connectionStatus,
+      providerReadiness: buildAuxillariesConnectionReadiness({
+        provider,
+        connectionStatus,
+        repositories: connectionStatus.connected ? [{}] : [],
+      }),
+    });
   }
 
   const { supabase, user } = await getRouteSupabaseUser();
   if (!user) {
-    return NextResponse.json(buildDisconnectedConnectionStatus(provider));
+    const connectionStatus = buildDisconnectedConnectionStatus(provider);
+    return NextResponse.json({
+      ...connectionStatus,
+      providerReadiness: buildAuxillariesConnectionReadiness({
+        provider,
+        connectionStatus,
+        repositories: [],
+      }),
+    });
   }
 
   const { manager, connection } = await getStoredConnection(supabase, user.id, provider);
   if (!connection) {
-    return NextResponse.json(buildDisconnectedConnectionStatus(provider));
+    const connectionStatus = buildDisconnectedConnectionStatus(provider);
+    return NextResponse.json({
+      ...connectionStatus,
+      providerReadiness: buildAuxillariesConnectionReadiness({
+        provider,
+        connectionStatus,
+        repositories: [],
+      }),
+    });
   }
 
   const instanceUrl = readInstanceUrl(request);
   const valid = await validateStoredConnection(manager, provider, connection, instanceUrl).catch(() => false);
+  const connectionStatus = buildStoredConnectionStatus(provider, connection, valid);
 
-  return NextResponse.json(buildStoredConnectionStatus(provider, connection, valid));
+  return NextResponse.json({
+    ...connectionStatus,
+    providerReadiness: buildAuxillariesConnectionReadiness({
+      provider,
+      connection: connection.connectionData,
+      connectionStatus,
+      repositories: valid ? [{}] : [],
+    }),
+  });
 });
 
 export const DELETE = createRouteWrapper(async (request: Request, context: ProviderRouteContext) => {
@@ -59,19 +96,48 @@ export const DELETE = createRouteWrapper(async (request: Request, context: Provi
 
   const { manager, connection } = await getStoredConnection(supabase, user.id, provider);
   if (!connection) {
+    const connectionStatus = buildDisconnectedConnectionStatus(provider);
     return NextResponse.json({
       success: true,
       provider,
       disconnected: false,
       message: 'No active connection to remove',
+      providerReadiness: buildAuxillariesConnectionReadiness({
+        provider,
+        connectionStatus,
+        repositories: [],
+      }),
     });
   }
 
+  const beforeStatus = buildStoredConnectionStatus(provider, connection, true);
+  const beforeReadiness = buildAuxillariesConnectionReadiness({
+    provider,
+    connection: connection.connectionData,
+    connectionStatus: beforeStatus,
+    repositories: [{}],
+  });
   await manager.deleteConnection(connection.id);
+  const afterStatus = buildDisconnectedConnectionStatus(provider);
+  const afterReadiness = buildAuxillariesConnectionReadiness({
+    provider,
+    connectionStatus: afterStatus,
+    repositories: [],
+  });
+  const recoveryRun = buildAuxillariesRecoveryRun({
+    targetPane: 'externals',
+    repairAction: 'disconnect_provider',
+    beforeReadinessRoot: beforeReadiness.providerReadinessRoot,
+    afterReadinessRoot: afterReadiness.providerReadinessRoot,
+    executionId: `auxillaries-${provider}-disconnect`,
+    outcome: 'succeeded',
+  });
 
   return NextResponse.json({
     success: true,
     provider,
     disconnected: true,
+    providerReadiness: afterReadiness,
+    recoveryRun,
   });
 });

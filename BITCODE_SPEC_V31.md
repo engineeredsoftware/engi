@@ -243,6 +243,9 @@ Gate 4 Connects precision:
 - Provider readiness records name provider id, installation/account state, token presence class, scopes class, last readback status, blocker, and repair action.
 - Secrets and raw provider tokens are never stored in telemetry, UI metadata, or proof hooks.
 - Recovery attempts produce before/after readiness roots and never silently downgrade provider policy.
+- `AuxillariesConnectionReadiness` is the canonical provider-readiness object for Connects and VCS routes. It carries `providerId`, `providerName`, `credentialPosture`, `tokenPresenceClass`, `scopesClass`, `lastReadbackStatus`, `blocker`, `repairAction`, source-safe metadata, and `providerReadinessRoot`.
+- Provider connection routes may store or validate private provider credentials at the route boundary, but responses, telemetry, proof hooks, and UI metadata can only expose classified token/scope/readback posture and source-safe account labels.
+- `AuxillariesRecoveryRun` records provider recovery as before-readiness root, after-readiness root, repair action, execution id, outcome, and source-safety class; it never serializes the provider credential that made the repair possible.
 
 Gate 5 Wallet/BTD precision:
 
