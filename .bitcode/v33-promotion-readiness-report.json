@@ -1,0 +1,495 @@
+{
+  "artifactId": "v33-promotion-readiness-report",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "gateBranchPattern": "v33/gate-N-*",
+    "promotionPrRequired": true,
+    "versionBranch": "version/v33",
+    "versionPromotionPullRequestTitlePrefix": "V33 Canonical Promotion"
+  },
+  "checks": [
+    {
+      "checkId": "all-v33-gate-checks-wired",
+      "passed": true,
+      "proofRoot": "sha256:e27d2873ab1a93a2f6cbd74ab568d9f6a24d463b7fe8458f9956aabbcd16a811",
+      "required": true
+    },
+    {
+      "checkId": "all-v33-interface-artifacts-source-safe",
+      "passed": true,
+      "proofRoot": "sha256:9857fb00f11bfcc40111ed21bf486362bc9030205c9f0ba4bddfe4096f79c483",
+      "required": true
+    },
+    {
+      "checkId": "v33-promotion-command-supported",
+      "passed": true,
+      "proofRoot": "sha256:621710b91eec1619047ab7756d36123df0c9761575a0636ebeff1a0cf673377f",
+      "required": true
+    },
+    {
+      "checkId": "v33-spec-family-promotion-rewriter-supported",
+      "passed": true,
+      "proofRoot": "sha256:0bb4fd6630cbed4bf70b6b56784bb9dff245f8f4d358ef9b8b416d1eb381ff4b",
+      "required": true
+    },
+    {
+      "checkId": "v33-runtime-posture-rewriter-supported",
+      "passed": true,
+      "proofRoot": "sha256:841bab8745f23523d7b805af89c00a136b15219945ec808ef1b055bc2b96530c",
+      "required": true
+    },
+    {
+      "checkId": "v33-canon-promotion-workflow-present",
+      "passed": true,
+      "proofRoot": "sha256:29312c6ef85faa58a859533c222ceac8a73d5c59e7c886320c162ba96c6d308d",
+      "required": true
+    },
+    {
+      "checkId": "v33-generated-artifacts-registered",
+      "passed": true,
+      "proofRoot": "sha256:3af33b77e4b5856c40ef80179452a09f0babdfab611b4899b8a8df3b5e9ef2fa",
+      "required": true
+    }
+  ],
+  "closureCommand": "pnpm run check:v33-gate10",
+  "currentTarget": "V32",
+  "documentationEvidence": [
+    {
+      "digest": "sha256:c5f427b82720085093158501a0141d4db171ace7437481a4bc175b4897081df5",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V33.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V33 promotion readiness canon"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "V33 active / V34 draft"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:3fb790d89c99396ca8e422cdfdadcff9baf2c4bf5b44cd338313bf08826c8f5a",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V33_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Gate 10: V33 Promotion Readiness"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "promotion scripts support V33"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:3dea3f5113e0fc89303a92fef92d88eef7faf56c3015cd00950965983c463f86",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V33_NOTES.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Gate 10: V33 Promotion Readiness"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "active V33 / draft V34"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:a08ef4caf86e231ca2402522f3d750de8ab81a8271bd63b8b541adb91b87d164",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "## Gate 10 Parity"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "closed"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ce9ec6145a06aed32c5b346095152dc44892f5d71bf0987ed2af282c664ac5c1",
+      "present": true,
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Current working gate: V33 Gate 10 Promotion Readiness"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC_V33_PROVEN.md"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:caaa58b6d41ecfbcfe87ee5cab1700325b24900927add7f2ab22b8c386969cb7",
+      "present": true,
+      "relativePath": "README.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "check:v33-gate10"
+        },
+        {
+          "present": true,
+          "token": "v33-canon-promotion.yml"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:c90625df7b9c702886778d49a430f673e977259f5f6700e51f79036733ac67f8",
+      "present": true,
+      "relativePath": "packages/protocol/README.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V33 Gate 10"
+        },
+        {
+          "present": true,
+          "token": "V33` active, `V34` draft"
+        }
+      ]
+    }
+  ],
+  "gateArtifactEvidence": [
+    {
+      "artifactId": "v33-interface-contract-catalog",
+      "byteLength": 11968,
+      "digest": "sha256:b0e615f38d1dc1160b29564c5b14026796e410a621300c711432cf70e7a5346c",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-interface-contract-catalog.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-mcp-api-tool-contracts",
+      "byteLength": 8289,
+      "digest": "sha256:3e80c1eddefeddcb300f9f30c7752d6023c7786063013c0a8ed43d932ff08f51",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-mcp-api-tool-contracts.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-chatgpt-app-action-contracts",
+      "byteLength": 18321,
+      "digest": "sha256:bf35a4349a6f7ade59eb623190297a29863b0cfa95c90ebaf65edfb3e4696291",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-chatgpt-app-action-contracts.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-interface-authorization-policy",
+      "byteLength": 8814,
+      "digest": "sha256:b16b67420594b309d8d01029041351b165f7e49e8a29fac8d06592c09f7d1d6a",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-interface-authorization-policy.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-read-license-assetpack-rights-contracts",
+      "byteLength": 9426,
+      "digest": "sha256:64ed45b9b87cacf2c1b76d8ac889868febc28cda436877cd5ec0353868d6bd26",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-read-license-assetpack-rights-contracts.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-api-schema-compatibility-matrix",
+      "byteLength": 9117,
+      "digest": "sha256:4bcdca121df8dce4a190167a78a8839ae3e3c6be7adcbd99800eb3ea6fb67c12",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-api-schema-compatibility-matrix.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-interface-telemetry-proof-hooks",
+      "byteLength": 14717,
+      "digest": "sha256:7a1f4d8e87743f2a0c194fbda77eccfd4bd56f4435b3788c59db1adc7da44975",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-interface-telemetry-proof-hooks.json",
+      "sourceSafe": true,
+      "version": "V33"
+    },
+    {
+      "artifactId": "v33-interface-consumer-ux-regression-proof",
+      "byteLength": 16375,
+      "digest": "sha256:6e9792ff4da346502c90575c3b0bc3179a661684926edfb0c82ecdf16fe28e51",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v33-interface-consumer-ux-regression-proof.json",
+      "sourceSafe": true,
+      "version": "V33"
+    }
+  ],
+  "generatedArtifactPolicy": {
+    "generatedArtifactPrefix": ".bitcode/v33-",
+    "promotionOverwritesPreviewArtifacts": true,
+    "protectedSourceSerialized": false,
+    "provenAppendixPath": "BITCODE_SPEC_V33_PROVEN.md",
+    "provenAppendixRequiredBeforePromotion": false,
+    "secretValuesSerialized": false
+  },
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "postPromotionPosture": {
+    "activeCanon": "V33",
+    "admitted": true,
+    "draftTarget": "V34",
+    "pointer": "V33",
+    "proofRoot": "sha256:47be55a63691d74eaefb5ea8c1b0a441bc76eb0ebecf8dc7778f51c99202a721"
+  },
+  "prePromotionPosture": {
+    "activeCanon": "V32",
+    "admitted": true,
+    "draftTarget": "V33",
+    "pointer": "V32",
+    "proofRoot": "sha256:6cfa69eb5101fc6030e06024a5b7712694dc70196e8d8a175757debbe6f55b81"
+  },
+  "schemaId": "bitcode.v33.promotionReadiness.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:90305fa9f9af5190e28d914b89a6f53dac12569e08977b1dd9123da84ce3a970",
+      "present": true,
+      "relativePath": "scripts/check-v33-gate10-promotion-readiness.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V33 Gate 10 promotion readiness"
+        },
+        {
+          "present": true,
+          "token": "--promotion-mode"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:028ad275c4f7d4fda7b3578860afb58962d76ab817e82a6b1b5d222b7d77ec86",
+      "present": true,
+      "relativePath": "scripts/generate-v33-promotion-readiness-report.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildV33PromotionReadinessReport"
+        },
+        {
+          "present": true,
+          "token": "source-safe-interface-promotion-readiness-metadata"
+        },
+        {
+          "present": true,
+          "token": "v33-promotion-readiness-report"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:73d5343ab9f831c3b0042c9bedc669d2c75fc73d958b02952969df2d37f61051",
+      "present": true,
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "if (version === 'V33')"
+        },
+        {
+          "present": true,
+          "token": "const v33Gate10Command"
+        },
+        {
+          "present": true,
+          "token": "buildDerivedV33CommitMessageBody"
+        },
+        {
+          "present": true,
+          "token": "scripts/check-v33-gate10-promotion-readiness.mjs"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:bcc6b27c0bc9598c4e3a24d47096442f15638f16e86d47519612eb0df59091a1",
+      "present": true,
+      "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "if (version === 'V33')"
+        },
+        {
+          "present": true,
+          "token": "V33 canonical system specification for commercial interface depth"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC_V33_PROVEN.md"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:2c12ba58832a5340300919152c95ed13a68bacd2942910714ee20ed07b0211fc",
+      "present": true,
+      "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "--next-draft"
+        },
+        {
+          "present": true,
+          "token": "rewritePackageReadme"
+        },
+        {
+          "present": true,
+          "token": "rewriteRuntimeDataState"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:0972e620f357d8c90744ace802c8756a3e3eacec021171244573ad475ef4b873",
+      "present": true,
+      "relativePath": ".github/workflows/v33-canon-promotion.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "head.ref == 'version/v33'"
+        },
+        {
+          "present": true,
+          "token": "npm run promote:canon -- --version V33"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC_V33_PROVEN.md"
+        },
+        {
+          "present": true,
+          "token": "Promote V33 canon files"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:c6e56e41e78e0074225e2190ab4dbbbb45541921b99cdf3f85c09195ac6a4d69",
+      "present": true,
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "check-v33-gate10-promotion-readiness.mjs"
+        },
+        {
+          "present": true,
+          "token": "elif [ \"$POINTER\" = \"V33\" ]"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:cfce53ba7222acd63dfb773c9d80962f64f6588f853c6b89ca3a95a130d790b3",
+      "present": true,
+      "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "elif [ \"$POINTER\" = \"V33\" ]"
+        },
+        {
+          "present": true,
+          "token": "--active-canon V33 --draft-target V34"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:914bbe54e8b0a7fc74ca79d026f4605171afe9d564b7780ec1de85e279d56c6f",
+      "present": true,
+      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildV33ProvenPackage"
+        },
+        {
+          "present": true,
+          "token": "buildV33PromotionReadinessReport"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:3ed5c06ef73e928d92c41ae3e1959d9cedf32785f31a7061f5013b3cff558249",
+      "present": true,
+      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": ".bitcode/v33-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:921834d7fd847a320aa8c854d3feb911e94d9eae68ca7f758e7c3734d61ddca0",
+      "present": true,
+      "relativePath": "package.json",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "generate:v33-promotion-readiness"
+        },
+        {
+          "present": true,
+          "token": "check:v33-promotion-readiness"
+        },
+        {
+          "present": true,
+          "token": "check:v33-gate10"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-interface-promotion-readiness-metadata",
+  "version": "V33"
+}

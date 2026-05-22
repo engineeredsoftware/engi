@@ -138,6 +138,15 @@ jobs:
             node scripts/check-v33-gate7-api-schema-compatibility-matrix.mjs --skip-branch-check
             node scripts/check-v33-gate8-interface-telemetry-proof-hooks.mjs --skip-branch-check
             node scripts/check-v33-gate9-interface-consumer-ux-regression-proof.mjs --skip-branch-check
+            node scripts/check-v33-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+          elif [ "$POINTER" = "V33" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V33 --mode promoted --current-target V33
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V33
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V33 --draft-target V34
+            if [ -f BITCODE_SPEC_V34.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33
+            fi
+            node scripts/check-v33-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

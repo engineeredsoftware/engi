@@ -18,7 +18,7 @@
   "currentTarget": "V32",
   "docsEvidence": [
     {
-      "digest": "sha256:3f4dbb00f0d4119f488d030d2eef6865ecd4243a367582726243253cf79061f9",
+      "digest": "sha256:c5f427b82720085093158501a0141d4db171ace7437481a4bc175b4897081df5",
       "relativePath": "BITCODE_SPEC_V33.md",
       "requiredTokens": [
         {
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "digest": "sha256:d5c32b09bc3862f939cc182710116833fc9f2062e8393a63d80cb4780090283e",
+      "digest": "sha256:3fb790d89c99396ca8e422cdfdadcff9baf2c4bf5b44cd338313bf08826c8f5a",
       "relativePath": "BITCODE_SPEC_V33_DELTA.md",
       "requiredTokens": [
         {
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "digest": "sha256:9960b44e64c6ffa405fca337cdb82a9b23868c0a3415f7135318c8acb5d87e5f",
+      "digest": "sha256:3dea3f5113e0fc89303a92fef92d88eef7faf56c3015cd00950965983c463f86",
       "relativePath": "BITCODE_SPEC_V33_NOTES.md",
       "requiredTokens": [
         {
@@ -52,7 +52,7 @@
       ]
     },
     {
-      "digest": "sha256:6f894cad5457b2c6fb49f37a1ea84e80d0db9deeac29b4a0cda00c18fdf425a8",
+      "digest": "sha256:a08ef4caf86e231ca2402522f3d750de8ab81a8271bd63b8b541adb91b87d164",
       "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
       "requiredTokens": [
         {
@@ -62,7 +62,7 @@
       ]
     },
     {
-      "digest": "sha256:f1f06f1a44640b84ca3376ea993b510b88168a742921f6c2e24e2ff159cecb6c",
+      "digest": "sha256:ce9ec6145a06aed32c5b346095152dc44892f5d71bf0987ed2af282c664ac5c1",
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "requiredTokens": [
         {
