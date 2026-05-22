@@ -8718,6 +8718,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
 
   return {
     reportId: 'v32-promotion-proof-generation-hardening',
+    artifactId: 'v32-promotion-proof-generation-hardening',
     schemaId: 'bitcode.v32.promotionProofGenerationHardening.v1',
     version: 'V32',
     currentTarget: 'V31',
