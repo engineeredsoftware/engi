@@ -113,6 +113,7 @@ jobs:
             node scripts/check-v31-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             node scripts/check-v32-gate1-provation-roadmap-opening.mjs --skip-branch-check
             node scripts/check-v32-gate2-proof-matrix-inventory.mjs --skip-branch-check
+            node scripts/check-v32-gate3-deterministic-replay-artifact-stability.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
