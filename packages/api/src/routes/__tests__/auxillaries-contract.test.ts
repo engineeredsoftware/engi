@@ -54,6 +54,10 @@ describe('Auxillaries package route contracts', () => {
         valid: true,
         provider: 'github',
         username: 'bitcode',
+        scopes: ['repo', 'contents:write'],
+        tokenPresenceClass: 'present_source_safe',
+        lastReadbackStatus: 'succeeded',
+        lastReadbackAt: '2026-05-21T02:00:00.000Z',
         metadata: {
           token: 'provider-token',
         },
@@ -130,10 +134,17 @@ describe('Auxillaries package route contracts', () => {
       enabledRepositoryCount: 1,
     });
     expect(payload.connectionReadiness[0]).toMatchObject({
+      providerId: 'github',
+      providerName: 'GitHub',
       provider: 'github',
       connected: true,
       valid: true,
       credentialPosture: 'present_source_safe',
+      tokenPresenceClass: 'present_source_safe',
+      scopesClass: 'repo_read_write',
+      lastReadbackStatus: 'succeeded',
+      blocker: null,
+      repairAction: 'none',
     });
     expect(payload.walletBtdPaneState.signerPosture).toMatchObject({
       ready: true,
@@ -152,6 +163,7 @@ describe('Auxillaries package route contracts', () => {
     expect(JSON.stringify(payload)).not.toContain('wallet-secret');
     expect(JSON.stringify(payload)).not.toContain('repository source');
     expect(JSON.stringify(payload)).not.toContain('private prompt body');
+    expect(JSON.stringify(payload.connectionReadiness[0].metadata)).not.toContain('provider-token');
     expect(assertAuxillariesJsonSafe(payload)).toBeUndefined();
   });
 
@@ -175,6 +187,12 @@ describe('Auxillaries package route contracts', () => {
     const blockerIds = payload.readinessDiagnostics.map((diagnostic) => diagnostic.blockerId);
     expect(payload.profileState.accountReadiness).toBe('blocked');
     expect(payload.connectionReadiness[0].requiredRepairAction).toBe('connect_provider');
+    expect(payload.connectionReadiness[0]).toMatchObject({
+      tokenPresenceClass: 'missing',
+      scopesClass: 'missing',
+      lastReadbackStatus: 'not_attempted',
+      blocker: 'connects.github.connect_provider',
+    });
     expect(payload.walletBtdPaneState.signerPosture.requiredAction).toBe('connect_wallet');
     expect(blockerIds).toEqual(expect.arrayContaining([
       'profile.missing',
@@ -233,6 +251,8 @@ describe('Auxillaries package route contracts', () => {
 
     expect(parseAuxillariesContractSnapshot(snapshot).recoveryRuns[0].recoveryRoot)
       .toMatch(/^[0-9a-f]{64}$/);
+    expect(JSON.stringify(snapshot.recoveryRuns)).not.toContain('access_token');
+    expect(JSON.stringify(snapshot.recoveryRuns)).not.toContain('oauth_token');
     expect(validateAuxillariesContractSnapshot({ kind: 'wrong' })).toMatchObject({
       valid: false,
     });

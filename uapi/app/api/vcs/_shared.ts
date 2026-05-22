@@ -86,17 +86,45 @@ function readDate(value: unknown) {
 
 const sensitiveConnectionDataKeys = new Set([
   'access_token',
+  'accesstoken',
   'oauth_token',
+  'oauthtoken',
   'refresh_token',
+  'refreshtoken',
   'token',
   'client_secret',
+  'clientsecret',
   'private_key',
+  'privatekey',
 ]);
 
 function sanitizeConnectionMetadata(connectionData: Record<string, unknown>) {
   return Object.fromEntries(
     Object.entries(connectionData).filter(([key]) => !sensitiveConnectionDataKeys.has(key.toLowerCase())),
   );
+}
+
+function hasConnectionTokenEvidence(connectionData: Record<string, unknown>) {
+  return Array.from(sensitiveConnectionDataKeys).some((key) => {
+    const value = connectionData[key];
+    return typeof value === 'string' ? Boolean(value.trim()) : Boolean(value);
+  });
+}
+
+function readConnectionScopes(connectionData: Record<string, unknown>) {
+  const raw = connectionData.scopes ?? connectionData.scope ?? connectionData.permissions;
+  if (Array.isArray(raw)) {
+    return raw.map((entry) => (typeof entry === 'string' ? entry.trim() : '')).filter(Boolean);
+  }
+  if (typeof raw === 'string') {
+    return raw.split(/[,\s]+/u).map((entry) => entry.trim()).filter(Boolean);
+  }
+  if (isRecord(raw)) {
+    return Object.entries(raw)
+      .filter(([, value]) => value === true || value === 'read' || value === 'write')
+      .map(([key, value]) => `${key}:${value}`);
+  }
+  return [];
 }
 
 function mapStoredRepositoryInventoryRowToRepository(row: StoredRepositoryInventoryRow): VCSRepository | null {
@@ -213,6 +241,11 @@ export function buildDisconnectedConnectionStatus(provider: VCSProviderType) {
     connected: false,
     provider,
     valid: false,
+    tokenPresenceClass: 'missing',
+    scopesClass: 'missing',
+    lastReadbackStatus: 'not_attempted',
+    lastReadbackAt: null,
+    blocker: `connects.${provider}.connect_provider`,
   };
 }
 
@@ -222,6 +255,7 @@ export function buildStoredConnectionStatus(
   valid: boolean,
 ) {
   const connectionData = (connection.connectionData || {}) as Record<string, unknown>;
+  const scopes = readConnectionScopes(connectionData);
 
   return {
     connected: true,
@@ -239,6 +273,16 @@ export function buildStoredConnectionStatus(
       typeof connectionData.token_expires_at === 'string'
         ? connectionData.token_expires_at
         : undefined,
+    tokenPresenceClass: hasConnectionTokenEvidence(connectionData)
+      ? 'present_source_safe'
+      : valid
+        ? 'unknown'
+        : 'invalid',
+    scopes,
+    scopesClass: scopes.length ? undefined : 'unknown',
+    lastReadbackStatus: valid ? 'succeeded' : 'failed',
+    lastReadbackAt: new Date().toISOString(),
+    blocker: valid ? null : `connects.${provider}.reauthorize_provider`,
     metadata: sanitizeConnectionMetadata(connectionData),
   };
 }

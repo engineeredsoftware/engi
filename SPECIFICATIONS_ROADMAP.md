@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 3 Profile and account state, which deepens the package-owned Auxillaries Profile contract with account identity, wallet binding posture, model/template preferences, notifications, data-sharing posture, explicit blockers, and repair routes over the V30 Protocol/BTD substrate.
+- Current working gate: V31 Gate 4 Connects provider readiness and recovery, which deepens source-safe provider connection posture with provider id/name, installation state, token presence class, scopes class, last readback status, blocker, repair action, readiness roots, and before/after recovery evidence over the V30 Protocol/BTD substrate.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

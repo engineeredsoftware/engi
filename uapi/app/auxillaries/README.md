@@ -56,6 +56,10 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
 
 - Wallet starts with Bitcoin wallet authentication. The wallet proof is the minimum identity origin for Supabase synchronization and local wallet readiness.
 - Externals comes second and owns GitHub App installation/source-provider scope needed for Deposit and Read.
+- Externals consumes package-owned `connectionReadiness` and `recoveryRuns` from
+  `/api/auxillaries/data`, showing provider id/name, token presence class,
+  scopes class, readback status, blocker, repair action, and compact readiness
+  roots without exposing raw provider credentials.
 - Profile owns optional email/contact/admin data and must not appear as the primary identity requirement. Its readiness summary consumes `profileState` from `/api/auxillaries/data`, including named repair routes for identity, wallet binding, preferences, notifications, and data-sharing posture.
 - Wallet also reflects BTD range/share posture after the shared auxillary data read settles.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.

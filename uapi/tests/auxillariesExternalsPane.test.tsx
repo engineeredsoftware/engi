@@ -52,6 +52,26 @@ describe('AuxillariesExternalsPane', () => {
         profile: {
           wallet_address: 'bc1qbitcodeoperator',
         },
+        connectionReadiness: [
+          {
+            provider: 'github',
+            providerId: 'github',
+            providerName: 'GitHub',
+            tokenPresenceClass: 'present_source_safe',
+            scopesClass: 'repo_read_write',
+            lastReadbackStatus: 'succeeded',
+            providerReadinessRoot: '0123456789abcdef',
+            repairAction: 'none',
+            blocker: null,
+          },
+        ],
+        recoveryRuns: [
+          {
+            outcome: 'succeeded',
+            beforeReadinessRoot: 'aaaaaaaaaaaaaaaa',
+            afterReadinessRoot: 'bbbbbbbbbbbbbbbb',
+          },
+        ],
       },
       hasGitHubConnection: true,
       hasValidGitHubConnection: true,
@@ -115,6 +135,11 @@ describe('AuxillariesExternalsPane', () => {
     expect(screen.getByText('bitcode/bitcode')).toBeInTheDocument();
     expect(screen.getByText('bitcode/bitcode-core')).toBeInTheDocument();
     expect(screen.getByTestId('mock-externals-data-sharing-panel')).toBeInTheDocument();
+    expect(screen.getByTestId('auxillaries-provider-readiness')).toBeInTheDocument();
+    expect(screen.getByText(/GitHub:\s+succeeded/i)).toBeInTheDocument();
+    expect(screen.getByText(/Token: present source safe/i)).toBeInTheDocument();
+    expect(screen.getByText(/Scopes: repo read write/i)).toBeInTheDocument();
+    expect(screen.getByText(/Latest recovery: succeeded/i)).toBeInTheDocument();
   });
 
   it('treats an invalid saved provider session as reconnect-required readiness', () => {
@@ -123,6 +148,19 @@ describe('AuxillariesExternalsPane', () => {
         profile: {
           wallet_address: 'bc1qbitcodeoperator',
         },
+        connectionReadiness: [
+          {
+            provider: 'github',
+            providerId: 'github',
+            providerName: 'GitHub',
+            tokenPresenceClass: 'invalid',
+            scopesClass: 'repo_read_only',
+            lastReadbackStatus: 'failed',
+            providerReadinessRoot: 'fedcba9876543210',
+            repairAction: 'reauthorize_provider',
+            blocker: 'connects.github.reauthorize_provider',
+          },
+        ],
       },
       hasGitHubConnection: true,
       hasValidGitHubConnection: false,
@@ -171,6 +209,8 @@ describe('AuxillariesExternalsPane', () => {
     expect(screen.getByText('Reconnect required')).toBeInTheDocument();
     expect(screen.getByText(/repository-provider attachment, but the live provider session is no longer valid/i)).toBeInTheDocument();
     expect(screen.getByText(/write admission will fail closed until the live provider connection is restored/i)).toBeInTheDocument();
+    expect(screen.getByText(/GitHub:\s+failed/i)).toBeInTheDocument();
+    expect(screen.getByText(/Blocker: connects.github.reauthorize_provider/i)).toBeInTheDocument();
   });
 
   it('renders GitHub connection controls from wallet identity before optional email session exists', () => {

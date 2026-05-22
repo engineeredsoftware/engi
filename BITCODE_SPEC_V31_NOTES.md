@@ -87,3 +87,10 @@ Gate 3 is closed only when Profile/account state is not just a form payload.
 It must be a package-owned support state that binds account identity, profile completeness issues, repair routes, wallet binding posture, model/template preference posture, notification posture, data-sharing posture, and proof roots.
 The Profile pane may present and link repairs, but it must consume the package contract and must not locally rederive account readiness or completeness law.
 Route hydration must include template preference and notification readback where available, while missing storage rows degrade into explicit repair posture rather than generic missing data.
+
+## Gate 4 closure note
+
+Gate 4 is closed only when Connects provider state is a source-safe readiness contract rather than a raw OAuth/VCS status blob.
+Provider readiness must name provider id/name, installation state, credential posture, token presence class, scopes class, last readback status, blocker, repair action, and proof root without exposing raw provider credentials.
+VCS and GitHub Auxillaries routes may use credentials internally to validate or repair a connection, but responses, UI metadata, telemetry, and recovery proof hooks must carry only classified posture and before/after readiness roots.
+The Externals pane can display compact provider proof detail, but it must consume `connectionReadiness` and `recoveryRuns` from the package-owned Auxillaries contract instead of locally deciding provider law.

@@ -17,6 +17,14 @@ export type AuxillariesRetryPolicy = 'manual_retry' | 'after_repair' | 'not_retr
 export type AuxillariesProfileRepairSeverity = 'blocking' | 'recoverable';
 export type AuxillariesNotificationState = 'ready' | 'attention_needed' | 'contact_missing' | 'unknown';
 export type AuxillariesDataSharingState = 'configured' | 'limited' | 'not_configured' | 'unknown';
+export type AuxillariesProviderTokenPresenceClass = 'present_source_safe' | 'missing' | 'invalid' | 'unknown';
+export type AuxillariesProviderScopesClass =
+  | 'repo_read_write'
+  | 'repo_read_only'
+  | 'metadata_only'
+  | 'missing'
+  | 'unknown';
+export type AuxillariesProviderReadbackStatus = 'succeeded' | 'failed' | 'not_attempted' | 'unknown';
 
 const CANONICAL_AUXILLARY_PANES = new Set<string>(AUXILLARY_FLOW_STEPS);
 const AUXILLARY_PANE_ALIASES: Record<string, ConcreteAuxillaryPane> = {
@@ -174,6 +182,8 @@ export interface AuxillariesProfileState {
 
 export interface AuxillariesConnectionReadiness {
   kind: 'AuxillariesConnectionReadiness';
+  providerId: string;
+  providerName: string;
   provider: string;
   connected: boolean;
   valid: boolean;
@@ -184,7 +194,17 @@ export interface AuxillariesConnectionReadiness {
     | 'missing'
     | 'invalid'
     | 'unknown';
+  tokenPresenceClass: AuxillariesProviderTokenPresenceClass;
+  scopesClass: AuxillariesProviderScopesClass;
+  lastReadbackStatus: AuxillariesProviderReadbackStatus;
+  lastReadbackAt: string | null;
+  blocker: string | null;
   requiredRepairAction:
+    | 'none'
+    | 'connect_provider'
+    | 'reauthorize_provider'
+    | 'repair_provider_inventory';
+  repairAction:
     | 'none'
     | 'connect_provider'
     | 'reauthorize_provider'
@@ -894,9 +914,18 @@ export function buildAuxillariesConnectionReadiness(input: {
 }): AuxillariesConnectionReadiness {
   const connection = asRecord(toAuxillariesJsonSafe(input.connection ?? null));
   const status = asRecord(toAuxillariesJsonSafe(input.connectionStatus ?? null));
+  const statusMetadata = asRecord(status?.metadata);
+  const connectionMetadata = asRecord(connection?.metadata);
   const connected = readBoolean(status?.connected) ?? Boolean(connection);
   const valid = readBoolean(status?.valid) ?? connected;
   const provider = readString(status?.provider) ?? readString(connection?.provider) ?? input.provider;
+  const providerId = readString(status?.providerId) ??
+    readString(status?.provider_id) ??
+    readString(connection?.provider_id) ??
+    provider;
+  const providerName = readString(status?.providerName) ??
+    readString(status?.provider_name) ??
+    readProviderName(provider);
   const accountLabel =
     readString(status?.username) ??
     readString(connection?.login) ??
@@ -916,20 +945,77 @@ export function buildAuxillariesConnectionReadiness(input: {
       : repositories.length === 0
         ? 'repair_provider_inventory'
         : 'none';
+  const tokenPresenceClass = readProviderTokenPresenceClass(
+    readString(status?.tokenPresenceClass) ??
+    readString(status?.token_presence_class) ??
+    readString(statusMetadata?.tokenPresenceClass) ??
+    readString(statusMetadata?.token_presence_class),
+  ) ?? (!connected
+    ? 'missing'
+    : !valid
+      ? 'invalid'
+      : hasProviderTokenEvidence(status) || hasProviderTokenEvidence(connection)
+        ? 'present_source_safe'
+        : 'unknown');
+  const scopes = [
+    ...readStringList(status?.scopes),
+    ...readStringList(status?.scope),
+    ...readStringList(statusMetadata?.scopes),
+    ...readStringList(statusMetadata?.scope),
+    ...readStringList(connection?.scopes),
+    ...readStringList(connection?.scope),
+    ...readStringList(connectionMetadata?.scopes),
+    ...readStringList(connectionMetadata?.scope),
+  ];
+  const scopesClass = readProviderScopesClass(
+    readString(status?.scopesClass) ??
+    readString(status?.scopes_class) ??
+    readString(statusMetadata?.scopesClass) ??
+    readString(statusMetadata?.scopes_class),
+  ) ?? deriveProviderScopesClass({ connected, scopes });
+  const lastReadbackStatus = readProviderReadbackStatus(
+    readString(status?.lastReadbackStatus) ??
+    readString(status?.last_readback_status) ??
+    readString(status?.readbackStatus) ??
+    readString(status?.readback_status) ??
+    readString(statusMetadata?.lastReadbackStatus) ??
+    readString(statusMetadata?.last_readback_status) ??
+    readString(statusMetadata?.readbackStatus) ??
+    readString(statusMetadata?.readback_status),
+  ) ?? (!connected ? 'not_attempted' : valid ? 'succeeded' : 'failed');
+  const lastReadbackAt = readString(status?.lastReadbackAt) ??
+    readString(status?.last_readback_at) ??
+    readString(statusMetadata?.lastReadbackAt) ??
+    readString(statusMetadata?.last_readback_at) ??
+    null;
+  const blocker = readString(status?.blocker) ??
+    readString(statusMetadata?.blocker) ??
+    (requiredRepairAction === 'none' ? null : `connects.${provider}.${requiredRepairAction}`);
+  const repairAction = requiredRepairAction;
   const withoutRoot = {
     kind: 'AuxillariesConnectionReadiness' as const,
+    providerId,
+    providerName,
     provider,
     connected,
     valid,
     accountLabel,
     installationState: connected ? 'installed' as const : 'missing' as const,
     credentialPosture,
+    tokenPresenceClass,
+    scopesClass,
+    lastReadbackStatus,
+    lastReadbackAt,
+    blocker,
     requiredRepairAction,
+    repairAction,
     sourceSafetyClass: 'secret_free_summary' as AuxillariesSourceSafetyClass,
     metadata: {
       repositories: repositories.length,
+      repositoryCount: repositories.length,
       instanceUrl: readString(status?.instanceUrl),
       expiresAt: readString(status?.expiresAt),
+      scopes,
     },
   };
 
@@ -1459,6 +1545,92 @@ function readDataSharingState(value: string | null): AuxillariesDataSharingState
     return value;
   }
   return null;
+}
+
+function readProviderName(provider: string) {
+  if (provider === 'github') return 'GitHub';
+  if (provider === 'gitlab') return 'GitLab';
+  if (provider === 'bitbucket') return 'Bitbucket';
+  return provider;
+}
+
+function readProviderTokenPresenceClass(value: string | null): AuxillariesProviderTokenPresenceClass | null {
+  if (
+    value === 'present_source_safe' ||
+    value === 'missing' ||
+    value === 'invalid' ||
+    value === 'unknown'
+  ) {
+    return value;
+  }
+  return null;
+}
+
+function readProviderScopesClass(value: string | null): AuxillariesProviderScopesClass | null {
+  if (
+    value === 'repo_read_write' ||
+    value === 'repo_read_only' ||
+    value === 'metadata_only' ||
+    value === 'missing' ||
+    value === 'unknown'
+  ) {
+    return value;
+  }
+  return null;
+}
+
+function readProviderReadbackStatus(value: string | null): AuxillariesProviderReadbackStatus | null {
+  if (
+    value === 'succeeded' ||
+    value === 'failed' ||
+    value === 'not_attempted' ||
+    value === 'unknown'
+  ) {
+    return value;
+  }
+  return null;
+}
+
+function readStringList(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+      .filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    return value
+      .split(/[,\s]+/u)
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function hasProviderTokenEvidence(value: UnknownRecord | null) {
+  if (!value) return false;
+  return [
+    value.token_present,
+    value.tokenPresent,
+    value.access_token,
+    value.oauth_token,
+    value.refresh_token,
+    value.token,
+  ].some((entry) => readBoolean(entry) === true || readString(entry) === REDACTED_VALUE);
+}
+
+function deriveProviderScopesClass(input: {
+  connected: boolean;
+  scopes: string[];
+}): AuxillariesProviderScopesClass {
+  if (!input.connected) return 'missing';
+  if (input.scopes.length === 0) return 'unknown';
+  const normalized = input.scopes.map((scope) => scope.toLowerCase());
+  const hasRepo = normalized.some((scope) => scope.includes('repo') || scope.includes('repository'));
+  const hasWrite = normalized.some((scope) => /(?:write|push|contents:write|metadata:write)/u.test(scope));
+  const hasRead = normalized.some((scope) => /(?:read|pull|contents:read|metadata:read)/u.test(scope));
+  if (hasRepo && hasWrite) return 'repo_read_write';
+  if (hasRepo || hasRead) return 'repo_read_only';
+  return 'metadata_only';
 }
 
 function stableProofRoot(label: string, value: unknown) {

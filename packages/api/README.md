@@ -34,6 +34,13 @@ proof roots. Profile UI and routes can display or persist explicit fields, but
 they should not recalculate readiness locally; missing profile/account facts
 must degrade into named blockers or repairable issues.
 
+Connects provider readiness is also package-owned. `AuxillariesConnectionReadiness`
+classifies provider id/name, installation state, credential posture, token
+presence, scopes, last readback, blocker, repair action, source-safe metadata,
+and a readiness root. Routes may validate credentials privately, but API
+responses, UI metadata, telemetry, and recovery proof hooks must only serialize
+classified readiness and `AuxillariesRecoveryRun` before/after roots.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs
