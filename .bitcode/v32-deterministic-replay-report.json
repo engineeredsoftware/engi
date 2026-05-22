@@ -11,9 +11,9 @@
     {
       "artifactPath": ".bitcode/v32-proof-coverage-matrix.json",
       "byteEqual": true,
-      "byteLength": 22024,
-      "firstDigest": "sha256:ba6a357d344ceb075c9d2bf76f1b28314fac25caab4236f9e22a5a2fcbf2920a",
-      "secondDigest": "sha256:ba6a357d344ceb075c9d2bf76f1b28314fac25caab4236f9e22a5a2fcbf2920a"
+      "byteLength": 22227,
+      "firstDigest": "sha256:d75fc3607395b3dda922c3d826165cbfae23255872dca312db93a4a778225c2a",
+      "secondDigest": "sha256:d75fc3607395b3dda922c3d826165cbfae23255872dca312db93a4a778225c2a"
     }
   ],
   "artifactId": "v32-deterministic-replay-report",

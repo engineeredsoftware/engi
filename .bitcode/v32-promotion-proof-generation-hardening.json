@@ -1,0 +1,283 @@
+{
+  "artifactId": "v32-promotion-proof-generation-hardening",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "gateBranchPattern": "v32/gate-N-*",
+    "promotionPrRequired": true,
+    "versionBranch": "version/v32",
+    "versionPromotionPullRequestTitlePrefix": "V32 Canonical Promotion"
+  },
+  "closureCommand": "pnpm run check:v32-gate9",
+  "currentTarget": "V31",
+  "documentationEvidence": [
+    {
+      "digest": "sha256:a9d538b1a0968fe53287262cd1dc8c8ada403e6dcc9f23d3b9387e8b0d0ce006",
+      "relativePath": "BITCODE_SPEC_V32.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Gate 9 promotion proof precision"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
+        },
+        {
+          "present": true,
+          "token": "source-safe generated artifact diffs"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:a5ca45476087bed0595fdcd4ba55602a5adb08b3d2af03a66e6ccd49808dee59",
+      "relativePath": "BITCODE_SPEC_V32_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Gate 9 hardens V32 promotion proof generation"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:26ec532a22c74a736d1bce6144cfa03865073276bb43f4880059b52d2f3f8179",
+      "relativePath": "BITCODE_SPEC_V32_NOTES.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "dry-run and check modes"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:275d1c35ebe1ca5df254c2b1f2198d52f071baebe7b3af3df3ebb3cfe9775e81",
+      "relativePath": "BITCODE_SPEC_V32_PARITY_MATRIX.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V32 proof generation supports dry-run/check modes"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
+        },
+        {
+          "present": true,
+          "token": "drafted"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ebb0220fe5b1f6a47ce7c43d35cb3997bd934691e8c080512df163a525d703e1",
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Current working gate: V32 Gate 9"
+        },
+        {
+          "present": true,
+          "token": "Promotion Proof Generation Hardening"
+        }
+      ]
+    }
+  ],
+  "failureTaxonomy": [
+    "stale-posture",
+    "proven-stale",
+    "artifact-drift",
+    "missing-artifact",
+    "malformed-payload",
+    "source-safety-violation",
+    "workflow-branch-mismatch",
+    "unsafe-main-push"
+  ],
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "modes": [
+    {
+      "command": "node scripts/generate-bitcode-proven.mjs --version V32 --commit HEAD --dry-run --allow-dirty",
+      "failureClasses": [],
+      "mode": "dry-run",
+      "proofRoot": "sha256:d94f5cb0149ed6334858c7b9ff5a001febe77b0467551fde2fe948e4281b9f18",
+      "sourceSafetyClass": "source-safe-digest-summary",
+      "writesFiles": false
+    },
+    {
+      "command": "node scripts/generate-bitcode-proven.mjs --version V32 --commit HEAD --check --allow-dirty",
+      "failureClasses": [
+        "proven-stale",
+        "artifact-drift",
+        "missing-artifact"
+      ],
+      "mode": "check",
+      "proofRoot": "sha256:c59287534c0174e77855af463d1bad0f334d070bd6159a27af2f5c2500895090",
+      "sourceSafetyClass": "source-safe generated artifact diffs",
+      "writesFiles": false
+    },
+    {
+      "command": "node scripts/promote-bitcode-canon.mjs --version <promoted-version> --commit <proof-source-commit> --dry-run",
+      "failureClasses": [
+        "workflow-branch-mismatch",
+        "unsafe-main-push"
+      ],
+      "mode": "promotion-plan",
+      "proofRoot": "sha256:82eba196638097ffdd4fd8c50afa45c08968f60885dc8aec31ee49d414eba525",
+      "sourceSafetyClass": "branch-protection-friendly-plan",
+      "writesFiles": false
+    }
+  ],
+  "passed": true,
+  "proofCoverage": {
+    "checkSupported": true,
+    "directMainPushAdmitted": false,
+    "dryRunSupported": true,
+    "promotionPlanSupported": true,
+    "protectedSourceSerialized": false,
+    "secretValuesSerialized": false,
+    "sourceSafeDiffs": true
+  },
+  "schemaId": "bitcode.v32.promotionProofGenerationHardening.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:288d1acd4bcdccf644f09b24971b2b3c74a16a6069dbb4b1b432eb5a60972e48",
+      "relativePath": "scripts/generate-bitcode-proven.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "--dry-run"
+        },
+        {
+          "present": true,
+          "token": "buildSourceSafeDiffSummary"
+        },
+        {
+          "present": true,
+          "token": "proven-stale"
+        },
+        {
+          "present": true,
+          "token": "artifact-drift"
+        },
+        {
+          "present": true,
+          "token": "missing-artifact"
+        },
+        {
+          "present": true,
+          "token": "source-safe generated artifact diffs"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:53afa6ea7682f78f4e0e6c575261705a20e338157159e43617de928b0a3274ac",
+      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildV32ProvenPackage"
+        },
+        {
+          "present": true,
+          "token": "buildV32PromotionProofGenerationHardening"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:6d07dea9b487fb535b7310e8bb8da744fc24c79b039d34034029e4288505b80e",
+      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v32-testnet-mainnet-readiness-rehearsal.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:cf80421dd98c07ca7689a81c2f91b687497432cefaa6b7f37c6c6cbdc4a0e83a",
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "--dry-run"
+        },
+        {
+          "present": true,
+          "token": "canonical promotion plan"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC.txt"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:fece10b686af458cc714d34e2afd07c9c1192da6f742b8a297d97fc72680de5c",
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "check-v32-gate9-promotion-proof-generation-hardening.mjs"
+        },
+        {
+          "present": true,
+          "token": "v32-promotion-proof-generation.test.js"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:f933568725cd089dbf48721fc2da7ee85405b8967803b533cebe074dd33ebd87",
+      "relativePath": "package.json",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "generate:v32-promotion-proof-generation-hardening"
+        },
+        {
+          "present": true,
+          "token": "check:v32-promotion-proof-generation-hardening"
+        },
+        {
+          "present": true,
+          "token": "check:v32-gate9"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe generated artifact diffs",
+  "testEvidence": [
+    {
+      "digest": "sha256:9c7d1b9f89b5536a36f4ef97584d88cd731722367afa29cd83ba657ddc7144bb",
+      "relativePath": "packages/protocol/test/v32-promotion-proof-generation.test.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "supports V32 promotion proof generation hardening"
+        },
+        {
+          "present": true,
+          "token": "source-safe generated artifact diffs"
+        },
+        {
+          "present": true,
+          "token": "v32-promotion-proof-generation-hardening"
+        }
+      ]
+    }
+  ],
+  "version": "V32"
+}
