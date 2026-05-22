@@ -65,8 +65,11 @@ import {
   type MCPAuthContext,
 } from '../../types';
 import {
+  buildBtdAssetPackRightsInterfaceContract,
   buildBtdInterfaceAuthorizationPolicy,
+  buildBtdReadLicenseInterfaceContract,
   getBtdInterfaceAuthorizationPolicyFixture,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
 import {
   buildPipelineInputContext,
@@ -174,6 +177,28 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         organizationRole: 'member',
       },
       sourceVisibility: 'source_safe_preview',
+    });
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for MCP Finding Fits preview', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('mcp-finding-fits-source-safe-preview');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe(
+      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    );
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'mcp',
+      action: 'request_finding_fits',
+      decision: 'source_safe_preview_admitted',
+      protectedSourceVisible: false,
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'mcp',
+      decision: 'preview_admitted',
+      rightsPosture: 'preview_only_locked',
+      protectedSourceVisible: false,
     });
   });
 

@@ -230,7 +230,7 @@
       ]
     },
     {
-      "digest": "sha256:415091f36d1faa66a2f59485d6d596173b86e57b5dea252542d9adb4b6439bf9",
+      "digest": "sha256:07199a0e7ba6c754b212d59279bd4b70d5a917f93f3477213e6d8aa783d5ad8c",
       "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "requiredTokens": [
         {

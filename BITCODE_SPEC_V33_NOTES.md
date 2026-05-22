@@ -60,6 +60,23 @@ denial state available for missing/stale authority and keep locked source
 blocked until read-license, AssetPack rights, settlement, wallet, organization,
 and repair posture are all admitted.
 
+## Gate 6 working notes
+
+Gate 6 owns the shared `ReadLicenseInterfaceContract` and
+`AssetPackRightsInterfaceContract` primitives. These contracts sit after
+`InterfaceAuthorizationPolicy`: policy decides whether the interface action is
+admissible, while the license/rights contracts decide what Reading state may be
+shown or delivered. They must keep Read request roots, reviewed Need roots,
+Finding Fits admission roots, source-safe preview roots, fee quote roots, BTD
+ranges, BTC settlement finality, delivery admission, and rights transfer
+projection together so API, MCP, ChatGPT App, and Terminal surfaces cannot
+invent divergent paid/unpaid disclosure rules.
+
+Pre-settlement preview is source-safe metadata only. Protected source remains
+locked until BTC finality, paid unlock, BTD read-right state, delivery
+admission, and rights transfer receipt all align. Generated artifacts must
+never serialize protected source or credentials.
+
 ## Interface-depth notes
 
 - MCP API and ChatGPT App are commercial interfaces, not demonstration surfaces.
@@ -103,6 +120,21 @@ The shared fixtures cover API request admission, MCP Finding Fits admission, Cha
 The policy records auth issuer freshness, organization/team/member/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial messages, repair actions, and deterministic policy roots.
 MCP pipeline writes and ChatGPT App connected-interface writes carry `interfaceAuthorizationPolicy` metadata in write-admission output.
 The generated source-safe artifact is `.bitcode/v33-interface-authorization-policy.json`, checked by `check:v33-interface-authorization-policy` and `check:v33-gate5`.
+
+## Gate 6 closure note
+
+Gate 6 introduces `ReadLicenseInterfaceContract` and
+`AssetPackRightsInterfaceContract` in
+`packages/btd/src/read-license-assetpack-rights-contract.ts`. The shared
+fixtures cover API source-safe preview admission, MCP Finding Fits source-safe
+preview admission, ChatGPT App unpaid delivery denial, and Terminal paid rights
+delivery admission. The contracts record Read request roots, reviewed Need
+roots, Finding Fits admission roots, source-safe preview roots, fee quote roots,
+license posture, BTD range, read-right state, BTC settlement finality, delivery
+admission, rights transfer projection, denial codes, source-safety posture, and
+deterministic proof roots. The generated source-safe artifact is
+`.bitcode/v33-read-license-assetpack-rights-contracts.json`, checked by
+`check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6`.
 
 ## Carryforward from V32
 

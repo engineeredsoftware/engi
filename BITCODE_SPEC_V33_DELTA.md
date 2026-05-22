@@ -153,6 +153,17 @@ Closure acceptance:
 - `AssetPackRightsInterfaceContract` covers source-safe preview, BTD range/read-right state, BTC settlement, delivery admission, and rights transfer projection;
 - pre-settlement protected source remains locked in all interface fixtures.
 
+Gate 6 implementation binds both contracts to the BTD package, publishes
+`.bitcode/v33-read-license-assetpack-rights-contracts.json`, and requires API,
+MCP, ChatGPT App, and Terminal tests to consume shared fixtures. The API and
+MCP fixtures prove source-safe preview before settlement. The ChatGPT App
+fixture proves unpaid locked-source delivery is denied with settlement,
+read-license, rights-transfer, and locked-source blockers. The Terminal fixture
+proves delivery admission only after confirmed BTC finality, paid unlock,
+rights transfer, and BTD read-right evidence. The artifact records only
+source-safe metadata and explicitly proves protected source and credentials are
+not serialized.
+
 ### Gate 7: API Schemas Examples And Compatibility Matrix
 
 Gate 7 creates the schema compatibility spine.

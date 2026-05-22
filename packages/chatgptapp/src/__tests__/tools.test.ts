@@ -4,6 +4,11 @@ import {
   buildBtdInterfaceAuthorizationPolicy,
   getBtdInterfaceAuthorizationPolicyFixture,
 } from '@bitcode/btd/interface-authorization-policy';
+import {
+  buildBtdAssetPackRightsInterfaceContract,
+  buildBtdReadLicenseInterfaceContract,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
+} from '@bitcode/btd/read-license-assetpack-rights-contract';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -150,6 +155,30 @@ This product delivers voice-first social conversations for builders.
       assetPackRights: {
         state: 'licensed',
       },
+    });
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for unpaid ChatGPT App delivery denial', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('chatgpt-unpaid-delivery-denied');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe('packages/chatgptapp/src/__tests__/tools.test.ts');
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      action: 'deliver_asset_pack',
+      decision: 'locked_source_denied',
+      protectedSourceVisible: false,
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      decision: 'rights_delivery_denied',
+      denialCodes: expect.arrayContaining([
+        'SETTLEMENT_REQUIRED',
+        'RIGHTS_TRANSFER_REQUIRED',
+        'LOCKED_SOURCE_UNPAID',
+      ]),
+      protectedSourceVisible: false,
     });
   });
 

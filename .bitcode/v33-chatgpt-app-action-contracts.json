@@ -471,7 +471,7 @@
       "relativePath": "packages/btd/src/chatgpt-app-action-contract.ts"
     },
     {
-      "digest": "sha256:a718fd3ec8e9ccac14a04f5f3b5a0bde99863841be8a1f742b9d461bfb32b431",
+      "digest": "sha256:cf56aa25a50932654784e7a89dd6730026437f42d5be176e7b64c316bd89578a",
       "relativePath": "packages/btd/src/index.ts"
     },
     {
@@ -528,7 +528,7 @@
       "relativePath": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
     },
     {
-      "digest": "sha256:e61c9a25b23d7ee7751ebb7f616c6df5ea5f3ee2975ad797c0d74635aa4fff12",
+      "digest": "sha256:e6eab944cec8b0c127007929b2af097bcc679e37932162e1c43f1b896272172b",
       "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts"
     },
     {
