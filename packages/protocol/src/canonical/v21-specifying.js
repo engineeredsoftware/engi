@@ -364,7 +364,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v33-mcp-api-tool-contracts.json',
           '.bitcode/v33-chatgpt-app-action-contracts.json',
           '.bitcode/v33-interface-authorization-policy.json',
-          '.bitcode/v33-read-license-assetpack-rights-contracts.json'
+          '.bitcode/v33-read-license-assetpack-rights-contracts.json',
+          '.bitcode/v33-api-schema-compatibility-matrix.json'
         ]
         : []),
       ...(version === 'V26'

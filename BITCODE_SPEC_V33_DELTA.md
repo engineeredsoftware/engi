@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, and Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 7 adds package-owned `APISchemaCompatibilityMatrix` source and generated proof coverage for schema ids, consumer surfaces, examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless interface path discipline
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V33_PARITY_MATRIX.md`
@@ -173,6 +173,15 @@ Closure acceptance:
 - `APISchemaCompatibilityMatrix` records schema ids, consumer surfaces, examples, breaking-change policy, compatibility status, fixture paths, and validation commands;
 - examples exist for success, denied, blocked, stale, and deferred states;
 - versionless API path discipline remains enforced.
+
+Gate 7 implementation binds `APISchemaCompatibilityMatrix` to the BTD package,
+publishes `.bitcode/v33-api-schema-compatibility-matrix.json`, and requires API,
+MCP, ChatGPT App, and Terminal tests to consume shared rows. The matrix records
+public API routes, MCP API tool URI, ChatGPT App action URI, Terminal handoff
+URI, and a deferred package-consumer hook. It fails closed when required
+consumer surfaces or example postures are missing, rejects protected-source or
+secret-shaped example payloads, and rejects versioned, gate-prefixed, or
+work-in-progress interface paths.
 
 ### Gate 8: Interface Telemetry And Proof Replay Hooks
 

@@ -1,0 +1,289 @@
+{
+  "artifactId": "v33-api-schema-compatibility-matrix",
+  "artifactRoot": "v33-api-schema-compatibility-matrix-artifact:c60522772703721fbfb06480",
+  "coverage": {
+    "breakingChangePolicyRecorded": true,
+    "compatibilityStatusRecorded": true,
+    "consumerSurfacesRecorded": true,
+    "credentialsSerialized": false,
+    "examplesRecorded": true,
+    "fixturePathsRecorded": true,
+    "protectedSourceSerialized": false,
+    "schemaIdsRecorded": true,
+    "successDeniedBlockedStaleDeferredExamples": true,
+    "validationCommandsRecorded": true,
+    "versionlessPathDiscipline": true
+  },
+  "currentTarget": "V32",
+  "docsEvidence": [
+    {
+      "digest": "sha256:ed089e16ee38dc0115d903f9050966e9c84bbb636fff36ad6abf677c3265e60a",
+      "relativePath": "BITCODE_SPEC_V33.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "APISchemaCompatibilityMatrix"
+        },
+        {
+          "present": true,
+          "token": "Gate 7"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:d40a905149dd08f181a1d5eadcfc5f1abe73c9866492e56edbd6f750351cfa6a",
+      "relativePath": "BITCODE_SPEC_V33_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "API Schemas Examples And Compatibility Matrix"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:d0dac824bd68a730ab7ac4a93c5ee22cfdcbe1af656f3c6db62cde772cfb3008",
+      "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "API schema compatibility"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:b33aa3ac222b874d3c773bf3f06d9d0e9dc042f018d487776ddd71b3972959ea",
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V33 Gate 7 API Schemas Examples And Compatibility Matrix"
+        }
+      ]
+    }
+  ],
+  "docsEvidenceComplete": true,
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "matrixRows": [
+    {
+      "compatibilityStatus": "compatible",
+      "consumerSurface": "public_api",
+      "examplePosture": "success",
+      "path": "/api/btd/registry",
+      "proofRoot": "v33-api-schema-compatibility-row:beccdf20bc3aacb4ae460c24",
+      "rowId": "public-api-btd-registry-success"
+    },
+    {
+      "compatibilityStatus": "breaking_change_denied",
+      "consumerSurface": "public_api",
+      "examplePosture": "denied",
+      "path": "/api/btd/mint-draft",
+      "proofRoot": "v33-api-schema-compatibility-row:c21dbc68647a08009e50e3fe",
+      "rowId": "public-api-btd-mint-draft-denied"
+    },
+    {
+      "compatibilityStatus": "stale_rejected",
+      "consumerSurface": "public_api",
+      "examplePosture": "stale",
+      "path": "/api/btd/organization-interface-authority",
+      "proofRoot": "v33-api-schema-compatibility-row:02c4301c393cd9153bb06da8",
+      "rowId": "public-api-organization-authority-stale"
+    },
+    {
+      "compatibilityStatus": "compatible",
+      "consumerSurface": "mcp_api",
+      "examplePosture": "success",
+      "path": "bitcode://pipelines/asset-pack/create",
+      "proofRoot": "v33-api-schema-compatibility-row:5a207fa9e1b78eae0fe0a4d2",
+      "rowId": "mcp-api-asset-pack-create-success"
+    },
+    {
+      "compatibilityStatus": "blocked_until_rights",
+      "consumerSurface": "chatgpt_app",
+      "examplePosture": "blocked",
+      "path": "chatgpt://actions/bitcode_deliver_asset_pack",
+      "proofRoot": "v33-api-schema-compatibility-row:f4c7f4e3963452d1c31f8174",
+      "rowId": "chatgpt-app-deliver-assetpack-blocked"
+    },
+    {
+      "compatibilityStatus": "blocked_until_rights",
+      "consumerSurface": "terminal_handoff",
+      "examplePosture": "blocked",
+      "path": "terminal://reading/asset-pack-preview",
+      "proofRoot": "v33-api-schema-compatibility-row:662ca6ec8daece4b6accfe79",
+      "rowId": "terminal-handoff-preview-blocked"
+    },
+    {
+      "compatibilityStatus": "deferred_not_admitted",
+      "consumerSurface": "package_consumer",
+      "examplePosture": "deferred",
+      "path": "package://@bitcode/btd/exchange-hook",
+      "proofRoot": "v33-api-schema-compatibility-row:310f0178e7fcc94e72090b42",
+      "rowId": "package-consumer-exchange-hook-deferred"
+    }
+  ],
+  "missingConsumerSurfaces": [],
+  "missingExamplePostures": [],
+  "observedConsumerSurfaces": [
+    "chatgpt_app",
+    "mcp_api",
+    "package_consumer",
+    "public_api",
+    "terminal_handoff"
+  ],
+  "observedExamplePostures": [
+    "blocked",
+    "deferred",
+    "denied",
+    "stale",
+    "success"
+  ],
+  "passed": true,
+  "requiredConsumerSurfaces": [
+    "public_api",
+    "mcp_api",
+    "chatgpt_app",
+    "terminal_handoff",
+    "package_consumer"
+  ],
+  "requiredExamplePostures": [
+    "success",
+    "denied",
+    "blocked",
+    "stale",
+    "deferred"
+  ],
+  "schemaId": "bitcode.v33.apiSchemaCompatibilityMatrix.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:21527a4ab84909ce72247fab17ae9030e8716e8a14116456f09066a5cc7d272e",
+      "relativePath": "packages/btd/src/api-schema-compatibility-matrix.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildBtdApiSchemaCompatibilityMatrix"
+        },
+        {
+          "present": true,
+          "token": "BTD_API_SCHEMA_COMPATIBILITY_EXAMPLE_POSTURES"
+        },
+        {
+          "present": true,
+          "token": "public-api-btd-registry-success"
+        },
+        {
+          "present": true,
+          "token": "chatgpt-app-deliver-assetpack-blocked"
+        },
+        {
+          "present": true,
+          "token": "package-consumer-exchange-hook-deferred"
+        },
+        {
+          "present": true,
+          "token": "assertVersionlessPath"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:1b5c3b41880dbc8ac3049ca3ece89a29f2a62e7be92e0796e7dea25cab5e8004",
+      "relativePath": "packages/btd/src/index.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "api-schema-compatibility-matrix"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:096f5097ed05b682f6a881d3e0d584050359b8bdfc20d576336b1a6c86c3f024",
+      "relativePath": "packages/btd/package.json",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "./api-schema-compatibility-matrix"
+        }
+      ]
+    }
+  ],
+  "sourceEvidenceComplete": true,
+  "sourceSafetyVerdict": "source-safe-api-schema-compatibility-metadata",
+  "testEvidence": [
+    {
+      "digest": "sha256:32fa0cfd7301dc44808b3eacb743d1653567ec56cc04eaf029a4bebe3c54130c",
+      "relativePath": "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "publishes source-safe rows for every required consumer surface and example posture"
+        },
+        {
+          "present": true,
+          "token": "records package-owned success, denied, blocked, stale, and deferred examples"
+        },
+        {
+          "present": true,
+          "token": "enforces versionless paths and gate-neutral source identifiers"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:c4d724dded5ca993998dbb5b096e427c53043e296fd7b3ac721fba197955d95c",
+      "relativePath": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned API schema compatibility matrix for versionless public routes"
+        },
+        {
+          "present": true,
+          "token": "public-api-btd-registry-success"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:b08b8c579bbfd8e7d9773a18db522aebc1d5f664a808209a697cf0f09a6abc7a",
+      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned API schema compatibility matrix for MCP tool calls"
+        },
+        {
+          "present": true,
+          "token": "mcp-api-asset-pack-create-success"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:5f224cf0b1ea3a7ee5917fe50cbeea0abbe79c48b2a0cb3b7775e8fa49e401d9",
+      "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery"
+        },
+        {
+          "present": true,
+          "token": "chatgpt-app-deliver-assetpack-blocked"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:73196f8eefc7d3d3473b41f187a17191ec581566c639f242586a76db734d4825",
+      "relativePath": "uapi/tests/terminalOrganizationAuthority.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned API schema compatibility matrix for Terminal handoff rows"
+        },
+        {
+          "present": true,
+          "token": "terminal-handoff-preview-blocked"
+        }
+      ]
+    }
+  ],
+  "testEvidenceComplete": true,
+  "version": "V33",
+  "versionedPaths": []
+}

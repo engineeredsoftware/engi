@@ -10,6 +10,10 @@ import {
   buildBtdReadLicenseInterfaceContract,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd/read-license-assetpack-rights-contract';
+import {
+  buildBtdApiSchemaCompatibilityMatrix,
+  getBtdApiSchemaCompatibilityRow,
+} from '@bitcode/btd/api-schema-compatibility-matrix';
 
 function detailWithAuthority(
   organizationAuthority: TerminalRunDetailSnapshot['organizationAuthority'],
@@ -83,6 +87,20 @@ describe('terminal organization authority projection', () => {
       rightsPosture: 'rights_transferred',
       btcSettlementFinality: 'confirmed',
       protectedSourceVisible: true,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for Terminal handoff rows', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const row = getBtdApiSchemaCompatibilityRow('terminal-handoff-preview-blocked');
+
+    expect(matrix.observedConsumerSurfaces).toContain('terminal_handoff');
+    expect(row).toMatchObject({
+      consumerSurface: 'terminal_handoff',
+      path: 'terminal://reading/asset-pack-preview',
+      compatibilityStatus: 'blocked_until_rights',
+      examplePosture: 'blocked',
+      protectedSourceVisible: false,
     });
   });
 

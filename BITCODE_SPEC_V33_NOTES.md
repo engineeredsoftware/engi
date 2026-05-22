@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, and Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 3 adds package-owned `McpToolContract` source and generated proof coverage for MCP API tool discovery, schema, auth, denial, and proof-root contracts
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, and Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 7 adds package-owned `APISchemaCompatibilityMatrix` source and generated proof coverage for schema ids, consumer surfaces, examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless interface path discipline
 - Scope: working notes for V33 interface-depth over promoted V32 proof and testing canon
 
 ## Notes companion rule
@@ -135,6 +135,34 @@ admission, rights transfer projection, denial codes, source-safety posture, and
 deterministic proof roots. The generated source-safe artifact is
 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, checked by
 `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6`.
+
+## Gate 7 working notes
+
+Gate 7 owns the shared `APISchemaCompatibilityMatrix` primitive. This matrix
+is not an OpenAPI dump; it is Bitcode's package-owned compatibility spine for
+the interface contracts that external consumers actually rely on. Each row
+must name the schema id, request/response schema ids, consumer surface,
+route/tool/action path, example posture, compatibility status,
+breaking-change policy, fixture path, example path, validation command, and
+source-safety posture.
+
+The required example postures are `success`, `denied`, `blocked`, `stale`, and
+`deferred`. Deferred rows remain explicit and source-safe rather than hidden.
+No row may introduce a versioned `/vN/`, gate-prefixed, or work-in-progress
+source identifier. Protected AssetPack source and credentials must remain
+absent from row examples and generated artifacts.
+
+## Gate 7 closure note
+
+Gate 7 introduces `APISchemaCompatibilityMatrix` in
+`packages/btd/src/api-schema-compatibility-matrix.ts`. The shared rows cover
+public API registry success, public API mint-draft denial, public API stale
+organization authority denial, MCP API AssetPack creation success, ChatGPT App
+blocked delivery, Terminal blocked preview handoff, and a deferred
+package-consumer Exchange hook. API, MCP, ChatGPT App, and Terminal tests
+consume the shared rows. The generated source-safe artifact is
+`.bitcode/v33-api-schema-compatibility-matrix.json`, checked by
+`check:v33-api-schema-compatibility-matrix` and `check:v33-gate7`.
 
 ## Carryforward from V32
 

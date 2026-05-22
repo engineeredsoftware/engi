@@ -17,7 +17,7 @@
   "currentTarget": "V32",
   "docsEvidence": [
     {
-      "digest": "sha256:0f5bfb507c4a67b352cc4be4c5c2f2f4d8eabfef5e397c229e08bf7bbd698e96",
+      "digest": "sha256:ed089e16ee38dc0115d903f9050966e9c84bbb636fff36ad6abf677c3265e60a",
       "relativePath": "BITCODE_SPEC_V33.md",
       "requiredTokens": [
         {
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "digest": "sha256:4fe80598680b731ab069d692869de6164ba12651ed50cef23b4d8c6d11fdc613",
+      "digest": "sha256:d40a905149dd08f181a1d5eadcfc5f1abe73c9866492e56edbd6f750351cfa6a",
       "relativePath": "BITCODE_SPEC_V33_DELTA.md",
       "requiredTokens": [
         {
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "digest": "sha256:639468a70e1fd15fd995e8cf1612179d4f7647b9aa19bdd71ea2206476487416",
+      "digest": "sha256:d0dac824bd68a730ab7ac4a93c5ee22cfdcbe1af656f3c6db62cde772cfb3008",
       "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
       "requiredTokens": [
         {
@@ -51,7 +51,7 @@
       ]
     },
     {
-      "digest": "sha256:45b3871efc9140f1ca4da6e2e4724dcb2a8cc055353ed6b395c03663fd12ea3b",
+      "digest": "sha256:b33aa3ac222b874d3c773bf3f06d9d0e9dc042f018d487776ddd71b3972959ea",
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "requiredTokens": [
         {
@@ -234,7 +234,7 @@
       ]
     },
     {
-      "digest": "sha256:5f1bd9663b5c2b6fed8a4742a721a92ee47e8a27eaec7fdfca8bd8622018e089",
+      "digest": "sha256:c4d724dded5ca993998dbb5b096e427c53043e296fd7b3ac721fba197955d95c",
       "relativePath": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
       "requiredTokens": [
         {
@@ -244,7 +244,7 @@
       ]
     },
     {
-      "digest": "sha256:07199a0e7ba6c754b212d59279bd4b70d5a917f93f3477213e6d8aa783d5ad8c",
+      "digest": "sha256:b08b8c579bbfd8e7d9773a18db522aebc1d5f664a808209a697cf0f09a6abc7a",
       "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "requiredTokens": [
         {
@@ -254,7 +254,7 @@
       ]
     },
     {
-      "digest": "sha256:e6eab944cec8b0c127007929b2af097bcc679e37932162e1c43f1b896272172b",
+      "digest": "sha256:5f224cf0b1ea3a7ee5917fe50cbeea0abbe79c48b2a0cb3b7775e8fa49e401d9",
       "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
       "requiredTokens": [
         {
@@ -264,7 +264,7 @@
       ]
     },
     {
-      "digest": "sha256:f3f281488ac62a0f9f87545f746efd10726c1cb04afc12de88ea6e3537b7e429",
+      "digest": "sha256:73196f8eefc7d3d3473b41f187a17191ec581566c639f242586a76db734d4825",
       "relativePath": "uapi/tests/terminalOrganizationAuthority.test.ts",
       "requiredTokens": [
         {
