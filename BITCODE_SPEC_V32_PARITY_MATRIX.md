@@ -3,21 +3,21 @@
 ## Status
 
 - Version: `V32`
-- V32 state: draft target parity matrix opened; V32 proof/test parity is not promoted
-- Current canonical/latest target: `V31`
-- Canonical proof-source commit: none until V32 promotion
+- V32 state: canonical promotion complete; V32 parity truth, generated proof artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V32`
+- Canonical proof-source commit: `1ec49a9ed5fa5db1da5fbd2388e528b91b98321f`
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, generated Gate 4 `.bitcode/v32-reading-pipeline-proof-coverage.json`, generated Gate 5 `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
-- Source parity state: V32 proof-family replay, deterministic artifact generation, scenario/failure-state coverage, cross-surface regression, browser/accessibility/visual proof, readiness rehearsal, and promotion-proof hardening are opened but not yet closed
+- Generated structured artifact inventory: active canonical `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, `.bitcode/v32-proof-coverage-matrix.json`, `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, `.bitcode/v32-reading-pipeline-proof-coverage.json`, `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, `.bitcode/v32-interface-contract-regression-suite.json`, `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, `.bitcode/v32-promotion-proof-generation-hardening.json`, `.bitcode/v32-promotion-readiness-report.json`, V32 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V32_PROVEN.md` as the generated proof appendix for V32 promotion
+- Source parity state: V32 source-side proof/test replay, generated artifacts, Reading pipeline proof coverage, ledger/BTD failure-state proof, interface regression, browser/accessibility/responsive/visual proof, readiness rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V32 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V31`
-- Scope: V32 parity ledger for provation and testing over promoted V31
+- Scope: V32 canonical parity ledger for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails
 - Spec companion: `BITCODE_SPEC_V32.md`
 - Notes companion: `BITCODE_SPEC_V32_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V32_DELTA.md`
 - Generated proof appendix: none until V32 promotion
-- Last fully realized canonical target preserved in source: `V31`
+- Last fully realized canonical target preserved in source: `V32`
 
 ## Purpose
 
@@ -89,46 +89,46 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V32.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v32/gate-1-provation-roadmap-opening` | drafted | V32 family validates in draft mode over active V31 and `check:v32-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V31 active, V32 draft, and coherent V33-V37 responsibilities. |
-| Proof matrix inventory | Gate 2 | `.bitcode/v32-proof-coverage-matrix.json`, `scripts/v32-proof-coverage-matrix.mjs`, generator, checker, `check:v32-gate2` | drafted | Every promoted proof/test surface has owner package/interface, fixture, replay command, artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture. |
-| Deterministic replay and artifacts | Gate 3 | `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, generator, checker, `check:v32-gate3` | drafted | Generated artifacts are stable, source-safe, and fail closed on missing, stale, malformed, source-unsafe, or unstable-order drift. |
-| Reading pipeline proof coverage | Gate 4 | `.bitcode/v32-reading-pipeline-proof-coverage.json`, `v32-reading-pipeline-proof-coverage.ts`, focused pipeline test, `check:v32-gate4` | drafted | Pipeline phases, PTRR agents, steps, ThricifiedGenerations, prompts, tools, telemetry, and outputs are covered. |
-| Ledger/BTD settlement failure states | Gate 5 | `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, focused BTD/BTC/ledger/reconciliation test, generator, checker, workflow wiring | drafted | Economic and ownership state has success, blocked, and repair proof without protected-source disclosure. |
-| Interface contract regression | Gate 6 | `.bitcode/v32-interface-contract-regression-suite.json`, BTD contract source, focused BTD test, generator, checker, workflow wiring | drafted | Interface contracts prove auth, source-safety, policy denial, and deferred hooks. |
-| Browser/accessibility/responsive/visual proof | Gate 7 | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, uapi browser proof tests, generator, checker, workflow wiring | drafted | Operator surfaces have stable semantic and visual coverage across supported viewports. |
-| Testnet/mainnet readiness rehearsal | Gate 8 | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, package readiness source, focused BTD test, generator, checker, workflow wiring | drafted | Local, staging-testnet, production-mainnet, and offline lanes are represented without approving value-bearing launch. |
-| Promotion proof hardening | Gate 9 | `.bitcode/v32-promotion-proof-generation-hardening.json`, generator/checker, protocol proven-generator support, focused protocol test, workflow wiring | drafted | V32 promotion artifacts are reproducible and debuggable through dry-run, check, source-safe generated artifact diffs, and PR-based promotion posture. |
-| Promotion readiness | Gate 10 | `scripts/check-v32-gate10-promotion-readiness.mjs`, `.github/workflows/v32-canon-promotion.yml`, `.bitcode/v32-promotion-readiness-report.json`, promotion script V32 support, generated appendix support | drafted | `version/v32` can promote only after all V32 gates pass and generated canon is source-safe. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V32.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v32/gate-1-provation-roadmap-opening` | closed | V32 family validates in draft mode over active V31 and `check:v32-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V31 active, V32 draft, and coherent V33-V37 responsibilities. |
+| Proof matrix inventory | Gate 2 | `.bitcode/v32-proof-coverage-matrix.json`, `scripts/v32-proof-coverage-matrix.mjs`, generator, checker, `check:v32-gate2` | closed | Every promoted proof/test surface has owner package/interface, fixture, replay command, artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture. |
+| Deterministic replay and artifacts | Gate 3 | `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, generator, checker, `check:v32-gate3` | closed | Generated artifacts are stable, source-safe, and fail closed on missing, stale, malformed, source-unsafe, or unstable-order drift. |
+| Reading pipeline proof coverage | Gate 4 | `.bitcode/v32-reading-pipeline-proof-coverage.json`, `v32-reading-pipeline-proof-coverage.ts`, focused pipeline test, `check:v32-gate4` | closed | Pipeline phases, PTRR agents, steps, ThricifiedGenerations, prompts, tools, telemetry, and outputs are covered. |
+| Ledger/BTD settlement failure states | Gate 5 | `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, focused BTD/BTC/ledger/reconciliation test, generator, checker, workflow wiring | closed | Economic and ownership state has success, blocked, and repair proof without protected-source disclosure. |
+| Interface contract regression | Gate 6 | `.bitcode/v32-interface-contract-regression-suite.json`, BTD contract source, focused BTD test, generator, checker, workflow wiring | closed | Interface contracts prove auth, source-safety, policy denial, and deferred hooks. |
+| Browser/accessibility/responsive/visual proof | Gate 7 | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, uapi browser proof tests, generator, checker, workflow wiring | closed | Operator surfaces have stable semantic and visual coverage across supported viewports. |
+| Testnet/mainnet readiness rehearsal | Gate 8 | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, package readiness source, focused BTD test, generator, checker, workflow wiring | closed | Local, staging-testnet, production-mainnet, and offline lanes are represented without approving value-bearing launch. |
+| Promotion proof hardening | Gate 9 | `.bitcode/v32-promotion-proof-generation-hardening.json`, generator/checker, protocol proven-generator support, focused protocol test, workflow wiring | closed | V32 promotion artifacts are reproducible and debuggable through dry-run, check, source-safe generated artifact diffs, and PR-based promotion posture. |
+| Promotion readiness | Gate 10 | `scripts/check-v32-gate10-promotion-readiness.mjs`, `.github/workflows/v32-canon-promotion.yml`, `.bitcode/v32-promotion-readiness-report.json`, promotion script V32 support, generated appendix support | closed | `version/v32` can promote only after all V32 gates pass and generated canon is source-safe. |
 
 ## V32 implementation checklist
 
 | Area | Required V32 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V31` during V32 gate work | drafted |
-| Gate branch pattern | V32 work happens on `version/v32` or `v32/gate-N-*` branches | drafted |
-| Spec-family shape | V32 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v32-gate1` fails closed on stale posture, missing roadmap truth, or missing provation/testing scope | drafted |
-| Gate 2 matrix artifact | `.bitcode/v32-proof-coverage-matrix.json` records required proof/test surfaces with source-safe rows | drafted |
-| Gate 2 scripts | `pnpm run generate:v32-proof-coverage-matrix` regenerates the artifact and `pnpm run check:v32-gate2` fails closed on drift, missing fields, hidden gaps, or secret-like payloads | drafted |
-| Gate 3 replay artifacts | `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json` record volatility classification, source-safety verdict, byte-equality replay, and artifact failure-mode coverage | drafted |
-| Gate 3 scripts | `pnpm run generate:v32-deterministic-replay-artifacts` regenerates the V32 replay package and `pnpm run check:v32-gate3` fails closed on missing, stale, malformed, source-unsafe, or unstable-order artifacts | drafted |
-| Gate 4 artifact | `.bitcode/v32-reading-pipeline-proof-coverage.json` records source-safe Reading pipeline proof coverage and accepted boundary assertions | drafted |
-| Gate 4 scripts | `pnpm run generate:v32-reading-pipeline-proof-coverage`, `pnpm run check:v32-reading-pipeline-proof-coverage`, and `pnpm run check:v32-gate4` fail closed on stale or incomplete Reading proof coverage | drafted |
-| Gate 5 artifact | `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json` records source-safe BTC fee, BTD receipt, source-to-shares, projection drift, repair action, paid unlock, and delivery failure-state coverage | drafted |
-| Gate 5 scripts | `pnpm run generate:v32-ledger-btd-settlement-failure-states`, `pnpm run check:v32-ledger-btd-settlement-failure-states`, and `pnpm run check:v32-gate5` fail closed on stale, incomplete, source-unsafe, or undocumented economic proof coverage | drafted |
-| Gate 6 artifact | `.bitcode/v32-interface-contract-regression-suite.json` records source-safe interface contract rows, shared fixtures, auth boundaries, policy denials, source-safety classes, and deferred blockers | drafted |
-| Gate 6 scripts | `pnpm run generate:v32-interface-contract-regression-suites`, `pnpm run check:v32-interface-contract-regression-suites`, and `pnpm run check:v32-gate6` fail closed on stale, incomplete, source-unsafe, or undocumented interface proof coverage | drafted |
-| Gate 7 artifact | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` records Terminal and Auxillaries browser, accessibility, responsive, and deterministic visual proof coverage | drafted |
-| Gate 7 scripts | `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, `pnpm run check:v32-browser-accessibility-responsive-visual-proof`, and `pnpm run check:v32-gate7` fail closed on stale, incomplete, source-unsafe, or screenshot-only proof coverage | drafted |
-| Gate 8 artifact | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json` records source-safe local, staging-testnet, production-mainnet, and offline-disabled readiness lane posture | drafted |
-| Gate 8 scripts | `pnpm run generate:v32-testnet-mainnet-readiness-rehearsal`, `pnpm run check:v32-testnet-mainnet-readiness-rehearsal`, and `pnpm run check:v32-gate8` fail closed on stale, incomplete, source-unsafe, value-admitting, or undocumented readiness proof | drafted |
-| Gate 9 artifact | `.bitcode/v32-promotion-proof-generation-hardening.json` records source-safe dry-run, check, promotion-plan, failure-taxonomy, and branch-protection proof hardening | drafted |
-| Gate 9 scripts | `pnpm run generate:v32-promotion-proof-generation-hardening`, `pnpm run check:v32-promotion-proof-generation-hardening`, and `pnpm run check:v32-gate9` fail closed on stale, incomplete, undocumented, or source-unsafe proof hardening | drafted |
-| Gate 10 artifact | `.bitcode/v32-promotion-readiness-report.json` records source-safe V32 promotion workflow, pre/post-promotion posture, generated-artifact policy, QA evidence, and branch-protection proof | drafted |
-| Gate 10 scripts | `pnpm run generate:v32-promotion-readiness`, `pnpm run check:v32-promotion-readiness`, and `pnpm run check:v32-gate10` fail closed on stale, incomplete, undocumented, source-unsafe, or posture-incoherent promotion readiness | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1 through Gate 10 checkers and accepts V32 active / V33 draft after promotion | drafted |
-| Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture, promoted V31 canon, and V32 active / V33 draft after promotion | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V31` during V32 gate work | closed |
+| Gate branch pattern | V32 work happens on `version/v32` or `v32/gate-N-*` branches | closed |
+| Spec-family shape | V32 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v32-gate1` fails closed on stale posture, missing roadmap truth, or missing provation/testing scope | closed |
+| Gate 2 matrix artifact | `.bitcode/v32-proof-coverage-matrix.json` records required proof/test surfaces with source-safe rows | closed |
+| Gate 2 scripts | `pnpm run generate:v32-proof-coverage-matrix` regenerates the artifact and `pnpm run check:v32-gate2` fails closed on drift, missing fields, hidden gaps, or secret-like payloads | closed |
+| Gate 3 replay artifacts | `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json` record volatility classification, source-safety verdict, byte-equality replay, and artifact failure-mode coverage | closed |
+| Gate 3 scripts | `pnpm run generate:v32-deterministic-replay-artifacts` regenerates the V32 replay package and `pnpm run check:v32-gate3` fails closed on missing, stale, malformed, source-unsafe, or unstable-order artifacts | closed |
+| Gate 4 artifact | `.bitcode/v32-reading-pipeline-proof-coverage.json` records source-safe Reading pipeline proof coverage and accepted boundary assertions | closed |
+| Gate 4 scripts | `pnpm run generate:v32-reading-pipeline-proof-coverage`, `pnpm run check:v32-reading-pipeline-proof-coverage`, and `pnpm run check:v32-gate4` fail closed on stale or incomplete Reading proof coverage | closed |
+| Gate 5 artifact | `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json` records source-safe BTC fee, BTD receipt, source-to-shares, projection drift, repair action, paid unlock, and delivery failure-state coverage | closed |
+| Gate 5 scripts | `pnpm run generate:v32-ledger-btd-settlement-failure-states`, `pnpm run check:v32-ledger-btd-settlement-failure-states`, and `pnpm run check:v32-gate5` fail closed on stale, incomplete, source-unsafe, or undocumented economic proof coverage | closed |
+| Gate 6 artifact | `.bitcode/v32-interface-contract-regression-suite.json` records source-safe interface contract rows, shared fixtures, auth boundaries, policy denials, source-safety classes, and deferred blockers | closed |
+| Gate 6 scripts | `pnpm run generate:v32-interface-contract-regression-suites`, `pnpm run check:v32-interface-contract-regression-suites`, and `pnpm run check:v32-gate6` fail closed on stale, incomplete, source-unsafe, or undocumented interface proof coverage | closed |
+| Gate 7 artifact | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` records Terminal and Auxillaries browser, accessibility, responsive, and deterministic visual proof coverage | closed |
+| Gate 7 scripts | `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, `pnpm run check:v32-browser-accessibility-responsive-visual-proof`, and `pnpm run check:v32-gate7` fail closed on stale, incomplete, source-unsafe, or screenshot-only proof coverage | closed |
+| Gate 8 artifact | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json` records source-safe local, staging-testnet, production-mainnet, and offline-disabled readiness lane posture | closed |
+| Gate 8 scripts | `pnpm run generate:v32-testnet-mainnet-readiness-rehearsal`, `pnpm run check:v32-testnet-mainnet-readiness-rehearsal`, and `pnpm run check:v32-gate8` fail closed on stale, incomplete, source-unsafe, value-admitting, or undocumented readiness proof | closed |
+| Gate 9 artifact | `.bitcode/v32-promotion-proof-generation-hardening.json` records source-safe dry-run, check, promotion-plan, failure-taxonomy, and branch-protection proof hardening | closed |
+| Gate 9 scripts | `pnpm run generate:v32-promotion-proof-generation-hardening`, `pnpm run check:v32-promotion-proof-generation-hardening`, and `pnpm run check:v32-gate9` fail closed on stale, incomplete, undocumented, or source-unsafe proof hardening | closed |
+| Gate 10 artifact | `.bitcode/v32-promotion-readiness-report.json` records source-safe V32 promotion workflow, pre/post-promotion posture, generated-artifact policy, QA evidence, and branch-protection proof | closed |
+| Gate 10 scripts | `pnpm run generate:v32-promotion-readiness`, `pnpm run check:v32-promotion-readiness`, and `pnpm run check:v32-gate10` fail closed on stale, incomplete, undocumented, source-unsafe, or posture-incoherent promotion readiness | closed |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1 through Gate 10 checkers and accepts V32 active / V33 draft after promotion | closed |
+| Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture, promoted V31 canon, and V32 active / V33 draft after promotion | closed |
 
 ## Gate 1 Parity
 

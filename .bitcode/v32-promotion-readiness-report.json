@@ -1,413 +1,243 @@
 {
+  "reportId": "v32-promotion-readiness-report",
   "artifactId": "v32-promotion-readiness-report",
+  "schemaId": "bitcode.v32.promotionReadiness.v1",
+  "version": "V32",
+  "currentTarget": "V32",
+  "proofSourceCommit": "1ec49a9ed5fa5db1da5fbd2388e528b91b98321f",
+  "generatedAt": "2026-05-22T09:48:34-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "sourceSafe": true,
+  "prePromotionPosture": "V31 active / V32 draft",
+  "postPromotionPosture": "V32 active / V33 draft",
   "branchProtection": {
     "directMainPushAdmitted": false,
-    "gateBranchPattern": "v32/gate-N-*",
     "promotionPrRequired": true,
     "versionBranch": "version/v32",
     "versionPromotionPullRequestTitlePrefix": "V32 Canonical Promotion"
   },
-  "checks": [
-    {
-      "checkId": "all-v32-gate-checks-wired",
-      "passed": true,
-      "proofRoot": "sha256:86786070d5e23e8317e25d8638fc8ef05d57484644407face9e86cb50734f223",
-      "required": true
-    },
-    {
-      "checkId": "v32-promotion-command-supported",
-      "passed": true,
-      "proofRoot": "sha256:c5437b1a472eed11dacc53801e161589673a38eb0c1a4b2013271f9ac214d7a3",
-      "required": true
-    },
-    {
-      "checkId": "v32-spec-family-promotion-rewriter-supported",
-      "passed": true,
-      "proofRoot": "sha256:76c0de654b3f9a8f47755043426fb92e53077297a08da872e35bee5062657faf",
-      "required": true
-    },
-    {
-      "checkId": "v32-runtime-posture-rewriter-supported",
-      "passed": true,
-      "proofRoot": "sha256:e0edcdb7e2d6ecd365f62fc9c2682234fbc5d1e1e991e0873084cec41701e5ff",
-      "required": true
-    },
-    {
-      "checkId": "v32-canon-promotion-workflow-present",
-      "passed": true,
-      "proofRoot": "sha256:ee117530564a2d3a4c8ea7649e4f8ac4e79f0cdc8a32c4a0d58327bc865cee60",
-      "required": true
-    },
-    {
-      "checkId": "v32-generated-artifacts-registered",
-      "passed": true,
-      "proofRoot": "sha256:b60c57eeeee70c7498435f9c9868d0d472648b3c43baa2a5dc8bc5155a88ec2a",
-      "required": true
-    },
-    {
-      "checkId": "source-safe-qa-ledger-present",
-      "passed": true,
-      "proofRoot": "sha256:8ab7aecf40e30654ec811a433cccdb530f381c22f70ace9f7ee124278e0139ea",
-      "required": true
-    }
-  ],
-  "closureCommand": "pnpm run check:v32-gate10",
-  "currentTarget": "V31",
-  "documentationEvidence": [
-    {
-      "digest": "sha256:e7d799410f38cec108cbf6810e88e8dfb47d5860af15ed8f573ad119c0207c07",
-      "present": true,
-      "relativePath": "BITCODE_SPEC_V32.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "V32 local and staging promotion readiness canon"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
-        },
-        {
-          "present": true,
-          "token": "V32 active / V33 draft"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:d37d343b1d2df21be3fb0dad15d85c1f74435de6e7350d2d939d0d92995333b0",
-      "present": true,
-      "relativePath": "BITCODE_SPEC_V32_DELTA.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Gate 10: V32 Promotion Readiness"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
-        },
-        {
-          "present": true,
-          "token": "promotion scripts support V32"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:526b1f989ce3e46310e7d8b2731743d391f88b4314d5fb07dd52de4be728fbf9",
-      "present": true,
-      "relativePath": "BITCODE_SPEC_V32_NOTES.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Gate 10: V32 Promotion Readiness"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
-        },
-        {
-          "present": true,
-          "token": "active V32 / draft V33"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:8eeb3471caf5fde2884d180149c3cd09fe7f477a29aeee614a1fbb44c4827fb7",
-      "present": true,
-      "relativePath": "BITCODE_SPEC_V32_PARITY_MATRIX.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "## Gate 10 Parity"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
-        },
-        {
-          "present": true,
-          "token": "closed"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:69cea1f292f48dc75608b0d2655e818f523413ea6844359bd383aefe8a0bad99",
-      "present": true,
-      "relativePath": "BITCODE_V32_QA.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Bitcode V32 QA Ledger"
-        },
-        {
-          "present": true,
-          "token": "Gate 10 Promotion Readiness QA"
-        },
-        {
-          "present": true,
-          "token": "source-safe"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:d8a7410842a96baf2384540ab6eb009882924fa99d787924921319365d303474",
-      "present": true,
-      "relativePath": "SPECIFICATIONS_ROADMAP.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Current working gate: V32 Gate 10 Promotion Readiness"
-        },
-        {
-          "present": true,
-          "token": "BITCODE_SPEC_V32_PROVEN.md"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:726eb74a4f0f306da3e7cd3c91ebe578cce66d843557aee71853535c883461a7",
-      "present": true,
-      "relativePath": "README.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "check:v32-gate10"
-        },
-        {
-          "present": true,
-          "token": "v32-canon-promotion.yml"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:05b447e8b7e61260be41b3ac7add839740bc39edd075fe166b5d2ac7889ef1bc",
-      "present": true,
-      "relativePath": "packages/protocol/README.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "V32 Gate 10"
-        },
-        {
-          "present": true,
-          "token": "V32` active, `V33` draft"
-        }
-      ]
-    }
-  ],
   "generatedArtifactPolicy": {
-    "generatedArtifactPrefix": ".bitcode/v32-",
-    "promotionOverwritesPreviewArtifacts": true,
-    "protectedSourceSerialized": false,
     "provenAppendixPath": "BITCODE_SPEC_V32_PROVEN.md",
     "provenAppendixRequiredBeforePromotion": false,
-    "secretValuesSerialized": false
+    "generatedArtifactPrefix": ".bitcode/v32-",
+    "secretValuesSerialized": false,
+    "protectedSourceSerialized": false
   },
-  "generatedAt": "2026-05-22T00:00:00.000Z",
-  "passed": true,
-  "postPromotionPosture": {
-    "activeCanon": "V32",
-    "admitted": true,
-    "draftTarget": "V33",
-    "pointer": "V32",
-    "proofRoot": "sha256:6cfa69eb5101fc6030e06024a5b7712694dc70196e8d8a175757debbe6f55b81"
-  },
-  "prePromotionPosture": {
-    "activeCanon": "V31",
-    "admitted": true,
-    "draftTarget": "V32",
-    "pointer": "V31",
-    "proofRoot": "sha256:6748e2d822ef583b81a801fbc26e990ba0e279482adc5e648d087443500aa239"
-  },
-  "schemaId": "bitcode.v32.promotionReadiness.v1",
   "sourceEvidence": [
     {
-      "digest": "sha256:1f16698e84a048b33983941c57cf843f42049d7e68e9ab048adb87c3034a59a4",
-      "present": true,
       "relativePath": "scripts/check-v32-gate10-promotion-readiness.mjs",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "V32 Gate 10 promotion readiness"
+          "token": "V32 Gate 10 promotion readiness",
+          "present": true
         },
         {
-          "present": true,
-          "token": "--promotion-mode"
+          "token": "--promotion-mode",
+          "present": true
         },
         {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
+          "token": ".bitcode/v32-promotion-readiness-report.json",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:160727c250c8eeb81467d37b0f9429a071a16437630f810f2b58af183a358f63",
+      "relativePath": "scripts/generate-v32-promotion-readiness-report.mjs",
       "present": true,
+      "requiredTokens": [
+        {
+          "token": "buildV32PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "source-safe-promotion-readiness-metadata",
+          "present": true
+        },
+        {
+          "token": "v32-promotion-readiness-report",
+          "present": true
+        }
+      ]
+    },
+    {
       "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "if (version === 'V32')"
+          "token": "if (version === 'V32')",
+          "present": true
         },
         {
-          "present": true,
-          "token": "const v32Gate10Command"
+          "token": "const v32Gate10Command",
+          "present": true
         },
         {
-          "present": true,
-          "token": "buildDerivedV32CommitMessageBody"
+          "token": "buildDerivedV32CommitMessageBody",
+          "present": true
         },
         {
-          "present": true,
-          "token": "scripts/check-v32-gate10-promotion-readiness.mjs"
+          "token": "scripts/check-v32-gate10-promotion-readiness.mjs",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:f06dc69a3d03fd0f96cf6a829a64746187fa1d76f8d169d67f1ee750ddaca7bc",
-      "present": true,
       "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "if (version === 'V32')"
+          "token": "if (version === 'V32')",
+          "present": true
         },
         {
-          "present": true,
-          "token": "V32 canonical system specification for provation/testing"
+          "token": "V32 canonical system specification for provation/testing",
+          "present": true
         },
         {
-          "present": true,
-          "token": "BITCODE_SPEC_V32_PROVEN.md"
+          "token": "BITCODE_SPEC_V32_PROVEN.md",
+          "present": true
         },
         {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
+          "token": ".bitcode/v32-promotion-readiness-report.json",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:f802d91f8e8138a9d7da45046dde020df55662b97a45ca03bc281be98bbbd801",
-      "present": true,
-      "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "--next-draft"
-        },
-        {
-          "present": true,
-          "token": "rewritePackageReadme"
-        },
-        {
-          "present": true,
-          "token": "rewriteRuntimeDataState"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:29ba666d15583e30bc6a2ae8533a4b7b8ad17b7ec12329ff21361e6d7b20bde3",
-      "present": true,
       "relativePath": ".github/workflows/v32-canon-promotion.yml",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "head.ref == 'version/v32'"
+          "token": "head.ref == 'version/v32'",
+          "present": true
         },
         {
-          "present": true,
-          "token": "npm run promote:canon -- --version V32"
+          "token": "npm run promote:canon -- --version V32",
+          "present": true
         },
         {
-          "present": true,
-          "token": "BITCODE_SPEC_V32_PROVEN.md"
+          "token": "BITCODE_SPEC_V32_PROVEN.md",
+          "present": true
         },
         {
-          "present": true,
-          "token": "Promote V32 canon files"
+          "token": "Promote V32 canon files",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:9641079e99b5eb94d8e512ac19bf3057dda5548078baf54722c7476584650478",
-      "present": true,
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "check-v32-gate10-promotion-readiness.mjs"
+          "token": "check-v32-gate10-promotion-readiness.mjs",
+          "present": true
         },
         {
-          "present": true,
-          "token": "elif [ \"$POINTER\" = \"V32\" ]"
+          "token": "elif [ \"$POINTER\" = \"V32\" ]",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:17c08cbe474e2b0301b8d50eb213f01ccb629fda697fb36f674fecc6de68a314",
-      "present": true,
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "elif [ \"$POINTER\" = \"V32\" ]"
+          "token": "elif [ \"$POINTER\" = \"V32\" ]",
+          "present": true
         },
         {
-          "present": true,
-          "token": "--active-canon V32 --draft-target V33"
+          "token": "--active-canon V32 --draft-target V33",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:99299ccaa7d19a5ac4e2f5cceafca0d9d6f129ce549f98f269e79207cefea8c7",
+      "relativePath": "BITCODE_SPEC_V32.md",
       "present": true,
-      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
       "requiredTokens": [
         {
-          "present": true,
-          "token": "buildV32ProvenPackage"
+          "token": "V32 local and staging promotion readiness canon",
+          "present": true
         },
         {
-          "present": true,
-          "token": "buildV32PromotionReadinessReport"
+          "token": ".bitcode/v32-promotion-readiness-report.json",
+          "present": true
         },
         {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
+          "token": "V32 active / V33 draft",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:b1a064df048e619ddc54c0985cba9c1994bd627e8377a75e8ecde3b42daa8593",
+      "relativePath": "BITCODE_SPEC_V32_PARITY_MATRIX.md",
       "present": true,
-      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "requiredTokens": [
         {
-          "present": true,
-          "token": ".bitcode/v32-promotion-readiness-report.json"
+          "token": "## Gate 10 Parity",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v32-promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "closed",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:2177b19310d783dbc37adb4879afa10a7ca71d7ee71ba12c0f47f75aa562e4a8",
+      "relativePath": "BITCODE_V32_QA.md",
       "present": true,
+      "requiredTokens": [
+        {
+          "token": "Bitcode V32 QA Ledger",
+          "present": true
+        },
+        {
+          "token": "Gate 10 Promotion Readiness QA",
+          "present": true
+        },
+        {
+          "token": "source-safe",
+          "present": true
+        }
+      ]
+    },
+    {
       "relativePath": "package.json",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "generate:v32-promotion-readiness"
+          "token": "generate:v32-promotion-readiness",
+          "present": true
         },
         {
-          "present": true,
-          "token": "check:v32-promotion-readiness"
+          "token": "check:v32-gate10",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/protocol/README.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V32 Gate 10",
+          "present": true
         },
         {
-          "present": true,
-          "token": "check:v32-gate10"
+          "token": "V32` active, `V33` draft",
+          "present": true
         }
       ]
     }
   ],
-  "sourceSafetyVerdict": "source-safe-promotion-readiness-metadata",
-  "version": "V32"
+  "failures": []
 }

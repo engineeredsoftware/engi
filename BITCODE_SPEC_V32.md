@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V32`
-- V32 state: draft target opened; V32 is not promoted and must prove deeper provation/testing over the promoted V31 system before canonical promotion
-- Current canonical/latest target: `V31`
-- Canonical proof-source commit: none until V32 promotion
+- V32 state: canonical promotion complete; V32 is the active provation/testing canon and the V32 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V32`
+- Canonical proof-source commit: `1ec49a9ed5fa5db1da5fbd2388e528b91b98321f`
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, generated Gate 4 `.bitcode/v32-reading-pipeline-proof-coverage.json`, generated Gate 5 `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, generated Gate 6 `.bitcode/v32-interface-contract-regression-suite.json`, generated Gate 7 `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, generated Gate 8 `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, generated Gate 9 `.bitcode/v32-promotion-proof-generation-hardening.json`, V32 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
-- Source parity state: V32 source-side proof-family replay, deterministic artifact generation, scenario matrices, cross-surface regression coverage, browser/accessibility/visual evidence, testnet/mainnet-readiness rehearsal, and promotion-proof hardening are opened but not yet closed
+- Generated structured artifact inventory: active canonical `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, `.bitcode/v32-proof-coverage-matrix.json`, `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, `.bitcode/v32-reading-pipeline-proof-coverage.json`, `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, `.bitcode/v32-interface-contract-regression-suite.json`, `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, `.bitcode/v32-promotion-proof-generation-hardening.json`, `.bitcode/v32-promotion-readiness-report.json`, V32 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V32_PROVEN.md` as the generated proof appendix for V32 promotion
+- Source parity state: V32 source-side proof/test replay, generated artifacts, Reading pipeline proof coverage, ledger/BTD failure-state proof, interface regression, browser/accessibility/responsive/visual proof, readiness rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V32 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V31`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V32'`
@@ -19,8 +19,8 @@
 - Delta companion: `BITCODE_SPEC_V32_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V32_PARITY_MATRIX.md`
 - Generated proof appendix: none until V32 promotion
-- Scope: V32 canonical system specification for proof-family replay, deterministic proof artifacts, scenario and failure-state expansion, cross-surface regression, browser/accessibility/responsive/visual proof, testnet/mainnet-readiness rehearsal, and promotion-proof generation hardening over V31
-- Last fully realized canonical target preserved in source: `V31`
+- Scope: V32 canonical system specification for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails
+- Last fully realized canonical target preserved in source: `V32`
 
 V32 begins from promoted V31.
 V31 hardened Auxillaries support/control over promoted Protocol, BTD, Terminal, Reading, and interface rails.

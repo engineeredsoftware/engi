@@ -1,283 +1,261 @@
 {
-  "artifactId": "v32-promotion-proof-generation-hardening",
-  "branchProtection": {
-    "directMainPushAdmitted": false,
-    "gateBranchPattern": "v32/gate-N-*",
-    "promotionPrRequired": true,
-    "versionBranch": "version/v32",
-    "versionPromotionPullRequestTitlePrefix": "V32 Canonical Promotion"
-  },
-  "closureCommand": "pnpm run check:v32-gate9",
+  "reportId": "v32-promotion-proof-generation-hardening",
+  "schemaId": "bitcode.v32.promotionProofGenerationHardening.v1",
+  "version": "V32",
   "currentTarget": "V31",
-  "documentationEvidence": [
-    {
-      "digest": "sha256:e7d799410f38cec108cbf6810e88e8dfb47d5860af15ed8f573ad119c0207c07",
-      "relativePath": "BITCODE_SPEC_V32.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Gate 9 promotion proof precision"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
-        },
-        {
-          "present": true,
-          "token": "source-safe generated artifact diffs"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:d37d343b1d2df21be3fb0dad15d85c1f74435de6e7350d2d939d0d92995333b0",
-      "relativePath": "BITCODE_SPEC_V32_DELTA.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Gate 9 hardens V32 promotion proof generation"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:526b1f989ce3e46310e7d8b2731743d391f88b4314d5fb07dd52de4be728fbf9",
-      "relativePath": "BITCODE_SPEC_V32_NOTES.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "dry-run and check modes"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:8eeb3471caf5fde2884d180149c3cd09fe7f477a29aeee614a1fbb44c4827fb7",
-      "relativePath": "BITCODE_SPEC_V32_PARITY_MATRIX.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "V32 proof generation supports dry-run/check modes"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
-        },
-        {
-          "present": true,
-          "token": "drafted"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:d8a7410842a96baf2384540ab6eb009882924fa99d787924921319365d303474",
-      "relativePath": "SPECIFICATIONS_ROADMAP.md",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "Current working gate: V32 Gate 10"
-        },
-        {
-          "present": true,
-          "token": "Promotion Readiness"
-        }
-      ]
-    }
-  ],
-  "failureTaxonomy": [
-    "stale-posture",
-    "proven-stale",
-    "artifact-drift",
-    "missing-artifact",
-    "malformed-payload",
-    "source-safety-violation",
-    "workflow-branch-mismatch",
-    "unsafe-main-push"
-  ],
-  "generatedAt": "2026-05-22T00:00:00.000Z",
-  "modes": [
-    {
+  "proofSourceCommit": "1ec49a9ed5fa5db1da5fbd2388e528b91b98321f",
+  "generatedAt": "2026-05-22T09:48:34-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "sourceSafe": true,
+  "modes": {
+    "dryRun": {
+      "supported": true,
       "command": "node scripts/generate-bitcode-proven.mjs --version V32 --commit HEAD --dry-run --allow-dirty",
-      "failureClasses": [],
-      "mode": "dry-run",
-      "proofRoot": "sha256:d94f5cb0149ed6334858c7b9ff5a001febe77b0467551fde2fe948e4281b9f18",
-      "sourceSafetyClass": "source-safe-digest-summary",
-      "writesFiles": false
+      "writesFiles": false,
+      "outputClass": "source-safe path digest and byte summaries"
     },
-    {
+    "check": {
+      "supported": true,
       "command": "node scripts/generate-bitcode-proven.mjs --version V32 --commit HEAD --check --allow-dirty",
       "failureClasses": [
         "proven-stale",
         "artifact-drift",
         "missing-artifact"
       ],
-      "mode": "check",
-      "proofRoot": "sha256:c59287534c0174e77855af463d1bad0f334d070bd6159a27af2f5c2500895090",
-      "sourceSafetyClass": "source-safe generated artifact diffs",
-      "writesFiles": false
+      "outputClass": "source-safe generated artifact diffs"
     },
-    {
+    "promotion": {
+      "supported": true,
       "command": "node scripts/promote-bitcode-canon.mjs --version <promoted-version> --commit <proof-source-commit> --dry-run",
-      "failureClasses": [
-        "workflow-branch-mismatch",
-        "unsafe-main-push"
-      ],
-      "mode": "promotion-plan",
-      "proofRoot": "sha256:82eba196638097ffdd4fd8c50afa45c08968f60885dc8aec31ee49d414eba525",
-      "sourceSafetyClass": "branch-protection-friendly-plan",
-      "writesFiles": false
+      "branchProtectionPosture": "pull-request-based promotion plan without direct main push"
     }
-  ],
-  "passed": true,
-  "proofCoverage": {
-    "checkSupported": true,
-    "directMainPushAdmitted": false,
-    "dryRunSupported": true,
-    "promotionPlanSupported": true,
-    "protectedSourceSerialized": false,
-    "secretValuesSerialized": false,
-    "sourceSafeDiffs": true
   },
-  "schemaId": "bitcode.v32.promotionProofGenerationHardening.v1",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "promotionPrRequired": true,
+    "versionBranch": "version/v32",
+    "versionPromotionPullRequestTitlePrefix": "V32 Canonical Promotion"
+  },
+  "failureClasses": [
+    "stale-posture",
+    "proven-stale",
+    "artifact-drift",
+    "missing-artifact",
+    "malformed-payload",
+    "source-safety-violation",
+    "workflow-branch-mismatch"
+  ],
   "sourceEvidence": [
     {
-      "digest": "sha256:288d1acd4bcdccf644f09b24971b2b3c74a16a6069dbb4b1b432eb5a60972e48",
       "relativePath": "scripts/generate-bitcode-proven.mjs",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "--dry-run"
+          "token": "--dry-run",
+          "present": true
         },
         {
-          "present": true,
-          "token": "buildSourceSafeDiffSummary"
+          "token": "buildSourceSafeDiffSummary",
+          "present": true
         },
         {
-          "present": true,
-          "token": "proven-stale"
+          "token": "proven-stale",
+          "present": true
         },
         {
-          "present": true,
-          "token": "artifact-drift"
+          "token": "artifact-drift",
+          "present": true
         },
         {
-          "present": true,
-          "token": "missing-artifact"
+          "token": "missing-artifact",
+          "present": true
         },
         {
-          "present": true,
-          "token": "source-safe generated artifact diffs"
+          "token": "source-safe generated artifact diffs",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:99299ccaa7d19a5ac4e2f5cceafca0d9d6f129ce549f98f269e79207cefea8c7",
-      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": "buildV32ProvenPackage"
-        },
-        {
-          "present": true,
-          "token": "buildV32PromotionProofGenerationHardening"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:b1a064df048e619ddc54c0985cba9c1994bd627e8377a75e8ecde3b42daa8593",
-      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
-      "requiredTokens": [
-        {
-          "present": true,
-          "token": ".bitcode/v32-promotion-proof-generation-hardening.json"
-        },
-        {
-          "present": true,
-          "token": ".bitcode/v32-testnet-mainnet-readiness-rehearsal.json"
-        }
-      ]
-    },
-    {
-      "digest": "sha256:160727c250c8eeb81467d37b0f9429a071a16437630f810f2b58af183a358f63",
       "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "--dry-run"
+          "token": "--dry-run",
+          "present": true
         },
         {
-          "present": true,
-          "token": "canonical promotion plan"
+          "token": "canonical promotion plan",
+          "present": true
         },
         {
-          "present": true,
-          "token": "BITCODE_SPEC.txt"
+          "token": "BITCODE_SPEC.txt",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:9641079e99b5eb94d8e512ac19bf3057dda5548078baf54722c7476584650478",
-      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "check-v32-gate9-promotion-proof-generation-hardening.mjs"
+          "token": "buildV32ProvenPackage",
+          "present": true
         },
         {
-          "present": true,
-          "token": "v32-promotion-proof-generation.test.js"
+          "token": "buildV32PromotionProofGenerationHardening",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json",
+          "present": true
         }
       ]
     },
     {
-      "digest": "sha256:2177b19310d783dbc37adb4879afa10a7ca71d7ee71ba12c0f47f75aa562e4a8",
-      "relativePath": "package.json",
+      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "generate:v32-promotion-proof-generation-hardening"
-        },
-        {
-          "present": true,
-          "token": "check:v32-promotion-proof-generation-hardening"
-        },
-        {
-          "present": true,
-          "token": "check:v32-gate9"
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json",
+          "present": true
         }
       ]
-    }
-  ],
-  "sourceSafetyVerdict": "source-safe generated artifact diffs",
-  "testEvidence": [
+    },
     {
-      "digest": "sha256:681f25f77e783eb671d5de438c4fd1aad84765e39055d1640deb1d2a123f3429",
       "relativePath": "packages/protocol/test/v32-promotion-proof-generation.test.js",
+      "present": true,
       "requiredTokens": [
         {
-          "present": true,
-          "token": "supports V32 promotion proof generation hardening"
+          "token": "supports V32 promotion proof generation hardening",
+          "present": true
         },
         {
-          "present": true,
-          "token": "source-safe generated artifact diffs"
+          "token": "source-safe generated artifact diffs",
+          "present": true
         },
         {
-          "present": true,
-          "token": "v32-promotion-proof-generation-hardening"
+          "token": "v32-promotion-proof-generation-hardening",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/generate-v32-promotion-proof-generation-hardening.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "buildV32PromotionProofGenerationHardeningArtifact",
+          "present": true
+        },
+        {
+          "token": "source-safe generated artifact diffs",
+          "present": true
+        },
+        {
+          "token": "v32-promotion-proof-generation-hardening",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/check-v32-gate9-promotion-proof-generation-hardening.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V32 Gate 9 promotion proof generation hardening",
+          "present": true
+        },
+        {
+          "token": "check:v32-promotion-proof-generation-hardening",
+          "present": true
+        },
+        {
+          "token": "source-safe generated artifact diffs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V32.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "Gate 9 promotion proof precision",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json",
+          "present": true
+        },
+        {
+          "token": "source-safe generated artifact diffs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V32_PARITY_MATRIX.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V32 proof generation supports dry-run/check modes",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v32-promotion-proof-generation-hardening.json",
+          "present": true
+        },
+        {
+          "token": "drafted",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "Current working gate: V32 Gate 10",
+          "present": true
+        },
+        {
+          "token": "Promotion Readiness",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "package.json",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "generate:v32-promotion-proof-generation-hardening",
+          "present": true
+        },
+        {
+          "token": "check:v32-gate9",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "check-v32-gate9-promotion-proof-generation-hardening.mjs",
+          "present": true
+        },
+        {
+          "token": "v32-promotion-proof-generation.test.js",
+          "present": true
         }
       ]
     }
   ],
-  "version": "V32"
+  "failures": []
 }
