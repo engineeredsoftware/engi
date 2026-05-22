@@ -15,35 +15,15 @@ Core SDIVF pipeline execution with PTRR agent coordination
 
 #### `bitcode://pipelines/asset-pack/create`
 
-Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.
+Create and execute a Bitcode AssetPack pipeline for complete software engineering Reads.
 
-This is Bitcode's most powerful pipeline, capable of:
-• Feature implementation with written assets and optional pull request delivery
-• Comprehensive code reviews with detailed suggestions
-• Bug fixes with root cause analysis and testing
-• Technical documentation and blog posts
-• Architecture diagrams and API specifications
-• Frontend scaffolding for React/Vue/Angular
-• Project scope analysis and implementation planning
-• Code refactoring proposals with impact analysis
+This is Bitcode's primary Reading pipeline entry point for feature implementation, review, bug repair, technical writing, architecture diagrams, API specifications, frontend scaffolding, scope analysis, implementation planning, and refactor proposals.
+It admits source-safe Reading requests, repository/provider ingress, attachments, streaming preference, and Shippable subtype focus.
+Supported subtypes include pull_request, pr_review, issue, comment, blog_post, diagram, api_spec, frontend_scaffolder, scope_analysis, implementation_plan, and refactor_proposal.
+It queues the package-owned AssetPack pipeline and returns source-safe execution, preview, and monitoring metadata.
+Protected AssetPack contents remain locked until settlement and rights transfer are admitted by the Protocol/BTD layer.
 
-Supports multimodal inputs including Figma designs, documents, images, audio, and video.
-Real-time streaming provides live updates during read measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
-
-Admitted subtypes:
-• pull_request - Complete feature implementation with PR
-• pr_review - Comprehensive code review with suggestions
-• issue - Bug analysis and fixes with testing
-• comment - Code explanation and documentation
-• blog_post - Technical writing and documentation
-• diagram - Architecture and flow diagrams
-• api_spec - OpenAPI specification generation
-• frontend_scaffolder - Component scaffolding
-• scope_analysis - Project complexity analysis
-• implementation_plan - Detailed technical planning
-• refactor_proposal - Code improvement recommendations
-
-**Complexity**: expert | **Measured BTD Estimate**: 200 $BTD
+**Complexity**: moderate | **Measured BTD Estimate**: 200 $BTD
 
 **Example**:
 ```json

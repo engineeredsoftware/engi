@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V32`
 - Current active canon: `BITCODE_SPEC_V32.md`
 - Current draft target: `BITCODE_SPEC_V33.md`
-- Current working gate: V33 Gate 2 Interface Inventory And Contract Catalog, which inventories Terminal handoff, public API, MCP API, ChatGPT App, package consumer, deferred Exchange hook, and deferred Conversations hook surfaces through a package-owned source-safe catalog and generated proof artifact.
+- Current working gate: V33 Gate 3 MCP API Tool And Registry Contracts, which makes MCP tool discovery package-derived and source-safe, binds `bitcode://pipelines/asset-pack/create` to `McpToolContract`, proves schema/auth denial states such as `SCHEMA_VALIDATION_FAILED` and `PROVIDER_BINDING_REQUIRED`, and generates `.bitcode/v33-mcp-api-tool-contracts.json`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

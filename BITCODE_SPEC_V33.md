@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, and Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 3 adds package-owned `McpToolContract` source and generated proof coverage for MCP API tool discovery, schema, auth, denial, and proof-root contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -148,6 +148,7 @@ Layer boundaries:
 - Ledger records and journals are source-of-truth for settlement/finality; Supabase/PostgreSQL projections must not contradict them.
 - Source-safe previews may expose measurements, roots, score bands, policy ids, fee quote roots, settlement posture, and denial reasons; they may not expose protected source before payment.
 - Interface responses may expose proof roots and repair instructions; they must not expose secrets, service-role keys, wallet private material, provider tokens, raw protected prompts, or pre-settlement AssetPack source.
+- MCP API tools must derive tool ids, descriptions, schema ids, proof-root fields, auth policy ids, denied states, examples, and source-safety posture from the package-owned `McpToolContract` registry, starting with `bitcode://pipelines/asset-pack/create`.
 
 ## V33 proof/test package API and inherited support canon
 
@@ -175,7 +176,7 @@ V33 adds interface-facing contract objects over V32 protocol truth:
 
 - `InterfaceContractCatalog`: active interface ids, owners, actions/tools/routes, schemas, source-safety classes, examples, proof roots, and compatibility status.
 - `InterfaceAuthorizationPolicy`: auth mode, issuer, organization/team/role requirements, wallet requirement, license requirement, protected-source policy, denial reason, and repair posture.
-- `McpToolContract`: MCP tool id, input schema, output schema, auth policy, source-safety class, ledger/database proof bindings, and denied-state rendering.
+- `McpToolContract`: MCP tool id, input schema, output schema, auth policy, source-safety class, ledger/database proof bindings, denied-state rendering, proof-root field set, package-derived examples, and pre-settlement protected-source lock.
 - `ChatGptAppActionContract`: ChatGPT App action id, UI response family, source-safe summary, structured result schema, repair instructions, and proof-root projection.
 - `PublicApiRouteContract`: route id, method, schema, auth policy, idempotency, versionless path, rate/security posture, and example set.
 - `ReadLicenseInterfaceContract`: Read request, reviewed ReadNeed, Finding Fits admission, source-safe preview, fee quote, license posture, unpaid denial, paid unlock, and proof root.
@@ -191,7 +192,7 @@ V33 closes through ten gates:
 
 1. **Gate 1: V33 Interface Roadmap And Spec Opening** opens the V33 family, makes `SPECIFICATIONS_ROADMAP.md` truthful after V32 promotion, and wires V33 Gate 1 checks.
 2. **Gate 2: Interface Inventory And Contract Catalog** inventories active and deferred interface surfaces and creates the package-owned `InterfaceContractCatalog`.
-3. **Gate 3: MCP API Tool And Registry Contracts** hardens MCP tool schemas, action discovery, policy denial, proof-root surfacing, and example replay.
+3. **Gate 3: MCP API Tool And Registry Contracts** hardens MCP tool schemas, action discovery, policy denial, proof-root surfacing, and example replay through `McpToolContract` and `.bitcode/v33-mcp-api-tool-contracts.json`.
 4. **Gate 4: ChatGPT App Action And Tool Contracts** hardens ChatGPT App action schemas, source-safe response rendering, denial readability, and examples.
 5. **Gate 5: Interface Authorization Policy Fail-Closed** centralizes auth, organization, wallet, read-license, rights, and protected-source policy denials.
 6. **Gate 6: Read License And AssetPack Rights Interface Contracts** proves source-safe preview, paid settlement, BTD rights, and delivery contracts across interfaces.
@@ -492,6 +493,11 @@ The required row ids are `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_a
 Each row names an owner package, action/tool/route id, schema id, auth policy id, source-safety class, example fixture path, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
 The `exchange_hook` and `conversations_hook` rows are visible as `deferred_not_admitted` rather than hidden.
 
+Gate 3 `McpToolContract` rows are package-owned source-safe MCP API metadata.
+The required first tool id is `bitcode://pipelines/asset-pack/create`.
+The contract binds `bitcode.mcp.assetPackCreate.input.v1`, `bitcode.mcp.assetPackCreate.output.v1`, `interface.authorization.pipeline-permission`, `pipelines.create`, `protected-source-locked`, `source-safe-preview-and-metadata-before-settlement`, proof-root fields, request/response roots, and denied states including `SCHEMA_VALIDATION_FAILED` and `PROVIDER_BINDING_REQUIRED`.
+MCP discovery must consume this contract instead of repeating tool ids or descriptions locally.
+
 ## Appendix B. Proof family closure catalog
 
 The V33 proof-family catalog is the nine-family catalog in `V33 proof-family canon`.
@@ -527,11 +533,13 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | `.bitcode/v33-spec-family-report.json` | spec-family report builder | `check-bitcode-spec-family` | source-safe-generated-proof | draft-required |
 | `.bitcode/v33-canonical-input-report.json` | canonical-input report builder | `check-bitcode-canonical-inputs` | source-safe-generated-proof | draft-required |
 | `.bitcode/v33-interface-contract-catalog.json` | `scripts/generate-v33-interface-contract-catalog.mjs` | `check:v33-interface-contract-catalog` and `check:v33-gate2` | source-safe-interface-contract-catalog-metadata | Gate 2 required |
+| `.bitcode/v33-mcp-api-tool-contracts.json` | `scripts/generate-v33-mcp-api-tool-contracts.mjs` | `check:v33-mcp-api-tool-contracts` and `check:v33-gate3` | source-safe-mcp-api-tool-contract-metadata | Gate 3 required |
 
 ### V33 specifying generated artifacts
 
 V33 starts with `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`.
 Gate 2 adds `.bitcode/v33-interface-contract-catalog.json`, which serializes source-safe `InterfaceContractCatalog` metadata for `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook` with deferred hooks marked `deferred_not_admitted`.
+Gate 3 adds `.bitcode/v33-mcp-api-tool-contracts.json`, which serializes source-safe `McpToolContract` metadata for `bitcode://pipelines/asset-pack/create`, including schema ids, denied states, proof-root fields, examples, package-derived discovery posture, and protected-source invisibility.
 Later gates may add authorization policy, schema compatibility, telemetry replay, and promotion readiness artifacts.
 
 ### Shared generated-artifact fields

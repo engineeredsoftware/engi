@@ -12,6 +12,7 @@
 
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
+import { getBtdMcpToolContract } from '@bitcode/btd';
 import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
 
@@ -377,37 +378,13 @@ async function executePipelineWithMonitoring(
  * Register all pipeline tools
  */
 export function registerPipelineTools(): MCPTool[] {
+  const assetPackCreateContract = getBtdMcpToolContract('bitcode://pipelines/asset-pack/create');
+
   return [
     // AssetPack pipeline tool.
     {
-      name: 'bitcode://pipelines/asset-pack/create',
-      description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.
-
-This is Bitcode's most powerful pipeline, capable of:
-• Feature implementation with written assets and optional pull request delivery
-• Comprehensive code reviews with detailed suggestions
-• Bug fixes with root cause analysis and testing
-• Technical documentation and blog posts
-• Architecture diagrams and API specifications
-• Frontend scaffolding for React/Vue/Angular
-• Project scope analysis and implementation planning
-• Code refactoring proposals with impact analysis
-
-Supports multimodal inputs including Figma designs, documents, images, audio, and video.
-Real-time streaming provides live updates during read measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
-
-Admitted subtypes:
-• pull_request - Complete feature implementation with PR
-• pr_review - Comprehensive code review with suggestions
-• issue - Bug analysis and fixes with testing
-• comment - Code explanation and documentation
-• blog_post - Technical writing and documentation
-• diagram - Architecture and flow diagrams
-• api_spec - OpenAPI specification generation
-• frontend_scaffolder - Component scaffolding
-• scope_analysis - Project complexity analysis
-• implementation_plan - Detailed technical planning
-• refactor_proposal - Code improvement recommendations`,
+      name: assetPackCreateContract.toolId,
+      description: assetPackCreateContract.description,
 
       inputSchema: AssetPackPipelineToolSchema,
       

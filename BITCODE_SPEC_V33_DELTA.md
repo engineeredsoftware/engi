@@ -98,6 +98,15 @@ Closure acceptance:
 - tool input/output schemas, auth policy, denial states, proof roots, and examples are covered by tests;
 - MCP responses do not expose protected source before settlement.
 
+Implementation centers:
+
+- `packages/btd/src/mcp-tool-contract.ts` owns `McpToolContract`, `BTD_MCP_TOOL_CONTRACT_IDS`, and the deterministic registry builder for `bitcode://pipelines/asset-pack/create`;
+- `packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts` derives the AssetPack create MCP tool id and description from `getBtdMcpToolContract` instead of duplicating interface truth;
+- denied states include `SCHEMA_VALIDATION_FAILED`, `PROVIDER_BINDING_REQUIRED`, `INSUFFICIENT_PERMISSIONS`, `MISSING_API_KEY`, `RATE_LIMITED`, and `UNKNOWN_TOOL`;
+- proof-root fields include `toolId`, `inputSchemaId`, `outputSchemaId`, `authPolicyId`, `requestRoot`, `responseRoot`, and `writeAdmission`;
+- `.bitcode/v33-mcp-api-tool-contracts.json` records source-safe Gate 3 artifact metadata, including package-derived discovery, proof-root coverage, denied-state coverage, protected-source invisibility, and credential non-serialization;
+- `check:v33-gate3` validates source, tests, docs, workflow, generated artifact freshness, and source-safe MCP metadata posture.
+
 ### Gate 4: ChatGPT App Action And Tool Contracts
 
 Gate 4 hardens ChatGPT App contracts.

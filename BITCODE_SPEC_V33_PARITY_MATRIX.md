@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, and Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 3 adds package-owned `McpToolContract` source and generated proof coverage for MCP API tool discovery, schema, auth, denial, and proof-root contracts
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -52,7 +52,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V33.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v33/gate-1-interface-roadmap-opening` | drafted | V33 family validates in draft mode over active V32 and `check:v33-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V32 active, V33 draft, and coherent V34-V37 responsibilities. |
 | Interface contract catalog | Gate 2 | `packages/btd/src/interface-contract-catalog.ts`, `packages/btd/__tests__/interface-contract-catalog.test.ts`, `.bitcode/v33-interface-contract-catalog.json`, `check:v33-gate2` | drafted | Active and deferred interface surfaces have package-owned rows. |
-| MCP API contracts | Gate 3 | planned MCP tool contract tests and examples | pending | MCP tool discovery, schemas, auth, denied states, and proof roots are package-derived. |
+| MCP API contracts | Gate 3 | `packages/btd/src/mcp-tool-contract.ts`, `packages/btd/__tests__/mcp-tool-contract.test.ts`, `packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts`, `.bitcode/v33-mcp-api-tool-contracts.json`, `check:v33-gate3` | drafted | MCP tool discovery, schemas, auth, denied states, and proof roots are package-derived. |
 | ChatGPT App contracts | Gate 4 | planned ChatGPT App action contract tests and examples | pending | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
 | Interface authorization policy | Gate 5 | planned `InterfaceAuthorizationPolicy` fixtures and tests | pending | Interface auth and license denials fail closed with repair posture. |
 | Read license and AssetPack rights contracts | Gate 6 | planned `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` tests | pending | Source-safe preview, paid settlement, BTD rights, and delivery contracts are consistent across interfaces. |
@@ -85,6 +85,20 @@ No `_legacy/` source is active source truth.
 | Generated artifact is source-safe and deterministic | `.bitcode/v33-interface-contract-catalog.json` is produced by `generate:v33-interface-contract-catalog` and checked by `check:v33-interface-contract-catalog` | drafted |
 | Tests fail closed | `packages/btd/__tests__/interface-contract-catalog.test.ts` covers missing rows, duplicate rows, deferred-hook accidental admission, and secret-shaped or protected-source catalog text | drafted |
 | Workflow and spec-family wiring exists | `check:v33-gate2`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 2 contract | drafted |
+
+## Gate 3 Parity
+
+| Requirement | Source evidence | Current V33 judgment |
+| --- | --- | --- |
+| Package-owned MCP contract builder exists | `packages/btd/src/mcp-tool-contract.ts` exports `buildBtdMcpToolContractRegistry`, `BTD_MCP_TOOL_CONTRACT_IDS`, and `getBtdMcpToolContract` | drafted |
+| AssetPack create tool id is canonical | `bitcode://pipelines/asset-pack/create` is the required MCP API tool id | drafted |
+| Tool schemas and auth are bound | `bitcode.mcp.assetPackCreate.input.v1`, `bitcode.mcp.assetPackCreate.output.v1`, `interface.authorization.pipeline-permission`, and `pipelines.create` are part of `McpToolContract` | drafted |
+| Denied states are explicit | `SCHEMA_VALIDATION_FAILED`, `PROVIDER_BINDING_REQUIRED`, `INSUFFICIENT_PERMISSIONS`, `MISSING_API_KEY`, `RATE_LIMITED`, and `UNKNOWN_TOOL` are contract states | drafted |
+| Proof and source-safety roots are explicit | proof-root fields include `toolId`, `inputSchemaId`, `outputSchemaId`, `authPolicyId`, `requestRoot`, `responseRoot`, and `writeAdmission`; source posture is `source-safe-preview-and-metadata-before-settlement` | drafted |
+| MCP server consumes package contract | `packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts` uses `getBtdMcpToolContract`, `assetPackCreateContract.toolId`, and `assetPackCreateContract.description` | drafted |
+| Generated artifact is source-safe and deterministic | `.bitcode/v33-mcp-api-tool-contracts.json` is produced by `generate:v33-mcp-api-tool-contracts` and checked by `check:v33-mcp-api-tool-contracts` | drafted |
+| Tests fail closed | BTD and MCP tests cover contract discovery, proof roots, denied states, invalid schema arguments, and protected-source invisibility | drafted |
+| Workflow and spec-family wiring exists | `check:v33-gate3`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 3 contract | drafted |
 
 ## Gate 1 Parity
 
