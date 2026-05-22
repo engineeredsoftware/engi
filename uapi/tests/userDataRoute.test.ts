@@ -61,6 +61,15 @@ describe('GET /api/auxillaries/data', () => {
       btcFeeBalance: null,
       recentBtdAssetPacks: [],
       modelPreferences: null,
+      templatePreferences: null,
+      notificationPosture: expect.objectContaining({
+        state: 'contact_missing',
+        unreadCount: 0,
+      }),
+      dataSharingPosture: expect.objectContaining({
+        state: 'not_configured',
+        repositoryCount: 0,
+      }),
       onboardedPanes: [],
       onboarded_steps: [],
       isOnboardingComplete: false,
@@ -113,6 +122,30 @@ describe('GET /api/auxillaries/data', () => {
     const prefBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), single: jest.fn().mockResolvedValue({ data: prefData, error: null })
     };
+    const templatePrefData = {
+      deliverable_templates: { asset_pack_pr: { label: 'AssetPack PR' } },
+      ai_document_templates: { witness_summary: { label: 'Witness summary' } },
+      auto_save_templates: true,
+    };
+    const templatePrefBuilder: any = {
+      select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: templatePrefData, error: null })
+    };
+    const notificationsBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockResolvedValue({
+        data: [
+          {
+            id: 'notification-1',
+            type: 'profile',
+            is_read: false,
+            created_at: '2026-05-21T00:00:00.000Z',
+          },
+        ],
+        error: null,
+      }),
+    };
     (getStoredConnection as jest.Mock).mockResolvedValue({
       manager: { id: 'manager' },
       connection: { id: 'connection-1', connectionData: connectionData },
@@ -146,6 +179,8 @@ describe('GET /api/auxillaries/data', () => {
       if (table === 'user_connections') return connectionBuilder;
       if (table === 'user_credits') return btdBuilder;
       if (table === 'user_model_preferences') return prefBuilder;
+      if (table === 'user_template_preferences') return templatePrefBuilder;
+      if (table === 'notifications') return notificationsBuilder;
       throw new Error('Unexpected table ' + table);
     });
     const req = new Request('http://localhost/api/auxillaries/data');
@@ -188,6 +223,20 @@ describe('GET /api/auxillaries/data', () => {
       btcFeeBalance: null,
       recentBtdAssetPacks: [],
       modelPreferences: prefData.preferences,
+      templatePreferences: {
+        shippable_templates: templatePrefData.deliverable_templates,
+        evidence_document_templates: templatePrefData.ai_document_templates,
+        auto_save_templates: true,
+      },
+      notificationPosture: expect.objectContaining({
+        state: 'attention_needed',
+        unreadCount: 1,
+      }),
+      dataSharingPosture: expect.objectContaining({
+        state: 'configured',
+        repositoryCount: 1,
+        enabledRepositoryCount: 1,
+      }),
       onboardedPanes: ['profile', 'interfaces', 'wallet'],
       onboarded_steps: ['profile', 'interfaces', 'wallet'],
       isOnboardingComplete: false,
@@ -195,7 +244,13 @@ describe('GET /api/auxillaries/data', () => {
         kind: 'auxillaries_contract_snapshot',
         profileState: expect.objectContaining({
           username: 'test',
-          accountReadiness: 'ready',
+          accountReadiness: 'degraded',
+          preferences: expect.objectContaining({
+            templates: expect.objectContaining({
+              shippableTemplateCount: 1,
+              evidenceDocumentTemplateCount: 1,
+            }),
+          }),
         }),
         connectionReadiness: [
           expect.objectContaining({

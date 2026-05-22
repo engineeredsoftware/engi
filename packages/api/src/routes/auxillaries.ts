@@ -19,6 +19,7 @@ import {
 const EMPTY_TEMPLATE_PREFERENCES = {
   shippable_templates: {},
   evidence_document_templates: {},
+  auto_save_templates: false,
 };
 
 type AuxillaryRouteBuilderOptions = {
@@ -295,7 +296,15 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
           repositoryInventorySource: null,
         });
 
-    const [profileResult, githubConnectionResult, balanceResult, preferencesResult, repositoryInventoryResult] = await Promise.all([
+    const [
+      profileResult,
+      githubConnectionResult,
+      balanceResult,
+      preferencesResult,
+      templatePreferencesResult,
+      notificationsResult,
+      repositoryInventoryResult,
+    ] = await Promise.all([
       supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle(),
       supabase
         .from('user_connections')
@@ -305,6 +314,17 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         .maybeSingle(),
       supabase.from('user_credits').select('balance').eq('user_id', user.id).maybeSingle(),
       supabase.from('user_model_preferences').select('preferences').eq('user_id', user.id).single(),
+      supabase
+        .from('user_template_preferences')
+        .select('deliverable_templates, ai_document_templates, auto_save_templates')
+        .eq('user_id', user.id)
+        .maybeSingle(),
+      supabase
+        .from('notifications')
+        .select('id, type, is_read, created_at')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(25),
       repositoryInventoryPromise,
     ]);
 
@@ -313,6 +333,14 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
     const btcFeeBalance = readNumericProfileField(profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const modelPreferences = preferencesResult.data?.preferences ?? null;
+    const templatePreferences = templatePreferencesResult.data
+      ? {
+          shippable_templates: templatePreferencesResult.data.deliverable_templates || {},
+          evidence_document_templates: templatePreferencesResult.data.ai_document_templates || {},
+          auto_save_templates: Boolean(templatePreferencesResult.data.auto_save_templates),
+        }
+      : EMPTY_TEMPLATE_PREFERENCES;
+    const notificationRows = Array.isArray(notificationsResult.data) ? notificationsResult.data : [];
     const recentBtdAssetPacks = await listRecentBtdAssetPacksForProfile(profile).catch(() => []);
     const walletConnectionStatus = options.resolveWalletConnectionStatus
       ? await options
@@ -336,6 +364,8 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         btcFeeBalance,
         recentBtdAssetPacks,
         modelPreferences,
+        templatePreferences,
+        notificationRows,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
       }),
     );

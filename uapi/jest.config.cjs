@@ -112,6 +112,7 @@ module.exports = {
     '<rootDir>/tests/auxillariesWorkspacePanels.access.test.tsx',
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
     '<rootDir>/tests/auxillariesExternalsPane.test.tsx',
+    '<rootDir>/tests/profileStep.test.tsx',
     '<rootDir>/tests/btdTrackerLoading.test.tsx',
     '<rootDir>/tests/notificationsWidget.test.tsx',
     '<rootDir>/tests/auxillariesWalletPane.test.tsx',

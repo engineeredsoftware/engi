@@ -14,6 +14,9 @@ export type AuxillariesSourceSafetyClass =
   | 'protected_source_redacted';
 export type AuxillariesDiagnosticSeverity = 'info' | 'warning' | 'blocking';
 export type AuxillariesRetryPolicy = 'manual_retry' | 'after_repair' | 'not_retryable';
+export type AuxillariesProfileRepairSeverity = 'blocking' | 'recoverable';
+export type AuxillariesNotificationState = 'ready' | 'attention_needed' | 'contact_missing' | 'unknown';
+export type AuxillariesDataSharingState = 'configured' | 'limited' | 'not_configured' | 'unknown';
 
 const CANONICAL_AUXILLARY_PANES = new Set<string>(AUXILLARY_FLOW_STEPS);
 const AUXILLARY_PANE_ALIASES: Record<string, ConcreteAuxillaryPane> = {
@@ -53,6 +56,9 @@ export interface AuxillaryDataPayload {
   btcFeeBalance: number | null;
   recentBtdAssetPacks: AuxillaryBtdAssetPackSummary[];
   modelPreferences: unknown | null;
+  templatePreferences: unknown | null;
+  notificationPosture: AuxillariesNotificationPosture;
+  dataSharingPosture: AuxillariesDataSharingPosture;
   onboardedPanes: ConcreteAuxillaryPane[];
   onboarded_steps: ConcreteAuxillaryPane[];
   isOnboardingComplete: boolean;
@@ -74,6 +80,67 @@ export interface AuxillaryBtdAssetPackSummary {
   acquiredAt?: string | null;
 }
 
+export interface AuxillariesProfileRepairRoute {
+  issueId: string;
+  pane: ConcreteAuxillaryPane;
+  route: string;
+  label: string;
+  retryPolicy: AuxillariesRetryPolicy;
+}
+
+export interface AuxillariesProfileCompletenessIssue {
+  id: string;
+  severity: AuxillariesProfileRepairSeverity;
+  summary: string;
+  requiredAction: string;
+  repairRoute: AuxillariesProfileRepairRoute;
+}
+
+export interface AuxillariesAccountIdentity {
+  userId: string | null;
+  username: string | null;
+  displayName: string | null;
+  email: string | null;
+  emailVerified: boolean;
+  companyName: string | null;
+  role: string | null;
+}
+
+export interface AuxillariesPreferencePosture {
+  model: {
+    configured: boolean;
+    provider: string | null;
+    model: string | null;
+    preferenceRoot: string;
+  };
+  templates: {
+    configured: boolean;
+    shippableTemplateCount: number;
+    evidenceDocumentTemplateCount: number;
+    autoSaveTemplates: boolean;
+    preferenceRoot: string;
+  };
+}
+
+export interface AuxillariesNotificationPosture {
+  state: AuxillariesNotificationState;
+  email: string | null;
+  emailVerified: boolean;
+  unreadCount: number;
+  latestNotificationAt: string | null;
+  sourceSafetyClass: AuxillariesSourceSafetyClass;
+  notificationRoot: string;
+}
+
+export interface AuxillariesDataSharingPosture {
+  state: AuxillariesDataSharingState;
+  repositoryCount: number;
+  enabledRepositoryCount: number;
+  disabledRepositoryCount: number;
+  sourceSafetyClass: AuxillariesSourceSafetyClass;
+  dataSharingRoot: string;
+}
+
 export interface AuxillariesProfileState {
   kind: 'AuxillariesProfileState';
   userId: string | null;
@@ -83,9 +150,12 @@ export interface AuxillariesProfileState {
   companyName: string | null;
   role: string | null;
   accountReadiness: AuxillariesReadinessState;
+  accountIdentity: AuxillariesAccountIdentity;
   profileCompleteness: {
     complete: boolean;
     blockers: string[];
+    issues: AuxillariesProfileCompletenessIssue[];
+    repairRoutes: AuxillariesProfileRepairRoute[];
   };
   walletBinding: {
     address: string | null;
@@ -95,6 +165,9 @@ export interface AuxillariesProfileState {
   } | null;
   modelPreferencesConfigured: boolean;
   templatePreferencesConfigured: boolean;
+  preferences: AuxillariesPreferencePosture;
+  notificationPosture: AuxillariesNotificationPosture;
+  dataSharingPosture: AuxillariesDataSharingPosture;
   sourceSafetyClass: AuxillariesSourceSafetyClass;
   profileCompletenessRoot: string;
 }
@@ -231,6 +304,9 @@ export interface BuildAuxillariesContractSnapshotInput {
   recentBtdAssetPacks?: AuxillaryBtdAssetPackSummary[] | null;
   modelPreferences?: unknown | null;
   templatePreferences?: unknown | null;
+  notificationRows?: unknown[] | null;
+  notificationPosture?: unknown | null;
+  dataSharingPosture?: unknown | null;
   recoveryRuns?: AuxillariesRecoveryRun[] | null;
 }
 
@@ -309,6 +385,8 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
     btcFeeBalance: null,
     recentBtdAssetPacks: [],
     modelPreferences: null,
+    templatePreferences: null,
+    notificationRows: [],
     onboardedSteps: [],
   });
 }
@@ -332,6 +410,9 @@ export function buildAuxillaryDataPayloadFromUnknown(value: unknown): AuxillaryD
       ? record.recentBtdAssetPacks as AuxillaryBtdAssetPackSummary[]
       : [],
     modelPreferences: record.modelPreferences ?? null,
+    templatePreferences: record.templatePreferences ?? null,
+    notificationPosture: record.notificationPosture ?? null,
+    dataSharingPosture: record.dataSharingPosture ?? null,
     onboardedSteps: record.onboardedPanes ?? record.onboarded_steps ?? [],
   });
 }
@@ -347,6 +428,10 @@ export function buildAuxillaryDataPayload({
   btcFeeBalance,
   recentBtdAssetPacks,
   modelPreferences,
+  templatePreferences,
+  notificationRows,
+  notificationPosture,
+  dataSharingPosture,
   onboardedSteps,
 }: {
   profile: unknown | null;
@@ -359,6 +444,10 @@ export function buildAuxillaryDataPayload({
   btcFeeBalance?: number | null;
   recentBtdAssetPacks?: AuxillaryBtdAssetPackSummary[] | null;
   modelPreferences: unknown | null;
+  templatePreferences?: unknown | null;
+  notificationRows?: unknown[] | null;
+  notificationPosture?: unknown | null;
+  dataSharingPosture?: unknown | null;
   onboardedSteps: unknown;
 }): AuxillaryDataPayload {
   const onboardedPanes = parseStoredAuxillarySteps(onboardedSteps);
@@ -382,6 +471,10 @@ export function buildAuxillaryDataPayload({
     btcFeeBalance: resolvedBtcFeeBalance,
     recentBtdAssetPacks: safeRecentAssetPacks,
     modelPreferences,
+    templatePreferences,
+    notificationRows,
+    notificationPosture,
+    dataSharingPosture,
   });
 
   return {
@@ -399,6 +492,9 @@ export function buildAuxillaryDataPayload({
     btcFeeBalance: resolvedBtcFeeBalance,
     recentBtdAssetPacks: safeRecentAssetPacks,
     modelPreferences: toAuxillariesJsonSafe(modelPreferences),
+    templatePreferences: toAuxillariesJsonSafe(templatePreferences ?? null),
+    notificationPosture: auxillariesContract.profileState.notificationPosture,
+    dataSharingPosture: auxillariesContract.profileState.dataSharingPosture,
     onboardedPanes,
     onboarded_steps: onboardedPanes,
     isOnboardingComplete: isAuxillaryOnboardingComplete(onboardedPanes),
@@ -434,6 +530,10 @@ export function buildAuxillariesContractSnapshot(
     profile,
     modelPreferences: input.modelPreferences ?? null,
     templatePreferences: input.templatePreferences ?? null,
+    notificationRows: input.notificationRows ?? null,
+    notificationPosture: input.notificationPosture ?? null,
+    dataSharingPosture: input.dataSharingPosture ?? null,
+    repositories,
   });
   const connectionReadiness = [
     buildAuxillariesConnectionReadiness({
@@ -494,39 +594,295 @@ export function buildAuxillariesProfileState(input: {
   profile: unknown | null;
   modelPreferences?: unknown | null;
   templatePreferences?: unknown | null;
+  notificationRows?: unknown[] | null;
+  notificationPosture?: unknown | null;
+  dataSharingPosture?: unknown | null;
+  repositories?: unknown[] | null;
 }): AuxillariesProfileState {
   const profile = asRecord(toAuxillariesJsonSafe(input.profile));
   const walletBinding = readWalletBinding(profile);
   const username = readString(profile?.username);
   const displayName = readString(profile?.display_name) ?? readString(profile?.displayName);
   const userId = readString(profile?.id) ?? readString(profile?.user_id) ?? readString(profile?.userId);
-  const blockers = [
-    !profile ? 'profile.missing' : null,
-    !username && !displayName ? 'profile.identity_missing' : null,
-  ].filter((entry): entry is string => Boolean(entry));
-  const accountReadiness: AuxillariesReadinessState = blockers.length ? 'blocked' : 'ready';
+  const email = readString(profile?.email);
+  const emailVerified =
+    readBoolean(profile?.is_verified) ??
+    readBoolean(profile?.isVerified) ??
+    Boolean(readString(profile?.email_confirmed_at) ?? readString(profile?.emailConfirmedAt));
+  const companyName = readString(profile?.company_name) ?? readString(profile?.companyName);
+  const role = readString(profile?.role);
+  const preferences = buildAuxillariesPreferencePosture({
+    modelPreferences: input.modelPreferences ?? null,
+    templatePreferences: input.templatePreferences ?? null,
+  });
+  const notificationPosture = buildAuxillariesNotificationPosture({
+    profile,
+    notificationRows: input.notificationRows ?? null,
+    notificationPosture: input.notificationPosture ?? null,
+  });
+  const dataSharingPosture = buildAuxillariesDataSharingPosture({
+    repositories: input.repositories ?? null,
+    dataSharingPosture: input.dataSharingPosture ?? null,
+  });
+  const issues = [
+    !profile
+      ? buildProfileCompletenessIssue({
+          id: 'profile.missing',
+          severity: 'blocking',
+          summary: 'Profile row is missing.',
+          requiredAction: 'Create the account profile before Auxillaries can admit support actions.',
+          pane: 'profile',
+          label: 'Open Profile',
+        })
+      : null,
+    !username && !displayName
+      ? buildProfileCompletenessIssue({
+          id: 'profile.identity_missing',
+          severity: 'blocking',
+          summary: 'Display identity is missing.',
+          requiredAction: 'Add a handle or display name.',
+          pane: 'profile',
+          label: 'Open Profile',
+        })
+      : null,
+    !email
+      ? buildProfileCompletenessIssue({
+          id: 'profile.email_missing',
+          severity: 'recoverable',
+          summary: 'Notification email is missing.',
+          requiredAction: 'Add an email address for support and recovery notifications.',
+          pane: 'profile',
+          label: 'Add Email',
+        })
+      : null,
+    email && !emailVerified
+      ? buildProfileCompletenessIssue({
+          id: 'profile.email_unverified',
+          severity: 'recoverable',
+          summary: 'Notification email is not verified.',
+          requiredAction: 'Verify the email address or remove it from support posture.',
+          pane: 'profile',
+          label: 'Verify Email',
+        })
+      : null,
+    !walletBinding
+      ? buildProfileCompletenessIssue({
+          id: 'wallet.binding_missing',
+          severity: 'recoverable',
+          summary: 'Wallet binding is missing.',
+          requiredAction: 'Connect a wallet when settlement-adjacent actions are needed.',
+          pane: 'wallet',
+          label: 'Open Wallet',
+        })
+      : null,
+    !preferences.model.configured
+      ? buildProfileCompletenessIssue({
+          id: 'preferences.model_missing',
+          severity: 'recoverable',
+          summary: 'Model preference is not configured.',
+          requiredAction: 'Choose default model support for Auxillaries-driven actions.',
+          pane: 'interfaces',
+          label: 'Configure Models',
+        })
+      : null,
+    !preferences.templates.configured
+      ? buildProfileCompletenessIssue({
+          id: 'preferences.templates_missing',
+          severity: 'recoverable',
+          summary: 'Template preference is not configured.',
+          requiredAction: 'Configure shippable and evidence templates for support output.',
+          pane: 'interfaces',
+          label: 'Configure Templates',
+        })
+      : null,
+  ].filter((entry): entry is AuxillariesProfileCompletenessIssue => Boolean(entry));
+  const blockers = issues
+    .filter((issue) => issue.severity === 'blocking')
+    .map((issue) => issue.id);
+  const recoverableIssues = issues.filter((issue) => issue.severity === 'recoverable');
+  const accountReadiness: AuxillariesReadinessState = blockers.length
+    ? 'blocked'
+    : recoverableIssues.length || notificationPosture.state === 'attention_needed' || dataSharingPosture.state === 'limited'
+      ? 'degraded'
+      : 'ready';
   const withoutRoot = {
     kind: 'AuxillariesProfileState' as const,
     userId,
     username,
     displayName,
-    email: readString(profile?.email),
-    companyName: readString(profile?.company_name) ?? readString(profile?.companyName),
-    role: readString(profile?.role),
+    email,
+    companyName,
+    role,
     accountReadiness,
+    accountIdentity: {
+      userId,
+      username,
+      displayName,
+      email,
+      emailVerified,
+      companyName,
+      role,
+    },
     profileCompleteness: {
-      complete: blockers.length === 0,
+      complete: issues.length === 0,
       blockers,
+      issues,
+      repairRoutes: issues.map((issue) => issue.repairRoute),
     },
     walletBinding,
-    modelPreferencesConfigured: isNonEmptyRecord(input.modelPreferences),
-    templatePreferencesConfigured: isNonEmptyRecord(input.templatePreferences),
+    modelPreferencesConfigured: preferences.model.configured,
+    templatePreferencesConfigured: preferences.templates.configured,
+    preferences,
+    notificationPosture,
+    dataSharingPosture,
     sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
   };
 
   return {
     ...withoutRoot,
     profileCompletenessRoot: stableProofRoot('auxillaries-profile-state', withoutRoot),
+  };
+}
+
+export function buildAuxillariesPreferencePosture(input: {
+  modelPreferences?: unknown | null;
+  templatePreferences?: unknown | null;
+}): AuxillariesPreferencePosture {
+  const modelRecord = asRecord(toAuxillariesJsonSafe(input.modelPreferences ?? null));
+  const templateRecord = asRecord(toAuxillariesJsonSafe(input.templatePreferences ?? null));
+  const shippableTemplates =
+    asRecord(templateRecord?.shippable_templates) ??
+    asRecord(templateRecord?.deliverable_templates);
+  const evidenceDocumentTemplates =
+    asRecord(templateRecord?.evidence_document_templates) ??
+    asRecord(templateRecord?.ai_document_templates);
+  const model = readString(modelRecord?.preferred_model) ??
+    readString(modelRecord?.model) ??
+    readString(modelRecord?.default_model) ??
+    readString(modelRecord?.defaultModel);
+  const provider = readString(modelRecord?.preferred_provider) ??
+    readString(modelRecord?.provider) ??
+    readString(modelRecord?.default_provider) ??
+    readString(modelRecord?.defaultProvider);
+  const shippableTemplateCount = shippableTemplates ? Object.keys(shippableTemplates).length : 0;
+  const evidenceDocumentTemplateCount = evidenceDocumentTemplates ? Object.keys(evidenceDocumentTemplates).length : 0;
+  const autoSaveTemplates = readBoolean(templateRecord?.auto_save_templates) ??
+    readBoolean(templateRecord?.autoSaveTemplates) ??
+    false;
+  const modelWithoutRoot = {
+    configured: hasNonEmptyPreferenceValue(modelRecord),
+    provider,
+    model,
+  };
+  const templateWithoutRoot = {
+    configured: shippableTemplateCount + evidenceDocumentTemplateCount > 0 || autoSaveTemplates,
+    shippableTemplateCount,
+    evidenceDocumentTemplateCount,
+    autoSaveTemplates,
+  };
+
+  return {
+    model: {
+      ...modelWithoutRoot,
+      preferenceRoot: stableProofRoot('auxillaries-profile-model-preference', modelWithoutRoot),
+    },
+    templates: {
+      ...templateWithoutRoot,
+      preferenceRoot: stableProofRoot('auxillaries-profile-template-preference', templateWithoutRoot),
+    },
+  };
+}
+
+export function buildAuxillariesNotificationPosture(input: {
+  profile?: UnknownRecord | null;
+  notificationRows?: unknown[] | null;
+  notificationPosture?: unknown | null;
+}): AuxillariesNotificationPosture {
+  const explicit = asRecord(toAuxillariesJsonSafe(input.notificationPosture ?? null));
+  const rows = Array.isArray(input.notificationRows)
+    ? input.notificationRows.map((row) => asRecord(toAuxillariesJsonSafe(row))).filter(Boolean)
+    : [];
+  const unreadCount = readNumber(explicit?.unreadCount) ??
+    readNumber(explicit?.unread_count) ??
+    rows.filter((row) => readBoolean(row?.read) === false || readBoolean(row?.is_read) === false).length;
+  const latestNotificationAt = readString(explicit?.latestNotificationAt) ??
+    readString(explicit?.latest_notification_at) ??
+    rows
+      .map((row) => readString(row?.created_at) ?? readString(row?.createdAt))
+      .filter((entry): entry is string => Boolean(entry))
+      .sort()
+      .reverse()[0] ??
+    null;
+  const email = readString(input.profile?.email) ??
+    readString(explicit?.email) ??
+    null;
+  const emailVerified = readBoolean(input.profile?.is_verified) ??
+    readBoolean(input.profile?.isVerified) ??
+    readBoolean(explicit?.emailVerified) ??
+    readBoolean(explicit?.email_verified) ??
+    false;
+  const explicitState = readNotificationState(readString(explicit?.state) ?? readString(explicit?.posture));
+  const state = explicitState ??
+    (!email
+      ? 'contact_missing'
+      : unreadCount > 0
+        ? 'attention_needed'
+        : 'ready');
+  const withoutRoot = {
+    state,
+    email,
+    emailVerified,
+    unreadCount,
+    latestNotificationAt,
+    sourceSafetyClass: 'secret_free_summary' as AuxillariesSourceSafetyClass,
+  };
+
+  return {
+    ...withoutRoot,
+    notificationRoot: stableProofRoot('auxillaries-profile-notification-posture', withoutRoot),
+  };
+}
+
+export function buildAuxillariesDataSharingPosture(input: {
+  repositories?: unknown[] | null;
+  dataSharingPosture?: unknown | null;
+}): AuxillariesDataSharingPosture {
+  const explicit = asRecord(toAuxillariesJsonSafe(input.dataSharingPosture ?? null));
+  const repositories = Array.isArray(input.repositories) ? input.repositories : [];
+  const explicitRepositoryCount = readNumber(explicit?.repositoryCount) ?? readNumber(explicit?.repository_count);
+  const explicitEnabledCount = readNumber(explicit?.enabledRepositoryCount) ??
+    readNumber(explicit?.enabled_repository_count);
+  const explicitDisabledCount = readNumber(explicit?.disabledRepositoryCount) ??
+    readNumber(explicit?.disabled_repository_count);
+  const repositoryCount = explicitRepositoryCount ?? repositories.length;
+  const disabledRepositoryCount = explicitDisabledCount ?? repositories.filter((repository) => {
+    const record = asRecord(repository);
+    const shareEnabled =
+      readBoolean(record?.data_share_enabled) ??
+      readBoolean(record?.dataShareEnabled) ??
+      readBoolean(record?.share_enabled) ??
+      readBoolean(record?.enabled);
+    return shareEnabled === false;
+  }).length;
+  const enabledRepositoryCount = explicitEnabledCount ?? Math.max(repositoryCount - disabledRepositoryCount, 0);
+  const explicitState = readDataSharingState(readString(explicit?.state) ?? readString(explicit?.posture));
+  const state = explicitState ??
+    (repositoryCount === 0
+      ? 'not_configured'
+      : disabledRepositoryCount > 0
+        ? 'limited'
+        : 'configured');
+  const withoutRoot = {
+    state,
+    repositoryCount,
+    enabledRepositoryCount,
+    disabledRepositoryCount,
+    sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
+  };
+
+  return {
+    ...withoutRoot,
+    dataSharingRoot: stableProofRoot('auxillaries-profile-data-sharing-posture', withoutRoot),
   };
 }
 
@@ -782,15 +1138,15 @@ export function buildAuxillariesReadinessDiagnostics(input: {
 }): AuxillariesReadinessDiagnostic[] {
   const diagnostics: AuxillariesReadinessDiagnostic[] = [];
 
-  for (const blocker of input.profileState.profileCompleteness.blockers) {
+  for (const issue of input.profileState.profileCompleteness.issues) {
     diagnostics.push(buildAuxillariesReadinessDiagnostic({
-      pane: 'profile',
-      blockerId: blocker,
-      severity: 'blocking',
-      summary: 'Profile identity is required before Auxillaries can admit support actions.',
-      requiredAction: 'Complete the profile identity fields.',
-      repairRoute: '/terminal?auxillary-open-to=profile',
-      retryPolicy: 'after_repair',
+      pane: issue.repairRoute.pane,
+      blockerId: issue.id,
+      severity: issue.severity === 'blocking' ? 'blocking' : 'warning',
+      summary: issue.summary,
+      requiredAction: issue.requiredAction,
+      repairRoute: issue.repairRoute.route,
+      retryPolicy: issue.repairRoute.retryPolicy,
     }));
   }
 
@@ -1022,6 +1378,31 @@ function readWalletBinding(profile: UnknownRecord | null): AuxillariesProfileSta
   };
 }
 
+function buildProfileCompletenessIssue(input: {
+  id: string;
+  severity: AuxillariesProfileRepairSeverity;
+  summary: string;
+  requiredAction: string;
+  pane: ConcreteAuxillaryPane;
+  label: string;
+}): AuxillariesProfileCompletenessIssue {
+  const repairRoute: AuxillariesProfileRepairRoute = {
+    issueId: input.id,
+    pane: input.pane,
+    route: `/terminal?auxillary-open-to=${input.pane}`,
+    label: input.label,
+    retryPolicy: 'after_repair',
+  };
+
+  return {
+    id: input.id,
+    severity: input.severity,
+    summary: input.summary,
+    requiredAction: input.requiredAction,
+    repairRoute,
+  };
+}
+
 function asRecord(value: unknown): UnknownRecord | null {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
     ? value as UnknownRecord
@@ -1036,9 +1417,48 @@ function readBoolean(value: unknown) {
   return typeof value === 'boolean' ? value : null;
 }
 
-function isNonEmptyRecord(value: unknown) {
+function readNumber(value: unknown) {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return null;
+}
+
+function hasNonEmptyPreferenceValue(value: unknown): boolean {
+  if (value === null || value === undefined) return false;
+  if (typeof value === 'string') return Boolean(value.trim());
+  if (typeof value === 'number') return Number.isFinite(value);
+  if (typeof value === 'boolean') return value;
+  if (Array.isArray(value)) return value.length > 0;
   const record = asRecord(value);
-  return Boolean(record && Object.keys(record).length > 0);
+  if (!record) return false;
+  return Object.values(record).some((entry) => hasNonEmptyPreferenceValue(entry));
+}
+
+function readNotificationState(value: string | null): AuxillariesNotificationState | null {
+  if (
+    value === 'ready' ||
+    value === 'attention_needed' ||
+    value === 'contact_missing' ||
+    value === 'unknown'
+  ) {
+    return value;
+  }
+  return null;
+}
+
+function readDataSharingState(value: string | null): AuxillariesDataSharingState | null {
+  if (
+    value === 'configured' ||
+    value === 'limited' ||
+    value === 'not_configured' ||
+    value === 'unknown'
+  ) {
+    return value;
+  }
+  return null;
 }
 
 function stableProofRoot(label: string, value: unknown) {

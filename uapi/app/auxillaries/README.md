@@ -21,7 +21,9 @@ Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the 
   re-exports `AuxillariesContractSnapshot`, `AuxillariesProfileState`,
   `AuxillariesConnectionReadiness`, `AuxillariesInterfaceAdmission`,
   `AuxillariesWalletBtdPaneState`, `OrganizationPolicyAuthority`,
-  `AuxillariesReadinessDiagnostic`, and `AuxillariesRecoveryRun` from
+  `AuxillariesReadinessDiagnostic`, `AuxillariesRecoveryRun`,
+  `AuxillariesAccountIdentity`, `AuxillariesPreferencePosture`,
+  `AuxillariesNotificationPosture`, and `AuxillariesDataSharingPosture` from
   `@bitcode/api/src/routes/auxillaries-contract`. UI code may consume these
   objects but must not rederive readiness, policy, source-safety, or proof-root
   logic locally.
@@ -54,7 +56,7 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
 
 - Wallet starts with Bitcoin wallet authentication. The wallet proof is the minimum identity origin for Supabase synchronization and local wallet readiness.
 - Externals comes second and owns GitHub App installation/source-provider scope needed for Deposit and Read.
-- Profile owns optional email/contact/admin data and must not appear as the primary identity requirement.
+- Profile owns optional email/contact/admin data and must not appear as the primary identity requirement. Its readiness summary consumes `profileState` from `/api/auxillaries/data`, including named repair routes for identity, wallet binding, preferences, notifications, and data-sharing posture.
 - Wallet also reflects BTD range/share posture after the shared auxillary data read settles.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.

@@ -80,3 +80,10 @@ Gate 1 is closed only when the V31 draft family validates over V30, the roadmap 
 Gate 2 is closed only when Auxillaries support-state contracts are package-owned and JSON-safe.
 Routes may still authenticate, read/write explicit storage rows, and return framework responses, but readiness and policy objects for Profile, Connects, Interfaces, Wallet, BTD, organization, diagnostics, and recovery must be built through `packages/api/src/routes/auxillaries-contract.ts`.
 The route payload can preserve existing UI fields for compatibility, but provider tokens, wallet secrets, service keys, database credentials, private prompts, and protected source must be redacted before any UI, telemetry, or proof-hook consumption.
+
+## Gate 3 closure note
+
+Gate 3 is closed only when Profile/account state is not just a form payload.
+It must be a package-owned support state that binds account identity, profile completeness issues, repair routes, wallet binding posture, model/template preference posture, notification posture, data-sharing posture, and proof roots.
+The Profile pane may present and link repairs, but it must consume the package contract and must not locally rederive account readiness or completeness law.
+Route hydration must include template preference and notification readback where available, while missing storage rows degrade into explicit repair posture rather than generic missing data.

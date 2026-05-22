@@ -91,8 +91,8 @@ function main() {
     const branch = git(root, ['branch', '--show-current']);
     assertCheck(
       failures,
-      branch === 'version/v31' || /^v31\/gate-2-[a-z0-9][a-z0-9-]*$/u.test(branch),
-      `V31 Gate 2 work must occur on version/v31 or v31/gate-2-* branches. Observed ${branch || 'detached HEAD'}.`,
+      branch === 'version/v31' || /^v31\/gate-(?:2|3|4|5|6|7|8|9|10)-[a-z0-9][a-z0-9-]*$/u.test(branch),
+      `V31 Gate 2+ work must occur on version/v31 or v31/gate-2..10-* branches. Observed ${branch || 'detached HEAD'}.`,
     );
   }
 
@@ -205,7 +205,11 @@ function main() {
   assertCheck(failures, auxReadme.includes('AuxillariesContractSnapshot'), 'Auxillaries README must document the package-owned contract snapshot.');
   assertCheck(failures, auxReadme.includes('must not rederive'), 'Auxillaries README must forbid UI policy rederivation.');
 
-  assertCheck(failures, roadmap.includes('Current working gate: V31 Gate 2'), 'Roadmap must track V31 Gate 2 as current working gate.');
+  assertCheck(
+    failures,
+    /Current working gate: V31 Gate (?:2|3|4|5|6|7|8|9|10)\b/u.test(roadmap),
+    'Roadmap must track V31 Gate 2 or a later V31 gate after Gate 2 closure.',
+  );
   assertCheck(failures, delta.includes('Gate 2 implementation centers'), 'V31 DELTA must name Gate 2 implementation centers.');
   assertCheck(failures, notes.includes('Gate 2 closure note'), 'V31 NOTES must include the Gate 2 closure note.');
   assertCheck(failures, parity.includes('packages/api/src/routes/auxillaries-contract.ts'), 'V31 PARITY must cite the Auxillaries contract implementation.');

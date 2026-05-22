@@ -75,6 +75,12 @@ export interface AggregatedUserData {
     acquiredAt?: string | null;
   }>;
   modelPreferences?: any | null;
+  templatePreferences?: any | null;
+  notificationPosture?: any | null;
+  dataSharingPosture?: any | null;
+  profileState?: any | null;
+  auxillariesContract?: any | null;
+  readinessDiagnostics?: any[];
   onboardedPanes?: string[];
   onboarded_steps?: string[];
   isOnboardingComplete?: boolean;
@@ -92,6 +98,12 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   btcFeeBalance: null,
   recentBtdAssetPacks: [],
   modelPreferences: null,
+  templatePreferences: null,
+  notificationPosture: null,
+  dataSharingPosture: null,
+  profileState: null,
+  auxillariesContract: null,
+  readinessDiagnostics: [],
   onboardedPanes: [],
   onboarded_steps: [],
   isOnboardingComplete: false,

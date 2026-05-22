@@ -64,6 +64,10 @@ import these helpers from `@bitcode/orm` and then pass hydrated records into
 `@bitcode/api` Auxillaries contract builders. ORM does not own UI-ready
 readiness diagnostics, interface admission, organization policy, or source-safe
 payload redaction; those route contracts belong to `@bitcode/api`.
+V31 Profile/account state keeps this boundary: ORM normalizes persisted profile
+facts, while `@bitcode/api` derives account identity, preference posture,
+notification posture, data-sharing posture, blockers, repair routes, and proof
+roots.
 
 ## Architecture
 

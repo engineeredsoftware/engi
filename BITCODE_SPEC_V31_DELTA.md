@@ -110,6 +110,13 @@ Closure acceptance:
 - incomplete profile/account state names blockers and recovery routes;
 - focused package, route, and pane tests prove persistence, hydration, projection, and source-safety.
 
+Gate 3 implementation centers:
+
+- `AuxillariesProfileState` carries `accountIdentity`, `profileCompleteness.issues`, `profileCompleteness.repairRoutes`, `walletBinding`, `preferences`, `notificationPosture`, and `dataSharingPosture` as package-owned source-safe state.
+- `/api/auxillaries/data` hydrates profile, GitHub connection, wallet status, BTD holdings, model preferences, template preferences, recent notifications, and repository inventory before delegating the read model to `buildAuxillaryDataPayload`.
+- The Profile pane consumes `profileState` instead of locally deriving readiness, rendering account readiness, wallet, notification, data-sharing, and repair actions from the package contract.
+- Focused tests prove account hydration, route projection, unread-notification posture, template preference posture, repair routes, and JSON-safe contract roots.
+
 ### Gate 4: Connects Provider Readiness And Recovery
 
 Gate 4 deepens provider connection readiness.
