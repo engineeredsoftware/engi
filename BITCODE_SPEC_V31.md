@@ -261,6 +261,8 @@ Gate 6 policy precision:
 - Organization authority binds organization id, team/member id, role, grant set, wallet binding requirement, policy id/hash, action, decision, denial reason, and recovery route.
 - Multi-sig posture may be represented as readiness and required-action state; it is not value-bearing mainnet approval.
 - Protected-source actions fail closed unless account, organization, role, grant, wallet, policy, settlement, and interface admission state all admit them.
+- `@bitcode/btd` owns `BtdOrganizationPolicyAuthority`. It wraps the existing `BtdOrganizationInterfaceAuthorityDecision` with account admission, team/member identity, explicit grant set, policy id/hash, wallet binding state, multi-sig posture, policy-level decision, denial reasons, recovery route, source-visibility state, and aggregate authority root.
+- `packages/api` maps `BtdOrganizationPolicyAuthority` into `OrganizationPolicyAuthority` for `/api/auxillaries/data`; Auxillaries panes and Terminal detail projections consume that object and may not rederive organization policy law locally.
 
 Gate 7 Interfaces precision:
 
@@ -587,6 +589,11 @@ Gate PRs into version branches must begin with the uppercase version and gate pr
 Organization permission authority is a BTD primitive, not a per-interface convention.
 The canonical decision is `BtdOrganizationInterfaceAuthorityDecision`.
 It binds actor id, organization id, organization role, organization permission grants, interface surface, action, wallet binding, registry read-access decision, settlement state, explicit confirmation state, repair approval state, target anchor, source visibility, and proof roots.
+
+V31 Gate 6 adds the package-owned `BtdOrganizationPolicyAuthority` projection as the user and support-plane carrier around that decision.
+The projection binds actor/account admission, organization id, team id, member id, role, raw permission grants, explicit grant set for the action, wallet-binding requirement/state, policy id/hash, interface surface, action, multi-sig readiness, policy decision, denial reason(s), recovery route, source visibility, and authority root.
+Settlement-adjacent and protected-source actions fail closed when any of account admission, organization, role, explicit grant, wallet binding, policy identity/hash, multi-sig readiness, settlement/read-license state, confirmation, repair approval, or interface admission is missing or denied.
+Auxillaries Profile/organization support and Terminal selected-activity authority must read the same object so support UI, transaction cockpit, telemetry, and proof hooks explain one shared policy state.
 
 Gate 7 defines the current action set:
 

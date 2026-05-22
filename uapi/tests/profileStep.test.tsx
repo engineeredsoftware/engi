@@ -101,6 +101,43 @@ describe('ProfileStep (SSR)', () => {
           sourceSafetyClass: 'source_safe',
           profileCompletenessRoot: 'profile-root',
         }}
+        organizationAuthority={{
+          kind: 'btd_organization_policy_authority',
+          actorId: 'user-1',
+          organizationId: 'org-acme',
+          teamId: 'team-platform',
+          memberId: 'member-user-1',
+          role: 'admin',
+          permissionGrants: ['settlement:pay_btc_fee'],
+          explicitGrantSet: ['settlement:pay_btc_fee'],
+          walletBindingRequired: true,
+          walletBindingState: 'bound',
+          multiSigPosture: {
+            state: 'ready',
+            required: true,
+            requiredSignatures: 2,
+            presentSignatures: 2,
+            approverIds: ['member-user-1', 'member-reviewer'],
+            policyRoot: 'multisig-root',
+            requiredAction: 'none',
+          },
+          policy: {
+            policyId: 'policy-1',
+            policyHash: 'btd-proof-root:auxillaries-organization-policy:abc123',
+            action: 'pay_btc_fee',
+            interfaceSurface: 'terminal',
+          },
+          actionDecision: null,
+          protectedSourceAction: false,
+          settlementAdjacentAction: true,
+          policyDecision: 'allowed',
+          denialReason: null,
+          denialReasons: [],
+          recoveryRoute: '/terminal?auxillary-open-to=profile',
+          sourceVisibility: 'source_safe_preview',
+          sourceSafetyClass: 'source_safe',
+          authorityRoot: 'btd-proof-root:organization-policy-authority:def456',
+        }}
         isFirstTimeUser={false}
         onCompletionStatusChange={() => {}}
         isDevMode={false}
@@ -112,6 +149,10 @@ describe('ProfileStep (SSR)', () => {
     expect(html).toContain('Bio text');
     expect(html).toContain('ACME Corp');
     expect(html).toContain('auxillaries-profile-readiness');
+    expect(html).toContain('auxillaries-organization-authority');
+    expect(html).toContain('Organization authority');
+    expect(html).toContain('team-platform');
+    expect(html).toContain('settlement:pay_btc_fee');
     expect(html).toContain('Needs repair');
     expect(html).toContain('Template preference is not configured.');
     expect(html).toContain('/terminal?auxillary-open-to=interfaces');

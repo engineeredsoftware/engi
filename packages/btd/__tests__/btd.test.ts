@@ -13,6 +13,7 @@ import {
   assertBtdAccessPolicyTemplateCoverage,
   assertBtdMintableSupplyLimit,
   buildAssetPackSettlementUnlock,
+  buildBtdOrganizationPolicyAuthority,
   buildBtdWalletBtdSupportProjection,
   buildBtdReadAccessProjectionFromRegistryRows,
   calculateLlmBtcFeeEstimate,
@@ -612,5 +613,123 @@ describe('organization interface authority', () => {
       reason: 'interface_action_not_authorized',
       sourceVisibility: 'source_safe_preview',
     });
+  });
+
+  it('allows settlement-adjacent organization policy authority only when role, grant, wallet, policy, and multi-sig all admit it', () => {
+    const authority = buildBtdOrganizationPolicyAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      teamId: 'team-core',
+      memberId: 'member-operator',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['settlement:pay_btc_fee'],
+      interfaceSurface: 'terminal',
+      action: 'pay_btc_fee',
+      walletId: 'wallet-reader',
+      settlementState: 'not_required',
+      confirmed: true,
+      policyId: 'policy-1',
+      policyHash: 'policy-hash-1',
+      accountAdmitted: true,
+      interfaceAdmitted: true,
+      multiSig: {
+        required: true,
+        requiredSignatures: 2,
+        presentSignatures: 2,
+        approverIds: ['member-operator', 'member-reviewer'],
+        policyRoot: 'multisig-root-1',
+      },
+      recoveryRoute: '/terminal?auxillary-open-to=profile',
+      at: '2026-05-21T00:00:00.000Z',
+    });
+
+    expect(authority).toMatchObject({
+      kind: 'btd_organization_policy_authority',
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      teamId: 'team-core',
+      memberId: 'member-operator',
+      role: 'admin',
+      explicitGrantSet: ['settlement:pay_btc_fee'],
+      walletBindingRequired: true,
+      walletBindingState: 'bound',
+      policy: {
+        policyId: 'policy-1',
+        policyHash: 'policy-hash-1',
+        action: 'pay_btc_fee',
+        interfaceSurface: 'terminal',
+      },
+      multiSigPosture: {
+        state: 'ready',
+        required: true,
+        requiredSignatures: 2,
+        presentSignatures: 2,
+        requiredAction: 'none',
+      },
+      policyDecision: 'allowed',
+      denialReason: null,
+      denialReasons: [],
+      sourceVisibility: 'source_safe_preview',
+    });
+    expect(authority.actionDecision?.decision).toBe('allowed');
+    expect(authority.authorityRoot).toMatch(/^btd-proof-root:organization-policy-authority:/);
+  });
+
+  it('keeps protected-source organization policy authority failed closed until every authority input admits it', () => {
+    const authority = buildBtdOrganizationPolicyAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      teamId: 'team-core',
+      memberId: 'member-operator',
+      organizationRole: 'member',
+      organizationPermissionGrants: [],
+      interfaceSurface: 'terminal',
+      action: 'deliver_asset_pack',
+      walletId: null,
+      settlementState: 'pending',
+      confirmed: false,
+      readAccessDecision: {
+        decision: 'denied',
+        accessPolicyHash: 'policy-hash',
+        reason: 'no_owner_or_valid_license',
+      },
+      policyId: null,
+      policyHash: null,
+      accountAdmitted: true,
+      interfaceAdmitted: false,
+      multiSig: {
+        required: true,
+        requiredSignatures: 2,
+        presentSignatures: 1,
+        approverIds: ['member-operator'],
+      },
+      at: '2026-05-21T00:00:00.000Z',
+    });
+
+    expect(authority).toMatchObject({
+      policyDecision: 'denied',
+      denialReason: 'explicit_permission_grant_required',
+      protectedSourceAction: true,
+      settlementAdjacentAction: true,
+      walletBindingState: 'missing',
+      sourceVisibility: 'blocked',
+      multiSigPosture: {
+        state: 'approval_required',
+        requiredAction: 'collect_signatures',
+      },
+    });
+    expect(authority.denialReasons).toEqual(
+      expect.arrayContaining([
+        'explicit_permission_grant_required',
+        'wallet_binding_missing',
+        'policy_missing',
+        'interface_not_admitted',
+        'multisig_approval_required',
+        'registry_read_access_denied',
+        'settlement_required',
+        'explicit_confirmation_required',
+      ]),
+    );
+    expect(authority.actionDecision?.decision).toBe('denied');
   });
 });

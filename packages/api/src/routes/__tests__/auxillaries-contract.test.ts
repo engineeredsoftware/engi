@@ -20,6 +20,15 @@ describe('Auxillaries package route contracts', () => {
         is_verified: true,
         company_name: 'Bitcode',
         role: 'admin',
+        organization_id: 'org-bitcode',
+        team_id: 'team-core',
+        member_id: 'member-operator',
+        organization_permission_grants: ['settlement:pay_btc_fee'],
+        organization_policy_confirmed: true,
+        multi_sig_required: true,
+        multi_sig_required_signatures: 2,
+        multi_sig_present_signatures: 2,
+        multi_sig_approver_ids: ['member-operator', 'member-reviewer'],
         wallet_binding: {
           address: 'tb1pauxcontract',
           provider: 'leather',
@@ -186,7 +195,34 @@ describe('Auxillaries package route contracts', () => {
       settlementReadiness: 'ready',
       settlementBlockers: [],
     });
-    expect(payload.organizationAuthority.policyDecision).toBe('allowed');
+    expect(payload.organizationAuthority).toMatchObject({
+      kind: 'btd_organization_policy_authority',
+      organizationId: 'org-bitcode',
+      teamId: 'team-core',
+      memberId: 'member-operator',
+      role: 'admin',
+      explicitGrantSet: ['settlement:pay_btc_fee'],
+      walletBindingRequired: true,
+      walletBindingState: 'bound',
+      policyDecision: 'allowed',
+      denialReason: null,
+      sourceSafetyClass: 'source_safe',
+      policy: {
+        policyId: 'org-bitcode:auxillaries-policy',
+        action: 'pay_btc_fee',
+        interfaceSurface: 'terminal',
+      },
+      multiSigPosture: {
+        state: 'ready',
+        required: true,
+        requiredSignatures: 2,
+        presentSignatures: 2,
+        requiredAction: 'none',
+      },
+    });
+    expect(payload.organizationAuthority.policy.policyHash).toMatch(/^[0-9a-f]{64}$/);
+    expect(payload.organizationAuthority.actionDecision?.decision).toBe('allowed');
+    expect(payload.organizationAuthority.authorityRoot).toMatch(/^btd-proof-root:organization-policy-authority:/);
     expect(payload.auxillariesContract.contractVersion).toBe(AUXILLARIES_CONTRACT_VERSION);
     expect(validateAuxillariesContractSnapshot(payload.auxillariesContract)).toEqual({
       valid: true,

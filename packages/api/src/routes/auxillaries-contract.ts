@@ -1,5 +1,9 @@
 import { createHash } from 'crypto';
-import { buildBtdWalletBtdSupportProjection } from '@bitcode/btd';
+import {
+  buildBtdOrganizationPolicyAuthority,
+  buildBtdWalletBtdSupportProjection,
+} from '@bitcode/btd';
+import type { BtdOrganizationPolicyAuthority } from '@bitcode/btd';
 
 export const AUXILLARY_FLOW_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
 export const AUXILLARIES_CONTRACT_VERSION = 'v31-draft-auxillaries-contracts' as const;
@@ -286,18 +290,7 @@ export interface AuxillariesWalletBtdPaneState {
   btdSupportRoot: string;
 }
 
-export interface OrganizationPolicyAuthority {
-  kind: 'OrganizationPolicyAuthority';
-  organizationId: string | null;
-  actorId: string | null;
-  role: string | null;
-  permissionGrants: string[];
-  walletBindingRequired: boolean;
-  policyDecision: 'allowed' | 'denied';
-  denialReason: string | null;
-  sourceSafetyClass: AuxillariesSourceSafetyClass;
-  authorityRoot: string;
-}
+export type OrganizationPolicyAuthority = BtdOrganizationPolicyAuthority;
 
 export interface AuxillariesReadinessDiagnostic {
   kind: 'AuxillariesReadinessDiagnostic';
@@ -601,6 +594,7 @@ export function buildAuxillariesContractSnapshot(
     recentBtdAssetPacks: input.recentBtdAssetPacks,
   });
   const organizationAuthority = buildOrganizationPolicyAuthority({
+    profile,
     profileState,
     organizations,
     walletBtdPaneState,
@@ -1186,42 +1180,88 @@ export function buildAuxillariesWalletBtdPaneState(input: {
 }
 
 export function buildOrganizationPolicyAuthority(input: {
+  profile?: unknown | null;
   profileState: AuxillariesProfileState;
   organizations?: string[] | null;
   walletBtdPaneState?: AuxillariesWalletBtdPaneState;
 }): OrganizationPolicyAuthority {
+  const profile = asRecord(toAuxillariesJsonSafe(input.profile ?? null));
   const organizationId =
+    readString(profile?.organization_id) ??
+    readString(profile?.organizationId) ??
     input.organizations?.[0] ??
     input.profileState.companyName ??
     null;
-  const role = input.profileState.role;
-  const hasWallet = Boolean(input.walletBtdPaneState?.walletCapability.hasBinding);
-  const allowedByRole = role === 'admin' || role === 'owner' || role === 'lead';
-  const denied = !organizationId
-    ? 'organization.missing'
-    : !role
-      ? 'organization.role_missing'
-      : !allowedByRole
-        ? 'organization.role_insufficient'
-        : !hasWallet
-          ? 'wallet.binding_missing'
-          : null;
-  const withoutRoot = {
-    kind: 'OrganizationPolicyAuthority' as const,
-    organizationId,
-    actorId: input.profileState.userId,
-    role,
-    permissionGrants: allowedByRole ? ['auxillaries:read', 'terminal:request_read'] : ['auxillaries:read'],
-    walletBindingRequired: true,
-    policyDecision: denied ? 'denied' as const : 'allowed' as const,
-    denialReason: denied,
-    sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
-  };
+  const policyId =
+    readString(profile?.organization_policy_id) ??
+    readString(profile?.organizationPolicyId) ??
+    (organizationId ? `${organizationId}:auxillaries-policy` : null);
+  const policyHash =
+    readString(profile?.organization_policy_hash) ??
+    readString(profile?.organizationPolicyHash) ??
+    (policyId
+      ? stableProofRoot('auxillaries-organization-policy', {
+          organizationId,
+          policyId,
+          action: 'pay_btc_fee',
+        })
+      : null);
 
-  return {
-    ...withoutRoot,
-    authorityRoot: stableProofRoot('organization-policy-authority', withoutRoot),
-  };
+  return buildBtdOrganizationPolicyAuthority({
+    actorId: input.profileState.userId,
+    organizationId,
+    teamId:
+      readString(profile?.team_id) ??
+      readString(profile?.teamId) ??
+      null,
+    memberId:
+      readString(profile?.member_id) ??
+      readString(profile?.memberId) ??
+      input.profileState.userId,
+    organizationRole: input.profileState.role,
+    organizationPermissionGrants: [
+      ...readStringList(profile?.organization_permission_grants),
+      ...readStringList(profile?.organizationPermissionGrants),
+      ...readStringList(profile?.permission_grants),
+      ...readStringList(profile?.permissionGrants),
+    ],
+    interfaceSurface: 'terminal',
+    action: 'pay_btc_fee',
+    walletId: input.walletBtdPaneState?.walletCapability.address ?? null,
+    settlementState: 'not_required',
+    confirmed:
+      readBoolean(profile?.organization_policy_confirmed) ??
+      readBoolean(profile?.organizationPolicyConfirmed) ??
+      false,
+    targetAnchor: organizationId ? `organization:${organizationId}` : null,
+    policyId,
+    policyHash,
+    accountAdmitted: input.profileState.accountReadiness !== 'blocked',
+    interfaceAdmitted: input.profileState.accountReadiness !== 'blocked',
+    multiSig: {
+      required:
+        readBoolean(profile?.multi_sig_required) ??
+        readBoolean(profile?.multiSigRequired) ??
+        false,
+      requiredSignatures:
+        readNumber(profile?.multi_sig_required_signatures) ??
+        readNumber(profile?.multiSigRequiredSignatures) ??
+        null,
+      presentSignatures:
+        readNumber(profile?.multi_sig_present_signatures) ??
+        readNumber(profile?.multiSigPresentSignatures) ??
+        null,
+      approverIds: [
+        ...readStringList(profile?.multi_sig_approver_ids),
+        ...readStringList(profile?.multiSigApproverIds),
+      ],
+      policyRoot:
+        readString(profile?.multi_sig_policy_root) ??
+        readString(profile?.multiSigPolicyRoot) ??
+        null,
+    },
+    recoveryRoute: '/terminal?auxillary-open-to=profile',
+  });
 }
 
 export function buildAuxillariesReadinessDiagnostics(input: {

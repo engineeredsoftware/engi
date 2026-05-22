@@ -29,6 +29,7 @@ const ANONYMOUS_USER_DATA = {
     auxillariesContract: null,
     connectionReadiness: [],
     walletBtdPaneState: null,
+    organizationAuthority: null,
     readinessDiagnostics: [],
     recoveryRuns: [],
     onboardedPanes: [],
@@ -253,6 +254,10 @@ function useUserData() {
         data?.walletBtdPaneState && typeof data.walletBtdPaneState === 'object'
             ? data.walletBtdPaneState
             : null;
+    const organizationAuthority =
+        data?.organizationAuthority && typeof data.organizationAuthority === 'object'
+            ? data.organizationAuthority
+            : null;
     const recoveryRuns = Array.isArray(data?.recoveryRuns) ? data.recoveryRuns : [];
     const onboardedSteps = (0, auxillary_pane_meta_1.normalizeAuxillarySteps)(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
     const isOnboardingComplete = data?.isOnboardingComplete || false;
@@ -274,6 +279,7 @@ function useUserData() {
         recentBtdAssetPacks,
         connectionReadiness,
         walletBtdPaneState,
+        organizationAuthority,
         recoveryRuns,
         isLoading,
         isRevalidating,

@@ -102,3 +102,11 @@ Gate 5 is closed only when Wallet/BTD support is package-owned and source-safe.
 `@bitcode/btd` must derive no-custody wallet capability, signer posture, network readiness, BTD range/read-right counts, account treasury posture, settlement blockers, and support roots.
 `packages/api` may map that projection into `AuxillariesWalletBtdPaneState`, but UI and routes must not rederive BTD read-access, settlement, rights-transfer, or no-custody law locally.
 The Wallet pane must consume `walletBtdPaneState` from `/api/auxillaries/data`, render signer/network/range/read-right/settlement/treasury readiness, keep protected source invisible before paid unlock, and state that account treasury support is not Exchange market state.
+
+## Gate 6 closure note
+
+Gate 6 is closed only when organization policy authority is package-owned, source-safe, and shared by Auxillaries and Terminal.
+`@bitcode/btd` must own `BtdOrganizationPolicyAuthority` and derive it from account admission, organization/team/member identity, role, explicit grants, wallet binding, policy id/hash, multi-sig readiness, interface surface, action, settlement/read-license/confirmation posture, denial reasons, recovery route, source visibility, and proof root.
+Protected-source and settlement-adjacent actions must fail closed unless every required authority input admits the action.
+`packages/api` may map the BTD object into `OrganizationPolicyAuthority`, but routes, Profile panes, Terminal detail cards, telemetry, and proof hooks must not rederive the authority decision from local heuristics.
+The support UI may show policy measurements, blockers, recovery routes, and roots; it must not reveal protected source or treat multi-sig readiness as value-bearing mainnet approval.

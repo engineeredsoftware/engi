@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 5 Wallet and BTD pane readiness, which connects Auxillaries Wallet/BTD UI to package-owned V30 wallet, signer, network, BTD range, read-right, treasury, no-custody, and settlement-readiness projections without protected source leakage or Exchange market inference.
+- Current working gate: V31 Gate 6 Organization Team Role Policy Authority, which binds account, organization, team, member, role, explicit grants, wallet binding, policy id/hash, multi-sig readiness, policy decision, denial reason, and recovery route into one package-owned authority object consumed by Auxillaries and Terminal.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

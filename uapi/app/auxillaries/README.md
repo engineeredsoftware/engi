@@ -69,6 +69,13 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
   and compact roots. The pane must not show protected AssetPack source before
   paid unlock and must not treat account treasury support as Exchange market
   activity.
+- Profile consumes package-owned `organizationAuthority` from
+  `/api/auxillaries/data`, including organization/team/member identity, role,
+  explicit grant set, wallet binding, policy id/hash, multi-sig readiness,
+  policy decision, denial reasons, recovery route, source visibility, and
+  authority root. The pane may display source-safe authority blockers and roots,
+  but must not rederive organization policy locally or treat multi-sig readiness
+  as value-bearing mainnet approval.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.
 

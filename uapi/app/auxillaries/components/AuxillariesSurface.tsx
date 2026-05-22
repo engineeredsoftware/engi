@@ -365,6 +365,7 @@ export default function AuxillariesSurface({
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
             profileState={auxillaryData?.profileState ?? null}
+            organizationAuthority={auxillaryData?.organizationAuthority ?? null}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
               shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('profile', isComplete) : undefined
@@ -444,6 +445,7 @@ export default function AuxillariesSurface({
     handleStepComplete,
     handleStepCompletionChange,
     auxillaryData?.profileState,
+    auxillaryData?.organizationAuthority,
     isAuxillariesSurface,
     isUnlockedSurface,
     profileData,

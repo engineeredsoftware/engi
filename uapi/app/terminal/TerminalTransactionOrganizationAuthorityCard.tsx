@@ -18,7 +18,7 @@ export default function TerminalTransactionOrganizationAuthorityCard({
   return (
     <BitcodePayloadDetailCard
       kicker="Organization authority"
-      title="Role, read-license, settlement, and interface permission"
+      title="Role, policy, wallet, multi-sig, settlement, and interface permission"
       summary={authority.summary}
       payload={authority.payload}
       rawLabel="Organization authority payload"

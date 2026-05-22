@@ -82,6 +82,7 @@ export interface AggregatedUserData {
   auxillariesContract?: any | null;
   connectionReadiness?: any[];
   walletBtdPaneState?: any | null;
+  organizationAuthority?: any | null;
   readinessDiagnostics?: any[];
   recoveryRuns?: any[];
   onboardedPanes?: string[];
@@ -108,6 +109,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   auxillariesContract: null,
   connectionReadiness: [],
   walletBtdPaneState: null,
+  organizationAuthority: null,
   readinessDiagnostics: [],
   recoveryRuns: [],
   onboardedPanes: [],
@@ -446,6 +448,10 @@ export function useUserData() {
     data?.walletBtdPaneState && typeof data.walletBtdPaneState === 'object'
       ? data.walletBtdPaneState
       : null;
+  const organizationAuthority =
+    data?.organizationAuthority && typeof data.organizationAuthority === 'object'
+      ? data.organizationAuthority
+      : null;
   const recoveryRuns = Array.isArray(data?.recoveryRuns) ? data.recoveryRuns : [];
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
@@ -469,6 +475,7 @@ export function useUserData() {
     recentBtdAssetPacks,
     connectionReadiness,
     walletBtdPaneState,
+    organizationAuthority,
     recoveryRuns,
     isLoading,
     isRevalidating,

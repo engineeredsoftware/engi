@@ -49,6 +49,26 @@ export type BtdSourceVisibilityState =
   | 'source_safe_preview'
   | 'protected_source_allowed'
   | 'blocked';
+export type BtdOrganizationPolicyDecisionKind = 'allowed' | 'denied';
+export type BtdOrganizationPolicyDenialReason =
+  | BtdOrganizationAuthorityReason
+  | 'account_missing'
+  | 'account_not_admitted'
+  | 'organization_missing'
+  | 'explicit_permission_grant_required'
+  | 'policy_missing'
+  | 'interface_not_admitted'
+  | 'multisig_approval_required';
+export type BtdOrganizationMultiSigReadinessState =
+  | 'not_required'
+  | 'ready'
+  | 'approval_required'
+  | 'blocked';
+export type BtdOrganizationMultiSigRequiredAction =
+  | 'none'
+  | 'configure_multisig'
+  | 'collect_signatures'
+  | 'repair_multisig_policy';
 
 export interface BtdOrganizationRegistryAuthoritySummary {
   organizationId: string;
@@ -124,6 +144,76 @@ export interface BtdOrganizationInterfaceAuthorityDecision {
     authorityRoot: string;
   };
   issuedAt: string;
+}
+
+export interface BtdOrganizationPolicyMultiSigInput {
+  required?: boolean | null;
+  requiredSignatures?: number | null;
+  presentSignatures?: number | null;
+  approverIds?: string[] | null;
+  policyRoot?: string | null;
+}
+
+export interface BtdOrganizationPolicyAuthorityInput {
+  actorId?: string | null;
+  organizationId?: string | null;
+  teamId?: string | null;
+  memberId?: string | null;
+  organizationRole?: BtdOrganizationRole | string | null;
+  organizationPermissionGrants?: string[] | null;
+  interfaceSurface?: BtdInterfaceAuthoritySurface | null;
+  action?: BtdOrganizationPermissionAction | null;
+  walletId?: string | null;
+  readAccessDecision?: BtdAccessDecision | null;
+  settlementState?: BtdSettlementAuthorityState | null;
+  confirmed?: boolean | null;
+  repairApprovalState?: BtdRepairApprovalState | null;
+  targetAnchor?: string | null;
+  policyId?: string | null;
+  policyHash?: string | null;
+  accountAdmitted?: boolean | null;
+  interfaceAdmitted?: boolean | null;
+  multiSig?: BtdOrganizationPolicyMultiSigInput | null;
+  recoveryRoute?: string | null;
+  at?: string;
+}
+
+export interface BtdOrganizationPolicyAuthority {
+  kind: 'btd_organization_policy_authority';
+  actorId: string | null;
+  organizationId: string | null;
+  teamId: string | null;
+  memberId: string | null;
+  role: BtdOrganizationRole | null;
+  permissionGrants: string[];
+  explicitGrantSet: string[];
+  walletBindingRequired: boolean;
+  walletBindingState: 'bound' | 'missing' | 'not_required';
+  multiSigPosture: {
+    state: BtdOrganizationMultiSigReadinessState;
+    required: boolean;
+    requiredSignatures: number;
+    presentSignatures: number;
+    approverIds: string[];
+    policyRoot: string | null;
+    requiredAction: BtdOrganizationMultiSigRequiredAction;
+  };
+  policy: {
+    policyId: string | null;
+    policyHash: string | null;
+    action: BtdOrganizationPermissionAction;
+    interfaceSurface: BtdInterfaceAuthoritySurface;
+  };
+  actionDecision: BtdOrganizationInterfaceAuthorityDecision | null;
+  protectedSourceAction: boolean;
+  settlementAdjacentAction: boolean;
+  policyDecision: BtdOrganizationPolicyDecisionKind;
+  denialReason: BtdOrganizationPolicyDenialReason | null;
+  denialReasons: BtdOrganizationPolicyDenialReason[];
+  recoveryRoute: string;
+  sourceVisibility: BtdSourceVisibilityState;
+  sourceSafetyClass: 'source_safe';
+  authorityRoot: string;
 }
 
 const ROLE_ORDER: Record<BtdOrganizationRole, number> = {
@@ -475,6 +565,187 @@ export function evaluateBtdOrganizationInterfaceAuthority(
   };
 }
 
+export function buildBtdOrganizationPolicyAuthority(
+  input: BtdOrganizationPolicyAuthorityInput,
+): BtdOrganizationPolicyAuthority {
+  const actorId = normalizeOptionalString(input.actorId);
+  const organizationId = normalizeOptionalString(input.organizationId);
+  const teamId = normalizeOptionalString(input.teamId);
+  const memberId = normalizeOptionalString(input.memberId);
+  const organizationRole = normalizeOrganizationRole(input.organizationRole);
+  const action = normalizePermissionAction(input.action) ?? 'deliver_asset_pack';
+  const interfaceSurface = normalizeAuthoritySurface(input.interfaceSurface) ?? 'terminal';
+  const requirements = ACTION_REQUIREMENTS[action];
+  const permissionGrants = uniqueStrings(input.organizationPermissionGrants ?? []);
+  const explicitGrantSet = permissionGrants.filter((grant) =>
+    requirements.permissionGrants.includes(grant),
+  );
+  const walletId = normalizeOptionalString(input.walletId);
+  const policyId = normalizeOptionalString(input.policyId);
+  const policyHash = normalizeOptionalString(input.policyHash);
+  const protectedSourceAction =
+    action === 'unlock_asset_pack_source' || action === 'deliver_asset_pack';
+  const settlementAdjacentAction =
+    action === 'pay_btc_fee' ||
+    action === 'unlock_asset_pack_source' ||
+    action === 'deliver_asset_pack' ||
+    action === 'repair_projection';
+  const accountAdmitted = input.accountAdmitted === true;
+  const interfaceAdmitted = input.interfaceAdmitted === true;
+  const multiSigPosture = buildMultiSigPosture(input.multiSig);
+  const actionDecision =
+    actorId && organizationId
+      ? evaluateBtdOrganizationInterfaceAuthority({
+          actorId,
+          organizationId,
+          organizationRole,
+          organizationPermissionGrants: permissionGrants,
+          interfaceSurface,
+          action,
+          walletId,
+          readAccessDecision: input.readAccessDecision ?? null,
+          settlementState: input.settlementState ?? undefined,
+          confirmed: input.confirmed === true,
+          repairApprovalState: input.repairApprovalState ?? undefined,
+          targetAnchor: input.targetAnchor ?? null,
+          at: input.at,
+        })
+      : null;
+  const denialReasons: BtdOrganizationPolicyDenialReason[] = [];
+
+  if (!actorId) denialReasons.push('account_missing');
+  if (!accountAdmitted) denialReasons.push('account_not_admitted');
+  if (!organizationId) denialReasons.push('organization_missing');
+  if (!organizationRole) denialReasons.push('role_missing');
+  if (!explicitGrantSet.length) denialReasons.push('explicit_permission_grant_required');
+  if (requirements.requiresWalletBinding && !walletId) denialReasons.push('wallet_binding_missing');
+  if ((protectedSourceAction || settlementAdjacentAction) && !policyHash && !policyId) {
+    denialReasons.push('policy_missing');
+  }
+  if (!interfaceAdmitted) denialReasons.push('interface_not_admitted');
+  if (multiSigPosture.state === 'approval_required' || multiSigPosture.state === 'blocked') {
+    denialReasons.push('multisig_approval_required');
+  }
+  if (actionDecision?.decision === 'denied') {
+    denialReasons.push(...actionDecision.reasons);
+  }
+
+  const uniqueDenialReasons = uniqueStrings(denialReasons) as BtdOrganizationPolicyDenialReason[];
+  const policyDecision: BtdOrganizationPolicyDecisionKind =
+    actionDecision?.decision === 'allowed' && uniqueDenialReasons.length === 0
+      ? 'allowed'
+      : 'denied';
+  const sourceVisibility =
+    policyDecision === 'allowed'
+      ? actionDecision?.sourceVisibility ?? requirements.sourceVisibilityWhenAllowed
+      : protectedSourceAction || settlementAdjacentAction
+        ? 'blocked'
+        : 'source_safe_preview';
+  const withoutRoot = {
+    kind: 'btd_organization_policy_authority' as const,
+    actorId,
+    organizationId,
+    teamId,
+    memberId,
+    role: organizationRole,
+    permissionGrants,
+    explicitGrantSet,
+    walletBindingRequired: requirements.requiresWalletBinding,
+    walletBindingState: requirements.requiresWalletBinding
+      ? walletId
+        ? 'bound' as const
+        : 'missing' as const
+      : 'not_required' as const,
+    multiSigPosture,
+    policy: {
+      policyId,
+      policyHash,
+      action,
+      interfaceSurface,
+    },
+    actionDecision,
+    protectedSourceAction,
+    settlementAdjacentAction,
+    policyDecision,
+    denialReason: uniqueDenialReasons[0] ?? null,
+    denialReasons: uniqueDenialReasons,
+    recoveryRoute: normalizeOptionalString(input.recoveryRoute) ?? recoveryRouteForDenial(uniqueDenialReasons[0]),
+    sourceVisibility,
+    sourceSafetyClass: 'source_safe' as const,
+  };
+
+  return {
+    ...withoutRoot,
+    authorityRoot: stableProofRoot('organization-policy-authority', withoutRoot),
+  };
+}
+
+function buildMultiSigPosture(input?: BtdOrganizationPolicyMultiSigInput | null): BtdOrganizationPolicyAuthority['multiSigPosture'] {
+  const requiredSignatures = readSafePositiveInteger(input?.requiredSignatures) ?? 0;
+  const presentSignatures = readSafePositiveInteger(input?.presentSignatures) ?? 0;
+  const required = input?.required === true || requiredSignatures > 0;
+  const approverIds = uniqueStrings(input?.approverIds ?? []);
+  const policyRoot = normalizeOptionalString(input?.policyRoot);
+
+  if (!required) {
+    return {
+      state: 'not_required',
+      required: false,
+      requiredSignatures: 0,
+      presentSignatures: 0,
+      approverIds,
+      policyRoot,
+      requiredAction: 'none',
+    };
+  }
+
+  if (requiredSignatures <= 0) {
+    return {
+      state: 'blocked',
+      required: true,
+      requiredSignatures: 0,
+      presentSignatures,
+      approverIds,
+      policyRoot,
+      requiredAction: 'configure_multisig',
+    };
+  }
+
+  if (presentSignatures >= requiredSignatures) {
+    return {
+      state: 'ready',
+      required: true,
+      requiredSignatures,
+      presentSignatures,
+      approverIds,
+      policyRoot,
+      requiredAction: 'none',
+    };
+  }
+
+  return {
+    state: 'approval_required',
+    required: true,
+    requiredSignatures,
+    presentSignatures,
+    approverIds,
+    policyRoot,
+    requiredAction: 'collect_signatures',
+  };
+}
+
+function recoveryRouteForDenial(reason: BtdOrganizationPolicyDenialReason | undefined): string {
+  if (!reason) return '/terminal?auxillary-open-to=profile';
+  if (reason === 'wallet_binding_missing') return '/terminal?auxillary-open-to=wallet';
+  if (reason === 'interface_not_admitted' || reason === 'interface_action_not_authorized') {
+    return '/terminal?auxillary-open-to=interfaces';
+  }
+  if (reason === 'registry_read_access_required' || reason === 'registry_read_access_denied' || reason === 'settlement_required') {
+    return '/terminal?auxillary-open-to=wallet';
+  }
+  return '/terminal?auxillary-open-to=profile';
+}
+
 function roleSatisfies(
   role: BtdOrganizationRole | null,
   minimumRole: BtdOrganizationRole,
@@ -549,6 +820,36 @@ function readOptionalStringField(row: Record<string, unknown>, ...keys: string[]
 
 function normalizeOptionalString(value: string | null | undefined): string | null {
   return typeof value === 'string' && value.trim() ? value.trim() : null;
+}
+
+function normalizeOrganizationRole(value: BtdOrganizationRole | string | null | undefined): BtdOrganizationRole | null {
+  if (value === 'viewer' || value === 'member' || value === 'admin' || value === 'owner') {
+    return value;
+  }
+  if (value === 'lead') return 'admin';
+  if (value === 'dev') return 'member';
+  return null;
+}
+
+function normalizePermissionAction(value: BtdOrganizationPermissionAction | string | null | undefined): BtdOrganizationPermissionAction | null {
+  return typeof value === 'string' && value in ACTION_REQUIREMENTS
+    ? value as BtdOrganizationPermissionAction
+    : null;
+}
+
+function normalizeAuthoritySurface(value: BtdInterfaceAuthoritySurface | string | null | undefined): BtdInterfaceAuthoritySurface | null {
+  return value === 'terminal' || value === 'api' || value === 'mcp' || value === 'chatgpt_app'
+    ? value
+    : null;
+}
+
+function readSafePositiveInteger(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0) return value;
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isSafeInteger(parsed) && parsed >= 0) return parsed;
+  }
+  return null;
 }
 
 function uniqueStrings(values: Array<string | null | undefined>): string[] {

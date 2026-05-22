@@ -71,4 +71,72 @@ describe('terminal organization authority projection', () => {
       'No organization authority decision was readable from this activity payload.',
     ]);
   });
+
+  it('projects package-owned policy authority with team, member, multi-sig, and denial reasons', () => {
+    const projection = buildTerminalOrganizationAuthorityProjection(
+      detailWithAuthority([
+        {
+          kind: 'btd_organization_policy_authority',
+          actorId: 'user-1',
+          organizationId: 'org-1',
+          teamId: 'team-core',
+          memberId: 'member-operator',
+          role: 'admin',
+          permissionGrants: ['settlement:pay_btc_fee'],
+          explicitGrantSet: [],
+          walletBindingRequired: true,
+          walletBindingState: 'missing',
+          multiSigPosture: {
+            state: 'approval_required',
+            required: true,
+            requiredSignatures: 2,
+            presentSignatures: 1,
+            approverIds: ['member-operator'],
+            requiredAction: 'collect_signatures',
+          },
+          policy: {
+            policyId: 'policy-1',
+            policyHash: 'policy-hash-1',
+            action: 'pay_btc_fee',
+            interfaceSurface: 'terminal',
+          },
+          actionDecision: {
+            decision: 'denied',
+            interfaceSurface: 'terminal',
+            action: 'pay_btc_fee',
+            reason: 'wallet_binding_missing',
+            reasons: ['wallet_binding_missing', 'explicit_confirmation_required'],
+            sourceVisibility: 'source_safe_preview',
+            targetAnchor: 'organization:org-1',
+            proofRoots: {
+              authorityRoot: 'btd-proof-root:organization-interface-authority:abc123',
+            },
+          },
+          policyDecision: 'denied',
+          denialReason: 'wallet_binding_missing',
+          denialReasons: ['wallet_binding_missing', 'multisig_approval_required'],
+          recoveryRoute: '/terminal?auxillary-open-to=wallet',
+          sourceVisibility: 'blocked',
+          authorityRoot: 'btd-proof-root:organization-policy-authority:def456',
+        },
+      ]),
+    );
+
+    expect(projection.state).toBe('denied');
+    expect(projection.metrics).toEqual(
+      expect.arrayContaining([
+        { label: 'Policy objects', value: '1' },
+        { label: 'Multi-sig', value: 'approval_required' },
+      ]),
+    );
+    expect(projection.blockers).toEqual(
+      expect.arrayContaining(['wallet_binding_missing', 'multisig_approval_required']),
+    );
+    expect(projection.decisions.map((decision) => decision.title)).toEqual(
+      expect.arrayContaining(['terminal · pay btc fee policy', 'terminal · pay btc fee']),
+    );
+    expect(projection.proofRoots.map((root) => root.summary)).toEqual(
+      expect.arrayContaining(['btd-proof-root:organization-policy-authority:def456']),
+    );
+  });
 });

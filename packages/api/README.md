@@ -50,6 +50,14 @@ come from the BTD projection. API responses must keep protected AssetPack source
 hidden, keep wallet private material out of JSON, and mark the Wallet/BTD
 treasury support state as separate from Exchange market state.
 
+Organization authority state is package-owned through `@bitcode/btd` and mapped
+here as `OrganizationPolicyAuthority`. Route payloads may hydrate organization,
+team, member, role, grants, wallet, policy, and multi-sig facts, but
+`buildBtdOrganizationPolicyAuthority` owns the policy decision, fail-closed
+denial reasons, source visibility, recovery route, and proof root. API
+responses must expose only the source-safe authority object shared by
+Auxillaries and Terminal.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

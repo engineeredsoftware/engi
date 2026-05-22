@@ -59,9 +59,9 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V30 active, V31 draft, and coherent V32-V37 responsibilities. |
 | Auxillaries package and route contracts | Gate 2 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, package docs, route tests | drafted | Shared Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery objects are package-owned and JSON-safe. |
 | Profile and account state | Gate 3 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, route/pane tests | drafted | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
-| Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | pending | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
-| Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | pending | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
-| Organization team role policy authority | Gate 6 | Organization packages/routes, policy authority tests, Terminal/Auxillaries projections | pending | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
+| Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | drafted | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
+| Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | drafted | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
+| Organization team role policy authority | Gate 6 | `packages/btd/src/authority.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `uapi/app/terminal/terminal-organization-authority.ts`, focused BTD/API/UI tests | drafted | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
 | Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | pending | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
 | Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | pending | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
 | Auxillaries telemetry proof and recovery runs | Gate 9 | Telemetry/proof packages, recovery routes, readback tests | pending | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
@@ -129,9 +129,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Organization authority is package-owned | organization/policy packages and route tests | pending |
-| Role, grants, policy, wallet binding, and denial reasons are typed | package tests and Auxillaries organization pane tests | pending |
-| Protected actions fail closed unless all authority inputs admit them | policy/authorization tests | pending |
+| Organization authority is package-owned | `BtdOrganizationPolicyAuthority` and `buildBtdOrganizationPolicyAuthority` in `packages/btd/src/authority.ts`; `OrganizationPolicyAuthority` aliases that object in `packages/api/src/routes/auxillaries-contract.ts` | drafted |
+| Role, grants, policy, wallet binding, and denial reasons are typed | BTD tests cover allowed settlement-adjacent policy authority and protected-source denial; API tests assert organization/team/member/grant/policy/multi-sig route emission; Profile pane tests render the shared authority object | drafted |
+| Protected actions fail closed unless all authority inputs admit them | `packages/btd/__tests__/btd.test.ts` covers missing grant, wallet, policy, interface admission, multi-sig, settlement, read access, and confirmation denial reasons with blocked source visibility | drafted |
+| Terminal and Auxillaries consume one authority object | `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, and `uapi/app/terminal/terminal-organization-authority.ts` consume/project `organizationAuthority` without route-local policy rederivation | drafted |
 
 ## Gate 7 Parity
 
