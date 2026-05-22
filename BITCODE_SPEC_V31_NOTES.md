@@ -3,13 +3,15 @@
 ## Status
 
 - Version: `V31`
-- V31 state: draft-target notes companion opened for Auxillaries deepening over promoted V30
-- Current canonical/latest target: `V30`
+- V31 state: canonical promotion complete; V31 notes record the accepted Auxillaries support/control, local/staging, and promotion-readiness evidence
+- Current canonical/latest target: `V31`
+- Canonical proof-source commit: `8c711604600afe1d1e477d3c180d653602203d0f`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion
-- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
-- Scope: notes companion for Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team, organization, role, policy, readiness diagnostics, recovery flows, accessibility, responsive QA, and Auxillaries telemetry/proof hooks.
+- Generated structured artifact inventory: active canonical `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
+- Source parity state: V31 source-side Auxillaries package contracts, route data, client hooks, panes, organization authority, recovery runs, telemetry/proof hooks, UX/accessibility, workflow, and promotion surfaces are canonicalized in the promoted V31 file family
+- Scope: V31 canonical notes for Auxillaries support/control surfaces, source-safe recovery, telemetry proof hooks, UX proof, local/staging readiness, and promotion automation over V30
+- Last fully realized canonical target preserved in source: `V31`
 
 This NOTES file does not promote V31.
 `BITCODE_SPEC.txt` remains `V30` until formal V31 promotion.

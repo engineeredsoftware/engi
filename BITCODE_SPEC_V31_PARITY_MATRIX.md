@@ -3,20 +3,21 @@
 ## Status
 
 - Version: `V31`
-- V31 state: draft-target parity matrix opened for Auxillaries deepening over promoted V30
-- Current canonical/latest target: `V30`
+- V31 state: canonical promotion complete; V31 parity truth, Auxillaries gate closure, generated proof, and promotion automation are aligned
+- Current canonical/latest target: `V31`
+- Canonical proof-source commit: `8c711604600afe1d1e477d3c180d653602203d0f`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion
-- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
+- Generated structured artifact inventory: active canonical `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
+- Source parity state: V31 source-side Auxillaries package contracts, route data, client hooks, panes, organization authority, recovery runs, telemetry/proof hooks, UX/accessibility, workflow, and promotion surfaces are canonicalized in the promoted V31 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
-- Scope: V31 canonical parity ledger for Auxillaries support/control surfaces over promoted V30
+- Scope: V31 canonical parity ledger for Auxillaries support/control surfaces, source-safe recovery and telemetry proof hooks, UX proof, local/staging readiness, and promotion automation over V30
 - Spec companion: `BITCODE_SPEC_V31.md`
 - Notes companion: `BITCODE_SPEC_V31_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V31_DELTA.md`
 - Generated proof appendix: none until V31 promotion
-- Last fully realized canonical target preserved in source: `V30`
+- Last fully realized canonical target preserved in source: `V31`
 
 ## Purpose
 
@@ -55,13 +56,13 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V31.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v31/gate-1-spec-roadmap-opening` | drafted | V31 family validates in draft mode over active V30 and `check:v31-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V30 active, V31 draft, and coherent V32-V37 responsibilities. |
-| Auxillaries package and route contracts | Gate 2 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, package docs, route tests | drafted | Shared Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery objects are package-owned and JSON-safe. |
-| Profile and account state | Gate 3 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, route/pane tests | drafted | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
-| Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | drafted | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
-| Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | drafted | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
-| Organization team role policy authority | Gate 6 | `packages/btd/src/authority.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `uapi/app/terminal/terminal-organization-authority.ts`, focused BTD/API/UI tests | drafted | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V31.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v31/gate-1-spec-roadmap-opening` | closed | V31 family validates in draft mode over active V30 and `check:v31-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V30 active, V31 draft, and coherent V32-V37 responsibilities. |
+| Auxillaries package and route contracts | Gate 2 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, package docs, route tests | closed | Shared Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery objects are package-owned and JSON-safe. |
+| Profile and account state | Gate 3 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, route/pane tests | closed | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
+| Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | closed | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
+| Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | closed | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
+| Organization team role policy authority | Gate 6 | `packages/btd/src/authority.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `uapi/app/terminal/terminal-organization-authority.ts`, focused BTD/API/UI tests | closed | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
 | Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | closed | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
 | Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | closed | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
 | Auxillaries telemetry proof and recovery runs | Gate 9 | `packages/api/src/routes/auxillaries-contract.ts`, `/api/auxillaries/data`, `useUserData`, Externals UI, route/API/UI tests, Gate 9 checker | closed | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
@@ -71,10 +72,10 @@ No `_legacy/` source is active source truth.
 
 | Area | Required V31 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V30` during V31 gate work | drafted |
-| Gate branch pattern | V31 work happens on `version/v31` or `v31/gate-N-*` branches | drafted |
-| Spec-family shape | V31 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v31-gate1` fails closed on stale posture, missing roadmap truth, or missing Auxillaries scope | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V30` during V31 gate work | closed |
+| Gate branch pattern | V31 work happens on `version/v31` or `v31/gate-N-*` branches | closed |
+| Spec-family shape | V31 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v31-gate1` fails closed on stale posture, missing roadmap truth, or missing Auxillaries scope | closed |
 | Gate-quality workflow | Gate workflow validates V30 active / V31 draft posture and V31 Gates 1 through 10 | closed |
 | Canon-quality workflow | Canon workflow validates V30 active / V31 draft posture and promoted V31 / draft V32 posture | closed |
 

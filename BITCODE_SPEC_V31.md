@@ -3,12 +3,13 @@
 ## Status
 
 - Version: `V31`
-- V31 state: draft target opened; V31 is the active Auxillaries deepening draft over promoted V30
-- Current canonical/latest target: `V30`
+- V31 state: canonical promotion complete; V31 is the active Auxillaries support/control canon and the V31 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V31`
+- Canonical proof-source commit: `8c711604600afe1d1e477d3c180d653602203d0f`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion.
-- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
+- Generated structured artifact inventory: active canonical `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
+- Source parity state: V31 source-side Auxillaries package contracts, route data, client hooks, panes, organization authority, recovery runs, telemetry/proof hooks, UX/accessibility, workflow, and promotion surfaces are canonicalized in the promoted V31 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V31'`
@@ -18,8 +19,8 @@
 - Delta companion: `BITCODE_SPEC_V31_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V31_PARITY_MATRIX.md`
 - Generated proof appendix: none until V31 promotion
-- Scope: V31 canonical system specification for Auxillaries Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team/organization/wallet/multi-sig/role/policy controls, readiness diagnostics, recovery flows, responsive/accessibility QA, Auxillaries proof hooks, and promotion-ready workflow proof over V30
-- Last fully realized canonical target preserved in source: `V30`
+- Scope: V31 canonical system specification for Auxillaries support/control surfaces: Profile, account, provider connection, interface admission, Wallet, BTD pane, organization authority, policy decision, readiness diagnostics, recovery runs, accessibility/responsive UX, source-safe telemetry proof hooks, and promotion-ready workflow proof over V30
+- Last fully realized canonical target preserved in source: `V31`
 
 V31 begins from promoted V30.
 V30 hardened the Protocol and BTD rails beneath promoted Reading, Finding Fits, AssetPack preview, settlement, rights transfer, delivery, projection, proof, and promotion posture.

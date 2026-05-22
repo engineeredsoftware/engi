@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V30` active, `V31` draft after V30 promotion);
+- active/draft canon posture (`V31` active, `V32` draft after V31 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - canonical proven-generation helpers;
