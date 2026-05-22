@@ -610,6 +610,8 @@ export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
             readFitsFindingTelemetry('range-readback'),
             readFitsFindingTelemetry('license-readback'),
             readFitsFindingTelemetry('journal-entry-ids'),
+            readFitsFindingTelemetry('tool-input'),
+            readFitsFindingTelemetry('tool-output'),
             readFitsFindingTelemetry('pull-request'),
           ],
         }),

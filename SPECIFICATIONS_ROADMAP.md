@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 3 Deterministic Replay Harness And Artifact Stability, which hardens repeatable V32 proof generation with deterministic generated artifacts, explicit volatility inventory, source-safe payload checks, and fail-closed missing/stale/malformed artifact diagnostics.
+- Current working gate: V32 Gate 4 Reading Pipeline Proof Coverage, which proves `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` through their phases, PTRR agents, PTRR steps, ThricifiedGenerations, prompt/tool telemetry, typed outputs, plural Finding Fits discovery, source-safe preview boundary, and paid delivery boundary.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

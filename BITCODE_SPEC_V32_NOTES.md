@@ -8,7 +8,7 @@
 - Current active draft target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only at promotion
+- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, generated Gate 4 `.bitcode/v32-reading-pipeline-proof-coverage.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only at promotion
 - Source parity state: V32 proof/test parity begins with Gate 1 and closes only through gate-specific implementation, tests, documentation, and workflow evidence
 - Scope: deeper provation and testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration surfaces.
 
@@ -73,6 +73,9 @@ Deepen `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` coverage:
 - PTRR agent and ThricifiedGeneration typed output coverage;
 - mock coverage for every inference point and real-inference seam validation without committing secrets;
 - source-safe preview, paid unlock, and PR delivery proof boundaries.
+- generated artifact `.bitcode/v32-reading-pipeline-proof-coverage.json`;
+- generator command `pnpm run generate:v32-reading-pipeline-proof-coverage`, checker command `pnpm run check:v32-reading-pipeline-proof-coverage`, and gate closure command `pnpm run check:v32-gate4`;
+- exact current counts: two Reading pipelines, eleven phases, twelve PTRR agents, forty-eight PTRR steps, one hundred forty-four ThricifiedGenerations, twenty model-structured PTRR steps, five prompt templates, and four tools.
 
 ### Gate 5: Ledger BTD Settlement Failure-State Coverage
 

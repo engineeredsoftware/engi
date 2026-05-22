@@ -90,12 +90,12 @@
         "blocked-readiness-without-repair-path",
         "pre-settlement-source-disclosure"
       ],
-      "fixture": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts; packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts; packages/pipelines/asset-pack/src/__tests__/read-need.test.ts; packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+      "fixture": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts; packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts; packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts; packages/pipelines/asset-pack/src/__tests__/read-need.test.ts; packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
       "owner": "packages/pipelines/asset-pack",
       "plannedGate": "Gate 4",
       "promotedBehavior": "Read Request to reviewed Need, Finding Fits, source-safe AssetPack preview, settlement boundary, and paid PR delivery.",
       "repairPosture": "Gate 4 enumerates every pipeline phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, typed output, telemetry row, and storage record.",
-      "replayCommand": "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/read-need.test.ts src/__tests__/asset-pack-disclosure.test.ts --runInBand",
+      "replayCommand": "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts src/__tests__/read-need.test.ts src/__tests__/asset-pack-disclosure.test.ts --runInBand && pnpm run check:v32-reading-pipeline-proof-coverage",
       "requiredContexts": [
         "ReadNeedComprehensionSynthesis",
         "ReadFitsFindingSynthesis",
