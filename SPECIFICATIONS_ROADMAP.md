@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 1 Provation Roadmap Opening, which opens V32 as the proof/testing-deepening version over promoted V31 and wires the roadmap, spec family, workflows, and first checker for V31 active / V32 draft posture.
+- Current working gate: V32 Gate 2 Proof Matrix Inventory And Required Contexts, which turns the opened V32 provation plan into a generated, source-safe proof/test coverage matrix across Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger, database, object storage, promotion, and protocol-demonstration surfaces.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
