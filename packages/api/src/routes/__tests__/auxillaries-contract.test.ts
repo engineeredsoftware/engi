@@ -223,6 +223,105 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.organizationAuthority.policy.policyHash).toMatch(/^[0-9a-f]{64}$/);
     expect(payload.organizationAuthority.actionDecision?.decision).toBe('allowed');
     expect(payload.organizationAuthority.authorityRoot).toMatch(/^btd-proof-root:organization-policy-authority:/);
+    expect(payload.interfaceAdmissions.map((admission) => admission.interfaceId)).toEqual([
+      'terminal',
+      'api',
+      'mcp',
+      'chatgpt-app',
+      'exchange-hook',
+      'conversations-hook',
+      'future-interface-hooks',
+    ]);
+    expect(payload.interfaceAdmissions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          interfaceId: 'terminal',
+          surface: 'terminal',
+          authMode: 'session',
+          readiness: 'ready',
+          policyRequirements: expect.arrayContaining([
+            'session_required',
+            'organization_policy_required_for_protected_actions',
+          ]),
+          supportedActions: expect.arrayContaining([
+            'request_read',
+            'review_need',
+            'request_finding_fits',
+            'pay_btc_fee',
+            'deliver_asset_pack',
+          ]),
+          allowedActions: expect.arrayContaining([
+            'request_read',
+            'review_need',
+            'request_finding_fits',
+          ]),
+          sourceSafetyClass: 'source_safe',
+          deferredProductDepth: 'none',
+        }),
+        expect.objectContaining({
+          interfaceId: 'api',
+          surface: 'api',
+          authMode: 'api_key',
+          readiness: 'ready',
+          sourceSafetyClass: 'secret_free_summary',
+          policyRequirements: expect.arrayContaining(['api_key_required', 'provider_scope_required']),
+          supportedActions: expect.arrayContaining(['read_support_state', 'deliver_asset_pack']),
+        }),
+        expect.objectContaining({
+          interfaceId: 'mcp',
+          surface: 'mcp',
+          authMode: 'provider_oauth',
+          readiness: 'ready',
+          sourceSafetyClass: 'secret_free_summary',
+          policyRequirements: expect.arrayContaining([
+            'provider_oauth_required',
+            'wallet_binding_required_for_delivery',
+            'organization_policy_required_for_protected_actions',
+          ]),
+        }),
+        expect.objectContaining({
+          interfaceId: 'chatgpt-app',
+          surface: 'chatgpt_app',
+          authMode: 'session',
+          readiness: 'ready',
+          sourceSafetyClass: 'protected_source_redacted',
+          policyRequirements: expect.arrayContaining([
+            'protected_source_never_embedded_before_paid_unlock',
+          ]),
+        }),
+        expect.objectContaining({
+          interfaceId: 'exchange-hook',
+          surface: 'exchange',
+          authMode: 'wallet_signature',
+          readiness: 'blocked',
+          allowedActions: [],
+          blockers: ['exchange.market_depth_deferred_to_future_version'],
+          deferredProductDepth: 'exchange_market_law',
+        }),
+        expect.objectContaining({
+          interfaceId: 'conversations-hook',
+          surface: 'future_hook',
+          authMode: 'not_admitted',
+          readiness: 'blocked',
+          allowedActions: [],
+          blockers: ['conversations.product_depth_deferred_to_future_version'],
+          deferredProductDepth: 'conversations_product_depth',
+        }),
+        expect.objectContaining({
+          interfaceId: 'future-interface-hooks',
+          surface: 'future_hook',
+          authMode: 'not_admitted',
+          readiness: 'blocked',
+          allowedActions: [],
+          blockers: ['future_hooks.interface_contract_unregistered'],
+          deferredProductDepth: 'future_interface_contract',
+        }),
+      ]),
+    );
+    for (const admission of payload.interfaceAdmissions) {
+      expect(admission.interfaceAdmissionRoot).toMatch(/^[0-9a-f]{64}$/);
+      expect(admission.policyConstraints).toEqual(admission.policyRequirements);
+    }
     expect(payload.auxillariesContract.contractVersion).toBe(AUXILLARIES_CONTRACT_VERSION);
     expect(validateAuxillariesContractSnapshot(payload.auxillariesContract)).toEqual({
       valid: true,

@@ -228,10 +228,13 @@ export interface AuxillariesInterfaceAdmission {
   surface: 'terminal' | 'api' | 'mcp' | 'chatgpt_app' | 'exchange' | 'future_hook';
   authMode: 'session' | 'api_key' | 'provider_oauth' | 'wallet_signature' | 'not_admitted';
   readiness: AuxillariesReadinessState;
+  policyRequirements: string[];
   policyConstraints: string[];
+  supportedActions: string[];
   allowedActions: string[];
   blockers: string[];
   sourceSafetyClass: AuxillariesSourceSafetyClass;
+  deferredProductDepth: 'none' | 'exchange_market_law' | 'conversations_product_depth' | 'future_interface_contract';
   interfaceAdmissionRoot: string;
 }
 
@@ -1059,67 +1062,183 @@ export function buildAuxillariesInterfaceAdmissions(input: {
     (connection) => connection.provider === 'github' && connection.connected && connection.valid,
   );
   const walletReady = input.walletBtdPaneState.walletCapability.hasBinding;
-  const profileReady = input.profileState.accountReadiness === 'ready';
+  const profileIdentityReady = input.profileState.profileCompleteness.blockers.length === 0;
+  const organizationPolicyReady = input.organizationAuthority.policyDecision === 'allowed';
+  const terminalActions = [
+    'read_transaction',
+    'request_read',
+    'review_need',
+    'request_finding_fits',
+    'review_asset_pack_preview',
+    'pay_btc_fee',
+    'unlock_asset_pack_source',
+    'deliver_asset_pack',
+    'repair_projection',
+    'administer_organization',
+  ];
 
   return [
     buildAuxillariesInterfaceAdmission({
       interfaceId: 'terminal',
       surface: 'terminal',
       authMode: 'session',
-      readiness: profileReady ? 'ready' : 'blocked',
-      policyConstraints: ['session_required', 'source_safe_preview_by_default'],
-      allowedActions: profileReady
-        ? ['read_auxillaries', 'request_read', 'review_need', 'request_finding_fits']
-        : ['read_public_terminal'],
-      blockers: profileReady ? [] : ['profile.identity_required'],
+      readiness: profileIdentityReady ? 'ready' : 'blocked',
+      policyRequirements: [
+        'session_required',
+        'organization_policy_required_for_protected_actions',
+        'source_safe_preview_by_default',
+      ],
+      supportedActions: terminalActions,
+      admittedActions: profileIdentityReady
+        ? ['read_transaction', 'request_read', 'review_need', 'request_finding_fits', 'review_asset_pack_preview']
+        : ['read_transaction'],
+      blockers: profileIdentityReady ? [] : ['profile.identity_required'],
     }),
     buildAuxillariesInterfaceAdmission({
       interfaceId: 'api',
       surface: 'api',
       authMode: 'api_key',
-      readiness: profileReady && githubReady ? 'ready' : 'degraded',
-      policyConstraints: ['api_key_required', 'provider_scope_required'],
-      allowedActions: profileReady && githubReady ? ['read_support_state', 'request_read'] : ['read_support_state'],
+      readiness: profileIdentityReady && githubReady ? 'ready' : 'degraded',
+      policyRequirements: [
+        'api_key_required',
+        'provider_scope_required',
+        'organization_policy_required_for_write_actions',
+        'secret_free_summary_only',
+      ],
+      supportedActions: [
+        'read_support_state',
+        'request_read',
+        'review_need',
+        'request_finding_fits',
+        'deliver_asset_pack',
+      ],
+      admittedActions: profileIdentityReady && githubReady ? ['read_support_state', 'request_read'] : ['read_support_state'],
       blockers: githubReady ? [] : ['connects.github_provider_required'],
+      sourceSafetyClass: 'secret_free_summary',
     }),
     buildAuxillariesInterfaceAdmission({
       interfaceId: 'mcp',
       surface: 'mcp',
       authMode: 'provider_oauth',
-      readiness: githubReady && walletReady ? 'ready' : 'degraded',
-      policyConstraints: ['provider_oauth_required', 'wallet_binding_recommended'],
-      allowedActions: githubReady ? ['read_repository_context'] : [],
+      readiness: githubReady && walletReady && organizationPolicyReady ? 'ready' : githubReady ? 'degraded' : 'blocked',
+      policyRequirements: [
+        'provider_oauth_required',
+        'provider_scope_required',
+        'wallet_binding_required_for_delivery',
+        'organization_policy_required_for_protected_actions',
+      ],
+      supportedActions: [
+        'read_repository_context',
+        'request_read',
+        'request_finding_fits',
+        'deliver_asset_pack',
+      ],
+      admittedActions: githubReady ? ['read_repository_context'] : [],
       blockers: [
         githubReady ? null : 'connects.github_provider_required',
-        walletReady ? null : 'wallet.binding_recommended',
+        walletReady ? null : 'wallet.binding_required_for_delivery',
+        organizationPolicyReady ? null : 'organization.policy_authority_required',
       ].filter((entry): entry is string => Boolean(entry)),
+      sourceSafetyClass: 'secret_free_summary',
     }),
     buildAuxillariesInterfaceAdmission({
       interfaceId: 'chatgpt-app',
       surface: 'chatgpt_app',
       authMode: 'session',
-      readiness: profileReady ? 'ready' : 'blocked',
-      policyConstraints: ['session_required', 'protected_source_never_embedded_before_paid_unlock'],
-      allowedActions: profileReady ? ['review_source_safe_preview'] : [],
-      blockers: profileReady ? [] : ['profile.identity_required'],
+      readiness: profileIdentityReady && githubReady ? 'ready' : profileIdentityReady ? 'degraded' : 'blocked',
+      policyRequirements: [
+        'session_required',
+        'provider_scope_required',
+        'organization_policy_required_for_delivery_writes',
+        'protected_source_never_embedded_before_paid_unlock',
+      ],
+      supportedActions: ['review_need', 'request_finding_fits', 'review_asset_pack_preview', 'deliver_asset_pack'],
+      admittedActions: profileIdentityReady ? ['review_need', 'review_asset_pack_preview'] : [],
+      blockers: [
+        profileIdentityReady ? null : 'profile.identity_required',
+        githubReady ? null : 'connects.github_provider_required',
+      ].filter((entry): entry is string => Boolean(entry)),
+      sourceSafetyClass: 'protected_source_redacted',
     }),
     buildAuxillariesInterfaceAdmission({
-      interfaceId: 'exchange',
+      interfaceId: 'exchange-hook',
       surface: 'exchange',
       authMode: 'wallet_signature',
-      readiness: input.organizationAuthority.policyDecision === 'allowed' && walletReady ? 'degraded' : 'blocked',
-      policyConstraints: ['future_exchange_law_deferred', 'wallet_signature_required'],
-      allowedActions: [],
+      readiness: 'blocked',
+      policyRequirements: [
+        'future_exchange_law_deferred',
+        'wallet_signature_required',
+        'btc_settlement_required_before_source_unlock',
+      ],
+      supportedActions: ['pay_btc_fee', 'unlock_asset_pack_source'],
+      admittedActions: [],
       blockers: ['exchange.market_depth_deferred_to_future_version'],
+      sourceSafetyClass: 'protected_source_redacted',
+      deferredProductDepth: 'exchange_market_law',
+    }),
+    buildAuxillariesInterfaceAdmission({
+      interfaceId: 'conversations-hook',
+      surface: 'future_hook',
+      authMode: 'not_admitted',
+      readiness: 'blocked',
+      policyRequirements: [
+        'conversations_product_depth_deferred',
+        'interface_admission_record_required',
+        'protected_source_never_embedded_before_paid_unlock',
+      ],
+      supportedActions: ['review_need', 'request_finding_fits', 'review_asset_pack_preview'],
+      admittedActions: [],
+      blockers: ['conversations.product_depth_deferred_to_future_version'],
+      sourceSafetyClass: 'protected_source_redacted',
+      deferredProductDepth: 'conversations_product_depth',
+    }),
+    buildAuxillariesInterfaceAdmission({
+      interfaceId: 'future-interface-hooks',
+      surface: 'future_hook',
+      authMode: 'not_admitted',
+      readiness: 'blocked',
+      policyRequirements: ['future_hook_contract_required', 'interface_admission_record_required'],
+      supportedActions: ['read_transaction'],
+      admittedActions: [],
+      blockers: ['future_hooks.interface_contract_unregistered'],
+      deferredProductDepth: 'future_interface_contract',
     }),
   ];
 }
 
-export function buildAuxillariesInterfaceAdmission(input: Omit<AuxillariesInterfaceAdmission, 'kind' | 'sourceSafetyClass' | 'interfaceAdmissionRoot'>): AuxillariesInterfaceAdmission {
+export function buildAuxillariesInterfaceAdmission(
+  input: Omit<
+    AuxillariesInterfaceAdmission,
+    | 'kind'
+    | 'sourceSafetyClass'
+    | 'policyConstraints'
+    | 'allowedActions'
+    | 'deferredProductDepth'
+    | 'interfaceAdmissionRoot'
+  > & {
+    admittedActions?: string[];
+    policyConstraints?: string[];
+    sourceSafetyClass?: AuxillariesSourceSafetyClass;
+    deferredProductDepth?: AuxillariesInterfaceAdmission['deferredProductDepth'];
+  },
+): AuxillariesInterfaceAdmission {
+  const policyRequirements = normalizeSourceSafeList(input.policyRequirements);
+  const supportedActions = normalizeSourceSafeList(input.supportedActions);
+  const allowedActions = normalizeSourceSafeList(input.admittedActions ?? supportedActions);
+  const blockers = normalizeSourceSafeList(input.blockers);
   const withoutRoot = {
     kind: 'AuxillariesInterfaceAdmission' as const,
-    ...input,
-    sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
+    interfaceId: input.interfaceId,
+    surface: input.surface,
+    authMode: input.authMode,
+    readiness: input.readiness,
+    policyRequirements,
+    policyConstraints: normalizeSourceSafeList(input.policyConstraints ?? policyRequirements),
+    supportedActions,
+    allowedActions,
+    blockers,
+    sourceSafetyClass: input.sourceSafetyClass ?? ('source_safe' as AuxillariesSourceSafetyClass),
+    deferredProductDepth: input.deferredProductDepth ?? 'none',
   };
 
   return {
@@ -1391,6 +1510,54 @@ export function validateAuxillariesContractSnapshot(value: unknown): Auxillaries
   if (!asRecord(record.profileState)) errors.push('profileState is required');
   if (!Array.isArray(record.connectionReadiness)) errors.push('connectionReadiness must be an array');
   if (!Array.isArray(record.interfaceAdmissions)) errors.push('interfaceAdmissions must be an array');
+  if (Array.isArray(record.interfaceAdmissions)) {
+    const requiredInterfaceIds = new Set([
+      'terminal',
+      'api',
+      'mcp',
+      'chatgpt-app',
+      'exchange-hook',
+      'conversations-hook',
+      'future-interface-hooks',
+    ]);
+    const observedInterfaceIds = new Set<string>();
+    for (const [index, admission] of record.interfaceAdmissions.entries()) {
+      const interfaceAdmission = asRecord(admission);
+      if (!interfaceAdmission) {
+        errors.push(`interfaceAdmissions[${index}] must be an object`);
+        continue;
+      }
+      const interfaceId = readString(interfaceAdmission.interfaceId);
+      if (interfaceId) observedInterfaceIds.add(interfaceId);
+      if (!interfaceId) errors.push(`interfaceAdmissions[${index}].interfaceId is required`);
+      if (!readString(interfaceAdmission.surface)) errors.push(`interfaceAdmissions[${index}].surface is required`);
+      if (!readString(interfaceAdmission.authMode)) errors.push(`interfaceAdmissions[${index}].authMode is required`);
+      if (!readString(interfaceAdmission.readiness)) errors.push(`interfaceAdmissions[${index}].readiness is required`);
+      if (!Array.isArray(interfaceAdmission.policyRequirements)) {
+        errors.push(`interfaceAdmissions[${index}].policyRequirements must be an array`);
+      }
+      if (!Array.isArray(interfaceAdmission.supportedActions)) {
+        errors.push(`interfaceAdmissions[${index}].supportedActions must be an array`);
+      }
+      if (!Array.isArray(interfaceAdmission.allowedActions)) {
+        errors.push(`interfaceAdmissions[${index}].allowedActions must be an array`);
+      }
+      if (!Array.isArray(interfaceAdmission.blockers)) {
+        errors.push(`interfaceAdmissions[${index}].blockers must be an array`);
+      }
+      if (!readString(interfaceAdmission.sourceSafetyClass)) {
+        errors.push(`interfaceAdmissions[${index}].sourceSafetyClass is required`);
+      }
+      if (!readString(interfaceAdmission.interfaceAdmissionRoot)) {
+        errors.push(`interfaceAdmissions[${index}].interfaceAdmissionRoot is required`);
+      }
+    }
+    for (const requiredInterfaceId of requiredInterfaceIds) {
+      if (!observedInterfaceIds.has(requiredInterfaceId)) {
+        errors.push(`interfaceAdmissions missing ${requiredInterfaceId}`);
+      }
+    }
+  }
   if (!asRecord(record.walletBtdPaneState)) errors.push('walletBtdPaneState is required');
   if (!asRecord(record.organizationAuthority)) errors.push('organizationAuthority is required');
   if (!Array.isArray(record.readinessDiagnostics)) errors.push('readinessDiagnostics must be an array');
@@ -1653,6 +1820,16 @@ function readStringList(value: unknown): string[] {
       .filter(Boolean);
   }
   return [];
+}
+
+function normalizeSourceSafeList(value: unknown): string[] {
+  return Array.from(
+    new Set(
+      readStringList(value)
+        .map((entry) => entry.trim())
+        .filter((entry) => entry.length > 0),
+    ),
+  );
 }
 
 function hasProviderTokenEvidence(value: UnknownRecord | null) {

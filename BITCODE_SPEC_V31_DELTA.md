@@ -179,6 +179,14 @@ Closure acceptance:
 - each record names auth mode, supported actions, source-safety class, policy requirements, blockers, and readiness;
 - V31 does not implement deferred Exchange market law or Conversations product depth.
 
+Gate 7 implementation centers:
+
+- `packages/api/src/routes/auxillaries-contract.ts` deepens `AuxillariesInterfaceAdmission` with `policyRequirements`, legacy-compatible `policyConstraints`, `supportedActions`, current `allowedActions`, `sourceSafetyClass`, `deferredProductDepth`, blockers, readiness, and proof roots;
+- `buildAuxillariesInterfaceAdmissions` emits the required catalog for Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks, keeping Exchange and Conversations blocked as deferred product-depth hooks;
+- `validateAuxillariesContractSnapshot` now fails malformed snapshots that omit required interface ids or the required admission fields;
+- `uapi/hooks/useUserData.ts` and `.js` carry `interfaceAdmissions` into UI read models, and `AuxillariesInterfacesPane.tsx` renders the source-safe catalog without deriving policy locally;
+- focused API and Interfaces pane tests assert supported actions, admitted actions, policy requirements, source-safety classes, deferred blockers, proof roots, and autosaved interface defaults.
+
 ### Gate 8: Auxillaries UX Accessibility And Responsive Proof
 
 Gate 8 proves the user experience.

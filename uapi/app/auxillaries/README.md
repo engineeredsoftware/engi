@@ -76,6 +76,14 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
   authority root. The pane may display source-safe authority blockers and roots,
   but must not rederive organization policy locally or treat multi-sig readiness
   as value-bearing mainnet approval.
+- Interfaces consumes package-owned `interfaceAdmissions` from
+  `/api/auxillaries/data`. The pane renders the source-safe admission catalog
+  for Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and
+  future interface hooks, including auth mode, supported actions, currently
+  admitted actions, policy requirements, source-safety class, blockers,
+  readiness, deferred-product depth, and interface-admission roots. It must not
+  recalculate policy locally or unlock Exchange/Conversations product depth in
+  V31.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.
 

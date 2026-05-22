@@ -81,6 +81,7 @@ export interface AggregatedUserData {
   profileState?: any | null;
   auxillariesContract?: any | null;
   connectionReadiness?: any[];
+  interfaceAdmissions?: any[];
   walletBtdPaneState?: any | null;
   organizationAuthority?: any | null;
   readinessDiagnostics?: any[];
@@ -108,6 +109,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   profileState: null,
   auxillariesContract: null,
   connectionReadiness: [],
+  interfaceAdmissions: [],
   walletBtdPaneState: null,
   organizationAuthority: null,
   readinessDiagnostics: [],
@@ -444,6 +446,7 @@ export function useUserData() {
       : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
   const recentBtdAssetPacks = Array.isArray(data?.recentBtdAssetPacks) ? data.recentBtdAssetPacks : [];
   const connectionReadiness = Array.isArray(data?.connectionReadiness) ? data.connectionReadiness : [];
+  const interfaceAdmissions = Array.isArray(data?.interfaceAdmissions) ? data.interfaceAdmissions : [];
   const walletBtdPaneState =
     data?.walletBtdPaneState && typeof data.walletBtdPaneState === 'object'
       ? data.walletBtdPaneState
@@ -474,6 +477,7 @@ export function useUserData() {
     btcFeeBalance,
     recentBtdAssetPacks,
     connectionReadiness,
+    interfaceAdmissions,
     walletBtdPaneState,
     organizationAuthority,
     recoveryRuns,

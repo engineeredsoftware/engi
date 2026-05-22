@@ -19,6 +19,53 @@ describe('AuxillariesInterfacesPane', () => {
           existingSetting: 'keep-me',
           review_profile: 'bitcode-review-lab',
         },
+        interfaceAdmissions: [
+          {
+            kind: 'AuxillariesInterfaceAdmission',
+            interfaceId: 'terminal',
+            surface: 'terminal',
+            authMode: 'session',
+            readiness: 'ready',
+            policyRequirements: ['session_required', 'organization_policy_required_for_protected_actions'],
+            policyConstraints: ['session_required', 'organization_policy_required_for_protected_actions'],
+            supportedActions: ['request_read', 'review_need', 'request_finding_fits'],
+            allowedActions: ['request_read', 'review_need'],
+            blockers: [],
+            sourceSafetyClass: 'source_safe',
+            deferredProductDepth: 'none',
+            interfaceAdmissionRoot: 'terminal-root',
+          },
+          {
+            kind: 'AuxillariesInterfaceAdmission',
+            interfaceId: 'mcp',
+            surface: 'mcp',
+            authMode: 'provider_oauth',
+            readiness: 'degraded',
+            policyRequirements: ['provider_oauth_required', 'wallet_binding_required_for_delivery'],
+            policyConstraints: ['provider_oauth_required', 'wallet_binding_required_for_delivery'],
+            supportedActions: ['read_repository_context', 'deliver_asset_pack'],
+            allowedActions: ['read_repository_context'],
+            blockers: ['wallet.binding_required_for_delivery'],
+            sourceSafetyClass: 'secret_free_summary',
+            deferredProductDepth: 'none',
+            interfaceAdmissionRoot: 'mcp-root',
+          },
+          {
+            kind: 'AuxillariesInterfaceAdmission',
+            interfaceId: 'exchange-hook',
+            surface: 'exchange',
+            authMode: 'wallet_signature',
+            readiness: 'blocked',
+            policyRequirements: ['future_exchange_law_deferred', 'wallet_signature_required'],
+            policyConstraints: ['future_exchange_law_deferred', 'wallet_signature_required'],
+            supportedActions: ['pay_btc_fee', 'unlock_asset_pack_source'],
+            allowedActions: [],
+            blockers: ['exchange.market_depth_deferred_to_future_version'],
+            sourceSafetyClass: 'protected_source_redacted',
+            deferredProductDepth: 'exchange_market_law',
+            interfaceAdmissionRoot: 'exchange-root',
+          },
+        ],
       },
       hasGitHubConnection: true,
       btdBalance: 1200,
@@ -45,6 +92,13 @@ describe('AuxillariesInterfacesPane', () => {
     expect(screen.getByText(/Terminal detail and interface defaults/i)).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Interface instruction baseline/i })).toBeTruthy();
     expect(screen.getByText(/Registry fixed/i)).toBeInTheDocument();
+    expect(screen.getByTestId('auxillaries-interface-admission-catalog')).toBeInTheDocument();
+    expect(screen.getAllByText(/terminal/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/mcp/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/exchange hook/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/wallet binding required for delivery/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/exchange market depth deferred to future version/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/1\/3 ready/i)).toBeInTheDocument();
     expect(screen.queryByText(/Apply review model/i)).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /signal/i }));

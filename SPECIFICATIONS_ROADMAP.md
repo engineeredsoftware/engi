@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 6 Organization Team Role Policy Authority, which binds account, organization, team, member, role, explicit grants, wallet binding, policy id/hash, multi-sig readiness, policy decision, denial reason, and recovery route into one package-owned authority object consumed by Auxillaries and Terminal.
+- Current working gate: V31 Gate 7 Interfaces Pane Admission And Cross-Surface Contracts, which turns the Interfaces pane into the source-safe admission catalog for Terminal, API, MCP, ChatGPT App, Exchange, Conversations, and future hooks with auth mode, supported actions, current admitted actions, policy requirements, source-safety class, blockers, readiness, deferred-product boundaries, and proof roots.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

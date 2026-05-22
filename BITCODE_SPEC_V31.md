@@ -268,6 +268,10 @@ Gate 7 Interfaces precision:
 
 - Interface admission records enumerate surface id, auth mode, supported actions, required policy, source-safety class, and current readiness.
 - Interfaces may point to Terminal, API, MCP, ChatGPT App, Exchange, or future hooks, but V31 does not implement deferred Exchange market law or Conversations product depth.
+- `AuxillariesInterfaceAdmission` now distinguishes `supportedActions` from the currently admitted `allowedActions`, so a surface can advertise the product action family it understands while remaining blocked or degraded for the current user/account posture.
+- Each admission record carries `policyRequirements`, legacy-compatible `policyConstraints`, blockers, `deferredProductDepth`, source-safety class, and `interfaceAdmissionRoot`.
+- The required V31 admission catalog contains `terminal`, `api`, `mcp`, `chatgpt-app`, `exchange-hook`, `conversations-hook`, and `future-interface-hooks`.
+- Exchange and Conversations records are present as source-safe hooks only; they remain blocked with explicit deferred-product blockers until later versions implement market law or Conversations product depth.
 
 Gate 8 UX precision:
 
@@ -359,6 +363,7 @@ V31 adds a package-owned proof that interface surfaces consume admitted Auxillar
 - Terminal, API, MCP, and ChatGPT App may read interface admission to gate source-safe actions and protected actions.
 - Exchange and Conversations remain deferred product-depth hooks, not admitted market or conversation implementation.
 - The proof fails closed on missing auth mode, unsupported action, protected source, secrets, route-local policy copies, stale readiness, or missing policy root.
+- The Auxillaries Interfaces pane renders the same admission records as a catalog: surface, auth mode, readiness, source-safety class, supported actions, currently admitted actions, policy requirements, blockers, and proof root. It does not recalculate policy locally.
 
 ## V31 local and staging promotion readiness canon
 

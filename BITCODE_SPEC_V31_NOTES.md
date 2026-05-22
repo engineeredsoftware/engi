@@ -57,7 +57,7 @@ V31 owns deeper Auxillaries:
 
 - Profile and account completeness become typed, persisted, projected, and recoverable.
 - Connects show provider readiness, credential posture without secrets, repair actions, retry semantics, and readback evidence.
-- Interfaces enumerate admitted commercial surfaces with auth modes, action boundaries, readiness, and source-safety posture.
+- Interfaces enumerate admitted commercial surfaces with auth modes, supported actions, currently admitted actions, policy requirements, blockers, readiness, source-safety posture, deferred-product boundaries, and proof roots. The V31 catalog includes Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks; Exchange market law and Conversations product depth remain explicitly blocked.
 - Wallet and BTD panes consume V30 wallet, signer, BTD range, read-right, treasury, settlement, and no-custody primitives.
 - Organization, team, member role, multi-sig readiness, explicit grants, policy decisions, denial reasons, and recovery routes become package-owned and UI-visible.
 - Readiness diagnostics and recovery runs are executions with source-safe before/after evidence.
