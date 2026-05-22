@@ -2,10 +2,10 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
-- Current active canon: `BITCODE_SPEC_V31.md`
-- Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 10 Promotion Readiness, which closes V32 by wiring promotion workflow validation, source-safe QA evidence, generated V32 proof artifacts including `BITCODE_SPEC_V32_PROVEN.md`, and active V32 / draft V33 runtime posture preparation.
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V32`
+- Current active canon: `BITCODE_SPEC_V32.md`
+- Current draft target: `BITCODE_SPEC_V33.md`
+- Current working gate: V33 Gate 1 Interface Roadmap And Spec Opening, which opens V33 interface-depth work by making the roadmap truthful after V32 promotion, creating the V33 spec family, and wiring fail-closed V33 Gate 1 validation.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
@@ -17,9 +17,9 @@ They are referenced here for specification history only; active implementation w
 ## Source Families
 
 - Legacy ENGI specifications: `_legacy/ENGI_SPEC_V1.md` through `_legacy/ENGI_SPEC_V25.md`, with companion `NOTES`, `DELTA`, `PARITY_MATRIX`, `SYSTEM_PARITY_MATRIX`, `PROVEN`, and audit files where present.
-- Active Bitcode specifications: `BITCODE_SPEC_V31.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V30.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Draft and future Bitcode specifications: `BITCODE_SPEC_V32.md`, `BITCODE_SPEC_V32_DELTA.md`, `BITCODE_SPEC_V32_NOTES.md`, `BITCODE_SPEC_V32_PARITY_MATRIX.md`, and `BITCODE_SPEC_V33_NOTES.md` through `BITCODE_SPEC_V37_NOTES.md`.
+- Active Bitcode specifications: `BITCODE_SPEC_V32.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V31.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Draft and future Bitcode specifications: `BITCODE_SPEC_V33.md`, `BITCODE_SPEC_V33_DELTA.md`, `BITCODE_SPEC_V33_NOTES.md`, `BITCODE_SPEC_V33_PARITY_MATRIX.md`, and `BITCODE_SPEC_V34_NOTES.md` through `BITCODE_SPEC_V37_NOTES.md`.
 - Specification discipline references: `BITCODE_SPECIFYING.md` and `BITCODE_SPEC_TEMPLATEGUIDE.md`.
 
 ## Roadmap
@@ -56,9 +56,9 @@ They are referenced here for specification history only; active implementation w
 | V28 | `BITCODE_SPEC_V28.md` | promoted historical Bitcode canon | Commercial Protocol implementation and Terminal MVP: Depositing, Read Request, Read-Need Comprehension, Finding Fits, source-safe AssetPack preview, settlement posture, BTD range/read-right state, PR delivery, streaming pipeline telemetry, staging-testnet harnesses, MCP/ChatGPT App MVP, demonstration boundary cleanup, and unversioned route discipline. |
 | V29 | `BITCODE_SPEC_V29.md` | promoted historical Bitcode canon | Deeper Terminal transaction cockpit: route-owned transaction state, Wallet/BTC operation depth, Reading pipeline observability, AssetPack disclosure rights, settlement reconciliation/repair, organization permission authority, browser-proven Terminal UX, local/staging promotion readiness, and V29 canonical promotion. |
 | V30 | `BITCODE_SPEC_V30.md` | promoted historical Bitcode canon | Protocol/BTD hardening after V28/V29: package API boundaries, Bitcoin/Taproot/PSBT rigor, BTD-AssetPack mint/read/right-transfer receipts, testnet ledger/database/object-storage projection hardening, source-to-shares proof cleanup, bridge-readiness research boundaries, Protocol/BTD telemetry/proof hooks, interface regression proof, and V30 promotion readiness. Exchange is not V30. |
-| V31 | `BITCODE_SPEC_V31.md` | active canon | Deeper Auxillaries over stable V30 Protocol/BTD rails: Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team/org/wallet/multi-sig/role/policy controls, readiness diagnostics, recovery flows, responsive/accessibility QA, Auxillaries-specific telemetry/proof hooks, and V31 promotion readiness. |
-| V32 | `BITCODE_SPEC_V32.md` | active draft target | Deeper provation and testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails: proof-family replay, deterministic artifact generation, E2E/failure-state breadth, cross-surface regression suites, scenario expansion, visual/accessibility/responsive tests, readiness rehearsal, and promotion-proof hardening. |
-| V33 | `BITCODE_SPEC_V33_NOTES.md` | future notes | Deeper Interfaces beyond the V28 MVP: mature MCP API, ChatGPT App, API packaging, schemas, examples, contract tests, interface auth, policy checks, fail-closed read/license behavior, and commercial non-Auxillaries non-website application interfaces using package-owned Protocol/BTD objects. |
+| V31 | `BITCODE_SPEC_V31.md` | promoted historical Bitcode canon | Deeper Auxillaries over stable V30 Protocol/BTD rails: Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team/org/wallet/multi-sig/role/policy controls, readiness diagnostics, recovery flows, responsive/accessibility QA, Auxillaries-specific telemetry/proof hooks, and V31 promotion readiness. |
+| V32 | `BITCODE_SPEC_V32.md` | active canon | Deeper provation and testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails: proof-family replay, deterministic artifact generation, E2E/failure-state breadth, cross-surface regression suites, scenario expansion, visual/accessibility/responsive tests, readiness rehearsal, and promotion-proof hardening. |
+| V33 | `BITCODE_SPEC_V33.md` | active draft target | Deeper Interfaces beyond the V28 MVP: mature MCP API, ChatGPT App, public API packaging, package-owned schemas, examples, contract tests, interface authorization policy, fail-closed read/license behavior, AssetPack rights contracts, schema compatibility matrices, and interface telemetry/proof replay hooks for commercial non-Auxillaries non-website application interfaces. |
 | V34 | `BITCODE_SPEC_V34_NOTES.md` | future notes | Deeper Deployment: host capabilities, real executions, distributed compute aligned with provations, runtime/storage expectations, ledger/database/object-storage/proof-artifact posture, CI/CD for canonical promotions, environment lanes, deployment approvals, rollback, upgrades, secret rotation, and repair playbooks. |
 | V35 | `BITCODE_SPEC_V35_NOTES.md` | future notes | Deeper telemetry and documenting: internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert runbooks, incident response, operator escalation, documentation QA across code/spec/proofs/deployments, developer onboarding, operator guides, and testnet-rollout readiness material. |
 | V36 | `BITCODE_SPEC_V36_NOTES.md` | future notes | Deeper Exchange after V35: Exchange MVP/deepening, market-wide activity master-detail, buy/sell/bid/ask/cancel/accept/settle/history flows, AssetPack range trading, rights-transfer review, liquidity/wrapper analysis, dispute/repair/revenue-route operations, and Exchange-specific tests/proofs. |
@@ -72,8 +72,8 @@ They are referenced here for specification history only; active implementation w
 4. V29 promoted the deeper Terminal transaction cockpit: recoverable transaction routes, Wallet/BTC operation detail, Reading observability, disclosure rights, reconciliation repair, organization authority, browser-proof UX, and promotion readiness.
 5. V30 promoted Protocol/BTD rails beneath V28/V29: packages, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness boundaries, telemetry/proof hooks, interface regression, and promotion readiness.
 6. V31 promoted Auxillaries after Protocol/BTD objects were stable enough for account, wallet, provider, team, role, and policy support surfaces.
-7. V32 is the current draft target and deepens provation and testing after Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, and demonstration rails are stable enough to prove broadly.
-8. V33 deepens commercial interfaces outside the website/Auxillaries frame beyond the V28 MCP API and ChatGPT App MVP.
+7. V32 promoted deeper provation and testing after Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, and demonstration rails were stable enough to prove broadly.
+8. V33 is the current draft target and deepens commercial interfaces outside the website/Auxillaries frame beyond the V28 MCP API and ChatGPT App MVP.
 9. V34 makes deployment, host capability, distributed execution, storage, CI/CD, and promotion operations robust enough for testnet-facing reality.
 10. V35 deepens telemetry and documentation as the prelude to full commercial application testnet rollout.
 11. V36+ returns to deferred Exchange and website Conversations after the Protocol/Terminal/Auxillaries/interface/deployment/documentation spine is mature.
@@ -82,6 +82,6 @@ They are referenced here for specification history only; active implementation w
 
 - Do not treat `_legacy/` ENGI specifications as active implementation authority.
 - Do use `_legacy/` specifications to understand why current Bitcode concepts exist and what must not regress.
-- V32+ work must build on V31 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
+- V33+ work must build on V32 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
 - No implementation route should be versioned by spec number; source should move in place with the active canon.
 - Future notes files are planning memory only until their version is explicitly opened as the draft-target SPEC family.

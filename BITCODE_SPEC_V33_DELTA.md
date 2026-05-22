@@ -1,0 +1,162 @@
+# Bitcode Spec V33 Delta
+
+## Status
+
+- Version: `V33`
+- V33 state: draft target delta opened; interface-depth decisions are being specified over active V32 canon
+- Current canonical/latest target: `V32`
+- Prior canonical anchor: `BITCODE_SPEC_V32.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`; later V33 gates may add source-safe interface proof artifacts
+- Source parity state: Gate 1 opens the V33 parity ledger and checker; source implementation remains gate-scoped
+- Spec companion: `BITCODE_SPEC_V33.md`
+- Notes companion: `BITCODE_SPEC_V33_NOTES.md`
+- Parity companion: `BITCODE_SPEC_V33_PARITY_MATRIX.md`
+- Generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md` only after V33 promotion
+
+## Why V33 exists
+
+V32 promoted proof and testing depth across Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, browser proof, readiness rehearsal, and promotion automation.
+That made the core commercial system more provable.
+
+V33 exists because external enterprise consumers still need a deeper, stable, source-safe interface layer beyond the V28 MCP API and ChatGPT App MVP.
+MCP API, ChatGPT App, public API, and package consumers must share package-owned schemas, authorization policies, source-safe examples, compatibility tests, and telemetry/proof replay hooks instead of duplicating Terminal-local behavior.
+
+## Accepted V33 decisions
+
+- V32 remains active canon during V33 drafting.
+- V33 gate branches are opened from `version/v33` and merged back only when their gate acceptance criteria are closed.
+- V33 owns interface-depth: MCP API, ChatGPT App, public API, interface authorization policy, API schemas, examples, compatibility matrices, source-safe Read license contracts, AssetPack rights contracts, and interface telemetry/proof replay hooks.
+- V33 does not reopen BTD supply law, Reading pipeline product law, Exchange product depth, website Conversations product depth, deployment operations depth, or broad telemetry/documentation programs.
+- V33 interface contracts must be package-owned before they are exposed by MCP tools, ChatGPT App actions, public API routes, or Terminal handoffs.
+- Interface responses must be source-safe before settlement and must fail closed on missing auth, missing wallet capability, missing read license, unpaid protected-source request, stale proof, projection drift, or incompatible schema.
+- `InterfaceContractCatalog`, `InterfaceAuthorizationPolicy`, `ReadLicenseInterfaceContract`, `AssetPackRightsInterfaceContract`, `APISchemaCompatibilityMatrix`, and `InterfaceTelemetryProofHook` are the initial V33 contract anchors.
+
+## Explicitly deferred
+
+- V34 owns deployment, host capability, distributed execution, runtime/storage, environment lanes, CI/CD deployment approvals, rollback, upgrades, secret rotation, and repair playbooks beyond interface-owned hooks.
+- V35 owns deeper telemetry/documentation programs, dashboards, alert runbooks, public docs breadth, incident response, and operator guides beyond interface-owned proof hooks.
+- V36 owns deeper Exchange market behavior.
+- V37 owns website Conversations product depth.
+- Production-mainnet value-bearing launch remains explicitly blocked until a future promoted canon admits it.
+- Bridge chain-of-record implementation remains out of V33.
+
+## Pre-Implementation Sequence
+
+1. Open `version/v33` from promoted `main`.
+2. Open `v33/gate-1-interface-roadmap-opening` from `version/v33`.
+3. Create the V33 SPEC, DELTA, NOTES, and PARITY family while preserving `BITCODE_SPEC.txt -> V32`.
+4. Refresh `SPECIFICATIONS_ROADMAP.md` so V32 is active canon, V33 is draft target, and V34-V37 scopes remain coherent.
+5. Retarget gate-quality and canon-quality workflow posture checks to V32 active / V33 draft.
+6. Add `check:v33-gate1` and a V33 Gate 1 checker.
+7. Define V33 gates, acceptance criteria, carryforward parity rows, and post-V33 roadmap responsibilities.
+8. Validate spec family, canonical inputs, canon posture, workflows, roadmap truth, README/docs, and diff hygiene.
+9. Push the gate branch and open a pull request to `version/v33`.
+
+## Commit-Body Direction
+
+V33 gate commit bodies should describe the closed gate, specification changes, implementation surfaces, tests, proof commands, and accepted boundaries.
+The eventual V33 promotion commit body must name all closed V33 gates, generated interface proof artifacts, source-safe interface contracts, compatibility evidence, and the `BITCODE_SPEC.txt` pointer change from `V32` to `V33`.
+It must explicitly defer V34 deployment depth, V35 telemetry/documentation breadth, V36 Exchange depth, V37 Conversations depth, bridge chain-of-record implementation, and value-bearing mainnet launch.
+
+## Gate Delta
+
+### Gate 1: V33 Interface Roadmap And Spec Opening
+
+Gate 1 opens V33 correctly:
+
+- V33 SPEC, DELTA, NOTES, and PARITY files exist.
+- `BITCODE_SPEC.txt` remains `V32`.
+- README, roadmap, PR template, package docs, and workflows describe V32 active / V33 draft posture.
+- `check:v33-gate1` validates branch naming, spec family, notes, parity, roadmap truth, workflow posture, interface-depth vocabulary, and promotion boundaries.
+- The V33 gate list is explicit before interface implementation begins.
+
+### Gate 2: Interface Inventory And Contract Catalog
+
+Gate 2 inventories every active and deferred interface surface and creates the package-owned `InterfaceContractCatalog`.
+
+Closure acceptance:
+
+- MCP API, ChatGPT App, public API, Terminal handoff, package consumers, deferred Exchange hooks, and deferred Conversations hooks are enumerated;
+- each row names owner package, action/tool/route id, schema id, auth policy, source-safety class, example fixture, validation command, compatibility status, and failure mode;
+- deferred surfaces are represented as blocked or planned rows, not hidden confidence.
+
+### Gate 3: MCP API Tool And Registry Contracts
+
+Gate 3 hardens MCP API contracts.
+
+Closure acceptance:
+
+- MCP tool discovery is package-derived and source-safe;
+- tool input/output schemas, auth policy, denial states, proof roots, and examples are covered by tests;
+- MCP responses do not expose protected source before settlement.
+
+### Gate 4: ChatGPT App Action And Tool Contracts
+
+Gate 4 hardens ChatGPT App contracts.
+
+Closure acceptance:
+
+- ChatGPT App actions use package-owned schemas and source-safe response renderers;
+- denied-state readability and repair actions are tested;
+- Read, Need, Finding Fits, preview, fee, settlement, and delivery actions match the same contracts used by API and MCP.
+
+### Gate 5: Interface Authorization Policy Fail-Closed
+
+Gate 5 centralizes interface authorization.
+
+Closure acceptance:
+
+- `InterfaceAuthorizationPolicy` covers auth issuer, organization/team/role, wallet capability, read-license posture, AssetPack rights, protected-source disclosure, and repair posture;
+- API, MCP, ChatGPT App, and Terminal handoff tests share policy fixtures;
+- missing or stale authority fails closed with readable denial.
+
+### Gate 6: Read License And AssetPack Rights Interface Contracts
+
+Gate 6 proves paid/unpaid Reading boundaries across interfaces.
+
+Closure acceptance:
+
+- `ReadLicenseInterfaceContract` covers Read request, reviewed Need, Finding Fits admission, preview, fee quote, license posture, paid/unpaid denial, and proof root;
+- `AssetPackRightsInterfaceContract` covers source-safe preview, BTD range/read-right state, BTC settlement, delivery admission, and rights transfer projection;
+- pre-settlement protected source remains locked in all interface fixtures.
+
+### Gate 7: API Schemas Examples And Compatibility Matrix
+
+Gate 7 creates the schema compatibility spine.
+
+Closure acceptance:
+
+- `APISchemaCompatibilityMatrix` records schema ids, consumer surfaces, examples, breaking-change policy, compatibility status, fixture paths, and validation commands;
+- examples exist for success, denied, blocked, stale, and deferred states;
+- versionless API path discipline remains enforced.
+
+### Gate 8: Interface Telemetry And Proof Replay Hooks
+
+Gate 8 binds interface actions to proof replay.
+
+Closure acceptance:
+
+- `InterfaceTelemetryProofHook` records execution id, interface id, action id, request root, response root, ledger/database/object-storage roots, denial or success posture, and replay command;
+- hooks are source-safe and do not print secrets, protected prompts, or protected source;
+- proof replay joins Terminal, API, MCP, and ChatGPT App activity consistently.
+
+### Gate 9: Interface Consumer UX Regression Proof
+
+Gate 9 proves consumer readability and handoff quality.
+
+Closure acceptance:
+
+- MCP API, ChatGPT App, public API examples, Terminal handoff, and denied states have regression proof;
+- source-safe summary, proof roots, repair steps, and fee/rights preview are readable without overexposure;
+- interface consumer tests avoid brittle demo-only behavior.
+
+### Gate 10: V33 Promotion Readiness
+
+Gate 10 owns final generated proof, promotion workflow support, and V33 closure.
+
+Closure acceptance:
+
+- V33 promotion checks validate all gate artifacts, interface contracts, compatibility matrices, telemetry proof hooks, and generated proof appendix support;
+- promotion workflow can rewrite active V33 / draft V34 posture;
+- `version/v33` can be requested into `main` only after all V33 gates close.
