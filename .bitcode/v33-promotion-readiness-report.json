@@ -55,7 +55,7 @@
   "currentTarget": "V32",
   "documentationEvidence": [
     {
-      "digest": "sha256:c5f427b82720085093158501a0141d4db171ace7437481a4bc175b4897081df5",
+      "digest": "sha256:f4f18279dea8ecc27de7e13ee5c4c4496b45ad5e4dfd37aa2909355fda7f391e",
       "present": true,
       "relativePath": "BITCODE_SPEC_V33.md",
       "requiredTokens": [
@@ -74,7 +74,7 @@
       ]
     },
     {
-      "digest": "sha256:3fb790d89c99396ca8e422cdfdadcff9baf2c4bf5b44cd338313bf08826c8f5a",
+      "digest": "sha256:82166f72b7f63ad1dae97e1ddb258af14cfca8d69b1e0dbd4437432e8455ca5d",
       "present": true,
       "relativePath": "BITCODE_SPEC_V33_DELTA.md",
       "requiredTokens": [
@@ -93,7 +93,7 @@
       ]
     },
     {
-      "digest": "sha256:3dea3f5113e0fc89303a92fef92d88eef7faf56c3015cd00950965983c463f86",
+      "digest": "sha256:d044bd4bad93f88f2019a8133a172807389a710f4f5c5eb5406da88d981a7755",
       "present": true,
       "relativePath": "BITCODE_SPEC_V33_NOTES.md",
       "requiredTokens": [

@@ -184,10 +184,10 @@ function assertPipelineWriteAdmission(
     action: 'request_finding_fits',
     authIssuer: {
       issuerKind: 'api_key',
-      issuerId: context.apiKeyId ?? context.userId,
+      issuerId: context.userId,
       issuedAt,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-      issuerRoot: context.apiKeyId ? `mcp-api-key:${context.apiKeyId}` : `mcp-user:${context.userId}`,
+      issuerRoot: `mcp-authenticated-principal:${context.userId}`,
     },
     actorId: context.userId,
     organizationId: context.organizationId ?? null,

@@ -233,6 +233,12 @@ The Gate 10 checker is `check:v33-gate10`. It must pass both before promotion
 with `BITCODE_SPEC.txt` pointing at `V32` and after promotion with the pointer
 at `V33`.
 
+Promotion readiness also requires interface authorization proof roots to avoid
+hashing credential record identifiers as proof material. Interface adapters keep
+API key record ids in their own audit context; BTD authorization roots bind the
+authenticated principal, organization authority, wallet/license/rights state,
+and source-visibility decision.
+
 ## Carryforward from V32
 
 V33 inherits these V32 truths:

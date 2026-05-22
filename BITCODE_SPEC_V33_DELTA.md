@@ -235,5 +235,6 @@ Closure acceptance:
 
 - V33 promotion checks validate all gate artifacts, interface contracts, compatibility matrices, telemetry proof hooks, and generated proof appendix support;
 - promotion scripts support V33 command planning, dry-run, generated proof output, and derived promotion commit body generation;
+- MCP and other interface adapters keep credential record identifiers in adapter-local audit context rather than hashing them into BTD authorization proof roots;
 - promotion workflow can rewrite active V33 / draft V34 posture;
 - `version/v33` can be requested into `main` only after all V33 gates close.

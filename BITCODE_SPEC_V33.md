@@ -572,6 +572,8 @@ Generated artifacts must be stable, source-safe, and explicitly tied to validati
 
 V33 Gate 10 closes when `version/v33` can promote to active V33 without direct `main` writes. The readiness report `.bitcode/v33-promotion-readiness-report.json` proves that all V33 interface artifacts are present, source-safe, parseable, and wired into gate checks, promotion checks, generated proof appendix support, and workflow validation. Promotion rewrites runtime posture from `V32` active / `V33` draft to `V33` active / `V34` draft and generates `BITCODE_SPEC_V33_PROVEN.md`; the resulting posture is V33 active / V34 draft.
 
+Interface authorization promotion readiness also requires credential identifiers to stay outside BTD proof-root hashing. Interface adapters may retain API key record ids in adapter-local audit context, but BTD roots bind the authenticated principal, organization authority, wallet/license/rights state, protected-source visibility, and repair posture.
+
 ## V33 validation canon
 
 Validation must include spec-family checks, canonical-input checks, canon-posture drift checks, V33 gate checks, package tests, interface contract tests, and source-safe example tests.
