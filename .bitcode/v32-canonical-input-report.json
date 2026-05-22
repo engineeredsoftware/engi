@@ -1,8 +1,8 @@
 {
   "reportId": "v32-canonical-input-report",
   "version": "V32",
-  "proofSourceCommit": "1ec49a9ed5fa5db1da5fbd2388e528b91b98321f",
-  "generatedAt": "2026-05-22T09:48:34-03:00",
+  "proofSourceCommit": "b2e5cb5a8c56d2cbb1df8e39ebacb95a966ecf08",
+  "generatedAt": "2026-05-22T10:25:55-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "clean",
   "checkedTargetVersion": "V32",
