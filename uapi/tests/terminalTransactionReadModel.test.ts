@@ -87,6 +87,18 @@ const detail: TerminalRunDetailSnapshot = {
       serverCustody: false,
     },
     ownershipBoundary: null,
+    assetPackMintReceipt: {
+      kind: 'btd.asset_pack_mint_receipt',
+      receiptRoot: 'asset-pack-mint-receipt-root-1',
+      protectedSourceVisible: false,
+    },
+    readReceipt: {
+      kind: 'btd.read_receipt',
+      receiptRoot: 'read-receipt-root-1',
+      disclosureState: 'source_safe_preview',
+      protectedSourceVisible: false,
+    },
+    rightsTransferReceipt: null,
     readback: { assetPackRange: true },
     journalEntryIds: ['journal-1'],
     ownershipEventId: null,
@@ -148,6 +160,10 @@ describe('terminal transaction read model', () => {
       label: 'Wallet/BTC',
       availability: 'available',
       factFamily: 'wallet',
+    });
+    expect(model.sections.find((section) => section.id === 'journal')).toMatchObject({
+      availability: 'available',
+      rowCount: 2,
     });
   });
 

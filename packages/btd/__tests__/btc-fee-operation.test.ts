@@ -1,8 +1,10 @@
 import {
   advanceBtcFeeQuote,
   advanceBtcFeeTransactionReceipt,
+  buildBtcFeeNetworkPolicy,
   buildBtcFeeOperationPosture,
   buildBtcFeeQuote,
+  buildBtcFeeTaprootPsbtPosture,
   buildPreparedBtcFeeTransactionReceipt,
   buildWalletSignerSessionRecovery,
   createWalletSignerSession,
@@ -31,7 +33,7 @@ function authorizedSession(overrides = {}) {
   });
 }
 
-function acceptedQuote() {
+function acceptedQuote(overrides = {}) {
   return advanceBtcFeeQuote(
     buildBtcFeeQuote({
       quoteId: 'quote-1',
@@ -43,6 +45,7 @@ function acceptedQuote() {
       relatedAssetPackId: 'asset-pack-1',
       issuedAt,
       expiresAt,
+      ...overrides,
     }),
     { state: 'accepted' },
   );
@@ -92,6 +95,109 @@ describe('BTC fee quote lifecycle', () => {
       /Invalid BTC fee quote transition/,
     );
   });
+
+  it('fails closed when quote timestamps cannot support PSBT preparation', () => {
+    expect(() =>
+      buildBtcFeeQuote({
+        quoteId: 'quote-expired-at-issue',
+        feePurpose: 'licensed_read',
+        network: 'testnet',
+        sats: 1200n,
+        measurementRoot: 'need-fit-measurement-root',
+        issuedAt,
+        expiresAt: issuedAt,
+      }),
+    ).toThrow('BTC fee quote expiresAt must be after issuedAt.');
+  });
+
+  it('models PSBT handoff, replacement, and reorg repair states explicitly', () => {
+    const prepared = preparedReceipt();
+    expect(() =>
+      advanceBtcFeeTransactionReceipt(prepared, { finalityState: 'signed' } as never),
+    ).toThrow('signedPsbt must be a non-empty string.');
+
+    const signed = advanceBtcFeeTransactionReceipt(prepared, {
+      finalityState: 'signed',
+      psbt: 'signed-psbt',
+    });
+    const broadcast = advanceBtcFeeTransactionReceipt(signed, {
+      finalityState: 'broadcast',
+      txid: 'txid-repair',
+    });
+    const replaced = advanceBtcFeeTransactionReceipt(broadcast, {
+      finalityState: 'replaced',
+      txid: 'replacement-txid',
+    });
+
+    expect(buildBtcFeeTaprootPsbtPosture({ network: 'testnet', receipt: prepared })).toMatchObject({
+      psbtHandoffState: 'prepared_unsigned',
+      broadcastState: 'not_broadcast',
+      taprootRequired: true,
+    });
+    expect(buildBtcFeeTaprootPsbtPosture({ network: 'testnet', receipt: signed })).toMatchObject({
+      psbtHandoffState: 'signed_ready_to_broadcast',
+      broadcastState: 'not_broadcast',
+    });
+    expect(buildBtcFeeTaprootPsbtPosture({ network: 'testnet', receipt: replaced })).toMatchObject({
+      psbtHandoffState: 'replacement_or_reorg_repair_required',
+      broadcastState: 'replaced',
+    });
+  });
+
+  it('blocks value-bearing mainnet settlement unless operationally approved', () => {
+    expect(
+      buildBtcFeeNetworkPolicy({
+        network: 'mainnet',
+        environment: 'production-mainnet',
+      }),
+    ).toMatchObject({
+      admitted: false,
+      operationalApprovalRequired: true,
+      mainnet: true,
+      proofRoot: expect.stringMatching(/^btc-fee-network-policy-/),
+    });
+
+    const mainnetQuote = acceptedQuote({ network: 'mainnet', quoteId: 'quote-mainnet-1' });
+    const mainnetSession = authorizedSession({
+      walletSessionId: 'wallet-session-mainnet',
+      walletId: 'wallet-mainnet',
+      address: 'bc1qbitcodereader0000000000000000000000000',
+      network: 'mainnet',
+    });
+    const blocked = buildBtcFeeOperationPosture({
+      quote: mainnetQuote,
+      payerSession: mainnetSession,
+      environment: 'production-mainnet',
+      at: issuedAt,
+    });
+    expect(blocked).toMatchObject({
+      phase: 'blocked',
+      networkPolicy: {
+        admitted: false,
+        blocker: 'Value-bearing BTC fee settlement on mainnet requires explicit operational approval.',
+      },
+      blockedReadiness: {
+        blockerId: 'network-policy',
+        noServerCustody: true,
+      },
+    });
+
+    expect(
+      buildBtcFeeOperationPosture({
+        quote: mainnetQuote,
+        payerSession: mainnetSession,
+        environment: 'production-mainnet',
+        valueBearingMainnetApproved: true,
+        at: issuedAt,
+      }),
+    ).toMatchObject({
+      phase: 'quoted',
+      networkPolicy: {
+        admitted: true,
+        operationalApprovalRequired: true,
+      },
+    });
+  });
 });
 
 describe('wallet signer recovery', () => {
@@ -131,6 +237,23 @@ describe('wallet signer recovery', () => {
     ).toMatchObject({
       state: 'expired',
       canSign: false,
+    });
+  });
+
+  it('rejects server-custody signer sessions before PSBT handoff', () => {
+    const recovery = buildWalletSignerSessionRecovery({
+      session: {
+        ...authorizedSession(),
+        serverCustody: true,
+      } as never,
+      network: 'testnet',
+      at: issuedAt,
+    });
+
+    expect(recovery).toMatchObject({
+      state: 'server_custody_rejected',
+      canSign: false,
+      blocker: 'Wallet signer session implies server custody.',
     });
   });
 });
@@ -195,6 +318,8 @@ describe('BTC fee operation posture', () => {
       phase: 'psbt_ready',
       canSignPsbt: true,
       canBroadcast: false,
+      psbtHandoffState: 'prepared_unsigned',
+      broadcastState: 'not_broadcast',
     });
 
     const signed = advanceBtcFeeTransactionReceipt(prepared, {
@@ -220,6 +345,12 @@ describe('BTC fee operation posture', () => {
     ).toMatchObject({
       phase: 'broadcast',
       canObserveFinality: true,
+      psbtHandoffState: 'broadcast_submitted',
+      broadcastState: 'broadcast',
+      taprootScriptPosture: {
+        commitmentMethod: 'taproot',
+        taprootAdmitted: true,
+      },
     });
     expect(
       buildBtcFeeOperationPosture({
@@ -232,6 +363,8 @@ describe('BTC fee operation posture', () => {
       phase: 'confirmed',
       canSettle: true,
       noServerCustody: true,
+      psbtHandoffState: 'finality_observed',
+      broadcastState: 'confirmed',
     });
   });
 });

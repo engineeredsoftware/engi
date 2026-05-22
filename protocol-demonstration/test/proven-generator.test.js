@@ -48,6 +48,8 @@ test('canonical proven generator renders a stable appendix from seeded proof run
   assert.ok(markdown.includes('## Run Details'));
   assert.ok(markdown.includes('`prompt-completeness`'));
   assert.ok(markdown.includes('_legacy/ENGI_SPEC_V15_PROVEN.md'));
+  assert.match(markdown, /\n$/);
+  assert.doesNotMatch(markdown, /\n\n$/);
 });
 
 test('canonical proven generator fails closed on proof-family catalog drift across runs', () => {

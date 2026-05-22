@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V29 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, and V29.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, and V30.'
     ].join('\n')
   );
 }
@@ -209,8 +209,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
+  if (version === 'V30') {
+    const sharedInventory = 'active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion';
+    const scopeByKind = {
+      spec: 'V30 canonical system specification for Protocol/BTD package API boundaries, Bitcoin/Taproot/PSBT rigor, BTD AssetPack mint/read receipts, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness research boundaries, Protocol telemetry/proof hooks, interface regression, and promotion-ready workflow proof over V29',
+      delta: 'V30 canonical delta for Protocol/BTD package API boundaries, Bitcoin/Taproot/PSBT rigor, BTD AssetPack mint/read receipts, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness research boundaries, Protocol telemetry/proof hooks, interface regression, and promotion-ready workflow proof over V29',
+      notes: 'V30 canonical notes for Protocol/BTD hardening, local/staging readiness, and promotion automation over V29',
+      parity: 'V30 canonical parity ledger for Protocol/BTD hardening, local/staging readiness, and promotion automation over V29'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V30 is the active Protocol/BTD hardening canon and the V30 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V29-to-V30 Protocol/BTD hardening and promotion-readiness closure set',
+      notes: 'canonical promotion complete; V30 notes record the accepted Protocol/BTD hardening, local/staging, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V30 parity truth, Protocol/BTD gate closure, generated proof, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V30`' }
+        : {}),
+      'Current canonical/latest target': '`V30`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family',
+      'V30 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, and V29. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, and V30. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

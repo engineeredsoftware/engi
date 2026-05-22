@@ -169,6 +169,7 @@
       "@bitcode/dryrun": ["packages/observability/src/dryrun.ts"],
       "@bitcode/dryrun/*": ["packages/observability/src/dryrun/*"],
       "@bitcode/dockerUtils": ["packages/docker/src/index.ts"],
+      "@bitcode/btd/interface-integration-contract": ["packages/btd/src/interface-integration-contract.ts"],
       "@bitcode/supabase": ["packages/supabase/src/index.ts"],
       // Git helpers alias (defined earlier; keep only one canonical mapping)
     "@/lib/validation/validationOTFAdherencePhaseModule": ["packages/validation/validationOTFAdherencePhaseModule.ts"],

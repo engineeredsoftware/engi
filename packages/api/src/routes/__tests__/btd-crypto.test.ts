@@ -14,35 +14,45 @@ jest.mock(
 );
 
 import {
+  advanceBtcFeeQuote,
   buildBtdAncestryReviewSettlement,
   buildBtdAssetPackLedgerAnchorSettlement,
   buildBtdAssetPackExchangeSettlement,
   buildBtdBtcFeeTransactionSettlement,
+  buildBtdBridgeReadinessResearchSettlement,
   buildBtdDeploymentReadinessSettlement,
+  buildBtdInterfaceIntegrationRegressionSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
+  buildBtdProtocolTelemetrySettlement,
   buildBtdReadAccessDecision,
+  buildBtdSourceToSharesProofSettlement,
   buildBtdTerminalJournalSettlement,
+  buildBtdProtocolTelemetryRecord,
+  buildBtcFeeQuote,
+  createBtdMeasureMintState,
+} from '@bitcode/btd';
+import {
   buildGetBtdRegistrySnapshotRoute,
   buildPostBtdAncestryReviewRoute,
   buildPostBtdAssetPackLedgerAnchorRoute,
   buildPostBtdAssetPackExchangeRoute,
   buildPostBtdBtcFeeTransactionRoute,
+  buildPostBtdBridgeReadinessResearchRoute,
   buildPostBtdDeploymentReadinessRoute,
+  buildPostBtdInterfaceIntegrationRegressionRoute,
   buildPostBtdLedgerDatabaseReconciliationRoute,
   buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
   buildPostBtdOrganizationInterfaceAuthorityRoute,
+  buildPostBtdProtocolTelemetryRoute,
   buildPostBtdReadAccessRoute,
+  buildPostBtdSourceToSharesProofRoute,
   buildPostBtdTerminalJournalRoute,
+  postBtdInterfaceIntegrationRegression,
 } from '../btd-crypto';
-import {
-  advanceBtcFeeQuote,
-  buildBtcFeeQuote,
-  createBtdMeasureMintState,
-} from '@bitcode/btd';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
 
@@ -147,6 +157,191 @@ function mintDraftRequestBody(overrides: Record<string, unknown> = {}) {
   };
 }
 
+function sourceToSharesProofBody(overrides: Record<string, unknown> = {}) {
+  return {
+    readId: 'read-api-source-to-shares-1',
+    assetPackId: 'asset-pack-api-source-to-shares-1',
+    acceptedNeedRoot: 'accepted-need-api-root',
+    findingFitsResultRoot: 'finding-fits-api-root',
+    fitDeposits: [
+      {
+        depositId: 'deposit-api-a',
+        assetPackId: 'fit-asset-api-a',
+        depositorWalletId: 'wallet-depositor-api-a',
+        sourceManifestRoot: 'source-api-root-a',
+        findingFitsResultRoot: 'finding-fits-api-root-a',
+        measurementRoot: 'measurement-api-root-a',
+        normalizedMeasurementUnits: '20000',
+        fitQualityBps: 10000,
+        provenanceBps: 10000,
+        accepted: true,
+      },
+      {
+        depositId: 'deposit-api-b',
+        assetPackId: 'fit-asset-api-b',
+        depositorWalletId: 'wallet-depositor-api-b',
+        sourceManifestRoot: 'source-api-root-b',
+        findingFitsResultRoot: 'finding-fits-api-root-b',
+        measurementRoot: 'measurement-api-root-b',
+        normalizedMeasurementUnits: '10000',
+        fitQualityBps: 10000,
+        provenanceBps: 10000,
+        accepted: true,
+      },
+    ],
+    btdRange: {
+      assetPackId: 'asset-pack-api-source-to-shares-1',
+      rangeStart: 40,
+      rangeEndExclusive: 43,
+      tokenCount: 3,
+      measureMintReceiptRoot: 'measuremint-api-root',
+    },
+    feeQuote: {
+      quoteId: 'quote-api-source-to-shares-1',
+      quoteRoot: 'quote-api-source-root',
+      grossSats: '9000',
+    },
+    paymentObservation: {
+      paymentReceiptRoot: 'payment-api-source-root',
+      observedDebitSats: '9000',
+      observedCreditSats: '9000',
+      finalityState: 'confirmed',
+      txid: 'txid-api-source-to-shares',
+    },
+    exchangeSequence: '18',
+    issuedAt,
+    ...overrides,
+  };
+}
+
+function bridgeReadinessResearchBody(overrides: Record<string, unknown> = {}) {
+  return {
+    postureId: 'bridge-readiness-api-1',
+    exchangeSequence: '19',
+    issuedAt,
+    ...overrides,
+  };
+}
+
+function protocolTelemetryBody(overrides: Record<string, unknown> = {}) {
+  const telemetry = {
+    event: 'btd.source_to_shares_proof.emitted' as const,
+    subjectKind: 'source_to_shares_proof' as const,
+    subjectId: 'source-to-shares-api-1',
+    root: 'source-to-shares-api-root',
+    receiptRoot: 'source-to-shares-api-receipt-root',
+    proofRoot: 'source-to-shares-api-proof-root',
+    artifactPath: '.bitcode/source-to-shares-api-proof.json',
+    metadata: {
+      sourceSafe: true,
+      settlementAdmissible: true,
+    },
+    issuedAt,
+  };
+  const record = buildBtdProtocolTelemetryRecord(telemetry);
+
+  return {
+    telemetry: [telemetry],
+    proofHooks: [
+      {
+        proofFamily: 'source_to_shares' as const,
+        subjectKind: 'source_to_shares_proof' as const,
+        subjectId: 'source-to-shares-api-1',
+        evidenceRoot: 'source-to-shares-api-root',
+        telemetryRoot: record.telemetryRoot,
+        theoremIds: ['source-safe', 'settlement-conserved'],
+        replayStepIds: ['emit-telemetry', 'bind-source-to-shares-proof'],
+        witnessArtifactPaths: ['.bitcode/source-to-shares-api-proof.json'],
+        generatedArtifactPath: '.bitcode/generated/source-to-shares-api-proof.json',
+        issuedAt,
+      },
+    ],
+    exchangeSequence: '20',
+    issuedAt,
+    ...overrides,
+  };
+}
+
+function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> = {}) {
+  const recordBase = {
+    packageOwned: true,
+    routeLocalReimplementation: false,
+    sourceSafeLowDetailIntact: true,
+    transactionCockpitRegression: false,
+    notes: ['package-owned object consumed source-safely'],
+    issuedAt,
+  };
+
+  return {
+    records: [
+      {
+        ...recordBase,
+        surface: 'terminal',
+        consumerId: 'terminal-transaction-cockpit',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        objectFamilies: ['btd_registry', 'read_access', 'terminal_journal'],
+        proofRoot: 'terminal-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'api',
+        consumerId: 'btd-api-route-boundary',
+        packageExport: '@bitcode/btd',
+        adapterPath: 'packages/api/src/routes/btd-crypto.ts',
+        objectFamilies: [
+          'btd_receipts',
+          'btc_fee_operation',
+          'ledger_projection',
+          'protocol_telemetry',
+        ],
+        proofRoot: 'api-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'mcp',
+        consumerId: 'bitcode-mcp-interface',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
+        objectFamilies: ['source_to_shares_proof', 'organization_authority'],
+        proofRoot: 'mcp-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'chatgpt_app',
+        consumerId: 'bitcode-chatgpt-app-interface',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'packages/chatgptapp/src/interface-integration.ts',
+        objectFamilies: ['read_access', 'organization_authority'],
+        proofRoot: 'chatgpt-app-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'auxillaries_hook',
+        consumerId: 'auxillaries-interface-hook',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        objectFamilies: ['btd_registry', 'organization_authority'],
+        proofRoot: 'auxillaries-interface-proof-root',
+      },
+      {
+        ...recordBase,
+        surface: 'exchange_hook',
+        consumerId: 'exchange-interface-hook',
+        packageExport: '@bitcode/btd/interface-integration-contract',
+        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        objectFamilies: ['btd_receipts', 'btc_fee_operation', 'ledger_projection'],
+        proofRoot: 'exchange-interface-proof-root',
+      },
+    ],
+    lowDetailProofRoot: 'terminal-low-detail-source-safe-proof-root',
+    transactionCockpitProofRoot: 'terminal-transaction-cockpit-regression-proof-root',
+    exchangeSequence: '21',
+    issuedAt,
+    ...overrides,
+  };
+}
+
 describe('BTD crypto API builders', () => {
   it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {
     const draft = buildBtdMintDraft(mintDraftInput());
@@ -215,7 +410,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires accepted Read.');
+    expect(body.error).toBe('BTD mint draft requires accepted Read.');
   });
 
   it('fails mint drafts closed when Fit admission is absent', async () => {
@@ -231,7 +426,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires accepted Fit.');
+    expect(body.error).toBe('BTD mint draft requires accepted Finding Fits result.');
   });
 
   it('fails mint drafts closed when uncommitted proof inputs are missing', async () => {
@@ -263,7 +458,7 @@ describe('BTD crypto API builders', () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe('V27 BTD mint draft requires a positive Exchange sequence.');
+    expect(body.error).toBe('BTD mint draft requires a positive Exchange sequence.');
   });
 
   it('builds read-access decisions without merging owner-read and licensed-read rights', () => {
@@ -667,6 +862,17 @@ describe('BTD crypto API builders', () => {
       phase: 'psbt_ready',
       canSignPsbt: true,
       noServerCustody: true,
+      psbtHandoffState: 'prepared_unsigned',
+      broadcastState: 'not_broadcast',
+      networkPolicy: {
+        admitted: true,
+        environment: 'staging-testnet',
+        mainnet: false,
+      },
+      taprootScriptPosture: {
+        commitmentMethod: 'taproot',
+        taprootAdmitted: true,
+      },
       quote: { quoteId: 'quote-api-1' },
     });
     expect(prepared.terminalJournalEntry.transactionKind).toBe('btc_fee_payment');
@@ -865,6 +1071,85 @@ describe('BTD crypto API builders', () => {
     expect(settlement.terminalJournalEntry.transactionKind).toBe('ledger_database_reconciliation');
     expect(settlement.terminalJournalEntry.receiptRoots).toContain(
       settlement.report.proofRoots.repairPlanRoot,
+    );
+  });
+
+  it('builds source-to-shares proof settlements with exact conservation roots', () => {
+    const settlement = buildBtdSourceToSharesProofSettlement({
+      actorId: 'user-1',
+      ...sourceToSharesProofBody(),
+      exchangeSequence: 18n,
+    } as any);
+
+    expect(settlement.kind).toBe('btd_source_to_shares_proof_settlement');
+    expect(settlement.proof.contributionWeights.map((entry) => entry.shareBps)).toEqual([
+      6667,
+      3333,
+    ]);
+    expect(settlement.proof.settlementConservation).toMatchObject({
+      state: 'balanced',
+      settlementAdmissible: true,
+      allocationConserved: true,
+    });
+    expect(
+      settlement.proof.settlementAllocations.reduce(
+        (sum, route) => sum + route.allocatedSats,
+        0n,
+      ),
+    ).toBe(9000n);
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('settlement_finalization');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(
+      settlement.proof.settlementConservation.conservationRoot,
+    );
+  });
+
+  it('builds bridge-readiness research settlements without chain-of-record admission', () => {
+    const settlement = buildBtdBridgeReadinessResearchSettlement({
+      actorId: 'user-1',
+      ...bridgeReadinessResearchBody(),
+      exchangeSequence: 19n,
+    } as any);
+
+    expect(settlement.kind).toBe('btd_bridge_readiness_research_settlement');
+    expect(settlement.committed).toBe(false);
+    expect(settlement.posture.bridgeChainOfRecordTruth).toBe('no_bridge_chain_of_record');
+    expect(settlement.posture.records.map((record) => record.path)).toEqual([
+      'bitcoin_taproot_anchor',
+      'bitvm_execution_bridge',
+      'bsc_opbnb_distribution',
+      'binance_web3_wallet_distribution',
+      'future_distribution_path',
+    ]);
+    expect(settlement.posture.records.every((record) => record.chainOfRecordAdmitted === false)).toBe(
+      true,
+    );
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('proof_admission');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(settlement.posture.proofRoot);
+  });
+
+  it('builds Protocol telemetry settlements with source-safe proof hooks', () => {
+    const settlement = buildBtdProtocolTelemetrySettlement({
+      actorId: 'user-1',
+      ...protocolTelemetryBody(),
+      exchangeSequence: 20n,
+    } as any);
+
+    expect(settlement.kind).toBe('btd_protocol_telemetry_settlement');
+    expect(settlement.committed).toBe(false);
+    expect(settlement.envelope.compatibleWith).toEqual(['V32', 'V35']);
+    expect(settlement.envelope.sourceSafety.sourceSafe).toBe(true);
+    expect(settlement.envelope.telemetry[0]).toMatchObject({
+      event: 'btd.source_to_shares_proof.emitted',
+      subjectKind: 'source_to_shares_proof',
+    });
+    expect(settlement.envelope.telemetry[0].sourceSafety.containsProtectedSource).toBe(false);
+    expect(settlement.envelope.proofHooks[0]).toMatchObject({
+      proofFamily: 'source_to_shares',
+      subjectKind: 'source_to_shares_proof',
+    });
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('proof_admission');
+    expect(settlement.terminalJournalEntry.receiptRoots).toContain(
+      settlement.envelope.telemetryRoot,
     );
   });
 
@@ -1069,6 +1354,12 @@ describe('BTD crypto API builders', () => {
     expect(body.operationPosture).toMatchObject({
       phase: 'psbt_ready',
       canSignPsbt: true,
+      psbtHandoffState: 'prepared_unsigned',
+      broadcastState: 'not_broadcast',
+      networkPolicy: {
+        admitted: true,
+        environment: 'staging-testnet',
+      },
       quote: {
         quoteId: 'quote-api-1',
         sats: '1200',
@@ -1321,6 +1612,24 @@ describe('BTD crypto API builders', () => {
               projectedLedgerRoot: 'confirmed-root',
               projectedFinalityState: 'broadcast',
             },
+            {
+              factId: 'artifact-api-1',
+              projectedLedgerRoot: 'artifact-ledger-root',
+              projectedFinalityState: 'prepared',
+              projectedObjectStorageRoot: 'artifact-database-root',
+            },
+          ],
+          objectStorageArtifacts: [
+            {
+              factId: 'artifact-api-1',
+              artifactId: 'artifact-api-1',
+              artifactKind: 'pipeline_evidence',
+              storageRoot: 'artifact-storage-root',
+              sourceVisibility: 'proof_public',
+              durable: true,
+              containsProtectedSource: false,
+              encrypted: false,
+            },
           ],
           metaphysicalFacts: [
             {
@@ -1331,6 +1640,27 @@ describe('BTD crypto API builders', () => {
               private: true,
             },
           ],
+          stagingTestnetReadback: {
+            kind: 'btd.supabase_projection_readback',
+            readbackId: 'staging-readback-api-1',
+            lane: 'staging-testnet',
+            supabaseProjectRef: 'tkpyosihuouusyaxtbau',
+            restHost: 'tkpyosihuouusyaxtbau.supabase.co',
+            adminCredentialState: 'provided_out_of_band',
+            secretValuesStored: false,
+            tableReadbacks: [
+              {
+                table: 'btd_asset_pack_ranges',
+                expectedCount: 1,
+                observedCount: 1,
+                synchronized: true,
+              },
+            ],
+            state: 'synchronized',
+            blockingReasons: [],
+            proofRoot: 'btd-proof-root:supabase-projection-readback:api',
+            issuedAt,
+          },
           settlementConservationChecks: [
             {
               checkId: 'settlement-conservation-api-1',
@@ -1352,6 +1682,9 @@ describe('BTD crypto API builders', () => {
     expect(body.report.blocking).toBe(true);
     expect(body.report.state).toBe('blocked');
     expect(body.report.driftKindCounts.settlement_conservation_drift).toBe(1);
+    expect(body.report.driftKindCounts.object_storage_root_mismatch).toBe(1);
+    expect(body.report.objectStorageArtifacts[0].storageRoot).toBe('artifact-storage-root');
+    expect(body.report.stagingTestnetReadback.secretValuesStored).toBe(false);
     expect(body.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
     expect(body.committed).toBe(true);
     expect(insertReconciliationRepair).toHaveBeenCalledWith(
@@ -1364,6 +1697,125 @@ describe('BTD crypto API builders', () => {
         blocking: true,
       }),
     );
+  });
+
+  it('returns JSON-safe source-to-shares proofs from the route boundary', async () => {
+    const route = buildPostBtdSourceToSharesProofRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/source-to-shares-proof', {
+        method: 'POST',
+        body: JSON.stringify(sourceToSharesProofBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_source_to_shares_proof_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.proof.feeQuote.priceAsset).toBe('BTC');
+    expect(body.proof.feeQuote.grossSats).toBe('9000');
+    expect(body.proof.settlementConservation.noOverpayment.passed).toBe(true);
+    expect(body.proof.settlementConservation.noUnderpayment.passed).toBe(true);
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('18');
+  });
+
+  it('returns JSON-safe bridge-readiness research posture from the route boundary', async () => {
+    const route = buildPostBtdBridgeReadinessResearchRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/bridge-readiness-research', {
+        method: 'POST',
+        body: JSON.stringify(bridgeReadinessResearchBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_bridge_readiness_research_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.posture.activeBtdChainOfRecord).toBe('bitcoin_btd_registry');
+    expect(body.posture.bridgeChainOfRecordTruth).toBe('no_bridge_chain_of_record');
+    expect(body.posture.allNonAdmitted).toBe(true);
+    expect(body.posture.records).toHaveLength(5);
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('19');
+  });
+
+  it('returns JSON-safe Protocol telemetry proof hooks from the route boundary', async () => {
+    const route = buildPostBtdProtocolTelemetryRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/protocol-telemetry', {
+        method: 'POST',
+        body: JSON.stringify(protocolTelemetryBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_protocol_telemetry_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.envelope.compatibleWith).toEqual(['V32', 'V35']);
+    expect(body.envelope.sourceSafety.containsSecret).toBe(false);
+    expect(body.envelope.telemetry[0].event).toBe('btd.source_to_shares_proof.emitted');
+    expect(body.envelope.proofHooks[0].proofFamily).toBe('source_to_shares');
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('20');
+  });
+
+  it('returns JSON-safe interface integration regression proof from the route boundary', async () => {
+    const direct = buildBtdInterfaceIntegrationRegressionSettlement({
+      ...(interfaceIntegrationRegressionBody() as any),
+      exchangeSequence: 21n,
+      actorId: 'user-1',
+    });
+    const route = buildPostBtdInterfaceIntegrationRegressionRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/interface-integration-regression', {
+        method: 'POST',
+        body: JSON.stringify(interfaceIntegrationRegressionBody()),
+      }),
+    );
+    const body = await response.json();
+
+    expect(direct.kind).toBe('btd_interface_integration_regression_settlement');
+    expect(postBtdInterfaceIntegrationRegression).toBeDefined();
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_interface_integration_regression_settlement');
+    expect(body.committed).toBe(false);
+    expect(body.proof.coverage.surfaces.missing).toEqual([]);
+    expect(body.proof.coverage.objectFamilies.missing).toEqual([]);
+    expect(body.proof.packageOwned).toBe(true);
+    expect(body.proof.routeLocalReimplementation).toBe(false);
+    expect(body.proof.sourceSafeLowDetailIntact).toBe(true);
+    expect(body.proof.transactionCockpitRegression).toBe(false);
+    expect(body.terminalJournalEntry.exchangeSequence).toBe('21');
+  });
+
+  it('fails interface integration regression when source-safe low detail is not proven', async () => {
+    const route = buildPostBtdInterfaceIntegrationRegressionRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const body = interfaceIntegrationRegressionBody({
+      records: (interfaceIntegrationRegressionBody().records as any[]).map((record, index) => ({
+        ...record,
+        sourceSafeLowDetailIntact: index === 0 ? false : record.sourceSafeLowDetailIntact,
+      })),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/interface-integration-regression', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(payload.error).toContain('source-safe low-detail UX');
   });
 
   it('returns JSON-safe deployment readiness settlements and persists telemetry or upgrades', async () => {

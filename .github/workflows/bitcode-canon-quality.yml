@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Validate active canon and V29 posture
+      - name: Validate active canon and draft posture
         run: |
           POINTER="$(cat BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V28" ]; then
@@ -32,6 +32,11 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V29
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V29 --draft-target V30
             node scripts/check-bitcode-spec-family.mjs --version V29 --mode promoted --current-target V29
+            node scripts/check-bitcode-spec-family.mjs --version V30 --mode draft --current-target V29
+          elif [ "$POINTER" = "V30" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V30
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V30 --draft-target V31
+            node scripts/check-bitcode-spec-family.mjs --version V30 --mode promoted --current-target V30
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -64,7 +69,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run V29 strict conformance for spec-title changes
+      - name: Run strict conformance for spec-title changes
         run: |
           case "$SPEC_TITLE" in
             spec:\ V29*|spec:\ v29*)
@@ -75,7 +80,15 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
               fi
               ;;
+            spec:\ V30*|spec:\ v30*)
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V30" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V30 --mode promoted --current-target V30
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V30 --mode draft --current-target V29
+              fi
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30 spec change."
               ;;
           esac

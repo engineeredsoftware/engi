@@ -133,13 +133,48 @@ place for prompt templates, interpolated prompts, raw model responses, parsed
 typed outputs, tool inputs/outputs, and harness evidence coverage.
 
 The Journal section is also the settlement reconciliation repair cockpit.
-It must distinguish ledger-observed facts, database-projected facts, and
-metaphysical canonical root facts; classify drift; show blocking reasons;
-surface repair actions; list proof roots; and keep repair receipts readable.
-BTC fee conservation drift blocks unlock, confirmed ledger facts missing from
-database projection require approval, and settled transactions with missing
+It must distinguish ledger-observed facts, database-projected facts,
+object-storage artifact facts, and metaphysical canonical root facts; classify
+drift; show blocking reasons; surface repair actions; list proof roots; and
+keep repair receipts readable. BTC fee conservation drift blocks unlock,
+confirmed ledger facts missing from database projection require approval,
+object-storage root mismatches require quarantine, missing durable artifacts
+are retryable unlock blockers, and settled transactions with missing
 pull-request delivery surface delivery recovery without exposing protected
 AssetPack source before payment.
+
+Source-to-shares settlement evidence should enter the Terminal as a package
+proof, not as route-local accounting. The BTD source-to-shares proof binds
+fit-deposit measurements, contribution weights, BTD range slices, exact BTC fee
+allocation, conservation verdicts, zero-cell/refit tail posture, ancestry
+evidence, and a reconciliation-compatible conservation check. Operators should
+read no-overpayment and no-underpayment separately so overpaid, underpaid, and
+drifted settlements are repairable without exposing protected AssetPack source.
+
+Bridge-readiness research evidence should also enter Terminal through the BTD
+package boundary. Taproot, BitVM, BSC/opBNB, Binance Web3 Wallet, and future
+distribution paths are visible only as research posture: each path names
+feasibility, risks, rereview triggers, required proof, and required policy, and
+the selected-activity detail must preserve `no_bridge_chain_of_record` as the
+current `$BTD` truth until a future promoted spec admits otherwise.
+
+Protocol telemetry proof hooks should enter Terminal through
+`/btd/protocol-telemetry`, not through route-local log projection. The BTD
+package emits `BtdProtocolTelemetryEnvelope` objects with source-safe telemetry
+records and proof hooks for receipts, BTC fee states, ledger projections,
+source-to-shares proofs, and bridge-readiness posture. Collapsed rows should
+show event, subject kind, subject id, severity, and proof compatibility;
+expanded metadata may show roots, theorem ids, replay steps, witness artifact
+paths, and generated artifact paths, but never protected source or secrets.
+
+Interface integration regression proof enters Terminal through the client-safe
+`@bitcode/btd/interface-integration-contract` subpath and the server-side
+`/btd/interface-integration-regression` route. Terminal records the current
+Terminal, API, MCP, ChatGPT App, Auxillaries hook, and Exchange hook consumers
+as package-owned BTD object consumers. The low-detail cockpit must remain
+source-safe, and the proof must reject route-local BTD policy copies, source
+leakage, or selected-transaction behavior regression before Gate 10 promotion
+readiness.
 
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,

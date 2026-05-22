@@ -2,9 +2,10 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V27`
-- Current active canon: `BITCODE_SPEC_V27.md`
-- Current draft target: `BITCODE_SPEC_V28.md`
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V29`
+- Current active canon: `BITCODE_SPEC_V29.md`
+- Current draft target: `BITCODE_SPEC_V30.md`
+- Current working gate: V30 Gate 10 promotion readiness, which prepares V30 generated artifacts, promotion workflow, and post-promotion V30 active / V31 draft posture.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
@@ -16,8 +17,9 @@ They are referenced here for specification history only; active implementation w
 ## Source Families
 
 - Legacy ENGI specifications: `_legacy/ENGI_SPEC_V1.md` through `_legacy/ENGI_SPEC_V25.md`, with companion `NOTES`, `DELTA`, `PARITY_MATRIX`, `SYSTEM_PARITY_MATRIX`, `PROVEN`, and audit files where present.
-- Active Bitcode specifications: `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V27.md`, their companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Draft and future Bitcode specifications: `BITCODE_SPEC_V28.md`, `BITCODE_SPEC_V28_DELTA.md`, `BITCODE_SPEC_V28_NOTES.md`, `BITCODE_SPEC_V28_PARITY_MATRIX.md`, and `BITCODE_SPEC_V29_NOTES.md` through `BITCODE_SPEC_V37_NOTES.md`.
+- Active Bitcode specifications: `BITCODE_SPEC_V29.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V28.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Draft and future Bitcode specifications: `BITCODE_SPEC_V30.md`, `BITCODE_SPEC_V30_DELTA.md`, `BITCODE_SPEC_V30_NOTES.md`, `BITCODE_SPEC_V30_PARITY_MATRIX.md`, and `BITCODE_SPEC_V31_NOTES.md` through `BITCODE_SPEC_V37_NOTES.md`.
 - Specification discipline references: `BITCODE_SPECIFYING.md` and `BITCODE_SPEC_TEMPLATEGUIDE.md`.
 
 ## Roadmap
@@ -50,13 +52,13 @@ They are referenced here for specification history only; active implementation w
 | V24 | `_legacy/ENGI_SPEC_V24.md` | historical | External realization: moves modeled Bitcoin, sidechain, compute, storage, and GitHub interfaces toward real typed execution receipts, exhaustive telemetry, live adapter contracts, and full-canon conformance repair. |
 | V25 | `_legacy/ENGI_SPEC_V25.md` | historical | Rename canon: full project rename from ENGI to Bitcode and NGI to BTD while preserving V24 behavior, proof obligations, settlement, disclosure, fail-closed posture, generated evidence, and runtime/API/site alignment. |
 | V26 | `BITCODE_SPEC_V26.md` | promoted historical Bitcode canon | First commercial Bitcode promotion: productionizing hardening, demonstration-to-application integration, app-native UI replacement, package-first refurbishment, retained-system purification, Exchange/Terminal minimum functionality, MVP elevation, commercial testnet readiness, and whole-repository provation. |
-| V27 | `BITCODE_SPEC_V27.md` | active canon | `$BTD` tokenomics and practical cryptotechnological commercialization: 21,000,000 non-fungible source-share cells, AssetPack ranges, Read-Fit-Prove-Settle mint admission, measureminting decay, zero-cell/refit tail receipts, BTC fee separation, wallet/PSBT paths, ledgerized anchors, minimal AssetPack Exchange, Terminal journals, reconciliation, telemetry, upgrades, access rights, revenue, and optional evidence-based ancestry. |
-| V28 | `BITCODE_SPEC_V28.md` | active draft target | Commercial Protocol implementation and Terminal MVP over V27: Terminal readiness over wallet/BTC/Read-Fit-measuremint primitives, realistic testnet BTD-AssetPack minting, synthetic measurements journaled and ledgerized, BTD range disclosure, read-right state, journal/reconciliation readability, MCP API and ChatGPT App MVP, Auxillaries contained readiness cleanup, removal of commercial runtime dependencies on `protocol-demonstration/`, and unversioned route discipline. Exchange and website Conversations are deferred beyond V35. |
-| V29 | `BITCODE_SPEC_V29_NOTES.md` | future notes | Deeper Terminal: full Read/Fit/proof/dedupe/measuremint/settlement workflows, wallet recovery, BTC fee lifecycle depth, AssetPack range/read-right reviews, journal diffing, reconciliation repair, organization permissions, and Terminal-specific UI/test coverage. |
-| V30 | `BITCODE_SPEC_V30_NOTES.md` | future notes | Protocol/BTD hardening after V28/V29: follow-up package extraction, Bitcoin/Taproot/PSBT rigor, BTD-AssetPack mint/read receipts, testnet ledger/projection hardening, bridge-readiness research notes, and source-to-shares proof cleanup. Exchange is not V30. |
-| V31 | `BITCODE_SPEC_V31_NOTES.md` | future notes | Deeper Auxillaries: profile, connects, interfaces, BTD panes, provider readiness, account state, team/org/wallet/multi-sig/role/policy controls, readiness diagnostics, recovery flows, responsive/accessibility QA, and Auxillaries-specific tests/proofs. |
-| V32 | `BITCODE_SPEC_V32_NOTES.md` | future notes | Deeper provation and testing: broader proof-family replay across Terminal, Exchange, Auxillaries, BTD registry, and protocol-demonstration; E2E/failure-state breadth, regression suites, promotion-proof generation hardening, scenario expansion, visual/accessibility/responsive tests, and testnet/mainnet-readiness rehearsal. |
-| V33 | `BITCODE_SPEC_V33_NOTES.md` | future notes | Deeper Interfaces beyond V28 MVP: mature MCP API, ChatGPT App, API packaging, schemas, examples, contract tests, interface auth, policy checks, fail-closed read/license behavior, and commercial non-Auxillaries non-website application interfaces. |
+| V27 | `BITCODE_SPEC_V27.md` | promoted historical Bitcode canon | `$BTD` tokenomics and practical cryptotechnological commercialization: 21,000,000 non-fungible source-share cells, AssetPack ranges, Read-Fit-Prove-Settle mint admission, measureminting decay, zero-cell/refit tail receipts, BTC fee separation, wallet/PSBT paths, ledgerized anchors, Terminal journals, reconciliation, telemetry, upgrades, access rights, revenue, and optional evidence-based ancestry. |
+| V28 | `BITCODE_SPEC_V28.md` | promoted historical Bitcode canon | Commercial Protocol implementation and Terminal MVP: Depositing, Read Request, Read-Need Comprehension, Finding Fits, source-safe AssetPack preview, settlement posture, BTD range/read-right state, PR delivery, streaming pipeline telemetry, staging-testnet harnesses, MCP/ChatGPT App MVP, demonstration boundary cleanup, and unversioned route discipline. |
+| V29 | `BITCODE_SPEC_V29.md` | active canon | Deeper Terminal transaction cockpit: route-owned transaction state, Wallet/BTC operation depth, Reading pipeline observability, AssetPack disclosure rights, settlement reconciliation/repair, organization permission authority, browser-proven Terminal UX, local/staging promotion readiness, and V29 canonical promotion. |
+| V30 | `BITCODE_SPEC_V30.md` | active draft target | Protocol/BTD hardening after V28/V29: package API boundaries, Bitcoin/Taproot/PSBT rigor, BTD-AssetPack mint/read/right-transfer receipts, testnet ledger/database/object-storage projection hardening, source-to-shares proof cleanup, bridge-readiness research boundaries, Protocol/BTD telemetry/proof hooks, interface regression proof, and V30 promotion readiness. Exchange is not V30. |
+| V31 | `BITCODE_SPEC_V31_NOTES.md` | next draft notes after V30 promotion | Deeper Auxillaries after Protocol/BTD rails stabilize: profile, connects, interfaces, BTD panes, provider readiness, account state, team/org/wallet/multi-sig/role/policy controls, readiness diagnostics, recovery flows, responsive/accessibility QA, and Auxillaries-specific tests/proofs. V31 Gate 1 must open the full V31 SPEC/DELTA/PARITY family from these notes. |
+| V32 | `BITCODE_SPEC_V32_NOTES.md` | future notes | Deeper provation and testing over stable Terminal and Protocol/BTD rails: proof-family replay across Terminal, Exchange placeholders, Auxillaries, BTD registry, and protocol-demonstration; E2E/failure-state breadth, regression suites, promotion-proof generation hardening, scenario expansion, visual/accessibility/responsive tests, and testnet/mainnet-readiness rehearsal. |
+| V33 | `BITCODE_SPEC_V33_NOTES.md` | future notes | Deeper Interfaces beyond the V28 MVP: mature MCP API, ChatGPT App, API packaging, schemas, examples, contract tests, interface auth, policy checks, fail-closed read/license behavior, and commercial non-Auxillaries non-website application interfaces using package-owned Protocol/BTD objects. |
 | V34 | `BITCODE_SPEC_V34_NOTES.md` | future notes | Deeper Deployment: host capabilities, real executions, distributed compute aligned with provations, runtime/storage expectations, ledger/database/object-storage/proof-artifact posture, CI/CD for canonical promotions, environment lanes, deployment approvals, rollback, upgrades, secret rotation, and repair playbooks. |
 | V35 | `BITCODE_SPEC_V35_NOTES.md` | future notes | Deeper telemetry and documenting: internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert runbooks, incident response, operator escalation, documentation QA across code/spec/proofs/deployments, developer onboarding, operator guides, and testnet-rollout readiness material. |
 | V36 | `BITCODE_SPEC_V36_NOTES.md` | future notes | Deeper Exchange after V35: Exchange MVP/deepening, market-wide activity master-detail, buy/sell/bid/ask/cancel/accept/settle/history flows, AssetPack range trading, rights-transfer review, liquidity/wrapper analysis, dispute/repair/revenue-route operations, and Exchange-specific tests/proofs. |
@@ -64,20 +66,22 @@ They are referenced here for specification history only; active implementation w
 
 ## Current Planning Spine
 
-1. V26 converted the renamed repository into commercial Bitcode: package-owned, app-owned, proof-bearing, MVP-ready enough for V27 tokenomics.
+1. V26 converted the renamed repository into commercial Bitcode: package-owned, app-owned, proof-bearing, and MVP-ready enough for V27 tokenomics.
 2. V27 made `$BTD` and practical crypto rails exact enough to serve as active law.
-3. V28 must harden the commercial Protocol implementation and Terminal MVP so V27 law is usable by operators without fighting visual, route, readiness, wallet/BTC/testnet, MCP, ChatGPT App, or demonstration-boundary defects.
-4. V29 through V31 deepen Terminal, Protocol/BTD hardening, and Auxillaries in order.
-5. V32 deepens provation and testing after those surfaces are stable enough to prove.
-6. V33 deepens commercial interfaces outside the website/Auxillaries frame beyond the V28 MCP API and ChatGPT App MVP.
-7. V34 makes deployment, host capability, distributed execution, storage, CI/CD, and promotion operations robust enough for testnet-facing reality.
-8. V35 deepens telemetry and documentation as the prelude to full commercial application testnet rollout.
-9. V36+ returns to deferred Exchange and website Conversations after the Protocol/Terminal/interface/deployment/documentation spine is mature.
+3. V28 promoted the first commercial Reading implementation and Terminal MVP: Depositing, Read-Need Comprehension, Finding Fits, AssetPack preview, settlement posture, delivery, staging-testnet harnessing, and demonstration-boundary discipline.
+4. V29 promoted the deeper Terminal transaction cockpit: recoverable transaction routes, Wallet/BTC operation detail, Reading observability, disclosure rights, reconciliation repair, organization authority, browser-proof UX, and promotion readiness.
+5. V30 is the current draft target and hardens Protocol/BTD rails beneath V28/V29: packages, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness boundaries, telemetry/proof hooks, interface regression, and promotion readiness.
+6. V31 deepens Auxillaries after Protocol/BTD objects are stable enough for account, wallet, provider, team, role, and policy support surfaces.
+7. V32 deepens provation and testing after Terminal, Protocol/BTD, and Auxillaries are stable enough to prove broadly.
+8. V33 deepens commercial interfaces outside the website/Auxillaries frame beyond the V28 MCP API and ChatGPT App MVP.
+9. V34 makes deployment, host capability, distributed execution, storage, CI/CD, and promotion operations robust enough for testnet-facing reality.
+10. V35 deepens telemetry and documentation as the prelude to full commercial application testnet rollout.
+11. V36+ returns to deferred Exchange and website Conversations after the Protocol/Terminal/Auxillaries/interface/deployment/documentation spine is mature.
 
 ## Boundary Rules
 
 - Do not treat `_legacy/` ENGI specifications as active implementation authority.
 - Do use `_legacy/` specifications to understand why current Bitcode concepts exist and what must not regress.
-- V28+ work must build on V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
+- V30+ work must build on V29 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
 - No implementation route should be versioned by spec number; source should move in place with the active canon.
 - Future notes files are planning memory only until their version is explicitly opened as the draft-target SPEC family.

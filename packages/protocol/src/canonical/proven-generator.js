@@ -23,6 +23,8 @@ import {
   buildV21SpecFamilyReport
 } from './v21-specifying.js';
 import {
+  buildCanonPostureDriftReport,
+  buildCanonPostureGeneratedArtifactContents,
   buildV25CanonPostureDriftReport,
   buildV24CanonPostureDriftReport,
   buildV23CanonPostureDriftReport,
@@ -7124,7 +7126,9 @@ export function renderCanonicalProvenMarkdown(data) {
       ])
     ));
   }
-  lines.push('');
+  while (lines[lines.length - 1] === '') {
+    lines.pop();
+  }
   return `${lines.join('\n')}\n`;
 }
 
@@ -8118,6 +8122,204 @@ function buildV26ProvenPackage(baseData, {
 
 /**
  * @param {{
+ *   generatedAt: string,
+ *   baseData: ReturnType<typeof buildCanonicalProvenData>
+ * }} input
+ */
+function buildV30ProtocolTelemetryProofHooks({ generatedAt, baseData }) {
+  const requiredFiles = [
+    'packages/btd/src/telemetry.ts',
+    'packages/btd/src/api-boundaries.ts',
+    'packages/btd/__tests__/telemetry.test.ts',
+    'packages/api/src/routes/btd-crypto.ts',
+    'packages/api/src/routes/__tests__/btd-crypto.test.ts',
+    'uapi/app/api/btd/protocol-telemetry/route.ts',
+    'packages/btd/README.md',
+    'uapi/app/terminal/README.md',
+    'BITCODE_SPEC_V30.md',
+    'BITCODE_SPEC_V30_DELTA.md',
+    'BITCODE_SPEC_V30_NOTES.md',
+    'BITCODE_SPEC_V30_PARITY_MATRIX.md'
+  ];
+  const telemetryPrimitiveTokens = [
+    'BtdProtocolTelemetryEnvelope',
+    'BtdProtocolTelemetryRecord',
+    'BtdProtocolProofHook',
+    'buildBtdProtocolTelemetryEnvelope',
+    'buildBtdProtocolProofHook',
+    'sourceSafety',
+    'containsProtectedSource: false',
+  ];
+  const failures = [];
+  const checkedFiles = [];
+  /** @type {Record<string, string>} */
+  const sourceByPath = {};
+  for (const relativePath of requiredFiles) {
+    const absolutePath = path.join(REPO_ROOT, relativePath);
+    if (!existsSync(absolutePath)) {
+      failures.push(`missing required telemetry proof-hook source ${relativePath}`);
+      continue;
+    }
+    checkedFiles.push(relativePath);
+    const content = readFileSync(absolutePath, 'utf8');
+    sourceByPath[relativePath] = content;
+    for (const token of telemetryPrimitiveTokens) {
+      if (!content.includes(token) && relativePath === 'packages/btd/src/telemetry.ts') {
+        failures.push(`telemetry primitive is missing ${token}`);
+      }
+    }
+  }
+  const routeContent = sourceByPath['packages/api/src/routes/btd-crypto.ts'] || '';
+  const nextRouteContent = sourceByPath['uapi/app/api/btd/protocol-telemetry/route.ts'] || '';
+  const testContent = sourceByPath['packages/btd/__tests__/telemetry.test.ts'] || '';
+  const specContent = sourceByPath['BITCODE_SPEC_V30.md'] || '';
+  const routeReady = routeContent.includes('buildPostBtdProtocolTelemetryRoute')
+    && routeContent.includes('postBtdProtocolTelemetry')
+    && nextRouteContent.includes('postBtdProtocolTelemetry');
+  const testsReady = [
+    'receipts, fees, projections, shares, and bridges',
+    'secret-looking or protected-source telemetry metadata',
+    'replayable theorem and witness facts'
+  ].every((token) => testContent.includes(token));
+  const specReady = specContent.includes('Gate 8 Protocol telemetry proof hooks')
+    && specContent.includes('BtdProtocolTelemetryEnvelope');
+  if (!routeReady) failures.push('Protocol telemetry API route is not wired.');
+  if (!testsReady) failures.push('Protocol telemetry tests do not cover source safety and proof-hook replay.');
+  if (!specReady) failures.push('V30 spec does not bind Protocol telemetry proof hooks.');
+
+  return {
+    reportId: 'v30-protocol-telemetry-proof-hooks',
+    version: 'V30',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: failures.length === 0,
+    sourceSafe: true,
+    checkedFileCount: checkedFiles.length,
+    checkedFiles,
+    requiredTelemetryFamilies: [
+      'btd_receipt',
+      'btc_fee_state',
+      'ledger_projection',
+      'source_to_shares_proof',
+      'bridge_readiness_posture'
+    ],
+    proofHookCoverage: [
+      'theorem ids',
+      'replay step ids',
+      'witness artifact paths',
+      'generated artifact paths',
+      'evidence roots',
+      'telemetry roots'
+    ],
+    compatibleWith: ['V32', 'V35'],
+    failures
+  };
+}
+
+/**
+ * @param {any} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ */
+function buildV30ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const draftPreview = ACTIVE_CANON_VERSION !== 'V30';
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V30',
+    mode: draftPreview ? 'draft' : 'promoted',
+    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V30' })
+  });
+  const assumedArtifactPaths = [
+    'BITCODE_SPEC_V30_PROVEN.md',
+    '.bitcode/v30-spec-family-report.json',
+    '.bitcode/v30-canonical-input-report.json',
+    '.bitcode/v30-canon-posture-drift-report.json',
+    '.bitcode/v30-protocol-telemetry-proof-hooks.json'
+  ];
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V30',
+    reportVersion: 'V30',
+    ...(draftPreview
+      ? {
+          skipPointerCheck: true,
+          assumeExistingRelativePaths: assumedArtifactPaths
+        }
+      : { assumeExistingRelativePaths: assumedArtifactPaths })
+  });
+  const canonPostureDriftReport = buildCanonPostureDriftReport({
+    version: 'V30',
+    activeCanonVersion: 'V30',
+    draftTargetVersion: 'V31',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const protocolTelemetryProofHooks = buildV30ProtocolTelemetryProofHooks({
+    generatedAt,
+    baseData
+  });
+  const artifacts = {
+    ...buildCanonPostureGeneratedArtifactContents({
+      version: 'V30',
+      proofSourceCommit: baseData.canonicalCommit,
+      generatedAt,
+      generatorId: baseData.generatorId,
+      worktreeState: baseData.worktreeState,
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport
+    }),
+    '.bitcode/v30-protocol-telemetry-proof-hooks.json': `${JSON.stringify(protocolTelemetryProofHooks, null, 2)}\n`
+  };
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const promotionReady = specFamilyReport.passed === true
+    && canonicalInputReport.passed === true
+    && canonPostureDriftReport.passed === true
+    && protocolTelemetryProofHooks.passed === true;
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v30: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      protocolTelemetryProofHooks,
+      artifactSummaries,
+      draftPreview,
+      promotionReady,
+      activeCanonicalTarget: ACTIVE_CANON_VERSION,
+      nextDraftTarget: 'V31'
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && promotionReady
+        && specFamilyReport.mode === 'promoted'
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
+ * @param {{
  *   version: string,
  *   canonicalCommit: string,
  *   canonicalCommitRecordedAt?: string | null,
@@ -8531,6 +8733,58 @@ export function generateCanonicalProvenMarkdown({
     });
     finishGenerateProfile();
     return v26Package;
+  }
+  if (version === 'V30') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      renderMarkdown: false,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      renderMarkdown: false
+    });
+    const v30Package = buildV30ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+    finishGenerateProfile();
+    return v30Package;
   }
   const v18Matrices = version === 'V18'
     ? buildV18Matrices(baseData, {

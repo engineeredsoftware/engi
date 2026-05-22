@@ -47,6 +47,7 @@ export {
 export { enforceResourceLimits, createResourceLimitedExecutor } from './middleware/resource-limits';
 export { RateLimiter, CircuitBreaker } from './middleware/rate-limit';
 export { SandboxedFileSystem, validateLocalPath } from './local-repository/handler';
+export { buildMcpInterfaceIntegrationRecord } from './interface-integration';
 
 // Export health check utilities
 export { performHealthCheck, isReady, isAlive } from './health/health-check';

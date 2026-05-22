@@ -102,20 +102,22 @@ test('runtime promotion preparation rewrites current inline demonstration README
     path.join(fixtureRoot, 'protocol-demonstration', 'src', 'canon-posture.js'),
     [
       "// @ts-check",
-      "export const ACTIVE_CANON_VERSION = 'V27';",
-      "export const DRAFT_TARGET_VERSION = 'V28';"
+      "export const ACTIVE_CANON_VERSION = 'V29';",
+      "export const DRAFT_TARGET_VERSION = 'V30';"
     ].join('\n'),
     'utf8'
   );
   await fs.writeFile(
     path.join(fixtureRoot, 'protocol-demonstration', 'README.md'),
     [
-      '# Bitcode Protocol Demonstration - V27 canonical deterministic local prototype',
+      '# Bitcode Protocol Demonstration - V29 canonical deterministic local prototype',
       '',
       '`BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently',
-      'resolves to `V27`; V28 is the active draft target for MVP QA.',
-      '`BITCODE_SPEC.txt -> V27`. This demo is governed by the active V27 canonical',
-      'spec and `BITCODE_SPEC_V27_PROVEN.md` as the current generated appendix.'
+      'resolves to `V29`; V30 is the active draft target for Protocol/BTD hardening.',
+      '`BITCODE_SPEC.txt -> V29`.',
+      'This demo is governed by the active V29 canonical spec and',
+      '`BITCODE_SPEC_V29_PROVEN.md` as the current generated appendix while V30 draft',
+      'work proceeds outside the demonstration runtime boundary.'
     ].join('\n'),
     'utf8'
   );
@@ -123,9 +125,9 @@ test('runtime promotion preparation rewrites current inline demonstration README
   execFileSync(process.execPath, [
     prepareRuntimeScriptPath,
     '--version',
-    'V28',
+    'V30',
     '--next-draft',
-    'V29',
+    'V31',
     '--repo-root',
     fixtureRoot
   ], {
@@ -135,12 +137,13 @@ test('runtime promotion preparation rewrites current inline demonstration README
 
   const rewrittenReadme = await fs.readFile(path.join(fixtureRoot, 'protocol-demonstration', 'README.md'), 'utf8');
 
-  assert.match(rewrittenReadme, /# Bitcode Protocol Demonstration - V28 canonical deterministic local prototype/);
-  assert.match(rewrittenReadme, /resolves to `V28`; V29 is the next draft target after this promotion\./);
-  assert.match(rewrittenReadme, /BITCODE_SPEC\.txt -> V28/);
-  assert.match(rewrittenReadme, /active V28 canonical\s+spec/);
-  assert.match(rewrittenReadme, /BITCODE_SPEC_V28_PROVEN\.md/);
-  assert.doesNotMatch(rewrittenReadme, /active draft target for MVP QA/);
+  assert.match(rewrittenReadme, /# Bitcode Protocol Demonstration - V30 canonical deterministic local prototype/);
+  assert.match(rewrittenReadme, /resolves to `V30`; V31 is the next draft target after this promotion\./);
+  assert.match(rewrittenReadme, /BITCODE_SPEC\.txt -> V30/);
+  assert.match(rewrittenReadme, /active V30 canonical\s+spec/);
+  assert.match(rewrittenReadme, /BITCODE_SPEC_V30_PROVEN\.md/);
+  assert.doesNotMatch(rewrittenReadme, /active draft target/);
+  assert.doesNotMatch(rewrittenReadme, /draft work proceeds outside/);
 });
 
 test('V23 spec-family promotion preparation rewrites hand-authored status truth', async () => {

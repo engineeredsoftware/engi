@@ -310,6 +310,31 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
                 btdRange: { start: 0, endExclusive: 1, tokenCount: 1 },
                 ledgerAnchorId: 'ledger-anchor-run-1',
                 btcFeeReceiptId: 'btc-fee-run-1',
+                asset_pack_mint_receipt: {
+                  kind: 'btd.asset_pack_mint_receipt',
+                  receiptRoot: 'asset-pack-mint-receipt-root-run-1',
+                  protectedSourceVisible: false,
+                },
+                read_receipt: {
+                  kind: 'btd.read_receipt',
+                  receiptRoot: 'read-receipt-root-run-1',
+                  disclosureState: 'source_safe_preview',
+                  protectedSourceVisible: false,
+                },
+                btd_rights_transfer_receipt: {
+                  kind: 'btd.rights_transfer_receipt',
+                  receiptRoot: 'rights-transfer-receipt-root-run-1',
+                  protectedSourceVisible: true,
+                },
+                ledger_database_reconciliation: {
+                  kind: 'btd.ledger_database_reconciliation',
+                  objectStorageArtifacts: [
+                    {
+                      artifactId: 'preview-artifact-run-1',
+                      storageRoot: 'sha256:preview-storage-root',
+                    },
+                  ],
+                },
                 readback: {
                   assetPackRange: true,
                   btcFeeTransaction: true,
@@ -464,6 +489,23 @@ describe('terminal-transaction-detail-snapshot helpers', () => {
         terminalJournal: true,
       },
       journalEntryIds: ['journal-mint-run-1'],
+      assetPackMintReceipt: {
+        receiptRoot: 'asset-pack-mint-receipt-root-run-1',
+      },
+      readReceipt: {
+        receiptRoot: 'read-receipt-root-run-1',
+      },
+      rightsTransferReceipt: {
+        receiptRoot: 'rights-transfer-receipt-root-run-1',
+      },
+      ledgerDatabaseReconciliation: {
+        objectStorageArtifacts: [
+          {
+            artifactId: 'preview-artifact-run-1',
+            storageRoot: 'sha256:preview-storage-root',
+          },
+        ],
+      },
     });
     expect(snapshot.terminalJournal).toMatchObject({
       expectedJournalEntryIds: ['journal-mint-run-1'],

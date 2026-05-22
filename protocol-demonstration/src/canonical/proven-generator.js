@@ -7124,7 +7124,9 @@ export function renderCanonicalProvenMarkdown(data) {
       ])
     ));
   }
-  lines.push('');
+  while (lines[lines.length - 1] === '') {
+    lines.pop();
+  }
   return `${lines.join('\n')}\n`;
 }
 

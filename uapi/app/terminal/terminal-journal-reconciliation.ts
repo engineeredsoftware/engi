@@ -20,7 +20,11 @@ export type TerminalJournalReconciliationFact = {
   label: string;
   value: string;
   state: string;
-  source: 'ledger_observed' | 'database_projected' | 'metaphysical_canonical';
+  source:
+    | 'ledger_observed'
+    | 'database_projected'
+    | 'object_storage_artifact'
+    | 'metaphysical_canonical';
   blocksContradictoryProjection: boolean;
 };
 
@@ -31,6 +35,7 @@ export type TerminalJournalReconciliationSnapshot = {
   metrics: Array<{ label: string; value: string }>;
   observedFacts: TerminalJournalReconciliationFact[];
   projectedFacts: TerminalJournalReconciliationFact[];
+  objectStorageFacts: TerminalJournalReconciliationFact[];
   canonicalFacts: TerminalJournalReconciliationFact[];
   journalEntries: Array<{ id: string; title: string; summary: string; supportingText?: string }>;
   repairReceipts: Array<{ id: string; title: string; summary: string; supportingText?: string }>;
@@ -46,6 +51,10 @@ const FAILED_FINALITY_STATES = new Set(['reorged', 'failed']);
 
 function asString(value: unknown) {
   return typeof value === 'string' && value.trim() ? value : null;
+}
+
+function isRecord(value: unknown): value is TerminalJsonRecord {
+  return typeof value === 'object' && value !== null;
 }
 
 function asNumber(value: unknown) {
@@ -177,6 +186,44 @@ function buildProjectedFacts(settlement: TerminalLedgerSettlementSnapshot | null
   );
 }
 
+function buildObjectStorageFacts(
+  settlement: TerminalLedgerSettlementSnapshot | null,
+): TerminalJournalReconciliationFact[] {
+  const report = settlement?.ledgerDatabaseReconciliation;
+  const artifacts = Array.isArray(report?.objectStorageArtifacts)
+    ? report.objectStorageArtifacts.filter((entry): entry is TerminalJsonRecord => Boolean(entry) && typeof entry === 'object')
+    : [];
+
+  if (!artifacts.length) {
+    return [
+      fact({
+        id: 'object-storage-artifacts',
+        label: 'Object storage artifacts',
+        value: 'not projected',
+        state: 'missing',
+        source: 'object_storage_artifact',
+        blocksContradictoryProjection: false,
+      }),
+    ];
+  }
+
+  return artifacts.map((artifact) => {
+    const durable = artifact.durable === true;
+    const containsProtectedSource = artifact.containsProtectedSource === true;
+    const encrypted = artifact.encrypted === true;
+    const visibility = asString(artifact.sourceVisibility) || 'unknown';
+    return fact({
+      id: asString(artifact.factId) || asString(artifact.artifactId) || 'object-storage-artifact',
+      label: asString(artifact.artifactKind) || 'object storage artifact',
+      value: asString(artifact.storageRoot) || 'n/a',
+      state: durable ? visibility : 'missing',
+      source: 'object_storage_artifact',
+      blocksContradictoryProjection:
+        !durable || (containsProtectedSource && (!encrypted || visibility !== 'encrypted_protected_source')),
+    });
+  });
+}
+
 function buildCanonicalFacts(
   settlement: TerminalLedgerSettlementSnapshot | null,
   journal: TerminalJournalReadbackSnapshot | null,
@@ -244,6 +291,46 @@ function buildRepairItems(repairs: TerminalReconciliationRepairSnapshot[]) {
   }));
 }
 
+function buildReportRepairSnapshots(
+  settlement: TerminalLedgerSettlementSnapshot | null,
+): TerminalReconciliationRepairSnapshot[] {
+  const report = settlement?.ledgerDatabaseReconciliation;
+  const repairs = Array.isArray(report?.repairs)
+    ? report.repairs.filter((entry): entry is TerminalJsonRecord => Boolean(entry) && typeof entry === 'object')
+    : [];
+
+  return repairs.map((repair) => ({
+    repairId: asString(repair.repairId) || asString(repair.repair_id) || 'n/a',
+    reconciliationId:
+      asString(repair.reconciliationId) ||
+      asString(repair.reconciliation_id) ||
+      asString(report?.reconciliationId) ||
+      'n/a',
+    factId: asString(repair.factId) || asString(repair.fact_id) || 'n/a',
+    repairKind: asString(repair.repairKind) || asString(repair.repair_kind) || 'n/a',
+    driftKind: asString(repair.driftKind) || asString(repair.drift_kind),
+    repairActionKind: asString(repair.repairActionKind) || asString(repair.repair_action_kind),
+    beforeValue: asString(repair.beforeValue) || asString(repair.before_value) || asString(repair.before) || 'n/a',
+    afterValue: asString(repair.afterValue) || asString(repair.after_value) || asString(repair.after) || 'n/a',
+    blocking: repair.blocking === true,
+    requiresOperatorApproval: repair.requiresOperatorApproval === true || repair.requires_operator_approval === true,
+    proofRoot: asString(repair.proofRoot) || asString(repair.proof_root),
+    issuedAt: asString(repair.issuedAt) || asString(repair.issued_at),
+    raw: repair,
+  }));
+}
+
+function mergeRepairSnapshots(
+  journalRepairs: TerminalReconciliationRepairSnapshot[],
+  reportRepairs: TerminalReconciliationRepairSnapshot[],
+) {
+  const byId = new Map<string, TerminalReconciliationRepairSnapshot>();
+  for (const repair of [...journalRepairs, ...reportRepairs]) {
+    byId.set(repair.repairId, repair);
+  }
+  return Array.from(byId.values());
+}
+
 function deriveDriftKind(repair: TerminalReconciliationRepairSnapshot) {
   if (repair.driftKind) return repair.driftKind;
   if (repair.beforeValue === 'missing') return 'missing_database_projection';
@@ -289,8 +376,9 @@ function buildRepairActions(
   detail: TerminalRunDetailSnapshot | null,
   observedFacts: TerminalJournalReconciliationFact[],
   missingJournalEntryIds: string[],
+  repairs: TerminalReconciliationRepairSnapshot[],
 ) {
-  const actions = (journal?.repairs || []).map((repair) => ({
+  const actions = repairs.map((repair) => ({
     id: `${repair.repairId}:${deriveRepairActionKind(repair)}`,
     title: deriveRepairActionKind(repair),
     summary: summarizeRepairAction(repair),
@@ -411,8 +499,10 @@ function uniqueProofRootItems(entries: Array<{ title: string; root: string; supp
 
 function buildProofRoots(
   journal: TerminalJournalReadbackSnapshot | null,
+  settlement: TerminalLedgerSettlementSnapshot | null,
   canonicalFacts: TerminalJournalReconciliationFact[],
 ) {
+  const report = settlement?.ledgerDatabaseReconciliation;
   const repairRoots =
     journal?.repairs.flatMap((repair) =>
       repair.proofRoot
@@ -440,8 +530,19 @@ function buildProofRoots(
       root: entry.value,
       supportingText: entry.source,
     }));
+  const reportProofRoots = isRecord(report?.proofRoots)
+    ? Object.entries(report.proofRoots).flatMap(([title, root]) =>
+        typeof root === 'string'
+          ? [{
+              title,
+              root,
+              supportingText: 'ledger database reconciliation report',
+            }]
+          : [],
+      )
+    : [];
 
-  return uniqueProofRootItems([...repairRoots, ...journalRoots, ...canonicalRoots]);
+  return uniqueProofRootItems([...repairRoots, ...journalRoots, ...canonicalRoots, ...reportProofRoots]);
 }
 
 function findMissingExpectedJournalEntries(journal: TerminalJournalReadbackSnapshot | null) {
@@ -454,6 +555,8 @@ function buildBlockingReasons(
   settlement: TerminalLedgerSettlementSnapshot | null,
   journal: TerminalJournalReadbackSnapshot | null,
   observedFacts: TerminalJournalReconciliationFact[],
+  repairs: TerminalReconciliationRepairSnapshot[],
+  objectStorageFacts: TerminalJournalReconciliationFact[],
 ) {
   const reasons: string[] = [];
   const readback = settlement?.readback || {};
@@ -479,7 +582,12 @@ function buildBlockingReasons(
   if (settlementConservationReason) {
     reasons.push(settlementConservationReason);
   }
-  for (const repair of journal?.repairs || []) {
+  for (const fact of objectStorageFacts) {
+    if (fact.blocksContradictoryProjection) {
+      reasons.push(`Object storage artifact ${fact.id} blocks unlock or delivery until repaired.`);
+    }
+  }
+  for (const repair of repairs) {
     if (repair.blocking) {
       reasons.push(`Repair ${repair.repairId} blocks ${repair.factId}.`);
     }
@@ -563,9 +671,20 @@ export function buildTerminalJournalReconciliation(
   const journal = detail?.terminalJournal || null;
   const observedFacts = buildObservedFacts(settlement, journal);
   const projectedFacts = buildProjectedFacts(settlement);
+  const objectStorageFacts = buildObjectStorageFacts(settlement);
   const canonicalFacts = buildCanonicalFacts(settlement, journal);
+  const repairSnapshots = mergeRepairSnapshots(
+    journal?.repairs || [],
+    buildReportRepairSnapshots(settlement),
+  );
   const missingJournalEntryIds = findMissingExpectedJournalEntries(journal);
-  const blockingReasons = buildBlockingReasons(settlement, journal, observedFacts);
+  const blockingReasons = buildBlockingReasons(
+    settlement,
+    journal,
+    observedFacts,
+    repairSnapshots,
+    objectStorageFacts,
+  );
   if (missingJournalEntryIds.length) {
     blockingReasons.push(`Missing Terminal journal entries: ${missingJournalEntryIds.join(', ')}`);
   }
@@ -576,9 +695,10 @@ export function buildTerminalJournalReconciliation(
     detail,
     observedFacts,
     missingJournalEntryIds,
+    repairSnapshots,
   );
-  const proofRoots = buildProofRoots(journal, canonicalFacts);
-  const driftKindCounts = buildDriftKindCounts(journal?.repairs || [], missingJournalEntryIds);
+  const proofRoots = buildProofRoots(journal, settlement, canonicalFacts);
+  const driftKindCounts = buildDriftKindCounts(repairSnapshots, missingJournalEntryIds);
 
   return {
     state,
@@ -591,15 +711,17 @@ export function buildTerminalJournalReconciliation(
       { label: 'State', value: stateLabel(state) },
       { label: 'Journal entries', value: formatCount(journal?.entries.length || 0) },
       { label: 'Projected facts', value: formatCount(projectedFacts.length) },
-      { label: 'Repair receipts', value: formatCount(journal?.repairs.length || 0) },
+      { label: 'Storage artifacts', value: formatCount(objectStorageFacts.length) },
+      { label: 'Repair receipts', value: formatCount(repairSnapshots.length) },
       { label: 'Repair actions', value: formatCount(repairActions.length) },
       { label: 'Proof roots', value: formatCount(proofRoots.length) },
     ],
     observedFacts,
     projectedFacts,
+    objectStorageFacts,
     canonicalFacts,
     journalEntries: buildJournalItems(journal?.entries || []),
-    repairReceipts: buildRepairItems(journal?.repairs || []),
+    repairReceipts: buildRepairItems(repairSnapshots),
     repairActions,
     proofRoots,
     driftKindCounts,
@@ -609,6 +731,7 @@ export function buildTerminalJournalReconciliation(
       terminalJournal: journal,
       observedFacts,
       projectedFacts,
+      objectStorageFacts,
       canonicalFacts,
       missingJournalEntryIds,
       repairActions,

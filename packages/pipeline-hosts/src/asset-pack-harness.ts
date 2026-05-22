@@ -395,6 +395,9 @@ let lastCheckpointAt = 0;
 let readingPipelineObservabilityInventory = null;
 let resolveReadingPipelineTelemetryProjectionFn = null;
 let summarizeReadingPipelineObservabilityCoverageFn = null;
+let buildBtdAssetPackMintReceiptFn = null;
+let buildBtdReadReceiptFn = null;
+let buildBtdRightsTransferReceiptFn = null;
 
 function normalizeResultState(candidate) {
   return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
@@ -910,6 +913,45 @@ function normalizeBtcLedgerNetwork(value) {
   return 'testnet';
 }
 
+function hostFromUrl(value) {
+  if (!value) return null;
+  try {
+    return new URL(value).hostname;
+  } catch {
+    return null;
+  }
+}
+
+const READBACK_TABLE_NAMES = {
+  semanticMeasurement: 'btd_semantic_volume_measurements',
+  measureMintReceipt: 'btd_measure_mint_receipts',
+  assetPackRange: 'btd_asset_pack_ranges',
+  btdCell: 'btd_cells',
+  ownershipEvent: 'btd_ownership_events',
+  readLicense: 'btd_read_licenses',
+  mintReceipt: 'btd_mint_receipts',
+  btcFeeTransaction: 'btc_fee_transactions',
+  ledgerAnchor: 'btd_asset_pack_ledger_anchors',
+  terminalJournal: 'btd_terminal_journal_entries',
+  cryptoTelemetry: 'btd_crypto_telemetry_events',
+};
+
+function buildProjectionTableReadbacks(readback) {
+  return Object.entries(readback || {}).map(([key, present]) => ({
+    table: READBACK_TABLE_NAMES[key] || key,
+    expectedCount: 1,
+    observedCount: present ? 1 : 0,
+    synchronized: Boolean(present),
+    proofRoot: rootOf({ table: READBACK_TABLE_NAMES[key] || key, present: Boolean(present) }),
+  }));
+}
+
+function supabaseProjectRefFromHost(host) {
+  if (!host) return 'staging-testnet-unresolved';
+  const [projectRef] = String(host).split('.');
+  return projectRef || 'staging-testnet-unresolved';
+}
+
 function ledgerWallet(kind, explicit, fallback) {
   const value = String(explicit || '').trim();
   if (value) return value;
@@ -1172,6 +1214,83 @@ async function settleAssetPackLedger(pipelineResultState) {
       userId,
     });
     const walletSessionId = ledgerWallet('reader-session', process.env.BITCODE_PIPELINE_WALLET_SESSION_ID, runId);
+    const sourceSafePreviewRoot = rootOf({
+      assetPackId,
+      sourceSafePreview: output?.sourceSafePreview || output?.assetPackDisclosureReview || null,
+      protectedSourceVisible: false,
+    });
+    const acceptedNeedRoot =
+      manifest.readNeed?.measurementRoot ||
+      manifest.readNeed?.needRoot ||
+      rootOf({ read: manifest.read, sourceRevision: manifest.sourceRevision });
+    const settlementConservationRoot = rootOf({
+      assetPackId,
+      btcFeeSats,
+      rangeStart,
+      rangeEndExclusive,
+      exchangeSequence,
+    });
+    const ledgerProjectionRoot = rootOf({
+      assetPackId,
+      ledgerAnchorId,
+      btcFeeReceiptId,
+      btdMintReceiptId,
+      ownershipEventId,
+      readLicenseId,
+      journalEntryIds,
+    });
+    const assetPackMintReceipt = buildBtdAssetPackMintReceiptFn({
+      mintReceipt: {
+        kind: 'btd.asset_pack_mint',
+        assetPackId,
+        rangeStart,
+        rangeEndExclusive,
+        tokenCount,
+        totalMintedBefore: rangeStart,
+        totalMintedAfter: rangeEndExclusive,
+        maxSupply,
+        sourceManifestRoot,
+        measurementReceiptRoot,
+        fitReceiptRoot,
+        proofRoot,
+        settlementJournalRoot,
+        dedupeReceiptRoot,
+        exchangeReceiptRoot,
+        accessPolicyId,
+        accessPolicyHash,
+        mintedAtExchangeSequence: BigInt(exchangeSequence),
+        issuedAt,
+      },
+      readId: manifest.read?.id || runId,
+      depositorWalletId,
+      sourceSafePreviewRoot,
+      findingFitsResultRoot: fitReceiptRoot,
+      settlementConservationRoot,
+      ledgerProjectionRoot,
+      issuedAt,
+    });
+    const readReceipt = buildBtdReadReceiptFn({
+      assetPackId,
+      readId: manifest.read?.id || runId,
+      readRequestId: manifest.read?.requestId || manifest.read?.id || runId,
+      acceptedNeedRoot,
+      findingFitsResultRoot: fitReceiptRoot,
+      readerWalletId,
+      depositorWalletId,
+      rangeStart,
+      rangeEndExclusive,
+      tokenCount,
+      sourceManifestRoot,
+      sourceSafePreviewRoot,
+      accessPolicyHash,
+      disclosureState: 'source_safe_preview',
+      readRightState: 'none',
+      deliveryAdmissionState: 'blocked',
+      ledgerProjectionRoot,
+      protectedSourceVisible: false,
+      issuedAt,
+    });
+    const rightsTransferReceipt = null;
 
     const measurementReceipt = {
       schema: 'bitcode.btd.semantic-volume-measurement',
@@ -1262,15 +1381,7 @@ async function settleAssetPackLedger(pipelineResultState) {
     await upsertAndReadLedgerRow('btd_mint_receipts', 'receipt_id', btdMintReceiptId, {
       receipt_id: btdMintReceiptId,
       asset_pack_id: assetPackId,
-      receipt: {
-        schema: 'bitcode.btd.mint-receipt',
-        runId,
-        rangeStart,
-        rangeEndExclusive,
-        tokenCount,
-        proofRoot,
-        measurementReceiptRoot,
-      },
+      receipt: assetPackMintReceipt,
       issued_at: issuedAt,
     });
 
@@ -1394,7 +1505,7 @@ async function settleAssetPackLedger(pipelineResultState) {
         actor_id: depositorWalletId,
         pre_state_root: rootOf({ before: 'asset_pack_mint', totalMinted: rangeStart }),
         post_state_root: rootOf({ after: 'asset_pack_mint', totalMinted: rangeEndExclusive }),
-        receipt_roots: [measurementReceiptRoot, proofRoot, exchangeReceiptRoot],
+        receipt_roots: [measurementReceiptRoot, proofRoot, exchangeReceiptRoot, assetPackMintReceipt.receiptRoot],
         ledger_anchor_ids: [ledgerAnchorId],
         exchange_sequence: exchangeSequence,
         issued_at: issuedAt,
@@ -1427,7 +1538,7 @@ async function settleAssetPackLedger(pipelineResultState) {
         actor_id: readerWalletId,
         pre_state_root: rootOf({ before: 'settlement_finalization', assetPackId }),
         post_state_root: rootOf({ after: 'settlement_finalization', assetPackId, readLicenseId }),
-        receipt_roots: [measurementReceiptRoot, fitReceiptRoot, proofRoot, rootOf({ readLicenseId, btcFeeReceiptId })],
+        receipt_roots: [measurementReceiptRoot, fitReceiptRoot, proofRoot, readReceipt.receiptRoot, rootOf({ readLicenseId, btcFeeReceiptId })],
         ledger_anchor_ids: [ledgerAnchorId],
         exchange_sequence: exchangeSequence + 3,
         issued_at: issuedAt,
@@ -1499,6 +1610,9 @@ async function settleAssetPackLedger(pipelineResultState) {
       journalEntryIds,
       depositorWalletId,
       readerWalletId,
+      assetPackMintReceipt,
+      readReceipt,
+      rightsTransferReceipt,
         btcFee: {
           network: btcNetwork,
           requestedNetwork: requestedBtcNetwork,
@@ -1574,15 +1688,20 @@ try {
 	    },
 	    { enablePipelineStreaming, factoryPipelineExecution },
 	    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
-	    { reconcileLedgerDatabaseProjection },
+	    { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
 	    { evaluateBtdOrganizationInterfaceAuthority },
+      btdReceiptBuilders,
 	  ] = await Promise.all([
 	    import('../../packages/pipelines/asset-pack/src/index'),
 	    import('../../packages/pipelines-generics/src/index'),
 	    import('../../packages/btd/src/settlement'),
 	    import('../../packages/btd/src/reconciliation'),
 	    import('../../packages/btd/src/authority'),
+      import('../../packages/btd/src/receipts'),
 	  ]);
+  buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
+  buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;
+  buildBtdRightsTransferReceiptFn = btdReceiptBuilders.buildBtdRightsTransferReceipt;
   readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
   resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
   summarizeReadingPipelineObservabilityCoverageFn = summarizeReadingPipelineObservabilityCoverage;
@@ -1737,6 +1856,25 @@ try {
   });
 
   const ledgerSettlement = await settleAssetPackLedger(settlementResultState);
+  const supabaseRestHost = hostFromUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      process.env.SUPABASE_URL ||
+      process.env.BITCODE_SUPABASE_URL
+  );
+  const supabaseDatabaseHost = hostFromUrl(process.env.SUPABASE_DB_URL || process.env.DATABASE_URL);
+  const stagingTestnetReadback = ledgerSettlement?.readback
+    ? buildSupabaseStagingTestnetProjectionReadback({
+        readbackId: 'staging-testnet-readback-' + runId,
+        lane: 'staging-testnet',
+        supabaseProjectRef:
+          process.env.BITCODE_SUPABASE_PROJECT_REF ||
+          supabaseProjectRefFromHost(supabaseRestHost),
+        restHost: supabaseRestHost || 'staging-testnet-unresolved.supabase.co',
+        databaseHost: supabaseDatabaseHost || undefined,
+        adminCredentialState: supabase ? 'provided_out_of_band' : 'missing',
+        tableReadbacks: buildProjectionTableReadbacks(ledgerSettlement.readback),
+      })
+    : null;
   const ledgerDatabaseReconciliation = ledgerSettlement?.assetPackId
     ? reconcileLedgerDatabaseProjection({
         reconciliationId: 'harness-reconciliation-' + runId,
@@ -1771,6 +1909,11 @@ try {
                 factId: ledgerSettlement.assetPackId,
                 projectedLedgerRoot: ledgerSettlement.proofRoots?.proofRoot || rootOf({ assetPackId: ledgerSettlement.assetPackId }),
                 projectedFinalityState: ledgerSettlement.status === 'settled' ? 'confirmed' : 'failed',
+                projectedObjectStorageRoot: rootOf({
+                  artifactPath: '${EVIDENCE_PATH}',
+                  assetPackId: ledgerSettlement.assetPackId,
+                  manifestRoot,
+                }),
               }]
             : []),
           ...(ledgerSettlement.readback?.btcFeeTransaction && ledgerSettlement.btcFeeReceiptId
@@ -1792,6 +1935,48 @@ try {
               }]
             : []),
         ],
+        objectStorageArtifacts: [
+          {
+            factId: ledgerSettlement.assetPackId,
+            artifactId: 'pipeline-evidence-' + runId,
+            artifactKind: 'pipeline_evidence',
+            storageRoot: rootOf({
+              artifactPath: '${EVIDENCE_PATH}',
+              assetPackId: ledgerSettlement.assetPackId,
+              manifestRoot,
+            }),
+            manifestRoot: manifestRoot ? 'sha256:' + manifestRoot : undefined,
+            sourceVisibility: 'proof_public',
+            durable: true,
+            containsProtectedSource: false,
+            encrypted: false,
+          },
+          {
+            factId: 'pipeline-telemetry-' + runId,
+            artifactId: 'pipeline-telemetry-' + runId,
+            artifactKind: 'pipeline_telemetry',
+            storageRoot: rootOf({ artifactPath: '${TELEMETRY_PATH}', runId }),
+            manifestRoot: manifestRoot ? 'sha256:' + manifestRoot : undefined,
+            sourceVisibility: 'proof_public',
+            durable: true,
+            containsProtectedSource: false,
+            encrypted: false,
+          },
+          {
+            factId: 'source-safe-preview-' + runId,
+            artifactId: 'source-safe-preview-' + runId,
+            artifactKind: 'asset_pack_source_safe_preview',
+            storageRoot:
+              ledgerSettlement.assetPackMintReceipt?.sourceSafePreviewRoot ||
+              rootOf({ sourceSafePreview, protectedSourceVisible: false }),
+            manifestRoot: ledgerSettlement.proofRoots?.sourceManifestRoot,
+            sourceVisibility: 'source_safe',
+            durable: true,
+            containsProtectedSource: false,
+            encrypted: false,
+          },
+        ],
+        stagingTestnetReadback,
         settlementConservationChecks: ledgerSettlement.btcFee
           ? [{
               checkId: 'btc-fee-conservation-' + runId,
@@ -1879,6 +2064,9 @@ try {
     status: ledgerSettlement.status,
     settlementAdmissible: ledgerSettlement.settlementAdmissible,
     assetPackId: ledgerSettlement.assetPackId || null,
+    assetPackMintReceiptRoot: ledgerSettlement.assetPackMintReceipt?.receiptRoot || null,
+    readReceiptRoot: ledgerSettlement.readReceipt?.receiptRoot || null,
+    rightsTransferReceiptRoot: ledgerSettlement.rightsTransferReceipt?.receiptRoot || null,
     reconciliationState: ledgerDatabaseReconciliation?.state || null,
     repairActionCount: ledgerDatabaseReconciliation?.repairActions?.length || 0,
     organizationAuthorityDecision: organizationAuthority[0].decision,
