@@ -18,6 +18,13 @@ function projectLabel(version) {
 }
 
 function expectedActiveCanonicalInputArtifactCount(version) {
+  const expectedCountsByVersion = {
+    V32: 13,
+    V33: 12,
+  };
+  if (Object.hasOwn(expectedCountsByVersion, version)) {
+    return expectedCountsByVersion[version];
+  }
   const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
   if (!Number.isInteger(numeric)) return 3;
   if (numeric >= 32) return 13;

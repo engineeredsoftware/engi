@@ -22,13 +22,14 @@ Current exported commercial helpers include:
 - the package app/server context used by commercial interfaces.
 
 This is the `V33` active, `V34` draft after V33 promotion posture accepted by
-V33 Gate 10.
-V33 Gate 1 treats this package as promotion-critical runtime posture.
+V33 Gate 10 and opened by V34 Gate 1.
+V34 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V32` active, `V33` draft while V33 gates are in flight.
-V33 Gate 10 promoted this package posture by rewriting those same runtime
-carriers to `V33` active, `V34` draft and regenerating the V33 generated
-appendix plus `.bitcode/v33-*` promotion artifacts.
+must remain aligned to `V33` active, `V34` draft while V34 gates are in flight.
+V34 deployment-depth work will add host capability, environment lane,
+distributed execution receipt, storage posture, approval, secret rotation,
+repair, rehearsal, and promotion-readiness helpers without importing
+`protocol-demonstration/src/*`.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
-commercial protocol boundary test, and V33 gate checks.
+commercial protocol boundary test, and V34 gate checks.

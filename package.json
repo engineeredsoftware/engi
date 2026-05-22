@@ -128,6 +128,7 @@
     "generate:v33-promotion-readiness": "node scripts/generate-v33-promotion-readiness-report.mjs",
     "check:v33-promotion-readiness": "node scripts/generate-v33-promotion-readiness-report.mjs --check",
     "check:v33-gate10": "node scripts/check-v33-gate10-promotion-readiness.mjs",
+    "check:v34-gate1": "node scripts/check-v34-gate1-deployment-roadmap-opening.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",
