@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, and Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 8 adds package-owned `InterfaceTelemetryProofHook` source and generated proof coverage for Terminal, public API, MCP API, ChatGPT App, and package-consumer replay hooks over source-safe execution, ledger, database, object-storage, generated-proof, and root-set roots
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`, and Gate 9 `.bitcode/v33-interface-consumer-ux-regression-proof.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 9 adds package-owned `InterfaceConsumerUxRegressionProof` source and generated proof coverage for public API, MCP API, ChatGPT App, Terminal handoff, and package-consumer readability over source-safe summary, proof roots, repair steps, denied-state reasons, and fee/rights preview without protected-source or prompt-body exposure
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -288,6 +288,37 @@ fails closed when a required interface or posture is absent, generated output is
 stale, hooks contain secret-shaped or protected-source-shaped content, surface
 tests stop consuming the shared hooks, or the V33 spec family stops naming the
 Gate 8 replay contract.
+
+### V33 Gate 9 Interface Consumer UX Regression Proof
+
+Gate 9 makes `InterfaceConsumerUxRegressionProof` the shared package-owned
+operator-quality contract for interface consumers. Each row records the
+consumer surface, action label, consumer path, readable posture, visibility
+boundary, source-safe summary, proof roots, repair steps, fee/rights preview,
+fixture path, replay command, denial or success summary, source-safety posture,
+and deterministic row root. Rows are designed for users and integration
+operators: collapsed interface views can show the action label, summary,
+denial/success posture, and next repair step, while expanded metadata can show
+roots and replay commands without exposing protected AssetPack source,
+interpolated prompt bodies, credentials, or raw inference payloads.
+
+The required rows cover public API denied read access, MCP API Finding Fits
+admission, ChatGPT App blocked delivery, Terminal AssetPack preview handoff,
+and package-consumer readback. Required capabilities are `action_label`,
+`source_safe_summary`, `proof_roots`, `repair_steps`, `fee_rights_preview`, and
+`denial_readability`. The proof fails closed if any required surface, posture,
+or capability is absent; if a row omits proof roots, repair steps, or fee/rights
+preview; if blocked/denied rows omit readable denial and denial code; or if any
+row depends on brittle demonstration-only fixtures. The source-safe summary,
+proof roots, repair steps, and fee/rights preview are readable without
+overexposure.
+
+The generated artifact `.bitcode/v33-interface-consumer-ux-regression-proof.json`
+serializes the required consumer rows, readability coverage, source/test/docs
+evidence, replay commands, and source-safety verdict. `check:v33-gate9` fails
+closed when the generated artifact is stale, surface tests stop consuming the
+shared proof, workflow or package scripts stop running Gate 9 checks, or the
+V33 spec family stops naming `InterfaceConsumerUxRegressionProof`.
 
 ## V33 whole Bitcode operator chain
 
@@ -638,6 +669,7 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | `.bitcode/v33-read-license-assetpack-rights-contracts.json` | `scripts/generate-v33-read-license-assetpack-rights-contracts.mjs` | `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6` | source-safe-read-license-assetpack-rights-metadata | Gate 6 required |
 | `.bitcode/v33-api-schema-compatibility-matrix.json` | `scripts/generate-v33-api-schema-compatibility-matrix.mjs` | `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7` | source-safe-api-schema-compatibility-metadata | Gate 7 required |
 | `.bitcode/v33-interface-telemetry-proof-hooks.json` | `scripts/generate-v33-interface-telemetry-proof-hooks.mjs` | `check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8` | source-safe-interface-telemetry-proof-hook-metadata | Gate 8 required |
+| `.bitcode/v33-interface-consumer-ux-regression-proof.json` | `scripts/generate-v33-interface-consumer-ux-regression-proof.mjs` | `check:v33-interface-consumer-ux-regression-proof` and `check:v33-gate9` | source-safe-interface-consumer-ux-regression-metadata | Gate 9 required |
 
 ### V33 specifying generated artifacts
 
@@ -649,7 +681,8 @@ Gate 5 adds `.bitcode/v33-interface-authorization-policy.json`, which serializes
 Gate 6 adds `.bitcode/v33-read-license-assetpack-rights-contracts.json`, which serializes source-safe `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` metadata for API, MCP, ChatGPT App, and Terminal fixtures, including Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, paid/unpaid denial, and protected-source non-serialization.
 Gate 7 adds `.bitcode/v33-api-schema-compatibility-matrix.json`, which serializes source-safe `APISchemaCompatibilityMatrix` metadata for public API, MCP API, ChatGPT App, Terminal handoff, and package consumer rows, including schema ids, request/response schema ids, success/denied/blocked/stale/deferred examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless path discipline.
 Gate 8 adds `.bitcode/v33-interface-telemetry-proof-hooks.json`, which serializes source-safe `InterfaceTelemetryProofHook` metadata for Terminal handoff, public API, MCP API, ChatGPT App, and package consumer replay hooks, including interface ids, action ids, execution ids, success/denied/blocked posture, request/response roots, ledger/database/object-storage/generated-proof/root-set roots, replay commands, theorem labels, witness facts, source evidence, test evidence, and source-safety verdicts.
-Later gates may add UX regression and promotion readiness artifacts.
+Gate 9 adds `.bitcode/v33-interface-consumer-ux-regression-proof.json`, which serializes source-safe `InterfaceConsumerUxRegressionProof` metadata for public API denied states, MCP API Finding Fits readability, ChatGPT App blocked delivery, Terminal preview handoff, and package-consumer readback, including action labels, source-safe summaries, proof roots, repair steps, fee/rights previews, replay commands, and demonstration-independent fixture proof.
+Later gates may add promotion readiness artifacts.
 
 ### Shared generated-artifact fields
 

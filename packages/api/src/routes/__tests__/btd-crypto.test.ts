@@ -24,6 +24,7 @@ import {
   buildBtdDeploymentReadinessSettlement,
   buildBtdInterfaceIntegrationRegressionSettlement,
   buildBtdInterfaceTelemetryProofHookRegistry,
+  buildBtdInterfaceConsumerUxRegressionProof,
   buildBtdInterfaceAuthorizationPolicy,
   buildBtdAssetPackRightsInterfaceContract,
   buildBtdLedgerDatabaseReconciliationSettlement,
@@ -40,6 +41,7 @@ import {
   createBtdMeasureMintState,
   getBtdApiSchemaCompatibilityRow,
   getBtdInterfaceTelemetryProofHook,
+  getBtdInterfaceConsumerUxRegressionRow,
   getBtdInterfaceAuthorizationPolicyFixture,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
@@ -440,6 +442,31 @@ describe('BTD crypto API builders', () => {
       objectStorageRoot: expect.stringMatching(/^object-storage-root:/),
     });
     expect(hook.replayCommand).toContain('btd-crypto.test.ts');
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for public API denied states', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow(
+      'interface.consumer.public-api-read-access-denied',
+    );
+
+    expect(proof.observedSurfaces).toContain('public_api');
+    expect(row).toMatchObject({
+      surface: 'public_api',
+      consumerPath: '/api/btd/read-access',
+      posture: 'denied_readable',
+      denialCode: 'READ_LICENSE_OR_AUTHORITY_MISSING',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.sourceSafeSummary).toMatch(/structured denial/i);
+    expect(row.proofRoots.length).toBeGreaterThan(0);
+    expect(row.repairSteps).toEqual(expect.arrayContaining(['refresh-read-license']));
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'blocked_until_rights',
+      rightsPosture: 'missing',
+      protectedSourceVisible: false,
+    });
   });
 
   it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {

@@ -68,9 +68,11 @@ import {
   buildBtdAssetPackRightsInterfaceContract,
   buildBtdApiSchemaCompatibilityMatrix,
   buildBtdInterfaceAuthorizationPolicy,
+  buildBtdInterfaceConsumerUxRegressionProof,
   buildBtdInterfaceTelemetryProofHookRegistry,
   buildBtdReadLicenseInterfaceContract,
   getBtdApiSchemaCompatibilityRow,
+  getBtdInterfaceConsumerUxRegressionRow,
   getBtdInterfaceAuthorizationPolicyFixture,
   getBtdInterfaceTelemetryProofHook,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
@@ -234,6 +236,32 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     });
     expect(hook.roots.generatedProofRoot).toMatch(/^generated-proof-root:/);
     expect(hook.replayCommand).toContain('pipeline-ingress-contract.test.ts');
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for MCP Finding Fits readability', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow('interface.consumer.mcp-finding-fits-readable');
+
+    expect(proof.observedSurfaces).toContain('mcp_api');
+    expect(row).toMatchObject({
+      surface: 'mcp_api',
+      consumerPath: 'bitcode://pipelines/asset-pack/create',
+      posture: 'success_readable',
+      visibilityBoundary: 'source_safe_preview',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.actionLabel).toBe('Request Finding Fits');
+    expect(row.proofRoots).toEqual(
+      expect.arrayContaining(['execution-root:mcp-reading-pipeline']),
+    );
+    expect(row.repairSteps).toEqual(
+      expect.arrayContaining(['replay-mcp-pipeline-ingress']),
+    );
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'preview_admitted',
+      rightsPosture: 'preview_only_locked',
+    });
   });
 
   it('normalizes third-party MCP repository and attachment ingress as input context only', () => {

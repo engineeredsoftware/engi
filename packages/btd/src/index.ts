@@ -172,6 +172,7 @@ export * from './exchange';
 export * from './interface-contract-catalog';
 export * from './interface-contract-regression';
 export * from './interface-authorization-policy';
+export * from './interface-consumer-ux-regression-proof';
 export * from './interface-telemetry-proof-hook';
 export * from './interface-integration';
 export * from './interface-integration-contract';

@@ -17,6 +17,10 @@ import {
   buildBtdInterfaceTelemetryProofHookRegistry,
   getBtdInterfaceTelemetryProofHook,
 } from '@bitcode/btd/interface-telemetry-proof-hook';
+import {
+  buildBtdInterfaceConsumerUxRegressionProof,
+  getBtdInterfaceConsumerUxRegressionRow,
+} from '@bitcode/btd/interface-consumer-ux-regression-proof';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -217,6 +221,29 @@ This product delivers voice-first social conversations for builders.
     });
     expect(hook.replayCommand).toContain('tools.test.ts');
     expect(hook.sourceSafety.protectedSourceVisible).toBe(false);
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for ChatGPT App blocked delivery', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow('interface.consumer.chatgpt-delivery-blocked');
+
+    expect(proof.observedSurfaces).toContain('chatgpt_app');
+    expect(row).toMatchObject({
+      surface: 'chatgpt_app',
+      consumerPath: 'chatgpt://actions/bitcode_deliver_asset_pack',
+      posture: 'blocked_preview',
+      denialCode: 'CONFIRMATION_OR_SETTLEMENT_REQUIRED',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.sourceSafeSummary).toMatch(/settlement/i);
+    expect(row.repairSteps).toEqual(
+      expect.arrayContaining(['confirm-reader-action', 'settle-btc-fee-before-delivery']),
+    );
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'blocked_until_rights',
+      rightsPosture: 'settlement_pending',
+    });
   });
 
   it('answer_codebase_query returns annotated matches', async () => {
