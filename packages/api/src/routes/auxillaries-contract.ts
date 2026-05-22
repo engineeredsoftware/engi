@@ -30,6 +30,18 @@ export type AuxillariesProviderScopesClass =
   | 'missing'
   | 'unknown';
 export type AuxillariesProviderReadbackStatus = 'succeeded' | 'failed' | 'not_attempted' | 'unknown';
+export type AuxillariesTelemetrySubject =
+  | 'profile'
+  | 'account'
+  | 'provider_connection'
+  | 'interface_admission'
+  | 'wallet'
+  | 'btd_pane'
+  | 'organization_authority'
+  | 'policy_decision'
+  | 'readiness_diagnostic'
+  | 'recovery_run';
+export type AuxillariesRepairOutcome = 'not_started' | 'running' | 'succeeded' | 'failed' | 'not_required';
 
 const CANONICAL_AUXILLARY_PANES = new Set<string>(AUXILLARY_FLOW_STEPS);
 const AUXILLARY_PANE_ALIASES: Record<string, ConcreteAuxillaryPane> = {
@@ -37,6 +49,31 @@ const AUXILLARY_PANE_ALIASES: Record<string, ConcreteAuxillaryPane> = {
   connects: 'externals',
   external: 'externals',
 };
+const AUXILLARIES_TELEMETRY_SUBJECTS = new Set<string>([
+  'profile',
+  'account',
+  'provider_connection',
+  'interface_admission',
+  'wallet',
+  'btd_pane',
+  'organization_authority',
+  'policy_decision',
+  'readiness_diagnostic',
+  'recovery_run',
+]);
+const AUXILLARIES_REPAIR_OUTCOMES = new Set<string>([
+  'not_started',
+  'running',
+  'succeeded',
+  'failed',
+  'not_required',
+]);
+const AUXILLARIES_RECOVERY_OUTCOMES = new Set<string>([
+  'not_started',
+  'running',
+  'succeeded',
+  'failed',
+]);
 
 const REDACTED_VALUE = '[redacted]';
 const PROTECTED_SOURCE_REDACTED_VALUE = '[protected-source-redacted]';
@@ -83,6 +120,7 @@ export interface AuxillaryDataPayload {
   organizationAuthority: OrganizationPolicyAuthority;
   readinessDiagnostics: AuxillariesReadinessDiagnostic[];
   recoveryRuns: AuxillariesRecoveryRun[];
+  telemetryProofHooks: AuxillariesTelemetryProofHook[];
 }
 
 export interface AuxillaryBtdAssetPackSummary {
@@ -311,12 +349,33 @@ export interface AuxillariesRecoveryRun {
   kind: 'AuxillariesRecoveryRun';
   targetPane: ConcreteAuxillaryPane;
   repairAction: string;
+  blockerId: string | null;
   beforeReadinessRoot: string;
   afterReadinessRoot: string | null;
   executionId: string | null;
   outcome: 'not_started' | 'running' | 'succeeded' | 'failed';
+  retryPolicy: AuxillariesRetryPolicy;
+  startedAt: string | null;
+  completedAt: string | null;
+  evidenceRoot: string;
+  telemetryRoot: string;
   sourceSafetyClass: AuxillariesSourceSafetyClass;
   recoveryRoot: string;
+}
+
+export interface AuxillariesTelemetryProofHook {
+  kind: 'AuxillariesTelemetryProofHook';
+  subject: AuxillariesTelemetrySubject;
+  subjectId: string;
+  pane: ConcreteAuxillaryPane;
+  theoremId: string;
+  replayStepId: string;
+  evidenceRoot: string;
+  telemetryRoot: string;
+  blockerId: string | null;
+  repairOutcome: AuxillariesRepairOutcome;
+  sourceSafetyClass: AuxillariesSourceSafetyClass;
+  proofRoot: string;
 }
 
 export interface AuxillariesContractSnapshot {
@@ -330,6 +389,7 @@ export interface AuxillariesContractSnapshot {
   organizationAuthority: OrganizationPolicyAuthority;
   readinessDiagnostics: AuxillariesReadinessDiagnostic[];
   recoveryRuns: AuxillariesRecoveryRun[];
+  telemetryProofHooks: AuxillariesTelemetryProofHook[];
   contractRoot: string;
 }
 
@@ -354,6 +414,7 @@ export interface BuildAuxillariesContractSnapshotInput {
   notificationPosture?: unknown | null;
   dataSharingPosture?: unknown | null;
   recoveryRuns?: AuxillariesRecoveryRun[] | null;
+  telemetryProofHooks?: AuxillariesTelemetryProofHook[] | null;
 }
 
 export function normalizeAuxillaryPane(value: string | null | undefined): ConcreteAuxillaryPane | null {
@@ -459,6 +520,12 @@ export function buildAuxillaryDataPayloadFromUnknown(value: unknown): AuxillaryD
     templatePreferences: record.templatePreferences ?? null,
     notificationPosture: record.notificationPosture ?? null,
     dataSharingPosture: record.dataSharingPosture ?? null,
+    recoveryRuns: Array.isArray(record.recoveryRuns)
+      ? record.recoveryRuns as AuxillariesRecoveryRun[]
+      : [],
+    telemetryProofHooks: Array.isArray(record.telemetryProofHooks)
+      ? record.telemetryProofHooks as AuxillariesTelemetryProofHook[]
+      : [],
     onboardedSteps: record.onboardedPanes ?? record.onboarded_steps ?? [],
   });
 }
@@ -478,6 +545,8 @@ export function buildAuxillaryDataPayload({
   notificationRows,
   notificationPosture,
   dataSharingPosture,
+  recoveryRuns,
+  telemetryProofHooks,
   onboardedSteps,
 }: {
   profile: unknown | null;
@@ -494,6 +563,8 @@ export function buildAuxillaryDataPayload({
   notificationRows?: unknown[] | null;
   notificationPosture?: unknown | null;
   dataSharingPosture?: unknown | null;
+  recoveryRuns?: AuxillariesRecoveryRun[] | null;
+  telemetryProofHooks?: AuxillariesTelemetryProofHook[] | null;
   onboardedSteps: unknown;
 }): AuxillaryDataPayload {
   const onboardedPanes = parseStoredAuxillarySteps(onboardedSteps);
@@ -521,6 +592,8 @@ export function buildAuxillaryDataPayload({
     notificationRows,
     notificationPosture,
     dataSharingPosture,
+    recoveryRuns,
+    telemetryProofHooks,
   });
 
   return {
@@ -552,6 +625,7 @@ export function buildAuxillaryDataPayload({
     organizationAuthority: auxillariesContract.organizationAuthority,
     readinessDiagnostics: auxillariesContract.readinessDiagnostics,
     recoveryRuns: auxillariesContract.recoveryRuns,
+    telemetryProofHooks: auxillariesContract.telemetryProofHooks,
   };
 }
 
@@ -618,6 +692,17 @@ export function buildAuxillariesContractSnapshot(
   const recoveryRuns = Array.isArray(input.recoveryRuns)
     ? input.recoveryRuns.map((run) => buildAuxillariesRecoveryRun(run))
     : [];
+  const telemetryProofHooks = Array.isArray(input.telemetryProofHooks)
+    ? input.telemetryProofHooks.map((hook) => buildAuxillariesTelemetryProofHook(hook))
+    : buildAuxillariesTelemetryProofHooks({
+        profileState,
+        connectionReadiness,
+        interfaceAdmissions,
+        walletBtdPaneState,
+        organizationAuthority,
+        readinessDiagnostics,
+        recoveryRuns,
+      });
   const withoutRoot = {
     kind: 'auxillaries_contract_snapshot' as const,
     contractVersion: AUXILLARIES_CONTRACT_VERSION,
@@ -629,6 +714,7 @@ export function buildAuxillariesContractSnapshot(
     organizationAuthority,
     readinessDiagnostics,
     recoveryRuns,
+    telemetryProofHooks,
   };
 
   return {
@@ -1482,18 +1568,213 @@ export function buildAuxillariesReadinessDiagnostic(
   };
 }
 
+export interface BuildAuxillariesRecoveryRunInput {
+  targetPane: ConcreteAuxillaryPane;
+  repairAction: string;
+  blockerId?: string | null;
+  beforeReadinessRoot: string;
+  afterReadinessRoot: string | null;
+  executionId: string | null;
+  outcome: AuxillariesRecoveryRun['outcome'];
+  retryPolicy?: AuxillariesRetryPolicy;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  evidenceRoot?: string | null;
+  telemetryRoot?: string | null;
+}
+
 export function buildAuxillariesRecoveryRun(
-  input: Omit<AuxillariesRecoveryRun, 'kind' | 'sourceSafetyClass' | 'recoveryRoot'>,
+  input: BuildAuxillariesRecoveryRunInput,
 ): AuxillariesRecoveryRun {
+  const recoveryEvidence = {
+    targetPane: input.targetPane,
+    repairAction: input.repairAction,
+    blockerId: input.blockerId ?? null,
+    beforeReadinessRoot: input.beforeReadinessRoot,
+    afterReadinessRoot: input.afterReadinessRoot,
+    executionId: input.executionId,
+    outcome: input.outcome,
+    retryPolicy: input.retryPolicy ?? 'after_repair',
+    startedAt: input.startedAt ?? null,
+    completedAt: input.completedAt ?? null,
+  };
   const withoutRoot = {
     kind: 'AuxillariesRecoveryRun' as const,
-    ...input,
+    ...recoveryEvidence,
+    evidenceRoot: input.evidenceRoot || stableProofRoot('auxillaries-recovery-run-evidence', recoveryEvidence),
+    telemetryRoot: input.telemetryRoot || stableProofRoot('auxillaries-recovery-run-telemetry', {
+      executionId: input.executionId,
+      outcome: input.outcome,
+      targetPane: input.targetPane,
+      repairAction: input.repairAction,
+    }),
     sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
   };
 
   return {
     ...withoutRoot,
     recoveryRoot: stableProofRoot('auxillaries-recovery-run', withoutRoot),
+  };
+}
+
+export function buildAuxillariesTelemetryProofHooks(input: {
+  profileState: AuxillariesProfileState;
+  connectionReadiness: AuxillariesConnectionReadiness[];
+  interfaceAdmissions: AuxillariesInterfaceAdmission[];
+  walletBtdPaneState: AuxillariesWalletBtdPaneState;
+  organizationAuthority: OrganizationPolicyAuthority;
+  readinessDiagnostics: AuxillariesReadinessDiagnostic[];
+  recoveryRuns: AuxillariesRecoveryRun[];
+}): AuxillariesTelemetryProofHook[] {
+  const hooks: AuxillariesTelemetryProofHook[] = [];
+  const firstProfileBlocker = input.profileState.profileCompleteness.issues[0]?.id ?? null;
+
+  hooks.push(buildAuxillariesTelemetryProofHook({
+    subject: 'profile',
+    subjectId: input.profileState.userId || 'anonymous-profile',
+    pane: 'profile',
+    theoremId: 'auxillaries.profile.source_safe_readback',
+    replayStepId: 'profile-state-readback',
+    evidenceRoot: input.profileState.profileCompletenessRoot,
+    blockerId: firstProfileBlocker,
+    repairOutcome: firstProfileBlocker ? 'not_started' : 'not_required',
+  }));
+
+  hooks.push(buildAuxillariesTelemetryProofHook({
+    subject: 'account',
+    subjectId: input.profileState.accountIdentity.userId || 'anonymous-account',
+    pane: 'profile',
+    theoremId: 'auxillaries.account.identity_admission',
+    replayStepId: 'account-identity-readback',
+    evidenceRoot: stableProofRoot('auxillaries-account-identity-evidence', input.profileState.accountIdentity),
+    blockerId: input.profileState.accountReadiness === 'blocked' ? firstProfileBlocker : null,
+    repairOutcome: input.profileState.accountReadiness === 'ready' ? 'not_required' : 'not_started',
+  }));
+
+  for (const readiness of input.connectionReadiness) {
+    hooks.push(buildAuxillariesTelemetryProofHook({
+      subject: 'provider_connection',
+      subjectId: readiness.providerId,
+      pane: 'externals',
+      theoremId: 'auxillaries.provider_connection.source_safe_readback',
+      replayStepId: `provider-connection-${readiness.providerId}`,
+      evidenceRoot: readiness.providerReadinessRoot,
+      blockerId: readiness.blocker,
+      repairOutcome: readiness.requiredRepairAction === 'none' ? 'not_required' : 'not_started',
+    }));
+  }
+
+  for (const admission of input.interfaceAdmissions) {
+    hooks.push(buildAuxillariesTelemetryProofHook({
+      subject: 'interface_admission',
+      subjectId: admission.interfaceId,
+      pane: 'interfaces',
+      theoremId: 'auxillaries.interface_admission.policy_readback',
+      replayStepId: `interface-admission-${admission.interfaceId}`,
+      evidenceRoot: admission.interfaceAdmissionRoot,
+      blockerId: admission.blockers[0] ?? null,
+      repairOutcome: admission.readiness === 'ready' ? 'not_required' : 'not_started',
+    }));
+  }
+
+  hooks.push(buildAuxillariesTelemetryProofHook({
+    subject: 'wallet',
+    subjectId: input.walletBtdPaneState.walletCapability.address || 'wallet-binding-missing',
+    pane: 'wallet',
+    theoremId: 'auxillaries.wallet.no_custody_readback',
+    replayStepId: 'wallet-capability-readback',
+    evidenceRoot: input.walletBtdPaneState.walletCapability.walletCapabilityRoot,
+    blockerId: input.walletBtdPaneState.walletCapability.hasBinding ? null : 'wallet.binding_missing',
+    repairOutcome: input.walletBtdPaneState.walletCapability.hasBinding ? 'not_required' : 'not_started',
+  }));
+
+  hooks.push(buildAuxillariesTelemetryProofHook({
+    subject: 'btd_pane',
+    subjectId: 'wallet-btd-support',
+    pane: 'wallet',
+    theoremId: 'auxillaries.btd_pane.source_safe_summary',
+    replayStepId: 'wallet-btd-pane-readback',
+    evidenceRoot: input.walletBtdPaneState.btdSupportRoot,
+    blockerId: input.walletBtdPaneState.settlementBlockers[0] ?? null,
+    repairOutcome: input.walletBtdPaneState.settlementReadiness === 'ready' ? 'not_required' : 'not_started',
+  }));
+
+  hooks.push(buildAuxillariesTelemetryProofHook({
+    subject: 'organization_authority',
+    subjectId: input.organizationAuthority.organizationId || 'organization-missing',
+    pane: 'profile',
+    theoremId: 'auxillaries.organization_authority.policy_readback',
+    replayStepId: 'organization-authority-readback',
+    evidenceRoot: input.organizationAuthority.authorityRoot,
+    blockerId: input.organizationAuthority.denialReason ?? null,
+    repairOutcome: input.organizationAuthority.policyDecision === 'allowed' ? 'not_required' : 'not_started',
+  }));
+
+  hooks.push(buildAuxillariesTelemetryProofHook({
+    subject: 'policy_decision',
+    subjectId: input.organizationAuthority.policy.policyId || 'policy-missing',
+    pane: 'profile',
+    theoremId: 'auxillaries.policy_decision.fail_closed',
+    replayStepId: 'policy-decision-readback',
+    evidenceRoot: input.organizationAuthority.authorityRoot,
+    blockerId: input.organizationAuthority.denialReason ?? null,
+    repairOutcome: input.organizationAuthority.policyDecision === 'allowed' ? 'not_required' : 'not_started',
+  }));
+
+  for (const diagnostic of input.readinessDiagnostics) {
+    hooks.push(buildAuxillariesTelemetryProofHook({
+      subject: 'readiness_diagnostic',
+      subjectId: diagnostic.blockerId,
+      pane: diagnostic.pane,
+      theoremId: 'auxillaries.readiness_diagnostic.repair_route',
+      replayStepId: `readiness-diagnostic-${diagnostic.blockerId}`,
+      evidenceRoot: diagnostic.proofRoot,
+      blockerId: diagnostic.blockerId,
+      repairOutcome: 'not_started',
+    }));
+  }
+
+  for (const recoveryRun of input.recoveryRuns) {
+    hooks.push(buildAuxillariesTelemetryProofHook({
+      subject: 'recovery_run',
+      subjectId: recoveryRun.executionId || `${recoveryRun.targetPane}.${recoveryRun.repairAction}`,
+      pane: recoveryRun.targetPane,
+      theoremId: 'auxillaries.recovery_run.execution_evidence',
+      replayStepId: `recovery-run-${recoveryRun.targetPane}-${recoveryRun.repairAction}`,
+      evidenceRoot: recoveryRun.evidenceRoot,
+      telemetryRoot: recoveryRun.telemetryRoot,
+      blockerId: recoveryRun.blockerId,
+      repairOutcome: recoveryRun.outcome,
+    }));
+  }
+
+  return hooks;
+}
+
+export function buildAuxillariesTelemetryProofHook(
+  input: Omit<AuxillariesTelemetryProofHook, 'kind' | 'sourceSafetyClass' | 'telemetryRoot' | 'proofRoot'> &
+    Partial<Pick<AuxillariesTelemetryProofHook, 'telemetryRoot'>>,
+): AuxillariesTelemetryProofHook {
+  const telemetryEvidence = {
+    subject: input.subject,
+    subjectId: input.subjectId,
+    pane: input.pane,
+    theoremId: input.theoremId,
+    replayStepId: input.replayStepId,
+    evidenceRoot: input.evidenceRoot,
+    blockerId: input.blockerId,
+    repairOutcome: input.repairOutcome,
+  };
+  const withoutRoot = {
+    kind: 'AuxillariesTelemetryProofHook' as const,
+    ...telemetryEvidence,
+    telemetryRoot: input.telemetryRoot || stableProofRoot('auxillaries-telemetry-proof-hook-telemetry', telemetryEvidence),
+    sourceSafetyClass: 'source_safe' as AuxillariesSourceSafetyClass,
+  };
+
+  return {
+    ...withoutRoot,
+    proofRoot: stableProofRoot('auxillaries-telemetry-proof-hook', withoutRoot),
   };
 }
 
@@ -1562,6 +1843,82 @@ export function validateAuxillariesContractSnapshot(value: unknown): Auxillaries
   if (!asRecord(record.organizationAuthority)) errors.push('organizationAuthority is required');
   if (!Array.isArray(record.readinessDiagnostics)) errors.push('readinessDiagnostics must be an array');
   if (!Array.isArray(record.recoveryRuns)) errors.push('recoveryRuns must be an array');
+  if (Array.isArray(record.recoveryRuns)) {
+    for (const [index, recoveryRun] of record.recoveryRuns.entries()) {
+      const recoveryRecord = asRecord(recoveryRun);
+      if (!recoveryRecord) {
+        errors.push(`recoveryRuns[${index}] must be an object`);
+        continue;
+      }
+      if (recoveryRecord.kind !== 'AuxillariesRecoveryRun') {
+        errors.push(`recoveryRuns[${index}].kind must be AuxillariesRecoveryRun`);
+      }
+      const targetPane = readString(recoveryRecord.targetPane);
+      if (!targetPane) errors.push(`recoveryRuns[${index}].targetPane is required`);
+      else if (!CANONICAL_AUXILLARY_PANES.has(targetPane)) {
+        errors.push(`recoveryRuns[${index}].targetPane must be canonical`);
+      }
+      if (!readString(recoveryRecord.repairAction)) errors.push(`recoveryRuns[${index}].repairAction is required`);
+      if (!readString(recoveryRecord.beforeReadinessRoot)) {
+        errors.push(`recoveryRuns[${index}].beforeReadinessRoot is required`);
+      }
+      const outcome = readString(recoveryRecord.outcome);
+      if (!outcome) errors.push(`recoveryRuns[${index}].outcome is required`);
+      else if (!AUXILLARIES_RECOVERY_OUTCOMES.has(outcome)) {
+        errors.push(`recoveryRuns[${index}].outcome is invalid`);
+      }
+      if (!readString(recoveryRecord.retryPolicy)) errors.push(`recoveryRuns[${index}].retryPolicy is required`);
+      if (!readString(recoveryRecord.evidenceRoot)) errors.push(`recoveryRuns[${index}].evidenceRoot is required`);
+      if (!readString(recoveryRecord.telemetryRoot)) errors.push(`recoveryRuns[${index}].telemetryRoot is required`);
+      if (!readString(recoveryRecord.recoveryRoot)) errors.push(`recoveryRuns[${index}].recoveryRoot is required`);
+      if (recoveryRecord.sourceSafetyClass !== 'source_safe') {
+        errors.push(`recoveryRuns[${index}].sourceSafetyClass must be source_safe`);
+      }
+    }
+  }
+  if (!Array.isArray(record.telemetryProofHooks)) errors.push('telemetryProofHooks must be an array');
+  if (Array.isArray(record.telemetryProofHooks)) {
+    for (const [index, hook] of record.telemetryProofHooks.entries()) {
+      const hookRecord = asRecord(hook);
+      if (!hookRecord) {
+        errors.push(`telemetryProofHooks[${index}] must be an object`);
+        continue;
+      }
+      if (hookRecord.kind !== 'AuxillariesTelemetryProofHook') {
+        errors.push(`telemetryProofHooks[${index}].kind must be AuxillariesTelemetryProofHook`);
+      }
+      const subject = readString(hookRecord.subject);
+      if (subject && !AUXILLARIES_TELEMETRY_SUBJECTS.has(subject)) {
+        errors.push(`telemetryProofHooks[${index}].subject is invalid`);
+      }
+      const repairOutcome = readString(hookRecord.repairOutcome);
+      if (repairOutcome && !AUXILLARIES_REPAIR_OUTCOMES.has(repairOutcome)) {
+        errors.push(`telemetryProofHooks[${index}].repairOutcome is invalid`);
+      }
+      const pane = readString(hookRecord.pane);
+      if (pane && !CANONICAL_AUXILLARY_PANES.has(pane)) {
+        errors.push(`telemetryProofHooks[${index}].pane must be canonical`);
+      }
+      for (const field of [
+        'subject',
+        'subjectId',
+        'pane',
+        'theoremId',
+        'replayStepId',
+        'evidenceRoot',
+        'telemetryRoot',
+        'sourceSafetyClass',
+        'proofRoot',
+      ]) {
+        if (!readString(hookRecord[field])) {
+          errors.push(`telemetryProofHooks[${index}].${field} is required`);
+        }
+      }
+      if (hookRecord.sourceSafetyClass !== 'source_safe') {
+        errors.push(`telemetryProofHooks[${index}].sourceSafetyClass must be source_safe`);
+      }
+    }
+  }
   if (!readString(record.contractRoot)) errors.push('contractRoot is required');
 
   return { valid: errors.length === 0, errors };

@@ -322,6 +322,31 @@ describe('Auxillaries package route contracts', () => {
       expect(admission.interfaceAdmissionRoot).toMatch(/^[0-9a-f]{64}$/);
       expect(admission.policyConstraints).toEqual(admission.policyRequirements);
     }
+    const telemetrySubjects = payload.telemetryProofHooks.map((hook) => hook.subject);
+    expect(telemetrySubjects).toEqual(expect.arrayContaining([
+      'profile',
+      'account',
+      'provider_connection',
+      'interface_admission',
+      'wallet',
+      'btd_pane',
+      'organization_authority',
+      'policy_decision',
+      'readiness_diagnostic',
+    ]));
+    for (const hook of payload.telemetryProofHooks) {
+      expect(hook).toMatchObject({
+        kind: 'AuxillariesTelemetryProofHook',
+        sourceSafetyClass: 'source_safe',
+      });
+      expect(hook.theoremId).toMatch(/^auxillaries\./);
+      expect(hook.replayStepId.length).toBeGreaterThan(0);
+      expect(hook.evidenceRoot.length).toBeGreaterThan(0);
+      expect(hook.telemetryRoot).toMatch(/^[0-9a-f]{64}$/);
+      expect(hook.proofRoot).toMatch(/^[0-9a-f]{64}$/);
+    }
+    expect(payload.auxillariesContract.telemetryProofHooks)
+      .toEqual(payload.telemetryProofHooks);
     expect(payload.auxillariesContract.contractVersion).toBe(AUXILLARIES_CONTRACT_VERSION);
     expect(validateAuxillariesContractSnapshot(payload.auxillariesContract)).toEqual({
       valid: true,
@@ -334,6 +359,7 @@ describe('Auxillaries package route contracts', () => {
     expect(JSON.stringify(payload)).not.toContain('wallet-secret');
     expect(JSON.stringify(payload)).not.toContain('repository source');
     expect(JSON.stringify(payload)).not.toContain('private prompt body');
+    expect(JSON.stringify(payload.telemetryProofHooks)).not.toContain('provider-token');
     expect(JSON.stringify(payload.walletBtdPaneState)).not.toContain('asset pack source');
     expect(JSON.stringify(payload.connectionReadiness[0].metadata)).not.toContain('provider-token');
     expect(assertAuxillariesJsonSafe(payload)).toBeUndefined();
@@ -398,10 +424,14 @@ describe('Auxillaries package route contracts', () => {
     const recoveryRun = buildAuxillariesRecoveryRun({
       targetPane: 'externals',
       repairAction: 'reauthorize_provider',
+      blockerId: 'connects.github.reauthorize_provider',
       beforeReadinessRoot: 'before-root',
       afterReadinessRoot: 'after-root',
       executionId: 'execution-1',
       outcome: 'succeeded',
+      retryPolicy: 'after_repair',
+      startedAt: '2026-05-21T00:00:00.000Z',
+      completedAt: '2026-05-21T00:01:00.000Z',
     });
     const payload = buildAuxillaryDataPayload({
       profile: { id: 'user-2', username: 'reviewer' },
@@ -414,15 +444,59 @@ describe('Auxillaries package route contracts', () => {
       btcFeeBalance: null,
       recentBtdAssetPacks: [],
       modelPreferences: null,
+      recoveryRuns: [recoveryRun],
       onboardedSteps: ['profile'],
     });
-    const snapshot = {
-      ...payload.auxillariesContract,
-      recoveryRuns: [recoveryRun],
-    };
+    const snapshot = payload.auxillariesContract;
 
     expect(parseAuxillariesContractSnapshot(snapshot).recoveryRuns[0].recoveryRoot)
       .toMatch(/^[0-9a-f]{64}$/);
+    expect(snapshot.recoveryRuns[0]).toMatchObject({
+      blockerId: 'connects.github.reauthorize_provider',
+      retryPolicy: 'after_repair',
+      sourceSafetyClass: 'source_safe',
+    });
+    expect(snapshot.recoveryRuns[0].evidenceRoot).toMatch(/^[0-9a-f]{64}$/);
+    expect(snapshot.recoveryRuns[0].telemetryRoot).toMatch(/^[0-9a-f]{64}$/);
+    expect(snapshot.telemetryProofHooks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          subject: 'recovery_run',
+          subjectId: 'execution-1',
+          pane: 'externals',
+          theoremId: 'auxillaries.recovery_run.execution_evidence',
+          evidenceRoot: recoveryRun.evidenceRoot,
+          telemetryRoot: recoveryRun.telemetryRoot,
+          blockerId: 'connects.github.reauthorize_provider',
+          repairOutcome: 'succeeded',
+          sourceSafetyClass: 'source_safe',
+        }),
+      ]),
+    );
+    expect(validateAuxillariesContractSnapshot({
+      ...snapshot,
+      telemetryProofHooks: [
+        {
+          ...snapshot.telemetryProofHooks[0],
+          subject: 'unknown_subject',
+        },
+      ],
+    })).toMatchObject({
+      valid: false,
+      errors: expect.arrayContaining(['telemetryProofHooks[0].subject is invalid']),
+    });
+    expect(validateAuxillariesContractSnapshot({
+      ...snapshot,
+      recoveryRuns: [
+        {
+          ...snapshot.recoveryRuns[0],
+          outcome: 'unknown_outcome',
+        },
+      ],
+    })).toMatchObject({
+      valid: false,
+      errors: expect.arrayContaining(['recoveryRuns[0].outcome is invalid']),
+    });
     expect(JSON.stringify(snapshot.recoveryRuns)).not.toContain('access_token');
     expect(JSON.stringify(snapshot.recoveryRuns)).not.toContain('oauth_token');
     expect(validateAuxillariesContractSnapshot({ kind: 'wrong' })).toMatchObject({

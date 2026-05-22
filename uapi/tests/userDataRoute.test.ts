@@ -94,6 +94,13 @@ describe('GET /api/auxillaries/data', () => {
         }),
       ],
       readinessDiagnostics: expect.any(Array),
+      telemetryProofHooks: expect.arrayContaining([
+        expect.objectContaining({
+          kind: 'AuxillariesTelemetryProofHook',
+          subject: 'profile',
+          sourceSafetyClass: 'source_safe',
+        }),
+      ]),
     }));
     expect(mockFrom).not.toHaveBeenCalled();
   });
@@ -281,7 +288,21 @@ describe('GET /api/auxillaries/data', () => {
             blocker: null,
           }),
         ],
+        telemetryProofHooks: expect.arrayContaining([
+          expect.objectContaining({
+            kind: 'AuxillariesTelemetryProofHook',
+            subject: 'provider_connection',
+            sourceSafetyClass: 'source_safe',
+          }),
+        ]),
       }),
+      telemetryProofHooks: expect.arrayContaining([
+        expect.objectContaining({
+          subject: 'provider_connection',
+          theoremId: 'auxillaries.provider_connection.source_safe_readback',
+          replayStepId: 'provider-connection-github',
+        }),
+      ]),
       walletBtdPaneState: expect.objectContaining({
         walletCapability: expect.objectContaining({
           address: 'bc1qbitcodeoperator',

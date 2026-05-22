@@ -33,6 +33,7 @@ const ANONYMOUS_USER_DATA = {
     organizationAuthority: null,
     readinessDiagnostics: [],
     recoveryRuns: [],
+    telemetryProofHooks: [],
     onboardedPanes: [],
     onboarded_steps: [],
     isOnboardingComplete: false,
@@ -261,6 +262,7 @@ function useUserData() {
             ? data.organizationAuthority
             : null;
     const recoveryRuns = Array.isArray(data?.recoveryRuns) ? data.recoveryRuns : [];
+    const telemetryProofHooks = Array.isArray(data?.telemetryProofHooks) ? data.telemetryProofHooks : [];
     const onboardedSteps = (0, auxillary_pane_meta_1.normalizeAuxillarySteps)(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
     const isOnboardingComplete = data?.isOnboardingComplete || false;
     return {
@@ -284,6 +286,7 @@ function useUserData() {
         walletBtdPaneState,
         organizationAuthority,
         recoveryRuns,
+        telemetryProofHooks,
         isLoading,
         isRevalidating,
         error,
