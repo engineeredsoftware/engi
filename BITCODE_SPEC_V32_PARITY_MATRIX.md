@@ -8,7 +8,7 @@
 - Canonical proof-source commit: none until V32 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
+- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, generated Gate 4 `.bitcode/v32-reading-pipeline-proof-coverage.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
 - Source parity state: V32 proof-family replay, deterministic artifact generation, scenario/failure-state coverage, cross-surface regression, browser/accessibility/visual proof, readiness rehearsal, and promotion-proof hardening are opened but not yet closed
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V31`
@@ -54,6 +54,10 @@ Gate 1 audit basis:
 - `scripts/v32-deterministic-replay-artifacts.mjs`
 - `scripts/generate-v32-deterministic-replay-artifacts.mjs`
 - `scripts/check-v32-gate3-deterministic-replay-artifact-stability.mjs`
+- `.bitcode/v32-reading-pipeline-proof-coverage.json`
+- `packages/pipelines/asset-pack/scripts/v32-reading-pipeline-proof-coverage.ts`
+- `packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts`
+- `scripts/check-v32-gate4-reading-pipeline-proof-coverage.mjs`
 - `packages/protocol/README.md`
 - `protocol-demonstration/README.md`
 - `packages/protocol/src/canon-posture.js`
@@ -69,7 +73,7 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V31 active, V32 draft, and coherent V33-V37 responsibilities. |
 | Proof matrix inventory | Gate 2 | `.bitcode/v32-proof-coverage-matrix.json`, `scripts/v32-proof-coverage-matrix.mjs`, generator, checker, `check:v32-gate2` | drafted | Every promoted proof/test surface has owner package/interface, fixture, replay command, artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture. |
 | Deterministic replay and artifacts | Gate 3 | `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, generator, checker, `check:v32-gate3` | drafted | Generated artifacts are stable, source-safe, and fail closed on missing, stale, malformed, source-unsafe, or unstable-order drift. |
-| Reading pipeline proof coverage | Gate 4 | planned `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` tests | draft-required | Pipeline phases, PTRR agents, steps, ThricifiedGenerations, prompts, tools, telemetry, and outputs are covered. |
+| Reading pipeline proof coverage | Gate 4 | `.bitcode/v32-reading-pipeline-proof-coverage.json`, `v32-reading-pipeline-proof-coverage.ts`, focused pipeline test, `check:v32-gate4` | drafted | Pipeline phases, PTRR agents, steps, ThricifiedGenerations, prompts, tools, telemetry, and outputs are covered. |
 | Ledger/BTD settlement failure states | Gate 5 | planned BTD/BTC/ledger/reconciliation tests | draft-required | Economic and ownership state has success, blocked, and repair proof. |
 | Interface contract regression | Gate 6 | planned API/MCP/ChatGPT App/Terminal/Auxillaries fixtures | draft-required | Interface contracts prove auth, source-safety, policy denial, and deferred hooks. |
 | Browser/accessibility/responsive/visual proof | Gate 7 | planned Terminal and Auxillaries browser evidence | draft-required | Operator surfaces have stable semantic and visual coverage across supported viewports. |
@@ -89,7 +93,9 @@ No `_legacy/` source is active source truth.
 | Gate 2 scripts | `pnpm run generate:v32-proof-coverage-matrix` regenerates the artifact and `pnpm run check:v32-gate2` fails closed on drift, missing fields, hidden gaps, or secret-like payloads | drafted |
 | Gate 3 replay artifacts | `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json` record volatility classification, source-safety verdict, byte-equality replay, and artifact failure-mode coverage | drafted |
 | Gate 3 scripts | `pnpm run generate:v32-deterministic-replay-artifacts` regenerates the V32 replay package and `pnpm run check:v32-gate3` fails closed on missing, stale, malformed, source-unsafe, or unstable-order artifacts | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, and Gate 3 checkers | drafted |
+| Gate 4 artifact | `.bitcode/v32-reading-pipeline-proof-coverage.json` records source-safe Reading pipeline proof coverage and accepted boundary assertions | drafted |
+| Gate 4 scripts | `pnpm run generate:v32-reading-pipeline-proof-coverage`, `pnpm run check:v32-reading-pipeline-proof-coverage`, and `pnpm run check:v32-gate4` fail closed on stale or incomplete Reading proof coverage | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, and Gate 4 checkers | drafted |
 | Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
 
 ## Gate 1 Parity
@@ -129,9 +135,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| Reading phases are covered | planned pipeline tests | draft-required |
-| PTRR steps and ThricifiedGenerations are typed | planned pipeline fixtures | draft-required |
-| Source-safe preview and paid delivery boundaries are preserved | planned disclosure/delivery tests | draft-required |
+| Reading phases are covered | `.bitcode/v32-reading-pipeline-proof-coverage.json` lists two pipelines, eleven phases, and phase storage records | drafted |
+| PTRR steps and ThricifiedGenerations are typed | focused Gate 4 test plus artifact coverage list twelve PTRR agents, forty-eight PTRR steps, and one hundred forty-four ThricifiedGenerations | drafted |
+| Prompt and tool telemetry is source-safe | artifact stores prompt template digests, interpolated context keys, four tool rows, and telemetry presence booleans without protected prompts or raw model payloads | drafted |
+| Source-safe preview and paid delivery boundaries are preserved | focused Gate 4 test and artifact boundary assertions cover `AssetPackSourceSafePreview`, plural `fit/deposits`, settlement-bound preview input, and PR delivery tool | drafted |
 
 ## Gate 5 Parity
 
@@ -204,6 +211,13 @@ No `_legacy/` source is active source truth.
 - Gate 3 accepts only fixed replay-context volatility. Unaccepted random, nonce, UUID, timestamp, `createdAt`, or `updatedAt` fields are blocking failures.
 - Gate 3 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
 
+## Gate 4 Accepted Boundaries
+
+- Gate 4 proves the Reading pipeline contract, observability, and disclosure/delivery boundaries; it does not redefine V31 Reading product law, run paid settlement, or expose protected AssetPack source.
+- Gate 4 generated artifacts are source-safe contract metadata only and may not contain protected AssetPack source, private prompts, raw model payloads, provider credentials, wallet secrets, database passwords, OpenAI keys, Vercel tokens, or Supabase service-role material.
+- Gate 4 may hash prompt templates and record interpolated context keys, but it must not persist private prompt text or live inference output in the generated proof artifact.
+- Gate 4 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
+
 ## completion condition
 
 Gate 1 is complete when the V32 draft family validates, `check:v32-gate1` passes, workflow posture is V32-aware, README and roadmap reflect V32 initiation, V33-V37 scopes are current enough to guide future gates, diff hygiene passes, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
@@ -211,3 +225,5 @@ Gate 1 is complete when the V32 draft family validates, `check:v32-gate1` passes
 Gate 2 is complete when `.bitcode/v32-proof-coverage-matrix.json` exists, is deterministic from `pnpm run generate:v32-proof-coverage-matrix`, enumerates all required promoted surfaces with owner package/interface, fixture, replay command, expected artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture, preserves explicit `planned-gap` blockers, passes `pnpm run check:v32-gate2`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
 
 Gate 3 is complete when `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json` exist, are deterministic from `pnpm run generate:v32-deterministic-replay-artifacts`, prove stable sorted JSON and byte-equal replay for generated V32 proof artifacts, explicitly inventory accepted context-bound volatility, pass `pnpm run check:v32-gate3` including missing/stale/malformed/source-safety/unstable-order failure probes, are wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
+
+Gate 4 is complete when `.bitcode/v32-reading-pipeline-proof-coverage.json` exists, is deterministic from `pnpm run generate:v32-reading-pipeline-proof-coverage`, covers `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` with exact phase/PTRR agent/PTRR step/ThricifiedGeneration/prompt/tool/telemetry counts, proves plural Finding Fits discovery, source-safe preview, and paid PR delivery boundaries, passes focused pipeline tests plus `pnpm run check:v32-reading-pipeline-proof-coverage` and `pnpm run check:v32-gate4`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
