@@ -86,6 +86,7 @@ export interface AggregatedUserData {
   organizationAuthority?: any | null;
   readinessDiagnostics?: any[];
   recoveryRuns?: any[];
+  telemetryProofHooks?: any[];
   onboardedPanes?: string[];
   onboarded_steps?: string[];
   isOnboardingComplete?: boolean;
@@ -114,6 +115,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   organizationAuthority: null,
   readinessDiagnostics: [],
   recoveryRuns: [],
+  telemetryProofHooks: [],
   onboardedPanes: [],
   onboarded_steps: [],
   isOnboardingComplete: false,
@@ -456,6 +458,7 @@ export function useUserData() {
       ? data.organizationAuthority
       : null;
   const recoveryRuns = Array.isArray(data?.recoveryRuns) ? data.recoveryRuns : [];
+  const telemetryProofHooks = Array.isArray(data?.telemetryProofHooks) ? data.telemetryProofHooks : [];
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
@@ -481,6 +484,7 @@ export function useUserData() {
     walletBtdPaneState,
     organizationAuthority,
     recoveryRuns,
+    telemetryProofHooks,
     isLoading,
     isRevalidating,
     error,

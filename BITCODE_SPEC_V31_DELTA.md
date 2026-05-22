@@ -215,6 +215,12 @@ Closure acceptance:
 - proof hooks bind theorem id, replay step id, evidence root, telemetry root, source-safety class, and blocker/repair outcome;
 - recovery runs are executions with source-safe before/after evidence and route/UI readback.
 
+Implementation center:
+
+- `packages/api/src/routes/auxillaries-contract.ts` owns `AuxillariesTelemetrySubject`, `AuxillariesTelemetryProofHook`, `buildAuxillariesTelemetryProofHooks`, and recovery-run evidence/telemetry roots.
+- `/api/auxillaries/data`, `useUserData`, and the Externals pane surface the same source-safe hook records for route and UI readback.
+- Gate tests assert subject coverage, theorem/replay/evidence/telemetry root binding, recovery-run hook generation, and secret/protected-source exclusion.
+
 ### Gate 10: V31 Promotion Readiness
 
 Gate 10 owns final local/staging proof, generated artifacts, and V31 promotion workflow support.

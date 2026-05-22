@@ -62,9 +62,9 @@ No `_legacy/` source is active source truth.
 | Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | drafted | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
 | Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | drafted | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
 | Organization team role policy authority | Gate 6 | `packages/btd/src/authority.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `uapi/app/terminal/terminal-organization-authority.ts`, focused BTD/API/UI tests | drafted | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
-| Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | pending | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
-| Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | pending | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
-| Auxillaries telemetry proof and recovery runs | Gate 9 | Telemetry/proof packages, recovery routes, readback tests | pending | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
+| Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | closed | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
+| Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | closed | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
+| Auxillaries telemetry proof and recovery runs | Gate 9 | `packages/api/src/routes/auxillaries-contract.ts`, `/api/auxillaries/data`, `useUserData`, Externals UI, route/API/UI tests, Gate 9 checker | closed | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
 | Promotion readiness | Gate 10 | V31 promotion workflow, generated `.bitcode/v31-*`, `BITCODE_SPEC_V31_PROVEN.md` | pending | `version/v31` can promote to `main` only after all V31 gates pass and promotion automation commits generated canon. |
 
 ## V31 implementation checklist
@@ -154,9 +154,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Auxillaries telemetry subjects are typed | telemetry/proof hook package and tests | pending |
-| Recovery runs are executions with source-safe before/after evidence | recovery route/UI readback tests | pending |
-| Proof hooks bind theorem, replay, evidence, telemetry, blocker, and repair outcome roots | proof-hook tests and generated artifact | pending |
+| Auxillaries telemetry subjects are typed | `AuxillariesTelemetrySubject` and `AuxillariesTelemetryProofHook` in `packages/api/src/routes/auxillaries-contract.ts`; `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` asserts all required subjects | closed |
+| Recovery runs are executions with source-safe before/after evidence | `AuxillariesRecoveryRun` carries blocker id, retry policy, before/after roots, execution id, evidence root, telemetry root, outcome, and source-safety class; route/UI tests read those records | closed |
+| Proof hooks bind theorem, replay, evidence, telemetry, blocker, and repair outcome roots | `buildAuxillariesTelemetryProofHooks` derives hooks from profile, account, provider, interface, wallet, BTD, organization, policy, readiness, and recovery objects; Externals renders compact source-safe hook readback | closed |
 
 ## Gate 10 Parity
 

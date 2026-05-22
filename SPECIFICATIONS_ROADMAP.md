@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 8 Auxillaries UX Accessibility And Responsive Proof, which makes the Auxillaries support plane low-detail by default with a named main landmark, keyboard skip link, named pane navigation, active-pane state announcements, expandable audit detail, responsive mobile/desktop layout, focus/label/contrast posture, and reduced-motion proof.
+- Current working gate: V31 Gate 9 Auxillaries Telemetry Proof And Recovery Runs, which binds Profile, account, provider connection, interface admission, Wallet, BTD pane, organization authority, policy decision, readiness diagnostic, and recovery-run subjects to source-safe theorem/replay/evidence/telemetry proof hooks and UI readback.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

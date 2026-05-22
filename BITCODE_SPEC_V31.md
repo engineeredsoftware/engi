@@ -288,6 +288,8 @@ Gate 9 telemetry/recovery precision:
 - Auxillaries telemetry subjects are profile, account, provider connection, interface admission, wallet, BTD pane, organization authority, policy decision, readiness diagnostic, and recovery run.
 - Proof hooks bind theorem id, replay step id, evidence root, telemetry root, source-safety class, and blocker/repair outcome.
 - Recovery runs are executions; they may call tools, but the stored evidence must be source-safe and secret-free.
+- `AuxillariesTelemetryProofHook` is the package-owned readback object for that proof. It carries subject, subject id, pane, theorem id, replay step id, evidence root, telemetry root, blocker id, repair outcome, source-safety class, and proof root, and is emitted beside the route contract rather than derived by the UI.
+- Externals may render compact telemetry proof-hook rows for operator diagnosis, but only theorem/replay/evidence/telemetry roots and classified outcomes may be visible. Raw provider credentials, service keys, wallet secrets, private prompts, and protected source remain prohibited.
 
 V30 Protocol/BTD carryforward precision:
 
@@ -455,6 +457,7 @@ The canonical diagnostic and recovery model is produced from:
 - wallet/BTD facts: signer posture, no-custody posture, BTD range/read-right/treasury summary, and settlement-readiness blockers;
 - organization facts: organization, team, role, grant set, policy id/hash, wallet binding requirement, decision, denial reason, and recovery route;
 - source-safe telemetry facts: execution id, before/after readiness roots, evidence root, blocker, repair outcome, and retry policy.
+- proof-hook facts: telemetry subject, theorem id, replay step id, evidence root, telemetry root, source-safety class, blocker id, repair outcome, and proof root.
 
 Readiness is classified before repair:
 
@@ -484,6 +487,7 @@ Repair actions are canonical and auditable:
 
 The readiness state is one of ready, incomplete, retryable, repairable, approval-required, denied, or blocked.
 Recovery runs are executions and must store source-safe before/after evidence.
+They also carry evidence roots and telemetry roots so recovery readback can be joined to `AuxillariesTelemetryProofHook` without replaying private route internals.
 They must never store service-role JWTs, Supabase secret keys, OpenAI keys, database passwords, wallet secrets, provider tokens, private prompts, or protected AssetPack source in tracked code, telemetry, UI metadata, or persisted proof payloads.
 
 ## V31 canonical subsystem surfaces

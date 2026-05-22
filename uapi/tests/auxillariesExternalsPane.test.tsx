@@ -72,6 +72,22 @@ describe('AuxillariesExternalsPane', () => {
             afterReadinessRoot: 'bbbbbbbbbbbbbbbb',
           },
         ],
+        telemetryProofHooks: [
+          {
+            kind: 'AuxillariesTelemetryProofHook',
+            subject: 'provider_connection',
+            subjectId: 'github',
+            pane: 'externals',
+            theoremId: 'auxillaries.provider_connection.source_safe_readback',
+            replayStepId: 'provider-connection-github',
+            evidenceRoot: 'cccccccccccccccc',
+            telemetryRoot: 'dddddddddddddddd',
+            blockerId: null,
+            repairOutcome: 'not_required',
+            sourceSafetyClass: 'source_safe',
+            proofRoot: 'eeeeeeeeeeeeeeee',
+          },
+        ],
       },
       hasGitHubConnection: true,
       hasValidGitHubConnection: true,
@@ -140,6 +156,10 @@ describe('AuxillariesExternalsPane', () => {
     expect(screen.getByText(/Token: present source safe/i)).toBeInTheDocument();
     expect(screen.getByText(/Scopes: repo read write/i)).toBeInTheDocument();
     expect(screen.getByText(/Latest recovery: succeeded/i)).toBeInTheDocument();
+    expect(screen.getByTestId('auxillaries-telemetry-proof-hooks')).toBeInTheDocument();
+    expect(screen.getByText(/1 source-safe proof hook available/i)).toBeInTheDocument();
+    expect(screen.getByText(/Latest subject: provider connection/i)).toBeInTheDocument();
+    expect(screen.getByText(/Theorem: auxillaries\.provider_connection\.source_safe_readback/i)).toBeInTheDocument();
   });
 
   it('treats an invalid saved provider session as reconnect-required readiness', () => {

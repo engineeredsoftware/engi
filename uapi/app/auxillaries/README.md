@@ -22,6 +22,7 @@ Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the 
   `AuxillariesConnectionReadiness`, `AuxillariesInterfaceAdmission`,
   `AuxillariesWalletBtdPaneState`, `OrganizationPolicyAuthority`,
   `AuxillariesReadinessDiagnostic`, `AuxillariesRecoveryRun`,
+  `AuxillariesTelemetryProofHook`,
   `AuxillariesAccountIdentity`, `AuxillariesPreferencePosture`,
   `AuxillariesNotificationPosture`, and `AuxillariesDataSharingPosture` from
   `@bitcode/api/src/routes/auxillaries-contract`. UI code may consume these
@@ -60,6 +61,10 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
   `/api/auxillaries/data`, showing provider id/name, token presence class,
   scopes class, readback status, blocker, repair action, and compact readiness
   roots without exposing raw provider credentials.
+- Externals also reads package-owned `telemetryProofHooks`, rendering the
+  source-safe theorem id, replay step id, evidence root, telemetry root,
+  blocker, and repair outcome summary needed to debug provider and recovery
+  posture without opening browser network logs or leaking credentials.
 - Profile owns optional email/contact/admin data and must not appear as the primary identity requirement. Its readiness summary consumes `profileState` from `/api/auxillaries/data`, including named repair routes for identity, wallet binding, preferences, notifications, and data-sharing posture.
 - Wallet also reflects BTD range/share posture after the shared auxillary data read settles.
 - Wallet consumes package-owned `walletBtdPaneState` from

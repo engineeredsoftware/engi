@@ -122,3 +122,17 @@ Exchange and Conversations may appear as source-safe hooks, but their market and
 Gate 8 is closed only when Auxillaries UX is usable before audit expansion and provable after expansion.
 The contained support plane must expose a named main landmark, keyboard skip link, named pane navigation, active-pane state announcement, readable loading/ready posture, and expandable audit detail for every pane without raw JSON.
 The panel controls must be keyboard-native, focus-visible, labelled, and state-described, and route-scoped CSS must prove responsive mobile/desktop layout, no horizontal overflow pressure, contrast-preserving readiness chips, and reduced-motion posture.
+
+## Gate 9 closure note
+
+Gate 9 is closed only when Auxillaries telemetry is a package-owned proof
+surface rather than an ad hoc console trace.
+`AuxillariesTelemetryProofHook` must cover profile, account, provider
+connection, interface admission, wallet, BTD pane, organization authority,
+policy decision, readiness diagnostic, and recovery run subjects.
+Each hook binds theorem id, replay step id, evidence root, telemetry root,
+source-safety class, blocker id, repair outcome, and proof root.
+Recovery runs must carry source-safe before/after readiness roots plus
+evidence/telemetry roots and must be readable through the API route, shared
+client hook, and Externals UI without exposing credentials, prompts, wallet
+secrets, service keys, database credentials, or protected AssetPack source.

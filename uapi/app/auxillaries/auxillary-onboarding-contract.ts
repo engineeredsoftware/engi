@@ -17,6 +17,7 @@ export type {
   AuxillariesProfileState,
   AuxillariesReadinessDiagnostic,
   AuxillariesRecoveryRun,
+  AuxillariesTelemetryProofHook,
   AuxillariesWalletBtdPaneState,
   ConcreteAuxillaryPane,
   OrganizationPolicyAuthority,

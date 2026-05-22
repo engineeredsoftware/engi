@@ -65,6 +65,11 @@ export default function AuxillariesExternalsPane({
   const latestRecoveryRun = Array.isArray(auxillaryData?.recoveryRuns)
     ? auxillaryData.recoveryRuns[0]
     : null;
+  const telemetryProofHooks = Array.isArray(auxillaryData?.telemetryProofHooks)
+    ? auxillaryData.telemetryProofHooks
+    : [];
+  const latestTelemetryProofHook =
+    telemetryProofHooks.find((hook: any) => hook?.pane === 'externals') ?? telemetryProofHooks[0] ?? null;
 
   const hasExternalsIdentity = Boolean(user || hasWalletConnection);
 
@@ -306,6 +311,37 @@ export default function AuxillariesExternalsPane({
                           {compactRoot(latestRecoveryRun.beforeReadinessRoot)} to{' '}
                           {compactRoot(latestRecoveryRun.afterReadinessRoot)}.
                         </p>
+                      ) : null}
+                    </div>
+                  ) : null}
+                  {telemetryProofHooks.length > 0 ? (
+                    <div
+                      data-testid="auxillaries-telemetry-proof-hooks"
+                      className="mt-3 rounded-2xl border border-cyan-300/14 bg-cyan-400/8 p-4"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100/76">
+                            Telemetry proof hooks
+                          </p>
+                          <p className="mt-2 text-sm font-medium text-white">
+                            {telemetryProofHooks.length} source-safe proof{' '}
+                            {telemetryProofHooks.length === 1 ? 'hook' : 'hooks'} available
+                          </p>
+                        </div>
+                        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                          {formatProviderClass(latestTelemetryProofHook?.sourceSafetyClass)}
+                        </span>
+                      </div>
+                      {latestTelemetryProofHook ? (
+                        <div className="mt-3 grid gap-2 text-xs leading-6 text-white/68 tablet:grid-cols-2">
+                          <p>Latest subject: {formatProviderClass(latestTelemetryProofHook.subject)}</p>
+                          <p>Theorem: {latestTelemetryProofHook.theoremId}</p>
+                          <p>Replay: {latestTelemetryProofHook.replayStepId}</p>
+                          <p>Outcome: {formatProviderClass(latestTelemetryProofHook.repairOutcome)}</p>
+                          <p>Evidence: {compactRoot(latestTelemetryProofHook.evidenceRoot)}</p>
+                          <p>Telemetry: {compactRoot(latestTelemetryProofHook.telemetryRoot)}</p>
+                        </div>
                       ) : null}
                     </div>
                   ) : null}

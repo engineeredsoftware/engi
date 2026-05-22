@@ -23,8 +23,9 @@ objects must be built through `buildAuxillariesContractSnapshot` and
 `AuxillariesProfileState`, `AuxillariesConnectionReadiness`,
 `AuxillariesInterfaceAdmission`, `AuxillariesWalletBtdPaneState`,
 `OrganizationPolicyAuthority`, `AuxillariesReadinessDiagnostic`, and
-`AuxillariesRecoveryRun` values. They redact provider tokens, API keys, wallet
-secrets, private prompts, protected source, service keys, and database
+`AuxillariesRecoveryRun` values, plus source-safe
+`AuxillariesTelemetryProofHook` records. They redact provider tokens, API keys,
+wallet secrets, private prompts, protected source, service keys, and database
 credentials before UI, telemetry, or proof-hook consumption.
 
 Profile/account state is also package-owned. `AuxillariesProfileState` binds
@@ -39,7 +40,11 @@ classifies provider id/name, installation state, credential posture, token
 presence, scopes, last readback, blocker, repair action, source-safe metadata,
 and a readiness root. Routes may validate credentials privately, but API
 responses, UI metadata, telemetry, and recovery proof hooks must only serialize
-classified readiness and `AuxillariesRecoveryRun` before/after roots.
+classified readiness and `AuxillariesRecoveryRun` before/after roots. Gate 9
+telemetry hooks bind each support subject to theorem id, replay step id,
+evidence root, telemetry root, source-safety class, blocker, and repair outcome
+so Auxillaries readback can be audited without exposing credentials or
+protected source.
 
 Wallet/BTD support state is package-owned through `@bitcode/btd` and mapped
 here as `AuxillariesWalletBtdPaneState`. Route payloads may include wallet
