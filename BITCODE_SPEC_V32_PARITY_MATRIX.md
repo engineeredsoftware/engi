@@ -8,7 +8,7 @@
 - Canonical proof-source commit: none until V32 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
+- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
 - Source parity state: V32 proof-family replay, deterministic artifact generation, scenario/failure-state coverage, cross-surface regression, browser/accessibility/visual proof, readiness rehearsal, and promotion-proof hardening are opened but not yet closed
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V31`
@@ -45,6 +45,10 @@ Gate 1 audit basis:
 - `.github/workflows/bitcode-gate-quality.yml`
 - `.github/workflows/bitcode-canon-quality.yml`
 - `package.json`
+- `.bitcode/v32-proof-coverage-matrix.json`
+- `scripts/v32-proof-coverage-matrix.mjs`
+- `scripts/generate-v32-proof-coverage-matrix.mjs`
+- `scripts/check-v32-gate2-proof-matrix-inventory.mjs`
 - `packages/protocol/README.md`
 - `protocol-demonstration/README.md`
 - `packages/protocol/src/canon-posture.js`
@@ -58,7 +62,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V32.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v32/gate-1-provation-roadmap-opening` | drafted | V32 family validates in draft mode over active V31 and `check:v32-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V31 active, V32 draft, and coherent V33-V37 responsibilities. |
-| Proof matrix inventory | Gate 2 | planned proof inventory artifact and checker | draft-required | Every promoted proof/test surface has owner, fixture, replay command, artifact, source-safety class, and failure mode. |
+| Proof matrix inventory | Gate 2 | `.bitcode/v32-proof-coverage-matrix.json`, `scripts/v32-proof-coverage-matrix.mjs`, generator, checker, `check:v32-gate2` | drafted | Every promoted proof/test surface has owner package/interface, fixture, replay command, artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture. |
 | Deterministic replay and artifacts | Gate 3 | planned replay harness, volatility inventory, artifact checks | draft-required | Generated artifacts are stable, source-safe, and fail closed on drift. |
 | Reading pipeline proof coverage | Gate 4 | planned `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` tests | draft-required | Pipeline phases, PTRR agents, steps, ThricifiedGenerations, prompts, tools, telemetry, and outputs are covered. |
 | Ledger/BTD settlement failure states | Gate 5 | planned BTD/BTC/ledger/reconciliation tests | draft-required | Economic and ownership state has success, blocked, and repair proof. |
@@ -76,7 +80,9 @@ No `_legacy/` source is active source truth.
 | Gate branch pattern | V32 work happens on `version/v32` or `v32/gate-N-*` branches | drafted |
 | Spec-family shape | V32 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
 | Gate 1 script | `pnpm run check:v32-gate1` fails closed on stale posture, missing roadmap truth, or missing provation/testing scope | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture and the opened V32 Gate 1 checker | drafted |
+| Gate 2 matrix artifact | `.bitcode/v32-proof-coverage-matrix.json` records required proof/test surfaces with source-safe rows | drafted |
+| Gate 2 scripts | `pnpm run generate:v32-proof-coverage-matrix` regenerates the artifact and `pnpm run check:v32-gate2` fails closed on drift, missing fields, hidden gaps, or secret-like payloads | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1 and Gate 2 checkers | drafted |
 | Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
 
 ## Gate 1 Parity
@@ -97,9 +103,11 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| Promoted surfaces are inventoried | planned proof inventory artifact | draft-required |
-| Coverage gaps are explicit | planned parity rows and generated proof matrix | draft-required |
-| Source-safety classes are assigned | planned artifact contract | draft-required |
+| Promoted surfaces are inventoried | `.bitcode/v32-proof-coverage-matrix.json` rows for `terminal`, `reading`, `protocol-btd`, `auxillaries`, `mcp`, `chatgpt-app`, `api`, `ledger`, `database`, `object-storage`, `promotion`, and `protocol-demonstration` | drafted |
+| Coverage gaps are explicit | matrix `coverageStatus` vocabulary includes `planned-gap`, with blockers on planned-gap rows | drafted |
+| Source-safety classes are assigned | matrix source-safety class vocabulary includes `source-safe-public`, `source-safe-internal`, `secret-presence-only`, `protected-source-locked`, `source-safe-generated-proof`, and `deferred-blocker` | drafted |
+| Matrix is deterministic | `scripts/generate-v32-proof-coverage-matrix.mjs` and `stableStringify` in `scripts/v32-proof-coverage-matrix.mjs` | drafted |
+| Gate check is wired | `scripts/check-v32-gate2-proof-matrix-inventory.mjs`, `check:v32-gate2`, and `bitcode-gate-quality.yml` | drafted |
 
 ## Gate 3 Parity
 
@@ -174,6 +182,15 @@ No `_legacy/` source is active source truth.
 - Gate 1 may update V32-V37 roadmap scope to align with promoted V31 and current enterprise-readiness goals.
 - V32 does not redefine V31 Reading, Finding Fits, AssetPack preview, settlement, delivery, BTC fee, or BTD tokenomics law.
 
+## Gate 2 Accepted Boundaries
+
+- Gate 2 inventories proof/test coverage and required contexts; it does not implement Gate 3 deterministic replay hardening, Gate 4 Reading pipeline expansion, Gate 5 economic failure-state proof, Gate 6 shared interface regression suites, Gate 7 browser proof expansion, Gate 8 readiness rehearsal, Gate 9 generated-proof hardening, or Gate 10 promotion.
+- Gate 2 generated artifacts must be source-safe and may not contain protected AssetPack source, provider tokens, wallet secrets, service keys, database passwords, OpenAI keys, Vercel tokens, Supabase service-role material, or private prompts.
+- Gate 2 may represent missing coverage as `planned-gap` only when blockers and repair posture are explicit.
+- Gate 2 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
+
 ## completion condition
 
 Gate 1 is complete when the V32 draft family validates, `check:v32-gate1` passes, workflow posture is V32-aware, README and roadmap reflect V32 initiation, V33-V37 scopes are current enough to guide future gates, diff hygiene passes, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
+
+Gate 2 is complete when `.bitcode/v32-proof-coverage-matrix.json` exists, is deterministic from `pnpm run generate:v32-proof-coverage-matrix`, enumerates all required promoted surfaces with owner package/interface, fixture, replay command, expected artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture, preserves explicit `planned-gap` blockers, passes `pnpm run check:v32-gate2`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.

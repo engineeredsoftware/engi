@@ -112,6 +112,7 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V31 --draft-target V32
             node scripts/check-v31-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             node scripts/check-v32-gate1-provation-roadmap-opening.mjs --skip-branch-check
+            node scripts/check-v32-gate2-proof-matrix-inventory.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
