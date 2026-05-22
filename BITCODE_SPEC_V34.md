@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 1 deployment-roadmap opening is active over promoted V33 canon
+- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 1 opens V34 deployment-depth parity; host capability, environment lane, distributed execution, storage, approval, rollback, repair, and rehearsal source parity is not closed until the relevant gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 2 closes V34 host capability and environment lane parity; distributed execution, storage, approval, rollback, repair, and rehearsal source parity is not closed until the relevant gates close
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -194,7 +194,7 @@ Inherited V33 objects remain active: `Deposit`, `ReadRequest`, `ReadNeed`, `Find
 V34 closes through ten gates:
 
 1. **Gate 1: V34 Deployment Roadmap And Spec Opening** opens the V34 family over V33 canon, updates `SPECIFICATIONS_ROADMAP.md`, documents V33 active / V34 draft posture, and wires `check:v34-gate1`.
-2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`.
+2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`. It is closed by `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `pnpm run check:v34-gate2`.
 3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, ledger, wallet, proof, object-storage, and repair work.
 4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material.
 5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks.
@@ -504,8 +504,11 @@ Primary V34 types: `DeploymentHostCapabilityCatalog`, `EnvironmentLaneContract`,
 Primary surfaces: website, API, MCP API, ChatGPT App, workers, observers, broadcasters, repair jobs, ledger projection, database projection, object-storage projection, and proof replay.
 
 Gate 2 catalog rows are package-owned source-safe metadata.
-Required row ids include `website_app`, `public_api`, `mcp_api`, `chatgpt_app`, `pipeline_worker`, `ledger_observer`, `settlement_broadcaster`, `proof_service`, and `repair_job`.
-Each row names owner package, runtime surface, host capability, lane contract, storage carrier, required secret family, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
+Required host row ids are `website`, `api`, `mcp_api`, `chatgpt_app`, `pipeline_workers`, `runtime_observers`, `ledger_broadcasters`, `proof_services`, `repair_jobs`, `object_storage`, `database_projection`, and `ledger_projection`.
+Required lane row ids are `local`, `regtest`, `signet`, `staging-testnet`, `public-testnet`, `mainnet-ready-dry-run`, and `value-bearing-mainnet`.
+The `value-bearing-mainnet` lane is visible as `blocked_future_canon_required`; it admits no runtime hosts and carries `mainnet_value_blocked` wallet policy.
+Each host row names owner package, runtime surface, runtime carrier, packages, network posture, secret family names without values, storage carrier, observer/broadcaster/repair capability, validation path, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
+Each lane row names Bitcoin network posture, Supabase and Vercel project posture, value-bearing admission, retention, wallet policy, secret scope, proof requirements, admitted hosts, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
 
 ## Appendix B. Proof family closure catalog
 
@@ -541,8 +544,8 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 | --- | --- | --- | --- |
 | `.bitcode/v34-spec-family-report.json` | protocol | source-safe | `node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33` |
 | `.bitcode/v34-canonical-input-report.json` | protocol | source-safe | `node scripts/check-bitcode-canonical-inputs.mjs --current-target V33` |
-| `.bitcode/v34-deployment-host-capability-catalog.json` | protocol | source-safe | later V34 gate |
-| `.bitcode/v34-environment-lane-contracts.json` | protocol | source-safe | later V34 gate |
+| `.bitcode/v34-deployment-host-capability-catalog.json` | btd | source-safe-deployment-host-capability-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
+| `.bitcode/v34-environment-lane-contracts.json` | btd | source-safe-environment-lane-contract-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
 | `.bitcode/v34-distributed-execution-runtime-receipts.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-deployment-storage-posture.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-secret-rotation-boundary-operations.json` | protocol | source-safe | later V34 gate |
@@ -555,7 +558,8 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 ### V34 specifying generated artifacts
 
 Gate 1 requires `.bitcode/v34-spec-family-report.json` and `.bitcode/v34-canonical-input-report.json` to be declared.
-Later V34 gates introduce the deployment artifacts listed above.
+Gate 2 requires `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate2`.
+Later V34 gates introduce the remaining deployment artifacts listed above.
 
 ### Shared generated-artifact fields
 
@@ -581,7 +585,8 @@ Canonical regeneration fails closed when generated inputs drift, source safety f
 ## Appendix D. Validation and checking gate catalog
 
 Gate 1 validation is `pnpm run check:v34-gate1`.
-The gate also runs spec-family, canonical-input, canon-posture drift, and diff hygiene checks.
+Gate 2 validation is `pnpm run check:v34-gate2`, with artifact freshness checked by `pnpm run check:v34-host-capability-environment-lanes` and focused package coverage in `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`.
+The gate-quality workflow also runs spec-family, canonical-input, canon-posture drift, and diff hygiene checks.
 Later gates add generated artifact checks close to their deployment contract surfaces.
 
 ## Appendix E. Current canonical source map

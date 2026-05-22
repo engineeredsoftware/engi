@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 1 deployment-roadmap opening is active over promoted V33 canon
+- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 1 closes roadmap/checker parity; Gates 2 through 10 remain draft-required deployment-depth parity rows
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 2 closes host capability and environment lane parity; Gates 3 through 10 remain draft-required deployment-depth parity rows
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -54,7 +54,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V34.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v34/gate-1-deployment-roadmap-opening` | closed | V34 family validates in draft mode over active V33 and `check:v34-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V33 active, V34 draft, and coherent V35-V37 responsibilities. |
-| Host capability and environment lane catalog | Gate 2 | planned package source, generated artifacts, and `check:v34-gate2` | draft-required | Hosts, services, lanes, storage carriers, and value-bearing blockers have package-owned rows. |
+| Host capability and environment lane catalog | Gate 2 | `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `check:v34-gate2` | closed | Hosts, services, lanes, storage carriers, and value-bearing blockers have package-owned rows. |
 | Distributed execution runtime contracts | Gate 3 | planned runtime receipt source, tests, generated artifact, and `check:v34-gate3` | draft-required | Pipeline, tool, ledger, wallet, proof, object-storage, and repair work emits typed receipts. |
 | Ledger/database/object-storage posture | Gate 4 | planned storage posture source, tests, generated artifact, and `check:v34-gate4` | draft-required | Ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, and rollback material are durable and repairable. |
 | Secret rotation and credential boundaries | Gate 5 | planned secret-family source, tests, generated artifact, and `check:v34-gate5` | draft-required | Secret values stay out of tracked files and logs while rotation, leak response, and runtime availability are provable. |
@@ -76,6 +76,9 @@ No `_legacy/` source is active source truth.
 | Canon-quality workflow | Canon workflow validates promoted V33 canon, V34 draft family when present, and V33/V34 posture | closed |
 | Package docs | README, protocol package README, demonstration README, and PR template state V33 active / V34 draft workflow | closed |
 | Deployment vocabulary | V34 spec family names `DeploymentHostCapabilityCatalog`, `EnvironmentLaneContract`, `DistributedExecutionRuntimeReceipt`, `DeploymentStoragePosture`, `MigrationApprovalGate`, `SecretRotationPlan`, `RuntimeObserverRepairJob`, `RollbackUpgradeRepairPlaybook`, and `DeploymentReadinessRehearsal` | closed |
+| Host/lane catalog package source | `packages/btd/src/deployment-host-capability-catalog.ts` owns `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` builders | closed |
+| Gate 2 generated artifacts | `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` are deterministic and source-safe | closed |
+| Value-bearing mainnet blocker | `value-bearing-mainnet` remains `blocked_future_canon_required` and admits no hosts | closed |
 
 ## Gate 1 Parity
 
@@ -95,10 +98,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V34 judgment |
 | --- | --- | --- |
-| Package-owned host capability catalog exists | planned source package export | draft-required |
-| Environment lanes are explicit | planned `EnvironmentLaneContract` registry | draft-required |
-| Value-bearing mainnet is blocked | planned lane fixture and checker | draft-required |
-| Generated artifacts are source-safe and deterministic | planned `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` | draft-required |
+| Package-owned host capability catalog exists | `packages/btd/src/deployment-host-capability-catalog.ts`, `packages/btd/src/index.ts`, `packages/btd/package.json` | closed |
+| Environment lanes are explicit | `EnvironmentLaneContract`, `ENVIRONMENT_LANE_CONTRACT_IDS`, and `.bitcode/v34-environment-lane-contracts.json` | closed |
+| Value-bearing mainnet is blocked | `value-bearing-mainnet` lane fixture, `blocked_future_canon_required`, focused tests, and checker assertions | closed |
+| Generated artifacts are source-safe and deterministic | `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, and `pnpm run check:v34-host-capability-environment-lanes` | closed |
 
 ## Gate 3 Parity
 
