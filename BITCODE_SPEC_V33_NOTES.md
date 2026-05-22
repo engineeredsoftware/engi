@@ -78,6 +78,15 @@ Denied states are explicit and include `SCHEMA_VALIDATION_FAILED`, `PROVIDER_BIN
 The MCP server consumes the package-owned contract through `getBtdMcpToolContract` for tool discovery, including tool id and description, while pre-settlement protected source remains invisible.
 The generated source-safe artifact is `.bitcode/v33-mcp-api-tool-contracts.json`, checked by `check:v33-mcp-api-tool-contracts` and `check:v33-gate3`.
 
+## Gate 4 closure note
+
+Gate 4 introduces `ChatGptAppActionContract` in `packages/btd/src/chatgpt-app-action-contract.ts`.
+The required ChatGPT App Reading action ids are `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`.
+Each action binds package-owned input/output schemas, `interface.authorization.chatgpt-reading-action`, `chatgpt.reading.invoke`, a source-safe response renderer, proof-root projection, and readable repair posture.
+Denied states include `SCHEMA_VALIDATION_FAILED`, `READ_NEED_REQUIRED`, `FINDING_FITS_REQUIRED`, `ASSET_PACK_PREVIEW_REQUIRED`, `FEE_QUOTE_REQUIRED`, `SETTLEMENT_REQUIRED`, `READ_LICENSE_REQUIRED`, `ORGANIZATION_AUTHORITY_REQUIRED`, and `CONFIRMATION_REQUIRED`.
+The ChatGPT App tool registry consumes the package-owned contracts through `buildBtdChatGptAppActionContractRegistry`, while `renderBtdChatGptAppSourceSafeResponse` keeps locked AssetPack contents invisible.
+The generated source-safe artifact is `.bitcode/v33-chatgpt-app-action-contracts.json`, checked by `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4`.
+
 ## Carryforward from V32
 
 V33 inherits these V32 truths:

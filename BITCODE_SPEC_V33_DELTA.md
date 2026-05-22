@@ -111,6 +111,15 @@ Implementation centers:
 
 Gate 4 hardens ChatGPT App contracts.
 
+Implementation centers:
+
+- `packages/btd/src/chatgpt-app-action-contract.ts` owns `ChatGptAppActionContract`, `BTD_CHATGPT_APP_ACTION_CONTRACT_IDS`, and source-safe response rendering through `renderBtdChatGptAppSourceSafeResponse`;
+- `packages/chatgptapp/src/tools.ts` derives Reading action tool names, descriptions, schemas, source-safe metadata, and denial repair posture from `buildBtdChatGptAppActionContractRegistry`;
+- the package-owned action ids are `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`;
+- denied states include `SCHEMA_VALIDATION_FAILED`, `MISSING_READER_SESSION`, `READ_NEED_REQUIRED`, `FINDING_FITS_REQUIRED`, `ASSET_PACK_PREVIEW_REQUIRED`, `FEE_QUOTE_REQUIRED`, `SETTLEMENT_REQUIRED`, `READ_LICENSE_REQUIRED`, `ORGANIZATION_AUTHORITY_REQUIRED`, and `CONFIRMATION_REQUIRED`;
+- `.bitcode/v33-chatgpt-app-action-contracts.json` records source-safe Gate 4 action metadata, proof-root coverage, source-safe renderer coverage, denial repair coverage, and credential non-serialization;
+- `check:v33-gate4` validates source, tests, docs, workflow, generated artifact freshness, and ChatGPT App source-safe action posture.
+
 Closure acceptance:
 
 - ChatGPT App actions use package-owned schemas and source-safe response renderers;

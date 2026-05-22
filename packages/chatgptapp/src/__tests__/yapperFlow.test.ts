@@ -26,6 +26,20 @@ const simpleSystemTextSearchExecute =
 const webSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-web-search').search.execute as jest.Mock);
 const generateDigestMock = (jest.requireMock('@bitcode/digest/run').generateDigest as jest.Mock);
+const READ_ACCESS = {
+  assetPackId: 'asset-pack-yapper',
+  walletId: 'wallet-yapper-reader',
+  decision: 'licensed_read',
+  accessPolicyHash: 'policy-hash-yapper',
+  reason: 'wallet_has_valid_policy_matching_license',
+} as const;
+const ORGANIZATION_AUTHORITY = {
+  organizationId: 'org-yapper',
+  organizationRole: 'member',
+  organizationPermissionGrants: ['asset_pack:deliver'],
+  walletId: 'wallet-yapper-reader',
+  settlementState: 'settled',
+} as const;
 
 describe('Yapper demo flow', () => {
   beforeEach(() => {
@@ -193,6 +207,8 @@ This product delivers voice-first social conversations for builders.
     const awsWrite = await runTool<{ metadata: { guidance: string; writeAdmission: Record<string, unknown> } }>('use_aws_write_external_mcp', {
       request: 's3.putObject',
       confirmed: true,
+      readAccess: READ_ACCESS,
+      organizationAuthority: ORGANIZATION_AUTHORITY,
       payload: { bucket: 'bitcode-yapper', key: 'config/demo.json', body: '{}' },
     });
     expect(awsWrite.metadata.guidance).toContain('Uploaded to S3');
@@ -206,6 +222,8 @@ This product delivers voice-first social conversations for builders.
     const vercelDeploy = await runTool<{ result: { readyState: string }; metadata: { writeAdmission: Record<string, unknown> } }>('use_vercel_write_external_mcp', {
       request: 'deploy_to_vercel',
       confirmed: true,
+      readAccess: READ_ACCESS,
+      organizationAuthority: ORGANIZATION_AUTHORITY,
       payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Preview deploy after optimistic UI work.' },
     });
     expect((vercelDeploy.result as any).readyState).toBe('BUILDING');

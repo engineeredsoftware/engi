@@ -53,7 +53,7 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V32 active, V33 draft, and coherent V34-V37 responsibilities. |
 | Interface contract catalog | Gate 2 | `packages/btd/src/interface-contract-catalog.ts`, `packages/btd/__tests__/interface-contract-catalog.test.ts`, `.bitcode/v33-interface-contract-catalog.json`, `check:v33-gate2` | drafted | Active and deferred interface surfaces have package-owned rows. |
 | MCP API contracts | Gate 3 | `packages/btd/src/mcp-tool-contract.ts`, `packages/btd/__tests__/mcp-tool-contract.test.ts`, `packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts`, `.bitcode/v33-mcp-api-tool-contracts.json`, `check:v33-gate3` | drafted | MCP tool discovery, schemas, auth, denied states, and proof roots are package-derived. |
-| ChatGPT App contracts | Gate 4 | planned ChatGPT App action contract tests and examples | pending | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
+| ChatGPT App contracts | Gate 4 | `packages/btd/src/chatgpt-app-action-contract.ts`, `packages/btd/__tests__/chatgpt-app-action-contract.test.ts`, `packages/chatgptapp/src/tools.ts`, `packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `check:v33-gate4` | drafted | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
 | Interface authorization policy | Gate 5 | planned `InterfaceAuthorizationPolicy` fixtures and tests | pending | Interface auth and license denials fail closed with repair posture. |
 | Read license and AssetPack rights contracts | Gate 6 | planned `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` tests | pending | Source-safe preview, paid settlement, BTD rights, and delivery contracts are consistent across interfaces. |
 | API schema compatibility | Gate 7 | planned `APISchemaCompatibilityMatrix` artifact and tests | pending | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
@@ -99,6 +99,19 @@ No `_legacy/` source is active source truth.
 | Generated artifact is source-safe and deterministic | `.bitcode/v33-mcp-api-tool-contracts.json` is produced by `generate:v33-mcp-api-tool-contracts` and checked by `check:v33-mcp-api-tool-contracts` | drafted |
 | Tests fail closed | BTD and MCP tests cover contract discovery, proof roots, denied states, invalid schema arguments, and protected-source invisibility | drafted |
 | Workflow and spec-family wiring exists | `check:v33-gate3`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 3 contract | drafted |
+
+## Gate 4 Parity
+
+| Requirement | Source evidence | Current V33 judgment |
+| --- | --- | --- |
+| Package-owned ChatGPT action contract builder exists | `packages/btd/src/chatgpt-app-action-contract.ts` exports `buildBtdChatGptAppActionContractRegistry`, `BTD_CHATGPT_APP_ACTION_CONTRACT_IDS`, and `renderBtdChatGptAppSourceSafeResponse` | drafted |
+| Reading action sequence is canonical | `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack` are required action ids | drafted |
+| Schemas and auth are bound | every `ChatGptAppActionContract` carries input/output schema ids, `interface.authorization.chatgpt-reading-action`, `chatgpt.reading.invoke`, and source-safe renderer id | drafted |
+| Denied states are explicit and repairable | `SCHEMA_VALIDATION_FAILED`, `READ_NEED_REQUIRED`, `FINDING_FITS_REQUIRED`, `ASSET_PACK_PREVIEW_REQUIRED`, `FEE_QUOTE_REQUIRED`, `SETTLEMENT_REQUIRED`, `READ_LICENSE_REQUIRED`, `ORGANIZATION_AUTHORITY_REQUIRED`, and `CONFIRMATION_REQUIRED` are readable repair states | drafted |
+| ChatGPT App consumes package contract | `packages/chatgptapp/src/tools.ts` uses `buildBtdChatGptAppActionContractRegistry`, derives tool schemas, and returns `renderBtdChatGptAppSourceSafeResponse` metadata | drafted |
+| Generated artifact is source-safe and deterministic | `.bitcode/v33-chatgpt-app-action-contracts.json` is produced by `generate:v33-chatgpt-app-action-contracts` and checked by `check:v33-chatgpt-app-action-contracts` | drafted |
+| Tests fail closed | BTD and ChatGPT tests cover action registration, schemas, proof roots, accepted source-safe render output, denied repair actions, and secret-shaped source text rejection | drafted |
+| Workflow and spec-family wiring exists | `check:v33-gate4`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 4 contract | drafted |
 
 ## Gate 1 Parity
 

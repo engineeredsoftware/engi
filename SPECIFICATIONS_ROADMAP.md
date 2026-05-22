@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V32`
 - Current active canon: `BITCODE_SPEC_V32.md`
 - Current draft target: `BITCODE_SPEC_V33.md`
-- Current working gate: V33 Gate 3 MCP API Tool And Registry Contracts, which makes MCP tool discovery package-derived and source-safe, binds `bitcode://pipelines/asset-pack/create` to `McpToolContract`, proves schema/auth denial states such as `SCHEMA_VALIDATION_FAILED` and `PROVIDER_BINDING_REQUIRED`, and generates `.bitcode/v33-mcp-api-tool-contracts.json`.
+- Current working gate: V33 Gate 4 ChatGPT App Action And Tool Contracts, which makes ChatGPT App Reading actions package-derived and source-safe, binds Read, Need, Finding Fits, preview, fee, settlement, and delivery action ids to `ChatGptAppActionContract`, proves denial repair states such as `READ_LICENSE_REQUIRED` and `SETTLEMENT_REQUIRED`, and generates `.bitcode/v33-chatgpt-app-action-contracts.json`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
