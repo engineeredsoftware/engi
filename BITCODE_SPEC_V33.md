@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, and Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 3 adds package-owned `McpToolContract` source and generated proof coverage for MCP API tool discovery, schema, auth, denial, and proof-root contracts
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, and Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 7 adds package-owned `APISchemaCompatibilityMatrix` source and generated proof coverage for schema ids, consumer surfaces, examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless interface path discipline
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -238,6 +238,26 @@ in every fixture and in the generated artifact. Paid delivery may mark
 `protectedSourceVisible: true` on the contract output only after the BTD
 read/right transfer evidence is present; artifact payloads remain source-safe
 metadata and never serialize protected source or credentials.
+
+### V33 Gate 7 API Schemas Examples And Compatibility Matrix
+
+Gate 7 makes `APISchemaCompatibilityMatrix` the shared package-owned schema
+compatibility spine for public API routes, MCP API tool calls, ChatGPT App
+actions, Terminal handoffs, and package consumers. Each row records a schema
+id, request schema id, response schema id, consumer surface, route/tool/action
+path, source-safety class, compatibility status, breaking-change policy,
+source-safe example, fixture path, example path, validation command, and
+deterministic row root. Required example postures are `success`, `denied`,
+`blocked`, `stale`, and `deferred`; the matrix fails closed if any posture or
+required consumer surface is absent.
+
+The matrix enforces versionless interface path discipline. Public API paths may
+use `/api/...`; MCP, ChatGPT App, Terminal handoff, and package consumer paths
+use their interface URI families. No compatibility row may introduce `/vN/`,
+gate-prefixed, or work-in-progress source identifiers. Deferred rows are
+visible as `deferred_not_admitted`, not hidden, and must carry a deferred
+reason. Matrix examples are source-safe metadata only and never serialize
+protected AssetPack source or credentials.
 
 ## V33 whole Bitcode operator chain
 
@@ -536,6 +556,17 @@ The required first tool id is `bitcode://pipelines/asset-pack/create`.
 The contract binds `bitcode.mcp.assetPackCreate.input.v1`, `bitcode.mcp.assetPackCreate.output.v1`, `interface.authorization.pipeline-permission`, `pipelines.create`, `protected-source-locked`, `source-safe-preview-and-metadata-before-settlement`, proof-root fields, request/response roots, and denied states including `SCHEMA_VALIDATION_FAILED` and `PROVIDER_BINDING_REQUIRED`.
 MCP discovery must consume this contract instead of repeating tool ids or descriptions locally.
 
+Gate 7 `APISchemaCompatibilityMatrix` rows are package-owned source-safe
+schema compatibility metadata. The required consumer surfaces are `public_api`,
+`mcp_api`, `chatgpt_app`, `terminal_handoff`, and `package_consumer`. The
+required example postures are `success`, `denied`, `blocked`, `stale`, and
+`deferred`. Each row binds schema ids, request/response schema ids, a
+versionless path or interface URI, compatibility status, breaking-change
+policy, example path, fixture path, validation command, protected-source
+visibility, and deterministic row root. Deferred rows remain visible as
+`deferred_not_admitted`; active rows must never carry versioned `/vN/`,
+gate-prefixed, or work-in-progress paths.
+
 ## Appendix B. Proof family closure catalog
 
 The V33 proof-family catalog is the nine-family catalog in `V33 proof-family canon`.
@@ -575,6 +606,7 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | `.bitcode/v33-chatgpt-app-action-contracts.json` | `scripts/generate-v33-chatgpt-app-action-contracts.mjs` | `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4` | source-safe-chatgpt-app-action-contract-metadata | Gate 4 required |
 | `.bitcode/v33-interface-authorization-policy.json` | `scripts/generate-v33-interface-authorization-policy.mjs` | `check:v33-interface-authorization-policy` and `check:v33-gate5` | source-safe-interface-authorization-policy-metadata | Gate 5 required |
 | `.bitcode/v33-read-license-assetpack-rights-contracts.json` | `scripts/generate-v33-read-license-assetpack-rights-contracts.mjs` | `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6` | source-safe-read-license-assetpack-rights-metadata | Gate 6 required |
+| `.bitcode/v33-api-schema-compatibility-matrix.json` | `scripts/generate-v33-api-schema-compatibility-matrix.mjs` | `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7` | source-safe-api-schema-compatibility-metadata | Gate 7 required |
 
 ### V33 specifying generated artifacts
 
@@ -584,7 +616,8 @@ Gate 3 adds `.bitcode/v33-mcp-api-tool-contracts.json`, which serializes source-
 Gate 4 adds `.bitcode/v33-chatgpt-app-action-contracts.json`, which serializes source-safe `ChatGptAppActionContract` metadata for `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`, including package-owned schemas, source-safe response renderers, proof-root projection, readable denial states such as `READ_LICENSE_REQUIRED`, and repair actions.
 Gate 5 adds `.bitcode/v33-interface-authorization-policy.json`, which serializes source-safe `InterfaceAuthorizationPolicy` metadata for API, MCP, ChatGPT App, and Terminal handoff fixtures, including auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and missing/stale authority fail-closed coverage.
 Gate 6 adds `.bitcode/v33-read-license-assetpack-rights-contracts.json`, which serializes source-safe `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` metadata for API, MCP, ChatGPT App, and Terminal fixtures, including Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, paid/unpaid denial, and protected-source non-serialization.
-Later gates may add schema compatibility, telemetry replay, and promotion readiness artifacts.
+Gate 7 adds `.bitcode/v33-api-schema-compatibility-matrix.json`, which serializes source-safe `APISchemaCompatibilityMatrix` metadata for public API, MCP API, ChatGPT App, Terminal handoff, and package consumer rows, including schema ids, request/response schema ids, success/denied/blocked/stale/deferred examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless path discipline.
+Later gates may add telemetry replay and promotion readiness artifacts.
 
 ### Shared generated-artifact fields
 
@@ -608,7 +641,7 @@ V33 promotion must fail closed when generated artifacts are missing, stale, sour
 
 ## Appendix D. Validation and checking gate catalog
 
-V33 validation includes `check-bitcode-spec-family`, `check-bitcode-canonical-inputs`, `check-bitcode-canon-posture-drift`, `check:v33-gate1`, `check:v33-gate2`, `check:v33-gate3`, `check:v33-gate4`, later gate-specific checkers, package tests, interface contract tests, and promotion workflow checks.
+V33 validation includes `check-bitcode-spec-family`, `check-bitcode-canonical-inputs`, `check-bitcode-canon-posture-drift`, `check:v33-gate1`, `check:v33-gate2`, `check:v33-gate3`, `check:v33-gate4`, `check:v33-gate5`, `check:v33-gate6`, `check:v33-gate7`, later gate-specific checkers, package tests, interface contract tests, and promotion workflow checks.
 
 ## Appendix E. Current canonical source map
 

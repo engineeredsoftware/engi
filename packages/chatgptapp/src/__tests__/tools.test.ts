@@ -9,6 +9,10 @@ import {
   buildBtdReadLicenseInterfaceContract,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd/read-license-assetpack-rights-contract';
+import {
+  buildBtdApiSchemaCompatibilityMatrix,
+  getBtdApiSchemaCompatibilityRow,
+} from '@bitcode/btd/api-schema-compatibility-matrix';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -178,6 +182,20 @@ This product delivers voice-first social conversations for builders.
         'RIGHTS_TRANSFER_REQUIRED',
         'LOCKED_SOURCE_UNPAID',
       ]),
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const row = getBtdApiSchemaCompatibilityRow('chatgpt-app-deliver-assetpack-blocked');
+
+    expect(matrix.observedConsumerSurfaces).toContain('chatgpt_app');
+    expect(row).toMatchObject({
+      consumerSurface: 'chatgpt_app',
+      path: 'chatgpt://actions/bitcode_deliver_asset_pack',
+      compatibilityStatus: 'blocked_until_rights',
+      examplePosture: 'blocked',
       protectedSourceVisible: false,
     });
   });

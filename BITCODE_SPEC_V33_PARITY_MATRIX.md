@@ -56,7 +56,7 @@ No `_legacy/` source is active source truth.
 | ChatGPT App contracts | Gate 4 | `packages/btd/src/chatgpt-app-action-contract.ts`, `packages/btd/__tests__/chatgpt-app-action-contract.test.ts`, `packages/chatgptapp/src/tools.ts`, `packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `check:v33-gate4` | drafted | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
 | Interface authorization policy | Gate 5 | `packages/btd/src/interface-authorization-policy.ts`, `packages/btd/__tests__/interface-authorization-policy.test.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`, `packages/chatgptapp/src/__tests__/tools.test.ts`, `uapi/tests/terminalOrganizationAuthority.test.ts`, `.bitcode/v33-interface-authorization-policy.json`, `check:v33-gate5` | drafted | Interface auth and license denials fail closed with repair posture across API, MCP, ChatGPT App, and Terminal handoff fixtures. |
 | Read license and AssetPack rights contracts | Gate 6 | `packages/btd/src/read-license-assetpack-rights-contract.ts`, `packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `check:v33-gate6` | drafted | Source-safe preview, paid settlement, BTD rights, and delivery contracts are consistent across interfaces. |
-| API schema compatibility | Gate 7 | planned `APISchemaCompatibilityMatrix` artifact and tests | pending | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
+| API schema compatibility | Gate 7 | `packages/btd/src/api-schema-compatibility-matrix.ts`, `packages/btd/__tests__/api-schema-compatibility-matrix.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-api-schema-compatibility-matrix.json`, `check:v33-gate7` | drafted | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
 | Interface telemetry proof hooks | Gate 8 | planned `InterfaceTelemetryProofHook` artifact and tests | pending | Interface actions replay to executions, ledger, database, object storage, and generated proof roots. |
 | Interface consumer UX regression proof | Gate 9 | planned MCP, ChatGPT App, public API, and Terminal handoff consumer proof | pending | Consumers see source-safe summaries, proof roots, fee/rights previews, and readable denials. |
 | Promotion readiness | Gate 10 | planned V33 promotion checker and generated proof support | pending | `version/v33` can promote only after all V33 gates pass and generated canon is source-safe. |
@@ -139,6 +139,19 @@ No `_legacy/` source is active source truth.
 | Paid delivery requires finality and rights transfer | Terminal fixture admits delivery only after confirmed BTC finality, paid unlock, delivery admission, and rights-transfer receipt | drafted |
 | Generated artifact is source-safe and deterministic | `.bitcode/v33-read-license-assetpack-rights-contracts.json` is produced by `generate:v33-read-license-assetpack-rights-contracts` and checked by `check:v33-read-license-assetpack-rights-contracts` | drafted |
 | Workflow and spec-family wiring exists | `check:v33-gate6`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 6 contract | drafted |
+
+## Gate 7 Parity
+
+| Requirement | Source evidence | Current V33 judgment |
+| --- | --- | --- |
+| Package-owned schema matrix exists | `packages/btd/src/api-schema-compatibility-matrix.ts` exports `buildBtdApiSchemaCompatibilityMatrix`, row builders, required consumer surfaces, and required example postures | drafted |
+| Required consumer surfaces are present | Matrix rows cover `public_api`, `mcp_api`, `chatgpt_app`, `terminal_handoff`, and `package_consumer` | drafted |
+| Required example postures are present | Matrix rows cover `success`, `denied`, `blocked`, `stale`, and `deferred` | drafted |
+| Versionless path discipline is enforced | `assertVersionlessPath` rejects `/vN/`, gate-prefixed, and work-in-progress interface paths; BTD tests cover rejection | drafted |
+| Source-safe examples are enforced | BTD tests reject protected-source visibility and secret-shaped example payloads | drafted |
+| Surface fixtures consume matrix rows | API, MCP, ChatGPT App, and Terminal tests call `buildBtdApiSchemaCompatibilityMatrix` or `getBtdApiSchemaCompatibilityRow` | drafted |
+| Generated artifact is source-safe and deterministic | `.bitcode/v33-api-schema-compatibility-matrix.json` is produced by `generate:v33-api-schema-compatibility-matrix` and checked by `check:v33-api-schema-compatibility-matrix` | drafted |
+| Workflow and spec-family wiring exists | `check:v33-gate7`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 7 matrix | drafted |
 
 ## Gate 1 Parity
 

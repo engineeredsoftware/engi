@@ -154,6 +154,7 @@ export function buildGenerationBitcodeAccounting(
   };
 }
 
+export * from './api-schema-compatibility-matrix';
 export * from './bitcoin-fees';
 export * from './btc-fee-operation';
 export * from './bitcoin-provider';

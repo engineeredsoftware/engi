@@ -66,8 +66,10 @@ import {
 } from '../../types';
 import {
   buildBtdAssetPackRightsInterfaceContract,
+  buildBtdApiSchemaCompatibilityMatrix,
   buildBtdInterfaceAuthorizationPolicy,
   buildBtdReadLicenseInterfaceContract,
+  getBtdApiSchemaCompatibilityRow,
   getBtdInterfaceAuthorizationPolicyFixture,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
@@ -198,6 +200,21 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       interfaceSurface: 'mcp',
       decision: 'preview_admitted',
       rightsPosture: 'preview_only_locked',
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for MCP tool calls', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const row = getBtdApiSchemaCompatibilityRow('mcp-api-asset-pack-create-success');
+
+    expect(matrix.observedConsumerSurfaces).toContain('mcp_api');
+    expect(row).toMatchObject({
+      consumerSurface: 'mcp_api',
+      path: 'bitcode://pipelines/asset-pack/create',
+      requestSchemaId: 'bitcode.mcp.assetPackCreate.input.v1',
+      responseSchemaId: 'bitcode.mcp.assetPackCreate.output.v1',
+      examplePosture: 'success',
       protectedSourceVisible: false,
     });
   });

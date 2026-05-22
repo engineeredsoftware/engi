@@ -5,8 +5,9 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V32`
 - Current active canon: `BITCODE_SPEC_V32.md`
 - Current draft target: `BITCODE_SPEC_V33.md`
-- Current working gate: V33 Gate 6 Read License And AssetPack Rights Interface Contracts, which centralizes `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` over Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, and paid/unpaid source disclosure boundaries across API, MCP, ChatGPT App, and Terminal fixtures, generating `.bitcode/v33-read-license-assetpack-rights-contracts.json`.
-- Latest closed gate: V33 Gate 5 Interface Authorization Policy Fail-Closed, which introduced the shared `InterfaceAuthorizationPolicy` fixture and generated `.bitcode/v33-interface-authorization-policy.json`.
+- Current working gate: V33 Gate 7 API Schemas Examples And Compatibility Matrix, which centralizes `APISchemaCompatibilityMatrix` over package-owned schema ids, consumer surfaces, source-safe examples, breaking-change policy, compatibility status, fixture paths, validation commands, and versionless interface path discipline, generating `.bitcode/v33-api-schema-compatibility-matrix.json`.
+- Latest closed gate: V33 Gate 6 Read License And AssetPack Rights Interface Contracts, which introduced shared `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` fixtures and generated `.bitcode/v33-read-license-assetpack-rights-contracts.json`.
+- Recent V33 closure anchor: V33 Gate 5 Interface Authorization Policy Fail-Closed introduced the shared `InterfaceAuthorizationPolicy` fixture and generated `.bitcode/v33-interface-authorization-policy.json`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

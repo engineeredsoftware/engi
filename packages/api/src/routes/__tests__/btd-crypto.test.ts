@@ -15,6 +15,7 @@ jest.mock(
 
 import {
   advanceBtcFeeQuote,
+  buildBtdApiSchemaCompatibilityMatrix,
   buildBtdAncestryReviewSettlement,
   buildBtdAssetPackLedgerAnchorSettlement,
   buildBtdAssetPackExchangeSettlement,
@@ -36,6 +37,7 @@ import {
   buildBtdProtocolTelemetryRecord,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
+  getBtdApiSchemaCompatibilityRow,
   getBtdInterfaceAuthorizationPolicyFixture,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
@@ -395,6 +397,24 @@ describe('BTD crypto API builders', () => {
       decision: 'preview_admitted',
       rightsPosture: 'preview_only_locked',
       btcSettlementFinality: 'quote_pending',
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for versionless public routes', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const publicRows = matrix.rows.filter((row) => row.consumerSurface === 'public_api');
+    const registryRow = getBtdApiSchemaCompatibilityRow('public-api-btd-registry-success');
+
+    expect(publicRows).toHaveLength(3);
+    expect(publicRows.every((row) => row.path.startsWith('/api/') && !row.path.includes('/v1/'))).toBe(true);
+    expect(matrix.observedExamplePostures).toEqual(
+      expect.arrayContaining(['success', 'denied', 'blocked', 'stale', 'deferred']),
+    );
+    expect(registryRow).toMatchObject({
+      routeId: 'api.btd.registry.snapshot',
+      path: '/api/btd/registry',
+      examplePosture: 'success',
       protectedSourceVisible: false,
     });
   });

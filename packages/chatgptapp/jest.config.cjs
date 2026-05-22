@@ -1,6 +1,7 @@
 const tsJestPreset = require('ts-jest/presets/js-with-ts/jest-preset');
 const customModuleNameMapper = {
   '^@bitcode/btd$': '<rootDir>/../btd/src/authority.ts',
+  '^@bitcode/btd/api-schema-compatibility-matrix$': '<rootDir>/../btd/src/api-schema-compatibility-matrix.ts',
   '^@bitcode/btd/chatgpt-app-action-contract$': '<rootDir>/../btd/src/chatgpt-app-action-contract.ts',
   '^@bitcode/btd/interface-authorization-policy$': '<rootDir>/../btd/src/interface-authorization-policy.ts',
   '^@bitcode/btd/read-license-assetpack-rights-contract$': '<rootDir>/../btd/src/read-license-assetpack-rights-contract.ts',
