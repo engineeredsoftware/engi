@@ -20,9 +20,9 @@
       "source-safe-public": 1
     },
     "statusCounts": {
-      "inherited-covered": 2,
+      "inherited-covered": 1,
       "planned-gap": 1,
-      "v32-expansion-required": 9
+      "v32-expansion-required": 10
     },
     "surfaceCount": 12
   },
@@ -58,19 +58,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-terminal-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
       "failureModes": [
         "route-state-drift",
         "stream-payload-shape-drift",
         "unredacted-protected-source-in-detail-pane",
         "operator-detail-overflow"
       ],
-      "fixture": "uapi/tests/terminalTransactionReadModel.test.ts; uapi/tests/terminalPipelineHarnessClient.test.ts; uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "fixture": "uapi/tests/terminalTransactionReadModel.test.ts; uapi/tests/terminalPipelineHarnessClient.test.ts; uapi/tests/pipelineExecutionLogHeader.test.tsx; uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "owner": "uapi/app/terminal",
       "plannedGate": "Gate 6 and Gate 7",
       "promotedBehavior": "URL-addressable Terminal transactions, live execution streams, transaction detail cards, wallet/BTC posture, and source-safe operator readback.",
       "repairPosture": "Gate 6 hardens transaction contract fixtures; Gate 7 proves browser/accessibility/responsive presentation.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand",
+      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx tests/terminalInterfaceIntegrationRegression.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "TerminalTransaction",
         "TerminalTransactionReadModel",
@@ -134,20 +134,20 @@
     },
     {
       "blockers": [],
-      "coverageStatus": "inherited-covered",
-      "expectedArtifact": ".bitcode/v32-auxillaries-proof-coverage.json",
+      "coverageStatus": "v32-expansion-required",
+      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
       "failureModes": [
         "provider-readiness-drift",
         "policy-denial-missing-reason",
         "wallet-btd-projection-mismatch",
         "recovery-run-without-before-after-roots"
       ],
-      "fixture": "packages/api/src/routes/__tests__/auxillaries-contract.test.ts; uapi/tests/userDataRoute.test.ts; uapi/tests/auxillariesWalletPane.test.tsx; uapi/tests/auxillariesExternalsPane.test.tsx",
+      "fixture": "packages/api/src/routes/__tests__/auxillaries-contract.test.ts; uapi/tests/userDataRoute.test.ts; uapi/tests/auxillariesWalletPane.test.tsx; uapi/tests/auxillariesExternalsPane.test.tsx; uapi/tests/auxillariesContent.access.test.tsx",
       "owner": "packages/api; packages/orm; uapi/app/auxillaries",
       "plannedGate": "Gate 6 and Gate 7",
       "promotedBehavior": "Profile, account, provider readiness, interface admission, wallet/BTD pane, organization authority, diagnostics, recovery, and telemetry proof hooks.",
       "repairPosture": "Gate 6 turns inherited Auxillaries contracts into shared regression fixtures; Gate 7 expands browser/accessibility evidence.",
-      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand && pnpm --dir uapi exec jest --runTestsByPath tests/userDataRoute.test.ts tests/auxillariesWalletPane.test.tsx tests/auxillariesExternalsPane.test.tsx --runInBand",
+      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand && pnpm --dir uapi exec jest --runTestsByPath tests/userDataRoute.test.ts tests/auxillariesWalletPane.test.tsx tests/auxillariesExternalsPane.test.tsx tests/auxillariesContent.access.test.tsx --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "AuxillariesProfileState",
         "AuxillariesConnectionReadiness",
@@ -161,7 +161,7 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-mcp-interface-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
       "failureModes": [
         "unauthorized-write-admitted",
         "write-admission-metadata-missing",
@@ -173,7 +173,7 @@
       "plannedGate": "Gate 6",
       "promotedBehavior": "MCP write admission, auth boundaries, pipeline tool contracts, prompt canon, and queued execution metadata.",
       "repairPosture": "Gate 6 aligns MCP contract fixtures with API, Terminal, ChatGPT App, and deferred interface blockers.",
-      "replayCommand": "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts src/__tests__/unit/prompt-asset-pack-canon.test.ts --runInBand",
+      "replayCommand": "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts src/__tests__/unit/prompt-asset-pack-canon.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "tool schema",
         "write admission receipt",
@@ -186,7 +186,7 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-chatgpt-app-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
       "failureModes": [
         "tool-schema-drift",
         "unbounded-tool-response",
@@ -198,7 +198,7 @@
       "plannedGate": "Gate 6",
       "promotedBehavior": "ChatGPT App tool surfaces, prompt documentation, interface integration seams, and source-safe tool responses.",
       "repairPosture": "Gate 6 aligns ChatGPT App fixtures with shared interface contracts and source-safety classes.",
-      "replayCommand": "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts src/__tests__/yapperFlow.test.ts --runInBand",
+      "replayCommand": "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts src/__tests__/yapperFlow.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "tool descriptors",
         "tool result schemas",
@@ -211,19 +211,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-api-contract-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-interface-contract-regression-suite.json",
       "failureModes": [
         "route-schema-drift",
         "auth-boundary-bypass",
         "source-safety-class-missing",
         "provider-error-without-repair-action"
       ],
-      "fixture": "uapi/tests/api/readReviewRoute.test.ts; uapi/tests/api/pipelineHarnessRoute.test.ts; uapi/tests/api/vcsRoutes.test.ts; uapi/tests/userDataRoute.test.ts; packages/api/src/routes/__tests__/btd-crypto.test.ts",
+      "fixture": "uapi/tests/api/readReviewRoute.test.ts; uapi/tests/api/pipelineHarnessRoute.test.ts; uapi/tests/api/vcsRoutes.test.ts; uapi/tests/userDataRoute.test.ts; packages/api/src/routes/__tests__/btd-crypto.test.ts; uapi/tests/api/conversationsRouteRead.test.ts",
       "owner": "uapi/app/api; packages/api",
       "plannedGate": "Gate 6",
       "promotedBehavior": "UAPI and package API routes for Reading, pipeline harnesses, VCS, user data, Auxillaries, BTD, and transaction readback.",
       "repairPosture": "Gate 6 converts inherited route tests into shared API/interface contract regressions.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/api/vcsRoutes.test.ts tests/userDataRoute.test.ts --runInBand && pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand",
+      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/api/vcsRoutes.test.ts tests/userDataRoute.test.ts tests/api/conversationsRouteRead.test.ts --runInBand && pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "route schemas",
         "auth/session posture",

@@ -5,6 +5,7 @@ export const BTD_INTERFACE_INTEGRATION_REQUIRED_SURFACES = [
   'chatgpt_app',
   'auxillaries_hook',
   'exchange_hook',
+  'conversations_hook',
 ] as const;
 
 export type BtdInterfaceIntegrationSurface =

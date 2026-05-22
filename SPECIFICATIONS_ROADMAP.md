@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 5 Ledger BTD Settlement Failure-State Coverage, which proves BTC fee quote and PSBT phases, BTD mint/read/rights-transfer receipts, source-to-shares conservation, ledger/database/object-storage drift repair, source-safe disclosure, paid unlock, and PR delivery readback.
+- Current working gate: V32 Gate 6 Interface Contract Regression Suites, which proves shared source-safe contracts across Terminal, API, MCP, ChatGPT App, Auxillaries, and blocked/deferred `exchange_hook` plus `conversations_hook` rows with auth-boundary, policy-denial, source-safety-class, and protected-source nondisclosure assertions.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

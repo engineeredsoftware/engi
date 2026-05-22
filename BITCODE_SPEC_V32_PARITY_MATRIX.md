@@ -62,6 +62,11 @@ Gate 1 audit basis:
 - `scripts/generate-v32-ledger-btd-settlement-failure-states.mjs`
 - `scripts/check-v32-gate5-ledger-btd-settlement-failure-states.mjs`
 - `packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts`
+- `.bitcode/v32-interface-contract-regression-suite.json`
+- `scripts/generate-v32-interface-contract-regression-suites.mjs`
+- `scripts/check-v32-gate6-interface-contract-regression-suites.mjs`
+- `packages/btd/src/interface-contract-regression.ts`
+- `packages/btd/__tests__/v32-interface-contract-regression.test.ts`
 - `packages/protocol/README.md`
 - `protocol-demonstration/README.md`
 - `packages/protocol/src/canon-posture.js`
@@ -101,7 +106,9 @@ No `_legacy/` source is active source truth.
 | Gate 4 scripts | `pnpm run generate:v32-reading-pipeline-proof-coverage`, `pnpm run check:v32-reading-pipeline-proof-coverage`, and `pnpm run check:v32-gate4` fail closed on stale or incomplete Reading proof coverage | drafted |
 | Gate 5 artifact | `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json` records source-safe BTC fee, BTD receipt, source-to-shares, projection drift, repair action, paid unlock, and delivery failure-state coverage | drafted |
 | Gate 5 scripts | `pnpm run generate:v32-ledger-btd-settlement-failure-states`, `pnpm run check:v32-ledger-btd-settlement-failure-states`, and `pnpm run check:v32-gate5` fail closed on stale, incomplete, source-unsafe, or undocumented economic proof coverage | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, and Gate 5 checkers | drafted |
+| Gate 6 artifact | `.bitcode/v32-interface-contract-regression-suite.json` records source-safe interface contract rows, shared fixtures, auth boundaries, policy denials, source-safety classes, and deferred blockers | drafted |
+| Gate 6 scripts | `pnpm run generate:v32-interface-contract-regression-suites`, `pnpm run check:v32-interface-contract-regression-suites`, and `pnpm run check:v32-gate6` fail closed on stale, incomplete, source-unsafe, or undocumented interface proof coverage | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, Gate 5, and Gate 6 checkers | drafted |
 | Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
 
 ## Gate 1 Parity
@@ -159,9 +166,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| API and interface contracts share fixtures | planned interface regression suite | draft-required |
-| Deferred Exchange and Conversations hooks stay blocked | planned contract tests | draft-required |
-| Auth and source-safety classes are tested | planned route/tool tests | draft-required |
+| API and interface contracts share fixtures | `.bitcode/v32-interface-contract-regression-suite.json`, `packages/btd/src/interface-contract-regression.ts`, `packages/btd/__tests__/v32-interface-contract-regression.test.ts` | drafted |
+| Deferred Exchange and Conversations hooks stay blocked | focused Gate 6 test proves `exchange_hook` and `conversations_hook` are `deferred_blocked` rows with `deferred_not_admitted` auth boundaries | drafted |
+| Auth and source-safety classes are tested | Gate 6 artifact rows require auth-boundary, policy-denial, source-safety-class, and protected-source nondisclosure assertions | drafted |
 
 ## Gate 7 Parity
 
@@ -243,3 +250,5 @@ Gate 3 is complete when `.bitcode/v32-artifact-volatility-inventory.json` and `.
 Gate 4 is complete when `.bitcode/v32-reading-pipeline-proof-coverage.json` exists, is deterministic from `pnpm run generate:v32-reading-pipeline-proof-coverage`, covers `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` with exact phase/PTRR agent/PTRR step/ThricifiedGeneration/prompt/tool/telemetry counts, proves plural Finding Fits discovery, source-safe preview, and paid PR delivery boundaries, passes focused pipeline tests plus `pnpm run check:v32-reading-pipeline-proof-coverage` and `pnpm run check:v32-gate4`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
 
 Gate 5 is complete when `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json` exists, is deterministic from `pnpm run generate:v32-ledger-btd-settlement-failure-states`, covers BTC fee phases and blocked-readiness receipts, BTD mint/read/rights-transfer receipts, source-to-shares conservation, projection drift and repair actions, encrypted protected-source storage, paid unlock, and PR delivery readback, passes focused BTD settlement failure-state tests plus `pnpm run check:v32-ledger-btd-settlement-failure-states` and `pnpm run check:v32-gate5`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
+
+Gate 6 is complete when `.bitcode/v32-interface-contract-regression-suite.json` exists, is deterministic from `pnpm run generate:v32-interface-contract-regression-suites`, covers active `terminal`, `api`, `mcp`, `chatgpt_app`, and `auxillaries_hook` contracts plus blocked/deferred `exchange_hook` and `conversations_hook` rows, proves auth-boundary, policy-denial, source-safety-class, and protected-source nondisclosure assertions, passes focused interface contract tests plus `pnpm run check:v32-interface-contract-regression-suites` and `pnpm run check:v32-gate6`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
