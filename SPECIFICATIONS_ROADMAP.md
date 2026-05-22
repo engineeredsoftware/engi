@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 8 Testnet And Mainnet Readiness Rehearsal, which represents local, staging-testnet, production-mainnet, and offline-disabled lanes with source-safe secret-presence-only readiness records, provider connectivity classes, ledger/database/object-storage posture, BTC network posture, rollback/repair checks, and explicit production-mainnet value-bearing launch blockage.
+- Current working gate: V32 Gate 9 Promotion Proof Generation Hardening, which makes generated V32 promotion proof dry-runnable, checkable, source-safe to debug, and branch-protection friendly before final V32 promotion readiness.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

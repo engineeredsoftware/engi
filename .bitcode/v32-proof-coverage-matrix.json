@@ -315,19 +315,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-promotion-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-promotion-proof-generation-hardening.json",
       "failureModes": [
         "stale-status-truth",
         "missing-generated-artifact",
         "workflow-branch-mismatch",
         "unsafe-main-push"
       ],
-      "fixture": "scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; .github/workflows/bitcode-gate-quality.yml",
+      "fixture": "scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; packages/protocol/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml",
       "owner": ".github/workflows; scripts; packages/protocol",
       "plannedGate": "Gate 9 and Gate 10",
       "promotedBehavior": "Gate PR quality, version promotion workflow, spec-family checks, canonical input checks, canon-posture drift checks, and generated proof appendix.",
       "repairPosture": "Gate 9 hardens generated-proof diagnostics; Gate 10 wires V32 promotion and post-promotion V33 draft posture.",
-      "replayCommand": "pnpm run check:v32-gate1 && pnpm run check:v32-gate2 && node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31 && node scripts/check-bitcode-canonical-inputs.mjs --current-target V31",
+      "replayCommand": "pnpm run check:v32-gate1 && pnpm run check:v32-gate2 && pnpm run check:v32-gate9 && node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31 && node scripts/check-bitcode-canonical-inputs.mjs --current-target V31",
       "requiredContexts": [
         "spec family",
         "canonical inputs",

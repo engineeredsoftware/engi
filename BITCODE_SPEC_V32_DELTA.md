@@ -188,7 +188,10 @@ Gate 9 hardens V32 promotion proof generation and workflow debuggability.
 Closure acceptance:
 
 - `BITCODE_SPEC_V32_PROVEN.md` generation can be dry-run, checked, and promoted with clear failure messages;
-- promotion workflows surface generated artifact diffs and stale-posture causes;
+- promotion workflows surface source-safe generated artifact diffs and stale-posture causes;
+- generated artifact `.bitcode/v32-promotion-proof-generation-hardening.json` records dry-run, check, and promotion-plan modes, failure taxonomy, branch-protection posture, and direct-main-push denial;
+- generator command `pnpm run generate:v32-promotion-proof-generation-hardening`, checker command `pnpm run check:v32-promotion-proof-generation-hardening`, and gate closure command `pnpm run check:v32-gate9` fail closed on stale, incomplete, undocumented, or source-unsafe proof hardening;
+- focused protocol test `packages/protocol/test/v32-promotion-proof-generation.test.js` proves V32 proof package generation, hardening artifact production, and source-safe generated artifact diffs;
 - branch protection and promotion commits do not require unsafe direct pushes to `main`.
 
 ### Gate 10: V32 Promotion Readiness

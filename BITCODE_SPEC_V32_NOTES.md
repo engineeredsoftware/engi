@@ -127,9 +127,12 @@ Rehearse environment readiness without admitting value-bearing launch:
 Make promotion evidence easier to debug:
 
 - dry-run and check modes for generated V32 proof;
-- clear stale-posture and artifact-drift failures;
+- clear stale-posture, proven-stale, missing-artifact, and artifact-drift failures;
 - source-safe generated artifact diffs;
-- branch-protection friendly promotion commits.
+- branch-protection friendly promotion commits;
+- generated artifact `.bitcode/v32-promotion-proof-generation-hardening.json`;
+- generator command `pnpm run generate:v32-promotion-proof-generation-hardening`, checker command `pnpm run check:v32-promotion-proof-generation-hardening`, and gate closure command `pnpm run check:v32-gate9`;
+- focused protocol test `packages/protocol/test/v32-promotion-proof-generation.test.js` proving V32 proof package hardening and direct-main-push denial.
 
 ### Gate 10: V32 Promotion Readiness
 
