@@ -39,6 +39,7 @@ export default function AuxillariesWorkspacePanels({
             : state === 'ready'
               ? 'Ready auxillary'
               : 'Locked auxillary';
+        const descriptionId = `auxillaries-panel-${step}-state`;
 
         return (
           <div key={step} role="listitem">
@@ -58,7 +59,13 @@ export default function AuxillariesWorkspacePanels({
                     : 'orbital-workspace-panel-locked auxillaries-bitcode-selector-card-locked'
               }`}
               aria-label={`${descriptor.label} auxillary`}
+              aria-current={isActive ? 'page' : undefined}
+              aria-disabled={!isAvailable}
+              aria-describedby={descriptionId}
             >
+              <span id={descriptionId} className="sr-only">
+                {stateLabel}. {descriptor.routeDescription}
+              </span>
               <div className="orbital-workspace-panel-topline auxillaries-bitcode-selector-card-topline">
                 <span
                   className={`orbital-workspace-panel-state auxillaries-bitcode-selector-card-state auxillaries-bitcode-selector-card-state-${state}`}

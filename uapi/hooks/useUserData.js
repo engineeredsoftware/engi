@@ -22,6 +22,18 @@ const ANONYMOUS_USER_DATA = {
     btcFeeBalance: null,
     recentBtdAssetPacks: [],
     modelPreferences: null,
+    templatePreferences: null,
+    notificationPosture: null,
+    dataSharingPosture: null,
+    profileState: null,
+    auxillariesContract: null,
+    connectionReadiness: [],
+    interfaceAdmissions: [],
+    walletBtdPaneState: null,
+    organizationAuthority: null,
+    readinessDiagnostics: [],
+    recoveryRuns: [],
+    telemetryProofHooks: [],
     onboardedPanes: [],
     onboarded_steps: [],
     isOnboardingComplete: false,
@@ -239,6 +251,18 @@ function useUserData() {
         ? data.btcFeeBalance
         : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const recentBtdAssetPacks = Array.isArray(data?.recentBtdAssetPacks) ? data.recentBtdAssetPacks : [];
+    const connectionReadiness = Array.isArray(data?.connectionReadiness) ? data.connectionReadiness : [];
+    const interfaceAdmissions = Array.isArray(data?.interfaceAdmissions) ? data.interfaceAdmissions : [];
+    const walletBtdPaneState =
+        data?.walletBtdPaneState && typeof data.walletBtdPaneState === 'object'
+            ? data.walletBtdPaneState
+            : null;
+    const organizationAuthority =
+        data?.organizationAuthority && typeof data.organizationAuthority === 'object'
+            ? data.organizationAuthority
+            : null;
+    const recoveryRuns = Array.isArray(data?.recoveryRuns) ? data.recoveryRuns : [];
+    const telemetryProofHooks = Array.isArray(data?.telemetryProofHooks) ? data.telemetryProofHooks : [];
     const onboardedSteps = (0, auxillary_pane_meta_1.normalizeAuxillarySteps)(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
     const isOnboardingComplete = data?.isOnboardingComplete || false;
     return {
@@ -257,6 +281,12 @@ function useUserData() {
         btdBalance,
         btcFeeBalance,
         recentBtdAssetPacks,
+        connectionReadiness,
+        interfaceAdmissions,
+        walletBtdPaneState,
+        organizationAuthority,
+        recoveryRuns,
+        telemetryProofHooks,
         isLoading,
         isRevalidating,
         error,

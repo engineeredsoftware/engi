@@ -5732,6 +5732,7 @@ export function renderCanonicalProvenMarkdown(data) {
   const v24 = /** @type {any} */ (data).v24 || null;
   const v25 = /** @type {any} */ (data).v25 || null;
   const v26 = /** @type {any} */ (data).v26 || null;
+  const v31 = /** @type {any} */ (data).v31 || null;
   const lines = [];
   lines.push(`# ${specBrandLabel(data.version)} Spec ${data.version} Proven`);
   lines.push('');
@@ -5826,6 +5827,14 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v26FourthGatePromotedClosed: ${markdownCode(String(v26.fourthGatePromotedClosed === true))}`);
     lines.push(`- v26ThroughFourthGatePromotionReady: ${markdownCode(String(v26.throughFourthGatePromotionReady === true))}`);
     lines.push(`- v26PromotionReady: ${markdownCode(String(v26.promotionReady === true))}`);
+  }
+  if (v31) {
+    lines.push(`- v31SpecFamilyPassed: ${markdownCode(String(v31.specFamilyReport.passed === true))}`);
+    lines.push(`- v31CanonicalInputsPassed: ${markdownCode(String(v31.canonicalInputReport.passed === true))}`);
+    lines.push(`- v31CanonPostureDriftPassed: ${markdownCode(String(v31.canonPostureDriftReport.passed === true))}`);
+    lines.push(`- v31AuxillariesTelemetryProofHooksPassed: ${markdownCode(String(v31.auxillariesTelemetryProofHooks.passed === true))}`);
+    lines.push(`- v31GeneratedArtifactCount: ${markdownCode(String((v31.artifactSummaries || []).length))}`);
+    lines.push(`- v31PromotionReady: ${markdownCode(String(v31.promotionReady === true))}`);
   }
   lines.push('');
   if (v18Matrices) {
@@ -8320,6 +8329,223 @@ function buildV30ProvenPackage(baseData, {
 
 /**
  * @param {{
+ *   generatedAt: string,
+ *   baseData: ReturnType<typeof buildCanonicalProvenData>
+ * }} input
+ */
+function buildV31AuxillariesTelemetryProofHooks({ generatedAt, baseData }) {
+  const requiredFiles = [
+    'packages/api/src/routes/auxillaries-contract.ts',
+    'packages/api/src/routes/__tests__/auxillaries-contract.test.ts',
+    'uapi/hooks/useUserData.ts',
+    'uapi/hooks/useUserData.js',
+    'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
+    'uapi/tests/userDataRoute.test.ts',
+    'uapi/tests/auxillariesExternalsPane.test.tsx',
+    'BITCODE_SPEC_V31.md',
+    'BITCODE_SPEC_V31_DELTA.md',
+    'BITCODE_SPEC_V31_NOTES.md',
+    'BITCODE_SPEC_V31_PARITY_MATRIX.md'
+  ];
+  const contractTokens = [
+    'AuxillariesTelemetrySubject',
+    'AuxillariesTelemetryProofHook',
+    'buildAuxillariesTelemetryProofHooks',
+    'buildAuxillariesTelemetryProofHook',
+    'theoremId',
+    'replayStepId',
+    'evidenceRoot',
+    'telemetryRoot',
+    'recoveryRoot',
+    'sourceSafetyClass'
+  ];
+  const failures = [];
+  const checkedFiles = [];
+  /** @type {Record<string, string>} */
+  const sourceByPath = {};
+  for (const relativePath of requiredFiles) {
+    const absolutePath = path.join(REPO_ROOT, relativePath);
+    if (!existsSync(absolutePath)) {
+      failures.push(`missing required Auxillaries telemetry proof-hook source ${relativePath}`);
+      continue;
+    }
+    checkedFiles.push(relativePath);
+    const content = readFileSync(absolutePath, 'utf8');
+    sourceByPath[relativePath] = content;
+    if (relativePath === 'packages/api/src/routes/auxillaries-contract.ts') {
+      for (const token of contractTokens) {
+        if (!content.includes(token)) {
+          failures.push(`Auxillaries telemetry primitive is missing ${token}`);
+        }
+      }
+    }
+  }
+  const contractTestContent = sourceByPath['packages/api/src/routes/__tests__/auxillaries-contract.test.ts'] || '';
+  const userDataTsContent = sourceByPath['uapi/hooks/useUserData.ts'] || '';
+  const userDataJsContent = sourceByPath['uapi/hooks/useUserData.js'] || '';
+  const externalsPaneContent = sourceByPath['uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx'] || '';
+  const specContent = sourceByPath['BITCODE_SPEC_V31.md'] || '';
+  const testsReady = [
+    'telemetrySubjects',
+    'provider_connection',
+    'interface_admission',
+    'readiness_diagnostic',
+    'recovery_run',
+    'auxillaries.recovery_run.execution_evidence',
+    'source_safe'
+  ].every((token) => contractTestContent.includes(token));
+  const clientReady = userDataTsContent.includes('telemetryProofHooks')
+    && userDataJsContent.includes('telemetryProofHooks');
+  const uiReady = externalsPaneContent.includes('auxillaries-telemetry-proof-hooks')
+    && externalsPaneContent.includes('Telemetry proof hooks');
+  const specReady = specContent.includes('Gate 9')
+    && specContent.includes('AuxillariesTelemetryProofHook')
+    && specContent.includes('v31-auxillaries-telemetry-proof-hooks');
+  if (!testsReady) failures.push('Auxillaries telemetry tests do not cover subject, recovery, and source-safety replay.');
+  if (!clientReady) failures.push('Auxillaries user data hooks do not expose telemetryProofHooks.');
+  if (!uiReady) failures.push('Auxillaries Externals pane does not render telemetry proof hooks.');
+  if (!specReady) failures.push('V31 spec does not bind Auxillaries telemetry proof hooks.');
+
+  return {
+    reportId: 'v31-auxillaries-telemetry-proof-hooks',
+    version: 'V31',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: failures.length === 0,
+    sourceSafe: true,
+    checkedFileCount: checkedFiles.length,
+    checkedFiles,
+    requiredTelemetrySubjects: [
+      'profile',
+      'account',
+      'provider_connection',
+      'interface_admission',
+      'wallet',
+      'btd_pane',
+      'organization_authority',
+      'policy_decision',
+      'readiness_diagnostic',
+      'recovery_run'
+    ],
+    proofHookCoverage: [
+      'theorem ids',
+      'replay step ids',
+      'evidence roots',
+      'telemetry roots',
+      'blocker ids',
+      'repair outcomes',
+      'source-safety classes',
+      'proof roots'
+    ],
+    compatibleWith: ['V32'],
+    failures
+  };
+}
+
+/**
+ * @param {any} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ */
+function buildV31ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const draftPreview = ACTIVE_CANON_VERSION !== 'V31';
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V31',
+    mode: draftPreview ? 'draft' : 'promoted',
+    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V31' })
+  });
+  const assumedArtifactPaths = [
+    'BITCODE_SPEC_V31_PROVEN.md',
+    '.bitcode/v31-spec-family-report.json',
+    '.bitcode/v31-canonical-input-report.json',
+    '.bitcode/v31-canon-posture-drift-report.json',
+    '.bitcode/v31-auxillaries-telemetry-proof-hooks.json'
+  ];
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V31',
+    reportVersion: 'V31',
+    ...(draftPreview
+      ? {
+          skipPointerCheck: true,
+          assumeExistingRelativePaths: assumedArtifactPaths
+        }
+      : { assumeExistingRelativePaths: assumedArtifactPaths })
+  });
+  const canonPostureDriftReport = buildCanonPostureDriftReport({
+    version: 'V31',
+    activeCanonVersion: 'V31',
+    draftTargetVersion: 'V32',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const auxillariesTelemetryProofHooks = buildV31AuxillariesTelemetryProofHooks({
+    generatedAt,
+    baseData
+  });
+  const artifacts = {
+    ...buildCanonPostureGeneratedArtifactContents({
+      version: 'V31',
+      proofSourceCommit: baseData.canonicalCommit,
+      generatedAt,
+      generatorId: baseData.generatorId,
+      worktreeState: baseData.worktreeState,
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport
+    }),
+    '.bitcode/v31-auxillaries-telemetry-proof-hooks.json': `${JSON.stringify(auxillariesTelemetryProofHooks, null, 2)}\n`
+  };
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const promotionReady = specFamilyReport.passed === true
+    && canonicalInputReport.passed === true
+    && canonPostureDriftReport.passed === true
+    && auxillariesTelemetryProofHooks.passed === true;
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v31: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      auxillariesTelemetryProofHooks,
+      artifactSummaries,
+      draftPreview,
+      promotionReady,
+      activeCanonicalTarget: ACTIVE_CANON_VERSION,
+      nextDraftTarget: 'V32'
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && promotionReady
+        && specFamilyReport.mode === 'promoted'
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
+ * @param {{
  *   version: string,
  *   canonicalCommit: string,
  *   canonicalCommitRecordedAt?: string | null,
@@ -8785,6 +9011,58 @@ export function generateCanonicalProvenMarkdown({
     });
     finishGenerateProfile();
     return v30Package;
+  }
+  if (version === 'V31') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      renderMarkdown: false,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      renderMarkdown: false
+    });
+    const v31Package = buildV31ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+    finishGenerateProfile();
+    return v31Package;
   }
   const v18Matrices = version === 'V18'
     ? buildV18Matrices(baseData, {

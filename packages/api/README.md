@@ -14,6 +14,65 @@ status decisions, and framework-compatible response serialization. Route code
 must not duplicate BTD policy, mint admission, receipt derivation, settlement
 state construction, or JSON-safe conversion already exported by `@bitcode/btd`.
 
+For Auxillaries route contracts, this package owns the route-facing support
+objects in `src/routes/auxillaries-contract.ts`. Route handlers may authenticate,
+read or write explicit storage rows, and choose response status, but
+Profile/Connects/Interfaces/Wallet/BTD/organization readiness and policy
+objects must be built through `buildAuxillariesContractSnapshot` and
+`buildAuxillaryDataPayload`. Those builders emit JSON-safe
+`AuxillariesProfileState`, `AuxillariesConnectionReadiness`,
+`AuxillariesInterfaceAdmission`, `AuxillariesWalletBtdPaneState`,
+`OrganizationPolicyAuthority`, `AuxillariesReadinessDiagnostic`, and
+`AuxillariesRecoveryRun` values, plus source-safe
+`AuxillariesTelemetryProofHook` records. They redact provider tokens, API keys,
+wallet secrets, private prompts, protected source, service keys, and database
+credentials before UI, telemetry, or proof-hook consumption.
+
+Profile/account state is also package-owned. `AuxillariesProfileState` binds
+the support identity, completeness issues, repair routes, wallet binding,
+model/template preferences, notification posture, data-sharing posture, and
+proof roots. Profile UI and routes can display or persist explicit fields, but
+they should not recalculate readiness locally; missing profile/account facts
+must degrade into named blockers or repairable issues.
+
+Connects provider readiness is also package-owned. `AuxillariesConnectionReadiness`
+classifies provider id/name, installation state, credential posture, token
+presence, scopes, last readback, blocker, repair action, source-safe metadata,
+and a readiness root. Routes may validate credentials privately, but API
+responses, UI metadata, telemetry, and recovery proof hooks must only serialize
+classified readiness and `AuxillariesRecoveryRun` before/after roots. Gate 9
+telemetry hooks bind each support subject to theorem id, replay step id,
+evidence root, telemetry root, source-safety class, blocker, and repair outcome
+so Auxillaries readback can be audited without exposing credentials or
+protected source.
+
+Wallet/BTD support state is package-owned through `@bitcode/btd` and mapped
+here as `AuxillariesWalletBtdPaneState`. Route payloads may include wallet
+binding facts, BTD holding counts, recent AssetPack ids/ranges, and BTC fee
+posture, but the no-custody signer posture, network readiness, range/read-right
+summary, account treasury boundary, settlement blockers, and support roots must
+come from the BTD projection. API responses must keep protected AssetPack source
+hidden, keep wallet private material out of JSON, and mark the Wallet/BTD
+treasury support state as separate from Exchange market state.
+
+Organization authority state is package-owned through `@bitcode/btd` and mapped
+here as `OrganizationPolicyAuthority`. Route payloads may hydrate organization,
+team, member, role, grants, wallet, policy, and multi-sig facts, but
+`buildBtdOrganizationPolicyAuthority` owns the policy decision, fail-closed
+denial reasons, source visibility, recovery route, and proof root. API
+responses must expose only the source-safe authority object shared by
+Auxillaries and Terminal.
+
+Interface admission state is package-owned in `AuxillariesInterfaceAdmission`.
+The catalog emitted by `buildAuxillariesInterfaceAdmissions` covers Terminal,
+API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface
+hooks. Each record carries auth mode, `supportedActions`, current
+`allowedActions`, policy requirements, legacy-compatible policy constraints,
+source-safety class, blockers, readiness, deferred-product depth, and an
+interface-admission root. Exchange market law and Conversations product depth
+remain blocked/deferred in V31; route and UI code may display the source-safe
+record but must not implement those product laws locally.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

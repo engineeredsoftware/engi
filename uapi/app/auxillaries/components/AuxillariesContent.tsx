@@ -45,6 +45,12 @@ function AuxillariesContent(props: AuxillariesContentProps) {
   const isAuxillariesMode = mode === 'auxillaries';
   const usesTabNavigation = navigationMode === 'tabs';
   const usesContainedLayout = surfaceVariant === 'contained';
+  const activePaneLabel = currentStep ? labelForAuxillaryPane(currentStep) : 'Auxillaries';
+  const activeDescriptor = currentStep ? getAuxillaryDescriptor(currentStep) : null;
+  const availableStepLabels = availableSteps.filter(Boolean).map((step) => labelForAuxillaryPane(step));
+  const blockedStepLabels = steps
+    .filter((step) => step && !availableSteps.includes(step))
+    .map((step) => labelForAuxillaryPane(step));
 
   const stepMeta = useMemo(() => {
     const pos = new Map<AuxillaryPane, number>();
@@ -215,8 +221,22 @@ function AuxillariesContent(props: AuxillariesContentProps) {
       )}
 
       {usesContainedLayout ? (
-        <div className="orbital-workspace-shell auxillaries-bitcode-shell">
-          <aside className="orbital-workspace-nav auxillaries-bitcode-selector">
+        <main
+          className="orbital-workspace-shell auxillaries-bitcode-shell"
+          aria-label="Bitcode Auxillaries support plane"
+          data-auxillaries-testid="auxillaries-main-landmark"
+          data-testid="auxillaries-main-landmark"
+        >
+          <a className="auxillaries-skip-link" href="#auxillaries-active-pane">
+            Skip to active support pane
+          </a>
+          <aside
+            className="orbital-workspace-nav auxillaries-bitcode-selector"
+            role="navigation"
+            aria-label="Auxillaries pane navigation"
+            data-auxillaries-testid="auxillaries-pane-navigation"
+            data-testid="auxillaries-pane-navigation"
+          >
             <AuxillariesWorkspacePanels
               steps={steps}
               currentStep={currentStep}
@@ -224,8 +244,88 @@ function AuxillariesContent(props: AuxillariesContentProps) {
               onStepClick={onStepClick}
             />
           </aside>
-          <div className="orbital-workspace-stage auxillaries-bitcode-pane">{contentPanel}</div>
-        </div>
+          <section
+            id="auxillaries-active-pane"
+            className="orbital-workspace-stage auxillaries-bitcode-pane auxillaries-active-pane-region"
+            role="region"
+            aria-label={`${activePaneLabel} active support pane`}
+            aria-live="polite"
+            aria-busy={!showContent}
+            tabIndex={-1}
+            data-auxillaries-testid="auxillaries-active-pane-region"
+            data-testid="auxillaries-active-pane-region"
+            data-auxillaries-pane-state={showContent ? 'ready' : 'loading'}
+          >
+            <div className="auxillaries-active-pane-summary" role="status" aria-atomic="true">
+              <div className="auxillaries-active-pane-summary-copy">
+                <p className="auxillaries-active-pane-kicker">Active support pane</p>
+                <h2 className="auxillaries-active-pane-title">{activePaneLabel}</h2>
+                {activeDescriptor ? (
+                  <p className="auxillaries-active-pane-description">{activeDescriptor.routeDescription}</p>
+                ) : null}
+              </div>
+              <div className="auxillaries-active-pane-chips" aria-label="Auxillaries readiness summary">
+                <span className="auxillaries-active-pane-chip" data-state={showContent ? 'ready' : 'loading'}>
+                  {showContent ? 'Ready' : 'Loading'}
+                </span>
+                <span className="auxillaries-active-pane-chip">{availableStepLabels.length} panes available</span>
+                {blockedStepLabels.length ? (
+                  <span className="auxillaries-active-pane-chip" data-state="blocked">
+                    {blockedStepLabels.length} blocked
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {contentPanel ?? (
+              <div className="auxillaries-active-pane-loading" role="status" aria-live="polite">
+                Loading active pane.
+              </div>
+            )}
+
+            <details
+              className="auxillaries-audit-detail"
+              data-auxillaries-testid="auxillaries-audit-detail"
+              data-testid="auxillaries-audit-detail"
+            >
+              <summary>Audit detail</summary>
+              <dl className="auxillaries-audit-detail-grid">
+                <div>
+                  <dt>Active pane</dt>
+                  <dd>{activePaneLabel}</dd>
+                </div>
+                <div>
+                  <dt>Available panes</dt>
+                  <dd>{availableStepLabels.length ? availableStepLabels.join(', ') : 'none'}</dd>
+                </div>
+                <div>
+                  <dt>Blocked panes</dt>
+                  <dd>{blockedStepLabels.length ? blockedStepLabels.join(', ') : 'none'}</dd>
+                </div>
+                <div>
+                  <dt>Completed panes</dt>
+                  <dd>
+                    {completedSteps.length
+                      ? completedSteps.map((step) => labelForAuxillaryPane(step)).join(', ')
+                      : 'none'}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Surface</dt>
+                  <dd>{mode === 'auxillaries' ? 'Auxillaries support plane' : 'onboarding support plane'}</dd>
+                </div>
+                <div>
+                  <dt>State</dt>
+                  <dd>{showContent ? 'ready' : 'loading'}</dd>
+                </div>
+                <div>
+                  <dt>Source safety</dt>
+                  <dd>source-safe summary only</dd>
+                </div>
+              </dl>
+            </details>
+          </section>
+        </main>
       ) : (
         <>
           {!usesTabNavigation ? <div className="orbital-rings-container">{ringElements}</div> : null}

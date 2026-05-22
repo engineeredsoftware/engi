@@ -23,7 +23,7 @@ import {
   type ConcreteAuxillaryPane,
   type AuxillaryPane,
 } from './auxillary-pane-meta';
-import { mutateUserData } from '@/hooks/useUserData';
+import { mutateUserData, useUserData } from '@/hooks/useUserData';
 import { clearLocalBitcodeWalletIdentity } from '@/lib/bitcode-wallet-local';
 
 export type { ConcreteAuxillaryPane, AuxillaryPane } from './auxillary-pane-meta';
@@ -99,6 +99,7 @@ export default function AuxillariesSurface({
   const { data: sessionUser, isLoading: userLoading } = useUser();
   const { data: profileData, isLoading: profileLoading } = useProfile();
   const { data: onboardingData } = useOnboarding();
+  const { data: auxillaryData } = useUserData();
 
   const authLoaded = !userLoading;
   const [supabaseClient] = useState(() => createClient());
@@ -363,6 +364,8 @@ export default function AuxillariesSurface({
             initialAvatarUrl={profileData?.avatar_url}
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
+            profileState={auxillaryData?.profileState ?? null}
+            organizationAuthority={auxillaryData?.organizationAuthority ?? null}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
               shouldPersistOnboardingProgress ? (isComplete) => handleStepCompletionChange('profile', isComplete) : undefined
@@ -441,6 +444,8 @@ export default function AuxillariesSurface({
   }, [
     handleStepComplete,
     handleStepCompletionChange,
+    auxillaryData?.profileState,
+    auxillaryData?.organizationAuthority,
     isAuxillariesSurface,
     isUnlockedSurface,
     profileData,

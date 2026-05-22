@@ -42,6 +42,14 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(payload.provider).toBe('github');
     expect(payload.username).toBe('bitcode');
     expect(payload.metadata.account).toBe('bitcode');
+    expect(payload.providerReadiness).toEqual(expect.objectContaining({
+      provider: 'github',
+      providerName: 'GitHub',
+      tokenPresenceClass: expect.any(String),
+      scopesClass: expect.any(String),
+      providerReadinessRoot: expect.stringMatching(/^[0-9a-f]{64}$/),
+    }));
+    expect(JSON.stringify(payload.providerReadiness)).not.toContain('mock-token');
   });
 
   it('returns deterministic mock repositories for the terminal-owned GitHub carrier', async () => {

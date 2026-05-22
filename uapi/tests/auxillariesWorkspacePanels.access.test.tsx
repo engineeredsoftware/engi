@@ -21,6 +21,8 @@ describe('AuxillariesWorkspacePanels', () => {
     expect(screen.getByRole('button', { name: 'Interfaces auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Profile auxillary' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Wallet auxillary' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Interfaces auxillary' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('button', { name: 'Wallet auxillary' })).toHaveAttribute('aria-disabled', 'true');
     expect(screen.getByLabelText('Active auxillary')).toHaveAttribute('data-state', 'active');
     expect(screen.getByLabelText('Locked auxillary')).toHaveAttribute('data-state', 'locked');
 

@@ -9,11 +9,19 @@ jest.mock('@/app/api/vcs/_shared', () => ({
     connected: false,
     provider,
     valid: false,
+    tokenPresenceClass: 'missing',
+    scopesClass: 'missing',
+    lastReadbackStatus: 'not_attempted',
+    blocker: `connects.${provider}.connect_provider`,
   })),
   buildStoredConnectionStatus: jest.fn((provider: string, connection: Record<string, unknown>, valid: boolean) => ({
     connected: true,
     provider,
     valid,
+    scopes: ['repo', 'contents:write'],
+    tokenPresenceClass: 'present_source_safe',
+    lastReadbackStatus: valid ? 'succeeded' : 'failed',
+    blocker: valid ? null : `connects.${provider}.reauthorize_provider`,
     metadata: connection.connectionData ?? null,
   })),
   getStoredConnection: jest.fn(),
@@ -49,21 +57,51 @@ describe('GET /api/auxillaries/data', () => {
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toEqual({
+    expect(body).toEqual(expect.objectContaining({
       profile: null,
       githubConnection: null,
       walletConnectionStatus: null,
       repositoryConnectionStatus: null,
       repositories: [],
+      organizations: [],
       repositoryInventorySource: null,
       btdBalance: 0,
       btcFeeBalance: null,
       recentBtdAssetPacks: [],
       modelPreferences: null,
+      templatePreferences: null,
+      notificationPosture: expect.objectContaining({
+        state: 'contact_missing',
+        unreadCount: 0,
+      }),
+      dataSharingPosture: expect.objectContaining({
+        state: 'not_configured',
+        repositoryCount: 0,
+      }),
       onboardedPanes: [],
       onboarded_steps: [],
       isOnboardingComplete: false,
-    });
+      auxillariesContract: expect.objectContaining({
+        kind: 'auxillaries_contract_snapshot',
+        profileState: expect.objectContaining({ accountReadiness: 'blocked' }),
+      }),
+      connectionReadiness: [
+        expect.objectContaining({
+          provider: 'github',
+          tokenPresenceClass: 'missing',
+          scopesClass: 'missing',
+          lastReadbackStatus: 'not_attempted',
+        }),
+      ],
+      readinessDiagnostics: expect.any(Array),
+      telemetryProofHooks: expect.arrayContaining([
+        expect.objectContaining({
+          kind: 'AuxillariesTelemetryProofHook',
+          subject: 'profile',
+          sourceSafetyClass: 'source_safe',
+        }),
+      ]),
+    }));
     expect(mockFrom).not.toHaveBeenCalled();
   });
 
@@ -107,6 +145,30 @@ describe('GET /api/auxillaries/data', () => {
     const prefBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), single: jest.fn().mockResolvedValue({ data: prefData, error: null })
     };
+    const templatePrefData = {
+      deliverable_templates: { asset_pack_pr: { label: 'AssetPack PR' } },
+      ai_document_templates: { witness_summary: { label: 'Witness summary' } },
+      auto_save_templates: true,
+    };
+    const templatePrefBuilder: any = {
+      select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: templatePrefData, error: null })
+    };
+    const notificationsBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockResolvedValue({
+        data: [
+          {
+            id: 'notification-1',
+            type: 'profile',
+            is_read: false,
+            created_at: '2026-05-21T00:00:00.000Z',
+          },
+        ],
+        error: null,
+      }),
+    };
     (getStoredConnection as jest.Mock).mockResolvedValue({
       manager: { id: 'manager' },
       connection: { id: 'connection-1', connectionData: connectionData },
@@ -140,13 +202,15 @@ describe('GET /api/auxillaries/data', () => {
       if (table === 'user_connections') return connectionBuilder;
       if (table === 'user_credits') return btdBuilder;
       if (table === 'user_model_preferences') return prefBuilder;
+      if (table === 'user_template_preferences') return templatePrefBuilder;
+      if (table === 'notifications') return notificationsBuilder;
       throw new Error('Unexpected table ' + table);
     });
     const req = new Request('http://localhost/api/auxillaries/data');
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toEqual({
+    expect(body).toEqual(expect.objectContaining({
       profile: expect.objectContaining({
         id: 'user-1',
         username: 'test',
@@ -176,15 +240,75 @@ describe('GET /api/auxillaries/data', () => {
           defaultBranch: 'main',
         }),
       ],
+      organizations: ['bitcode'],
       repositoryInventorySource: 'stored_repository_inventory',
       btdBalance: 50,
       btcFeeBalance: null,
       recentBtdAssetPacks: [],
       modelPreferences: prefData.preferences,
+      templatePreferences: {
+        shippable_templates: templatePrefData.deliverable_templates,
+        evidence_document_templates: templatePrefData.ai_document_templates,
+        auto_save_templates: true,
+      },
+      notificationPosture: expect.objectContaining({
+        state: 'attention_needed',
+        unreadCount: 1,
+      }),
+      dataSharingPosture: expect.objectContaining({
+        state: 'configured',
+        repositoryCount: 1,
+        enabledRepositoryCount: 1,
+      }),
       onboardedPanes: ['profile', 'interfaces', 'wallet'],
       onboarded_steps: ['profile', 'interfaces', 'wallet'],
       isOnboardingComplete: false,
-    });
+      auxillariesContract: expect.objectContaining({
+        kind: 'auxillaries_contract_snapshot',
+        profileState: expect.objectContaining({
+          username: 'test',
+          accountReadiness: 'degraded',
+          preferences: expect.objectContaining({
+            templates: expect.objectContaining({
+              shippableTemplateCount: 1,
+              evidenceDocumentTemplateCount: 1,
+            }),
+          }),
+        }),
+        connectionReadiness: [
+          expect.objectContaining({
+            providerId: 'github',
+            providerName: 'GitHub',
+            provider: 'github',
+            connected: true,
+            valid: true,
+            tokenPresenceClass: 'present_source_safe',
+            scopesClass: 'repo_read_write',
+            lastReadbackStatus: 'succeeded',
+            blocker: null,
+          }),
+        ],
+        telemetryProofHooks: expect.arrayContaining([
+          expect.objectContaining({
+            kind: 'AuxillariesTelemetryProofHook',
+            subject: 'provider_connection',
+            sourceSafetyClass: 'source_safe',
+          }),
+        ]),
+      }),
+      telemetryProofHooks: expect.arrayContaining([
+        expect.objectContaining({
+          subject: 'provider_connection',
+          theoremId: 'auxillaries.provider_connection.source_safe_readback',
+          replayStepId: 'provider-connection-github',
+        }),
+      ]),
+      walletBtdPaneState: expect.objectContaining({
+        walletCapability: expect.objectContaining({
+          address: 'bc1qbitcodeoperator',
+        }),
+      }),
+    }));
     // Ensure queries were scoped correctly
     expect(profileBuilder.eq).toHaveBeenCalledWith('id', 'user-1');
     expect(connectionBuilder.eq).toHaveBeenCalledWith('provider', 'github');

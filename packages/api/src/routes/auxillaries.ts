@@ -1,5 +1,5 @@
 import { traceRoute } from '@bitcode/observability';
-import { hydrateBitcodeProfile } from '@bitcode/orm/src/profile-contract';
+import { hydrateBitcodeProfile } from '@bitcode/orm';
 import { createJsonResponse } from '@bitcode/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -7,6 +7,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import {
   buildAnonymousAuxillaryData,
   buildAuxillaryDataPayload,
+  buildAuxillaryDataPayloadFromUnknown,
   buildAuxillaryOnboardingPayload,
   type AuxillaryBtdAssetPackSummary,
   type AuxillaryOnboardingUpdatePayload,
@@ -18,6 +19,7 @@ import {
 const EMPTY_TEMPLATE_PREFERENCES = {
   shippable_templates: {},
   evidence_document_templates: {},
+  auto_save_templates: false,
 };
 
 type AuxillaryRouteBuilderOptions = {
@@ -157,11 +159,36 @@ async function listRecentBtdAssetPacksForProfile(
       const rangeStart = readNumberField(row, 'range_start', 'rangeStart');
       const rangeEndExclusive = readNumberField(row, 'range_end_exclusive', 'rangeEndExclusive');
       const acquiredAt = readStringField(row, 'issued_at', 'acquiredAt');
+      const readRightState = readStringField(
+        row,
+        'read_right_state',
+        'readRightState',
+        'settlement_state',
+        'settlementState',
+      );
+      const accessPolicyHash = readStringField(row, 'access_policy_hash', 'accessPolicyHash');
+      const sourceSafePreviewRoot = readStringField(
+        row,
+        'source_safe_preview_root',
+        'preview_root',
+        'sourceSafePreviewRoot',
+      );
 
       if (label) summary.label = label;
       if (typeof rangeStart === 'number') summary.rangeStart = rangeStart;
       if (typeof rangeEndExclusive === 'number') summary.rangeEndExclusive = rangeEndExclusive;
       if (acquiredAt) summary.acquiredAt = acquiredAt;
+      if (
+        readRightState === 'owner_read' ||
+        readRightState === 'licensed_read' ||
+        readRightState === 'pending_settlement' ||
+        readRightState === 'denied' ||
+        readRightState === 'unknown'
+      ) {
+        summary.readRightState = readRightState;
+      }
+      if (accessPolicyHash) summary.accessPolicyHash = accessPolicyHash;
+      if (sourceSafePreviewRoot) summary.sourceSafePreviewRoot = sourceSafePreviewRoot;
 
       return summary;
     })
@@ -252,7 +279,11 @@ export function buildPostAuxillaryOnboardingRoute(options: AuxillaryRouteBuilder
 export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions = {}) {
   return traceRoute('/auxillaries/data', async (_request: Request) => {
     if (options.isMockMode?.()) {
-      return createJsonResponse(options.mockAuxillaryData?.() || buildAnonymousAuxillaryData());
+      return createJsonResponse(
+        options.mockAuxillaryData
+          ? buildAuxillaryDataPayloadFromUnknown(options.mockAuxillaryData())
+          : buildAnonymousAuxillaryData(),
+      );
     }
 
     let supabase: Awaited<ReturnType<typeof createClient>>;
@@ -290,7 +321,15 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
           repositoryInventorySource: null,
         });
 
-    const [profileResult, githubConnectionResult, balanceResult, preferencesResult, repositoryInventoryResult] = await Promise.all([
+    const [
+      profileResult,
+      githubConnectionResult,
+      balanceResult,
+      preferencesResult,
+      templatePreferencesResult,
+      notificationsResult,
+      repositoryInventoryResult,
+    ] = await Promise.all([
       supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle(),
       supabase
         .from('user_connections')
@@ -300,6 +339,17 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         .maybeSingle(),
       supabase.from('user_credits').select('balance').eq('user_id', user.id).maybeSingle(),
       supabase.from('user_model_preferences').select('preferences').eq('user_id', user.id).single(),
+      supabase
+        .from('user_template_preferences')
+        .select('deliverable_templates, ai_document_templates, auto_save_templates')
+        .eq('user_id', user.id)
+        .maybeSingle(),
+      supabase
+        .from('notifications')
+        .select('id, type, is_read, created_at')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(25),
       repositoryInventoryPromise,
     ]);
 
@@ -308,6 +358,14 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
     const btcFeeBalance = readNumericProfileField(profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const modelPreferences = preferencesResult.data?.preferences ?? null;
+    const templatePreferences = templatePreferencesResult.data
+      ? {
+          shippable_templates: templatePreferencesResult.data.deliverable_templates || {},
+          evidence_document_templates: templatePreferencesResult.data.ai_document_templates || {},
+          auto_save_templates: Boolean(templatePreferencesResult.data.auto_save_templates),
+        }
+      : EMPTY_TEMPLATE_PREFERENCES;
+    const notificationRows = Array.isArray(notificationsResult.data) ? notificationsResult.data : [];
     const recentBtdAssetPacks = await listRecentBtdAssetPacksForProfile(profile).catch(() => []);
     const walletConnectionStatus = options.resolveWalletConnectionStatus
       ? await options
@@ -331,6 +389,8 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         btcFeeBalance,
         recentBtdAssetPacks,
         modelPreferences,
+        templatePreferences,
+        notificationRows,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
       }),
     );

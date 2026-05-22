@@ -28,10 +28,10 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V29 --commit <sha> [--repo-root <path>]',
+      'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, and V30.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, and V31.'
     ].join('\n')
   );
 }
@@ -238,8 +238,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
+  if (version === 'V31') {
+    const sharedInventory = 'active canonical `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion';
+    const scopeByKind = {
+      spec: 'V31 canonical system specification for Auxillaries support/control surfaces: Profile, account, provider connection, interface admission, Wallet, BTD pane, organization authority, policy decision, readiness diagnostics, recovery runs, accessibility/responsive UX, source-safe telemetry proof hooks, and promotion-ready workflow proof over V30',
+      delta: 'V31 canonical delta for Auxillaries support/control surfaces, source-safe recovery and telemetry proof hooks, accessibility/responsive proof, and promotion-ready workflow proof over V30',
+      notes: 'V31 canonical notes for Auxillaries support/control surfaces, source-safe recovery, telemetry proof hooks, UX proof, local/staging readiness, and promotion automation over V30',
+      parity: 'V31 canonical parity ledger for Auxillaries support/control surfaces, source-safe recovery and telemetry proof hooks, UX proof, local/staging readiness, and promotion automation over V30'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V31 is the active Auxillaries support/control canon and the V31 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V30-to-V31 Auxillaries support/control and promotion-readiness closure set',
+      notes: 'canonical promotion complete; V31 notes record the accepted Auxillaries support/control, local/staging, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V31 parity truth, Auxillaries gate closure, generated proof, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V31`' }
+        : {}),
+      'Current canonical/latest target': '`V31`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V31 source-side Auxillaries package contracts, route data, client hooks, panes, organization authority, recovery runs, telemetry/proof hooks, UX/accessibility, workflow, and promotion surfaces are canonicalized in the promoted V31 file family',
+      'V31 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, and V30. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, and V31. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

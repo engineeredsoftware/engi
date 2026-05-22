@@ -40,6 +40,11 @@ This package owns:
 - BTC fee operation posture, including quote lifecycle, signer recovery,
   no-server-custody PSBT handoff, Taproot/script posture, broadcast/finality
   observation, replacement/reorg repair, and testnet/mainnet network policy
+- Auxillaries Wallet/BTD support projection through
+  `BtdWalletBtdSupportProjection`, which derives no-custody wallet capability,
+  signer posture, network readiness, source-safe BTD range/read-right counts,
+  account treasury posture, settlement blockers, and roots without exposing
+  protected source or wallet private material
 - Terminal operational health reads that compose deployment lanes, telemetry,
   upgrade posture, provider readiness, settlement-network posture, synthetic
   testnet minting, journal rows, ledger anchors, and reconciliation state
@@ -71,6 +76,7 @@ import {
   buildBridgeReadinessResearchPosture,
   buildBtdProtocolTelemetryEnvelope,
   buildBtdInterfaceIntegrationRegressionProof,
+  buildBtdWalletBtdSupportProjection,
   reconcileLedgerDatabaseProjection,
   sourceToSharesProofToSettlementConservationCheck,
   toBtdJsonSafe,
@@ -87,6 +93,22 @@ Accepted imports point into `@bitcode/btd` or the documented
 ChatGPT App, Auxillaries, and Exchange must not copy BTD admission, receipt,
 settlement, parser, validator, or serializer logic locally when this package
 exports the boundary object.
+
+Auxillaries is an accepted BTD consumer, not a BTD policy owner. Wallet and BTD
+support panes can surface range, read-right, treasury, signer, settlement, and
+no-custody posture from this package through source-safe summaries, but they
+must not rederive `$BTD` mint, read-access, rights-transfer, BTC fee, bridge,
+or source-disclosure law locally.
+The Auxillaries support projection is account-treasury support, not Exchange
+market state, and always keeps protected source invisible before paid unlock.
+
+Organization policy authority is also package-owned. Auxillaries and Terminal
+should consume `BtdOrganizationPolicyAuthority` from this package, including
+organization/team/member identity, role, explicit grant set, wallet binding,
+policy id/hash, multi-sig readiness, policy decision, denial reasons, recovery
+route, source visibility, and authority root. Settlement-adjacent and
+protected-source actions must fail closed here before any interface renders or
+ships source-bearing output.
 
 Terminal should consume the operational-health subpath when it needs the
 client-safe read model without importing storage-backed package entry points:

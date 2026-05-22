@@ -163,6 +163,7 @@ export * from './allocation';
 export * from './ancestry';
 export * from './api-boundaries';
 export * from './authority';
+export * from './auxillaries-support';
 export * from './constants';
 export * from './deployment-lanes';
 export * from './exchange';

@@ -67,6 +67,17 @@ describe('/api/auxillaries/profile GET', () => {
     const res = await GET(makeRequest());
     expect(res.status).toBe(200);
     const json = await res.json();
-    expect(json).toEqual(profileRow);
+    expect(json).toEqual(expect.objectContaining({
+      ...profileRow,
+      company_name: null,
+      email: null,
+      is_verified: null,
+      team_members: [],
+      wallet_address: null,
+      wallet_binding: null,
+      wallet_binding_status: null,
+      wallet_bound_at: null,
+      wallet_provider: null
+    }));
   });
 });
