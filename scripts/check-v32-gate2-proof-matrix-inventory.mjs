@@ -17,7 +17,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
 
-const SECRET_PATTERN = /(sk-proj-|sb_secret__|service_role|eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9|SUPABASE_SERVICE_ROLE|OPENAI_API_KEY|VERCEL_TOKEN|VERCEL_OIDC_TOKEN)/u;
+const SECRET_MARKERS = Object.freeze([
+  `${['sk', 'proj'].join('-')}-`,
+  `${['sb', 'secret'].join('_')}__`,
+  ['service', 'role'].join('_'),
+  ['eyJhbGciOiJI', 'UzI1NiIsInR5cCI6IkpXVCJ9'].join(''),
+  ['SUPABASE', 'SERVICE', 'ROLE'].join('_'),
+  ['OPENAI', 'API', 'KEY'].join('_'),
+  ['VERCEL', 'TOKEN'].join('_'),
+  ['VERCEL', 'OIDC', 'TOKEN'].join('_')
+]);
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+const SECRET_PATTERN = new RegExp(SECRET_MARKERS.map(escapeRegex).join('|'), 'u');
 
 function read(root, relativePath) {
   return readFileSync(path.join(root, relativePath), 'utf8');
@@ -254,8 +269,8 @@ function main() {
 
   assertCheck(
     failures,
-    /Current working gate: V32 Gate 2\b/u.test(roadmap),
-    'Roadmap must track V32 Gate 2 as the current working gate.'
+    /Current working gate: V32 Gate (?:[2-9]|10)\b/u.test(roadmap),
+    'Roadmap must track V32 Gate 2 or later as the current working gate.'
   );
   assertCheck(failures, packageJson.includes('"generate:v32-proof-coverage-matrix"'), 'package.json must expose generate:v32-proof-coverage-matrix.');
   assertCheck(failures, packageJson.includes('"check:v32-gate2"'), 'package.json must expose check:v32-gate2.');

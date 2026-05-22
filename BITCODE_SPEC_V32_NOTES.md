@@ -8,7 +8,7 @@
 - Current active draft target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only at promotion
+- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only at promotion
 - Source parity state: V32 proof/test parity begins with Gate 1 and closes only through gate-specific implementation, tests, documentation, and workflow evidence
 - Scope: deeper provation and testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration surfaces.
 
@@ -61,6 +61,9 @@ Harden generated artifact repeatability:
 - stable JSON ordering and source-safe payloads;
 - volatility inventories for accepted variable fields;
 - fail-closed checks for stale, missing, malformed, or non-regenerable artifacts.
+- generated artifacts `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`;
+- generator command `pnpm run generate:v32-deterministic-replay-artifacts` and closure checker `pnpm run check:v32-gate3`;
+- required failure modes `missing-path`, `stale-source-commit`, `malformed-schema`, `source-safety-violation`, and `unstable-json-order`.
 
 ### Gate 4: Reading Pipeline Proof Coverage
 

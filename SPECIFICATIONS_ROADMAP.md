@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 2 Proof Matrix Inventory And Required Contexts, which turns the opened V32 provation plan into a generated, source-safe proof/test coverage matrix across Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger, database, object storage, promotion, and protocol-demonstration surfaces.
+- Current working gate: V32 Gate 3 Deterministic Replay Harness And Artifact Stability, which hardens repeatable V32 proof generation with deterministic generated artifacts, explicit volatility inventory, source-safe payload checks, and fail-closed missing/stale/malformed artifact diagnostics.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

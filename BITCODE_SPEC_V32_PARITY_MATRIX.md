@@ -8,7 +8,7 @@
 - Canonical proof-source commit: none until V32 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
+- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only after promotion
 - Source parity state: V32 proof-family replay, deterministic artifact generation, scenario/failure-state coverage, cross-surface regression, browser/accessibility/visual proof, readiness rehearsal, and promotion-proof hardening are opened but not yet closed
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V31`
@@ -49,6 +49,11 @@ Gate 1 audit basis:
 - `scripts/v32-proof-coverage-matrix.mjs`
 - `scripts/generate-v32-proof-coverage-matrix.mjs`
 - `scripts/check-v32-gate2-proof-matrix-inventory.mjs`
+- `.bitcode/v32-artifact-volatility-inventory.json`
+- `.bitcode/v32-deterministic-replay-report.json`
+- `scripts/v32-deterministic-replay-artifacts.mjs`
+- `scripts/generate-v32-deterministic-replay-artifacts.mjs`
+- `scripts/check-v32-gate3-deterministic-replay-artifact-stability.mjs`
 - `packages/protocol/README.md`
 - `protocol-demonstration/README.md`
 - `packages/protocol/src/canon-posture.js`
@@ -63,7 +68,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V32.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v32/gate-1-provation-roadmap-opening` | drafted | V32 family validates in draft mode over active V31 and `check:v32-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V31 active, V32 draft, and coherent V33-V37 responsibilities. |
 | Proof matrix inventory | Gate 2 | `.bitcode/v32-proof-coverage-matrix.json`, `scripts/v32-proof-coverage-matrix.mjs`, generator, checker, `check:v32-gate2` | drafted | Every promoted proof/test surface has owner package/interface, fixture, replay command, artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture. |
-| Deterministic replay and artifacts | Gate 3 | planned replay harness, volatility inventory, artifact checks | draft-required | Generated artifacts are stable, source-safe, and fail closed on drift. |
+| Deterministic replay and artifacts | Gate 3 | `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, generator, checker, `check:v32-gate3` | drafted | Generated artifacts are stable, source-safe, and fail closed on missing, stale, malformed, source-unsafe, or unstable-order drift. |
 | Reading pipeline proof coverage | Gate 4 | planned `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` tests | draft-required | Pipeline phases, PTRR agents, steps, ThricifiedGenerations, prompts, tools, telemetry, and outputs are covered. |
 | Ledger/BTD settlement failure states | Gate 5 | planned BTD/BTC/ledger/reconciliation tests | draft-required | Economic and ownership state has success, blocked, and repair proof. |
 | Interface contract regression | Gate 6 | planned API/MCP/ChatGPT App/Terminal/Auxillaries fixtures | draft-required | Interface contracts prove auth, source-safety, policy denial, and deferred hooks. |
@@ -82,7 +87,9 @@ No `_legacy/` source is active source truth.
 | Gate 1 script | `pnpm run check:v32-gate1` fails closed on stale posture, missing roadmap truth, or missing provation/testing scope | drafted |
 | Gate 2 matrix artifact | `.bitcode/v32-proof-coverage-matrix.json` records required proof/test surfaces with source-safe rows | drafted |
 | Gate 2 scripts | `pnpm run generate:v32-proof-coverage-matrix` regenerates the artifact and `pnpm run check:v32-gate2` fails closed on drift, missing fields, hidden gaps, or secret-like payloads | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1 and Gate 2 checkers | drafted |
+| Gate 3 replay artifacts | `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json` record volatility classification, source-safety verdict, byte-equality replay, and artifact failure-mode coverage | drafted |
+| Gate 3 scripts | `pnpm run generate:v32-deterministic-replay-artifacts` regenerates the V32 replay package and `pnpm run check:v32-gate3` fails closed on missing, stale, malformed, source-unsafe, or unstable-order artifacts | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, and Gate 3 checkers | drafted |
 | Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
 
 ## Gate 1 Parity
@@ -113,9 +120,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| Replay commands are deterministic | planned replay harness | draft-required |
-| Artifact volatility is controlled | planned volatility inventory updates | draft-required |
-| Stale artifacts fail closed | planned generated artifact checks | draft-required |
+| Replay commands are deterministic | `.bitcode/v32-deterministic-replay-report.json` compares two generated-artifact runs with byte digests | drafted |
+| Artifact volatility is controlled | `.bitcode/v32-artifact-volatility-inventory.json` records accepted context-bound `generatedAt` fields and zero blocking findings | drafted |
+| Stable JSON ordering is enforced | `validateV32DeterministicReplayArtifactFiles` compares each artifact to `stableStringify(JSON.parse(artifact))` | drafted |
+| Stale artifacts fail closed | `check-v32-gate3-deterministic-replay-artifact-stability.mjs` probes `missing-path`, `stale-source-commit`, `malformed-schema`, `source-safety-violation`, and `unstable-json-order` | drafted |
 
 ## Gate 4 Parity
 
@@ -189,8 +197,17 @@ No `_legacy/` source is active source truth.
 - Gate 2 may represent missing coverage as `planned-gap` only when blockers and repair posture are explicit.
 - Gate 2 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
 
+## Gate 3 Accepted Boundaries
+
+- Gate 3 proves deterministic replay and generated artifact stability for the V32 proof matrix package; it does not implement Gate 4 Reading pipeline proof expansion, Gate 5 economic failure-state proof, Gate 6 interface regression, Gate 7 browser proof expansion, Gate 8 readiness rehearsal, Gate 9 promotion-proof hardening, or Gate 10 promotion.
+- Gate 3 generated artifacts are source-safe proof metadata only and may not contain protected AssetPack source, private prompts, provider credentials, wallet secrets, database passwords, OpenAI keys, Vercel tokens, or Supabase service-role material.
+- Gate 3 accepts only fixed replay-context volatility. Unaccepted random, nonce, UUID, timestamp, `createdAt`, or `updatedAt` fields are blocking failures.
+- Gate 3 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
+
 ## completion condition
 
 Gate 1 is complete when the V32 draft family validates, `check:v32-gate1` passes, workflow posture is V32-aware, README and roadmap reflect V32 initiation, V33-V37 scopes are current enough to guide future gates, diff hygiene passes, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
 
 Gate 2 is complete when `.bitcode/v32-proof-coverage-matrix.json` exists, is deterministic from `pnpm run generate:v32-proof-coverage-matrix`, enumerates all required promoted surfaces with owner package/interface, fixture, replay command, expected artifact, source-safety class, coverage status, required contexts, failure mode, and repair posture, preserves explicit `planned-gap` blockers, passes `pnpm run check:v32-gate2`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
+
+Gate 3 is complete when `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json` exist, are deterministic from `pnpm run generate:v32-deterministic-replay-artifacts`, prove stable sorted JSON and byte-equal replay for generated V32 proof artifacts, explicitly inventory accepted context-bound volatility, pass `pnpm run check:v32-gate3` including missing/stale/malformed/source-safety/unstable-order failure probes, are wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.

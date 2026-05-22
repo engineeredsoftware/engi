@@ -77,6 +77,8 @@
     "check:v32-gate1": "node scripts/check-v32-gate1-provation-roadmap-opening.mjs",
     "generate:v32-proof-coverage-matrix": "node scripts/generate-v32-proof-coverage-matrix.mjs",
     "check:v32-gate2": "node scripts/check-v32-gate2-proof-matrix-inventory.mjs",
+    "generate:v32-deterministic-replay-artifacts": "node scripts/generate-v32-deterministic-replay-artifacts.mjs",
+    "check:v32-gate3": "node scripts/check-v32-gate3-deterministic-replay-artifact-stability.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",
