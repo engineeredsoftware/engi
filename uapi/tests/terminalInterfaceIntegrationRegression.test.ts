@@ -14,6 +14,7 @@ describe('terminal interface integration regression contract', () => {
       'chatgpt_app',
       'auxillaries_hook',
       'exchange_hook',
+      'conversations_hook',
     ]);
     expect(summary.objectFamilies).toEqual([
       'btd_registry',
@@ -29,7 +30,7 @@ describe('terminal interface integration regression contract', () => {
     expect(summary.lowDetailSourceSafe).toBe(true);
     expect(summary.routeLocalReimplementation).toBe(false);
     expect(summary.transactionCockpitRegression).toBe(false);
-    expect(summary.records).toHaveLength(6);
+    expect(summary.records).toHaveLength(7);
     expect(summary.records.every((record) => record.packageOwned)).toBe(true);
     expect(summary.records.every((record) => record.sourceSafeLowDetailIntact)).toBe(true);
   });
@@ -44,6 +45,7 @@ describe('terminal interface integration regression contract', () => {
       'chatgpt_app',
       'auxillaries_hook',
       'exchange_hook',
+      'conversations_hook',
     ]);
     expect(records.flatMap((record) => record.objectFamilies)).toEqual(
       expect.arrayContaining(['source_to_shares_proof', 'protocol_telemetry', 'terminal_journal']),

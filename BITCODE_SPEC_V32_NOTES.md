@@ -96,6 +96,9 @@ Harden API, MCP, ChatGPT App, Terminal, Auxillaries, and deferred-interface cont
 - route schemas, tool contracts, auth boundaries, policy denials, and source-safety classes;
 - shared fixtures and reusable contract tests;
 - Exchange and Conversations remain deferred product-depth hooks with tested blockers.
+- generated artifact `.bitcode/v32-interface-contract-regression-suite.json`;
+- generator command `pnpm run generate:v32-interface-contract-regression-suites`, checker command `pnpm run check:v32-interface-contract-regression-suites`, and gate closure command `pnpm run check:v32-gate6`;
+- focused test `packages/btd/__tests__/v32-interface-contract-regression.test.ts` proving active interface contracts plus `exchange_hook` and `conversations_hook` blocked/deferred rows.
 
 ### Gate 7: Browser Accessibility Responsive Visual Coverage
 
