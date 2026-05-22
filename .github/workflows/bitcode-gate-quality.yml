@@ -107,9 +107,28 @@ jobs:
             node scripts/check-v31-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           elif [ "$POINTER" = "V31" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V31 --mode promoted --current-target V31
+            node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V31
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V31 --draft-target V32
             node scripts/check-v31-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            node scripts/check-v32-gate1-provation-roadmap-opening.mjs --skip-branch-check
+            node scripts/check-v32-gate2-proof-matrix-inventory.mjs --skip-branch-check
+            node scripts/check-v32-gate3-deterministic-replay-artifact-stability.mjs --skip-branch-check
+            node scripts/check-v32-gate4-reading-pipeline-proof-coverage.mjs --skip-branch-check
+            node scripts/check-v32-gate5-ledger-btd-settlement-failure-states.mjs --skip-branch-check
+            node scripts/check-v32-gate6-interface-contract-regression-suites.mjs --skip-branch-check
+            node scripts/check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs --skip-branch-check
+            node scripts/check-v32-gate8-testnet-mainnet-readiness-rehearsal.mjs --skip-branch-check
+            node scripts/check-v32-gate9-promotion-proof-generation-hardening.mjs --skip-branch-check
+            node scripts/check-v32-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+          elif [ "$POINTER" = "V32" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V32 --mode promoted --current-target V32
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V32
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V32 --draft-target V33
+            if [ -f BITCODE_SPEC_V33.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V33 --mode draft --current-target V32
+            fi
+            node scripts/check-v32-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -135,13 +154,17 @@ jobs:
           pnpm --filter @bitcode/btd test
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-interface-contract-regression.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand
           pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts --runInBand
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/protocol test
@@ -173,6 +196,7 @@ jobs:
             tests/terminalTransactionDetailCards.test.tsx \
             tests/terminalTransactionDetailSnapshot.test.ts \
             tests/terminalUxBrowserProof.test.tsx \
+            tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 
@@ -181,6 +205,9 @@ jobs:
 
       - name: Browser proof Terminal cockpit
         run: pnpm --dir uapi run test:e2e:terminal-ux
+
+      - name: Browser proof Terminal and Auxillaries responsive accessibility
+        run: pnpm --dir uapi run test:e2e:v32-browser-proof
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback

@@ -343,6 +343,21 @@ function buildV21LikeProfile(version) {
           '.bitcode/v31-auxillaries-telemetry-proof-hooks.json'
         ]
         : []),
+      ...(version === 'V32'
+        ? [
+          '.bitcode/v32-canon-posture-drift-report.json',
+          '.bitcode/v32-proof-coverage-matrix.json',
+          '.bitcode/v32-artifact-volatility-inventory.json',
+          '.bitcode/v32-deterministic-replay-report.json',
+          '.bitcode/v32-reading-pipeline-proof-coverage.json',
+          '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json',
+          '.bitcode/v32-interface-contract-regression-suite.json',
+          '.bitcode/v32-browser-accessibility-responsive-visual-proof.json',
+          '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json',
+          '.bitcode/v32-promotion-proof-generation-hardening.json',
+          '.bitcode/v32-promotion-readiness-report.json'
+        ]
+        : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1416,6 +1431,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V31') {
     artifacts.push(...buildV21LikeProfile('V31').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V32') {
+    artifacts.push(...buildV21LikeProfile('V32').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

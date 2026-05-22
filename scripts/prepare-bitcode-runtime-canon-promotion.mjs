@@ -111,7 +111,7 @@ function rewriteReadme(content, version, nextDraft) {
     `resolves to \`${version}\`; ${nextDraft} is the next draft target after this promotion.`
   );
   rewritten = rewritten.replace(
-    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while V\d+ draft\s+work proceeds outside the demonstration runtime boundary)?\./m,
+    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
     `\`BITCODE_SPEC.txt -> ${version}\`. This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
   );
   rewritten = rewritten.replace(

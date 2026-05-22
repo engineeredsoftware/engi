@@ -1,7 +1,7 @@
 ## Title
 
-Use the version and gate prefix for gate PRs: `V31 Gate N: Concise Topical Title`.
-Use the version and promotion prefix for version promotion PRs: `V31 Canonical Promotion: Concise Topical Title`.
+Use the version and gate prefix for gate PRs: `V32 Gate N: Concise Topical Title`.
+Use the version and promotion prefix for version promotion PRs: `V32 Canonical Promotion: Concise Topical Title`.
 
 ## Closure
 

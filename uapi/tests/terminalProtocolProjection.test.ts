@@ -215,9 +215,9 @@ describe('terminal-protocol-projection', () => {
           },
         },
         interfaceIntegrationRegression: {
-          surfaceCount: 6,
+          surfaceCount: 7,
           objectFamilyCount: 9,
-          recordCount: 6,
+          recordCount: 7,
           lowDetailSourceSafe: true,
           routeLocalReimplementation: false,
           transactionCockpitRegression: false,

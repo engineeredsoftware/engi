@@ -77,6 +77,15 @@ export function buildTerminalInterfaceIntegrationRegressionRecords(): BtdInterfa
       objectFamilies: ['btd_receipts', 'btc_fee_operation', 'ledger_projection'],
       proofRoot: 'exchange-interface-regression-proof-root',
     },
+    {
+      ...recordDefaults,
+      surface: 'conversations_hook',
+      consumerId: 'conversations-interface-hook',
+      packageExport: '@bitcode/btd/interface-integration-contract',
+      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      objectFamilies: ['read_access', 'organization_authority', 'protocol_telemetry'],
+      proofRoot: 'conversations-interface-regression-proof-root',
+    },
   ];
 }
 
