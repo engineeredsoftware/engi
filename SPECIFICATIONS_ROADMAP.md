@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 4 Connects provider readiness and recovery, which deepens source-safe provider connection posture with provider id/name, installation state, token presence class, scopes class, last readback status, blocker, repair action, readiness roots, and before/after recovery evidence over the V30 Protocol/BTD substrate.
+- Current working gate: V31 Gate 5 Wallet and BTD pane readiness, which connects Auxillaries Wallet/BTD UI to package-owned V30 wallet, signer, network, BTD range, read-right, treasury, no-custody, and settlement-readiness projections without protected source leakage or Exchange market inference.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

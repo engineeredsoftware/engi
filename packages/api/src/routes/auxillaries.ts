@@ -159,11 +159,36 @@ async function listRecentBtdAssetPacksForProfile(
       const rangeStart = readNumberField(row, 'range_start', 'rangeStart');
       const rangeEndExclusive = readNumberField(row, 'range_end_exclusive', 'rangeEndExclusive');
       const acquiredAt = readStringField(row, 'issued_at', 'acquiredAt');
+      const readRightState = readStringField(
+        row,
+        'read_right_state',
+        'readRightState',
+        'settlement_state',
+        'settlementState',
+      );
+      const accessPolicyHash = readStringField(row, 'access_policy_hash', 'accessPolicyHash');
+      const sourceSafePreviewRoot = readStringField(
+        row,
+        'source_safe_preview_root',
+        'preview_root',
+        'sourceSafePreviewRoot',
+      );
 
       if (label) summary.label = label;
       if (typeof rangeStart === 'number') summary.rangeStart = rangeStart;
       if (typeof rangeEndExclusive === 'number') summary.rangeEndExclusive = rangeEndExclusive;
       if (acquiredAt) summary.acquiredAt = acquiredAt;
+      if (
+        readRightState === 'owner_read' ||
+        readRightState === 'licensed_read' ||
+        readRightState === 'pending_settlement' ||
+        readRightState === 'denied' ||
+        readRightState === 'unknown'
+      ) {
+        summary.readRightState = readRightState;
+      }
+      if (accessPolicyHash) summary.accessPolicyHash = accessPolicyHash;
+      if (sourceSafePreviewRoot) summary.sourceSafePreviewRoot = sourceSafePreviewRoot;
 
       return summary;
     })

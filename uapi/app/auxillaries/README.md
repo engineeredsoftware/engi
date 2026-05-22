@@ -62,6 +62,13 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
   roots without exposing raw provider credentials.
 - Profile owns optional email/contact/admin data and must not appear as the primary identity requirement. Its readiness summary consumes `profileState` from `/api/auxillaries/data`, including named repair routes for identity, wallet binding, preferences, notifications, and data-sharing posture.
 - Wallet also reflects BTD range/share posture after the shared auxillary data read settles.
+- Wallet consumes package-owned `walletBtdPaneState` from
+  `/api/auxillaries/data`, including no-custody signer posture, wallet/network
+  readiness, BTD range cell counts, owner-read/licensed-read/pending/denied
+  read-right posture, account BTC fee treasury posture, settlement blockers,
+  and compact roots. The pane must not show protected AssetPack source before
+  paid unlock and must not treat account treasury support as Exchange market
+  activity.
 - The top chrome must show a loading/readiness state until auxillary data determines whether a wallet exists; it must not briefly show `Connect Wallet` during unresolved connection reads.
 - QA builds should enable `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` and `BITCODE_QA_VERBOSE=true` to trace client/server identity synchronization without logging secrets.
 

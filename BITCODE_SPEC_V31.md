@@ -252,6 +252,9 @@ Gate 5 Wallet/BTD precision:
 - Wallet panes consume no-custody wallet capability and signer posture from V30 BTD/wallet primitives.
 - BTD panes expose range/read-right/treasury/settlement readiness summaries without revealing protected AssetPack source.
 - Treasury and organization BTD posture remains distinct from Exchange market state.
+- `@bitcode/btd` owns the source-safe `BtdWalletBtdSupportProjection` used by Auxillaries to summarize wallet capability, signer readiness, network readiness, BTD read-right counts, range cell counts, account treasury posture, settlement blockers, and proof roots.
+- `AuxillariesWalletBtdPaneState` is the API-facing support object that carries that projection into `/api/auxillaries/data`; UI panes may render it but may not recalculate no-custody, read-right, or settlement law locally.
+- The Wallet pane may show account BTC fee posture, BTD range/read-right counts, roots, and blockers, but it must keep protected source visibility false before paid unlock and must identify that the support pane is not an Exchange market state surface.
 
 Gate 6 policy precision:
 
@@ -417,6 +420,10 @@ The pane support model must contain:
 - settlement-readiness blockers, quote roots, finality state, and next admitted repair action when settlement support is relevant;
 - organization treasury posture kept distinct from Exchange market state;
 - explicit proof that no server component custodies private keys or displays wallet secrets.
+
+Gate 5 binds this model through `BtdWalletBtdSupportProjection` in `@bitcode/btd` and `AuxillariesWalletBtdPaneState` in the package-owned Auxillaries route contract.
+The projection carries `walletCapabilityRoot` and `btdSupportRoot`, names signer capabilities such as message signing, PSBT signing, and rights transfer readiness, counts owner-read/licensed-read/pending/denied/unknown AssetPack read-right posture, sums range cells, and always marks `protectedSourceVisible: false` for pre-settlement support views.
+Its treasury summary is account-scoped, no-custody, and explicitly `not_exchange_market_state`.
 
 No server component may custody the Reader private key.
 Server-side routes may prepare receipts, validate proofs, serialize quote/posture evidence, and persist registry rows only when explicitly requested.

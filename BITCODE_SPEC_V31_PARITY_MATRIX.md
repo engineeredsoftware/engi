@@ -121,9 +121,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Wallet panes consume no-custody signer posture | BTD wallet primitives and pane tests | pending |
-| BTD panes consume range/read-right/treasury summaries | BTD access and treasury tests | pending |
-| Settlement-readiness state remains distinct from Exchange market state | package and UI tests | pending |
+| Wallet panes consume no-custody signer posture | `packages/btd/src/auxillaries-support.ts`, `packages/api/src/routes/auxillaries-contract.ts`, and `uapi/tests/auxillariesWalletPane.test.tsx` project no-custody capability, signer readiness, signer actions, roots, and UI readout | drafted |
+| BTD panes consume range/read-right/treasury summaries | `BtdWalletBtdSupportProjection`, `AuxillariesWalletBtdPaneState`, `packages/btd/__tests__/btd.test.ts`, and `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` cover range counts, read-right counts, BTC fee treasury, and protected-source invisibility | drafted |
+| Settlement-readiness state remains distinct from Exchange market state | Wallet pane and package tests assert account-scoped treasury posture, settlement blockers, and `not_exchange_market_state` classification | drafted |
 
 ## Gate 6 Parity
 

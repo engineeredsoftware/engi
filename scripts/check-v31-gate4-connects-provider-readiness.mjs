@@ -74,8 +74,8 @@ function main() {
     const branch = git(root, ['branch', '--show-current']);
     assertCheck(
       failures,
-      branch === 'version/v31' || /^v31\/gate-4-[a-z0-9][a-z0-9-]*$/u.test(branch),
-      `V31 Gate 4 work must occur on version/v31 or v31/gate-4-* branches. Observed ${branch || 'detached HEAD'}.`,
+      branch === 'version/v31' || /^v31\/gate-(?:4|5|6|7|8|9|10)-[a-z0-9][a-z0-9-]*$/u.test(branch),
+      `V31 Gate 4+ work must occur on version/v31 or v31/gate-4+ branches. Observed ${branch || 'detached HEAD'}.`,
     );
   }
 
@@ -219,7 +219,11 @@ function main() {
     );
   }
 
-  assertCheck(failures, roadmap.includes('Current working gate: V31 Gate 4'), 'Roadmap must track V31 Gate 4 as current working gate.');
+  assertCheck(
+    failures,
+    /Current working gate: V31 Gate (?:4|5|6|7|8|9|10)\b/u.test(roadmap),
+    'Roadmap must track V31 Gate 4 or a later V31 gate as current working gate.',
+  );
   assertCheck(failures, delta.includes('Gate 4 implementation centers'), 'V31 DELTA must name Gate 4 implementation centers.');
   assertCheck(failures, notes.includes('Gate 4 closure note'), 'V31 NOTES must include the Gate 4 closure note.');
   assertCheck(failures, !/\|\s*Provider readiness is source-safe\s*\|[^|]*\|\s*pending\s*\|/u.test(parity), 'Gate 4 provider-readiness parity must not remain pending.');

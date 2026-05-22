@@ -81,6 +81,7 @@ export interface AggregatedUserData {
   profileState?: any | null;
   auxillariesContract?: any | null;
   connectionReadiness?: any[];
+  walletBtdPaneState?: any | null;
   readinessDiagnostics?: any[];
   recoveryRuns?: any[];
   onboardedPanes?: string[];
@@ -106,6 +107,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   profileState: null,
   auxillariesContract: null,
   connectionReadiness: [],
+  walletBtdPaneState: null,
   readinessDiagnostics: [],
   recoveryRuns: [],
   onboardedPanes: [],
@@ -440,6 +442,10 @@ export function useUserData() {
       : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
   const recentBtdAssetPacks = Array.isArray(data?.recentBtdAssetPacks) ? data.recentBtdAssetPacks : [];
   const connectionReadiness = Array.isArray(data?.connectionReadiness) ? data.connectionReadiness : [];
+  const walletBtdPaneState =
+    data?.walletBtdPaneState && typeof data.walletBtdPaneState === 'object'
+      ? data.walletBtdPaneState
+      : null;
   const recoveryRuns = Array.isArray(data?.recoveryRuns) ? data.recoveryRuns : [];
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
@@ -462,6 +468,7 @@ export function useUserData() {
     btcFeeBalance,
     recentBtdAssetPacks,
     connectionReadiness,
+    walletBtdPaneState,
     recoveryRuns,
     isLoading,
     isRevalidating,

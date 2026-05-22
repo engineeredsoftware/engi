@@ -68,6 +68,7 @@
     "check:v31-gate2": "node scripts/check-v31-gate2-auxillaries-package-route-contracts.mjs",
     "check:v31-gate3": "node scripts/check-v31-gate3-profile-account-state.mjs",
     "check:v31-gate4": "node scripts/check-v31-gate4-connects-provider-readiness.mjs",
+    "check:v31-gate5": "node scripts/check-v31-gate5-wallet-btd-pane-readiness.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

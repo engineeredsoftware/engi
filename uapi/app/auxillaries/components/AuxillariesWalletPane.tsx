@@ -23,6 +23,7 @@ import AuxillariesPreferenceCards, {
 } from "@/app/auxillaries/components/shared/AuxillariesPreferenceCards";
 import AuxillariesStatGrid from "@/app/auxillaries/components/shared/AuxillariesStatGrid";
 import AuxillariesWorkspaceSection from "@/app/auxillaries/components/shared/AuxillariesWorkspaceSection";
+import type { AuxillariesWalletBtdPaneState } from "@/app/auxillaries/auxillary-onboarding-contract";
 
 export interface AuxillariesWalletPaneProps {
   onSave: (data: any) => void;
@@ -140,6 +141,18 @@ function formatPolicyHash(hash: string | null) {
   return hash.length > 18 ? `${hash.slice(0, 10)}...${hash.slice(-6)}` : hash;
 }
 
+function formatReadiness(value: string | null | undefined) {
+  if (!value) {
+    return "Unknown";
+  }
+
+  return value
+    .split("_")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
 function resolveBtdAccessDisclosure(profile: Record<string, any> | null) {
   const policyId = readProfileString(
     profile,
@@ -199,6 +212,7 @@ export default function AuxillariesWalletPane({
     btdBalance = 0,
     btcFeeBalance = null,
     recentBtdAssetPacks = [],
+    walletBtdPaneState,
     hasWalletConnection,
     hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
@@ -210,6 +224,14 @@ export default function AuxillariesWalletPane({
   const walletBinding = readBitcodeWalletBindingFromProfile(profile);
   const btcFeeBalanceSource = btcFeeBalance ?? profile?.btc_balance;
   const accessDisclosure = resolveBtdAccessDisclosure(profile);
+  const walletSupport = (walletBtdPaneState || null) as AuxillariesWalletBtdPaneState | null;
+  const supportWalletCapability = walletSupport?.walletCapability ?? null;
+  const supportSignerPosture = walletSupport?.signerPosture ?? null;
+  const supportNetworkReadiness = walletSupport?.networkReadiness ?? null;
+  const supportReadRights = walletSupport?.btdReadRightSummary ?? null;
+  const supportTreasury = walletSupport?.treasurySummary ?? null;
+  const supportSettlementReadiness = walletSupport?.settlementReadiness ?? null;
+  const displayBtdBalance = supportReadRights?.aggregateBtd ?? btdBalance;
   const hasReadableBtcFeeBalance =
     typeof btcFeeBalanceSource === "number" ||
     (typeof btcFeeBalanceSource === "string" && Number.isFinite(Number(btcFeeBalanceSource)));
@@ -245,7 +267,7 @@ export default function AuxillariesWalletPane({
     }));
   }, [savedPreferences]);
 
-  const ownedAssetPackCount = recentBtdAssetPacks.length;
+  const ownedAssetPackCount = supportReadRights?.assetPackCount ?? recentBtdAssetPacks.length;
   const ownedAssetPackSummary =
     ownedAssetPackCount === 1
       ? "1 AssetPack"
@@ -466,7 +488,7 @@ export default function AuxillariesWalletPane({
                   BTD balance
                 </p>
                 <p className="mt-3 break-words text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-none tracking-normal text-amber-50 drop-shadow-[0_0_26px_rgba(251,191,36,0.24)]">
-                  {formatBtdHoldings(btdBalance)}
+                  {formatBtdHoldings(displayBtdBalance)}
                 </p>
               </div>
 
@@ -481,8 +503,10 @@ export default function AuxillariesWalletPane({
                     },
                     {
                       label: "BTC in wallet",
-                      value: formatBtcFeeBalance(btcFeeBalanceSource),
-                      detail: hasReadableBtcFeeBalance
+                      value: formatBtcFeeBalance(supportTreasury?.btcFeeBalance ?? btcFeeBalanceSource),
+                      detail: supportTreasury?.organizationTreasurySeparated
+                        ? "Account treasury posture is source-safe and separate from organization treasury controls and Exchange market state."
+                        : hasReadableBtcFeeBalance
                         ? "Live BTC fee-liquidity posture supplied by the connected wallet posture."
                         : hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
                           ? "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect before signed settlement or refreshed BTC posture can resume."
@@ -540,6 +564,60 @@ export default function AuxillariesWalletPane({
                   ]}
                   columns={4}
                 />
+              </div>
+
+              <div className="mt-4" data-testid="auxillaries-wallet-btd-readiness">
+                <AuxillariesStatGrid
+                  items={[
+                    {
+                      label: "Signer posture",
+                      value: formatReadiness(supportSignerPosture?.state ?? walletBinding?.status),
+                      detail: supportSignerPosture?.serverCustody === false
+                        ? "No-custody signer posture; Bitcode can request signatures but does not hold wallet private keys."
+                        : "Signer posture is pending wallet capability readback.",
+                      tone: supportSignerPosture?.ready ? "emerald" : "amber",
+                    },
+                    {
+                      label: "Network readiness",
+                      value: supportNetworkReadiness?.network || formatReadiness(supportNetworkReadiness?.state),
+                      detail: supportNetworkReadiness?.blocker
+                        ? `Blocked by ${supportNetworkReadiness.blocker}.`
+                        : "Wallet network posture is readable enough for settlement review.",
+                      tone: supportNetworkReadiness?.state === "ready" ? "emerald" : "sky",
+                    },
+                    {
+                      label: "BTD range cells",
+                      value: (supportReadRights?.totalRangeCells ?? 0).toLocaleString(),
+                      detail: `${(supportReadRights?.rangeCount ?? 0).toLocaleString()} range-bearing AssetPack projection(s), with protected source visibility fixed false before paid unlock.`,
+                      tone: "violet",
+                    },
+                    {
+                      label: "Read-right mix",
+                      value: `${(supportReadRights?.ownerReadCount ?? 0).toLocaleString()} owner / ${(supportReadRights?.licensedReadCount ?? 0).toLocaleString()} licensed`,
+                      detail: `${(supportReadRights?.pendingSettlementCount ?? 0).toLocaleString()} pending settlement and ${(supportReadRights?.deniedCount ?? 0).toLocaleString()} denied read-right posture(s) remain source-safe.`,
+                      tone: "emerald",
+                    },
+                    {
+                      label: "Settlement readiness",
+                      value: formatReadiness(supportSettlementReadiness),
+                      detail: walletSupport?.settlementBlockers?.length
+                        ? `Repair ${walletSupport.settlementBlockers.join(", ")} before signed settlement can continue.`
+                        : "Wallet, network, and BTD support posture are aligned for settlement review.",
+                      tone: supportSettlementReadiness === "ready" ? "emerald" : "amber",
+                    },
+                    {
+                      label: "Treasury boundary",
+                      value: supportTreasury?.exchangeMarketState === "not_exchange_market_state" ? "Not Exchange" : "Account",
+                      detail: "Wallet/BTD support summarizes account fee posture only; it does not infer Exchange market activity.",
+                      tone: "sky",
+                    },
+                  ]}
+                  columns={3}
+                />
+                <p className="mt-3 break-words text-xs leading-6 text-white/56">
+                  Support root {walletSupport?.btdSupportRoot ? formatPolicyHash(walletSupport.btdSupportRoot) : "pending"}.
+                  Wallet root {supportWalletCapability?.walletCapabilityRoot ? ` ${formatPolicyHash(supportWalletCapability.walletCapabilityRoot)}` : " pending"}.
+                </p>
               </div>
             </AuxillariesWorkspaceSection>
 

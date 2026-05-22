@@ -13,6 +13,7 @@ import {
   assertBtdAccessPolicyTemplateCoverage,
   assertBtdMintableSupplyLimit,
   buildAssetPackSettlementUnlock,
+  buildBtdWalletBtdSupportProjection,
   buildBtdReadAccessProjectionFromRegistryRows,
   calculateLlmBtcFeeEstimate,
   calculateMeasuredBtdFromTokens,
@@ -137,6 +138,95 @@ describe('AssetPack settlement unlock', () => {
       missingReadbackKeys: ['readLicense'],
     });
     expect(unlock.reason).toContain('readLicense');
+  });
+});
+
+describe('Auxillaries Wallet/BTD support projection', () => {
+  it('derives no-custody signer, range, read-right, treasury, and settlement posture', () => {
+    const projection = buildBtdWalletBtdSupportProjection({
+      wallet: {
+        address: 'tb1pwallet',
+        provider: 'leather',
+        verificationState: 'verified',
+        connected: true,
+        valid: true,
+        network: 'testnet',
+      },
+      aggregateBtd: 12,
+      btcFeeBalance: 0.025,
+      recentAssetPacks: [
+        {
+          assetPackId: 'asset-pack-owner',
+          rangeStart: 100,
+          rangeEndExclusive: 112,
+          readRightState: 'owner_read',
+          sourceSafePreviewRoot: 'preview-root-owner',
+        },
+        {
+          assetPackId: 'asset-pack-license',
+          rangeStart: 200,
+          rangeEndExclusive: 205,
+          readRightState: 'licensed_read',
+        },
+      ],
+    });
+
+    expect(projection.walletCapability).toMatchObject({
+      hasBinding: true,
+      noCustody: true,
+      serverCustody: false,
+      capabilities: ['message_sign', 'psbt_sign', 'rights_transfer'],
+    });
+    expect(projection.signerPosture).toMatchObject({
+      ready: true,
+      canSignPsbt: true,
+      canSignRightsTransfer: true,
+      serverCustody: false,
+    });
+    expect(projection.networkReadiness).toMatchObject({
+      state: 'ready',
+      network: 'testnet',
+      blocker: null,
+    });
+    expect(projection.btdReadRightSummary).toMatchObject({
+      aggregateBtd: 12,
+      assetPackCount: 2,
+      rangeCount: 2,
+      totalRangeCells: 17,
+      ownerReadCount: 1,
+      licensedReadCount: 1,
+      protectedSourceVisible: false,
+      sourceSafePreviewRoots: ['preview-root-owner'],
+    });
+    expect(projection.treasurySummary).toMatchObject({
+      feeAsset: 'BTC',
+      noCustody: true,
+      treasuryScope: 'account',
+      organizationTreasurySeparated: true,
+      exchangeMarketState: 'not_exchange_market_state',
+    });
+    expect(projection.settlementReadiness).toBe('ready');
+    expect(projection.settlementBlockers).toEqual([]);
+    expect(projection.btdSupportRoot).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it('blocks settlement when wallet identity is missing', () => {
+    const projection = buildBtdWalletBtdSupportProjection({
+      wallet: null,
+      aggregateBtd: 0,
+      recentAssetPacks: [],
+    });
+
+    expect(projection.walletCapability.hasBinding).toBe(false);
+    expect(projection.signerPosture.requiredAction).toBe('connect_wallet');
+    expect(projection.networkReadiness).toMatchObject({
+      state: 'blocked',
+      blocker: 'wallet.network_missing',
+    });
+    expect(projection.settlementReadiness).toBe('blocked');
+    expect(projection.settlementBlockers).toEqual(
+      expect.arrayContaining(['wallet.connect_wallet', 'wallet.network_missing']),
+    );
   });
 });
 

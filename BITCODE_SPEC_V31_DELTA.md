@@ -144,6 +144,13 @@ Closure acceptance:
 - BTD pane state consumes range/read-right/treasury/settlement readiness without protected source;
 - treasury and organization BTD support remain distinct from Exchange market state.
 
+Gate 5 implementation centers:
+
+- `packages/btd/src/auxillaries-support.ts` owns `BtdWalletBtdSupportProjection`, deriving no-custody wallet capability, signer posture, network readiness, BTD range/read-right counts, account treasury posture, settlement blockers, and source-safe roots;
+- `packages/api/src/routes/auxillaries-contract.ts` maps that BTD package projection into `AuxillariesWalletBtdPaneState` so `/api/auxillaries/data` returns one package-owned Wallet/BTD support object;
+- `uapi/app/auxillaries/components/AuxillariesWalletPane.tsx` renders signer, network, range, read-right, settlement, treasury-boundary, and proof-root readouts from `walletBtdPaneState` rather than locally rederiving BTD law;
+- focused BTD, API, route, and pane tests prove no-custody posture, range/read-right summary, protected-source non-disclosure, and explicit non-Exchange treasury classification.
+
 ### Gate 6: Organization Team Role Policy Authority
 
 Gate 6 deepens organization and policy authority.

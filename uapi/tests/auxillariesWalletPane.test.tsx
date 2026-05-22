@@ -82,6 +82,59 @@ describe('AuxillariesWalletPane', () => {
             { id: 'tm-2', display_name: 'Sora Ames', role: 'lead' },
           ],
         },
+        walletBtdPaneState: {
+          walletCapability: {
+            hasBinding: true,
+            provider: 'leather',
+            address: 'bc1qbitcodeoperator',
+            verificationState: 'verified',
+            network: 'testnet',
+            noCustody: true,
+            serverCustody: false,
+            capabilities: ['message_sign', 'psbt_sign', 'rights_transfer'],
+            walletCapabilityRoot: 'wallet-capability-root-abcdef1234567890',
+          },
+          signerPosture: {
+            ready: true,
+            state: 'verified',
+            requiredAction: 'none',
+            canSignPsbt: true,
+            canSignRightsTransfer: true,
+            serverCustody: false,
+          },
+          networkReadiness: {
+            state: 'ready',
+            network: 'testnet',
+            requiredAction: 'none',
+            blocker: null,
+          },
+          btdReadRightSummary: {
+            aggregateBtd: 1200,
+            assetPackCount: 2,
+            recentAssetPackIds: ['asset-pack-1', 'asset-pack-2'],
+            rangeCount: 2,
+            totalRangeCells: 12,
+            ownerReadCount: 1,
+            licensedReadCount: 1,
+            pendingSettlementCount: 0,
+            deniedCount: 0,
+            unknownCount: 0,
+            protectedSourceVisible: false,
+            sourceSafePreviewRoots: ['source-safe-preview-root'],
+          },
+          treasurySummary: {
+            btcFeeBalance: 0.125,
+            feeAsset: 'BTC',
+            noCustody: true,
+            treasuryScope: 'account',
+            organizationTreasurySeparated: true,
+            exchangeMarketState: 'not_exchange_market_state',
+          },
+          settlementReadiness: 'ready',
+          settlementBlockers: [],
+          sourceSafetyClass: 'source_safe',
+          btdSupportRoot: 'btd-support-root-abcdef1234567890',
+        },
         modelPreferences: {
           existingSetting: 'keep-me',
           btdDefaults: {
@@ -95,6 +148,59 @@ describe('AuxillariesWalletPane', () => {
       },
       hasGitHubConnection: true,
       btdBalance: 1200,
+      walletBtdPaneState: {
+        walletCapability: {
+          hasBinding: true,
+          provider: 'leather',
+          address: 'bc1qbitcodeoperator',
+          verificationState: 'verified',
+          network: 'testnet',
+          noCustody: true,
+          serverCustody: false,
+          capabilities: ['message_sign', 'psbt_sign', 'rights_transfer'],
+          walletCapabilityRoot: 'wallet-capability-root-abcdef1234567890',
+        },
+        signerPosture: {
+          ready: true,
+          state: 'verified',
+          requiredAction: 'none',
+          canSignPsbt: true,
+          canSignRightsTransfer: true,
+          serverCustody: false,
+        },
+        networkReadiness: {
+          state: 'ready',
+          network: 'testnet',
+          requiredAction: 'none',
+          blocker: null,
+        },
+        btdReadRightSummary: {
+          aggregateBtd: 1200,
+          assetPackCount: 2,
+          recentAssetPackIds: ['asset-pack-1', 'asset-pack-2'],
+          rangeCount: 2,
+          totalRangeCells: 12,
+          ownerReadCount: 1,
+          licensedReadCount: 1,
+          pendingSettlementCount: 0,
+          deniedCount: 0,
+          unknownCount: 0,
+          protectedSourceVisible: false,
+          sourceSafePreviewRoots: ['source-safe-preview-root'],
+        },
+        treasurySummary: {
+          btcFeeBalance: 0.125,
+          feeAsset: 'BTC',
+          noCustody: true,
+          treasuryScope: 'account',
+          organizationTreasurySeparated: true,
+          exchangeMarketState: 'not_exchange_market_state',
+        },
+        settlementReadiness: 'ready',
+        settlementBlockers: [],
+        sourceSafetyClass: 'source_safe',
+        btdSupportRoot: 'btd-support-root-abcdef1234567890',
+      },
       isLoading: false,
       error: null,
       refresh: jest.fn(),
@@ -125,6 +231,14 @@ describe('AuxillariesWalletPane', () => {
     expect(screen.getByTestId('wallet-step-badge')).toHaveTextContent('Auxillary step 1');
     expect(screen.getByText(/Keep BTC fees, BTD holdings, and wallet identity readable together/i)).toBeTruthy();
     expect(screen.getByText('Access policy')).toBeInTheDocument();
+    expect(screen.getByTestId('auxillaries-wallet-btd-readiness')).toBeInTheDocument();
+    expect(screen.getByText('Signer posture')).toBeInTheDocument();
+    expect(screen.getByText('Network readiness')).toBeInTheDocument();
+    expect(screen.getByText('BTD range cells')).toBeInTheDocument();
+    expect(screen.getByText('12')).toBeInTheDocument();
+    expect(screen.getByText('1 owner / 1 licensed')).toBeInTheDocument();
+    expect(screen.getByText('Settlement readiness')).toBeInTheDocument();
+    expect(screen.getByText('Not Exchange')).toBeInTheDocument();
     expect(screen.getByText('policy-main')).toBeInTheDocument();
     expect(screen.getByText('policy-has...567890')).toBeInTheDocument();
     expect(screen.getByText('1,200-1,211')).toBeInTheDocument();
