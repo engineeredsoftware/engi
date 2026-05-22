@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`; later V33 gates may add source-safe interface proof artifacts
-- Source parity state: Gate 1 opens source parity tracking for interface-depth work; implementation begins only through scoped V33 gates
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -224,7 +224,7 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 - Current invariants and fail-closed conditions: invalid deposit, missing source proof, unsupported provider, policy denial, or protected-source leakage blocks interface projection.
 - Current proof obligations: deposit measurement proof, source-safety class, and interface projection test.
 - Current source-bearing implementation basis: commercial package and `uapi` routes, not `protocol-demonstration`.
-- Current validating commands and parity basis: V32 canonical proofs plus V33 Gate 2 interface catalog checks.
+- Current validating commands and parity basis: V32 canonical proofs plus V33 Gate 2 interface catalog checks, including `.bitcode/v33-interface-contract-catalog.json`.
 - Current accepted boundaries: V33 does not change deposit ownership law.
 
 ### Reading and prompt/inference ownership
@@ -487,6 +487,11 @@ V33 is complete when all ten gates are closed, source-safe interface contracts a
 Primary V33 types: `InterfaceContractCatalog`, `InterfaceAuthorizationPolicy`, `McpToolContract`, `ChatGptAppActionContract`, `PublicApiRouteContract`, `ReadLicenseInterfaceContract`, `AssetPackRightsInterfaceContract`, `APISchemaCompatibilityMatrix`, and `InterfaceTelemetryProofHook`.
 Primary surfaces: MCP API, ChatGPT App, public API, Terminal handoff, package consumers, ledger projection, database projection, object-storage projection, and proof replay.
 
+Gate 2 `InterfaceContractCatalog` rows are package-owned source-safe metadata.
+The required row ids are `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook`.
+Each row names an owner package, action/tool/route id, schema id, auth policy id, source-safety class, example fixture path, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
+The `exchange_hook` and `conversations_hook` rows are visible as `deferred_not_admitted` rather than hidden.
+
 ## Appendix B. Proof family closure catalog
 
 The V33 proof-family catalog is the nine-family catalog in `V33 proof-family canon`.
@@ -521,11 +526,13 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | --- | --- | --- | --- | --- |
 | `.bitcode/v33-spec-family-report.json` | spec-family report builder | `check-bitcode-spec-family` | source-safe-generated-proof | draft-required |
 | `.bitcode/v33-canonical-input-report.json` | canonical-input report builder | `check-bitcode-canonical-inputs` | source-safe-generated-proof | draft-required |
+| `.bitcode/v33-interface-contract-catalog.json` | `scripts/generate-v33-interface-contract-catalog.mjs` | `check:v33-interface-contract-catalog` and `check:v33-gate2` | source-safe-interface-contract-catalog-metadata | Gate 2 required |
 
 ### V33 specifying generated artifacts
 
 V33 starts with `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`.
-Later gates may add interface catalog, authorization policy, schema compatibility, telemetry replay, and promotion readiness artifacts.
+Gate 2 adds `.bitcode/v33-interface-contract-catalog.json`, which serializes source-safe `InterfaceContractCatalog` metadata for `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook` with deferred hooks marked `deferred_not_admitted`.
+Later gates may add authorization policy, schema compatibility, telemetry replay, and promotion readiness artifacts.
 
 ### Shared generated-artifact fields
 

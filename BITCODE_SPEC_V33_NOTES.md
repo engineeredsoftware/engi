@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`; later V33 gates may add source-safe interface proof artifacts
-- Source parity state: Gate 1 opens source parity tracking; implementation begins after roadmap/spec acceptance on scoped gate branches
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
 - Scope: working notes for V33 interface-depth over promoted V32 proof and testing canon
 
 ## Notes companion rule
@@ -60,6 +60,14 @@ Do not read `_legacy/` as active law.
 - Denied states must be readable and repairable, not generic errors.
 - Compatibility rows should be generated where possible and checked in CI.
 - Examples must cover success, denied, blocked, stale, deferred, unpaid, and paid states without protected source leakage.
+
+## Gate 2 closure note
+
+Gate 2 introduces `InterfaceContractCatalog` in `packages/btd/src/interface-contract-catalog.ts`.
+The catalog rows are `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook`.
+The first five rows are active contracts; `exchange_hook` and `conversations_hook` remain visible as `deferred_not_admitted` rows.
+Every row names the package owner, action/tool/route id, schema id, auth policy id, source-safety class, example fixture path, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
+The generated source-safe artifact is `.bitcode/v33-interface-contract-catalog.json`, checked by `check:v33-interface-contract-catalog` and `check:v33-gate2`.
 
 ## Carryforward from V32
 

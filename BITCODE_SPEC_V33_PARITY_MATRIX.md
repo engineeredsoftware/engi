@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`; later V33 gates may add source-safe interface proof artifacts
-- Source parity state: Gate 1 defines V33 parity rows and checker coverage; source implementation remains gate-scoped
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -51,7 +51,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V33.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v33/gate-1-interface-roadmap-opening` | drafted | V33 family validates in draft mode over active V32 and `check:v33-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V32 active, V33 draft, and coherent V34-V37 responsibilities. |
-| Interface contract catalog | Gate 2 | planned `InterfaceContractCatalog` source and generated proof artifact | pending | Active and deferred interface surfaces have package-owned rows. |
+| Interface contract catalog | Gate 2 | `packages/btd/src/interface-contract-catalog.ts`, `packages/btd/__tests__/interface-contract-catalog.test.ts`, `.bitcode/v33-interface-contract-catalog.json`, `check:v33-gate2` | drafted | Active and deferred interface surfaces have package-owned rows. |
 | MCP API contracts | Gate 3 | planned MCP tool contract tests and examples | pending | MCP tool discovery, schemas, auth, denied states, and proof roots are package-derived. |
 | ChatGPT App contracts | Gate 4 | planned ChatGPT App action contract tests and examples | pending | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
 | Interface authorization policy | Gate 5 | planned `InterfaceAuthorizationPolicy` fixtures and tests | pending | Interface auth and license denials fail closed with repair posture. |
@@ -73,6 +73,18 @@ No `_legacy/` source is active source truth.
 | Canon-quality workflow | Canon workflow validates promoted V32 canon, V33 draft family when present, and V32/V33 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V32 active / V33 draft workflow | drafted |
 | Interface vocabulary | V33 spec family names MCP API, ChatGPT App, `InterfaceContractCatalog`, `InterfaceAuthorizationPolicy`, `ReadLicenseInterfaceContract`, `AssetPackRightsInterfaceContract`, `APISchemaCompatibilityMatrix`, and `InterfaceTelemetryProofHook` | drafted |
+
+## Gate 2 Parity
+
+| Requirement | Source evidence | Current V33 judgment |
+| --- | --- | --- |
+| Package-owned catalog builder exists | `packages/btd/src/interface-contract-catalog.ts` exports `buildBtdInterfaceContractCatalog` and `BTD_INTERFACE_CONTRACT_CATALOG_INTERFACE_IDS` | drafted |
+| Active interface rows are named | `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, and `package_consumer` rows are active contracts | drafted |
+| Deferred hooks stay visible | `exchange_hook` and `conversations_hook` rows are `deferred_not_admitted` rather than hidden | drafted |
+| Row metadata is complete | each row includes owner package, action id, schema id, auth policy id, source-safety class, example fixture path, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and proof root | drafted |
+| Generated artifact is source-safe and deterministic | `.bitcode/v33-interface-contract-catalog.json` is produced by `generate:v33-interface-contract-catalog` and checked by `check:v33-interface-contract-catalog` | drafted |
+| Tests fail closed | `packages/btd/__tests__/interface-contract-catalog.test.ts` covers missing rows, duplicate rows, deferred-hook accidental admission, and secret-shaped or protected-source catalog text | drafted |
+| Workflow and spec-family wiring exists | `check:v33-gate2`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 2 contract | drafted |
 
 ## Gate 1 Parity
 
