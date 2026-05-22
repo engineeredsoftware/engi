@@ -68,9 +68,11 @@ import {
   buildBtdAssetPackRightsInterfaceContract,
   buildBtdApiSchemaCompatibilityMatrix,
   buildBtdInterfaceAuthorizationPolicy,
+  buildBtdInterfaceTelemetryProofHookRegistry,
   buildBtdReadLicenseInterfaceContract,
   getBtdApiSchemaCompatibilityRow,
   getBtdInterfaceAuthorizationPolicyFixture,
+  getBtdInterfaceTelemetryProofHook,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
 import {
@@ -217,6 +219,21 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       examplePosture: 'success',
       protectedSourceVisible: false,
     });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.mcp-reading-tool');
+
+    expect(registry.observedInterfaceIds).toContain('mcp_api');
+    expect(hook).toMatchObject({
+      interfaceId: 'mcp_api',
+      actionId: 'mcp.reading.pipeline',
+      posture: 'success',
+      successSummary: 'mcp-reading-pipeline-queued-with-source-safe-roots',
+    });
+    expect(hook.roots.generatedProofRoot).toMatch(/^generated-proof-root:/);
+    expect(hook.replayCommand).toContain('pipeline-ingress-contract.test.ts');
   });
 
   it('normalizes third-party MCP repository and attachment ingress as input context only', () => {

@@ -14,6 +14,10 @@ import {
   buildBtdApiSchemaCompatibilityMatrix,
   getBtdApiSchemaCompatibilityRow,
 } from '@bitcode/btd/api-schema-compatibility-matrix';
+import {
+  buildBtdInterfaceTelemetryProofHookRegistry,
+  getBtdInterfaceTelemetryProofHook,
+} from '@bitcode/btd/interface-telemetry-proof-hook';
 
 function detailWithAuthority(
   organizationAuthority: TerminalRunDetailSnapshot['organizationAuthority'],
@@ -102,6 +106,23 @@ describe('terminal organization authority projection', () => {
       examplePosture: 'blocked',
       protectedSourceVisible: false,
     });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.terminal-reading-handoff');
+
+    expect(registry.observedInterfaceIds).toContain('terminal_handoff');
+    expect(hook).toMatchObject({
+      interfaceId: 'terminal_handoff',
+      actionId: 'terminal.reading.assetPackPreview',
+      posture: 'blocked',
+      denialReason: 'assetpack-source-locked-until-settlement',
+    });
+    expect(hook.roots.ledgerRoot).toMatch(/^ledger-root:/);
+    expect(hook.roots.databaseRoot).toMatch(/^database-root:/);
+    expect(hook.roots.objectStorageRoot).toMatch(/^object-storage-root:/);
+    expect(hook.replayCommand).toContain('terminalOrganizationAuthority.test.ts');
   });
 
   it('renders stale Terminal authority as a readable fail-closed denial', () => {

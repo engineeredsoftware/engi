@@ -13,6 +13,10 @@ import {
   buildBtdApiSchemaCompatibilityMatrix,
   getBtdApiSchemaCompatibilityRow,
 } from '@bitcode/btd/api-schema-compatibility-matrix';
+import {
+  buildBtdInterfaceTelemetryProofHookRegistry,
+  getBtdInterfaceTelemetryProofHook,
+} from '@bitcode/btd/interface-telemetry-proof-hook';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -198,6 +202,21 @@ This product delivers voice-first social conversations for builders.
       examplePosture: 'blocked',
       protectedSourceVisible: false,
     });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.chatgpt-reading-action');
+
+    expect(registry.observedInterfaceIds).toContain('chatgpt_app');
+    expect(hook).toMatchObject({
+      interfaceId: 'chatgpt_app',
+      actionId: 'chatgpt.reading.action',
+      posture: 'blocked',
+      denialReason: 'reader-confirmation-or-paid-rights-missing',
+    });
+    expect(hook.replayCommand).toContain('tools.test.ts');
+    expect(hook.sourceSafety.protectedSourceVisible).toBe(false);
   });
 
   it('answer_codebase_query returns annotated matches', async () => {

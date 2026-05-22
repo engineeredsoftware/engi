@@ -23,6 +23,7 @@ import {
   buildBtdBridgeReadinessResearchSettlement,
   buildBtdDeploymentReadinessSettlement,
   buildBtdInterfaceIntegrationRegressionSettlement,
+  buildBtdInterfaceTelemetryProofHookRegistry,
   buildBtdInterfaceAuthorizationPolicy,
   buildBtdAssetPackRightsInterfaceContract,
   buildBtdLedgerDatabaseReconciliationSettlement,
@@ -38,6 +39,7 @@ import {
   buildBtcFeeQuote,
   createBtdMeasureMintState,
   getBtdApiSchemaCompatibilityRow,
+  getBtdInterfaceTelemetryProofHook,
   getBtdInterfaceAuthorizationPolicyFixture,
   getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
@@ -417,6 +419,27 @@ describe('BTD crypto API builders', () => {
       examplePosture: 'success',
       protectedSourceVisible: false,
     });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for public API readback replay', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.public-api-reading');
+
+    expect(registry.observedInterfaceIds).toContain('public_api');
+    expect(hook).toMatchObject({
+      interfaceId: 'public_api',
+      actionId: 'api.btd.readAccess',
+      posture: 'denied',
+      denialReason: 'read-license-or-authority-missing',
+    });
+    expect(hook.roots).toMatchObject({
+      requestRoot: expect.stringMatching(/^request-root:/),
+      responseRoot: expect.stringMatching(/^response-root:/),
+      ledgerRoot: expect.stringMatching(/^ledger-root:/),
+      databaseRoot: expect.stringMatching(/^database-root:/),
+      objectStorageRoot: expect.stringMatching(/^object-storage-root:/),
+    });
+    expect(hook.replayCommand).toContain('btd-crypto.test.ts');
   });
 
   it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {

@@ -10,6 +10,7 @@
     "./chatgpt-app-action-contract": "./src/chatgpt-app-action-contract.ts",
     "./interface-authorization-policy": "./src/interface-authorization-policy.ts",
     "./interface-integration-contract": "./src/interface-integration-contract.ts",
+    "./interface-telemetry-proof-hook": "./src/interface-telemetry-proof-hook.ts",
     "./read-license-assetpack-rights-contract": "./src/read-license-assetpack-rights-contract.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },
