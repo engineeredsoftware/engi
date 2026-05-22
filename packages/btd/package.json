@@ -8,6 +8,7 @@
     ".": "./src/index.ts",
     "./api-schema-compatibility-matrix": "./src/api-schema-compatibility-matrix.ts",
     "./chatgpt-app-action-contract": "./src/chatgpt-app-action-contract.ts",
+    "./deployment-host-capability-catalog": "./src/deployment-host-capability-catalog.ts",
     "./interface-authorization-policy": "./src/interface-authorization-policy.ts",
     "./interface-consumer-ux-regression-proof": "./src/interface-consumer-ux-regression-proof.ts",
     "./interface-integration-contract": "./src/interface-integration-contract.ts",

@@ -5,10 +5,10 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V33`
 - Current active canon: `BITCODE_SPEC_V33.md`
 - Current draft target: `BITCODE_SPEC_V34.md`
-- Current working gate: V34 Gate 1 Deployment Roadmap And Spec Opening, which opens deployment-depth canon over promoted V33, refreshes roadmap/docs/workflows, and wires `check:v34-gate1`.
+- Current working gate: V34 Gate 3 Distributed Execution Runtime Contracts, following closed Gate 2 host capability and environment lane catalog work.
 - Latest closed version: V33 Commercial Interface Depth, which promoted MCP API, ChatGPT App, public API, package-owned schemas, interface authorization, Read license and AssetPack rights contracts, compatibility matrices, telemetry/proof hooks, consumer UX proof, and V33 promotion readiness.
 - Recent V33 closure anchor: V33 Gate 10 Promotion Readiness generated V33 proof support, promoted `BITCODE_SPEC.txt` to `V33`, and prepared V33 active / V34 draft runtime posture.
-- V34 opening anchor: deployment-depth now owns host capabilities, environment lanes, distributed execution runtime receipts, storage posture, secret rotation, migration approvals, observers, broadcasters, repair jobs, rollback/upgrade/data repair playbooks, and local/staging-testnet rehearsal.
+- V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

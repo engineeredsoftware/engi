@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 1 deployment-roadmap opening is active over promoted V33 canon
+- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, and later deployment-depth artifacts as gates close
-- Source parity state: V34 deployment-depth source parity begins at Gate 1 and remains drafted until each gate closes
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 2 closes host capability and environment lane source parity; later deployment-depth source parity remains drafted until each gate closes
 - Scope: active draft notes for deployment depth after V33 commercial interface canon
 
 This NOTES file does not promote V34.
@@ -52,8 +52,9 @@ Read the system as:
 
 ## Deployment-depth notes
 
-- `DeploymentHostCapabilityCatalog` must make hosts explicit: website, API, MCP API, ChatGPT App, pipeline workers, observers, broadcasters, proof services, repair jobs, and storage carriers.
-- `EnvironmentLaneContract` must distinguish local, regtest, signet, staging-testnet, public testnet, mainnet-ready dry run, and value-bearing mainnet.
+- `DeploymentHostCapabilityCatalog` now makes hosts explicit: `website`, `api`, `mcp_api`, `chatgpt_app`, `pipeline_workers`, `runtime_observers`, `ledger_broadcasters`, `proof_services`, `repair_jobs`, `object_storage`, `database_projection`, and `ledger_projection`.
+- `EnvironmentLaneContract` now distinguishes `local`, `regtest`, `signet`, `staging-testnet`, `public-testnet`, `mainnet-ready-dry-run`, and `value-bearing-mainnet`, with `value-bearing-mainnet` visible as `blocked_future_canon_required`.
+- Gate 2 source truth is `packages/btd/src/deployment-host-capability-catalog.ts`; generated truth is `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`; validation is `pnpm run check:v34-gate2`.
 - `DistributedExecutionRuntimeReceipt` must represent long-running Reading, settlement, wallet, proof, object-storage, and repair work without relying on route-handler duration.
 - `DeploymentStoragePosture` must cover ledger-derived state, database projection, object storage, proof artifacts, audit logs, rollback material, retention, encryption, and repair commands.
 - `SecretRotationPlan` must never place secret values in tracked files or generated artifacts.

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 1 deployment-roadmap opening is active over promoted V33 canon
+- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 1 opens V34 deployment-depth parity; source-side deployment contracts are drafted but not closed until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 2 closes host capability and environment lane contracts; source-side distributed execution, storage, credential, approval, repair, rehearsal, and promotion contracts remain drafted until their gates close
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -80,8 +80,15 @@ Closure acceptance:
 
 - website, API, MCP API, ChatGPT App, pipeline workers, observers, broadcasters, proof services, repair jobs, object storage, database projection, and ledger projection are enumerated;
 - local, regtest, signet, staging-testnet, public testnet, mainnet-ready dry run, and value-bearing mainnet lanes are represented;
-- value-bearing mainnet is visible as blocked, not hidden confidence;
+- `value-bearing-mainnet` is visible as `blocked_future_canon_required`, not hidden confidence;
 - `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` are source-safe generated artifacts.
+
+Closure evidence:
+
+- `packages/btd/src/deployment-host-capability-catalog.ts` owns `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` builders.
+- `packages/btd/__tests__/deployment-host-capability-catalog.test.ts` proves required hosts, lanes, value-bearing mainnet blocking, duplicate/missing failures, and source-safety rejection.
+- `scripts/generate-v34-host-capability-environment-lanes.mjs` emits deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`.
+- `scripts/check-v34-gate2-host-capability-environment-lanes.mjs` and `pnpm run check:v34-gate2` fail closed on stale artifacts, hidden value-bearing mainnet, missing rows, docs drift, package-script drift, and workflow drift.
 
 ### Gate 3: Distributed Execution Runtime Contracts
 
@@ -163,4 +170,4 @@ Closure acceptance:
 
 ## Completion condition
 
-This delta is complete when Gate 1 is merged into `version/v34`, the roadmap and docs are truthful for V33 active / V34 draft posture, and the gate checker prevents V34 from drifting back into V33 interface-depth wording or hidden deployment assumptions.
+This delta is complete for Gate 2 when `version/v34` contains the Gate 2 host capability and lane contracts, source-safe generated artifacts, focused tests, workflow wiring, and `pnpm run check:v34-gate2` closure. Remaining delta closure advances through Gates 3 through 10.
