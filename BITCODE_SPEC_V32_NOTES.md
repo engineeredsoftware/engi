@@ -141,6 +141,7 @@ Close V32:
 - `check:v32-gate10`;
 - V32 promotion workflow;
 - V32 generated `.bitcode/v32-*` artifacts;
+- `.bitcode/v32-promotion-readiness-report.json`;
 - `BITCODE_SPEC_V32_PROVEN.md`;
 - active V32 / draft V33 runtime posture after promotion.
 

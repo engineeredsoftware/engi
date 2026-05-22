@@ -354,7 +354,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v32-interface-contract-regression-suite.json',
           '.bitcode/v32-browser-accessibility-responsive-visual-proof.json',
           '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json',
-          '.bitcode/v32-promotion-proof-generation-hardening.json'
+          '.bitcode/v32-promotion-proof-generation-hardening.json',
+          '.bitcode/v32-promotion-readiness-report.json'
         ]
         : []),
       ...(version === 'V26'

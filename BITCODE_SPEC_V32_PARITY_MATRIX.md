@@ -99,7 +99,7 @@ No `_legacy/` source is active source truth.
 | Browser/accessibility/responsive/visual proof | Gate 7 | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, uapi browser proof tests, generator, checker, workflow wiring | drafted | Operator surfaces have stable semantic and visual coverage across supported viewports. |
 | Testnet/mainnet readiness rehearsal | Gate 8 | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, package readiness source, focused BTD test, generator, checker, workflow wiring | drafted | Local, staging-testnet, production-mainnet, and offline lanes are represented without approving value-bearing launch. |
 | Promotion proof hardening | Gate 9 | `.bitcode/v32-promotion-proof-generation-hardening.json`, generator/checker, protocol proven-generator support, focused protocol test, workflow wiring | drafted | V32 promotion artifacts are reproducible and debuggable through dry-run, check, source-safe generated artifact diffs, and PR-based promotion posture. |
-| Promotion readiness | Gate 10 | planned V32 promotion workflow and generated appendix | draft-required | `version/v32` can promote only after all V32 gates pass and generated canon is source-safe. |
+| Promotion readiness | Gate 10 | `scripts/check-v32-gate10-promotion-readiness.mjs`, `.github/workflows/v32-canon-promotion.yml`, `.bitcode/v32-promotion-readiness-report.json`, promotion script V32 support, generated appendix support | drafted | `version/v32` can promote only after all V32 gates pass and generated canon is source-safe. |
 
 ## V32 implementation checklist
 
@@ -125,8 +125,10 @@ No `_legacy/` source is active source truth.
 | Gate 8 scripts | `pnpm run generate:v32-testnet-mainnet-readiness-rehearsal`, `pnpm run check:v32-testnet-mainnet-readiness-rehearsal`, and `pnpm run check:v32-gate8` fail closed on stale, incomplete, source-unsafe, value-admitting, or undocumented readiness proof | drafted |
 | Gate 9 artifact | `.bitcode/v32-promotion-proof-generation-hardening.json` records source-safe dry-run, check, promotion-plan, failure-taxonomy, and branch-protection proof hardening | drafted |
 | Gate 9 scripts | `pnpm run generate:v32-promotion-proof-generation-hardening`, `pnpm run check:v32-promotion-proof-generation-hardening`, and `pnpm run check:v32-gate9` fail closed on stale, incomplete, undocumented, or source-unsafe proof hardening | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, Gate 5, Gate 6, Gate 7, Gate 8, and Gate 9 checkers | drafted |
-| Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
+| Gate 10 artifact | `.bitcode/v32-promotion-readiness-report.json` records source-safe V32 promotion workflow, pre/post-promotion posture, generated-artifact policy, QA evidence, and branch-protection proof | drafted |
+| Gate 10 scripts | `pnpm run generate:v32-promotion-readiness`, `pnpm run check:v32-promotion-readiness`, and `pnpm run check:v32-gate10` fail closed on stale, incomplete, undocumented, source-unsafe, or posture-incoherent promotion readiness | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1 through Gate 10 checkers and accepts V32 active / V33 draft after promotion | drafted |
+| Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture, promoted V31 canon, and V32 active / V33 draft after promotion | drafted |
 
 ## Gate 1 Parity
 
@@ -215,9 +217,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| V32 promotion checker exists | planned `scripts/check-v32-gate10-promotion-readiness.mjs` | draft-required |
-| V32 promotion workflow exists | planned `.github/workflows/v32-canon-promotion.yml` | draft-required |
-| `BITCODE_SPEC_V32_PROVEN.md` is generated during promotion only | planned generated-proof support | draft-required |
+| V32 promotion checker exists | `scripts/check-v32-gate10-promotion-readiness.mjs`, `check:v32-gate10` | closed |
+| V32 promotion workflow exists | `.github/workflows/v32-canon-promotion.yml` | closed |
+| `.bitcode/v32-promotion-readiness-report.json` is generated and source-safe | `scripts/generate-v32-promotion-readiness-report.mjs`, `.bitcode/v32-promotion-readiness-report.json` | closed |
+| `BITCODE_SPEC_V32_PROVEN.md` is generated during promotion only | `scripts/promote-bitcode-canon.mjs`, `scripts/generate-bitcode-proven.mjs`, `packages/protocol/src/canonical/proven-generator.js` | closed |
 
 ## accepted boundaries
 

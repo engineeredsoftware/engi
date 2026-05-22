@@ -11,7 +11,7 @@
   "currentTarget": "V31",
   "documentationEvidence": [
     {
-      "digest": "sha256:a9d538b1a0968fe53287262cd1dc8c8ada403e6dcc9f23d3b9387e8b0d0ce006",
+      "digest": "sha256:e7d799410f38cec108cbf6810e88e8dfb47d5860af15ed8f573ad119c0207c07",
       "relativePath": "BITCODE_SPEC_V32.md",
       "requiredTokens": [
         {
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "digest": "sha256:a5ca45476087bed0595fdcd4ba55602a5adb08b3d2af03a66e6ccd49808dee59",
+      "digest": "sha256:d37d343b1d2df21be3fb0dad15d85c1f74435de6e7350d2d939d0d92995333b0",
       "relativePath": "BITCODE_SPEC_V32_DELTA.md",
       "requiredTokens": [
         {
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "digest": "sha256:26ec532a22c74a736d1bce6144cfa03865073276bb43f4880059b52d2f3f8179",
+      "digest": "sha256:526b1f989ce3e46310e7d8b2731743d391f88b4314d5fb07dd52de4be728fbf9",
       "relativePath": "BITCODE_SPEC_V32_NOTES.md",
       "requiredTokens": [
         {
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "digest": "sha256:275d1c35ebe1ca5df254c2b1f2198d52f071baebe7b3af3df3ebb3cfe9775e81",
+      "digest": "sha256:8eeb3471caf5fde2884d180149c3cd09fe7f477a29aeee614a1fbb44c4827fb7",
       "relativePath": "BITCODE_SPEC_V32_PARITY_MATRIX.md",
       "requiredTokens": [
         {
@@ -75,16 +75,16 @@
       ]
     },
     {
-      "digest": "sha256:ebb0220fe5b1f6a47ce7c43d35cb3997bd934691e8c080512df163a525d703e1",
+      "digest": "sha256:d8a7410842a96baf2384540ab6eb009882924fa99d787924921319365d303474",
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "requiredTokens": [
         {
           "present": true,
-          "token": "Current working gate: V32 Gate 9"
+          "token": "Current working gate: V32 Gate 10"
         },
         {
           "present": true,
-          "token": "Promotion Proof Generation Hardening"
+          "token": "Promotion Readiness"
         }
       ]
     }
@@ -176,7 +176,7 @@
       ]
     },
     {
-      "digest": "sha256:53afa6ea7682f78f4e0e6c575261705a20e338157159e43617de928b0a3274ac",
+      "digest": "sha256:99299ccaa7d19a5ac4e2f5cceafca0d9d6f129ce549f98f269e79207cefea8c7",
       "relativePath": "packages/protocol/src/canonical/proven-generator.js",
       "requiredTokens": [
         {
@@ -194,7 +194,7 @@
       ]
     },
     {
-      "digest": "sha256:6d07dea9b487fb535b7310e8bb8da744fc24c79b039d34034029e4288505b80e",
+      "digest": "sha256:b1a064df048e619ddc54c0985cba9c1994bd627e8377a75e8ecde3b42daa8593",
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "requiredTokens": [
         {
@@ -208,7 +208,7 @@
       ]
     },
     {
-      "digest": "sha256:cf80421dd98c07ca7689a81c2f91b687497432cefaa6b7f37c6c6cbdc4a0e83a",
+      "digest": "sha256:160727c250c8eeb81467d37b0f9429a071a16437630f810f2b58af183a358f63",
       "relativePath": "scripts/promote-bitcode-canon.mjs",
       "requiredTokens": [
         {
@@ -226,7 +226,7 @@
       ]
     },
     {
-      "digest": "sha256:fece10b686af458cc714d34e2afd07c9c1192da6f742b8a297d97fc72680de5c",
+      "digest": "sha256:9641079e99b5eb94d8e512ac19bf3057dda5548078baf54722c7476584650478",
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "requiredTokens": [
         {
@@ -240,7 +240,7 @@
       ]
     },
     {
-      "digest": "sha256:f933568725cd089dbf48721fc2da7ee85405b8967803b533cebe074dd33ebd87",
+      "digest": "sha256:2177b19310d783dbc37adb4879afa10a7ca71d7ee71ba12c0f47f75aa562e4a8",
       "relativePath": "package.json",
       "requiredTokens": [
         {
@@ -261,7 +261,7 @@
   "sourceSafetyVerdict": "source-safe generated artifact diffs",
   "testEvidence": [
     {
-      "digest": "sha256:9c7d1b9f89b5536a36f4ef97584d88cd731722367afa29cd83ba657ddc7144bb",
+      "digest": "sha256:681f25f77e783eb671d5de438c4fd1aad84765e39055d1640deb1d2a123f3429",
       "relativePath": "packages/protocol/test/v32-promotion-proof-generation.test.js",
       "requiredTokens": [
         {

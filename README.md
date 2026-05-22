@@ -68,10 +68,11 @@ run the version promotion workflow. For V32, promotion work must validate the
 proof/test coverage posture, generate `BITCODE_SPEC_V32_PROVEN.md`, and commit
 promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V31` to
 `V32` on the version branch.
-Gate 10 is the promotion-readiness gate; the V32 Gate 1 checker is wired as
-`pnpm run check:v32-gate1`. The promoted V31 closure remains reproducible
-through `pnpm run check:v31-gate10` and
-[v31-canon-promotion.yml](.github/workflows/v31-canon-promotion.yml).
+Gate 10 is the promotion-readiness gate. V32 gate closure is wired through
+`pnpm run check:v32-gate10`, and the version promotion workflow is
+[v32-canon-promotion.yml](.github/workflows/v32-canon-promotion.yml).
+The promoted V31 closure remains reproducible through `pnpm run check:v31-gate10`
+and [v31-canon-promotion.yml](.github/workflows/v31-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set
