@@ -3,6 +3,7 @@ const customModuleNameMapper = {
   '^@bitcode/btd$': '<rootDir>/../btd/src/authority.ts',
   '^@bitcode/btd/chatgpt-app-action-contract$': '<rootDir>/../btd/src/chatgpt-app-action-contract.ts',
   '^@bitcode/btd/interface-authorization-policy$': '<rootDir>/../btd/src/interface-authorization-policy.ts',
+  '^@bitcode/btd/read-license-assetpack-rights-contract$': '<rootDir>/../btd/src/read-license-assetpack-rights-contract.ts',
   '^@bitcode/tools-generics$': '<rootDir>/src/__stubs__/tools-generics.ts',
   '^@bitcode/prompts/prompt$': '<rootDir>/../prompts/src/prompt.ts',
   '^@bitcode/prompts/parts/PromptPart$': '<rootDir>/../prompts/src/parts/PromptPart.ts',

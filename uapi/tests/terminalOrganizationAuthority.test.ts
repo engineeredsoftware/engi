@@ -5,6 +5,11 @@ import {
   getBtdInterfaceAuthorizationPolicyFixture,
   renderBtdInterfaceAuthorizationDeniedState,
 } from '@bitcode/btd/interface-authorization-policy';
+import {
+  buildBtdAssetPackRightsInterfaceContract,
+  buildBtdReadLicenseInterfaceContract,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
+} from '@bitcode/btd/read-license-assetpack-rights-contract';
 
 function detailWithAuthority(
   organizationAuthority: TerminalRunDetailSnapshot['organizationAuthority'],
@@ -56,6 +61,28 @@ describe('terminal organization authority projection', () => {
         teamId: 'team-terminal-reading',
         organizationRole: 'admin',
       },
+    });
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for paid Terminal delivery', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('terminal-paid-rights-delivery');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe('uapi/tests/terminalOrganizationAuthority.test.ts');
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'terminal',
+      action: 'deliver_asset_pack',
+      decision: 'paid_unlock_admitted',
+      licensePosture: 'licensed_read',
+      protectedSourceVisible: true,
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'terminal',
+      decision: 'rights_delivery_admitted',
+      rightsPosture: 'rights_transferred',
+      btcSettlementFinality: 'confirmed',
+      protectedSourceVisible: true,
     });
   });
 

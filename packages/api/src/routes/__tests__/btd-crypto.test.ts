@@ -23,7 +23,9 @@ import {
   buildBtdDeploymentReadinessSettlement,
   buildBtdInterfaceIntegrationRegressionSettlement,
   buildBtdInterfaceAuthorizationPolicy,
+  buildBtdAssetPackRightsInterfaceContract,
   buildBtdLedgerDatabaseReconciliationSettlement,
+  buildBtdReadLicenseInterfaceContract,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
@@ -35,6 +37,7 @@ import {
   buildBtcFeeQuote,
   createBtdMeasureMintState,
   getBtdInterfaceAuthorizationPolicyFixture,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
 import {
   buildGetBtdRegistrySnapshotRoute,
@@ -372,6 +375,28 @@ describe('BTD crypto API builders', () => {
       sourceVisibility: 'source_safe_preview',
     });
     expect(policy.proofRoots.policyRoot).toMatch(/^btd-interface-auth:interface-authorization-policy:/);
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for API preview admission', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('api-read-license-source-safe-preview');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe('packages/api/src/routes/__tests__/btd-crypto.test.ts');
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'api',
+      action: 'review_asset_pack_preview',
+      decision: 'source_safe_preview_admitted',
+      protectedSourceVisible: false,
+      licensePosture: 'preview_only_not_required',
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'api',
+      decision: 'preview_admitted',
+      rightsPosture: 'preview_only_locked',
+      btcSettlementFinality: 'quote_pending',
+      protectedSourceVisible: false,
+    });
   });
 
   it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {

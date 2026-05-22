@@ -214,6 +214,31 @@ scope, missing wallet capability, unpaid read license, missing AssetPack rights,
 and locked-source disclosure attempts fail closed before source-bearing output
 can cross an interface boundary.
 
+### V33 Gate 6 Read License And AssetPack Rights Interface Contracts
+
+Gate 6 makes `ReadLicenseInterfaceContract` and
+`AssetPackRightsInterfaceContract` the shared package-owned boundary objects for
+paid/unpaid Reading across interfaces. `ReadLicenseInterfaceContract` binds the
+Read request root, reviewed ReadNeed root, Finding Fits admission root,
+source-safe preview root, fee quote root, read receipt root, interface
+authorization policy root, license posture, disclosure state, delivery
+admission state, protected-source visibility, denial codes, and proof root.
+`AssetPackRightsInterfaceContract` binds the AssetPack preview metadata, BTD
+range, token count, source-safe measurement root, fee quote root, BTC
+settlement/finality posture, paid unlock root, delivery admission root, read
+right state, rights-transfer receipt root, denial codes, source-safety posture,
+and proof root.
+
+The required fixtures are shared across API, MCP, ChatGPT App, and Terminal:
+API and MCP admit source-safe preview only; ChatGPT App denies unpaid protected
+source delivery with readable settlement/license/rights blockers; Terminal
+admits delivery only after confirmed BTC finality, paid unlock, delivery
+admission, and rights transfer. Pre-settlement protected source remains locked
+in every fixture and in the generated artifact. Paid delivery may mark
+`protectedSourceVisible: true` on the contract output only after the BTD
+read/right transfer evidence is present; artifact payloads remain source-safe
+metadata and never serialize protected source or credentials.
+
 ## V33 whole Bitcode operator chain
 
 The V33 operator chain keeps V32 behavior and adds interface consistency:
@@ -549,6 +574,7 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | `.bitcode/v33-mcp-api-tool-contracts.json` | `scripts/generate-v33-mcp-api-tool-contracts.mjs` | `check:v33-mcp-api-tool-contracts` and `check:v33-gate3` | source-safe-mcp-api-tool-contract-metadata | Gate 3 required |
 | `.bitcode/v33-chatgpt-app-action-contracts.json` | `scripts/generate-v33-chatgpt-app-action-contracts.mjs` | `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4` | source-safe-chatgpt-app-action-contract-metadata | Gate 4 required |
 | `.bitcode/v33-interface-authorization-policy.json` | `scripts/generate-v33-interface-authorization-policy.mjs` | `check:v33-interface-authorization-policy` and `check:v33-gate5` | source-safe-interface-authorization-policy-metadata | Gate 5 required |
+| `.bitcode/v33-read-license-assetpack-rights-contracts.json` | `scripts/generate-v33-read-license-assetpack-rights-contracts.mjs` | `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6` | source-safe-read-license-assetpack-rights-metadata | Gate 6 required |
 
 ### V33 specifying generated artifacts
 
@@ -557,6 +583,7 @@ Gate 2 adds `.bitcode/v33-interface-contract-catalog.json`, which serializes sou
 Gate 3 adds `.bitcode/v33-mcp-api-tool-contracts.json`, which serializes source-safe `McpToolContract` metadata for `bitcode://pipelines/asset-pack/create`, including schema ids, denied states, proof-root fields, examples, package-derived discovery posture, and protected-source invisibility.
 Gate 4 adds `.bitcode/v33-chatgpt-app-action-contracts.json`, which serializes source-safe `ChatGptAppActionContract` metadata for `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`, including package-owned schemas, source-safe response renderers, proof-root projection, readable denial states such as `READ_LICENSE_REQUIRED`, and repair actions.
 Gate 5 adds `.bitcode/v33-interface-authorization-policy.json`, which serializes source-safe `InterfaceAuthorizationPolicy` metadata for API, MCP, ChatGPT App, and Terminal handoff fixtures, including auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and missing/stale authority fail-closed coverage.
+Gate 6 adds `.bitcode/v33-read-license-assetpack-rights-contracts.json`, which serializes source-safe `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` metadata for API, MCP, ChatGPT App, and Terminal fixtures, including Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, paid/unpaid denial, and protected-source non-serialization.
 Later gates may add schema compatibility, telemetry replay, and promotion readiness artifacts.
 
 ### Shared generated-artifact fields
