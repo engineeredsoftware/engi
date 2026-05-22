@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, and Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 3 adds package-owned `McpToolContract` source and generated proof coverage for MCP API tool discovery, schema, auth, denial, and proof-root contracts
 - Scope: working notes for V33 interface-depth over promoted V32 proof and testing canon
 
 ## Notes companion rule
@@ -68,6 +68,15 @@ The catalog rows are `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`,
 The first five rows are active contracts; `exchange_hook` and `conversations_hook` remain visible as `deferred_not_admitted` rows.
 Every row names the package owner, action/tool/route id, schema id, auth policy id, source-safety class, example fixture path, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
 The generated source-safe artifact is `.bitcode/v33-interface-contract-catalog.json`, checked by `check:v33-interface-contract-catalog` and `check:v33-gate2`.
+
+## Gate 3 closure note
+
+Gate 3 introduces `McpToolContract` in `packages/btd/src/mcp-tool-contract.ts`.
+The first required MCP API tool id is `bitcode://pipelines/asset-pack/create`.
+The contract binds `bitcode.mcp.assetPackCreate.input.v1`, `bitcode.mcp.assetPackCreate.output.v1`, `interface.authorization.pipeline-permission`, `pipelines.create`, source-safety class `protected-source-locked`, and policy `source-safe-preview-and-metadata-before-settlement`.
+Denied states are explicit and include `SCHEMA_VALIDATION_FAILED`, `PROVIDER_BINDING_REQUIRED`, `INSUFFICIENT_PERMISSIONS`, `MISSING_API_KEY`, `RATE_LIMITED`, and `UNKNOWN_TOOL`.
+The MCP server consumes the package-owned contract through `getBtdMcpToolContract` for tool discovery, including tool id and description, while pre-settlement protected source remains invisible.
+The generated source-safe artifact is `.bitcode/v33-mcp-api-tool-contracts.json`, checked by `check:v33-mcp-api-tool-contracts` and `check:v33-gate3`.
 
 ## Carryforward from V32
 
