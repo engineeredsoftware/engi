@@ -12,6 +12,10 @@
 
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  buildBtdInterfaceAuthorizationPolicy,
+  getBtdMcpToolContract,
+} from '@bitcode/btd';
 import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
 
@@ -154,11 +158,57 @@ function buildRepositoryAnchor(repository: Record<string, any>): string {
   return `${provider}:${repository.owner}/${repository.name}${branch}`;
 }
 
+function flattenMcpOrganizationPermissionGrants(context: MCPAuthContext): string[] {
+  const grants = [...(context.scopes ?? [])];
+  const organizationPermissions = context.organizationPermissions ?? {};
+  for (const [resource, permissions] of Object.entries(organizationPermissions)) {
+    if (!Array.isArray(permissions)) continue;
+    for (const permission of permissions) {
+      if (typeof permission === 'string' && permission.trim()) {
+        grants.push(`${resource}:${permission.trim()}`);
+      }
+    }
+  }
+  return Array.from(new Set(grants));
+}
+
 function assertPipelineWriteAdmission(
   params: any,
   context: MCPAuthContext,
   interfaceSurface: 'bitcode_mcp'
 ): Record<string, any> {
+  const issuedAt = new Date().toISOString();
+  const interfaceAuthorizationPolicy = buildBtdInterfaceAuthorizationPolicy({
+    policyId: 'mcp-pipeline-create-request-finding-fits',
+    interfaceSurface: 'mcp',
+    action: 'request_finding_fits',
+    authIssuer: {
+      issuerKind: 'api_key',
+      issuerId: context.userId,
+      issuedAt,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+      issuerRoot: `mcp-authenticated-principal:${context.userId}`,
+    },
+    actorId: context.userId,
+    organizationId: context.organizationId ?? null,
+    teamId: context.organizationId ?? null,
+    memberId: context.userId,
+    organizationRole: context.organizationRole ?? null,
+    organizationPermissionGrants: flattenMcpOrganizationPermissionGrants(context),
+    protectedSource: {
+      disclosureState: 'source_safe_preview',
+      settlementState: 'not_required',
+    },
+    confirmed: true,
+    at: issuedAt,
+  });
+
+  if (interfaceAuthorizationPolicy.decision !== 'allowed') {
+    throw new Error(
+      `Bitcode MCP write admission denied by interface authorization policy: ${interfaceAuthorizationPolicy.denialCodes.join(', ')}.`
+    );
+  }
+
   if (!context.permissions.pipelines.create) {
     throw new Error(
       'Bitcode MCP write admission requires pipelines.create permission before any pipeline job can be queued.'
@@ -223,6 +273,13 @@ function assertPipelineWriteAdmission(
     attachmentCount: Array.isArray(params.attachments) ? params.attachments.length : 0,
     connectionCount: repositoryConnections.length,
     outputMeaning: 'asset_packs',
+    interfaceAuthorizationPolicy: {
+      policyId: interfaceAuthorizationPolicy.policyId,
+      decision: interfaceAuthorizationPolicy.decision,
+      denialCodes: interfaceAuthorizationPolicy.denialCodes,
+      policyRoot: interfaceAuthorizationPolicy.proofRoots.policyRoot,
+      sourceVisibility: interfaceAuthorizationPolicy.sourceVisibility,
+    },
   };
 }
 
@@ -377,37 +434,13 @@ async function executePipelineWithMonitoring(
  * Register all pipeline tools
  */
 export function registerPipelineTools(): MCPTool[] {
+  const assetPackCreateContract = getBtdMcpToolContract('bitcode://pipelines/asset-pack/create');
+
   return [
     // AssetPack pipeline tool.
     {
-      name: 'bitcode://pipelines/asset-pack/create',
-      description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.
-
-This is Bitcode's most powerful pipeline, capable of:
-• Feature implementation with written assets and optional pull request delivery
-• Comprehensive code reviews with detailed suggestions
-• Bug fixes with root cause analysis and testing
-• Technical documentation and blog posts
-• Architecture diagrams and API specifications
-• Frontend scaffolding for React/Vue/Angular
-• Project scope analysis and implementation planning
-• Code refactoring proposals with impact analysis
-
-Supports multimodal inputs including Figma designs, documents, images, audio, and video.
-Real-time streaming provides live updates during read measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
-
-Admitted subtypes:
-• pull_request - Complete feature implementation with PR
-• pr_review - Comprehensive code review with suggestions
-• issue - Bug analysis and fixes with testing
-• comment - Code explanation and documentation
-• blog_post - Technical writing and documentation
-• diagram - Architecture and flow diagrams
-• api_spec - OpenAPI specification generation
-• frontend_scaffolder - Component scaffolding
-• scope_analysis - Project complexity analysis
-• implementation_plan - Detailed technical planning
-• refactor_proposal - Code improvement recommendations`,
+      name: assetPackCreateContract.toolId,
+      description: assetPackCreateContract.description,
 
       inputSchema: AssetPackPipelineToolSchema,
       

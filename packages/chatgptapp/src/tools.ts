@@ -1,6 +1,7 @@
 import './env';
 
 import { Buffer } from 'node:buffer';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 
 import { prepareConciseContext } from '@bitcode/context';
@@ -14,6 +15,15 @@ import {
   type BtdOrganizationRole,
   type BtdSettlementAuthorityState,
 } from '@bitcode/btd';
+import {
+  buildBtdInterfaceAuthorizationPolicy,
+} from '@bitcode/btd/interface-authorization-policy';
+import {
+  buildBtdChatGptAppActionContractRegistry,
+  renderBtdChatGptAppSourceSafeResponse,
+  type BtdChatGptAppActionContract,
+  type BtdChatGptAppActionId,
+} from '@bitcode/btd/chatgpt-app-action-contract';
 import {
   vercelGetDeploymentEventsTool,
   vercelGetDeploymentTool,
@@ -61,8 +71,20 @@ type ChatGptAppWriteAdmissionInput = {
   operation: string;
   targetAnchor?: string;
   readAccess: ChatGptAppReadAccessDecision;
-  organizationAuthority: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
+  organizationAuthority: ChatGptAppOrganizationAuthorityDecision;
 };
+
+type ChatGptAppOrganizationAuthorityDecision =
+  ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority> & {
+    interfaceAuthorizationPolicy: {
+      policyId: string;
+      decision: 'allowed' | 'denied';
+      denialCodes: string[];
+      policyRoot: string;
+      readableDenial: string | null;
+      repairActions: string[];
+    };
+  };
 
 type ChatGptAppReadAccessDecision = {
   assetPackId: string;
@@ -203,28 +225,81 @@ function assertChatGptAppOrganizationAuthority(
     );
   }
 
-  const decision = evaluateBtdOrganizationInterfaceAuthority({
-    actorId: 'chatgpt_app_connected_interface',
-    organizationId: parsed.data.organizationId,
-    organizationRole: parsed.data.organizationRole,
-    organizationPermissionGrants: parsed.data.organizationPermissionGrants,
+  const issuedAt = new Date().toISOString();
+  const policy = buildBtdInterfaceAuthorizationPolicy({
+    policyId: `chatgpt-app-write:${input.operation}`,
     interfaceSurface: 'chatgpt_app',
     action: 'deliver_asset_pack',
-    walletId: parsed.data.walletId ?? input.readAccess.walletId,
-    readAccessDecision: input.readAccess as any,
-    settlementState: parsed.data.settlementState,
+    authIssuer: {
+      issuerKind: 'chatgpt_session',
+      issuerId: 'chatgpt-app-connected-interface',
+      issuedAt,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+      issuerRoot: stableChatGptAuthorizationRoot('chatgpt-auth-issuer', [
+        input.operation,
+        input.targetAnchor ?? '',
+      ]),
+    },
+    actorId: 'chatgpt_app_connected_interface',
+    organizationId: parsed.data.organizationId,
+    teamId: parsed.data.organizationId,
+    memberId: 'chatgpt_app_connected_interface',
+    organizationRole: parsed.data.organizationRole,
+    organizationPermissionGrants: parsed.data.organizationPermissionGrants,
+    walletCapability: {
+      state: 'verified',
+      walletId: parsed.data.walletId ?? input.readAccess.walletId,
+      canAuthorizeDelivery: true,
+      capabilityRoot: stableChatGptAuthorizationRoot('chatgpt-wallet-capability', [
+        parsed.data.walletId ?? input.readAccess.walletId,
+      ]),
+    },
+    readLicense: {
+      state: input.readAccess.decision,
+      assetPackId: input.readAccess.assetPackId,
+      walletId: input.readAccess.walletId,
+      accessPolicyHash: input.readAccess.accessPolicyHash,
+      reason: input.readAccess.reason,
+    },
+    assetPackRights: {
+      state: input.readAccess.decision === 'owner_read' ? 'owned' : 'licensed',
+      assetPackId: input.readAccess.assetPackId,
+    },
+    protectedSource: {
+      disclosureState: 'requested_locked_source',
+      settlementState: parsed.data.settlementState,
+      previewOnly: false,
+    },
     confirmed: true,
-    repairApprovalState: parsed.data.repairApprovalState,
+    repairPosture: {
+      state: parsed.data.repairApprovalState === 'approved'
+        ? 'approved'
+        : parsed.data.repairApprovalState === 'required'
+          ? 'required'
+          : 'not_required',
+    },
     targetAnchor: input.targetAnchor ?? input.operation,
+    at: issuedAt,
   });
+  const decision = policy.organizationAuthority.actionDecision;
 
-  if (decision.decision !== 'allowed') {
+  if (policy.decision !== 'allowed' || !decision || decision.decision !== 'allowed') {
     throw new Error(
-      `Bitcode ChatGPT App write admission denied by organization authority: ${decision.reasons.join(', ')}.`
+      `Bitcode ChatGPT App write admission denied by interface authorization policy: ${policy.denialCodes.join(', ')}.`
     );
   }
 
-  return decision;
+  return {
+    ...decision,
+    interfaceAuthorizationPolicy: {
+      policyId: policy.policyId,
+      decision: policy.decision,
+      denialCodes: policy.denialCodes,
+      policyRoot: policy.proofRoots.policyRoot,
+      readableDenial: policy.readableDenial,
+      repairActions: policy.repairActions,
+    },
+  };
 }
 
 function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
@@ -242,6 +317,13 @@ function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
     readAccess: input.readAccess,
     organizationAuthority: input.organizationAuthority
   };
+}
+
+function stableChatGptAuthorizationRoot(scope: string, payload: unknown): string {
+  return `${scope}:${createHash('sha256')
+    .update(JSON.stringify(payload))
+    .digest('hex')
+    .slice(0, 24)}`;
 }
 
 const PRODUCT_MD_TEMPLATE = `###### What is this document?
@@ -1215,7 +1297,7 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
   let result: unknown;
   let guidance: string;
   let targetAnchor = 'vercel:unscoped';
-  let organizationAuthority!: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
+  let organizationAuthority!: ChatGptAppOrganizationAuthorityDecision;
 
   switch (args.request) {
     case 'deploy_to_vercel':
@@ -1389,7 +1471,7 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
   let result: unknown;
   let guidance: string;
   let targetAnchor = 'aws:unscoped';
-  let organizationAuthority!: ReturnType<typeof evaluateBtdOrganizationInterfaceAuthority>;
+  let organizationAuthority!: ChatGptAppOrganizationAuthorityDecision;
   switch (args.request) {
     case 's3.putObject':
       targetAnchor = `aws:s3/${String(args.payload.bucket ?? 'bitcode-demo')}/${String(args.payload.key ?? 'config/demo.json')}`;
@@ -1459,12 +1541,152 @@ const AWS_WRITE_SCHEMA = {
   required: ['request', 'confirmed', 'readAccess', 'organizationAuthority']
 };
 
+const CHATGPT_READING_ACTION_NEXT_ACTION: Record<BtdChatGptAppActionId, string> = {
+  bitcode_request_read: 'synthesize-read-need',
+  bitcode_review_read_need: 'request-finding-fits',
+  bitcode_request_finding_fits: 'review-assetpack-preview',
+  bitcode_review_asset_pack_preview: 'quote-assetpack-fee',
+  bitcode_quote_asset_pack_fee: 'settle-assetpack-fee',
+  bitcode_settle_asset_pack: 'deliver-assetpack-after-finality',
+  bitcode_deliver_asset_pack: 'delivery-admitted',
+};
+
+function buildValidatorFromContract(contract: BtdChatGptAppActionContract): z.ZodTypeAny {
+  const schema = contract.inputSchema as {
+    properties?: Record<string, { type?: string }>;
+    required?: string[];
+  };
+  const required = new Set(schema.required ?? []);
+  const shape: Record<string, z.ZodTypeAny> = {};
+
+  for (const [field, fieldSchema] of Object.entries(schema.properties ?? {})) {
+    let zodField: z.ZodTypeAny;
+    if (fieldSchema.type === 'boolean') {
+      zodField = z.boolean();
+    } else if (fieldSchema.type === 'integer') {
+      zodField = z.number().int();
+    } else if (fieldSchema.type === 'number') {
+      zodField = z.number();
+    } else {
+      zodField = z.string().min(1, `${field} must be provided`);
+    }
+    shape[field] = required.has(field) ? zodField : zodField.optional();
+  }
+
+  return z.object(shape).strict();
+}
+
+function stableChatGptActionRoot(prefix: string, actionId: BtdChatGptAppActionId, payload: unknown): string {
+  const hash = createHash('sha256')
+    .update(stableChatGptJson({ actionId, payload }))
+    .digest('hex')
+    .slice(0, 24);
+  return `${prefix}:${hash}`;
+}
+
+function stableChatGptJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableChatGptJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.entries(value as Record<string, unknown>)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([key, entry]) => `${JSON.stringify(key)}:${stableChatGptJson(entry)}`)
+      .join(',')}}`;
+  }
+
+  return JSON.stringify(value) ?? 'undefined';
+}
+
+function executeChatGptReadingAction(
+  contract: BtdChatGptAppActionContract,
+  args: Record<string, unknown>,
+): BitcodeToolExecutionResult {
+  const requestRoot = stableChatGptActionRoot('chatgpt-action-request', contract.actionId, args);
+  const responseFields: Record<string, unknown> = {};
+
+  for (const field of contract.responseRootFields) {
+    if (field === 'nextAction') {
+      responseFields[field] = CHATGPT_READING_ACTION_NEXT_ACTION[contract.actionId];
+    } else if (field === 'candidateCount') {
+      responseFields[field] = Number(args.candidateLimit ?? 0);
+    } else if (field === 'fitQuality') {
+      responseFields[field] = 'source-safe-preview-measurements-only';
+    } else if (field === 'btcAmountSats') {
+      responseFields[field] = 'deterministic-fee-quote-pending-measurement-finalization';
+    } else if (field === 'finalityState') {
+      responseFields[field] = args.confirmationState ?? 'pending';
+    } else if (field === 'deliveryState') {
+      responseFields[field] = 'admitted-after-settlement-and-read-license-proof';
+    } else if (field === 'reviewState') {
+      responseFields[field] = args.decision ?? 'reviewed';
+    } else if (field === 'readinessState') {
+      responseFields[field] = 'admitted-for-read-need-comprehension';
+    } else if (field.endsWith('Root')) {
+      responseFields[field] = args[field] ?? stableChatGptActionRoot(`chatgpt-${field}`, contract.actionId, args);
+    } else {
+      responseFields[field] = args[field] ?? 'source-safe';
+    }
+  }
+
+  const sourceSafeResponse = renderBtdChatGptAppSourceSafeResponse({
+    actionId: contract.actionId,
+    status: 'accepted',
+    requestRoot,
+    visibleFields: responseFields,
+    proofRootProjection: {
+      writeAdmission: contract.actionId === 'bitcode_settle_asset_pack' || contract.actionId === 'bitcode_deliver_asset_pack'
+        ? 'chatgpt-confirmed-action'
+        : 'not-required-for-source-safe-chatgpt-action',
+    },
+  });
+
+  return {
+    result: sourceSafeResponse.visibleFields,
+    metadata: {
+      actionContract: {
+        actionId: contract.actionId,
+        flowObject: contract.flowObject,
+        contractRoot: contract.contractRoot,
+        inputSchemaId: contract.inputSchemaId,
+        outputSchemaId: contract.outputSchemaId,
+        authPolicyId: contract.authPolicyId,
+        sourceSafeRendererId: contract.sourceSafeRendererId,
+      },
+      sourceSafeResponse,
+    },
+  };
+}
+
+function getChatGptReadingActionTools(): BitcodeTool[] {
+  const registry = buildBtdChatGptAppActionContractRegistry();
+  return registry.actions.map((contract) => ({
+    name: contract.actionId,
+    description: contract.description,
+    inputSchema: contract.inputSchema,
+    validator: buildValidatorFromContract(contract),
+    execute: async (args) => executeChatGptReadingAction(contract, args as Record<string, unknown>),
+    meta: {
+      readOnlyHint: !['bitcode_settle_asset_pack', 'bitcode_deliver_asset_pack'].includes(contract.actionId),
+      requiresConfirmation: ['bitcode_settle_asset_pack', 'bitcode_deliver_asset_pack'].includes(contract.actionId),
+      categories: ['reading', 'source-safe-action'],
+      contractRoot: contract.contractRoot,
+      flowObject: contract.flowObject,
+      sourceSafeRendererId: contract.sourceSafeRendererId,
+      deniedStates: contract.deniedStates.map((state) => ({
+        code: state.code,
+        readableMessage: state.readableMessage,
+        repairAction: state.repairAction,
+      })),
+    },
+  }));
+}
+
 // ---------------------------------------------------------------------------
 // Tool registry
 // ---------------------------------------------------------------------------
 
 export function getBitcodeTools(): BitcodeTool[] {
   return [
+    ...getChatGptReadingActionTools(),
     {
       name: 'answer_codebase_query',
       description: 'Answer technical questions about the codebase by running high-signal searches.',

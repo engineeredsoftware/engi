@@ -189,7 +189,15 @@ function main() {
   assertCheck(failures, notes.includes('Gate 10: V32 Promotion Readiness') && notes.includes('active V32 / draft V33'), 'V32 NOTES must carry Gate 10 post-promotion posture notes.');
   assertCheck(failures, parity.includes('## Gate 10 Parity') && parity.includes(ARTIFACT), 'V32 PARITY must include Gate 10 artifact parity.');
   assertCheck(failures, qa.includes('Bitcode V32 QA Ledger') && qa.includes('Gate 10 Promotion Readiness QA'), 'V32 QA ledger must record Gate 10 promotion readiness.');
-  assertCheck(failures, roadmap.includes('Current working gate: V32 Gate 10 Promotion Readiness'), 'Roadmap must track V32 Gate 10 as current.');
+  assertCheck(
+    failures,
+    pointer === 'V32'
+      ? /Current working gate: V33 Gate (?:[1-9]|10)\b/u.test(roadmap)
+      : roadmap.includes('Current working gate: V32 Gate 10 Promotion Readiness'),
+    pointer === 'V32'
+      ? 'Roadmap must track a current V33 gate after V32 promotion.'
+      : 'Roadmap must track V32 Gate 10 as current before V32 promotion.',
+  );
 
   assertCheck(
     failures,

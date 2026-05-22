@@ -15,6 +15,7 @@ jest.mock(
 
 import {
   advanceBtcFeeQuote,
+  buildBtdApiSchemaCompatibilityMatrix,
   buildBtdAncestryReviewSettlement,
   buildBtdAssetPackLedgerAnchorSettlement,
   buildBtdAssetPackExchangeSettlement,
@@ -22,7 +23,12 @@ import {
   buildBtdBridgeReadinessResearchSettlement,
   buildBtdDeploymentReadinessSettlement,
   buildBtdInterfaceIntegrationRegressionSettlement,
+  buildBtdInterfaceTelemetryProofHookRegistry,
+  buildBtdInterfaceConsumerUxRegressionProof,
+  buildBtdInterfaceAuthorizationPolicy,
+  buildBtdAssetPackRightsInterfaceContract,
   buildBtdLedgerDatabaseReconciliationSettlement,
+  buildBtdReadLicenseInterfaceContract,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdOrganizationInterfaceAuthorityDecision,
@@ -33,6 +39,11 @@ import {
   buildBtdProtocolTelemetryRecord,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
+  getBtdApiSchemaCompatibilityRow,
+  getBtdInterfaceTelemetryProofHook,
+  getBtdInterfaceConsumerUxRegressionRow,
+  getBtdInterfaceAuthorizationPolicyFixture,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
 } from '@bitcode/btd';
 import {
   buildGetBtdRegistrySnapshotRoute,
@@ -352,6 +363,112 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
 }
 
 describe('BTD crypto API builders', () => {
+  it('shares the package-owned InterfaceAuthorizationPolicy fixture for API request admission', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('api-request-read-allowed');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+
+    expect(fixture.fixturePath).toBe('packages/api/src/routes/__tests__/btd-crypto.test.ts');
+    expect(policy).toMatchObject({
+      interfaceSurface: 'api',
+      action: 'request_read',
+      decision: 'allowed',
+      denialCodes: [],
+      actor: {
+        organizationId: 'org-api-1',
+        teamId: 'team-api-reading',
+        organizationRole: 'member',
+      },
+      sourceVisibility: 'source_safe_preview',
+    });
+    expect(policy.proofRoots.policyRoot).toMatch(/^btd-interface-auth:interface-authorization-policy:/);
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for API preview admission', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('api-read-license-source-safe-preview');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe('packages/api/src/routes/__tests__/btd-crypto.test.ts');
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'api',
+      action: 'review_asset_pack_preview',
+      decision: 'source_safe_preview_admitted',
+      protectedSourceVisible: false,
+      licensePosture: 'preview_only_not_required',
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'api',
+      decision: 'preview_admitted',
+      rightsPosture: 'preview_only_locked',
+      btcSettlementFinality: 'quote_pending',
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for versionless public routes', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const publicRows = matrix.rows.filter((row) => row.consumerSurface === 'public_api');
+    const registryRow = getBtdApiSchemaCompatibilityRow('public-api-btd-registry-success');
+
+    expect(publicRows).toHaveLength(3);
+    expect(publicRows.every((row) => row.path.startsWith('/api/') && !row.path.includes('/v1/'))).toBe(true);
+    expect(matrix.observedExamplePostures).toEqual(
+      expect.arrayContaining(['success', 'denied', 'blocked', 'stale', 'deferred']),
+    );
+    expect(registryRow).toMatchObject({
+      routeId: 'api.btd.registry.snapshot',
+      path: '/api/btd/registry',
+      examplePosture: 'success',
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for public API readback replay', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.public-api-reading');
+
+    expect(registry.observedInterfaceIds).toContain('public_api');
+    expect(hook).toMatchObject({
+      interfaceId: 'public_api',
+      actionId: 'api.btd.readAccess',
+      posture: 'denied',
+      denialReason: 'read-license-or-authority-missing',
+    });
+    expect(hook.roots).toMatchObject({
+      requestRoot: expect.stringMatching(/^request-root:/),
+      responseRoot: expect.stringMatching(/^response-root:/),
+      ledgerRoot: expect.stringMatching(/^ledger-root:/),
+      databaseRoot: expect.stringMatching(/^database-root:/),
+      objectStorageRoot: expect.stringMatching(/^object-storage-root:/),
+    });
+    expect(hook.replayCommand).toContain('btd-crypto.test.ts');
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for public API denied states', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow(
+      'interface.consumer.public-api-read-access-denied',
+    );
+
+    expect(proof.observedSurfaces).toContain('public_api');
+    expect(row).toMatchObject({
+      surface: 'public_api',
+      consumerPath: '/api/btd/read-access',
+      posture: 'denied_readable',
+      denialCode: 'READ_LICENSE_OR_AUTHORITY_MISSING',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.sourceSafeSummary).toMatch(/structured denial/i);
+    expect(row.proofRoots.length).toBeGreaterThan(0);
+    expect(row.repairSteps).toEqual(expect.arrayContaining(['refresh-read-license']));
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'blocked_until_rights',
+      rightsPosture: 'missing',
+      protectedSourceVisible: false,
+    });
+  });
+
   it('builds a deterministic mint draft from accepted Read-Fit semantic units', () => {
     const draft = buildBtdMintDraft(mintDraftInput());
 

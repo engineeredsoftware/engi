@@ -154,10 +154,12 @@ export function buildGenerationBitcodeAccounting(
   };
 }
 
+export * from './api-schema-compatibility-matrix';
 export * from './bitcoin-fees';
 export * from './btc-fee-operation';
 export * from './bitcoin-provider';
 export * from './bridge-readiness';
+export * from './chatgpt-app-action-contract';
 export * from './access';
 export * from './allocation';
 export * from './ancestry';
@@ -167,13 +169,19 @@ export * from './auxillaries-support';
 export * from './constants';
 export * from './deployment-lanes';
 export * from './exchange';
+export * from './interface-contract-catalog';
 export * from './interface-contract-regression';
+export * from './interface-authorization-policy';
+export * from './interface-consumer-ux-regression-proof';
+export * from './interface-telemetry-proof-hook';
 export * from './interface-integration';
 export * from './interface-integration-contract';
 export * from './ledger-anchor';
 export * from './measuremint';
+export * from './mcp-tool-contract';
 export * from './plans';
 export * from './range';
+export * from './read-license-assetpack-rights-contract';
 export * from './receipts';
 export * from './reconciliation';
 export * from './replay';

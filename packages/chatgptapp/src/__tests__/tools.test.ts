@@ -1,5 +1,26 @@
 import { getBitcodeTools, type BitcodeToolExecutionResult } from '../tools';
 import { buildChatGptAppInterfaceIntegrationRecord } from '../interface-integration';
+import {
+  buildBtdInterfaceAuthorizationPolicy,
+  getBtdInterfaceAuthorizationPolicyFixture,
+} from '@bitcode/btd/interface-authorization-policy';
+import {
+  buildBtdAssetPackRightsInterfaceContract,
+  buildBtdReadLicenseInterfaceContract,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
+} from '@bitcode/btd/read-license-assetpack-rights-contract';
+import {
+  buildBtdApiSchemaCompatibilityMatrix,
+  getBtdApiSchemaCompatibilityRow,
+} from '@bitcode/btd/api-schema-compatibility-matrix';
+import {
+  buildBtdInterfaceTelemetryProofHookRegistry,
+  getBtdInterfaceTelemetryProofHook,
+} from '@bitcode/btd/interface-telemetry-proof-hook';
+import {
+  buildBtdInterfaceConsumerUxRegressionProof,
+  getBtdInterfaceConsumerUxRegressionRow,
+} from '@bitcode/btd/interface-consumer-ux-regression-proof';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -127,6 +148,104 @@ This product delivers voice-first social conversations for builders.
     });
   });
 
+  it('shares the package-owned InterfaceAuthorizationPolicy fixture for ChatGPT App delivery', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('chatgpt-delivery-allowed');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+
+    expect(fixture.fixturePath).toBe('packages/chatgptapp/src/__tests__/tools.test.ts');
+    expect(policy).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      action: 'deliver_asset_pack',
+      decision: 'allowed',
+      walletCapability: {
+        state: 'verified',
+        walletId: 'wallet-chatgpt-reader',
+      },
+      readLicense: {
+        state: 'licensed_read',
+      },
+      assetPackRights: {
+        state: 'licensed',
+      },
+    });
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for unpaid ChatGPT App delivery denial', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('chatgpt-unpaid-delivery-denied');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe('packages/chatgptapp/src/__tests__/tools.test.ts');
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      action: 'deliver_asset_pack',
+      decision: 'locked_source_denied',
+      protectedSourceVisible: false,
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      decision: 'rights_delivery_denied',
+      denialCodes: expect.arrayContaining([
+        'SETTLEMENT_REQUIRED',
+        'RIGHTS_TRANSFER_REQUIRED',
+        'LOCKED_SOURCE_UNPAID',
+      ]),
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const row = getBtdApiSchemaCompatibilityRow('chatgpt-app-deliver-assetpack-blocked');
+
+    expect(matrix.observedConsumerSurfaces).toContain('chatgpt_app');
+    expect(row).toMatchObject({
+      consumerSurface: 'chatgpt_app',
+      path: 'chatgpt://actions/bitcode_deliver_asset_pack',
+      compatibilityStatus: 'blocked_until_rights',
+      examplePosture: 'blocked',
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.chatgpt-reading-action');
+
+    expect(registry.observedInterfaceIds).toContain('chatgpt_app');
+    expect(hook).toMatchObject({
+      interfaceId: 'chatgpt_app',
+      actionId: 'chatgpt.reading.action',
+      posture: 'blocked',
+      denialReason: 'reader-confirmation-or-paid-rights-missing',
+    });
+    expect(hook.replayCommand).toContain('tools.test.ts');
+    expect(hook.sourceSafety.protectedSourceVisible).toBe(false);
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for ChatGPT App blocked delivery', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow('interface.consumer.chatgpt-delivery-blocked');
+
+    expect(proof.observedSurfaces).toContain('chatgpt_app');
+    expect(row).toMatchObject({
+      surface: 'chatgpt_app',
+      consumerPath: 'chatgpt://actions/bitcode_deliver_asset_pack',
+      posture: 'blocked_preview',
+      denialCode: 'CONFIRMATION_OR_SETTLEMENT_REQUIRED',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.sourceSafeSummary).toMatch(/settlement/i);
+    expect(row.repairSteps).toEqual(
+      expect.arrayContaining(['confirm-reader-action', 'settle-btc-fee-before-delivery']),
+    );
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'blocked_until_rights',
+      rightsPosture: 'settlement_pending',
+    });
+  });
+
   it('answer_codebase_query returns annotated matches', async () => {
     const result = await runTool<{ answer: string; metadata: { matchCount: number } }>('answer_codebase_query', {
       query: 'handler',
@@ -228,6 +347,11 @@ This product delivers voice-first social conversations for builders.
         interfaceSurface: 'chatgpt_app',
         action: 'deliver_asset_pack',
         sourceVisibility: 'protected_source_allowed',
+        interfaceAuthorizationPolicy: expect.objectContaining({
+          decision: 'allowed',
+          denialCodes: [],
+          policyRoot: expect.stringMatching(/^btd-interface-auth:interface-authorization-policy:/),
+        }),
       }),
     });
     expect((result.result as any).readyState).toBe('BUILDING');
@@ -266,6 +390,10 @@ This product delivers voice-first social conversations for builders.
         decision: 'allowed',
         interfaceSurface: 'chatgpt_app',
         action: 'deliver_asset_pack',
+        interfaceAuthorizationPolicy: expect.objectContaining({
+          decision: 'allowed',
+          policyRoot: expect.stringMatching(/^btd-interface-auth:interface-authorization-policy:/),
+        }),
       }),
     });
   });
@@ -329,7 +457,7 @@ This product delivers voice-first social conversations for builders.
         },
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       })
-    ).rejects.toThrow(/settlement_required/);
+    ).rejects.toThrow(/PROTECTED_SOURCE_DISCLOSURE_BLOCKED/);
   });
 
   it('use_aws_read_external_mcp invokes lambda helper', async () => {
@@ -362,6 +490,9 @@ This product delivers voice-first social conversations for builders.
       organizationAuthority: expect.objectContaining({
         decision: 'allowed',
         interfaceSurface: 'chatgpt_app',
+        interfaceAuthorizationPolicy: expect.objectContaining({
+          decision: 'allowed',
+        }),
       }),
     });
   });

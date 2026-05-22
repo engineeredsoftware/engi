@@ -19,7 +19,7 @@
       "tools": {
         "bitcode://pipelines/asset-pack/create": {
           "name": "bitcode://pipelines/asset-pack/create",
-          "description": "Create and execute a Bitcode asset-pack pipeline for complete software engineering reads.\n\nThis is Bitcode's most powerful pipeline, capable of:\n• Feature implementation with written assets and optional pull request delivery\n• Comprehensive code reviews with detailed suggestions\n• Bug fixes with root cause analysis and testing\n• Technical documentation and blog posts\n• Architecture diagrams and API specifications\n• Frontend scaffolding for React/Vue/Angular\n• Project scope analysis and implementation planning\n• Code refactoring proposals with impact analysis\n\nSupports multimodal inputs including Figma designs, documents, images, audio, and video.\nReal-time streaming provides live updates during read measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.\n\nAdmitted subtypes:\n• pull_request - Complete feature implementation with PR\n• pr_review - Comprehensive code review with suggestions\n• issue - Bug analysis and fixes with testing\n• comment - Code explanation and documentation\n• blog_post - Technical writing and documentation\n• diagram - Architecture and flow diagrams\n• api_spec - OpenAPI specification generation\n• frontend_scaffolder - Component scaffolding\n• scope_analysis - Project complexity analysis\n• implementation_plan - Detailed technical planning\n• refactor_proposal - Code improvement recommendations",
+          "description": "Create and execute a Bitcode AssetPack pipeline for complete software engineering Reads.\n\nThis is Bitcode's primary Reading pipeline entry point for feature implementation, review, bug repair, technical writing, architecture diagrams, API specifications, frontend scaffolding, scope analysis, implementation planning, and refactor proposals.\nIt admits source-safe Reading requests, repository/provider ingress, attachments, streaming preference, and Shippable subtype focus.\nSupported subtypes include pull_request, pr_review, issue, comment, blog_post, diagram, api_spec, frontend_scaffolder, scope_analysis, implementation_plan, and refactor_proposal.\nIt queues the package-owned AssetPack pipeline and returns source-safe execution, preview, and monitoring metadata.\nProtected AssetPack contents remain locked until settlement and rights transfer are admitted by the Protocol/BTD layer.",
           "category": "Pipeline Management",
           "subcategory": "asset-pack",
           "inputSchema": {
@@ -107,15 +107,13 @@
           ],
           "useCases": [
             "Feature Development",
-            "Test Generation",
-            "Documentation",
             "Code Refactoring"
           ],
           "relatedTools": [
             "bitcode://monitoring/pipeline/status",
             "bitcode://intelligence/effectiveness/track"
           ],
-          "complexity": "expert",
+          "complexity": "moderate",
           "measuredBtdEstimate": {
             "estimated": 200,
             "factors": [

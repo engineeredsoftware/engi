@@ -15,20 +15,20 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V32` active, `V33` draft after V32 promotion);
+- active/draft canon posture (`V33` active, `V34` draft after V33 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is the `V31` active, `V32` draft after V31 promotion posture accepted by
-V31 Gate 10.
-V32 Gate 1 treats this package as promotion-critical runtime posture.
+This is the `V33` active, `V34` draft after V33 promotion posture accepted by
+V33 Gate 10.
+V33 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V31` active, `V32` draft while V32 gates are in flight.
-V32 Gate 10 will promote this package posture by rewriting those same runtime
-carriers to `V32` active, `V33` draft and regenerating the V32 generated
-appendix plus `.bitcode/v32-*` promotion artifacts.
+must remain aligned to `V32` active, `V33` draft while V33 gates are in flight.
+V33 Gate 10 promoted this package posture by rewriting those same runtime
+carriers to `V33` active, `V34` draft and regenerating the V33 generated
+appendix plus `.bitcode/v33-*` promotion artifacts.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
-commercial protocol boundary test, and V32 gate checks.
+commercial protocol boundary test, and V33 gate checks.

@@ -43,8 +43,20 @@
       "@bitcode/btd/terminal-operational-health": [
         "../packages/btd/src/terminal-operational-health.ts"
       ],
+      "@bitcode/btd/api-schema-compatibility-matrix": [
+        "../packages/btd/src/api-schema-compatibility-matrix.ts"
+      ],
+      "@bitcode/btd/interface-telemetry-proof-hook": [
+        "../packages/btd/src/interface-telemetry-proof-hook.ts"
+      ],
       "@bitcode/btd/interface-integration-contract": [
         "../packages/btd/src/interface-integration-contract.ts"
+      ],
+      "@bitcode/btd/interface-authorization-policy": [
+        "../packages/btd/src/interface-authorization-policy.ts"
+      ],
+      "@bitcode/btd/read-license-assetpack-rights-contract": [
+        "../packages/btd/src/read-license-assetpack-rights-contract.ts"
       ],
       "@bitcode/pipeline-asset-pack": [
         "../packages/pipelines/asset-pack/src/index.ts"

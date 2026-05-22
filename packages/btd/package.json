@@ -6,7 +6,13 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./api-schema-compatibility-matrix": "./src/api-schema-compatibility-matrix.ts",
+    "./chatgpt-app-action-contract": "./src/chatgpt-app-action-contract.ts",
+    "./interface-authorization-policy": "./src/interface-authorization-policy.ts",
+    "./interface-consumer-ux-regression-proof": "./src/interface-consumer-ux-regression-proof.ts",
     "./interface-integration-contract": "./src/interface-integration-contract.ts",
+    "./interface-telemetry-proof-hook": "./src/interface-telemetry-proof-hook.ts",
+    "./read-license-assetpack-rights-contract": "./src/read-license-assetpack-rights-contract.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },
   "scripts": {

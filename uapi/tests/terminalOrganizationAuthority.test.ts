@@ -1,5 +1,27 @@
 import { buildTerminalOrganizationAuthorityProjection } from '@/app/terminal/terminal-organization-authority';
 import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
+import {
+  buildBtdInterfaceAuthorizationPolicy,
+  getBtdInterfaceAuthorizationPolicyFixture,
+  renderBtdInterfaceAuthorizationDeniedState,
+} from '@bitcode/btd/interface-authorization-policy';
+import {
+  buildBtdAssetPackRightsInterfaceContract,
+  buildBtdReadLicenseInterfaceContract,
+  getBtdReadLicenseAssetPackRightsInterfaceFixture,
+} from '@bitcode/btd/read-license-assetpack-rights-contract';
+import {
+  buildBtdApiSchemaCompatibilityMatrix,
+  getBtdApiSchemaCompatibilityRow,
+} from '@bitcode/btd/api-schema-compatibility-matrix';
+import {
+  buildBtdInterfaceTelemetryProofHookRegistry,
+  getBtdInterfaceTelemetryProofHook,
+} from '@bitcode/btd/interface-telemetry-proof-hook';
+import {
+  buildBtdInterfaceConsumerUxRegressionProof,
+  getBtdInterfaceConsumerUxRegressionRow,
+} from '@bitcode/btd/interface-consumer-ux-regression-proof';
 
 function detailWithAuthority(
   organizationAuthority: TerminalRunDetailSnapshot['organizationAuthority'],
@@ -32,6 +54,122 @@ function detailWithAuthority(
 }
 
 describe('terminal organization authority projection', () => {
+  it('shares the package-owned InterfaceAuthorizationPolicy fixture for Terminal BTC fee admission', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('terminal-btc-fee-allowed');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+
+    expect(fixture.fixturePath).toBe('uapi/tests/terminalOrganizationAuthority.test.ts');
+    expect(policy).toMatchObject({
+      interfaceSurface: 'terminal',
+      action: 'pay_btc_fee',
+      decision: 'allowed',
+      walletCapability: {
+        state: 'verified',
+        walletId: 'wallet-terminal-reader',
+        canSignBtc: true,
+      },
+      actor: {
+        organizationId: 'org-terminal-1',
+        teamId: 'team-terminal-reading',
+        organizationRole: 'admin',
+      },
+    });
+  });
+
+  it('shares the package-owned ReadLicense and AssetPackRights fixture for paid Terminal delivery', () => {
+    const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture('terminal-paid-rights-delivery');
+    const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
+    const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
+
+    expect(fixture.fixturePath).toBe('uapi/tests/terminalOrganizationAuthority.test.ts');
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'terminal',
+      action: 'deliver_asset_pack',
+      decision: 'paid_unlock_admitted',
+      licensePosture: 'licensed_read',
+      protectedSourceVisible: true,
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'terminal',
+      decision: 'rights_delivery_admitted',
+      rightsPosture: 'rights_transferred',
+      btcSettlementFinality: 'confirmed',
+      protectedSourceVisible: true,
+    });
+  });
+
+  it('shares the package-owned API schema compatibility matrix for Terminal handoff rows', () => {
+    const matrix = buildBtdApiSchemaCompatibilityMatrix();
+    const row = getBtdApiSchemaCompatibilityRow('terminal-handoff-preview-blocked');
+
+    expect(matrix.observedConsumerSurfaces).toContain('terminal_handoff');
+    expect(row).toMatchObject({
+      consumerSurface: 'terminal_handoff',
+      path: 'terminal://reading/asset-pack-preview',
+      compatibilityStatus: 'blocked_until_rights',
+      examplePosture: 'blocked',
+      protectedSourceVisible: false,
+    });
+  });
+
+  it('shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay', () => {
+    const registry = buildBtdInterfaceTelemetryProofHookRegistry();
+    const hook = getBtdInterfaceTelemetryProofHook('interface.telemetry.terminal-reading-handoff');
+
+    expect(registry.observedInterfaceIds).toContain('terminal_handoff');
+    expect(hook).toMatchObject({
+      interfaceId: 'terminal_handoff',
+      actionId: 'terminal.reading.assetPackPreview',
+      posture: 'blocked',
+      denialReason: 'assetpack-source-locked-until-settlement',
+    });
+    expect(hook.roots.ledgerRoot).toMatch(/^ledger-root:/);
+    expect(hook.roots.databaseRoot).toMatch(/^database-root:/);
+    expect(hook.roots.objectStorageRoot).toMatch(/^object-storage-root:/);
+    expect(hook.replayCommand).toContain('terminalOrganizationAuthority.test.ts');
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for Terminal handoff readability', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow('interface.consumer.terminal-preview-blocked');
+
+    expect(proof.observedSurfaces).toContain('terminal_handoff');
+    expect(row).toMatchObject({
+      surface: 'terminal_handoff',
+      consumerPath: 'terminal://reading/asset-pack-preview',
+      posture: 'blocked_preview',
+      visibilityBoundary: 'blocked_until_settlement',
+      denialCode: 'ASSETPACK_SOURCE_LOCKED_UNTIL_SETTLEMENT',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.sourceSafeSummary).toMatch(/measurements/i);
+    expect(row.proofRoots).toEqual(
+      expect.arrayContaining(['preview-root:terminal-reading', 'settlement-root:terminal-reading']),
+    );
+    expect(row.repairSteps).toEqual(
+      expect.arrayContaining(['settle-btc-fee-to-unlock-rights']),
+    );
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'blocked_until_rights',
+      rightsPosture: 'settlement_pending',
+    });
+  });
+
+  it('renders stale Terminal authority as a readable fail-closed denial', () => {
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('terminal-stale-authority-denied');
+    const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
+    const denied = renderBtdInterfaceAuthorizationDeniedState(policy);
+
+    expect(policy.decision).toBe('denied');
+    expect(denied).toMatchObject({
+      status: 'denied',
+      code: 'STALE_AUTHORITY',
+      repairActions: ['refresh-interface-authentication'],
+    });
+    expect(denied.message).toMatch(/refresh the session/i);
+  });
+
   it('projects allowed decisions and authority proof roots', () => {
     const projection = buildTerminalOrganizationAuthorityProjection(
       detailWithAuthority([
