@@ -8,7 +8,7 @@
 - Current active draft target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V31.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V31_PROVEN.md`
-- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, generated Gate 4 `.bitcode/v32-reading-pipeline-proof-coverage.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only at promotion
+- Generated structured artifact inventory: planned `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, generated Gate 2 `.bitcode/v32-proof-coverage-matrix.json`, generated Gate 3 `.bitcode/v32-artifact-volatility-inventory.json` and `.bitcode/v32-deterministic-replay-report.json`, generated Gate 4 `.bitcode/v32-reading-pipeline-proof-coverage.json`, generated Gate 5 `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, later V32 proof/test coverage artifacts, and `BITCODE_SPEC_V32_PROVEN.md` only at promotion
 - Source parity state: V32 proof/test parity begins with Gate 1 and closes only through gate-specific implementation, tests, documentation, and workflow evidence
 - Scope: deeper provation and testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration surfaces.
 
@@ -85,6 +85,9 @@ Deepen proof over economic and ownership state:
 - BTD range/read-license/right-transfer receipts;
 - ledger/database/object-storage/PR delivery synchronization;
 - settlement repair and reconciliation roots.
+- generated artifact `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`;
+- generator command `pnpm run generate:v32-ledger-btd-settlement-failure-states`, checker command `pnpm run check:v32-ledger-btd-settlement-failure-states`, and gate closure command `pnpm run check:v32-gate5`;
+- focused test `packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts` covering success, blocked, and repair paths without exposing protected AssetPack source before paid unlock.
 
 ### Gate 6: Interface Contract Regression Suites
 

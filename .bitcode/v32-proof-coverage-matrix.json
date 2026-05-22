@@ -109,19 +109,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-protocol-btd-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-ledger-btd-settlement-failure-state-coverage.json",
       "failureModes": [
         "fee-conservation-drift",
         "range-conservation-drift",
         "rights-transfer-mismatch",
         "stale-canon-posture"
       ],
-      "fixture": "packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/protocol/test/protocol-package-boundary.test.js",
+      "fixture": "packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; packages/protocol/test/protocol-package-boundary.test.js",
       "owner": "packages/btd; packages/protocol",
       "plannedGate": "Gate 5",
       "promotedBehavior": "BTD ranges, read licenses, AssetPack mint/read/right-transfer receipts, BTC fee posture, and Protocol package canon helpers.",
-      "repairPosture": "Gate 5 adds success, blocked, and repair-state coverage over fee, range, receipt, source-to-shares, and right-transfer state.",
-      "replayCommand": "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/btd.test.ts && pnpm --filter @bitcode/protocol test",
+      "repairPosture": "Gate 5 adds success, blocked, and repair-state coverage over fee, range, receipt, source-to-shares, right-transfer, and source-safe disclosure state.",
+      "replayCommand": "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/btd.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && pnpm --filter @bitcode/protocol test",
       "requiredContexts": [
         "BtdAssetPackMintReceipt",
         "BtdReadReceipt",
@@ -236,19 +236,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-ledger-settlement-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-ledger-btd-settlement-failure-state-coverage.json",
       "failureModes": [
         "ledger-database-drift",
         "journal-entry-missing",
         "settlement-conservation-drift",
         "read-license-unbound"
       ],
-      "fixture": "uapi/tests/terminalJournalReconciliation.test.ts; packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts; packages/btd/__tests__/btc-fee-operation.test.ts",
+      "fixture": "uapi/tests/terminalJournalReconciliation.test.ts; packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts; packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts",
       "owner": "packages/btd; packages/pipeline-hosts; uapi/app/terminal",
       "plannedGate": "Gate 5",
       "promotedBehavior": "BTC fee, BTD ownership, read-license, internal ledger anchors, terminal journal entries, and reconciliation readback.",
       "repairPosture": "Gate 5 adds failure-state rows and deterministic repair roots for ledger/database reconciliation.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand && pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts",
+      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand && pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states",
       "requiredContexts": [
         "BtcFeeQuote",
         "BtdRightsTransferReceipt",
@@ -262,19 +262,19 @@
     {
       "blockers": [],
       "coverageStatus": "v32-expansion-required",
-      "expectedArtifact": ".bitcode/v32-database-projection-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-ledger-btd-settlement-failure-state-coverage.json",
       "failureModes": [
         "rls-projection-denial-without-repair",
         "schema-type-drift",
         "service-secret-leak",
         "telemetry-row-missing"
       ],
-      "fixture": "packages/orm/src/__tests__/bitcode-execution-storage.test.ts; packages/orm/src/__tests__/execution-events.test.ts; packages/orm/src/__tests__/btd-registry.test.ts; packages/orm/src/__tests__/data-health.contract.test.ts",
+      "fixture": "packages/orm/src/__tests__/bitcode-execution-storage.test.ts; packages/orm/src/__tests__/execution-events.test.ts; packages/orm/src/__tests__/btd-registry.test.ts; packages/orm/src/__tests__/data-health.contract.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts",
       "owner": "packages/orm; supabase/migrations; packages/pipeline-hosts",
       "plannedGate": "Gate 5 and Gate 8",
       "promotedBehavior": "Supabase/PostgreSQL projections for executions, events, pipeline runs, BTD registry, user/account state, and asset-pack evidence.",
       "repairPosture": "Gate 5 proves ledger/database drift repair; Gate 8 proves environment-lane readiness without printing credentials.",
-      "replayCommand": "pnpm -C packages/orm test -- --runTestsByPath src/__tests__/bitcode-execution-storage.test.ts src/__tests__/execution-events.test.ts src/__tests__/btd-registry.test.ts src/__tests__/data-health.contract.test.ts --runInBand",
+      "replayCommand": "pnpm -C packages/orm test -- --runTestsByPath src/__tests__/bitcode-execution-storage.test.ts src/__tests__/execution-events.test.ts src/__tests__/btd-registry.test.ts src/__tests__/data-health.contract.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states",
       "requiredContexts": [
         "pipeline_runs",
         "execution_events",
@@ -290,19 +290,19 @@
         "V32 needs source-safe object-storage fixture rows that distinguish proof artifacts from protected AssetPack source."
       ],
       "coverageStatus": "planned-gap",
-      "expectedArtifact": ".bitcode/v32-object-storage-delivery-proof-coverage.json",
+      "expectedArtifact": ".bitcode/v32-ledger-btd-settlement-failure-state-coverage.json",
       "failureModes": [
         "artifact-missing-after-settlement",
         "protected-source-upload-visible-before-payment",
         "storage-provider-readback-failed",
         "delivery-receipt-unbound"
       ],
-      "fixture": "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts; protocol-demonstration/test/core.test.js",
+      "fixture": "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; protocol-demonstration/test/core.test.js",
       "owner": "packages/pipeline-hosts; packages/orm; provider storage adapters",
       "plannedGate": "Gate 5 and Gate 8",
       "promotedBehavior": "Object-storage and artifact delivery posture for source-safe proof artifacts, protected AssetPack source, delivery receipts, and retrieval readback.",
-      "repairPosture": "Gate 5 binds delivery receipts to paid settlement; Gate 8 classifies provider connectivity by environment lane.",
-      "replayCommand": "pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand && npm --prefix protocol-demonstration test -- --test-name-pattern \"storage\"",
+      "repairPosture": "Gate 5 binds delivery receipts to paid settlement and encrypted protected-source storage; Gate 8 classifies provider connectivity by environment lane.",
+      "replayCommand": "pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && npm --prefix protocol-demonstration test -- --test-name-pattern \"storage\"",
       "requiredContexts": [
         "storage publication receipt",
         "storage retrieval receipt",
