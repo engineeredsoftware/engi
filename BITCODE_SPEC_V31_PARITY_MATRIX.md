@@ -96,10 +96,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Package-owned Auxillaries contracts exist | `packages/api`, `packages/orm`, `packages/btd`, provider packages | pending |
-| Routes delegate readiness and policy derivation | Auxillaries API routes and focused route tests | pending |
-| JSON-safe serializers redact secrets and protected source | package tests and route tests | pending |
-| Commercial runtime avoids standalone demonstration imports | V31 Gate 2 checker | pending |
+| Package-owned Auxillaries contracts exist | `packages/api/src/routes/auxillaries-contract.ts` owns `AuxillariesContractSnapshot`, `AuxillariesProfileState`, `AuxillariesConnectionReadiness`, `AuxillariesInterfaceAdmission`, `AuxillariesWalletBtdPaneState`, `OrganizationPolicyAuthority`, `AuxillariesReadinessDiagnostic`, and `AuxillariesRecoveryRun` | drafted |
+| Routes delegate readiness and policy derivation | `packages/api/src/routes/auxillaries.ts` delegates live and mock data through `buildAuxillaryDataPayload` / `buildAuxillaryDataPayloadFromUnknown`; `uapi/app/api/auxillaries/data/route.ts` remains a thin interface binding | drafted |
+| JSON-safe serializers redact secrets and protected source | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` covers provider tokens, service-role keys, wallet secrets, private prompts, protected source, validation, diagnostics, and recovery-run roots | drafted |
+| Commercial runtime avoids standalone demonstration imports | `scripts/check-v31-gate2-auxillaries-package-route-contracts.mjs` scans tracked commercial runtime source and fails on `protocol-demonstration/src/*` imports | drafted |
 
 ## Gate 3 Parity
 

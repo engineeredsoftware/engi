@@ -1,5 +1,5 @@
 import { traceRoute } from '@bitcode/observability';
-import { hydrateBitcodeProfile } from '@bitcode/orm/src/profile-contract';
+import { hydrateBitcodeProfile } from '@bitcode/orm';
 import { createJsonResponse } from '@bitcode/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -7,6 +7,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import {
   buildAnonymousAuxillaryData,
   buildAuxillaryDataPayload,
+  buildAuxillaryDataPayloadFromUnknown,
   buildAuxillaryOnboardingPayload,
   type AuxillaryBtdAssetPackSummary,
   type AuxillaryOnboardingUpdatePayload,
@@ -252,7 +253,11 @@ export function buildPostAuxillaryOnboardingRoute(options: AuxillaryRouteBuilder
 export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions = {}) {
   return traceRoute('/auxillaries/data', async (_request: Request) => {
     if (options.isMockMode?.()) {
-      return createJsonResponse(options.mockAuxillaryData?.() || buildAnonymousAuxillaryData());
+      return createJsonResponse(
+        options.mockAuxillaryData
+          ? buildAuxillaryDataPayloadFromUnknown(options.mockAuxillaryData())
+          : buildAnonymousAuxillaryData(),
+      );
     }
 
     let supabase: Awaited<ReturnType<typeof createClient>>;

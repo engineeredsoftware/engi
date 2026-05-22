@@ -14,6 +14,19 @@ status decisions, and framework-compatible response serialization. Route code
 must not duplicate BTD policy, mint admission, receipt derivation, settlement
 state construction, or JSON-safe conversion already exported by `@bitcode/btd`.
 
+For Auxillaries route contracts, this package owns the route-facing support
+objects in `src/routes/auxillaries-contract.ts`. Route handlers may authenticate,
+read or write explicit storage rows, and choose response status, but
+Profile/Connects/Interfaces/Wallet/BTD/organization readiness and policy
+objects must be built through `buildAuxillariesContractSnapshot` and
+`buildAuxillaryDataPayload`. Those builders emit JSON-safe
+`AuxillariesProfileState`, `AuxillariesConnectionReadiness`,
+`AuxillariesInterfaceAdmission`, `AuxillariesWalletBtdPaneState`,
+`OrganizationPolicyAuthority`, `AuxillariesReadinessDiagnostic`, and
+`AuxillariesRecoveryRun` values. They redact provider tokens, API keys, wallet
+secrets, private prompts, protected source, service keys, and database
+credentials before UI, telemetry, or proof-hook consumption.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

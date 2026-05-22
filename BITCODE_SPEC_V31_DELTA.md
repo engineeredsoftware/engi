@@ -93,6 +93,13 @@ Closure acceptance:
 - no commercial runtime code imports `protocol-demonstration/src/*`;
 - package and Auxillaries READMEs name ownership boundaries and accepted imports.
 
+Gate 2 implementation centers:
+
+- `packages/api/src/routes/auxillaries-contract.ts` owns `AuxillariesContractSnapshot`, `AuxillariesProfileState`, `AuxillariesConnectionReadiness`, `AuxillariesInterfaceAdmission`, `AuxillariesWalletBtdPaneState`, `OrganizationPolicyAuthority`, `AuxillariesReadinessDiagnostic`, `AuxillariesRecoveryRun`, JSON-safe serialization, parsing, validation, and proof-root derivation.
+- `packages/api/src/routes/auxillaries.ts` remains the route-orchestration owner and delegates live and mock Auxillaries data to the package contract builders before response serialization.
+- `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` proves source-safe redaction, alias preservation, contract validation, diagnostic generation, and recovery-run roots.
+- `scripts/check-v31-gate2-auxillaries-package-route-contracts.mjs` proves route-package boundaries, documentation/spec parity, commercial-runtime demonstration separation, and workflow coverage.
+
 ### Gate 3: Profile And Account State
 
 Gate 3 deepens Profile and account support.

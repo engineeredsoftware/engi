@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 1 spec and roadmap opening, which opens the V31 specification family, updates V30 active / V31 draft workflow posture, and refines the V31-V37 roadmap.
+- Current working gate: V31 Gate 2 Auxillaries package and route contracts, which makes Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery support-state objects package-owned, JSON-safe, and route-consumable over the V30 Protocol/BTD substrate.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
