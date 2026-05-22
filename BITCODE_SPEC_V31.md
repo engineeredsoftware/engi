@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V30`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: none until V31 gate work admits V31 generated artifacts; V31 initially depends on promoted V30 generated canon
-- Source parity state: V31 source parity begins with Auxillaries specification, roadmap, workflow, and gate-checker opening
+- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion.
+- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V31'`
@@ -401,7 +401,7 @@ The promotion-readiness contract has five parts:
 They must align to V30 active / V31 draft during Gate 10 work and be rewritten
 to V31 active / V32 draft by promotion automation.
 The Gate 10 checker is promotion-mode aware: it must accept the V30/V31 package
-posture before the generated canon commit and the V31/V31 package posture after
+posture before the generated canon commit and the V31/V32 package posture after
 the generated canon commit.
 
 Gate 10 does not itself promote `BITCODE_SPEC.txt`.
@@ -848,7 +848,7 @@ V31 continues operator-quality proof: Terminal workflow claims must be backed by
 
 ### V31 specifying generated artifacts
 
-The minimum V31 generated set is `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, future `.bitcode/v31-canon-posture-drift-report.json`, and `BITCODE_SPEC_V31_PROVEN.md`.
+The minimum V31 generated set is `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, and promotion-time `BITCODE_SPEC_V31_PROVEN.md`.
 
 ### Shared generated-artifact fields
 

@@ -69,10 +69,11 @@ Auxillaries proof posture, generate `BITCODE_SPEC_V31_PROVEN.md`, and commit
 promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V30` to
 `V31` on the version branch.
 Gate 10 is the local/staging promotion-readiness gate; run the V31 Gate 10
-checker before opening the final gate PR once that gate exists. V31 Gate 1 wires
-the first checker as `pnpm run check:v31-gate1`. The promoted V30 closure
-remains reproducible through `pnpm run check:v30-gate10` and
-[v30-canon-promotion.yml](.github/workflows/v30-canon-promotion.yml).
+checker with `pnpm run check:v31-gate10` before opening the final gate PR. V31
+Gate 1 wires the first checker as `pnpm run check:v31-gate1`; the final V31
+promotion workflow is [v31-canon-promotion.yml](.github/workflows/v31-canon-promotion.yml).
+The promoted V30 closure remains reproducible through `pnpm run
+check:v30-gate10` and [v30-canon-promotion.yml](.github/workflows/v30-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set

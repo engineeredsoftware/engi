@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V30`
 - Current active canon: `BITCODE_SPEC_V30.md`
 - Current draft target: `BITCODE_SPEC_V31.md`
-- Current working gate: V31 Gate 9 Auxillaries Telemetry Proof And Recovery Runs, which binds Profile, account, provider connection, interface admission, Wallet, BTD pane, organization authority, policy decision, readiness diagnostic, and recovery-run subjects to source-safe theorem/replay/evidence/telemetry proof hooks and UI readback.
+- Current working gate: V31 Gate 10 Promotion Readiness, which closes Auxillaries support/control work by wiring V31 promotion checks, workflow validation, generated `.bitcode/v31-*` artifacts, `BITCODE_SPEC_V31_PROVEN.md`, source-safe QA evidence, and post-promotion V31 active / V32 draft posture.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
