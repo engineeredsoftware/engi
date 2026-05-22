@@ -3,18 +3,20 @@
 ## Status
 
 - Version: `V33`
-- V33 state: Gate 10 promotion-readiness work is in progress over active V32 canon
-- Current canonical/latest target: `V32`
+- V33 state: canonical promotion complete; V33 is the active commercial interface-depth canon and the V33 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V33`
+- Canonical proof-source commit: `6c3cc76c4a41bdbaf02c78334b3cd9c6fa3554b6`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`, Gate 9 `.bitcode/v33-interface-consumer-ux-regression-proof.json`, and Gate 10 `.bitcode/v33-promotion-readiness-report.json`; `BITCODE_SPEC_V33_PROVEN.md` is generated only by promotion
-- Source parity state: Gate 10 adds source-safe V33 promotion readiness canon over all interface artifacts, promotion workflow support, generated appendix support, and active V33 / draft V34 runtime posture rewriting
+- Generated structured artifact inventory: active canonical `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, `.bitcode/v33-interface-contract-catalog.json`, `.bitcode/v33-mcp-api-tool-contracts.json`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `.bitcode/v33-interface-authorization-policy.json`, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `.bitcode/v33-api-schema-compatibility-matrix.json`, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `.bitcode/v33-promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion
+- Source parity state: V33 source-side interface contract catalog, MCP tool contracts, ChatGPT App action contracts, authorization policy, Read license and AssetPack rights contracts, API schema compatibility matrix, interface telemetry proof hooks, consumer UX regression proof, workflow, and promotion surfaces are canonicalized in the promoted V33 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V33_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md` only after V33 promotion
-- Scope: V33 canonical draft for commercial interface depth beyond the V28 MCP API and ChatGPT App MVP, over promoted V32 proof and testing canon
+- Scope: V33 canonical system specification for commercial interface depth over promoted MCP API, ChatGPT App, public API, package consumers, authorization, schemas, license/rights, telemetry, and source-safe consumer UX contracts
+- Last fully realized canonical target preserved in source: `V33`
 
 V33 begins from promoted V32.
 V32 closed proof replay, deterministic generated artifacts, Reading pipeline proof coverage, interface regression, browser proof, readiness rehearsal, and promotion automation.

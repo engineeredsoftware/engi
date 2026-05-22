@@ -3,16 +3,19 @@
 ## Status
 
 - Version: `V33`
-- V33 state: Gate 10 promotion-readiness parity is in progress over active V32 canon
-- Current canonical/latest target: `V32`
+- V33 state: canonical promotion complete; V33 parity truth, generated interface artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V33`
+- Canonical proof-source commit: `6c3cc76c4a41bdbaf02c78334b3cd9c6fa3554b6`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`, Gate 9 `.bitcode/v33-interface-consumer-ux-regression-proof.json`, and Gate 10 `.bitcode/v33-promotion-readiness-report.json`; `BITCODE_SPEC_V33_PROVEN.md` is generated only by promotion
-- Source parity state: Gate 10 adds source-safe V33 promotion readiness over interface artifacts, workflow validation, generated appendix support, and active V33 / draft V34 posture rewriting
+- Generated structured artifact inventory: active canonical `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, `.bitcode/v33-interface-contract-catalog.json`, `.bitcode/v33-mcp-api-tool-contracts.json`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `.bitcode/v33-interface-authorization-policy.json`, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `.bitcode/v33-api-schema-compatibility-matrix.json`, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `.bitcode/v33-promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion
+- Source parity state: V33 source-side interface contract catalog, MCP tool contracts, ChatGPT App action contracts, authorization policy, Read license and AssetPack rights contracts, API schema compatibility matrix, interface telemetry proof hooks, consumer UX regression proof, workflow, and promotion surfaces are canonicalized in the promoted V33 file family
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
 - Generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md` only after V33 promotion
+- Scope: V33 canonical parity ledger for commercial interface depth over promoted V32 proof/testing canon
+- Last fully realized canonical target preserved in source: `V33`
 
 ## Purpose
 
@@ -49,30 +52,30 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V33.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v33/gate-1-interface-roadmap-opening` | drafted | V33 family validates in draft mode over active V32 and `check:v33-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V32 active, V33 draft, and coherent V34-V37 responsibilities. |
-| Interface contract catalog | Gate 2 | `packages/btd/src/interface-contract-catalog.ts`, `packages/btd/__tests__/interface-contract-catalog.test.ts`, `.bitcode/v33-interface-contract-catalog.json`, `check:v33-gate2` | drafted | Active and deferred interface surfaces have package-owned rows. |
-| MCP API contracts | Gate 3 | `packages/btd/src/mcp-tool-contract.ts`, `packages/btd/__tests__/mcp-tool-contract.test.ts`, `packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts`, `.bitcode/v33-mcp-api-tool-contracts.json`, `check:v33-gate3` | drafted | MCP tool discovery, schemas, auth, denied states, and proof roots are package-derived. |
-| ChatGPT App contracts | Gate 4 | `packages/btd/src/chatgpt-app-action-contract.ts`, `packages/btd/__tests__/chatgpt-app-action-contract.test.ts`, `packages/chatgptapp/src/tools.ts`, `packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `check:v33-gate4` | drafted | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
-| Interface authorization policy | Gate 5 | `packages/btd/src/interface-authorization-policy.ts`, `packages/btd/__tests__/interface-authorization-policy.test.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`, `packages/chatgptapp/src/__tests__/tools.test.ts`, `uapi/tests/terminalOrganizationAuthority.test.ts`, `.bitcode/v33-interface-authorization-policy.json`, `check:v33-gate5` | drafted | Interface auth and license denials fail closed with repair posture across API, MCP, ChatGPT App, and Terminal handoff fixtures. |
-| Read license and AssetPack rights contracts | Gate 6 | `packages/btd/src/read-license-assetpack-rights-contract.ts`, `packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `check:v33-gate6` | drafted | Source-safe preview, paid settlement, BTD rights, and delivery contracts are consistent across interfaces. |
-| API schema compatibility | Gate 7 | `packages/btd/src/api-schema-compatibility-matrix.ts`, `packages/btd/__tests__/api-schema-compatibility-matrix.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-api-schema-compatibility-matrix.json`, `check:v33-gate7` | drafted | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
-| Interface telemetry proof hooks | Gate 8 | `packages/btd/src/interface-telemetry-proof-hook.ts`, `packages/btd/__tests__/interface-telemetry-proof-hook.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `check:v33-gate8` | drafted | Interface actions replay to executions, ledger, database, object storage, generated proof, and root-set roots. |
-| Interface consumer UX regression proof | Gate 9 | `packages/btd/src/interface-consumer-ux-regression-proof.ts`, `packages/btd/__tests__/interface-consumer-ux-regression-proof.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `check:v33-gate9` | drafted | Consumers see source-safe summaries, proof roots, fee/rights previews, and readable denials without protected-source or prompt-body overexposure. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V33.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v33/gate-1-interface-roadmap-opening` | closed | V33 family validates in draft mode over active V32 and `check:v33-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V32 active, V33 draft, and coherent V34-V37 responsibilities. |
+| Interface contract catalog | Gate 2 | `packages/btd/src/interface-contract-catalog.ts`, `packages/btd/__tests__/interface-contract-catalog.test.ts`, `.bitcode/v33-interface-contract-catalog.json`, `check:v33-gate2` | closed | Active and deferred interface surfaces have package-owned rows. |
+| MCP API contracts | Gate 3 | `packages/btd/src/mcp-tool-contract.ts`, `packages/btd/__tests__/mcp-tool-contract.test.ts`, `packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts`, `.bitcode/v33-mcp-api-tool-contracts.json`, `check:v33-gate3` | closed | MCP tool discovery, schemas, auth, denied states, and proof roots are package-derived. |
+| ChatGPT App contracts | Gate 4 | `packages/btd/src/chatgpt-app-action-contract.ts`, `packages/btd/__tests__/chatgpt-app-action-contract.test.ts`, `packages/chatgptapp/src/tools.ts`, `packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `check:v33-gate4` | closed | ChatGPT App actions match package-owned Read, Need, Finding Fits, preview, fee, settlement, and delivery contracts. |
+| Interface authorization policy | Gate 5 | `packages/btd/src/interface-authorization-policy.ts`, `packages/btd/__tests__/interface-authorization-policy.test.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`, `packages/chatgptapp/src/__tests__/tools.test.ts`, `uapi/tests/terminalOrganizationAuthority.test.ts`, `.bitcode/v33-interface-authorization-policy.json`, `check:v33-gate5` | closed | Interface auth and license denials fail closed with repair posture across API, MCP, ChatGPT App, and Terminal handoff fixtures. |
+| Read license and AssetPack rights contracts | Gate 6 | `packages/btd/src/read-license-assetpack-rights-contract.ts`, `packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `check:v33-gate6` | closed | Source-safe preview, paid settlement, BTD rights, and delivery contracts are consistent across interfaces. |
+| API schema compatibility | Gate 7 | `packages/btd/src/api-schema-compatibility-matrix.ts`, `packages/btd/__tests__/api-schema-compatibility-matrix.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-api-schema-compatibility-matrix.json`, `check:v33-gate7` | closed | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
+| Interface telemetry proof hooks | Gate 8 | `packages/btd/src/interface-telemetry-proof-hook.ts`, `packages/btd/__tests__/interface-telemetry-proof-hook.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `check:v33-gate8` | closed | Interface actions replay to executions, ledger, database, object storage, generated proof, and root-set roots. |
+| Interface consumer UX regression proof | Gate 9 | `packages/btd/src/interface-consumer-ux-regression-proof.ts`, `packages/btd/__tests__/interface-consumer-ux-regression-proof.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `check:v33-gate9` | closed | Consumers see source-safe summaries, proof roots, fee/rights previews, and readable denials without protected-source or prompt-body overexposure. |
 | Promotion readiness | Gate 10 | `scripts/generate-v33-promotion-readiness-report.mjs`, `scripts/check-v33-gate10-promotion-readiness.mjs`, `.bitcode/v33-promotion-readiness-report.json`, `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js`, `.github/workflows/v33-canon-promotion.yml`, `check:v33-gate10` | closed | `version/v33` can promote only after all V33 gates pass and generated canon is source-safe. |
 
 ## V33 implementation checklist
 
 | Area | Required V33 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V32` during V33 gate work | drafted |
-| Gate branch pattern | V33 work happens on `version/v33` or `v33/gate-N-*` branches | drafted |
-| Spec-family shape | V33 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v33-gate1` fails closed on stale posture, missing roadmap truth, or missing interface-depth scope | drafted |
-| Gate-quality workflow | Gate workflow validates V32 active / V33 draft posture and the V33 Gate 1 checker | drafted |
-| Canon-quality workflow | Canon workflow validates promoted V32 canon, V33 draft family when present, and V32/V33 posture | drafted |
-| Package docs | README, protocol package README, demonstration README, and PR template state V32 active / V33 draft workflow | drafted |
-| Interface vocabulary | V33 spec family names MCP API, ChatGPT App, `InterfaceContractCatalog`, `InterfaceAuthorizationPolicy`, `ReadLicenseInterfaceContract`, `AssetPackRightsInterfaceContract`, `APISchemaCompatibilityMatrix`, `InterfaceTelemetryProofHook`, and `InterfaceConsumerUxRegressionProof` | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V32` during V33 gate work | closed |
+| Gate branch pattern | V33 work happens on `version/v33` or `v33/gate-N-*` branches | closed |
+| Spec-family shape | V33 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v33-gate1` fails closed on stale posture, missing roadmap truth, or missing interface-depth scope | closed |
+| Gate-quality workflow | Gate workflow validates V32 active / V33 draft posture and the V33 Gate 1 checker | closed |
+| Canon-quality workflow | Canon workflow validates promoted V32 canon, V33 draft family when present, and V32/V33 posture | closed |
+| Package docs | README, protocol package README, demonstration README, and PR template state V32 active / V33 draft workflow | closed |
+| Interface vocabulary | V33 spec family names MCP API, ChatGPT App, `InterfaceContractCatalog`, `InterfaceAuthorizationPolicy`, `ReadLicenseInterfaceContract`, `AssetPackRightsInterfaceContract`, `APISchemaCompatibilityMatrix`, `InterfaceTelemetryProofHook`, and `InterfaceConsumerUxRegressionProof` | closed |
 
 ## Gate 8 Parity
 
