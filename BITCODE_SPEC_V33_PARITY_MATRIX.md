@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, and Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 3 adds package-owned `McpToolContract` source and generated proof coverage for MCP API tool discovery, schema, auth, denial, and proof-root contracts
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, and Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 8 adds package-owned `InterfaceTelemetryProofHook` source and generated proof coverage for source-safe interface replay over execution, ledger, database, object-storage, generated-proof, and root-set roots
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -57,7 +57,7 @@ No `_legacy/` source is active source truth.
 | Interface authorization policy | Gate 5 | `packages/btd/src/interface-authorization-policy.ts`, `packages/btd/__tests__/interface-authorization-policy.test.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts`, `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`, `packages/chatgptapp/src/__tests__/tools.test.ts`, `uapi/tests/terminalOrganizationAuthority.test.ts`, `.bitcode/v33-interface-authorization-policy.json`, `check:v33-gate5` | drafted | Interface auth and license denials fail closed with repair posture across API, MCP, ChatGPT App, and Terminal handoff fixtures. |
 | Read license and AssetPack rights contracts | Gate 6 | `packages/btd/src/read-license-assetpack-rights-contract.ts`, `packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `check:v33-gate6` | drafted | Source-safe preview, paid settlement, BTD rights, and delivery contracts are consistent across interfaces. |
 | API schema compatibility | Gate 7 | `packages/btd/src/api-schema-compatibility-matrix.ts`, `packages/btd/__tests__/api-schema-compatibility-matrix.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-api-schema-compatibility-matrix.json`, `check:v33-gate7` | drafted | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
-| Interface telemetry proof hooks | Gate 8 | planned `InterfaceTelemetryProofHook` artifact and tests | pending | Interface actions replay to executions, ledger, database, object storage, and generated proof roots. |
+| Interface telemetry proof hooks | Gate 8 | `packages/btd/src/interface-telemetry-proof-hook.ts`, `packages/btd/__tests__/interface-telemetry-proof-hook.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `check:v33-gate8` | drafted | Interface actions replay to executions, ledger, database, object storage, generated proof, and root-set roots. |
 | Interface consumer UX regression proof | Gate 9 | planned MCP, ChatGPT App, public API, and Terminal handoff consumer proof | pending | Consumers see source-safe summaries, proof roots, fee/rights previews, and readable denials. |
 | Promotion readiness | Gate 10 | planned V33 promotion checker and generated proof support | pending | `version/v33` can promote only after all V33 gates pass and generated canon is source-safe. |
 
@@ -73,6 +73,19 @@ No `_legacy/` source is active source truth.
 | Canon-quality workflow | Canon workflow validates promoted V32 canon, V33 draft family when present, and V32/V33 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V32 active / V33 draft workflow | drafted |
 | Interface vocabulary | V33 spec family names MCP API, ChatGPT App, `InterfaceContractCatalog`, `InterfaceAuthorizationPolicy`, `ReadLicenseInterfaceContract`, `AssetPackRightsInterfaceContract`, `APISchemaCompatibilityMatrix`, and `InterfaceTelemetryProofHook` | drafted |
+
+## Gate 8 Parity
+
+| Requirement | Source evidence | Current V33 judgment |
+| --- | --- | --- |
+| Package-owned telemetry hook registry exists | `packages/btd/src/interface-telemetry-proof-hook.ts` exports `buildBtdInterfaceTelemetryProofHookRegistry`, hook builders, required interface ids, and required postures | drafted |
+| Required interface surfaces are present | Hook rows cover `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, and `package_consumer` | drafted |
+| Required replay postures are present | Hook rows cover `success`, `denied`, and `blocked` | drafted |
+| Replay roots are complete | Each hook records request, response, ledger, database, object-storage, generated-proof, and root-set roots | drafted |
+| Source-safe hook payloads are enforced | BTD tests reject secret-shaped strings, protected prompt bodies, and protected-source payload fields | drafted |
+| Surface fixtures consume hook rows | API, MCP API, ChatGPT App, and Terminal tests call `buildBtdInterfaceTelemetryProofHookRegistry` or `getBtdInterfaceTelemetryProofHook` | drafted |
+| Generated artifact is source-safe and deterministic | `.bitcode/v33-interface-telemetry-proof-hooks.json` is produced by `generate:v33-interface-telemetry-proof-hooks` and checked by `check:v33-interface-telemetry-proof-hooks` | drafted |
+| Workflow and spec-family wiring exists | `check:v33-gate8`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 8 artifact | drafted |
 
 ## Gate 2 Parity
 

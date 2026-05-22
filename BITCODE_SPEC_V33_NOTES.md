@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, and Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 7 adds package-owned `APISchemaCompatibilityMatrix` source and generated proof coverage for schema ids, consumer surfaces, examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless interface path discipline
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, and Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 8 adds package-owned `InterfaceTelemetryProofHook` source and generated proof coverage for source-safe interface replay over execution, ledger, database, object-storage, generated-proof, and root-set roots
 - Scope: working notes for V33 interface-depth over promoted V32 proof and testing canon
 
 ## Notes companion rule
@@ -163,6 +163,35 @@ package-consumer Exchange hook. API, MCP, ChatGPT App, and Terminal tests
 consume the shared rows. The generated source-safe artifact is
 `.bitcode/v33-api-schema-compatibility-matrix.json`, checked by
 `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7`.
+
+## Gate 8 working notes
+
+Gate 8 owns the shared `InterfaceTelemetryProofHook` primitive. This hook is
+not an observability dump; it is Bitcode's source-safe replay spine for proving
+that interface activity can be traced back to executions and forward to ledger,
+database, object-storage, generated-proof, and root-set evidence. Each hook
+must remain package-owned and consumable by Terminal, public API, MCP API,
+ChatGPT App, and package consumers without importing those surface
+implementations into the BTD package.
+
+The required replay postures are `success`, `denied`, and `blocked`. Hooks may
+name action ids, execution ids, root ids, replay commands, theorem labels, and
+test/source evidence, but must not include secret-shaped strings, protected
+prompt bodies, protected AssetPack source, private source payloads, or raw
+inference contents. Surface tests should prove they consume the shared hooks
+instead of inventing parallel replay metadata.
+
+## Gate 8 closure note
+
+V33 Gate 8 Interface Telemetry And Proof Replay Hooks introduces
+`InterfaceTelemetryProofHook` in
+`packages/btd/src/interface-telemetry-proof-hook.ts`. The shared rows cover
+Terminal blocked preview handoff, public API denied readback, MCP API successful
+Reading pipeline ingress, ChatGPT App blocked protected-source delivery, and
+package-consumer contract replay. API, MCP, ChatGPT App, Terminal, and BTD
+tests consume the shared registry. The generated source-safe artifact is
+`.bitcode/v33-interface-telemetry-proof-hooks.json`, checked by
+`check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8`.
 
 ## Carryforward from V32
 

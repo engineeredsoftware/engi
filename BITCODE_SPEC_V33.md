@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, and Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 7 adds package-owned `APISchemaCompatibilityMatrix` source and generated proof coverage for schema ids, consumer surfaces, examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless interface path discipline
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, and Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 8 adds package-owned `InterfaceTelemetryProofHook` source and generated proof coverage for Terminal, public API, MCP API, ChatGPT App, and package-consumer replay hooks over source-safe execution, ledger, database, object-storage, generated-proof, and root-set roots
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -258,6 +258,36 @@ gate-prefixed, or work-in-progress source identifiers. Deferred rows are
 visible as `deferred_not_admitted`, not hidden, and must carry a deferred
 reason. Matrix examples are source-safe metadata only and never serialize
 protected AssetPack source or credentials.
+
+### V33 Gate 8 Interface Telemetry And Proof Replay Hooks
+
+Gate 8 makes `InterfaceTelemetryProofHook` the shared package-owned replay
+contract for interface activity. Each hook records a hook id, interface id,
+action id, execution id, execution family, success/denied/blocked posture,
+request root, response root, ledger root, database root, object-storage root,
+generated-proof root, root-set root, replay command, theorem label, witness
+facts, source evidence, test evidence, and source-safety assertion. Hooks are
+source-safe metadata only: they must not serialize credentials, protected
+prompts, protected AssetPack source, private source text, or raw inference
+payloads.
+
+The required hook rows cover Terminal handoff, public API, MCP API, ChatGPT
+App, and package consumer replay. The Terminal row proves unpaid preview
+visibility is blocked until settlement and rights transfer. The public API row
+proves missing read license or authority is denied. The MCP API row proves a
+source-safe Reading pipeline command can replay to queue/admission roots. The
+ChatGPT App row proves protected-source delivery remains blocked until reader
+confirmation and paid rights exist. The package-consumer row proves downstream
+consumers can replay package-owned hook metadata without importing surface
+implementation internals.
+
+The generated artifact `.bitcode/v33-interface-telemetry-proof-hooks.json`
+serializes coverage over the required interface ids, postures, replay commands,
+root kinds, surface test joins, and source-safety verdict. `check:v33-gate8`
+fails closed when a required interface or posture is absent, generated output is
+stale, hooks contain secret-shaped or protected-source-shaped content, surface
+tests stop consuming the shared hooks, or the V33 spec family stops naming the
+Gate 8 replay contract.
 
 ## V33 whole Bitcode operator chain
 
@@ -607,6 +637,7 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 | `.bitcode/v33-interface-authorization-policy.json` | `scripts/generate-v33-interface-authorization-policy.mjs` | `check:v33-interface-authorization-policy` and `check:v33-gate5` | source-safe-interface-authorization-policy-metadata | Gate 5 required |
 | `.bitcode/v33-read-license-assetpack-rights-contracts.json` | `scripts/generate-v33-read-license-assetpack-rights-contracts.mjs` | `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6` | source-safe-read-license-assetpack-rights-metadata | Gate 6 required |
 | `.bitcode/v33-api-schema-compatibility-matrix.json` | `scripts/generate-v33-api-schema-compatibility-matrix.mjs` | `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7` | source-safe-api-schema-compatibility-metadata | Gate 7 required |
+| `.bitcode/v33-interface-telemetry-proof-hooks.json` | `scripts/generate-v33-interface-telemetry-proof-hooks.mjs` | `check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8` | source-safe-interface-telemetry-proof-hook-metadata | Gate 8 required |
 
 ### V33 specifying generated artifacts
 
@@ -617,7 +648,8 @@ Gate 4 adds `.bitcode/v33-chatgpt-app-action-contracts.json`, which serializes s
 Gate 5 adds `.bitcode/v33-interface-authorization-policy.json`, which serializes source-safe `InterfaceAuthorizationPolicy` metadata for API, MCP, ChatGPT App, and Terminal handoff fixtures, including auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and missing/stale authority fail-closed coverage.
 Gate 6 adds `.bitcode/v33-read-license-assetpack-rights-contracts.json`, which serializes source-safe `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` metadata for API, MCP, ChatGPT App, and Terminal fixtures, including Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, paid/unpaid denial, and protected-source non-serialization.
 Gate 7 adds `.bitcode/v33-api-schema-compatibility-matrix.json`, which serializes source-safe `APISchemaCompatibilityMatrix` metadata for public API, MCP API, ChatGPT App, Terminal handoff, and package consumer rows, including schema ids, request/response schema ids, success/denied/blocked/stale/deferred examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless path discipline.
-Later gates may add telemetry replay and promotion readiness artifacts.
+Gate 8 adds `.bitcode/v33-interface-telemetry-proof-hooks.json`, which serializes source-safe `InterfaceTelemetryProofHook` metadata for Terminal handoff, public API, MCP API, ChatGPT App, and package consumer replay hooks, including interface ids, action ids, execution ids, success/denied/blocked posture, request/response roots, ledger/database/object-storage/generated-proof/root-set roots, replay commands, theorem labels, witness facts, source evidence, test evidence, and source-safety verdicts.
+Later gates may add UX regression and promotion readiness artifacts.
 
 ### Shared generated-artifact fields
 
@@ -641,7 +673,7 @@ V33 promotion must fail closed when generated artifacts are missing, stale, sour
 
 ## Appendix D. Validation and checking gate catalog
 
-V33 validation includes `check-bitcode-spec-family`, `check-bitcode-canonical-inputs`, `check-bitcode-canon-posture-drift`, `check:v33-gate1`, `check:v33-gate2`, `check:v33-gate3`, `check:v33-gate4`, `check:v33-gate5`, `check:v33-gate6`, `check:v33-gate7`, later gate-specific checkers, package tests, interface contract tests, and promotion workflow checks.
+V33 validation includes `check-bitcode-spec-family`, `check-bitcode-canonical-inputs`, `check-bitcode-canon-posture-drift`, `check:v33-gate1`, `check:v33-gate2`, `check:v33-gate3`, `check:v33-gate4`, `check:v33-gate5`, `check:v33-gate6`, `check:v33-gate7`, `check:v33-gate8`, later gate-specific checkers, package tests, interface contract tests, and promotion workflow checks.
 
 ## Appendix E. Current canonical source map
 
