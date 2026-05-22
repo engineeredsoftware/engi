@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V30`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: none until V31 gates admit V31 generated artifacts
-- Source parity state: V31 source parity begins with the Gate 1 spec-family, roadmap, workflow, and checker opening
+- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion
+- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
 - Scope: notes companion for Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team, organization, role, policy, readiness diagnostics, recovery flows, accessibility, responsive QA, and Auxillaries telemetry/proof hooks.
 
 This NOTES file does not promote V31.
@@ -136,3 +136,17 @@ Recovery runs must carry source-safe before/after readiness roots plus
 evidence/telemetry roots and must be readable through the API route, shared
 client hook, and Externals UI without exposing credentials, prompts, wallet
 secrets, service keys, database credentials, or protected AssetPack source.
+
+## Gate 10 promotion-readiness notes
+
+Gate 10 is closed only when V31 promotion is scripted enough to be replayed by
+CI and locally without hidden operator memory.
+`check:v31-gate10` must verify the V31 gate checker set, Gate Quality and Canon
+Quality workflow posture, the `version/v31` promotion workflow, V31 support in
+the canonical promotion command, V31 spec-family status rewriting, V31 runtime
+posture rewriting, generated appendix support, and source-safe generated
+artifacts.
+The staging-testnet readback evidence is intentionally summarized as roots,
+checker names, workflow names, and readiness posture; no provider tokens, wallet
+secrets, OpenAI keys, service-role keys, database passwords, private prompts, or
+protected AssetPack source may enter the committed QA ledger.

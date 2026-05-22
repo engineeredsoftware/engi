@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V30`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: none until V31 gates admit V31 generated artifacts
-- Source parity state: V31 source parity begins with Auxillaries spec-family, roadmap, workflow, and gate-checker opening
+- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion
+- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
 - Scope: V31 canonical delta for Auxillaries Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team/organization/wallet/multi-sig/role/policy controls, readiness diagnostics, recovery flows, responsive/accessibility QA, Auxillaries proof hooks, and promotion-ready workflow proof over V30

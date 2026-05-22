@@ -337,6 +337,12 @@ function buildV21LikeProfile(version) {
           '.bitcode/v30-protocol-telemetry-proof-hooks.json'
         ]
         : []),
+      ...(version === 'V31'
+        ? [
+          '.bitcode/v31-canon-posture-drift-report.json',
+          '.bitcode/v31-auxillaries-telemetry-proof-hooks.json'
+        ]
+        : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1408,6 +1414,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   if (currentTarget === 'V30') {
     artifacts.push(...buildV21LikeProfile('V30').requiredGeneratedArtifactPaths);
   }
+  if (currentTarget === 'V31') {
+    artifacts.push(...buildV21LikeProfile('V31').requiredGeneratedArtifactPaths);
+  }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }
 
@@ -1433,7 +1442,7 @@ export function buildV21CanonicalInputReport({
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const checkedTarget = currentTarget || pointerVersion;
   const resolvedReportVersion = reportVersion
-    || (['V21', 'V22', 'V23', 'V24', 'V25'].includes(checkedTarget) ? checkedTarget : 'V21');
+    || (/^V\d+$/u.test(checkedTarget) && Number(checkedTarget.slice(1)) >= 21 ? checkedTarget : 'V21');
   const assumedExistingPaths = new Set(
     assumeExistingRelativePaths.map((relativePath) => path.resolve(resolvedRepoRoot, relativePath))
   );

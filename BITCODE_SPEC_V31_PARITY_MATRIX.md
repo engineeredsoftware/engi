@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V30`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: none until V31 gates admit V31 generated artifacts; reserved draft paths include `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`
-- Source parity state: V31 source parity begins with Auxillaries specification, roadmap, workflow, docs, and gate-checker opening
+- Generated structured artifact inventory: draft `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json` are generated for Gate 10 promotion readiness; `BITCODE_SPEC_V31_PROVEN.md` is generated only during promotion
+- Source parity state: V31 source parity covers Auxillaries support/control implementation, source-safe telemetry proof hooks, recovery-run readback, UX/accessibility proof, promotion workflow, and generated Gate 10 artifacts
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
 - Scope: V31 canonical parity ledger for Auxillaries support/control surfaces over promoted V30
@@ -65,7 +65,7 @@ No `_legacy/` source is active source truth.
 | Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | closed | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
 | Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | closed | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
 | Auxillaries telemetry proof and recovery runs | Gate 9 | `packages/api/src/routes/auxillaries-contract.ts`, `/api/auxillaries/data`, `useUserData`, Externals UI, route/API/UI tests, Gate 9 checker | closed | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
-| Promotion readiness | Gate 10 | V31 promotion workflow, generated `.bitcode/v31-*`, `BITCODE_SPEC_V31_PROVEN.md` | pending | `version/v31` can promote to `main` only after all V31 gates pass and promotion automation commits generated canon. |
+| Promotion readiness | Gate 10 | V31 promotion workflow, generated `.bitcode/v31-*`, `BITCODE_SPEC_V31_PROVEN.md` | closed | `version/v31` can promote to `main` only after all V31 gates pass and promotion automation commits generated canon. |
 
 ## V31 implementation checklist
 
@@ -75,8 +75,8 @@ No `_legacy/` source is active source truth.
 | Gate branch pattern | V31 work happens on `version/v31` or `v31/gate-N-*` branches | drafted |
 | Spec-family shape | V31 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
 | Gate 1 script | `pnpm run check:v31-gate1` fails closed on stale posture, missing roadmap truth, or missing Auxillaries scope | drafted |
-| Gate-quality workflow | Gate workflow validates V30 active / V31 draft posture and V31 Gate 1 | drafted |
-| Canon-quality workflow | Canon workflow validates V30 active / V31 draft posture and V31 draft family | drafted |
+| Gate-quality workflow | Gate workflow validates V30 active / V31 draft posture and V31 Gates 1 through 10 | closed |
+| Canon-quality workflow | Canon workflow validates V30 active / V31 draft posture and promoted V31 / draft V32 posture | closed |
 
 ## Gate 1 Parity
 
@@ -162,10 +162,10 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| V31 promotion checker exists | `scripts/check-v31-gate10-promotion-readiness.mjs` | pending |
-| V31 promotion workflow exists | `.github/workflows/v31-canon-promotion.yml` | pending |
-| Promotion command supports V31 generated artifacts and runtime posture rewriting | promotion scripts and tests | pending |
-| `BITCODE_SPEC_V31_PROVEN.md` is generated during promotion only | generated proof workflow evidence | pending |
+| V31 promotion checker exists | `scripts/check-v31-gate10-promotion-readiness.mjs` | closed |
+| V31 promotion workflow exists | `.github/workflows/v31-canon-promotion.yml` | closed |
+| Promotion command supports V31 generated artifacts and runtime posture rewriting | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js` | closed |
+| `BITCODE_SPEC_V31_PROVEN.md` is generated during promotion only | `scripts/generate-bitcode-proven.mjs`, V31 promotion workflow, generated `.bitcode/v31-*` proof artifacts | closed |
 
 ## accepted boundaries
 
@@ -179,3 +179,12 @@ No `_legacy/` source is active source truth.
 ## completion condition
 
 Gate 1 is complete when the V31 draft family validates, `check:v31-gate1` passes, workflow posture is V31-aware, README and roadmap reflect V31 initiation, V31-V37 scopes are current enough to guide future gates, diff hygiene passes, and the gate branch is committed, pushed, and pull-requested for review into `version/v31`.
+
+Gate 10 completion condition: V31 is complete when `check:v31-gate10` passes in
+draft and promotion modes, Gate Quality invokes V31 Gates 1 through 10,
+Canon Quality accepts promoted V31 / draft V32 posture, `v31-canon-promotion.yml`
+validates `version/v31` pull requests into `main`, the canonical promotion
+script supports `--version V31`, the generated V31 appendix writes
+`.bitcode/v31-*` artifacts, and no source-safe QA ledger or generated artifact
+contains credentials, protected source, private prompts, or pre-settlement
+AssetPack contents.

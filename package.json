@@ -73,6 +73,7 @@
     "check:v31-gate7": "node scripts/check-v31-gate7-interfaces-pane-admission-cross-surface-contracts.mjs",
     "check:v31-gate8": "node scripts/check-v31-gate8-auxillaries-ux-accessibility-responsive-proof.mjs",
     "check:v31-gate9": "node scripts/check-v31-gate9-auxillaries-telemetry-proof-recovery-runs.mjs",
+    "check:v31-gate10": "node scripts/check-v31-gate10-promotion-readiness.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",
