@@ -17,7 +17,7 @@
   "currentTarget": "V32",
   "docsEvidence": [
     {
-      "digest": "sha256:c5f427b82720085093158501a0141d4db171ace7437481a4bc175b4897081df5",
+      "digest": "sha256:f4f18279dea8ecc27de7e13ee5c4c4496b45ad5e4dfd37aa2909355fda7f391e",
       "relativePath": "BITCODE_SPEC_V33.md",
       "requiredTokens": [
         {
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "digest": "sha256:3fb790d89c99396ca8e422cdfdadcff9baf2c4bf5b44cd338313bf08826c8f5a",
+      "digest": "sha256:82166f72b7f63ad1dae97e1ddb258af14cfca8d69b1e0dbd4437432e8455ca5d",
       "relativePath": "BITCODE_SPEC_V33_DELTA.md",
       "requiredTokens": [
         {
@@ -194,7 +194,7 @@
       ]
     },
     {
-      "digest": "sha256:017f8c2535f2b7370fd74046958245e5f7dd43773bbfdef9070db087b8397126",
+      "digest": "sha256:9bc3a8d5811e7cab7ec0311f9ead833b2d9d10bcf57d67190b32ecd74a38eae9",
       "relativePath": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
       "requiredTokens": [
         {

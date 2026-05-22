@@ -180,7 +180,7 @@
     {
       "artifactId": "v33-interface-contract-catalog",
       "byteLength": 11968,
-      "digest": "sha256:b0e615f38d1dc1160b29564c5b14026796e410a621300c711432cf70e7a5346c",
+      "digest": "sha256:c5445eb9d4885a952c8f76e36c4d39c2f7f381c6f1298ddab7efe2f95c5ac98a",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-interface-contract-catalog.json",
@@ -190,7 +190,7 @@
     {
       "artifactId": "v33-mcp-api-tool-contracts",
       "byteLength": 8289,
-      "digest": "sha256:3e80c1eddefeddcb300f9f30c7752d6023c7786063013c0a8ed43d932ff08f51",
+      "digest": "sha256:5a4424f0298c7174fbd7a37652ad4adea204775ffc613f1729386b9f392817f0",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-mcp-api-tool-contracts.json",
@@ -210,7 +210,7 @@
     {
       "artifactId": "v33-interface-authorization-policy",
       "byteLength": 8814,
-      "digest": "sha256:b16b67420594b309d8d01029041351b165f7e49e8a29fac8d06592c09f7d1d6a",
+      "digest": "sha256:d44be9f9b38dcb02e18f69e07880e03611ecbc6b3fd86d926b2cc28e6bd57f26",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-interface-authorization-policy.json",
@@ -220,7 +220,7 @@
     {
       "artifactId": "v33-read-license-assetpack-rights-contracts",
       "byteLength": 9426,
-      "digest": "sha256:64ed45b9b87cacf2c1b76d8ac889868febc28cda436877cd5ec0353868d6bd26",
+      "digest": "sha256:07cdb4bed58b5607f6ac647d5ee66ec8af88b03ed4f97babc0959fb5954aee62",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-read-license-assetpack-rights-contracts.json",
@@ -230,7 +230,7 @@
     {
       "artifactId": "v33-api-schema-compatibility-matrix",
       "byteLength": 9117,
-      "digest": "sha256:4bcdca121df8dce4a190167a78a8839ae3e3c6be7adcbd99800eb3ea6fb67c12",
+      "digest": "sha256:ba44c05210b706170931926dd30de902dc42cd524e8126c704b4b4fad05b0611",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-api-schema-compatibility-matrix.json",
@@ -240,7 +240,7 @@
     {
       "artifactId": "v33-interface-telemetry-proof-hooks",
       "byteLength": 14717,
-      "digest": "sha256:7a1f4d8e87743f2a0c194fbda77eccfd4bd56f4435b3788c59db1adc7da44975",
+      "digest": "sha256:b31e943d68f55d30af5f1387b0d7f403d11c172e5aecb4c4a298ef64a872cd58",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-interface-telemetry-proof-hooks.json",
@@ -250,7 +250,7 @@
     {
       "artifactId": "v33-interface-consumer-ux-regression-proof",
       "byteLength": 16375,
-      "digest": "sha256:6e9792ff4da346502c90575c3b0bc3179a661684926edfb0c82ecdf16fe28e51",
+      "digest": "sha256:b753f65374cf6cc6b2b6bf8cbc75e90e1736cfdae1598c82c1d6fd1758d4b37e",
       "parseable": true,
       "present": true,
       "relativePath": ".bitcode/v33-interface-consumer-ux-regression-proof.json",
