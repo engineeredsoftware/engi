@@ -3,27 +3,19 @@
   "version": "V30",
   "checkedActiveCanonVersion": "V30",
   "checkedDraftTargetVersion": "V31",
-  "pointerVersion": "V29",
-  "proofSourceCommit": "f1771573c885652055c86ced1b43ba06a3ba7706",
-  "generatedAt": "2026-05-21T20:27:10-03:00",
+  "pointerVersion": "V30",
+  "proofSourceCommit": "c5b238b9958430c4611ef396ac8cea248c1aecf4",
+  "generatedAt": "2026-05-21T22:17:44-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "dirty-preview",
-  "passed": false,
+  "worktreeState": "clean",
+  "passed": true,
   "checkCount": 10,
-  "blockingFailureCount": 7,
-  "blockingFailures": [
-    "pointer-active-canon-alignment: BITCODE_SPEC.txt points to V29 while runtime expects V30.",
-    "canon-posture-constant-alignment: canon-posture constants resolve V29/V30 with operator label V29 active canon / V30 system draft.",
-    "proven-appendix-alignment: active generated appendix path is BITCODE_SPEC_V29_PROVEN.md.",
-    "policy-ref-alignment: policy reference is policy://bitcode/spec-v29-active-v30-system-draft/current.",
-    "runtime-state-alignment: buildInitialState() reports Bitcode Spec V29 active canon / V30 system draft with canon posture V29/V30.",
-    "public-state-alignment: publicState() reports Bitcode Spec V29 active canon / V30 system draft with canon posture V29/V30.",
-    "readme-alignment: README states V30 active canon and BITCODE_SPEC_V29_PROVEN.md as the current generated appendix."
-  ],
-  "runtimeSpecVersion": "Bitcode Spec V29 active canon / V30 system draft",
-  "publicSpecVersion": "Bitcode Spec V29 active canon / V30 system draft",
-  "activeProvenAppendixPath": "BITCODE_SPEC_V29_PROVEN.md",
-  "policyRef": "policy://bitcode/spec-v29-active-v30-system-draft/current",
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "runtimeSpecVersion": "Bitcode Spec V30 active canon / V31 system draft",
+  "publicSpecVersion": "Bitcode Spec V30 active canon / V31 system draft",
+  "activeProvenAppendixPath": "BITCODE_SPEC_V30_PROVEN.md",
+  "policyRef": "policy://bitcode/spec-v30-active-v31-system-draft/current",
   "checkedFiles": [
     "protocol-demonstration/README.md",
     "protocol-demonstration/public/index.html",
@@ -33,33 +25,33 @@
   "checks": [
     {
       "checkId": "pointer-active-canon-alignment",
-      "passed": false,
-      "detail": "BITCODE_SPEC.txt points to V29 while runtime expects V30."
+      "passed": true,
+      "detail": "BITCODE_SPEC.txt points to V30 while runtime expects V30."
     },
     {
       "checkId": "canon-posture-constant-alignment",
-      "passed": false,
-      "detail": "canon-posture constants resolve V29/V30 with operator label V29 active canon / V30 system draft."
+      "passed": true,
+      "detail": "canon-posture constants resolve V30/V31 with operator label V30 active canon / V31 system draft."
     },
     {
       "checkId": "proven-appendix-alignment",
-      "passed": false,
-      "detail": "active generated appendix path is BITCODE_SPEC_V29_PROVEN.md."
+      "passed": true,
+      "detail": "active generated appendix path is BITCODE_SPEC_V30_PROVEN.md."
     },
     {
       "checkId": "policy-ref-alignment",
-      "passed": false,
-      "detail": "policy reference is policy://bitcode/spec-v29-active-v30-system-draft/current."
+      "passed": true,
+      "detail": "policy reference is policy://bitcode/spec-v30-active-v31-system-draft/current."
     },
     {
       "checkId": "runtime-state-alignment",
-      "passed": false,
-      "detail": "buildInitialState() reports Bitcode Spec V29 active canon / V30 system draft with canon posture V29/V30."
+      "passed": true,
+      "detail": "buildInitialState() reports Bitcode Spec V30 active canon / V31 system draft with canon posture V30/V31."
     },
     {
       "checkId": "public-state-alignment",
-      "passed": false,
-      "detail": "publicState() reports Bitcode Spec V29 active canon / V30 system draft with canon posture V29/V30."
+      "passed": true,
+      "detail": "publicState() reports Bitcode Spec V30 active canon / V31 system draft with canon posture V30/V31."
     },
     {
       "checkId": "server-api-alignment",
@@ -78,8 +70,8 @@
     },
     {
       "checkId": "readme-alignment",
-      "passed": false,
-      "detail": "README states V30 active canon and BITCODE_SPEC_V29_PROVEN.md as the current generated appendix."
+      "passed": true,
+      "detail": "README states V30 active canon and BITCODE_SPEC_V30_PROVEN.md as the current generated appendix."
     }
   ]
 }

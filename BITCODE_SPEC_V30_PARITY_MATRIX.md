@@ -3,20 +3,21 @@
 ## Status
 
 - Version: `V30`
-- V30 state: draft target parity matrix opened for Protocol/BTD hardening
-- Current canonical/latest target: `V29`
+- V30 state: canonical promotion complete; V30 parity truth, Protocol/BTD gate closure, generated proof, and promotion automation are aligned
+- Current canonical/latest target: `V30`
+- Canonical proof-source commit: `c5b238b9958430c4611ef396ac8cea248c1aecf4`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: V30 Gate 10 generates `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and `BITCODE_SPEC_V30_PROVEN.md`
-- Source parity state: V30 parity begins with roadmap/gating, then hardens package APIs, Bitcoin/PSBT, BTD receipts, ledger projection, source-to-shares proof, bridge-readiness boundaries, telemetry/proof hooks, interface regression, and promotion readiness
+- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
-- Scope: V30 parity ledger for Protocol/BTD hardening over promoted V29
+- Scope: V30 canonical parity ledger for Protocol/BTD hardening, local/staging readiness, and promotion automation over V29
 - Spec companion: `BITCODE_SPEC_V30.md`
 - Notes companion: `BITCODE_SPEC_V30_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V30_DELTA.md`
 - Generated proof appendix: none until V30 promotion
-- Last fully realized canonical target preserved in source: `V29`
+- Last fully realized canonical target preserved in source: `V30`
 
 ## Purpose
 
@@ -53,28 +54,28 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V30.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v30/gate-1-roadmap-and-gating` | drafted | V30 family validates in draft mode over active V29 and `check:v30-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V29 active, V30 draft, and coherent V31-V37 responsibilities. |
-| Protocol package API boundaries | Gate 2 | `packages/btd/src/api-boundaries.ts`, `packages/api/src/routes/btd-crypto.ts`, package READMEs/tests | drafted | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
-| Bitcoin Taproot PSBT fee rigor | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/src/bitcoin-fees.ts`, BTD/API tests, gate checker | drafted | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, Taproot/PSBT aware, and proof-rooted. |
-| BTD AssetPack mint/read receipts | Gate 4 | `packages/btd/src/receipts.ts`, `packages/btd/src/api-boundaries.ts`, asset-pack harness evidence, Terminal detail snapshot/read model tests, gate checker | drafted | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
-| Testnet ledger projection hardening | Gate 5 | `packages/btd/src/reconciliation.ts`, API route tests, asset-pack harness evidence, Terminal journal reconciliation UI/tests, gate checker | drafted | Ledger/database/object-storage/private facts are distinct; staging-testnet readback is secret-free; drift, quarantine, retry, and unlock blocking are tested. |
-| Source-to-shares proof cleanup | Gate 6 | `packages/btd/src/source-to-shares.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Measurement contribution, fee allocation, zero-cell/refit tail, ancestry evidence, and conservation invariants are testable. |
-| Bridge-readiness research boundaries | Gate 7 | `packages/btd/src/bridge-readiness.ts`, BTD/API tests, route boundary, docs, gate checker | drafted | Bridge paths are typed research-only records until admitted by explicit future proof and policy. |
-| Protocol telemetry/proof hooks | Gate 8 | `packages/btd/src/telemetry.ts`, API route boundary, focused BTD/API tests, gate checker | drafted | Receipts, fee states, projections, source-to-shares proofs, and bridge-readiness posture emit source-safe telemetry and proof hooks. |
-| Interface integration regression | Gate 9 | `packages/btd/src/interface-integration.ts`, `packages/api/src/routes/btd-crypto.ts`, Terminal/MCP/ChatGPT adapters and tests, gate checker | drafted | Existing interfaces consume package-owned objects without regressing V29 behavior. |
-| Promotion readiness | Gate 10 | V30 promotion workflow, generated `.bitcode/v30-*`, `BITCODE_SPEC_V30_PROVEN.md` | drafted | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V30.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v30/gate-1-roadmap-and-gating` | closed | V30 family validates in draft mode over active V29 and `check:v30-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V29 active, V30 draft, and coherent V31-V37 responsibilities. |
+| Protocol package API boundaries | Gate 2 | `packages/btd/src/api-boundaries.ts`, `packages/api/src/routes/btd-crypto.ts`, package READMEs/tests | closed | Shared Protocol/BTD objects have package-owned builders, parsers, validators, JSON-safe serializers, and tests. |
+| Bitcoin Taproot PSBT fee rigor | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, `packages/btd/src/bitcoin-fees.ts`, BTD/API tests, gate checker | closed | BTC fee and signer states are typed, testnet/mainnet-safe, no-custody, Taproot/PSBT aware, and proof-rooted. |
+| BTD AssetPack mint/read receipts | Gate 4 | `packages/btd/src/receipts.ts`, `packages/btd/src/api-boundaries.ts`, asset-pack harness evidence, Terminal detail snapshot/read model tests, gate checker | closed | Mint, read, and rights-transfer receipts bind BTD range, preview, paid unlock, delivery, and ledger projection. |
+| Testnet ledger projection hardening | Gate 5 | `packages/btd/src/reconciliation.ts`, API route tests, asset-pack harness evidence, Terminal journal reconciliation UI/tests, gate checker | closed | Ledger/database/object-storage/private facts are distinct; staging-testnet readback is secret-free; drift, quarantine, retry, and unlock blocking are tested. |
+| Source-to-shares proof cleanup | Gate 6 | `packages/btd/src/source-to-shares.ts`, API route boundary, focused BTD/API tests, gate checker | closed | Measurement contribution, fee allocation, zero-cell/refit tail, ancestry evidence, and conservation invariants are testable. |
+| Bridge-readiness research boundaries | Gate 7 | `packages/btd/src/bridge-readiness.ts`, BTD/API tests, route boundary, docs, gate checker | closed | Bridge paths are typed research-only records until admitted by explicit future proof and policy. |
+| Protocol telemetry/proof hooks | Gate 8 | `packages/btd/src/telemetry.ts`, API route boundary, focused BTD/API tests, gate checker | closed | Receipts, fee states, projections, source-to-shares proofs, and bridge-readiness posture emit source-safe telemetry and proof hooks. |
+| Interface integration regression | Gate 9 | `packages/btd/src/interface-integration.ts`, `packages/api/src/routes/btd-crypto.ts`, Terminal/MCP/ChatGPT adapters and tests, gate checker | closed | Existing interfaces consume package-owned objects without regressing V29 behavior. |
+| Promotion readiness | Gate 10 | V30 promotion workflow, generated `.bitcode/v30-*`, `BITCODE_SPEC_V30_PROVEN.md` | closed | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
 
 ## V30 implementation checklist
 
 | Area | Required V30 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V29` during V30 gate work | drafted |
-| Gate branch pattern | V30 work happens on `version/v30` or `v30/gate-N-*` branches | drafted |
-| Spec-family shape | V30 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v30-gate1` fails closed on stale posture, missing roadmap truth, or missing gates | drafted |
-| Gate-quality workflow | Gate workflow validates V29 active / V30 draft posture and V30 Gate 1 | drafted |
-| Canon-quality workflow | Canon workflow validates V29 active / V30 draft posture and V30 draft family | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V29` during V30 gate work | closed |
+| Gate branch pattern | V30 work happens on `version/v30` or `v30/gate-N-*` branches | closed |
+| Spec-family shape | V30 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v30-gate1` fails closed on stale posture, missing roadmap truth, or missing gates | closed |
+| Gate-quality workflow | Gate workflow validates V29 active / V30 draft posture and V30 Gate 1 | closed |
+| Canon-quality workflow | Canon workflow validates V29 active / V30 draft posture and V30 draft family | closed |
 
 ## Gate 1 Parity
 

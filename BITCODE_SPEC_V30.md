@@ -3,12 +3,13 @@
 ## Status
 
 - Version: `V30`
-- V30 state: draft target opened; V30 owns Protocol/BTD hardening over the promoted V29 Terminal transaction-depth canon
-- Current canonical/latest target: `V29`
+- V30 state: canonical promotion complete; V30 is the active Protocol/BTD hardening canon and the V30 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V30`
+- Canonical proof-source commit: `c5b238b9958430c4611ef396ac8cea248c1aecf4`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: V30 Gate 10 generates `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and `BITCODE_SPEC_V30_PROVEN.md` as promotion evidence
-- Source parity state: V30 source parity is draft-opened for Protocol/BTD package hardening, Bitcoin/PSBT rigor, BTD receipt boundaries, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness boundaries, telemetry hooks, interface regression, and promotion automation
+- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V30'`
@@ -18,8 +19,8 @@
 - Delta companion: `BITCODE_SPEC_V30_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V30_PARITY_MATRIX.md`
 - Generated proof appendix: none until V30 promotion
-- Scope: V30 draft system specification for Protocol/BTD hardening after V29, including package API extraction, Bitcoin/Taproot/PSBT rigor, BTD-AssetPack mint/read receipts, testnet ledger/database projection hardening, source-to-shares proof cleanup, bridge-readiness research boundaries, telemetry/proof hooks, and promotion readiness
-- Last fully realized canonical target preserved in source: `V29`
+- Scope: V30 canonical system specification for Protocol/BTD package API boundaries, Bitcoin/Taproot/PSBT rigor, BTD AssetPack mint/read receipts, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness research boundaries, Protocol telemetry/proof hooks, interface regression, and promotion-ready workflow proof over V29
+- Last fully realized canonical target preserved in source: `V30`
 
 V30 begins from promoted V29.
 V29 made the Terminal transaction cockpit deep enough for operators to follow Reading, Finding Fits, AssetPack preview, settlement, rights transfer, delivery, repair, authority, and promotion readiness.

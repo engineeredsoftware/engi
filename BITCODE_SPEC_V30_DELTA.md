@@ -3,15 +3,16 @@
 ## Status
 
 - Version: `V30`
-- V30 state: draft target delta opened for Protocol/BTD hardening
-- Current canonical/latest target: `V29`
+- V30 state: canonical promotion complete; this delta records the promoted V29-to-V30 Protocol/BTD hardening and promotion-readiness closure set
+- Current canonical/latest target: `V30`
+- Canonical proof-source commit: `c5b238b9958430c4611ef396ac8cea248c1aecf4`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: V30 Gate 10 generates `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and `BITCODE_SPEC_V30_PROVEN.md` as promotion evidence
-- Source parity state: V30 source parity is draft-opened for Protocol/BTD package APIs, Bitcoin/Taproot/PSBT rigor, BTD receipts, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness boundaries, telemetry hooks, and promotion automation
+- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
-- Scope: V30 draft delta for Protocol/BTD hardening over promoted V29
+- Scope: V30 canonical delta for Protocol/BTD package API boundaries, Bitcoin/Taproot/PSBT rigor, BTD AssetPack mint/read receipts, testnet ledger projection, source-to-shares proof cleanup, bridge-readiness research boundaries, Protocol telemetry/proof hooks, interface regression, and promotion-ready workflow proof over V29
 - Spec companion: `BITCODE_SPEC_V30.md`
 - Notes companion: `BITCODE_SPEC_V30_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V30_PARITY_MATRIX.md`

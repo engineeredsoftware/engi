@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V29` active, `V30` draft);
+- active/draft canon posture (`V30` active, `V31` draft after V30 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - canonical proven-generation helpers;
@@ -25,7 +25,7 @@ This is the `V29` active, `V30` draft after V29 promotion posture accepted by
 V29 Gate 10.
 V30 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V29` active, `V30` draft until V30 promotion.
+must remain aligned to `V30` active, `V31` draft after promotion.
 V30 Gate 10 promotes this package posture by rewriting those same runtime
 carriers to `V30` active, `V31` draft and regenerating the V30 generated
 appendix plus `.bitcode/v30-*` promotion artifacts.
