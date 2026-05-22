@@ -117,6 +117,7 @@ jobs:
             node scripts/check-v32-gate4-reading-pipeline-proof-coverage.mjs --skip-branch-check
             node scripts/check-v32-gate5-ledger-btd-settlement-failure-states.mjs --skip-branch-check
             node scripts/check-v32-gate6-interface-contract-regression-suites.mjs --skip-branch-check
+            node scripts/check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -182,6 +183,7 @@ jobs:
             tests/terminalTransactionDetailCards.test.tsx \
             tests/terminalTransactionDetailSnapshot.test.ts \
             tests/terminalUxBrowserProof.test.tsx \
+            tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 
@@ -190,6 +192,9 @@ jobs:
 
       - name: Browser proof Terminal cockpit
         run: pnpm --dir uapi run test:e2e:terminal-ux
+
+      - name: Browser proof Terminal and Auxillaries responsive accessibility
+        run: pnpm --dir uapi run test:e2e:v32-browser-proof
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback
