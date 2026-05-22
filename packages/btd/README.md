@@ -48,6 +48,12 @@ This package owns:
 - Terminal operational health reads that compose deployment lanes, telemetry,
   upgrade posture, provider readiness, settlement-network posture, synthetic
   testnet minting, journal rows, ledger anchors, and reconciliation state
+- testnet/mainnet readiness rehearsal records that type local, staging-testnet,
+  production-mainnet, and offline-disabled lanes; classify credential readiness
+  as secret-presence-only; preserve the `tkpyosihuouusyaxtbau`
+  staging-testnet and `rinalyjfecxnmyczrpzo` production-mainnet project
+  boundary; and prove production-mainnet remains blocked for value-bearing
+  settlement until a future explicit launch gate admits it
 - `api-boundaries.ts`, the framework-agnostic BTD API boundary for shared route
   objects, BigInt parsers, validators, settlement builders, registry snapshot
   builders, read-access decision builders, and JSON-safe serialization
@@ -77,6 +83,7 @@ import {
   buildBtdProtocolTelemetryEnvelope,
   buildBtdInterfaceIntegrationRegressionProof,
   buildBtdWalletBtdSupportProjection,
+  buildV32TestnetMainnetReadinessRehearsal,
   reconcileLedgerDatabaseProjection,
   sourceToSharesProofToSettlementConservationCheck,
   toBtdJsonSafe,

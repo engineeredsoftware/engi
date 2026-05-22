@@ -1,0 +1,233 @@
+{
+  "artifactId": "v32-testnet-mainnet-readiness-rehearsal",
+  "closureCommand": "pnpm run check:v32-gate8",
+  "currentTarget": "V31",
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "lanes": [
+    {
+      "blockers": [],
+      "laneId": "local",
+      "ledgerNetwork": "local",
+      "network": "regtest",
+      "postures": [
+        "local-ledger-ready",
+        "fixture-database-ready",
+        "source-safe-object-storage-only",
+        "regtest-btc-only",
+        "rollback-root-required"
+      ],
+      "providerConnectivity": [
+        "local-fixtures:ready",
+        "sandbox-host:review"
+      ],
+      "readinessRoot": "sha256:a58fe2e8ba02508d4380de3cd6e15ac1b6820283ebacd6f33a1dd3be5ae92fb3",
+      "secretHandling": "no-live-secret-required",
+      "sourceSafetyClass": "source-safe-internal",
+      "state": "ready",
+      "valueBearingSettlementAdmitted": false,
+      "valueBearingSettlementRequested": false
+    },
+    {
+      "blockers": [],
+      "laneId": "staging-testnet",
+      "ledgerNetwork": "testnet",
+      "network": "testnet",
+      "postures": [
+        "ledger-readback-ready",
+        "database-readback-ready",
+        "encrypted-protected-source-storage",
+        "testnet-btc-only",
+        "rollback-root-required"
+      ],
+      "projectRef": "tkpyosihuouusyaxtbau",
+      "providerConnectivity": [
+        "vercel-sandbox:ready",
+        "supabase-staging-testnet:ready",
+        "github-delivery:ready",
+        "model-inference:ready"
+      ],
+      "readinessRoot": "sha256:b0ddc3908285b32db13bbeefa5ec713a0a680c081f2943b5cb2cc72a83f69177",
+      "secretHandling": "presence-only-values-never-serialized",
+      "sourceSafetyClass": "secret-presence-only",
+      "state": "ready",
+      "valueBearingSettlementAdmitted": false,
+      "valueBearingSettlementRequested": false
+    },
+    {
+      "blockers": [
+        "production-mainnet-value-bearing-not-admitted-in-v32",
+        "future-explicit-launch-gate-required"
+      ],
+      "laneId": "production-mainnet",
+      "ledgerNetwork": "mainnet",
+      "network": "mainnet",
+      "postures": [
+        "ledger-represented-no-value-write",
+        "database-non-value-readiness-only",
+        "protected-source-locked",
+        "mainnet-broadcast-blocked",
+        "future-launch-gate-required"
+      ],
+      "projectRef": "rinalyjfecxnmyczrpzo",
+      "providerConnectivity": [
+        "supabase-production-mainnet:review",
+        "bitcoin-mainnet-observer:review",
+        "github-delivery:blocked"
+      ],
+      "readinessRoot": "sha256:7e104efa6bebac350d2882f3c8432a5eacb69bfe319e6c45b0085fb3b67862e8",
+      "secretHandling": "presence-only-values-never-serialized",
+      "sourceSafetyClass": "secret-presence-only",
+      "state": "blocked",
+      "valueBearingSettlementAdmitted": false,
+      "valueBearingSettlementRequested": true
+    },
+    {
+      "blockers": [
+        "external-network-disabled"
+      ],
+      "laneId": "offline-disabled",
+      "ledgerNetwork": "offline",
+      "network": "offline",
+      "postures": [
+        "no-live-ledger-write",
+        "no-live-database-readback",
+        "no-live-object-storage-write",
+        "no-btc-broadcast",
+        "fixture-only"
+      ],
+      "providerConnectivity": [
+        "external-network:disabled",
+        "wallet-broadcast:disabled"
+      ],
+      "readinessRoot": "sha256:18b0ccdf8ba5102b0f5b752665179a2c7bb346c7e54f0deeae451d72a92f3c31",
+      "secretHandling": "no-live-secret-required",
+      "sourceSafetyClass": "source-safe-generated-proof",
+      "state": "disabled",
+      "valueBearingSettlementAdmitted": false,
+      "valueBearingSettlementRequested": false
+    }
+  ],
+  "passed": true,
+  "proofCoverage": {
+    "laneCount": 4,
+    "localRepresented": true,
+    "offlineDisabledRepresented": true,
+    "productionMainnetRepresented": true,
+    "productionMainnetValueBearingAdmitted": false,
+    "protectedSourceSerialized": false,
+    "rawProviderPayloadsSerialized": false,
+    "secretPresenceClassCount": 7,
+    "secretValuesSerialized": false,
+    "stagingTestnetRepresented": true
+  },
+  "schemaId": "bitcode.v32.testnetMainnetReadinessRehearsal.v1",
+  "secretPresenceClasses": [
+    "sandbox-auth-token",
+    "model-provider-key",
+    "supabase-admin-credential",
+    "database-admin-password",
+    "vcs-installation-credential",
+    "wallet-signer-capability",
+    "production-operator-approval"
+  ],
+  "sourceEvidence": [
+    {
+      "digest": "sha256:3ff55cef28cfc6456fcd4d445c56eee5def63008751b76960cf370ac088438ce",
+      "relativePath": "packages/btd/src/testnet-mainnet-readiness-rehearsal.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildV32TestnetMainnetReadinessRehearsal"
+        },
+        {
+          "present": true,
+          "token": "production-mainnet-value-bearing-not-admitted-in-v32"
+        },
+        {
+          "present": true,
+          "token": "secret-presence-only"
+        },
+        {
+          "present": true,
+          "token": "tkpyosihuouusyaxtbau"
+        },
+        {
+          "present": true,
+          "token": "rinalyjfecxnmyczrpzo"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:65f910e8e471fe199939e9c4f0ce6498b6d97f649d9cbd0ca42e38c0ee2588de",
+      "relativePath": "packages/btd/src/btc-fee-operation.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "production-mainnet"
+        },
+        {
+          "present": true,
+          "token": "Value-bearing BTC fee settlement on mainnet requires explicit operational approval."
+        }
+      ]
+    },
+    {
+      "digest": "sha256:0c76a019063830300de0e30ebcb4f5e5b8296ac1cb912685cb3df90c61fbf971",
+      "relativePath": "packages/btd/src/deployment-lanes.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "mainnet-value-bearing"
+        },
+        {
+          "present": true,
+          "token": "Value-bearing mainnet V27 lane requires operational approval root."
+        }
+      ]
+    },
+    {
+      "digest": "sha256:5011937c41fefefd5973b2272bdc1c0f37c707a7dced70cbb3cda1ed27cbb45d",
+      "relativePath": "packages/btd/README.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "testnet/mainnet readiness rehearsal"
+        },
+        {
+          "present": true,
+          "token": "secret-presence-only"
+        },
+        {
+          "present": true,
+          "token": "production-mainnet remains blocked"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-readiness-metadata-secret-presence-only",
+  "testEvidence": [
+    {
+      "digest": "sha256:eb849a63ffae938c1e84ad26462611202bdef67c5d4a1336e68ba7015f4a71c9",
+      "relativePath": "packages/btd/__tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "represents every readiness lane with typed source-safe records"
+        },
+        {
+          "present": true,
+          "token": "classifies secret presence without serializing credential values"
+        },
+        {
+          "present": true,
+          "token": "keeps production-mainnet value-bearing settlement blocked in V32"
+        },
+        {
+          "present": true,
+          "token": "keeps disabled/offline rehearsal fixture-only"
+        }
+      ]
+    }
+  ],
+  "version": "V32"
+}
