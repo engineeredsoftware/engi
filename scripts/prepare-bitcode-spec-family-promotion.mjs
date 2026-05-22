@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, and V31.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, and V32.'
     ].join('\n')
   );
 }
@@ -267,8 +267,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
+  if (version === 'V32') {
+    const sharedInventory = 'active canonical `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, `.bitcode/v32-proof-coverage-matrix.json`, `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, `.bitcode/v32-reading-pipeline-proof-coverage.json`, `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, `.bitcode/v32-interface-contract-regression-suite.json`, `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, `.bitcode/v32-promotion-proof-generation-hardening.json`, `.bitcode/v32-promotion-readiness-report.json`, V32 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V32_PROVEN.md` as the generated proof appendix for V32 promotion';
+    const scopeByKind = {
+      spec: 'V32 canonical system specification for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      delta: 'V32 canonical delta for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      notes: 'V32 canonical notes for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      parity: 'V32 canonical parity ledger for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V32 is the active provation/testing canon and the V32 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V31-to-V32 provation/testing closure set',
+      notes: 'canonical promotion complete; V32 notes record the accepted proof/test, readiness rehearsal, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V32 parity truth, generated proof artifacts, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V32`' }
+        : {}),
+      'Current canonical/latest target': '`V32`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V32 source-side proof/test replay, generated artifacts, Reading pipeline proof coverage, ledger/BTD failure-state proof, interface regression, browser/accessibility/responsive/visual proof, readiness rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V32 file family',
+      'V32 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, and V31. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, and V32. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

@@ -442,11 +442,12 @@ Gate 10's source implementation is the V32 promotion-readiness control surface:
 `scripts/promote-bitcode-canon.mjs`, `scripts/generate-bitcode-proven.mjs`,
 `scripts/prepare-bitcode-spec-family-promotion.mjs`,
 `scripts/prepare-bitcode-runtime-canon-promotion.mjs`,
-`.github/workflows/v32-canon-promotion.yml`, and the generated
-`.bitcode/v32-*` artifacts must agree on the same V31 active / V32 promoted
-transition. The generated telemetry artifact is source-safe and exists to bind
-Gate 9 proof/test artifacts into promotion proof without exposing
-protected source or secrets.
+`.github/workflows/v32-canon-promotion.yml`, `BITCODE_V32_QA.md`, and
+`.bitcode/v32-promotion-readiness-report.json` must agree on the same V31
+active / V32 draft pre-promotion surface and V32 active / V33 draft
+post-promotion surface. The generated telemetry artifact is source-safe and
+exists to bind Gate 9 proof/test artifacts into promotion proof without
+exposing protected source or secrets.
 
 ## V32 Wallet/BTD proof coverage canon
 
@@ -880,11 +881,12 @@ V32 continues operator-quality proof: Terminal workflow claims must be backed by
 | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` | yes | yes | records source-safe Terminal and Auxillaries browser, accessibility, responsive, and deterministic visual proof coverage |
 | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json` | yes | yes | records source-safe local, staging-testnet, production-mainnet, and offline-disabled readiness lanes with secret-presence-only posture |
 | `.bitcode/v32-promotion-proof-generation-hardening.json` | yes | yes | records dry-run/check/promotion proof-generation modes, source-safe generated artifact diffs, failure taxonomy, and branch-protection posture |
+| `.bitcode/v32-promotion-readiness-report.json` | yes | yes | records V32 Gate 10 promotion workflow, pre/post-promotion posture, generated-artifact policy, source-safe QA evidence, and branch-protection posture |
 | `BITCODE_SPEC_V32_PROVEN.md` | no | yes | generated proof appendix for promoted V32 |
 
 ### V32 specifying generated artifacts
 
-The minimum V32 generated set is `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, `.bitcode/v32-proof-coverage-matrix.json`, `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, `.bitcode/v32-reading-pipeline-proof-coverage.json`, `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, `.bitcode/v32-interface-contract-regression-suite.json`, `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, `.bitcode/v32-promotion-proof-generation-hardening.json`, and promotion-time `BITCODE_SPEC_V32_PROVEN.md`.
+The minimum V32 generated set is `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, `.bitcode/v32-proof-coverage-matrix.json`, `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, `.bitcode/v32-reading-pipeline-proof-coverage.json`, `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, `.bitcode/v32-interface-contract-regression-suite.json`, `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, `.bitcode/v32-promotion-proof-generation-hardening.json`, `.bitcode/v32-promotion-readiness-report.json`, and promotion-time `BITCODE_SPEC_V32_PROVEN.md`.
 
 ### Shared generated-artifact fields
 

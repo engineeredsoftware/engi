@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 9 Promotion Proof Generation Hardening, which makes generated V32 promotion proof dry-runnable, checkable, source-safe to debug, and branch-protection friendly before final V32 promotion readiness.
+- Current working gate: V32 Gate 10 Promotion Readiness, which closes V32 by wiring promotion workflow validation, source-safe QA evidence, generated V32 proof artifacts including `BITCODE_SPEC_V32_PROVEN.md`, and active V32 / draft V33 runtime posture preparation.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

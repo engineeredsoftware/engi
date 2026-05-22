@@ -130,8 +130,8 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
       'drafted',
     ]),
     scanTokens('SPECIFICATIONS_ROADMAP.md', [
-      'Current working gate: V32 Gate 9',
-      'Promotion Proof Generation Hardening',
+      'Current working gate: V32 Gate 10',
+      'Promotion Readiness',
     ]),
   ];
   const passed =

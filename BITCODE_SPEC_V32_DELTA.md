@@ -200,7 +200,7 @@ Gate 10 owns final local/staging proof, generated artifacts, and V32 promotion w
 
 Closure acceptance:
 
-- `check:v32-gate10` validates promoted-readiness posture;
+- `check:v32-gate10` validates promoted-readiness posture and `.bitcode/v32-promotion-readiness-report.json`;
 - V32 promotion workflow validates source branch, local proof commands, proof/test evidence, generated `.bitcode/v32-*` reports, and `BITCODE_SPEC_V32_PROVEN.md`;
 - promotion scripts support V32 and rewrite post-promotion active V32 / draft V33 posture;
 - `version/v32` can be requested into `main` only after all V32 gates close.
@@ -212,4 +212,4 @@ Gate 10 implementation centers:
 - V32 support in `scripts/promote-bitcode-canon.mjs`;
 - V32 status rewriting in `scripts/prepare-bitcode-spec-family-promotion.mjs`;
 - V32 generated appendix/artifact support in `packages/protocol/src/canonical/proven-generator.js`;
-- generated `.bitcode/v32-*` artifacts and source-safe `BITCODE_V32_QA.md`.
+- generated `.bitcode/v32-*` artifacts, `.bitcode/v32-promotion-readiness-report.json`, and source-safe `BITCODE_V32_QA.md`.

@@ -176,15 +176,15 @@ const coverageRows = Object.freeze([
     surfaceId: 'promotion',
     promotedBehavior: 'Gate PR quality, version promotion workflow, spec-family checks, canonical input checks, canon-posture drift checks, and generated proof appendix.',
     owner: '.github/workflows; scripts; packages/protocol',
-    fixture: 'scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; packages/protocol/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml',
-    replayCommand: 'pnpm run check:v32-gate1 && pnpm run check:v32-gate2 && pnpm run check:v32-gate9 && node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31 && node scripts/check-bitcode-canonical-inputs.mjs --current-target V31',
-    expectedArtifact: '.bitcode/v32-promotion-proof-generation-hardening.json',
+    fixture: 'scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; packages/protocol/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml',
+    replayCommand: 'pnpm run check:v32-gate1 && pnpm run check:v32-gate2 && pnpm run check:v32-gate9 && pnpm run check:v32-gate10 && node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31 && node scripts/check-bitcode-canonical-inputs.mjs --current-target V31',
+    expectedArtifact: '.bitcode/v32-promotion-readiness-report.json',
     sourceSafetyClass: 'source-safe-generated-proof',
     coverageStatus: 'v32-expansion-required',
     plannedGate: 'Gate 9 and Gate 10',
     requiredContexts: ['spec family', 'canonical inputs', 'canon posture', 'gate-quality workflow', 'promotion workflow'],
     failureModes: ['stale-status-truth', 'missing-generated-artifact', 'workflow-branch-mismatch', 'unsafe-main-push'],
-    repairPosture: 'Gate 9 hardens generated-proof diagnostics; Gate 10 wires V32 promotion and post-promotion V33 draft posture.'
+    repairPosture: 'Gate 9 hardens generated-proof diagnostics through .bitcode/v32-promotion-proof-generation-hardening.json; Gate 10 wires V32 promotion and post-promotion V33 draft posture.'
   },
   {
     surfaceId: 'protocol-demonstration',

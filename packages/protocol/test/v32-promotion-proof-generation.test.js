@@ -25,7 +25,13 @@ test('supports V32 promotion proof generation hardening with source-safe generat
   assert.equal(result.data.v32.promotionProofGenerationHardening.modes.check.outputClass, 'source-safe generated artifact diffs');
   assert.equal(result.data.v32.promotionProofGenerationHardening.branchProtection.directMainPushAdmitted, false);
   assert.equal(result.data.v32.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.bitcode/v32-promotion-proof-generation-hardening.json'), true);
+  assert.equal(result.data.v32.promotionReadinessReport.reportId, 'v32-promotion-readiness-report');
+  assert.equal(result.data.v32.promotionReadinessReport.passed, true);
+  assert.equal(result.data.v32.promotionReadinessReport.postPromotionPosture, 'V32 active / V33 draft');
+  assert.equal(result.data.v32.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.bitcode/v32-promotion-readiness-report.json'), true);
   assert.equal(Object.hasOwn(result.artifacts, '.bitcode/v32-promotion-proof-generation-hardening.json'), true);
+  assert.equal(Object.hasOwn(result.artifacts, '.bitcode/v32-promotion-readiness-report.json'), true);
   assert.match(result.markdown, /v32PromotionProofGenerationHardeningPassed/);
   assert.match(result.artifacts['.bitcode/v32-promotion-proof-generation-hardening.json'], /source-safe generated artifact diffs/);
+  assert.match(result.artifacts['.bitcode/v32-promotion-readiness-report.json'], /source-safe/);
 });

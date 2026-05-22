@@ -176,7 +176,7 @@ function main() {
     assertCheck(failures, doc.includes('source-safe generated artifact diffs'), 'V32 docs must name source-safe generated artifact diffs.');
   }
 
-  assertCheck(failures, roadmap.includes('Current working gate: V32 Gate 9 Promotion Proof Generation Hardening'), 'Roadmap must track V32 Gate 9 as current.');
+  assertCheck(failures, /Current working gate: V32 Gate (?:9|10)\b/u.test(roadmap), 'Roadmap must track V32 Gate 9 or later as current.');
   assertCheck(failures, packageJson.includes('"generate:v32-promotion-proof-generation-hardening"'), 'package.json must expose the Gate 9 generator.');
   assertCheck(failures, packageJson.includes('"check:v32-gate9"'), 'package.json must expose check:v32-gate9.');
   assertCheck(
