@@ -26,7 +26,17 @@ test('supports V32 promotion proof generation hardening with source-safe generat
   assert.equal(result.data.v32.promotionProofGenerationHardening.branchProtection.directMainPushAdmitted, false);
   assert.equal(result.data.v32.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.bitcode/v32-promotion-proof-generation-hardening.json'), true);
   assert.equal(result.data.v32.promotionReadinessReport.reportId, 'v32-promotion-readiness-report');
-  assert.equal(result.data.v32.promotionReadinessReport.passed, true);
+  assert.equal(result.data.v32.promotionReadinessReport.sourceSafe, true);
+  assert.deepEqual(
+    result.data.v32.promotionReadinessReport.failures,
+    result.data.v32.draftPreview
+      ? [
+          'packages/protocol/README.md is missing Gate 10 token V32 Gate 10',
+          'packages/protocol/README.md is missing Gate 10 token V32` active, `V33` draft',
+        ]
+      : [],
+  );
+  assert.equal(result.data.v32.promotionReadinessReport.passed, result.data.v32.draftPreview ? false : true);
   assert.equal(result.data.v32.promotionReadinessReport.postPromotionPosture, 'V32 active / V33 draft');
   assert.equal(result.data.v32.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.bitcode/v32-promotion-readiness-report.json'), true);
   assert.equal(Object.hasOwn(result.artifacts, '.bitcode/v32-promotion-proof-generation-hardening.json'), true);
