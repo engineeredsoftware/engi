@@ -278,6 +278,10 @@ Gate 8 UX precision:
 - Auxillaries default presentation is low-detail and guided, with expandable audit detail for every pane.
 - Responsive behavior must be stable on mobile and desktop without overlapping text or decorative card nesting.
 - Accessibility proof covers focus order, keyboard operation, labels, state announcement, contrast, and reduced-motion posture where applicable.
+- The contained Auxillaries support plane must expose one named main landmark, one skip link to `#auxillaries-active-pane`, one named pane navigation region, and one named active pane region per selected pane.
+- The active pane region must announce ready/loading state, show a compact guided summary and source-safe readiness chips, and keep audit metadata behind an expandable control.
+- The expandable audit detail may expose pane names, availability counts, completed panes, surface state, and source-safety posture; it must not require ordinary users to read raw JSON.
+- Workspace pane controls must be regular buttons with keyboard-native behavior, `aria-current` on the selected pane, `aria-disabled` mirroring disabled state, and screen-reader descriptions for active/ready/locked posture.
 
 Gate 9 telemetry/recovery precision:
 

@@ -197,6 +197,14 @@ Closure acceptance:
 - Profile, Connects, Interfaces, Wallet/BTD, and organization panes work across mobile and desktop without overlap;
 - keyboard, focus, labels, state announcement, contrast, and reduced-motion posture are tested.
 
+Gate 8 implementation centers:
+
+- the contained Auxillaries shell exposes one named main landmark, a keyboard-reachable skip link to `#auxillaries-active-pane`, named pane navigation, and a named active-pane region with `aria-live` state announcement;
+- the active-pane region carries a compact guided summary, readiness chips, loading/ready state, and source-safe expandable audit detail without raw JSON;
+- workspace panel buttons carry `aria-current`, `aria-disabled`, and screen-reader state descriptions while retaining concise visible labels;
+- route-scoped Auxillaries CSS enforces overflow wrapping, mobile single-column behavior, focus-visible rings, contrast-preserving chips, and reduced-motion posture;
+- focused Jest coverage proves named landmarks, skip navigation, active-pane announcements, loading state, expandable audit detail, and keyboard-readable panel states.
+
 ### Gate 9: Auxillaries Telemetry Proof And Recovery Runs
 
 Gate 9 adds Auxillaries telemetry and recovery proof.

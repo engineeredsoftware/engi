@@ -110,3 +110,15 @@ Gate 6 is closed only when organization policy authority is package-owned, sourc
 Protected-source and settlement-adjacent actions must fail closed unless every required authority input admits the action.
 `packages/api` may map the BTD object into `OrganizationPolicyAuthority`, but routes, Profile panes, Terminal detail cards, telemetry, and proof hooks must not rederive the authority decision from local heuristics.
 The support UI may show policy measurements, blockers, recovery routes, and roots; it must not reveal protected source or treat multi-sig readiness as value-bearing mainnet approval.
+
+## Gate 7 closure note
+
+Gate 7 is closed only when Interfaces admission is package-owned and cross-surface.
+The admission catalog must cover Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks with auth mode, supported actions, currently admitted actions, policy requirements, source-safety class, blockers, readiness, deferred-product depth, and interface-admission roots.
+Exchange and Conversations may appear as source-safe hooks, but their market and product depth must stay explicitly blocked until later versions implement those surfaces.
+
+## Gate 8 closure note
+
+Gate 8 is closed only when Auxillaries UX is usable before audit expansion and provable after expansion.
+The contained support plane must expose a named main landmark, keyboard skip link, named pane navigation, active-pane state announcement, readable loading/ready posture, and expandable audit detail for every pane without raw JSON.
+The panel controls must be keyboard-native, focus-visible, labelled, and state-described, and route-scoped CSS must prove responsive mobile/desktop layout, no horizontal overflow pressure, contrast-preserving readiness chips, and reduced-motion posture.
