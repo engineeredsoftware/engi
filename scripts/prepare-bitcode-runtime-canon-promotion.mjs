@@ -135,11 +135,17 @@ function rewritePackageReadme(content, version, nextDraft) {
     /active\/draft canon posture \(`V\d+` active, `V\d+` draft(?: during V\d+ work| after V\d+ promotion)?\);/m,
     `active/draft canon posture (\`${version}\` active, \`${nextDraft}\` draft after ${version} promotion);`
   ).replace(
+    /This is the `V\d+` active, `V\d+` draft after V\d+ promotion posture accepted by\s+V\d+ Gate 10\./m,
+    `This is the \`${version}\` active, \`${nextDraft}\` draft after ${version} promotion posture accepted by\n${version} Gate 10.`
+  ).replace(
     /must remain aligned to `V\d+` active, `V\d+` draft during gate work, then be\s+rewritten by promotion automation to `V\d+` active, `V\d+` draft\./m,
     `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
   ).replace(
     /must remain aligned to `V\d+` active, `V\d+` draft until V\d+ promotion\./m,
     `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
+  ).replace(
+    /V\d+ Gate 10 will promote this package posture by rewriting those same runtime\s+carriers to `V\d+` active, `V\d+` draft and regenerating the V\d+ generated\s+appendix plus `\.bitcode\/v\d+-\*` promotion artifacts\./m,
+    `${version} Gate 10 promoted this package posture by rewriting those same runtime\ncarriers to \`${version}\` active, \`${nextDraft}\` draft and regenerating the ${version} generated\nappendix plus \`.bitcode/${version.toLowerCase()}-*\` promotion artifacts.`
   );
 }
 

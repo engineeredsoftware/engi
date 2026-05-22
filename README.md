@@ -67,8 +67,11 @@ run the version promotion workflow. For V33, promotion work must validate the
 interface-depth posture, generate `BITCODE_SPEC_V33_PROVEN.md`, and commit
 promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V32` to
 `V33` on the version branch.
-Gate 10 is the promotion-readiness gate. V33 Gate 1 closure is wired through
-`pnpm run check:v33-gate1` until later V33 gates add their own closure checks.
+Gate 10 is the promotion-readiness gate. V33 Gate 10 closure is wired through
+`pnpm run check:v33-gate10`, backed by source-safe interface artifacts and the
+promotion readiness report.
+V33 canonical promotion is validated through
+[v33-canon-promotion.yml](.github/workflows/v33-canon-promotion.yml).
 The promoted V32 closure remains reproducible through `pnpm run check:v32-gate10`
 and [v32-canon-promotion.yml](.github/workflows/v32-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi

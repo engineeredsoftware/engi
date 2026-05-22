@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, and V32.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, and V33.'
     ].join('\n')
   );
 }
@@ -296,8 +296,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
+  if (version === 'V33') {
+    const sharedInventory = 'active canonical `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, `.bitcode/v33-interface-contract-catalog.json`, `.bitcode/v33-mcp-api-tool-contracts.json`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `.bitcode/v33-interface-authorization-policy.json`, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `.bitcode/v33-api-schema-compatibility-matrix.json`, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `.bitcode/v33-promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion';
+    const scopeByKind = {
+      spec: 'V33 canonical system specification for commercial interface depth over promoted MCP API, ChatGPT App, public API, package consumers, authorization, schemas, license/rights, telemetry, and source-safe consumer UX contracts',
+      delta: 'V33 canonical delta for commercial interface depth over promoted V32 proof/testing canon',
+      notes: 'V33 canonical notes for commercial interface depth over promoted V32 proof/testing canon',
+      parity: 'V33 canonical parity ledger for commercial interface depth over promoted V32 proof/testing canon'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V33 is the active commercial interface-depth canon and the V33 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V32-to-V33 interface-depth closure set',
+      notes: 'canonical promotion complete; V33 notes record the accepted interface contract, policy, schema, telemetry, consumer UX, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V33 parity truth, generated interface artifacts, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V33`' }
+        : {}),
+      'Current canonical/latest target': '`V33`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V33 source-side interface contract catalog, MCP tool contracts, ChatGPT App action contracts, authorization policy, Read license and AssetPack rights contracts, API schema compatibility matrix, interface telemetry proof hooks, consumer UX regression proof, workflow, and promotion surfaces are canonicalized in the promoted V33 file family',
+      'V33 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, and V32. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, and V33. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

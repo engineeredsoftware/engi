@@ -6031,6 +6031,27 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- postPromotionPosture: ${markdownCode(v32.promotionReadinessReport.postPromotionPosture)}`);
     lines.push('');
   }
+  if (data.v33) {
+    const { v33 } = data;
+    lines.push('## V33 Promotion Readiness');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v33.promotionReadinessReport.reportId)}`);
+    lines.push(`- sourceSafe: ${markdownCode(String(v33.promotionReadinessReport.sourceSafe === true))}`);
+    lines.push(`- passed: ${markdownCode(String(v33.promotionReadinessReport.passed === true))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v33.promotionReadinessReport.failures.length))}`);
+    lines.push(`- prePromotionPosture: ${markdownCode(v33.promotionReadinessReport.prePromotionPosture)}`);
+    lines.push(`- postPromotionPosture: ${markdownCode(v33.promotionReadinessReport.postPromotionPosture)}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v33.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+  }
   if (v20) {
     lines.push('## V20 Operator Quality Reports');
     lines.push('');
@@ -9051,6 +9072,272 @@ function buildV32ProvenPackage(baseData, {
 
 /**
  * @param {{
+ *   generatedAt: string,
+ *   baseData: ReturnType<typeof buildCanonicalProvenData>
+ * }} input
+ */
+function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
+  const requiredSources = [
+    {
+      relativePath: 'scripts/check-v33-gate10-promotion-readiness.mjs',
+      tokens: [
+        'V33 Gate 10 promotion readiness',
+        '--promotion-mode',
+        '.bitcode/v33-promotion-readiness-report.json'
+      ]
+    },
+    {
+      relativePath: 'scripts/generate-v33-promotion-readiness-report.mjs',
+      tokens: [
+        'buildV33PromotionReadinessReport',
+        'source-safe-interface-promotion-readiness-metadata',
+        'v33-promotion-readiness-report'
+      ]
+    },
+    {
+      relativePath: 'scripts/promote-bitcode-canon.mjs',
+      tokens: [
+        "if (version === 'V33')",
+        'const v33Gate10Command',
+        'buildDerivedV33CommitMessageBody',
+        'scripts/check-v33-gate10-promotion-readiness.mjs'
+      ]
+    },
+    {
+      relativePath: 'scripts/prepare-bitcode-spec-family-promotion.mjs',
+      tokens: [
+        "if (version === 'V33')",
+        'V33 canonical system specification for commercial interface depth',
+        'BITCODE_SPEC_V33_PROVEN.md',
+        '.bitcode/v33-promotion-readiness-report.json'
+      ]
+    },
+    {
+      relativePath: '.github/workflows/v33-canon-promotion.yml',
+      tokens: [
+        "head.ref == 'version/v33'",
+        'npm run promote:canon -- --version V33',
+        'BITCODE_SPEC_V33_PROVEN.md',
+        'Promote V33 canon files'
+      ]
+    },
+    {
+      relativePath: '.github/workflows/bitcode-gate-quality.yml',
+      tokens: [
+        'check-v33-gate10-promotion-readiness.mjs',
+        'elif [ "$POINTER" = "V33" ]'
+      ]
+    },
+    {
+      relativePath: '.github/workflows/bitcode-canon-quality.yml',
+      tokens: [
+        'elif [ "$POINTER" = "V33" ]',
+        '--active-canon V33 --draft-target V34'
+      ]
+    },
+    {
+      relativePath: 'BITCODE_SPEC_V33.md',
+      tokens: [
+        'V33 promotion readiness canon',
+        '.bitcode/v33-promotion-readiness-report.json',
+        'V33 active / V34 draft'
+      ]
+    },
+    {
+      relativePath: 'BITCODE_SPEC_V33_PARITY_MATRIX.md',
+      tokens: [
+        '## Gate 10 Parity',
+        '.bitcode/v33-promotion-readiness-report.json',
+        'closed'
+      ]
+    },
+    {
+      relativePath: 'package.json',
+      tokens: [
+        'generate:v33-promotion-readiness',
+        'check:v33-gate10'
+      ]
+    },
+    {
+      relativePath: 'packages/protocol/README.md',
+      tokens: [
+        'V33 Gate 10',
+        'V33` active, `V34` draft'
+      ]
+    }
+  ];
+  const failures = [];
+  const sourceEvidence = [];
+  for (const source of requiredSources) {
+    const absolutePath = path.join(REPO_ROOT, source.relativePath);
+    if (!existsSync(absolutePath)) {
+      failures.push(`missing required Gate 10 source ${source.relativePath}`);
+      sourceEvidence.push({
+        relativePath: source.relativePath,
+        present: false,
+        requiredTokens: source.tokens.map((token) => ({ token, present: false }))
+      });
+      continue;
+    }
+    const content = readFileSync(absolutePath, 'utf8');
+    const requiredTokens = source.tokens.map((token) => ({
+      token,
+      present: content.includes(token)
+    }));
+    for (const token of requiredTokens) {
+      if (!token.present) {
+        failures.push(`${source.relativePath} is missing Gate 10 token ${token.token}`);
+      }
+    }
+    sourceEvidence.push({
+      relativePath: source.relativePath,
+      present: true,
+      requiredTokens
+    });
+  }
+
+  return {
+    reportId: 'v33-promotion-readiness-report',
+    artifactId: 'v33-promotion-readiness-report',
+    schemaId: 'bitcode.v33.promotionReadiness.v1',
+    version: 'V33',
+    currentTarget: 'V33',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: failures.length === 0,
+    sourceSafe: true,
+    prePromotionPosture: 'V32 active / V33 draft',
+    postPromotionPosture: 'V33 active / V34 draft',
+    branchProtection: {
+      directMainPushAdmitted: false,
+      promotionPrRequired: true,
+      versionBranch: 'version/v33',
+      versionPromotionPullRequestTitlePrefix: 'V33 Canonical Promotion'
+    },
+    generatedArtifactPolicy: {
+      provenAppendixPath: 'BITCODE_SPEC_V33_PROVEN.md',
+      provenAppendixRequiredBeforePromotion: false,
+      generatedArtifactPrefix: '.bitcode/v33-',
+      secretValuesSerialized: false,
+      protectedSourceSerialized: false
+    },
+    sourceEvidence,
+    failures
+  };
+}
+
+/**
+ * @param {any} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ */
+function buildV33ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const draftPreview = ACTIVE_CANON_VERSION !== 'V33';
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V33',
+    mode: draftPreview ? 'draft' : 'promoted',
+    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V33' })
+  });
+  const assumedArtifactPaths = [
+    'BITCODE_SPEC_V33_PROVEN.md',
+    '.bitcode/v33-spec-family-report.json',
+    '.bitcode/v33-canonical-input-report.json',
+    '.bitcode/v33-canon-posture-drift-report.json',
+    '.bitcode/v33-interface-contract-catalog.json',
+    '.bitcode/v33-mcp-api-tool-contracts.json',
+    '.bitcode/v33-chatgpt-app-action-contracts.json',
+    '.bitcode/v33-interface-authorization-policy.json',
+    '.bitcode/v33-read-license-assetpack-rights-contracts.json',
+    '.bitcode/v33-api-schema-compatibility-matrix.json',
+    '.bitcode/v33-interface-telemetry-proof-hooks.json',
+    '.bitcode/v33-interface-consumer-ux-regression-proof.json',
+    '.bitcode/v33-promotion-readiness-report.json'
+  ];
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V33',
+    reportVersion: 'V33',
+    ...(draftPreview
+      ? {
+          skipPointerCheck: true,
+          assumeExistingRelativePaths: assumedArtifactPaths
+        }
+      : { assumeExistingRelativePaths: assumedArtifactPaths })
+  });
+  const canonPostureDriftReport = buildCanonPostureDriftReport({
+    version: 'V33',
+    activeCanonVersion: 'V33',
+    draftTargetVersion: 'V34',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const promotionReadinessReport = buildV33PromotionReadinessReport({
+    generatedAt,
+    baseData
+  });
+  const artifacts = {
+    ...buildCanonPostureGeneratedArtifactContents({
+      version: 'V33',
+      proofSourceCommit: baseData.canonicalCommit,
+      generatedAt,
+      generatorId: baseData.generatorId,
+      worktreeState: baseData.worktreeState,
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport
+    }),
+    '.bitcode/v33-promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
+  };
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const promotionReady = specFamilyReport.passed === true
+    && canonicalInputReport.passed === true
+    && canonPostureDriftReport.passed === true
+    && promotionReadinessReport.passed === true;
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v33: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      promotionReadinessReport,
+      artifactSummaries,
+      draftPreview,
+      promotionReady,
+      activeCanonicalTarget: ACTIVE_CANON_VERSION,
+      nextDraftTarget: 'V34'
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && promotionReady
+        && specFamilyReport.mode === 'promoted'
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
+ * @param {{
  *   version: string,
  *   canonicalCommit: string,
  *   canonicalCommitRecordedAt?: string | null,
@@ -9620,6 +9907,58 @@ export function generateCanonicalProvenMarkdown({
     });
     finishGenerateProfile();
     return v32Package;
+  }
+  if (version === 'V33') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      renderMarkdown: false,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      renderMarkdown: false
+    });
+    const v33Package = buildV33ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+    finishGenerateProfile();
+    return v33Package;
   }
   const v18Matrices = version === 'V18'
     ? buildV18Matrices(baseData, {

@@ -360,6 +360,7 @@ function buildV21LikeProfile(version) {
         : []),
       ...(version === 'V33'
         ? [
+          '.bitcode/v33-canon-posture-drift-report.json',
           '.bitcode/v33-interface-contract-catalog.json',
           '.bitcode/v33-mcp-api-tool-contracts.json',
           '.bitcode/v33-chatgpt-app-action-contracts.json',
@@ -367,9 +368,10 @@ function buildV21LikeProfile(version) {
           '.bitcode/v33-read-license-assetpack-rights-contracts.json',
           '.bitcode/v33-api-schema-compatibility-matrix.json',
           '.bitcode/v33-interface-telemetry-proof-hooks.json',
-          '.bitcode/v33-interface-consumer-ux-regression-proof.json'
+          '.bitcode/v33-interface-consumer-ux-regression-proof.json',
+          '.bitcode/v33-promotion-readiness-report.json'
         ]
-        : []),
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1446,6 +1448,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V32') {
     artifacts.push(...buildV21LikeProfile('V32').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V33') {
+    artifacts.push(...buildV21LikeProfile('V33').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

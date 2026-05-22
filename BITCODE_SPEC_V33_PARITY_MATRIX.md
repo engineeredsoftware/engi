@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V33`
-- V33 state: draft target parity matrix opened; interface-depth parity begins at Gate 1
+- V33 state: Gate 10 promotion-readiness parity is in progress over active V32 canon
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`, and Gate 9 `.bitcode/v33-interface-consumer-ux-regression-proof.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 9 adds package-owned `InterfaceConsumerUxRegressionProof` source and generated proof coverage for source-safe interface readability across action labels, summaries, proof roots, repair steps, fee/rights preview, and denied-state posture
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`, Gate 9 `.bitcode/v33-interface-consumer-ux-regression-proof.json`, and Gate 10 `.bitcode/v33-promotion-readiness-report.json`; `BITCODE_SPEC_V33_PROVEN.md` is generated only by promotion
+- Source parity state: Gate 10 adds source-safe V33 promotion readiness over interface artifacts, workflow validation, generated appendix support, and active V33 / draft V34 posture rewriting
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V33_DELTA.md`
@@ -59,7 +59,7 @@ No `_legacy/` source is active source truth.
 | API schema compatibility | Gate 7 | `packages/btd/src/api-schema-compatibility-matrix.ts`, `packages/btd/__tests__/api-schema-compatibility-matrix.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-api-schema-compatibility-matrix.json`, `check:v33-gate7` | drafted | Schemas, examples, compatibility status, and validation commands are source-safe and versionless. |
 | Interface telemetry proof hooks | Gate 8 | `packages/btd/src/interface-telemetry-proof-hook.ts`, `packages/btd/__tests__/interface-telemetry-proof-hook.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `check:v33-gate8` | drafted | Interface actions replay to executions, ledger, database, object storage, generated proof, and root-set roots. |
 | Interface consumer UX regression proof | Gate 9 | `packages/btd/src/interface-consumer-ux-regression-proof.ts`, `packages/btd/__tests__/interface-consumer-ux-regression-proof.test.ts`, API/MCP/ChatGPT App/Terminal fixture tests, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `check:v33-gate9` | drafted | Consumers see source-safe summaries, proof roots, fee/rights previews, and readable denials without protected-source or prompt-body overexposure. |
-| Promotion readiness | Gate 10 | planned V33 promotion checker and generated proof support | pending | `version/v33` can promote only after all V33 gates pass and generated canon is source-safe. |
+| Promotion readiness | Gate 10 | `scripts/generate-v33-promotion-readiness-report.mjs`, `scripts/check-v33-gate10-promotion-readiness.mjs`, `.bitcode/v33-promotion-readiness-report.json`, `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js`, `.github/workflows/v33-canon-promotion.yml`, `check:v33-gate10` | closed | `version/v33` can promote only after all V33 gates pass and generated canon is source-safe. |
 
 ## V33 implementation checklist
 
@@ -99,6 +99,19 @@ No `_legacy/` source is active source truth.
 | Surface fixtures consume proof rows | API, MCP API, ChatGPT App, and Terminal tests call `buildBtdInterfaceConsumerUxRegressionProof` or `getBtdInterfaceConsumerUxRegressionRow` | drafted |
 | Generated artifact is source-safe and deterministic | `.bitcode/v33-interface-consumer-ux-regression-proof.json` is produced by `generate:v33-interface-consumer-ux-regression-proof` and checked by `check:v33-interface-consumer-ux-regression-proof` | drafted |
 | Workflow and spec-family wiring exists | `check:v33-gate9`, `.github/workflows/bitcode-gate-quality.yml`, and `packages/protocol/src/canonical/v21-specifying.js` include the Gate 9 artifact | drafted |
+
+## Gate 10 Parity
+
+| Requirement | Source evidence | Current V33 judgment |
+| --- | --- | --- |
+| Promotion readiness report exists | `.bitcode/v33-promotion-readiness-report.json` is produced by `generate:v33-promotion-readiness` and checked by `check:v33-promotion-readiness` | closed |
+| All V33 interface artifacts are covered | `scripts/generate-v33-promotion-readiness-report.mjs` scans Gate 2 through Gate 9 artifacts for presence, JSON parseability, and source safety | closed |
+| Gate checker validates pre/post promotion posture | `scripts/check-v33-gate10-promotion-readiness.mjs` supports normal V32-draft mode and `--promotion-mode` V32/V33 posture | closed |
+| Promotion command supports V33 | `scripts/promote-bitcode-canon.mjs` runs V33 gate checks, package tests, proof generation, runtime rewrite, promoted spec checks, and V33/V34 drift checks | closed |
+| Spec-family promotion rewrite supports V33 | `scripts/prepare-bitcode-spec-family-promotion.mjs` rewrites V33 status, artifact inventory, source parity, proof-source commit, and promoted parity judgments | closed |
+| Generated appendix supports V33 | `packages/protocol/src/canonical/proven-generator.js` builds `BITCODE_SPEC_V33_PROVEN.md` and `.bitcode/v33-promotion-readiness-report.json` | closed |
+| Workflows support V33 promotion | `.github/workflows/v33-canon-promotion.yml`, `bitcode-gate-quality.yml`, and `bitcode-canon-quality.yml` validate V33 before and after promotion | closed |
+| Runtime posture advances to V34 draft | `prepare-bitcode-runtime-canon-promotion.mjs`, `packages/protocol/src/canon-posture.js`, `packages/protocol/data/state.json`, and `packages/protocol/README.md` carry V33 active / V34 draft after promotion | closed |
 
 ## Gate 2 Parity
 
