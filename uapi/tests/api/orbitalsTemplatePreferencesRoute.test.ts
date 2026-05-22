@@ -34,6 +34,7 @@ describe('/api/auxillaries/template-preferences route', () => {
     expect(payload).toEqual({
       shippable_templates: {},
       evidence_document_templates: {},
+      auto_save_templates: false,
     });
   });
 });

@@ -27,6 +27,13 @@ objects must be built through `buildAuxillariesContractSnapshot` and
 secrets, private prompts, protected source, service keys, and database
 credentials before UI, telemetry, or proof-hook consumption.
 
+Profile/account state is also package-owned. `AuxillariesProfileState` binds
+the support identity, completeness issues, repair routes, wallet binding,
+model/template preferences, notification posture, data-sharing posture, and
+proof roots. Profile UI and routes can display or persist explicit fields, but
+they should not recalculate readiness locally; missing profile/account facts
+must degrade into named blockers or repairable issues.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

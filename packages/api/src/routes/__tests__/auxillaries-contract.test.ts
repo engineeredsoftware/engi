@@ -16,6 +16,8 @@ describe('Auxillaries package route contracts', () => {
         id: 'user-1',
         username: 'operator',
         display_name: 'Operator',
+        email: 'operator@bitcode.exchange',
+        is_verified: true,
         company_name: 'Bitcode',
         role: 'admin',
         wallet_binding: {
@@ -78,7 +80,24 @@ describe('Auxillaries package route contracts', () => {
       ],
       modelPreferences: {
         preferred_model: 'gpt-4.1',
+        preferred_provider: 'openai',
       },
+      templatePreferences: {
+        shippable_templates: {
+          asset_pack_pr: { label: 'AssetPack PR' },
+        },
+        evidence_document_templates: {
+          witness_summary: { label: 'Witness summary' },
+        },
+        auto_save_templates: true,
+      },
+      notificationRows: [
+        {
+          id: 'notification-1',
+          is_read: false,
+          created_at: '2026-05-21T01:00:00.000Z',
+        },
+      ],
       onboardedSteps: ['btd', 'connects', 'profile', 'interfaces'],
     });
 
@@ -86,6 +105,30 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.onboardedPanes).toEqual(['wallet', 'externals', 'profile', 'interfaces']);
     expect(payload.organizations).toEqual(['bitcode']);
     expect(payload.profileState.kind).toBe('AuxillariesProfileState');
+    expect(payload.profileState.accountIdentity).toMatchObject({
+      userId: 'user-1',
+      emailVerified: true,
+    });
+    expect(payload.profileState.preferences.model).toMatchObject({
+      configured: true,
+      provider: 'openai',
+      model: 'gpt-4.1',
+    });
+    expect(payload.profileState.preferences.templates).toMatchObject({
+      configured: true,
+      shippableTemplateCount: 1,
+      evidenceDocumentTemplateCount: 1,
+      autoSaveTemplates: true,
+    });
+    expect(payload.profileState.notificationPosture).toMatchObject({
+      state: 'attention_needed',
+      unreadCount: 1,
+    });
+    expect(payload.profileState.dataSharingPosture).toMatchObject({
+      state: 'configured',
+      repositoryCount: 1,
+      enabledRepositoryCount: 1,
+    });
     expect(payload.connectionReadiness[0]).toMatchObject({
       provider: 'github',
       connected: true,
@@ -124,6 +167,8 @@ describe('Auxillaries package route contracts', () => {
       btcFeeBalance: null,
       recentBtdAssetPacks: [],
       modelPreferences: null,
+      templatePreferences: null,
+      notificationRows: [],
       onboardedSteps: [],
     });
 
@@ -134,6 +179,8 @@ describe('Auxillaries package route contracts', () => {
     expect(blockerIds).toEqual(expect.arrayContaining([
       'profile.missing',
       'profile.identity_missing',
+      'preferences.model_missing',
+      'preferences.templates_missing',
       'connects.github.connect_provider',
       'wallet.binding_missing',
     ]));

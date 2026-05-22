@@ -57,8 +57,8 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V31.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v31/gate-1-spec-roadmap-opening` | drafted | V31 family validates in draft mode over active V30 and `check:v31-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V30 active, V31 draft, and coherent V32-V37 responsibilities. |
-| Auxillaries package and route contracts | Gate 2 | `packages/api`, `packages/orm`, `packages/btd`, `uapi/app/auxillaries`, route tests | pending | Shared Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery objects are package-owned and JSON-safe. |
-| Profile and account state | Gate 3 | Profile/account packages, routes, Auxillaries pane tests | pending | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
+| Auxillaries package and route contracts | Gate 2 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, package docs, route tests | drafted | Shared Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery objects are package-owned and JSON-safe. |
+| Profile and account state | Gate 3 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, route/pane tests | drafted | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
 | Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | pending | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
 | Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | pending | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
 | Organization team role policy authority | Gate 6 | Organization packages/routes, policy authority tests, Terminal/Auxillaries projections | pending | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
@@ -105,9 +105,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Profile/account state is typed | Profile/account package objects and tests | pending |
-| Wallet binding and preferences are recoverable support state | profile/account routes and Auxillaries pane readback | pending |
-| Incomplete state names blockers and repair routes | component tests and route tests | pending |
+| Profile/account state is typed | `AuxillariesAccountIdentity`, `AuxillariesProfileCompletenessIssue`, `AuxillariesPreferencePosture`, `AuxillariesNotificationPosture`, and `AuxillariesDataSharingPosture` in `packages/api/src/routes/auxillaries-contract.ts` | drafted |
+| Wallet binding and preferences are recoverable support state | `buildAuxillariesProfileState` emits wallet, model, and template repair issues; `/api/auxillaries/data` hydrates model and template preferences before `buildAuxillaryDataPayload` | drafted |
+| Incomplete state names blockers and repair routes | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts`, `uapi/tests/userDataRoute.test.ts`, and `uapi/tests/profileStep.test.tsx` cover issues, blockers, repair routes, and Profile pane projection | drafted |
 
 ## Gate 4 Parity
 

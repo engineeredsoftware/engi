@@ -231,7 +231,11 @@ Gate 2 contract precision:
 Gate 3 profile/account precision:
 
 - Profile state binds user id, display identity, account readiness, wallet binding, model preference, template preference, notification posture, data-sharing posture, and completeness root.
-- Incomplete profile state must name blockers and repair routes rather than rendering as generic missing data.
+- Account identity is a typed support object containing user id, handle, display name, email, email verification, company, and role; it is not inferred again in UI surfaces.
+- Incomplete profile state must name completeness issues, blocking issue ids, repair routes, repair panes, and retry posture rather than rendering as generic missing data.
+- Model and template preferences are support readiness posture, with deterministic preference roots and repair actions when missing.
+- Notification posture names contact readiness, unread count, latest notification time, and source-safety class without exposing message bodies in the profile readiness summary.
+- Data-sharing posture names repository counts and enabled/disabled repository counts without exposing protected source.
 - Wallet binding is a capability/readiness field, not a private-key or custody claim.
 
 Gate 4 Connects precision:
