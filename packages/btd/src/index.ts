@@ -184,5 +184,6 @@ export * from './source-to-shares';
 export * from './supply';
 export * from './telemetry';
 export * from './terminal-journal';
+export * from './testnet-mainnet-readiness-rehearsal';
 export * from './upgrade';
 export * from './wallet';

@@ -73,6 +73,11 @@ Gate 1 audit basis:
 - `uapi/app/bitcode-browser-accessibility-responsive-proof.ts`
 - `uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts`
 - `uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`
+- `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`
+- `scripts/generate-v32-testnet-mainnet-readiness-rehearsal.mjs`
+- `scripts/check-v32-gate8-testnet-mainnet-readiness-rehearsal.mjs`
+- `packages/btd/src/testnet-mainnet-readiness-rehearsal.ts`
+- `packages/btd/__tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts`
 - `packages/protocol/README.md`
 - `protocol-demonstration/README.md`
 - `packages/protocol/src/canon-posture.js`
@@ -92,7 +97,7 @@ No `_legacy/` source is active source truth.
 | Ledger/BTD settlement failure states | Gate 5 | `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, focused BTD/BTC/ledger/reconciliation test, generator, checker, workflow wiring | drafted | Economic and ownership state has success, blocked, and repair proof without protected-source disclosure. |
 | Interface contract regression | Gate 6 | planned API/MCP/ChatGPT App/Terminal/Auxillaries fixtures | draft-required | Interface contracts prove auth, source-safety, policy denial, and deferred hooks. |
 | Browser/accessibility/responsive/visual proof | Gate 7 | planned Terminal and Auxillaries browser evidence | draft-required | Operator surfaces have stable semantic and visual coverage across supported viewports. |
-| Testnet/mainnet readiness rehearsal | Gate 8 | planned readiness records and lane checks | draft-required | Local, staging-testnet, production-mainnet, and offline lanes are represented without approving value-bearing launch. |
+| Testnet/mainnet readiness rehearsal | Gate 8 | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, package readiness source, focused BTD test, generator, checker, workflow wiring | drafted | Local, staging-testnet, production-mainnet, and offline lanes are represented without approving value-bearing launch. |
 | Promotion proof hardening | Gate 9 | planned generator/workflow diagnostics | draft-required | V32 promotion artifacts are reproducible and debuggable. |
 | Promotion readiness | Gate 10 | planned V32 promotion workflow and generated appendix | draft-required | `version/v32` can promote only after all V32 gates pass and generated canon is source-safe. |
 
@@ -116,7 +121,9 @@ No `_legacy/` source is active source truth.
 | Gate 6 scripts | `pnpm run generate:v32-interface-contract-regression-suites`, `pnpm run check:v32-interface-contract-regression-suites`, and `pnpm run check:v32-gate6` fail closed on stale, incomplete, source-unsafe, or undocumented interface proof coverage | drafted |
 | Gate 7 artifact | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` records Terminal and Auxillaries browser, accessibility, responsive, and deterministic visual proof coverage | drafted |
 | Gate 7 scripts | `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, `pnpm run check:v32-browser-accessibility-responsive-visual-proof`, and `pnpm run check:v32-gate7` fail closed on stale, incomplete, source-unsafe, or screenshot-only proof coverage | drafted |
-| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, Gate 5, Gate 6, and Gate 7 checkers | drafted |
+| Gate 8 artifact | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json` records source-safe local, staging-testnet, production-mainnet, and offline-disabled readiness lane posture | drafted |
+| Gate 8 scripts | `pnpm run generate:v32-testnet-mainnet-readiness-rehearsal`, `pnpm run check:v32-testnet-mainnet-readiness-rehearsal`, and `pnpm run check:v32-gate8` fail closed on stale, incomplete, source-unsafe, value-admitting, or undocumented readiness proof | drafted |
+| Gate-quality workflow | Gate workflow validates V31 active / V32 draft posture plus V32 Gate 1, Gate 2, Gate 3, Gate 4, Gate 5, Gate 6, Gate 7, and Gate 8 checkers | drafted |
 | Canon-quality workflow | Canon workflow validates V31 active / V32 draft posture and promoted V31 canon | drafted |
 
 ## Gate 1 Parity
@@ -190,9 +197,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| Environment lanes are typed | planned readiness records | draft-required |
-| Secrets are classified by presence, not printed | planned readiness scripts | draft-required |
-| Production-mainnet remains blocked | planned policy tests | draft-required |
+| Environment lanes are typed | `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json` and `packages/btd/src/testnet-mainnet-readiness-rehearsal.ts` define `local`, `staging-testnet`, `production-mainnet`, and `offline-disabled` lane records | drafted |
+| Secrets are classified by presence, not printed | Gate 8 artifact, builder, and focused test use `secret-presence-only`, `valueSerialized: false`, and source-safe provider connectivity classes | drafted |
+| Production-mainnet remains blocked | focused BTD test and artifact require `production-mainnet-value-bearing-not-admitted-in-v32`, `valueBearingSettlementAdmitted: false`, and the production project reference `rinalyjfecxnmyczrpzo` | drafted |
 
 ## Gate 9 Parity
 
@@ -247,6 +254,13 @@ No `_legacy/` source is active source truth.
 - Gate 5 may record public staging-testnet project references, root ids, phase names, receipt kinds, drift kinds, repair action kinds, and source/test digests, but it must not serialize secret values or pre-settlement AssetPack source.
 - Gate 5 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
 
+## Gate 8 Accepted Boundaries
+
+- Gate 8 proves readiness-lane rehearsal, source-safe secret-presence classification, provider connectivity classes, ledger/database/object-storage posture, BTC network posture, rollback, and repair checks; it does not approve production-mainnet value-bearing settlement.
+- Gate 8 generated artifacts are source-safe readiness metadata only and may not contain protected AssetPack source, raw provider payloads, wallet secrets, database passwords, model-provider keys, Vercel credentials, Supabase secret material, or production-mainnet operational approval values.
+- Gate 8 may record public project references, lane ids, source/test digests, provider ids, blocker ids, repair actions, and readiness roots, but it must not serialize credential values or pre-settlement AssetPack source.
+- Gate 8 does not promote `BITCODE_SPEC.txt` to V32 and does not create `BITCODE_SPEC_V32_PROVEN.md`.
+
 ## completion condition
 
 Gate 1 is complete when the V32 draft family validates, `check:v32-gate1` passes, workflow posture is V32-aware, README and roadmap reflect V32 initiation, V33-V37 scopes are current enough to guide future gates, diff hygiene passes, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
@@ -262,3 +276,5 @@ Gate 5 is complete when `.bitcode/v32-ledger-btd-settlement-failure-state-covera
 Gate 6 is complete when `.bitcode/v32-interface-contract-regression-suite.json` exists, is deterministic from `pnpm run generate:v32-interface-contract-regression-suites`, covers active `terminal`, `api`, `mcp`, `chatgpt_app`, and `auxillaries_hook` contracts plus blocked/deferred `exchange_hook` and `conversations_hook` rows, proves auth-boundary, policy-denial, source-safety-class, and protected-source nondisclosure assertions, passes focused interface contract tests plus `pnpm run check:v32-interface-contract-regression-suites` and `pnpm run check:v32-gate6`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
 
 Gate 7 is complete when `.bitcode/v32-browser-accessibility-responsive-visual-proof.json` exists, is deterministic from `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, covers Terminal and Auxillaries default/guided/detail states across canonical viewports through the active Terminal-hosted Auxillaries entry points, proves keyboard path, landmark labels, focus state, status announcements, contrast-sensitive tokens, reduced-motion, overflow/wrapping, and `no-screenshot-only-approval` visual strategy, passes focused Jest and Playwright browser proofs plus `pnpm run check:v32-browser-accessibility-responsive-visual-proof` and `pnpm run check:v32-gate7`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.
+
+Gate 8 is complete when `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json` exists, is deterministic from `pnpm run generate:v32-testnet-mainnet-readiness-rehearsal`, covers local, staging-testnet, production-mainnet, and offline-disabled lane records, proves secret-presence-only handling without credential values, binds staging-testnet project `tkpyosihuouusyaxtbau` and production-mainnet project `rinalyjfecxnmyczrpzo`, keeps production-mainnet value-bearing settlement blocked, passes focused BTD readiness tests plus `pnpm run check:v32-testnet-mainnet-readiness-rehearsal` and `pnpm run check:v32-gate8`, is wired into gate-quality CI, and the gate branch is committed, pushed, and pull-requested for review into `version/v32`.

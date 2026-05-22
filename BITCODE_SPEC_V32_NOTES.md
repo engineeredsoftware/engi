@@ -118,6 +118,9 @@ Rehearse environment readiness without admitting value-bearing launch:
 - local, staging-testnet, production-mainnet, and disabled/offline lanes;
 - secret presence classes, provider connectivity, ledger/database/object-storage posture, BTC network posture, rollback, and repair;
 - production-mainnet remains blocked unless a future explicit launch gate admits it.
+- generated artifact `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`;
+- generator command `pnpm run generate:v32-testnet-mainnet-readiness-rehearsal`, checker command `pnpm run check:v32-testnet-mainnet-readiness-rehearsal`, and gate closure command `pnpm run check:v32-gate8`;
+- focused package test `packages/btd/__tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts` proving typed lanes, secret-presence-only handling, staging-testnet and production-mainnet project boundaries, disabled/offline fixture posture, and production-mainnet value-bearing block posture.
 
 ### Gate 9: Promotion Proof Generation Hardening
 

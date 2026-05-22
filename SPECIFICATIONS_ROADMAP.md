@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V31`
 - Current active canon: `BITCODE_SPEC_V31.md`
 - Current draft target: `BITCODE_SPEC_V32.md`
-- Current working gate: V32 Gate 7 Browser Accessibility Responsive Visual Coverage, which proves Terminal and the Terminal-hosted Auxillaries support-plane default/guided/detail states across canonical viewports with keyboard path, landmark labels, focus state, status announcements, contrast-sensitive tokens, reduced-motion, overflow/wrapping, and `no-screenshot-only-approval` deterministic visual semantics.
+- Current working gate: V32 Gate 8 Testnet And Mainnet Readiness Rehearsal, which represents local, staging-testnet, production-mainnet, and offline-disabled lanes with source-safe secret-presence-only readiness records, provider connectivity classes, ledger/database/object-storage posture, BTC network posture, rollback/repair checks, and explicit production-mainnet value-bearing launch blockage.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

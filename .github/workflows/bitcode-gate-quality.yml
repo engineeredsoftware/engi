@@ -118,6 +118,7 @@ jobs:
             node scripts/check-v32-gate5-ledger-btd-settlement-failure-states.mjs --skip-branch-check
             node scripts/check-v32-gate6-interface-contract-regression-suites.mjs --skip-branch-check
             node scripts/check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs --skip-branch-check
+            node scripts/check-v32-gate8-testnet-mainnet-readiness-rehearsal.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -145,6 +146,7 @@ jobs:
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-interface-contract-regression.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand
