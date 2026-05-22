@@ -119,7 +119,15 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31
               fi
               ;;
+            spec:\ V33*|spec:\ v33*)
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V33" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V33 --mode promoted --current-target V33
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V33 --mode draft --current-target V32
+              fi
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33 spec change."
               ;;
           esac

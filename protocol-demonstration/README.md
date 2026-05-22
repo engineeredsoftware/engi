@@ -4,9 +4,10 @@ This package is the deterministic demonstration of Bitcode. Within this package
 the correct name is demonstration.
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V31`; V32 is the next draft target after this promotion.
+resolves to `V32`; V33 is the next draft target after this promotion.
 `BITCODE_SPEC.txt -> V32`. This demo is governed by the active V32 canonical
-spec and `BITCODE_SPEC_V32_PROVEN.md` as the current generated appendix.
+spec and `BITCODE_SPEC_V32_PROVEN.md` as the current generated appendix while
+V33 interface-depth work proceeds outside this standalone demonstration package.
 
 ## What This Demonstration Carries
 

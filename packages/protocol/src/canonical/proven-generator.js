@@ -8667,8 +8667,8 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
     {
       relativePath: 'SPECIFICATIONS_ROADMAP.md',
       tokens: [
-        'Current working gate: V32 Gate 10',
-        'Promotion Readiness'
+        '| V32 | `BITCODE_SPEC_V32.md`',
+        '| V33 |'
       ]
     },
     {

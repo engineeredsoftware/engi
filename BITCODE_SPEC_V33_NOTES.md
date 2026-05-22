@@ -3,58 +3,83 @@
 ## Status
 
 - Version: `V33`
-- Canonical pointer: `BITCODE_SPEC.txt` -> `V32`
-- Active canonical anchor: `BITCODE_SPEC_V32.md`
-- Active generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- V33 state: notes-only draft opening
+- V33 state: draft target notes opened; interface-depth notes are active for V33 gate work over V32 canon
 - Current canonical/latest target: `V32`
-- Current active draft target: `V33`
-- Generated structured artifact inventory: none for V33 yet
-- Source parity state: notes-only opening; V33 source parity begins only after the first gate opens implementation.
-- Scope: next-version notes for interface, integration, and enterprise shippability depth after V32 provation/testing closure.
+- Prior canonical anchor: `BITCODE_SPEC_V32.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`; later V33 gates may add source-safe interface proof artifacts
+- Source parity state: Gate 1 opens source parity tracking; implementation begins after roadmap/spec acceptance on scoped gate branches
+- Scope: working notes for V33 interface-depth over promoted V32 proof and testing canon
 
-This NOTES file does not promote V33 and does not authorize implementation before a scoped V33 gate branch opens.
+## Notes companion rule
 
-## Notes-only draft rule
-
-This file is planning memory only while V32 is canon.
-Requirements become binding only when V33 is explicitly opened as the draft-target SPEC family on `version/v33` and then through numbered V33 gate branches.
-Any V33 implementation must be gate-scoped, never not first-gate work hidden in a promotion repair branch.
+This NOTES file is a working companion to `BITCODE_SPEC_V33.md`.
+It records intent, risks, and carryforward reminders, but the SPEC, DELTA, PARITY, source, generated artifacts, and gate checkers carry binding closure.
+Notes must never promote V33 by themselves and must never authorize direct work on `main`.
 
 ## Concise current-system reading
 
-V32 closes provation, testing, promotion proof generation, deterministic replay, and testnet/mainnet readiness rehearsal posture for the commercial Bitcode system.
-V33 begins from that V32 canon and should make the interface and operational integration layers more directly enterprise-shippable without weakening the Bitcoin, GitHub, compute, storage, or build/process boundaries proven by V32.
+V32 is active canon.
+It proves the commercial system across Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, browser proof, readiness rehearsal, and promotion automation.
 
-## Deferred from V32
+V33 begins from that canon to deepen commercial interfaces beyond the V28 MVP.
+The main question is whether enterprise consumers can operate Bitcode through MCP API, ChatGPT App, public API, and package contracts with the same source-safe law, proof roots, rights boundaries, and repair posture Terminal already exposes.
 
-The following work was intentionally deferred from V32 because V32 focused on provation/testing closure and canonical promotion mechanics:
+## Simplified-spec reading rule
 
-- Bitcoin production-mainnet settlement enablement beyond V32's blocked rehearsal posture;
-- GitHub delivery and review ergonomics beyond the V32 source-safe proof surfaces;
-- compute execution provider hardening where long-running pipeline hosts, retries, and pushed completion events need production contracts;
-- storage retention, replay, and customer-facing evidence lifecycle policies beyond generated proof artifacts;
-- build/process automation that keeps version gates, promotion proofs, and deployment proofs green without ad hoc repair;
-- enterprise interface depth for non-terminal consumers after V32 validated source-safe canon and proof generation.
+Read V33 in this order:
 
-## Candidate V33 workstreams
+1. `BITCODE_SPEC.txt` to confirm the active pointer is still `V32`.
+2. `BITCODE_SPEC_V32.md` and `BITCODE_SPEC_V32_PROVEN.md` for active law and proof base.
+3. `BITCODE_SPEC_V33.md` for draft target law.
+4. `BITCODE_SPEC_V33_DELTA.md` for what changes from V32 to V33.
+5. `BITCODE_SPEC_V33_PARITY_MATRIX.md` for gate and source parity.
+6. This NOTES file for constraints, reminders, and deferred work.
 
-V33 candidate workstreams should be ordered into explicit gates before implementation:
+Do not read `_legacy/` as active law.
 
-- MCP API maturation beyond the V28 MVP for registry-derived AssetPack range, read-right, wallet, fee, journal, reconciliation, proof, and operational actions;
-- ChatGPT App maturation beyond the V28 MVP as the first integratable chatbot application interface;
-- non-Auxillaries non-website application interfaces that must ship commercially, primarily API and chatbot-app consumers;
-- interface authorization, policy checks, and fail-closed read/license behavior over V27/V28 registry truths;
-- API packaging, schemas, examples, compatibility rules, and contract tests;
-- interface-specific MCP and ChatGPT App QA, including route/action discovery, denied-state readability, and proof-root surfacing;
-- handoff of hosting, distributed execution, CI/CD, broad deployment operations, telemetry depth, and public documentation to V34 and V35.
+## V33 gate plan
 
-## Non-goals during V33 opening
+1. Gate 1: V33 Interface Roadmap And Spec Opening.
+2. Gate 2: Interface Inventory And Contract Catalog.
+3. Gate 3: MCP API Tool And Registry Contracts.
+4. Gate 4: ChatGPT App Action And Tool Contracts.
+5. Gate 5: Interface Authorization Policy Fail-Closed.
+6. Gate 6: Read License And AssetPack Rights Interface Contracts.
+7. Gate 7: API Schemas Examples And Compatibility Matrix.
+8. Gate 8: Interface Telemetry And Proof Replay Hooks.
+9. Gate 9: Interface Consumer UX Regression Proof.
+10. Gate 10: V33 Promotion Readiness.
 
-V33 deepens commercial interface surfaces beyond the V28 MVP.
-It should not reopen V27 tokenomics law, replace V32 provation/testing depth, or absorb V34 deployment and V35 telemetry/documentation work except for narrow interface-owned hooks.
+## Interface-depth notes
+
+- MCP API and ChatGPT App are commercial interfaces, not demonstration surfaces.
+- Public API route shapes must be versionless in source paths and package-owned in schemas.
+- Interfaces must use Protocol/BTD/Reading primitives instead of recreating Terminal-only JSON shapes.
+- Source-safe preview is admissible before settlement; protected AssetPack source is not.
+- Denied states must be readable and repairable, not generic errors.
+- Compatibility rows should be generated where possible and checked in CI.
+- Examples must cover success, denied, blocked, stale, deferred, unpaid, and paid states without protected source leakage.
+
+## Carryforward from V32
+
+V33 inherits these V32 truths:
+
+- `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` are the active Reading pipelines.
+- agents are PTRR agents;
+- PTRR sub-steps are ThricifiedGenerations;
+- source-safe AssetPack preview remains separate from paid full-source delivery;
+- BTC fee, BTD read/right transfer, ledger truth, database projection, object-storage delivery, and PR delivery remain synchronized but distinct;
+- staging-testnet and production-mainnet remain separate operational lanes;
+- production-mainnet value-bearing launch is not admitted by V33 opening.
+
+## Explicit deferrals
+
+- V34 owns deployment, host capability, distributed execution, runtime/storage, deployment approvals, rollback, upgrades, secret rotation, and repair playbooks.
+- V35 owns broad telemetry/documentation, public docs, dashboards, runbooks, incident response, operator guides, and rollout material.
+- V36 owns deeper Exchange.
+- V37 owns website Conversations.
 
 ## Return To V32
 
-Do not start V33 implementation during V32 promotion repair.
-Record API, MCP, ChatGPT App, customer integration, deployment, telemetry, and documentation gaps beyond V32 as future V33 inputs until `version/v33` and its first gate branch are opened.
+If V33 work threatens active protocol law, protected-source boundaries, BTD settlement invariants, or generated proof stability, return to V32 canon and write the conflict as a V33 gate blocker instead of silently changing source behavior.
