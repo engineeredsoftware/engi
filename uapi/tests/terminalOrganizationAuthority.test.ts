@@ -18,6 +18,10 @@ import {
   buildBtdInterfaceTelemetryProofHookRegistry,
   getBtdInterfaceTelemetryProofHook,
 } from '@bitcode/btd/interface-telemetry-proof-hook';
+import {
+  buildBtdInterfaceConsumerUxRegressionProof,
+  getBtdInterfaceConsumerUxRegressionRow,
+} from '@bitcode/btd/interface-consumer-ux-regression-proof';
 
 function detailWithAuthority(
   organizationAuthority: TerminalRunDetailSnapshot['organizationAuthority'],
@@ -123,6 +127,33 @@ describe('terminal organization authority projection', () => {
     expect(hook.roots.databaseRoot).toMatch(/^database-root:/);
     expect(hook.roots.objectStorageRoot).toMatch(/^object-storage-root:/);
     expect(hook.replayCommand).toContain('terminalOrganizationAuthority.test.ts');
+  });
+
+  it('shares the package-owned InterfaceConsumerUxRegressionProof for Terminal handoff readability', () => {
+    const proof = buildBtdInterfaceConsumerUxRegressionProof();
+    const row = getBtdInterfaceConsumerUxRegressionRow('interface.consumer.terminal-preview-blocked');
+
+    expect(proof.observedSurfaces).toContain('terminal_handoff');
+    expect(row).toMatchObject({
+      surface: 'terminal_handoff',
+      consumerPath: 'terminal://reading/asset-pack-preview',
+      posture: 'blocked_preview',
+      visibilityBoundary: 'blocked_until_settlement',
+      denialCode: 'ASSETPACK_SOURCE_LOCKED_UNTIL_SETTLEMENT',
+      protectedSourceVisible: false,
+      promptBodyVisible: false,
+    });
+    expect(row.sourceSafeSummary).toMatch(/measurements/i);
+    expect(row.proofRoots).toEqual(
+      expect.arrayContaining(['preview-root:terminal-reading', 'settlement-root:terminal-reading']),
+    );
+    expect(row.repairSteps).toEqual(
+      expect.arrayContaining(['settle-btc-fee-to-unlock-rights']),
+    );
+    expect(row.feeRightsPreview).toMatchObject({
+      previewState: 'blocked_until_rights',
+      rightsPosture: 'settlement_pending',
+    });
   });
 
   it('renders stale Terminal authority as a readable fail-closed denial', () => {

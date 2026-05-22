@@ -366,7 +366,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v33-interface-authorization-policy.json',
           '.bitcode/v33-read-license-assetpack-rights-contracts.json',
           '.bitcode/v33-api-schema-compatibility-matrix.json',
-          '.bitcode/v33-interface-telemetry-proof-hooks.json'
+          '.bitcode/v33-interface-telemetry-proof-hooks.json',
+          '.bitcode/v33-interface-consumer-ux-regression-proof.json'
         ]
         : []),
       ...(version === 'V26'

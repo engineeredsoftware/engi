@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, and Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`; later V33 gates may add additional source-safe interface proof artifacts
-- Source parity state: Gate 8 adds package-owned `InterfaceTelemetryProofHook` source and generated proof coverage for source-safe interface replay over execution, ledger, database, object-storage, generated-proof, and root-set roots
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, Gate 2 `.bitcode/v33-interface-contract-catalog.json`, Gate 3 `.bitcode/v33-mcp-api-tool-contracts.json`, Gate 4 `.bitcode/v33-chatgpt-app-action-contracts.json`, Gate 5 `.bitcode/v33-interface-authorization-policy.json`, Gate 6 `.bitcode/v33-read-license-assetpack-rights-contracts.json`, Gate 7 `.bitcode/v33-api-schema-compatibility-matrix.json`, Gate 8 `.bitcode/v33-interface-telemetry-proof-hooks.json`, and Gate 9 `.bitcode/v33-interface-consumer-ux-regression-proof.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 9 adds package-owned `InterfaceConsumerUxRegressionProof` source and generated proof coverage for source-safe interface readability across action labels, summaries, proof roots, repair steps, fee/rights preview, and denied-state posture
 - Scope: working notes for V33 interface-depth over promoted V32 proof and testing canon
 
 ## Notes companion rule
@@ -192,6 +192,31 @@ package-consumer contract replay. API, MCP, ChatGPT App, Terminal, and BTD
 tests consume the shared registry. The generated source-safe artifact is
 `.bitcode/v33-interface-telemetry-proof-hooks.json`, checked by
 `check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8`.
+
+## Gate 9 working notes
+
+Gate 9 owns the shared `InterfaceConsumerUxRegressionProof` primitive. This
+proof is the consumer-readable layer over the prior V33 contract work: it does
+not redefine authorization, rights, telemetry, or schema law, but proves that
+each interface can present the action label, source-safe summary, proof roots,
+repair steps, fee/rights preview, and readable denied or blocked state without
+overexposure.
+
+The required rows cover public API denied read access, MCP API Finding Fits
+readability, ChatGPT App blocked AssetPack delivery, Terminal preview handoff,
+and package-consumer contract readback. Rows must not expose protected
+AssetPack source, prompt bodies, credentials, raw inference payloads, or
+demonstration-only fixtures.
+
+## Gate 9 closure notes
+
+V33 Gate 9 Interface Consumer UX Regression Proof introduces
+`InterfaceConsumerUxRegressionProof` in
+`packages/btd/src/interface-consumer-ux-regression-proof.ts`. API, MCP,
+ChatGPT App, Terminal, and BTD tests consume the shared proof rows. The
+generated source-safe artifact is
+`.bitcode/v33-interface-consumer-ux-regression-proof.json`, checked by
+`check:v33-interface-consumer-ux-regression-proof` and `check:v33-gate9`.
 
 ## Carryforward from V32
 
