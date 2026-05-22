@@ -91,9 +91,11 @@ jobs:
             node scripts/check-v30-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           elif [ "$POINTER" = "V30" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V30 --mode promoted --current-target V30
+            node scripts/check-bitcode-spec-family.mjs --version V31 --mode draft --current-target V30
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V30
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V30 --draft-target V31
             node scripts/check-v30-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            node scripts/check-v31-gate1-spec-roadmap-opening.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

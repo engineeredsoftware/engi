@@ -3,46 +3,74 @@
 ## Status
 
 - Version: `V31`
-- V31 state: future notes scaffold only
-- Current canonical/latest target: `V27`
-- Current active draft target: `V28`
-- Prior canonical anchor: `BITCODE_SPEC_V27.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: none for V31 yet
-- Source parity state: not opened; V31 source parity begins only after V31 draft opening
-- Scope: future notes for deeper Auxillaries work after V28 commercial Protocol/Terminal MVP QA, V29 Terminal depth, and V30 Protocol/BTD hardening.
+- V31 state: draft-target notes companion opened for Auxillaries deepening over promoted V30
+- Current canonical/latest target: `V30`
+- Prior canonical anchor: `BITCODE_SPEC_V30.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
+- Generated structured artifact inventory: none until V31 gates admit V31 generated artifacts
+- Source parity state: V31 source parity begins with the Gate 1 spec-family, roadmap, workflow, and checker opening
+- Scope: notes companion for Profile, Connects, Interfaces, Wallet/BTD panes, provider readiness, account state, team, organization, role, policy, readiness diagnostics, recovery flows, accessibility, responsive QA, and Auxillaries telemetry/proof hooks.
 
-This NOTES file does not promote V31 and does not open V31 implementation.
-It preserves roadmap intent so V28 only fixes and hardens the current active Auxillaries MVP shell.
+This NOTES file does not promote V31.
+`BITCODE_SPEC.txt` remains `V30` until formal V31 promotion.
 
 ## Notes companion rule
 
-This file is planning memory only.
-Requirements become binding only when V31 is explicitly opened as the draft-target SPEC family.
+This file is the concise companion to `BITCODE_SPEC_V31.md`.
+It is binding while V31 is the active draft target, but the full specification, delta, parity matrix, source, tests, and workflow checks remain the proof-bearing closure surface.
 
 ## Concise current-system reading
 
-V28 must clean the active Auxillaries shell because old orbital conflicts affect the commercial MVP.
-V31 is where Auxillaries grows beyond that cleanup into deeper product capability.
+V30 is active canon and hardened the Protocol/BTD rails beneath commercial Reading, Finding Fits, AssetPack preview, settlement, rights transfer, delivery, telemetry, and promotion proof.
+V31 uses those rails as substrate.
+The V31 product responsibility is Auxillaries: the enterprise support/control plane for account, profile, provider connection, interface admission, wallet, BTD, organization, role, policy, readiness, recovery, and source-safe support evidence.
 
-## Intended V31 focus
+## Simplified-spec reading rule
+
+Read V31 in this order:
+
+1. Confirm `BITCODE_SPEC.txt -> V30`; V31 is draft until promotion.
+2. Read the V31 gate plan in `BITCODE_SPEC_V31.md`.
+3. Read this NOTES file for the concise product shape.
+4. Read `BITCODE_SPEC_V31_DELTA.md` for gate-by-gate change intent.
+5. Read `BITCODE_SPEC_V31_PARITY_MATRIX.md` for closure evidence and accepted boundaries.
+6. Use the gate checker and workflow evidence before treating any V31 claim as closed.
+
+## V31 gate plan
+
+V31 closes through ten gates:
+
+1. Gate 1: V31 Roadmap And Spec Opening.
+2. Gate 2: Auxillaries Package And Route Contracts.
+3. Gate 3: Profile And Account State.
+4. Gate 4: Connects Provider Readiness And Recovery.
+5. Gate 5: Wallet And BTD Pane Readiness.
+6. Gate 6: Organization Team Role Policy Authority.
+7. Gate 7: Interfaces Pane Admission And Cross-Surface Contracts.
+8. Gate 8: Auxillaries UX Accessibility And Responsive Proof.
+9. Gate 9: Auxillaries Telemetry Proof And Recovery Runs.
+10. Gate 10: V31 Promotion Readiness.
+
+## Product focus
 
 V31 owns deeper Auxillaries:
 
-- Profile, Connects, Interfaces, and `$BTD` panes beyond MVP readiness;
-- expanded provider readiness and account-state management;
-- team, organization, wallet, multi-sig, role, and policy controls;
-- deeper Connects and Interfaces workflows that support Terminal and Exchange without owning their state;
-- user-facing readiness diagnostics and recovery flows;
-- Auxillaries-specific responsive, accessibility, and interaction QA;
-- Auxillaries tests and proofs after the MVP shell is stable.
+- Profile and account completeness become typed, persisted, projected, and recoverable.
+- Connects show provider readiness, credential posture without secrets, repair actions, retry semantics, and readback evidence.
+- Interfaces enumerate admitted commercial surfaces with auth modes, action boundaries, readiness, and source-safety posture.
+- Wallet and BTD panes consume V30 wallet, signer, BTD range, read-right, treasury, settlement, and no-custody primitives.
+- Organization, team, member role, multi-sig readiness, explicit grants, policy decisions, denial reasons, and recovery routes become package-owned and UI-visible.
+- Readiness diagnostics and recovery runs are executions with source-safe before/after evidence.
+- Auxillaries UX is guided, low-detail by default, keyboard/focus usable, responsive, and expandable into full audit detail.
 
 ## Boundaries
 
-V31 must not reintroduce old orbital layout conflicts into active commercial paths.
-V31 must not redefine Terminal transaction law, future Exchange market law, or `$BTD` tokenomics.
+- V31 must not redefine Reading, Finding Fits, AssetPack preview, settlement, delivery, BTC fee, or BTD tokenomics law.
+- V31 must not implement Exchange market depth or website Conversations product depth.
+- V31 must not store or display provider tokens, wallet secrets, OpenAI keys, service-role keys, database passwords, private prompts, or protected AssetPack source.
+- V31 must not import `protocol-demonstration/src/*` from commercial runtime code.
+- V31 may expose source-safe V30 Protocol/BTD posture in Auxillaries panes, but it must not rederive or override V30 settlement, receipt, access, or disclosure law.
 
-## Return To V28
+## Gate 1 closure note
 
-Do not start V31 implementation during V28.
-V28 only owns active Auxillaries MVP cleanup and QA.
+Gate 1 is closed only when the V31 draft family validates over V30, the roadmap is truthful, V31 workflows are greenable, contributor docs show the V31 gate workflow, and `check:v31-gate1` fails closed on stale posture or missing Auxillaries scope.
