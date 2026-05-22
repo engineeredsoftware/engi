@@ -192,10 +192,10 @@ function main() {
   assertCheck(
     failures,
     pointer === 'V32'
-      ? roadmap.includes('Current working gate: V33 Gate 1 Interface Roadmap And Spec Opening')
+      ? /Current working gate: V33 Gate (?:[1-9]|10)\b/u.test(roadmap)
       : roadmap.includes('Current working gate: V32 Gate 10 Promotion Readiness'),
     pointer === 'V32'
-      ? 'Roadmap must track V33 Gate 1 as current after V32 promotion.'
+      ? 'Roadmap must track a current V33 gate after V32 promotion.'
       : 'Roadmap must track V32 Gate 10 as current before V32 promotion.',
   );
 

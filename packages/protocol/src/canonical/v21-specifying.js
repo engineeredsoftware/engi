@@ -358,6 +358,11 @@ function buildV21LikeProfile(version) {
           '.bitcode/v32-promotion-readiness-report.json'
         ]
         : []),
+      ...(version === 'V33'
+        ? [
+          '.bitcode/v33-interface-contract-catalog.json'
+        ]
+        : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',

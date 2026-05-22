@@ -167,6 +167,7 @@ export * from './auxillaries-support';
 export * from './constants';
 export * from './deployment-lanes';
 export * from './exchange';
+export * from './interface-contract-catalog';
 export * from './interface-contract-regression';
 export * from './interface-integration';
 export * from './interface-integration-contract';

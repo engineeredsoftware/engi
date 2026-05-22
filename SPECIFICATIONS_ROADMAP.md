@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V32`
 - Current active canon: `BITCODE_SPEC_V32.md`
 - Current draft target: `BITCODE_SPEC_V33.md`
-- Current working gate: V33 Gate 1 Interface Roadmap And Spec Opening, which opens V33 interface-depth work by making the roadmap truthful after V32 promotion, creating the V33 spec family, and wiring fail-closed V33 Gate 1 validation.
+- Current working gate: V33 Gate 2 Interface Inventory And Contract Catalog, which inventories Terminal handoff, public API, MCP API, ChatGPT App, package consumer, deferred Exchange hook, and deferred Conversations hook surfaces through a package-owned source-safe catalog and generated proof artifact.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

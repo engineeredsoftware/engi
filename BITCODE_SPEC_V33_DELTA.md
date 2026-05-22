@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V32`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`; later V33 gates may add source-safe interface proof artifacts
-- Source parity state: Gate 1 opens the V33 parity ledger and checker; source implementation remains gate-scoped
+- Generated structured artifact inventory: draft V33 specifying artifacts `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and Gate 2 `.bitcode/v33-interface-contract-catalog.json`; later V33 gates may add additional source-safe interface proof artifacts
+- Source parity state: Gate 2 adds package-owned `InterfaceContractCatalog` source and generated proof coverage for active and deferred interface surfaces
 - Spec companion: `BITCODE_SPEC_V33.md`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V33_PARITY_MATRIX.md`
@@ -80,6 +80,13 @@ Closure acceptance:
 - MCP API, ChatGPT App, public API, Terminal handoff, package consumers, deferred Exchange hooks, and deferred Conversations hooks are enumerated;
 - each row names owner package, action/tool/route id, schema id, auth policy, source-safety class, example fixture, validation command, compatibility status, and failure mode;
 - deferred surfaces are represented as blocked or planned rows, not hidden confidence.
+
+Implementation centers:
+
+- `packages/btd/src/interface-contract-catalog.ts` owns the package source and deterministic row/catalog roots;
+- `packages/btd/__tests__/interface-contract-catalog.test.ts` covers required rows, required fields, deferred blockers, duplicate/missing rows, and secret-shaped or protected-source text rejection;
+- `.bitcode/v33-interface-contract-catalog.json` records source-safe Gate 2 artifact metadata, including `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook`;
+- `check:v33-gate2` validates source, tests, docs, workflow, generated artifact freshness, and `deferred_not_admitted` posture.
 
 ### Gate 3: MCP API Tool And Registry Contracts
 

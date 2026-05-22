@@ -130,6 +130,7 @@ jobs:
             fi
             node scripts/check-v32-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             node scripts/check-v33-gate1-interface-roadmap-opening.mjs --skip-branch-check
+            node scripts/check-v33-gate2-interface-contract-catalog.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -157,6 +158,7 @@ jobs:
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-interface-contract-regression.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-contract-catalog.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
