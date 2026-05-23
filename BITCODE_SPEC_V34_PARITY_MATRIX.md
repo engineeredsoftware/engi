@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 6 migration CI/CD deployment approval gates are closed over promoted V33 canon
+- V34 state: Gate 7 runtime observers, broadcasters, and repair jobs are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 6 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, and migration CI/CD approval parity; Gates 7 through 10 remain draft-required deployment-depth parity rows
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 7 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, and runtime observer/broadcaster/repair-job parity; Gates 8 through 10 remain draft-required deployment-depth parity rows
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -59,7 +59,7 @@ No `_legacy/` source is active source truth.
 | Ledger/database/object-storage posture | Gate 4 | `packages/btd/src/deployment-storage-posture.ts`, `.bitcode/v34-deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `check:v34-gate4` | closed | ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, and rollback material are durable and repairable; source-bearing AssetPack storage remains locked before settlement. |
 | Secret rotation and credential boundaries | Gate 5 | `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `check:v34-gate5` | closed | OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families have rotation, masking, leak response, runtime availability, and no secret values serialization coverage. |
 | Migration CI/CD deployment approval gates | Gate 6 | `packages/btd/src/migration-approval-gate.ts`, `.bitcode/v34-migration-cicd-approval-gates.json`, `packages/btd/__tests__/migration-approval-gate.test.ts`, workflow wiring, and `check:v34-gate6` | closed | schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel/Supabase lane checks, promotion commit approval, reviewer approval, rollback, dry-runs, proof roots, and no secret values serialization fail closed. |
-| Runtime observers, broadcasters, and repair jobs | Gate 7 | planned runtime job source, tests, generated artifact, and `check:v34-gate7` | draft-required | Settlement observers, broadcasters, finality watchers, projection repair, object-storage repair, and proof jobs have receipts. |
+| Runtime observers, broadcasters, and repair jobs | Gate 7 | `packages/btd/src/runtime-observer-repair-job.ts`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `packages/btd/__tests__/runtime-observer-repair-job.test.ts`, workflow wiring, and `check:v34-gate7` | closed | settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, and queue consumers have receipts, replay commands, repair commands, non-value lanes, and unsafe drift blockers. |
 | Rollback, upgrade, and data repair playbooks | Gate 8 | planned playbook source/docs, generated artifact, and `check:v34-gate8` | draft-required | Rollback, upgrade, migration rollback, object-storage repair, database repair, ledger repair, and incident response are commandable and proof-rooted. |
 | Local and staging-testnet deployment rehearsal | Gate 9 | planned rehearsal artifacts, source-safe logs, screenshots, and `check:v34-gate9` | draft-required | Local and staging-testnet rehearsals exercise commercial runtime without value-bearing mainnet admission. |
 | Promotion readiness | Gate 10 | planned promotion readiness report, promotion script support, generated appendix support, and `check:v34-gate10` | draft-required | V34 can promote only after all deployment gates pass and generated canon is source-safe. |
@@ -149,9 +149,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V34 judgment |
 | --- | --- | --- |
-| Observers and broadcasters have runtime receipts | planned job registry | draft-required |
-| Repair jobs have lane contracts and replay commands | planned repair registry | draft-required |
-| Unsafe drift blocks unlock | planned tests | draft-required |
+| Observers and broadcasters have runtime receipts | `RuntimeObserverRepairJob` rows in `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` carry receipt work kinds and proof roots | closed |
+| Repair jobs have lane contracts and replay commands | `database_projection_repair`, `object_storage_repair`, `generated_proof_job`, and `queue_consumer` rows bind non-value lane contracts, replay commands, and repair commands | closed |
+| Unsafe drift blocks unlock | `packages/btd/__tests__/runtime-observer-repair-job.test.ts` proves unsafe drift failure and every row uses blocking posture | closed |
 
 ## Gate 8 Parity
 

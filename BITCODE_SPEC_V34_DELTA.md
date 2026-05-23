@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 6 migration CI/CD deployment approval gates are closed over promoted V33 canon
+- V34 state: Gate 7 runtime observers, broadcasters, and repair jobs are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 6 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, and migration CI/CD approval contracts; repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 7 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, and runtime observer/broadcaster/repair-job contracts; rollback, rehearsal, and promotion contracts remain drafted until their gates close
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -161,6 +161,13 @@ Closure acceptance:
 - settlement observers, ledger broadcasters, finality watchers, database projection repair jobs, object-storage repair jobs, generated proof jobs, and queue consumers have host capabilities, lane contracts, receipts, and replay commands;
 - observer/broadcaster drift is repairable and blocks unlock when unsafe.
 
+Closure evidence:
+
+- `packages/btd/src/runtime-observer-repair-job.ts` owns `RuntimeObserverRepairJob`, required runtime job ids, builders, validators, runtime receipt work kinds, non-value lane contracts, replay commands, repair commands, unsafe drift blockers, proof roots, value-bearing mainnet blocking, and no secret values serialization checks.
+- `packages/btd/__tests__/runtime-observer-repair-job.test.ts` proves all seven runtime jobs, lane and receipt coverage, missing/duplicate failures, value-bearing mainnet blocking, replay and repair command failure, unsafe drift failure, and serialized secret-shaped value rejection.
+- `scripts/generate-v34-runtime-observers-broadcasters-repair-jobs.mjs` emits deterministic `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipts, replay commands, repair commands, and unsafe drift coverage.
+- `scripts/check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs` and `pnpm run check:v34-gate7` fail closed on stale artifacts, missing runtime jobs, missing runtime receipts, lane drift, replay/repair command drift, unsafe drift posture drift, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
+
 ### Gate 8: Rollback Upgrade Data Repair Playbooks
 
 Gate 8 defines operator playbooks.
@@ -192,4 +199,4 @@ Closure acceptance:
 
 ## Completion condition
 
-This delta is complete for Gate 6 when `version/v34` contains the Gate 6 `MigrationApprovalGate`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate6` closure. Remaining delta closure advances through Gates 7 through 10.
+This delta is complete for Gate 7 when `version/v34` contains the Gate 7 `RuntimeObserverRepairJob`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate7` closure. Remaining delta closure advances through Gates 8 through 10.

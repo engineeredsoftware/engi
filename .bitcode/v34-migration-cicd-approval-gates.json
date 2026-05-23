@@ -437,7 +437,7 @@
     },
     {
       "path": "packages/btd/src/index.ts",
-      "digest": "sha256:7e2ab6fdf7404864a58c6d7b5539d3efdd2a66f7e474b8b7b504c16d0e1b11f1",
+      "digest": "sha256:d4285c14b3068052b9eecb72221f78b14f72387c099425907a167095b754ea6d",
       "requiredTokens": [
         {
           "token": "./migration-approval-gate",
@@ -447,7 +447,7 @@
     },
     {
       "path": "packages/btd/package.json",
-      "digest": "sha256:9c296be16092b7a0d4a12ba40e047b29f4cc36f6d45bfb8699f00929e3ed3704",
+      "digest": "sha256:0208dcd28eb50b0186989ad03b353ac204ec1399495a2d29de6f1cd3f9d65534",
       "requiredTokens": [
         {
           "token": "./migration-approval-gate",
