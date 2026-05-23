@@ -169,6 +169,7 @@ export * from './auxillaries-support';
 export * from './constants';
 export * from './deployment-lanes';
 export * from './deployment-host-capability-catalog';
+export * from './deployment-storage-posture';
 export * from './exchange';
 export * from './interface-contract-catalog';
 export * from './interface-contract-regression';

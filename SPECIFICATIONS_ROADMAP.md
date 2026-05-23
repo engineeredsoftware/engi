@@ -5,11 +5,12 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V33`
 - Current active canon: `BITCODE_SPEC_V33.md`
 - Current draft target: `BITCODE_SPEC_V34.md`
-- Current working gate: V34 Gate 4 Ledger Database Object Storage Deployment Posture, following closed Gate 3 distributed execution runtime contract work.
+- Current working gate: V34 Gate 5 Secret Rotation And Credential Boundary Operations, following closed Gate 4 ledger/database/object-storage deployment posture work.
 - Latest closed version: V33 Commercial Interface Depth, which promoted MCP API, ChatGPT App, public API, package-owned schemas, interface authorization, Read license and AssetPack rights contracts, compatibility matrices, telemetry/proof hooks, consumer UX proof, and V33 promotion readiness.
 - Recent V33 closure anchor: V33 Gate 10 Promotion Readiness generated V33 proof support, promoted `BITCODE_SPEC.txt` to `V33`, and prepared V33 active / V34 draft runtime posture.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
 - V34 Gate 3 closure anchor: deployment-depth now owns package-backed `DistributedExecutionRuntimeReceipt` source, deterministic `.bitcode/v34-distributed-execution-runtime-receipts.json`, `request_response_not_required` long-running work posture, and source-safe roots for pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work.
+- V34 Gate 4 closure anchor: deployment-depth now owns package-backed `DeploymentStoragePosture` source, deterministic `.bitcode/v34-deployment-storage-posture.json`, ledger/database/object-storage drift repair fixtures, retention/encryption/backup/rollback/audit posture, and source-bearing AssetPack storage remains locked before settlement.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 3 distributed execution runtime contracts are closed over promoted V33 canon
+- V34 state: Gate 4 ledger/database/object-storage deployment posture is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 3 closes host capability, environment lane, and distributed execution runtime receipt contracts; source-side storage, credential, approval, repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 4 closes host capability, environment lane, distributed execution runtime receipt, and storage posture contracts; source-side credential, approval, repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -113,9 +113,10 @@ Gate 4 defines durable storage posture.
 
 Closure acceptance:
 
-- ledger-derived state, canonical database projections, object storage, proof artifacts, audit logs, rollback material, backups, retention, encryption posture, and repair commands are specified and tested;
+- ledger-derived state, canonical database projection, object storage, proof artifacts, audit logs, rollback material, backups, retention, encryption posture, and repair commands are specified and tested through `DeploymentStoragePosture`;
 - source-bearing AssetPack storage remains locked before settlement;
-- database and ledger projection drift has a repair posture.
+- database and ledger projection drift has a repair posture;
+- generated storage posture proof is source-safe in `.bitcode/v34-deployment-storage-posture.json`.
 
 ### Gate 5: Secret Rotation And Credential Boundary Operations
 

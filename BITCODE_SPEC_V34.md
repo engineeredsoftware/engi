@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 3 distributed execution runtime contracts are closed over promoted V33 canon
+- V34 state: Gate 4 ledger/database/object-storage deployment posture is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 3 closes V34 host capability, environment lane, and distributed execution runtime receipt parity; storage, approval, rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 4 closes V34 host capability, environment lane, distributed execution runtime receipt, and storage posture parity; approval, rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -196,7 +196,7 @@ V34 closes through ten gates:
 1. **Gate 1: V34 Deployment Roadmap And Spec Opening** opens the V34 family over V33 canon, updates `SPECIFICATIONS_ROADMAP.md`, documents V33 active / V34 draft posture, and wires `check:v34-gate1`.
 2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`. It is closed by `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `pnpm run check:v34-gate2`.
 3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work. It is closed by `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `pnpm run check:v34-gate3`.
-4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material.
+4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material. It is closed by `packages/btd/src/deployment-storage-posture.ts`, `.bitcode/v34-deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
 5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks.
 6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approvals, generated type refresh, route scans, promotion commits, Vercel/Supabase lane checks, and deployment blockers.
 7. **Gate 7: Runtime Observers Broadcasters Repair Jobs** makes settlement observers, ledger broadcasters, projection repair jobs, proof generators, and queue consumers explicit deployment jobs with receipts.

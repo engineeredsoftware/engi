@@ -254,7 +254,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: reviewdog/action-actionlint@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: local
+          filter_mode: nofilter
+          fail_level: error
 
 # --------------------------------------------------------------------------
 # 5. CodeQL static security analysis (JavaScript/TypeScript)
