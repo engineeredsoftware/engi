@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
+- V34 state: Gate 6 migration CI/CD deployment approval gates are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 5 closes host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation contracts; approval, repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 6 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, and migration CI/CD approval contracts; repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -145,6 +145,13 @@ Closure acceptance:
 - deployment approvals carry proof roots and reviewer posture;
 - gate-quality and canon-quality workflows remain greenable and promotion workflows remain version-aware.
 
+Closure evidence:
+
+- `packages/btd/src/migration-approval-gate.ts` owns `MigrationApprovalGate`, required approval gate ids, builders, validators, value-bearing mainnet blocking, no secret values serialization checks, reviewer approval posture, rollback plan requirements, dry-run requirements, workflow bindings, and proof-root coverage.
+- `packages/btd/__tests__/migration-approval-gate.test.ts` proves all eight approval gates, required operational fields, reviewer approval failure, rollback failure, missing/duplicate gates, value-bearing mainnet blocking, and serialized secret-shaped value rejection.
+- `scripts/generate-v34-migration-cicd-approval-gates.mjs` emits deterministic `.bitcode/v34-migration-cicd-approval-gates.json` with schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel lane checks, Supabase lane checks, and promotion commit approval coverage.
+- `scripts/check-v34-gate6-migration-cicd-approval-gates.mjs` and `pnpm run check:v34-gate6` fail closed on stale artifacts, missing approval gates, reviewer approval drift, rollback drift, dry-run drift, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
+
 ### Gate 7: Runtime Observers Broadcasters Repair Jobs
 
 Gate 7 makes background deployment work explicit.
@@ -185,4 +192,4 @@ Closure acceptance:
 
 ## Completion condition
 
-This delta is complete for Gate 5 when `version/v34` contains the Gate 5 `SecretRotationPlan`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate5` closure. Remaining delta closure advances through Gates 6 through 10.
+This delta is complete for Gate 6 when `version/v34` contains the Gate 6 `MigrationApprovalGate`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate6` closure. Remaining delta closure advances through Gates 7 through 10.

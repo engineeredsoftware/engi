@@ -378,7 +378,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v34-environment-lane-contracts.json',
           '.bitcode/v34-distributed-execution-runtime-receipts.json',
           '.bitcode/v34-deployment-storage-posture.json',
-          '.bitcode/v34-secret-rotation-boundary-operations.json'
+          '.bitcode/v34-secret-rotation-boundary-operations.json',
+          '.bitcode/v34-migration-cicd-approval-gates.json'
         ]
       : []),
       ...(version === 'V26'
