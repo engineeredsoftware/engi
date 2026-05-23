@@ -350,7 +350,7 @@
       ]
     },
     {
-      "digest": "sha256:e3c28e56c22d199ecafab22ae5184c97bcd9736b9cf6025926116fe9843a0a82",
+      "digest": "sha256:33d6bc05ffa60dbd8142c2bb2e1bd8ea64967fd5e97be79a76f3493892b0f8fc",
       "relativePath": "packages/btd/src/index.ts",
       "requiredTokens": [
         {
@@ -360,7 +360,7 @@
       ]
     },
     {
-      "digest": "sha256:24fdc481fe912e2c444c139cbfbbbd9fc218256c611c51c9ace95b52100c47a1",
+      "digest": "sha256:d629e2f1f738d2611d1aeda807d72bfbf1dcf45c153b2e237c8ef8a35a42a9f9",
       "relativePath": "BITCODE_SPEC_V34.md",
       "requiredTokens": [
         {

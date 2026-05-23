@@ -168,6 +168,7 @@ export * from './authority';
 export * from './auxillaries-support';
 export * from './constants';
 export * from './deployment-lanes';
+export * from './deployment-readiness-rehearsal';
 export * from './deployment-host-capability-catalog';
 export * from './deployment-storage-posture';
 export * from './exchange';

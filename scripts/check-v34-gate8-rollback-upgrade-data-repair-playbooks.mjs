@@ -170,7 +170,11 @@ function main() {
   for (const doc of [spec, delta, notes, parity]) {
     for (const term of requiredTerms) assertCheck(failures, doc.includes(term), `V34 docs must mention ${term}.`);
   }
-  assertCheck(failures, roadmap.includes('Current working gate: V34 Gate 9'), 'Roadmap must advance current working gate to V34 Gate 9 after Gate 8 closure.');
+  assertCheck(
+    failures,
+    /Current working gate: V34 Gate (?:9|10)\b/u.test(roadmap),
+    'Roadmap must keep Gate 8 closed while advancing current working gate to V34 Gate 9 or later.',
+  );
   assertCheck(failures, roadmap.includes('V34 Gate 8 closure anchor'), 'Roadmap must mark Gate 8 as closed.');
   assertCheck(failures, packageJson.includes('generate:v34-rollback-upgrade-data-repair-playbooks'), 'Root package scripts must include Gate 8 generator.');
   assertCheck(failures, packageJson.includes('check:v34-rollback-upgrade-data-repair-playbooks'), 'Root package scripts must include Gate 8 artifact check.');

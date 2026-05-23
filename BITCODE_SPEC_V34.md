@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 8 rollback, upgrade, and data repair playbooks are closed over promoted V33 canon
+- V34 state: Gate 9 local and staging-testnet deployment rehearsal is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 8 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job registry, and rollback/upgrade/data repair playbook parity; rehearsal and promotion source parity is not closed until the relevant gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and later promotion-depth artifacts as gates close
+- Source parity state: Gate 9 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job registry, rollback/upgrade/data repair playbook parity, and local/staging-testnet rehearsal parity; promotion source parity is not closed until Gate 10 closes
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -558,7 +558,7 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 | `.bitcode/v34-migration-cicd-approval-gates.json` | btd | source-safe-migration-cicd-approval-gate-metadata | `pnpm run check:v34-migration-cicd-approval-gates` |
 | `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` | btd | source-safe-runtime-observer-repair-job-metadata | `pnpm run check:v34-runtime-observers-broadcasters-repair-jobs` |
 | `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` | btd | source-safe-rollback-upgrade-repair-playbook-metadata | `pnpm run check:v34-rollback-upgrade-data-repair-playbooks` |
-| `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` | protocol | source-safe | later V34 gate |
+| `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` | btd | source-safe-deployment-readiness-rehearsal-metadata | `pnpm run check:v34-local-staging-testnet-deployment-rehearsal` |
 | `.bitcode/v34-promotion-readiness-report.json` | protocol | source-safe | later V34 gate |
 
 ### V34 specifying generated artifacts
@@ -571,7 +571,8 @@ Gate 5 requires `.bitcode/v34-secret-rotation-boundary-operations.json` to be ge
 Gate 6 requires `.bitcode/v34-migration-cicd-approval-gates.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate6`, with schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel/Supabase lane checks, promotion commit approval, reviewer approval, rollback, dry-run, proof-root, workflow-binding, and no secret values coverage.
 Gate 7 requires `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate7`, with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipt, replay command, repair command, and unsafe drift coverage.
 Gate 8 requires `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate8`, with rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, generated artifact repair, operator approval, command, verification, proof-root, fail-closed, and non-value lane coverage.
-Later V34 gates introduce the remaining deployment artifacts listed above.
+Gate 9 requires `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate9`, with `DeploymentReadinessRehearsal` rows for local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, and value-bearing mainnet blocked rehearsal. The rehearsal covers Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe logs, proof-rooted screenshots or logs, validation commands, proof roots, and value-bearing mainnet blocking.
+Later V34 gates introduce the remaining promotion artifact listed above.
 
 ### Shared generated-artifact fields
 

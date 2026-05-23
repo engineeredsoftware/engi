@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 8 rollback, upgrade, and data repair playbooks are closed over promoted V33 canon
+- V34 state: Gate 9 local and staging-testnet deployment rehearsal is closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 8 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job contracts, and rollback/upgrade/data repair playbook contracts; rehearsal and promotion contracts remain drafted until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and later promotion-depth artifacts as gates close
+- Source parity state: Gate 9 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job contracts, rollback/upgrade/data repair playbook contracts, and deployment rehearsal contracts; promotion contracts remain drafted until Gate 10 closes
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -194,6 +194,13 @@ Closure acceptance:
 - screenshots or logs are source-safe and proof-rooted;
 - value-bearing mainnet remains blocked.
 
+Closure evidence:
+
+- `packages/btd/src/deployment-readiness-rehearsal.ts` owns `DeploymentReadinessRehearsal`, required rehearsal ids, builders, validators, local and staging-testnet surface coverage, runtime receipt ids, source-safe logs, proof-rooted screenshots or logs, validation command requirements, proof-root requirements, fail-closed result requirements, and value-bearing mainnet blocked rehearsal.
+- `packages/btd/__tests__/deployment-readiness-rehearsal.test.ts` proves local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe log roots, proof-rooted screenshots or logs, missing/duplicate failures, missing surface failure, missing proof-rooted log failure, value-bearing mainnet blocking, and serialized secret-shaped value rejection.
+- `scripts/generate-v34-local-staging-testnet-deployment-rehearsal.mjs` emits deterministic `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` with local/staging-testnet rehearsal coverage, source-safe logs, proof bundle roots, runtime receipts, validation commands, and blocked value-bearing mainnet admission.
+- `scripts/check-v34-gate9-local-staging-testnet-deployment-rehearsal.mjs` and `pnpm run check:v34-gate9` fail closed on stale artifacts, missing rehearsals, missing local/staging coverage, missing Terminal/public API/MCP API/ChatGPT App/Reading pipeline execution receipt/settlement/finality/storage/repair coverage, missing source-safe logs, missing proof-rooted screenshots or logs, value-bearing mainnet admission, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
+
 ### Gate 10: V34 Promotion Readiness
 
 Gate 10 owns final generated proof, promotion workflow support, source-safe `.bitcode/v34-promotion-readiness-report.json`, and V34 closure.
@@ -206,4 +213,4 @@ Closure acceptance:
 
 ## Completion condition
 
-This delta is complete for Gate 8 when `version/v34` contains the Gate 8 `RollbackUpgradeRepairPlaybook`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate8` closure. Remaining delta closure advances through Gates 9 and 10.
+This delta is complete for Gate 9 when `version/v34` contains the Gate 9 `DeploymentReadinessRehearsal`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate9` closure. Remaining delta closure advances through Gate 10.
