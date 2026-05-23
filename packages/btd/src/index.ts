@@ -180,6 +180,7 @@ export * from './interface-integration';
 export * from './interface-integration-contract';
 export * from './ledger-anchor';
 export * from './measuremint';
+export * from './migration-approval-gate';
 export * from './mcp-tool-contract';
 export * from './plans';
 export * from './range';

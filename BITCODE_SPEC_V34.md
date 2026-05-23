@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
+- V34 state: Gate 6 migration CI/CD deployment approval gates are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 5 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation parity; approval, rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 6 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, and migration CI/CD approval parity; rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -180,7 +180,7 @@ V34 adds deployment-facing contract objects over V33 protocol truth:
 - `EnvironmentLaneContract`: lane id, supported Bitcoin network posture, Supabase/Vercel project posture, value-bearing admission, data-retention policy, wallet policy, secret scope, and proof requirements.
 - `DistributedExecutionRuntimeReceipt`: execution id, host id, lane id, work kind, command or pipeline id, start/finish timestamps, `routeHandlerBoundary`, input root, output root, log root, object-storage root, ledger/database projection roots, wallet operation root, proof root, PTRR agent fields, ThricifiedGeneration fields, tool id, and repair posture. Required work kinds are `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`; long-running work uses `request_response_not_required` rather than route-handler completion.
 - `DeploymentStoragePosture`: ledger-derived state, canonical database projection, object storage, proof artifacts, audit logs, rollback material, retention class, encryption posture, and repair command.
-- `MigrationApprovalGate`: migration id, schema diff root, generated type root, dry-run result, reviewer approval, rollback plan, and deployment lane admission.
+- `MigrationApprovalGate`: migration id, schema migration approval, schema diff root, generated type refresh root, route scans, build/test gates, generated artifact freshness, Vercel and Supabase lane checks, promotion commit approval, dry-run result, reviewer approval, rollback plan, deployment lane admission, proof roots, and no secret values serialization.
 - `SecretRotationPlan`: secret family, storage owner, rotation cadence, rotation command, blast-radius note, proof root, leak-response path, runtime availability check, CI masking posture, audit event, and no secret values serialization policy.
 - `RuntimeObserverRepairJob`: observer id, broadcaster id, repair job id, trigger, allowed lane, proof root, and replay command.
 - `RollbackUpgradeRepairPlaybook`: rollback id, upgrade id, repair id, state carriers, validation commands, operator approval, and fail-closed posture.
@@ -198,7 +198,7 @@ V34 closes through ten gates:
 3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work. It is closed by `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `pnpm run check:v34-gate3`.
 4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material. It is closed by `packages/btd/src/deployment-storage-posture.ts`, `.bitcode/v34-deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
 5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks. It is closed by `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `pnpm run check:v34-gate5`; OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families are cataloged with no secret values in tracked artifacts or logs.
-6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approvals, generated type refresh, route scans, promotion commits, Vercel/Supabase lane checks, and deployment blockers.
+6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, promotion commit checks, Vercel/Supabase lane checks, and deployment blockers. It is closed by `packages/btd/src/migration-approval-gate.ts`, `.bitcode/v34-migration-cicd-approval-gates.json`, `packages/btd/__tests__/migration-approval-gate.test.ts`, `scripts/check-v34-gate6-migration-cicd-approval-gates.mjs`, and `pnpm run check:v34-gate6`; every row carries dry-run, reviewer approval, rollback, proof-root, workflow-binding, lane-admission, and no secret values serialization posture.
 7. **Gate 7: Runtime Observers Broadcasters Repair Jobs** makes settlement observers, ledger broadcasters, projection repair jobs, proof generators, and queue consumers explicit deployment jobs with receipts.
 8. **Gate 8: Rollback Upgrade Data Repair Playbooks** defines operator playbooks for rollback, upgrade, state repair, object-storage repair, generated artifact repair, and incident recovery.
 9. **Gate 9: Local Staging Testnet Deployment Rehearsal** proves local and staging-testnet deployment readiness using source-safe rehearsal logs, runtime receipts, and UI/API validation without value-bearing mainnet admission.
@@ -498,6 +498,8 @@ Reopen conditions:
 
 V34 is complete when all ten gates are closed, deployment host capability and environment lanes are package-owned and tested, distributed execution receipts record long-running Reading and settlement work, storage posture is durable and source-safe, secret rotation and migration approvals fail closed, observer/broadcaster/repair jobs are explicit, local and staging-testnet rehearsals pass, generated artifacts are stable, and promotion can safely make V34 the active canon.
 
+Gate 6 closure means schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel lane checks, Supabase lane checks, and promotion commit approval are now package-owned through `MigrationApprovalGate`. Approval rows block deployment unless dry-run evidence, reviewer approval, rollback posture, proof roots, workflow binding, and non-value lane admission are present, and tracked artifacts contain no secret values.
+
 ## Appendix A. Canonical type and surface catalog
 
 Primary V34 types: `DeploymentHostCapabilityCatalog`, `EnvironmentLaneContract`, `DistributedExecutionRuntimeReceipt`, `DeploymentStoragePosture`, `MigrationApprovalGate`, `SecretRotationPlan`, `RuntimeObserverRepairJob`, `RollbackUpgradeRepairPlaybook`, `DeploymentReadinessRehearsal`, and `DeploymentPromotionReadinessReport`.
@@ -549,7 +551,7 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 | `.bitcode/v34-distributed-execution-runtime-receipts.json` | pipeline-hosts | source-safe-distributed-execution-runtime-receipts | `pnpm run check:v34-distributed-execution-runtime-receipts` |
 | `.bitcode/v34-deployment-storage-posture.json` | btd | source-safe-deployment-storage-posture-metadata | `pnpm run check:v34-deployment-storage-posture` |
 | `.bitcode/v34-secret-rotation-boundary-operations.json` | btd | source-safe-secret-rotation-boundary-metadata | `pnpm run check:v34-secret-rotation-boundary-operations` |
-| `.bitcode/v34-migration-cicd-approval-gates.json` | protocol | source-safe | later V34 gate |
+| `.bitcode/v34-migration-cicd-approval-gates.json` | btd | source-safe-migration-cicd-approval-gate-metadata | `pnpm run check:v34-migration-cicd-approval-gates` |
 | `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` | protocol | source-safe | later V34 gate |

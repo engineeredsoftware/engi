@@ -14,6 +14,7 @@
     "./interface-consumer-ux-regression-proof": "./src/interface-consumer-ux-regression-proof.ts",
     "./interface-integration-contract": "./src/interface-integration-contract.ts",
     "./interface-telemetry-proof-hook": "./src/interface-telemetry-proof-hook.ts",
+    "./migration-approval-gate": "./src/migration-approval-gate.ts",
     "./read-license-assetpack-rights-contract": "./src/read-license-assetpack-rights-contract.ts",
     "./secret-rotation-plan": "./src/secret-rotation-plan.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
