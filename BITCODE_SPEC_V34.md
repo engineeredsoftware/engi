@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 4 ledger/database/object-storage deployment posture is closed over promoted V33 canon
+- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 4 closes V34 host capability, environment lane, distributed execution runtime receipt, and storage posture parity; approval, rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 5 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation parity; approval, rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -181,7 +181,7 @@ V34 adds deployment-facing contract objects over V33 protocol truth:
 - `DistributedExecutionRuntimeReceipt`: execution id, host id, lane id, work kind, command or pipeline id, start/finish timestamps, `routeHandlerBoundary`, input root, output root, log root, object-storage root, ledger/database projection roots, wallet operation root, proof root, PTRR agent fields, ThricifiedGeneration fields, tool id, and repair posture. Required work kinds are `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`; long-running work uses `request_response_not_required` rather than route-handler completion.
 - `DeploymentStoragePosture`: ledger-derived state, canonical database projection, object storage, proof artifacts, audit logs, rollback material, retention class, encryption posture, and repair command.
 - `MigrationApprovalGate`: migration id, schema diff root, generated type root, dry-run result, reviewer approval, rollback plan, and deployment lane admission.
-- `SecretRotationPlan`: secret family, storage owner, rotation cadence, rotation command, blast-radius note, proof root, and leak-response path.
+- `SecretRotationPlan`: secret family, storage owner, rotation cadence, rotation command, blast-radius note, proof root, leak-response path, runtime availability check, CI masking posture, audit event, and no secret values serialization policy.
 - `RuntimeObserverRepairJob`: observer id, broadcaster id, repair job id, trigger, allowed lane, proof root, and replay command.
 - `RollbackUpgradeRepairPlaybook`: rollback id, upgrade id, repair id, state carriers, validation commands, operator approval, and fail-closed posture.
 - `DeploymentReadinessRehearsal`: local rehearsal, staging-testnet rehearsal, proof bundle, source-safe screenshots or logs, and admission verdict.
@@ -197,7 +197,7 @@ V34 closes through ten gates:
 2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`. It is closed by `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `pnpm run check:v34-gate2`.
 3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work. It is closed by `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `pnpm run check:v34-gate3`.
 4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material. It is closed by `packages/btd/src/deployment-storage-posture.ts`, `.bitcode/v34-deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
-5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks.
+5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks. It is closed by `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `pnpm run check:v34-gate5`; OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families are cataloged with no secret values in tracked artifacts or logs.
 6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approvals, generated type refresh, route scans, promotion commits, Vercel/Supabase lane checks, and deployment blockers.
 7. **Gate 7: Runtime Observers Broadcasters Repair Jobs** makes settlement observers, ledger broadcasters, projection repair jobs, proof generators, and queue consumers explicit deployment jobs with receipts.
 8. **Gate 8: Rollback Upgrade Data Repair Playbooks** defines operator playbooks for rollback, upgrade, state repair, object-storage repair, generated artifact repair, and incident recovery.
@@ -547,8 +547,8 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 | `.bitcode/v34-deployment-host-capability-catalog.json` | btd | source-safe-deployment-host-capability-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
 | `.bitcode/v34-environment-lane-contracts.json` | btd | source-safe-environment-lane-contract-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
 | `.bitcode/v34-distributed-execution-runtime-receipts.json` | pipeline-hosts | source-safe-distributed-execution-runtime-receipts | `pnpm run check:v34-distributed-execution-runtime-receipts` |
-| `.bitcode/v34-deployment-storage-posture.json` | protocol | source-safe | later V34 gate |
-| `.bitcode/v34-secret-rotation-boundary-operations.json` | protocol | source-safe | later V34 gate |
+| `.bitcode/v34-deployment-storage-posture.json` | btd | source-safe-deployment-storage-posture-metadata | `pnpm run check:v34-deployment-storage-posture` |
+| `.bitcode/v34-secret-rotation-boundary-operations.json` | btd | source-safe-secret-rotation-boundary-metadata | `pnpm run check:v34-secret-rotation-boundary-operations` |
 | `.bitcode/v34-migration-cicd-approval-gates.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` | protocol | source-safe | later V34 gate |
@@ -560,6 +560,8 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 Gate 1 requires `.bitcode/v34-spec-family-report.json` and `.bitcode/v34-canonical-input-report.json` to be declared.
 Gate 2 requires `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate2`.
 Gate 3 requires `.bitcode/v34-distributed-execution-runtime-receipts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate3`, with receipt coverage for `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`.
+Gate 4 requires `.bitcode/v34-deployment-storage-posture.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate4`, with ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, rollback material, retention, encryption, and source-bearing AssetPack lock coverage.
+Gate 5 requires `.bitcode/v34-secret-rotation-boundary-operations.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate5`, with OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App secret-family coverage and no secret values in generated artifacts or logs.
 Later V34 gates introduce the remaining deployment artifacts listed above.
 
 ### Shared generated-artifact fields

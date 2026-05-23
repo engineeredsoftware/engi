@@ -190,6 +190,7 @@ export * from './replay';
 export * from './revenue';
 export * from './semantic-volume';
 export * from './settlement';
+export * from './secret-rotation-plan';
 export * from './source-to-shares';
 export * from './supply';
 export * from './telemetry';

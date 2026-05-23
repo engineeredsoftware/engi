@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 4 ledger/database/object-storage deployment posture is closed over promoted V33 canon
+- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 4 closes host capability, environment lane, distributed execution runtime receipt, and storage posture source parity; later deployment-depth source parity remains drafted until each gate closes
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 5 closes host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation source parity; later deployment-depth source parity remains drafted until each gate closes
 - Scope: active draft notes for deployment depth after V33 commercial interface canon
 
 This NOTES file does not promote V34.
@@ -58,7 +58,7 @@ Read the system as:
 - `DistributedExecutionRuntimeReceipt` now represents long-running Reading, settlement, wallet, proof, object-storage, and repair work without relying on route-handler duration. Gate 3 source truth is `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`; generated truth is `.bitcode/v34-distributed-execution-runtime-receipts.json`; validation is `pnpm run check:v34-gate3`.
 - Receipt work kinds are `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`; long-running work uses `request_response_not_required` and source-safe roots instead of serialized source, prompt payloads, credentials, or wallet private material.
 - `DeploymentStoragePosture` now covers ledger-derived state, database projection, object storage, proof artifacts, audit logs, rollback material, backups, retention, encryption, and repair commands. Gate 4 source truth is `packages/btd/src/deployment-storage-posture.ts`; generated truth is `.bitcode/v34-deployment-storage-posture.json`; validation is `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
-- `SecretRotationPlan` must never place secret values in tracked files or generated artifacts.
+- `SecretRotationPlan` now covers OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App secret families. Gate 5 source truth is `packages/btd/src/secret-rotation-plan.ts`; generated truth is `.bitcode/v34-secret-rotation-boundary-operations.json`; validation is `pnpm run check:v34-gate5`; no secret values may be placed in tracked files, generated artifacts, logs, interface payloads, or telemetry metadata.
 - `MigrationApprovalGate` must connect schema diffs, generated types, dry-runs, reviewer approvals, and rollback plans.
 - `DeploymentReadinessRehearsal` must prove local and staging-testnet readiness without value-bearing mainnet admission.
 

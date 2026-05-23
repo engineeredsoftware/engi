@@ -15,6 +15,7 @@
     "./interface-integration-contract": "./src/interface-integration-contract.ts",
     "./interface-telemetry-proof-hook": "./src/interface-telemetry-proof-hook.ts",
     "./read-license-assetpack-rights-contract": "./src/read-license-assetpack-rights-contract.ts",
+    "./secret-rotation-plan": "./src/secret-rotation-plan.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },
   "scripts": {
