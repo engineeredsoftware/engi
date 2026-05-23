@@ -189,6 +189,7 @@ export * from './receipts';
 export * from './reconciliation';
 export * from './replay';
 export * from './revenue';
+export * from './rollback-upgrade-repair-playbook';
 export * from './runtime-observer-repair-job';
 export * from './semantic-volume';
 export * from './settlement';
