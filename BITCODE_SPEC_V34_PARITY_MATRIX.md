@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
+- V34 state: Gate 3 distributed execution runtime contracts are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 2 closes host capability and environment lane parity; Gates 3 through 10 remain draft-required deployment-depth parity rows
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 3 closes host capability, environment lane, and distributed execution runtime receipt parity; Gates 4 through 10 remain draft-required deployment-depth parity rows
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -55,7 +55,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V34.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v34/gate-1-deployment-roadmap-opening` | closed | V34 family validates in draft mode over active V33 and `check:v34-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V33 active, V34 draft, and coherent V35-V37 responsibilities. |
 | Host capability and environment lane catalog | Gate 2 | `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `check:v34-gate2` | closed | Hosts, services, lanes, storage carriers, and value-bearing blockers have package-owned rows. |
-| Distributed execution runtime contracts | Gate 3 | planned runtime receipt source, tests, generated artifact, and `check:v34-gate3` | draft-required | Pipeline, tool, ledger, wallet, proof, object-storage, and repair work emits typed receipts. |
+| Distributed execution runtime contracts | Gate 3 | `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `check:v34-gate3` | closed | Pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work emits typed receipts. |
 | Ledger/database/object-storage posture | Gate 4 | planned storage posture source, tests, generated artifact, and `check:v34-gate4` | draft-required | Ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, and rollback material are durable and repairable. |
 | Secret rotation and credential boundaries | Gate 5 | planned secret-family source, tests, generated artifact, and `check:v34-gate5` | draft-required | Secret values stay out of tracked files and logs while rotation, leak response, and runtime availability are provable. |
 | Migration CI/CD deployment approval gates | Gate 6 | planned approval gate source, workflows, generated artifact, and `check:v34-gate6` | draft-required | Schema migration, generated types, route scans, builds, deployment approvals, and promotion commits fail closed. |
@@ -79,6 +79,8 @@ No `_legacy/` source is active source truth.
 | Host/lane catalog package source | `packages/btd/src/deployment-host-capability-catalog.ts` owns `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` builders | closed |
 | Gate 2 generated artifacts | `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` are deterministic and source-safe | closed |
 | Value-bearing mainnet blocker | `value-bearing-mainnet` remains `blocked_future_canon_required` and admits no hosts | closed |
+| Gate 3 generated artifact | `.bitcode/v34-distributed-execution-runtime-receipts.json` is deterministic and source-safe | closed |
+| Runtime route boundary | Long-running `DistributedExecutionRuntimeReceipt` rows use `request_response_not_required` instead of request/response completion | closed |
 
 ## Gate 1 Parity
 
@@ -107,9 +109,12 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V34 judgment |
 | --- | --- | --- |
-| Distributed execution runtime receipt exists | planned package-owned type and builders | draft-required |
-| Long-running route boundary is respected | planned route/worker tests | draft-required |
-| Pipeline, tool, ledger, wallet, proof, storage, and repair receipt roots are covered | planned generated artifact | draft-required |
+| Distributed execution runtime receipt exists | `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `packages/pipeline-hosts/src/index.ts`, and `.bitcode/v34-distributed-execution-runtime-receipts.json` | closed |
+| Long-running route boundary is respected | `request_response_not_required` fixtures, focused tests, generated artifact coverage, and `check:v34-gate3` | closed |
+| Pipeline, tool, ledger, wallet, proof, storage, and repair receipt roots are covered | `.bitcode/v34-distributed-execution-runtime-receipts.json` covers input roots, output roots, log roots, object-storage roots, ledger/database roots, wallet roots, proof roots, and repair posture | closed |
+| PTRR and ThricifiedGeneration receipt precision | `ptrr_agent` and `thricified_generation` receipt rows include PTRR step and ThricifiedGeneration step data without protected prompt or source payloads | closed |
+| Storage and repair receipt precision | `object_storage_write` and `repair_job` receipt rows carry source-safe roots, replay commands, and repair posture without serializing protected source | closed |
+| Source-safety boundary | Gate 3 tests and checker reject secret-shaped text and protected source markers in receipt fields and generated artifact output | closed |
 
 ## Gate 4 Parity
 

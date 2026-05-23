@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
+- V34 state: Gate 3 distributed execution runtime contracts are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 2 closes host capability and environment lane contracts; source-side distributed execution, storage, credential, approval, repair, rehearsal, and promotion contracts remain drafted until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 3 closes host capability, environment lane, and distributed execution runtime receipt contracts; source-side storage, credential, approval, repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -100,6 +100,13 @@ Closure acceptance:
 - long-running work is not required to finish inside a request/response route handler;
 - receipts contain input roots, output roots, log roots, storage roots, ledger/database roots, status, and repair posture without serializing secrets or protected source.
 
+Closure evidence:
+
+- `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts` owns `DistributedExecutionRuntimeReceipt` and catalog builders for `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`.
+- `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts` proves root coverage, `request_response_not_required`, PTRR/ThricifiedGeneration step data, tool ids, ledger/wallet/proof/object-storage roots, terminal completion/output roots, and source-safety rejection.
+- `scripts/generate-v34-distributed-execution-runtime-receipts.mjs` emits deterministic `.bitcode/v34-distributed-execution-runtime-receipts.json`.
+- `scripts/check-v34-gate3-distributed-execution-runtime-contracts.mjs` and `pnpm run check:v34-gate3` fail closed on stale artifacts, missing work kinds, request/response completion assumptions, missing roots, source-safety drift, docs drift, package-script drift, and workflow drift.
+
 ### Gate 4: Ledger Database Object Storage Deployment Posture
 
 Gate 4 defines durable storage posture.
@@ -170,4 +177,4 @@ Closure acceptance:
 
 ## Completion condition
 
-This delta is complete for Gate 2 when `version/v34` contains the Gate 2 host capability and lane contracts, source-safe generated artifacts, focused tests, workflow wiring, and `pnpm run check:v34-gate2` closure. Remaining delta closure advances through Gates 3 through 10.
+This delta is complete for Gate 3 when `version/v34` contains the Gate 3 distributed execution runtime receipt contracts, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate3` closure. Remaining delta closure advances through Gates 4 through 10.

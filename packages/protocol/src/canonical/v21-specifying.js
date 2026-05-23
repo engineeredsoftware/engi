@@ -375,7 +375,8 @@ function buildV21LikeProfile(version) {
       ...(version === 'V34'
         ? [
           '.bitcode/v34-deployment-host-capability-catalog.json',
-          '.bitcode/v34-environment-lane-contracts.json'
+          '.bitcode/v34-environment-lane-contracts.json',
+          '.bitcode/v34-distributed-execution-runtime-receipts.json'
         ]
       : []),
       ...(version === 'V26'
