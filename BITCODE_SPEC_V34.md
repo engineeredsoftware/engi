@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 2 host capability and environment lane catalog is closed over promoted V33 canon
+- V34 state: Gate 3 distributed execution runtime contracts are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 2 closes V34 host capability and environment lane parity; distributed execution, storage, approval, rollback, repair, and rehearsal source parity is not closed until the relevant gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 3 closes V34 host capability, environment lane, and distributed execution runtime receipt parity; storage, approval, rollback, repair-job registry, rehearsal, and promotion source parity is not closed until the relevant gates close
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -178,7 +178,7 @@ V34 adds deployment-facing contract objects over V33 protocol truth:
 
 - `DeploymentHostCapabilityCatalog`: host id, runtime surface, required packages, outbound network posture, secret requirements, storage carriers, observer/broadcaster capability, repair capability, proof output paths, and admission status.
 - `EnvironmentLaneContract`: lane id, supported Bitcoin network posture, Supabase/Vercel project posture, value-bearing admission, data-retention policy, wallet policy, secret scope, and proof requirements.
-- `DistributedExecutionRuntimeReceipt`: execution id, host id, lane id, command or pipeline id, start/finish timestamps, input root, output root, log root, object-storage root, ledger/database projection roots, and repair posture.
+- `DistributedExecutionRuntimeReceipt`: execution id, host id, lane id, work kind, command or pipeline id, start/finish timestamps, `routeHandlerBoundary`, input root, output root, log root, object-storage root, ledger/database projection roots, wallet operation root, proof root, PTRR agent fields, ThricifiedGeneration fields, tool id, and repair posture. Required work kinds are `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`; long-running work uses `request_response_not_required` rather than route-handler completion.
 - `DeploymentStoragePosture`: ledger-derived state, canonical database projection, object storage, proof artifacts, audit logs, rollback material, retention class, encryption posture, and repair command.
 - `MigrationApprovalGate`: migration id, schema diff root, generated type root, dry-run result, reviewer approval, rollback plan, and deployment lane admission.
 - `SecretRotationPlan`: secret family, storage owner, rotation cadence, rotation command, blast-radius note, proof root, and leak-response path.
@@ -195,7 +195,7 @@ V34 closes through ten gates:
 
 1. **Gate 1: V34 Deployment Roadmap And Spec Opening** opens the V34 family over V33 canon, updates `SPECIFICATIONS_ROADMAP.md`, documents V33 active / V34 draft posture, and wires `check:v34-gate1`.
 2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`. It is closed by `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `pnpm run check:v34-gate2`.
-3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, ledger, wallet, proof, object-storage, and repair work.
+3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work. It is closed by `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `pnpm run check:v34-gate3`.
 4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material.
 5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks.
 6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approvals, generated type refresh, route scans, promotion commits, Vercel/Supabase lane checks, and deployment blockers.
@@ -546,7 +546,7 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 | `.bitcode/v34-canonical-input-report.json` | protocol | source-safe | `node scripts/check-bitcode-canonical-inputs.mjs --current-target V33` |
 | `.bitcode/v34-deployment-host-capability-catalog.json` | btd | source-safe-deployment-host-capability-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
 | `.bitcode/v34-environment-lane-contracts.json` | btd | source-safe-environment-lane-contract-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
-| `.bitcode/v34-distributed-execution-runtime-receipts.json` | protocol | source-safe | later V34 gate |
+| `.bitcode/v34-distributed-execution-runtime-receipts.json` | pipeline-hosts | source-safe-distributed-execution-runtime-receipts | `pnpm run check:v34-distributed-execution-runtime-receipts` |
 | `.bitcode/v34-deployment-storage-posture.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-secret-rotation-boundary-operations.json` | protocol | source-safe | later V34 gate |
 | `.bitcode/v34-migration-cicd-approval-gates.json` | protocol | source-safe | later V34 gate |
@@ -559,6 +559,7 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 
 Gate 1 requires `.bitcode/v34-spec-family-report.json` and `.bitcode/v34-canonical-input-report.json` to be declared.
 Gate 2 requires `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate2`.
+Gate 3 requires `.bitcode/v34-distributed-execution-runtime-receipts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate3`, with receipt coverage for `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`.
 Later V34 gates introduce the remaining deployment artifacts listed above.
 
 ### Shared generated-artifact fields
@@ -586,6 +587,7 @@ Canonical regeneration fails closed when generated inputs drift, source safety f
 
 Gate 1 validation is `pnpm run check:v34-gate1`.
 Gate 2 validation is `pnpm run check:v34-gate2`, with artifact freshness checked by `pnpm run check:v34-host-capability-environment-lanes` and focused package coverage in `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`.
+Gate 3 validation is `pnpm run check:v34-gate3`, with artifact freshness checked by `pnpm run check:v34-distributed-execution-runtime-receipts` and focused package coverage in `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`.
 The gate-quality workflow also runs spec-family, canonical-input, canon-posture drift, and diff hygiene checks.
 Later gates add generated artifact checks close to their deployment contract surfaces.
 

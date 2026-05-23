@@ -149,6 +149,7 @@ jobs:
             node scripts/check-v33-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             node scripts/check-v34-gate1-deployment-roadmap-opening.mjs --skip-branch-check
             node scripts/check-v34-gate2-host-capability-environment-lanes.mjs --skip-branch-check
+            node scripts/check-v34-gate3-distributed-execution-runtime-contracts.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -193,6 +194,7 @@ jobs:
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand
           pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand
