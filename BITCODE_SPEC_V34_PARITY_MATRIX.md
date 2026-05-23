@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 4 ledger/database/object-storage deployment posture is closed over promoted V33 canon
+- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 4 closes host capability, environment lane, distributed execution runtime receipt, and storage posture parity; Gates 5 through 10 remain draft-required deployment-depth parity rows
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 5 closes host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation parity; Gates 6 through 10 remain draft-required deployment-depth parity rows
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -57,7 +57,7 @@ No `_legacy/` source is active source truth.
 | Host capability and environment lane catalog | Gate 2 | `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `check:v34-gate2` | closed | Hosts, services, lanes, storage carriers, and value-bearing blockers have package-owned rows. |
 | Distributed execution runtime contracts | Gate 3 | `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `check:v34-gate3` | closed | Pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work emits typed receipts. |
 | Ledger/database/object-storage posture | Gate 4 | `packages/btd/src/deployment-storage-posture.ts`, `.bitcode/v34-deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `check:v34-gate4` | closed | ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, and rollback material are durable and repairable; source-bearing AssetPack storage remains locked before settlement. |
-| Secret rotation and credential boundaries | Gate 5 | planned secret-family source, tests, generated artifact, and `check:v34-gate5` | draft-required | Secret values stay out of tracked files and logs while rotation, leak response, and runtime availability are provable. |
+| Secret rotation and credential boundaries | Gate 5 | `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `check:v34-gate5` | closed | OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families have rotation, masking, leak response, runtime availability, and no secret values serialization coverage. |
 | Migration CI/CD deployment approval gates | Gate 6 | planned approval gate source, workflows, generated artifact, and `check:v34-gate6` | draft-required | Schema migration, generated types, route scans, builds, deployment approvals, and promotion commits fail closed. |
 | Runtime observers, broadcasters, and repair jobs | Gate 7 | planned runtime job source, tests, generated artifact, and `check:v34-gate7` | draft-required | Settlement observers, broadcasters, finality watchers, projection repair, object-storage repair, and proof jobs have receipts. |
 | Rollback, upgrade, and data repair playbooks | Gate 8 | planned playbook source/docs, generated artifact, and `check:v34-gate8` | draft-required | Rollback, upgrade, migration rollback, object-storage repair, database repair, ledger repair, and incident response are commandable and proof-rooted. |
@@ -83,6 +83,8 @@ No `_legacy/` source is active source truth.
 | Runtime route boundary | Long-running `DistributedExecutionRuntimeReceipt` rows use `request_response_not_required` instead of request/response completion | closed |
 | Gate 4 generated artifact | `.bitcode/v34-deployment-storage-posture.json` is deterministic and source-safe | closed |
 | Storage disclosure boundary | `DeploymentStoragePosture` blocks protected AssetPack object storage, rollback material, and encrypted backups before settlement | closed |
+| Gate 5 generated artifact | `.bitcode/v34-secret-rotation-boundary-operations.json` is deterministic and source-safe | closed |
+| Secret family coverage | `SecretRotationPlan` covers OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families with no secret values in generated artifacts or logs | closed |
 
 ## Gate 1 Parity
 
@@ -131,9 +133,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V34 judgment |
 | --- | --- | --- |
-| Secret family catalog exists without values | planned source-safe generated artifact | draft-required |
-| Rotation and leak-response commands are specified | planned docs/tests | draft-required |
-| CI and logs reject secret-shaped payloads | planned checker coverage | draft-required |
+| Secret family catalog exists without values | `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, and required family rows | closed |
+| Rotation and leak-response commands are specified | `SecretRotationPlan` rows include rotation command, cadence, leak response, blast-radius note, runtime availability, and audit event fields | closed |
+| CI and logs reject secret-shaped payloads | `packages/btd/__tests__/secret-rotation-plan.test.ts` and `scripts/check-v34-gate5-secret-rotation-boundary-operations.mjs` reject secret-shaped values and require no secret values serialization | closed |
 
 ## Gate 6 Parity
 

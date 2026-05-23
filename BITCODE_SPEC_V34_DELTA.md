@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 4 ledger/database/object-storage deployment posture is closed over promoted V33 canon
+- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 4 closes host capability, environment lane, distributed execution runtime receipt, and storage posture contracts; source-side credential, approval, repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 5 closes host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation contracts; approval, repair-job registry, rehearsal, and promotion contracts remain drafted until their gates close
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -128,6 +128,13 @@ Closure acceptance:
 - rotation commands, cadence, CI masking, leak response, and blast-radius notes exist;
 - generated artifacts and logs prove no secret-shaped values are serialized.
 
+Closure evidence:
+
+- `packages/btd/src/secret-rotation-plan.ts` owns `SecretRotationPlan`, required secret family ids, family builders, value-bearing mainnet blocking, no secret values serialization checks, CI masking posture, leak response, runtime availability, and audit event coverage.
+- `packages/btd/__tests__/secret-rotation-plan.test.ts` proves all nine required families, required operational fields, CI masking failure, missing/duplicate families, value-bearing mainnet blocking, and serialized secret-shaped value rejection.
+- `scripts/generate-v34-secret-rotation-boundary-operations.mjs` emits deterministic `.bitcode/v34-secret-rotation-boundary-operations.json` with OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App coverage and no secret values.
+- `scripts/check-v34-gate5-secret-rotation-boundary-operations.mjs` and `pnpm run check:v34-gate5` fail closed on stale artifacts, missing families, unmasked CI posture, missing leak response, secret-shaped artifact text, docs drift, package-script drift, and workflow drift.
+
 ### Gate 6: Migration CI/CD Deployment Approval Gates
 
 Gate 6 hardens release automation.
@@ -178,4 +185,4 @@ Closure acceptance:
 
 ## Completion condition
 
-This delta is complete for Gate 3 when `version/v34` contains the Gate 3 distributed execution runtime receipt contracts, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate3` closure. Remaining delta closure advances through Gates 4 through 10.
+This delta is complete for Gate 5 when `version/v34` contains the Gate 5 `SecretRotationPlan`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate5` closure. Remaining delta closure advances through Gates 6 through 10.
