@@ -241,7 +241,11 @@ function main() {
     assertCheck(failures, doc.includes('unsafe drift'), 'V34 docs must name unsafe drift.');
   }
 
-  assertCheck(failures, roadmap.includes('Current working gate: V34 Gate 8'), 'Roadmap must advance current working gate to V34 Gate 8 after Gate 7 closure.');
+  assertCheck(
+    failures,
+    /Current working gate: V34 Gate (?:8|9|10)\b/u.test(roadmap),
+    'Roadmap must keep Gate 7 closed while advancing current working gate to V34 Gate 8 or later.',
+  );
   assertCheck(failures, roadmap.includes('V34 Gate 7 closure anchor'), 'Roadmap must mark Gate 7 as closed.');
   assertCheck(failures, packageJson.includes('generate:v34-runtime-observers-broadcasters-repair-jobs'), 'Root package scripts must include Gate 7 generator.');
   assertCheck(failures, packageJson.includes('check:v34-runtime-observers-broadcasters-repair-jobs'), 'Root package scripts must include Gate 7 artifact check.');

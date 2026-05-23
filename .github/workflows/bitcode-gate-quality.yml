@@ -154,6 +154,7 @@ jobs:
             node scripts/check-v34-gate5-secret-rotation-boundary-operations.mjs --skip-branch-check
             node scripts/check-v34-gate6-migration-cicd-approval-gates.mjs --skip-branch-check
             node scripts/check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs --skip-branch-check
+            node scripts/check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -194,6 +195,7 @@ jobs:
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/secret-rotation-plan.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/migration-approval-gate.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/runtime-observer-repair-job.test.ts
+          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/rollback-upgrade-repair-playbook.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand

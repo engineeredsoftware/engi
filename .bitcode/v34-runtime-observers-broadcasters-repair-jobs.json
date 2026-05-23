@@ -5,7 +5,7 @@
   "version": "V34",
   "currentTarget": "V33",
   "sourceSafetyVerdict": "source-safe-runtime-observer-repair-job-metadata",
-  "proofSourceCommit": "proof-source:28f788029cad78479738c822",
+  "proofSourceCommit": "proof-source:f7f65302cbb5a7466bce06bb",
   "validationCommand": "pnpm run check:v34-runtime-observers-broadcasters-repair-jobs",
   "passed": true,
   "requiredJobIds": [
@@ -46,7 +46,7 @@
     "credentialsSerialized": false,
     "protectedSourceVisible": false
   },
-  "artifactRoot": "v34-runtime-observers-broadcasters-repair-jobs:ad4da127c022d97459a2bfbc",
+  "artifactRoot": "v34-runtime-observers-broadcasters-repair-jobs:b37def0bd835e46a1739d250",
   "jobs": [
     {
       "kind": "bitcode.runtime_observer_repair_job",
@@ -444,7 +444,7 @@
   "docsEvidence": [
     {
       "path": "BITCODE_SPEC_V34.md",
-      "digest": "c1a9f7f5dc14ec3fceb79ebf49e7e9579b2ae88c24b683b8b4d56fc0858523ff",
+      "digest": "24fdc481fe912e2c444c139cbfbbbd9fc218256c611c51c9ace95b52100c47a1",
       "requiredTokens": [
         {
           "token": "RuntimeObserverRepairJob",
@@ -458,7 +458,7 @@
     },
     {
       "path": "BITCODE_SPEC_V34_DELTA.md",
-      "digest": "2c34ee1970e64a9a4e575495029aab5be98b06aa72d9c95cb51271595e51cea0",
+      "digest": "f2b388639fb5e21053e764d8f70920dafd051bb6dea4006e1d32f62d09ef71b8",
       "requiredTokens": [
         {
           "token": "RuntimeObserverRepairJob",
@@ -472,7 +472,7 @@
     },
     {
       "path": "BITCODE_SPEC_V34_PARITY_MATRIX.md",
-      "digest": "087d28255e98f9894201576af4a0ff993ec7b90caf139f4fdf14515401dfcaf6",
+      "digest": "f6507351e34db7efa7214c9ff3e26e89d8bc1d5ec020f890da9a1a4fd7cd5b3a",
       "requiredTokens": [
         {
           "token": "RuntimeObserverRepairJob",
@@ -486,7 +486,7 @@
     },
     {
       "path": "SPECIFICATIONS_ROADMAP.md",
-      "digest": "6641bafb6502e9a22170201472a156b896f0968777f155c7f8d10a1e767b59a7",
+      "digest": "c470c29ea5aa3c45c604e5bfb2913d94e6f337d7991ee9b692ca9f48ffc7fd7b",
       "requiredTokens": [
         {
           "token": "V34 Gate 7 closure anchor",
@@ -498,7 +498,7 @@
   "workflowEvidence": [
     {
       "path": ".github/workflows/bitcode-gate-quality.yml",
-      "digest": "3c01c06f05a224546a25deeab929f5acb4d03600cde16ef6afee7a9d8ac94598",
+      "digest": "3e25476b1be58ae7cf14ec3e9a5f7875af2162221749059598dcd20f26c53f31",
       "requiredTokens": [
         {
           "token": "check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs",

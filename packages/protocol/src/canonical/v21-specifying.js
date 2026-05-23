@@ -380,7 +380,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v34-deployment-storage-posture.json',
           '.bitcode/v34-secret-rotation-boundary-operations.json',
           '.bitcode/v34-migration-cicd-approval-gates.json',
-          '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json'
+          '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
+          '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json'
         ]
       : []),
       ...(version === 'V26'

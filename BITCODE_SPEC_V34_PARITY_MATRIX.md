@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 7 runtime observers, broadcasters, and repair jobs are closed over promoted V33 canon
+- V34 state: Gate 8 rollback, upgrade, and data repair playbooks are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 7 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, and runtime observer/broadcaster/repair-job parity; Gates 8 through 10 remain draft-required deployment-depth parity rows
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 8 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job parity, and rollback/upgrade/data repair playbook parity; Gates 9 through 10 remain draft-required deployment-depth parity rows
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -60,7 +60,7 @@ No `_legacy/` source is active source truth.
 | Secret rotation and credential boundaries | Gate 5 | `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `check:v34-gate5` | closed | OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families have rotation, masking, leak response, runtime availability, and no secret values serialization coverage. |
 | Migration CI/CD deployment approval gates | Gate 6 | `packages/btd/src/migration-approval-gate.ts`, `.bitcode/v34-migration-cicd-approval-gates.json`, `packages/btd/__tests__/migration-approval-gate.test.ts`, workflow wiring, and `check:v34-gate6` | closed | schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel/Supabase lane checks, promotion commit approval, reviewer approval, rollback, dry-runs, proof roots, and no secret values serialization fail closed. |
 | Runtime observers, broadcasters, and repair jobs | Gate 7 | `packages/btd/src/runtime-observer-repair-job.ts`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `packages/btd/__tests__/runtime-observer-repair-job.test.ts`, workflow wiring, and `check:v34-gate7` | closed | settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, and queue consumers have receipts, replay commands, repair commands, non-value lanes, and unsafe drift blockers. |
-| Rollback, upgrade, and data repair playbooks | Gate 8 | planned playbook source/docs, generated artifact, and `check:v34-gate8` | draft-required | Rollback, upgrade, migration rollback, object-storage repair, database repair, ledger repair, and incident response are commandable and proof-rooted. |
+| Rollback, upgrade, and data repair playbooks | Gate 8 | `packages/btd/src/rollback-upgrade-repair-playbook.ts`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts`, workflow wiring, and `check:v34-gate8` | closed | Rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, and generated artifact repair are commandable, approval-gated, verification-backed, and proof-rooted. |
 | Local and staging-testnet deployment rehearsal | Gate 9 | planned rehearsal artifacts, source-safe logs, screenshots, and `check:v34-gate9` | draft-required | Local and staging-testnet rehearsals exercise commercial runtime without value-bearing mainnet admission. |
 | Promotion readiness | Gate 10 | planned promotion readiness report, promotion script support, generated appendix support, and `check:v34-gate10` | draft-required | V34 can promote only after all deployment gates pass and generated canon is source-safe. |
 
@@ -157,9 +157,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V34 judgment |
 | --- | --- | --- |
-| Rollback, upgrade, and repair playbooks exist | planned docs/source artifacts | draft-required |
-| Playbooks name commands, approvals, verification, and proof roots | planned generated artifact | draft-required |
-| Incident recovery remains source-safe | planned checker coverage | draft-required |
+| Rollback, upgrade, and repair playbooks exist | `RollbackUpgradeRepairPlaybook`, required playbook ids, and `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` | closed |
+| Playbooks name commands, operator approval, verification, and proof roots | generated artifact rows, `packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts`, and `pnpm run check:v34-gate8` | closed |
+| Incident recovery remains source-safe | checker coverage rejects secret-shaped values, protected source markers, and value-bearing mainnet admission | closed |
 
 ## Gate 9 Parity
 
