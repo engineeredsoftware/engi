@@ -238,8 +238,16 @@ function main() {
     assertCheck(failures, doc.includes('no secret values'), 'V34 docs must state no secret values are serialized.');
   }
 
-  assertCheck(failures, roadmap.includes('Current working gate: V34 Gate 7'), 'Roadmap must advance current working gate to V34 Gate 7 after Gate 6 closure.');
-  assertCheck(failures, roadmap.includes('closed Gate 6 migration CI/CD'), 'Roadmap must mark Gate 6 as closed.');
+  assertCheck(
+    failures,
+    /Current working gate: V34 Gate (?:7|8|9|10)\b/u.test(roadmap),
+    'Roadmap must advance current working gate to V34 Gate 7 or later after Gate 6 closure.',
+  );
+  assertCheck(
+    failures,
+    roadmap.includes('V34 Gate 6 closure anchor'),
+    'Roadmap must mark Gate 6 as closed.',
+  );
   assertCheck(failures, packageJson.includes('generate:v34-migration-cicd-approval-gates'), 'Root package scripts must include Gate 6 generator.');
   assertCheck(failures, packageJson.includes('check:v34-migration-cicd-approval-gates'), 'Root package scripts must include Gate 6 artifact check.');
   assertCheck(failures, packageJson.includes('check:v34-gate6'), 'Root package scripts must include Gate 6 checker.');

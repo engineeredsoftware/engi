@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 5 secret rotation and credential boundary operations are closed over promoted V33 canon
+- V34 state: Gate 7 runtime observers, broadcasters, and repair jobs are closed over promoted V33 canon
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, and later deployment-depth artifacts as gates close
-- Source parity state: Gate 5 closes host capability, environment lane, distributed execution runtime receipt, storage posture, and secret rotation source parity; later deployment-depth source parity remains drafted until each gate closes
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, and later deployment-depth artifacts as gates close
+- Source parity state: Gate 7 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, and runtime observer/broadcaster/repair-job source parity; later deployment-depth source parity remains drafted until each remaining gate closes
 - Scope: active draft notes for deployment depth after V33 commercial interface canon
 
 This NOTES file does not promote V34.
@@ -60,6 +60,7 @@ Read the system as:
 - `DeploymentStoragePosture` now covers ledger-derived state, database projection, object storage, proof artifacts, audit logs, rollback material, backups, retention, encryption, and repair commands. Gate 4 source truth is `packages/btd/src/deployment-storage-posture.ts`; generated truth is `.bitcode/v34-deployment-storage-posture.json`; validation is `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
 - `SecretRotationPlan` now covers OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App secret families. Gate 5 source truth is `packages/btd/src/secret-rotation-plan.ts`; generated truth is `.bitcode/v34-secret-rotation-boundary-operations.json`; validation is `pnpm run check:v34-gate5`; no secret values may be placed in tracked files, generated artifacts, logs, interface payloads, or telemetry metadata.
 - `MigrationApprovalGate` now connects schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel lane checks, Supabase lane checks, promotion commit approval, dry-runs, reviewer approval, rollback plans, workflow bindings, and proof roots. Gate 6 source truth is `packages/btd/src/migration-approval-gate.ts`; generated truth is `.bitcode/v34-migration-cicd-approval-gates.json`; validation is `pnpm run check:v34-gate6`; no secret values may be placed in tracked approval artifacts or CI/CD telemetry.
+- `RuntimeObserverRepairJob` now connects settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipt work kinds, replay commands, repair commands, and unsafe drift blockers. Gate 7 source truth is `packages/btd/src/runtime-observer-repair-job.ts`; generated truth is `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`; validation is `pnpm run check:v34-gate7`; unsafe drift blocks unlock, delivery, broadcast, or projection until repaired.
 - `DeploymentReadinessRehearsal` must prove local and staging-testnet readiness without value-bearing mainnet admission.
 
 ## Boundaries
