@@ -382,7 +382,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v34-migration-cicd-approval-gates.json',
           '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
           '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-          '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json'
+          '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+          '.bitcode/v34-promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V26'
@@ -1464,6 +1465,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V33') {
     artifacts.push(...buildV21LikeProfile('V33').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V34') {
+    artifacts.push(...buildV21LikeProfile('V34').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

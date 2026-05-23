@@ -1,0 +1,543 @@
+{
+  "artifactId": "v34-promotion-readiness-report",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "gateBranchPattern": "v34/gate-N-*",
+    "promotionPrRequired": true,
+    "versionBranch": "version/v34",
+    "versionPromotionPullRequestTitlePrefix": "V34 Canonical Promotion"
+  },
+  "checks": [
+    {
+      "checkId": "all-v34-gate-checks-wired",
+      "passed": true,
+      "proofRoot": "sha256:13ded605c3f7aebfc37c7f5f68673d8f5aa34b14b61ea99755331c90b0230a60",
+      "required": true
+    },
+    {
+      "checkId": "all-v34-deployment-artifacts-source-safe",
+      "passed": true,
+      "proofRoot": "sha256:cdaf1af9b364cc8b653635dc6846620932e6435fe72ca466b042684b99f54433",
+      "required": true
+    },
+    {
+      "checkId": "v34-promotion-command-supported",
+      "passed": true,
+      "proofRoot": "sha256:50595ef8849a66d4f4cca535559add1310a51e1b6e7daa4dbe6dc9de531292be",
+      "required": true
+    },
+    {
+      "checkId": "v34-spec-family-promotion-rewriter-supported",
+      "passed": true,
+      "proofRoot": "sha256:fa9498b645dd95ee0fe2cdca4b66b91c1a66cc2648fb57ebbc25b4e6d5022131",
+      "required": true
+    },
+    {
+      "checkId": "v34-runtime-posture-rewriter-supported",
+      "passed": true,
+      "proofRoot": "sha256:74f62c9a42f09d8c8776cdfd707d088e6dbae72e0cb0d3637edd913f6496f466",
+      "required": true
+    },
+    {
+      "checkId": "v34-canon-promotion-workflow-present",
+      "passed": true,
+      "proofRoot": "sha256:017f10ed03c30a3835e7d1a8e196f14831114571b44b02a5707c011d979e6123",
+      "required": true
+    },
+    {
+      "checkId": "v34-generated-artifacts-registered",
+      "passed": true,
+      "proofRoot": "sha256:2cc1f043946d206715b5a0fcd3069a06876b0f390a225172e281d9cbecb7bfb2",
+      "required": true
+    }
+  ],
+  "closureCommand": "pnpm run check:v34-gate10",
+  "currentTarget": "V33",
+  "documentationEvidence": [
+    {
+      "digest": "sha256:d1c7a70eff5d82d72ff081150ce10e1117a117d33044b2985ed9a5bff30e1e92",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V34.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V34 promotion readiness canon"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "V34 active / V35 draft"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:5d8f6f0e30ebf031fa361ce9792593d2da8b22090174c6b86d9b0e462b904319",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V34_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Gate 10: V34 Promotion Readiness"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "promotion scripts support V34"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:3563db3d51ad13d88f34d134b7f3df040ef97fd0157a0d842df1a86dbb47e4e9",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V34_NOTES.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Gate 10: V34 Promotion Readiness"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "active V34 / draft V35"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:27aa1df7eca049c746a07233ab745eb04ebfb68f32dc652953b5d42d9cce7a00",
+      "present": true,
+      "relativePath": "BITCODE_SPEC_V34_PARITY_MATRIX.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "## Gate 10 Parity"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        },
+        {
+          "present": true,
+          "token": "closed"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:0494860fa715967135c56e678cfa28583d34c39f454f63de92551140e2c2c938",
+      "present": true,
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Current working gate: V34 Gate 10 Promotion Readiness"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC_V34_PROVEN.md"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ac80208e05ee7259ac150d8b18277d1efbcb6d308208bab1d1942d726a83d94a",
+      "present": true,
+      "relativePath": "README.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "check:v34-gate10"
+        },
+        {
+          "present": true,
+          "token": "v34-canon-promotion.yml"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:934714a939b513918cf48eac487e44c16bfea867f45969135b86c95dd755f925",
+      "present": true,
+      "relativePath": "packages/protocol/README.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V34 Gate 10"
+        },
+        {
+          "present": true,
+          "token": "V34` active, `V35` draft"
+        }
+      ]
+    }
+  ],
+  "gateArtifactEvidence": [
+    {
+      "artifactId": "v34-deployment-host-capability-catalog",
+      "byteLength": 14637,
+      "digest": "sha256:8955b86c21bfc55dd2e7d1daab34b615ecbbb1d763dcef7fd1a75f31e90aa60b",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-deployment-host-capability-catalog.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-environment-lane-contracts",
+      "byteLength": 8838,
+      "digest": "sha256:84cd9ee61d5f8daad85c2a8a7f4e5247c623a7c2b3ad2d4df90a413aeb31c0a0",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-environment-lane-contracts.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-distributed-execution-runtime-receipts",
+      "byteLength": 17230,
+      "digest": "sha256:030ebbadfed1d6af23885e0c0bd6f1d090d34d76dee8eaab3e10528648826bbf",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-distributed-execution-runtime-receipts.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-deployment-storage-posture",
+      "byteLength": 21630,
+      "digest": "sha256:294501f01536a4a8532b0f1bd72b950151c730bc813c6f4c7b8717f9a7fa5469",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-deployment-storage-posture.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-secret-rotation-boundary-operations",
+      "byteLength": 19348,
+      "digest": "sha256:10c8600313b0aaf59a5e1023cc8cb1288e8d57ade470aeaf5db0779125b2828c",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-secret-rotation-boundary-operations.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-migration-cicd-approval-gates",
+      "byteLength": 19608,
+      "digest": "sha256:c6379aa87a96e901e7ab319336b354639b0e2da01106016511af4157a9dd4d96",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-migration-cicd-approval-gates.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-runtime-observers-broadcasters-repair-jobs",
+      "byteLength": 19903,
+      "digest": "sha256:0e689762cba66e5925cbe514b1091e57785ff08b0dcb38addef2e6b4dffa186b",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-runtime-observers-broadcasters-repair-jobs.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-rollback-upgrade-data-repair-playbooks",
+      "byteLength": 18470,
+      "digest": "sha256:fc51a2a37e324a44be21926bebf8617a44169c9268a8f53e5c63fe35fed7d873",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-rollback-upgrade-data-repair-playbooks.json",
+      "sourceSafe": true,
+      "version": "V34"
+    },
+    {
+      "artifactId": "v34-local-staging-testnet-deployment-rehearsal",
+      "byteLength": 15523,
+      "digest": "sha256:f9ba45f285f1d5da11a4aad095a21ba45a30a10b17356af0f62e2558c58da115",
+      "parseable": true,
+      "present": true,
+      "relativePath": ".bitcode/v34-local-staging-testnet-deployment-rehearsal.json",
+      "sourceSafe": true,
+      "version": "V34"
+    }
+  ],
+  "generatedArtifactPolicy": {
+    "generatedArtifactPrefix": ".bitcode/v34-",
+    "promotionOverwritesPreviewArtifacts": true,
+    "protectedSourceSerialized": false,
+    "provenAppendixPath": "BITCODE_SPEC_V34_PROVEN.md",
+    "provenAppendixRequiredBeforePromotion": false,
+    "secretValuesSerialized": false
+  },
+  "generatedAt": "2026-05-23T00:00:00.000Z",
+  "passed": true,
+  "postPromotionPosture": {
+    "activeCanon": "V34",
+    "admitted": true,
+    "draftTarget": "V35",
+    "pointer": "V34",
+    "proofRoot": "sha256:7a56f3f6dfb5af0cdda328d29354fde202f3dde2de8195f9e51e18bac4ef7928"
+  },
+  "prePromotionPosture": {
+    "activeCanon": "V33",
+    "admitted": true,
+    "draftTarget": "V34",
+    "pointer": "V33",
+    "proofRoot": "sha256:47be55a63691d74eaefb5ea8c1b0a441bc76eb0ebecf8dc7778f51c99202a721"
+  },
+  "schemaId": "bitcode.v34.promotionReadiness.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:d05c0db31c8d01e00d2ddcafc2145cccc5384fc12c1a6a2bf412ecd15aece5fe",
+      "present": true,
+      "relativePath": "scripts/check-v34-gate10-promotion-readiness.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V34 Gate 10 promotion readiness"
+        },
+        {
+          "present": true,
+          "token": "--promotion-mode"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:db42e104eef70b5bbd5c1c7896844772de3c8eede92f06da8bff4d61a8e1c455",
+      "present": true,
+      "relativePath": "scripts/generate-v34-promotion-readiness-report.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildV34PromotionReadinessReport"
+        },
+        {
+          "present": true,
+          "token": "source-safe-deployment-promotion-readiness-metadata"
+        },
+        {
+          "present": true,
+          "token": "v34-promotion-readiness-report"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:7b38f649fec7d088715af847fd97ce74942f3e9d20bfbcbbd9f49c4ea58d836c",
+      "present": true,
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "if (version === 'V34')"
+        },
+        {
+          "present": true,
+          "token": "const v34Gate10Command"
+        },
+        {
+          "present": true,
+          "token": "buildDerivedV34CommitMessageBody"
+        },
+        {
+          "present": true,
+          "token": "scripts/check-v34-gate10-promotion-readiness.mjs"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:8ded34aceee5c0e7060f21fcda5c5cad180cab567e818030ed0ae444a32f1313",
+      "present": true,
+      "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "if (version === 'V34')"
+        },
+        {
+          "present": true,
+          "token": "V34 canonical system specification for deployment depth"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC_V34_PROVEN.md"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:2c12ba58832a5340300919152c95ed13a68bacd2942910714ee20ed07b0211fc",
+      "present": true,
+      "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "--next-draft"
+        },
+        {
+          "present": true,
+          "token": "rewritePackageReadme"
+        },
+        {
+          "present": true,
+          "token": "rewriteRuntimeDataState"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:5555e9a40bb780207cf9e435a1e20b831c75aab36c781acefae63be7e325f0bd",
+      "present": true,
+      "relativePath": ".github/workflows/v34-canon-promotion.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "head.ref == 'version/v34'"
+        },
+        {
+          "present": true,
+          "token": "npm run promote:canon -- --version V34"
+        },
+        {
+          "present": true,
+          "token": "BITCODE_SPEC_V34_PROVEN.md"
+        },
+        {
+          "present": true,
+          "token": "Promote V34 canon files"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:057d702d455d395137eb90f03155cd3d87acfa4f85f909dd71a803b7ca8e3c39",
+      "present": true,
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "check-v34-gate10-promotion-readiness.mjs"
+        },
+        {
+          "present": true,
+          "token": "elif [ \"$POINTER\" = \"V34\" ]"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:eeeb2ff9abf690014a18ba7b6400d8948c10d9e9fb731fbc14ea02d710df05b0",
+      "present": true,
+      "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "elif [ \"$POINTER\" = \"V34\" ]"
+        },
+        {
+          "present": true,
+          "token": "--active-canon V34 --draft-target V35"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:316955fa213d6a8b1ee4e0bd649f055ccef3b6b23ee184e3ef042d66a2d77b01",
+      "present": true,
+      "relativePath": "packages/btd/src/deployment-promotion-readiness-report.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "DeploymentPromotionReadinessReport"
+        },
+        {
+          "present": true,
+          "token": "DEPLOYMENT_PROMOTION_READINESS_ARTIFACT_PATHS"
+        },
+        {
+          "present": true,
+          "token": "V34 active / V35 draft"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:06b7ca484a179a7b7fb19183d20b8d0d81b2c1574c635eb31413a9e7a08c5b17",
+      "present": true,
+      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildV34ProvenPackage"
+        },
+        {
+          "present": true,
+          "token": "buildV34PromotionReadinessReport"
+        },
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:b330f330047ed5e246878ec5f7ba75b48ec0526c7460928b9c9468300896b86b",
+      "present": true,
+      "relativePath": "packages/protocol/test/v34-promotion-readiness.test.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "supports V34 promotion readiness with source-safe deployment artifacts"
+        },
+        {
+          "present": true,
+          "token": "v34-promotion-readiness-report"
+        },
+        {
+          "present": true,
+          "token": "V34 Promotion Readiness"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:4986bc3b66c0fed405ac571c92741518bf9b9dc4b74f3d0ddfae0ebf4e896b35",
+      "present": true,
+      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": ".bitcode/v34-promotion-readiness-report.json"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:2977eec54d3a1c04ea709c60ec12eeeaaea9d0f010f1ec705ccbb694bfaa1925",
+      "present": true,
+      "relativePath": "package.json",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "generate:v34-promotion-readiness"
+        },
+        {
+          "present": true,
+          "token": "check:v34-promotion-readiness"
+        },
+        {
+          "present": true,
+          "token": "check:v34-gate10"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-deployment-promotion-readiness-metadata",
+  "version": "V34"
+}

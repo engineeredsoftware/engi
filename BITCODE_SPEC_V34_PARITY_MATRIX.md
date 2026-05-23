@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 9 local and staging-testnet deployment rehearsal is closed over promoted V33 canon
+- V34 state: Gate 10 promotion readiness is closed over promoted V33 canon; V34 is ready for canonical promotion into active V34 / draft V35 posture
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and later promotion-depth artifacts as gates close
-- Source parity state: Gate 9 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job parity, rollback/upgrade/data repair playbook parity, and local/staging-testnet rehearsal parity; Gate 10 remains draft-required promotion parity
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and Gate 10 artifact `.bitcode/v34-promotion-readiness-report.json`
+- Source parity state: Gate 10 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job parity, rollback/upgrade/data repair playbook parity, local/staging-testnet rehearsal parity, promotion workflow support, generated appendix support, promotion command support, runtime posture rewrite support, and `DeploymentPromotionReadinessReport` parity
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -62,7 +62,7 @@ No `_legacy/` source is active source truth.
 | Runtime observers, broadcasters, and repair jobs | Gate 7 | `packages/btd/src/runtime-observer-repair-job.ts`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `packages/btd/__tests__/runtime-observer-repair-job.test.ts`, workflow wiring, and `check:v34-gate7` | closed | settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, and queue consumers have receipts, replay commands, repair commands, non-value lanes, and unsafe drift blockers. |
 | Rollback, upgrade, and data repair playbooks | Gate 8 | `packages/btd/src/rollback-upgrade-repair-playbook.ts`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts`, workflow wiring, and `check:v34-gate8` | closed | Rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, and generated artifact repair are commandable, approval-gated, verification-backed, and proof-rooted. |
 | Local and staging-testnet deployment rehearsal | Gate 9 | `packages/btd/src/deployment-readiness-rehearsal.ts`, `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, `packages/btd/__tests__/deployment-readiness-rehearsal.test.ts`, workflow wiring, and `check:v34-gate9` | closed | local full-stack deployment rehearsal and staging-testnet full-stack deployment rehearsal exercise Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe logs, and proof-rooted screenshots or logs; value-bearing mainnet blocked rehearsal remains denied. |
-| Promotion readiness | Gate 10 | planned promotion readiness report, promotion script support, generated appendix support, and `check:v34-gate10` | draft-required | V34 can promote only after all deployment gates pass and generated canon is source-safe. |
+| Promotion readiness | Gate 10 | `packages/btd/src/deployment-promotion-readiness-report.ts`, `.bitcode/v34-promotion-readiness-report.json`, `packages/btd/__tests__/deployment-promotion-readiness-report.test.ts`, `scripts/promote-bitcode-canon.mjs`, `packages/protocol/src/canonical/proven-generator.js`, `.github/workflows/v34-canon-promotion.yml`, and `check:v34-gate10` | closed | V34 can promote only after all deployment gates pass and generated canon is source-safe. |
 
 ## V34 implementation checklist
 
@@ -85,6 +85,8 @@ No `_legacy/` source is active source truth.
 | Storage disclosure boundary | `DeploymentStoragePosture` blocks protected AssetPack object storage, rollback material, and encrypted backups before settlement | closed |
 | Gate 5 generated artifact | `.bitcode/v34-secret-rotation-boundary-operations.json` is deterministic and source-safe | closed |
 | Secret family coverage | `SecretRotationPlan` covers OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families with no secret values in generated artifacts or logs | closed |
+| Promotion readiness report | `DeploymentPromotionReadinessReport` covers all V34 deployment artifacts, V34 promotion command planning, generated proof outputs, workflows, branch protection, source safety, and active V34 / draft V35 post-promotion posture | closed |
+| Promotion workflow and generated appendix support | `.github/workflows/v34-canon-promotion.yml`, `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, and `packages/protocol/src/canonical/proven-generator.js` support V34 promotion and generated proof output | closed |
 
 ## Gate 1 Parity
 
@@ -173,11 +175,11 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V34 judgment |
 | --- | --- | --- |
-| Promotion readiness report exists | planned `.bitcode/v34-promotion-readiness-report.json` | draft-required |
-| All V34 deployment artifacts are covered | planned promotion readiness generator | draft-required |
-| Promotion command supports V34 | planned promotion script update | draft-required |
-| Generated appendix supports V34 | planned proven-generator update | draft-required |
-| Runtime posture advances to V34 active / V35 draft | planned runtime promotion preparation | draft-required |
+| Promotion readiness report exists | `.bitcode/v34-promotion-readiness-report.json`, `scripts/generate-v34-promotion-readiness-report.mjs`, and `pnpm run check:v34-promotion-readiness` | closed |
+| All V34 deployment artifacts are covered | `DEPLOYMENT_PROMOTION_READINESS_ARTIFACT_PATHS`, generated gate artifact evidence, and `check:v34-gate10` coverage | closed |
+| Promotion command supports V34 | `scripts/promote-bitcode-canon.mjs` includes V34 gate command planning, dry-run, generated proof output, and `buildDerivedV34CommitMessageBody` | closed |
+| Generated appendix supports V34 | `packages/protocol/src/canonical/proven-generator.js` includes `buildV34ProvenPackage`, `buildV34PromotionReadinessReport`, and `.bitcode/v34-promotion-readiness-report.json` | closed |
+| Runtime posture advances to V34 active / V35 draft | `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, `.github/workflows/v34-canon-promotion.yml`, gate-quality, and canon-quality validate the post-promotion posture | closed |
 
 ## V34 accepted boundaries
 

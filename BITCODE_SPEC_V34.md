@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 9 local and staging-testnet deployment rehearsal is closed over promoted V33 canon
+- V34 state: Gate 10 promotion readiness is closed over promoted V33 canon; V34 is ready for canonical promotion into active V34 / draft V35 posture
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and later promotion-depth artifacts as gates close
-- Source parity state: Gate 9 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job registry, rollback/upgrade/data repair playbook parity, and local/staging-testnet rehearsal parity; promotion source parity is not closed until Gate 10 closes
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and Gate 10 artifact `.bitcode/v34-promotion-readiness-report.json`
+- Source parity state: Gate 10 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job registry, rollback/upgrade/data repair playbook parity, local/staging-testnet rehearsal parity, promotion workflow support, canonical proof generation support, runtime posture rewrite support, and `DeploymentPromotionReadinessReport` parity
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
@@ -463,6 +463,7 @@ Generated artifacts must be stable, source-safe, and explicitly tied to validati
 V34 Gate 10 closes when `version/v34` can promote to active V34 without direct `main` writes.
 The readiness report `.bitcode/v34-promotion-readiness-report.json` proves that all V34 deployment artifacts are present, source-safe, parseable, wired into gate checks, wired into promotion checks, generated proof appendix support, and workflow validation.
 Promotion rewrites runtime posture from `V33` active / `V34` draft to `V34` active / `V35` draft and generates `BITCODE_SPEC_V34_PROVEN.md`.
+The exact post-promotion readiness posture token is V34 active / V35 draft.
 
 ## V34 validation canon
 
@@ -559,7 +560,7 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 | `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` | btd | source-safe-runtime-observer-repair-job-metadata | `pnpm run check:v34-runtime-observers-broadcasters-repair-jobs` |
 | `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` | btd | source-safe-rollback-upgrade-repair-playbook-metadata | `pnpm run check:v34-rollback-upgrade-data-repair-playbooks` |
 | `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` | btd | source-safe-deployment-readiness-rehearsal-metadata | `pnpm run check:v34-local-staging-testnet-deployment-rehearsal` |
-| `.bitcode/v34-promotion-readiness-report.json` | protocol | source-safe | later V34 gate |
+| `.bitcode/v34-promotion-readiness-report.json` | protocol | source-safe-deployment-promotion-readiness-metadata | `pnpm run check:v34-gate10` |
 
 ### V34 specifying generated artifacts
 
@@ -572,7 +573,7 @@ Gate 6 requires `.bitcode/v34-migration-cicd-approval-gates.json` to be generate
 Gate 7 requires `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate7`, with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipt, replay command, repair command, and unsafe drift coverage.
 Gate 8 requires `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate8`, with rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, generated artifact repair, operator approval, command, verification, proof-root, fail-closed, and non-value lane coverage.
 Gate 9 requires `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate9`, with `DeploymentReadinessRehearsal` rows for local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, and value-bearing mainnet blocked rehearsal. The rehearsal covers Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe logs, proof-rooted screenshots or logs, validation commands, proof roots, and value-bearing mainnet blocking.
-Later V34 gates introduce the remaining promotion artifact listed above.
+Gate 10 requires `.bitcode/v34-promotion-readiness-report.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate10`, with coverage for every V34 deployment artifact, V34 promotion command planning, generated appendix support, workflow support, source-safe report metadata, and active V34 / draft V35 post-promotion posture.
 
 ### Shared generated-artifact fields
 
@@ -600,8 +601,9 @@ Canonical regeneration fails closed when generated inputs drift, source safety f
 Gate 1 validation is `pnpm run check:v34-gate1`.
 Gate 2 validation is `pnpm run check:v34-gate2`, with artifact freshness checked by `pnpm run check:v34-host-capability-environment-lanes` and focused package coverage in `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`.
 Gate 3 validation is `pnpm run check:v34-gate3`, with artifact freshness checked by `pnpm run check:v34-distributed-execution-runtime-receipts` and focused package coverage in `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`.
+Gate 10 validation is `pnpm run check:v34-gate10`, with artifact freshness checked by `pnpm run check:v34-promotion-readiness`, package coverage in `packages/btd/__tests__/deployment-promotion-readiness-report.test.ts`, and canonical promotion dry-run coverage through `node scripts/promote-bitcode-canon.mjs --version V34 --commit HEAD --dry-run`.
 The gate-quality workflow also runs spec-family, canonical-input, canon-posture drift, and diff hygiene checks.
-Later gates add generated artifact checks close to their deployment contract surfaces.
+Gate 10 keeps promotion blocked when deployment artifacts, generated proof support, workflow bindings, runtime posture rewrite support, source safety, or promotion command planning are missing.
 
 ## Appendix E. Current canonical source map
 

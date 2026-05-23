@@ -31,5 +31,10 @@ distributed execution receipt, storage posture, approval, secret rotation,
 repair, rehearsal, and promotion-readiness helpers without importing
 `protocol-demonstration/src/*`.
 
+V34 Gate 10 closes the package/runtime promotion boundary: until promotion this
+package remains `V33` active, `V34` draft, and the V34 promotion workflow then
+rewrites the package posture to `V34` active, `V35` draft only after promotion
+validations and generated proof output pass.
+
 The package boundary is enforced by `packages/protocol` tests, the UAPI
 commercial protocol boundary test, and V34 gate checks.
