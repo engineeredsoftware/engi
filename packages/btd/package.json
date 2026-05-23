@@ -9,6 +9,7 @@
     "./api-schema-compatibility-matrix": "./src/api-schema-compatibility-matrix.ts",
     "./chatgpt-app-action-contract": "./src/chatgpt-app-action-contract.ts",
     "./deployment-readiness-rehearsal": "./src/deployment-readiness-rehearsal.ts",
+    "./deployment-promotion-readiness-report": "./src/deployment-promotion-readiness-report.ts",
     "./deployment-host-capability-catalog": "./src/deployment-host-capability-catalog.ts",
     "./deployment-storage-posture": "./src/deployment-storage-posture.ts",
     "./interface-authorization-policy": "./src/interface-authorization-policy.ts",

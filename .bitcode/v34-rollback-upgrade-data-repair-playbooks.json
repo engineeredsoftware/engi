@@ -5,7 +5,7 @@
   "version": "V34",
   "currentTarget": "V33",
   "sourceSafetyVerdict": "source-safe-rollback-upgrade-repair-playbook-metadata",
-  "proofSourceCommit": "proof-source:1d4f72a53fefa7ee9cef5a19",
+  "proofSourceCommit": "proof-source:bda4f6edead197763009dc11",
   "validationCommand": "pnpm run check:v34-rollback-upgrade-data-repair-playbooks",
   "passed": true,
   "requiredPlaybookIds": [
@@ -48,7 +48,7 @@
     "credentialsSerialized": false,
     "protectedSourceVisible": false
   },
-  "artifactRoot": "v34-rollback-upgrade-data-repair-playbooks:961195d6296ebfef3c6981a2",
+  "artifactRoot": "v34-rollback-upgrade-data-repair-playbooks:48d2f00d009b14aaa3be8390",
   "playbooks": [
     {
       "kind": "bitcode.rollback_upgrade_repair_playbook",
@@ -486,7 +486,7 @@
   "docsEvidence": [
     {
       "path": "BITCODE_SPEC_V34.md",
-      "digest": "d629e2f1f738d2611d1aeda807d72bfbf1dcf45c153b2e237c8ef8a35a42a9f9",
+      "digest": "d1c7a70eff5d82d72ff081150ce10e1117a117d33044b2985ed9a5bff30e1e92",
       "requiredTokens": [
         {
           "token": "RollbackUpgradeRepairPlaybook",
@@ -500,7 +500,7 @@
     },
     {
       "path": "BITCODE_SPEC_V34_DELTA.md",
-      "digest": "408b5b2572ae629e46235e0001f9cb1e33ca6ffbda708ac6e926c4659077810b",
+      "digest": "5d8f6f0e30ebf031fa361ce9792593d2da8b22090174c6b86d9b0e462b904319",
       "requiredTokens": [
         {
           "token": "RollbackUpgradeRepairPlaybook",
@@ -514,7 +514,7 @@
     },
     {
       "path": "BITCODE_SPEC_V34_PARITY_MATRIX.md",
-      "digest": "619eabb3c1457e745f7c68e9b4bd4102db83a923ef9be4ded827c09e0462d107",
+      "digest": "27aa1df7eca049c746a07233ab745eb04ebfb68f32dc652953b5d42d9cce7a00",
       "requiredTokens": [
         {
           "token": "RollbackUpgradeRepairPlaybook",
@@ -528,7 +528,7 @@
     },
     {
       "path": "SPECIFICATIONS_ROADMAP.md",
-      "digest": "c189fdeae04e87ebbdd8949f920a2507eb611fb7d01879e255c9a06a2d84e3ee",
+      "digest": "0494860fa715967135c56e678cfa28583d34c39f454f63de92551140e2c2c938",
       "requiredTokens": [
         {
           "token": "V34 Gate 8 closure anchor",
@@ -540,7 +540,7 @@
   "workflowEvidence": [
     {
       "path": ".github/workflows/bitcode-gate-quality.yml",
-      "digest": "8858d9aa5a2ef1690fb8956aa3f526848615e8b766ccb2f1c28d08247280a04d",
+      "digest": "057d702d455d395137eb90f03155cd3d87acfa4f85f909dd71a803b7ca8e3c39",
       "requiredTokens": [
         {
           "token": "check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs",

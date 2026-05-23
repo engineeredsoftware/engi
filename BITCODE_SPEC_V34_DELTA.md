@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 9 local and staging-testnet deployment rehearsal is closed over promoted V33 canon
+- V34 state: Gate 10 promotion readiness is closed over promoted V33 canon; V34 is ready for canonical promotion into active V34 / draft V35 posture
 - Current canonical/latest target: `V33`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and later promotion-depth artifacts as gates close
-- Source parity state: Gate 9 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job contracts, rollback/upgrade/data repair playbook contracts, and deployment rehearsal contracts; promotion contracts remain drafted until Gate 10 closes
+- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and Gate 10 artifact `.bitcode/v34-promotion-readiness-report.json`
+- Source parity state: Gate 10 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job contracts, rollback/upgrade/data repair playbook contracts, deployment rehearsal contracts, promotion command planning, generated appendix support, promotion workflow support, runtime posture rewrite support, and `DeploymentPromotionReadinessReport`
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
@@ -211,6 +211,14 @@ Closure acceptance:
 - promotion scripts support V34 command planning, dry-run, generated proof output, and derived promotion commit body generation;
 - promotion rewrites runtime posture to active V34 / draft V35 only after validations pass.
 
+Closure evidence:
+
+- `packages/btd/src/deployment-promotion-readiness-report.ts` owns `DeploymentPromotionReadinessReport`, the V34 deployment artifact allowlist, pre-promotion V33 active / V34 draft posture, post-promotion V34 active / V35 draft posture, workflow paths, generated proof outputs, value-bearing mainnet blocking, protected-source blocking, secret-value blocking, and fail-closed result text.
+- `packages/btd/__tests__/deployment-promotion-readiness-report.test.ts` proves full artifact coverage, promotion command coverage, workflow/proof output coverage, value-bearing mainnet denial, protected-source denial, secret-value denial, duplicate/missing artifact failure, and secret-shaped metadata rejection.
+- `scripts/generate-v34-promotion-readiness-report.mjs` emits deterministic source-safe `.bitcode/v34-promotion-readiness-report.json` covering source evidence, documentation evidence, gate artifact evidence, pre/post-promotion posture, branch protection, generated artifact policy, and closure command.
+- `scripts/check-v34-gate10-promotion-readiness.mjs` and `pnpm run check:v34-gate10` fail closed on stale artifacts, missing deployment artifacts, incomplete source evidence, incomplete documentation evidence, missing promotion command support, missing generated appendix support, missing workflow support, source-unsafe generated JSON, runtime posture drift, and branch-pattern drift.
+- `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js`, `.github/workflows/v34-canon-promotion.yml`, gate-quality, and canon-quality all support V34 promotion and post-promotion V34 active / V35 draft validation.
+
 ## Completion condition
 
-This delta is complete for Gate 9 when `version/v34` contains the Gate 9 `DeploymentReadinessRehearsal`, source-safe generated artifact, focused tests, workflow wiring, and `pnpm run check:v34-gate9` closure. Remaining delta closure advances through Gate 10.
+This delta is complete for Gate 10 when `version/v34` contains the Gate 10 `DeploymentPromotionReadinessReport`, source-safe generated artifact, focused tests, promotion script support, generated appendix support, workflow wiring, and `pnpm run check:v34-gate10` closure.
