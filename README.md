@@ -38,6 +38,13 @@ decisions, and error rows. The rich execution log is the stream UI: collapsed
 rows show readable status and expanded rows show event ids, proof roots,
 redaction posture, prompt/result disclosure posture, fail-closed states, and
 source-safe metadata without protected source or raw model payloads.
+V37 Gate 4 anchors `ConversationWritingWorkspace` fullscreen drafting through
+the package-owned source-safe generated artifact
+`.bitcode/v37-conversation-writing-workspace.json`, including Read Request,
+Need feedback, AssetPack review note, and Terminal handoff summary modes plus
+save, restore, summarize, and handoff actions. Draft recovery is route-local;
+emitted summaries and handoff messages are redacted source-safe metadata and
+do not claim Terminal, wallet, settlement, or ledger authority.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -197,7 +204,10 @@ promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V36` to
 Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and
-`pnpm run check:v37-conversation-session-route-history`. Later V37 gates add
+`pnpm run check:v37-conversation-session-route-history`; V37 Gate 3 is wired
+through `pnpm run check:v37-gate3`; and V37 Gate 4 is wired through
+`pnpm run check:v37-gate4` and
+`pnpm run check:v37-conversation-writing-workspace`. Later V37 gates add
 Conversations generated artifacts before `check:v37-gate10` and the V37
 promotion workflow exist.
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, and Gate 3 ConversationStreamEvent stream UI/event contracts
+- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, Gate 3 ConversationStreamEvent stream UI/event contracts, and Gate 4 ConversationWritingWorkspace fullscreen composer contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, and `.bitcode/v37-conversation-stream-event-contract.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, and `.bitcode/v37-conversation-writing-workspace.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -23,7 +23,7 @@ Every V37 gate must name package-owned conversation objects, source-safe payload
 
 ## Audit basis
 
-Gate 1, Gate 2, and Gate 3 audit basis:
+Gate 1, Gate 2, Gate 3, and Gate 4 audit basis:
 
 - `BITCODE_SPEC.txt`
 - `BITCODE_SPEC_V36.md`
@@ -66,6 +66,14 @@ Gate 1, Gate 2, and Gate 3 audit basis:
 - `uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx`
 - `uapi/tests/api/conversationStreamEventContract.test.ts`
 - `uapi/tests/conversationStreamPipelineLog.test.tsx`
+- `packages/protocol/src/canonical/conversation-writing-workspace.js`
+- `packages/protocol/test/conversation-writing-workspace.test.js`
+- `scripts/generate-v37-conversation-writing-workspace.mjs`
+- `scripts/check-v37-gate4-conversation-writing-workspace.mjs`
+- `.bitcode/v37-conversation-writing-workspace.json`
+- `uapi/app/conversations/conversation-writing-workspace.ts`
+- `uapi/app/conversations/components/ConversationWritingWorkspace.tsx`
+- `uapi/tests/conversationWritingWorkspace.test.tsx`
 
 No `_legacy/` source is active source truth.
 
@@ -77,7 +85,7 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V36 active, V37 draft, and coherent post-V37 responsibility. |
 | Conversation session and route history | Gate 2 | `ConversationSession`, `.bitcode/v37-conversation-session-route-history.json`, package source, route contracts, tests, and `check:v37-gate2` | closed | Route-local identity, route-local history, restore, branch, retry, redaction, stream, and proof roots are typed and source-safe. |
 | Conversation stream events | Gate 3 | `ConversationStreamEvent`, `.bitcode/v37-conversation-stream-event-contract.json`, route-attached SSE metadata, stream UI tests, telemetry hooks, and `check:v37-gate3` | closed | Model deltas, tool calls, retrieval summaries, completion decisions, retry/error states, proof roots, collapsed readable status, expanded metadata, and disclosure posture are source-safe. |
-| Writing workspace | Gate 4 | future `ConversationWritingWorkspace`, fullscreen route tests, accessibility proof, and `check:v37-gate4` | pending | Read Request, Need feedback, AssetPack review notes, and Terminal handoff writing flows are accessible, restorable, and source-safe. |
+| Writing workspace | Gate 4 | `ConversationWritingWorkspace`, `.bitcode/v37-conversation-writing-workspace.json`, fullscreen workspace UI tests, accessibility proof, and `check:v37-gate4` | closed | Read Request, Need feedback, AssetPack review notes, and Terminal handoff writing flows are accessible, restorable, and source-safe. |
 | Source selectors | Gate 5 | future `ConversationSourceSelector`, policy tests, rights checks, and `check:v37-gate5` | pending | Repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors are policy-gated. |
 | Terminal handoff | Gate 6 | future `ConversationTerminalHandoff`, Terminal integration tests, and `check:v37-gate6` | pending | Conversations can hand source-safe transaction intent to Terminal without becoming a parallel ledger/wallet authority. |
 | Persistence privacy redaction | Gate 7 | future storage contracts, privacy tests, redaction tests, and `check:v37-gate7` | pending | Retention, export, delete, replay, incident repair, protected prompt/model response redaction, and disclosure classes are enforced. |
@@ -100,6 +108,8 @@ No `_legacy/` source is active source truth.
 | ConversationSession route-history artifact | `ConversationSession` source emits `.bitcode/v37-conversation-session-route-history.json` and `check:v37-gate2` validates it | closed |
 | ConversationStreamEvent artifact | `ConversationStreamEvent` source emits `.bitcode/v37-conversation-stream-event-contract.json` and `check:v37-gate3` validates it | closed |
 | ConversationStreamEvent event coverage | `source-safe-conversation-stream-event-metadata` covers model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, and error rows | closed |
+| ConversationWritingWorkspace artifact | `ConversationWritingWorkspace` source emits `.bitcode/v37-conversation-writing-workspace.json` and `check:v37-gate4` validates it | closed |
+| ConversationWritingWorkspace coverage | `source-safe-conversation-writing-workspace-metadata` covers Read Request, Need feedback, AssetPack review note, Terminal handoff summary, save, restore, summarize, handoff, keyboard behavior, responsive layout, recovery state, proof roots, and event ids | closed |
 | Disclosure boundary | Conversations expose source-safe stream, selector, proof, handoff, and policy metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | drafted |
 | Terminal handoff boundary | Terminal remains the transaction cockpit and ledger/wallet authority; Conversations prepare and hand off source-safe intent | drafted |
 | Privacy posture | Conversation persistence, export, delete, retention, replay, and repair paths preserve disclosure classes and redaction policy | drafted |
@@ -117,6 +127,27 @@ No `_legacy/` source is active source truth.
 | Route-local history stays local | every row records `routeLocalHistory: true`, `globalLedgerTruth: false`, and Terminal authority for ledger work | closed |
 | Route-history payloads are source-safe | `source-safe-conversation-session-route-history-metadata`; protected source, raw protected prompts, protected model responses with source, provider tokens, wallet private material, secrets, unpaid AssetPack source, settlement private payloads, and global ledger authority claims are forbidden | closed |
 | Workflow, package, and route tests are wired | `packages/protocol/test/conversation-session-route-history.test.js`, `uapi/tests/api/conversationSessionRouteHistory.test.ts`, `uapi/tests/api/conversationSessionRouteHistoryContract.test.ts`, `scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## V37 Gate 3 Parity
+
+| Requirement | Source evidence | Current V37 judgment |
+| --- | --- | --- |
+| `ConversationStreamEvent` stream metadata is package-owned | `packages/protocol/src/canonical/conversation-stream-event-contract.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated stream event artifact exists | `.bitcode/v37-conversation-stream-event-contract.json`, `scripts/generate-v37-conversation-stream-event-contract.mjs`, `pnpm run check:v37-conversation-stream-event-contract` | closed |
+| Required stream event kinds are covered | model delta, tool call, retrieval summary, proof root, retry state, completion decision, and error row | closed |
+| Rich stream rows are source-safe | collapsed readable status and expanded metadata carry event ids, proof roots, redaction posture, prompt/result disclosure posture, and fail-closed states without raw prompts, protected source, raw provider responses, provider tokens, wallet private material, unpaid AssetPack source, or ledger authority claims | closed |
+| Route and UI stream tests are wired | `packages/api/src/conversations/stream-events.ts`, `packages/api/src/conversations/__tests__/stream-events.test.ts`, `uapi/tests/api/conversationStreamEventContract.test.ts`, `uapi/tests/conversationStreamPipelineLog.test.tsx`, `uapi/tests/pipelineExecutionLogHeader.test.tsx`, `scripts/check-v37-gate3-conversation-stream-event-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## V37 Gate 4 Parity
+
+| Requirement | Source evidence | Current V37 judgment |
+| --- | --- | --- |
+| `ConversationWritingWorkspace` fullscreen composer is package-owned | `packages/protocol/src/canonical/conversation-writing-workspace.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated writing workspace artifact exists | `.bitcode/v37-conversation-writing-workspace.json`, `scripts/generate-v37-conversation-writing-workspace.mjs`, `pnpm run check:v37-conversation-writing-workspace` | closed |
+| Required writing modes are covered | Read Request, Need feedback, AssetPack review note, and Terminal handoff summary modes | closed |
+| Required workspace actions are covered | save, restore, summarize, and handoff actions with route-local draft keys, recovery states, keyboard behavior, responsive fullscreen layout, proof roots, and event ids | closed |
+| Emitted summaries are source-safe | `uapi/app/conversations/conversation-writing-workspace.ts` redacts source blocks, token-shaped values, secret fields, private keys, and JWT-shaped values before preview or handoff | closed |
+| Workspace UI is accessible and wired | `uapi/app/conversations/components/ConversationWritingWorkspace.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/conversationWritingWorkspace.test.tsx`, `scripts/check-v37-gate4-conversation-writing-workspace.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## Inherited V36 implementation matrix
 

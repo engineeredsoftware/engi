@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 3 ConversationStreamEvent stream UI/event contracts
+- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 4 ConversationWritingWorkspace fullscreen writing contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, and `.bitcode/v37-conversation-stream-event-contract.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, and `.bitcode/v37-conversation-writing-workspace.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V37_PARITY_MATRIX.md`
@@ -108,6 +108,14 @@ Closure acceptance:
 - writing state can be saved, restored, summarized, and handed off without leaking protected source;
 - accessibility, keyboard behavior, responsive layout, and recovery states are tested;
 - `pnpm run check:v37-gate4` validates workspace contracts, UI tests, docs, telemetry, source-safety, and workflow wiring.
+
+Gate 4 closure adds package-backed `ConversationWritingWorkspace` source,
+`.bitcode/v37-conversation-writing-workspace.json`,
+`source-safe-conversation-writing-workspace-metadata`, fullscreen workspace UI
+binding, Read Request, Need feedback, AssetPack review note, and Terminal
+handoff summary modes, save/restore/summarize/handoff actions, route-local
+draft keys, source-safe handoff summaries, package tests, UI tests, workflow
+wiring, and `check:v37-gate4`.
 
 ### Gate 5: Source Selectors And Context Policy
 

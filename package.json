@@ -259,7 +259,10 @@
     "check:v37-gate2": "node scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
     "generate:v37-conversation-stream-event-contract": "node scripts/generate-v37-conversation-stream-event-contract.mjs",
     "check:v37-conversation-stream-event-contract": "node scripts/generate-v37-conversation-stream-event-contract.mjs --check",
-    "check:v37-gate3": "node scripts/check-v37-gate3-conversation-stream-event-contracts.mjs"
+    "check:v37-gate3": "node scripts/check-v37-gate3-conversation-stream-event-contracts.mjs",
+    "generate:v37-conversation-writing-workspace": "node scripts/generate-v37-conversation-writing-workspace.mjs",
+    "check:v37-conversation-writing-workspace": "node scripts/generate-v37-conversation-writing-workspace.mjs --check",
+    "check:v37-gate4": "node scripts/check-v37-gate4-conversation-writing-workspace.mjs"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

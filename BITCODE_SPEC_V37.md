@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 3 closes ConversationStreamEvent stream UI and event contracts over active V36 Exchange canon
+- V37 state: draft implementation; Gate 4 closes ConversationWritingWorkspace fullscreen writing mode and composer workspace over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, and `.bitcode/v37-conversation-stream-event-contract.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, and Gate 3 package-owned ConversationStreamEvent stream UI/event contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, and `.bitcode/v37-conversation-writing-workspace.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, and Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -106,6 +106,31 @@ are never valid stream UI payloads.
 package tests, route/UI tests, telemetry binding, docs, workflow wiring,
 source safety, event kind coverage, proof roots, disclosure posture, and
 fail-closed states.
+
+## V37 Gate 4 ConversationWritingWorkspace writing canon
+
+Gate 4 implements `ConversationWritingWorkspace` as the package-owned
+fullscreen writing contract for Website Conversations. It owns Read Request,
+Need feedback, AssetPack review note, and Terminal handoff summary drafting
+modes. It emits `.bitcode/v37-conversation-writing-workspace.json` with
+`source-safe-conversation-writing-workspace-metadata`, deterministic row roots,
+deterministic detail roots, mode ids, action ids, required field ids, proof
+roots, event ids, route-local draft keys, source evidence roots, and
+source-safe disclosure limits.
+
+Conversation writing state is route-local workspace state. It can be saved,
+restored, summarized, and handed off from the fullscreen composer workspace.
+Saved drafts may remain in route-local browser storage for recovery, but
+summaries and handoff messages crossing the stream boundary are redacted
+source-safe metadata. Protected source, raw protected prompts, provider
+tokens, wallet private material, settlement private payloads, unpaid AssetPack
+source, and global ledger authority claims are never valid emitted workspace
+payloads. Terminal remains authoritative for transaction execution.
+
+`check:v37-gate4` validates package source, generated artifact freshness,
+package tests, UI tests, docs, workflow wiring, source safety, mode/action
+coverage, route-local draft keys, keyboard behavior, responsive fullscreen
+layout, recovery states, proof roots, and source-safe handoff summaries.
 
 ## Inherited V36 Exchange canon
 
@@ -782,11 +807,15 @@ V36 inherits operator quality, visual/accessibility/performance posture, project
 | `.bitcode/v37-canonical-input-report.json` | Gate 1 | source-safe | V37 canonical-input checker |
 | `.bitcode/v37-canon-posture-drift-report.json` | Gate 1 | source-safe | V36 active / V37 draft posture checker |
 | `.bitcode/v37-conversation-session-route-history.json` | Gate 2 | source-safe | ConversationSession route-local history contracts |
+| `.bitcode/v37-conversation-stream-event-contract.json` | Gate 3 | source-safe | ConversationStreamEvent stream UI/event contracts |
+| `.bitcode/v37-conversation-writing-workspace.json` | Gate 4 | source-safe | ConversationWritingWorkspace fullscreen composer contracts |
 
 ### V37 specifying generated artifacts
 
 Gate 1 requires `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, and `.bitcode/v37-canon-posture-drift-report.json` readiness.
 Gate 2 adds `.bitcode/v37-conversation-session-route-history.json` from the package-owned ConversationSession route-history builder with package tests, route tests, workflow checks, and source-safety checks.
+Gate 3 adds `.bitcode/v37-conversation-stream-event-contract.json` from the package-owned ConversationStreamEvent builder with package tests, route/UI tests, workflow checks, and source-safety checks.
+Gate 4 adds `.bitcode/v37-conversation-writing-workspace.json` from the package-owned ConversationWritingWorkspace builder with package tests, fullscreen workspace UI tests, workflow checks, and source-safety checks.
 Later V37 gates add Conversations generated artifacts only when their package-owned builders, route checks, stream tests, telemetry checks, and source-safety tests exist.
 
 ### Shared generated-artifact fields
