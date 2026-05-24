@@ -144,7 +144,7 @@ function main() {
 
   if (failures.length === 0 && pointer === 'V35') {
     try {
-      run(root, 'pnpm', ['run', 'check:v36-promotion-readiness']);
+      run(root, 'node', ['scripts/generate-v36-promotion-readiness-report.mjs', '--check']);
     } catch (error) {
       failures.push(`V36 Gate 10 promotion readiness artifact check failed: ${error.stderr || error.message}`);
     }
