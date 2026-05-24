@@ -60,6 +60,7 @@ Read the system as:
 - Gate 2 closes `DocumentationSurfaceCatalog` with `.bitcode/v35-documentation-surface-catalog.json`, `source-safe-documentation-surface-metadata`, package export `buildDocumentationSurfaceCatalog`, package test coverage, and `check:v35-gate2`.
 - Gate 3 closes `TelemetryTaxonomyCatalog` with `.bitcode/v35-telemetry-taxonomy-catalog.json`, `source-safe-telemetry-taxonomy-metadata`, package export `buildTelemetryTaxonomyCatalog`, package test coverage, redaction posture for every event family, ThricifiedGeneration inference telemetry boundaries, and `check:v35-gate3`.
 - Gate 4 closes `PublicDocsUsageGuideCatalog` with `.bitcode/v35-public-docs-usage-guides.json`, `source-safe-public-docs-metadata`, package export `buildPublicDocsUsageGuideCatalog`, package test coverage, public disclosure-limit docs content, and `check:v35-gate4`.
+- Gate 5 closes `OperatorRunbookCatalog` with `.bitcode/v35-operator-runbook-catalog.json`, `source-safe-runbook-metadata`, package export `buildOperatorRunbookCatalog`, package test coverage, dashboard/alert/runbook derivation from telemetry taxonomy rows, incident escalation paths, operator command sequences, forbidden-data boundaries, post-incident documentation update requirements, and `check:v35-gate5`.
 
 ## Inherited deployment-depth notes
 
