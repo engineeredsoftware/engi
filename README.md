@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V37`; V38 is the next draft target after the promoted Website
-Conversations canon.
+resolves to `V37`; V38 is the active draft target for inference stack and
+fit-finding correctness after the promoted Website Conversations canon.
 
 ## Current Product Posture
 
@@ -99,6 +99,15 @@ AssetPack source, or wallet private material.
 Promotion hardening also keeps Conversation persistence and telemetry redaction
 on bounded private-key PEM scanning with closed/unclosed PEM tests so static
 security findings block promotion instead of being waived.
+V38 Gate 1 opens the inference stack draft family and `check:v38-gate1` over
+active V37. V38 focuses on commercial inference correctness: PTRR agents,
+Plan/Try/Refine/Retry steps, `FailsafeGenerationSequence`,
+`ThricifiedGeneration`, prompt registry composition, prompt and PromptPart
+benchmarking, tool doc-comment prompts, source-safe inference telemetry,
+`ReadNeedComprehensionSynthesis`, and `ReadFitsFindingSynthesis` depository
+search. Finding Fits remains plural and depository-wide, preserving the active
+`text-embedding-3-small`, 1536 dimension, cosine `match_deliverable_vectors`
+embedding policy until a tested migration exists.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -229,10 +238,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v37`.
+1. Create one base branch per draft target, such as `version/v38`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v37/gate-1-conversations-roadmap-opening`
-   or `v37/gate-6-conversation-terminal-handoff`.
+   with the gate number, for example `v38/gate-1-inference-stack-roadmap-opening`
+   or `v38/gate-7-read-fits-finding-search`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -241,7 +250,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V37 Gate 5: Source Selectors And Context Policy`.
+   title, for example `V38 Gate 7: ReadFitsFindingSynthesis Depository Search`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -251,11 +260,13 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V37, promotion work must validate the
-Conversations posture, generate `BITCODE_SPEC_V37_PROVEN.md`, and commit
-promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V36` to
-`V37` on the version branch.
-Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
+run the version promotion workflow. For V38, promotion work must validate the
+inference stack, Reading pipeline, depository-search, prompt benchmark,
+telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
+commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
+`V37` to `V38` on the version branch.
+V38 Gate 1 is wired through `pnpm run check:v38-gate1`. The promoted V37 gate
+closure remains reproducible through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and
 `pnpm run check:v37-conversation-session-route-history`; V37 Gate 3 is wired
@@ -287,9 +298,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active promoted spec family.
-- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active draft target.
-- [BITCODE_SPEC_V37_PARITY_MATRIX.md](BITCODE_SPEC_V37_PARITY_MATRIX.md) tracks V37 gate parity.
+- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active promoted spec family.
+- [BITCODE_SPEC_V38.md](BITCODE_SPEC_V38.md) is the active draft target.
+- [BITCODE_SPEC_V38_PARITY_MATRIX.md](BITCODE_SPEC_V38_PARITY_MATRIX.md) tracks V38 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

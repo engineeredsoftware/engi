@@ -2,22 +2,36 @@
 
 ## Status
 
-- Canonical pointer: `BITCODE_SPEC.txt` -> `V37`
-- Active canonical anchor: `BITCODE_SPEC_V37.md`
-- Active generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- V38 state: notes-only draft opening
+- Version: `V38`
+- V38 state: active draft opening over promoted V37
+- Current canonical/latest target: `V37`
+- Current active draft target: `V38`
+- Prior canonical anchor: `BITCODE_SPEC_V37.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
+- Spec companion: `BITCODE_SPEC_V38.md`
+- Delta companion: `BITCODE_SPEC_V38_DELTA.md`
+- Parity companion: `BITCODE_SPEC_V38_PARITY_MATRIX.md`
+- Scope: V38 notes for inference stack correctness, prompt and PromptPart benchmarking, Reading pipeline inference, depository fit-finding, tool prompt definitions, telemetry, and promotion readiness over promoted V37 Website Conversations canon
 
-## Notes-only draft rule
+This NOTES file does not promote V38. It is binding draft guidance while V38 gates are in flight.
 
-V38 begins as a notes-only draft opening, not first-gate implementation. The
-active implementation remains V37 until a V38 version branch and Gate 1 draft
-family explicitly open the V38 specification set.
+## Notes companion rule
 
-These notes preserve candidate work without creating source identifiers,
-routes, tests, or package APIs that claim V38 implementation before Gate 1.
-They normalize and expand the loose V38 notes committed on `main`; every
-instruction from that loose note is retained here as source-auditable V38
-opening scope.
+This file is the V38 notes companion.
+Requirements are binding for V38 gate work while `BITCODE_SPEC.txt` remains `V37`.
+
+## Simplified-spec reading rule
+
+Read `BITCODE_SPEC.txt` first.
+If it points to `V37`, V37 is active canon and V38 is the active draft target only when this V38 SPEC family exists on a V38 branch.
+Read `BITCODE_SPEC_V38.md`, this NOTES companion, the V38 DELTA, and the V38 PARITY matrix together before implementing inference work.
+
+## Concise current-system reading
+
+V37 is active canon and Website Conversations are promoted.
+V38 is the draft target that focuses on commercial inference correctness across Reading pipelines, Conversations, tool-definition prompts, prompt benchmarking, fit-finding search, and source-safe inference telemetry.
 
 ## Deferred from V37
 
@@ -127,6 +141,26 @@ The V38 acceptance posture is commercial inference correctness: Bitcode's
 ability to maximize inference intelligence must produce reliable technical
 intelligence measurement, labeling, fit-finding, AssetPack synthesis, and
 mutually beneficial depositing and Reading exchange.
+
+## Gate 1 implementation notes
+
+Gate 1 turns the loose V38 notes committed on `main` into the formal V38 SPEC, DELTA, NOTES, and PARITY family.
+The opening must preserve every instruction from those loose notes while grounding them in existing source anchors: `FailsafeGenerationSequence`, `ThricifiedGeneration`, PTRR agent factories, tool doc-comment prompt definitions, Reading pipeline contracts, depository-search tools, embedding policy, and source-safe telemetry boundaries.
+Gate 1 adds `check:v38-gate1`, workflow posture updates, README and package documentation posture updates, and roadmap truth for V37 active / V38 draft.
+
+## V38 gate plan
+
+- Gate 1: V38 Inference Stack Roadmap And Spec Opening
+- Gate 2: Inference Surface Inventory And Prompt Registry Map
+- Gate 3: PTRR Failsafe And Thricified Execution Stack
+- Gate 4: PromptPart And Prompt Benchmarking
+- Gate 5: Inference Telemetry And Disclosure Tiers
+- Gate 6: ReadNeedComprehensionSynthesis Inference Hardening
+- Gate 7: ReadFitsFindingSynthesis Depository Search And Embeddings
+- Gate 8: AssetPack Synthesis Handoff And Economic Traceability
+- Gate 9: Conversation And Tool-Prompt Inference Parity
+- Gate 10: Local Staging Inference And Depository Search Rehearsal
+- Gate 11: V38 Promotion Readiness
 
 ## Non-goals during V38 opening
 

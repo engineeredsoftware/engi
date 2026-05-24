@@ -47,9 +47,15 @@ Current exported commercial helpers include:
 
 This is now the `V37` active, `V38` draft after V37 promotion posture accepted
 by V37 Gate 10.
-V38 Gate 1 treats this package as promotion-critical runtime posture.
+V38 Gate 1 treats this package as promotion-critical runtime posture and opens
+the inference stack specification family for active V37 / draft V38 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
 must remain aligned to `V37` active, `V38` draft while V38 opens.
+V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
+PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
+ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
+depository-search, embedding policy, prompt benchmarking, and source-safe
+telemetry scope that later V38 gates must implement.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and
