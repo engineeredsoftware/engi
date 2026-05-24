@@ -422,7 +422,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:4843b07728b07b9aecd68465ce2e27e81f5a961d11d66218b7231f188b7aed20",
+      "digest": "sha256:6cf0fa3085d6b3467fe2762a322b578f6b97d0532e7386d95060f023e32f0d93",
       "requiredTokens": [
         {
           "token": "V37 Gate 10 closure anchor",

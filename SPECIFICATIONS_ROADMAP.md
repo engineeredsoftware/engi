@@ -5,7 +5,8 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V36`
 - Current active canon: `BITCODE_SPEC_V36.md`
 - Current draft target: `BITCODE_SPEC_V37.md`
-- Current working gate: V38 Gate 1 Draft Opening after V37 promotion.
+- Current working gate: V37 Gate 10 Promotion Readiness.
+- Next queued gate after V37 promotion: V38 Gate 1 Draft Opening.
 - Latest closed version: V36 Exchange Depth, which promoted market-wide activity, intent/order contracts, rights-transfer review, pricing/liquidity/fee quotes, settlement reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging rehearsal, and V36 promotion readiness.
 - Recent V36 closure anchor: V36 Gate 10 Promotion Readiness generated V36 proof support, promoted `BITCODE_SPEC.txt` to `V36`, prepared V36 active / V37 draft runtime posture, and closed Exchange-depth canon.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
