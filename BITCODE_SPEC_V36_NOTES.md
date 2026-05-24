@@ -169,6 +169,22 @@ not protected source, unpaid AssetPack source, wallet private material, provider
 tokens, protected prompts, protected model responses, buyer private repository
 payloads, or secret values.
 
+## Gate 9 closure notes
+
+Gate 9 closes when `ExchangeRehearsal` is package-owned and generated through
+`.bitcode/v36-exchange-rehearsal.json`.
+The generated artifact carries `source-safe-exchange-rehearsal-metadata`.
+`ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
+It proves that rehearsal logs/screenshots are source-safe.
+It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
+Exchange rehearsal artifacts remain source-safe: they expose rehearsal ids,
+lane ids, flow ids, event ids, proof roots, ledger/database synchronization
+checks, validation commands, redacted log/screenshot roots, source evidence,
+and summary counts, not protected source, unpaid AssetPack source, wallet
+private material, private payment credentials, object-storage private bytes,
+provider tokens, protected prompts, protected model responses, buyer private
+repository payloads, or secret values.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.

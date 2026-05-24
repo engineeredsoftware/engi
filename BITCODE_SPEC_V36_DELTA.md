@@ -161,9 +161,12 @@ Gate 9 proves Exchange locally and in staging-testnet.
 
 Closure acceptance:
 
+- `ExchangeRehearsal` is package-owned by `@bitcode/protocol`;
 - local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows;
 - rehearsal logs/screenshots are source-safe;
-- ledger/database synchronization and value-bearing mainnet blocking are visible.
+- ledger/database synchronization and value-bearing mainnet blocking are visible;
+- `.bitcode/v36-exchange-rehearsal.json` is generated from the package-owned `ExchangeRehearsal` builder with `source-safe-exchange-rehearsal-metadata`;
+- `pnpm run check:v36-gate9` validates package source, artifact freshness, package tests, docs, workflow wiring, local lane flow coverage, staging-testnet lane flow coverage, source-safe logs/screenshots, ledger/database synchronization checks, proof roots, and blocked value-bearing mainnet posture.
 
 ### Gate 10: V36 Promotion Readiness
 

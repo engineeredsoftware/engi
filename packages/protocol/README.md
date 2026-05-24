@@ -29,6 +29,11 @@ Current exported commercial helpers include:
 - `ExchangeActivityBook` helpers for V36 market-wide activity rows, filters, detail sections, proof roots, event ids, redaction posture, and ledger/database projection references;
 - `ExchangeIntent` and `ExchangeOrder` helpers for V36 buy/sell/bid/ask/cancel/accept/settle/history transition contracts, authority, idempotency, policy, fail-closed, replay, and source-safety posture;
 - `ExchangeRightsTransferPreview` helpers for V36 BTD range identity, current owner, requested buyer, rights scope, settlement unlock, disclosure limit, owner-read, licensed-read, blocked transfer, and source-safety posture;
+- `ExchangePricingQuote` helpers for V36 BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, quote root, and source-safety posture;
+- `ExchangeSettlementReceipt` helpers for V36 payment observation, finality, rights-transfer receipt, ledger/database/object-storage reconciliation, delivery state, repair id, and source-safety posture;
+- `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` helpers for V36 repair, escalation, revenue conservation, route allocation, and source-safety posture;
+- `ExchangeUxProof` helpers for V36 Exchange route usability, Terminal handoff, collapsed readable status, expanded source-safe detail, and telemetry dashboard proof roots;
+- `ExchangeRehearsal` helpers for V36 local/staging-testnet Exchange rehearsal coverage, source-safe log/screenshot roots, ledger/database synchronization checks, and blocked value-bearing mainnet proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -86,6 +91,13 @@ Terminal can hand off to Exchange without losing transaction context.
 collapsed UI gives readable status and expanded UI exposes source-safe detail.
 Exchange telemetry dashboards remain source-safe and proof-rooted.
 The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
+
+V36 Gate 9 adds source-safe Exchange rehearsal through
+`buildExchangeRehearsal` and `.bitcode/v36-exchange-rehearsal.json`.
+`ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
+It proves that rehearsal logs/screenshots are source-safe.
+It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
+The source-safe verdict is `source-safe-exchange-rehearsal-metadata`.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

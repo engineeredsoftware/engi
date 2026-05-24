@@ -225,6 +225,25 @@ protected source, unpaid AssetPack source, wallet private material, provider
 tokens, protected prompts, protected model responses, buyer private repository
 payloads, or secret values.
 
+## V36 Gate 9 ExchangeRehearsal canon
+
+Gate 9 implements `ExchangeRehearsal` as the package-owned contract binding
+local and staging-testnet Exchange rehearsals to generated proof.
+
+`ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
+It proves that rehearsal logs/screenshots are source-safe.
+It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
+
+Gate 9 emits `.bitcode/v36-exchange-rehearsal.json` with
+`source-safe-exchange-rehearsal-metadata`.
+The artifact may expose rehearsal ids, lane ids, flow ids, event ids, proof
+roots, ledger/database synchronization checks, validation commands, redacted
+log/screenshot roots, source evidence, and summary counts; it must not expose
+protected source, unpaid AssetPack source, wallet private material, private
+payment credentials, object-storage private bytes, provider tokens, protected
+prompts, protected model responses, buyer private repository payloads, or secret
+values.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.
