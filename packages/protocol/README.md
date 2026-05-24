@@ -27,6 +27,7 @@ Current exported commercial helpers include:
 - `TelemetryDocumentationInterfaceIntegration` helpers for V35 Terminal, Auxillaries, API, MCP API, ChatGPT App, package README, internal docs, and public docs event/proof/docs/runbook/redaction proof;
 - `LocalStagingTelemetryDocumentationRehearsal` helpers for V35 local/staging-testnet documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root review, redacted screenshot/log roots, and blocked value-bearing mainnet proof;
 - `ExchangeActivityBook` helpers for V36 market-wide activity rows, filters, detail sections, proof roots, event ids, redaction posture, and ledger/database projection references;
+- `ExchangeIntent` and `ExchangeOrder` helpers for V36 buy/sell/bid/ask/cancel/accept/settle/history transition contracts, authority, idempotency, policy, fail-closed, replay, and source-safety posture;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -42,6 +43,12 @@ and promotion readiness helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.
+V36 Gate 3 adds source-safe Exchange intent/order contracts through
+`buildExchangeIntentOrderContracts` and
+`.bitcode/v36-exchange-intent-order-contracts.json`.
+Each transition names actor principal, organization role, wallet posture,
+authority proof, idempotency key, policy decision, and fail-closed result.
+The order history is replayable without private wallet material or secrets.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

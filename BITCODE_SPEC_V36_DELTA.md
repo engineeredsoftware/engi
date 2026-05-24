@@ -90,7 +90,9 @@ Closure acceptance:
 
 - `ExchangeIntent` and `ExchangeOrder` own buy, sell, bid, ask, cancel, accept, settle, and history transition contracts;
 - each transition names actor, organization role, wallet posture, authority proof, idempotency key, policy decision, and fail-closed result;
-- order history is replayable without private wallet material or secrets.
+- order history is replayable without private wallet material or secrets;
+- `.bitcode/v36-exchange-intent-order-contracts.json` is generated from the package-owned builder with `source-safe-exchange-intent-order-contract-metadata`;
+- `pnpm run check:v36-gate3` validates package source, artifact freshness, package tests, docs, workflow wiring, action-kind coverage, transition coverage, authority, idempotency, policy, fail-closed, replay, source-safety, and ledger/database projection posture.
 
 ### Gate 4: AssetPack Range Trading And Rights Transfer Review
 

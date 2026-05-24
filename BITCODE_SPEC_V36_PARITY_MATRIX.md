@@ -55,7 +55,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V36.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v36/gate-1-exchange-roadmap-opening` | drafted | V36 family validates in draft mode over active V35 and `check:v36-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V35 active, V36 draft, and coherent V37 responsibility. |
 | Exchange activity book | Gate 2 | `ExchangeActivityBook`, `.bitcode/v36-exchange-activity-book.json`, package source, tests, and `check:v36-gate2` | closed | Market-wide source-safe activity rows, filters, details, proof roots, event ids, redaction posture, and telemetry bindings exist. |
-| Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | draft-required | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed and authorized. |
+| Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | closed | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed, authorized, idempotent, policy-gated, source-safe, and replayable. |
 | Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | draft-required | BTD range identity, ownership, rights scope, disclosure boundary, and settlement unlock are source-safe. |
 | Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | draft-required | BTC price, measurement weight, measurement volume, liquidity, wrapper analysis, fee split, and quote root are deterministic. |
 | Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | draft-required | Ledger, database, object storage, finality, delivery, and rights-transfer roots reconcile. |
@@ -107,6 +107,19 @@ No `_legacy/` source is active source truth.
 | Rows bind proof roots and event ids | deterministic row roots, detail roots, proof roots, event ids, and source evidence in generated artifact | closed |
 | Ledger/database projection posture is explicit | ledger references outrank database projection references in every row | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-activity-book.test.js`, `scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 3 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeIntent` and `ExchangeOrder` are package-owned | `packages/protocol/src/canonical/exchange-intent-order-contracts.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated intent/order artifact exists | `.bitcode/v36-exchange-intent-order-contracts.json`, `scripts/generate-v36-exchange-intent-order-contracts.mjs`, `pnpm run check:v36-exchange-intent-order-contracts` | closed |
+| Market action coverage is complete | buy, sell, bid, ask, cancel, accept, settle, and history transition rows | closed |
+| Each transition names required authority posture | actor principal, organization role, wallet posture, authority proof, idempotency key, policy decision, and fail-closed result | closed |
+| Order history is source-safe and replayable | order history is replayable without private wallet material or secrets; replay material uses roots, refs, event ids, and transition identity only | closed |
+| Intent/order payloads are source-safe | `source-safe-exchange-intent-order-contract-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private buyer payloads, and secret values are forbidden | closed |
+| Ledger/database projection posture is explicit | ledger journal refs outrank database projection refs in every order transition | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-intent-order-contracts.test.js`, `scripts/check-v36-gate3-exchange-intent-order-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

@@ -23,6 +23,13 @@ V36 Gate 2 anchors market-wide activity through the package-owned
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
 cancellation, acceptance, settlement, repair, revenue route, and history rows.
 The activity detail never exposes protected source or unpaid AssetPack content.
+V36 Gate 3 anchors market action through package-owned `ExchangeIntent` and
+`ExchangeOrder` contracts plus the source-safe generated artifact
+`.bitcode/v36-exchange-intent-order-contracts.json`, including buy, sell, bid,
+ask, cancel, accept, settle, and history transitions. Each transition names
+actor principal, organization role, wallet posture, authority proof,
+idempotency key, policy decision, and fail-closed result; order history is
+replayable without private wallet material or secrets.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer

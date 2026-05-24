@@ -61,6 +61,33 @@ event ids, proof-root fields, detail sections, and fail-closed conditions for
 missing proof roots, missing event ids, protected source visibility, unpaid
 AssetPack source visibility, and ledger/database projection drift.
 
+## V36 Gate 3 ExchangeIntent And ExchangeOrder canon
+
+Gate 3 implements `ExchangeIntent` and `ExchangeOrder` as the package-owned
+contracts for market action envelopes and order transitions.
+`ExchangeIntent` owns source-safe buy, sell, bid, ask, cancel, accept, settle,
+and history intent fields: actor principal, organization role, wallet posture,
+authority proof, idempotency key, policy decision, target order, target BTD
+range, source-safe preview, and fail-closed result.
+`ExchangeOrder` owns the matching transition state: order identity, AssetPack
+id, BTD range id, rights scope, current owner, order state, transition id,
+history root, ledger journal reference, database projection reference, and
+repair posture.
+
+Gate 3 emits `.bitcode/v36-exchange-intent-order-contracts.json` with
+`source-safe-exchange-intent-order-contract-metadata`.
+Each transition names actor, organization role, wallet posture, authority proof,
+idempotency key, policy decision, and fail-closed result before order mutation.
+The order history is replayable without private wallet material or secrets; it
+uses source-safe transition ids, intent roots, order roots, authority roots,
+policy roots, idempotency roots, ledger journal refs, database projection refs,
+and event ids.
+The generated contract forbids protected source, unpaid AssetPack source,
+wallet private material, provider tokens, raw protected prompts, raw protected
+model responses, private buyer repository payloads, and secret values.
+Ledger journal state remains stronger than database projection state for
+Exchange order history and settlement/finality.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.

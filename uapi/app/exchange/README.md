@@ -15,5 +15,15 @@ route, and history rows with source-safe filters, detail sections, proof roots,
 event ids, redaction posture, and ledger/database projection references.
 The activity detail never exposes protected source or unpaid AssetPack content.
 
+V36 Gate 3 makes `ExchangeIntent` and `ExchangeOrder` the package-owned
+contracts behind market action and order transition state. The generated
+`.bitcode/v36-exchange-intent-order-contracts.json` artifact defines buy, sell,
+bid, ask, cancel, accept, settle, and history transitions with actor principals,
+organization roles, wallet posture, authority proofs, idempotency keys, policy
+decisions, fail-closed results, proof roots, event ids, ledger journal refs, and
+database projection refs. The order history is replayable without private
+wallet material or secrets, and the Exchange UI may only render source-safe
+intent/order metadata before settlement and rights transfer.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.

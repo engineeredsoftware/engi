@@ -85,6 +85,21 @@ The activity detail never exposes protected source or unpaid AssetPack content;
 it is a source-safe market row and detail contract for later Exchange UI and API
 consumers.
 
+## Gate 3 closure notes
+
+Gate 3 closes when `ExchangeIntent` and `ExchangeOrder` are package-owned and
+generated through `.bitcode/v36-exchange-intent-order-contracts.json`.
+The generated artifact carries
+`source-safe-exchange-intent-order-contract-metadata`, buy/sell/bid/ask/cancel/
+accept/settle/history coverage, required intent fields, required order fields,
+transition ids, actor principals, organization roles, wallet posture, authority
+proofs, idempotency keys, policy decisions, fail-closed results, proof roots,
+event ids, ledger journal refs, database projection refs, and repair posture.
+The order history is replayable without private wallet material or secrets.
+The intent/order contract never exposes protected source, unpaid AssetPack
+source, private wallet material, provider tokens, protected prompts, protected
+model responses, private buyer repository payloads, or secret values.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.
