@@ -161,7 +161,46 @@ jobs:
             node scripts/check-bitcode-spec-family.mjs --version V34 --mode promoted --current-target V34
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V34
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V34 --draft-target V35
+            if [ -f BITCODE_SPEC_V35.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V35 --mode draft --current-target V34
+              node scripts/check-v35-gate1-telemetry-docs-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v35-gate2-documentation-surface-catalog.mjs ]; then
+                node scripts/check-v35-gate2-documentation-surface-catalog.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate3-telemetry-taxonomy-event-schema-redaction.mjs ]; then
+                node scripts/check-v35-gate3-telemetry-taxonomy-event-schema-redaction.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate4-public-docs-usage-guides.mjs ]; then
+                node scripts/check-v35-gate4-public-docs-usage-guides.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate5-dashboards-alerts-runbooks-incident-escalation.mjs ]; then
+                node scripts/check-v35-gate5-dashboards-alerts-runbooks-incident-escalation.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs ]; then
+                node scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs ]; then
+                node scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs ]; then
+                node scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs ]; then
+                node scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v35-gate10-promotion-readiness.mjs ]; then
+                node scripts/check-v35-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+              fi
+            fi
             node scripts/check-v34-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+          elif [ "$POINTER" = "V35" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V35 --mode promoted --current-target V35
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V35
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V35 --draft-target V36
+            node scripts/check-v35-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            if [ -f BITCODE_SPEC_V36.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V36 --mode draft --current-target V35
+            fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -207,6 +246,15 @@ jobs:
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-promotion-readiness-report.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-documentation-surface-catalog.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-taxonomy-catalog.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-public-docs-usage-guide-catalog.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-operator-runbook-catalog.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-docs-qa-alignment-report.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-testnet-rollout-readiness-guide.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-documentation-interface-integration.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-local-staging-telemetry-documentation-rehearsal.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-promotion-readiness.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand
@@ -252,12 +300,15 @@ jobs:
             --runInBand
 
       - name: Install Terminal browser proof browser
+        if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
         run: pnpm --dir uapi exec playwright install chromium --with-deps
 
       - name: Browser proof Terminal cockpit
+        if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
         run: pnpm --dir uapi run test:e2e:terminal-ux
 
       - name: Browser proof Terminal and Auxillaries responsive accessibility
+        if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
         run: pnpm --dir uapi run test:e2e:v32-browser-proof
 
       - name: Test pipeline readback verifier

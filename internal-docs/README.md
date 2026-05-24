@@ -1,11 +1,12 @@
 # Bitcode Internal Notes
 
-Status: non-canonical scratch documentation. The active canonical system specification is `BITCODE_SPEC_V27.md`; these notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
+Status: non-canonical internal documentation. The active canonical system specification pointer is `BITCODE_SPEC.txt` -> `V34`; V35 is the active draft-target family for telemetry and documentation depth. These notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
 
 ## Rules
 
 - Do not treat this directory as canonical truth.
 - Promote requirements into the active SPEC/PARITY/proof family, or into the explicitly opened draft-target SPEC family, before relying on them as requirements.
+- Keep internal docs registered through `DocumentationSurfaceCatalog` when they become gate, operator, route, package, or proof dependencies.
 - Keep note filenames and content Bitcode-only.
 - Prefer Read, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
 - Treat compatibility source names as implementation corridors, not product vocabulary.
@@ -52,3 +53,27 @@ Status: non-canonical scratch documentation. The active canonical system specifi
 4. Promote the requirement into the active or draft-target SPEC/proof family when it must become canonical.
 5. Regenerate the matching proof artifacts.
 6. Re-scan this directory for non-Bitcode residue before claiming gate closure progress.
+
+## V35 telemetry documentation integration
+
+Internal docs are registered through `TelemetryDocumentationInterfaceIntegration`
+when they explain how active surfaces display telemetry and repair posture.
+The source-safe generated artifact
+`.bitcode/v35-telemetry-documentation-interface-integration.json` binds internal
+docs to event ids, proof roots, docs links, runbook links, and redaction
+posture so operator notes, route docs, and package READMEs can be audited
+together.
+
+Internal docs may name source-safe roots, state labels, summary counts,
+correlation ids, generated artifact paths, and repair commands. They must not
+record secret values, provider tokens, wallet private material, raw protected
+prompts, protected source payloads, raw protected model responses with source,
+or unpaid AssetPack source.
+
+`LocalStagingTelemetryDocumentationRehearsal` extends this integration into
+the operator drill layer. The source-safe generated artifact
+`.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json` records
+local/staging-testnet documentation discovery, telemetry event emission,
+dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root
+review, redacted screenshot/log roots, and visible blocked value-bearing
+mainnet posture without storing secrets or source-bearing payloads.

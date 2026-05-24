@@ -73,6 +73,16 @@ interface-admission root. Exchange market law and Conversations product depth
 remain blocked/deferred in V31; route and UI code may display the source-safe
 record but must not implement those product laws locally.
 
+V35 route payloads also align to
+`TelemetryDocumentationInterfaceIntegration` and its generated source-safe
+artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`.
+Routes may emit event ids, proof roots, docs links, runbook links, redaction
+posture, correlation ids, state labels, and summary counts when those fields
+help Terminal, Auxillaries, MCP API, or ChatGPT App callers diagnose a
+source-safe state. Route handlers must never serialize protected source,
+secret values, provider tokens, wallet private material, raw protected prompts,
+raw protected model responses with source, or unpaid AssetPack source.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs

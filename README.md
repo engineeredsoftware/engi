@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V33`; V34 is the active draft target for deployment depth after
-the promoted commercial interface canon.
+resolves to `V34`; V35 is the active draft target for telemetry and
+documentation depth after the promoted deployment canon.
 
 ## Current Product Posture
 
@@ -13,11 +13,52 @@ The primary operator routes are:
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
 Exchange and website Conversations remain in source as deferred commercial work.
-V34 closure focuses on deployment depth over promoted V33: host capabilities,
-environment lanes, distributed execution runtime receipts, ledger, database,
-object-storage posture, secret rotation, migration/deployment approvals,
-observers, broadcasters, repair jobs, rollback/upgrade playbooks, and local
-plus staging-testnet rehearsal.
+V35 closure focuses on telemetry and documentation depth over promoted V34:
+internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
+runbooks, incident response, operator escalation, documentation QA, developer
+onboarding, operator guides, and testnet-rollout readiness.
+V35 Gate 2 now anchors documentation surfaces through the package-owned
+`DocumentationSurfaceCatalog` and the source-safe generated artifact
+`.bitcode/v35-documentation-surface-catalog.json`.
+V35 Gate 3 now anchors telemetry event families through the package-owned
+`TelemetryTaxonomyCatalog` and the source-safe generated artifact
+`.bitcode/v35-telemetry-taxonomy-catalog.json`.
+V35 Gate 4 now anchors public usage guidance through the package-owned
+`PublicDocsUsageGuideCatalog` and the source-safe generated artifact
+`.bitcode/v35-public-docs-usage-guides.json`, including the public docs
+disclosure boundary that blocks protected source, raw protected prompts, wallet
+private material, provider tokens, and unpaid AssetPack source.
+V35 Gate 5 now anchors operator action through the package-owned
+`OperatorRunbookCatalog` and the source-safe generated artifact
+`.bitcode/v35-operator-runbook-catalog.json`, binding telemetry-derived
+dashboard panels, alerts, runbooks, incident classes, escalation paths,
+commands, proof roots, repair references, and post-incident documentation
+updates.
+V35 Gate 6 now anchors documentation QA through the package-owned
+`DocsQaAlignmentReport` and the source-safe generated artifact
+`.bitcode/v35-docs-qa-alignment-report.json`, failing closed on stale tokens,
+missing source roots, missing generated artifacts, unsupported disclosure
+claims, or docs/proof/workflow drift.
+V35 Gate 7 now anchors rollout guidance through the package-owned
+`TestnetRolloutReadinessGuide` and the source-safe generated artifact
+`.bitcode/v35-testnet-rollout-readiness-guide.json`, covering contributors,
+local development, operators, enterprise readers, depositors, interface
+consumers, environment lanes, wallet/settlement caveats, known blockers, and
+rehearsal evidence while keeping value-bearing mainnet visible and blocked.
+V35 Gate 8 now anchors interface integration through the package-owned
+`TelemetryDocumentationInterfaceIntegration` and the source-safe generated
+artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`,
+binding Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs,
+internal docs, and public docs to event ids, proof roots, docs links, runbook
+links, and redaction posture without exposing protected source, secrets, wallet
+private material, or unpaid AssetPack source.
+V35 Gate 9 now anchors rehearsal through the package-owned
+`LocalStagingTelemetryDocumentationRehearsal` and the source-safe generated
+artifact `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`,
+proving local/staging-testnet documentation discovery, telemetry event
+emission, dashboard/runbook lookup, docs QA, incident drills, redacted
+screenshot/log roots, source-safe proof-root review, and visible blocked
+value-bearing mainnet posture.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration
@@ -42,10 +83,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v34`.
+1. Create one base branch per draft target, such as `version/v35`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v34/gate-1-deployment-roadmap-opening` or
-   `v34/gate-6-migration-cicd-deployment-approval-gates`.
+   with the gate number, for example `v35/gate-1-telemetry-docs-roadmap-opening` or
+   `v35/gate-6-documentation-qa-alignment-proofs`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -54,7 +95,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V34 Gate 5: Secret Rotation And Credential Boundary Operations`.
+   title, for example `V35 Gate 5: Dashboards Alerts Runbooks Incident Escalation`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -64,28 +105,29 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V34, promotion work must validate the
-deployment-depth posture, generate `BITCODE_SPEC_V34_PROVEN.md`, and commit
-promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V33` to
-`V34` on the version branch.
-Gate 10 is the promotion-readiness gate. V34 Gate 10 is wired through
-`pnpm run check:v34-gate10`, backed by source-safe deployment artifacts, the
-promotion readiness report, and [v34-canon-promotion.yml](.github/workflows/v34-canon-promotion.yml).
-The promoted V33 closure remains reproducible through `pnpm run check:v33-gate10`
-and [v33-canon-promotion.yml](.github/workflows/v33-canon-promotion.yml).
+run the version promotion workflow. For V35, promotion work must validate the
+telemetry/documentation posture, generate `BITCODE_SPEC_V35_PROVEN.md`, and
+commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
+`V34` to `V35` on the version branch.
+Gate 10 is the promotion-readiness gate. V35 Gate 10 is wired through
+`pnpm run check:v35-gate10`, backed by source-safe telemetry/documentation
+artifacts, a promotion readiness report, and
+[v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
+The promoted V34 closure remains reproducible through `pnpm run check:v34-gate10`
+and [v34-canon-promotion.yml](.github/workflows/v34-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set
-`ENABLE_FULL_DB_E2E`, `ENABLE_STORYBOOK_BUILD`, `ENABLE_SUPER_LINTER`, or
+`BITCODE_ENABLE_GATE_BROWSER_PROOF`, `ENABLE_FULL_DB_E2E`, `ENABLE_STORYBOOK_BUILD`, `ENABLE_SUPER_LINTER`, or
 `ENABLE_ADVANCED_CODEQL` when those checks are intentionally part of a branch
 or promotion validation.
 
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V33.md](BITCODE_SPEC_V33.md) is the active promoted spec family.
-- [BITCODE_SPEC_V34.md](BITCODE_SPEC_V34.md) is the active draft target.
-- [BITCODE_SPEC_V34_PARITY_MATRIX.md](BITCODE_SPEC_V34_PARITY_MATRIX.md) tracks V34 gate parity.
+- [BITCODE_SPEC_V34.md](BITCODE_SPEC_V34.md) is the active promoted spec family.
+- [BITCODE_SPEC_V35.md](BITCODE_SPEC_V35.md) is the active draft target.
+- [BITCODE_SPEC_V35_PARITY_MATRIX.md](BITCODE_SPEC_V35_PARITY_MATRIX.md) tracks V35 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

@@ -126,3 +126,17 @@ The active Wallet pane and wallet utilities must:
 
 Leather's documented Bitcoin `network` values include `mainnet`, `testnet`, `signet`, `sbtcDevenv`, and `devnet`.
 The V28 staging Testnet4 lane currently calls Leather with `testnet` because that is the documented Leather browser-provider enum.
+
+## V35 telemetry documentation integration
+
+Auxillaries consumes the package-owned
+`TelemetryDocumentationInterfaceIntegration` contract through the same
+source-safe surface documented by
+`.bitcode/v35-telemetry-documentation-interface-integration.json`.
+Wallet, Externals, Interfaces, and Profile panels may show event ids, proof
+roots, docs links, runbook links, and redaction posture when that helps an
+operator repair readiness without opening raw network payloads.
+
+Auxillaries payloads remain source-safe support metadata. They must not expose
+provider tokens, secret values, wallet private material, protected source,
+raw protected prompts, or unpaid AssetPack source.
