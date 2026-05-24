@@ -15,6 +15,9 @@ family explicitly open the V38 specification set.
 
 These notes preserve candidate work without creating source identifiers,
 routes, tests, or package APIs that claim V38 implementation before Gate 1.
+They normalize and expand the loose V38 notes committed on `main`; every
+instruction from that loose note is retained here as source-auditable V38
+opening scope.
 
 ## Deferred from V37
 
