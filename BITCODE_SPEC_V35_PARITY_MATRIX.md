@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -55,7 +55,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V35.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v35/gate-1-telemetry-docs-roadmap-opening` | drafted | V35 family validates in draft mode over active V34 and `check:v35-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V34 active, V35 draft, and coherent V36-V37 responsibilities. |
 | Documentation surface catalog | Gate 2 | `DocumentationSurfaceCatalog`, `.bitcode/v35-documentation-surface-catalog.json`, `packages/protocol/src/canonical/documentation-surface-catalog.js`, `packages/protocol/test/v35-documentation-surface-catalog.test.js`, and `check:v35-gate2` | closed | Internal codebase docs, public `/docs`, package docs, route docs, generated artifact docs, API/interface docs, owners, freshness checks, and disclosure classes have package-owned rows. |
-| Telemetry taxonomy event schema | Gate 3 | `TelemetryTaxonomyCatalog`, generated telemetry taxonomy artifact, tests, and `check:v35-gate3` | drafted | Pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion events are source-safe and proof-rooted. |
+| Telemetry taxonomy event schema | Gate 3 | `TelemetryTaxonomyCatalog`, `.bitcode/v35-telemetry-taxonomy-catalog.json`, `packages/protocol/src/canonical/telemetry-taxonomy-catalog.js`, `packages/protocol/test/v35-telemetry-taxonomy-catalog.test.js`, and `check:v35-gate3` | closed | Pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion events are source-safe and proof-rooted. |
 | Public docs usage guides | Gate 4 | public `/docs`, internal docs roots, package docs, source-safe examples, and `check:v35-gate4` | drafted | Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, and proof posture docs derive from package/SPEC truth. |
 | Dashboards alerts runbooks incident escalation | Gate 5 | `OperatorRunbookCatalog`, dashboard/runbook bindings, incident fixtures, and `check:v35-gate5` | drafted | Telemetry events bind to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, and post-incident docs updates. |
 | Documentation QA alignment proofs | Gate 6 | `DocsQaAlignmentReport`, generated alignment artifact, tests, workflows, and `check:v35-gate6` | drafted | Code, SPEC, DELTA, NOTES, PARITY, generated proofs, generated artifacts, public docs, internal docs, route docs, and interface docs fail closed on drift. |
@@ -73,6 +73,7 @@ No `_legacy/` source is active source truth.
 | Spec-family shape | V35 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
 | Gate 1 script | `pnpm run check:v35-gate1` fails closed on stale posture, missing roadmap truth, or missing telemetry/documentation scope | drafted |
 | Gate 2 script | `pnpm run check:v35-gate2` fails closed on stale documentation surface catalog, missing source roots, source-unsafe disclosure, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
+| Gate 3 script | `pnpm run check:v35-gate3` fails closed on stale telemetry taxonomy catalog, missing event families, missing redaction posture, missing proof roots, missing source roots, source-unsafe telemetry payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate-quality workflow | Gate workflow validates V34 active / V35 draft posture and the V35 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V34 canon, V35 draft family when present, and V34/V35 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V34 active / V35 draft workflow | drafted |
@@ -112,9 +113,13 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V35 judgment |
 | --- | --- | --- |
-| Telemetry taxonomy planned | `TelemetryTaxonomyCatalog` in SPEC/DELTA/NOTES/PARITY | drafted |
-| Pipeline and inference event families named | V35 SPEC and notes | drafted |
-| Redaction posture planned | V35 Gate 3 acceptance criteria | drafted |
+| Telemetry taxonomy implemented | `packages/protocol/src/canonical/telemetry-taxonomy-catalog.js` exports `buildTelemetryTaxonomyCatalog`, `TELEMETRY_EVENT_FAMILIES`, and telemetry rows | closed |
+| Generated artifact exists | `.bitcode/v35-telemetry-taxonomy-catalog.json` with `source-safe-telemetry-taxonomy-metadata` | closed |
+| Pipeline and inference event families named | Catalog rows include `pipeline`, `execution`, `ptrr_agent`, `thricified_generation`, and `tool` with formal abstraction names preserved | closed |
+| Runtime, value, storage, and interface event families named | Catalog rows include `ledger`, `wallet`, `storage`, `interface`, `deployment`, `observer`, and `repair` | closed |
+| Docs QA and promotion event families named | Catalog rows include `docs_qa` and `promotion` with dashboard, runbook, proof root, and replay expectations | closed |
+| Redaction posture enforced | Every row names redaction posture, forbidden payload classes, correlation ids, proof root fields, source roots, dashboard panel, alert threshold, runbook link, and deterministic row root | closed |
+| Gate 3 package and workflow proof | `packages/protocol/test/v35-telemetry-taxonomy-catalog.test.js`, `scripts/check-v35-gate3-telemetry-taxonomy-event-schema-redaction.mjs`, `package.json`, and `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## Gate 4 Parity
 
