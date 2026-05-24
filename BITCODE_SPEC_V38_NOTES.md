@@ -1,0 +1,5 @@
+V38 should ensure PTRR agents' steps use FailsafeGenerations above (sans tools) ThricifiedGenerations (RJS per Failsafe (context preparation, large input handling, large output handling - each RJS (Thriceified) within them)
+
+Thricification is the lowest-level inference call chaining (final prompt regsitry resolutions (above call chain) to compose final form, inteprolations formatted etc.). Failsafes are also generic inference chains but delegate their internal infer down (again, in the case of PTRR  agent implementations) to Thricified
+
+Ensure pipeline execution agents inference call stack is completed correctly (prompt registries and final compositions and interpolations, prompt contents and context expectations, generation implementations (Failsafes, Thricifieds) from phase->agents(PTRR)->steps->...
