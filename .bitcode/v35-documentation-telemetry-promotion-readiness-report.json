@@ -1,9 +1,10 @@
 {
+  "reportId": "v35-documentation-telemetry-promotion-readiness-report",
   "artifactId": "v35-documentation-telemetry-promotion-readiness-report",
   "schemaId": "bitcode.v35.documentationTelemetryPromotionReadinessReport.v1",
   "version": "V35",
   "currentTarget": "V34",
-  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "generatedAt": "2026-05-24T03:05:21-03:00",
   "sourceSafetyVerdict": "source-safe-promotion-readiness-metadata",
   "prePromotionPosture": "V34 active / V35 draft",
   "postPromotionPosture": "V35 active / V36 draft",
@@ -346,7 +347,7 @@
     {
       "relativePath": "BITCODE_SPEC_V35.md",
       "present": true,
-      "digest": "sha256:b46bd8d011c8e9456b19a321d9b12602e706534abf08e51100492ede5250f8c3",
+      "digest": "sha256:dcf1e49a78fd834662aa4ace5fd041b89968a225a23b0718dae842c2556b0b7d",
       "requiredTokens": [
         {
           "token": "V35 promotion readiness canon",
@@ -365,7 +366,7 @@
     {
       "relativePath": "BITCODE_SPEC_V35_DELTA.md",
       "present": true,
-      "digest": "sha256:5c4c3b39d5b975ccd450a8c5f8ec6ae89cf1b9a78eeddbf9c7ac2c44b3552a79",
+      "digest": "sha256:0964855e323c5c6a64dc5d64cc58627a2ba6f81a72af697f050c9384341df8e4",
       "requiredTokens": [
         {
           "token": "Gate 10: V35 Promotion Readiness",
@@ -384,7 +385,7 @@
     {
       "relativePath": "BITCODE_SPEC_V35_NOTES.md",
       "present": true,
-      "digest": "sha256:cded822f20eadd3238d1843a4e72ccb086f55753146f52dfd579c047f7a00656",
+      "digest": "sha256:17096bcc2d1e0f17217ee507653b0998078216e4225cf06eddda78396e0a100c",
       "requiredTokens": [
         {
           "token": "Gate 10: V35 Promotion Readiness",
@@ -403,7 +404,7 @@
     {
       "relativePath": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:613c3ba8a3e699197bade5e65846befce6c16350664ef4a1cefe409a18bb7e7f",
+      "digest": "sha256:119bcbf67181145db4e6600bc3bf6755a0fa42598f32b6b36d7022272c710c72",
       "requiredTokens": [
         {
           "token": "## Gate 10 Parity",
@@ -452,7 +453,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:a02d173a581542384bb0551d2d5c96e89d8c53d0fe732a4f2dc24776ab06bab8",
+      "digest": "sha256:10137f28a7c35b3fcd1f9f094e337d70de46fcfa70724a82963dd6f32d6bbf55",
       "requiredTokens": [
         {
           "token": "V35 Gate 10",
@@ -513,5 +514,9 @@
   "artifactRoot": "documentation-telemetry-promotion-readiness-report:45eb14ec5a11d8599ea8a9ff",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v35-gate10"
+  "validationCommand": "pnpm run check:v35-gate10",
+  "proofSourceCommit": "db74a494377c1f68d5354c3c2f24fb29c38906bb",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

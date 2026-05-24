@@ -3,14 +3,15 @@
 ## Status
 
 - Version: `V35`
-- V35 state: active draft target opened; notes guide telemetry and documentation depth over promoted V34 canon
-- Current canonical/latest target: `V34`
+- V35 state: canonical promotion complete; V35 notes record the accepted documentation, telemetry, docs QA, rollout, rehearsal, and promotion-readiness evidence
+- Current canonical/latest target: `V35`
+- Canonical proof-source commit: `db74a494377c1f68d5354c3c2f24fb29c38906bb`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, source-safe `.bitcode/v35-operator-runbook-catalog.json`, source-safe `.bitcode/v35-docs-qa-alignment-report.json`, source-safe `.bitcode/v35-testnet-rollout-readiness-guide.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
-- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, public docs usage, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
-- Scope: V35 draft notes for telemetry and documentation depth over promoted V34 deployment canon
-- Last fully realized canonical target preserved in source: `V34`
+- Generated structured artifact inventory: active canonical `.bitcode/v35-spec-family-report.json`, `.bitcode/v35-canonical-input-report.json`, `.bitcode/v35-canon-posture-drift-report.json`, `.bitcode/v35-documentation-surface-catalog.json`, `.bitcode/v35-telemetry-taxonomy-catalog.json`, `.bitcode/v35-public-docs-usage-guides.json`, `.bitcode/v35-operator-runbook-catalog.json`, `.bitcode/v35-docs-qa-alignment-report.json`, `.bitcode/v35-testnet-rollout-readiness-guide.json`, `.bitcode/v35-telemetry-documentation-interface-integration.json`, `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`, `.bitcode/v35-documentation-telemetry-promotion-readiness-report.json`, V35 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V35_PROVEN.md` as the generated proof appendix for V35 promotion
+- Source parity state: V35 source-side documentation surface catalog, telemetry taxonomy catalog, public docs usage guides, operator runbook catalog, docs QA report, testnet rollout guide, telemetry documentation interface integration, local staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V35 file family
+- Scope: V35 canonical notes for telemetry and documentation depth over promoted V34 deployment-depth canon
+- Last fully realized canonical target preserved in source: `V35`
 
 ## Notes companion rule
 
