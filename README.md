@@ -55,6 +55,14 @@ generated artifact `.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
 `ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
 The source-safe verdict is
 `source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
+V36 Gate 8 anchors Exchange route usability through package-owned
+`ExchangeUxProof` and the source-safe generated artifact
+`.bitcode/v36-exchange-ux-proof.json`.
+`ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
+Terminal can hand off to Exchange without losing transaction context.
+collapsed UI gives readable status and expanded UI exposes source-safe detail.
+Exchange telemetry dashboards remain source-safe and proof-rooted.
+The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer

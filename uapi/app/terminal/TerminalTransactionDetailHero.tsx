@@ -11,6 +11,7 @@ interface TerminalTransactionDetailHeroProps {
   modeLabel: string;
   metrics: Array<{ label: string; value: string }>;
   routeHref?: string;
+  exchangeHref?: string;
   activeSectionLabel?: string;
   activeSectionAvailability?: string;
   postureChips?: string[];
@@ -25,6 +26,7 @@ export default function TerminalTransactionDetailHero({
   modeLabel,
   metrics,
   routeHref,
+  exchangeHref,
   activeSectionLabel,
   activeSectionAvailability,
   postureChips = [],
@@ -88,6 +90,22 @@ export default function TerminalTransactionDetailHero({
           <p className="mt-3 break-all rounded-[0.9rem] border border-white/8 bg-black/25 px-3 py-2 font-mono text-[0.72rem] text-neutral-300">
             {routeHref}
           </p>
+        ) : null}
+        {surface === 'terminal' && exchangeHref ? (
+          <a
+            href={exchangeHref}
+            className="mt-3 inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
+          >
+            Open in Exchange
+          </a>
+        ) : null}
+        {surface === 'exchange' && routeHref ? (
+          <a
+            href={routeHref}
+            className="mt-3 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
+          >
+            Return to Terminal
+          </a>
         ) : null}
       </div>
     </article>

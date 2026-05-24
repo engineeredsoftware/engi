@@ -300,7 +300,11 @@ function main() {
 
   assertCheck(failures, docs[3].includes('| Dispute repair revenue routes | Gate 7 |') && docs[3].includes('| closed |'), 'V36 parity must close the Gate 7 matrix row.');
   assertCheck(failures, docs[3].includes('## Gate 7 Parity') && docs[3].includes('closed'), 'V36 parity must mark Gate 7 closed.');
-  assertCheck(failures, roadmap.includes('Current working gate: V36 Gate 8 Exchange UX And Terminal Navigation Integration'), 'Roadmap must advance current working gate to V36 Gate 8.');
+  assertCheck(
+    failures,
+    /Current working gate: V36 Gate (?:8|9|10)\b/u.test(roadmap),
+    'Roadmap must advance current working gate to V36 Gate 8 or later.',
+  );
   assertCheck(failures, roadmap.includes('V36 Gate 7 closure anchor'), 'Roadmap must include V36 Gate 7 closure anchor.');
   assertCheck(failures, source.includes('EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_SOURCE_SAFETY_VERDICT'), 'Dispute/revenue source must export source-safety verdict.');
   assertCheck(failures, source.includes('ExchangeDisputeRepairCase'), 'Dispute/revenue source must build ExchangeDisputeRepairCase rows.');

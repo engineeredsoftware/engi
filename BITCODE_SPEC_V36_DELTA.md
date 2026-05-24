@@ -151,6 +151,9 @@ Closure acceptance:
 - `/exchange` exposes market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state;
 - Terminal can hand off to Exchange without losing transaction context;
 - collapsed UI gives readable status and expanded UI exposes source-safe detail.
+- Exchange telemetry dashboards remain source-safe and proof-rooted.
+- `.bitcode/v36-exchange-ux-proof.json` is generated from the package-owned `ExchangeUxProof` builder with `source-safe-exchange-ux-proof-metadata`;
+- `pnpm run check:v36-gate8` validates package source, artifact freshness, package tests, route handoff tests, docs, workflow wiring, master-detail UX, filters, order history, rights-transfer review, pricing quote, settlement state, repair state, Terminal handoff, collapsed/expanded disclosure, telemetry binding, proof roots, and event ids.
 
 ### Gate 9: Local Staging Exchange Rehearsal And Proof Coverage
 

@@ -153,6 +153,22 @@ principal ids, status, commands, routes, and proof posture, not protected source
 unpaid AssetPack source, private payment credentials, or wallet private
 material.
 
+## Gate 8 closure notes
+
+Gate 8 closes when `ExchangeUxProof` is package-owned and generated through
+`.bitcode/v36-exchange-ux-proof.json`.
+The generated artifact carries `source-safe-exchange-ux-proof-metadata`.
+`ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
+Terminal can hand off to Exchange without losing transaction context.
+collapsed UI gives readable status and expanded UI exposes source-safe detail.
+Exchange telemetry dashboards remain source-safe and proof-rooted.
+Exchange UX artifacts remain source-safe: they expose route state, filter state,
+transaction identity, order history, rights-transfer preview, pricing quote,
+settlement state, repair state, proof roots, event ids, and redaction posture,
+not protected source, unpaid AssetPack source, wallet private material, provider
+tokens, protected prompts, protected model responses, buyer private repository
+payloads, or secret values.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.

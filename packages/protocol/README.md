@@ -79,6 +79,14 @@ V36 Gate 7 adds source-safe Exchange dispute repair and revenue routing through
 The source-safe verdict is
 `source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
 
+V36 Gate 8 adds source-safe Exchange UX proof through `buildExchangeUxProof`
+and `.bitcode/v36-exchange-ux-proof.json`.
+`ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
+Terminal can hand off to Exchange without losing transaction context.
+collapsed UI gives readable status and expanded UI exposes source-safe detail.
+Exchange telemetry dashboards remain source-safe and proof-rooted.
+The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
+
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains
 validated by `check:v34-gate10` and `v34-canon-promotion.yml` as promoted
