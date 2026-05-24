@@ -39,6 +39,7 @@ Current exported commercial helpers include:
 - `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
 - `ConversationSourceSelector` helpers for V37 repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors governed by account, organization, wallet, rights, settlement, disclosure, and policy posture with allowed, denied, and retry-required source-safe preview states;
 - `ConversationTerminalHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
+- `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -81,8 +82,17 @@ contracts through `buildConversationTerminalHandoff` and
 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery
 workflows while preserving route context and keeping ledger writes, wallet
 signing, protected source, and unpaid AssetPack source outside Conversations.
-Later gates add package-owned Conversations persistence/privacy,
-telemetry/proof/docs, rehearsal, and promotion readiness helpers.
+V37 Gate 7 adds source-safe `ConversationPersistencePrivacyRedaction` durable
+storage privacy contracts through
+`buildConversationPersistencePrivacyRedaction` and
+`.bitcode/v37-conversation-persistence-privacy-redaction.json`. The
+persistence privacy artifact covers every visibility tier, persist message,
+restore history, export history, delete history, retain history, replay
+history, and incident repair while redacting protected prompts, protected model
+responses, protected source, secrets, wallet private material, and unpaid
+AssetPack source before storage or source-safe export.
+Later gates add package-owned Conversations telemetry/proof/docs, rehearsal,
+and promotion readiness helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.

@@ -268,7 +268,10 @@
     "check:v37-gate5": "node scripts/check-v37-gate5-conversation-source-selector.mjs",
     "generate:v37-conversation-terminal-handoff": "node scripts/generate-v37-conversation-terminal-handoff.mjs",
     "check:v37-conversation-terminal-handoff": "node scripts/generate-v37-conversation-terminal-handoff.mjs --check",
-    "check:v37-gate6": "node scripts/check-v37-gate6-conversation-terminal-handoff.mjs"
+    "check:v37-gate6": "node scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+    "generate:v37-conversation-persistence-privacy-redaction": "node scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+    "check:v37-conversation-persistence-privacy-redaction": "node scripts/generate-v37-conversation-persistence-privacy-redaction.mjs --check",
+    "check:v37-gate7": "node scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

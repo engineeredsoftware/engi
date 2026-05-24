@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 6 closes ConversationTerminalHandoff transaction handoff over active V36 Exchange canon
+- V37 state: draft implementation; Gate 7 closes ConversationPersistencePrivacyRedaction durable storage privacy over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, and `.bitcode/v37-conversation-terminal-handoff.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, and Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, and `.bitcode/v37-conversation-persistence-privacy-redaction.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts, and Gate 7 package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -35,6 +35,7 @@ V37 adds Website Conversations product contracts over inherited V36 canon:
 - `ConversationWritingWorkspace`: fullscreen writing mode for drafting Read Requests, Need feedback, AssetPack review notes, and Terminal handoff summaries without source leakage.
 - `ConversationSourceSelector`: repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation source selectors governed by policy, rights, and disclosure posture.
 - `ConversationTerminalHandoff`: source-safe handoff from conversation context into `/terminal` transactions for Depositing, Reading, Finding Fits, Exchange, settlement, and delivery workflows.
+- `ConversationPersistencePrivacyRedaction`: durable conversation storage, visibility tier separation, export, delete, retention, replay, and incident repair posture for source-safe persisted history.
 
 V37 does not replace the V28 ChatGPT App, V33 interface contracts, V35 telemetry/docs, or V36 Exchange law.
 It turns the website conversation surface into a route-owned user experience that consumes those contracts and emits proof-rooted source-safe telemetry.
@@ -188,6 +189,43 @@ operator chooses any Terminal action. `check:v37-gate6` validates package
 source, generated artifact freshness, package tests, UI tests, Terminal route
 tests, docs, workflow wiring, workflow coverage, authority boundaries,
 proof roots, event ids, and source-safe handoff metadata.
+
+## V37 Gate 7 ConversationPersistencePrivacyRedaction canon
+
+Gate 7 implements `ConversationPersistencePrivacyRedaction` as the
+package-owned durable storage privacy and redaction contract for Website
+Conversations. It owns the visibility tier separation for public,
+user-visible, organization-visible, buyer-visible, reviewer-visible, and
+operator-only data. It emits
+`.bitcode/v37-conversation-persistence-privacy-redaction.json` with
+`source-safe-conversation-persistence-privacy-redaction-metadata`,
+deterministic row roots, deterministic detail roots, operation ids, visibility
+tier ids, retention postures, required field ids, proof roots, event ids,
+source evidence roots, and source-safe disclosure limits.
+
+Conversation persistence is durable route-local projection state, not global
+ledger truth. The persisted write path may store source-safe message content,
+source context references, redaction posture, retention posture, proof roots,
+and event ids. It must redact or block protected prompts, protected model
+responses with source, protected source payloads, provider tokens, wallet
+private material, settlement private payloads, private payment credentials,
+operator private notes, unpaid AssetPack source, ledger write authority, and
+wallet signing authority before durable storage, telemetry, export, replay, or
+incident repair.
+
+Gate 7 covers seven persistence operations: persist message, restore history,
+export history, delete history, retain history, replay history, and incident
+repair. Export may only include source-safe data visible to the requesting
+principal. Delete leaves only a source-safe tombstone proof. Retention applies
+the correct visibility tier without escalating disclosure. Replay reconstructs
+prompt template ids and parsed result shapes, never raw protected prompts or
+raw protected model responses. Incident repair may inspect proof roots and
+redaction verdicts but cannot expose protected source or private wallet
+material. `check:v37-gate7` validates package source, generated artifact
+freshness, package tests, API storage redaction tests, UI tests, docs,
+workflow wiring, visibility tier coverage, retention posture coverage, export
+posture, delete posture, replay posture, incident repair posture, proof roots,
+event ids, and source-safe persisted metadata.
 
 ## Inherited V36 Exchange canon
 

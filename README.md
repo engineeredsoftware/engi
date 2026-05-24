@@ -59,6 +59,16 @@ Conversation handoff preserves transaction id, repository anchor, source
 selector refs, source-safe summary, policy result, Terminal route, transaction
 detail, proof roots, and event ids while Terminal remains the ledger, wallet,
 settlement, and delivery cockpit.
+V37 Gate 7 anchors `ConversationPersistencePrivacyRedaction` durable
+conversation storage privacy through the package-owned source-safe generated
+artifact `.bitcode/v37-conversation-persistence-privacy-redaction.json`.
+It separates public, user-visible, organization-visible, buyer-visible,
+reviewer-visible, and operator-only visibility tier data while covering
+persist message, restore history, export, delete, retention, replay, and
+incident repair. The API storage path redacts message content, attachment
+metadata, execution input, and execution metadata before persistence, and the
+conversation UI exposes source-safe privacy previews without protected source,
+secrets, wallet private material, or unpaid AssetPack source.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

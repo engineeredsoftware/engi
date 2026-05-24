@@ -18,6 +18,7 @@ import {
   attachConversationStreamEvent,
   branchConversation,
   buildConversationPipelineLogEvent,
+  buildConversationPersistenceEnvelope,
   buildConversationStreamEvent,
   createConversation,
   createMessage,
@@ -25,6 +26,8 @@ import {
   getConversation,
   getConversationWithAll,
   listConversations,
+  redactConversationPersistenceText,
+  redactConversationPersistenceValue,
 } from '../conversations';
 import {
   formatAgenticExecutionLabel,
@@ -303,6 +306,26 @@ async function createConversationExecution(options: {
     const storageType = normalizeAgenticExecutionStorageType(options.canonicalType);
     const runId = crypto.randomUUID();
     const admin = createAdminClient();
+    const safeContent = redactConversationPersistenceText(options.content);
+    const safeTokens = redactConversationPersistenceValue(options.tokens);
+    const safeRichInput = redactConversationPersistenceValue(options.richInput);
+    const persistencePrivacy = buildConversationPersistenceEnvelope({
+      operationId: 'persist_message',
+      visibilityTier: 'user_visible',
+      redactionApplied:
+        safeContent.redactionApplied || safeTokens.redactionApplied || safeRichInput.redactionApplied,
+      redactedPaths: [
+        ...safeContent.redactedPaths.map((entry) => `input.content${entry === '$' ? '' : entry.slice(1)}`),
+        ...safeTokens.redactedPaths.map((entry) => `input.tokens${entry === '$' ? '' : entry.slice(1)}`),
+        ...safeRichInput.redactedPaths.map((entry) => `input.rich_input${entry === '$' ? '' : entry.slice(1)}`),
+      ],
+      seed: {
+        conversationId: options.conversationId,
+        runId,
+        canonicalType: options.canonicalType,
+        contentLength: safeContent.value.length,
+      },
+    });
 
     await admin.pipelineExecutions.create({
       id: runId,
@@ -312,19 +335,21 @@ async function createConversationExecution(options: {
       guide: options.canonicalType.includes('read-measurement') ? 'Read' : 'Develop',
       input: {
         conversationId: options.conversationId,
-        content: options.content,
-        tokens: options.tokens,
-        rich_input: options.richInput,
+        content: safeContent.value,
+        tokens: safeTokens.value,
+        rich_input: safeRichInput.value,
+        persistence_privacy: persistencePrivacy,
       } as any,
       output: null,
       metadata: {
         canonical_type: options.canonicalType,
         entrypoint: 'conversations',
-        rich_input: options.richInput,
-        source_attachments: options.richInput.source_attachments,
-        output_destinations: options.richInput.output_destinations,
-        asset_pack_references: options.richInput.asset_pack_references,
-        read_measurement_intents: options.richInput.read_measurement_intents,
+        rich_input: safeRichInput.value,
+        source_attachments: (safeRichInput.value as ConversationRichInputSummary).source_attachments,
+        output_destinations: (safeRichInput.value as ConversationRichInputSummary).output_destinations,
+        asset_pack_references: (safeRichInput.value as ConversationRichInputSummary).asset_pack_references,
+        read_measurement_intents: (safeRichInput.value as ConversationRichInputSummary).read_measurement_intents,
+        persistence_privacy: persistencePrivacy,
       } as any,
       started_at: nowIso,
       created_at: nowIso,
@@ -377,6 +402,18 @@ async function createConversationWriteStreamResponse(options: {
 }) {
   const attachments = buildAttachmentReferences(options.tokens);
   const richInput = buildConversationRichInputSummary(options.tokens, attachments);
+  const inputPrivacy = buildConversationPersistenceEnvelope({
+    operationId: 'persist_message',
+    visibilityTier: 'user_visible',
+    redactionApplied: redactConversationPersistenceText(options.content).redactionApplied,
+    redactedPaths: redactConversationPersistenceText(options.content).redactedPaths,
+    seed: {
+      conversationId: options.conversationId,
+      streamIntent: options.streamIntent,
+      contentLength: options.content.length,
+      tokenCount: options.tokens.length,
+    },
+  });
   await createMessage({
     conversation_id: options.conversationId,
     role: 'user',
@@ -431,6 +468,12 @@ async function createConversationWriteStreamResponse(options: {
               pipelineType: execution.canonicalType,
               storageType: execution.storageType,
               richInputSummary: richInput.token_counts,
+              persistencePrivacy: {
+                sourceSafetyClass: inputPrivacy.sourceSafetyClass,
+                redactionApplied: inputPrivacy.redactionApplied,
+                retentionPosture: inputPrivacy.retentionPosture,
+                proofRoot: inputPrivacy.proofRoot,
+              },
             },
           });
           emit(
@@ -453,6 +496,7 @@ async function createConversationWriteStreamResponse(options: {
                 outputDestinationCount: richInput.output_destinations.length,
                 assetPackReferenceCount: richInput.asset_pack_references.length,
                 readMeasurementIntentCount: richInput.read_measurement_intents.length,
+                persistenceRedactionApplied: inputPrivacy.redactionApplied,
               },
             }),
             streamEvent({
@@ -464,6 +508,7 @@ async function createConversationWriteStreamResponse(options: {
                 route: options.streamIntent === 'retry' ? 'conversation_thread_stream' : 'conversation_collection_stream',
                 promptDisclosurePosture: 'prompt_template_id_only',
                 resultDisclosurePosture: 'parsed_result_shape_only',
+                persistencePrivacyProofRoot: inputPrivacy.proofRoot,
               },
             }),
             ...(options.streamIntent === 'retry'
@@ -534,6 +579,11 @@ async function createConversationWriteStreamResponse(options: {
               messageId: assistantMessage.id,
               summaryLength: assistantReply.length,
               persisted: true,
+              persistencePrivacy: {
+                sourceSafetyClass: inputPrivacy.sourceSafetyClass,
+                redactionApplied: inputPrivacy.redactionApplied,
+                proofRoot: inputPrivacy.proofRoot,
+              },
             },
           });
           emit(

@@ -159,6 +159,16 @@ UI tests, Terminal route tests, workflow wiring, and `check:v37-gate6`.
 
 Gate 7 defines durable storage and privacy controls.
 
+Gate 7 closure adds package-backed `ConversationPersistencePrivacyRedaction`
+source, `.bitcode/v37-conversation-persistence-privacy-redaction.json`,
+`source-safe-conversation-persistence-privacy-redaction-metadata`, public,
+user-visible, organization-visible, buyer-visible, reviewer-visible, and
+operator-only visibility tier separation, persist/restore/export/delete/
+retention/replay/incident repair operation rows, API storage redaction for
+messages, attachment metadata, execution input, and execution metadata,
+source-safe UI preview controls, package tests, API tests, UI tests, workflow
+wiring, and `check:v37-gate7`.
+
 Closure acceptance:
 
 - conversation persistence separates public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only data;

@@ -40,7 +40,8 @@ import {
   FileTextIcon, 
   ChatBubbleIcon, 
   MagnifyingGlassIcon,
-  Share1Icon
+  Share1Icon,
+  LockClosedIcon
 } from "@radix-ui/react-icons";
 
 // Styles
@@ -70,6 +71,7 @@ import { FloatingOrb } from './ConversationsFloatingOrb';
 import FullscreenPortal from './ConversationsFullscreenPortal';
 import ConversationSourceSelector from './ConversationSourceSelector';
 import ConversationTerminalHandoff from './ConversationTerminalHandoff';
+import ConversationPersistencePrivacyPanel from './ConversationPersistencePrivacyPanel';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
@@ -310,6 +312,7 @@ const Conversation = memo(function Conversation({
   const [showSourceSelector, setShowSourceSelector] = useState(false);
   const [conversationSourcePreview, setConversationSourcePreview] = useState<ConversationSourceSelectorPreview | null>(null);
   const [showTerminalHandoff, setShowTerminalHandoff] = useState(false);
+  const [showPersistencePrivacy, setShowPersistencePrivacy] = useState(false);
   const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
   const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
@@ -928,6 +931,14 @@ const Conversation = memo(function Conversation({
               >
                 <Share1Icon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showPersistencePrivacy ? 'Hide Persistence Privacy' : 'Open Persistence Privacy'}
+                aria-pressed={showPersistencePrivacy}
+                onClick={() => setShowPersistencePrivacy((prev) => !prev)}
+              >
+                <LockClosedIcon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -971,6 +982,13 @@ const Conversation = memo(function Conversation({
             transactionId={activeRunId}
             repositoryAnchor={currentSource?.repoSlug || null}
             sourcePreview={conversationSourcePreview}
+          />
+        )}
+
+        {showPersistencePrivacy && (
+          <ConversationPersistencePrivacyPanel
+            conversationId={currentChat?.id}
+            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
           />
         )}
 
