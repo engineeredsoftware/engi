@@ -239,7 +239,8 @@ async function generateReport() {
   console.log('Generating benchmark report...');
   
   // Find all files with benchmarks
-  const files = await glob('src/raw_promptparts/**/*.ts', { cwd: process.cwd() });
+  const files = (await glob('src/raw_promptparts/**/*.ts', { cwd: process.cwd() }))
+    .filter((file) => !file.endsWith('.d.ts'));
   
   const report: any[] = [];
   
@@ -247,17 +248,15 @@ async function generateReport() {
     const content = await fs.readFile(file, 'utf-8');
     const metadata = extractMetadata(content);
     
-    if (metadata?.versions) {
-      const current = metadata.versions.find(v => v.current);
-      if (current?.benchmarks) {
-        const avgScore = calculateAverageScore(current.benchmarks);
-        report.push({
-          file,
-          version: current.version,
-          avgScore,
-          benchmarks: current.benchmarks
-        });
-      }
+    const benchmarks = metadata?.benchmarks || metadata?.versions?.find((v: any) => v.current)?.benchmarks;
+    if (benchmarks) {
+      const avgScore = calculateAverageScore(benchmarks);
+      report.push({
+        file,
+        version: metadata.current_version || metadata?.versions?.find((v: any) => v.current)?.version || 'unversioned',
+        avgScore,
+        benchmarkCount: Array.isArray(benchmarks) ? benchmarks.length : Object.keys(benchmarks).length
+      });
     }
   }
   
@@ -275,7 +274,7 @@ async function generateReport() {
     console.log(`  ${(r.avgScore * 100).toFixed(0)}% - ${r.file}`);
   });
   
-  const overallAvg = report.reduce((sum, r) => sum + r.avgScore, 0) / report.length;
+  const overallAvg = report.length > 0 ? report.reduce((sum, r) => sum + r.avgScore, 0) / report.length : 0;
   console.log(`\nOverall Average: ${(overallAvg * 100).toFixed(0)}%`);
   console.log(`Total Benchmarked: ${report.length} files`);
 }
@@ -303,6 +302,14 @@ function extractMetadata(content: string): any {
   // Extract current_version
   const versionMatch = docComment.match(/current_version:\s*"([^"]+)"/);
   if (versionMatch) metadata.current_version = versionMatch[1];
+
+  // Extract inline benchmark definitions. Keep only names and numeric scores so
+  // the report remains source-safe and does not print prompt text.
+  const benchmarkBlockMatch = docComment.match(/benchmarks:\s*\[([\s\S]*?)\]/);
+  if (benchmarkBlockMatch) {
+    metadata.benchmarks = [...benchmarkBlockMatch[1].matchAll(/\{\s*"name":\s*"([^"]+)"[\s\S]*?"score":\s*(\d+(?:\.\d+)?)\s*\}/g)]
+      .map((match) => ({ name: match[1], score: Number(match[2]) }));
+  }
   
   // Extract versions array (simplified)
   const versionsMatch = docComment.match(/versions:\s*\[([\s\S]*?)\]/);
@@ -328,14 +335,19 @@ async function loadPrompt(filePath: string): Promise<any> {
 }
 
 function calculateAverageScore(benchmarks: any): number {
+  if (Array.isArray(benchmarks)) {
+    const scores = benchmarks.map((benchmark) => Number(benchmark.score)).filter((score) => Number.isFinite(score));
+    return scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
+  }
+
   const scores = [
-    benchmarks.intent?.score || 0,
-    benchmarks.semantic_clarity?.score || 0,
-    benchmarks.token_efficiency?.score || 0,
-    benchmarks.model_stability?.score || 0
-  ];
+    typeof benchmarks.intent === 'number' ? benchmarks.intent : benchmarks.intent?.score || 0,
+    typeof benchmarks.semantic_clarity === 'number' ? benchmarks.semantic_clarity : benchmarks.semantic_clarity?.score || 0,
+    typeof benchmarks.token_efficiency === 'number' ? benchmarks.token_efficiency : benchmarks.token_efficiency?.score || 0,
+    typeof benchmarks.model_stability === 'number' ? benchmarks.model_stability : benchmarks.model_stability?.score || 0
+  ].filter((score) => Number.isFinite(score));
   
-  return scores.reduce((a, b) => a + b, 0) / scores.length;
+  return scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
 }
 
 // ==================== RUN CLI ====================

@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -86,8 +86,11 @@ Gate 3 confirms tools remain step-owned postprocess capabilities while `Failsafe
 ### Gate 4: PromptPart And Prompt Benchmarking
 
 Gate 4 completes prompt and PromptPart benchmarking.
+Prompt benchmarking is the source-safe measurement contract for complete Prompt registries and their composed PromptParts.
 Semantically divided PromptParts and complete Prompts must be benchmarkable with initial benchmark suites for active Reading, Conversation, and tool-definition inference surfaces.
 Benchmarks must preserve prompt identity, fixture inputs, expected typed-output qualities, disclosure tiers, and stable report artifacts.
+Gate 4 is closed by the package-backed `V38PromptBenchmarkReport` source and deterministic `.bitcode/v38-prompt-benchmark-report.json` artifact.
+The artifact has `source-safe-prompt-benchmark-metadata` disclosure posture and records 7 benchmark rows, 13 source-safe fixtures, 24 typed-output quality expectations, 38 passed source predicates, 443 active PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions across Reading, Conversation, and tool-definition inference surfaces without serializing raw prompt text, protected source, credentials, raw provider responses, or unpaid AssetPack source.
 
 ### Gate 5: Inference Telemetry And Disclosure Tiers
 

@@ -128,6 +128,21 @@ slots as `source-safe-ptrr-failsafe-thricified-stack-metadata`. Use
 `pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
 `pnpm run check:v38-ptrr-failsafe-thricified-stack`, and
 `pnpm run check:v38-gate3` before closing the gate.
+V38 Gate 4 adds the package-backed `V38PromptBenchmarkReport` and generated
+source-safe artifact `.bitcode/v38-prompt-benchmark-report.json`. The Prompt
+benchmarking report covers benchmark infrastructure, generic PTRR/Failsafe/
+ThricifiedGeneration PromptParts, `ReadNeedComprehensionSynthesis`
+PromptParts, `ReadFitsFindingSynthesis` PromptParts, complete Reading Prompt
+registries, Website Conversation Prompts, and DocCodeToolPrompt surfaces as
+`source-safe-prompt-benchmark-metadata`. The current source-safe count contract
+is 7 rows, 13 fixtures, 24 typed-output quality expectations, 38 source
+predicates, 443 PromptPart doc-comments, 39 complete Prompt doc-comments, 465
+benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions.
+Prompt benchmarking artifacts never serialize raw prompt text or raw provider
+responses.
+Use `pnpm run generate:v38-prompt-benchmark-report`,
+`pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`
+before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -285,8 +300,9 @@ inference stack, Reading pipeline, depository-search, prompt benchmark,
 telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V37` to `V38` on the version branch.
-V38 Gates 1 through 3 are wired through `pnpm run check:v38-gate1`,
-`pnpm run check:v38-gate2`, and `pnpm run check:v38-gate3`. The promoted V37
+V38 Gates 1 through 4 are wired through `pnpm run check:v38-gate1`,
+`pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`, and
+`pnpm run check:v38-gate4`. The promoted V37
 gate closure remains reproducible through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and

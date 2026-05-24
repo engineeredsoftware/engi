@@ -44,6 +44,7 @@ Current exported commercial helpers include:
 - `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
 - `V38InferenceSurfaceInventory` helpers for V38 Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive inference-surface inventory;
 - `V38PtrrFailsafeThricifiedStack` helpers for V38 practical PTRR agent stack proof, FailsafeGenerationSequence over ThricifiedGeneration binding, step-owned tool boundaries, source predicates, and source-safe generated metadata;
+- `V38PromptBenchmarkReport` helpers for V38 source-safe PromptPart and complete Prompt benchmark coverage across Reading, Conversation, and tool-definition inference surfaces;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -80,6 +81,16 @@ slots as `source-safe-ptrr-failsafe-thricified-stack-metadata`. The maintained
 commands are `pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
 `pnpm run check:v38-ptrr-failsafe-thricified-stack`, and
 `pnpm run check:v38-gate3`.
+V38 Gate 4 adds `V38PromptBenchmarkReport` through
+`packages/protocol/src/canonical/prompt-benchmark-report.js` and the
+source-safe generated artifact `.bitcode/v38-prompt-benchmark-report.json`.
+The Prompt benchmarking report covers benchmark infrastructure, generic
+PTRR/Failsafe/ThricifiedGeneration PromptParts,
+`ReadNeedComprehensionSynthesis` PromptParts, `ReadFitsFindingSynthesis`
+PromptParts, complete Reading Prompt registries, Website Conversation Prompts,
+and DocCodeToolPrompt surfaces as `source-safe-prompt-benchmark-metadata`.
+The maintained commands are `pnpm run generate:v38-prompt-benchmark-report`,
+`pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and
