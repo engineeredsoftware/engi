@@ -42,6 +42,8 @@ Current exported commercial helpers include:
 - `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
 - `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
 - `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
+- `V38InferenceSurfaceInventory` helpers for V38 Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive inference-surface inventory;
+- `V38PtrrFailsafeThricifiedStack` helpers for V38 practical PTRR agent stack proof, FailsafeGenerationSequence over ThricifiedGeneration binding, step-owned tool boundaries, source predicates, and source-safe generated metadata;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -67,6 +69,17 @@ Failsafe/Thricified chains, and 468 provider-call slots. The maintained commands
 are `pnpm run generate:v38-inference-surface-inventory`,
 `pnpm run check:v38-inference-surface-inventory`, and
 `pnpm run check:v38-gate2`.
+V38 Gate 3 adds `V38PtrrFailsafeThricifiedStack` through
+`packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js` and the
+source-safe generated artifact `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+The stack contract covers `factoryAgentWithPTRR`, Plan/Try/Refine/Retry,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context
+telemetry, step-owned tool postprocess boundaries, and Gate 2's 52 PTRR steps /
+156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call
+slots as `source-safe-ptrr-failsafe-thricified-stack-metadata`. The maintained
+commands are `pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
+`pnpm run check:v38-ptrr-failsafe-thricified-stack`, and
+`pnpm run check:v38-gate3`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

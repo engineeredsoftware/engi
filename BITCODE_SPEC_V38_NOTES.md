@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -154,6 +154,13 @@ Gate 2 closes the first concrete V38 inference audit by making the inventory pac
 `V38InferenceSurfaceInventory` and `.bitcode/v38-inference-surface-inventory.json` inventory `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversations, stream-event interface entrypoints, doc-comment-backed tool prompt definitions, prompt registry and benchmark coverage, and the execution primitive stack as `source-safe-inference-surface-metadata`.
 The current generated count is 52 PTRR steps across 156 FailsafeGenerationSequence / ThricifiedGeneration chains and 468 provider-call slots.
 The inventory deliberately records known gaps, including quick-response conversation repair, prompt benchmark completion, and later PTRR/Failsafe/Thricified call-stack validation, so later V38 gates cannot hide work outside the parity matrix.
+
+## Gate 3 implementation notes
+
+Gate 3 closes the practical PTRR stack contract by making the existing source-backed call stack generated, tested, and workflow-checkable.
+`V38PtrrFailsafeThricifiedStack` and `.bitcode/v38-ptrr-failsafe-thricified-stack.json` record `factoryAgentWithPTRR`, Plan/Try/Refine/Retry factories, `FailsafeGenerationSequence`, `ThricifiedGeneration`, prompt/context/telemetry substeps, and Gate 2 count binding as `source-safe-ptrr-failsafe-thricified-stack-metadata`.
+The artifact proves 69 source predicates and binds 52 PTRR steps to 156 Failsafe sequences, 156 ThricifiedGeneration chains, and 468 provider-call slots.
+Tools remain step-owned postprocess executions; `ThricifiedGeneration` remains the lowest-level Reason, Judge, StructuredOutput provider-call chain.
 
 ## V38 gate plan
 

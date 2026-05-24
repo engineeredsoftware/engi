@@ -118,6 +118,16 @@ steps, 156 Failsafe/Thricified chains, and 468 provider-call slots. Use
 `pnpm run generate:v38-inference-surface-inventory`,
 `pnpm run check:v38-inference-surface-inventory`, and
 `pnpm run check:v38-gate2` before closing the gate.
+V38 Gate 3 adds the package-backed `V38PtrrFailsafeThricifiedStack` and
+generated source-safe artifact `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+The stack contract records `factoryAgentWithPTRR`, Plan/Try/Refine/Retry,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context
+telemetry, step-owned tool postprocess boundaries, and Gate 2's 52 PTRR steps /
+156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call
+slots as `source-safe-ptrr-failsafe-thricified-stack-metadata`. Use
+`pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
+`pnpm run check:v38-ptrr-failsafe-thricified-stack`, and
+`pnpm run check:v38-gate3` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -275,8 +285,9 @@ inference stack, Reading pipeline, depository-search, prompt benchmark,
 telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V37` to `V38` on the version branch.
-V38 Gate 1 is wired through `pnpm run check:v38-gate1`. The promoted V37 gate
-closure remains reproducible through
+V38 Gates 1 through 3 are wired through `pnpm run check:v38-gate1`,
+`pnpm run check:v38-gate2`, and `pnpm run check:v38-gate3`. The promoted V37
+gate closure remains reproducible through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and
 `pnpm run check:v37-conversation-session-route-history`; V37 Gate 3 is wired

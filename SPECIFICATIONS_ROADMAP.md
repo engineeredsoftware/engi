@@ -5,8 +5,8 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V37`
 - Current active canon: `BITCODE_SPEC_V37.md`
 - Current draft target: `BITCODE_SPEC_V38.md`.
-- Current working gate: V38 Gate 3 PTRR Failsafe And Thricified Execution Stack.
-- Next queued gate after V38 Gate 2 closure: V38 Gate 3 PTRR Failsafe And Thricified Execution Stack.
+- Current working gate: V38 Gate 4 PromptPart And Prompt Benchmarking.
+- Next queued gate after V38 Gate 3 closure: V38 Gate 4 PromptPart And Prompt Benchmarking.
 - Latest closed version: V37 Website Conversations, which promoted conversation sessions, route-local history, stream UI/event contracts, fullscreen writing, source selectors, Terminal handoff, persistence/privacy/redaction, telemetry/proof hooks, local/staging rehearsal, and V37 promotion readiness.
 - Recent V37 closure anchor: V37 Gate 10 Promotion Readiness generated V37 proof support, promoted `BITCODE_SPEC.txt` to `V37`, prepared V37 active / V38 draft runtime posture, and closed Website Conversations canon.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
@@ -51,6 +51,7 @@
 - V37 promotion hardening anchor: Conversation persistence and telemetry redaction use bounded private-key PEM scanning with closed/unclosed PEM API tests so static security findings remain promotion-blocking rather than waived.
 - V38 Gate 1 opening anchor: Inference correctness depth opens over promoted V37 with V38 SPEC, DELTA, NOTES, and PARITY files, `check:v38-gate1`, V37 active / V38 draft posture, and an eleven-gate plan for inference surface inventory, PTRR Failsafe over Thricified execution stack, prompt and PromptPart benchmarking, inference telemetry and disclosure tiers, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis depository search and embeddings, AssetPack synthesis handoff and economic traceability, Conversation/tool-prompt parity, local/staging inference rehearsal, and promotion readiness.
 - V38 Gate 2 closure anchor: Inference correctness depth now owns package-backed `V38InferenceSurfaceInventory` source, deterministic `.bitcode/v38-inference-surface-inventory.json`, `source-safe-inference-surface-metadata`, protocol test, generator/checker scripts, workflow wiring, and 52 PTRR steps / 156 Failsafe+Thricified chains / 468 provider-call slots across Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive surfaces.
+- V38 Gate 3 closure anchor: Inference correctness depth now owns package-backed `V38PtrrFailsafeThricifiedStack` source, deterministic `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `source-safe-ptrr-failsafe-thricified-stack-metadata`, protocol test, generator/checker scripts, workflow wiring, 69 passed source predicates, all four PTRR steps, all three Failsafe stages, all three ThricifiedGeneration stages, step-owned tools, and Gate 2's 52 PTRR steps / 156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call slots bound into the practical call-stack law.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

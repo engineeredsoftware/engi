@@ -8,7 +8,7 @@
  * The 7-substep sequence:
  * 1. PrepareConciseContext (CONTEXT SIGNAL/NOISE) → Reason→Judge→StructuredOutput
  * 2. ChunkThenSum (BIG INPUT) → Reason→Judge→StructuredOutput
- * 3. StitchUntilComplete (CONVERSATIONSUTPUT) → Reason→Judge→StructuredOutput
+ * 3. StitchUntilComplete (large output handling) → Reason→Judge→StructuredOutput
  * 4. Tool execution (AFTER all failsafes, conditional on reasoning + judgment output)
  */
 

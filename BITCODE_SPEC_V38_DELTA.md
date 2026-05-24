@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -93,6 +93,12 @@ Closure acceptance:
 - Plan, Try, Refine, Retry steps preserve agent, step, Failsafe, generation, and provider-call ancestry;
 - exceptions are source-backed and tested;
 - `pnpm run check:v38-gate3` validates stack composition, typed output repair, and telemetry events.
+
+Closure implementation:
+
+- `V38PtrrFailsafeThricifiedStack` is now package-backed in `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js` and generated to `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+- The generated artifact is `source-safe-ptrr-failsafe-thricified-stack-metadata` and proves `factoryAgentWithPTRR`, all four PTRR step factories, `FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context/telemetry storage, step-owned tool postprocess boundaries, and Gate 2 count binding.
+- The current stack contract passes 69 source predicates and binds 52 PTRR steps to 156 Failsafe sequences, 156 ThricifiedGeneration chains, and 468 provider-call slots without serializing protected source, credentials, raw protected prompts, or unpaid AssetPack source.
 
 ### Gate 4: PromptPart And Prompt Benchmarking
 
