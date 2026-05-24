@@ -255,7 +255,11 @@ function main() {
 
   assertCheck(failures, docs[3].includes('| Settlement reconciliation | Gate 6 |') && docs[3].includes('| closed |'), 'V36 parity must close the Gate 6 matrix row.');
   assertCheck(failures, docs[3].includes('## Gate 6 Parity') && docs[3].includes('closed'), 'V36 parity must mark Gate 6 closed.');
-  assertCheck(failures, roadmap.includes('Current working gate: V36 Gate 7 Dispute Repair Revenue Route Operations'), 'Roadmap must advance current working gate to V36 Gate 7.');
+  assertCheck(
+    failures,
+    /Current working gate: V36 Gate (?:7|8|9|10)\b/u.test(roadmap),
+    'Roadmap must advance current working gate to V36 Gate 7 or later.',
+  );
   assertCheck(failures, roadmap.includes('V36 Gate 6 closure anchor'), 'Roadmap must include V36 Gate 6 closure anchor.');
   assertCheck(failures, source.includes('EXCHANGE_SETTLEMENT_RECONCILIATION_SOURCE_SAFETY_VERDICT'), 'Settlement source must export source-safety verdict.');
   assertCheck(failures, source.includes('database_projection_reconciles_to_ledger_truth'), 'Settlement source must encode projection reconciliation.');

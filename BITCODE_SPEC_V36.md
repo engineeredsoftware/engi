@@ -177,6 +177,34 @@ settlement finality and delivery are auditable.
 Delivery stays blocked while finality, rights-transfer receipt, database
 projection, or object-storage projection is missing, stale, or drifted.
 
+## V36 Gate 7 ExchangeDisputeRepairCase and ExchangeRevenueRoute canon
+
+Gate 7 implements `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` as the
+package-owned operational contracts for Exchange failures, repairs, operator
+runbooks, and revenue conservation.
+`ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
+Each case binds affected order identity, affected settlement receipt identity,
+affected projection roots, source-safe repair command, verification command,
+proof-rooted runbook, escalation path, proof roots, and event ids.
+
+`ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
+Each route binds public principal ids, BTC debit/credit amounts, BTD range
+identity, rights-transfer receipt identity, source-to-shares proof root, and a
+conservation proof that reader debit equals depositor credit plus treasury
+credit plus fee credit plus reader refund.
+
+Gate 7 emits `.bitcode/v36-exchange-dispute-repair-revenue-route.json` with
+`source-safe-exchange-dispute-repair-revenue-route-metadata`.
+runbooks and repair commands are source-safe and proof-rooted.
+The artifact may expose dispute identities, incident classes, affected order and
+settlement ids, projection roots, source-safe repair commands, verification
+commands, runbook ids, escalation status, revenue accounts, BTC amounts, BTD
+right-route metadata, source-to-shares roots, conservation proofs, proof roots,
+and event ids; it must not expose protected source, unpaid AssetPack source,
+wallet private material, provider tokens, protected prompts, protected model
+responses, private payment credentials, private buyer repository payloads,
+object-storage private bytes, raw disputed source bytes, or secret values.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.
