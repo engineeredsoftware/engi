@@ -184,6 +184,7 @@
     "generate:v35-documentation-telemetry-promotion-readiness": "node scripts/generate-v35-documentation-telemetry-promotion-readiness-report.mjs",
     "check:v35-documentation-telemetry-promotion-readiness": "node scripts/generate-v35-documentation-telemetry-promotion-readiness-report.mjs --check",
     "check:v35-gate10": "node scripts/check-v35-gate10-promotion-readiness.mjs",
+    "check:v36-gate1": "node scripts/check-v36-gate1-exchange-roadmap-opening.mjs",
     "check:spec-quality": "node scripts/run-bitcode-spec-quality.mjs --mode basic",
     "check:spec-quality:title": "node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title",
     "check:spec-quality:v24": "node scripts/run-bitcode-spec-quality.mjs --mode strict-version --version V24",

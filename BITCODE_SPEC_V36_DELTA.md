@@ -1,0 +1,165 @@
+# Bitcode Spec V36 Delta
+
+## Status
+
+- Version: `V36`
+- V36 state: active draft target opened; this delta records the planned V35-to-V36 Exchange-depth closure set
+- Current canonical/latest target: `V35`
+- Prior canonical anchor: `BITCODE_SPEC_V35.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V35_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v36-spec-family-report.json` and `.bitcode/v36-canonical-input-report.json`; later gates add Exchange generated artifacts
+- Source parity state: V36 source parity begins with Gate 1 roadmap/spec opening and is closed gate-by-gate through Exchange contracts, UI, telemetry, settlement, repair, rehearsal, and promotion readiness
+- Spec companion: `BITCODE_SPEC_V36.md`
+- Notes companion: `BITCODE_SPEC_V36_NOTES.md`
+- Parity companion: `BITCODE_SPEC_V36_PARITY_MATRIX.md`
+- Generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md` only after V36 promotion
+- Scope: V36 draft delta for deeper Exchange over promoted V35 telemetry/documentation canon
+
+## Why V36 exists
+
+V35 promoted telemetry and documentation depth.
+That made Bitcode understandable, supportable, observable, and testnet-rollout ready.
+
+V36 exists because Bitcode now needs the Exchange surface to become real product law instead of deferred posture.
+Exchange must let enterprise users inspect market-wide activity, list or request rights transfers, buy, sell, bid, ask, cancel, accept, settle, and inspect history while preserving BTC fee separation, non-fungible BTD range identity, source-safe AssetPack previews, settlement finality, repair paths, and ledger/database synchronization.
+
+## Accepted V36 decisions
+
+- V35 remains active canon during V36 drafting.
+- V36 gate branches are opened from `version/v36` and merged back only when their gate acceptance criteria are closed.
+- V36 owns deeper Exchange: `ExchangeActivityBook`, `ExchangeIntent`, `ExchangeOrder`, `ExchangeRightsTransferPreview`, `ExchangePricingQuote`, `ExchangeSettlementReceipt`, `ExchangeDisputeRepairCase`, and `ExchangeRevenueRoute`.
+- Exchange contracts must be package-owned before they are exposed by route handlers, UI state, dashboards, runbooks, MCP tools, ChatGPT App actions, public docs, or generated artifacts.
+- Exchange previews disclose measurements, roots, rights posture, fee quote roots, owner posture, settlement state, and denial reasons; they must not disclose protected source, raw protected prompts, wallet private material, secrets, or unpaid AssetPack contents.
+- Ledger records and journals remain source-of-truth for ownership, settlement, and finality; database projections are repairable projections.
+- Exchange pricing may include measurement weights, measurement volume, liquidity bands, wrapper analysis, and BTC fee quotes only through deterministic auditable quote roots.
+
+## Explicitly deferred
+
+- V37 owns website Conversations product behavior.
+- Production-mainnet value-bearing launch remains explicitly blocked until a future promoted canon admits it.
+- Bridge chain-of-record implementation remains out of V36.
+- V36 does not reopen BTD supply law, Reading pipeline product law, V34 deployment law, V35 telemetry/docs law, or AssetPack source disclosure law.
+
+## Pre-Implementation Sequence
+
+1. Open `version/v36` from promoted `main`.
+2. Open `v36/gate-1-exchange-roadmap-opening` from `version/v36`.
+3. Create the V36 SPEC, DELTA, NOTES, and PARITY family while preserving `BITCODE_SPEC.txt -> V35`.
+4. Refresh `SPECIFICATIONS_ROADMAP.md` so V35 is active canon, V36 is draft target, and V37 scope remains coherent.
+5. Retarget gate-quality and canon-quality workflow posture checks to V35 active / V36 draft.
+6. Add `check:v36-gate1` and a V36 Gate 1 checker.
+7. Define V36 gates, acceptance criteria, carryforward parity rows, and post-V36 roadmap responsibilities.
+8. Validate spec family, canonical inputs, canon posture, workflows, roadmap truth, README/docs, and diff hygiene.
+9. Push the gate branch and open a pull request to `version/v36`.
+
+## Commit-Body Direction
+
+V36 gate commit bodies should describe the closed gate, specification changes, implementation surfaces, tests, proof commands, and accepted boundaries.
+The eventual V36 promotion commit body must name all closed V36 gates, generated Exchange proof artifacts, settlement/reconciliation evidence, UI proof, public/internal documentation evidence, telemetry/runbook evidence, local/staging rehearsal proof, and the `BITCODE_SPEC.txt` pointer change from `V35` to `V36`.
+It must explicitly defer V37 Conversations depth, bridge chain-of-record implementation, and value-bearing mainnet launch.
+
+## Gate Delta
+
+### Gate 1: V36 Exchange Roadmap And Spec Opening
+
+Gate 1 opens V36 correctly:
+
+- V36 SPEC, DELTA, NOTES, and PARITY files exist.
+- `BITCODE_SPEC.txt` remains `V35`.
+- README, roadmap, PR template, package docs, demonstration docs, and workflows describe V35 active / V36 draft posture.
+- `check:v36-gate1` validates branch naming, spec family, notes, parity, roadmap truth, workflow posture, Exchange vocabulary, and promotion boundaries.
+- The V36 gate list is explicit before Exchange implementation begins.
+
+### Gate 2: Exchange Activity Book And Market Master Detail
+
+Gate 2 inventories source-safe market activity.
+
+Closure acceptance:
+
+- `ExchangeActivityBook` owns market-wide activity rows, filters, detail payloads, proof roots, event ids, and redaction posture;
+- activity rows cover listings, bids, asks, cancellations, acceptances, settlements, repairs, revenue routes, and history entries;
+- activity detail never exposes protected source or unpaid AssetPack content.
+
+### Gate 3: Buy Sell Bid Ask Cancel Accept Intent Contracts
+
+Gate 3 defines market action envelopes.
+
+Closure acceptance:
+
+- `ExchangeIntent` and `ExchangeOrder` own buy, sell, bid, ask, cancel, accept, settle, and history transition contracts;
+- each transition names actor, organization role, wallet posture, authority proof, idempotency key, policy decision, and fail-closed result;
+- order history is replayable without private wallet material or secrets.
+
+### Gate 4: AssetPack Range Trading And Rights Transfer Review
+
+Gate 4 defines rights-transfer preview.
+
+Closure acceptance:
+
+- `ExchangeRightsTransferPreview` names BTD range identity, current owner, requested buyer, rights scope, settlement unlock condition, and disclosure limit;
+- AssetPack source is hidden until paid settlement and rights transfer are complete;
+- previews distinguish owner-read, licensed-read, and blocked transfer states.
+
+### Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis
+
+Gate 5 defines deterministic price and fee roots.
+
+Closure acceptance:
+
+- `ExchangePricingQuote` includes BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and quote root;
+- wrapper analysis cannot make BTD range cells fungible chain-of-record assets;
+- underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+
+### Gate 6: Exchange Settlement Ledger Database Reconciliation
+
+Gate 6 synchronizes settlement.
+
+Closure acceptance:
+
+- `ExchangeSettlementReceipt` binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id;
+- observers and repair jobs reconcile database projections to ledger truth;
+- settlement finality and delivery are auditable.
+
+### Gate 7: Dispute Repair Revenue Route Operations
+
+Gate 7 turns failure into operator action.
+
+Closure acceptance:
+
+- `ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch;
+- `ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof;
+- runbooks and repair commands are source-safe and proof-rooted.
+
+### Gate 8: Exchange UX And Terminal Navigation Integration
+
+Gate 8 makes Exchange usable.
+
+Closure acceptance:
+
+- `/exchange` exposes market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state;
+- Terminal can hand off to Exchange without losing transaction context;
+- collapsed UI gives readable status and expanded UI exposes source-safe detail.
+
+### Gate 9: Local Staging Exchange Rehearsal And Proof Coverage
+
+Gate 9 proves Exchange locally and in staging-testnet.
+
+Closure acceptance:
+
+- local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows;
+- rehearsal logs/screenshots are source-safe;
+- ledger/database synchronization and value-bearing mainnet blocking are visible.
+
+### Gate 10: V36 Promotion Readiness
+
+Gate 10 owns final generated proof, promotion workflow support, source-safe `.bitcode/v36-promotion-readiness-report.json`, and V36 closure.
+
+Closure acceptance:
+
+- V36 promotion checks validate all Exchange artifacts, contracts, UI proof, telemetry/docs/runbook bindings, settlement/reconciliation evidence, repair evidence, rehearsal proof, and generated proof appendix support;
+- promotion scripts support V36 command planning, dry-run, generated proof output, and derived promotion commit body generation;
+- promotion rewrites runtime posture to active V36 / draft V37 only after validations pass.
+
+## Delta completion condition
+
+This delta is complete for Gate 1 when `version/v36` contains the V36 spec family, roadmap posture, workflow posture, README/package docs posture, PR template title guidance, `check:v36-gate1`, and validations proving V35 active / V36 draft readiness.
