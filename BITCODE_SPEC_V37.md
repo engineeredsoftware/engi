@@ -3,19 +3,20 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 10 closes ConversationPromotionReadinessReport over active V36 Exchange canon
-- Current canonical/latest target: `V36`
+- V37 state: canonical promotion complete; V37 is the active Website Conversations canon and the V37 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V37`
+- Canonical proof-source commit: `3df6b2cae755336067da920abbe8142df487a221`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, and `.bitcode/v37-promotion-readiness-report.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts, Gate 7 package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts, Gate 8 package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts, Gate 9 package-owned ConversationRehearsal local/staging proof contracts, and Gate 10 package-owned ConversationPromotionReadinessReport promotion closure contracts
+- Generated structured artifact inventory: active canonical `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, `.bitcode/v37-promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
+- Source parity state: V37 source-side ConversationSession route history, ConversationStreamEvent contracts, ConversationWritingWorkspace contracts, ConversationSourceSelector contracts, ConversationTerminalHandoff contracts, ConversationPersistencePrivacyRedaction contracts, ConversationTelemetryProofHooks contracts, ConversationRehearsal evidence, workflow, and promotion surfaces are canonicalized in the promoted V37 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V37_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md` only after V37 promotion
-- Scope: V37 draft system specification for Website Conversations, route-local conversational state, stream UI, fullscreen writing mode, source selectors, Terminal handoff, persistence/privacy, telemetry/proof hooks, local/staging rehearsal, and promotion readiness over promoted V36 Exchange canon
-- Last fully realized canonical target preserved in source: `V36`
+- Scope: V37 canonical system specification for Website Conversations over promoted sessions, route-local history, stream UI/event contracts, fullscreen writing mode, source selectors, Terminal handoff, persistence/privacy/redaction, telemetry/proof hooks, local/staging rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V37`
 
 ## Version executive summary
 

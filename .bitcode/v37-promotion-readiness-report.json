@@ -1,9 +1,10 @@
 {
+  "reportId": "v37-promotion-readiness-report",
   "artifactId": "v37-promotion-readiness-report",
   "schemaId": "bitcode.v37.conversationPromotionReadinessReport.v1",
   "version": "V37",
   "currentTarget": "V36",
-  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "generatedAt": "2026-05-24T16:30:41-03:00",
   "sourceSafetyVerdict": "source-safe-conversation-promotion-readiness-metadata",
   "prePromotionPosture": "V36 active / V37 draft",
   "postPromotionPosture": "V37 active / V38 draft",
@@ -346,7 +347,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37.md",
       "present": true,
-      "digest": "sha256:43a927465914e8f435d65e195d53ef63a7f9e8ba11ee1733400d0a3c6b7bf3f3",
+      "digest": "sha256:2455eb991591f316946b0081cd41ad360c4cf0c9727d96b773707899bd1faada",
       "requiredTokens": [
         {
           "token": "V37 promotion readiness canon",
@@ -365,7 +366,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37_DELTA.md",
       "present": true,
-      "digest": "sha256:5474db49b715401c294cf044d513e7d8e62763834289265e841c17d341a61873",
+      "digest": "sha256:bc0fd7e112036cec170a84be09812add589d1635860ddacefc1640347665ddd6",
       "requiredTokens": [
         {
           "token": "Gate 10: V37 Promotion Readiness",
@@ -384,7 +385,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37_NOTES.md",
       "present": true,
-      "digest": "sha256:42bbb9d3e77377dd2ddda7935a29d0fa4f175942c2fcc790b3b607da295e0933",
+      "digest": "sha256:eb50e5cfc05d4c6e76fec8651f11de6987bf5a0b6ae95a9f050dc7dac1ab4e26",
       "requiredTokens": [
         {
           "token": "Gate 10: V37 Promotion Readiness",
@@ -403,7 +404,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:07f237b864378366485334fadd62a21f227299e0baaa90dc74e39709a08f0a24",
+      "digest": "sha256:86866f5ffb578312e387e0193deab7f0fce8722af81c99eb3fb0af6af39c1dba",
       "requiredTokens": [
         {
           "token": "## Gate 10 Parity",
@@ -452,7 +453,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:5487e6720c0e292494812c2da2be79301311149367562fa8c5bc876452066ad9",
+      "digest": "sha256:a352709ad557da38c250a6bbc6b5e76c4b02f7e85b73f43b247226c7a47277f0",
       "requiredTokens": [
         {
           "token": "V37 Gate 10",
@@ -513,5 +514,9 @@
   "artifactRoot": "conversation-promotion-readiness-report:34bf35d1911c3fa9b1991f54",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v37-gate10"
+  "validationCommand": "pnpm run check:v37-gate10",
+  "proofSourceCommit": "3df6b2cae755336067da920abbe8142df487a221",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

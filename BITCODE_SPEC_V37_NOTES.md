@@ -3,14 +3,16 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 10 closes ConversationPromotionReadinessReport promotion posture over active V36 Exchange canon
-- Current canonical/latest target: `V36`
+- V37 state: canonical promotion complete; V37 notes record the accepted Conversations session, stream, writing, source selector, Terminal handoff, persistence privacy, telemetry proof, rehearsal, and promotion-readiness evidence
+- Current canonical/latest target: `V37`
+- Canonical proof-source commit: `3df6b2cae755336067da920abbe8142df487a221`
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, and `.bitcode/v37-promotion-readiness-report.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts; Gate 9 adds package-owned ConversationRehearsal local/staging proof contracts; Gate 10 adds package-owned ConversationPromotionReadinessReport promotion readiness contracts
-- Scope: draft notes for website Conversations work after V36 Exchange depth and after the V28 ChatGPT App MVP proved the interface path.
+- Generated structured artifact inventory: active canonical `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, `.bitcode/v37-promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
+- Source parity state: V37 source-side ConversationSession route history, ConversationStreamEvent contracts, ConversationWritingWorkspace contracts, ConversationSourceSelector contracts, ConversationTerminalHandoff contracts, ConversationPersistencePrivacyRedaction contracts, ConversationTelemetryProofHooks contracts, ConversationRehearsal evidence, workflow, and promotion surfaces are canonicalized in the promoted V37 file family
+- Scope: V37 canonical notes for Website Conversations over promoted V36 Exchange canon
+- Last fully realized canonical target preserved in source: `V37`
 
 This NOTES file does not promote V37. It is binding draft guidance while V37 gates are in flight.
 
