@@ -56,7 +56,7 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V35 active, V36 draft, and coherent V37 responsibility. |
 | Exchange activity book | Gate 2 | `ExchangeActivityBook`, `.bitcode/v36-exchange-activity-book.json`, package source, tests, and `check:v36-gate2` | closed | Market-wide source-safe activity rows, filters, details, proof roots, event ids, redaction posture, and telemetry bindings exist. |
 | Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | closed | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed, authorized, idempotent, policy-gated, source-safe, and replayable. |
-| Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | draft-required | BTD range identity, ownership, rights scope, disclosure boundary, and settlement unlock are source-safe. |
+| Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | closed | BTD range identity, ownership, buyer, rights scope, disclosure boundary, settlement unlock, owner-read, licensed-read, and blocked transfer states are source-safe. |
 | Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | draft-required | BTC price, measurement weight, measurement volume, liquidity, wrapper analysis, fee split, and quote root are deterministic. |
 | Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | draft-required | Ledger, database, object storage, finality, delivery, and rights-transfer roots reconcile. |
 | Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | draft-required | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
@@ -120,6 +120,19 @@ No `_legacy/` source is active source truth.
 | Intent/order payloads are source-safe | `source-safe-exchange-intent-order-contract-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private buyer payloads, and secret values are forbidden | closed |
 | Ledger/database projection posture is explicit | ledger journal refs outrank database projection refs in every order transition | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-intent-order-contracts.test.js`, `scripts/check-v36-gate3-exchange-intent-order-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 4 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeRightsTransferPreview` is package-owned | `packages/protocol/src/canonical/exchange-rights-transfer-review.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated rights-transfer artifact exists | `.bitcode/v36-exchange-rights-transfer-review.json`, `scripts/generate-v36-exchange-rights-transfer-review.mjs`, `pnpm run check:v36-exchange-rights-transfer-review` | closed |
+| Required preview identity fields are covered | BTD range identity, current owner, requested buyer, rights scope, settlement unlock condition, disclosure limit, source visibility, authority posture, proof roots, event ids, and projection refs | closed |
+| AssetPack source remains hidden | AssetPack source is hidden until paid settlement and rights transfer are complete | closed |
+| Preview states are distinct | owner-read, licensed-read, and blocked transfer states are represented and fail closed on missing authority, stale owner, policy denial, missing receipt, or source visibility attempts | closed |
+| Rights-transfer payloads are source-safe | `source-safe-exchange-rights-transfer-review-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private buyer payloads, and secret values are forbidden | closed |
+| Ledger/database projection posture is explicit | ledger journal refs outrank database projection refs for rights-transfer preview and owner truth | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-rights-transfer-review.test.js`, `scripts/check-v36-gate4-exchange-rights-transfer-review.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

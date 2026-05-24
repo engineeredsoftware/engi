@@ -30,6 +30,13 @@ ask, cancel, accept, settle, and history transitions. Each transition names
 actor principal, organization role, wallet posture, authority proof,
 idempotency key, policy decision, and fail-closed result; order history is
 replayable without private wallet material or secrets.
+V36 Gate 4 anchors rights-transfer review through package-owned
+`ExchangeRightsTransferPreview` and the source-safe generated artifact
+`.bitcode/v36-exchange-rights-transfer-review.json`, including BTD range
+identity, current owner, requested buyer, rights scope, settlement unlock,
+disclosure limit, and owner-read, licensed-read, and blocked transfer states.
+AssetPack source is hidden until paid settlement and rights transfer are
+complete.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer
