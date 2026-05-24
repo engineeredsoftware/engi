@@ -56,6 +56,17 @@ PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
 depository-search, embedding policy, prompt benchmarking, and source-safe
 telemetry scope that later V38 gates must implement.
+V38 Gate 2 adds `V38InferenceSurfaceInventory` through
+`packages/protocol/src/canonical/inference-surface-inventory.js` and the
+source-safe generated artifact `.bitcode/v38-inference-surface-inventory.json`.
+The inventory covers `ReadNeedComprehensionSynthesis`,
+`ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts,
+interface entrypoints, prompt registry coverage, and execution primitives as
+`source-safe-inference-surface-metadata`, with 52 PTRR steps, 156
+Failsafe/Thricified chains, and 468 provider-call slots. The maintained commands
+are `pnpm run generate:v38-inference-surface-inventory`,
+`pnpm run check:v38-inference-surface-inventory`, and
+`pnpm run check:v38-gate2`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

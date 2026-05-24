@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -78,6 +78,12 @@ Closure acceptance:
 - every active Reading, Conversation, tool-definition, and interface inference point is counted;
 - phase, PTRR agent, step, Failsafe, ThricifiedGeneration, tool, prompt, PromptPart, interpolation binding, context field, output schema, failure surface, storage target, and stream target inventories are package-backed and generated;
 - `pnpm run check:v38-gate2` validates inventory freshness, source coverage, prompt registry coverage, source-safety boundaries, and workflow wiring.
+
+Closure implementation:
+
+- `V38InferenceSurfaceInventory` is now package-backed in `packages/protocol/src/canonical/inference-surface-inventory.js` and generated to `.bitcode/v38-inference-surface-inventory.json`.
+- The generated artifact is `source-safe-inference-surface-metadata` and covers `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts, interface entrypoints, prompt registry coverage, and execution primitive rows.
+- The current inventory count is 52 PTRR steps, 156 Failsafe/Thricified chains, 468 provider-call slots, and 9 tool/tool-definition surfaces, with known follow-on gaps carried to later V38 gates.
 
 ### Gate 3: PTRR Failsafe And Thricified Execution Stack
 
