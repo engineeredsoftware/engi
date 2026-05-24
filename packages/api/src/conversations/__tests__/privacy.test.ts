@@ -44,6 +44,27 @@ describe('conversation persistence privacy redaction', () => {
     expect((redacted.value as Record<string, unknown>).token_type).toBe('source');
   });
 
+  it('redacts closed and unclosed private key PEM blocks without exposing key material', () => {
+    const closedKey = [
+      'before',
+      '-----BEGIN PRIVATE KEY-----',
+      'abc123',
+      '-----END PRIVATE KEY-----',
+      'after',
+    ].join('\n');
+    const unclosedKey = `${'-----BEGIN PRIVATE KEY-----'.repeat(200)}untrusted-tail`;
+
+    const closed = redactConversationPersistenceValue({ note: closedKey });
+    const unclosed = redactConversationPersistenceValue({ note: unclosedKey });
+
+    expect(JSON.stringify(closed.value)).toContain('[redacted:conversation-persistence-secret]');
+    expect(JSON.stringify(closed.value)).not.toContain('abc123');
+    expect(JSON.stringify(unclosed.value)).toContain('[redacted:conversation-persistence-secret]');
+    expect(JSON.stringify(unclosed.value)).not.toContain('untrusted-tail');
+    expect(closed.redactionApplied).toBe(true);
+    expect(unclosed.redactionApplied).toBe(true);
+  });
+
   it('admits only envelopes with the full forbidden disclosure boundary', () => {
     const envelope = buildConversationPersistenceEnvelope({
       operationId: 'export_history',

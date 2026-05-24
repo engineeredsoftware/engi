@@ -346,7 +346,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37.md",
       "present": true,
-      "digest": "sha256:865e5e929cc7a4d51e1009519910c31cc8b8402ceace11e76a609f93afc27251",
+      "digest": "sha256:43a927465914e8f435d65e195d53ef63a7f9e8ba11ee1733400d0a3c6b7bf3f3",
       "requiredTokens": [
         {
           "token": "V37 promotion readiness canon",
@@ -365,7 +365,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37_DELTA.md",
       "present": true,
-      "digest": "sha256:2084f8e4fda4ae284fe41e680afc4af32051f3af4c0766d7733941bc00644887",
+      "digest": "sha256:5474db49b715401c294cf044d513e7d8e62763834289265e841c17d341a61873",
       "requiredTokens": [
         {
           "token": "Gate 10: V37 Promotion Readiness",
@@ -384,7 +384,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37_NOTES.md",
       "present": true,
-      "digest": "sha256:9efc013a721a4f010f7f5328ffd673f6cef8860f6b2a1e0584156db831e0ef41",
+      "digest": "sha256:42bbb9d3e77377dd2ddda7935a29d0fa4f175942c2fcc790b3b607da295e0933",
       "requiredTokens": [
         {
           "token": "Gate 10: V37 Promotion Readiness",
@@ -403,7 +403,7 @@
     {
       "relativePath": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:ee9848b1b851fe7ead17bd2267ffeb96f5150e40435d929698d7fe29f09c1959",
+      "digest": "sha256:07f237b864378366485334fadd62a21f227299e0baaa90dc74e39709a08f0a24",
       "requiredTokens": [
         {
           "token": "## Gate 10 Parity",
@@ -422,7 +422,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:6cf0fa3085d6b3467fe2762a322b578f6b97d0532e7386d95060f023e32f0d93",
+      "digest": "sha256:b3a91a0c5c29fc125b8f66ef1f5920c46a14a8c8c61bd645cf7a0138c9f0d1d4",
       "requiredTokens": [
         {
           "token": "V37 Gate 10 closure anchor",
@@ -437,7 +437,7 @@
     {
       "relativePath": "README.md",
       "present": true,
-      "digest": "sha256:b755fce70d06ee22b4871135816a8fd9ea2632c0b08c7992ca215a0166ccecac",
+      "digest": "sha256:acad3ea210eed868af76747907274ef8a03206ac6dc6b9ea8c254a7fed3a8fdc",
       "requiredTokens": [
         {
           "token": "check:v37-gate10",

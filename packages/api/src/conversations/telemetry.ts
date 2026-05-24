@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
 
 import conversationTelemetryProofHooksArtifact from '../../../../.bitcode/v37-conversation-telemetry-proof-hooks.json';
+import { redactPemPrivateKeyBlocks } from './secret-redaction';
 
 export type ConversationTelemetryEventFamily =
   | 'session'
@@ -89,7 +90,6 @@ const SECRET_VALUE_PATTERNS = [
   new RegExp('eyJ[A-Za-z0-9_-]{16,}\\.[A-Za-z0-9_-]{16,}\\.[A-Za-z0-9_-]{16,}', 'gu'),
   /Bearer\s+[A-Za-z0-9._-]{16,}/giu,
   /(?:password|secret|token|private_key)\s*[:=]\s*\S{8,}/giu,
-  /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/gu,
 ];
 
 const TELEMETRY_ROWS_BY_FAMILY = new Map(
@@ -119,13 +119,15 @@ function shouldRedactKey(key: string) {
 }
 
 function sanitizeText(value: string) {
-  let redacted = value.length > 500 ? `${value.slice(0, 497)}...` : value;
+  const privateKeyRedaction = redactPemPrivateKeyBlocks(value, '[redacted:conversation-telemetry-secret]');
+  let redacted = privateKeyRedaction.value;
 
   for (const pattern of SECRET_VALUE_PATTERNS) {
     redacted = redacted.replace(pattern, '[redacted:conversation-telemetry-secret]');
   }
 
-  return redacted.replace(PROTECTED_CONTEXT_RE, '[redacted:conversation-telemetry-protected-context]');
+  redacted = redacted.replace(PROTECTED_CONTEXT_RE, '[redacted:conversation-telemetry-protected-context]');
+  return redacted.length > 500 ? `${redacted.slice(0, 497)}...` : redacted;
 }
 
 function sanitizeMetadata(value: unknown): unknown {

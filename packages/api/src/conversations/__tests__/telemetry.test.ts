@@ -41,6 +41,33 @@ describe('conversation telemetry proof hooks', () => {
     });
   });
 
+  it('redacts private key PEM-shaped telemetry metadata before truncation', () => {
+    const hook = buildConversationTelemetryProofHook({
+      eventFamily: 'session',
+      eventKind: 'conversation.session.info',
+      status: 'started',
+      metadata: {
+        pem: [
+          'prefix',
+          '-----BEGIN OPENSSH PRIVATE KEY-----',
+          'abcdefghijklmnopqrstuvwxyz1234567890',
+          '-----END OPENSSH PRIVATE KEY-----',
+          'suffix',
+        ].join('\n'),
+        unclosed: `${'-----BEGIN PRIVATE KEY-----'.repeat(200)}tail`,
+      },
+    });
+
+    const serialized = JSON.stringify(hook);
+    expect(serialized).toContain('[redacted:conversation-telemetry-secret]');
+    expect(serialized).not.toContain('abcdefghijklmnopqrstuvwxyz1234567890');
+    expect(serialized).not.toContain('tail');
+    expect(assertConversationTelemetryProofHookSourceSafe(hook)).toEqual({
+      admitted: true,
+      reason: 'source_safe_conversation_telemetry_proof_hook',
+    });
+  });
+
   it('attaches telemetry proof hooks to conversation stream execution rows', () => {
     const event = buildConversationStreamEvent({
       eventKind: 'completion_decision',

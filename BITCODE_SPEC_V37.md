@@ -214,6 +214,12 @@ operator private notes, unpaid AssetPack source, ledger write authority, and
 wallet signing authority before durable storage, telemetry, export, replay, or
 incident repair.
 
+Private-key PEM material is redacted by bounded string scanning before generic
+secret pattern replacement. Conversation persistence and telemetry redaction
+must not depend on unbounded multiline regular expressions for private-key
+blocks; unclosed PEM-shaped input is treated as secret material through the end
+of the text.
+
 Gate 7 covers seven persistence operations: persist message, restore history,
 export history, delete history, retain history, replay history, and incident
 repair. Export may only include source-safe data visible to the requesting
@@ -321,6 +327,9 @@ source-unsafe, stale, or disconnected from source evidence; when workflow,
 promotion, spec-family, runtime, or proven-generator support is missing; or
 when any value-bearing mainnet, credential, protected source, raw protected
 prompt, unpaid AssetPack source, or wallet private material is admitted.
+Promotion security scanning is also a closing signal: CodeQL or equivalent
+static-analysis alerts against source-safe redaction, persistence, telemetry,
+or promotion paths must be repaired before the V37 version branch can promote.
 
 Gate 10 adds `generate:v37-promotion-readiness`,
 `check:v37-promotion-readiness`, `check:v37-gate10`, package tests for
