@@ -9,6 +9,10 @@ import type { Message } from '@bitcode/orm';
 import { AttachmentReference } from '@bitcode/attachments-generics';
 import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
+import {
+  buildPersistedConversationMessageRecord,
+  redactConversationPersistenceValue,
+} from './privacy';
 
 export interface CreateMessageOptions {
   conversation_id: string;
@@ -24,6 +28,12 @@ function resolveAttachmentReferenceId(attachment: AttachmentReference & { id?: s
 
 export async function createMessage(options: CreateMessageOptions): Promise<Message> {
   const messageId = crypto.randomUUID();
+  const persistedMessage = buildPersistedConversationMessageRecord({
+    conversationId: options.conversation_id,
+    messageId,
+    role: options.role,
+    content: options.content,
+  });
   
   // Create message
   const { data: message, error: messageError } = await supabaseAdmin
@@ -32,14 +42,19 @@ export async function createMessage(options: CreateMessageOptions): Promise<Mess
       id: messageId,
       conversation_id: options.conversation_id,
       role: options.role,
-      content: options.content,
+      content: persistedMessage.content,
       created_at: new Date().toISOString()
     })
     .select()
     .single();
 
   if (messageError) {
-    log('[api/messages] Failed to create message', 'error', { error: messageError, options });
+    log('[api/messages] Failed to create message', 'error', {
+      error: messageError,
+      conversationId: options.conversation_id,
+      role: options.role,
+      persistencePrivacy: persistedMessage.envelope,
+    });
     throw messageError;
   }
 
@@ -51,7 +66,7 @@ export async function createMessage(options: CreateMessageOptions): Promise<Mess
       attachment_id: resolveAttachmentReferenceId(att as AttachmentReference & { id?: string }),
       attachment_category: att.category,
       attachment_type: att.type,
-      metadata: att
+      metadata: redactConversationPersistenceValue(att).value
     }));
 
     const { error: attachError } = await supabaseAdmin

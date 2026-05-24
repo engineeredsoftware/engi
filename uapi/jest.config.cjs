@@ -147,6 +147,7 @@ module.exports = {
     '<rootDir>/tests/terminalInterfaceIntegrationRegression.test.ts',
     '<rootDir>/tests/conversationStreamPipelineLog.test.tsx',
     '<rootDir>/tests/conversationTerminalHandoff.test.tsx',
+    '<rootDir>/tests/conversationPersistencePrivacyPanel.test.tsx',
     '<rootDir>/tests/conversationSourceSelector.test.tsx',
     '<rootDir>/tests/conversationWritingWorkspace.test.tsx',
     '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',

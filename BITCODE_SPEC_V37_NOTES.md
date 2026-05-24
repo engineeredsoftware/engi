@@ -122,6 +122,20 @@ material, settlement private payloads, unpaid AssetPack source, ledger write
 authority, wallet signing authority, or a Terminal authority bypass. The
 Terminal remains the transaction cockpit.
 
+Gate 7 adds `ConversationPersistencePrivacyRedaction` so durable conversation
+storage has a precise visibility tier boundary. Public, user-visible,
+organization-visible, buyer-visible, reviewer-visible, and operator-only data
+are separated before persistence, export, delete, retention, replay, and
+incident repair. Message content, attachment metadata, execution input, and
+execution metadata pass through redaction before storage. Protected prompts,
+protected model responses, protected source payloads, secrets, provider
+tokens, wallet private material, settlement private payloads, unpaid AssetPack
+source, ledger write authority, and wallet signing authority are blocked or
+redacted. Export is source-safe, delete leaves only a tombstone proof,
+retention never escalates visibility, replay uses prompt template ids and
+parsed result shapes, and incident repair operates over proof roots and
+redaction verdicts.
+
 ## V37 gate plan
 
 - Gate 1: V37 Conversations Roadmap And Spec Opening

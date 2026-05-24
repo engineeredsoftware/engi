@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, Gate 3 ConversationStreamEvent stream UI/event contracts, Gate 4 ConversationWritingWorkspace fullscreen composer contracts, Gate 5 ConversationSourceSelector context policy contracts, and Gate 6 ConversationTerminalHandoff transaction handoff contracts
+- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, Gate 3 ConversationStreamEvent stream UI/event contracts, Gate 4 ConversationWritingWorkspace fullscreen composer contracts, Gate 5 ConversationSourceSelector context policy contracts, Gate 6 ConversationTerminalHandoff transaction handoff contracts, and Gate 7 ConversationPersistencePrivacyRedaction durable storage privacy contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, and `.bitcode/v37-conversation-terminal-handoff.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, and `.bitcode/v37-conversation-persistence-privacy-redaction.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -106,7 +106,7 @@ No `_legacy/` source is active source truth.
 | Writing workspace | Gate 4 | `ConversationWritingWorkspace`, `.bitcode/v37-conversation-writing-workspace.json`, fullscreen workspace UI tests, accessibility proof, and `check:v37-gate4` | closed | Read Request, Need feedback, AssetPack review notes, and Terminal handoff writing flows are accessible, restorable, and source-safe. |
 | Source selectors | Gate 5 | `ConversationSourceSelector`, `.bitcode/v37-conversation-source-selector.json`, policy tests, rights checks, source selector UI tests, and `check:v37-gate5` | closed | Repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors are policy-gated. |
 | Terminal handoff | Gate 6 | `ConversationTerminalHandoff`, `.bitcode/v37-conversation-terminal-handoff.json`, Terminal route context tests, source-safe handoff UI tests, and `check:v37-gate6` | closed | Conversations hand source-safe transaction intent to Terminal without becoming a parallel ledger/wallet authority. |
-| Persistence privacy redaction | Gate 7 | future storage contracts, privacy tests, redaction tests, and `check:v37-gate7` | pending | Retention, export, delete, replay, incident repair, protected prompt/model response redaction, and disclosure classes are enforced. |
+| Persistence privacy redaction | Gate 7 | `ConversationPersistencePrivacyRedaction`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, API storage redaction tests, UI privacy tests, and `check:v37-gate7` | closed | Retention, export, delete, replay, incident repair, protected prompt/model response redaction, and disclosure classes are enforced. |
 | Telemetry proof hooks docs | Gate 8 | future telemetry taxonomy, docs, dashboards, runbooks, generated proof hooks, and `check:v37-gate8` | pending | Conversation sessions, messages, streams, tools, selectors, handoffs, retries, errors, and completions are observable and source-safe. |
 | Local staging rehearsal | Gate 9 | future rehearsal artifacts, screenshots/log roots, route/UI tests, and `check:v37-gate9` | pending | Local and staging-testnet chat, streaming, writing, source selector, handoff, restore, retry, redaction, and error flows are rehearsed. |
 | Promotion readiness | Gate 10 | future promotion readiness report, promotion workflow, generated proof support, and `check:v37-gate10` | pending | V37 can promote only after all Conversations gates pass and generated canon remains source-safe. |
@@ -122,7 +122,7 @@ No `_legacy/` source is active source truth.
 | Gate-quality workflow | Gate workflow validates V36 active / V37 draft posture and the V37 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V36 canon, V37 draft family when present, and V36/V37 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V36 active / V37 draft workflow | drafted |
-| Conversations vocabulary | V37 spec family names `ConversationSession`, `ConversationMessage`, `ConversationStreamEvent`, `ConversationWritingWorkspace`, `ConversationSourceSelector`, and `ConversationTerminalHandoff` | drafted |
+| Conversations vocabulary | V37 spec family names `ConversationSession`, `ConversationMessage`, `ConversationStreamEvent`, `ConversationWritingWorkspace`, `ConversationSourceSelector`, `ConversationTerminalHandoff`, and `ConversationPersistencePrivacyRedaction` | drafted |
 | ConversationSession route-history artifact | `ConversationSession` source emits `.bitcode/v37-conversation-session-route-history.json` and `check:v37-gate2` validates it | closed |
 | ConversationStreamEvent artifact | `ConversationStreamEvent` source emits `.bitcode/v37-conversation-stream-event-contract.json` and `check:v37-gate3` validates it | closed |
 | ConversationStreamEvent event coverage | `source-safe-conversation-stream-event-metadata` covers model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, and error rows | closed |
@@ -132,9 +132,11 @@ No `_legacy/` source is active source truth.
 | ConversationSourceSelector coverage | `source-safe-conversation-source-selector-metadata` covers repository, branch, commit, deposit, BTD range, AssetPack preview, document, prior conversation, account, organization, wallet, rights, settlement, disclosure, policy, allowed, denied, retry-required, proof roots, and event ids | closed |
 | ConversationTerminalHandoff artifact | `ConversationTerminalHandoff` source emits `.bitcode/v37-conversation-terminal-handoff.json` and `check:v37-gate6` validates it | closed |
 | ConversationTerminalHandoff coverage | `source-safe-conversation-terminal-handoff-metadata` covers Depositing, Reading, Finding Fits, Exchange, settlement, delivery, conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and retry posture | closed |
+| ConversationPersistencePrivacyRedaction artifact | `ConversationPersistencePrivacyRedaction` source emits `.bitcode/v37-conversation-persistence-privacy-redaction.json` and `check:v37-gate7` validates it | closed |
+| ConversationPersistencePrivacyRedaction coverage | `source-safe-conversation-persistence-privacy-redaction-metadata` covers public, user-visible, organization-visible, buyer-visible, reviewer-visible, operator-only visibility tier separation plus persist, restore, export, delete, retention, replay, incident repair, proof roots, and event ids | closed |
 | Disclosure boundary | Conversations expose source-safe stream, selector, proof, handoff, and policy metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | drafted |
 | Terminal handoff boundary | Terminal remains the transaction cockpit and ledger/wallet authority; Conversations prepare and hand off source-safe intent | closed |
-| Privacy posture | Conversation persistence, export, delete, retention, replay, and repair paths preserve disclosure classes and redaction policy | drafted |
+| Privacy posture | Conversation persistence, export, delete, retention, replay, and incident repair paths preserve disclosure classes and redaction policy | closed |
 
 ## V37 Gate 2 Parity
 
@@ -196,6 +198,20 @@ No `_legacy/` source is active source truth.
 | Handoff UI is wired | `uapi/app/conversations/components/ConversationTerminalHandoff.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, and `uapi/tests/conversationTerminalHandoff.test.tsx` | closed |
 | Handoff payloads are source-safe | protected source, raw protected prompts, protected model responses with source, unpaid AssetPack source, provider tokens, wallet private material, settlement private payloads, ledger write authority, wallet signing authority, and Terminal authority bypass are forbidden | closed |
 | Workflow, package, UI, and Terminal tests are wired | `packages/protocol/test/conversation-terminal-handoff.test.js`, `scripts/check-v37-gate6-conversation-terminal-handoff.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
+
+## V37 Gate 7 Parity
+
+| Requirement | Source evidence | Current V37 judgment |
+| --- | --- | --- |
+| `ConversationPersistencePrivacyRedaction` durable storage privacy is package-owned | `packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated persistence privacy artifact exists | `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `scripts/generate-v37-conversation-persistence-privacy-redaction.mjs`, `pnpm run check:v37-conversation-persistence-privacy-redaction` | closed |
+| Required visibility tiers are covered | public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation | closed |
+| Required persistence operations are covered | persist message, restore history, export history, delete history, retain history, replay history, and incident repair | closed |
+| API storage path is redacted | `packages/api/src/conversations/privacy.ts`, `packages/api/src/conversations/messages.ts`, `packages/api/src/routes/conversations.ts`, and `packages/api/src/conversations/__tests__/privacy.test.ts` redact message content, attachment metadata, execution input, and execution metadata before storage | closed |
+| Persistence privacy UI is wired | `uapi/app/conversations/conversation-persistence-privacy-redaction.ts`, `uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts`, and `uapi/tests/conversationPersistencePrivacyPanel.test.tsx` | closed |
+| Export, delete, retention, replay, and incident repair are source-safe | export emits source-safe visible tiers, delete leaves tombstone proof, retention does not escalate visibility, replay uses prompt template ids and parsed result shapes, and incident repair uses proof roots/redaction verdicts only | closed |
+| Persistence payloads are source-safe | protected prompts, protected model responses with source, protected source payloads, provider tokens, wallet private material, settlement private payloads, private payment credentials, operator private notes, unpaid AssetPack source, ledger write authority, and wallet signing authority are forbidden | closed |
+| Workflow, package, API, and UI tests are wired | `packages/protocol/test/conversation-persistence-privacy-redaction.test.js`, `scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
 
 ## Inherited V36 implementation matrix
 
