@@ -52,8 +52,8 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V36.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v36/gate-1-exchange-roadmap-opening` | drafted | V36 family validates in draft mode over active V35 and `check:v36-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V35 active, V36 draft, and coherent V37 responsibility. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V36.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v36/gate-1-exchange-roadmap-opening` | closed | V36 family validates in draft mode over active V35 and `check:v36-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V35 active, V36 draft, and coherent V37 responsibility. |
 | Exchange activity book | Gate 2 | `ExchangeActivityBook`, `.bitcode/v36-exchange-activity-book.json`, package source, tests, and `check:v36-gate2` | closed | Market-wide source-safe activity rows, filters, details, proof roots, event ids, redaction posture, and telemetry bindings exist. |
 | Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | closed | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed, authorized, idempotent, policy-gated, source-safe, and replayable. |
 | Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | closed | BTD range identity, ownership, buyer, rights scope, disclosure boundary, settlement unlock, owner-read, licensed-read, and blocked transfer states are source-safe. |
@@ -62,38 +62,38 @@ No `_legacy/` source is active source truth.
 | Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | closed | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
 | Exchange UX and Terminal integration | Gate 8 | `ExchangeUxProof`, `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, tests, and `check:v36-gate8` | closed | Master-detail UX, filters, order history, rights-transfer review, pricing quote, settlement state, repair state, Terminal navigation, collapsed status, and source-safe expanded detail are validated. |
 | Local staging rehearsal | Gate 9 | `.bitcode/v36-exchange-rehearsal.json`, local/staging logs, proof roots, and `check:v36-gate9` | closed | Local and staging-testnet list/bid/ask/cancel/accept/settle/repair/history flows are rehearsed. |
-| Promotion readiness | Gate 10 | `.bitcode/v36-promotion-readiness-report.json`, promotion workflow, generated proof support, and `check:v36-gate10` | draft-required | V36 can promote only after all Exchange gates pass and generated canon remains source-safe. |
+| Promotion readiness | Gate 10 | `.bitcode/v36-promotion-readiness-report.json`, promotion workflow, generated proof support, and `check:v36-gate10` | closed | V36 can promote only after all Exchange gates pass and generated canon remains source-safe. |
 
 ## V36 implementation checklist
 
 | Area | Required V36 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V35` during V36 gate work | drafted |
-| Gate branch pattern | V36 work happens on `version/v36` or `v36/gate-N-*` branches | drafted |
-| Spec-family shape | V36 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v36-gate1` fails closed on stale posture, missing roadmap truth, missing Exchange scope, or missing workflow wiring | drafted |
-| Gate-quality workflow | Gate workflow validates V35 active / V36 draft posture and the V36 Gate 1 checker | drafted |
-| Canon-quality workflow | Canon workflow validates promoted V35 canon, V36 draft family when present, and V35/V36 posture | drafted |
-| Package docs | README, protocol package README, demonstration README, and PR template state V35 active / V36 draft workflow | drafted |
-| Exchange vocabulary | V36 spec family names `ExchangeActivityBook`, `ExchangeIntent`, `ExchangeOrder`, `ExchangeRightsTransferPreview`, `ExchangePricingQuote`, `ExchangeSettlementReceipt`, `ExchangeDisputeRepairCase`, and `ExchangeRevenueRoute` | drafted |
-| Disclosure boundary | Exchange previews expose source-safe market, proof, fee, rights, and settlement metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | drafted |
-| Ledger projection boundary | Ledger records and journals outrank Supabase/PostgreSQL projections for ownership, settlement, and finality | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V35` during V36 gate work | closed |
+| Gate branch pattern | V36 work happens on `version/v36` or `v36/gate-N-*` branches | closed |
+| Spec-family shape | V36 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v36-gate1` fails closed on stale posture, missing roadmap truth, missing Exchange scope, or missing workflow wiring | closed |
+| Gate-quality workflow | Gate workflow validates V35 active / V36 draft posture and the V36 Gate 1 checker | closed |
+| Canon-quality workflow | Canon workflow validates promoted V35 canon, V36 draft family when present, and V35/V36 posture | closed |
+| Package docs | README, protocol package README, demonstration README, and PR template state V35 active / V36 draft workflow | closed |
+| Exchange vocabulary | V36 spec family names `ExchangeActivityBook`, `ExchangeIntent`, `ExchangeOrder`, `ExchangeRightsTransferPreview`, `ExchangePricingQuote`, `ExchangeSettlementReceipt`, `ExchangeDisputeRepairCase`, and `ExchangeRevenueRoute` | closed |
+| Disclosure boundary | Exchange previews expose source-safe market, proof, fee, rights, and settlement metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | closed |
+| Ledger projection boundary | Ledger records and journals outrank Supabase/PostgreSQL projections for ownership, settlement, and finality | closed |
 | Pricing determinism | Measurement weight, measurement volume, liquidity band, wrapper analysis, and BTC fee roots are auditable before settlement | closed |
-| Repair posture | Dispute and repair paths exist before optimistic Exchange settlement UX is promotion-ready | draft-required |
+| Repair posture | Dispute and repair paths exist before optimistic Exchange settlement UX is promotion-ready | closed |
 
 ## Gate 1 Parity
 
 | Requirement | Source evidence | Current V36 judgment |
 | --- | --- | --- |
-| Active canon remains V35 during V36 draft opening | `BITCODE_SPEC.txt` contains `V35` | drafted |
-| Runtime draft target is V36 | `packages/protocol/src/canon-posture.js` and `protocol-demonstration/src/canon-posture.js` declare V35 active and V36 draft | drafted |
-| V36 SPEC family exists as draft | `BITCODE_SPEC_V36.md`, DELTA, NOTES, and PARITY | drafted |
-| Roadmap is current | `SPECIFICATIONS_ROADMAP.md` states V35 active canon, V36 active draft target, and V37 scope | drafted |
-| Gate-quality workflow is V36-aware | `.github/workflows/bitcode-gate-quality.yml` | drafted |
-| Canon-quality workflow is V36-aware | `.github/workflows/bitcode-canon-quality.yml` | drafted |
-| README reflects V35/V36 posture | `README.md` | drafted |
-| PR template reflects V36 gate titles | `.github/pull_request_template.md` | drafted |
-| V36 Gate 1 checker exists | `scripts/check-v36-gate1-exchange-roadmap-opening.mjs` and package script | drafted |
+| Active canon remains V35 during V36 draft opening | `BITCODE_SPEC.txt` contains `V35` | closed |
+| Runtime draft target is V36 | `packages/protocol/src/canon-posture.js` and `protocol-demonstration/src/canon-posture.js` declare V35 active and V36 draft | closed |
+| V36 SPEC family exists as draft | `BITCODE_SPEC_V36.md`, DELTA, NOTES, and PARITY | closed |
+| Roadmap is current | `SPECIFICATIONS_ROADMAP.md` states V35 active canon, V36 active draft target, and V37 scope | closed |
+| Gate-quality workflow is V36-aware | `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Canon-quality workflow is V36-aware | `.github/workflows/bitcode-canon-quality.yml` | closed |
+| README reflects V35/V36 posture | `README.md` | closed |
+| PR template reflects V36 gate titles | `.github/pull_request_template.md` | closed |
+| V36 Gate 1 checker exists | `scripts/check-v36-gate1-exchange-roadmap-opening.mjs` and package script | closed |
 
 ## Gate 2 Parity
 
@@ -195,6 +195,17 @@ No `_legacy/` source is active source truth.
 | Rehearsal evidence is source-safe | rehearsal logs/screenshots are source-safe through redacted screenshot/log roots and `source-safe-exchange-rehearsal-metadata` | closed |
 | Ledger/database synchronization is visible | ledger/database synchronization and value-bearing mainnet blocking are visible through sync checks, projection roots, and blocked mainnet row posture | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-rehearsal.test.js`, `scripts/check-v36-gate9-exchange-rehearsal.mjs`, `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | closed |
+
+## Gate 10 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangePromotionReadinessReport` is package-owned | `packages/protocol/src/canonical/exchange-promotion-readiness-report.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated Exchange promotion readiness artifact exists | `.bitcode/v36-promotion-readiness-report.json`, `scripts/generate-v36-promotion-readiness-report.mjs`, `pnpm run check:v36-promotion-readiness` | closed |
+| All Exchange artifacts are promotion-covered | Gate 10 readiness report covers Gate 2 through Gate 9 generated Exchange artifacts plus V36 proof outputs | closed |
+| Promotion scripts and workflows are V36-aware | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `.github/workflows/v36-canon-promotion.yml`, gate/canon quality workflows | closed |
+| Runtime posture advances only after validation | promotion dry-run and runtime promotion support move from active V35 / draft V36 to active V36 / draft V37 only after checks pass | closed |
+| Source safety and value boundaries remain enforced | `source-safe-exchange-promotion-readiness-metadata`, blocked value-bearing mainnet posture, no protected source, no unpaid AssetPack source, no wallet private material, and no secret serialization | closed |
 
 ## V36 accepted boundaries
 

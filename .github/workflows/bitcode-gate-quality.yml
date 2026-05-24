@@ -225,6 +225,17 @@ jobs:
               if [ -f scripts/check-v36-gate9-exchange-rehearsal.mjs ]; then
                 node scripts/check-v36-gate9-exchange-rehearsal.mjs --skip-branch-check
               fi
+              if [ -f scripts/check-v36-gate10-promotion-readiness.mjs ]; then
+                node scripts/check-v36-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+              fi
+            fi
+          elif [ "$POINTER" = "V36" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V36 --mode promoted --current-target V36
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V36
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V36 --draft-target V37
+            node scripts/check-v36-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            if [ -f BITCODE_SPEC_V37.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V37 --mode draft --current-target V36
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -288,16 +299,17 @@ jobs:
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-dispute-repair-revenue-route.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-ux-proof.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-rehearsal.test.js
-          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
-          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
-          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand
-          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand
-          pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand
-          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand
-          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-promotion-readiness.test.js
+          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand --forceExit
+          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
+          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
+          pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/protocol test
 

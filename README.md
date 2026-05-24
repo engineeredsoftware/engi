@@ -70,6 +70,14 @@ V36 Gate 9 anchors Exchange rehearsal through package-owned
 It proves that rehearsal logs/screenshots are source-safe.
 It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
 The source-safe verdict is `source-safe-exchange-rehearsal-metadata`.
+V36 Gate 10 anchors Exchange promotion readiness through package-owned
+`ExchangePromotionReadinessReport` and the source-safe generated artifact
+`.bitcode/v36-promotion-readiness-report.json`.
+`ExchangePromotionReadinessReport` covers every V36 Exchange artifact, V36 proof
+appendix generation, `v36-canon-promotion.yml`, promotion dry-run support,
+workflow posture, and runtime promotion from active V35 / draft V36 to active
+V36 / draft V37.
+Run `pnpm run check:v36-gate10` to validate the Gate 10 closure contract.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer
