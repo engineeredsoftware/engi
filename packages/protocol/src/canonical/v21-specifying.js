@@ -395,7 +395,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v35-docs-qa-alignment-report.json',
           '.bitcode/v35-testnet-rollout-readiness-guide.json',
           '.bitcode/v35-telemetry-documentation-interface-integration.json',
-          '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json'
+          '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
+          '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V26'
