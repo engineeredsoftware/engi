@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V32`; V33 is the active draft target for commercial interface
-depth after the promoted provation/testing canon.
+resolves to `V33`; V34 is the active draft target for deployment depth after
+the promoted commercial interface canon.
 
 ## Current Product Posture
 
@@ -13,10 +13,11 @@ The primary operator routes are:
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
 Exchange and website Conversations remain in source as deferred commercial work.
-V33 closure focuses on commercial interface depth over promoted V32: MCP API,
-ChatGPT App, public API, package-owned interface schemas, authorization policy,
-read/license and AssetPack rights contracts, compatibility matrices, and
-interface telemetry/proof replay hooks.
+V34 closure focuses on deployment depth over promoted V33: host capabilities,
+environment lanes, distributed execution runtime receipts, ledger, database,
+object-storage posture, secret rotation, migration/deployment approvals,
+observers, broadcasters, repair jobs, rollback/upgrade playbooks, and local
+plus staging-testnet rehearsal.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration
@@ -41,10 +42,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v33`.
+1. Create one base branch per draft target, such as `version/v34`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v33/gate-1-interface-roadmap-opening` or
-   `v33/gate-6-read-license-assetpack-rights-contracts`.
+   with the gate number, for example `v34/gate-1-deployment-roadmap-opening` or
+   `v34/gate-6-migration-cicd-deployment-approval-gates`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -53,7 +54,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V33 Gate 5: Interface Authorization Policy Fail-Closed`.
+   title, for example `V34 Gate 5: Secret Rotation And Credential Boundary Operations`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -63,17 +64,15 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V33, promotion work must validate the
-interface-depth posture, generate `BITCODE_SPEC_V33_PROVEN.md`, and commit
-promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V32` to
-`V33` on the version branch.
-Gate 10 is the promotion-readiness gate. V33 Gate 10 closure is wired through
-`pnpm run check:v33-gate10`, backed by source-safe interface artifacts and the
-promotion readiness report.
-V33 canonical promotion is validated through
-[v33-canon-promotion.yml](.github/workflows/v33-canon-promotion.yml).
-The promoted V32 closure remains reproducible through `pnpm run check:v32-gate10`
-and [v32-canon-promotion.yml](.github/workflows/v32-canon-promotion.yml).
+run the version promotion workflow. For V34, promotion work must validate the
+deployment-depth posture, generate `BITCODE_SPEC_V34_PROVEN.md`, and commit
+promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V33` to
+`V34` on the version branch.
+Gate 10 is the promotion-readiness gate. V34 Gate 10 is wired through
+`pnpm run check:v34-gate10`, backed by source-safe deployment artifacts, the
+promotion readiness report, and [v34-canon-promotion.yml](.github/workflows/v34-canon-promotion.yml).
+The promoted V33 closure remains reproducible through `pnpm run check:v33-gate10`
+and [v33-canon-promotion.yml](.github/workflows/v33-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set
@@ -84,9 +83,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V32.md](BITCODE_SPEC_V32.md) is the active promoted spec family.
-- [BITCODE_SPEC_V33.md](BITCODE_SPEC_V33.md) is the active draft target.
-- [BITCODE_SPEC_V33_PARITY_MATRIX.md](BITCODE_SPEC_V33_PARITY_MATRIX.md) tracks V33 gate parity.
+- [BITCODE_SPEC_V33.md](BITCODE_SPEC_V33.md) is the active promoted spec family.
+- [BITCODE_SPEC_V34.md](BITCODE_SPEC_V34.md) is the active draft target.
+- [BITCODE_SPEC_V34_PARITY_MATRIX.md](BITCODE_SPEC_V34_PARITY_MATRIX.md) tracks V34 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

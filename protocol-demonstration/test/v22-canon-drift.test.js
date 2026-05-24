@@ -139,9 +139,9 @@ test('runtime promotion preparation rewrites current inline demonstration README
 
   assert.match(rewrittenReadme, /# Bitcode Protocol Demonstration - V30 canonical deterministic local prototype/);
   assert.match(rewrittenReadme, /resolves to `V30`; V31 is the next draft target after this promotion\./);
-  assert.match(rewrittenReadme, /BITCODE_SPEC\.txt -> V30/);
-  assert.match(rewrittenReadme, /active V30 canonical\s+spec/);
-  assert.match(rewrittenReadme, /BITCODE_SPEC_V30_PROVEN\.md/);
+  assert.match(rewrittenReadme, /`BITCODE_SPEC\.txt -> V30`\./);
+  assert.match(rewrittenReadme, /This demo is governed by the active V30 canonical\s+spec and `BITCODE_SPEC_V30_PROVEN\.md` as the current generated appendix\./);
+  assert.doesNotMatch(rewrittenReadme, /V29_PROVEN/);
   assert.doesNotMatch(rewrittenReadme, /active draft target/);
   assert.doesNotMatch(rewrittenReadme, /draft work proceeds outside/);
 });

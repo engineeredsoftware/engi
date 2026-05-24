@@ -372,6 +372,20 @@ function buildV21LikeProfile(version) {
           '.bitcode/v33-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V34'
+        ? [
+          '.bitcode/v34-deployment-host-capability-catalog.json',
+          '.bitcode/v34-environment-lane-contracts.json',
+          '.bitcode/v34-distributed-execution-runtime-receipts.json',
+          '.bitcode/v34-deployment-storage-posture.json',
+          '.bitcode/v34-secret-rotation-boundary-operations.json',
+          '.bitcode/v34-migration-cicd-approval-gates.json',
+          '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
+          '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
+          '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+          '.bitcode/v34-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1451,6 +1465,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V33') {
     artifacts.push(...buildV21LikeProfile('V33').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V34') {
+    artifacts.push(...buildV21LikeProfile('V34').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

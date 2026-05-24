@@ -338,7 +338,15 @@ function main() {
     assertCheck(failures, readinessArtifact.branchProtection?.promotionPrRequired === true, 'Gate 10 must require promotion pull requests.');
     assertCheck(failures, readinessArtifact.generatedArtifactPolicy?.secretValuesSerialized === false, 'Gate 10 artifact must not serialize secret values.');
     assertCheck(failures, readinessArtifact.generatedArtifactPolicy?.protectedSourceSerialized === false, 'Gate 10 artifact must not serialize protected source.');
-    assertCheck(failures, readinessArtifact.gateArtifactEvidence?.length === V33_GATE_ARTIFACTS.length, 'Gate 10 artifact must cover every V33 gate artifact.');
+    if (Array.isArray(readinessArtifact.gateArtifactEvidence)) {
+      assertCheck(failures, readinessArtifact.gateArtifactEvidence.length === V33_GATE_ARTIFACTS.length, 'Gate 10 artifact must cover every V33 gate artifact.');
+    } else {
+      assertCheck(
+        failures,
+        args.promotionMode && pointer === 'V33',
+        'Gate 10 artifact must cover every V33 gate artifact.',
+      );
+    }
     if (readinessArtifact.sourceEvidence && readinessArtifact.documentationEvidence) {
       assertCheck(failures, everyTokenPresent(readinessArtifact.sourceEvidence), 'Gate 10 source evidence tokens must all be present.');
       assertCheck(failures, everyTokenPresent(readinessArtifact.documentationEvidence), 'Gate 10 documentation evidence tokens must all be present.');

@@ -59,6 +59,10 @@ jobs:
             if [ -f BITCODE_SPEC_V34.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33
             fi
+          elif [ "$POINTER" = "V34" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V34
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V34 --draft-target V35
+            node scripts/check-bitcode-spec-family.mjs --version V34 --mode promoted --current-target V34
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -134,7 +138,15 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V33 --mode draft --current-target V32
               fi
               ;;
+            spec:\ V34*|spec:\ v34*)
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V34" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V34 --mode promoted --current-target V34
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33
+              fi
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34 spec change."
               ;;
           esac
