@@ -58,7 +58,7 @@ No `_legacy/` source is active source truth.
 | Telemetry taxonomy event schema | Gate 3 | `TelemetryTaxonomyCatalog`, `.bitcode/v35-telemetry-taxonomy-catalog.json`, `packages/protocol/src/canonical/telemetry-taxonomy-catalog.js`, `packages/protocol/test/v35-telemetry-taxonomy-catalog.test.js`, and `check:v35-gate3` | closed | Pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion events are source-safe and proof-rooted. |
 | Public docs usage guides | Gate 4 | `PublicDocsUsageGuideCatalog`, `.bitcode/v35-public-docs-usage-guides.json`, `source-safe-public-docs-metadata`, `packages/protocol/src/canonical/public-docs-usage-guide-catalog.js`, `packages/protocol/test/v35-public-docs-usage-guide-catalog.test.js`, public `/docs` disclosure-limit section, and `check:v35-gate4` | closed | Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, proof posture, Exchange deferred boundary, and Conversations deferred boundary docs derive from package/SPEC truth. |
 | Dashboards alerts runbooks incident escalation | Gate 5 | `OperatorRunbookCatalog`, `.bitcode/v35-operator-runbook-catalog.json`, `source-safe-runbook-metadata`, `packages/protocol/src/canonical/operator-runbook-catalog.js`, `packages/protocol/test/v35-operator-runbook-catalog.test.js`, dashboard/alert/runbook bindings, incident fixtures, and `check:v35-gate5` | closed | Telemetry events bind to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, proof roots, repair references, and post-incident docs updates. |
-| Documentation QA alignment proofs | Gate 6 | `DocsQaAlignmentReport`, generated alignment artifact, tests, workflows, and `check:v35-gate6` | drafted | Code, SPEC, DELTA, NOTES, PARITY, generated proofs, generated artifacts, public docs, internal docs, route docs, and interface docs fail closed on drift. |
+| Documentation QA alignment proofs | Gate 6 | `DocsQaAlignmentReport`, `.bitcode/v35-docs-qa-alignment-report.json`, `source-safe-docs-qa-metadata`, `packages/protocol/src/canonical/docs-qa-alignment-report.js`, `packages/protocol/test/v35-docs-qa-alignment-report.test.js`, workflow wiring, and `check:v35-gate6` | closed | Code, SPEC, DELTA, NOTES, PARITY, generated proofs, generated artifacts, public docs, internal docs, route docs, interface docs, package READMEs, and workflow checkers fail closed on drift. |
 | Developer operator testnet rollout guides | Gate 7 | `TestnetRolloutReadinessGuide`, onboarding/operations docs, rehearsal evidence, and `check:v35-gate7` | drafted | Contributors, operators, enterprise readers, depositors, and interface consumers can follow source-safe local/staging-testnet guides. |
 | Telemetry documentation interface integration | Gate 8 | Terminal, Auxillaries, API, MCP API, ChatGPT App, route payloads, and `check:v35-gate8` | drafted | Interfaces expose event ids, docs links, runbook links, proof roots, and redaction posture without protected source leakage. |
 | Local staging telemetry documentation rehearsal | Gate 9 | local/staging rehearsal logs, docs QA output, dashboard/runbook proof roots, and `check:v35-gate9` | drafted | Operators can follow docs and telemetry through local and staging-testnet drills while value-bearing mainnet remains blocked. |
@@ -76,6 +76,7 @@ No `_legacy/` source is active source truth.
 | Gate 3 script | `pnpm run check:v35-gate3` fails closed on stale telemetry taxonomy catalog, missing event families, missing redaction posture, missing proof roots, missing source roots, source-unsafe telemetry payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate 4 script | `pnpm run check:v35-gate4` fails closed on stale public docs usage guides, missing public `/docs` routes, missing source roots, missing disclosure-limit docs content, source-unsafe public payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate 5 script | `pnpm run check:v35-gate5` fails closed on stale operator runbook catalog, missing telemetry event family bindings, missing dashboard panels, missing alert thresholds, missing incident classes, missing escalation paths, missing commands, missing proof roots, source-unsafe runbook payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
+| Gate 6 script | `pnpm run check:v35-gate6` fails closed on stale docs QA alignment report, missing source roots, stale expected tokens, missing generated artifacts, unsupported disclosure claims, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate-quality workflow | Gate workflow validates V34 active / V35 draft posture and the V35 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V34 canon, V35 draft family when present, and V34/V35 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V34 active / V35 draft workflow | drafted |
@@ -83,7 +84,7 @@ No `_legacy/` source is active source truth.
 | Public docs disclosure boundary | Public docs disclose guidance, measurements, proof posture, fee/right boundaries, readiness states, and source-safe previews, not protected source, raw protected prompts, wallet private material, provider tokens, or unpaid AssetPack source | closed |
 | Telemetry source-safety boundary | Telemetry events carry redaction posture, source-safety class, proof roots, and correlation ids without raw protected prompts or unpaid source | drafted |
 | Dashboard/runbook derivation | Dashboard panels, alert thresholds, runbooks, incident classes, and escalation paths derive from telemetry taxonomy rows | closed |
-| Documentation QA failure posture | Docs QA fails closed on stale tokens, missing source roots, unsupported disclosure claims, and missing generated artifacts | drafted |
+| Documentation QA failure posture | Docs QA fails closed on stale tokens, missing source roots, unsupported disclosure claims, and missing generated artifacts | closed |
 | Testnet rollout guide posture | Rollout guides distinguish local, staging-testnet, public testnet, mainnet-ready dry run, and blocked value-bearing mainnet | drafted |
 | Promotion readiness report | `DocumentationTelemetryPromotionReadinessReport` covers all V35 telemetry/documentation artifacts, proofs, workflows, and active V35 / draft V36 post-promotion posture | drafted |
 
@@ -145,9 +146,11 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V35 judgment |
 | --- | --- | --- |
-| Docs QA report planned | `DocsQaAlignmentReport` in SPEC/DELTA/NOTES/PARITY | drafted |
-| Alignment sources named | V35 Gate 6 acceptance criteria | drafted |
-| Fail-closed stale docs posture named | V35 SPEC and notes | drafted |
+| Docs QA report implemented | `packages/protocol/src/canonical/docs-qa-alignment-report.js` exports `buildDocsQaAlignmentReport`, `DOCS_QA_ALIGNMENT_IDS`, and `DOCS_QA_ALIGNMENT_ROWS` | closed |
+| Generated artifact exists | `.bitcode/v35-docs-qa-alignment-report.json` with `source-safe-docs-qa-metadata` | closed |
+| Alignment sources named and checked | report rows cover SPEC, DELTA, NOTES, PARITY, generated proof posture, generated artifacts, public docs, internal docs, route docs, interface docs, package READMEs, and workflows | closed |
+| Fail-closed stale docs posture implemented | stale token blockers, missing source roots, missing generated artifacts, unsupported disclosure claims, and forbidden payload classes are explicit report fields | closed |
+| Gate 6 package and workflow proof | `packages/protocol/test/v35-docs-qa-alignment-report.test.js`, `scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `package.json` | closed |
 
 ## Gate 7 Parity
 

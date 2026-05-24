@@ -22,6 +22,7 @@ Current exported commercial helpers include:
 - `TelemetryTaxonomyCatalog` helpers for V35 source-safe event family and redaction posture proof;
 - `PublicDocsUsageGuideCatalog` helpers for V35 source-safe public docs usage and disclosure-boundary proof;
 - `OperatorRunbookCatalog` helpers for V35 dashboard, alert, runbook, incident, and escalation proof;
+- `DocsQaAlignmentReport` helpers for V35 code/spec/docs/proof/artifact/workflow alignment proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -42,8 +43,11 @@ V35 Gate 4 adds the source-safe public docs usage guide catalog through
 V35 Gate 5 adds the source-safe operator runbook catalog through
 `buildOperatorRunbookCatalog` and
 `.bitcode/v35-operator-runbook-catalog.json`.
-Later V35 gates add documentation QA, onboarding, rollout, interface
-integration, and promotion-readiness helpers without importing
+V35 Gate 6 adds the source-safe docs QA alignment report through
+`buildDocsQaAlignmentReport` and
+`.bitcode/v35-docs-qa-alignment-report.json`.
+Later V35 gates add onboarding, rollout, interface integration, and
+promotion-readiness helpers without importing
 `protocol-demonstration/src/*`.
 
 V35 Gate 10 closes the package/runtime promotion boundary: until promotion this
