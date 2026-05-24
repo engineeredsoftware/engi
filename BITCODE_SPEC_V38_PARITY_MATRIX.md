@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -64,6 +64,11 @@ Gate 1 audit basis:
 - `packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js`
 - `scripts/generate-v38-ptrr-failsafe-thricified-stack.mjs`
 - `scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs`
+- `.bitcode/v38-prompt-benchmark-report.json`
+- `packages/protocol/src/canonical/prompt-benchmark-report.js`
+- `packages/protocol/test/v38-prompt-benchmark-report.test.js`
+- `scripts/generate-v38-prompt-benchmark-report.mjs`
+- `scripts/check-v38-gate4-prompt-benchmark-report.mjs`
 
 No `_legacy/` source is active source truth.
 
@@ -80,6 +85,7 @@ No `_legacy/` source is active source truth.
 | Telemetry disclosure scope | Gate 1 | V35 telemetry law, V37 stream UI law, V38 inference notes | drafted | Gate plan requires source-safe prompt, raw response, parsed output, schema verdict, retry, and repair visibility at permitted tiers. |
 | Inference surface inventory | Gate 2 | `V38InferenceSurfaceInventory`, `.bitcode/v38-inference-surface-inventory.json`, protocol test, generator, checker, workflows | closed | Source-safe inventory covers Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive families with 52 PTRR steps and later-gate gaps explicit. |
 | PTRR Failsafe and Thricified execution stack | Gate 3 | `V38PtrrFailsafeThricifiedStack`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, protocol test, generator, checker, workflows | closed | Practical PTRR agents prove four steps, three Failsafe stages, three ThricifiedGeneration stages, 69 source predicates, and Gate 2 count binding with step-owned tools. |
+| PromptPart and Prompt benchmarking | Gate 4 | `V38PromptBenchmarkReport`, `.bitcode/v38-prompt-benchmark-report.json`, protocol test, generator, checker, workflows | closed | Source-safe benchmark report covers active Reading, Conversation, and tool-definition PromptParts and complete Prompts with 7 rows, 13 fixtures, 24 typed-output quality expectations, and 38 passed source predicates. |
 
 ## V38 implementation checklist
 
@@ -94,6 +100,7 @@ No `_legacy/` source is active source truth.
 | Package docs | README, protocol package README, demonstration README, and PR template state V37 active / V38 draft workflow | drafted |
 | Inference surface inventory | `.bitcode/v38-inference-surface-inventory.json` and `V38InferenceSurfaceInventory` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-surface-metadata` | closed |
 | PTRR stack artifact | `.bitcode/v38-ptrr-failsafe-thricified-stack.json` and `V38PtrrFailsafeThricifiedStack` are generated, tested, checked, documented, and workflow-wired as `source-safe-ptrr-failsafe-thricified-stack-metadata` | closed |
+| Prompt benchmark artifact | `.bitcode/v38-prompt-benchmark-report.json` and `V38PromptBenchmarkReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-prompt-benchmark-metadata` | closed |
 | Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
 | Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
 | Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
@@ -146,9 +153,25 @@ No `_legacy/` source is active source truth.
 | Gate 2 counts are bound | 52 PTRR steps, 156 Failsafe sequences, 156 ThricifiedGeneration chains, 468 provider-call slots | closed |
 | Gate checker is wired | `pnpm run check:v38-gate3`, package test, generator check, gate/canon workflows | closed |
 
+## Gate 4 Parity
+
+| Requirement | Source evidence | Current V38 judgment |
+| --- | --- | --- |
+| Benchmark report source is package-owned | `packages/protocol/src/canonical/prompt-benchmark-report.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Deterministic artifact exists | `.bitcode/v38-prompt-benchmark-report.json` | closed |
+| Source-safe disclosure posture is explicit | `source-safe-prompt-benchmark-metadata`, fixture ids, typed-output quality ids, raw prompt text private, raw provider response private | closed |
+| Benchmark runner and suite types are included | `packages/prompts/src/benchmarking/runner.ts`, `packages/prompts/src/benchmarking/types.ts`, `packages/prompts/src/developing/doc-comment-developing.ts` | closed |
+| Generic PromptParts are benchmarkable | generic PTRR, Failsafe, ThricifiedGeneration, formatting, and DocCode PromptParts | closed |
+| Reading PromptParts are benchmarkable | `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` specific PromptParts and typed-output quality fixtures | closed |
+| Complete Reading Prompts are benchmarkable | `packages/pipelines/asset-pack/src/agents/prompts`, `packages/pipelines/asset-pack/src/reading-pipeline-contract.ts` | closed |
+| Conversation Prompt is benchmarkable | `BitcodeTerminalConversationSystemPrompt` benchmark row with route-local source-safe fixture | closed |
+| Tool-definition Prompts are benchmarkable | `DocCodeToolPrompt`, `formatUsableTools`, web-search, repository-evidence search, and VCS PR tool prompts | closed |
+| Count contract is explicit | 7 rows, 13 fixtures, 24 typed-output quality expectations, 38 source predicates, 443 PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions | closed |
+| Gate checker is wired | `pnpm run check:v38-gate4`, package test, generator check, gate/canon workflows | closed |
+
 ## Completion condition
 
-Gate 3 closes when `pnpm run check:v38-gate3`, the V38 PTRR/Failsafe/Thricified stack generator check, Gate 2 inventory checks, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-3-ptrr-failsafe-thricified-stack`.
+Gate 4 closes when `pnpm run check:v38-gate4`, the V38 prompt benchmark report generator check, Gate 3 PTRR/Failsafe/Thricified stack checks, Gate 2 inventory checks, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-4-promptpart-prompt-benchmarking`.
 
 ## accepted boundaries
 

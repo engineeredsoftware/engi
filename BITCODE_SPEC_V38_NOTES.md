@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -161,6 +161,15 @@ Gate 3 closes the practical PTRR stack contract by making the existing source-ba
 `V38PtrrFailsafeThricifiedStack` and `.bitcode/v38-ptrr-failsafe-thricified-stack.json` record `factoryAgentWithPTRR`, Plan/Try/Refine/Retry factories, `FailsafeGenerationSequence`, `ThricifiedGeneration`, prompt/context/telemetry substeps, and Gate 2 count binding as `source-safe-ptrr-failsafe-thricified-stack-metadata`.
 The artifact proves 69 source predicates and binds 52 PTRR steps to 156 Failsafe sequences, 156 ThricifiedGeneration chains, and 468 provider-call slots.
 Tools remain step-owned postprocess executions; `ThricifiedGeneration` remains the lowest-level Reason, Judge, StructuredOutput provider-call chain.
+
+## Gate 4 implementation notes
+
+Gate 4 closes the first concrete prompt benchmarking contract by making benchmark coverage package-backed, generated, tested, and workflow-checkable.
+Prompt benchmarking remains the complete-Prompt side of the same benchmark law that applies to semantically divided PromptParts.
+`V38PromptBenchmarkReport` and `.bitcode/v38-prompt-benchmark-report.json` record prompt benchmark infrastructure, generic PTRR/Failsafe/ThricifiedGeneration PromptParts, `ReadNeedComprehensionSynthesis` PromptParts, `ReadFitsFindingSynthesis` PromptParts, complete Reading Prompt registries, Website Conversation Prompts, and DocCodeToolPrompt surfaces as `source-safe-prompt-benchmark-metadata`.
+The artifact deliberately stores prompt identities, source-safe fixture ids, typed-output quality expectations, disclosure tiers, source roots, counts, predicate ids, and proof roots rather than raw prompt text or provider responses.
+The current generated report covers 7 benchmark rows, 13 fixtures, 24 typed-output quality expectations, 38 source predicates, 443 active PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions.
+Later V38 gates must use this report when streaming inference telemetry, hardening the two Reading pipelines, and applying Conversation/tool-prompt parity.
 
 ## V38 gate plan
 

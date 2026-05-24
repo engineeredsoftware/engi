@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -105,9 +105,16 @@ Closure implementation:
 Closure acceptance:
 
 - PromptParts and complete Prompts are benchmarkable;
+- Prompt benchmarking remains source-safe and registry-backed;
 - active Reading, Conversation, and tool-definition prompts have initial benchmark suites;
 - benchmark artifacts preserve prompt identities, fixtures, typed-output quality expectations, and disclosure tiers;
 - `pnpm run check:v38-gate4` validates benchmark runner, fixtures, reports, and source-safe metadata.
+
+Closure implementation:
+
+- `V38PromptBenchmarkReport` is now package-backed in `packages/protocol/src/canonical/prompt-benchmark-report.js` and generated to `.bitcode/v38-prompt-benchmark-report.json`.
+- The generated artifact is `source-safe-prompt-benchmark-metadata` and covers benchmark infrastructure, generic PTRR/Failsafe/ThricifiedGeneration PromptParts, `ReadNeedComprehensionSynthesis` PromptParts, `ReadFitsFindingSynthesis` PromptParts, complete Reading Prompt registries, Website Conversation Prompts, and DocCodeToolPrompt surfaces.
+- The current benchmark report records 7 rows, 13 source-safe fixtures, 24 typed-output quality expectations, 38 passed source predicates, 443 active PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions without serializing raw prompt text, protected source, raw provider responses, credentials, or unpaid AssetPack source.
 
 ### Gate 5: Inference Telemetry And Disclosure Tiers
 
