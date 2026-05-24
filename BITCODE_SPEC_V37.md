@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft opening; Gate 1 opens Website Conversations depth over active V36 Exchange canon
+- V37 state: draft implementation; Gate 2 closes ConversationSession route-local history contracts over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, and `.bitcode/v37-canon-posture-drift-report.json` readiness; later V37 gates add package-owned Conversations artifacts
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Conversations package and route implementation parity begins in later gates
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture plus Gate 2 package-owned ConversationSession route-history contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -48,6 +48,38 @@ Gate 1 opens V37 correctly:
 - README, roadmap, PR template, package docs, demonstration docs, and workflows describe V36 active / V37 draft posture.
 - `check:v37-gate1` validates branch naming, spec family, notes, parity, roadmap truth, workflow posture, Conversations vocabulary, and promotion boundaries.
 - The V37 gate list is explicit before Conversations implementation begins.
+
+## V37 Gate 2 ConversationSession route-history canon
+
+Gate 2 implements `ConversationSession` route-local identity and history
+contracts as package-owned source for Website Conversations.
+`ConversationSession` owns route-local session identity, user/account posture,
+source context reference, policy decision, stream state, history references,
+proof roots, event ids, redaction posture, and persistence boundary.
+It emits `.bitcode/v37-conversation-session-route-history.json` with
+`source-safe-conversation-session-route-history-metadata`, deterministic row
+roots, deterministic detail roots, route contract ids, required history
+operation ids, source evidence roots, and source-safe disclosure limits.
+
+The Gate 2 route-history coverage is create, restore, branch, retry, redact,
+and stream. Route contracts cover `/api/conversations`,
+`/api/conversations/[conversationId]`, `/api/conversations/stream`,
+`/api/conversations/[conversationId]/stream`, `/api/conversations/branch`, and
+the shared route redaction contract. Route-local history can restore a session,
+branch a session, retry a stream, and apply redaction checkpoints without
+becoming global ledger truth. Terminal and the ledger remain authoritative for
+transactions, settlement, Exchange, wallet, and BTD ownership work.
+
+Conversation route-history payloads may expose only source-safe conversation
+identity, source-safe summaries, route contract metadata, account and policy
+metadata, source context refs, stream state, history refs, proof roots, event
+ids, and persistence boundaries. They must not expose protected source, raw
+protected prompts, protected model responses with source, provider tokens,
+wallet private material, secrets, settlement private payloads, unpaid AssetPack
+source, or any claim that route-local Conversations are global ledger truth.
+`check:v37-gate2` validates package source, generated artifact freshness,
+package tests, route tests, docs, workflow wiring, source safety, proof roots,
+event ids, route ids, history operations, and persistence boundaries.
 
 ## Inherited V36 Exchange canon
 
@@ -723,11 +755,13 @@ V36 inherits operator quality, visual/accessibility/performance posture, project
 | `.bitcode/v37-spec-family-report.json` | Gate 1 | source-safe | V37 spec-family checker |
 | `.bitcode/v37-canonical-input-report.json` | Gate 1 | source-safe | V37 canonical-input checker |
 | `.bitcode/v37-canon-posture-drift-report.json` | Gate 1 | source-safe | V36 active / V37 draft posture checker |
+| `.bitcode/v37-conversation-session-route-history.json` | Gate 2 | source-safe | ConversationSession route-local history contracts |
 
 ### V37 specifying generated artifacts
 
 Gate 1 requires `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, and `.bitcode/v37-canon-posture-drift-report.json` readiness.
-Gate 2 and later V37 gates add Conversations generated artifacts only when their package-owned builders, route checks, stream tests, telemetry checks, and source-safety tests exist.
+Gate 2 adds `.bitcode/v37-conversation-session-route-history.json` from the package-owned ConversationSession route-history builder with package tests, route tests, workflow checks, and source-safety checks.
+Later V37 gates add Conversations generated artifacts only when their package-owned builders, route checks, stream tests, telemetry checks, and source-safety tests exist.
 
 ### Shared generated-artifact fields
 
