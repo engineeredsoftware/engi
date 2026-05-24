@@ -69,6 +69,16 @@ incident repair. The API storage path redacts message content, attachment
 metadata, execution input, and execution metadata before persistence, and the
 conversation UI exposes source-safe privacy previews without protected source,
 secrets, wallet private material, or unpaid AssetPack source.
+V37 Gate 8 anchors `ConversationTelemetryProofHooks` through the
+package-owned source-safe generated artifact
+`.bitcode/v37-conversation-telemetry-proof-hooks.json`. Conversation sessions,
+messages, streams, tools, source selectors, Terminal handoffs, retries,
+errors, and completions now bind to dashboard panels, runbook ids,
+correlation ids, proof roots, redaction posture, and source-safe visibility
+tiers. API stream rows and the conversation UI expose telemetry proof posture
+without protected prompts, protected source, raw provider responses, provider
+tokens, wallet private material, settlement private payloads, or unpaid
+AssetPack source.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

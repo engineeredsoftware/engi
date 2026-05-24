@@ -25,6 +25,9 @@ describe('conversation stream events', () => {
     expect(event.sourceSafetyClass).toBe('source_safe_conversation_stream_event_metadata');
     expect(event.promptDisclosurePosture).toBe('prompt_template_id_only');
     expect(event.resultDisclosurePosture).toBe('parsed_result_shape_only');
+    expect(event.telemetryProofHook.eventFamily).toBe('stream');
+    expect(event.telemetryProofHook.dashboardPanel).toBe('conversation.dashboard.stream-quality');
+    expect(event.telemetryProofHook.runbookId).toBe('runbook.conversation.stream-debug');
     expect(event.redactionPosture.protectedSourceVisible).toBe(false);
     expect(event.redactionPosture.rawModelResponseVisible).toBe(false);
     expect(event.redactionPosture.unpaidAssetPackSourceVisible).toBe(false);
@@ -52,5 +55,6 @@ describe('conversation stream events', () => {
     expect(payload.data.event.message).toBe('Conversation stream proof roots anchored');
     expect(payload.data.event.status.executionState.outputSchema).toBe('ConversationStreamEvent:proof_root');
     expect(payload.data.event.status.metadata.proofRoots).toEqual(event.proofRoots);
+    expect(payload.data.event.status.metadata.telemetryProofHook).toEqual(event.telemetryProofHook);
   });
 });

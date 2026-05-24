@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 6 closes ConversationTerminalHandoff transaction handoff over active V36 Exchange canon
+- V37 state: draft implementation; Gate 8 closes ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs posture over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, and `.bitcode/v37-conversation-terminal-handoff.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, and `.bitcode/v37-conversation-telemetry-proof-hooks.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts
 - Scope: draft notes for website Conversations work after V36 Exchange depth and after the V28 ChatGPT App MVP proved the interface path.
 
 This NOTES file does not promote V37. It is binding draft guidance while V37 gates are in flight.
@@ -135,6 +135,19 @@ redacted. Export is source-safe, delete leaves only a tombstone proof,
 retention never escalates visibility, replay uses prompt template ids and
 parsed result shapes, and incident repair operates over proof roots and
 redaction verdicts.
+
+Gate 8 adds `ConversationTelemetryProofHooks` so conversation sessions,
+messages, streams, tools, source selectors, Terminal handoffs, retries,
+errors, and completions have source-safe dashboard/runbook telemetry. The
+package source emits `.bitcode/v37-conversation-telemetry-proof-hooks.json`,
+the API attaches telemetry proof hooks to conversation stream execution rows,
+and the UI exposes a fullscreen telemetry proof panel. Telemetry proof hooks
+may expose event ids, conversation ids, message ids, run ids, source selector
+refs, Terminal transaction refs, state enums, counts, proof roots, dashboard
+panel ids, runbook ids, and redacted error classes only. Protected prompts,
+protected model responses, protected source payloads, provider tokens, wallet
+private material, settlement private payloads, unpaid AssetPack source,
+ledger write authority, and wallet signing authority remain forbidden.
 
 ## V37 gate plan
 

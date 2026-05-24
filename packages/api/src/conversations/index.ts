@@ -12,3 +12,4 @@ export * from './attachments';
 export * from './streaming';
 export * from './stream-events';
 export * from './privacy';
+export * from './telemetry';

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 6 ConversationTerminalHandoff transaction handoff contracts
+- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 8 ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, and `.bitcode/v37-conversation-terminal-handoff.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, and `.bitcode/v37-conversation-telemetry-proof-hooks.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V37_PARITY_MATRIX.md`
@@ -179,6 +179,15 @@ Closure acceptance:
 ### Gate 8: Conversations Telemetry Proof Hooks And Docs
 
 Gate 8 binds Conversations to telemetry, proof, dashboards, and public/internal docs.
+
+Gate 8 closure adds package-backed `ConversationTelemetryProofHooks` source,
+`.bitcode/v37-conversation-telemetry-proof-hooks.json`,
+`source-safe-conversation-telemetry-proof-hooks-metadata`, session/message/
+stream/tool/source selector/Terminal handoff/retry/error/completion event
+families, source-safe dashboard panels, runbook ids, proof roots, telemetry
+roots, API stream proof hook metadata, fullscreen telemetry proof preview UI,
+public conversation docs, internal operator runbook docs, package tests, API
+tests, UI tests, workflow wiring, and `check:v37-gate8`.
 
 Closure acceptance:
 
