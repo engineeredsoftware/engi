@@ -192,6 +192,14 @@ payloads. Expanded metadata can show source-safe correlation ids, state labels,
 summary counts, and proof roots, but source-bearing AssetPack contents cross to
 the reader only after settlement and rights transfer.
 
+`LocalStagingTelemetryDocumentationRehearsal` is the Gate 9 rehearsal contract
+Terminal follows before promotion. Its source-safe artifact
+`.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json` ties the
+Terminal log stream to local/staging-testnet documentation discovery,
+telemetry event emission, dashboard/runbook lookup, docs QA, incident drills,
+redacted screenshot/log roots, proof-root review, and blocked value-bearing
+mainnet posture.
+
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
 wallet binding, owner-read or licensed-read access, policy id/hash, multi-sig

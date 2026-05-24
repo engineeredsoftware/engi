@@ -80,9 +80,11 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
   assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-docs-qa-alignment-report.json'));
   assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-testnet-rollout-readiness-guide.json'));
   assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-telemetry-documentation-interface-integration.json'));
+  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildOperatorRunbookCatalog'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildTestnetRolloutReadinessGuide'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildTelemetryDocumentationInterfaceIntegration'));
+  assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildLocalStagingTelemetryDocumentationRehearsal'));
   assert.ok(byAlignmentId.get('public_docs_disclosure_alignment')?.checkedSources.includes('uapi/app/docs/bitcode-docs-content.ts'));
   assert.ok(byAlignmentId.get('internal_docs_alignment')?.checkedSources.includes('internal-docs/README.md'));
   assert.ok(byAlignmentId.get('route_docs_alignment')?.checkedSources.includes('packages/api/README.md'));
@@ -90,6 +92,7 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
   assert.ok(byAlignmentId.get('generated_proof_appendix_alignment')?.expectedTokens.includes('BITCODE_SPEC_V35_PROVEN.md'));
   assert.ok(byAlignmentId.get('workflow_checker_alignment')?.expectedTokens.includes('check:v35-gate6'));
   assert.ok(byAlignmentId.get('workflow_checker_alignment')?.expectedTokens.includes('check:v35-gate8'));
+  assert.ok(byAlignmentId.get('workflow_checker_alignment')?.expectedTokens.includes('check:v35-gate9'));
   assert.equal(
     report.disclosureBoundary.forbiddenDocsQaData.includes('protected_source_payloads'),
     true,

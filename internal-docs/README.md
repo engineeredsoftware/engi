@@ -69,3 +69,11 @@ correlation ids, generated artifact paths, and repair commands. They must not
 record secret values, provider tokens, wallet private material, raw protected
 prompts, protected source payloads, raw protected model responses with source,
 or unpaid AssetPack source.
+
+`LocalStagingTelemetryDocumentationRehearsal` extends this integration into
+the operator drill layer. The source-safe generated artifact
+`.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json` records
+local/staging-testnet documentation discovery, telemetry event emission,
+dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root
+review, redacted screenshot/log roots, and visible blocked value-bearing
+mainnet posture without storing secrets or source-bearing payloads.

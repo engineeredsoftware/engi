@@ -107,8 +107,9 @@ const PUBLIC_DISCLOSURE_LIMIT_SECTION = {
   reason:
     'This keeps the public product understandable while preserving the boundary that makes Source Shares economically and operationally safe.',
   points: [
-    'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, dashboard/runbook ids, redacted incident posture, testnet rollout readiness, and fee/right boundaries.',
+    'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, dashboard/runbook ids, redacted incident posture, testnet rollout readiness, LocalStagingTelemetryDocumentationRehearsal evidence, and fee/right boundaries.',
     'Interface docs may surface event ids, proof roots, docs links, runbook links, and redaction posture from TelemetryDocumentationInterfaceIntegration without revealing source-bearing payloads.',
+    'Local and staging-testnet rehearsal docs may surface documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root review, and blocked value-bearing mainnet posture.',
     'Blocked: secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.',
     'Docs QA fails closed when public docs, internal docs, route docs, interface docs, generated artifacts, proof posture, or workflow checks drift.',
     'Deferred boundaries stay explicit: V35 documents Exchange and Conversations usage while deeper product depth remains future-canon work.',
