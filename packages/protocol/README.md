@@ -29,11 +29,15 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is the `V34` active, `V35` draft after V34 promotion posture accepted by
-V34 Gate 10 and opened by V35 Gate 1.
-V35 Gate 1 treats this package as promotion-critical runtime posture.
+This is now the `V35` active, `V36` draft after V35 promotion posture accepted
+by V35 Gate 10 and opened by V36 Gate 1.
+V36 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V34` active, `V35` draft while V35 gates are in flight.
+must remain aligned to `V35` active, `V36` draft while V36 gates are in flight.
+V36 Gate 1 opens the Exchange-depth spec family and `check:v36-gate1` before
+later gates add package-owned Exchange activity, intent/order, rights-transfer,
+pricing, settlement, dispute/repair/revenue, UX, rehearsal, and promotion
+readiness helpers.
 V35 Gate 2 adds the source-safe documentation surface catalog through
 `buildDocumentationSurfaceCatalog` and
 `.bitcode/v35-documentation-surface-catalog.json`.
@@ -58,13 +62,14 @@ report through `buildTelemetryDocumentationInterfaceIntegration` and
 V35 Gate 9 adds the source-safe local/staging telemetry documentation rehearsal
 through `buildLocalStagingTelemetryDocumentationRehearsal` and
 `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`.
-Later V35 gates add promotion-readiness helpers without importing
+Later V36 gates add Exchange helpers without importing
 `protocol-demonstration/src/*`.
 
-V35 Gate 10 closes the package/runtime promotion boundary: until promotion this
-package remains `V34` active, `V35` draft, and the V35 promotion workflow then
-rewrites the package posture to `V35` active, `V36` draft only after promotion
-validations and generated proof output pass.
+V35 Gate 10 closed the package/runtime promotion boundary and the V35 promotion
+workflow rewrote the package posture to `V35` active, `V36` draft after
+promotion validations and generated proof output passed. V36 promotion will
+eventually rewrite this package to `V36` active, `V37` draft only after all
+Exchange gates close.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
-commercial protocol boundary test, and V35 gate checks.
+commercial protocol boundary test, and V36 gate checks.
