@@ -3,19 +3,20 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 10 promotion readiness is closed over promoted V33 canon; V34 is ready for canonical promotion into active V34 / draft V35 posture
-- Current canonical/latest target: `V33`
+- V34 state: canonical promotion complete; V34 is the active deployment-depth canon and the V34 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V34`
+- Canonical proof-source commit: `cb339f0407231855043dcf7174c384f1ab6bd16c`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and Gate 10 artifact `.bitcode/v34-promotion-readiness-report.json`
-- Source parity state: Gate 10 closes V34 host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job registry, rollback/upgrade/data repair playbook parity, local/staging-testnet rehearsal parity, promotion workflow support, canonical proof generation support, runtime posture rewrite support, and `DeploymentPromotionReadinessReport` parity
+- Generated structured artifact inventory: active canonical `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, `.bitcode/v34-canon-posture-drift-report.json`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `.bitcode/v34-deployment-storage-posture.json`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `.bitcode/v34-migration-cicd-approval-gates.json`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, `.bitcode/v34-promotion-readiness-report.json`, V34 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V34_PROVEN.md` as the generated proof appendix for V34 promotion
+- Source parity state: V34 source-side deployment host capability catalog, environment lane contracts, distributed execution runtime receipts, storage posture, secret rotation, migration CI/CD approval gates, runtime observer and repair jobs, rollback/upgrade/data repair playbooks, local/staging-testnet deployment rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V34 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V34_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V34_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md` only after V34 promotion
-- Scope: V34 draft system specification for deployment depth over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP API, ChatGPT App, public API, proof, and interface contracts
-- Last fully realized canonical target preserved in source: `V33`
+- Scope: V34 canonical system specification for deployment depth over promoted host capabilities, environment lanes, distributed executions, storage posture, credential operations, migration approvals, observers, repair jobs, rehearsal, and promotion readiness
+- Last fully realized canonical target preserved in source: `V34`
 
 V34 begins from promoted V33.
 V33 closed commercial interface-depth across MCP API, ChatGPT App, public API, package-owned schemas, authorization policy, Read license and AssetPack rights contracts, compatibility matrices, telemetry/proof hooks, consumer UX proof, and promotion readiness.

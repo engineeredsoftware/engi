@@ -3,13 +3,15 @@
 ## Status
 
 - Version: `V34`
-- V34 state: Gate 10 promotion readiness is closed over promoted V33 canon; V34 is ready for canonical promotion into active V34 / draft V35 posture
-- Current canonical/latest target: `V33`
+- V34 state: canonical promotion complete; V34 notes record the accepted deployment host, lane, runtime, storage, credential, migration, repair, rehearsal, and promotion-readiness evidence
+- Current canonical/latest target: `V34`
+- Canonical proof-source commit: `cb339f0407231855043dcf7174c384f1ab6bd16c`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: draft V34 specifying artifacts `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, Gate 2 artifacts `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, Gate 3 artifact `.bitcode/v34-distributed-execution-runtime-receipts.json`, Gate 4 artifact `.bitcode/v34-deployment-storage-posture.json`, Gate 5 artifact `.bitcode/v34-secret-rotation-boundary-operations.json`, Gate 6 artifact `.bitcode/v34-migration-cicd-approval-gates.json`, Gate 7 artifact `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, Gate 8 artifact `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, Gate 9 artifact `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, and Gate 10 artifact `.bitcode/v34-promotion-readiness-report.json`
-- Source parity state: Gate 10 closes host capability, environment lane, distributed execution runtime receipt, storage posture, secret rotation, migration CI/CD approval, runtime observer/broadcaster/repair-job source parity, rollback/upgrade/data repair playbook source parity, deployment rehearsal source parity, promotion command planning, generated appendix support, workflow support, runtime posture rewrite support, and `DeploymentPromotionReadinessReport`
-- Scope: active draft notes for deployment depth after V33 commercial interface canon
+- Generated structured artifact inventory: active canonical `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, `.bitcode/v34-canon-posture-drift-report.json`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `.bitcode/v34-deployment-storage-posture.json`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `.bitcode/v34-migration-cicd-approval-gates.json`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, `.bitcode/v34-promotion-readiness-report.json`, V34 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V34_PROVEN.md` as the generated proof appendix for V34 promotion
+- Source parity state: V34 source-side deployment host capability catalog, environment lane contracts, distributed execution runtime receipts, storage posture, secret rotation, migration CI/CD approval gates, runtime observer and repair jobs, rollback/upgrade/data repair playbooks, local/staging-testnet deployment rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V34 file family
+- Scope: V34 canonical notes for deployment depth over promoted V33 commercial interface canon
+- Last fully realized canonical target preserved in source: `V34`
 
 This NOTES file does not promote V34.
 It guides V34 drafting while `BITCODE_SPEC.txt` remains `V33`.
