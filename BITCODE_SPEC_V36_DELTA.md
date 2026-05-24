@@ -139,6 +139,8 @@ Closure acceptance:
 - `ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch;
 - `ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof;
 - runbooks and repair commands are source-safe and proof-rooted.
+- `.bitcode/v36-exchange-dispute-repair-revenue-route.json` is generated from the package-owned builder with `source-safe-exchange-dispute-repair-revenue-route-metadata`;
+- `pnpm run check:v36-gate7` validates package source, artifact freshness, package tests, docs, workflow wiring, dispute coverage, revenue route coverage, repair commands, verification commands, proof-rooted runbooks, escalation paths, conservation proofs, source-safety, proof roots, and event ids.
 
 ### Gate 8: Exchange UX And Terminal Navigation Integration
 

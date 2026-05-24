@@ -71,6 +71,13 @@ V36 Gate 6 adds source-safe Exchange settlement reconciliation through
 `ExchangeSettlementReceipt` binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
 The source-safe verdict is
 `source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
+V36 Gate 7 adds source-safe Exchange dispute repair and revenue routing through
+`buildExchangeDisputeRepairRevenueRoute` and
+`.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
+`ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
+`ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
+The source-safe verdict is
+`source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

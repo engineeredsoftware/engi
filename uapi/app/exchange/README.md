@@ -51,5 +51,14 @@ delivery reconciliation. The generated
 Its source-safe verdict is
 `source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
 
+V36 Gate 7 makes `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` the
+package-owned contracts behind dispute repair, runbook execution, escalation,
+and revenue conservation. The generated
+`.bitcode/v36-exchange-dispute-repair-revenue-route.json` artifact proves that
+`ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
+It also proves that `ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
+Its source-safe verdict is
+`source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.

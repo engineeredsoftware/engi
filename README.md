@@ -48,6 +48,13 @@ and the source-safe generated artifact
 The receipt binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
 The source-safe verdict is
 `source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
+V36 Gate 7 anchors dispute repair and revenue routing through package-owned
+`ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, and the source-safe
+generated artifact `.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
+`ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
+`ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
+The source-safe verdict is
+`source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer

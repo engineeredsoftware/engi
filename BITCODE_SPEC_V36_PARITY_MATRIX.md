@@ -59,7 +59,7 @@ No `_legacy/` source is active source truth.
 | Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | closed | BTD range identity, ownership, buyer, rights scope, disclosure boundary, settlement unlock, owner-read, licensed-read, and blocked transfer states are source-safe. |
 | Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | closed | BTC price, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury/depositor/reader routes, quote roots, and fail-closed payment/network posture are deterministic. |
 | Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | closed | Payment observation, finality state, rights-transfer receipt, ledger root, database projection root, object storage root, delivery state, repair id, observer jobs, and repair jobs reconcile. |
-| Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | draft-required | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
+| Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | closed | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
 | Exchange UX and Terminal integration | Gate 8 | `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, and `check:v36-gate8` | draft-required | Master-detail UX, source-safe expanded detail, order history, and Terminal navigation are validated. |
 | Local staging rehearsal | Gate 9 | `.bitcode/v36-exchange-rehearsal.json`, local/staging logs, proof roots, and `check:v36-gate9` | draft-required | Local and staging-testnet list/bid/ask/cancel/accept/settle/repair/history flows are rehearsed. |
 | Promotion readiness | Gate 10 | `.bitcode/v36-promotion-readiness-report.json`, promotion workflow, generated proof support, and `check:v36-gate10` | draft-required | V36 can promote only after all Exchange gates pass and generated canon remains source-safe. |
@@ -158,6 +158,20 @@ No `_legacy/` source is active source truth.
 | Finality and delivery are auditable | settlement finality and delivery are auditable | closed |
 | Settlement payloads are source-safe | `source-safe-exchange-settlement-reconciliation-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private payment credentials, object-storage private bytes, private buyer payloads, and secret values are forbidden | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-settlement-reconciliation.test.js`, `scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 7 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` are package-owned | `packages/protocol/src/canonical/exchange-dispute-repair-revenue-route.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated dispute and revenue artifact exists | `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, `scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs`, `pnpm run check:v36-exchange-dispute-repair-revenue-route` | closed |
+| Required dispute classes are covered | stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch | closed |
+| Required revenue route fields are covered | depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof | closed |
+| Repair operations are source-safe | runbooks and repair commands are source-safe and proof-rooted | closed |
+| Escalation and verification are explicit | repair commands, verification commands, escalation paths, proof roots, and event ids are present for every dispute case | closed |
+| Revenue conservation is explicit | every revenue route proves BTC debits equal credits while BTD rights and source-to-shares roots remain conserved | closed |
+| Dispute and revenue payloads are source-safe | `source-safe-exchange-dispute-repair-revenue-route-metadata`; protected source, unpaid AssetPack source, private wallet material, private payment credentials, raw disputed source bytes, provider tokens, protected prompts, protected model responses, private buyer payloads, object-storage private bytes, and secret values are forbidden | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-dispute-repair-revenue-route.test.js`, `scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

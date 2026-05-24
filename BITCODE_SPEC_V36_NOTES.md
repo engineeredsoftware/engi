@@ -138,6 +138,21 @@ Delivery remains blocked until paid finality, rights-transfer receipt,
 projection synchronization, object-storage projection, and delivery state are
 all source-safe and proof-rooted.
 
+## Gate 7 closure notes
+
+Gate 7 closes when `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` are
+package-owned and generated through
+`.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
+The generated artifact carries
+`source-safe-exchange-dispute-repair-revenue-route-metadata`.
+`ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
+`ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
+runbooks and repair commands are source-safe and proof-rooted.
+Dispute and revenue artifacts remain source-safe: they expose roots, public
+principal ids, status, commands, routes, and proof posture, not protected source,
+unpaid AssetPack source, private payment credentials, or wallet private
+material.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.
