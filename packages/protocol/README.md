@@ -37,6 +37,7 @@ Current exported commercial helpers include:
 - `ConversationSession` route-history helpers for V37 route-local session identity, create/restore/branch/retry/redact/stream operations, proof roots, event ids, and persistence boundaries;
 - `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
 - `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
+- `ConversationSourceSelector` helpers for V37 repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors governed by account, organization, wallet, rights, settlement, disclosure, and policy posture with allowed, denied, and retry-required source-safe preview states;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -65,8 +66,15 @@ contracts through `buildConversationWritingWorkspace` and
 The writing workspace artifact covers Read Request, Need feedback, AssetPack
 review note, and Terminal handoff summary modes with save, restore, summarize,
 and handoff actions while keeping emitted summaries source-safe and keeping
-Terminal as transaction authority. Gate 5 and later gates add package-owned
-Conversations message, source selector, Terminal handoff, persistence/privacy,
+Terminal as transaction authority.
+V37 Gate 5 adds source-safe `ConversationSourceSelector` context-policy
+contracts through `buildConversationSourceSelector` and
+`.bitcode/v37-conversation-source-selector.json`. The source selector artifact
+covers repository, branch, commit, deposit, BTD range, AssetPack preview,
+document, and prior conversation selectors with account, organization, wallet,
+rights, settlement, disclosure, and policy governance while keeping protected
+source and unpaid AssetPack source outside Conversations. Later gates add
+package-owned Conversations Terminal handoff, persistence/privacy,
 telemetry/proof/docs, rehearsal, and promotion readiness helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.

@@ -86,7 +86,7 @@ No `_legacy/` source is active source truth.
 | Conversation session and route history | Gate 2 | `ConversationSession`, `.bitcode/v37-conversation-session-route-history.json`, package source, route contracts, tests, and `check:v37-gate2` | closed | Route-local identity, route-local history, restore, branch, retry, redaction, stream, and proof roots are typed and source-safe. |
 | Conversation stream events | Gate 3 | `ConversationStreamEvent`, `.bitcode/v37-conversation-stream-event-contract.json`, route-attached SSE metadata, stream UI tests, telemetry hooks, and `check:v37-gate3` | closed | Model deltas, tool calls, retrieval summaries, completion decisions, retry/error states, proof roots, collapsed readable status, expanded metadata, and disclosure posture are source-safe. |
 | Writing workspace | Gate 4 | `ConversationWritingWorkspace`, `.bitcode/v37-conversation-writing-workspace.json`, fullscreen workspace UI tests, accessibility proof, and `check:v37-gate4` | closed | Read Request, Need feedback, AssetPack review notes, and Terminal handoff writing flows are accessible, restorable, and source-safe. |
-| Source selectors | Gate 5 | future `ConversationSourceSelector`, policy tests, rights checks, and `check:v37-gate5` | pending | Repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors are policy-gated. |
+| Source selectors | Gate 5 | `ConversationSourceSelector`, `.bitcode/v37-conversation-source-selector.json`, policy tests, rights checks, source selector UI tests, and `check:v37-gate5` | closed | Repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors are policy-gated. |
 | Terminal handoff | Gate 6 | future `ConversationTerminalHandoff`, Terminal integration tests, and `check:v37-gate6` | pending | Conversations can hand source-safe transaction intent to Terminal without becoming a parallel ledger/wallet authority. |
 | Persistence privacy redaction | Gate 7 | future storage contracts, privacy tests, redaction tests, and `check:v37-gate7` | pending | Retention, export, delete, replay, incident repair, protected prompt/model response redaction, and disclosure classes are enforced. |
 | Telemetry proof hooks docs | Gate 8 | future telemetry taxonomy, docs, dashboards, runbooks, generated proof hooks, and `check:v37-gate8` | pending | Conversation sessions, messages, streams, tools, selectors, handoffs, retries, errors, and completions are observable and source-safe. |
@@ -110,6 +110,8 @@ No `_legacy/` source is active source truth.
 | ConversationStreamEvent event coverage | `source-safe-conversation-stream-event-metadata` covers model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, and error rows | closed |
 | ConversationWritingWorkspace artifact | `ConversationWritingWorkspace` source emits `.bitcode/v37-conversation-writing-workspace.json` and `check:v37-gate4` validates it | closed |
 | ConversationWritingWorkspace coverage | `source-safe-conversation-writing-workspace-metadata` covers Read Request, Need feedback, AssetPack review note, Terminal handoff summary, save, restore, summarize, handoff, keyboard behavior, responsive layout, recovery state, proof roots, and event ids | closed |
+| ConversationSourceSelector artifact | `ConversationSourceSelector` source emits `.bitcode/v37-conversation-source-selector.json` and `check:v37-gate5` validates it | closed |
+| ConversationSourceSelector coverage | `source-safe-conversation-source-selector-metadata` covers repository, branch, commit, deposit, BTD range, AssetPack preview, document, prior conversation, account, organization, wallet, rights, settlement, disclosure, policy, allowed, denied, retry-required, proof roots, and event ids | closed |
 | Disclosure boundary | Conversations expose source-safe stream, selector, proof, handoff, and policy metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | drafted |
 | Terminal handoff boundary | Terminal remains the transaction cockpit and ledger/wallet authority; Conversations prepare and hand off source-safe intent | drafted |
 | Privacy posture | Conversation persistence, export, delete, retention, replay, and repair paths preserve disclosure classes and redaction policy | drafted |
@@ -148,6 +150,19 @@ No `_legacy/` source is active source truth.
 | Required workspace actions are covered | save, restore, summarize, and handoff actions with route-local draft keys, recovery states, keyboard behavior, responsive fullscreen layout, proof roots, and event ids | closed |
 | Emitted summaries are source-safe | `uapi/app/conversations/conversation-writing-workspace.ts` redacts source blocks, token-shaped values, secret fields, private keys, and JWT-shaped values before preview or handoff | closed |
 | Workspace UI is accessible and wired | `uapi/app/conversations/components/ConversationWritingWorkspace.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/conversationWritingWorkspace.test.tsx`, `scripts/check-v37-gate4-conversation-writing-workspace.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## V37 Gate 5 Parity
+
+| Requirement | Source evidence | Current V37 judgment |
+| --- | --- | --- |
+| `ConversationSourceSelector` context policy is package-owned | `packages/protocol/src/canonical/conversation-source-selector.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated source selector artifact exists | `.bitcode/v37-conversation-source-selector.json`, `scripts/generate-v37-conversation-source-selector.mjs`, `pnpm run check:v37-conversation-source-selector` | closed |
+| Required selector kinds are covered | repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation | closed |
+| Governance dimensions are covered | account, organization, wallet, rights, settlement, disclosure, and policy posture | closed |
+| Preview states are explainable | allowed, denied, and retry-required previews include source-safe reason/retry metadata | closed |
+| Source selector UI is wired | `uapi/app/conversations/conversation-source-selector.ts`, `uapi/app/conversations/components/ConversationSourceSelector.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, and `uapi/tests/conversationSourceSelector.test.tsx` | closed |
+| Selector previews are source-safe | protected source, unpaid AssetPack source, private BTD material, provider tokens, wallet private material, settlement private payloads, protected prompts/responses, and global ledger authority claims are forbidden | closed |
+| Workflow, package, and UI tests are wired | `packages/protocol/test/conversation-source-selector.test.js`, `scripts/check-v37-gate5-conversation-source-selector.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
 
 ## Inherited V36 implementation matrix
 

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 4 closes ConversationWritingWorkspace fullscreen writing mode and composer workspace over active V36 Exchange canon
+- V37 state: draft implementation; Gate 5 closes ConversationSourceSelector source selection and context policy over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, and `.bitcode/v37-conversation-writing-workspace.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, and Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, and `.bitcode/v37-conversation-source-selector.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, and Gate 5 package-owned ConversationSourceSelector source/context policy contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -33,7 +33,7 @@ V37 adds Website Conversations product contracts over inherited V36 canon:
 - `ConversationMessage`: user, assistant, system, tool, and handoff message records with source-safe disclosure classification, redaction posture, retry state, and telemetry event ids.
 - `ConversationStreamEvent`: readable streaming rows for model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, and error rows.
 - `ConversationWritingWorkspace`: fullscreen writing mode for drafting Read Requests, Need feedback, AssetPack review notes, and Terminal handoff summaries without source leakage.
-- `ConversationSourceSelector`: repository, branch, commit, deposit, BTD range, AssetPack preview, and document source selectors governed by policy, rights, and disclosure posture.
+- `ConversationSourceSelector`: repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation source selectors governed by policy, rights, and disclosure posture.
 - `ConversationTerminalHandoff`: source-safe handoff from conversation context into `/terminal` transactions for Depositing, Reading, Finding Fits, Exchange, settlement, and delivery workflows.
 
 V37 does not replace the V28 ChatGPT App, V33 interface contracts, V35 telemetry/docs, or V36 Exchange law.
@@ -131,6 +131,32 @@ payloads. Terminal remains authoritative for transaction execution.
 package tests, UI tests, docs, workflow wiring, source safety, mode/action
 coverage, route-local draft keys, keyboard behavior, responsive fullscreen
 layout, recovery states, proof roots, and source-safe handoff summaries.
+
+## V37 Gate 5 ConversationSourceSelector context-policy canon
+
+Gate 5 implements `ConversationSourceSelector` as the package-owned source
+selection and context-policy contract for Website Conversations. It owns
+repository, branch, commit, deposit, BTD range, AssetPack preview, document,
+and prior conversation selectors. It emits
+`.bitcode/v37-conversation-source-selector.json` with
+`source-safe-conversation-source-selector-metadata`, deterministic row roots,
+deterministic detail roots, selector kind ids, governance ids, preview states,
+required field ids, proof roots, event ids, source evidence roots, and
+source-safe disclosure limits.
+
+Conversation source selection is route-local context metadata. It can select
+source-safe references, preview allowed/denied/retry posture, and explain the
+account, organization, wallet, rights, settlement, disclosure, and policy
+dimensions that govern the selector. It does not reveal protected repository
+source, unpaid AssetPack source, private BTD material, provider tokens, wallet
+private material, settlement private payloads, raw protected prompts, raw
+protected model responses, or global ledger authority claims. Full AssetPack
+or BTD source visibility remains governed by rights transfer and settlement.
+
+`check:v37-gate5` validates package source, generated artifact freshness,
+package tests, UI tests, docs, workflow wiring, selector kind coverage,
+governance coverage, allowed/denied/retry preview states, rights and
+settlement posture, proof roots, event ids, and source-safe preview metadata.
 
 ## Inherited V36 Exchange canon
 
@@ -809,6 +835,7 @@ V36 inherits operator quality, visual/accessibility/performance posture, project
 | `.bitcode/v37-conversation-session-route-history.json` | Gate 2 | source-safe | ConversationSession route-local history contracts |
 | `.bitcode/v37-conversation-stream-event-contract.json` | Gate 3 | source-safe | ConversationStreamEvent stream UI/event contracts |
 | `.bitcode/v37-conversation-writing-workspace.json` | Gate 4 | source-safe | ConversationWritingWorkspace fullscreen composer contracts |
+| `.bitcode/v37-conversation-source-selector.json` | Gate 5 | source-safe | ConversationSourceSelector source/context policy contracts |
 
 ### V37 specifying generated artifacts
 
@@ -816,6 +843,7 @@ Gate 1 requires `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-
 Gate 2 adds `.bitcode/v37-conversation-session-route-history.json` from the package-owned ConversationSession route-history builder with package tests, route tests, workflow checks, and source-safety checks.
 Gate 3 adds `.bitcode/v37-conversation-stream-event-contract.json` from the package-owned ConversationStreamEvent builder with package tests, route/UI tests, workflow checks, and source-safety checks.
 Gate 4 adds `.bitcode/v37-conversation-writing-workspace.json` from the package-owned ConversationWritingWorkspace builder with package tests, fullscreen workspace UI tests, workflow checks, and source-safety checks.
+Gate 5 adds `.bitcode/v37-conversation-source-selector.json` from the package-owned ConversationSourceSelector builder with package tests, source selector UI tests, workflow checks, and source-safety checks.
 Later V37 gates add Conversations generated artifacts only when their package-owned builders, route checks, stream tests, telemetry checks, and source-safety tests exist.
 
 ### Shared generated-artifact fields
