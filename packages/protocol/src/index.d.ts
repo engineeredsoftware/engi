@@ -80,6 +80,16 @@ export const CONVERSATION_STREAM_REQUIRED_TELEMETRY_FIELD_IDS: readonly string[]
 export const CONVERSATION_STREAM_DISCLOSURE_POSTURES: readonly string[];
 export const CONVERSATION_STREAM_EVENT_CONTRACT_ROWS: readonly Record<string, unknown>[];
 export function buildConversationStreamEventContract(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const CONVERSATION_WRITING_WORKSPACE_ARTIFACT_PATH: string;
+export const CONVERSATION_WRITING_WORKSPACE_CURRENT_TARGET: string;
+export const CONVERSATION_WRITING_WORKSPACE_SCHEMA_ID: string;
+export const CONVERSATION_WRITING_WORKSPACE_VERSION: string;
+export const CONVERSATION_WRITING_WORKSPACE_SOURCE_SAFETY_VERDICT: string;
+export const CONVERSATION_WRITING_WORKSPACE_MODE_IDS: readonly string[];
+export const CONVERSATION_WRITING_WORKSPACE_ACTION_IDS: readonly string[];
+export const CONVERSATION_WRITING_WORKSPACE_FIELD_IDS: readonly string[];
+export const CONVERSATION_WRITING_WORKSPACE_ROWS: readonly Record<string, unknown>[];
+export function buildConversationWritingWorkspace(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

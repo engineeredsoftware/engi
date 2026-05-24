@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 2 closes ConversationSession route-local history contracts over active V36 Exchange canon
+- V37 state: draft implementation; Gate 4 closes ConversationWritingWorkspace fullscreen writing mode and composer workspace over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, and `.bitcode/v37-conversation-writing-workspace.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts
 - Scope: draft notes for website Conversations work after V36 Exchange depth and after the V28 ChatGPT App MVP proved the interface path.
 
 This NOTES file does not promote V37. It is binding draft guidance while V37 gates are in flight.
@@ -70,6 +70,21 @@ surface event id, proof root, redaction posture, prompt/result disclosure
 posture, and fail-closed state.
 Gate 3 keeps gate-quality CI greenable by bounding the workflow runtime and
 running maintained targeted package tests inside the gate job.
+
+## Gate 4 implementation notes
+
+ConversationWritingWorkspace contracts are source-safe fullscreen composer
+contracts, not protected source storage or Terminal authority. Gate 4 adds
+`.bitcode/v37-conversation-writing-workspace.json`,
+`buildConversationWritingWorkspace`, the route-facing writing workspace helper,
+the fullscreen workspace component, package tests, UI tests, and
+`check:v37-gate4`.
+The required modes are Read Request, Need feedback, AssetPack review note, and
+Terminal handoff summary. The required actions are save, restore, summarize,
+and handoff. Draft recovery stays route-local; emitted summaries and handoff
+messages are redacted source-safe metadata only and must not expose protected
+source, provider tokens, private wallet material, unpaid AssetPack source,
+settlement private payloads, or global ledger authority claims.
 
 ## V37 gate plan
 

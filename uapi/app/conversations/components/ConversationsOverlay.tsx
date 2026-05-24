@@ -67,6 +67,8 @@ import { ChatHistorySidebar } from './ConversationsChatHistorySidebar';
 import { ThinkingLog } from './ConversationsThinkingLog';
 import { FloatingOrb } from './ConversationsFloatingOrb';
 import FullscreenPortal from './ConversationsFullscreenPortal';
+import ConversationWritingWorkspace from './ConversationWritingWorkspace';
+import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 // NOTE: Avoid wrapping the Big‑O container in GPUAcceleration because
@@ -301,6 +303,8 @@ const Conversation = memo(function Conversation({
   const [showThinkingLogs, setShowThinkingLogs] = useState(true);
   const [selectedRunDetailsId, setSelectedRunDetailsId] = useState<string | null>(null);
   const [lastInputForRetry, setLastInputForRetry] = useState<{message: string; tokens: StreamToken[]} | null>(null);
+  const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
+  const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
   // Refs
   const fullscreenRef = useRef<HTMLDivElement>(null);
@@ -868,6 +872,14 @@ const Conversation = memo(function Conversation({
               <button className="fullscreen-button" title="Toggle Split View" onClick={toggleSplitScreen} disabled={!ENABLE_SPLIT_VIEW}>
                 <MixerHorizontalIcon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showWritingWorkspace ? 'Hide Writing Workspace' : 'Open Writing Workspace'}
+                aria-pressed={showWritingWorkspace}
+                onClick={() => setShowWritingWorkspace((prev) => !prev)}
+              >
+                <FileTextIcon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -890,6 +902,17 @@ const Conversation = memo(function Conversation({
             </div>
           </SidebarTitleBar>
         </div>
+
+        {showWritingWorkspace && (
+          <ConversationWritingWorkspace
+            conversationId={currentChat?.id}
+            initialMode={writingWorkspaceMode}
+            onClose={() => setShowWritingWorkspace(false)}
+            onHandoff={(handoff) => {
+              void handleSendMessageCallback(handoff.message, []);
+            }}
+          />
+        )}
 
         {/* Messages */}
         <ConversationsChat

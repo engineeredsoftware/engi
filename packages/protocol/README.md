@@ -36,6 +36,7 @@ Current exported commercial helpers include:
 - `ExchangeRehearsal` helpers for V36 local/staging-testnet Exchange rehearsal coverage, source-safe log/screenshot roots, ledger/database synchronization checks, and blocked value-bearing mainnet proof;
 - `ConversationSession` route-history helpers for V37 route-local session identity, create/restore/branch/retry/redact/stream operations, proof roots, event ids, and persistence boundaries;
 - `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
+- `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -50,10 +51,7 @@ through `buildConversationSessionRouteHistory` and
 `.bitcode/v37-conversation-session-route-history.json`.
 The route-history artifact covers create, restore, branch, retry, redact, and
 stream operations while keeping conversation state route-local rather than
-global ledger truth. Gate 4 and later gates add package-owned Conversations
-message, writing workspace, source selector, Terminal handoff,
-persistence/privacy, telemetry/proof/docs, rehearsal, and promotion readiness
-helpers.
+global ledger truth.
 V37 Gate 3 adds source-safe `ConversationStreamEvent` stream UI/event contracts
 through `buildConversationStreamEventContract` and
 `.bitcode/v37-conversation-stream-event-contract.json`.
@@ -61,6 +59,15 @@ The stream event artifact covers model delta, tool call, retrieval summary,
 proof root, retry state, completion decision, and error row events while
 keeping stream telemetry source-safe and compatible with the shared rich
 execution log UI.
+V37 Gate 4 adds source-safe `ConversationWritingWorkspace` fullscreen composer
+contracts through `buildConversationWritingWorkspace` and
+`.bitcode/v37-conversation-writing-workspace.json`.
+The writing workspace artifact covers Read Request, Need feedback, AssetPack
+review note, and Terminal handoff summary modes with save, restore, summarize,
+and handoff actions while keeping emitted summaries source-safe and keeping
+Terminal as transaction authority. Gate 5 and later gates add package-owned
+Conversations message, source selector, Terminal handoff, persistence/privacy,
+telemetry/proof/docs, rehearsal, and promotion readiness helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.
