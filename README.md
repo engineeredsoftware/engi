@@ -28,6 +28,12 @@ V35 Gate 4 now anchors public usage guidance through the package-owned
 `.bitcode/v35-public-docs-usage-guides.json`, including the public docs
 disclosure boundary that blocks protected source, raw protected prompts, wallet
 private material, provider tokens, and unpaid AssetPack source.
+V35 Gate 5 now anchors operator action through the package-owned
+`OperatorRunbookCatalog` and the source-safe generated artifact
+`.bitcode/v35-operator-runbook-catalog.json`, binding telemetry-derived
+dashboard panels, alerts, runbooks, incident classes, escalation paths,
+commands, proof roots, repair references, and post-incident documentation
+updates.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration

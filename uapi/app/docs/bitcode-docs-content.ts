@@ -107,7 +107,7 @@ const PUBLIC_DISCLOSURE_LIMIT_SECTION = {
   reason:
     'This keeps the public product understandable while preserving the boundary that makes Source Shares economically and operationally safe.',
   points: [
-    'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, and fee/right boundaries.',
+    'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, dashboard/runbook ids, redacted incident posture, and fee/right boundaries.',
     'Blocked: secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.',
     'Deferred boundaries stay explicit: V35 documents Exchange and Conversations usage while deeper product depth remains future-canon work.',
   ],

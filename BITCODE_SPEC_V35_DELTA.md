@@ -129,6 +129,9 @@ Closure acceptance:
 - `OperatorRunbookCatalog` rows bind telemetry events to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, and post-incident docs updates;
 - dashboard and alert definitions derive from `TelemetryTaxonomyCatalog`;
 - incident evidence is source-safe and proof-rooted.
+- `OperatorRunbookCatalog` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-operator-runbook-catalog.json` with `source-safe-runbook-metadata`, and checked by `pnpm run check:v35-gate5`;
+- every runbook row binds one telemetry event family to dashboard panel id, alert id, threshold, incident class, escalation path, command sequence, verification command, proof root basis, repair reference, post-incident docs update, source roots, and deterministic runbook root;
+- operator payloads allow source-safe event ids, correlation ids, proof roots, state enums, policy ids, dashboard panel ids, runbook ids, and redacted error classes while blocking secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.
 
 ### Gate 6: Documentation QA Alignment Proofs
 

@@ -43,6 +43,16 @@ export {
   buildPublicDocsUsageGuideCatalog
 } from './canonical/public-docs-usage-guide-catalog.js';
 export {
+  OPERATOR_RUNBOOK_CATALOG_ARTIFACT_PATH,
+  OPERATOR_RUNBOOK_CATALOG_CURRENT_TARGET,
+  OPERATOR_RUNBOOK_CATALOG_SCHEMA_ID,
+  OPERATOR_RUNBOOK_CATALOG_VERSION,
+  OPERATOR_RUNBOOK_IDS,
+  OPERATOR_RUNBOOK_ROWS,
+  OPERATOR_RUNBOOK_SOURCE_SAFETY_VERDICT,
+  buildOperatorRunbookCatalog
+} from './canonical/operator-runbook-catalog.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown
