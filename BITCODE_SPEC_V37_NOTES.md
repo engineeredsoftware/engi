@@ -68,6 +68,8 @@ The shared execution log is the canonical stream UI: collapsed rows show a
 readable status, expanded rows show source-safe metadata, and the header can
 surface event id, proof root, redaction posture, prompt/result disclosure
 posture, and fail-closed state.
+Gate 3 keeps gate-quality CI greenable by bounding the workflow runtime and
+running maintained targeted package tests inside the gate job.
 
 ## V37 gate plan
 
