@@ -104,7 +104,8 @@
         "PublicDocsUsageGuideCatalog",
         "OperatorRunbookCatalog",
         "TestnetRolloutReadinessGuide",
-        "TelemetryDocumentationInterfaceIntegration"
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
       ],
       "generatedArtifacts": [],
       "repairCommand": "edit V35 SPEC, DELTA, NOTES, and PARITY together, then rerun pnpm run check:v35-gate6",
@@ -133,7 +134,8 @@
         "PublicDocsUsageGuideCatalog",
         "OperatorRunbookCatalog",
         "TestnetRolloutReadinessGuide",
-        "TelemetryDocumentationInterfaceIntegration"
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
       ],
       "missingTokens": [],
       "missingGeneratedArtifacts": [],
@@ -148,7 +150,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:7c182c9aed7c8fcc4253c93a"
+      "alignmentRoot": "docs-qa-alignment-row:0f643b43fd69eb383a4387bf"
     },
     {
       "alignmentId": "roadmap_readme_alignment",
@@ -164,10 +166,12 @@
         "V35 Gate 6 closure anchor",
         "V35 Gate 7 closure anchor",
         "V35 Gate 8 closure anchor",
+        "V35 Gate 9 closure anchor",
         "OperatorRunbookCatalog",
         "DocsQaAlignmentReport",
         "TestnetRolloutReadinessGuide",
-        "TelemetryDocumentationInterfaceIntegration"
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
       ],
       "generatedArtifacts": [],
       "repairCommand": "refresh roadmap and README posture after gate closure and rerun pnpm run check:v35-gate6",
@@ -190,10 +194,12 @@
         "V35 Gate 6 closure anchor",
         "V35 Gate 7 closure anchor",
         "V35 Gate 8 closure anchor",
+        "V35 Gate 9 closure anchor",
         "OperatorRunbookCatalog",
         "DocsQaAlignmentReport",
         "TestnetRolloutReadinessGuide",
-        "TelemetryDocumentationInterfaceIntegration"
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
       ],
       "missingTokens": [],
       "missingGeneratedArtifacts": [],
@@ -208,7 +214,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:d307c81a82bb3d209b1d74f7"
+      "alignmentRoot": "docs-qa-alignment-row:788cadaddb4bc6bc919f6294"
     },
     {
       "alignmentId": "generated_artifact_inventory_alignment",
@@ -224,7 +230,8 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        ".bitcode/v35-telemetry-documentation-interface-integration.json"
+        ".bitcode/v35-telemetry-documentation-interface-integration.json",
+        ".bitcode/v35-local-staging-telemetry-documentation-rehearsal.json"
       ],
       "expectedTokens": [
         ".bitcode/v35-docs-qa-alignment-report.json",
@@ -233,8 +240,11 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
+        ".bitcode/v35-telemetry-documentation-interface-integration.json",
+        ".bitcode/v35-local-staging-telemetry-documentation-rehearsal.json",
         "check:v35-gate7",
         "check:v35-gate8",
+        "check:v35-gate9",
         "check:v35-gate6"
       ],
       "generatedArtifacts": [
@@ -244,7 +254,8 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        ".bitcode/v35-telemetry-documentation-interface-integration.json"
+        ".bitcode/v35-telemetry-documentation-interface-integration.json",
+        ".bitcode/v35-local-staging-telemetry-documentation-rehearsal.json"
       ],
       "repairCommand": "regenerate stale V35 artifacts and rerun pnpm run check:v35-gate6",
       "sourceEvidence": [
@@ -287,6 +298,10 @@
         {
           "sourceRoot": ".bitcode/v35-telemetry-documentation-interface-integration.json",
           "present": true
+        },
+        {
+          "sourceRoot": ".bitcode/v35-local-staging-telemetry-documentation-rehearsal.json",
+          "present": true
         }
       ],
       "observedTokens": [
@@ -296,8 +311,11 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
+        ".bitcode/v35-telemetry-documentation-interface-integration.json",
+        ".bitcode/v35-local-staging-telemetry-documentation-rehearsal.json",
         "check:v35-gate7",
         "check:v35-gate8",
+        "check:v35-gate9",
         "check:v35-gate6"
       ],
       "missingTokens": [],
@@ -313,7 +331,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:32c61418d0a891b8ffc56c40"
+      "alignmentRoot": "docs-qa-alignment-row:450d513f495dcaf8c6c26e0e"
     },
     {
       "alignmentId": "catalog_implementation_alignment",
@@ -326,6 +344,7 @@
         "packages/protocol/src/canonical/operator-runbook-catalog.js",
         "packages/protocol/src/canonical/testnet-rollout-readiness-guide.js",
         "packages/protocol/src/canonical/telemetry-documentation-interface-integration.js",
+        "packages/protocol/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
         "packages/protocol/src/index.js",
         "packages/protocol/src/index.d.ts"
       ],
@@ -336,6 +355,7 @@
         "buildOperatorRunbookCatalog",
         "buildTestnetRolloutReadinessGuide",
         "buildTelemetryDocumentationInterfaceIntegration",
+        "buildLocalStagingTelemetryDocumentationRehearsal",
         "source-safe"
       ],
       "generatedArtifacts": [],
@@ -366,6 +386,10 @@
           "present": true
         },
         {
+          "sourceRoot": "packages/protocol/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+          "present": true
+        },
+        {
           "sourceRoot": "packages/protocol/src/index.js",
           "present": true
         },
@@ -381,6 +405,7 @@
         "buildOperatorRunbookCatalog",
         "buildTestnetRolloutReadinessGuide",
         "buildTelemetryDocumentationInterfaceIntegration",
+        "buildLocalStagingTelemetryDocumentationRehearsal",
         "source-safe"
       ],
       "missingTokens": [],
@@ -396,7 +421,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:b8ed682bc895c363deab1c01"
+      "alignmentRoot": "docs-qa-alignment-row:aa6aedc28ba5d79c569e2503"
     },
     {
       "alignmentId": "public_docs_disclosure_alignment",
@@ -703,20 +728,27 @@
         "package.json",
         "scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs",
         "scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+        "scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
         "scripts/generate-v35-docs-qa-alignment-report.mjs",
         "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
+        "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
         "packages/protocol/test/v35-docs-qa-alignment-report.test.js",
-        "packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js"
+        "packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js",
+        "packages/protocol/test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
       ],
       "expectedTokens": [
         "check-v35-gate6-documentation-qa-alignment-proofs.mjs",
         "check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+        "check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
         "generate:v35-docs-qa-alignment-report",
         "generate:v35-telemetry-documentation-interface-integration",
+        "generate:v35-local-staging-telemetry-documentation-rehearsal",
         "check:v35-gate6",
         "check:v35-gate8",
+        "check:v35-gate9",
         "test/v35-docs-qa-alignment-report.test.js",
-        "test/v35-telemetry-documentation-interface-integration.test.js"
+        "test/v35-telemetry-documentation-interface-integration.test.js",
+        "test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
       ],
       "generatedArtifacts": [
         ".bitcode/v35-docs-qa-alignment-report.json"
@@ -740,11 +772,19 @@
           "present": true
         },
         {
+          "sourceRoot": "scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+          "present": true
+        },
+        {
           "sourceRoot": "scripts/generate-v35-docs-qa-alignment-report.mjs",
           "present": true
         },
         {
           "sourceRoot": "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
           "present": true
         },
         {
@@ -754,17 +794,25 @@
         {
           "sourceRoot": "packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js",
           "present": true
+        },
+        {
+          "sourceRoot": "packages/protocol/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
+          "present": true
         }
       ],
       "observedTokens": [
         "check-v35-gate6-documentation-qa-alignment-proofs.mjs",
         "check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+        "check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
         "generate:v35-docs-qa-alignment-report",
         "generate:v35-telemetry-documentation-interface-integration",
+        "generate:v35-local-staging-telemetry-documentation-rehearsal",
         "check:v35-gate6",
         "check:v35-gate8",
+        "check:v35-gate9",
         "test/v35-docs-qa-alignment-report.test.js",
-        "test/v35-telemetry-documentation-interface-integration.test.js"
+        "test/v35-telemetry-documentation-interface-integration.test.js",
+        "test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
       ],
       "missingTokens": [],
       "missingGeneratedArtifacts": [],
@@ -779,7 +827,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:2bab1c770c9e85216f83f945"
+      "alignmentRoot": "docs-qa-alignment-row:281bc01f1a0dff11abc67643"
     }
   ],
   "sourceEvidence": [
@@ -866,6 +914,10 @@
         {
           "sourceRoot": ".bitcode/v35-telemetry-documentation-interface-integration.json",
           "present": true
+        },
+        {
+          "sourceRoot": ".bitcode/v35-local-staging-telemetry-documentation-rehearsal.json",
+          "present": true
         }
       ]
     },
@@ -895,6 +947,10 @@
         },
         {
           "sourceRoot": "packages/protocol/src/canonical/telemetry-documentation-interface-integration.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/protocol/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
           "present": true
         },
         {
@@ -1034,11 +1090,19 @@
           "present": true
         },
         {
+          "sourceRoot": "scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+          "present": true
+        },
+        {
           "sourceRoot": "scripts/generate-v35-docs-qa-alignment-report.mjs",
           "present": true
         },
         {
           "sourceRoot": "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
           "present": true
         },
         {
@@ -1048,9 +1112,13 @@
         {
           "sourceRoot": "packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js",
           "present": true
+        },
+        {
+          "sourceRoot": "packages/protocol/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
+          "present": true
         }
       ]
     }
   ],
-  "artifactRoot": "docs-qa-alignment-report:d472e0721549a31b26f6c88b"
+  "artifactRoot": "docs-qa-alignment-report:1933f201e340a36e6adcd1b4"
 }

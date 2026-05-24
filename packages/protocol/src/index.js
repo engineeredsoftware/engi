@@ -84,6 +84,16 @@ export {
   buildTelemetryDocumentationInterfaceIntegration
 } from './canonical/telemetry-documentation-interface-integration.js';
 export {
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ARTIFACT_PATH,
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_CURRENT_TARGET,
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_IDS,
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ROWS,
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_SCHEMA_ID,
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_SOURCE_SAFETY_VERDICT,
+  LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_VERSION,
+  buildLocalStagingTelemetryDocumentationRehearsal
+} from './canonical/local-staging-telemetry-documentation-rehearsal.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

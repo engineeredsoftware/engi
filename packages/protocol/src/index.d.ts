@@ -107,5 +107,13 @@ export const TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_SOURCE_SAFETY_VERDICT
 export const TELEMETRY_DOCUMENTATION_INTERFACE_IDS: readonly string[];
 export const TELEMETRY_DOCUMENTATION_INTERFACE_ROWS: readonly Record<string, unknown>[];
 export function buildTelemetryDocumentationInterfaceIntegration(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ARTIFACT_PATH: string;
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_CURRENT_TARGET: string;
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_SCHEMA_ID: string;
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_VERSION: string;
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_SOURCE_SAFETY_VERDICT: string;
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_IDS: readonly string[];
+export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ROWS: readonly Record<string, unknown>[];
+export function buildLocalStagingTelemetryDocumentationRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function defaultProvenOutputPath(version: string): string;
 export function generateCanonicalProvenMarkdown(input?: Record<string, unknown>): BitcodeProvenMarkdownPackage;

@@ -28,7 +28,7 @@ Internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert ru
 
 - V34 remains active canon during V35 drafting.
 - V35 gate branches are opened from `version/v35` and merged back only when their gate acceptance criteria are closed.
-- V35 owns telemetry and documentation depth: `TelemetryTaxonomyCatalog`, `DocumentationSurfaceCatalog`, `PublicDocsUsageGuideCatalog`, `DocsQaAlignmentReport`, `OperatorRunbookCatalog`, `TestnetRolloutReadinessGuide`, and `DocumentationTelemetryPromotionReadinessReport`.
+- V35 owns telemetry and documentation depth: `TelemetryTaxonomyCatalog`, `DocumentationSurfaceCatalog`, `PublicDocsUsageGuideCatalog`, `DocsQaAlignmentReport`, `OperatorRunbookCatalog`, `TestnetRolloutReadinessGuide`, `TelemetryDocumentationInterfaceIntegration`, `LocalStagingTelemetryDocumentationRehearsal`, and `DocumentationTelemetryPromotionReadinessReport`.
 - V35 telemetry and documentation contracts must be package-owned before they are exposed by route handlers, dashboards, runbooks, MCP tools, ChatGPT App actions, public docs, internal docs, or UI status surfaces.
 - Public docs disclose guidance, measurements, proof posture, fee/right boundaries, and source-safe previews; they must not disclose protected source, secrets, wallet private material, or unpaid AssetPack contents.
 - Telemetry events require redaction posture, source-safety class, correlation ids, proof roots, dashboard/runbook links, and storage targets.
@@ -181,6 +181,9 @@ Closure acceptance:
 - local and staging-testnet rehearsals exercise documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, and source-safe proof-root review;
 - rehearsal logs/screenshots are source-safe;
 - value-bearing mainnet remains blocked.
+- `LocalStagingTelemetryDocumentationRehearsal` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json` with `source-safe-rehearsal-metadata`, and checked by `pnpm run check:v35-gate9`;
+- rows cover local rehearsal, staging-testnet rehearsal, dashboard/runbook lookup, docs QA incident drill, proof-root review, and visible value-bearing mainnet blocking;
+- rehearsal payloads allow lane ids, event ids, proof roots, docs links, runbook ids, dashboard panel ids, incident classes, redaction posture, source-safety class, and summary counts while blocking secrets, provider tokens, wallet private material, protected source payloads, raw protected prompts, raw protected model responses with source, buyer repository private data, and unpaid AssetPack source.
 
 ### Gate 10: V35 Promotion Readiness
 

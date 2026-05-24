@@ -52,6 +52,13 @@ binding Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs,
 internal docs, and public docs to event ids, proof roots, docs links, runbook
 links, and redaction posture without exposing protected source, secrets, wallet
 private material, or unpaid AssetPack source.
+V35 Gate 9 now anchors rehearsal through the package-owned
+`LocalStagingTelemetryDocumentationRehearsal` and the source-safe generated
+artifact `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`,
+proving local/staging-testnet documentation discovery, telemetry event
+emission, dashboard/runbook lookup, docs QA, incident drills, redacted
+screenshot/log roots, source-safe proof-root review, and visible blocked
+value-bearing mainnet posture.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration
