@@ -168,6 +168,9 @@ Closure acceptance:
 - Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs, internal docs, and public docs consume package-owned documentation and telemetry contracts;
 - interface payloads expose event ids, proof roots, docs links, runbook links, and redaction posture where useful;
 - interface integration never exposes protected source, secrets, wallet private material, or unpaid AssetPack contents.
+- `TelemetryDocumentationInterfaceIntegration` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-telemetry-documentation-interface-integration.json` with `source-safe-interface-integration-metadata`, and checked by `pnpm run check:v35-gate8`;
+- rows cover Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs, internal docs, and public docs;
+- interface integration payloads allow event ids, proof roots, docs links, runbook links, redaction posture, correlation ids, state labels, summary counts, and source-safety class while blocking secrets, provider tokens, wallet private material, protected source payloads, raw protected prompts, raw protected model responses with source, buyer repository private data, and unpaid AssetPack source.
 
 ### Gate 9: Local Staging Telemetry Documentation Rehearsal
 

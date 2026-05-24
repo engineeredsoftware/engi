@@ -45,6 +45,13 @@ V35 Gate 7 now anchors rollout guidance through the package-owned
 local development, operators, enterprise readers, depositors, interface
 consumers, environment lanes, wallet/settlement caveats, known blockers, and
 rehearsal evidence while keeping value-bearing mainnet visible and blocked.
+V35 Gate 8 now anchors interface integration through the package-owned
+`TelemetryDocumentationInterfaceIntegration` and the source-safe generated
+artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`,
+binding Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs,
+internal docs, and public docs to event ids, proof roots, docs links, runbook
+links, and redaction posture without exposing protected source, secrets, wallet
+private material, or unpaid AssetPack source.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration

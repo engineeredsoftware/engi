@@ -176,6 +176,22 @@ source-safe, and the proof must reject route-local BTD policy copies, source
 leakage, or selected-transaction behavior regression before Gate 10 promotion
 readiness.
 
+## V35 telemetry documentation integration
+
+Terminal consumes the package-owned `TelemetryDocumentationInterfaceIntegration`
+contract and the generated source-safe artifact
+`.bitcode/v35-telemetry-documentation-interface-integration.json`.
+Terminal activity rows and execution-log details may expose event ids, proof
+roots, docs links, runbook links, and redaction posture so operators can move
+from a visible row to its documentation and repair path without browser-network
+inspection.
+
+Terminal must still keep protected source, secret values, wallet private
+material, raw protected prompts, and unpaid AssetPack source out of visible
+payloads. Expanded metadata can show source-safe correlation ids, state labels,
+summary counts, and proof roots, but source-bearing AssetPack contents cross to
+the reader only after settlement and rights transfer.
+
 The Organization Authority section is the selected-activity permission
 explainer. It projects registry-derived organization role, explicit grants,
 wallet binding, owner-read or licensed-read access, policy id/hash, multi-sig
