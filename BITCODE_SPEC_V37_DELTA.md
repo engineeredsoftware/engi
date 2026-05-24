@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening and Gate 2 ConversationSession contract set
+- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 3 ConversationStreamEvent stream UI/event contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, and `.bitcode/v37-conversation-stream-event-contract.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V37_PARITY_MATRIX.md`
@@ -91,6 +91,12 @@ Closure acceptance:
 - the stream UI exposes collapsed readable status and expanded metadata detail without source leakage;
 - telemetry carries event ids, proof roots, redaction posture, prompt/result disclosure posture, and fail-closed states;
 - `pnpm run check:v37-gate3` validates stream contracts, route tests, UI tests, telemetry binding, source-safety, and workflow wiring.
+
+Gate 3 closure adds package-backed `ConversationStreamEvent` source,
+`.bitcode/v37-conversation-stream-event-contract.json`,
+`source-safe-conversation-stream-event-metadata`, route-attached SSE event
+metadata, rich execution log collapsed/expanded UI binding, package tests,
+route tests, UI tests, workflow wiring, and `check:v37-gate3`.
 
 ### Gate 4: Fullscreen Writing Mode And Composer Workspace
 

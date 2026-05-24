@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 2 closes ConversationSession route-local history contracts over active V36 Exchange canon
+- V37 state: draft implementation; Gate 3 closes ConversationStreamEvent stream UI and event contracts over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture plus Gate 2 package-owned ConversationSession route-history contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, and `.bitcode/v37-conversation-stream-event-contract.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, and Gate 3 package-owned ConversationStreamEvent stream UI/event contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -31,7 +31,7 @@ V37 adds Website Conversations product contracts over inherited V36 canon:
 
 - `ConversationSession`: route-local conversation identity, route-local history, user/account posture, source context, policy decision, stream state, and proof-rooted history references.
 - `ConversationMessage`: user, assistant, system, tool, and handoff message records with source-safe disclosure classification, redaction posture, retry state, and telemetry event ids.
-- `ConversationStreamEvent`: readable streaming rows for model deltas, tool calls, retrieval summaries, proof roots, error states, and completion decisions.
+- `ConversationStreamEvent`: readable streaming rows for model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, and error rows.
 - `ConversationWritingWorkspace`: fullscreen writing mode for drafting Read Requests, Need feedback, AssetPack review notes, and Terminal handoff summaries without source leakage.
 - `ConversationSourceSelector`: repository, branch, commit, deposit, BTD range, AssetPack preview, and document source selectors governed by policy, rights, and disclosure posture.
 - `ConversationTerminalHandoff`: source-safe handoff from conversation context into `/terminal` transactions for Depositing, Reading, Finding Fits, Exchange, settlement, and delivery workflows.
@@ -80,6 +80,32 @@ source, or any claim that route-local Conversations are global ledger truth.
 `check:v37-gate2` validates package source, generated artifact freshness,
 package tests, route tests, docs, workflow wiring, source safety, proof roots,
 event ids, route ids, history operations, and persistence boundaries.
+
+## V37 Gate 3 ConversationStreamEvent stream UI canon
+
+Gate 3 implements `ConversationStreamEvent` as the package-owned stream event
+contract for Website Conversations. `ConversationStreamEvent` owns model
+deltas, tool calls, retrieval summaries, proof roots, retry states, completion
+decisions, and error rows. It emits
+`.bitcode/v37-conversation-stream-event-contract.json` with
+`source-safe-conversation-stream-event-metadata`, deterministic row roots,
+deterministic detail roots, event kind ids, required telemetry fields, source
+evidence roots, and source-safe disclosure limits.
+
+Conversation stream events are carried on the unversioned conversation SSE
+routes as metadata attached to legacy-compatible rows. The stream UI uses the
+shared rich execution log surface: collapsed rows show readable stream status,
+and expanded accordions show event ids, proof roots, redaction posture,
+prompt-disclosure posture, result-disclosure posture, fail-closed states, and
+source-safe expanded metadata. Raw protected prompts, protected source,
+provider tokens, private wallet material, raw provider responses, settlement
+private payloads, unpaid AssetPack source, and global ledger authority claims
+are never valid stream UI payloads.
+
+`check:v37-gate3` validates package source, generated artifact freshness,
+package tests, route/UI tests, telemetry binding, docs, workflow wiring,
+source safety, event kind coverage, proof roots, disclosure posture, and
+fail-closed states.
 
 ## Inherited V36 Exchange canon
 

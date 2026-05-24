@@ -35,6 +35,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { log } from '@bitcode/logger';
+import type { ConversationStreamEvent } from '@bitcode/api/src/conversations/stream-events';
 
 /**
  * Stream event types from the conversations streaming API.
@@ -43,12 +44,12 @@ import { log } from '@bitcode/logger';
  * @typedef {Object} StreamEvent
  */
 export type StreamEvent = 
-  | { type: 'token'; data: string }
-  | { type: 'message_complete'; data: { messageId: string; content: string; conversationId?: string } }
-  | { type: 'pipeline_triggered'; data: { runId: string; pipelineType: string } }
-  | { type: 'pipeline_event'; data: { runId: string; event: any } }
-  | { type: 'pipeline_complete'; data: { runId: string; success: boolean; summary?: string } }
-  | { type: 'error'; data: { message: string; code?: string } };
+  | { type: 'token'; data: string; conversationStreamEvent?: ConversationStreamEvent }
+  | { type: 'message_complete'; data: { messageId: string; content: string; conversationId?: string }; conversationStreamEvent?: ConversationStreamEvent }
+  | { type: 'pipeline_triggered'; data: { runId: string; pipelineType: string }; conversationStreamEvent?: ConversationStreamEvent }
+  | { type: 'pipeline_event'; data: { runId: string; event: any }; conversationStreamEvent?: ConversationStreamEvent }
+  | { type: 'pipeline_complete'; data: { runId: string; success: boolean; summary?: string }; conversationStreamEvent?: ConversationStreamEvent }
+  | { type: 'error'; data: { message: string; code?: string }; conversationStreamEvent?: ConversationStreamEvent };
 
 /**
  * Token types for rich-input execution triggering and reference binding.
@@ -130,6 +131,32 @@ function createThrottle<T extends (...args: any[]) => void>(
       }, delay - (now - lastCall));
     }
   }) as T;
+}
+
+function buildPipelineLogEventFromConversationStreamEvent(event: ConversationStreamEvent) {
+  return {
+    type: event.executionState?.type || (event.eventKind === 'error_row' ? 'error' : 'thinking'),
+    message: event.collapsedStatus,
+    collapsedStatus: event.collapsedStatus,
+    timestamp: event.timestamp,
+    status: {
+      progress: event.eventKind === 'error_row' ? 'error' : event.eventKind === 'completion_decision' ? 'success' : 'in-progress',
+      detail: event.collapsedStatus,
+      timestamp: event.timestamp,
+      executionState: event.executionState,
+      metadata: {
+        conversationStreamEvent: event,
+        eventId: event.eventId,
+        eventKind: event.eventKind,
+        proofRoots: event.proofRoots,
+        redactionPosture: event.redactionPosture,
+        promptDisclosurePosture: event.promptDisclosurePosture,
+        resultDisclosurePosture: event.resultDisclosurePosture,
+        failClosedStates: event.failClosedStates,
+        expandedMetadata: event.expandedMetadata,
+      },
+    },
+  };
 }
 
 /**
@@ -334,14 +361,25 @@ export function useConversationStream(options: UseConversationStreamOptions) {
             try {
               const eventData = JSON.parse(line.slice(6));
               const event = eventData as StreamEvent;
+              const conversationStreamEvent = event.conversationStreamEvent;
+              const emitConversationStreamLog = () => {
+                if (conversationStreamEvent?.runId) {
+                  onPipelineEvent?.(
+                    conversationStreamEvent.runId,
+                    buildPipelineLogEventFromConversationStreamEvent(conversationStreamEvent),
+                  );
+                }
+              };
 
               switch (event.type) {
                 case 'token':
                   completedContent += event.data;
                   throttledTokenUpdate(event.data);
+                  emitConversationStreamLog();
                   break;
 
                 case 'message_complete':
+                  emitConversationStreamLog();
                   completedContent = event.data.content;
                   setState(prev => ({
                     ...prev,
@@ -359,6 +397,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
                     )
                   }));
                   onPipelineTriggered?.(event.data.runId, event.data.pipelineType);
+                  emitConversationStreamLog();
                   break;
 
                 case 'pipeline_event':
@@ -366,6 +405,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
                   break;
 
                 case 'pipeline_complete':
+                  emitConversationStreamLog();
                   setState(prev => {
                     const newPipelines = new Set(prev.activePipelines);
                     newPipelines.delete(event.data.runId);
@@ -378,6 +418,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
                   break;
 
                 case 'error':
+                  emitConversationStreamLog();
                   setState(prev => ({
                     ...prev,
                     isStreaming: false,

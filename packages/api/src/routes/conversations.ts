@@ -15,7 +15,10 @@ import { traceRoute } from '@bitcode/observability';
 import { createJsonResponse } from '@bitcode/responses';
 
 import {
+  attachConversationStreamEvent,
   branchConversation,
+  buildConversationPipelineLogEvent,
+  buildConversationStreamEvent,
   createConversation,
   createMessage,
   createStreamResponse,
@@ -370,6 +373,7 @@ async function createConversationWriteStreamResponse(options: {
   userId: string;
   content: string;
   tokens: ConversationStreamToken[];
+  streamIntent: 'create' | 'retry';
 }) {
   const attachments = buildAttachmentReferences(options.tokens);
   const richInput = buildConversationRichInputSummary(options.tokens, attachments);
@@ -400,37 +404,111 @@ async function createConversationWriteStreamResponse(options: {
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
+      let sequence = 0;
+      const emit = (payload: Record<string, unknown>) => {
+        controller.enqueue(encodeSseChunk(payload));
+      };
+      const streamEvent = (input: {
+        eventKind: Parameters<typeof buildConversationStreamEvent>[0]['eventKind'];
+        legacySseType: string;
+        collapsedStatus: string;
+        metadata?: Record<string, unknown>;
+        runId?: string | null;
+      }) => buildConversationStreamEvent({
+        ...input,
+        conversationId: options.conversationId,
+        sequence: ++sequence,
+      });
+
       try {
         if (execution) {
-          controller.enqueue(
-            encodeSseChunk({
+          const triggeredEvent = streamEvent({
+            eventKind: 'tool_call',
+            legacySseType: 'pipeline_triggered',
+            collapsedStatus: `${execution.label} admitted for conversation stream`,
+            runId: execution.runId,
+            metadata: {
+              pipelineType: execution.canonicalType,
+              storageType: execution.storageType,
+              richInputSummary: richInput.token_counts,
+            },
+          });
+          emit(
+            attachConversationStreamEvent({
               type: 'pipeline_triggered',
               data: {
                 runId: execution.runId,
                 pipelineType: execution.canonicalType,
               },
-            }),
+            }, triggeredEvent),
           );
-          controller.enqueue(
-            encodeSseChunk({
+          for (const event of [
+            streamEvent({
+              eventKind: 'retrieval_summary',
+              legacySseType: 'pipeline_event',
+              collapsedStatus: 'Conversation context summarized for stream',
+              runId: execution.runId,
+              metadata: {
+                sourceAttachmentCount: richInput.source_attachments.length,
+                outputDestinationCount: richInput.output_destinations.length,
+                assetPackReferenceCount: richInput.asset_pack_references.length,
+                readMeasurementIntentCount: richInput.read_measurement_intents.length,
+              },
+            }),
+            streamEvent({
+              eventKind: 'proof_root',
+              legacySseType: 'pipeline_event',
+              collapsedStatus: 'Conversation stream proof roots anchored',
+              runId: execution.runId,
+              metadata: {
+                route: options.streamIntent === 'retry' ? 'conversation_thread_stream' : 'conversation_collection_stream',
+                promptDisclosurePosture: 'prompt_template_id_only',
+                resultDisclosurePosture: 'parsed_result_shape_only',
+              },
+            }),
+            ...(options.streamIntent === 'retry'
+              ? [
+                  streamEvent({
+                    eventKind: 'retry_state',
+                    legacySseType: 'pipeline_event',
+                    collapsedStatus: 'Conversation retry uses route-local history',
+                    runId: execution.runId,
+                    metadata: {
+                      retryAllowed: true,
+                      routeLocalHistory: true,
+                      globalLedgerTruth: false,
+                    },
+                  }),
+                ]
+              : []),
+          ]) {
+            emit({
               type: 'pipeline_event',
               data: {
                 runId: execution.runId,
-                event: {
-                  status: 'running',
-                  summary: `${execution.label} is in flight.`,
-                },
+                event: buildConversationPipelineLogEvent(event),
               },
-            }),
-          );
+              conversationStreamEvent: event,
+            });
+          }
         }
 
         for (const chunk of chunkAssistantReply(assistantReply)) {
-          controller.enqueue(
-            encodeSseChunk({
+          const deltaEvent = streamEvent({
+            eventKind: 'model_delta',
+            legacySseType: 'token',
+            collapsedStatus: 'Assistant model delta streamed',
+            runId: execution?.runId || null,
+            metadata: {
+              chunkLength: chunk.length,
+              hasExecution: Boolean(execution),
+            },
+          });
+          emit(
+            attachConversationStreamEvent({
               type: 'token',
               data: chunk,
-            }),
+            }, deltaEvent),
           );
         }
 
@@ -447,27 +525,48 @@ async function createConversationWriteStreamResponse(options: {
         });
 
         if (execution) {
-          controller.enqueue(
-            encodeSseChunk({
+          const completionEvent = streamEvent({
+            eventKind: 'completion_decision',
+            legacySseType: 'pipeline_complete',
+            collapsedStatus: 'Conversation stream completed',
+            runId: execution.runId,
+            metadata: {
+              messageId: assistantMessage.id,
+              summaryLength: assistantReply.length,
+              persisted: true,
+            },
+          });
+          emit(
+            attachConversationStreamEvent({
               type: 'pipeline_complete',
               data: {
                 runId: execution.runId,
                 success: true,
                 summary: assistantReply,
               },
-            }),
+            }, completionEvent),
           );
         }
 
-        controller.enqueue(
-          encodeSseChunk({
+        const messageCompleteEvent = streamEvent({
+          eventKind: 'completion_decision',
+          legacySseType: 'message_complete',
+          collapsedStatus: 'Assistant message persisted',
+          runId: execution?.runId || null,
+          metadata: {
+            messageId: assistantMessage.id,
+            persisted: true,
+          },
+        });
+        emit(
+          attachConversationStreamEvent({
             type: 'message_complete',
             data: {
               messageId: assistantMessage.id,
               content: assistantReply,
               conversationId: options.conversationId,
             },
-          }),
+          }, messageCompleteEvent),
         );
       } catch (error) {
         await finalizeConversationExecution(execution, {
@@ -476,14 +575,24 @@ async function createConversationWriteStreamResponse(options: {
           error: error instanceof Error ? error.message : 'Conversation write failed.',
         });
 
-        controller.enqueue(
-          encodeSseChunk({
+        const errorEvent = streamEvent({
+          eventKind: 'error_row',
+          legacySseType: 'error',
+          collapsedStatus: 'Conversation stream failed closed',
+          runId: execution?.runId || null,
+          metadata: {
+            code: 'CONVERSATION_STREAM_ERROR',
+            retryable: true,
+          },
+        });
+        emit(
+          attachConversationStreamEvent({
             type: 'error',
             data: {
               message: error instanceof Error ? error.message : 'Conversation write failed.',
               code: 'CONVERSATION_STREAM_ERROR',
             },
-          }),
+          }, errorEvent),
         );
       } finally {
         controller.close();
@@ -598,6 +707,7 @@ export const postConversationStreamRoute = traceRoute('/conversations/stream', a
     userId,
     content,
     tokens: body.tokens || [],
+    streamIntent: 'create',
   });
 });
 
@@ -632,6 +742,7 @@ export const postConversationThreadStreamRoute = traceRoute(
       userId,
       content,
       tokens: body.tokens || [],
+      streamIntent: 'retry',
     });
   },
 );

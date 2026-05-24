@@ -21,6 +21,12 @@ interface PipelineRunLogHeaderProps {
     promptTemplateId?: string;
     outputSchema?: string;
     returnType?: string;
+    eventId?: string;
+    proofRoot?: string;
+    redactionPosture?: string;
+    promptDisclosurePosture?: string;
+    resultDisclosurePosture?: string;
+    failClosedState?: string;
   };
   isStreamingComplete: boolean;
   generationCount: number;
@@ -75,6 +81,12 @@ export function PipelineExecutionLogHeader({
     executionState?.agentId ? { label: 'PTRR agent', value: compactIdentifier(executionState.agentId, 3) } : null,
     ptrrStepLabel ? { label: 'PTRR step', value: compactIdentifier(String(ptrrStepLabel), 3) } : null,
     schemaLabel ? { label: 'schema', value: String(schemaLabel) } : null,
+    executionState?.eventId ? { label: 'event', value: compactIdentifier(String(executionState.eventId), 2) } : null,
+    executionState?.proofRoot ? { label: 'proof', value: compactIdentifier(String(executionState.proofRoot), 2) } : null,
+    executionState?.redactionPosture ? { label: 'redaction', value: String(executionState.redactionPosture) } : null,
+    executionState?.promptDisclosurePosture ? { label: 'prompt', value: String(executionState.promptDisclosurePosture) } : null,
+    executionState?.resultDisclosurePosture ? { label: 'result', value: String(executionState.resultDisclosurePosture) } : null,
+    executionState?.failClosedState ? { label: 'fail closed', value: String(executionState.failClosedState) } : null,
     ...metadataRows,
   ].filter((row): row is { label: string; value: string } => Boolean(row?.value));
 

@@ -30,6 +30,14 @@ restore, branch, retry, redact, and stream operations. Conversation route
 history remains route-local projection state; Terminal and the ledger remain
 authoritative for transaction, settlement, wallet, Exchange, and BTD ownership
 work.
+V37 Gate 3 anchors `ConversationStreamEvent` stream rows through the
+package-owned source-safe generated artifact
+`.bitcode/v37-conversation-stream-event-contract.json`, including model
+deltas, tool calls, retrieval summaries, proof roots, retry states, completion
+decisions, and error rows. The rich execution log is the stream UI: collapsed
+rows show readable status and expanded rows show event ids, proof roots,
+redaction posture, prompt/result disclosure posture, fail-closed states, and
+source-safe metadata without protected source or raw model payloads.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

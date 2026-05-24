@@ -3,6 +3,15 @@ import {
   formatAgenticExecutionLabel,
   normalizeAgenticExecutionType,
 } from '@bitcode/api/src/executions/agentic-execution';
+import {
+  attachConversationStreamEvent,
+  buildConversationPipelineLogEvent,
+  buildConversationStreamEvent,
+} from '@bitcode/api/src/conversations/stream-events';
+import type {
+  ConversationStreamEvent,
+  ConversationStreamEventKind,
+} from '@bitcode/api/src/conversations/stream-events';
 
 import { ENABLE_MOCKS, MOCK_CHAT_STREAM } from '../../../config/featureFlags';
 import { buildMockReviewUser, isAuxillariesMockMode } from '../../../lib/mock-review-mode';
@@ -11,6 +20,12 @@ type ConversationToken = {
   type?: string;
   value?: string;
   metadata?: Record<string, unknown>;
+};
+
+type MockConversationStreamQueueEvent = {
+  type: string;
+  data: unknown;
+  conversationStreamEvent?: ConversationStreamEvent;
 };
 
 type MockConversationRow = {
@@ -319,20 +334,93 @@ export function buildMockConversationStreamEnvelope(input: {
   const conversationId = String(input.conversationId || createMockConversation(deriveConversationTitle(content)).id);
   const pipeline = buildPipelineEvents(tokens);
   const tokenChunks = assistantReply.match(/.{1,28}/g) || [assistantReply];
+  let sequence = 0;
+  const streamEvent = (eventKind: ConversationStreamEventKind, legacySseType: string, collapsedStatus: string, metadata: Record<string, unknown> = {}, runId?: string | null) =>
+    buildConversationStreamEvent({
+      eventKind,
+      legacySseType,
+      collapsedStatus,
+      metadata,
+      runId: runId || pipeline?.runId || null,
+      conversationId,
+      sequence: ++sequence,
+    });
+  const pipelineEvents: MockConversationStreamQueueEvent[] = pipeline?.events.flatMap<MockConversationStreamQueueEvent>((event) => {
+    if (event.type === 'pipeline_triggered') {
+      const triggerEvent = streamEvent('tool_call', 'pipeline_triggered', 'Mock execution admitted for conversation stream', {
+        pipelineType: pipeline.pipelineType,
+      }, pipeline.runId);
+      const retrievalEvent = streamEvent('retrieval_summary', 'pipeline_event', 'Mock conversation context summarized', {
+        tokenCount: tokens.length,
+      }, pipeline.runId);
+      const proofEvent = streamEvent('proof_root', 'pipeline_event', 'Mock stream proof roots anchored', {
+        promptDisclosurePosture: 'prompt_template_id_only',
+        resultDisclosurePosture: 'parsed_result_shape_only',
+      }, pipeline.runId);
+      return [
+        attachConversationStreamEvent(event, triggerEvent),
+        {
+          type: 'pipeline_event',
+          data: {
+            runId: pipeline.runId,
+            event: buildConversationPipelineLogEvent(retrievalEvent),
+          },
+          conversationStreamEvent: retrievalEvent,
+        },
+        {
+          type: 'pipeline_event',
+          data: {
+            runId: pipeline.runId,
+            event: buildConversationPipelineLogEvent(proofEvent),
+          },
+          conversationStreamEvent: proofEvent,
+        },
+      ];
+    }
+
+    if (event.type === 'pipeline_event') {
+      const retryEvent = streamEvent('retry_state', 'pipeline_event', 'Mock retry posture available for route-local history', {
+        routeLocalHistory: true,
+        retryAllowed: true,
+      }, pipeline.runId);
+      return [{
+        type: 'pipeline_event',
+        data: {
+          runId: pipeline.runId,
+          event: buildConversationPipelineLogEvent(retryEvent),
+        },
+        conversationStreamEvent: retryEvent,
+      }];
+    }
+
+    if (event.type === 'pipeline_complete') {
+      return [attachConversationStreamEvent(event, streamEvent('completion_decision', 'pipeline_complete', 'Mock execution completed', {
+        success: true,
+      }, pipeline.runId))];
+    }
+
+    return [event];
+  }) || [];
   const queue = [
-    ...(pipeline?.events || []),
-    ...tokenChunks.map((chunk) => ({
+    ...pipelineEvents,
+    ...tokenChunks.map((chunk) => attachConversationStreamEvent({
       type: 'token',
       data: chunk,
-    })),
-    {
+    }, streamEvent('model_delta', 'token', 'Mock assistant model delta streamed', {
+      chunkLength: chunk.length,
+      hasExecution: Boolean(pipeline),
+    }))),
+    attachConversationStreamEvent({
       type: 'message_complete',
       data: {
         messageId,
         content: assistantReply,
         conversationId,
       },
-    },
+    }, streamEvent('completion_decision', 'message_complete', 'Mock assistant message persisted', {
+      messageId,
+      persisted: true,
+    })),
   ];
 
   return {

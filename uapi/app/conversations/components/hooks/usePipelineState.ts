@@ -50,6 +50,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
   const [runs, setRuns] = useState<RunRow[]>([]);
   const [activeRunId, setActiveRunId] = useState<string | null>(null);
   const [runLog, setRunLog] = useState<string>('');
+  const [runLogDetails, setRunLogDetails] = useState<Record<string, any>>({});
   const [latestWorkUpdate, setLatestWorkUpdate] = useState<any | null>(null);
   const [iterationUpdates, setIterationUpdates] = useState<any[]>([]);
   
@@ -92,6 +93,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     setRuns(prev => [newRun, ...prev]);
     setActiveRunId(runId);
     setRunLog(''); // Clear previous log
+    setRunLogDetails({});
     setLatestWorkUpdate(null);
     setIterationUpdates([]);
 
@@ -148,7 +150,8 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
 
   // Handle execution event from SSE
   const handlePipelineEvent = useCallback((runId: string, event: any) => {
-    if (activeRunId !== runId) return;
+    if (activeRunId && activeRunId !== runId) return;
+    if (!activeRunId) setActiveRunId(runId);
 
     if (event?.type === 'work-update' && event?.update) {
       setLatestWorkUpdate(event.update);
@@ -162,13 +165,23 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
       return;
     }
 
-    const logEntry = typeof event === 'string' ? event : 
-      event?.message || JSON.stringify(event);
+    const logEntry = typeof event === 'string' ? event :
+      event?.collapsedStatus || event?.message || event?.summary || JSON.stringify(event);
     
     appendRunLog(logEntry);
+    if (typeof event !== 'string') {
+      setRunLogDetails(prev => ({
+        ...prev,
+        [logEntry]: event,
+      }));
+    }
 
     // Update execution state if relevant
-    if (event.type === 'phase') {
+    if (event?.status?.executionState) {
+      setExecutionState(event.status.executionState);
+    } else if (event?.executionState) {
+      setExecutionState(event.executionState);
+    } else if (event.type === 'phase') {
       setExecutionState(event);
     }
 
@@ -193,6 +206,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     setRuns([]);
     setActiveRunId(null);
     setRunLog('');
+    setRunLogDetails({});
     setExecutionState(null);
     setLlmCallCount(0);
     setLatestWorkUpdate(null);
@@ -203,6 +217,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
   const resetExecutionState = useCallback(() => {
     setExecutionState(null);
     setLlmCallCount(0);
+    setRunLogDetails({});
   }, []);
 
   return {
@@ -210,6 +225,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     runs,
     activeRunId,
     runLog,
+    runLogDetails,
     thinkingLog,
     executionState,
     generationCount,
