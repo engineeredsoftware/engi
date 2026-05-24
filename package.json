@@ -256,7 +256,10 @@
     "mcp:inspect": "pnpm exec mcp-inspector --stdio-command ./scripts/start-bitcode-mcp.sh",
     "generate:v37-conversation-session-route-history": "node scripts/generate-v37-conversation-session-route-history.mjs",
     "check:v37-conversation-session-route-history": "node scripts/generate-v37-conversation-session-route-history.mjs --check",
-    "check:v37-gate2": "node scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs"
+    "check:v37-gate2": "node scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+    "generate:v37-conversation-stream-event-contract": "node scripts/generate-v37-conversation-stream-event-contract.mjs",
+    "check:v37-conversation-stream-event-contract": "node scripts/generate-v37-conversation-stream-event-contract.mjs --check",
+    "check:v37-gate3": "node scripts/check-v37-gate3-conversation-stream-event-contracts.mjs"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

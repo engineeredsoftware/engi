@@ -584,6 +584,7 @@ const Conversation = memo(function Conversation({
     runs,
     activeRunId,
     runLog,
+    runLogDetails,
     thinkingLog,
     executionState,
     generationCount,
@@ -917,7 +918,7 @@ const Conversation = memo(function Conversation({
               error={logError}
               runId={activeRunId || undefined}
               output={runLog}
-              outputDetails={processLogOutputDetails}
+              outputDetails={{ ...processLogOutputDetails, ...runLogDetails }}
               onRetry={handleRetry}
               onDismissError={handleDismissError}
               userHasScrolled={processLogHasScrolled}

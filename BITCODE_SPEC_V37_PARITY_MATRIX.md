@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, and Gate 2 ConversationSession route-history contracts
+- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, and Gate 3 ConversationStreamEvent stream UI/event contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, and `.bitcode/v37-conversation-stream-event-contract.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -23,7 +23,7 @@ Every V37 gate must name package-owned conversation objects, source-safe payload
 
 ## Audit basis
 
-Gate 1 and Gate 2 audit basis:
+Gate 1, Gate 2, and Gate 3 audit basis:
 
 - `BITCODE_SPEC.txt`
 - `BITCODE_SPEC_V36.md`
@@ -53,6 +53,19 @@ Gate 1 and Gate 2 audit basis:
 - `uapi/app/conversations/conversation-session-route-history.ts`
 - `uapi/tests/api/conversationSessionRouteHistory.test.ts`
 - `uapi/tests/api/conversationSessionRouteHistoryContract.test.ts`
+- `packages/protocol/src/canonical/conversation-stream-event-contract.js`
+- `packages/protocol/test/conversation-stream-event-contract.test.js`
+- `packages/api/src/conversations/stream-events.ts`
+- `packages/api/src/conversations/__tests__/stream-events.test.ts`
+- `scripts/generate-v37-conversation-stream-event-contract.mjs`
+- `scripts/check-v37-gate3-conversation-stream-event-contracts.mjs`
+- `.bitcode/v37-conversation-stream-event-contract.json`
+- `uapi/hooks/useConversationStream.ts`
+- `uapi/app/conversations/components/hooks/usePipelineState.ts`
+- `uapi/components/base/bitcode/execution/pipeline-execution-log.tsx`
+- `uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx`
+- `uapi/tests/api/conversationStreamEventContract.test.ts`
+- `uapi/tests/conversationStreamPipelineLog.test.tsx`
 
 No `_legacy/` source is active source truth.
 
@@ -63,7 +76,7 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V37.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v37/gate-1-conversations-roadmap-opening` | drafted | V37 family validates in draft mode over active V36 and `check:v37-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V36 active, V37 draft, and coherent post-V37 responsibility. |
 | Conversation session and route history | Gate 2 | `ConversationSession`, `.bitcode/v37-conversation-session-route-history.json`, package source, route contracts, tests, and `check:v37-gate2` | closed | Route-local identity, route-local history, restore, branch, retry, redaction, stream, and proof roots are typed and source-safe. |
-| Conversation stream events | Gate 3 | future `ConversationStreamEvent`, stream UI tests, telemetry hooks, and `check:v37-gate3` | pending | Model deltas, tool calls, retrieval summaries, completion decisions, retry/error states, proof roots, and expanded metadata are source-safe. |
+| Conversation stream events | Gate 3 | `ConversationStreamEvent`, `.bitcode/v37-conversation-stream-event-contract.json`, route-attached SSE metadata, stream UI tests, telemetry hooks, and `check:v37-gate3` | closed | Model deltas, tool calls, retrieval summaries, completion decisions, retry/error states, proof roots, collapsed readable status, expanded metadata, and disclosure posture are source-safe. |
 | Writing workspace | Gate 4 | future `ConversationWritingWorkspace`, fullscreen route tests, accessibility proof, and `check:v37-gate4` | pending | Read Request, Need feedback, AssetPack review notes, and Terminal handoff writing flows are accessible, restorable, and source-safe. |
 | Source selectors | Gate 5 | future `ConversationSourceSelector`, policy tests, rights checks, and `check:v37-gate5` | pending | Repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors are policy-gated. |
 | Terminal handoff | Gate 6 | future `ConversationTerminalHandoff`, Terminal integration tests, and `check:v37-gate6` | pending | Conversations can hand source-safe transaction intent to Terminal without becoming a parallel ledger/wallet authority. |
@@ -85,6 +98,8 @@ No `_legacy/` source is active source truth.
 | Package docs | README, protocol package README, demonstration README, and PR template state V36 active / V37 draft workflow | drafted |
 | Conversations vocabulary | V37 spec family names `ConversationSession`, `ConversationMessage`, `ConversationStreamEvent`, `ConversationWritingWorkspace`, `ConversationSourceSelector`, and `ConversationTerminalHandoff` | drafted |
 | ConversationSession route-history artifact | `ConversationSession` source emits `.bitcode/v37-conversation-session-route-history.json` and `check:v37-gate2` validates it | closed |
+| ConversationStreamEvent artifact | `ConversationStreamEvent` source emits `.bitcode/v37-conversation-stream-event-contract.json` and `check:v37-gate3` validates it | closed |
+| ConversationStreamEvent event coverage | `source-safe-conversation-stream-event-metadata` covers model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, and error rows | closed |
 | Disclosure boundary | Conversations expose source-safe stream, selector, proof, handoff, and policy metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | drafted |
 | Terminal handoff boundary | Terminal remains the transaction cockpit and ledger/wallet authority; Conversations prepare and hand off source-safe intent | drafted |
 | Privacy posture | Conversation persistence, export, delete, retention, replay, and repair paths preserve disclosure classes and redaction policy | drafted |

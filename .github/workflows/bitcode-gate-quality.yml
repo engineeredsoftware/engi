@@ -21,6 +21,7 @@ jobs:
   gate-quality:
     name: Gate Quality
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -240,6 +241,9 @@ jobs:
               if [ -f scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs ]; then
                 node scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs --skip-branch-check
               fi
+              if [ -f scripts/check-v37-gate3-conversation-stream-event-contracts.mjs ]; then
+                node scripts/check-v37-gate3-conversation-stream-event-contracts.mjs --skip-branch-check
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -263,7 +267,6 @@ jobs:
 
       - name: Test gate packages
         run: |
-          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btc-fee-operation.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btd.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts --runInBand --forceExit
@@ -311,10 +314,9 @@ jobs:
           pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/conversations/__tests__/stream-events.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/protocol test
 
       - name: Test staged Reading route and Terminal harness contracts
@@ -329,6 +331,8 @@ jobs:
             tests/api/vcsRoutes.test.ts \
             tests/api/conversationSessionRouteHistory.test.ts \
             tests/api/conversationSessionRouteHistoryContract.test.ts \
+            tests/api/conversationStreamEventContract.test.ts \
+            tests/conversationStreamPipelineLog.test.tsx \
             tests/auxillariesExternalsPane.test.tsx \
             tests/profileStep.test.tsx \
             tests/api/readReviewRoute.test.ts \

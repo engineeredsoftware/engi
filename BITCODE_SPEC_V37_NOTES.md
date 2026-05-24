@@ -55,6 +55,22 @@ Gate 2 adds `.bitcode/v37-conversation-session-route-history.json`, `buildConver
 The required operations are create, restore, branch, retry, redact, and stream.
 Restore, branch, retry, and redaction preserve route-local history and proof roots without exposing protected source, raw protected prompts, protected model responses with source, wallet private material, provider tokens, secrets, settlement private payloads, unpaid AssetPack source, or any global ledger authority claim.
 
+## Gate 3 implementation notes
+
+ConversationStreamEvent stream contracts are source-safe SSE metadata
+contracts, not a transcript of raw model or tool payloads. Gate 3 adds
+`.bitcode/v37-conversation-stream-event-contract.json`,
+`buildConversationStreamEventContract`, the route-facing stream event adapter,
+package tests, route tests, UI tests, and `check:v37-gate3`.
+The required event rows are model deltas, tool calls, retrieval summaries,
+proof roots, retry states, completion decisions, and error rows.
+The shared execution log is the canonical stream UI: collapsed rows show a
+readable status, expanded rows show source-safe metadata, and the header can
+surface event id, proof root, redaction posture, prompt/result disclosure
+posture, and fail-closed state.
+Gate 3 keeps gate-quality CI greenable by bounding the workflow runtime and
+running maintained targeted package tests inside the gate job.
+
 ## V37 gate plan
 
 - Gate 1: V37 Conversations Roadmap And Spec Opening

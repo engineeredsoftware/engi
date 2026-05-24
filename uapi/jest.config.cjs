@@ -145,6 +145,7 @@ module.exports = {
     '<rootDir>/tests/terminalPipelineHarnessClient.test.ts',
     '<rootDir>/tests/terminalProtocolProjection.test.ts',
     '<rootDir>/tests/terminalInterfaceIntegrationRegression.test.ts',
+    '<rootDir>/tests/conversationStreamPipelineLog.test.tsx',
     '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',
     '<rootDir>/tests/terminalJournalReconciliation.test.ts',
     '<rootDir>/tests/terminalOrganizationAuthority.test.ts',

@@ -35,6 +35,7 @@ Current exported commercial helpers include:
 - `ExchangeUxProof` helpers for V36 Exchange route usability, Terminal handoff, collapsed readable status, expanded source-safe detail, and telemetry dashboard proof roots;
 - `ExchangeRehearsal` helpers for V36 local/staging-testnet Exchange rehearsal coverage, source-safe log/screenshot roots, ledger/database synchronization checks, and blocked value-bearing mainnet proof;
 - `ConversationSession` route-history helpers for V37 route-local session identity, create/restore/branch/retry/redact/stream operations, proof roots, event ids, and persistence boundaries;
+- `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -49,10 +50,17 @@ through `buildConversationSessionRouteHistory` and
 `.bitcode/v37-conversation-session-route-history.json`.
 The route-history artifact covers create, restore, branch, retry, redact, and
 stream operations while keeping conversation state route-local rather than
-global ledger truth. Gate 3 and later gates add package-owned Conversations
-message, stream event, writing workspace, source selector, Terminal handoff,
+global ledger truth. Gate 4 and later gates add package-owned Conversations
+message, writing workspace, source selector, Terminal handoff,
 persistence/privacy, telemetry/proof/docs, rehearsal, and promotion readiness
 helpers.
+V37 Gate 3 adds source-safe `ConversationStreamEvent` stream UI/event contracts
+through `buildConversationStreamEventContract` and
+`.bitcode/v37-conversation-stream-event-contract.json`.
+The stream event artifact covers model delta, tool call, retrieval summary,
+proof root, retry state, completion decision, and error row events while
+keeping stream telemetry source-safe and compatible with the shared rich
+execution log UI.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.

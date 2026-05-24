@@ -10,3 +10,4 @@ export * from './conversations';
 export * from './messages';
 export * from './attachments';
 export * from './streaming';
+export * from './stream-events';
