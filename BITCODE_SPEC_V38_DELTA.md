@@ -125,6 +125,13 @@ Closure acceptance:
 - protected payloads remain blocked or redacted;
 - `pnpm run check:v38-gate5` validates event contracts, UI stream compatibility, API contracts, and redaction tests.
 
+Closure implementation:
+
+- `V38InferenceTelemetryDisclosureReport` is now package-backed in `packages/protocol/src/canonical/inference-telemetry-disclosure-report.js` and generated to `.bitcode/v38-disclosure-boundary-report.json`.
+- The generated artifact is `source-safe-inference-telemetry-disclosure-metadata` and covers pipeline phase, PTRR agent step, Failsafe sequence, ThricifiedGeneration, tool execution, prompt template interpolation, raw response to parsed output schema, and stream UI/storage projection rows.
+- The report binds 13 required telemetry levels and 12 disclosure tier ids to allowed payload fields, forbidden payload classes, proof roots, fail-closed states, V35 telemetry taxonomy roots, V37 stream-event roots, V38 Gate 2 inventory roots, V38 Gate 3 PTRR/Failsafe/Thricified roots, and V38 Gate 4 prompt benchmark roots.
+- The raw provider response boundary is private or root-only: public rows can expose raw response presence, roots, typed output shape, schema verdict, retry/repair posture, and source-safe inference audit shapes, but not raw provider response content, raw protected prompts, protected source, unpaid AssetPack source, credentials, private wallet material, or private settlement payloads.
+
 ### Gate 6: ReadNeedComprehensionSynthesis Inference Hardening
 
 Closure acceptance:

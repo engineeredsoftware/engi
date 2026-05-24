@@ -45,6 +45,7 @@ Current exported commercial helpers include:
 - `V38InferenceSurfaceInventory` helpers for V38 Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive inference-surface inventory;
 - `V38PtrrFailsafeThricifiedStack` helpers for V38 practical PTRR agent stack proof, FailsafeGenerationSequence over ThricifiedGeneration binding, step-owned tool boundaries, source predicates, and source-safe generated metadata;
 - `V38PromptBenchmarkReport` helpers for V38 source-safe PromptPart and complete Prompt benchmark coverage across Reading, Conversation, and tool-definition inference surfaces;
+- `V38InferenceTelemetryDisclosureReport` helpers for V38 source-safe inference telemetry rows, disclosure tiers, raw provider response boundaries, schema verdicts, retry/repair posture, and rich stream UI/storage projection proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -91,6 +92,21 @@ PromptParts, complete Reading Prompt registries, Website Conversation Prompts,
 and DocCodeToolPrompt surfaces as `source-safe-prompt-benchmark-metadata`.
 The maintained commands are `pnpm run generate:v38-prompt-benchmark-report`,
 `pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`.
+V38 Gate 5 adds `V38InferenceTelemetryDisclosureReport` through
+`packages/protocol/src/canonical/inference-telemetry-disclosure-report.js` and
+the source-safe generated artifact `.bitcode/v38-disclosure-boundary-report.json`.
+The telemetry disclosure report covers phase, agent, PTRR step, Failsafe,
+ThricifiedGeneration, tool, prompt template, interpolated prompt, raw provider
+response root, parsed output shape, schema verdict, retry, repair, and stream UI
+projection rows as `source-safe-inference-telemetry-disclosure-metadata`. The
+disclosure tier contract exposes source-safe roots, ids, presence flags, typed
+shapes, and fail-closed states while keeping raw provider response content, raw
+protected prompts, protected source, unpaid AssetPack source, credentials,
+private wallet material, and private settlement payloads private or blocked.
+The maintained commands are
+`pnpm run generate:v38-inference-telemetry-disclosure-report`,
+`pnpm run check:v38-inference-telemetry-disclosure-report`, and
+`pnpm run check:v38-gate5`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

@@ -143,6 +143,20 @@ responses.
 Use `pnpm run generate:v38-prompt-benchmark-report`,
 `pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`
 before closing the gate.
+V38 Gate 5 adds the package-backed `V38InferenceTelemetryDisclosureReport` and
+generated source-safe artifact `.bitcode/v38-disclosure-boundary-report.json`.
+The inference telemetry disclosure report covers pipeline phase, PTRR agent
+step, FailsafeGenerationSequence, ThricifiedGeneration, tool execution, prompt
+template interpolation, raw provider response root, parsed typed output shape,
+schema verdict, retry, repair, and stream UI/storage projection rows as
+`source-safe-inference-telemetry-disclosure-metadata`. Its disclosure tier
+contract keeps raw provider response content, raw protected prompts, protected
+source, unpaid AssetPack source, credentials, private wallet material, and
+private settlement payloads out of public or reader-visible streams while still
+surfacing roots, presence flags, typed shapes, and proof metadata for audit.
+Use `pnpm run generate:v38-inference-telemetry-disclosure-report`,
+`pnpm run check:v38-inference-telemetry-disclosure-report`, and
+`pnpm run check:v38-gate5` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
