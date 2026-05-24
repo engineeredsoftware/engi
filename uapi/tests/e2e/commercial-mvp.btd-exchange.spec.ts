@@ -33,7 +33,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await openCommercialRoute(
       page,
       '/exchange',
-      /Search activity, select a row, and read Exchange state/i,
+      /Read market activity, select an order, and inspect Exchange state/i,
     );
 
     const tracker = page.getByLabel(/Open BTD wallet auxillary/i);
@@ -81,7 +81,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
 
     await expect(page).toHaveURL(/\/exchange\?assetPack=asset-pack-run-branch-remediation&intent=buy-existing-btd$/);
     await expectAtPageTop(page);
-    await expectCommercialRouteReady(page, /Search activity, select a row, and read Exchange state/i);
+    await expectCommercialRouteReady(page, /Read market activity, select an order, and inspect Exchange state/i);
 
     await trap.assertClean();
   });
@@ -91,11 +91,11 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/exchange', /Search activity, select a row, and read Exchange state/i);
+    await openCommercialRoute(page, '/exchange', /Read market activity, select an order, and inspect Exchange state/i);
 
-    await expect(page.getByText('Primary read')).toBeVisible();
-    await expect(page.getByText('activity ledger', { exact: true }).first()).toBeVisible();
-    await expect(page.getByText('same state, read-only here')).toBeVisible();
+    await expect(page.getByText('Master detail')).toBeVisible();
+    await expect(page.getByText('market filters', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('proof-rooted state')).toBeVisible();
     await expect(page.getByText('Searchable Exchange activity table')).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
     await expect(page.getByRole('button', { name: /mock-run-read-measurement-pass/i })).toBeVisible();
@@ -145,7 +145,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await openCommercialRoute(
       page,
       '/exchange?intent=buy-existing-btd',
-      /Search activity, select a row, and read Exchange state/i,
+      /Read market activity, select an order, and inspect Exchange state/i,
     );
     await expectAtPageTop(page);
     await expectRouteParam(page, 'intent', 'buy-existing-btd');
@@ -158,7 +158,7 @@ test.describe('commercial MVP BTD and Exchange entry', () => {
     await page.getByLabel('Action lens', { exact: true }).selectOption('read');
     await expectRouteParam(page, 'transactionLens', 'read');
     await expect(page.getByText('Lens: Read')).toBeVisible();
-    await expect(page.getByText('same state, read-only here')).toBeVisible();
+    await expect(page.getByText('source-safe preview')).toBeVisible();
 
     await page.getByRole('button', { name: /Clear all filters/i }).click();
     await expectRouteParam(page, 'intent', 'buy-existing-btd');

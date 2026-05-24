@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V34`; V35 is the active draft target for telemetry and
-documentation depth after the promoted deployment canon.
+resolves to `V35`; V36 is the active draft target for Exchange depth after the
+promoted telemetry and documentation canon.
 
 ## Current Product Posture
 
@@ -12,8 +12,73 @@ The primary operator routes are:
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
-Exchange and website Conversations remain in source as deferred commercial work.
-V35 closure focuses on telemetry and documentation depth over promoted V34:
+Website Conversations remain in source as deferred commercial work. Exchange is
+the active V36 draft focus: market-wide activity master-detail, buy/sell/bid/
+ask/cancel/accept/settle/history flows, AssetPack range trading,
+rights-transfer review, pricing/liquidity/wrapper analysis, settlement
+reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging
+rehearsal, and Exchange-specific proofs.
+V36 Gate 2 anchors market-wide activity through the package-owned
+`ExchangeActivityBook` and the source-safe generated artifact
+`.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
+cancellation, acceptance, settlement, repair, revenue route, and history rows.
+The activity detail never exposes protected source or unpaid AssetPack content.
+V36 Gate 3 anchors market action through package-owned `ExchangeIntent` and
+`ExchangeOrder` contracts plus the source-safe generated artifact
+`.bitcode/v36-exchange-intent-order-contracts.json`, including buy, sell, bid,
+ask, cancel, accept, settle, and history transitions. Each transition names
+actor principal, organization role, wallet posture, authority proof,
+idempotency key, policy decision, and fail-closed result; order history is
+replayable without private wallet material or secrets.
+V36 Gate 4 anchors rights-transfer review through package-owned
+`ExchangeRightsTransferPreview` and the source-safe generated artifact
+`.bitcode/v36-exchange-rights-transfer-review.json`, including BTD range
+identity, current owner, requested buyer, rights scope, settlement unlock,
+disclosure limit, and owner-read, licensed-read, and blocked transfer states.
+AssetPack source is hidden until paid settlement and rights transfer are
+complete.
+V36 Gate 5 anchors pricing through package-owned `ExchangePricingQuote` and the
+source-safe generated artifact `.bitcode/v36-pricing-liquidity-fee-quote.json`.
+The quote covers BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and
+quote root. The source-safe verdict is
+`source-safe-exchange-pricing-quote-metadata`; wrapper analysis cannot make BTD range cells fungible chain-of-record assets, and underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+V36 Gate 6 anchors settlement through package-owned `ExchangeSettlementReceipt`
+and the source-safe generated artifact
+`.bitcode/v36-exchange-settlement-reconciliation.json`.
+The receipt binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
+The source-safe verdict is
+`source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
+V36 Gate 7 anchors dispute repair and revenue routing through package-owned
+`ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, and the source-safe
+generated artifact `.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
+`ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
+`ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
+The source-safe verdict is
+`source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
+V36 Gate 8 anchors Exchange route usability through package-owned
+`ExchangeUxProof` and the source-safe generated artifact
+`.bitcode/v36-exchange-ux-proof.json`.
+`ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
+Terminal can hand off to Exchange without losing transaction context.
+collapsed UI gives readable status and expanded UI exposes source-safe detail.
+Exchange telemetry dashboards remain source-safe and proof-rooted.
+The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
+V36 Gate 9 anchors Exchange rehearsal through package-owned
+`ExchangeRehearsal` and the source-safe generated artifact
+`.bitcode/v36-exchange-rehearsal.json`.
+`ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
+It proves that rehearsal logs/screenshots are source-safe.
+It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
+The source-safe verdict is `source-safe-exchange-rehearsal-metadata`.
+V36 Gate 10 anchors Exchange promotion readiness through package-owned
+`ExchangePromotionReadinessReport` and the source-safe generated artifact
+`.bitcode/v36-promotion-readiness-report.json`.
+`ExchangePromotionReadinessReport` covers every V36 Exchange artifact, V36 proof
+appendix generation, `v36-canon-promotion.yml`, promotion dry-run support,
+workflow posture, and runtime promotion from active V35 / draft V36 to active
+V36 / draft V37.
+Run `pnpm run check:v36-gate10` to validate the Gate 10 closure contract.
+Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer
 onboarding, operator guides, and testnet-rollout readiness.
@@ -83,10 +148,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v35`.
+1. Create one base branch per draft target, such as `version/v36`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v35/gate-1-telemetry-docs-roadmap-opening` or
-   `v35/gate-6-documentation-qa-alignment-proofs`.
+   with the gate number, for example `v36/gate-1-exchange-roadmap-opening` or
+   `v36/gate-6-exchange-settlement-reconciliation`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -95,7 +160,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V35 Gate 5: Dashboards Alerts Runbooks Incident Escalation`.
+   title, for example `V36 Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -105,16 +170,15 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V35, promotion work must validate the
-telemetry/documentation posture, generate `BITCODE_SPEC_V35_PROVEN.md`, and
-commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
-`V34` to `V35` on the version branch.
-Gate 10 is the promotion-readiness gate. V35 Gate 10 is wired through
-`pnpm run check:v35-gate10`, backed by source-safe telemetry/documentation
-artifacts, a promotion readiness report, and
-[v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
-The promoted V34 closure remains reproducible through `pnpm run check:v34-gate10`
-and [v34-canon-promotion.yml](.github/workflows/v34-canon-promotion.yml).
+run the version promotion workflow. For V36, promotion work must validate the
+Exchange posture, generate `BITCODE_SPEC_V36_PROVEN.md`, and commit promotion
+artifacts plus the `BITCODE_SPEC.txt` pointer change from `V35` to `V36` on the
+version branch.
+Gate 10 is the promotion-readiness gate. V36 Gate 1 is wired through
+`pnpm run check:v36-gate1`, and later V36 gates add Exchange generated
+artifacts before `check:v36-gate10` and the V36 promotion workflow exist.
+The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
+and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set
@@ -125,9 +189,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V34.md](BITCODE_SPEC_V34.md) is the active promoted spec family.
-- [BITCODE_SPEC_V35.md](BITCODE_SPEC_V35.md) is the active draft target.
-- [BITCODE_SPEC_V35_PARITY_MATRIX.md](BITCODE_SPEC_V35_PARITY_MATRIX.md) tracks V35 gate parity.
+- [BITCODE_SPEC_V35.md](BITCODE_SPEC_V35.md) is the active promoted spec family.
+- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active draft target.
+- [BITCODE_SPEC_V36_PARITY_MATRIX.md](BITCODE_SPEC_V36_PARITY_MATRIX.md) tracks V36 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

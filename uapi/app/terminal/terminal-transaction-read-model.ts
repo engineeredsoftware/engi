@@ -1,7 +1,7 @@
 import type {
   TransactionDataMode,
 } from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import { buildTerminalHref } from './terminal-routes';
+import { buildExchangeHref, buildTerminalHref } from './terminal-routes';
 import {
   readTerminalTransactionId,
   type TerminalTransactionDetailSection,
@@ -50,6 +50,7 @@ export type TerminalTransactionRouteReadModel = {
   routeTransactionId: string | null;
   activeSection: TerminalTransactionDetailSection;
   href: string;
+  exchangeHref: string;
   selectionRecoverable: boolean;
 };
 
@@ -189,6 +190,19 @@ function createSectionHref(
   detailSection: TerminalTransactionDetailSection,
 ) {
   return buildTerminalHref(
+    writeTerminalTransactionDetailSection(
+      writeTerminalTransactionId(searchParams, transactionId),
+      detailSection,
+    ),
+  );
+}
+
+function createExchangeSectionHref(
+  searchParams: URLSearchParams,
+  transactionId: string,
+  detailSection: TerminalTransactionDetailSection,
+) {
+  return buildExchangeHref(
     writeTerminalTransactionDetailSection(
       writeTerminalTransactionId(searchParams, transactionId),
       detailSection,
@@ -357,6 +371,7 @@ export function buildTerminalTransactionReadModel({
     routeTransactionId,
     activeSection: detailSection,
     href: createSectionHref(searchParams, selectedRun.id, detailSection),
+    exchangeHref: createExchangeSectionHref(searchParams, selectedRun.id, detailSection),
     selectionRecoverable: routeTransactionId === selectedRun.id,
   };
   const sections = SECTION_DEFINITIONS.map((definition) => ({

@@ -55,8 +55,12 @@ describe('ExchangePageClient', () => {
     render(<ExchangePageClient />);
 
     expect(
-      screen.getByRole('heading', { name: /Search activity, select a row, and read Exchange state/i }),
+      screen.getByRole('heading', { name: /Read market activity, select an order, and inspect Exchange state/i }),
     ).toBeInTheDocument();
+    expect(screen.getByText('market filters')).toBeInTheDocument();
+    expect(screen.getByText('activity replay')).toBeInTheDocument();
+    expect(screen.getByText('source-safe preview')).toBeInTheDocument();
+    expect(screen.getByText('proof-rooted state')).toBeInTheDocument();
     expect(screen.getByTestId('exchange-workspace')).toHaveAttribute('data-surface', 'exchange');
     expect(screen.getByTestId('exchange-workspace')).toHaveAttribute(
       'data-selected-run',

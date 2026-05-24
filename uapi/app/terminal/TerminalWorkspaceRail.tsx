@@ -22,6 +22,7 @@ function formatRunTimestamp(value: string) {
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
+      timeZone: 'UTC',
     }).format(new Date(value));
   } catch {
     return value;
