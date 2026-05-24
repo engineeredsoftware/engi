@@ -78,7 +78,9 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
 
   assert.ok(byAlignmentId.get('spec_family_alignment')?.expectedTokens.includes('DocsQaAlignmentReport'));
   assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-docs-qa-alignment-report.json'));
+  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-testnet-rollout-readiness-guide.json'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildOperatorRunbookCatalog'));
+  assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildTestnetRolloutReadinessGuide'));
   assert.ok(byAlignmentId.get('public_docs_disclosure_alignment')?.checkedSources.includes('uapi/app/docs/bitcode-docs-content.ts'));
   assert.ok(byAlignmentId.get('internal_docs_alignment')?.checkedSources.includes('internal-docs/README.md'));
   assert.ok(byAlignmentId.get('route_docs_alignment')?.checkedSources.includes('packages/api/README.md'));

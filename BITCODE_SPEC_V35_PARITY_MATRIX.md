@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, source-safe `.bitcode/v35-operator-runbook-catalog.json`, source-safe `.bitcode/v35-docs-qa-alignment-report.json`, source-safe `.bitcode/v35-testnet-rollout-readiness-guide.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, public docs usage, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -59,7 +59,7 @@ No `_legacy/` source is active source truth.
 | Public docs usage guides | Gate 4 | `PublicDocsUsageGuideCatalog`, `.bitcode/v35-public-docs-usage-guides.json`, `source-safe-public-docs-metadata`, `packages/protocol/src/canonical/public-docs-usage-guide-catalog.js`, `packages/protocol/test/v35-public-docs-usage-guide-catalog.test.js`, public `/docs` disclosure-limit section, and `check:v35-gate4` | closed | Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, proof posture, Exchange deferred boundary, and Conversations deferred boundary docs derive from package/SPEC truth. |
 | Dashboards alerts runbooks incident escalation | Gate 5 | `OperatorRunbookCatalog`, `.bitcode/v35-operator-runbook-catalog.json`, `source-safe-runbook-metadata`, `packages/protocol/src/canonical/operator-runbook-catalog.js`, `packages/protocol/test/v35-operator-runbook-catalog.test.js`, dashboard/alert/runbook bindings, incident fixtures, and `check:v35-gate5` | closed | Telemetry events bind to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, proof roots, repair references, and post-incident docs updates. |
 | Documentation QA alignment proofs | Gate 6 | `DocsQaAlignmentReport`, `.bitcode/v35-docs-qa-alignment-report.json`, `source-safe-docs-qa-metadata`, `packages/protocol/src/canonical/docs-qa-alignment-report.js`, `packages/protocol/test/v35-docs-qa-alignment-report.test.js`, workflow wiring, and `check:v35-gate6` | closed | Code, SPEC, DELTA, NOTES, PARITY, generated proofs, generated artifacts, public docs, internal docs, route docs, interface docs, package READMEs, and workflow checkers fail closed on drift. |
-| Developer operator testnet rollout guides | Gate 7 | `TestnetRolloutReadinessGuide`, onboarding/operations docs, rehearsal evidence, and `check:v35-gate7` | drafted | Contributors, operators, enterprise readers, depositors, and interface consumers can follow source-safe local/staging-testnet guides. |
+| Developer operator testnet rollout guides | Gate 7 | `TestnetRolloutReadinessGuide`, `.bitcode/v35-testnet-rollout-readiness-guide.json`, `source-safe-rollout-guide-metadata`, `packages/protocol/src/canonical/testnet-rollout-readiness-guide.js`, `packages/protocol/test/v35-testnet-rollout-readiness-guide.test.js`, workflow wiring, and `check:v35-gate7` | closed | Contributors, local developers, operators, enterprise readers, depositors, interface consumers, lane reviewers, settlement operators, blocker reviewers, and promotion reviewers can follow source-safe local/staging-testnet/public-testnet/mainnet-dry-run guides while value-bearing mainnet remains blocked. |
 | Telemetry documentation interface integration | Gate 8 | Terminal, Auxillaries, API, MCP API, ChatGPT App, route payloads, and `check:v35-gate8` | drafted | Interfaces expose event ids, docs links, runbook links, proof roots, and redaction posture without protected source leakage. |
 | Local staging telemetry documentation rehearsal | Gate 9 | local/staging rehearsal logs, docs QA output, dashboard/runbook proof roots, and `check:v35-gate9` | drafted | Operators can follow docs and telemetry through local and staging-testnet drills while value-bearing mainnet remains blocked. |
 | Promotion readiness | Gate 10 | `DocumentationTelemetryPromotionReadinessReport`, generated proof support, promotion workflow support, and `check:v35-gate10` | drafted | V35 can promote only after all telemetry/documentation gates pass and generated canon remains source-safe. |
@@ -77,6 +77,7 @@ No `_legacy/` source is active source truth.
 | Gate 4 script | `pnpm run check:v35-gate4` fails closed on stale public docs usage guides, missing public `/docs` routes, missing source roots, missing disclosure-limit docs content, source-unsafe public payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate 5 script | `pnpm run check:v35-gate5` fails closed on stale operator runbook catalog, missing telemetry event family bindings, missing dashboard panels, missing alert thresholds, missing incident classes, missing escalation paths, missing commands, missing proof roots, source-unsafe runbook payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate 6 script | `pnpm run check:v35-gate6` fails closed on stale docs QA alignment report, missing source roots, stale expected tokens, missing generated artifacts, unsupported disclosure claims, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
+| Gate 7 script | `pnpm run check:v35-gate7` fails closed on stale testnet rollout readiness guide, missing guide ids, missing rollout lanes, missing source roots, missing reproducible commands, missing source-safe examples, missing known blockers, missing rehearsal evidence, missing package export, missing package test, missing workflow wiring, or unblocked value-bearing mainnet posture | closed |
 | Gate-quality workflow | Gate workflow validates V34 active / V35 draft posture and the V35 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V34 canon, V35 draft family when present, and V34/V35 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V34 active / V35 draft workflow | drafted |
@@ -85,7 +86,7 @@ No `_legacy/` source is active source truth.
 | Telemetry source-safety boundary | Telemetry events carry redaction posture, source-safety class, proof roots, and correlation ids without raw protected prompts or unpaid source | drafted |
 | Dashboard/runbook derivation | Dashboard panels, alert thresholds, runbooks, incident classes, and escalation paths derive from telemetry taxonomy rows | closed |
 | Documentation QA failure posture | Docs QA fails closed on stale tokens, missing source roots, unsupported disclosure claims, and missing generated artifacts | closed |
-| Testnet rollout guide posture | Rollout guides distinguish local, staging-testnet, public testnet, mainnet-ready dry run, and blocked value-bearing mainnet | drafted |
+| Testnet rollout guide posture | Rollout guides distinguish local, staging-testnet, public testnet, mainnet-ready dry run, and blocked value-bearing mainnet | closed |
 | Promotion readiness report | `DocumentationTelemetryPromotionReadinessReport` covers all V35 telemetry/documentation artifacts, proofs, workflows, and active V35 / draft V36 post-promotion posture | drafted |
 
 ## Gate 1 Parity
@@ -156,9 +157,11 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V35 judgment |
 | --- | --- | --- |
-| Rollout readiness guide planned | `TestnetRolloutReadinessGuide` in SPEC/DELTA/NOTES/PARITY | drafted |
-| Enterprise reader and depositor guide scope named | V35 Gate 7 acceptance criteria | drafted |
-| Lane caveat boundaries named | V35 SPEC and DELTA | drafted |
+| Rollout readiness guide implemented | `packages/protocol/src/canonical/testnet-rollout-readiness-guide.js` exports `buildTestnetRolloutReadinessGuide`, `TESTNET_ROLLOUT_GUIDE_IDS`, `TESTNET_ROLLOUT_LANE_IDS`, and `TESTNET_ROLLOUT_READINESS_ROWS` | closed |
+| Generated artifact exists | `.bitcode/v35-testnet-rollout-readiness-guide.json` with `source-safe-rollout-guide-metadata` | closed |
+| Enterprise reader and depositor guide scope named | rollout rows include `enterprise_reader_flow` and `depositor_flow` with source-safe examples, known blockers, rehearsal evidence, and validation commands | closed |
+| Lane caveat boundaries named | rollout coverage distinguishes `local`, `staging-testnet`, `public-testnet`, `mainnet-ready-dry-run`, and visible blocked `value-bearing-mainnet` posture | closed |
+| Gate 7 package and workflow proof | `packages/protocol/test/v35-testnet-rollout-readiness-guide.test.js`, `scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `package.json` | closed |
 
 ## Gate 8 Parity
 
