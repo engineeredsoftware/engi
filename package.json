@@ -277,7 +277,10 @@
     "check:v37-gate8": "node scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs",
     "generate:v37-conversation-rehearsal": "node scripts/generate-v37-conversation-rehearsal.mjs",
     "check:v37-conversation-rehearsal": "node scripts/generate-v37-conversation-rehearsal.mjs --check",
-    "check:v37-gate9": "node scripts/check-v37-gate9-conversation-rehearsal.mjs"
+    "check:v37-gate9": "node scripts/check-v37-gate9-conversation-rehearsal.mjs",
+    "generate:v37-promotion-readiness": "node scripts/generate-v37-promotion-readiness-report.mjs",
+    "check:v37-promotion-readiness": "node scripts/generate-v37-promotion-readiness-report.mjs --check",
+    "check:v37-gate10": "node scripts/check-v37-gate10-promotion-readiness.mjs"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

@@ -133,7 +133,15 @@ jobs:
               if [ -f scripts/check-v37-gate9-conversation-rehearsal.mjs ]; then
                 node scripts/check-v37-gate9-conversation-rehearsal.mjs --skip-branch-check
               fi
+              if [ -f scripts/check-v37-gate10-promotion-readiness.mjs ]; then
+                node scripts/check-v37-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+              fi
             fi
+          elif [ "$POINTER" = "V37" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V37
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38
+            node scripts/check-bitcode-spec-family.mjs --version V37 --mode promoted --current-target V37
+            node scripts/check-v37-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
