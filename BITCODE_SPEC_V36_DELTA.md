@@ -114,7 +114,9 @@ Closure acceptance:
 
 - `ExchangePricingQuote` includes BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and quote root;
 - wrapper analysis cannot make BTD range cells fungible chain-of-record assets;
-- underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+- underpayment, overpayment, stale quote, or unsupported network posture fails closed;
+- `.bitcode/v36-pricing-liquidity-fee-quote.json` is generated from the package-owned builder with `source-safe-exchange-pricing-quote-metadata`;
+- `pnpm run check:v36-gate5` validates package source, artifact freshness, package tests, docs, workflow wiring, BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury/depositor/reader routes, quote roots, wrapper non-fungibility, payment mismatch closure, stale quote closure, unsupported network closure, source-safety, proof roots, event ids, and ledger/database projection posture.
 
 ### Gate 6: Exchange Settlement Ledger Database Reconciliation
 

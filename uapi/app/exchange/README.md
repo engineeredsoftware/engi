@@ -34,5 +34,15 @@ ledger/database projection refs, and fail-closed conditions. It distinguishes
 owner-read, licensed-read, and blocked transfer states. AssetPack source is
 hidden until paid settlement and rights transfer are complete.
 
+V36 Gate 5 makes `ExchangePricingQuote` the package-owned contract behind
+price, liquidity, fee, wrapper, and route review. The generated
+`.bitcode/v36-pricing-liquidity-fee-quote.json` artifact names BTC amount,
+measurement weight, measurement volume, liquidity band, wrapper analysis,
+treasury route, depositor route, reader route, quote root, proof roots, event
+ids, ledger/database projection refs, and fail-closed conditions. Its
+source-safe verdict is `source-safe-exchange-pricing-quote-metadata`; wrapper
+analysis cannot make BTD range cells fungible chain-of-record assets, and
+underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.
