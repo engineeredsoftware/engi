@@ -412,6 +412,19 @@ function buildV21LikeProfile(version) {
           '.bitcode/v36-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V37'
+        ? [
+          '.bitcode/v37-conversation-session-route-history.json',
+          '.bitcode/v37-conversation-stream-event-contract.json',
+          '.bitcode/v37-conversation-writing-workspace.json',
+          '.bitcode/v37-conversation-source-selector.json',
+          '.bitcode/v37-conversation-terminal-handoff.json',
+          '.bitcode/v37-conversation-persistence-privacy-redaction.json',
+          '.bitcode/v37-conversation-telemetry-proof-hooks.json',
+          '.bitcode/v37-conversation-rehearsal.json',
+          '.bitcode/v37-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',

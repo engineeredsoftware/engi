@@ -88,6 +88,14 @@ and value-bearing mainnet blocking are visible through source-safe proof
 metadata and the fullscreen Rehearsal Proof panel.
 
 Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+V37 Gate 10 anchors `ConversationPromotionReadinessReport` through the
+package-owned source-safe generated artifact
+`.bitcode/v37-promotion-readiness-report.json`. It covers every V37
+Conversation artifact, generated `BITCODE_SPEC_V37_PROVEN.md` support,
+`v37-canon-promotion.yml`, promotion dry-run support, and runtime posture
+preparation from V36 active / V37 draft to V37 active / draft V38 without
+serializing credentials, protected source, raw protected prompts, unpaid
+AssetPack source, or wallet private material.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -261,7 +269,9 @@ covering `ConversationRehearsal`,
 `source-safe-conversation-rehearsal-metadata`, local/staging rehearsal proof,
 source-safe screenshots/logs, route/UI checks, telemetry roots, and blocked
 value-bearing mainnet posture. V37 Gate 10 adds promotion readiness before
-the V37 promotion workflow exists.
+the V37 promotion workflow can promote; it is wired through
+`pnpm run check:v37-gate10`, `pnpm run check:v37-promotion-readiness`, and
+[v37-canon-promotion.yml](.github/workflows/v37-canon-promotion.yml).
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
 and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi

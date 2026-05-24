@@ -108,7 +108,16 @@ rehearsals exercise chat, streaming, writing, source selector, Terminal
 handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
 are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
 blocking are visible through `source-safe-conversation-rehearsal-metadata`.
-Later gates add package-owned Conversations promotion readiness helpers.
+V37 Gate 10 adds source-safe `ConversationPromotionReadinessReport`
+promotion readiness contracts through `buildConversationPromotionReadinessReport`
+and `.bitcode/v37-promotion-readiness-report.json`. The readiness report
+covers all V37 Conversation artifacts, generated `BITCODE_SPEC_V37_PROVEN.md`
+support, `v37-canon-promotion.yml`, promotion dry-run support, and runtime
+posture preparation from `V36` active, `V37` draft to `V37` active, `V38`
+draft after V37 promotion while keeping credentials, protected source, raw
+protected prompts, unpaid AssetPack source, and wallet private material out of
+generated metadata.
+This Gate 10 posture is `V37` active, `V38` draft after V37 promotion.
 
 Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 V36 Gate 2 adds the source-safe Exchange activity book through

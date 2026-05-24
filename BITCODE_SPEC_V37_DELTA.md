@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 9 ConversationRehearsal local/staging proof contracts
+- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening through Gate 10 ConversationPromotionReadinessReport contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, and `.bitcode/v37-conversation-rehearsal.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts; Gate 9 adds package-owned ConversationRehearsal local/staging proof contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, and `.bitcode/v37-promotion-readiness-report.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts; Gate 9 adds package-owned ConversationRehearsal local/staging proof contracts; Gate 10 adds package-owned ConversationPromotionReadinessReport promotion readiness contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V37_PARITY_MATRIX.md`
@@ -218,6 +218,14 @@ Closure acceptance:
 ### Gate 10: V37 Promotion Readiness
 
 Gate 10 owns final generated proof, promotion workflow support, source-safe V37 promotion readiness reporting, and V37 closure.
+
+Gate 10 closure adds package-backed `ConversationPromotionReadinessReport`
+source, `.bitcode/v37-promotion-readiness-report.json`,
+`source-safe-conversation-promotion-readiness-metadata`, source-safe coverage
+for all V37 Conversation artifacts, `BITCODE_SPEC_V37_PROVEN.md` generation
+support, promotion command dry-run support, `v37-canon-promotion.yml`, active
+V37 / draft V38 posture preparation, package tests, workflow wiring, and
+`check:v37-gate10`.
 
 Closure acceptance:
 

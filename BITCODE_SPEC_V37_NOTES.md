@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 9 closes ConversationRehearsal local/staging proof posture over active V36 Exchange canon
+- V37 state: draft implementation; Gate 10 closes ConversationPromotionReadinessReport promotion posture over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, and `.bitcode/v37-conversation-rehearsal.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts; Gate 9 adds package-owned ConversationRehearsal local/staging proof contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, and `.bitcode/v37-promotion-readiness-report.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts; Gate 9 adds package-owned ConversationRehearsal local/staging proof contracts; Gate 10 adds package-owned ConversationPromotionReadinessReport promotion readiness contracts
 - Scope: draft notes for website Conversations work after V36 Exchange depth and after the V28 ChatGPT App MVP proved the interface path.
 
 This NOTES file does not promote V37. It is binding draft guidance while V37 gates are in flight.
@@ -164,6 +164,17 @@ payloads, wallet private material, ledger write authority, or wallet signing
 authority.
 
 Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+
+Gate 10: V37 Promotion Readiness closes the Website Conversations draft with
+package-owned `ConversationPromotionReadinessReport` source and
+`.bitcode/v37-promotion-readiness-report.json`. The readiness report proves
+source-safe coverage for all V37 Conversation artifacts, generated
+`BITCODE_SPEC_V37_PROVEN.md` support, `v37-canon-promotion.yml`, V37 promotion
+dry-run support, and runtime posture preparation from V36 active / V37 draft
+to active V37 / draft V38. It blocks value-bearing mainnet admission and never
+serializes credentials, protected source, raw protected prompts, unpaid
+AssetPack source, wallet private material, ledger write authority, or wallet
+signing authority.
 
 ## V37 gate plan
 
