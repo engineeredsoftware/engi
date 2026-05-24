@@ -61,6 +61,16 @@ Read V36 as:
 9. Gate 9: Local Staging Exchange Rehearsal And Proof Coverage.
 10. Gate 10: V36 Promotion Readiness.
 
+## Gate 10 closure notes
+
+Gate 10 closes when `ExchangePromotionReadinessReport` is package-owned and
+generated through `.bitcode/v36-promotion-readiness-report.json`.
+The generated artifact carries
+`source-safe-exchange-promotion-readiness-metadata`, covers every V36 Exchange
+artifact, proves promotion workflow and proof appendix support, and records that
+promotion rewrites runtime posture to active V36 / draft V37 only after
+validation succeeds.
+
 ## Gate 1 working notes
 
 Gate 1 closes when:

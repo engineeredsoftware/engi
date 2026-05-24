@@ -175,6 +175,7 @@ Gate 10 owns final generated proof, promotion workflow support, source-safe `.bi
 Closure acceptance:
 
 - V36 promotion checks validate all Exchange artifacts, contracts, UI proof, telemetry/docs/runbook bindings, settlement/reconciliation evidence, repair evidence, rehearsal proof, and generated proof appendix support;
+- `.bitcode/v36-promotion-readiness-report.json` is generated from the package-owned `ExchangePromotionReadinessReport` builder with `source-safe-exchange-promotion-readiness-metadata`;
 - promotion scripts support V36 command planning, dry-run, generated proof output, and derived promotion commit body generation;
 - promotion rewrites runtime posture to active V36 / draft V37 only after validations pass.
 

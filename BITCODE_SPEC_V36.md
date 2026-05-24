@@ -244,6 +244,28 @@ payment credentials, object-storage private bytes, provider tokens, protected
 prompts, protected model responses, buyer private repository payloads, or secret
 values.
 
+## V36 Gate 10 ExchangePromotionReadinessReport canon
+
+Gate 10 implements `ExchangePromotionReadinessReport` as the package-owned
+contract that proves V36 can promote from active V35 / draft V36 to active V36 /
+draft V37.
+
+`ExchangePromotionReadinessReport` covers every V36 Exchange generated artifact,
+the V36 promotion workflow, gate-quality and canon-quality workflow posture,
+promotion command planning, dry-run support, generated proof appendix support,
+runtime posture rewriting, and source-safe generated promotion evidence.
+
+Gate 10 emits `.bitcode/v36-promotion-readiness-report.json` with
+`source-safe-exchange-promotion-readiness-metadata`.
+The artifact may expose artifact ids, proof roots, checksums, source-safe source
+evidence, documentation evidence, validation commands, promotion workflow
+coverage, and pre/post-promotion posture; it must not expose protected source,
+unpaid AssetPack source, wallet private material, private payment credentials,
+object-storage private bytes, provider tokens, protected prompts, protected
+model responses, buyer private repository payloads, or secret values.
+
+The exact post-promotion posture token is V36 active / draft V37.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.
@@ -727,6 +749,11 @@ V36 validation consists of:
 - Exchange-specific tests added by Gates 2 through 10;
 - workflow checks for gate PRs and promotion PRs;
 - source-safe diff hygiene.
+
+## V36 promotion readiness canon
+
+V36 promotion readiness canon is carried by `ExchangePromotionReadinessReport`
+and `.bitcode/v36-promotion-readiness-report.json`.
 
 ## V36 promotion canon
 

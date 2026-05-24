@@ -136,6 +136,10 @@ workflow rewrote the package posture to `V35` active, `V36` draft after
 promotion validations and generated proof output passed. V36 promotion will
 eventually rewrite this package to `V36` active, `V37` draft only after all
 Exchange gates close.
+V36 Gate 10 closes that Exchange promotion boundary through package-owned
+`ExchangePromotionReadinessReport`, `.bitcode/v36-promotion-readiness-report.json`,
+`check:v36-gate10`, and `v36-canon-promotion.yml`. The post-promotion posture is
+`V36` active, `V37` draft, and the generated evidence remains source-safe.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
 commercial protocol boundary test, and V36 gate checks.

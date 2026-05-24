@@ -203,5 +203,13 @@ export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: 
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
 export function buildDocumentationTelemetryPromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
+export const EXCHANGE_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
+export const EXCHANGE_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
+export const EXCHANGE_PROMOTION_READINESS_REPORT_VERSION: string;
+export const EXCHANGE_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const EXCHANGE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
+export const EXCHANGE_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
+export function buildExchangePromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function defaultProvenOutputPath(version: string): string;
 export function generateCanonicalProvenMarkdown(input?: Record<string, unknown>): BitcodeProvenMarkdownPackage;

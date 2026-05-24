@@ -200,6 +200,16 @@ export {
   buildDocumentationTelemetryPromotionReadinessReport
 } from './canonical/documentation-telemetry-promotion-readiness-report.js';
 export {
+  EXCHANGE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS,
+  EXCHANGE_PROMOTION_READINESS_GENERATED_OUTPUTS,
+  EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  EXCHANGE_PROMOTION_READINESS_REPORT_CURRENT_TARGET,
+  EXCHANGE_PROMOTION_READINESS_REPORT_SCHEMA_ID,
+  EXCHANGE_PROMOTION_READINESS_REPORT_VERSION,
+  EXCHANGE_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT,
+  buildExchangePromotionReadinessReport
+} from './canonical/exchange-promotion-readiness-report.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown
