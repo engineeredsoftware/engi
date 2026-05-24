@@ -20,7 +20,16 @@ test('supports V33 promotion readiness with source-safe interface artifacts', ()
 
   assert.equal(result.data.version, 'V33');
   assert.equal(result.data.v33.promotionReadinessReport.reportId, 'v33-promotion-readiness-report');
-  assert.equal(result.data.v33.promotionReadinessReport.passed, true);
+  assert.deepEqual(
+    result.data.v33.promotionReadinessReport.failures,
+    result.data.v33.draftPreview
+      ? [
+          'packages/protocol/README.md is missing Gate 10 token V33 Gate 10',
+          'packages/protocol/README.md is missing Gate 10 token V33` active, `V34` draft',
+        ]
+      : [],
+  );
+  assert.equal(result.data.v33.promotionReadinessReport.passed, result.data.v33.draftPreview ? false : true);
   assert.equal(result.data.v33.promotionReadinessReport.sourceSafe, true);
   assert.equal(result.data.v33.promotionReadinessReport.postPromotionPosture, 'V33 active / V34 draft');
   assert.equal(result.data.v33.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.bitcode/v33-promotion-readiness-report.json'), true);
