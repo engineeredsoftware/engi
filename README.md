@@ -79,6 +79,15 @@ tiers. API stream rows and the conversation UI expose telemetry proof posture
 without protected prompts, protected source, raw provider responses, provider
 tokens, wallet private material, settlement private payloads, or unpaid
 AssetPack source.
+V37 Gate 9 anchors `ConversationRehearsal` through the package-owned
+source-safe generated artifact `.bitcode/v37-conversation-rehearsal.json`.
+Local and staging-testnet rehearsals exercise chat, streaming, writing, source
+selector, Terminal handoff, restore, retry, redaction, and error flows.
+Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots,
+and value-bearing mainnet blocking are visible through source-safe proof
+metadata and the fullscreen Rehearsal Proof panel.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -246,9 +255,13 @@ through `pnpm run check:v37-gate5` and
 `pnpm run check:v37-conversation-source-selector`, covering source-safe
 repository, branch, commit, deposit, BTD range, AssetPack preview, document,
 and prior conversation selectors with account, organization, wallet, rights,
-settlement, disclosure, and policy posture. Later V37 gates add Conversations
-generated artifacts before `check:v37-gate10` and the V37 promotion workflow
-exist.
+settlement, disclosure, and policy posture. V37 Gate 9 is wired through
+`pnpm run check:v37-gate9` and `pnpm run check:v37-conversation-rehearsal`,
+covering `ConversationRehearsal`,
+`source-safe-conversation-rehearsal-metadata`, local/staging rehearsal proof,
+source-safe screenshots/logs, route/UI checks, telemetry roots, and blocked
+value-bearing mainnet posture. V37 Gate 10 adds promotion readiness before
+the V37 promotion workflow exists.
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
 and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi

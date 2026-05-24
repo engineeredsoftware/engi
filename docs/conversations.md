@@ -33,6 +33,25 @@ the dashboard and runbook ids to debug health without seeing protected source,
 unpaid AssetPack source, wallet private material, provider tokens, or private
 settlement payloads.
 
+## Local And Staging Rehearsal
+
+`ConversationRehearsal` covers source-safe local and staging-testnet
+conversation proof before promotion readiness. Local and staging-testnet
+rehearsals exercise chat, streaming, writing, source selector, Terminal
+handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
+are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
+blocking are visible through `.bitcode/v37-conversation-rehearsal.json` and
+`source-safe-conversation-rehearsal-metadata`.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+
+The rehearsal surface may expose lane ids, flow ids, proof roots, route/UI
+roots, telemetry roots, source-safe screenshot/log roots, validation command
+names, and summary counts. It may not expose protected source, raw protected
+prompts, raw provider responses, provider tokens, wallet private material,
+settlement private payloads, ledger write authority, wallet signing authority,
+or unpaid AssetPack source.
+
 ## Tools And Source Context
 
 Conversation tool events may show tool names, policy state, source-safe

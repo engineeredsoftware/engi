@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, Gate 3 ConversationStreamEvent stream UI/event contracts, Gate 4 ConversationWritingWorkspace fullscreen composer contracts, Gate 5 ConversationSourceSelector context policy contracts, Gate 6 ConversationTerminalHandoff transaction handoff contracts, Gate 7 ConversationPersistencePrivacyRedaction durable storage privacy contracts, and Gate 8 ConversationTelemetryProofHooks telemetry/dashboard/runbook/docs contracts
+- V37 state: draft implementation; V37 parity includes Website Conversations spec family, roadmap, docs, workflow, checker posture, Gate 2 ConversationSession route-history contracts, Gate 3 ConversationStreamEvent stream UI/event contracts, Gate 4 ConversationWritingWorkspace fullscreen composer contracts, Gate 5 ConversationSourceSelector context policy contracts, Gate 6 ConversationTerminalHandoff transaction handoff contracts, Gate 7 ConversationPersistencePrivacyRedaction durable storage privacy contracts, Gate 8 ConversationTelemetryProofHooks telemetry/dashboard/runbook/docs contracts, and Gate 9 ConversationRehearsal local/staging proof contracts
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, and `.bitcode/v37-conversation-telemetry-proof-hooks.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry/dashboard/runbook/docs contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, and `.bitcode/v37-conversation-rehearsal.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent contracts and stream UI binding; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts; Gate 7 adds package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts; Gate 8 adds package-owned ConversationTelemetryProofHooks telemetry/dashboard/runbook/docs contracts; Gate 9 adds package-owned ConversationRehearsal local/staging proof contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -92,6 +92,33 @@ Gate 1 through Gate 6 audit basis:
 - `uapi/tests/conversationTerminalHandoff.test.tsx`
 - `uapi/app/terminal/terminal-transaction-query.ts`
 - `uapi/app/terminal/TerminalPageClient.tsx`
+- `packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js`
+- `packages/protocol/test/conversation-persistence-privacy-redaction.test.js`
+- `scripts/generate-v37-conversation-persistence-privacy-redaction.mjs`
+- `scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs`
+- `.bitcode/v37-conversation-persistence-privacy-redaction.json`
+- `packages/api/src/conversations/privacy.ts`
+- `packages/api/src/conversations/messages.ts`
+- `packages/api/src/conversations/__tests__/privacy.test.ts`
+- `uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx`
+- `uapi/tests/conversationPersistencePrivacyPanel.test.tsx`
+- `packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js`
+- `packages/protocol/test/conversation-telemetry-proof-hooks.test.js`
+- `scripts/generate-v37-conversation-telemetry-proof-hooks.mjs`
+- `scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs`
+- `.bitcode/v37-conversation-telemetry-proof-hooks.json`
+- `packages/api/src/conversations/telemetry.ts`
+- `uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx`
+- `uapi/tests/conversationTelemetryProofPanel.test.tsx`
+- `packages/protocol/src/canonical/conversation-rehearsal.js`
+- `packages/protocol/test/conversation-rehearsal.test.js`
+- `scripts/generate-v37-conversation-rehearsal.mjs`
+- `scripts/check-v37-gate9-conversation-rehearsal.mjs`
+- `.bitcode/v37-conversation-rehearsal.json`
+- `uapi/app/conversations/conversation-rehearsal.ts`
+- `uapi/app/conversations/components/ConversationRehearsalPanel.tsx`
+- `uapi/tests/api/conversationRehearsal.test.ts`
+- `uapi/tests/conversationRehearsalPanel.test.tsx`
 
 No `_legacy/` source is active source truth.
 
@@ -108,7 +135,7 @@ No `_legacy/` source is active source truth.
 | Terminal handoff | Gate 6 | `ConversationTerminalHandoff`, `.bitcode/v37-conversation-terminal-handoff.json`, Terminal route context tests, source-safe handoff UI tests, and `check:v37-gate6` | closed | Conversations hand source-safe transaction intent to Terminal without becoming a parallel ledger/wallet authority. |
 | Persistence privacy redaction | Gate 7 | `ConversationPersistencePrivacyRedaction`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, API storage redaction tests, UI privacy tests, and `check:v37-gate7` | closed | Retention, export, delete, replay, incident repair, protected prompt/model response redaction, and disclosure classes are enforced. |
 | Telemetry proof hooks docs | Gate 8 | `ConversationTelemetryProofHooks`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, API stream proof hook metadata, telemetry proof UI tests, public docs, internal runbooks, and `check:v37-gate8` | closed | Conversation sessions, messages, streams, tools, selectors, handoffs, retries, errors, and completions are observable and source-safe. |
-| Local staging rehearsal | Gate 9 | future rehearsal artifacts, screenshots/log roots, route/UI tests, and `check:v37-gate9` | pending | Local and staging-testnet chat, streaming, writing, source selector, handoff, restore, retry, redaction, and error flows are rehearsed. |
+| Local staging rehearsal | Gate 9 | `ConversationRehearsal`, `.bitcode/v37-conversation-rehearsal.json`, source-safe screenshot/log roots, route/UI tests, telemetry roots, and `check:v37-gate9` | closed | Local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows; rehearsal logs/screenshots are source-safe; route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible. |
 | Promotion readiness | Gate 10 | future promotion readiness report, promotion workflow, generated proof support, and `check:v37-gate10` | pending | V37 can promote only after all Conversations gates pass and generated canon remains source-safe. |
 
 ## V37 implementation checklist
@@ -228,6 +255,22 @@ No `_legacy/` source is active source truth.
 | Public and internal docs are wired | `docs/conversations.md`, `internal-docs/BITCODE_CONVERSATIONS.md`, and `internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md` explain route-local history, Terminal handoff, disclosure limits, dashboard panels, and runbook ids | closed |
 | Telemetry payloads are source-safe | protected prompts, protected model responses with source, protected source payloads, provider tokens, wallet private material, settlement private payloads, private payment credentials, operator private notes, unpaid AssetPack source, ledger write authority, and wallet signing authority are forbidden | closed |
 | Workflow, package, API, and UI tests are wired | `packages/protocol/test/conversation-telemetry-proof-hooks.test.js`, `scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
+
+## V37 Gate 9 Parity
+
+| Requirement | Source evidence | Current V37 judgment |
+| --- | --- | --- |
+| `ConversationRehearsal` local/staging proof source is package-owned | `packages/protocol/src/canonical/conversation-rehearsal.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated rehearsal artifact exists | `.bitcode/v37-conversation-rehearsal.json`, `scripts/generate-v37-conversation-rehearsal.mjs`, `pnpm run check:v37-conversation-rehearsal` | closed |
+| Required local/staging flows are covered | chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error | closed |
+| Local and staging lanes are source-safe | local and staging-testnet rows include route/UI check roots, telemetry roots, source-safe screenshot/log roots, validation commands, proof roots, and source evidence roots | closed |
+| Value-bearing mainnet is visibly blocked | `value_bearing_mainnet_blocked_conversations_rehearsal` records blocked mainnet posture, no ledger write authority, no wallet signing authority, and no source unlock | closed |
+| Rehearsal UI is wired | `uapi/app/conversations/conversation-rehearsal.ts`, `uapi/app/conversations/components/ConversationRehearsalPanel.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/api/conversationRehearsal.test.ts`, and `uapi/tests/conversationRehearsalPanel.test.tsx` | closed |
+| Public and internal docs are wired | `docs/conversations.md`, `internal-docs/BITCODE_CONVERSATIONS.md`, and `internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md` explain local/staging rehearsal, source-safe screenshots/logs, route/UI checks, telemetry roots, and blocked value-bearing mainnet posture | closed |
+| Rehearsal payloads are source-safe | protected prompts, protected model responses with source, protected source payloads, provider tokens, wallet private material, settlement private payloads, private payment credentials, operator private notes, unpaid AssetPack source, ledger write authority, and wallet signing authority are forbidden | closed |
+| Workflow, package, and UI tests are wired | `packages/protocol/test/conversation-rehearsal.test.js`, `scripts/check-v37-gate9-conversation-rehearsal.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible through `source-safe-conversation-rehearsal-metadata`.
 
 ## Inherited V36 implementation matrix
 

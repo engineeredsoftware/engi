@@ -1252,6 +1252,14 @@
   background: rgba(10, 8, 22, 0.96);
 }
 
+.conversation-rehearsal-proof {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-block: 1px solid rgba(34, 211, 238, 0.16);
+  background: rgba(5, 17, 24, 0.96);
+}
+
 .conversation-source-selector__header,
 .conversation-source-selector__main,
 .conversation-source-selector__preview > div:first-child,
@@ -1261,7 +1269,9 @@
 .conversation-persistence-privacy__header,
 .conversation-persistence-privacy__preview > div:first-child,
 .conversation-telemetry-proof__header,
-.conversation-telemetry-proof__preview > div:first-child {
+.conversation-telemetry-proof__preview > div:first-child,
+.conversation-rehearsal-proof__header,
+.conversation-rehearsal-proof__preview > div:first-child {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1271,7 +1281,8 @@
 .conversation-source-selector__title,
 .conversation-terminal-handoff__title,
 .conversation-persistence-privacy__title,
-.conversation-telemetry-proof__title {
+.conversation-telemetry-proof__title,
+.conversation-rehearsal-proof__title {
   display: flex;
   align-items: center;
   min-width: 0;
@@ -1281,7 +1292,8 @@
 .conversation-source-selector__title svg,
 .conversation-terminal-handoff__title svg,
 .conversation-persistence-privacy__title svg,
-.conversation-telemetry-proof__title svg {
+.conversation-telemetry-proof__title svg,
+.conversation-rehearsal-proof__title svg {
   flex: 0 0 auto;
   color: #67feb7;
 }
@@ -1298,10 +1310,15 @@
   color: #a78bfa;
 }
 
+.conversation-rehearsal-proof__title svg {
+  color: #22d3ee;
+}
+
 .conversation-source-selector__title h2,
 .conversation-terminal-handoff__title h2,
 .conversation-persistence-privacy__title h2,
-.conversation-telemetry-proof__title h2 {
+.conversation-telemetry-proof__title h2,
+.conversation-rehearsal-proof__title h2 {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 650;
@@ -1319,7 +1336,10 @@
 .conversation-persistence-privacy__status,
 .conversation-telemetry-proof__title p,
 .conversation-telemetry-proof__preview p,
-.conversation-telemetry-proof__status {
+.conversation-telemetry-proof__status,
+.conversation-rehearsal-proof__title p,
+.conversation-rehearsal-proof__preview p,
+.conversation-rehearsal-proof__status {
   margin: 0;
   font-size: 0.78rem;
   line-height: 1.35;
@@ -1329,7 +1349,8 @@
 .conversation-source-selector__actions,
 .conversation-terminal-handoff__actions,
 .conversation-persistence-privacy__actions,
-.conversation-telemetry-proof__actions {
+.conversation-telemetry-proof__actions,
+.conversation-rehearsal-proof__actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1338,7 +1359,8 @@
 .conversation-source-selector__actions button,
 .conversation-terminal-handoff__actions button,
 .conversation-persistence-privacy__actions button,
-.conversation-telemetry-proof__actions button {
+.conversation-telemetry-proof__actions button,
+.conversation-rehearsal-proof__actions button {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -1363,10 +1385,15 @@
   border-color: rgba(167, 139, 250, 0.24);
 }
 
+.conversation-rehearsal-proof__actions button {
+  border-color: rgba(34, 211, 238, 0.22);
+}
+
 .conversation-source-selector label,
 .conversation-terminal-handoff label,
 .conversation-persistence-privacy label,
-.conversation-telemetry-proof label {
+.conversation-telemetry-proof label,
+.conversation-rehearsal-proof label {
   display: grid;
   gap: 0.25rem;
   min-width: 0;
@@ -1375,7 +1402,8 @@
 .conversation-source-selector label span,
 .conversation-terminal-handoff label span,
 .conversation-persistence-privacy label span,
-.conversation-telemetry-proof label span {
+.conversation-telemetry-proof label span,
+.conversation-rehearsal-proof label span {
   font-size: 0.68rem;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -1389,7 +1417,9 @@
 .conversation-persistence-privacy select,
 .conversation-persistence-privacy textarea,
 .conversation-telemetry-proof select,
-.conversation-telemetry-proof textarea {
+.conversation-telemetry-proof textarea,
+.conversation-rehearsal-proof select,
+.conversation-rehearsal-proof textarea {
   width: 100%;
   min-height: 2rem;
   border: 1px solid rgba(103, 254, 183, 0.16);
@@ -1415,9 +1445,15 @@
   border-color: rgba(167, 139, 250, 0.2);
 }
 
+.conversation-rehearsal-proof select,
+.conversation-rehearsal-proof textarea {
+  border-color: rgba(34, 211, 238, 0.2);
+}
+
 .conversation-terminal-handoff textarea,
 .conversation-persistence-privacy textarea,
-.conversation-telemetry-proof textarea {
+.conversation-telemetry-proof textarea,
+.conversation-rehearsal-proof textarea {
   min-height: 4.5rem;
   resize: vertical;
 }
@@ -1448,6 +1484,13 @@
   gap: 0.75rem;
 }
 
+.conversation-rehearsal-proof__main {
+  align-items: end;
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.22fr) minmax(9rem, 0.22fr) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
 .conversation-source-selector__governance {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -1457,7 +1500,8 @@
 .conversation-source-selector__preview,
 .conversation-terminal-handoff__preview,
 .conversation-persistence-privacy__preview,
-.conversation-telemetry-proof__preview {
+.conversation-telemetry-proof__preview,
+.conversation-rehearsal-proof__preview {
   display: grid;
   gap: 0.5rem;
   padding: 0.75rem;
@@ -1478,10 +1522,15 @@
   border-color: rgba(167, 139, 250, 0.16);
 }
 
+.conversation-rehearsal-proof__preview {
+  border-color: rgba(34, 211, 238, 0.16);
+}
+
 .conversation-source-selector__preview [data-state],
 .conversation-terminal-handoff__preview [data-state],
 .conversation-persistence-privacy__preview [data-state],
-.conversation-telemetry-proof__preview [data-state] {
+.conversation-telemetry-proof__preview [data-state],
+.conversation-rehearsal-proof__preview [data-state] {
   display: inline-flex;
   align-items: center;
   min-height: 1.5rem;
@@ -1505,6 +1554,10 @@
   background: #a78bfa;
 }
 
+.conversation-rehearsal-proof__preview [data-state] {
+  background: #22d3ee;
+}
+
 .conversation-source-selector__preview [data-state='denied'],
 .conversation-terminal-handoff__preview [data-state='denied'] {
   background: #ff8f70;
@@ -1519,10 +1572,15 @@
   background: #ff8f70;
 }
 
+.conversation-rehearsal-proof__preview [data-state='blocked'] {
+  background: #ffd66b;
+}
+
 .conversation-source-selector__preview strong,
 .conversation-terminal-handoff__preview strong,
 .conversation-persistence-privacy__preview strong,
-.conversation-telemetry-proof__preview strong {
+.conversation-telemetry-proof__preview strong,
+.conversation-rehearsal-proof__preview strong {
   color: rgba(255, 255, 255, 0.94);
   font-size: 0.86rem;
 }
@@ -1530,7 +1588,8 @@
 .conversation-source-selector__preview dl,
 .conversation-terminal-handoff__preview dl,
 .conversation-persistence-privacy__preview dl,
-.conversation-telemetry-proof__preview dl {
+.conversation-telemetry-proof__preview dl,
+.conversation-rehearsal-proof__preview dl {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.5rem;
@@ -1540,14 +1599,16 @@
 .conversation-source-selector__preview dl div,
 .conversation-terminal-handoff__preview dl div,
 .conversation-persistence-privacy__preview dl div,
-.conversation-telemetry-proof__preview dl div {
+.conversation-telemetry-proof__preview dl div,
+.conversation-rehearsal-proof__preview dl div {
   min-width: 0;
 }
 
 .conversation-source-selector__preview dt,
 .conversation-terminal-handoff__preview dt,
 .conversation-persistence-privacy__preview dt,
-.conversation-telemetry-proof__preview dt {
+.conversation-telemetry-proof__preview dt,
+.conversation-rehearsal-proof__preview dt {
   font-size: 0.68rem;
   color: rgba(163, 177, 184, 0.78);
 }
@@ -1555,7 +1616,8 @@
 .conversation-source-selector__preview dd,
 .conversation-terminal-handoff__preview dd,
 .conversation-persistence-privacy__preview dd,
-.conversation-telemetry-proof__preview dd {
+.conversation-telemetry-proof__preview dd,
+.conversation-rehearsal-proof__preview dd {
   margin: 0.125rem 0 0;
   overflow-wrap: anywhere;
   font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
@@ -1575,8 +1637,15 @@
   gap: 0.375rem;
 }
 
+.conversation-rehearsal-proof__boundary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
 .conversation-persistence-privacy__boundary span,
-.conversation-telemetry-proof__boundary span {
+.conversation-telemetry-proof__boundary span,
+.conversation-rehearsal-proof__boundary span {
   border: 1px solid rgba(251, 191, 36, 0.16);
   border-radius: 999px;
   padding: 0.125rem 0.5rem;
@@ -1587,6 +1656,11 @@
 .conversation-telemetry-proof__boundary span {
   border-color: rgba(167, 139, 250, 0.18);
   color: rgba(228, 220, 255, 0.86);
+}
+
+.conversation-rehearsal-proof__boundary span {
+  border-color: rgba(34, 211, 238, 0.18);
+  color: rgba(205, 250, 255, 0.86);
 }
 
 @media (max-width: 920px) {
@@ -1601,14 +1675,17 @@
   .conversation-persistence-privacy__preview dl,
   .conversation-persistence-privacy__main,
   .conversation-telemetry-proof__preview dl,
-  .conversation-telemetry-proof__main {
+  .conversation-telemetry-proof__main,
+  .conversation-rehearsal-proof__preview dl,
+  .conversation-rehearsal-proof__main {
     grid-template-columns: 1fr;
   }
 
   .conversation-source-selector__header,
   .conversation-terminal-handoff__header,
   .conversation-persistence-privacy__header,
-  .conversation-telemetry-proof__header {
+  .conversation-telemetry-proof__header,
+  .conversation-rehearsal-proof__header {
     align-items: stretch;
     flex-direction: column;
   }

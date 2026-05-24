@@ -73,6 +73,7 @@ import ConversationSourceSelector from './ConversationSourceSelector';
 import ConversationTerminalHandoff from './ConversationTerminalHandoff';
 import ConversationPersistencePrivacyPanel from './ConversationPersistencePrivacyPanel';
 import ConversationTelemetryProofPanel from './ConversationTelemetryProofPanel';
+import ConversationRehearsalPanel from './ConversationRehearsalPanel';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
@@ -315,6 +316,7 @@ const Conversation = memo(function Conversation({
   const [showTerminalHandoff, setShowTerminalHandoff] = useState(false);
   const [showPersistencePrivacy, setShowPersistencePrivacy] = useState(false);
   const [showTelemetryProof, setShowTelemetryProof] = useState(false);
+  const [showRehearsalProof, setShowRehearsalProof] = useState(false);
   const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
   const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
@@ -949,6 +951,14 @@ const Conversation = memo(function Conversation({
               >
                 <CodeIcon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showRehearsalProof ? 'Hide Rehearsal Proof' : 'Open Rehearsal Proof'}
+                aria-pressed={showRehearsalProof}
+                onClick={() => setShowRehearsalProof((prev) => !prev)}
+              >
+                <ReloadIcon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -1004,6 +1014,13 @@ const Conversation = memo(function Conversation({
 
         {showTelemetryProof && (
           <ConversationTelemetryProofPanel
+            conversationId={currentChat?.id}
+            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
+          />
+        )}
+
+        {showRehearsalProof && (
+          <ConversationRehearsalPanel
             conversationId={currentChat?.id}
             defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
           />
