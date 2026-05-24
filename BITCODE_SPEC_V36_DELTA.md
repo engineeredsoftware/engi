@@ -3,17 +3,18 @@
 ## Status
 
 - Version: `V36`
-- V36 state: active draft target opened; this delta records the planned V35-to-V36 Exchange-depth closure set
-- Current canonical/latest target: `V35`
+- V36 state: canonical promotion complete; this delta records the promoted V35-to-V36 Exchange depth closure set
+- Current canonical/latest target: `V36`
+- Canonical proof-source commit: `8c3eddff851c79ceac5230974e7e1e757093fa37`
 - Prior canonical anchor: `BITCODE_SPEC_V35.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V35_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v36-spec-family-report.json` and `.bitcode/v36-canonical-input-report.json`; later gates add Exchange generated artifacts
-- Source parity state: V36 source parity begins with Gate 1 roadmap/spec opening and is closed gate-by-gate through Exchange contracts, UI, telemetry, settlement, repair, rehearsal, and promotion readiness
+- Generated structured artifact inventory: active canonical `.bitcode/v36-spec-family-report.json`, `.bitcode/v36-canonical-input-report.json`, `.bitcode/v36-canon-posture-drift-report.json`, `.bitcode/v36-exchange-activity-book.json`, `.bitcode/v36-exchange-intent-order-contracts.json`, `.bitcode/v36-exchange-rights-transfer-review.json`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, `.bitcode/v36-exchange-settlement-reconciliation.json`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, `.bitcode/v36-exchange-ux-proof.json`, `.bitcode/v36-exchange-rehearsal.json`, `.bitcode/v36-promotion-readiness-report.json`, V36 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V36_PROVEN.md` as the generated proof appendix for V36 promotion
+- Source parity state: V36 source-side Exchange activity book, intent/order contracts, rights-transfer preview, pricing quote, settlement reconciliation, dispute repair and revenue route, UX proof, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V36 file family
 - Spec companion: `BITCODE_SPEC_V36.md`
 - Notes companion: `BITCODE_SPEC_V36_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V36_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md` only after V36 promotion
-- Scope: V36 draft delta for deeper Exchange over promoted V35 telemetry/documentation canon
+- Scope: V36 canonical delta for Exchange depth over promoted V35 telemetry and documentation canon
 
 ## Why V36 exists
 

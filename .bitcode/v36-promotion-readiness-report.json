@@ -1,9 +1,10 @@
 {
+  "reportId": "v36-promotion-readiness-report",
   "artifactId": "v36-promotion-readiness-report",
   "schemaId": "bitcode.v36.exchangePromotionReadinessReport.v1",
   "version": "V36",
   "currentTarget": "V35",
-  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "generatedAt": "2026-05-24T09:09:04-03:00",
   "sourceSafetyVerdict": "source-safe-exchange-promotion-readiness-metadata",
   "prePromotionPosture": "V35 active / V36 draft",
   "postPromotionPosture": "V36 active / V37 draft",
@@ -346,7 +347,7 @@
     {
       "relativePath": "BITCODE_SPEC_V36.md",
       "present": true,
-      "digest": "sha256:ff673fbcf02a93dff09bcb06bd49d07c9d2b1a985d0abdf9322419ae63713bef",
+      "digest": "sha256:e7d505c319c38bcbeb1e31b5cd0f6af206b7ec62471d8e8fe43479ea614eee20",
       "requiredTokens": [
         {
           "token": "V36 promotion readiness canon",
@@ -365,7 +366,7 @@
     {
       "relativePath": "BITCODE_SPEC_V36_DELTA.md",
       "present": true,
-      "digest": "sha256:fc6c00707f51442761ce4cc80e4aee6a0dae8858a2fa0d3ba2a726f3003f0559",
+      "digest": "sha256:8381bbc0253353dc548a1014d7f10d0f69862f4e38123c4b774652bde942e5a4",
       "requiredTokens": [
         {
           "token": "Gate 10: V36 Promotion Readiness",
@@ -384,7 +385,7 @@
     {
       "relativePath": "BITCODE_SPEC_V36_NOTES.md",
       "present": true,
-      "digest": "sha256:bd8e788ecaf2286c7e960363ed66f5bfb66f333b12f4f3a1c54e869c9a224f6b",
+      "digest": "sha256:f83e443367c7f5c1b859a1c7db2213ced360744bf86004c6c99ababb91d2d123",
       "requiredTokens": [
         {
           "token": "Gate 10: V36 Promotion Readiness",
@@ -403,7 +404,7 @@
     {
       "relativePath": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:48f65950b8dd32e764e5a372d0ae7c24ab8d701208eb7c065e85c894849ae362",
+      "digest": "sha256:c6b79682c2643ef102276a36de1ec3910cc1396e2b5bb8b6667e605e04684e33",
       "requiredTokens": [
         {
           "token": "## Gate 10 Parity",
@@ -452,7 +453,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:315ec120ddc86b5910473031d4e7965ed8c3f38edabeeac4947968eaaef19502",
+      "digest": "sha256:dc89a7df9640570d9fef5ac62c601c276b369338bead8007e6af4acd13ebeab0",
       "requiredTokens": [
         {
           "token": "V36 Gate 10",
@@ -513,5 +514,9 @@
   "artifactRoot": "exchange-promotion-readiness-report:dde5cf45ba5ac52feb5eb44a",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v36-gate10"
+  "validationCommand": "pnpm run check:v36-gate10",
+  "proofSourceCommit": "8c3eddff851c79ceac5230974e7e1e757093fa37",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

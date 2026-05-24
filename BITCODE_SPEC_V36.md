@@ -3,19 +3,20 @@
 ## Status
 
 - Version: `V36`
-- V36 state: active draft target opened; Gate 1 establishes the Exchange-depth specification family over promoted V35 canon
-- Current canonical/latest target: `V35`
+- V36 state: canonical promotion complete; V36 is the active Exchange depth canon and the V36 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V36`
+- Canonical proof-source commit: `8c3eddff851c79ceac5230974e7e1e757093fa37`
 - Prior canonical anchor: `BITCODE_SPEC_V35.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V35_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v36-spec-family-report.json` and `.bitcode/v36-canonical-input-report.json`; later gates add Exchange activity, order, rights-transfer, pricing, settlement, repair, rehearsal, and promotion artifacts
-- Source parity state: Gate 1 opens the V36 Exchange parity ledger; source-side Exchange implementation remains governed by promoted V35 protocol, BTD, Reading, deployment, telemetry, and documentation law until each V36 gate closes
+- Generated structured artifact inventory: active canonical `.bitcode/v36-spec-family-report.json`, `.bitcode/v36-canonical-input-report.json`, `.bitcode/v36-canon-posture-drift-report.json`, `.bitcode/v36-exchange-activity-book.json`, `.bitcode/v36-exchange-intent-order-contracts.json`, `.bitcode/v36-exchange-rights-transfer-review.json`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, `.bitcode/v36-exchange-settlement-reconciliation.json`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, `.bitcode/v36-exchange-ux-proof.json`, `.bitcode/v36-exchange-rehearsal.json`, `.bitcode/v36-promotion-readiness-report.json`, V36 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V36_PROVEN.md` as the generated proof appendix for V36 promotion
+- Source parity state: V36 source-side Exchange activity book, intent/order contracts, rights-transfer preview, pricing quote, settlement reconciliation, dispute repair and revenue route, UX proof, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V36 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V35`
 - Notes companion: `BITCODE_SPEC_V36_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V36_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V36_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md` only after V36 promotion
-- Scope: V36 canonical system specification for deeper Exchange product behavior after V35 telemetry and documentation depth
-- Last fully realized canonical target preserved in source: `V35`
+- Scope: V36 canonical system specification for Exchange depth over promoted activity book, intent/order, rights-transfer, pricing, settlement, dispute repair, revenue route, UX, rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V36`
 
 ## Version executive summary
 
