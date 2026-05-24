@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 7 closes ConversationPersistencePrivacyRedaction durable storage privacy over active V36 Exchange canon
+- V37 state: draft implementation; Gate 8 closes ConversationTelemetryProofHooks dashboards, runbooks, and source-safe telemetry proof over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, and `.bitcode/v37-conversation-persistence-privacy-redaction.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts, and Gate 7 package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, and `.bitcode/v37-conversation-telemetry-proof-hooks.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts, Gate 7 package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts, and Gate 8 package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -36,6 +36,7 @@ V37 adds Website Conversations product contracts over inherited V36 canon:
 - `ConversationSourceSelector`: repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation source selectors governed by policy, rights, and disclosure posture.
 - `ConversationTerminalHandoff`: source-safe handoff from conversation context into `/terminal` transactions for Depositing, Reading, Finding Fits, Exchange, settlement, and delivery workflows.
 - `ConversationPersistencePrivacyRedaction`: durable conversation storage, visibility tier separation, export, delete, retention, replay, and incident repair posture for source-safe persisted history.
+- `ConversationTelemetryProofHooks`: source-safe telemetry families, dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and visibility tiers for sessions, messages, streams, tools, selectors, handoffs, retries, errors, and completions.
 
 V37 does not replace the V28 ChatGPT App, V33 interface contracts, V35 telemetry/docs, or V36 Exchange law.
 It turns the website conversation surface into a route-owned user experience that consumes those contracts and emits proof-rooted source-safe telemetry.
@@ -226,6 +227,40 @@ freshness, package tests, API storage redaction tests, UI tests, docs,
 workflow wiring, visibility tier coverage, retention posture coverage, export
 posture, delete posture, replay posture, incident repair posture, proof roots,
 event ids, and source-safe persisted metadata.
+
+## V37 Gate 8 ConversationTelemetryProofHooks canon
+
+Gate 8 implements `ConversationTelemetryProofHooks` as the package-owned
+telemetry, dashboard, runbook, and documentation contract for Website
+Conversations. It owns source-safe event families for sessions, messages,
+streams, tools, source selectors, Terminal handoffs, retries, errors, and
+completions. It emits
+`.bitcode/v37-conversation-telemetry-proof-hooks.json` with
+`source-safe-conversation-telemetry-proof-hooks-metadata`, deterministic row
+roots, hook roots, dashboard panel ids, runbook ids, required telemetry field
+ids, proof root fields, source evidence roots, replay expectations, and
+source-safe disclosure boundaries.
+
+Conversation telemetry proof hooks may expose only event ids, conversation
+ids, message ids, run ids, source selector refs, Terminal transaction refs,
+state enums, counts, proof roots, dashboard panel ids, runbook ids, and
+redacted error classes. They must not expose secret values, provider tokens,
+wallet private material, protected source payloads, raw protected prompts,
+raw provider responses with protected source, unpaid AssetPack source,
+settlement private payloads, private payment credentials, operator private
+notes, ledger write authority, or wallet signing authority.
+
+Gate 8 binds conversation stream rows to source-safe telemetry proof hooks in
+the API and gives the fullscreen Conversations UI a telemetry proof panel
+that previews dashboard/runbook posture without source leakage. Public docs
+explain route-local history, streaming, source selection, Terminal handoff,
+privacy, retries, and telemetry proof hooks. Internal docs define the
+dashboard panels and runbook ids operators use to debug failure and quality
+posture without protected payloads. `check:v37-gate8` validates package
+source, generated artifact freshness, package tests, API tests, UI tests,
+public docs, internal runbooks, workflow wiring, dashboard coverage, runbook
+coverage, event family coverage, proof roots, telemetry roots, source
+evidence roots, and source-safe telemetry metadata.
 
 ## Inherited V36 Exchange canon
 

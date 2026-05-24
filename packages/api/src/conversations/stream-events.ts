@@ -1,5 +1,11 @@
 import * as crypto from 'crypto';
 
+import {
+  buildConversationTelemetryProofHook,
+  type ConversationTelemetryEventFamily,
+  type ConversationTelemetryProofHook,
+} from './telemetry';
+
 export type ConversationStreamEventKind =
   | 'model_delta'
   | 'tool_call'
@@ -27,6 +33,7 @@ export type ConversationStreamEvent = {
   collapsedStatus: string;
   expandedMetadata: Record<string, unknown>;
   proofRoots: Record<string, string>;
+  telemetryProofHook: ConversationTelemetryProofHook;
   redactionPosture: {
     postureId: 'conversation-stream-redaction-source-safe';
     forbiddenPayloadClasses: string[];
@@ -133,6 +140,16 @@ const EVENT_KIND_DEFAULTS: Record<
   },
 };
 
+const EVENT_KIND_TELEMETRY_FAMILY: Record<ConversationStreamEventKind, ConversationTelemetryEventFamily> = {
+  model_delta: 'stream',
+  tool_call: 'tool',
+  retrieval_summary: 'stream',
+  proof_root: 'stream',
+  retry_state: 'retry',
+  completion_decision: 'completion',
+  error_row: 'error',
+};
+
 function digest(value: string) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 24);
 }
@@ -183,6 +200,30 @@ export function buildConversationStreamEvent(input: BuildConversationStreamEvent
     input.sequence,
     input.collapsedStatus,
   ].join(':'))}`;
+  const telemetryProofHook = buildConversationTelemetryProofHook({
+    eventFamily: EVENT_KIND_TELEMETRY_FAMILY[input.eventKind],
+    eventKind: `conversation.stream.${input.eventKind}`,
+    status: input.eventKind === 'error_row' ? 'error' : input.eventKind === 'completion_decision' ? 'completed' : 'observed',
+    conversationId: input.conversationId || null,
+    runId: input.runId || null,
+    timestamp: new Date().toISOString(),
+    correlationIds: {
+      conversationId: input.conversationId || null,
+      runId: input.runId || null,
+      eventId,
+      sequence: input.sequence,
+    },
+    proofRoots: {
+      ...proofRoots,
+      telemetryRoot: proofRoots.telemetryRoot || `conversation-stream-proof:${digest(`${eventId}:telemetryRoot`)}`,
+    },
+    metadata: {
+      eventKind: input.eventKind,
+      legacySseType: input.legacySseType,
+      sequence: input.sequence,
+      metadata: input.metadata || {},
+    },
+  });
 
   return {
     eventId,
@@ -195,6 +236,7 @@ export function buildConversationStreamEvent(input: BuildConversationStreamEvent
     collapsedStatus: input.collapsedStatus,
     expandedMetadata: sanitizeMetadata(input.metadata || {}) as Record<string, unknown>,
     proofRoots,
+    telemetryProofHook,
     redactionPosture: {
       postureId: 'conversation-stream-redaction-source-safe',
       forbiddenPayloadClasses: [...FORBIDDEN_PAYLOAD_CLASSES],
@@ -254,6 +296,9 @@ export function buildConversationPipelineLogEvent(event: ConversationStreamEvent
         eventId: event.eventId,
         eventKind: event.eventKind,
         proofRoots: event.proofRoots,
+        telemetryProofHook: event.telemetryProofHook,
+        dashboardPanel: event.telemetryProofHook.dashboardPanel,
+        runbookId: event.telemetryProofHook.runbookId,
         redactionPosture: event.redactionPosture,
         promptDisclosurePosture: event.promptDisclosurePosture,
         resultDisclosurePosture: event.resultDisclosurePosture,

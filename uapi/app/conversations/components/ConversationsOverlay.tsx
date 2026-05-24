@@ -72,6 +72,7 @@ import FullscreenPortal from './ConversationsFullscreenPortal';
 import ConversationSourceSelector from './ConversationSourceSelector';
 import ConversationTerminalHandoff from './ConversationTerminalHandoff';
 import ConversationPersistencePrivacyPanel from './ConversationPersistencePrivacyPanel';
+import ConversationTelemetryProofPanel from './ConversationTelemetryProofPanel';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
@@ -313,6 +314,7 @@ const Conversation = memo(function Conversation({
   const [conversationSourcePreview, setConversationSourcePreview] = useState<ConversationSourceSelectorPreview | null>(null);
   const [showTerminalHandoff, setShowTerminalHandoff] = useState(false);
   const [showPersistencePrivacy, setShowPersistencePrivacy] = useState(false);
+  const [showTelemetryProof, setShowTelemetryProof] = useState(false);
   const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
   const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
@@ -939,6 +941,14 @@ const Conversation = memo(function Conversation({
               >
                 <LockClosedIcon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showTelemetryProof ? 'Hide Telemetry Proof' : 'Open Telemetry Proof'}
+                aria-pressed={showTelemetryProof}
+                onClick={() => setShowTelemetryProof((prev) => !prev)}
+              >
+                <CodeIcon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -987,6 +997,13 @@ const Conversation = memo(function Conversation({
 
         {showPersistencePrivacy && (
           <ConversationPersistencePrivacyPanel
+            conversationId={currentChat?.id}
+            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
+          />
+        )}
+
+        {showTelemetryProof && (
+          <ConversationTelemetryProofPanel
             conversationId={currentChat?.id}
             defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
           />
