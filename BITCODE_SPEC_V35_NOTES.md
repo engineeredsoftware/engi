@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
-- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, public docs usage, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Scope: V35 draft notes for telemetry and documentation depth over promoted V34 deployment canon
 - Last fully realized canonical target preserved in source: `V34`
 
@@ -52,12 +52,14 @@ Read the system as:
 
 - `DocumentationSurfaceCatalog` makes docs surfaces explicit: internal codebase docs, public `/docs`, package READMEs, route docs, generated artifact docs, API/interface docs, operator docs, and contributor docs.
 - `TelemetryTaxonomyCatalog` makes event families explicit across pipelines, executions, PTRR agents, ThricifiedGenerations, tools, ledger operations, wallet operations, storage operations, interfaces, deployments, observers, repair jobs, docs QA, and promotion workflows.
+- `PublicDocsUsageGuideCatalog` makes enterprise-facing `/docs` usage guides explicit across Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, proof posture, Exchange deferred boundary, and Conversations deferred boundary.
 - `DocsQaAlignmentReport` must fail closed on stale docs, stale spec tokens, stale generated proof references, missing source roots, or public docs that expose protected source.
 - `OperatorRunbookCatalog` binds dashboards, alerts, incidents, escalation, repair commands, and post-incident documentation updates to telemetry taxonomy rows.
 - `TestnetRolloutReadinessGuide` carries contributor, operator, enterprise reader, depositor, and interface consumer paths for local and staging-testnet use.
 - V35 public docs can expose measurements, proof posture, fee/right boundaries, setup steps, and known blockers; they cannot expose secrets, wallet private material, protected source, raw prompts containing protected data, or unpaid AssetPack source.
 - Gate 2 closes `DocumentationSurfaceCatalog` with `.bitcode/v35-documentation-surface-catalog.json`, `source-safe-documentation-surface-metadata`, package export `buildDocumentationSurfaceCatalog`, package test coverage, and `check:v35-gate2`.
 - Gate 3 closes `TelemetryTaxonomyCatalog` with `.bitcode/v35-telemetry-taxonomy-catalog.json`, `source-safe-telemetry-taxonomy-metadata`, package export `buildTelemetryTaxonomyCatalog`, package test coverage, redaction posture for every event family, ThricifiedGeneration inference telemetry boundaries, and `check:v35-gate3`.
+- Gate 4 closes `PublicDocsUsageGuideCatalog` with `.bitcode/v35-public-docs-usage-guides.json`, `source-safe-public-docs-metadata`, package export `buildPublicDocsUsageGuideCatalog`, package test coverage, public disclosure-limit docs content, and `check:v35-gate4`.
 
 ## Inherited deployment-depth notes
 

@@ -96,10 +96,33 @@ export type TerminalReadGuide = {
   expectedResult: string;
 };
 
+const PUBLIC_DISCLOSURE_LIMIT_SECTION = {
+  id: 'public-disclosure-limits',
+  eyebrow: 'Disclosure limits',
+  title: 'Public docs expose guidance and proof posture, not protected source',
+  summary:
+    'Public Bitcode docs derive from the active Protocol, package-owned catalogs, route contracts, and source-safe generated artifacts. They can explain usage, measurements, proof roots, readiness, fee boundaries, and settlement posture.',
+  detail:
+    'They must not reveal protected source payloads, raw protected prompts, secret values, provider tokens, wallet private material, or unpaid AssetPack source. Source-bearing AssetPack contents cross to the reader only after settlement and rights transfer.',
+  reason:
+    'This keeps the public product understandable while preserving the boundary that makes Source Shares economically and operationally safe.',
+  points: [
+    'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, and fee/right boundaries.',
+    'Blocked: secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.',
+    'Deferred boundaries stay explicit: V35 documents Exchange and Conversations usage while deeper product depth remains future-canon work.',
+  ],
+} as const satisfies DocsGuideCard;
+
+function withPublicDisclosureLimit(sections: readonly DocsGuideCard[]): readonly DocsGuideCard[] {
+  if (sections.some((section) => section.id === PUBLIC_DISCLOSURE_LIMIT_SECTION.id)) return sections;
+  return [...sections, PUBLIC_DISCLOSURE_LIMIT_SECTION];
+}
+
 function docsPage(page: Omit<BitcodeDocsPage, 'href'>): BitcodeDocsPage {
   return {
     ...page,
     href: `/docs/${page.slug}`,
+    sections: withPublicDisclosureLimit(page.sections),
   };
 }
 
