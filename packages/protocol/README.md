@@ -37,15 +37,16 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is now the `V35` active, `V36` draft after V35 promotion posture accepted
-by V35 Gate 10 and opened by V36 Gate 1.
-V36 Gate 1 treats this package as promotion-critical runtime posture.
+This is now the `V36` active, `V37` draft after V36 promotion posture accepted
+by V36 Gate 10 and opened by V37 Gate 1.
+V37 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V35` active, `V36` draft while V36 gates are in flight.
-V36 Gate 1 opens the Exchange-depth spec family and `check:v36-gate1`.
-Gate 2 and later gates add package-owned Exchange activity, intent/order,
-rights-transfer, pricing, settlement, dispute/repair/revenue, UX, rehearsal,
-and promotion readiness helpers.
+must remain aligned to `V36` active, `V37` draft while V37 gates are in flight.
+V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
+Gate 2 and later gates add package-owned Conversations session, message,
+stream event, writing workspace, source selector, Terminal handoff,
+persistence/privacy, telemetry/proof/docs, rehearsal, and promotion readiness
+helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.
@@ -128,18 +129,19 @@ report through `buildTelemetryDocumentationInterfaceIntegration` and
 V35 Gate 9 adds the source-safe local/staging telemetry documentation rehearsal
 through `buildLocalStagingTelemetryDocumentationRehearsal` and
 `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`.
-Later V36 gates add Exchange helpers without importing
+V37 gates add Conversations helpers without importing
 `protocol-demonstration/src/*`.
 
 V35 Gate 10 closed the package/runtime promotion boundary and the V35 promotion
 workflow rewrote the package posture to `V35` active, `V36` draft after
-promotion validations and generated proof output passed. V36 promotion will
-eventually rewrite this package to `V36` active, `V37` draft only after all
-Exchange gates close.
+promotion validations and generated proof output passed. V36 promotion rewrote
+this package to `V36` active, `V37` draft only after all Exchange gates closed.
 V36 Gate 10 closes that Exchange promotion boundary through package-owned
 `ExchangePromotionReadinessReport`, `.bitcode/v36-promotion-readiness-report.json`,
 `check:v36-gate10`, and `v36-canon-promotion.yml`. The post-promotion posture is
 `V36` active, `V37` draft, and the generated evidence remains source-safe.
+V37 promotion will eventually rewrite this package to `V37` active, `V38` draft
+only after all Conversations gates close.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
-commercial protocol boundary test, and V36 gate checks.
+commercial protocol boundary test, and V37 gate checks.

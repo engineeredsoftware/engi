@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V35`; V36 is the active draft target for Exchange depth after the
-promoted telemetry and documentation canon.
+resolves to `V36`; V37 is the active draft target for Website Conversations
+depth after the promoted Exchange canon.
 
 ## Current Product Posture
 
@@ -12,12 +12,17 @@ The primary operator routes are:
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
-Website Conversations remain in source as deferred commercial work. Exchange is
-the active V36 draft focus: market-wide activity master-detail, buy/sell/bid/
-ask/cancel/accept/settle/history flows, AssetPack range trading,
+Exchange is promoted V36 canon: market-wide activity master-detail, buy/sell/
+bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement
 reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging
 rehearsal, and Exchange-specific proofs.
+Website Conversations are the active V37 draft focus: conversation sessions,
+route-local history, stream UI/event contracts, fullscreen writing mode, source
+selectors, conversation-to-Terminal handoff, persistence/privacy/redaction,
+telemetry/proof/docs, local/staging rehearsal, and promotion readiness.
+V37 Gate 1 opens the Conversations spec family and `check:v37-gate1` over
+active V36.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -148,10 +153,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v36`.
+1. Create one base branch per draft target, such as `version/v37`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v36/gate-1-exchange-roadmap-opening` or
-   `v36/gate-6-exchange-settlement-reconciliation`.
+   with the gate number, for example `v37/gate-1-conversations-roadmap-opening`
+   or `v37/gate-6-conversation-terminal-handoff`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -160,7 +165,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V36 Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis`.
+   title, for example `V37 Gate 5: Source Selectors And Context Policy`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -170,13 +175,13 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V36, promotion work must validate the
-Exchange posture, generate `BITCODE_SPEC_V36_PROVEN.md`, and commit promotion
-artifacts plus the `BITCODE_SPEC.txt` pointer change from `V35` to `V36` on the
-version branch.
-Gate 10 is the promotion-readiness gate. V36 Gate 1 is wired through
-`pnpm run check:v36-gate1`, and later V36 gates add Exchange generated
-artifacts before `check:v36-gate10` and the V36 promotion workflow exist.
+run the version promotion workflow. For V37, promotion work must validate the
+Conversations posture, generate `BITCODE_SPEC_V37_PROVEN.md`, and commit
+promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V36` to
+`V37` on the version branch.
+Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
+`pnpm run check:v37-gate1`, and later V37 gates add Conversations generated
+artifacts before `check:v37-gate10` and the V37 promotion workflow exist.
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
 and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
@@ -189,9 +194,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V35.md](BITCODE_SPEC_V35.md) is the active promoted spec family.
-- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active draft target.
-- [BITCODE_SPEC_V36_PARITY_MATRIX.md](BITCODE_SPEC_V36_PARITY_MATRIX.md) tracks V36 gate parity.
+- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active promoted spec family.
+- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active draft target.
+- [BITCODE_SPEC_V37_PARITY_MATRIX.md](BITCODE_SPEC_V37_PARITY_MATRIX.md) tracks V37 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

@@ -4,7 +4,7 @@ This package is the deterministic demonstration of Bitcode. Within this package
 the correct name is demonstration.
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V36`; V37 is the next draft target after this promotion. This demo is governed by the active V36 canonical
+resolves to `V36`; V37 is the active draft target after this promotion. This demo is governed by the active V36 canonical
 spec and `BITCODE_SPEC_V36_PROVEN.md` as the current generated appendix.
 `BITCODE_SPEC.txt -> V36`.
 V35 telemetry/documentation work may compare against demonstration facts, but the

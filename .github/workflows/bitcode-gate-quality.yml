@@ -236,6 +236,7 @@ jobs:
             node scripts/check-v36-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             if [ -f BITCODE_SPEC_V37.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V37 --mode draft --current-target V36
+              node scripts/check-v37-gate1-conversations-roadmap-opening.mjs --skip-branch-check
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
