@@ -207,9 +207,14 @@ Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
 `pnpm run check:v37-conversation-session-route-history`; V37 Gate 3 is wired
 through `pnpm run check:v37-gate3`; and V37 Gate 4 is wired through
 `pnpm run check:v37-gate4` and
-`pnpm run check:v37-conversation-writing-workspace`. Later V37 gates add
-Conversations generated artifacts before `check:v37-gate10` and the V37
-promotion workflow exist.
+`pnpm run check:v37-conversation-writing-workspace`. V37 Gate 5 is wired
+through `pnpm run check:v37-gate5` and
+`pnpm run check:v37-conversation-source-selector`, covering source-safe
+repository, branch, commit, deposit, BTD range, AssetPack preview, document,
+and prior conversation selectors with account, organization, wallet, rights,
+settlement, disclosure, and policy posture. Later V37 gates add Conversations
+generated artifacts before `check:v37-gate10` and the V37 promotion workflow
+exist.
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
 and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi

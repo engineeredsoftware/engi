@@ -67,7 +67,9 @@ import { ChatHistorySidebar } from './ConversationsChatHistorySidebar';
 import { ThinkingLog } from './ConversationsThinkingLog';
 import { FloatingOrb } from './ConversationsFloatingOrb';
 import FullscreenPortal from './ConversationsFullscreenPortal';
+import ConversationSourceSelector from './ConversationSourceSelector';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
+import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
@@ -303,6 +305,8 @@ const Conversation = memo(function Conversation({
   const [showThinkingLogs, setShowThinkingLogs] = useState(true);
   const [selectedRunDetailsId, setSelectedRunDetailsId] = useState<string | null>(null);
   const [lastInputForRetry, setLastInputForRetry] = useState<{message: string; tokens: StreamToken[]} | null>(null);
+  const [showSourceSelector, setShowSourceSelector] = useState(false);
+  const [conversationSourcePreview, setConversationSourcePreview] = useState<ConversationSourceSelectorPreview | null>(null);
   const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
   const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
@@ -737,6 +741,31 @@ const Conversation = memo(function Conversation({
     setLastSource(source);
   }, []);
 
+  const sourceSelectorInitialRef = useMemo(() => {
+    if (!currentSource?.repoSlug) return '';
+    if (currentSource.commitSha) return `${currentSource.repoSlug}@${currentSource.commitSha}`;
+    if (currentSource.branch) return `${currentSource.repoSlug}#${currentSource.branch}`;
+    return currentSource.repoSlug;
+  }, [currentSource?.branch, currentSource?.commitSha, currentSource?.repoSlug]);
+
+  const handleConversationSourceSelect = useCallback((preview: ConversationSourceSelectorPreview) => {
+    setConversationSourcePreview(preview);
+    setLastSource(preview);
+
+    const sourceRef = preview.sourceSafeRefSummary;
+    if (preview.kind === 'repository' && sourceRef.includes('/')) {
+      setCurrentSource({ repoSlug: sourceRef });
+    }
+    if (preview.kind === 'branch' && sourceRef.includes('#')) {
+      const [repoSlug, branch] = sourceRef.split('#');
+      setCurrentSource({ repoSlug, branch: branch || null, commitSha: null });
+    }
+    if (preview.kind === 'commit' && sourceRef.includes('@')) {
+      const [repoSlug, commitSha] = sourceRef.split('@');
+      setCurrentSource({ repoSlug, branch: null, commitSha: commitSha || null });
+    }
+  }, []);
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (!userHasScrolled && chatContainerRef.current) {
@@ -880,6 +909,14 @@ const Conversation = memo(function Conversation({
               >
                 <FileTextIcon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showSourceSelector ? 'Hide Source Selector' : 'Open Source Selector'}
+                aria-pressed={showSourceSelector}
+                onClick={() => setShowSourceSelector((prev) => !prev)}
+              >
+                <MagnifyingGlassIcon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -902,6 +939,20 @@ const Conversation = memo(function Conversation({
             </div>
           </SidebarTitleBar>
         </div>
+
+        {showSourceSelector && (
+          <ConversationSourceSelector
+            initialSourceRef={sourceSelectorInitialRef}
+            onSelect={handleConversationSourceSelect}
+          />
+        )}
+
+        {conversationSourcePreview && !showSourceSelector && (
+          <div className="conversation-source-selector__status" role="status" aria-live="polite">
+            Source context: {conversationSourcePreview.label} · {conversationSourcePreview.previewState.replace('_', ' ')} ·{' '}
+            {conversationSourcePreview.sourceSafeRefSummary}
+          </div>
+        )}
 
         {showWritingWorkspace && (
           <ConversationWritingWorkspace

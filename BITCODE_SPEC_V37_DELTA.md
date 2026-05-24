@@ -128,6 +128,15 @@ Closure acceptance:
 - selector previews are source-safe and explain denial/retry states;
 - `pnpm run check:v37-gate5` validates selector contracts, rights checks, route tests, UI tests, docs, telemetry, and workflow wiring.
 
+Gate 5 closure adds package-backed `ConversationSourceSelector` source,
+`.bitcode/v37-conversation-source-selector.json`,
+`source-safe-conversation-source-selector-metadata`, repository, branch,
+commit, deposit, BTD range, AssetPack preview, document, and prior
+conversation selector kinds, account, organization, wallet, rights,
+settlement, disclosure, and policy governance dimensions, allowed, denied, and
+retry-required preview states, source-safe selector UI binding, package tests,
+UI tests, workflow wiring, and `check:v37-gate5`.
+
 ### Gate 6: Conversation To Terminal Transaction Handoff
 
 Gate 6 connects conversation intent to Terminal execution.

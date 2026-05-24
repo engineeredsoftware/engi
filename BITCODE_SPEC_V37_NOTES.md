@@ -86,6 +86,23 @@ messages are redacted source-safe metadata only and must not expose protected
 source, provider tokens, private wallet material, unpaid AssetPack source,
 settlement private payloads, or global ledger authority claims.
 
+## Gate 5 implementation notes
+
+ConversationSourceSelector contracts are source-safe context-policy
+contracts, not source disclosure or rights transfer. Gate 5 adds
+`.bitcode/v37-conversation-source-selector.json`,
+`buildConversationSourceSelector`, the route-facing source selector helper,
+the source selector component, package tests, UI tests, and
+`check:v37-gate5`.
+The required selector kinds are repository, branch, commit, deposit, BTD
+range, AssetPack preview, document, and prior conversation. The required
+governance dimensions are account, organization, wallet, rights, settlement,
+disclosure, and policy. The preview states are allowed, denied, and
+retry-required, and every preview is source-safe metadata only. Full protected
+source, unpaid AssetPack source, private BTD material, wallet private material,
+provider tokens, protected prompts/responses, settlement private payloads, and
+global ledger authority claims remain outside Conversations.
+
 ## V37 gate plan
 
 - Gate 1: V37 Conversations Roadmap And Spec Opening
