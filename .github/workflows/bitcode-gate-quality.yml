@@ -249,27 +249,27 @@ jobs:
       - name: Test gate packages
         run: |
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btd.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-interface-contract-regression.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-contract-catalog.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/mcp-tool-contract.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/chatgpt-app-action-contract.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/read-license-assetpack-rights-contract.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/api-schema-compatibility-matrix.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-telemetry-proof-hook.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-consumer-ux-regression-proof.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-host-capability-catalog.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-storage-posture.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/secret-rotation-plan.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/migration-approval-gate.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/runtime-observer-repair-job.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/rollback-upgrade-repair-playbook.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-readiness-rehearsal.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-promotion-readiness-report.test.ts
-          pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btc-fee-operation.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btd.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-interface-contract-regression.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/interface-contract-catalog.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/mcp-tool-contract.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/chatgpt-app-action-contract.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/interface-authorization-policy.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/read-license-assetpack-rights-contract.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/api-schema-compatibility-matrix.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/interface-telemetry-proof-hook.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/interface-consumer-ux-regression-proof.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-host-capability-catalog.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-storage-posture.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/secret-rotation-plan.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/migration-approval-gate.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/runtime-observer-repair-job.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/rollback-upgrade-repair-playbook.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-readiness-rehearsal.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-promotion-readiness-report.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts --runInBand --forceExit
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-documentation-surface-catalog.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-taxonomy-catalog.test.js
