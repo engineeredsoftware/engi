@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 8 closes ConversationTelemetryProofHooks dashboards, runbooks, and source-safe telemetry proof over active V36 Exchange canon
+- V37 state: draft implementation; Gate 9 closes ConversationRehearsal local/staging proof over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, and `.bitcode/v37-conversation-telemetry-proof-hooks.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts, Gate 7 package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts, and Gate 8 package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, and `.bitcode/v37-conversation-rehearsal.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts, Gate 7 package-owned ConversationPersistencePrivacyRedaction durable storage privacy contracts, Gate 8 package-owned ConversationTelemetryProofHooks telemetry, dashboard, runbook, and docs contracts, and Gate 9 package-owned ConversationRehearsal local/staging proof contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -261,6 +261,41 @@ source, generated artifact freshness, package tests, API tests, UI tests,
 public docs, internal runbooks, workflow wiring, dashboard coverage, runbook
 coverage, event family coverage, proof roots, telemetry roots, source
 evidence roots, and source-safe telemetry metadata.
+
+## V37 Gate 9 ConversationRehearsal canon
+
+Gate 9 implements `ConversationRehearsal` as the package-owned local and
+staging-testnet proof contract for Website Conversations. It owns the
+non-value rehearsal rows for chat, streaming, writing, source selector,
+Terminal handoff, restore, retry, redaction, and error flows. It emits
+`.bitcode/v37-conversation-rehearsal.json` with
+`source-safe-conversation-rehearsal-metadata`, deterministic rehearsal roots,
+flow roots, route/UI roots, telemetry roots, screenshot/log roots, source
+evidence roots, validation commands, lane posture, and fail-closed value-bearing
+mainnet blocking.
+
+Gate 9 requires local and staging-testnet rehearsals exercise chat, streaming,
+writing, source selector, Terminal handoff, restore, retry, redaction, and error
+flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry
+roots, and value-bearing mainnet blocking are visible. Rehearsal evidence may
+expose only source-safe ids, lane ids, flow ids, proof roots, telemetry roots,
+validation command names, screenshot/log roots, and summary counts. It must not
+expose secret values, provider tokens, protected source payloads, raw protected
+prompts, raw model responses with protected source, unpaid AssetPack source,
+settlement private payloads, wallet private material, ledger write authority,
+or wallet signing authority.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+
+The fullscreen Conversations UI includes a Rehearsal Proof panel so operators
+and product reviewers can inspect local/staging flow proof posture without
+source leakage. The panel is not a ledger, wallet, or settlement authority; it
+only previews the source-safe proof roots required to decide whether a local or
+staging conversation flow is ready for Gate 10 promotion readiness. `check:v37-gate9`
+validates package source, generated artifact freshness, package tests, UI tests,
+docs, workflow wiring, rehearsal flow coverage, lane coverage, route/UI check
+coverage, telemetry check coverage, source-safe screenshot/log coverage, proof
+roots, source evidence roots, and `source-safe-conversation-rehearsal-metadata`.
 
 ## Inherited V36 Exchange canon
 
@@ -940,6 +975,10 @@ V36 inherits operator quality, visual/accessibility/performance posture, project
 | `.bitcode/v37-conversation-stream-event-contract.json` | Gate 3 | source-safe | ConversationStreamEvent stream UI/event contracts |
 | `.bitcode/v37-conversation-writing-workspace.json` | Gate 4 | source-safe | ConversationWritingWorkspace fullscreen composer contracts |
 | `.bitcode/v37-conversation-source-selector.json` | Gate 5 | source-safe | ConversationSourceSelector source/context policy contracts |
+| `.bitcode/v37-conversation-terminal-handoff.json` | Gate 6 | source-safe | ConversationTerminalHandoff transaction handoff contracts |
+| `.bitcode/v37-conversation-persistence-privacy-redaction.json` | Gate 7 | source-safe | ConversationPersistencePrivacyRedaction durable storage privacy contracts |
+| `.bitcode/v37-conversation-telemetry-proof-hooks.json` | Gate 8 | source-safe | ConversationTelemetryProofHooks dashboard/runbook contracts |
+| `.bitcode/v37-conversation-rehearsal.json` | Gate 9 | source-safe | ConversationRehearsal local/staging proof contracts |
 
 ### V37 specifying generated artifacts
 
@@ -948,7 +987,10 @@ Gate 2 adds `.bitcode/v37-conversation-session-route-history.json` from the pack
 Gate 3 adds `.bitcode/v37-conversation-stream-event-contract.json` from the package-owned ConversationStreamEvent builder with package tests, route/UI tests, workflow checks, and source-safety checks.
 Gate 4 adds `.bitcode/v37-conversation-writing-workspace.json` from the package-owned ConversationWritingWorkspace builder with package tests, fullscreen workspace UI tests, workflow checks, and source-safety checks.
 Gate 5 adds `.bitcode/v37-conversation-source-selector.json` from the package-owned ConversationSourceSelector builder with package tests, source selector UI tests, workflow checks, and source-safety checks.
-Later V37 gates add Conversations generated artifacts only when their package-owned builders, route checks, stream tests, telemetry checks, and source-safety tests exist.
+Gate 6 adds `.bitcode/v37-conversation-terminal-handoff.json` from the package-owned ConversationTerminalHandoff builder with package tests, Terminal handoff UI tests, workflow checks, and source-safety checks.
+Gate 7 adds `.bitcode/v37-conversation-persistence-privacy-redaction.json` from the package-owned ConversationPersistencePrivacyRedaction builder with package tests, API storage redaction tests, UI tests, workflow checks, and source-safety checks.
+Gate 8 adds `.bitcode/v37-conversation-telemetry-proof-hooks.json` from the package-owned ConversationTelemetryProofHooks builder with package tests, API telemetry tests, UI tests, docs, runbooks, workflow checks, and source-safety checks.
+Gate 9 adds `.bitcode/v37-conversation-rehearsal.json` from the package-owned ConversationRehearsal builder with package tests, UI tests, local/staging rehearsal proof, route/UI checks, telemetry roots, source-safe screenshot/log roots, workflow checks, and source-safety checks.
 
 ### Shared generated-artifact fields
 

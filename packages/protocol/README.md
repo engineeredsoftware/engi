@@ -41,6 +41,7 @@ Current exported commercial helpers include:
 - `ConversationTerminalHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
 - `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
 - `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
+- `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -100,8 +101,16 @@ handoff, retry, error, and completion families while keeping raw protected
 prompts, protected source, protected model responses, provider tokens, wallet
 private material, settlement private payloads, ledger authority, wallet
 signing authority, and unpaid AssetPack source out of telemetry.
-Later gates add package-owned Conversations rehearsal and promotion readiness
-helpers.
+V37 Gate 9 adds source-safe `ConversationRehearsal` local/staging proof
+contracts through `buildConversationRehearsal` and
+`.bitcode/v37-conversation-rehearsal.json`. Local and staging-testnet
+rehearsals exercise chat, streaming, writing, source selector, Terminal
+handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
+are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
+blocking are visible through `source-safe-conversation-rehearsal-metadata`.
+Later gates add package-owned Conversations promotion readiness helpers.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.

@@ -2,6 +2,16 @@
 
 Status: internal operational runbook for V37 `ConversationTelemetryProofHooks`.
 
+Gate 9 adds `ConversationRehearsal` as the local/staging proof companion to
+telemetry hooks. Local and staging-testnet rehearsals exercise chat, streaming,
+writing, source selector, Terminal handoff, restore, retry, redaction, and
+error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks,
+telemetry roots, and value-bearing mainnet blocking are visible through
+`.bitcode/v37-conversation-rehearsal.json` and
+`source-safe-conversation-rehearsal-metadata`.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+
 ## Source-Safe Boundary
 
 Conversation telemetry may expose event ids, conversation ids, message ids,
