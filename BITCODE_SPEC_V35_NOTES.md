@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Scope: V35 draft notes for telemetry and documentation depth over promoted V34 deployment canon
 - Last fully realized canonical target preserved in source: `V34`
@@ -56,6 +56,7 @@ Read the system as:
 - `OperatorRunbookCatalog` binds dashboards, alerts, incidents, escalation, repair commands, and post-incident documentation updates to telemetry taxonomy rows.
 - `TestnetRolloutReadinessGuide` carries contributor, operator, enterprise reader, depositor, and interface consumer paths for local and staging-testnet use.
 - V35 public docs can expose measurements, proof posture, fee/right boundaries, setup steps, and known blockers; they cannot expose secrets, wallet private material, protected source, raw prompts containing protected data, or unpaid AssetPack source.
+- Gate 2 closes `DocumentationSurfaceCatalog` with `.bitcode/v35-documentation-surface-catalog.json`, `source-safe-documentation-surface-metadata`, package export `buildDocumentationSurfaceCatalog`, package test coverage, and `check:v35-gate2`.
 
 ## Inherited deployment-depth notes
 

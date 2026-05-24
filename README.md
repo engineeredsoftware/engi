@@ -17,6 +17,9 @@ V35 closure focuses on telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer
 onboarding, operator guides, and testnet-rollout readiness.
+V35 Gate 2 now anchors documentation surfaces through the package-owned
+`DocumentationSurfaceCatalog` and the source-safe generated artifact
+`.bitcode/v35-documentation-surface-catalog.json`.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration

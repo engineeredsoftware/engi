@@ -13,6 +13,16 @@ export {
 } from './canonical/v21-specifying.js';
 export { buildCanonPostureDriftReport } from './canonical/v22-canon-posture.js';
 export {
+  DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
+  DOCUMENTATION_SURFACE_CATALOG_CURRENT_TARGET,
+  DOCUMENTATION_SURFACE_CATALOG_SCHEMA_ID,
+  DOCUMENTATION_SURFACE_CATALOG_VERSION,
+  DOCUMENTATION_SURFACE_IDS,
+  DOCUMENTATION_SURFACE_ROWS,
+  DOCUMENTATION_SURFACE_SOURCE_SAFETY_VERDICT,
+  buildDocumentationSurfaceCatalog
+} from './canonical/documentation-surface-catalog.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

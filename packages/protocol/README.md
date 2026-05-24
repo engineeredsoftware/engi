@@ -18,6 +18,7 @@ Current exported commercial helpers include:
 - active/draft canon posture (`V34` active, `V35` draft after V34 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
+- `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -26,7 +27,9 @@ V34 Gate 10 and opened by V35 Gate 1.
 V35 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
 must remain aligned to `V34` active, `V35` draft while V35 gates are in flight.
-V35 telemetry/documentation work will add source-safe documentation surface,
+V35 Gate 2 adds the source-safe documentation surface catalog through
+`buildDocumentationSurfaceCatalog` and
+`.bitcode/v35-documentation-surface-catalog.json`. Later V35 gates add
 telemetry taxonomy, documentation QA, dashboard/runbook, incident, onboarding,
 rollout, and promotion-readiness helpers without importing
 `protocol-demonstration/src/*`.

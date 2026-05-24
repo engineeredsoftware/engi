@@ -206,7 +206,6 @@ function main() {
   assertCheck(failures, parity.includes('completion condition'), 'V35 PARITY must include a completion condition.');
   assertCheck(failures, parity.includes('v35/gate-1-telemetry-docs-roadmap-opening'), 'V35 PARITY must name the Gate 1 branch.');
   assertCheck(failures, parity.includes('Telemetry/documentation vocabulary'), 'V35 PARITY must include telemetry/documentation vocabulary row.');
-  assertCheck(failures, !parity.includes('| closed |'), 'V35 PARITY must not mark future V35 gate rows closed during Gate 1 opening.');
 
   assertCheck(failures, roadmap.includes('Current active canonical pointer: `BITCODE_SPEC.txt` -> `V34`'), 'Roadmap must state V34 as active pointer.');
   assertCheck(failures, roadmap.includes('Current draft target: `BITCODE_SPEC_V35.md`'), 'Roadmap must state V35 as active draft target.');
