@@ -108,6 +108,16 @@ benchmarking, tool doc-comment prompts, source-safe inference telemetry,
 search. Finding Fits remains plural and depository-wide, preserving the active
 `text-embedding-3-small`, 1536 dimension, cosine `match_deliverable_vectors`
 embedding policy until a tested migration exists.
+V38 Gate 2 adds the package-backed `V38InferenceSurfaceInventory` and generated
+source-safe artifact `.bitcode/v38-inference-surface-inventory.json`. The
+inference surface inventory records `ReadNeedComprehensionSynthesis`,
+`ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts,
+interface entrypoints, prompt registry coverage, and execution primitives as
+`source-safe-inference-surface-metadata`; its current count contract is 52 PTRR
+steps, 156 Failsafe/Thricified chains, and 468 provider-call slots. Use
+`pnpm run generate:v38-inference-surface-inventory`,
+`pnpm run check:v38-inference-surface-inventory`, and
+`pnpm run check:v38-gate2` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

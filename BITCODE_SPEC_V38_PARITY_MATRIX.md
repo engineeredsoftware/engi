@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -54,6 +54,11 @@ Gate 1 audit basis:
 - `packages/pipelines/asset-pack/src/depository-search.ts`
 - `packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts`
 - `scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs`
+- `.bitcode/v38-inference-surface-inventory.json`
+- `packages/protocol/src/canonical/inference-surface-inventory.js`
+- `packages/protocol/test/v38-inference-surface-inventory.test.js`
+- `scripts/generate-v38-inference-surface-inventory.mjs`
+- `scripts/check-v38-gate2-inference-surface-inventory.mjs`
 
 No `_legacy/` source is active source truth.
 
@@ -68,6 +73,7 @@ No `_legacy/` source is active source truth.
 | Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | drafted | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
 | Prompt benchmarking scope | Gate 1 | PromptPart and prompt benchmarking source anchors | drafted | Gate plan requires semantically divided PromptParts and complete Prompts to be benchmarkable. |
 | Telemetry disclosure scope | Gate 1 | V35 telemetry law, V37 stream UI law, V38 inference notes | drafted | Gate plan requires source-safe prompt, raw response, parsed output, schema verdict, retry, and repair visibility at permitted tiers. |
+| Inference surface inventory | Gate 2 | `V38InferenceSurfaceInventory`, `.bitcode/v38-inference-surface-inventory.json`, protocol test, generator, checker, workflows | closed | Source-safe inventory covers Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive families with 52 PTRR steps and later-gate gaps explicit. |
 
 ## V38 implementation checklist
 
@@ -80,6 +86,7 @@ No `_legacy/` source is active source truth.
 | Gate-quality workflow | Gate workflow validates V37 active / V38 draft posture and the V38 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V37 canon, V38 draft family when present, and V37/V38 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V37 active / V38 draft workflow | drafted |
+| Inference surface inventory | `.bitcode/v38-inference-surface-inventory.json` and `V38InferenceSurfaceInventory` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-surface-metadata` | closed |
 | Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
 | Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
 | Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
@@ -101,9 +108,24 @@ No `_legacy/` source is active source truth.
 | Finding Fits is plural and depository-wide | `packages/pipelines/asset-pack/src/depository-search.ts`, V38 SPEC/DELTA | drafted |
 | Gate checker is wired | `scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs`, `package.json`, workflows | drafted |
 
+## Gate 2 Parity
+
+| Requirement | Source evidence | Current V38 judgment |
+| --- | --- | --- |
+| Inventory source is package-owned | `packages/protocol/src/canonical/inference-surface-inventory.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Deterministic artifact exists | `.bitcode/v38-inference-surface-inventory.json` | closed |
+| Source-safe disclosure posture is explicit | `source-safe-inference-surface-metadata`, forbidden payload classes, disclosure tier catalog | closed |
+| Reading pipelines are counted | `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, `packages/pipelines/asset-pack/src/reading-pipeline-contract.ts` | closed |
+| Conversation and interface inference rows are counted | Website Conversations, stream-event entrypoints, conversation quick-response repair gap | closed |
+| Tool-definition prompt surfaces are counted | `DocCodeToolPrompt`, `formatUsableTools`, depository-search tool definitions | closed |
+| Prompt registry and benchmark carryforward is visible | prompt registry row plus Gate 4 benchmark gap | closed |
+| Execution primitive stack is named | `PipelineExecution`, PTRR agents, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, provider call slots | closed |
+| Count contract is explicit | 13 phase/surface groups, 13 PTRR agents, 52 PTRR steps, 156 Failsafe/Thricified chains, 468 provider-call slots, 9 tool/tool-definition surfaces | closed |
+| Gate checker is wired | `pnpm run check:v38-gate2`, package test, generator check, gate/canon workflows | closed |
+
 ## Completion condition
 
-Gate 1 closes when `pnpm run check:v38-gate1`, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, and diff hygiene all pass on `v38/gate-1-inference-stack-roadmap-opening`.
+Gate 2 closes when `pnpm run check:v38-gate2`, the V38 inference-surface inventory generator check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, and diff hygiene all pass on `v38/gate-2-inference-surface-inventory`.
 
 ## accepted boundaries
 

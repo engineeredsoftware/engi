@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -147,6 +147,13 @@ mutually beneficial depositing and Reading exchange.
 Gate 1 turns the loose V38 notes committed on `main` into the formal V38 SPEC, DELTA, NOTES, and PARITY family.
 The opening must preserve every instruction from those loose notes while grounding them in existing source anchors: `FailsafeGenerationSequence`, `ThricifiedGeneration`, PTRR agent factories, tool doc-comment prompt definitions, Reading pipeline contracts, depository-search tools, embedding policy, and source-safe telemetry boundaries.
 Gate 1 adds `check:v38-gate1`, workflow posture updates, README and package documentation posture updates, and roadmap truth for V37 active / V38 draft.
+
+## Gate 2 implementation notes
+
+Gate 2 closes the first concrete V38 inference audit by making the inventory package-backed, generated, tested, and workflow-checkable.
+`V38InferenceSurfaceInventory` and `.bitcode/v38-inference-surface-inventory.json` inventory `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversations, stream-event interface entrypoints, doc-comment-backed tool prompt definitions, prompt registry and benchmark coverage, and the execution primitive stack as `source-safe-inference-surface-metadata`.
+The current generated count is 52 PTRR steps across 156 FailsafeGenerationSequence / ThricifiedGeneration chains and 468 provider-call slots.
+The inventory deliberately records known gaps, including quick-response conversation repair, prompt benchmark completion, and later PTRR/Failsafe/Thricified call-stack validation, so later V38 gates cannot hide work outside the parity matrix.
 
 ## V38 gate plan
 
