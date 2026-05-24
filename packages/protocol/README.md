@@ -38,6 +38,12 @@ V36 Gate 1 opens the Exchange-depth spec family and `check:v36-gate1` before
 later gates add package-owned Exchange activity, intent/order, rights-transfer,
 pricing, settlement, dispute/repair/revenue, UX, rehearsal, and promotion
 readiness helpers.
+
+Historical promotion posture remains reproducible. V34 Gate 10 accepted the
+`V34` active, `V35` draft posture for deployment-depth promotion and remains
+validated by `check:v34-gate10` and `v34-canon-promotion.yml` as promoted
+history.
+
 V35 Gate 2 adds the source-safe documentation surface catalog through
 `buildDocumentationSurfaceCatalog` and
 `.bitcode/v35-documentation-surface-catalog.json`.
