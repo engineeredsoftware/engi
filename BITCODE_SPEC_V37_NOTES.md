@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 4 closes ConversationWritingWorkspace fullscreen writing mode and composer workspace over active V36 Exchange canon
+- V37 state: draft implementation; Gate 6 closes ConversationTerminalHandoff transaction handoff over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, and `.bitcode/v37-conversation-writing-workspace.json`
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, and `.bitcode/v37-conversation-terminal-handoff.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts; Gate 3 adds package-owned ConversationStreamEvent stream contracts; Gate 4 adds package-owned ConversationWritingWorkspace fullscreen composer contracts; Gate 5 adds package-owned ConversationSourceSelector context policy; Gate 6 adds package-owned ConversationTerminalHandoff transaction handoff contracts
 - Scope: draft notes for website Conversations work after V36 Exchange depth and after the V28 ChatGPT App MVP proved the interface path.
 
 This NOTES file does not promote V37. It is binding draft guidance while V37 gates are in flight.
@@ -102,6 +102,25 @@ retry-required, and every preview is source-safe metadata only. Full protected
 source, unpaid AssetPack source, private BTD material, wallet private material,
 provider tokens, protected prompts/responses, settlement private payloads, and
 global ledger authority claims remain outside Conversations.
+
+## Gate 6 implementation notes
+
+ConversationTerminalHandoff contracts are source-safe transaction-intent
+contracts, not Terminal execution, ledger writes, or wallet signing. Gate 6
+adds `.bitcode/v37-conversation-terminal-handoff.json`,
+`buildConversationTerminalHandoff`, the route-facing handoff helper, the
+handoff component, Terminal route context parsing, package tests, UI tests,
+Terminal route tests, and `check:v37-gate6`.
+
+The required workflows are Depositing, Reading, Finding Fits, Exchange,
+settlement, and delivery. Handoff envelopes may carry conversation id,
+transaction id, repository anchor, source selector summaries, a source-safe
+summary, policy result, Terminal route, transaction detail, proof root, and
+event id. They must not carry protected source, raw protected prompts,
+protected model responses with source, provider tokens, wallet private
+material, settlement private payloads, unpaid AssetPack source, ledger write
+authority, wallet signing authority, or a Terminal authority bypass. The
+Terminal remains the transaction cockpit.
 
 ## V37 gate plan
 

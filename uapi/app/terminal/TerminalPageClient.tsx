@@ -44,6 +44,7 @@ import { TerminalShellBridgeProvider } from './terminal-shell-bridge';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
 import {
   readTerminalDebugEnabled,
+  readTerminalConversationHandoffContext,
   readTerminalEnvironmentMode,
   readTerminalTransactionDetailSection,
   readTerminalTransactionFilters,
@@ -111,6 +112,10 @@ export default function TerminalPageClient() {
   const showDemonstrationSurfaces = mockMode || environmentMode === 'mock';
   const debugEnabled = useMemo(
     () => readTerminalDebugEnabled(routeSearchParams),
+    [routeSearchParams],
+  );
+  const conversationHandoffContext = useMemo(
+    () => readTerminalConversationHandoffContext(routeSearchParams),
     [routeSearchParams],
   );
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
@@ -504,6 +509,50 @@ export default function TerminalPageClient() {
           </section>
 
           <TerminalMvpMap />
+
+          {conversationHandoffContext.present ? (
+            <section
+              aria-label="Conversation Terminal handoff context"
+              className="rounded-2xl border border-sky-300/20 bg-sky-400/10 px-5 py-4 text-sm text-sky-50 shadow-[0_18px_70px_rgba(8,47,73,0.28)]"
+            >
+              <div className="flex flex-col gap-3 desktop:flex-row desktop:items-start desktop:justify-between">
+                <div className="min-w-0 space-y-2">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-sky-200/80">
+                    Conversation handoff
+                  </p>
+                  <h2 className="text-lg font-semibold text-white">
+                    {conversationHandoffContext.workflow
+                      ? conversationHandoffContext.workflow.replace('_', ' ')
+                      : 'Terminal context'}{' '}
+                    prepared from Conversations
+                  </h2>
+                  <p className="max-w-4xl leading-6 text-sky-100/85">
+                    {conversationHandoffContext.summary || 'No source-safe handoff summary was provided.'}
+                  </p>
+                </div>
+                <dl className="grid shrink-0 gap-2 text-xs text-sky-100/80 tablet:grid-cols-2 desktop:min-w-[28rem]">
+                  <div>
+                    <dt className="uppercase tracking-[0.18em] text-sky-300/75">Policy</dt>
+                    <dd className="font-medium text-sky-50">{conversationHandoffContext.policy || 'unknown'}</dd>
+                  </div>
+                  <div>
+                    <dt className="uppercase tracking-[0.18em] text-sky-300/75">Proof</dt>
+                    <dd className="truncate font-mono text-[0.7rem] text-sky-50">
+                      {conversationHandoffContext.proofRoot || 'missing'}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="uppercase tracking-[0.18em] text-sky-300/75">Repository</dt>
+                    <dd className="truncate text-sky-50">{conversationHandoffContext.repositoryAnchor || 'not supplied'}</dd>
+                  </div>
+                  <div>
+                    <dt className="uppercase tracking-[0.18em] text-sky-300/75">Sources</dt>
+                    <dd className="text-sky-50">{conversationHandoffContext.sourceSelectors.length || 0} selector refs</dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
+          ) : null}
 
           <TerminalOperationalHealthPanel />
 

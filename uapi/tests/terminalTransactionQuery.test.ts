@@ -1,4 +1,5 @@
 import {
+  readTerminalConversationHandoffContext,
   readTerminalDebugEnabled,
   readTerminalEnvironmentMode,
   readTerminalTransactionDetailSection,
@@ -133,6 +134,25 @@ describe('terminal-transaction-query', () => {
         selectedTransactionId: null,
       }),
     ).toBe(false);
+  });
+
+  it('reads source-safe Conversation Terminal handoff route context', () => {
+    const context = readTerminalConversationHandoffContext(
+      new URLSearchParams(
+        'conversationHandoff=1&conversationId=conversation-1&handoffWorkflow=finding_fits&handoffPolicy=allowed&handoffProofRoot=conversation-terminal-handoff%3Aabc123&handoffRepositoryAnchor=engineeredsoftware%2FENGI&handoffSourceSelectors=repository%3Aengineeredsoftware%2FENGI+%7C+commit%3A07de&handoffSummary=Find+fits+from+approved+Need.',
+      ),
+    );
+
+    expect(context).toEqual({
+      present: true,
+      conversationId: 'conversation-1',
+      workflow: 'finding_fits',
+      policy: 'allowed',
+      proofRoot: 'conversation-terminal-handoff:abc123',
+      repositoryAnchor: 'engineeredsoftware/ENGI',
+      sourceSelectors: ['repository:engineeredsoftware/ENGI', 'commit:07de'],
+      summary: 'Find fits from approved Need.',
+    });
   });
 
   it('reads and writes transaction pagination through route query state', () => {
