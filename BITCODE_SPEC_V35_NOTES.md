@@ -3,45 +3,74 @@
 ## Status
 
 - Version: `V35`
-- V35 state: future notes scaffold only
-- Current canonical/latest target: `V27`
-- Current active draft target: `V28`
-- Prior canonical anchor: `BITCODE_SPEC_V27.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: none for V35 yet
-- Source parity state: not opened; V35 source parity begins only after V35 draft opening
-- Scope: future notes for deeper telemetry and documenting after V28 Protocol/Terminal/MCP/ChatGPT MVP QA, V29 Terminal depth, V30 Protocol/BTD hardening, V31 Auxillaries depth, V32 provation/testing depth, V33 Interfaces, and V34 Deployment. Exchange and website Conversations return after V35.
-
-This NOTES file does not promote V35 and does not open V35 implementation.
+- V35 state: active draft target opened; notes guide telemetry and documentation depth over promoted V34 canon
+- Current canonical/latest target: `V34`
+- Prior canonical anchor: `BITCODE_SPEC_V34.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
+- Scope: V35 draft notes for telemetry and documentation depth over promoted V34 deployment canon
+- Last fully realized canonical target preserved in source: `V34`
 
 ## Notes companion rule
 
-This file is planning memory only.
-Requirements become binding only when V35 is explicitly opened as the draft-target SPEC family.
+This file is planning memory for the active V35 draft family.
+Requirements are binding only when they are also represented in `BITCODE_SPEC_V35.md`, `BITCODE_SPEC_V35_DELTA.md`, `BITCODE_SPEC_V35_PARITY_MATRIX.md`, source, tests, generated artifacts, and gate checks.
 
 ## Concise current-system reading
 
-V28 owns commercial Protocol/Terminal MVP QA and retains MCP API plus ChatGPT App MVP acceptance.
-V35 owns the telemetry and documentation depth that turns the deployed commercial system into a testnet-rollout-ready product.
+V34 is the active canon.
+It proved deployment depth: host capabilities, environment lanes, distributed execution runtime receipts, storage posture, secret rotation, migration approval, observers, broadcasters, repair jobs, rollback/upgrade/data repair playbooks, local/staging-testnet rehearsal, and promotion readiness.
 
-## Intended V35 focus
+V35 owns telemetry and documentation depth.
+The commercial Bitcode system must now be understandable, monitorable, supportable, source-safe, and testnet-rollout ready without changing V34 Protocol/BTD, Reading, interface, or deployment law.
 
-V35 owns deeper telemetry and documenting:
+## Simplified-spec reading rule
 
-- internal codebase documentation for packages, routes, data models, proof artifacts, operational playbooks, deployment lanes, and interface contracts;
-- public `/docs` usage documentation for Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, `$BTD`, AssetPack ranges, reads, fees, and proof posture, with Exchange and website Conversations clearly labeled as post-V35 work until reopened;
-- telemetry taxonomy depth, dashboards, alert runbooks, incident-response documentation, and operator escalation paths;
-- documentation QA that checks code, internal docs, public docs, SPEC, PARITY, PROVEN, generated proofs, and deployment receipts for alignment;
-- developer onboarding, operator usage paths, and testnet-readiness guides;
-- post-V32/V33/V34 proof, interface, and deployment outputs transformed into stable public and internal documentation.
+Read the system as:
+
+1. V34 defines where and how Bitcode may run.
+2. V35 defines how that system is documented, telemeterized, monitored, supported, and rolled out to testnet users.
+3. Public docs are not proof unless they are backed by source roots, spec roots, generated artifacts, and docs QA.
+4. A dashboard is not proof unless its panels derive from `TelemetryTaxonomyCatalog` events and proof roots.
+5. Value-bearing mainnet remains blocked until a future canon admits it.
+
+## V35 gate plan
+
+1. Gate 1: V35 Telemetry Documentation Roadmap And Spec Opening.
+2. Gate 2: Documentation Surface Catalog.
+3. Gate 3: Telemetry Taxonomy Event Schema And Redaction.
+4. Gate 4: Public Docs Usage Guides.
+5. Gate 5: Dashboards Alerts Runbooks Incident Escalation.
+6. Gate 6: Documentation QA Alignment Proofs.
+7. Gate 7: Developer Operator Testnet Rollout Guides.
+8. Gate 8: Telemetry Documentation Interface Integration.
+9. Gate 9: Local Staging Telemetry Documentation Rehearsal.
+10. Gate 10: V35 Promotion Readiness.
+
+## Telemetry and documentation depth notes
+
+- `DocumentationSurfaceCatalog` makes docs surfaces explicit: internal codebase docs, public `/docs`, package READMEs, route docs, generated artifact docs, API/interface docs, operator docs, and contributor docs.
+- `TelemetryTaxonomyCatalog` makes event families explicit across pipelines, executions, PTRR agents, ThricifiedGenerations, tools, ledger operations, wallet operations, storage operations, interfaces, deployments, observers, repair jobs, docs QA, and promotion workflows.
+- `DocsQaAlignmentReport` must fail closed on stale docs, stale spec tokens, stale generated proof references, missing source roots, or public docs that expose protected source.
+- `OperatorRunbookCatalog` binds dashboards, alerts, incidents, escalation, repair commands, and post-incident documentation updates to telemetry taxonomy rows.
+- `TestnetRolloutReadinessGuide` carries contributor, operator, enterprise reader, depositor, and interface consumer paths for local and staging-testnet use.
+- V35 public docs can expose measurements, proof posture, fee/right boundaries, setup steps, and known blockers; they cannot expose secrets, wallet private material, protected source, raw prompts containing protected data, or unpaid AssetPack source.
+
+## Inherited deployment-depth notes
+
+- V34 already owns host capability, environment lane, distributed runtime receipt, storage posture, secret rotation, migration approval, runtime observer/repair, rollback/upgrade, rehearsal, and deployment promotion readiness law.
+- V35 reuses those deployment objects as inherited source truth when documenting runtime lanes, telemetry events, runbooks, dashboards, operator guides, and rollout guides.
+- V35 must not rename V34 deployment artifacts as V35 gate artifacts. New V35 generated artifacts are telemetry/documentation artifacts: documentation surface catalog, telemetry taxonomy catalog, public docs guide inventory, operator runbook catalog, docs QA alignment report, testnet rollout readiness guide, interface integration report, rehearsal report, and documentation/telemetry promotion readiness report.
+- Value-bearing mainnet remains blocked by inherited V34 deployment law and is documented in V35 only as blocked future-canon posture.
 
 ## Boundaries
 
-V35 documents and instruments the deployed commercial system.
-It should not replace V32 proof/testing work, V33 interface finalization, V34 deployment work, or reopen V27 tokenomics law.
-It should not absorb Exchange or website Conversations implementation; those return after V35.
+V35 documents and instruments the proven commercial system.
+It must not replace V34 interface contracts or V35 telemetry/documentation breadth.
+It may expose source-safe deployment facts through docs and telemetry, but V34 remains the deployment-depth canon.
 
-## Return To V28
+## Return To V35
 
-Do not start V35 implementation during V28.
-Record documentation, telemetry, alerting, and public `/docs` gaps found during V28 QA as future V35 inputs.
+Future V35 gates should begin by reading `BITCODE_SPEC.txt`, this notes file, the delta, and the parity matrix.
+They should then close one telemetry/documentation contract slice at a time with source, tests, generated artifacts, workflow support, and clear promotion readiness.

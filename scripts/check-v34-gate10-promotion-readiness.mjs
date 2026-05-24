@@ -208,6 +208,8 @@ function main() {
     failures,
     pointer === 'V34'
       ? /Current working gate: V34 Gate (?:[1-9]|10)\b/u.test(roadmap) ||
+          /Current working gate: V35 Gate (?:[1-9]|10)\b/u.test(roadmap) ||
+          roadmap.includes('Current draft target: `BITCODE_SPEC_V35') ||
           roadmap.includes('Current draft target: `BITCODE_SPEC_V34') ||
           roadmap.includes('Current working gate: V34 Gate 10 Promotion Readiness')
       : roadmap.includes('Current working gate: V34 Gate 10 Promotion Readiness'),
