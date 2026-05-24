@@ -65,6 +65,12 @@ V36 Gate 5 adds source-safe Exchange pricing through
 The source-safe verdict is `source-safe-exchange-pricing-quote-metadata`;
 wrapper analysis cannot make BTD range cells fungible chain-of-record assets,
 and underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+V36 Gate 6 adds source-safe Exchange settlement reconciliation through
+`buildExchangeSettlementReconciliation` and
+`.bitcode/v36-exchange-settlement-reconciliation.json`.
+`ExchangeSettlementReceipt` binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
+The source-safe verdict is
+`source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

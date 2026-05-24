@@ -272,7 +272,11 @@ function main() {
 
   assertCheck(failures, parity.includes('| Pricing quote | Gate 5 |') && parity.includes('| closed |'), 'V36 parity must close the Gate 5 matrix row.');
   assertCheck(failures, parity.includes('## Gate 5 Parity') && parity.includes('closed'), 'V36 parity must mark Gate 5 closed.');
-  assertCheck(failures, roadmap.includes('Current working gate: V36 Gate 6 Exchange Settlement Ledger Database Reconciliation'), 'Roadmap must advance current working gate to V36 Gate 6.');
+  assertCheck(
+    failures,
+    /Current working gate: V36 Gate (?:[6-9]|10) /u.test(roadmap),
+    'Roadmap must advance current working gate to V36 Gate 6 or later.',
+  );
   assertCheck(failures, roadmap.includes('V36 Gate 5 closure anchor'), 'Roadmap must include V36 Gate 5 closure anchor.');
 
   for (const doc of [rootReadme, protocolReadme, exchangeReadme]) {

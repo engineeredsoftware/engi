@@ -42,6 +42,12 @@ source-safe generated artifact `.bitcode/v36-pricing-liquidity-fee-quote.json`.
 The quote covers BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and
 quote root. The source-safe verdict is
 `source-safe-exchange-pricing-quote-metadata`; wrapper analysis cannot make BTD range cells fungible chain-of-record assets, and underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+V36 Gate 6 anchors settlement through package-owned `ExchangeSettlementReceipt`
+and the source-safe generated artifact
+`.bitcode/v36-exchange-settlement-reconciliation.json`.
+The receipt binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
+The source-safe verdict is
+`source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer

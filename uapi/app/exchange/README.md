@@ -44,5 +44,12 @@ source-safe verdict is `source-safe-exchange-pricing-quote-metadata`; wrapper
 analysis cannot make BTD range cells fungible chain-of-record assets, and
 underpayment, overpayment, stale quote, or unsupported network posture fails closed.
 
+V36 Gate 6 makes `ExchangeSettlementReceipt` the package-owned contract behind
+settlement, finality, rights-transfer receipt, projection, object-storage, and
+delivery reconciliation. The generated
+`.bitcode/v36-exchange-settlement-reconciliation.json` artifact binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
+Its source-safe verdict is
+`source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.

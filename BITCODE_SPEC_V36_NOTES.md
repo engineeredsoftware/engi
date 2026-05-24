@@ -126,6 +126,18 @@ the BTD range ledger journal remains the ownership and range identity record.
 underpayment, overpayment, stale quote, or unsupported network posture fails closed so settlement cannot continue with mismatched payment, expired price,
 or unsupported network state.
 
+## Gate 6 closure notes
+
+Gate 6 closes when `ExchangeSettlementReceipt` is package-owned and generated
+through `.bitcode/v36-exchange-settlement-reconciliation.json`.
+The generated artifact carries
+`source-safe-exchange-settlement-reconciliation-metadata` and binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
+observers and repair jobs reconcile database projections to ledger truth.
+settlement finality and delivery are auditable.
+Delivery remains blocked until paid finality, rights-transfer receipt,
+projection synchronization, object-storage projection, and delivery state are
+all source-safe and proof-rooted.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.
