@@ -44,8 +44,24 @@ function git(root, args) {
   return execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
 }
 
-function run(root, command, args) {
-  return execFileSync(command, args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+function run(root, command, args, options = {}) {
+  return execFileSync(command, args, {
+    cwd: root,
+    encoding: 'utf8',
+    env: options.env ?? process.env,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  }).trim();
+}
+
+function envWithGitSafeDirectory(root) {
+  const count = Number.parseInt(process.env.GIT_CONFIG_COUNT || '0', 10);
+  const safeDirectoryIndex = Number.isFinite(count) && count >= 0 ? count : 0;
+  return {
+    ...process.env,
+    GIT_CONFIG_COUNT: String(safeDirectoryIndex + 1),
+    [`GIT_CONFIG_KEY_${safeDirectoryIndex}`]: 'safe.directory',
+    [`GIT_CONFIG_VALUE_${safeDirectoryIndex}`]: root,
+  };
 }
 
 function assertCheck(failures, condition, message) {
@@ -278,7 +294,9 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['scripts/promote-bitcode-canon.mjs', '--version', 'V36', '--commit', 'HEAD', '--dry-run']);
+      run(root, 'node', ['scripts/promote-bitcode-canon.mjs', '--version', 'V36', '--commit', 'HEAD', '--dry-run'], {
+        env: envWithGitSafeDirectory(root),
+      });
     } catch (error) {
       failures.push(`V36 promotion dry-run failed: ${error.stderr || error.message}`);
     }

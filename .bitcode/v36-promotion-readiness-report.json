@@ -120,7 +120,7 @@
     {
       "relativePath": "scripts/check-v36-gate10-promotion-readiness.mjs",
       "present": true,
-      "digest": "sha256:327b56518b59ac5aeb8470e70fa9e3b417469f6a4a8e950f6cc6420d6805af32",
+      "digest": "sha256:ac8175d88a3492ea73bdad3c46f23ba4212b83157ed88f2d15c7f14f8feffd29",
       "requiredTokens": [
         {
           "token": "V36 Gate 10 promotion readiness",
