@@ -57,7 +57,7 @@ No `_legacy/` source is active source truth.
 | Exchange activity book | Gate 2 | `ExchangeActivityBook`, `.bitcode/v36-exchange-activity-book.json`, package source, tests, and `check:v36-gate2` | closed | Market-wide source-safe activity rows, filters, details, proof roots, event ids, redaction posture, and telemetry bindings exist. |
 | Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | closed | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed, authorized, idempotent, policy-gated, source-safe, and replayable. |
 | Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | closed | BTD range identity, ownership, buyer, rights scope, disclosure boundary, settlement unlock, owner-read, licensed-read, and blocked transfer states are source-safe. |
-| Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | draft-required | BTC price, measurement weight, measurement volume, liquidity, wrapper analysis, fee split, and quote root are deterministic. |
+| Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | closed | BTC price, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury/depositor/reader routes, quote roots, and fail-closed payment/network posture are deterministic. |
 | Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | draft-required | Ledger, database, object storage, finality, delivery, and rights-transfer roots reconcile. |
 | Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | draft-required | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
 | Exchange UX and Terminal integration | Gate 8 | `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, and `check:v36-gate8` | draft-required | Master-detail UX, source-safe expanded detail, order history, and Terminal navigation are validated. |
@@ -78,7 +78,7 @@ No `_legacy/` source is active source truth.
 | Exchange vocabulary | V36 spec family names `ExchangeActivityBook`, `ExchangeIntent`, `ExchangeOrder`, `ExchangeRightsTransferPreview`, `ExchangePricingQuote`, `ExchangeSettlementReceipt`, `ExchangeDisputeRepairCase`, and `ExchangeRevenueRoute` | drafted |
 | Disclosure boundary | Exchange previews expose source-safe market, proof, fee, rights, and settlement metadata, not protected source, secrets, wallet private material, or unpaid AssetPack contents | drafted |
 | Ledger projection boundary | Ledger records and journals outrank Supabase/PostgreSQL projections for ownership, settlement, and finality | drafted |
-| Pricing determinism | Measurement weight, measurement volume, liquidity, wrapper analysis, and BTC fee roots are auditable before settlement | draft-required |
+| Pricing determinism | Measurement weight, measurement volume, liquidity band, wrapper analysis, and BTC fee roots are auditable before settlement | closed |
 | Repair posture | Dispute and repair paths exist before optimistic Exchange settlement UX is promotion-ready | draft-required |
 
 ## Gate 1 Parity
@@ -133,6 +133,19 @@ No `_legacy/` source is active source truth.
 | Rights-transfer payloads are source-safe | `source-safe-exchange-rights-transfer-review-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private buyer payloads, and secret values are forbidden | closed |
 | Ledger/database projection posture is explicit | ledger journal refs outrank database projection refs for rights-transfer preview and owner truth | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-rights-transfer-review.test.js`, `scripts/check-v36-gate4-exchange-rights-transfer-review.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 5 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangePricingQuote` is package-owned | `packages/protocol/src/canonical/exchange-pricing-quote.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated pricing artifact exists | `.bitcode/v36-pricing-liquidity-fee-quote.json`, `scripts/generate-v36-exchange-pricing-quote.mjs`, `pnpm run check:v36-exchange-pricing-quote` | closed |
+| Deterministic quote inputs are covered | BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and quote root | closed |
+| Wrapper non-fungibility boundary is enforced | wrapper analysis cannot make BTD range cells fungible chain-of-record assets | closed |
+| Payment and network failures close safely | underpayment, overpayment, stale quote, or unsupported network posture fails closed | closed |
+| Pricing payloads are source-safe | `source-safe-exchange-pricing-quote-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private payment credentials, private buyer payloads, and secret values are forbidden | closed |
+| Ledger/database projection posture is explicit | ledger journal refs outrank database projection refs for quote roots, settlement admission, route allocation, and network posture | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-pricing-quote.test.js`, `scripts/check-v36-gate5-exchange-pricing-quote.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

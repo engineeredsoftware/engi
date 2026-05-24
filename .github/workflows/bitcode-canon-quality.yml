@@ -82,6 +82,9 @@ jobs:
               if [ -f scripts/check-v36-gate4-exchange-rights-transfer-review.mjs ]; then
                 node scripts/check-v36-gate4-exchange-rights-transfer-review.mjs --skip-branch-check
               fi
+              if [ -f scripts/check-v36-gate5-exchange-pricing-quote.mjs ]; then
+                node scripts/check-v36-gate5-exchange-pricing-quote.mjs --skip-branch-check
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

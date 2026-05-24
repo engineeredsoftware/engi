@@ -58,6 +58,13 @@ requested buyer, rights scope, settlement unlock condition, and disclosure
 limit while distinguishing owner-read, licensed-read, and blocked transfer.
 AssetPack source is hidden until paid settlement and rights transfer are
 complete.
+V36 Gate 5 adds source-safe Exchange pricing through
+`buildExchangePricingQuote` and
+`.bitcode/v36-pricing-liquidity-fee-quote.json`.
+`ExchangePricingQuote` names BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and quote root.
+The source-safe verdict is `source-safe-exchange-pricing-quote-metadata`;
+wrapper analysis cannot make BTD range cells fungible chain-of-record assets,
+and underpayment, overpayment, stale quote, or unsupported network posture fails closed.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

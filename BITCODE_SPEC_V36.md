@@ -118,6 +118,37 @@ and admits no payment or delivery until repaired.
 Ledger journal state remains stronger than database projection state for
 rights-transfer preview, owner truth, and unlock state.
 
+## V36 Gate 5 ExchangePricingQuote canon
+
+Gate 5 implements `ExchangePricingQuote` as the package-owned deterministic
+pricing contract for Exchange quote review.
+`ExchangePricingQuote` names quote identity, quote state, AssetPack id, BTD
+range identity, BTC amount, measurement weight, measurement volume, liquidity
+band, wrapper analysis, treasury route, depositor route, reader route, quote
+root, network posture, settlement window, fail-closed conditions, proof roots,
+event ids, and ledger/database projection references before settlement can
+continue.
+
+Gate 5 emits `.bitcode/v36-pricing-liquidity-fee-quote.json` with
+`source-safe-exchange-pricing-quote-metadata`.
+The deterministic quote basis includes measurement weight, measurement volume, liquidity band, wrapper analysis, BTC amount, treasury route, depositor route, reader route, and quote root.
+The source-safe quote may expose quote identity, AssetPack id, BTD range
+identity, BTC amount, measurement metadata, liquidity metadata, wrapper
+metadata, route metadata, proof roots, event ids, ledger/database projection
+refs, and fail-closed conditions; it must not expose protected source, unpaid
+AssetPack source, wallet private material, provider tokens, protected prompts,
+protected model responses, private payment credentials, private buyer
+repository payloads, or secret values.
+
+wrapper analysis cannot make BTD range cells fungible chain-of-record assets.
+BTD range cells remain non-fungible source-share identities whose chain of
+record is the BTD range ledger journal, even when a wrapper is used for
+pricing, review, transfer, or market UX metadata.
+underpayment, overpayment, stale quote, or unsupported network posture fails closed.
+Ledger journal state remains stronger than database projection state for quote
+roots, settlement admission, payment matching, route allocation, and network
+posture.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.

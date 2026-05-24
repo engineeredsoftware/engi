@@ -114,6 +114,18 @@ The preview states distinguish owner-read, licensed-read, and blocked transfer s
 admitting payment/delivery for stale ownership, missing authority, policy denial,
 or missing transfer receipts.
 
+## Gate 5 closure notes
+
+Gate 5 closes when `ExchangePricingQuote` is package-owned and generated
+through `.bitcode/v36-pricing-liquidity-fee-quote.json`.
+The generated artifact carries `source-safe-exchange-pricing-quote-metadata`,
+BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, quote root, proof
+roots, event ids, ledger/database projection refs, and fail-closed conditions.
+wrapper analysis cannot make BTD range cells fungible chain-of-record assets;
+the BTD range ledger journal remains the ownership and range identity record.
+underpayment, overpayment, stale quote, or unsupported network posture fails closed so settlement cannot continue with mismatched payment, expired price,
+or unsupported network state.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.
