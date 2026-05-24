@@ -379,7 +379,7 @@
       ]
     },
     {
-      "digest": "sha256:2c12ba58832a5340300919152c95ed13a68bacd2942910714ee20ed07b0211fc",
+      "digest": "sha256:f8f5da11562b44d9e7501f789d11a7a997fd0ec382a857a0c7ee6daf140984ca",
       "present": true,
       "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
       "requiredTokens": [

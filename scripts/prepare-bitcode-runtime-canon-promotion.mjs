@@ -103,6 +103,10 @@ function rewriteReadme(content, version, nextDraft) {
     `- \`BITCODE_SPEC.txt -> ${version}\``
   );
   rewritten = rewritten.replace(
+    /^`BITCODE_SPEC\.txt -> V\d+`\.$/m,
+    `\`BITCODE_SPEC.txt -> ${version}\`.`
+  );
+  rewritten = rewritten.replace(
     /^- current generated appendix: `(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)`$/m,
     `- current generated appendix: \`${promotedProvenPath(version)}\``
   );
@@ -113,6 +117,10 @@ function rewriteReadme(content, version, nextDraft) {
   rewritten = rewritten.replace(
     /`BITCODE_SPEC\.txt -> V\d+`\.\s+This demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
     `\`BITCODE_SPEC.txt -> ${version}\`. This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
+  );
+  rewritten = rewritten.replace(
+    /This demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
+    `This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
   );
   rewritten = rewritten.replace(
     /^Active canon remains `V\d+`\.$/m,
