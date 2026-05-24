@@ -96,6 +96,9 @@ Conversation artifact, generated `BITCODE_SPEC_V37_PROVEN.md` support,
 preparation from V36 active / V37 draft to V37 active / draft V38 without
 serializing credentials, protected source, raw protected prompts, unpaid
 AssetPack source, or wallet private material.
+Promotion hardening also keeps Conversation persistence and telemetry redaction
+on bounded private-key PEM scanning with closed/unclosed PEM tests so static
+security findings block promotion instead of being waived.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

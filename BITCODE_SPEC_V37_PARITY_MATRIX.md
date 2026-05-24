@@ -289,6 +289,7 @@ Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise 
 | Promotion automation supports V37 | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, and `.github/workflows/v37-canon-promotion.yml` | closed |
 | Runtime posture is promotable | V37 promotion rewrites V36 active / V37 draft to V37 active / draft V38 only after validation | closed |
 | Promotion payloads are source-safe | credentials, protected source, raw protected prompts, unpaid AssetPack source, wallet private material, ledger write authority, and wallet signing authority are forbidden | closed |
+| Static security findings block promotion | Conversation persistence and telemetry private-key redaction use bounded scanning with API tests for closed and unclosed PEM-shaped input | closed |
 | Workflow and package tests are wired | `scripts/check-v37-gate10-promotion-readiness.mjs`, `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml`, and `.github/workflows/v37-canon-promotion.yml` | closed |
 
 ## Inherited V36 implementation matrix

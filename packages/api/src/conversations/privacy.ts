@@ -1,5 +1,7 @@
 import * as crypto from 'crypto';
 
+import { redactPemPrivateKeyBlocks } from './secret-redaction';
+
 export type ConversationPersistenceVisibilityTier =
   | 'public'
   | 'user_visible'
@@ -48,7 +50,6 @@ const SECRET_VALUE_PATTERNS = [
   new RegExp('eyJ[A-Za-z0-9_-]{16,}\\.[A-Za-z0-9_-]{16,}\\.[A-Za-z0-9_-]{16,}', 'gu'),
   /Bearer\s+[A-Za-z0-9._-]{16,}/giu,
   /(?:password|secret|token|private_key)\s*[:=]\s*\S{8,}/giu,
-  /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/gu,
 ];
 
 export const CONVERSATION_PERSISTENCE_MUST_NOT_EXPOSE = [
@@ -103,8 +104,9 @@ function shouldRedactKey(key: string) {
 }
 
 export function redactConversationPersistenceText(value: string): ConversationPersistenceRedactionResult<string> {
-  let redacted = value;
-  let redactionApplied = false;
+  const privateKeyRedaction = redactPemPrivateKeyBlocks(value, '[redacted:conversation-persistence-secret]');
+  let redacted = privateKeyRedaction.value;
+  let redactionApplied = privateKeyRedaction.redactionApplied;
 
   for (const pattern of SECRET_VALUE_PATTERNS) {
     redacted = redacted.replace(pattern, () => {

@@ -230,6 +230,7 @@ V37 / draft V38 posture preparation, package tests, workflow wiring, and
 Closure acceptance:
 
 - V37 promotion checks validate all Conversations artifacts, contracts, UI proof, telemetry/docs/runbook bindings, privacy/redaction evidence, handoff evidence, rehearsal proof, and generated proof appendix support;
+- V37 promotion security checks require persistence and telemetry redaction to use bounded private-key PEM scanning rather than unbounded multiline regular expressions, with closed and unclosed PEM-shaped payloads covered by API tests;
 - promotion scripts support V37 command planning, dry-run, generated proof output, and derived promotion commit body generation;
 - promotion rewrites runtime posture to active V37 / draft V38 only after validations pass.
 

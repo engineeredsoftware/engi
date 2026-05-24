@@ -135,6 +135,9 @@ redacted. Export is source-safe, delete leaves only a tombstone proof,
 retention never escalates visibility, replay uses prompt template ids and
 parsed result shapes, and incident repair operates over proof roots and
 redaction verdicts.
+Private-key PEM material is handled by bounded string scanning in the shared
+conversation redaction path so malformed or unclosed private-key-shaped input
+is redacted without polynomial multiline regular-expression behavior.
 
 Gate 8 adds `ConversationTelemetryProofHooks` so conversation sessions,
 messages, streams, tools, source selectors, Terminal handoffs, retries,
@@ -148,6 +151,8 @@ panel ids, runbook ids, and redacted error classes only. Protected prompts,
 protected model responses, protected source payloads, provider tokens, wallet
 private material, settlement private payloads, unpaid AssetPack source,
 ledger write authority, and wallet signing authority remain forbidden.
+Telemetry uses the same bounded private-key redaction before truncation so
+large secret-shaped metadata cannot survive as a preview artifact.
 
 Gate 9 closure adds `ConversationRehearsal` so local and staging-testnet
 Conversations are rehearsed before promotion readiness. The package source
