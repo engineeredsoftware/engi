@@ -25,5 +25,14 @@ database projection refs. The order history is replayable without private
 wallet material or secrets, and the Exchange UI may only render source-safe
 intent/order metadata before settlement and rights transfer.
 
+V36 Gate 4 makes `ExchangeRightsTransferPreview` the package-owned contract
+behind AssetPack range trading and rights-transfer review. The generated
+`.bitcode/v36-exchange-rights-transfer-review.json` artifact names BTD range
+identity, current owner, requested buyer, rights scope, settlement unlock
+condition, disclosure limit, source visibility, proof roots, event ids,
+ledger/database projection refs, and fail-closed conditions. It distinguishes
+owner-read, licensed-read, and blocked transfer states. AssetPack source is
+hidden until paid settlement and rights transfer are complete.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.

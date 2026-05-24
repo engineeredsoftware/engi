@@ -88,6 +88,36 @@ model responses, private buyer repository payloads, and secret values.
 Ledger journal state remains stronger than database projection state for
 Exchange order history and settlement/finality.
 
+## V36 Gate 4 ExchangeRightsTransferPreview canon
+
+Gate 4 implements `ExchangeRightsTransferPreview` as the package-owned contract
+for AssetPack range trading and BTD rights-transfer review.
+`ExchangeRightsTransferPreview` names BTD range identity, current owner,
+requested buyer, rights scope, settlement unlock condition, disclosure limit,
+source visibility, authority posture, proof roots, ledger/database projection
+references, and fail-closed conditions before any source-bearing transfer can
+be shown or settled.
+
+Gate 4 emits `.bitcode/v36-exchange-rights-transfer-review.json` with
+`source-safe-exchange-rights-transfer-review-metadata`.
+AssetPack source is hidden until paid settlement and rights transfer are complete.
+The preview may expose source-safe preview identity, AssetPack id, BTD
+range identity, principal ids, rights scope, settlement unlock condition,
+disclosure limit, proof roots, event ids, ledger/database projection refs, and
+fail-closed conditions; it must not expose protected source, unpaid AssetPack
+source, wallet private material, provider tokens, protected prompts, protected
+model responses, private buyer repository payloads, or secret values.
+
+The Gate 4 preview states distinguish owner-read, licensed-read, and blocked transfer.
+Owner-read represents the current owner reviewing owned rights while
+the Exchange preview itself stays source-safe. Licensed-read represents a buyer
+or reader who may receive source only after paid BTC settlement and a BTD
+read/right receipt. Blocked transfer represents stale ownership, missing
+authority, policy denial, missing rights-transfer receipt, or projection drift
+and admits no payment or delivery until repaired.
+Ledger journal state remains stronger than database projection state for
+rights-transfer preview, owner truth, and unlock state.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.

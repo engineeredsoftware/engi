@@ -100,6 +100,20 @@ The intent/order contract never exposes protected source, unpaid AssetPack
 source, private wallet material, provider tokens, protected prompts, protected
 model responses, private buyer repository payloads, or secret values.
 
+## Gate 4 closure notes
+
+Gate 4 closes when `ExchangeRightsTransferPreview` is package-owned and
+generated through `.bitcode/v36-exchange-rights-transfer-review.json`.
+The generated artifact carries
+`source-safe-exchange-rights-transfer-review-metadata`, BTD range identity,
+current owner, requested buyer, rights scope, settlement unlock condition,
+disclosure limit, source visibility, authority posture, proof roots, event ids,
+ledger/database projection refs, and fail-closed conditions.
+AssetPack source is hidden until paid settlement and rights transfer are complete.
+The preview states distinguish owner-read, licensed-read, and blocked transfer so Exchange can show enough rights-transfer confidence without leaking source or
+admitting payment/delivery for stale ownership, missing authority, policy denial,
+or missing transfer receipts.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.

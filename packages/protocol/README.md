@@ -28,6 +28,7 @@ Current exported commercial helpers include:
 - `LocalStagingTelemetryDocumentationRehearsal` helpers for V35 local/staging-testnet documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root review, redacted screenshot/log roots, and blocked value-bearing mainnet proof;
 - `ExchangeActivityBook` helpers for V36 market-wide activity rows, filters, detail sections, proof roots, event ids, redaction posture, and ledger/database projection references;
 - `ExchangeIntent` and `ExchangeOrder` helpers for V36 buy/sell/bid/ask/cancel/accept/settle/history transition contracts, authority, idempotency, policy, fail-closed, replay, and source-safety posture;
+- `ExchangeRightsTransferPreview` helpers for V36 BTD range identity, current owner, requested buyer, rights scope, settlement unlock, disclosure limit, owner-read, licensed-read, blocked transfer, and source-safety posture;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -49,6 +50,14 @@ V36 Gate 3 adds source-safe Exchange intent/order contracts through
 Each transition names actor principal, organization role, wallet posture,
 authority proof, idempotency key, policy decision, and fail-closed result.
 The order history is replayable without private wallet material or secrets.
+V36 Gate 4 adds source-safe Exchange rights-transfer review through
+`buildExchangeRightsTransferReview` and
+`.bitcode/v36-exchange-rights-transfer-review.json`.
+`ExchangeRightsTransferPreview` names BTD range identity, current owner,
+requested buyer, rights scope, settlement unlock condition, and disclosure
+limit while distinguishing owner-read, licensed-read, and blocked transfer.
+AssetPack source is hidden until paid settlement and rights transfer are
+complete.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

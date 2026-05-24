@@ -102,7 +102,9 @@ Closure acceptance:
 
 - `ExchangeRightsTransferPreview` names BTD range identity, current owner, requested buyer, rights scope, settlement unlock condition, and disclosure limit;
 - AssetPack source is hidden until paid settlement and rights transfer are complete;
-- previews distinguish owner-read, licensed-read, and blocked transfer states.
+- previews distinguish owner-read, licensed-read, and blocked transfer states;
+- `.bitcode/v36-exchange-rights-transfer-review.json` is generated from the package-owned builder with `source-safe-exchange-rights-transfer-review-metadata`;
+- `pnpm run check:v36-gate4` validates package source, artifact freshness, package tests, docs, workflow wiring, BTD range identity, current owner, requested buyer, rights scope, settlement unlock, disclosure limits, source-safety, owner-read, licensed-read, blocked transfer, proof roots, event ids, and ledger/database projection posture.
 
 ### Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis
 
