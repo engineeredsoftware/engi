@@ -33,6 +33,16 @@ export {
   buildTelemetryTaxonomyCatalog
 } from './canonical/telemetry-taxonomy-catalog.js';
 export {
+  PUBLIC_DOCS_USAGE_GUIDE_CATALOG_ARTIFACT_PATH,
+  PUBLIC_DOCS_USAGE_GUIDE_CATALOG_CURRENT_TARGET,
+  PUBLIC_DOCS_USAGE_GUIDE_CATALOG_SCHEMA_ID,
+  PUBLIC_DOCS_USAGE_GUIDE_CATALOG_VERSION,
+  PUBLIC_DOCS_USAGE_GUIDE_IDS,
+  PUBLIC_DOCS_USAGE_GUIDE_ROWS,
+  PUBLIC_DOCS_USAGE_GUIDE_SOURCE_SAFETY_VERDICT,
+  buildPublicDocsUsageGuideCatalog
+} from './canonical/public-docs-usage-guide-catalog.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

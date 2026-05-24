@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
-- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, public docs usage, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V35_DELTA.md`
@@ -56,7 +56,7 @@ No `_legacy/` source is active source truth.
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V34 active, V35 draft, and coherent V36-V37 responsibilities. |
 | Documentation surface catalog | Gate 2 | `DocumentationSurfaceCatalog`, `.bitcode/v35-documentation-surface-catalog.json`, `packages/protocol/src/canonical/documentation-surface-catalog.js`, `packages/protocol/test/v35-documentation-surface-catalog.test.js`, and `check:v35-gate2` | closed | Internal codebase docs, public `/docs`, package docs, route docs, generated artifact docs, API/interface docs, owners, freshness checks, and disclosure classes have package-owned rows. |
 | Telemetry taxonomy event schema | Gate 3 | `TelemetryTaxonomyCatalog`, `.bitcode/v35-telemetry-taxonomy-catalog.json`, `packages/protocol/src/canonical/telemetry-taxonomy-catalog.js`, `packages/protocol/test/v35-telemetry-taxonomy-catalog.test.js`, and `check:v35-gate3` | closed | Pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion events are source-safe and proof-rooted. |
-| Public docs usage guides | Gate 4 | public `/docs`, internal docs roots, package docs, source-safe examples, and `check:v35-gate4` | drafted | Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, and proof posture docs derive from package/SPEC truth. |
+| Public docs usage guides | Gate 4 | `PublicDocsUsageGuideCatalog`, `.bitcode/v35-public-docs-usage-guides.json`, `source-safe-public-docs-metadata`, `packages/protocol/src/canonical/public-docs-usage-guide-catalog.js`, `packages/protocol/test/v35-public-docs-usage-guide-catalog.test.js`, public `/docs` disclosure-limit section, and `check:v35-gate4` | closed | Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, proof posture, Exchange deferred boundary, and Conversations deferred boundary docs derive from package/SPEC truth. |
 | Dashboards alerts runbooks incident escalation | Gate 5 | `OperatorRunbookCatalog`, dashboard/runbook bindings, incident fixtures, and `check:v35-gate5` | drafted | Telemetry events bind to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, and post-incident docs updates. |
 | Documentation QA alignment proofs | Gate 6 | `DocsQaAlignmentReport`, generated alignment artifact, tests, workflows, and `check:v35-gate6` | drafted | Code, SPEC, DELTA, NOTES, PARITY, generated proofs, generated artifacts, public docs, internal docs, route docs, and interface docs fail closed on drift. |
 | Developer operator testnet rollout guides | Gate 7 | `TestnetRolloutReadinessGuide`, onboarding/operations docs, rehearsal evidence, and `check:v35-gate7` | drafted | Contributors, operators, enterprise readers, depositors, and interface consumers can follow source-safe local/staging-testnet guides. |
@@ -74,11 +74,12 @@ No `_legacy/` source is active source truth.
 | Gate 1 script | `pnpm run check:v35-gate1` fails closed on stale posture, missing roadmap truth, or missing telemetry/documentation scope | drafted |
 | Gate 2 script | `pnpm run check:v35-gate2` fails closed on stale documentation surface catalog, missing source roots, source-unsafe disclosure, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate 3 script | `pnpm run check:v35-gate3` fails closed on stale telemetry taxonomy catalog, missing event families, missing redaction posture, missing proof roots, missing source roots, source-unsafe telemetry payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
+| Gate 4 script | `pnpm run check:v35-gate4` fails closed on stale public docs usage guides, missing public `/docs` routes, missing source roots, missing disclosure-limit docs content, source-unsafe public payloads, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate-quality workflow | Gate workflow validates V34 active / V35 draft posture and the V35 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V34 canon, V35 draft family when present, and V34/V35 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V34 active / V35 draft workflow | drafted |
 | Telemetry/documentation vocabulary | V35 spec family names `TelemetryTaxonomyCatalog`, `DocumentationSurfaceCatalog`, `DocsQaAlignmentReport`, `OperatorRunbookCatalog`, and `TestnetRolloutReadinessGuide` | drafted |
-| Public docs disclosure boundary | Public docs disclose guidance, measurements, proof posture, fee/right boundaries, and source-safe previews, not protected source or secrets | drafted |
+| Public docs disclosure boundary | Public docs disclose guidance, measurements, proof posture, fee/right boundaries, readiness states, and source-safe previews, not protected source, raw protected prompts, wallet private material, provider tokens, or unpaid AssetPack source | closed |
 | Telemetry source-safety boundary | Telemetry events carry redaction posture, source-safety class, proof roots, and correlation ids without raw protected prompts or unpaid source | drafted |
 | Dashboard/runbook derivation | Dashboard panels, alert thresholds, runbooks, incident classes, and escalation paths derive from telemetry taxonomy rows | drafted |
 | Documentation QA failure posture | Docs QA fails closed on stale tokens, missing source roots, unsupported disclosure claims, and missing generated artifacts | drafted |
@@ -125,9 +126,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V35 judgment |
 | --- | --- | --- |
-| Public docs guide scope planned | V35 SPEC gate plan and DELTA | drafted |
-| Protected source boundary named | V35 accepted decisions and Gate 4 acceptance criteria | drafted |
-| Deferred product boundaries named | V35 SPEC, DELTA, and roadmap | drafted |
+| Public docs guide scope planned | `PublicDocsUsageGuideCatalog`, `.bitcode/v35-public-docs-usage-guides.json`, V35 SPEC Gate 4 canon, and `check:v35-gate4` | closed |
+| Protected source boundary named | public docs disclosure-limit section, catalog forbidden public content, V35 accepted decisions, and Gate 4 tests | closed |
+| Deferred product boundaries named | `exchange_deferred_boundary`, `conversations_deferred_boundary`, roadmap Gate 4 closure anchor, and V35 SPEC PublicDocsUsageGuideCatalog canon | closed |
 
 ## Gate 5 Parity
 

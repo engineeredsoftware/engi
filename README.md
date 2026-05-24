@@ -23,6 +23,11 @@ V35 Gate 2 now anchors documentation surfaces through the package-owned
 V35 Gate 3 now anchors telemetry event families through the package-owned
 `TelemetryTaxonomyCatalog` and the source-safe generated artifact
 `.bitcode/v35-telemetry-taxonomy-catalog.json`.
+V35 Gate 4 now anchors public usage guidance through the package-owned
+`PublicDocsUsageGuideCatalog` and the source-safe generated artifact
+`.bitcode/v35-public-docs-usage-guides.json`, including the public docs
+disclosure boundary that blocks protected source, raw protected prompts, wallet
+private material, provider tokens, and unpaid AssetPack source.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration
@@ -81,7 +86,7 @@ and [v34-canon-promotion.yml](.github/workflows/v34-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
 lint/typecheck/build plus mocked Jest coverage, and keeps heavier legacy scans
 explicitly opt-in until their catalogs are refurbished: set
-`ENABLE_FULL_DB_E2E`, `ENABLE_STORYBOOK_BUILD`, `ENABLE_SUPER_LINTER`, or
+`BITCODE_ENABLE_GATE_BROWSER_PROOF`, `ENABLE_FULL_DB_E2E`, `ENABLE_STORYBOOK_BUILD`, `ENABLE_SUPER_LINTER`, or
 `ENABLE_ADVANCED_CODEQL` when those checks are intentionally part of a branch
 or promotion validation.
 

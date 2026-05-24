@@ -20,6 +20,7 @@ Current exported commercial helpers include:
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
 - `TelemetryTaxonomyCatalog` helpers for V35 source-safe event family and redaction posture proof;
+- `PublicDocsUsageGuideCatalog` helpers for V35 source-safe public docs usage and disclosure-boundary proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -34,6 +35,9 @@ V35 Gate 2 adds the source-safe documentation surface catalog through
 V35 Gate 3 adds the source-safe telemetry taxonomy catalog through
 `buildTelemetryTaxonomyCatalog` and
 `.bitcode/v35-telemetry-taxonomy-catalog.json`.
+V35 Gate 4 adds the source-safe public docs usage guide catalog through
+`buildPublicDocsUsageGuideCatalog` and
+`.bitcode/v35-public-docs-usage-guides.json`.
 Later V35 gates add documentation QA, dashboard/runbook, incident, onboarding,
 rollout, interface integration, and promotion-readiness helpers without importing
 `protocol-demonstration/src/*`.

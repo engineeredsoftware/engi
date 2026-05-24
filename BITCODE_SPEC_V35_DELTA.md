@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
-- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, public docs usage, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V35_PARITY_MATRIX.md`
@@ -28,7 +28,7 @@ Internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert ru
 
 - V34 remains active canon during V35 drafting.
 - V35 gate branches are opened from `version/v35` and merged back only when their gate acceptance criteria are closed.
-- V35 owns telemetry and documentation depth: `TelemetryTaxonomyCatalog`, `DocumentationSurfaceCatalog`, `DocsQaAlignmentReport`, `OperatorRunbookCatalog`, `TestnetRolloutReadinessGuide`, and `DocumentationTelemetryPromotionReadinessReport`.
+- V35 owns telemetry and documentation depth: `TelemetryTaxonomyCatalog`, `DocumentationSurfaceCatalog`, `PublicDocsUsageGuideCatalog`, `DocsQaAlignmentReport`, `OperatorRunbookCatalog`, `TestnetRolloutReadinessGuide`, and `DocumentationTelemetryPromotionReadinessReport`.
 - V35 telemetry and documentation contracts must be package-owned before they are exposed by route handlers, dashboards, runbooks, MCP tools, ChatGPT App actions, public docs, internal docs, or UI status surfaces.
 - Public docs disclose guidance, measurements, proof posture, fee/right boundaries, and source-safe previews; they must not disclose protected source, secrets, wallet private material, or unpaid AssetPack contents.
 - Telemetry events require redaction posture, source-safety class, correlation ids, proof roots, dashboard/runbook links, and storage targets.
@@ -117,6 +117,8 @@ Closure acceptance:
 - public `/docs` pages exist or are explicitly cataloged for Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, proof posture, and deferred Exchange/Conversations boundaries;
 - every public page derives from package/SPEC truth and names disclosure limits;
 - protected source, raw protected prompts, secrets, wallet private material, and unpaid AssetPack contents remain blocked.
+- `PublicDocsUsageGuideCatalog` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-public-docs-usage-guides.json` with `source-safe-public-docs-metadata`, and checked by `pnpm run check:v35-gate4`;
+- public docs append a disclosure-limit section that allows usage guidance, source-safe measurements, proof roots, fee/right boundaries, readiness states, and route links while blocking protected source payloads, raw protected prompts, secret values, provider tokens, wallet private material, and unpaid AssetPack source.
 
 ### Gate 5: Dashboards Alerts Runbooks Incident Escalation
 
