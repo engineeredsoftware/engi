@@ -164,6 +164,9 @@ jobs:
             if [ -f BITCODE_SPEC_V35.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V35 --mode draft --current-target V34
               node scripts/check-v35-gate1-telemetry-docs-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v35-gate2-documentation-surface-catalog.mjs ]; then
+                node scripts/check-v35-gate2-documentation-surface-catalog.mjs --skip-branch-check
+              fi
             fi
             node scripts/check-v34-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           else
@@ -211,6 +214,7 @@ jobs:
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-promotion-readiness-report.test.ts
           pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-documentation-surface-catalog.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand

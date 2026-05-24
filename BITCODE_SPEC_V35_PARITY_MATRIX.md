@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -54,7 +54,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V35.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v35/gate-1-telemetry-docs-roadmap-opening` | drafted | V35 family validates in draft mode over active V34 and `check:v35-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V34 active, V35 draft, and coherent V36-V37 responsibilities. |
-| Documentation surface catalog | Gate 2 | `DocumentationSurfaceCatalog`, generated docs surface artifact, tests, and `check:v35-gate2` | drafted | Internal codebase docs, public `/docs`, package docs, route docs, generated artifact docs, API/interface docs, owners, freshness checks, and disclosure classes have package-owned rows. |
+| Documentation surface catalog | Gate 2 | `DocumentationSurfaceCatalog`, `.bitcode/v35-documentation-surface-catalog.json`, `packages/protocol/src/canonical/documentation-surface-catalog.js`, `packages/protocol/test/v35-documentation-surface-catalog.test.js`, and `check:v35-gate2` | closed | Internal codebase docs, public `/docs`, package docs, route docs, generated artifact docs, API/interface docs, owners, freshness checks, and disclosure classes have package-owned rows. |
 | Telemetry taxonomy event schema | Gate 3 | `TelemetryTaxonomyCatalog`, generated telemetry taxonomy artifact, tests, and `check:v35-gate3` | drafted | Pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion events are source-safe and proof-rooted. |
 | Public docs usage guides | Gate 4 | public `/docs`, internal docs roots, package docs, source-safe examples, and `check:v35-gate4` | drafted | Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, and proof posture docs derive from package/SPEC truth. |
 | Dashboards alerts runbooks incident escalation | Gate 5 | `OperatorRunbookCatalog`, dashboard/runbook bindings, incident fixtures, and `check:v35-gate5` | drafted | Telemetry events bind to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, and post-incident docs updates. |
@@ -72,6 +72,7 @@ No `_legacy/` source is active source truth.
 | Gate branch pattern | V35 work happens on `version/v35` or `v35/gate-N-*` branches | drafted |
 | Spec-family shape | V35 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
 | Gate 1 script | `pnpm run check:v35-gate1` fails closed on stale posture, missing roadmap truth, or missing telemetry/documentation scope | drafted |
+| Gate 2 script | `pnpm run check:v35-gate2` fails closed on stale documentation surface catalog, missing source roots, source-unsafe disclosure, missing package export, missing package test, missing workflow wiring, or missing generated artifact profile binding | closed |
 | Gate-quality workflow | Gate workflow validates V34 active / V35 draft posture and the V35 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V34 canon, V35 draft family when present, and V34/V35 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V34 active / V35 draft workflow | drafted |
@@ -101,9 +102,11 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V35 judgment |
 | --- | --- | --- |
-| Documentation surface catalog planned | `DocumentationSurfaceCatalog` in SPEC/DELTA/NOTES/PARITY | drafted |
-| Public/internal docs scope named | V35 SPEC, README, roadmap, and notes | drafted |
-| Disclosure classes planned | V35 Gate 2 acceptance criteria | drafted |
+| Documentation surface catalog implemented | `packages/protocol/src/canonical/documentation-surface-catalog.js` exports `buildDocumentationSurfaceCatalog` and required surface ids | closed |
+| Generated artifact exists | `.bitcode/v35-documentation-surface-catalog.json` with `source-safe-documentation-surface-metadata` | closed |
+| Public/internal docs scope named | Catalog rows include `public_docs_surface`, `internal_codebase_docs`, `package_readmes`, `route_api_docs`, `api_interface_docs`, and `generated_artifact_docs` | closed |
+| Disclosure classes enforced | Catalog rows include disclosure classes, forbidden content, freshness checks, source roots, generated artifacts, and row roots | closed |
+| Gate 2 package and workflow proof | `packages/protocol/test/v35-documentation-surface-catalog.test.js`, `scripts/check-v35-gate2-documentation-surface-catalog.mjs`, `package.json`, and `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## Gate 3 Parity
 

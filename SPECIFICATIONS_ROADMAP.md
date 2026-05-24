@@ -5,7 +5,7 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V34`
 - Current active canon: `BITCODE_SPEC_V34.md`
 - Current draft target: `BITCODE_SPEC_V35.md`
-- Current working gate: V35 Gate 1 Telemetry Documentation Roadmap And Spec Opening, following promoted V34 Deployment Depth.
+- Current working gate: V35 Gate 3 Telemetry Taxonomy Event Schema And Redaction, following the closed V35 Documentation Surface Catalog gate.
 - Latest closed version: V34 Deployment Depth, which promoted host capabilities, environment lanes, distributed executions, storage posture, secret rotation, migration approvals, observers, repair jobs, rollback/upgrade playbooks, local/staging-testnet deployment rehearsal, and V34 promotion readiness.
 - Recent V34 closure anchor: V34 Gate 10 Promotion Readiness generated V34 proof support, promoted `BITCODE_SPEC.txt` to `V34`, prepared V34 active / V35 draft runtime posture, and closed deployment-depth canon.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
@@ -18,6 +18,7 @@
 - V34 Gate 9 closure anchor: deployment-depth now owns package-backed `DeploymentReadinessRehearsal` source, deterministic `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, value-bearing mainnet blocked rehearsal, Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe logs, proof-rooted screenshots or logs, validation commands, proof roots, and no secret values serialization coverage.
 - V34 Gate 10 closure anchor: deployment-depth now owns package-backed `DeploymentPromotionReadinessReport` source, deterministic `.bitcode/v34-promotion-readiness-report.json`, V34 promotion command planning, generated appendix support through `BITCODE_SPEC_V34_PROVEN.md`, V34 canon promotion workflow support, gate/canon workflow postures, source-safe deployment artifact evidence, direct-main push denial, and active V34 / draft V35 post-promotion readiness.
 - V35 Gate 1 opening anchor: telemetry/documentation depth opens over promoted V34 with V35 SPEC, DELTA, NOTES, and PARITY files, `check:v35-gate1`, V34 active / V35 draft posture, and a ten-gate plan for documentation surfaces, telemetry taxonomy, public docs, dashboards/runbooks/incidents, documentation QA, onboarding/testnet guides, interface integration, rehearsal, and promotion readiness.
+- V35 Gate 2 closure anchor: telemetry/documentation depth now owns package-backed `DocumentationSurfaceCatalog` source, deterministic `.bitcode/v35-documentation-surface-catalog.json`, `source-safe-documentation-surface-metadata`, public `/docs`, internal docs, package docs, route docs, generated artifact docs, API/interface docs, owner/freshness/disclosure posture, package tests, workflow wiring, and `check:v35-gate2`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -81,6 +81,13 @@ Closure acceptance:
 - internal codebase docs, public `/docs`, package docs, route docs, generated artifact docs, API/interface docs, and owner/freshness posture are enumerated;
 - every docs surface names audience, owner, disclosure class, source roots, generated artifacts, spec links, test coverage, and freshness checks;
 - source-bearing material, secrets, wallet private material, and unpaid AssetPack contents remain blocked from public docs.
+
+Gate 2 closure implementation:
+
+- `@bitcode/protocol` exports `DocumentationSurfaceCatalog` support through `buildDocumentationSurfaceCatalog`;
+- `.bitcode/v35-documentation-surface-catalog.json` records twelve source-safe documentation rows under `source-safe-documentation-surface-metadata`;
+- `pnpm run check:v35-documentation-surface-catalog` verifies artifact freshness and source roots;
+- `pnpm run check:v35-gate2` verifies package source, generated artifact, package tests, workflows, docs, parity, and roadmap advancement.
 
 ### Gate 3: Telemetry Taxonomy Event Schema And Redaction
 

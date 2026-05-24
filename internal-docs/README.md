@@ -1,11 +1,12 @@
 # Bitcode Internal Notes
 
-Status: non-canonical scratch documentation. The active canonical system specification is `BITCODE_SPEC_V27.md`; these notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
+Status: non-canonical internal documentation. The active canonical system specification pointer is `BITCODE_SPEC.txt` -> `V34`; V35 is the active draft-target family for telemetry and documentation depth. These notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
 
 ## Rules
 
 - Do not treat this directory as canonical truth.
 - Promote requirements into the active SPEC/PARITY/proof family, or into the explicitly opened draft-target SPEC family, before relying on them as requirements.
+- Keep internal docs registered through `DocumentationSurfaceCatalog` when they become gate, operator, route, package, or proof dependencies.
 - Keep note filenames and content Bitcode-only.
 - Prefer Read, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
 - Treat compatibility source names as implementation corridors, not product vocabulary.

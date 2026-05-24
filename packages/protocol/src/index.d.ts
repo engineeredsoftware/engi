@@ -50,5 +50,13 @@ export function buildV21SpecFamilyReport(input?: Record<string, unknown>): Bitco
 export function buildV21CanonicalInputReport(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function buildV21GeneratedArtifactContents(input?: Record<string, unknown>): unknown;
 export function buildCanonPostureDriftReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH: string;
+export const DOCUMENTATION_SURFACE_CATALOG_CURRENT_TARGET: string;
+export const DOCUMENTATION_SURFACE_CATALOG_SCHEMA_ID: string;
+export const DOCUMENTATION_SURFACE_CATALOG_VERSION: string;
+export const DOCUMENTATION_SURFACE_SOURCE_SAFETY_VERDICT: string;
+export const DOCUMENTATION_SURFACE_IDS: readonly string[];
+export const DOCUMENTATION_SURFACE_ROWS: readonly Record<string, unknown>[];
+export function buildDocumentationSurfaceCatalog(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function defaultProvenOutputPath(version: string): string;
 export function generateCanonicalProvenMarkdown(input?: Record<string, unknown>): BitcodeProvenMarkdownPackage;
