@@ -39,7 +39,9 @@ import {
   CodeIcon, 
   FileTextIcon, 
   ChatBubbleIcon, 
-  MagnifyingGlassIcon 
+  MagnifyingGlassIcon,
+  Share1Icon,
+  LockClosedIcon
 } from "@radix-ui/react-icons";
 
 // Styles
@@ -67,6 +69,14 @@ import { ChatHistorySidebar } from './ConversationsChatHistorySidebar';
 import { ThinkingLog } from './ConversationsThinkingLog';
 import { FloatingOrb } from './ConversationsFloatingOrb';
 import FullscreenPortal from './ConversationsFullscreenPortal';
+import ConversationSourceSelector from './ConversationSourceSelector';
+import ConversationTerminalHandoff from './ConversationTerminalHandoff';
+import ConversationPersistencePrivacyPanel from './ConversationPersistencePrivacyPanel';
+import ConversationTelemetryProofPanel from './ConversationTelemetryProofPanel';
+import ConversationRehearsalPanel from './ConversationRehearsalPanel';
+import ConversationWritingWorkspace from './ConversationWritingWorkspace';
+import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
+import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 // NOTE: Avoid wrapping the Big‑O container in GPUAcceleration because
@@ -301,6 +311,14 @@ const Conversation = memo(function Conversation({
   const [showThinkingLogs, setShowThinkingLogs] = useState(true);
   const [selectedRunDetailsId, setSelectedRunDetailsId] = useState<string | null>(null);
   const [lastInputForRetry, setLastInputForRetry] = useState<{message: string; tokens: StreamToken[]} | null>(null);
+  const [showSourceSelector, setShowSourceSelector] = useState(false);
+  const [conversationSourcePreview, setConversationSourcePreview] = useState<ConversationSourceSelectorPreview | null>(null);
+  const [showTerminalHandoff, setShowTerminalHandoff] = useState(false);
+  const [showPersistencePrivacy, setShowPersistencePrivacy] = useState(false);
+  const [showTelemetryProof, setShowTelemetryProof] = useState(false);
+  const [showRehearsalProof, setShowRehearsalProof] = useState(false);
+  const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
+  const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
   // Refs
   const fullscreenRef = useRef<HTMLDivElement>(null);
@@ -584,6 +602,7 @@ const Conversation = memo(function Conversation({
     runs,
     activeRunId,
     runLog,
+    runLogDetails,
     thinkingLog,
     executionState,
     generationCount,
@@ -732,6 +751,31 @@ const Conversation = memo(function Conversation({
     setLastSource(source);
   }, []);
 
+  const sourceSelectorInitialRef = useMemo(() => {
+    if (!currentSource?.repoSlug) return '';
+    if (currentSource.commitSha) return `${currentSource.repoSlug}@${currentSource.commitSha}`;
+    if (currentSource.branch) return `${currentSource.repoSlug}#${currentSource.branch}`;
+    return currentSource.repoSlug;
+  }, [currentSource?.branch, currentSource?.commitSha, currentSource?.repoSlug]);
+
+  const handleConversationSourceSelect = useCallback((preview: ConversationSourceSelectorPreview) => {
+    setConversationSourcePreview(preview);
+    setLastSource(preview);
+
+    const sourceRef = preview.sourceSafeRefSummary;
+    if (preview.kind === 'repository' && sourceRef.includes('/')) {
+      setCurrentSource({ repoSlug: sourceRef });
+    }
+    if (preview.kind === 'branch' && sourceRef.includes('#')) {
+      const [repoSlug, branch] = sourceRef.split('#');
+      setCurrentSource({ repoSlug, branch: branch || null, commitSha: null });
+    }
+    if (preview.kind === 'commit' && sourceRef.includes('@')) {
+      const [repoSlug, commitSha] = sourceRef.split('@');
+      setCurrentSource({ repoSlug, branch: null, commitSha: commitSha || null });
+    }
+  }, []);
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (!userHasScrolled && chatContainerRef.current) {
@@ -867,6 +911,54 @@ const Conversation = memo(function Conversation({
               <button className="fullscreen-button" title="Toggle Split View" onClick={toggleSplitScreen} disabled={!ENABLE_SPLIT_VIEW}>
                 <MixerHorizontalIcon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showWritingWorkspace ? 'Hide Writing Workspace' : 'Open Writing Workspace'}
+                aria-pressed={showWritingWorkspace}
+                onClick={() => setShowWritingWorkspace((prev) => !prev)}
+              >
+                <FileTextIcon />
+              </button>
+              <button
+                className="fullscreen-button"
+                title={showSourceSelector ? 'Hide Source Selector' : 'Open Source Selector'}
+                aria-pressed={showSourceSelector}
+                onClick={() => setShowSourceSelector((prev) => !prev)}
+              >
+                <MagnifyingGlassIcon />
+              </button>
+              <button
+                className="fullscreen-button"
+                title={showTerminalHandoff ? 'Hide Terminal Handoff' : 'Open Terminal Handoff'}
+                aria-pressed={showTerminalHandoff}
+                onClick={() => setShowTerminalHandoff((prev) => !prev)}
+              >
+                <Share1Icon />
+              </button>
+              <button
+                className="fullscreen-button"
+                title={showPersistencePrivacy ? 'Hide Persistence Privacy' : 'Open Persistence Privacy'}
+                aria-pressed={showPersistencePrivacy}
+                onClick={() => setShowPersistencePrivacy((prev) => !prev)}
+              >
+                <LockClosedIcon />
+              </button>
+              <button
+                className="fullscreen-button"
+                title={showTelemetryProof ? 'Hide Telemetry Proof' : 'Open Telemetry Proof'}
+                aria-pressed={showTelemetryProof}
+                onClick={() => setShowTelemetryProof((prev) => !prev)}
+              >
+                <CodeIcon />
+              </button>
+              <button
+                className="fullscreen-button"
+                title={showRehearsalProof ? 'Hide Rehearsal Proof' : 'Open Rehearsal Proof'}
+                aria-pressed={showRehearsalProof}
+                onClick={() => setShowRehearsalProof((prev) => !prev)}
+              >
+                <ReloadIcon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -889,6 +981,61 @@ const Conversation = memo(function Conversation({
             </div>
           </SidebarTitleBar>
         </div>
+
+        {showSourceSelector && (
+          <ConversationSourceSelector
+            initialSourceRef={sourceSelectorInitialRef}
+            onSelect={handleConversationSourceSelect}
+          />
+        )}
+
+        {conversationSourcePreview && !showSourceSelector && (
+          <div className="conversation-source-selector__status" role="status" aria-live="polite">
+            Source context: {conversationSourcePreview.label} · {conversationSourcePreview.previewState.replace('_', ' ')} ·{' '}
+            {conversationSourcePreview.sourceSafeRefSummary}
+          </div>
+        )}
+
+        {showTerminalHandoff && (
+          <ConversationTerminalHandoff
+            conversationId={currentChat?.id}
+            transactionId={activeRunId}
+            repositoryAnchor={currentSource?.repoSlug || null}
+            sourcePreview={conversationSourcePreview}
+          />
+        )}
+
+        {showPersistencePrivacy && (
+          <ConversationPersistencePrivacyPanel
+            conversationId={currentChat?.id}
+            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
+          />
+        )}
+
+        {showTelemetryProof && (
+          <ConversationTelemetryProofPanel
+            conversationId={currentChat?.id}
+            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
+          />
+        )}
+
+        {showRehearsalProof && (
+          <ConversationRehearsalPanel
+            conversationId={currentChat?.id}
+            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
+          />
+        )}
+
+        {showWritingWorkspace && (
+          <ConversationWritingWorkspace
+            conversationId={currentChat?.id}
+            initialMode={writingWorkspaceMode}
+            onClose={() => setShowWritingWorkspace(false)}
+            onHandoff={(handoff) => {
+              void handleSendMessageCallback(handoff.message, []);
+            }}
+          />
+        )}
 
         {/* Messages */}
         <ConversationsChat
@@ -917,7 +1064,7 @@ const Conversation = memo(function Conversation({
               error={logError}
               runId={activeRunId || undefined}
               output={runLog}
-              outputDetails={processLogOutputDetails}
+              outputDetails={{ ...processLogOutputDetails, ...runLogDetails }}
               onRetry={handleRetry}
               onDismissError={handleDismissError}
               userHasScrolled={processLogHasScrolled}

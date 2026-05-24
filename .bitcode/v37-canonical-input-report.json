@@ -1,0 +1,19 @@
+{
+  "reportId": "v37-canonical-input-report",
+  "version": "V37",
+  "proofSourceCommit": "3df6b2cae755336067da920abbe8142df487a221",
+  "generatedAt": "2026-05-24T16:30:41-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedTargetVersion": "V37",
+  "pointerVersion": "V37",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "BITCODE_SPEC_V37.md",
+  "notesPath": "BITCODE_SPEC_V37_NOTES.md",
+  "provenPath": "BITCODE_SPEC_V37_PROVEN.md",
+  "parityPath": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [],
+  "requiredGeneratedArtifactCount": 0
+}

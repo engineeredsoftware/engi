@@ -28,6 +28,14 @@ const SEARCH_PARAM_KEYS = {
   sort: 'transactionSort',
   page: 'transactionPage',
   pageSize: 'transactionPageSize',
+  conversationHandoff: 'conversationHandoff',
+  conversationId: 'conversationId',
+  handoffWorkflow: 'handoffWorkflow',
+  handoffPolicy: 'handoffPolicy',
+  handoffProofRoot: 'handoffProofRoot',
+  handoffRepositoryAnchor: 'handoffRepositoryAnchor',
+  handoffSourceSelectors: 'handoffSourceSelectors',
+  handoffSummary: 'handoffSummary',
 } as const;
 
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
@@ -39,6 +47,27 @@ const TERMINAL_ENVIRONMENT_MODE_VALUES: TerminalEnvironmentMode[] = [
   'development',
   'staging',
   'production',
+];
+export type TerminalConversationHandoffWorkflow =
+  | 'depositing'
+  | 'reading'
+  | 'finding_fits'
+  | 'exchange'
+  | 'settlement'
+  | 'delivery';
+const TERMINAL_CONVERSATION_HANDOFF_WORKFLOW_VALUES: TerminalConversationHandoffWorkflow[] = [
+  'depositing',
+  'reading',
+  'finding_fits',
+  'exchange',
+  'settlement',
+  'delivery',
+];
+export type TerminalConversationHandoffPolicy = 'allowed' | 'retry_required' | 'denied';
+const TERMINAL_CONVERSATION_HANDOFF_POLICY_VALUES: TerminalConversationHandoffPolicy[] = [
+  'allowed',
+  'retry_required',
+  'denied',
 ];
 export type TerminalTransactionDetailSection =
   | 'shippables'
@@ -63,6 +92,17 @@ const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
   'activity',
   'console',
 ];
+
+export type TerminalConversationHandoffContext = {
+  present: boolean;
+  conversationId: string | null;
+  workflow: TerminalConversationHandoffWorkflow | null;
+  policy: TerminalConversationHandoffPolicy | null;
+  proofRoot: string | null;
+  repositoryAnchor: string | null;
+  sourceSelectors: string[];
+  summary: string | null;
+};
 
 function parseEnumValue<T extends string>(value: string | null, allowed: readonly T[], fallback: T): T {
   if (value && allowed.includes(value as T)) return value as T;
@@ -140,6 +180,32 @@ export function readTerminalTransactionPagination(searchParams: URLSearchParams)
   return {
     page: parsePositiveInteger(searchParams.get(SEARCH_PARAM_KEYS.page), DEFAULT_TRANSACTION_PAGINATION.page),
     pageSize,
+  };
+}
+
+export function readTerminalConversationHandoffContext(searchParams: URLSearchParams): TerminalConversationHandoffContext {
+  const present = searchParams.get(SEARCH_PARAM_KEYS.conversationHandoff) === '1';
+  const workflow = searchParams.get(SEARCH_PARAM_KEYS.handoffWorkflow);
+  const policy = searchParams.get(SEARCH_PARAM_KEYS.handoffPolicy);
+  const sourceSelectors = searchParams
+    .get(SEARCH_PARAM_KEYS.handoffSourceSelectors)
+    ?.split('|')
+    .map((value) => value.trim())
+    .filter(Boolean) ?? [];
+
+  return {
+    present,
+    conversationId: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.conversationId), '') || null,
+    workflow: workflow && TERMINAL_CONVERSATION_HANDOFF_WORKFLOW_VALUES.includes(workflow as TerminalConversationHandoffWorkflow)
+      ? (workflow as TerminalConversationHandoffWorkflow)
+      : null,
+    policy: policy && TERMINAL_CONVERSATION_HANDOFF_POLICY_VALUES.includes(policy as TerminalConversationHandoffPolicy)
+      ? (policy as TerminalConversationHandoffPolicy)
+      : null,
+    proofRoot: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffProofRoot), '') || null,
+    repositoryAnchor: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffRepositoryAnchor), '') || null,
+    sourceSelectors,
+    summary: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffSummary), '') || null,
   };
 }
 

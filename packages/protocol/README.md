@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V36` active, `V37` draft after V36 promotion);
+- active/draft canon posture (`V37` active, `V38` draft after V37 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -34,18 +34,92 @@ Current exported commercial helpers include:
 - `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` helpers for V36 repair, escalation, revenue conservation, route allocation, and source-safety posture;
 - `ExchangeUxProof` helpers for V36 Exchange route usability, Terminal handoff, collapsed readable status, expanded source-safe detail, and telemetry dashboard proof roots;
 - `ExchangeRehearsal` helpers for V36 local/staging-testnet Exchange rehearsal coverage, source-safe log/screenshot roots, ledger/database synchronization checks, and blocked value-bearing mainnet proof;
+- `ConversationSession` route-history helpers for V37 route-local session identity, create/restore/branch/retry/redact/stream operations, proof roots, event ids, and persistence boundaries;
+- `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
+- `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
+- `ConversationSourceSelector` helpers for V37 repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors governed by account, organization, wallet, rights, settlement, disclosure, and policy posture with allowed, denied, and retry-required source-safe preview states;
+- `ConversationTerminalHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
+- `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
+- `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
+- `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is now the `V35` active, `V36` draft after V35 promotion posture accepted
-by V35 Gate 10 and opened by V36 Gate 1.
-V36 Gate 1 treats this package as promotion-critical runtime posture.
+This is now the `V37` active, `V38` draft after V37 promotion posture accepted
+by V37 Gate 10.
+V38 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V35` active, `V36` draft while V36 gates are in flight.
-V36 Gate 1 opens the Exchange-depth spec family and `check:v36-gate1`.
-Gate 2 and later gates add package-owned Exchange activity, intent/order,
-rights-transfer, pricing, settlement, dispute/repair/revenue, UX, rehearsal,
-and promotion readiness helpers.
+must remain aligned to `V37` active, `V38` draft while V38 opens.
+V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
+V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
+through `buildConversationSessionRouteHistory` and
+`.bitcode/v37-conversation-session-route-history.json`.
+The route-history artifact covers create, restore, branch, retry, redact, and
+stream operations while keeping conversation state route-local rather than
+global ledger truth.
+V37 Gate 3 adds source-safe `ConversationStreamEvent` stream UI/event contracts
+through `buildConversationStreamEventContract` and
+`.bitcode/v37-conversation-stream-event-contract.json`.
+The stream event artifact covers model delta, tool call, retrieval summary,
+proof root, retry state, completion decision, and error row events while
+keeping stream telemetry source-safe and compatible with the shared rich
+execution log UI.
+V37 Gate 4 adds source-safe `ConversationWritingWorkspace` fullscreen composer
+contracts through `buildConversationWritingWorkspace` and
+`.bitcode/v37-conversation-writing-workspace.json`.
+The writing workspace artifact covers Read Request, Need feedback, AssetPack
+review note, and Terminal handoff summary modes with save, restore, summarize,
+and handoff actions while keeping emitted summaries source-safe and keeping
+Terminal as transaction authority.
+V37 Gate 5 adds source-safe `ConversationSourceSelector` context-policy
+contracts through `buildConversationSourceSelector` and
+`.bitcode/v37-conversation-source-selector.json`. The source selector artifact
+covers repository, branch, commit, deposit, BTD range, AssetPack preview,
+document, and prior conversation selectors with account, organization, wallet,
+rights, settlement, disclosure, and policy governance while keeping protected
+source and unpaid AssetPack source outside Conversations.
+V37 Gate 6 adds source-safe `ConversationTerminalHandoff` transaction handoff
+contracts through `buildConversationTerminalHandoff` and
+`.bitcode/v37-conversation-terminal-handoff.json`. The handoff artifact covers
+Depositing, Reading, Finding Fits, Exchange, settlement, and delivery
+workflows while preserving route context and keeping ledger writes, wallet
+signing, protected source, and unpaid AssetPack source outside Conversations.
+V37 Gate 7 adds source-safe `ConversationPersistencePrivacyRedaction` durable
+storage privacy contracts through
+`buildConversationPersistencePrivacyRedaction` and
+`.bitcode/v37-conversation-persistence-privacy-redaction.json`. The
+persistence privacy artifact covers every visibility tier, persist message,
+restore history, export history, delete history, retain history, replay
+history, and incident repair while redacting protected prompts, protected model
+responses, protected source, secrets, wallet private material, and unpaid
+AssetPack source before storage or source-safe export.
+V37 Gate 8 adds source-safe `ConversationTelemetryProofHooks` dashboard and
+runbook contracts through `buildConversationTelemetryProofHooks` and
+`.bitcode/v37-conversation-telemetry-proof-hooks.json`. The telemetry proof
+artifact covers session, message, stream, tool, source selector, Terminal
+handoff, retry, error, and completion families while keeping raw protected
+prompts, protected source, protected model responses, provider tokens, wallet
+private material, settlement private payloads, ledger authority, wallet
+signing authority, and unpaid AssetPack source out of telemetry.
+V37 Gate 9 adds source-safe `ConversationRehearsal` local/staging proof
+contracts through `buildConversationRehearsal` and
+`.bitcode/v37-conversation-rehearsal.json`. Local and staging-testnet
+rehearsals exercise chat, streaming, writing, source selector, Terminal
+handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
+are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
+blocking are visible through `source-safe-conversation-rehearsal-metadata`.
+V37 Gate 10 adds source-safe `ConversationPromotionReadinessReport`
+promotion readiness contracts through `buildConversationPromotionReadinessReport`
+and `.bitcode/v37-promotion-readiness-report.json`. The readiness report
+covers all V37 Conversation artifacts, generated `BITCODE_SPEC_V37_PROVEN.md`
+support, `v37-canon-promotion.yml`, promotion dry-run support, and runtime
+posture preparation from `V36` active, `V37` draft to `V37` active, `V38`
+draft after V37 promotion while keeping credentials, protected source, raw
+protected prompts, unpaid AssetPack source, and wallet private material out of
+generated metadata.
+This Gate 10 posture is `V37` active, `V38` draft after V37 promotion.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.
@@ -128,18 +202,19 @@ report through `buildTelemetryDocumentationInterfaceIntegration` and
 V35 Gate 9 adds the source-safe local/staging telemetry documentation rehearsal
 through `buildLocalStagingTelemetryDocumentationRehearsal` and
 `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`.
-Later V36 gates add Exchange helpers without importing
+V37 gates add Conversations helpers without importing
 `protocol-demonstration/src/*`.
 
 V35 Gate 10 closed the package/runtime promotion boundary and the V35 promotion
 workflow rewrote the package posture to `V35` active, `V36` draft after
-promotion validations and generated proof output passed. V36 promotion will
-eventually rewrite this package to `V36` active, `V37` draft only after all
-Exchange gates close.
+promotion validations and generated proof output passed. V36 promotion rewrote
+this package to `V36` active, `V37` draft only after all Exchange gates closed.
 V36 Gate 10 closes that Exchange promotion boundary through package-owned
 `ExchangePromotionReadinessReport`, `.bitcode/v36-promotion-readiness-report.json`,
 `check:v36-gate10`, and `v36-canon-promotion.yml`. The post-promotion posture is
 `V36` active, `V37` draft, and the generated evidence remains source-safe.
+V37 promotion will eventually rewrite this package to `V37` active, `V38` draft
+only after all Conversations gates close.
 
 The package boundary is enforced by `packages/protocol` tests, the UAPI
-commercial protocol boundary test, and V36 gate checks.
+commercial protocol boundary test, and V37 gate checks.

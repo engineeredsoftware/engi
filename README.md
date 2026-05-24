@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V35`; V36 is the active draft target for Exchange depth after the
-promoted telemetry and documentation canon.
+resolves to `V37`; V38 is the next draft target after the promoted Website
+Conversations canon.
 
 ## Current Product Posture
 
@@ -12,12 +12,93 @@ The primary operator routes are:
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
-Website Conversations remain in source as deferred commercial work. Exchange is
-the active V36 draft focus: market-wide activity master-detail, buy/sell/bid/
-ask/cancel/accept/settle/history flows, AssetPack range trading,
+Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
+bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement
 reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging
 rehearsal, and Exchange-specific proofs.
+Website Conversations are promoted V37 canon: conversation sessions, route-local
+history, stream UI/event contracts, fullscreen writing mode, source selectors,
+conversation-to-Terminal handoff, persistence/privacy/redaction,
+telemetry/proof/docs, local/staging rehearsal, and promotion readiness.
+V37 Gate 1 opens the Conversations spec family and `check:v37-gate1` over
+active V36.
+V37 Gate 2 anchors `ConversationSession` route-local identity and history
+through the package-owned source-safe generated artifact
+`.bitcode/v37-conversation-session-route-history.json`, including create,
+restore, branch, retry, redact, and stream operations. Conversation route
+history remains route-local projection state; Terminal and the ledger remain
+authoritative for transaction, settlement, wallet, Exchange, and BTD ownership
+work.
+V37 Gate 3 anchors `ConversationStreamEvent` stream rows through the
+package-owned source-safe generated artifact
+`.bitcode/v37-conversation-stream-event-contract.json`, including model
+deltas, tool calls, retrieval summaries, proof roots, retry states, completion
+decisions, and error rows. The rich execution log is the stream UI: collapsed
+rows show readable status and expanded rows show event ids, proof roots,
+redaction posture, prompt/result disclosure posture, fail-closed states, and
+source-safe metadata without protected source or raw model payloads.
+V37 Gate 4 anchors `ConversationWritingWorkspace` fullscreen drafting through
+the package-owned source-safe generated artifact
+`.bitcode/v37-conversation-writing-workspace.json`, including Read Request,
+Need feedback, AssetPack review note, and Terminal handoff summary modes plus
+save, restore, summarize, and handoff actions. Draft recovery is route-local;
+emitted summaries and handoff messages are redacted source-safe metadata and
+do not claim Terminal, wallet, settlement, or ledger authority.
+V37 Gate 5 anchors `ConversationSourceSelector` context policy through the
+package-owned source-safe generated artifact
+`.bitcode/v37-conversation-source-selector.json`, including repository,
+branch, commit, deposit, BTD range, AssetPack preview, document, and prior
+conversation selectors governed by account, organization, wallet, rights,
+settlement, disclosure, and policy posture.
+V37 Gate 6 anchors `ConversationTerminalHandoff` transaction handoff through
+the package-owned source-safe generated artifact
+`.bitcode/v37-conversation-terminal-handoff.json`, including Depositing,
+Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows.
+Conversation handoff preserves transaction id, repository anchor, source
+selector refs, source-safe summary, policy result, Terminal route, transaction
+detail, proof roots, and event ids while Terminal remains the ledger, wallet,
+settlement, and delivery cockpit.
+V37 Gate 7 anchors `ConversationPersistencePrivacyRedaction` durable
+conversation storage privacy through the package-owned source-safe generated
+artifact `.bitcode/v37-conversation-persistence-privacy-redaction.json`.
+It separates public, user-visible, organization-visible, buyer-visible,
+reviewer-visible, and operator-only visibility tier data while covering
+persist message, restore history, export, delete, retention, replay, and
+incident repair. The API storage path redacts message content, attachment
+metadata, execution input, and execution metadata before persistence, and the
+conversation UI exposes source-safe privacy previews without protected source,
+secrets, wallet private material, or unpaid AssetPack source.
+V37 Gate 8 anchors `ConversationTelemetryProofHooks` through the
+package-owned source-safe generated artifact
+`.bitcode/v37-conversation-telemetry-proof-hooks.json`. Conversation sessions,
+messages, streams, tools, source selectors, Terminal handoffs, retries,
+errors, and completions now bind to dashboard panels, runbook ids,
+correlation ids, proof roots, redaction posture, and source-safe visibility
+tiers. API stream rows and the conversation UI expose telemetry proof posture
+without protected prompts, protected source, raw provider responses, provider
+tokens, wallet private material, settlement private payloads, or unpaid
+AssetPack source.
+V37 Gate 9 anchors `ConversationRehearsal` through the package-owned
+source-safe generated artifact `.bitcode/v37-conversation-rehearsal.json`.
+Local and staging-testnet rehearsals exercise chat, streaming, writing, source
+selector, Terminal handoff, restore, retry, redaction, and error flows.
+Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots,
+and value-bearing mainnet blocking are visible through source-safe proof
+metadata and the fullscreen Rehearsal Proof panel.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+V37 Gate 10 anchors `ConversationPromotionReadinessReport` through the
+package-owned source-safe generated artifact
+`.bitcode/v37-promotion-readiness-report.json`. It covers every V37
+Conversation artifact, generated `BITCODE_SPEC_V37_PROVEN.md` support,
+`v37-canon-promotion.yml`, promotion dry-run support, and runtime posture
+preparation from V36 active / V37 draft to V37 active / draft V38 without
+serializing credentials, protected source, raw protected prompts, unpaid
+AssetPack source, or wallet private material.
+Promotion hardening also keeps Conversation persistence and telemetry redaction
+on bounded private-key PEM scanning with closed/unclosed PEM tests so static
+security findings block promotion instead of being waived.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -148,10 +229,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v36`.
+1. Create one base branch per draft target, such as `version/v37`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v36/gate-1-exchange-roadmap-opening` or
-   `v36/gate-6-exchange-settlement-reconciliation`.
+   with the gate number, for example `v37/gate-1-conversations-roadmap-opening`
+   or `v37/gate-6-conversation-terminal-handoff`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -160,7 +241,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V36 Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis`.
+   title, for example `V37 Gate 5: Source Selectors And Context Policy`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -170,13 +251,30 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V36, promotion work must validate the
-Exchange posture, generate `BITCODE_SPEC_V36_PROVEN.md`, and commit promotion
-artifacts plus the `BITCODE_SPEC.txt` pointer change from `V35` to `V36` on the
-version branch.
-Gate 10 is the promotion-readiness gate. V36 Gate 1 is wired through
-`pnpm run check:v36-gate1`, and later V36 gates add Exchange generated
-artifacts before `check:v36-gate10` and the V36 promotion workflow exist.
+run the version promotion workflow. For V37, promotion work must validate the
+Conversations posture, generate `BITCODE_SPEC_V37_PROVEN.md`, and commit
+promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V36` to
+`V37` on the version branch.
+Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
+`pnpm run check:v37-gate1`; V37 Gate 2 is wired through
+`pnpm run check:v37-gate2` and
+`pnpm run check:v37-conversation-session-route-history`; V37 Gate 3 is wired
+through `pnpm run check:v37-gate3`; and V37 Gate 4 is wired through
+`pnpm run check:v37-gate4` and
+`pnpm run check:v37-conversation-writing-workspace`. V37 Gate 5 is wired
+through `pnpm run check:v37-gate5` and
+`pnpm run check:v37-conversation-source-selector`, covering source-safe
+repository, branch, commit, deposit, BTD range, AssetPack preview, document,
+and prior conversation selectors with account, organization, wallet, rights,
+settlement, disclosure, and policy posture. V37 Gate 9 is wired through
+`pnpm run check:v37-gate9` and `pnpm run check:v37-conversation-rehearsal`,
+covering `ConversationRehearsal`,
+`source-safe-conversation-rehearsal-metadata`, local/staging rehearsal proof,
+source-safe screenshots/logs, route/UI checks, telemetry roots, and blocked
+value-bearing mainnet posture. V37 Gate 10 adds promotion readiness before
+the V37 promotion workflow can promote; it is wired through
+`pnpm run check:v37-gate10`, `pnpm run check:v37-promotion-readiness`, and
+[v37-canon-promotion.yml](.github/workflows/v37-canon-promotion.yml).
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
 and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi
@@ -189,9 +287,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V35.md](BITCODE_SPEC_V35.md) is the active promoted spec family.
-- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active draft target.
-- [BITCODE_SPEC_V36_PARITY_MATRIX.md](BITCODE_SPEC_V36_PARITY_MATRIX.md) tracks V36 gate parity.
+- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active promoted spec family.
+- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active draft target.
+- [BITCODE_SPEC_V37_PARITY_MATRIX.md](BITCODE_SPEC_V37_PARITY_MATRIX.md) tracks V37 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

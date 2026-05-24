@@ -7,6 +7,23 @@ Status: non-canonical internal note.
 Conversations are a rich Bitcode input surface. They can collect source evidence, attachments, context, Read/Deposit intent, output destinations, and follow-up instructions without becoming a separate product model.
 
 The conversation surface must write into the same Exchange activity and execution model as Terminal.
+V37 Gate 8 adds `ConversationTelemetryProofHooks` so route-local sessions,
+messages, streams, tools, source selectors, Terminal handoffs, retries,
+errors, and completions emit source-safe dashboard and runbook telemetry.
+Those hooks expose ids, counts, states, redacted error classes, and proof
+roots only; they do not expose protected prompts, protected source, unpaid
+AssetPack source, wallet private material, provider tokens, or settlement
+private payloads.
+V37 Gate 9 adds `ConversationRehearsal` so local and staging-testnet
+conversation flows are promotion-rehearsed before V37 closure. Local and
+staging-testnet rehearsals exercise chat, streaming, writing, source selector,
+Terminal handoff, restore, retry, redaction, and error flows. Rehearsal
+logs/screenshots are source-safe. Route/UI checks, telemetry roots, and
+value-bearing mainnet blocking are visible in
+`.bitcode/v37-conversation-rehearsal.json` through
+`source-safe-conversation-rehearsal-metadata`.
+
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 
 ## Required Semantics
 
