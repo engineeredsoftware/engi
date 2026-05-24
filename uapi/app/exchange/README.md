@@ -69,5 +69,12 @@ collapsed UI gives readable status and expanded UI exposes source-safe detail.
 Exchange telemetry dashboards remain source-safe and proof-rooted.
 Its source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
 
+V36 Gate 9 makes `ExchangeRehearsal` the package-owned contract behind local
+and staging-testnet Exchange rehearsal evidence. The generated
+`.bitcode/v36-exchange-rehearsal.json` artifact proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
+It proves that rehearsal logs/screenshots are source-safe.
+It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
+Its source-safe verdict is `source-safe-exchange-rehearsal-metadata`.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.

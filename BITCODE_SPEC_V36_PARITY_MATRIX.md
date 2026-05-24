@@ -61,7 +61,7 @@ No `_legacy/` source is active source truth.
 | Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | closed | Payment observation, finality state, rights-transfer receipt, ledger root, database projection root, object storage root, delivery state, repair id, observer jobs, and repair jobs reconcile. |
 | Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | closed | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
 | Exchange UX and Terminal integration | Gate 8 | `ExchangeUxProof`, `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, tests, and `check:v36-gate8` | closed | Master-detail UX, filters, order history, rights-transfer review, pricing quote, settlement state, repair state, Terminal navigation, collapsed status, and source-safe expanded detail are validated. |
-| Local staging rehearsal | Gate 9 | `.bitcode/v36-exchange-rehearsal.json`, local/staging logs, proof roots, and `check:v36-gate9` | draft-required | Local and staging-testnet list/bid/ask/cancel/accept/settle/repair/history flows are rehearsed. |
+| Local staging rehearsal | Gate 9 | `.bitcode/v36-exchange-rehearsal.json`, local/staging logs, proof roots, and `check:v36-gate9` | closed | Local and staging-testnet list/bid/ask/cancel/accept/settle/repair/history flows are rehearsed. |
 | Promotion readiness | Gate 10 | `.bitcode/v36-promotion-readiness-report.json`, promotion workflow, generated proof support, and `check:v36-gate10` | draft-required | V36 can promote only after all Exchange gates pass and generated canon remains source-safe. |
 
 ## V36 implementation checklist
@@ -184,6 +184,17 @@ No `_legacy/` source is active source truth.
 | Collapsed and expanded disclosure is source-safe | collapsed UI gives readable status and expanded UI exposes source-safe detail | closed |
 | Telemetry binding is source-safe | `source-safe-exchange-ux-proof-metadata`; Exchange telemetry dashboards remain source-safe and proof-rooted | closed |
 | Workflow, package, and UI tests are wired | `packages/protocol/test/v36-exchange-ux-proof.test.js`, `uapi/tests/exchangePageClient.test.tsx`, `uapi/tests/exchangeTerminalHandoff.test.ts`, `scripts/check-v36-gate8-exchange-ux-proof.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 9 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeRehearsal` is package-owned | `packages/protocol/src/canonical/exchange-rehearsal.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated Exchange rehearsal artifact exists | `.bitcode/v36-exchange-rehearsal.json`, `scripts/generate-v36-exchange-rehearsal.mjs`, `pnpm run check:v36-exchange-rehearsal` | closed |
+| Local and staging-testnet flows are complete | local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows | closed |
+| Rehearsal evidence is source-safe | rehearsal logs/screenshots are source-safe through redacted screenshot/log roots and `source-safe-exchange-rehearsal-metadata` | closed |
+| Ledger/database synchronization is visible | ledger/database synchronization and value-bearing mainnet blocking are visible through sync checks, projection roots, and blocked mainnet row posture | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-rehearsal.test.js`, `scripts/check-v36-gate9-exchange-rehearsal.mjs`, `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

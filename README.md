@@ -63,6 +63,13 @@ Terminal can hand off to Exchange without losing transaction context.
 collapsed UI gives readable status and expanded UI exposes source-safe detail.
 Exchange telemetry dashboards remain source-safe and proof-rooted.
 The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
+V36 Gate 9 anchors Exchange rehearsal through package-owned
+`ExchangeRehearsal` and the source-safe generated artifact
+`.bitcode/v36-exchange-rehearsal.json`.
+`ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
+It proves that rehearsal logs/screenshots are source-safe.
+It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
+The source-safe verdict is `source-safe-exchange-rehearsal-metadata`.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer
