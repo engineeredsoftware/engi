@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V36`; V37 is the active draft target for Website Conversations
-depth after the promoted Exchange canon.
+resolves to `V37`; V38 is the next draft target after the promoted Website
+Conversations canon.
 
 ## Current Product Posture
 
@@ -12,14 +12,14 @@ The primary operator routes are:
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
 
-Exchange is promoted V36 canon: market-wide activity master-detail, buy/sell/
+Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement
 reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging
 rehearsal, and Exchange-specific proofs.
-Website Conversations are the active V37 draft focus: conversation sessions,
-route-local history, stream UI/event contracts, fullscreen writing mode, source
-selectors, conversation-to-Terminal handoff, persistence/privacy/redaction,
+Website Conversations are promoted V37 canon: conversation sessions, route-local
+history, stream UI/event contracts, fullscreen writing mode, source selectors,
+conversation-to-Terminal handoff, persistence/privacy/redaction,
 telemetry/proof/docs, local/staging rehearsal, and promotion readiness.
 V37 Gate 1 opens the Conversations spec family and `check:v37-gate1` over
 active V36.

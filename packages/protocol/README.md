@@ -45,11 +45,11 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is now the `V36` active, `V37` draft after V36 promotion posture accepted
-by V36 Gate 10 and opened by V37 Gate 1.
-V37 Gate 1 treats this package as promotion-critical runtime posture.
+This is now the `V37` active, `V38` draft after V37 promotion posture accepted
+by V37 Gate 10.
+V38 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V36` active, `V37` draft while V37 gates are in flight.
+must remain aligned to `V37` active, `V38` draft while V38 opens.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

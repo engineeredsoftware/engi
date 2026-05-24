@@ -2,13 +2,13 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V36`
-- Current active canon: `BITCODE_SPEC_V36.md`
-- Current draft target: `BITCODE_SPEC_V37.md`
-- Current working gate: V37 Gate 10 Promotion Readiness.
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V37`
+- Current active canon: `BITCODE_SPEC_V37.md`
+- Current draft target: `V38` draft opening.
+- Current working gate: V38 Gate 1 Draft Opening.
 - Next queued gate after V37 promotion: V38 Gate 1 Draft Opening.
-- Latest closed version: V36 Exchange Depth, which promoted market-wide activity, intent/order contracts, rights-transfer review, pricing/liquidity/fee quotes, settlement reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging rehearsal, and V36 promotion readiness.
-- Recent V36 closure anchor: V36 Gate 10 Promotion Readiness generated V36 proof support, promoted `BITCODE_SPEC.txt` to `V36`, prepared V36 active / V37 draft runtime posture, and closed Exchange-depth canon.
+- Latest closed version: V37 Website Conversations, which promoted conversation sessions, route-local history, stream UI/event contracts, fullscreen writing, source selectors, Terminal handoff, persistence/privacy/redaction, telemetry/proof hooks, local/staging rehearsal, and V37 promotion readiness.
+- Recent V37 closure anchor: V37 Gate 10 Promotion Readiness generated V37 proof support, promoted `BITCODE_SPEC.txt` to `V37`, prepared V37 active / V38 draft runtime posture, and closed Website Conversations canon.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
 - V34 Gate 3 closure anchor: deployment-depth now owns package-backed `DistributedExecutionRuntimeReceipt` source, deterministic `.bitcode/v34-distributed-execution-runtime-receipts.json`, `request_response_not_required` long-running work posture, and source-safe roots for pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work.
 - V34 Gate 4 closure anchor: deployment-depth now owns package-backed `DeploymentStoragePosture` source, deterministic `.bitcode/v34-deployment-storage-posture.json`, ledger/database/object-storage drift repair fixtures, retention/encryption/backup/rollback/audit posture, and source-bearing AssetPack storage remains locked before settlement.
@@ -60,9 +60,9 @@ They are referenced here for specification history only; active implementation w
 ## Source Families
 
 - Legacy ENGI specifications: `_legacy/ENGI_SPEC_V1.md` through `_legacy/ENGI_SPEC_V25.md`, with companion `NOTES`, `DELTA`, `PARITY_MATRIX`, `SYSTEM_PARITY_MATRIX`, `PROVEN`, and audit files where present.
-- Active Bitcode specifications: `BITCODE_SPEC_V36.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V35.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Draft and future Bitcode specifications: `BITCODE_SPEC_V37.md`, `BITCODE_SPEC_V37_DELTA.md`, `BITCODE_SPEC_V37_NOTES.md`, `BITCODE_SPEC_V37_PARITY_MATRIX.md`, and later notes files.
+- Active Bitcode specifications: `BITCODE_SPEC_V37.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V36.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Draft and future Bitcode specifications: V38 draft family files once V38 Gate 1 opens, and later notes files.
 - Specification discipline references: `BITCODE_SPECIFYING.md` and `BITCODE_SPEC_TEMPLATEGUIDE.md`.
 
 ## Roadmap
