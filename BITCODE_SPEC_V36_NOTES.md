@@ -72,6 +72,19 @@ Gate 1 closes when:
 - gate-quality and canon-quality workflows understand V36 draft posture;
 - `check:v36-gate1` passes locally and in CI.
 
+## Gate 2 closure notes
+
+Gate 2 closes when `ExchangeActivityBook` is package-owned and generated
+through `.bitcode/v36-exchange-activity-book.json`.
+The generated artifact carries `source-safe-exchange-activity-book-metadata`,
+listing/bid/ask/cancellation/acceptance/settlement/repair/revenue route/history
+coverage, filter ids, detail sections, proof roots, event ids, source-safe
+principal references, ledger/database projection references, and redaction
+posture.
+The activity detail never exposes protected source or unpaid AssetPack content;
+it is a source-safe market row and detail contract for later Exchange UI and API
+consumers.
+
 ## Accepted boundaries
 
 - V36 owns deeper Exchange.

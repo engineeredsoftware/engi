@@ -26,6 +26,7 @@ Current exported commercial helpers include:
 - `TestnetRolloutReadinessGuide` helpers for V35 contributor, operator, enterprise reader, depositor, interface consumer, lane, settlement caveat, blocker, and rehearsal rollout proof;
 - `TelemetryDocumentationInterfaceIntegration` helpers for V35 Terminal, Auxillaries, API, MCP API, ChatGPT App, package README, internal docs, and public docs event/proof/docs/runbook/redaction proof;
 - `LocalStagingTelemetryDocumentationRehearsal` helpers for V35 local/staging-testnet documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root review, redacted screenshot/log roots, and blocked value-bearing mainnet proof;
+- `ExchangeActivityBook` helpers for V36 market-wide activity rows, filters, detail sections, proof roots, event ids, redaction posture, and ledger/database projection references;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -34,10 +35,13 @@ by V35 Gate 10 and opened by V36 Gate 1.
 V36 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
 must remain aligned to `V35` active, `V36` draft while V36 gates are in flight.
-V36 Gate 1 opens the Exchange-depth spec family and `check:v36-gate1` before
-later gates add package-owned Exchange activity, intent/order, rights-transfer,
-pricing, settlement, dispute/repair/revenue, UX, rehearsal, and promotion
-readiness helpers.
+V36 Gate 1 opens the Exchange-depth spec family and `check:v36-gate1`.
+Gate 2 and later gates add package-owned Exchange activity, intent/order,
+rights-transfer, pricing, settlement, dispute/repair/revenue, UX, rehearsal,
+and promotion readiness helpers.
+V36 Gate 2 adds the source-safe Exchange activity book through
+`buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
+The activity detail never exposes protected source or unpaid AssetPack content.
 
 Historical promotion posture remains reproducible. V34 Gate 10 accepted the
 `V34` active, `V35` draft posture for deployment-depth promotion and remains

@@ -78,7 +78,9 @@ Closure acceptance:
 
 - `ExchangeActivityBook` owns market-wide activity rows, filters, detail payloads, proof roots, event ids, and redaction posture;
 - activity rows cover listings, bids, asks, cancellations, acceptances, settlements, repairs, revenue routes, and history entries;
-- activity detail never exposes protected source or unpaid AssetPack content.
+- activity detail never exposes protected source or unpaid AssetPack content;
+- `.bitcode/v36-exchange-activity-book.json` is generated from the package-owned builder with `source-safe-exchange-activity-book-metadata`;
+- `pnpm run check:v36-gate2` validates package source, artifact freshness, package tests, docs, workflow wiring, source-safety, proof roots, event ids, filters, details, and ledger/database projection posture.
 
 ### Gate 3: Buy Sell Bid Ask Cancel Accept Intent Contracts
 

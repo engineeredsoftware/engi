@@ -54,7 +54,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V36.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v36/gate-1-exchange-roadmap-opening` | drafted | V36 family validates in draft mode over active V35 and `check:v36-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V35 active, V36 draft, and coherent V37 responsibility. |
-| Exchange activity book | Gate 2 | `ExchangeActivityBook`, `.bitcode/v36-exchange-activity-book.json`, package source, tests, and `check:v36-gate2` | draft-required | Market-wide source-safe activity rows, filters, details, proof roots, and telemetry bindings exist. |
+| Exchange activity book | Gate 2 | `ExchangeActivityBook`, `.bitcode/v36-exchange-activity-book.json`, package source, tests, and `check:v36-gate2` | closed | Market-wide source-safe activity rows, filters, details, proof roots, event ids, redaction posture, and telemetry bindings exist. |
 | Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | draft-required | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed and authorized. |
 | Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | draft-required | BTD range identity, ownership, rights scope, disclosure boundary, and settlement unlock are source-safe. |
 | Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | draft-required | BTC price, measurement weight, measurement volume, liquidity, wrapper analysis, fee split, and quote root are deterministic. |
@@ -94,6 +94,19 @@ No `_legacy/` source is active source truth.
 | README reflects V35/V36 posture | `README.md` | drafted |
 | PR template reflects V36 gate titles | `.github/pull_request_template.md` | drafted |
 | V36 Gate 1 checker exists | `scripts/check-v36-gate1-exchange-roadmap-opening.mjs` and package script | drafted |
+
+## Gate 2 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeActivityBook` is package-owned | `packages/protocol/src/canonical/exchange-activity-book.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated activity artifact exists | `.bitcode/v36-exchange-activity-book.json`, `scripts/generate-v36-exchange-activity-book.mjs`, `pnpm run check:v36-exchange-activity-book` | closed |
+| Activity coverage is complete | listing, bid, ask, cancellation, acceptance, settlement, repair, revenue route, and history entry rows | closed |
+| Activity rows are source-safe | `source-safe-exchange-activity-book-metadata`; activity detail never exposes protected source or unpaid AssetPack content | closed |
+| Rows bind master-detail filters and detail sections | required filter ids and detail section ids in package source, generated artifact, and tests | closed |
+| Rows bind proof roots and event ids | deterministic row roots, detail roots, proof roots, event ids, and source evidence in generated artifact | closed |
+| Ledger/database projection posture is explicit | ledger references outrank database projection references in every row | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-activity-book.test.js`, `scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

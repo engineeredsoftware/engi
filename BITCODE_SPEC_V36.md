@@ -41,6 +41,26 @@ V36 adds Exchange contract objects over inherited V35 canon:
 V36 does not replace V35 telemetry/documentation contracts.
 It extends them so Exchange events, dashboards, public docs, operator runbooks, and incident paths derive from package-owned market contracts.
 
+## V36 Gate 2 ExchangeActivityBook canon
+
+Gate 2 implements `ExchangeActivityBook` as the package-owned source of market
+activity truth for Exchange master-detail surfaces.
+`ExchangeActivityBook` emits `.bitcode/v36-exchange-activity-book.json` with
+`source-safe-exchange-activity-book-metadata`, deterministic activity row roots,
+deterministic activity detail roots, required filter ids, event ids, proof
+roots, ledger/database projection references, and redaction posture.
+The activity detail never exposes protected source or unpaid AssetPack content;
+it only exposes source-safe activity identity, summaries, measurements, proof
+roots, rights and settlement posture, repair posture, revenue posture, and
+ledger/database projection references.
+
+The Gate 2 activity coverage is listing, bid, ask, cancellation, acceptance,
+settlement, repair, revenue route, and history entry.
+Each row binds an AssetPack id, BTD range id, source-safe principal references,
+event ids, proof-root fields, detail sections, and fail-closed conditions for
+missing proof roots, missing event ids, protected source visibility, unpaid
+AssetPack source visibility, and ledger/database projection drift.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.
@@ -486,7 +506,8 @@ V36 inherits operator quality, visual/accessibility/performance posture, project
 ### V36 specifying generated artifacts
 
 Gate 1 requires `.bitcode/v36-spec-family-report.json` and `.bitcode/v36-canonical-input-report.json` readiness.
-Later gates add Exchange generated artifacts only when their package-owned builders and tests exist.
+Gate 2 adds `.bitcode/v36-exchange-activity-book.json` from the package-owned `ExchangeActivityBook` builder and source-safe package tests.
+Later gates add the remaining Exchange generated artifacts only when their package-owned builders and tests exist.
 
 ### Shared generated-artifact fields
 
@@ -515,6 +536,7 @@ The system fails closed when generated artifacts are missing, stale, source-unsa
 V36 validation consists of:
 
 - `pnpm run check:v36-gate1`;
+- `pnpm run check:v36-gate2`;
 - `node scripts/check-bitcode-spec-family.mjs --version V36 --mode draft --current-target V35`;
 - `node scripts/check-bitcode-canonical-inputs.mjs --current-target V35`;
 - `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V35 --draft-target V36`;
