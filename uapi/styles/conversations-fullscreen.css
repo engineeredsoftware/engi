@@ -1228,28 +1228,46 @@
   background: rgba(4, 12, 23, 0.96);
 }
 
+.conversation-terminal-handoff {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-block: 1px solid rgba(125, 211, 252, 0.16);
+  background: rgba(4, 12, 23, 0.96);
+}
+
 .conversation-source-selector__header,
 .conversation-source-selector__main,
-.conversation-source-selector__preview > div:first-child {
+.conversation-source-selector__preview > div:first-child,
+.conversation-terminal-handoff__header,
+.conversation-terminal-handoff__main,
+.conversation-terminal-handoff__preview > div:first-child {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
 }
 
-.conversation-source-selector__title {
+.conversation-source-selector__title,
+.conversation-terminal-handoff__title {
   display: flex;
   align-items: center;
   min-width: 0;
   gap: 0.625rem;
 }
 
-.conversation-source-selector__title svg {
+.conversation-source-selector__title svg,
+.conversation-terminal-handoff__title svg {
   flex: 0 0 auto;
   color: #67feb7;
 }
 
-.conversation-source-selector__title h2 {
+.conversation-terminal-handoff__title svg {
+  color: #7dd3fc;
+}
+
+.conversation-source-selector__title h2,
+.conversation-terminal-handoff__title h2 {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 650;
@@ -1258,20 +1276,25 @@
 
 .conversation-source-selector__title p,
 .conversation-source-selector__preview p,
-.conversation-source-selector__status {
+.conversation-source-selector__status,
+.conversation-terminal-handoff__title p,
+.conversation-terminal-handoff__preview p,
+.conversation-terminal-handoff__status {
   margin: 0;
   font-size: 0.78rem;
   line-height: 1.35;
   color: rgba(218, 230, 236, 0.72);
 }
 
-.conversation-source-selector__actions {
+.conversation-source-selector__actions,
+.conversation-terminal-handoff__actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.conversation-source-selector__actions button {
+.conversation-source-selector__actions button,
+.conversation-terminal-handoff__actions button {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -1284,13 +1307,19 @@
   font-size: 0.78rem;
 }
 
-.conversation-source-selector label {
+.conversation-terminal-handoff__actions button {
+  border-color: rgba(125, 211, 252, 0.22);
+}
+
+.conversation-source-selector label,
+.conversation-terminal-handoff label {
   display: grid;
   gap: 0.25rem;
   min-width: 0;
 }
 
-.conversation-source-selector label span {
+.conversation-source-selector label span,
+.conversation-terminal-handoff label span {
   font-size: 0.68rem;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -1298,7 +1327,9 @@
 }
 
 .conversation-source-selector select,
-.conversation-source-selector input {
+.conversation-source-selector input,
+.conversation-terminal-handoff select,
+.conversation-terminal-handoff textarea {
   width: 100%;
   min-height: 2rem;
   border: 1px solid rgba(103, 254, 183, 0.16);
@@ -1309,10 +1340,26 @@
   font-size: 0.78rem;
 }
 
+.conversation-terminal-handoff select,
+.conversation-terminal-handoff textarea {
+  border-color: rgba(125, 211, 252, 0.18);
+}
+
+.conversation-terminal-handoff textarea {
+  min-height: 4.5rem;
+  resize: vertical;
+}
+
 .conversation-source-selector__main {
   align-items: end;
   display: grid;
   grid-template-columns: minmax(9rem, 0.32fr) minmax(0, 1fr);
+}
+
+.conversation-terminal-handoff__main {
+  align-items: end;
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.28fr) minmax(0, 1fr);
 }
 
 .conversation-source-selector__governance {
@@ -1321,7 +1368,8 @@
   gap: 0.5rem;
 }
 
-.conversation-source-selector__preview {
+.conversation-source-selector__preview,
+.conversation-terminal-handoff__preview {
   display: grid;
   gap: 0.5rem;
   padding: 0.75rem;
@@ -1330,7 +1378,12 @@
   background: rgba(7, 15, 26, 0.82);
 }
 
-.conversation-source-selector__preview [data-state] {
+.conversation-terminal-handoff__preview {
+  border-color: rgba(125, 211, 252, 0.14);
+}
+
+.conversation-source-selector__preview [data-state],
+.conversation-terminal-handoff__preview [data-state] {
   display: inline-flex;
   align-items: center;
   min-height: 1.5rem;
@@ -1342,36 +1395,47 @@
   background: #67feb7;
 }
 
-.conversation-source-selector__preview [data-state='denied'] {
+.conversation-terminal-handoff__preview [data-state] {
+  background: #7dd3fc;
+}
+
+.conversation-source-selector__preview [data-state='denied'],
+.conversation-terminal-handoff__preview [data-state='denied'] {
   background: #ff8f70;
 }
 
-.conversation-source-selector__preview [data-state='retry_required'] {
+.conversation-source-selector__preview [data-state='retry_required'],
+.conversation-terminal-handoff__preview [data-state='retry_required'] {
   background: #ffd66b;
 }
 
-.conversation-source-selector__preview strong {
+.conversation-source-selector__preview strong,
+.conversation-terminal-handoff__preview strong {
   color: rgba(255, 255, 255, 0.94);
   font-size: 0.86rem;
 }
 
-.conversation-source-selector__preview dl {
+.conversation-source-selector__preview dl,
+.conversation-terminal-handoff__preview dl {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.5rem;
   margin: 0;
 }
 
-.conversation-source-selector__preview dl div {
+.conversation-source-selector__preview dl div,
+.conversation-terminal-handoff__preview dl div {
   min-width: 0;
 }
 
-.conversation-source-selector__preview dt {
+.conversation-source-selector__preview dt,
+.conversation-terminal-handoff__preview dt {
   font-size: 0.68rem;
   color: rgba(163, 177, 184, 0.78);
 }
 
-.conversation-source-selector__preview dd {
+.conversation-source-selector__preview dd,
+.conversation-terminal-handoff__preview dd {
   margin: 0.125rem 0 0;
   overflow-wrap: anywhere;
   font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
@@ -1385,11 +1449,14 @@
   }
 
   .conversation-source-selector__preview dl,
-  .conversation-source-selector__main {
+  .conversation-source-selector__main,
+  .conversation-terminal-handoff__preview dl,
+  .conversation-terminal-handoff__main {
     grid-template-columns: 1fr;
   }
 
-  .conversation-source-selector__header {
+  .conversation-source-selector__header,
+  .conversation-terminal-handoff__header {
     align-items: stretch;
     flex-direction: column;
   }

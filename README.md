@@ -45,6 +45,20 @@ Need feedback, AssetPack review note, and Terminal handoff summary modes plus
 save, restore, summarize, and handoff actions. Draft recovery is route-local;
 emitted summaries and handoff messages are redacted source-safe metadata and
 do not claim Terminal, wallet, settlement, or ledger authority.
+V37 Gate 5 anchors `ConversationSourceSelector` context policy through the
+package-owned source-safe generated artifact
+`.bitcode/v37-conversation-source-selector.json`, including repository,
+branch, commit, deposit, BTD range, AssetPack preview, document, and prior
+conversation selectors governed by account, organization, wallet, rights,
+settlement, disclosure, and policy posture.
+V37 Gate 6 anchors `ConversationTerminalHandoff` transaction handoff through
+the package-owned source-safe generated artifact
+`.bitcode/v37-conversation-terminal-handoff.json`, including Depositing,
+Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows.
+Conversation handoff preserves transaction id, repository anchor, source
+selector refs, source-safe summary, policy result, Terminal route, transaction
+detail, proof roots, and event ids while Terminal remains the ledger, wallet,
+settlement, and delivery cockpit.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

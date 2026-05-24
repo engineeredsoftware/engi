@@ -38,6 +38,7 @@ Current exported commercial helpers include:
 - `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
 - `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
 - `ConversationSourceSelector` helpers for V37 repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors governed by account, organization, wallet, rights, settlement, disclosure, and policy posture with allowed, denied, and retry-required source-safe preview states;
+- `ConversationTerminalHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -73,8 +74,14 @@ contracts through `buildConversationSourceSelector` and
 covers repository, branch, commit, deposit, BTD range, AssetPack preview,
 document, and prior conversation selectors with account, organization, wallet,
 rights, settlement, disclosure, and policy governance while keeping protected
-source and unpaid AssetPack source outside Conversations. Later gates add
-package-owned Conversations Terminal handoff, persistence/privacy,
+source and unpaid AssetPack source outside Conversations.
+V37 Gate 6 adds source-safe `ConversationTerminalHandoff` transaction handoff
+contracts through `buildConversationTerminalHandoff` and
+`.bitcode/v37-conversation-terminal-handoff.json`. The handoff artifact covers
+Depositing, Reading, Finding Fits, Exchange, settlement, and delivery
+workflows while preserving route context and keeping ledger writes, wallet
+signing, protected source, and unpaid AssetPack source outside Conversations.
+Later gates add package-owned Conversations persistence/privacy,
 telemetry/proof/docs, rehearsal, and promotion readiness helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.

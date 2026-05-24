@@ -32,7 +32,8 @@ presenting them as part of Terminal itself.
 - `TerminalTransactionWorkspace.tsx`
   Main Terminal activity and selected-result shell.
 - `terminal-transaction-query.ts`
-  Route-owned filter, paging, and selected-activity state.
+  Route-owned filter, paging, selected-activity state, and source-safe
+  ConversationTerminalHandoff context parsing.
 - `terminal-transaction-read-model.ts`
   Typed selected-transaction projection for recoverable route hrefs, low-detail
   operator summary, detail-section availability, and expandable audit posture
@@ -68,6 +69,22 @@ MVP checkpoint confidence requires `/terminal` to be:
 
 No compatibility route should be added for this surface. Route continuity must
 come from current Terminal URLs and current product navigation.
+
+## V37 ConversationTerminalHandoff route context
+
+Website Conversations may open `/terminal` with `conversationHandoff=1` when
+the payload is a source-safe `ConversationTerminalHandoff` envelope. Terminal
+route context may include conversation id, transaction id, handoff workflow,
+policy result, proof root, repository anchor, source selector refs,
+source-safe summary, and selected transaction detail. Terminal displays that
+context as operator posture only; it does not treat Conversations as ledger,
+wallet, settlement, Exchange, delivery, or BTD ownership authority.
+
+The handoff route must not carry protected source, raw protected prompts,
+protected model responses with source, provider tokens, wallet private
+material, settlement private payloads, unpaid AssetPack source, ledger write
+authority, wallet signing authority, or Terminal authority bypass. Gate 6 is
+checked by `pnpm run check:v37-gate6`.
 
 ## Live staging-testnet QA
 

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft implementation; Gate 5 closes ConversationSourceSelector source selection and context policy over active V36 Exchange canon
+- V37 state: draft implementation; Gate 6 closes ConversationTerminalHandoff transaction handoff over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, and `.bitcode/v37-conversation-source-selector.json`
-- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, and Gate 5 package-owned ConversationSourceSelector source/context policy contracts
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, and `.bitcode/v37-conversation-terminal-handoff.json`
+- Source parity state: V37 source parity includes Gate 1 spec family, roadmap, docs, workflow, and checker posture, Gate 2 package-owned ConversationSession route-history contracts, Gate 3 package-owned ConversationStreamEvent stream UI/event contracts, Gate 4 package-owned ConversationWritingWorkspace fullscreen writing contracts, Gate 5 package-owned ConversationSourceSelector source/context policy contracts, and Gate 6 package-owned ConversationTerminalHandoff transaction handoff contracts
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V37_DELTA.md`
@@ -157,6 +157,37 @@ or BTD source visibility remains governed by rights transfer and settlement.
 package tests, UI tests, docs, workflow wiring, selector kind coverage,
 governance coverage, allowed/denied/retry preview states, rights and
 settlement posture, proof roots, event ids, and source-safe preview metadata.
+
+## V37 Gate 6 ConversationTerminalHandoff canon
+
+Gate 6 implements `ConversationTerminalHandoff` as the package-owned
+transaction handoff contract from Website Conversations into the Bitcode
+Terminal. It owns source-safe handoff envelopes for Depositing, Reading,
+Finding Fits, Exchange, settlement, and delivery workflows. It emits
+`.bitcode/v37-conversation-terminal-handoff.json` with
+`source-safe-conversation-terminal-handoff-metadata`, deterministic row roots,
+deterministic detail roots, workflow ids, field ids, authority boundary ids,
+policy states, proof roots, event ids, source evidence roots, and source-safe
+disclosure limits.
+
+Conversation handoff is not execution. Conversations may prepare source-safe
+transaction intent, preserve a route-local conversation id, selected
+transaction id, repository anchor, source selector summaries, a user-readable
+summary, policy result, proof root, and Terminal detail focus. The Terminal
+remains the transaction cockpit and the only website surface that may proceed
+into ledger, wallet, settlement, Exchange, delivery, and BTD ownership actions.
+Conversation handoff payloads must not expose protected source, raw protected
+prompts, protected model responses with source, provider tokens, wallet
+private material, settlement private payloads, unpaid AssetPack source, ledger
+write authority, wallet signing authority, or a Terminal authority bypass.
+
+The Terminal route reads `conversationHandoff=1` context as source-safe
+operator context. It may display the workflow, policy state, proof root,
+repository anchor, source selector count, and handoff summary before the
+operator chooses any Terminal action. `check:v37-gate6` validates package
+source, generated artifact freshness, package tests, UI tests, Terminal route
+tests, docs, workflow wiring, workflow coverage, authority boundaries,
+proof roots, event ids, and source-safe handoff metadata.
 
 ## Inherited V36 Exchange canon
 

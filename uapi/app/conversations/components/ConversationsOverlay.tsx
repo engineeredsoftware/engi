@@ -39,7 +39,8 @@ import {
   CodeIcon, 
   FileTextIcon, 
   ChatBubbleIcon, 
-  MagnifyingGlassIcon 
+  MagnifyingGlassIcon,
+  Share1Icon
 } from "@radix-ui/react-icons";
 
 // Styles
@@ -68,6 +69,7 @@ import { ThinkingLog } from './ConversationsThinkingLog';
 import { FloatingOrb } from './ConversationsFloatingOrb';
 import FullscreenPortal from './ConversationsFullscreenPortal';
 import ConversationSourceSelector from './ConversationSourceSelector';
+import ConversationTerminalHandoff from './ConversationTerminalHandoff';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
@@ -307,6 +309,7 @@ const Conversation = memo(function Conversation({
   const [lastInputForRetry, setLastInputForRetry] = useState<{message: string; tokens: StreamToken[]} | null>(null);
   const [showSourceSelector, setShowSourceSelector] = useState(false);
   const [conversationSourcePreview, setConversationSourcePreview] = useState<ConversationSourceSelectorPreview | null>(null);
+  const [showTerminalHandoff, setShowTerminalHandoff] = useState(false);
   const [showWritingWorkspace, setShowWritingWorkspace] = useState(false);
   const [writingWorkspaceMode] = useState<ConversationWritingWorkspaceMode>('read_request');
   
@@ -917,6 +920,14 @@ const Conversation = memo(function Conversation({
               >
                 <MagnifyingGlassIcon />
               </button>
+              <button
+                className="fullscreen-button"
+                title={showTerminalHandoff ? 'Hide Terminal Handoff' : 'Open Terminal Handoff'}
+                aria-pressed={showTerminalHandoff}
+                onClick={() => setShowTerminalHandoff((prev) => !prev)}
+              >
+                <Share1Icon />
+              </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
                   const newChat = {
@@ -952,6 +963,15 @@ const Conversation = memo(function Conversation({
             Source context: {conversationSourcePreview.label} · {conversationSourcePreview.previewState.replace('_', ' ')} ·{' '}
             {conversationSourcePreview.sourceSafeRefSummary}
           </div>
+        )}
+
+        {showTerminalHandoff && (
+          <ConversationTerminalHandoff
+            conversationId={currentChat?.id}
+            transactionId={activeRunId}
+            repositoryAnchor={currentSource?.repoSlug || null}
+            sourcePreview={conversationSourcePreview}
+          />
         )}
 
         {showWritingWorkspace && (
