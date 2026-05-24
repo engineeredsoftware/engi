@@ -102,7 +102,8 @@
         "DocumentationSurfaceCatalog",
         "TelemetryTaxonomyCatalog",
         "PublicDocsUsageGuideCatalog",
-        "OperatorRunbookCatalog"
+        "OperatorRunbookCatalog",
+        "TestnetRolloutReadinessGuide"
       ],
       "generatedArtifacts": [],
       "repairCommand": "edit V35 SPEC, DELTA, NOTES, and PARITY together, then rerun pnpm run check:v35-gate6",
@@ -129,7 +130,8 @@
         "DocumentationSurfaceCatalog",
         "TelemetryTaxonomyCatalog",
         "PublicDocsUsageGuideCatalog",
-        "OperatorRunbookCatalog"
+        "OperatorRunbookCatalog",
+        "TestnetRolloutReadinessGuide"
       ],
       "missingTokens": [],
       "missingGeneratedArtifacts": [],
@@ -144,7 +146,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:d4dcf8c279203a98684bfe60"
+      "alignmentRoot": "docs-qa-alignment-row:996950c949cdd4b355211f85"
     },
     {
       "alignmentId": "roadmap_readme_alignment",
@@ -158,8 +160,10 @@
       "expectedTokens": [
         "V35 Gate 5 closure anchor",
         "V35 Gate 6 closure anchor",
+        "V35 Gate 7 closure anchor",
         "OperatorRunbookCatalog",
-        "DocsQaAlignmentReport"
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
       ],
       "generatedArtifacts": [],
       "repairCommand": "refresh roadmap and README posture after gate closure and rerun pnpm run check:v35-gate6",
@@ -180,8 +184,10 @@
       "observedTokens": [
         "V35 Gate 5 closure anchor",
         "V35 Gate 6 closure anchor",
+        "V35 Gate 7 closure anchor",
         "OperatorRunbookCatalog",
-        "DocsQaAlignmentReport"
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
       ],
       "missingTokens": [],
       "missingGeneratedArtifacts": [],
@@ -196,7 +202,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:c97c10f49f42c01009087b4c"
+      "alignmentRoot": "docs-qa-alignment-row:eedc5ad852aebbee46fe9810"
     },
     {
       "alignmentId": "generated_artifact_inventory_alignment",
@@ -209,14 +215,18 @@
         ".bitcode/v35-documentation-surface-catalog.json",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         ".bitcode/v35-public-docs-usage-guides.json",
-        ".bitcode/v35-operator-runbook-catalog.json"
+        ".bitcode/v35-operator-runbook-catalog.json",
+        ".bitcode/v35-docs-qa-alignment-report.json",
+        ".bitcode/v35-testnet-rollout-readiness-guide.json"
       ],
       "expectedTokens": [
         ".bitcode/v35-docs-qa-alignment-report.json",
+        ".bitcode/v35-testnet-rollout-readiness-guide.json",
         ".bitcode/v35-documentation-surface-catalog.json",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
+        "check:v35-gate7",
         "check:v35-gate6"
       ],
       "generatedArtifacts": [
@@ -224,7 +234,8 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
-        ".bitcode/v35-docs-qa-alignment-report.json"
+        ".bitcode/v35-docs-qa-alignment-report.json",
+        ".bitcode/v35-testnet-rollout-readiness-guide.json"
       ],
       "repairCommand": "regenerate stale V35 artifacts and rerun pnpm run check:v35-gate6",
       "sourceEvidence": [
@@ -255,14 +266,24 @@
         {
           "sourceRoot": ".bitcode/v35-operator-runbook-catalog.json",
           "present": true
+        },
+        {
+          "sourceRoot": ".bitcode/v35-docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".bitcode/v35-testnet-rollout-readiness-guide.json",
+          "present": true
         }
       ],
       "observedTokens": [
         ".bitcode/v35-docs-qa-alignment-report.json",
+        ".bitcode/v35-testnet-rollout-readiness-guide.json",
         ".bitcode/v35-documentation-surface-catalog.json",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
+        "check:v35-gate7",
         "check:v35-gate6"
       ],
       "missingTokens": [],
@@ -278,7 +299,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:d8002ce6c71e1a38c74cf32c"
+      "alignmentRoot": "docs-qa-alignment-row:6b2a9786f30376e28a8e091b"
     },
     {
       "alignmentId": "catalog_implementation_alignment",
@@ -289,6 +310,7 @@
         "packages/protocol/src/canonical/telemetry-taxonomy-catalog.js",
         "packages/protocol/src/canonical/public-docs-usage-guide-catalog.js",
         "packages/protocol/src/canonical/operator-runbook-catalog.js",
+        "packages/protocol/src/canonical/testnet-rollout-readiness-guide.js",
         "packages/protocol/src/index.js",
         "packages/protocol/src/index.d.ts"
       ],
@@ -297,6 +319,7 @@
         "buildTelemetryTaxonomyCatalog",
         "buildPublicDocsUsageGuideCatalog",
         "buildOperatorRunbookCatalog",
+        "buildTestnetRolloutReadinessGuide",
         "source-safe"
       ],
       "generatedArtifacts": [],
@@ -319,6 +342,10 @@
           "present": true
         },
         {
+          "sourceRoot": "packages/protocol/src/canonical/testnet-rollout-readiness-guide.js",
+          "present": true
+        },
+        {
           "sourceRoot": "packages/protocol/src/index.js",
           "present": true
         },
@@ -332,6 +359,7 @@
         "buildTelemetryTaxonomyCatalog",
         "buildPublicDocsUsageGuideCatalog",
         "buildOperatorRunbookCatalog",
+        "buildTestnetRolloutReadinessGuide",
         "source-safe"
       ],
       "missingTokens": [],
@@ -347,7 +375,7 @@
       ],
       "validationCommand": "pnpm run check:v35-gate6",
       "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
-      "alignmentRoot": "docs-qa-alignment-row:c121f2ec14da422b2e77870c"
+      "alignmentRoot": "docs-qa-alignment-row:0c91b599fee0ba467b340392"
     },
     {
       "alignmentId": "public_docs_disclosure_alignment",
@@ -782,6 +810,14 @@
         {
           "sourceRoot": ".bitcode/v35-operator-runbook-catalog.json",
           "present": true
+        },
+        {
+          "sourceRoot": ".bitcode/v35-docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".bitcode/v35-testnet-rollout-readiness-guide.json",
+          "present": true
         }
       ]
     },
@@ -803,6 +839,10 @@
         },
         {
           "sourceRoot": "packages/protocol/src/canonical/operator-runbook-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/protocol/src/canonical/testnet-rollout-readiness-guide.js",
           "present": true
         },
         {
@@ -948,5 +988,5 @@
       ]
     }
   ],
-  "artifactRoot": "docs-qa-alignment-report:2379d8f8cd23ea43ae1fae20"
+  "artifactRoot": "docs-qa-alignment-report:74883e145a97cce4bf4b6641"
 }

@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, source-safe `.bitcode/v35-public-docs-usage-guides.json`, source-safe `.bitcode/v35-operator-runbook-catalog.json`, source-safe `.bitcode/v35-docs-qa-alignment-report.json`, source-safe `.bitcode/v35-testnet-rollout-readiness-guide.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, public docs usage, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -155,6 +155,9 @@ Closure acceptance:
 - `TestnetRolloutReadinessGuide` covers contributor onboarding, local development, operator use, enterprise reader flows, depositor flows, interface consumers, environment lanes, wallet/settlement caveats, known blockers, and rehearsal evidence;
 - guides distinguish local, staging-testnet, public testnet, mainnet-ready dry run, and blocked value-bearing mainnet posture;
 - guide examples are source-safe and reproducible.
+- `TestnetRolloutReadinessGuide` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-testnet-rollout-readiness-guide.json` with `source-safe-rollout-guide-metadata`, and checked by `pnpm run check:v35-gate7`;
+- rows cover contributor onboarding, local development, operator use, enterprise reader flow, depositor flow, interface consumer flow, environment lane posture, wallet/settlement caveats, known blockers, and rehearsal evidence;
+- rollout guide payloads allow lane ids, guide ids, validation commands, proof roots, dashboard panel ids, runbook ids, redacted failure classes, public docs slugs, source-safe examples, known blocker names, and rehearsal evidence paths while blocking secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, buyer repository private data, raw protected model responses, and unpaid AssetPack source.
 
 ### Gate 8: Telemetry Documentation Interface Integration
 

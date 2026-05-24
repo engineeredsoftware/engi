@@ -39,6 +39,12 @@ V35 Gate 6 now anchors documentation QA through the package-owned
 `.bitcode/v35-docs-qa-alignment-report.json`, failing closed on stale tokens,
 missing source roots, missing generated artifacts, unsupported disclosure
 claims, or docs/proof/workflow drift.
+V35 Gate 7 now anchors rollout guidance through the package-owned
+`TestnetRolloutReadinessGuide` and the source-safe generated artifact
+`.bitcode/v35-testnet-rollout-readiness-guide.json`, covering contributors,
+local development, operators, enterprise readers, depositors, interface
+consumers, environment lanes, wallet/settlement caveats, known blockers, and
+rehearsal evidence while keeping value-bearing mainnet visible and blocked.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration

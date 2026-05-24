@@ -63,6 +63,17 @@ export {
   buildDocsQaAlignmentReport
 } from './canonical/docs-qa-alignment-report.js';
 export {
+  TESTNET_ROLLOUT_GUIDE_IDS,
+  TESTNET_ROLLOUT_LANE_IDS,
+  TESTNET_ROLLOUT_READINESS_GUIDE_ARTIFACT_PATH,
+  TESTNET_ROLLOUT_READINESS_GUIDE_CURRENT_TARGET,
+  TESTNET_ROLLOUT_READINESS_GUIDE_SCHEMA_ID,
+  TESTNET_ROLLOUT_READINESS_GUIDE_VERSION,
+  TESTNET_ROLLOUT_READINESS_ROWS,
+  TESTNET_ROLLOUT_READINESS_SOURCE_SAFETY_VERDICT,
+  buildTestnetRolloutReadinessGuide
+} from './canonical/testnet-rollout-readiness-guide.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

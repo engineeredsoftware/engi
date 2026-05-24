@@ -2,6 +2,21 @@
 
 See `internal-docs/BITCODE_CONNECTED_SERVICES.md` for connected-service notes. This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
 
+## V35 Testnet Rollout Readiness
+
+V35 Gate 7 adds `TestnetRolloutReadinessGuide` as the package-owned source of
+truth for source-safe rollout guidance. Generate it with
+`pnpm run generate:v35-testnet-rollout-readiness-guide` and validate it with
+`pnpm run check:v35-gate7`.
+
+The guide distinguishes local, staging-testnet, public testnet,
+mainnet-ready dry run, and visible blocked value-bearing mainnet posture. It
+covers contributor onboarding, local development, operator use, enterprise
+reader flows, depositor flows, interface consumers, environment lanes,
+wallet/settlement caveats, known blockers, and rehearsal evidence without
+including secret values, wallet private material, protected source, raw
+protected prompts, or unpaid AssetPack source.
+
 ## Case Sensitivity (Linux/Vercel) and Casing Fix Scripts
 
 Linux (and Vercel) run on case-sensitive filesystems. macOS defaults to case-insensitive, which can hide casing problems in filenames and import paths. To avoid CI/deploy breakage:
