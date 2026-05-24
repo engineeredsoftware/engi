@@ -109,6 +109,7 @@ const PUBLIC_DISCLOSURE_LIMIT_SECTION = {
   points: [
     'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, dashboard/runbook ids, redacted incident posture, and fee/right boundaries.',
     'Blocked: secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.',
+    'Docs QA fails closed when public docs, internal docs, route docs, interface docs, generated artifacts, proof posture, or workflow checks drift.',
     'Deferred boundaries stay explicit: V35 documents Exchange and Conversations usage while deeper product depth remains future-canon work.',
   ],
 } as const satisfies DocsGuideCard;

@@ -53,6 +53,16 @@ export {
   buildOperatorRunbookCatalog
 } from './canonical/operator-runbook-catalog.js';
 export {
+  DOCS_QA_ALIGNMENT_IDS,
+  DOCS_QA_ALIGNMENT_REPORT_ARTIFACT_PATH,
+  DOCS_QA_ALIGNMENT_REPORT_CURRENT_TARGET,
+  DOCS_QA_ALIGNMENT_REPORT_SCHEMA_ID,
+  DOCS_QA_ALIGNMENT_REPORT_VERSION,
+  DOCS_QA_ALIGNMENT_ROWS,
+  DOCS_QA_ALIGNMENT_SOURCE_SAFETY_VERDICT,
+  buildDocsQaAlignmentReport
+} from './canonical/docs-qa-alignment-report.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

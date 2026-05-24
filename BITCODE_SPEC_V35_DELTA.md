@@ -142,6 +142,9 @@ Closure acceptance:
 - `DocsQaAlignmentReport` checks code, SPEC, DELTA, NOTES, PARITY, generated proof, generated artifacts, public docs, internal docs, route docs, and interface docs;
 - stale tokens, missing source roots, missing generated artifacts, and unsupported disclosure claims fail closed;
 - package scripts and workflows run the docs QA checks.
+- `DocsQaAlignmentReport` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-docs-qa-alignment-report.json` with `source-safe-docs-qa-metadata`, and checked by `pnpm run check:v35-gate6`;
+- rows cover spec family, roadmap/README, generated artifact inventory, package catalog implementations, public docs disclosure, internal docs, route docs, interface docs, generated proof appendix posture, and workflow/checker wiring;
+- docs QA payloads allow file paths, expected token names, observed token names, missing token names, generated artifact paths, proof roots, and failure codes while blocking secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.
 
 ### Gate 7: Developer Operator Testnet Rollout Guides
 

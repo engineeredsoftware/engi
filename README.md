@@ -34,6 +34,11 @@ V35 Gate 5 now anchors operator action through the package-owned
 dashboard panels, alerts, runbooks, incident classes, escalation paths,
 commands, proof roots, repair references, and post-incident documentation
 updates.
+V35 Gate 6 now anchors documentation QA through the package-owned
+`DocsQaAlignmentReport` and the source-safe generated artifact
+`.bitcode/v35-docs-qa-alignment-report.json`, failing closed on stale tokens,
+missing source roots, missing generated artifacts, unsupported disclosure
+claims, or docs/proof/workflow drift.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration
