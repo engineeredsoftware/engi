@@ -96,6 +96,9 @@ The artifact has `source-safe-prompt-benchmark-metadata` disclosure posture and 
 
 Gate 5 binds inference execution to source-safe telemetry.
 It must stream phase, agent, step, Failsafe, ThricifiedGeneration, tool, prompt-template, interpolated-prompt, raw-response, parsed-output, schema-verdict, retry, repair, and failure evidence at the correct disclosure tier without leaking protected source, credentials, unpaid AssetPack contents, wallet private material, or settlement private payloads.
+Gate 5 is closed by the package-backed `V38InferenceTelemetryDisclosureReport` source and deterministic `.bitcode/v38-disclosure-boundary-report.json` artifact.
+The artifact has `source-safe-inference-telemetry-disclosure-metadata` disclosure posture and records 8 telemetry/disclosure rows, 13 required telemetry levels, 12 disclosure tier ids, 66 passed source predicates, and upstream proof roots for V35 telemetry taxonomy, V37 stream events, V38 inference inventory, V38 PTRR/Failsafe/Thricified stack, and V38 prompt benchmarking.
+The raw provider response boundary is private or root-only: public and reader-visible streams may show raw-response presence, roots, typed output shape, schema verdicts, retry/repair posture, and prompt/template identities, but never raw provider response content, raw protected prompt text, protected source, unpaid AssetPack source, credentials, wallet private material, or private settlement payloads.
 
 ### Gate 6: ReadNeedComprehensionSynthesis Inference Hardening
 
@@ -417,7 +420,7 @@ Generated canon for V38 includes source-safe `.bitcode/v38-*` artifacts, generat
 Generated artifacts must be reproducible, deterministic where possible, and blocked when source-safe payload rules fail.
 Inherited V19 reproducible-canon artifacts remain the baseline for deterministic generated proof.
 Inherited V20 operator-quality artifacts remain the baseline for operator-visible quality.
-Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, and later `.bitcode/v38-*` gate artifacts.
+Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, and later `.bitcode/v38-*` gate artifacts.
 V38 specifying generated artifacts include inference inventory, prompt benchmark, telemetry disclosure, depository search, AssetPack handoff, rehearsal, and promotion readiness reports.
 Shared generated-artifact fields: version, currentTarget, artifactRoot, sourceRoots, proofRoots, disclosureTier, generatedAt, and command.
 Artifact-specific generated payload fields: prompt ids, PromptPart ids, phase ids, agent ids, step ids, Failsafe ids, ThricifiedGeneration ids, tool ids, fit ids, ranking roots, and settlement roots.
@@ -425,7 +428,7 @@ Artifact confidentiality and disclosability taxonomy: public, source-safe, buyer
 
 ## validation canon
 
-Validation canon includes `pnpm run check:v38-gate1`, `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`, later V38 gate checks, `node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37`, `node scripts/check-bitcode-canonical-inputs.mjs --current-target V37`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38`, package tests, route tests, UI tests, prompt benchmark checks, telemetry redaction checks, and local/staging rehearsal checks.
+Validation canon includes `pnpm run check:v38-gate1`, `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`, `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`, later V38 gate checks, `node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37`, `node scripts/check-bitcode-canonical-inputs.mjs --current-target V37`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38`, package tests, route tests, UI tests, prompt benchmark checks, telemetry redaction checks, and local/staging rehearsal checks.
 
 ## promotion canon
 
@@ -489,6 +492,13 @@ Its current source-predicate contract is 69/69 passed predicates, 9 rows, 52 PTR
 ### V38 specifying generated artifacts
 
 V38 specifying generated artifacts include inference inventory, prompt benchmark, telemetry disclosure, depository search, AssetPack handoff, rehearsal, and promotion readiness reports.
+
+### V38InferenceTelemetryDisclosureReport
+
+`V38InferenceTelemetryDisclosureReport` is the Gate 5 source-safe inference telemetry and disclosure tier contract.
+It is generated to `.bitcode/v38-disclosure-boundary-report.json` as `source-safe-inference-telemetry-disclosure-metadata`.
+It binds phase, agent, PTRR step, Failsafe, ThricifiedGeneration, tool, prompt template, interpolated prompt, raw response, parsed output, schema verdict, retry, repair, and stream UI projection rows to allowed payload fields, forbidden payload classes, proof roots, storage targets, stream event kinds, fail-closed states, and source predicates.
+Its current count contract is 8 rows, 13 required telemetry levels, 12 disclosure tier ids, 66 passed predicates, no legacy source roots, and no public raw provider response, protected source, credential, wallet private material, private settlement payload, or unpaid AssetPack source visibility.
 
 ### Shared generated-artifact fields
 

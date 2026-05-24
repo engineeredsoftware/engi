@@ -171,6 +171,14 @@ The artifact deliberately stores prompt identities, source-safe fixture ids, typ
 The current generated report covers 7 benchmark rows, 13 fixtures, 24 typed-output quality expectations, 38 source predicates, 443 active PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions.
 Later V38 gates must use this report when streaming inference telemetry, hardening the two Reading pipelines, and applying Conversation/tool-prompt parity.
 
+## Gate 5 implementation notes
+
+Gate 5 closes the first source-safe inference telemetry and disclosure-tier contract by making the disclosure boundary package-backed, generated, tested, and workflow-checkable.
+`V38InferenceTelemetryDisclosureReport` and `.bitcode/v38-disclosure-boundary-report.json` record pipeline phase lifecycle, PTRR agent step lifecycle, FailsafeGenerationSequence lifecycle, ThricifiedGeneration lifecycle, tool execution lifecycle, prompt template interpolation, raw response to parsed output schema, and stream UI/storage projection rows as `source-safe-inference-telemetry-disclosure-metadata`.
+The artifact deliberately stores telemetry level ids, disclosure tier ids, source roots, proof roots, source predicate ids, allowed payload fields, forbidden payload classes, and fail-closed states rather than raw provider response content or raw protected prompt text.
+The current generated report covers 8 rows, 13 required telemetry levels, 12 disclosure tier ids, 66 source predicates, V35 telemetry taxonomy roots, V37 stream event roots, V38 inference inventory roots, V38 PTRR/Failsafe/Thricified stack roots, and V38 prompt benchmark roots.
+Prompt template identity, interpolated prompt presence, raw response presence, parsed typed output shape, schema verdicts, retry, repair, and inference audit shapes can stream at their disclosure tiers; protected source, unpaid AssetPack source, raw provider response content, credentials, private wallet material, and private settlement payloads remain blocked or private.
+
 ## V38 gate plan
 
 - Gate 1: V38 Inference Stack Roadmap And Spec Opening
