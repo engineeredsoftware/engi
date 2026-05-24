@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V34`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
+- Generated structured artifact inventory: draft `.bitcode/v35-spec-family-report.json`, draft `.bitcode/v35-canonical-input-report.json`, source-safe `.bitcode/v35-documentation-surface-catalog.json`, source-safe `.bitcode/v35-telemetry-taxonomy-catalog.json`, future source-safe V35 telemetry/documentation artifacts, and `BITCODE_SPEC_V35_PROVEN.md` only after V35 promotion
 - Source parity state: V35 opens source parity for telemetry taxonomy, documentation surfaces, dashboard/runbook, documentation QA, onboarding, integration, rehearsal, and promotion-readiness gates
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -98,6 +98,15 @@ Closure acceptance:
 - pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion events are cataloged;
 - every event names redaction posture, source-safety class, correlation ids, proof root, storage target, dashboard panel, alert threshold, and runbook link;
 - event payloads fail closed on secrets, protected source, raw unpaid AssetPack source, and wallet private material.
+
+Gate 3 closure implementation:
+
+- `@bitcode/protocol` exports `TelemetryTaxonomyCatalog` support through `buildTelemetryTaxonomyCatalog`;
+- `.bitcode/v35-telemetry-taxonomy-catalog.json` records fourteen source-safe telemetry rows under `source-safe-telemetry-taxonomy-metadata`;
+- the catalog covers pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion event families;
+- every row binds redaction posture, source-safety class, correlation ids, proof root fields, storage target, dashboard panel, alert threshold, runbook link, source roots, replay expectation, forbidden payload classes, and deterministic row root;
+- `pnpm run check:v35-telemetry-taxonomy-catalog` verifies artifact freshness, source roots, event-family coverage, and source-safe redaction posture;
+- `pnpm run check:v35-gate3` verifies package source, generated artifact, package tests, workflows, docs, parity, roadmap advancement, and generated artifact profile binding.
 
 ### Gate 4: Public Docs Usage Guides
 

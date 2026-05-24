@@ -23,6 +23,16 @@ export {
   buildDocumentationSurfaceCatalog
 } from './canonical/documentation-surface-catalog.js';
 export {
+  TELEMETRY_EVENT_FAMILIES,
+  TELEMETRY_TAXONOMY_CATALOG_ARTIFACT_PATH,
+  TELEMETRY_TAXONOMY_CATALOG_CURRENT_TARGET,
+  TELEMETRY_TAXONOMY_CATALOG_SCHEMA_ID,
+  TELEMETRY_TAXONOMY_CATALOG_VERSION,
+  TELEMETRY_TAXONOMY_ROWS,
+  TELEMETRY_TAXONOMY_SOURCE_SAFETY_VERDICT,
+  buildTelemetryTaxonomyCatalog
+} from './canonical/telemetry-taxonomy-catalog.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

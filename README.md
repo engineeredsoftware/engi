@@ -20,6 +20,9 @@ onboarding, operator guides, and testnet-rollout readiness.
 V35 Gate 2 now anchors documentation surfaces through the package-owned
 `DocumentationSurfaceCatalog` and the source-safe generated artifact
 `.bitcode/v35-documentation-surface-catalog.json`.
+V35 Gate 3 now anchors telemetry event families through the package-owned
+`TelemetryTaxonomyCatalog` and the source-safe generated artifact
+`.bitcode/v35-telemetry-taxonomy-catalog.json`.
 
 The protocol demonstration remains the minimal deterministic reference for the
 same protocol. Commercial code may mount or compare against demonstration
