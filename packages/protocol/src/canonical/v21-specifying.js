@@ -399,6 +399,19 @@ function buildV21LikeProfile(version) {
           '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V36'
+        ? [
+          '.bitcode/v36-exchange-activity-book.json',
+          '.bitcode/v36-exchange-intent-order-contracts.json',
+          '.bitcode/v36-exchange-rights-transfer-review.json',
+          '.bitcode/v36-pricing-liquidity-fee-quote.json',
+          '.bitcode/v36-exchange-settlement-reconciliation.json',
+          '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
+          '.bitcode/v36-exchange-ux-proof.json',
+          '.bitcode/v36-exchange-rehearsal.json',
+          '.bitcode/v36-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',

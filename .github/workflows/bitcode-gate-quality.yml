@@ -201,6 +201,9 @@ jobs:
             if [ -f BITCODE_SPEC_V36.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V36 --mode draft --current-target V35
               node scripts/check-v36-gate1-exchange-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs ]; then
+                node scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs --skip-branch-check
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -256,6 +259,7 @@ jobs:
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-documentation-interface-integration.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-local-staging-telemetry-documentation-rehearsal.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-promotion-readiness.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-activity-book.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand

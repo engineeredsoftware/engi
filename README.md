@@ -18,6 +18,11 @@ ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement
 reconciliation, dispute/repair/revenue routes, Exchange UX, local/staging
 rehearsal, and Exchange-specific proofs.
+V36 Gate 2 anchors market-wide activity through the package-owned
+`ExchangeActivityBook` and the source-safe generated artifact
+`.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
+cancellation, acceptance, settlement, repair, revenue route, and history rows.
+The activity detail never exposes protected source or unpaid AssetPack content.
 Promoted V35 closure owns telemetry and documentation depth over promoted V34:
 internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert
 runbooks, incident response, operator escalation, documentation QA, developer

@@ -50,6 +50,16 @@ export function buildV21SpecFamilyReport(input?: Record<string, unknown>): Bitco
 export function buildV21CanonicalInputReport(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function buildV21GeneratedArtifactContents(input?: Record<string, unknown>): unknown;
 export function buildCanonPostureDriftReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const EXCHANGE_ACTIVITY_BOOK_ARTIFACT_PATH: string;
+export const EXCHANGE_ACTIVITY_BOOK_CURRENT_TARGET: string;
+export const EXCHANGE_ACTIVITY_BOOK_SCHEMA_ID: string;
+export const EXCHANGE_ACTIVITY_BOOK_VERSION: string;
+export const EXCHANGE_ACTIVITY_BOOK_SOURCE_SAFETY_VERDICT: string;
+export const EXCHANGE_ACTIVITY_KINDS: readonly string[];
+export const EXCHANGE_ACTIVITY_FILTER_IDS: readonly string[];
+export const EXCHANGE_ACTIVITY_DETAIL_SECTION_IDS: readonly string[];
+export const EXCHANGE_ACTIVITY_ROWS: readonly Record<string, unknown>[];
+export function buildExchangeActivityBook(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH: string;
 export const DOCUMENTATION_SURFACE_CATALOG_CURRENT_TARGET: string;
 export const DOCUMENTATION_SURFACE_CATALOG_SCHEMA_ID: string;
