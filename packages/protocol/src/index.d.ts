@@ -164,6 +164,16 @@ export const V38_INFERENCE_SURFACE_REQUIRED_READING_PIPELINE_NAMES: readonly str
 export const V38_INFERENCE_SURFACE_DISCLOSURE_TIER_IDS: readonly string[];
 export const V38_INFERENCE_SURFACE_ROWS: readonly Record<string, unknown>[];
 export function buildV38InferenceSurfaceInventory(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_ARTIFACT_PATH: string;
+export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_CURRENT_TARGET: string;
+export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_SCHEMA_ID: string;
+export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_VERSION: string;
+export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_SOURCE_SAFETY_VERDICT: string;
+export const V38_PTRR_STEP_IDS: readonly string[];
+export const V38_FAILSAFE_STAGE_IDS: readonly string[];
+export const V38_THRICIFIED_GENERATION_STAGE_IDS: readonly string[];
+export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_ROWS: readonly Record<string, unknown>[];
+export function buildV38PtrrFailsafeThricifiedStack(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -59,6 +59,11 @@ Gate 1 audit basis:
 - `packages/protocol/test/v38-inference-surface-inventory.test.js`
 - `scripts/generate-v38-inference-surface-inventory.mjs`
 - `scripts/check-v38-gate2-inference-surface-inventory.mjs`
+- `.bitcode/v38-ptrr-failsafe-thricified-stack.json`
+- `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js`
+- `packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js`
+- `scripts/generate-v38-ptrr-failsafe-thricified-stack.mjs`
+- `scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs`
 
 No `_legacy/` source is active source truth.
 
@@ -74,6 +79,7 @@ No `_legacy/` source is active source truth.
 | Prompt benchmarking scope | Gate 1 | PromptPart and prompt benchmarking source anchors | drafted | Gate plan requires semantically divided PromptParts and complete Prompts to be benchmarkable. |
 | Telemetry disclosure scope | Gate 1 | V35 telemetry law, V37 stream UI law, V38 inference notes | drafted | Gate plan requires source-safe prompt, raw response, parsed output, schema verdict, retry, and repair visibility at permitted tiers. |
 | Inference surface inventory | Gate 2 | `V38InferenceSurfaceInventory`, `.bitcode/v38-inference-surface-inventory.json`, protocol test, generator, checker, workflows | closed | Source-safe inventory covers Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive families with 52 PTRR steps and later-gate gaps explicit. |
+| PTRR Failsafe and Thricified execution stack | Gate 3 | `V38PtrrFailsafeThricifiedStack`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, protocol test, generator, checker, workflows | closed | Practical PTRR agents prove four steps, three Failsafe stages, three ThricifiedGeneration stages, 69 source predicates, and Gate 2 count binding with step-owned tools. |
 
 ## V38 implementation checklist
 
@@ -87,6 +93,7 @@ No `_legacy/` source is active source truth.
 | Canon-quality workflow | Canon workflow validates promoted V37 canon, V38 draft family when present, and V37/V38 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V37 active / V38 draft workflow | drafted |
 | Inference surface inventory | `.bitcode/v38-inference-surface-inventory.json` and `V38InferenceSurfaceInventory` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-surface-metadata` | closed |
+| PTRR stack artifact | `.bitcode/v38-ptrr-failsafe-thricified-stack.json` and `V38PtrrFailsafeThricifiedStack` are generated, tested, checked, documented, and workflow-wired as `source-safe-ptrr-failsafe-thricified-stack-metadata` | closed |
 | Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
 | Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
 | Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
@@ -123,9 +130,25 @@ No `_legacy/` source is active source truth.
 | Count contract is explicit | 13 phase/surface groups, 13 PTRR agents, 52 PTRR steps, 156 Failsafe/Thricified chains, 468 provider-call slots, 9 tool/tool-definition surfaces | closed |
 | Gate checker is wired | `pnpm run check:v38-gate2`, package test, generator check, gate/canon workflows | closed |
 
+## Gate 3 Parity
+
+| Requirement | Source evidence | Current V38 judgment |
+| --- | --- | --- |
+| Stack source is package-owned | `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Deterministic artifact exists | `.bitcode/v38-ptrr-failsafe-thricified-stack.json` | closed |
+| Source-safe disclosure posture is explicit | `source-safe-ptrr-failsafe-thricified-stack-metadata`, forbidden payload classes, no protected source, credentials, or unpaid AssetPack source | closed |
+| PTRR carrier is complete | `factoryAgentWithPTRR`, agent prompt carrier, Plan/Try/Refine/Retry step prompt registries | closed |
+| Practical steps delegate through Failsafe | `factoryPlanStep`, `factoryTryStep`, `factoryRefineStep`, `factoryRetryStep`, `createFailsafeGenerationSequence` | closed |
+| Failsafe delegates to Thricified | `createFailsafeGenerationSequence`, `createThricifiedGeneration`, prepare-concise-context, chunk-then-sum, stitch-until-complete | closed |
+| Thricified remains lowest-level inference chain | Reason, Judge, StructuredOutput, provider-call slots, typed schema output | closed |
+| Substep prompt/context telemetry is stored | `factoryLLMSubStep`, FailsafeExecution, GenerationExecution, hierarchical prompt, `llm.input`, `llm.prompt`, `llm.output`, `llm.parsedOutput` | closed |
+| Tools are step-owned | Plan/Try/Refine conditional postprocess, Retry after final attempt, `ToolExecution` outside `ThricifiedGeneration` | closed |
+| Gate 2 counts are bound | 52 PTRR steps, 156 Failsafe sequences, 156 ThricifiedGeneration chains, 468 provider-call slots | closed |
+| Gate checker is wired | `pnpm run check:v38-gate3`, package test, generator check, gate/canon workflows | closed |
+
 ## Completion condition
 
-Gate 2 closes when `pnpm run check:v38-gate2`, the V38 inference-surface inventory generator check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, and diff hygiene all pass on `v38/gate-2-inference-surface-inventory`.
+Gate 3 closes when `pnpm run check:v38-gate3`, the V38 PTRR/Failsafe/Thricified stack generator check, Gate 2 inventory checks, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-3-ptrr-failsafe-thricified-stack`.
 
 ## accepted boundaries
 

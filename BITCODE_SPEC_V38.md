@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -79,6 +79,9 @@ The artifact has `source-safe-inference-surface-metadata` disclosure posture and
 
 Gate 3 makes practical PTRR steps use `FailsafeGenerationSequence` above `ThricifiedGeneration` unless a source-backed exception is specified and tested.
 It must validate prompt registry composition from phase to agent to step to Failsafe to Thricified generation and provider call, including execution ancestry state preparation and typed-output repair.
+Gate 3 is closed by the package-backed `V38PtrrFailsafeThricifiedStack` source and deterministic `.bitcode/v38-ptrr-failsafe-thricified-stack.json` artifact.
+The artifact has `source-safe-ptrr-failsafe-thricified-stack-metadata` disclosure posture and proves the current practical call stack with 9 source-backed rows, 69 passed source predicates, all 4 PTRR steps, all 3 Failsafe stages, all 3 ThricifiedGeneration stages, and Gate 2's 52 PTRR steps / 156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call slots.
+Gate 3 confirms tools remain step-owned postprocess capabilities while `FailsafeGenerationSequence` delegates final Reason, Judge, and StructuredOutput production to `ThricifiedGeneration`.
 
 ### Gate 4: PromptPart And Prompt Benchmarking
 
@@ -263,7 +266,7 @@ The V38 proof-family canon inherits all nine proof families and adds inference-f
 
 ### Inference-synthesis
 
-proofArtifactPath: `.bitcode/v38-inference-surface-inventory.json`
+proofArtifactPath: `.bitcode/v38-inference-surface-inventory.json` and `.bitcode/v38-ptrr-failsafe-thricified-stack.json`
 members: pipeline phases, PTRR agents, Plan/Try/Refine/Retry steps, Failsafe chains, ThricifiedGeneration calls, provider calls
 theoremIds: inference-stack-totality, typed-output-admissibility
 replayStepIds: run V38 Gate 2 and Gate 3 checks
@@ -411,7 +414,7 @@ Generated canon for V38 includes source-safe `.bitcode/v38-*` artifacts, generat
 Generated artifacts must be reproducible, deterministic where possible, and blocked when source-safe payload rules fail.
 Inherited V19 reproducible-canon artifacts remain the baseline for deterministic generated proof.
 Inherited V20 operator-quality artifacts remain the baseline for operator-visible quality.
-Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, and later `.bitcode/v38-*` gate artifacts.
+Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, and later `.bitcode/v38-*` gate artifacts.
 V38 specifying generated artifacts include inference inventory, prompt benchmark, telemetry disclosure, depository search, AssetPack handoff, rehearsal, and promotion readiness reports.
 Shared generated-artifact fields: version, currentTarget, artifactRoot, sourceRoots, proofRoots, disclosureTier, generatedAt, and command.
 Artifact-specific generated payload fields: prompt ids, PromptPart ids, phase ids, agent ids, step ids, Failsafe ids, ThricifiedGeneration ids, tool ids, fit ids, ranking roots, and settlement roots.
@@ -419,7 +422,7 @@ Artifact confidentiality and disclosability taxonomy: public, source-safe, buyer
 
 ## validation canon
 
-Validation canon includes `pnpm run check:v38-gate1`, later V38 gate checks, `node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37`, `node scripts/check-bitcode-canonical-inputs.mjs --current-target V37`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38`, package tests, route tests, UI tests, prompt benchmark checks, telemetry redaction checks, and local/staging rehearsal checks.
+Validation canon includes `pnpm run check:v38-gate1`, `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`, later V38 gate checks, `node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37`, `node scripts/check-bitcode-canonical-inputs.mjs --current-target V37`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38`, package tests, route tests, UI tests, prompt benchmark checks, telemetry redaction checks, and local/staging rehearsal checks.
 
 ## promotion canon
 
@@ -442,7 +445,7 @@ Each family must close with proofArtifactPath, members, theoremIds, replayStepId
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v38-inference-surface-inventory.json` | phases, agents, steps, failsafes, generations | inference-stack-totality | v38-gate2, v38-gate3 | prompt receipts, generation receipts | `packages/agent-generics`, `packages/pipelines/asset-pack` |
+| Inference-synthesis | `.bitcode/v38-inference-surface-inventory.json`; `.bitcode/v38-ptrr-failsafe-thricified-stack.json` | phases, agents, steps, failsafes, generations | inference-stack-totality | v38-gate2, v38-gate3 | prompt receipts, generation receipts | `packages/agent-generics`, `packages/pipelines/asset-pack` |
 | Prompt-completeness | `.bitcode/v38-prompt-benchmark-report.json` | PromptParts, Prompts | prompt-registry-totality | v38-gate4 | benchmark fixtures | `packages/prompts` |
 | Static-code-analysis | `.bitcode/v38-static-inference-boundary-report.json` | imports, routes, scans | source-boundary-conformance | gate-quality | workflow logs | scripts and workflows |
 | Verification-decisions | `.bitcode/v38-verification-decision-report.json` | Need, fits, previews | verification-is-typed | v38-gate6, v38-gate7, v38-gate8 | verification reports | Reading pipeline packages |
@@ -464,7 +467,7 @@ Inherited V20 operator-quality artifacts remain the baseline for operator-visibl
 
 ### Exact generated-artifact inventory matrix
 
-Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, and later `.bitcode/v38-*` gate artifacts.
+Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, and later `.bitcode/v38-*` gate artifacts.
 
 ### V38InferenceSurfaceInventory
 
@@ -472,6 +475,13 @@ Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-rep
 It is owned by `packages/protocol/src/canonical/inference-surface-inventory.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-inference-surface-inventory.test.js`, generated by `scripts/generate-v38-inference-surface-inventory.mjs`, checked by `scripts/check-v38-gate2-inference-surface-inventory.mjs`, and serialized to `.bitcode/v38-inference-surface-inventory.json`.
 It records the current active Reading and Conversation inference surface map as source-safe metadata: `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversation inference, stream-event interface entrypoints, doc-comment-backed tool prompt definitions, prompt registry and benchmark coverage, and the execution primitive stack.
 Its current count contract is 52 PTRR steps across 156 FailsafeGenerationSequence / ThricifiedGeneration chains and 468 provider-call slots, with known V38 repair gaps explicitly carried forward to later gates instead of hidden.
+
+### V38PtrrFailsafeThricifiedStack
+
+`V38PtrrFailsafeThricifiedStack` is the Gate 3 source-safe stack contract for practical PTRR agents.
+It is owned by `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js`, generated by `scripts/generate-v38-ptrr-failsafe-thricified-stack.mjs`, checked by `scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs`, and serialized to `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+It records `source-safe-ptrr-failsafe-thricified-stack-metadata`: the `factoryAgentWithPTRR` prompt carrier, Plan/Try/Refine/Retry step factories, `FailsafeGenerationSequence`, `ThricifiedGeneration`, prompt/context/telemetry substeps, step-owned tool postprocess boundaries, and the Gate 2 count binding.
+Its current source-predicate contract is 69/69 passed predicates, 9 rows, 52 PTRR steps, 156 Failsafe sequences, 156 ThricifiedGeneration chains, 468 provider-call slots, and no protected source, credentials, unpaid AssetPack source, or `_legacy/` source roots.
 
 ### V38 specifying generated artifacts
 
