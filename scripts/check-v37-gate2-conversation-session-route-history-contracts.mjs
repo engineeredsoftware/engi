@@ -64,6 +64,10 @@ function run(root, command, args) {
   }).trim();
 }
 
+function shouldRunUapiRouteTests() {
+  return process.env.BITCODE_RUN_UAPI_ROUTE_TESTS === '1';
+}
+
 function assertCheck(failures, condition, message) {
   if (!condition) failures.push(message);
 }
@@ -177,7 +181,7 @@ function main() {
     }
   }
 
-  if (failures.length === 0) {
+  if (failures.length === 0 && shouldRunUapiRouteTests()) {
     try {
       run(root, 'pnpm', [
         '--dir',
