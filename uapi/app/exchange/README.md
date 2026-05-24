@@ -60,5 +60,14 @@ It also proves that `ExchangeRevenueRoute` covers depositor, reader, treasury, f
 Its source-safe verdict is
 `source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
 
+V36 Gate 8 makes `ExchangeUxProof` the package-owned contract behind the
+Exchange route, Terminal handoff, and source-safe review surface. The generated
+`.bitcode/v36-exchange-ux-proof.json` artifact proves that Exchange covers
+market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
+Terminal can hand off to Exchange without losing transaction context.
+collapsed UI gives readable status and expanded UI exposes source-safe detail.
+Exchange telemetry dashboards remain source-safe and proof-rooted.
+Its source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
+
 Terminal stays focused on Deposit, Read, and recent operator activity.
 Exchange owns market-wide activity reread, selection, and deeper state inspection.

@@ -60,7 +60,7 @@ No `_legacy/` source is active source truth.
 | Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | closed | BTC price, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury/depositor/reader routes, quote roots, and fail-closed payment/network posture are deterministic. |
 | Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | closed | Payment observation, finality state, rights-transfer receipt, ledger root, database projection root, object storage root, delivery state, repair id, observer jobs, and repair jobs reconcile. |
 | Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | closed | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
-| Exchange UX and Terminal integration | Gate 8 | `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, and `check:v36-gate8` | draft-required | Master-detail UX, source-safe expanded detail, order history, and Terminal navigation are validated. |
+| Exchange UX and Terminal integration | Gate 8 | `ExchangeUxProof`, `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, tests, and `check:v36-gate8` | closed | Master-detail UX, filters, order history, rights-transfer review, pricing quote, settlement state, repair state, Terminal navigation, collapsed status, and source-safe expanded detail are validated. |
 | Local staging rehearsal | Gate 9 | `.bitcode/v36-exchange-rehearsal.json`, local/staging logs, proof roots, and `check:v36-gate9` | draft-required | Local and staging-testnet list/bid/ask/cancel/accept/settle/repair/history flows are rehearsed. |
 | Promotion readiness | Gate 10 | `.bitcode/v36-promotion-readiness-report.json`, promotion workflow, generated proof support, and `check:v36-gate10` | draft-required | V36 can promote only after all Exchange gates pass and generated canon remains source-safe. |
 
@@ -172,6 +172,18 @@ No `_legacy/` source is active source truth.
 | Revenue conservation is explicit | every revenue route proves BTC debits equal credits while BTD rights and source-to-shares roots remain conserved | closed |
 | Dispute and revenue payloads are source-safe | `source-safe-exchange-dispute-repair-revenue-route-metadata`; protected source, unpaid AssetPack source, private wallet material, private payment credentials, raw disputed source bytes, provider tokens, protected prompts, protected model responses, private buyer payloads, object-storage private bytes, and secret values are forbidden | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-dispute-repair-revenue-route.test.js`, `scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 8 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeUxProof` is package-owned | `packages/protocol/src/canonical/exchange-ux-proof.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated Exchange UX artifact exists | `.bitcode/v36-exchange-ux-proof.json`, `scripts/generate-v36-exchange-ux-proof.mjs`, `pnpm run check:v36-exchange-ux-proof` | closed |
+| Exchange route exposes market review | `/exchange` exposes market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state | closed |
+| Terminal handoff preserves context | `buildExchangeHref`, `TerminalTransactionDetailHero`, and `uapi/tests/exchangeTerminalHandoff.test.ts`; Terminal can hand off to Exchange without losing transaction context | closed |
+| Collapsed and expanded disclosure is source-safe | collapsed UI gives readable status and expanded UI exposes source-safe detail | closed |
+| Telemetry binding is source-safe | `source-safe-exchange-ux-proof-metadata`; Exchange telemetry dashboards remain source-safe and proof-rooted | closed |
+| Workflow, package, and UI tests are wired | `packages/protocol/test/v36-exchange-ux-proof.test.js`, `uapi/tests/exchangePageClient.test.tsx`, `uapi/tests/exchangeTerminalHandoff.test.ts`, `scripts/check-v36-gate8-exchange-ux-proof.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 

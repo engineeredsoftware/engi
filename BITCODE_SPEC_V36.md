@@ -205,6 +205,26 @@ wallet private material, provider tokens, protected prompts, protected model
 responses, private payment credentials, private buyer repository payloads,
 object-storage private bytes, raw disputed source bytes, or secret values.
 
+## V36 Gate 8 ExchangeUxProof canon
+
+Gate 8 implements `ExchangeUxProof` as the package-owned contract binding the
+Exchange route, Terminal handoff, and source-safe review surfaces to generated
+proof.
+
+`ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
+It proves that Terminal can hand off to Exchange without losing transaction context.
+It also proves that collapsed UI gives readable status and expanded UI exposes source-safe detail.
+Exchange telemetry dashboards remain source-safe and proof-rooted.
+
+Gate 8 emits `.bitcode/v36-exchange-ux-proof.json` with
+`source-safe-exchange-ux-proof-metadata`.
+The artifact may expose route ids, transaction ids, filter ids, order state,
+rights-transfer preview state, quote roots, settlement state, repair state,
+proof roots, event ids, and source-safe UI detail metadata; it must not expose
+protected source, unpaid AssetPack source, wallet private material, provider
+tokens, protected prompts, protected model responses, buyer private repository
+payloads, or secret values.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.

@@ -51,6 +51,7 @@ function formatRunTimestamp(value: string) {
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
+      timeZone: 'UTC',
     }).format(new Date(value));
   } catch {
     return value;
@@ -326,7 +327,8 @@ export default function TerminalTransactionDetailSurface({
             proofPosture={transactionReadModel.lowDetail.proofPosture}
             modeLabel={getTransactionDataModeLabel(transactionDataMode)}
             metrics={transactionReadModel.lowDetail.metrics}
-            routeHref={surface === 'terminal' ? transactionReadModel.route.href : undefined}
+            routeHref={transactionReadModel.route.href}
+            exchangeHref={transactionReadModel.route.exchangeHref}
             activeSectionLabel={transactionReadModel.activeSection.label}
             activeSectionAvailability={transactionReadModel.activeSection.availability}
             postureChips={transactionReadModel.lowDetail.postureChips}

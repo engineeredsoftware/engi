@@ -159,26 +159,30 @@ export default function ExchangePageClient() {
               <div className="max-w-4xl">
                 <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode Exchange</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
-                  Search activity, select a row, and read Exchange state
+                  Read market activity, select an order, and inspect Exchange state
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
                   The Exchange is the durable activity layer behind Terminal and connected interfaces. Use this
-                  surface to inspect activity rows, AssetPack evidence, proofs, history, and execution detail without
-                  entering Terminal write controls.
+                  surface to search market activity, review order history, inspect rights-transfer and pricing
+                  posture, and read settlement or repair state without entering Terminal write controls.
                 </p>
               </div>
-              <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
+              <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2 xl:grid-cols-4">
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-                  <p className="text-emerald-300/85">Primary read</p>
-                  <p className="mt-2 text-neutral-200">activity ledger</p>
+                  <p className="text-emerald-300/85">Master detail</p>
+                  <p className="mt-2 text-neutral-200">market filters</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-                  <p className="text-emerald-300/85">Selected detail</p>
-                  <p className="mt-2 text-neutral-200">AssetPack + proofs</p>
+                  <p className="text-emerald-300/85">Order history</p>
+                  <p className="mt-2 text-neutral-200">activity replay</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-                  <p className="text-emerald-300/85">Terminal relation</p>
-                  <p className="mt-2 text-neutral-200">same state, read-only here</p>
+                  <p className="text-emerald-300/85">Rights + quote</p>
+                  <p className="mt-2 text-neutral-200">source-safe preview</p>
+                </div>
+                <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+                  <p className="text-emerald-300/85">Settle + repair</p>
+                  <p className="mt-2 text-neutral-200">proof-rooted state</p>
                 </div>
               </div>
             </div>
