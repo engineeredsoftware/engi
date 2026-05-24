@@ -23,6 +23,13 @@ selectors, conversation-to-Terminal handoff, persistence/privacy/redaction,
 telemetry/proof/docs, local/staging rehearsal, and promotion readiness.
 V37 Gate 1 opens the Conversations spec family and `check:v37-gate1` over
 active V36.
+V37 Gate 2 anchors `ConversationSession` route-local identity and history
+through the package-owned source-safe generated artifact
+`.bitcode/v37-conversation-session-route-history.json`, including create,
+restore, branch, retry, redact, and stream operations. Conversation route
+history remains route-local projection state; Terminal and the ledger remain
+authoritative for transaction, settlement, wallet, Exchange, and BTD ownership
+work.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -180,8 +187,11 @@ Conversations posture, generate `BITCODE_SPEC_V37_PROVEN.md`, and commit
 promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V36` to
 `V37` on the version branch.
 Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
-`pnpm run check:v37-gate1`, and later V37 gates add Conversations generated
-artifacts before `check:v37-gate10` and the V37 promotion workflow exist.
+`pnpm run check:v37-gate1`; V37 Gate 2 is wired through
+`pnpm run check:v37-gate2` and
+`pnpm run check:v37-conversation-session-route-history`. Later V37 gates add
+Conversations generated artifacts before `check:v37-gate10` and the V37
+promotion workflow exist.
 The promoted V35 closure remains reproducible through `pnpm run check:v35-gate10`
 and [v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi

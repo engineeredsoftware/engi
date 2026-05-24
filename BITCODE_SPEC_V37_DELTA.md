@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft opening; this delta records the V36-to-V37 Website Conversations opening set
+- V37 state: draft implementation; this delta records the V36-to-V37 Website Conversations opening and Gate 2 ConversationSession contract set
 - Current canonical/latest target: `V36`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, and `.bitcode/v37-canon-posture-drift-report.json` readiness; later V37 gates add package-owned Conversations artifacts
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; route, package, stream, and telemetry parity begin in later gates
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V37_PARITY_MATRIX.md`
@@ -77,8 +77,9 @@ Closure acceptance:
 
 - `ConversationSession` owns route-local identity, user/account posture, source context, policy decision, stream state, history references, and proof roots;
 - route-local history supports restore, branch, retry, and redaction without becoming global ledger truth;
-- generated source-safe artifact coverage is introduced only after package-owned builders and tests exist;
-- `pnpm run check:v37-gate2` validates package source, artifact freshness, route contracts, docs, workflow wiring, source safety, proof roots, event ids, and persistence boundaries.
+- generated source-safe artifact coverage exists in `.bitcode/v37-conversation-session-route-history.json` with `source-safe-conversation-session-route-history-metadata` only after package-owned builders, package tests, and route tests exist;
+- `pnpm run check:v37-gate2` validates package source, artifact freshness, route contracts, docs, workflow wiring, source safety, proof roots, event ids, route ids, history operations, and persistence boundaries;
+- route contracts cover create, restore, branch, retry, redact, and stream without exposing protected source, raw protected prompts, protected model responses with source, provider tokens, wallet private material, secrets, unpaid AssetPack source, settlement private payloads, or global ledger authority claims.
 
 ### Gate 3: Conversation Stream UI And Event Contracts
 

@@ -237,6 +237,9 @@ jobs:
             if [ -f BITCODE_SPEC_V37.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V37 --mode draft --current-target V36
               node scripts/check-v37-gate1-conversations-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs ]; then
+                node scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs --skip-branch-check
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -324,6 +327,8 @@ jobs:
             tests/auxillariesWorkspacePanels.test.tsx \
             tests/api/auxillariesGithubConnectionRoute.test.ts \
             tests/api/vcsRoutes.test.ts \
+            tests/api/conversationSessionRouteHistory.test.ts \
+            tests/api/conversationSessionRouteHistoryContract.test.ts \
             tests/auxillariesExternalsPane.test.tsx \
             tests/profileStep.test.tsx \
             tests/api/readReviewRoute.test.ts \

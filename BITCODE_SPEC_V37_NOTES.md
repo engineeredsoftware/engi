@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V37`
-- V37 state: draft opening; Gate 1 opens Website Conversations depth over active V36 Exchange canon
+- V37 state: draft implementation; Gate 2 closes ConversationSession route-local history contracts over active V36 Exchange canon
 - Current canonical/latest target: `V36`
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, and `.bitcode/v37-canon-posture-drift-report.json` readiness; later V37 gates add package-owned Conversations artifacts
-- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; route, package, stream, and telemetry parity begin in later gates
+- Generated structured artifact inventory: draft `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, and `.bitcode/v37-conversation-session-route-history.json`
+- Source parity state: V37 source parity begins at Gate 1 with spec family, roadmap, docs, workflow, and checker posture; Gate 2 adds package-owned ConversationSession route-history contracts
 - Scope: draft notes for website Conversations work after V36 Exchange depth and after the V28 ChatGPT App MVP proved the interface path.
 
 This NOTES file does not promote V37. It is binding draft guidance while V37 gates are in flight.
@@ -47,6 +47,13 @@ V37 owns website Conversations:
 
 V37 must not absorb the V28 ChatGPT App MVP, V33 interface-deepening work, or V36 Exchange law.
 It must use the same Protocol/Terminal/BTD registry and access-policy truth rather than becoming a parallel source of product law.
+
+## Gate 2 implementation notes
+
+ConversationSession route-history contracts are source-safe route contracts, not a new ledger.
+Gate 2 adds `.bitcode/v37-conversation-session-route-history.json`, `buildConversationSessionRouteHistory`, route contract helpers, package tests, route tests, and `check:v37-gate2`.
+The required operations are create, restore, branch, retry, redact, and stream.
+Restore, branch, retry, and redaction preserve route-local history and proof roots without exposing protected source, raw protected prompts, protected model responses with source, wallet private material, provider tokens, secrets, settlement private payloads, unpaid AssetPack source, or any global ledger authority claim.
 
 ## V37 gate plan
 

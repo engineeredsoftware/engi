@@ -34,6 +34,7 @@ Current exported commercial helpers include:
 - `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` helpers for V36 repair, escalation, revenue conservation, route allocation, and source-safety posture;
 - `ExchangeUxProof` helpers for V36 Exchange route usability, Terminal handoff, collapsed readable status, expanded source-safe detail, and telemetry dashboard proof roots;
 - `ExchangeRehearsal` helpers for V36 local/staging-testnet Exchange rehearsal coverage, source-safe log/screenshot roots, ledger/database synchronization checks, and blocked value-bearing mainnet proof;
+- `ConversationSession` route-history helpers for V37 route-local session identity, create/restore/branch/retry/redact/stream operations, proof roots, event ids, and persistence boundaries;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -43,8 +44,13 @@ V37 Gate 1 treats this package as promotion-critical runtime posture.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
 must remain aligned to `V36` active, `V37` draft while V37 gates are in flight.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
-Gate 2 and later gates add package-owned Conversations session, message,
-stream event, writing workspace, source selector, Terminal handoff,
+V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
+through `buildConversationSessionRouteHistory` and
+`.bitcode/v37-conversation-session-route-history.json`.
+The route-history artifact covers create, restore, branch, retry, redact, and
+stream operations while keeping conversation state route-local rather than
+global ledger truth. Gate 3 and later gates add package-owned Conversations
+message, stream event, writing workspace, source selector, Terminal handoff,
 persistence/privacy, telemetry/proof/docs, rehearsal, and promotion readiness
 helpers.
 V36 Gate 2 adds the source-safe Exchange activity book through
