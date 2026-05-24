@@ -182,6 +182,9 @@ jobs:
               if [ -f scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs ]; then
                 node scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs --skip-branch-check
               fi
+              if [ -f scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs ]; then
+                node scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs --skip-branch-check
+              fi
             fi
             node scripts/check-v34-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
           else
@@ -235,6 +238,7 @@ jobs:
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-operator-runbook-catalog.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-docs-qa-alignment-report.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-testnet-rollout-readiness-guide.test.js
+          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-documentation-interface-integration.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand
           pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand

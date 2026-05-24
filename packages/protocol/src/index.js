@@ -74,6 +74,16 @@ export {
   buildTestnetRolloutReadinessGuide
 } from './canonical/testnet-rollout-readiness-guide.js';
 export {
+  TELEMETRY_DOCUMENTATION_INTERFACE_IDS,
+  TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_ARTIFACT_PATH,
+  TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_CURRENT_TARGET,
+  TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_SCHEMA_ID,
+  TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_SOURCE_SAFETY_VERDICT,
+  TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_VERSION,
+  TELEMETRY_DOCUMENTATION_INTERFACE_ROWS,
+  buildTelemetryDocumentationInterfaceIntegration
+} from './canonical/telemetry-documentation-interface-integration.js';
+export {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown

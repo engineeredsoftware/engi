@@ -15,6 +15,16 @@ The MCP server consumes the shared
 interface uses package-owned source-to-shares, organization authority, and
 Protocol telemetry objects rather than route-local BTD policy copies.
 
+The V35 MCP API surface also consumes
+`TelemetryDocumentationInterfaceIntegration` through the generated source-safe
+artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`.
+Tool responses may expose event ids, proof roots, docs links, runbook links,
+redaction posture, correlation ids, and source-safe state labels so MCP clients
+can correlate a run with Terminal-visible documentation and repair guidance.
+Tool responses must not expose protected source, secret values, provider
+tokens, wallet private material, raw protected prompts, raw protected model
+responses with source, or unpaid AssetPack source.
+
 ## 🚀 Features
 
 ### Core Capabilities

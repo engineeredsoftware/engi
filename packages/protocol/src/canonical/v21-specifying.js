@@ -393,7 +393,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v35-public-docs-usage-guides.json',
           '.bitcode/v35-operator-runbook-catalog.json',
           '.bitcode/v35-docs-qa-alignment-report.json',
-          '.bitcode/v35-testnet-rollout-readiness-guide.json'
+          '.bitcode/v35-testnet-rollout-readiness-guide.json',
+          '.bitcode/v35-telemetry-documentation-interface-integration.json'
         ]
       : []),
       ...(version === 'V26'

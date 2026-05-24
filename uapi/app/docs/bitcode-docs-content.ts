@@ -101,13 +101,14 @@ const PUBLIC_DISCLOSURE_LIMIT_SECTION = {
   eyebrow: 'Disclosure limits',
   title: 'Public docs expose guidance and proof posture, not protected source',
   summary:
-    'Public Bitcode docs derive from the active Protocol, package-owned catalogs, route contracts, and source-safe generated artifacts. They can explain usage, measurements, proof roots, testnet rollout readiness, fee boundaries, and settlement posture.',
+    'Public Bitcode docs derive from the active Protocol, package-owned catalogs, route contracts, and source-safe generated artifacts. They can explain usage, measurements, event ids, proof roots, docs links, runbook links, redaction posture, testnet rollout readiness, fee boundaries, and settlement posture.',
   detail:
     'They must not reveal protected source payloads, raw protected prompts, secret values, provider tokens, wallet private material, or unpaid AssetPack source. Source-bearing AssetPack contents cross to the reader only after settlement and rights transfer.',
   reason:
     'This keeps the public product understandable while preserving the boundary that makes Source Shares economically and operationally safe.',
   points: [
     'Allowed: usage guidance, route links, state labels, source-safe measurements, proof roots, dashboard/runbook ids, redacted incident posture, testnet rollout readiness, and fee/right boundaries.',
+    'Interface docs may surface event ids, proof roots, docs links, runbook links, and redaction posture from TelemetryDocumentationInterfaceIntegration without revealing source-bearing payloads.',
     'Blocked: secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.',
     'Docs QA fails closed when public docs, internal docs, route docs, interface docs, generated artifacts, proof posture, or workflow checks drift.',
     'Deferred boundaries stay explicit: V35 documents Exchange and Conversations usage while deeper product depth remains future-canon work.',

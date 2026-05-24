@@ -53,3 +53,19 @@ Status: non-canonical internal documentation. The active canonical system specif
 4. Promote the requirement into the active or draft-target SPEC/proof family when it must become canonical.
 5. Regenerate the matching proof artifacts.
 6. Re-scan this directory for non-Bitcode residue before claiming gate closure progress.
+
+## V35 telemetry documentation integration
+
+Internal docs are registered through `TelemetryDocumentationInterfaceIntegration`
+when they explain how active surfaces display telemetry and repair posture.
+The source-safe generated artifact
+`.bitcode/v35-telemetry-documentation-interface-integration.json` binds internal
+docs to event ids, proof roots, docs links, runbook links, and redaction
+posture so operator notes, route docs, and package READMEs can be audited
+together.
+
+Internal docs may name source-safe roots, state labels, summary counts,
+correlation ids, generated artifact paths, and repair commands. They must not
+record secret values, provider tokens, wallet private material, raw protected
+prompts, protected source payloads, raw protected model responses with source,
+or unpaid AssetPack source.
