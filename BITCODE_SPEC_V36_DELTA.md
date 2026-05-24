@@ -126,7 +126,9 @@ Closure acceptance:
 
 - `ExchangeSettlementReceipt` binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id;
 - observers and repair jobs reconcile database projections to ledger truth;
-- settlement finality and delivery are auditable.
+- settlement finality and delivery are auditable;
+- `.bitcode/v36-exchange-settlement-reconciliation.json` is generated from the package-owned builder with `source-safe-exchange-settlement-reconciliation-metadata`;
+- `pnpm run check:v36-gate6` validates package source, artifact freshness, package tests, docs, workflow wiring, payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, repair id, observer jobs, repair jobs, projection reconciliation to ledger truth, delivery auditability, source-safety, proof roots, and event ids.
 
 ### Gate 7: Dispute Repair Revenue Route Operations
 

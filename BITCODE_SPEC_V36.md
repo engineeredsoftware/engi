@@ -149,6 +149,34 @@ Ledger journal state remains stronger than database projection state for quote
 roots, settlement admission, payment matching, route allocation, and network
 posture.
 
+## V36 Gate 6 ExchangeSettlementReceipt canon
+
+Gate 6 implements `ExchangeSettlementReceipt` as the package-owned settlement
+and reconciliation contract for Exchange completion.
+`ExchangeSettlementReceipt` binds payment observation, finality state, rights
+transfer receipt, ledger root, database projection root, object storage root,
+delivery state, repair id, observer jobs, reconciliation decision, proof roots,
+and event ids before source-bearing delivery can be trusted.
+
+Gate 6 emits `.bitcode/v36-exchange-settlement-reconciliation.json` with
+`source-safe-exchange-settlement-reconciliation-metadata`.
+The settlement binding is payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
+The source-safe receipt may expose settlement identity, payment observation,
+finality state, rights-transfer receipt identity, ledger root, database
+projection root, object storage root, delivery state, repair id, observer jobs,
+proof roots, and event ids; it must not expose protected source, unpaid
+AssetPack source, wallet private material, provider tokens, protected prompts,
+protected model responses, private payment credentials, private buyer
+repository payloads, object-storage private bytes, or secret values.
+
+observers and repair jobs reconcile database projections to ledger truth.
+The ledger journal remains stronger than database and object-storage
+projections; repair jobs may rewrite projections toward ledger truth but cannot
+rewrite ledger truth toward projection convenience.
+settlement finality and delivery are auditable.
+Delivery stays blocked while finality, rights-transfer receipt, database
+projection, or object-storage projection is missing, stale, or drifted.
+
 ## Canonical Bitcode executive summary
 
 Bitcode measures technical knowledge, finds deposits that fit reviewed Reads, synthesizes source-bearing AssetPacks, and settles read rights in BTC with BTD range and rights receipts.

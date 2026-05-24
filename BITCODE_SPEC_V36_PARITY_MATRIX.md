@@ -58,7 +58,7 @@ No `_legacy/` source is active source truth.
 | Exchange intent and order contracts | Gate 3 | `ExchangeIntent`, `ExchangeOrder`, `.bitcode/v36-exchange-intent-order-contracts.json`, package source, tests, and `check:v36-gate3` | closed | Buy, sell, bid, ask, cancel, accept, settle, and history transitions are typed, authorized, idempotent, policy-gated, source-safe, and replayable. |
 | Rights-transfer review | Gate 4 | `ExchangeRightsTransferPreview`, `.bitcode/v36-exchange-rights-transfer-review.json`, package source, tests, and `check:v36-gate4` | closed | BTD range identity, ownership, buyer, rights scope, disclosure boundary, settlement unlock, owner-read, licensed-read, and blocked transfer states are source-safe. |
 | Pricing quote | Gate 5 | `ExchangePricingQuote`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, package source, tests, and `check:v36-gate5` | closed | BTC price, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury/depositor/reader routes, quote roots, and fail-closed payment/network posture are deterministic. |
-| Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | draft-required | Ledger, database, object storage, finality, delivery, and rights-transfer roots reconcile. |
+| Settlement reconciliation | Gate 6 | `ExchangeSettlementReceipt`, `.bitcode/v36-exchange-settlement-reconciliation.json`, observers, repair tests, and `check:v36-gate6` | closed | Payment observation, finality state, rights-transfer receipt, ledger root, database projection root, object storage root, delivery state, repair id, observer jobs, and repair jobs reconcile. |
 | Dispute repair revenue routes | Gate 7 | `ExchangeDisputeRepairCase`, `ExchangeRevenueRoute`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, tests, and `check:v36-gate7` | draft-required | Disputes, repairs, revenue routes, conservation proofs, runbooks, and escalation paths exist. |
 | Exchange UX and Terminal integration | Gate 8 | `/exchange`, Terminal handoff, public docs, telemetry dashboards, `.bitcode/v36-exchange-ux-proof.json`, and `check:v36-gate8` | draft-required | Master-detail UX, source-safe expanded detail, order history, and Terminal navigation are validated. |
 | Local staging rehearsal | Gate 9 | `.bitcode/v36-exchange-rehearsal.json`, local/staging logs, proof roots, and `check:v36-gate9` | draft-required | Local and staging-testnet list/bid/ask/cancel/accept/settle/repair/history flows are rehearsed. |
@@ -146,6 +146,18 @@ No `_legacy/` source is active source truth.
 | Pricing payloads are source-safe | `source-safe-exchange-pricing-quote-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private payment credentials, private buyer payloads, and secret values are forbidden | closed |
 | Ledger/database projection posture is explicit | ledger journal refs outrank database projection refs for quote roots, settlement admission, route allocation, and network posture | closed |
 | Workflow and package tests are wired | `packages/protocol/test/v36-exchange-pricing-quote.test.js`, `scripts/check-v36-gate5-exchange-pricing-quote.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+
+## Gate 6 Parity
+
+| Requirement | Source evidence | Current V36 judgment |
+| --- | --- | --- |
+| `ExchangeSettlementReceipt` is package-owned | `packages/protocol/src/canonical/exchange-settlement-reconciliation.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
+| Generated settlement artifact exists | `.bitcode/v36-exchange-settlement-reconciliation.json`, `scripts/generate-v36-exchange-settlement-reconciliation.mjs`, `pnpm run check:v36-exchange-settlement-reconciliation` | closed |
+| Required settlement fields are covered | payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id | closed |
+| Projection reconciliation is explicit | observers and repair jobs reconcile database projections to ledger truth | closed |
+| Finality and delivery are auditable | settlement finality and delivery are auditable | closed |
+| Settlement payloads are source-safe | `source-safe-exchange-settlement-reconciliation-metadata`; protected source, unpaid AssetPack source, private wallet material, provider tokens, protected prompts, protected model responses, private payment credentials, object-storage private bytes, private buyer payloads, and secret values are forbidden | closed |
+| Workflow and package tests are wired | `packages/protocol/test/v36-exchange-settlement-reconciliation.test.js`, `scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V36 accepted boundaries
 
