@@ -187,9 +187,9 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V35 judgment |
 | --- | --- | --- |
-| Promotion readiness report planned | `DocumentationTelemetryPromotionReadinessReport` in V35 SPEC | drafted |
-| All telemetry/documentation artifacts covered | V35 Gate 10 acceptance criteria | drafted |
-| Runtime posture advances to V35 active / draft V36 | V35 SPEC, DELTA, and README promotion posture | drafted |
+| Promotion readiness report generated | `DocumentationTelemetryPromotionReadinessReport` source, `.bitcode/v35-documentation-telemetry-promotion-readiness-report.json`, package export, and package test coverage | closed |
+| All telemetry/documentation artifacts covered | Gate 10 readiness report covers V35 gate artifacts, generated proof outputs, workflows, source safety, and `pnpm run check:v35-gate10` | closed |
+| Runtime posture advances to V35 active / draft V36 | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, and `.github/workflows/v35-canon-promotion.yml` | closed |
 
 ## V35 accepted boundaries
 

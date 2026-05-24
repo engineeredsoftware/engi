@@ -109,9 +109,10 @@ run the version promotion workflow. For V35, promotion work must validate the
 telemetry/documentation posture, generate `BITCODE_SPEC_V35_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V34` to `V35` on the version branch.
-Gate 10 is the promotion-readiness gate. V35 Gate 10 will be wired through
+Gate 10 is the promotion-readiness gate. V35 Gate 10 is wired through
 `pnpm run check:v35-gate10`, backed by source-safe telemetry/documentation
-artifacts, a promotion readiness report, and a V35 canon-promotion workflow.
+artifacts, a promotion readiness report, and
+[v35-canon-promotion.yml](.github/workflows/v35-canon-promotion.yml).
 The promoted V34 closure remains reproducible through `pnpm run check:v34-gate10`
 and [v34-canon-promotion.yml](.github/workflows/v34-canon-promotion.yml).
 The application CI workflow uses the root pnpm workspace install, runs uapi

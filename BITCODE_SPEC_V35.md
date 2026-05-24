@@ -663,6 +663,7 @@ V35 Gate 10 closes when `version/v35` can promote to active V35 without direct `
 The readiness report `.bitcode/v35-documentation-telemetry-promotion-readiness-report.json` proves that all V35 telemetry/documentation artifacts are present, source-safe, parseable, wired into gate checks, wired into promotion checks, generated proof appendix support, and workflow validation.
 Promotion rewrites runtime posture from `V34` active / `V35` draft to `V35` active / `V36` draft and generates `BITCODE_SPEC_V35_PROVEN.md`.
 The exact post-promotion readiness posture token is active V35 / draft V36.
+The promotion script validation token is V35 active / draft V36.
 
 ## V35 validation canon
 

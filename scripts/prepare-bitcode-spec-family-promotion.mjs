@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, and V33.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, and V35.'
     ].join('\n')
   );
 }
@@ -354,8 +354,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
+  if (version === 'V35') {
+    const sharedInventory = 'active canonical `.bitcode/v35-spec-family-report.json`, `.bitcode/v35-canonical-input-report.json`, `.bitcode/v35-canon-posture-drift-report.json`, `.bitcode/v35-documentation-surface-catalog.json`, `.bitcode/v35-telemetry-taxonomy-catalog.json`, `.bitcode/v35-public-docs-usage-guides.json`, `.bitcode/v35-operator-runbook-catalog.json`, `.bitcode/v35-docs-qa-alignment-report.json`, `.bitcode/v35-testnet-rollout-readiness-guide.json`, `.bitcode/v35-telemetry-documentation-interface-integration.json`, `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`, `.bitcode/v35-documentation-telemetry-promotion-readiness-report.json`, V35 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V35_PROVEN.md` as the generated proof appendix for V35 promotion';
+    const scopeByKind = {
+      spec: 'V35 canonical system specification for telemetry and documentation depth over promoted documentation surfaces, telemetry taxonomy, public docs, runbooks, docs QA, rollout guides, interface integration, local/staging rehearsal, and promotion readiness',
+      delta: 'V35 canonical delta for telemetry and documentation depth over promoted V34 deployment-depth canon',
+      notes: 'V35 canonical notes for telemetry and documentation depth over promoted V34 deployment-depth canon',
+      parity: 'V35 canonical parity ledger for telemetry and documentation depth over promoted V34 deployment-depth canon'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V35 is the active telemetry and documentation depth canon and the V35 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V34-to-V35 telemetry and documentation depth closure set',
+      notes: 'canonical promotion complete; V35 notes record the accepted documentation, telemetry, docs QA, rollout, rehearsal, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V35 parity truth, generated telemetry/documentation artifacts, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V35`' }
+        : {}),
+      'Current canonical/latest target': '`V35`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V35 source-side documentation surface catalog, telemetry taxonomy catalog, public docs usage guides, operator runbook catalog, docs QA report, testnet rollout guide, telemetry documentation interface integration, local staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V35 file family',
+      'V35 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, and V34. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, and V35. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

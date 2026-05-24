@@ -115,5 +115,13 @@ export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_SOURCE_SAFETY_VERDI
 export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_IDS: readonly string[];
 export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ROWS: readonly Record<string, unknown>[];
 export function buildLocalStagingTelemetryDocumentationRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_VERSION: string;
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
+export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
+export function buildDocumentationTelemetryPromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function defaultProvenOutputPath(version: string): string;
 export function generateCanonicalProvenMarkdown(input?: Record<string, unknown>): BitcodeProvenMarkdownPackage;

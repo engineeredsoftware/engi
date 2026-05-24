@@ -38,6 +38,7 @@ import { BITCOIN_PAYMENT_MODES } from './v23-bitcoin.js';
 import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
 import { validateV26InferenceImplementationRecords } from './inference-implementation-records.js';
 import { buildV26ProductReadinessAudit } from './v26-product-readiness-audit.js';
+import { buildDocumentationTelemetryPromotionReadinessReport } from './documentation-telemetry-promotion-readiness-report.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const DEFAULT_V23_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
@@ -52,6 +53,7 @@ const BASE_PROVEN_DATA_CACHE = new Map();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '../../../..');
+const V35_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json';
 
 /**
  * @param {string} version
@@ -6073,6 +6075,27 @@ export function renderCanonicalProvenMarkdown(data) {
     ));
     lines.push('');
   }
+  if (data.v35) {
+    const { v35 } = data;
+    lines.push('## V35 Promotion Readiness');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v35.promotionReadinessReport.reportId || v35.promotionReadinessReport.artifactId)}`);
+    lines.push(`- sourceSafe: ${markdownCode(String(v35.promotionReadinessReport.sourceSafe === true))}`);
+    lines.push(`- passed: ${markdownCode(String(v35.promotionReadinessReport.passed === true))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v35.promotionReadinessReport.failures.length))}`);
+    lines.push(`- prePromotionPosture: ${markdownCode(v35.promotionReadinessReport.prePromotionPosture)}`);
+    lines.push(`- postPromotionPosture: ${markdownCode(v35.promotionReadinessReport.postPromotionPosture)}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v35.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+  }
   if (v20) {
     lines.push('## V20 Operator Quality Reports');
     lines.push('');
@@ -9642,6 +9665,135 @@ function buildV34ProvenPackage(baseData, {
 
 /**
  * @param {{
+ *   generatedAt: string,
+ *   baseData: ReturnType<typeof buildCanonicalProvenData>
+ * }} input
+ */
+function buildV35PromotionReadinessReport({ generatedAt, baseData }) {
+  const report = buildDocumentationTelemetryPromotionReadinessReport({
+    generatedAt,
+    repoRoot: REPO_ROOT
+  });
+  return {
+    reportId: report.artifactId,
+    ...report,
+    proofSourceCommit: baseData.canonicalCommit,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    sourceSafe: report.sourceSafetyVerdict === 'source-safe-promotion-readiness-metadata'
+  };
+}
+
+/**
+ * @param {any} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ */
+function buildV35ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const draftPreview = ACTIVE_CANON_VERSION !== 'V35';
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V35',
+    mode: draftPreview ? 'draft' : 'promoted',
+    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V35' })
+  });
+  const assumedArtifactPaths = [
+    'BITCODE_SPEC_V35_PROVEN.md',
+    '.bitcode/v35-spec-family-report.json',
+    '.bitcode/v35-canonical-input-report.json',
+    '.bitcode/v35-canon-posture-drift-report.json',
+    '.bitcode/v35-documentation-surface-catalog.json',
+    '.bitcode/v35-telemetry-taxonomy-catalog.json',
+    '.bitcode/v35-public-docs-usage-guides.json',
+    '.bitcode/v35-operator-runbook-catalog.json',
+    '.bitcode/v35-docs-qa-alignment-report.json',
+    '.bitcode/v35-testnet-rollout-readiness-guide.json',
+    '.bitcode/v35-telemetry-documentation-interface-integration.json',
+    '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
+    V35_PROMOTION_READINESS_ARTIFACT_PATH
+  ];
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V35',
+    reportVersion: 'V35',
+    ...(draftPreview
+      ? {
+          skipPointerCheck: true,
+          assumeExistingRelativePaths: assumedArtifactPaths
+        }
+      : { assumeExistingRelativePaths: assumedArtifactPaths })
+  });
+  const canonPostureDriftReport = buildCanonPostureDriftReport({
+    version: 'V35',
+    activeCanonVersion: 'V35',
+    draftTargetVersion: 'V36',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const promotionReadinessReport = buildV35PromotionReadinessReport({
+    generatedAt,
+    baseData
+  });
+  const artifacts = {
+    ...buildCanonPostureGeneratedArtifactContents({
+      version: 'V35',
+      proofSourceCommit: baseData.canonicalCommit,
+      generatedAt,
+      generatorId: baseData.generatorId,
+      worktreeState: baseData.worktreeState,
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport
+    }),
+    [V35_PROMOTION_READINESS_ARTIFACT_PATH]: `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
+  };
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const promotionReady = specFamilyReport.passed === true
+    && canonicalInputReport.passed === true
+    && canonPostureDriftReport.passed === true
+    && promotionReadinessReport.passed === true;
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v35: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      promotionReadinessReport,
+      artifactSummaries,
+      draftPreview,
+      promotionReady,
+      activeCanonicalTarget: ACTIVE_CANON_VERSION,
+      nextDraftTarget: 'V36'
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && promotionReady
+        && specFamilyReport.mode === 'promoted'
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
+ * @param {{
  *   version: string,
  *   canonicalCommit: string,
  *   canonicalCommitRecordedAt?: string | null,
@@ -10315,6 +10467,58 @@ export function generateCanonicalProvenMarkdown({
     });
     finishGenerateProfile();
     return v34Package;
+  }
+  if (version === 'V35') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      renderMarkdown: false,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      renderMarkdown: false
+    });
+    const v35Package = buildV35ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+    finishGenerateProfile();
+    return v35Package;
   }
   const v18Matrices = version === 'V18'
     ? buildV18Matrices(baseData, {
