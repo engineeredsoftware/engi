@@ -142,6 +142,45 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38
             node scripts/check-bitcode-spec-family.mjs --version V37 --mode promoted --current-target V37
             node scripts/check-v37-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            if [ -f BITCODE_SPEC_V38.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37
+              node scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v38-gate2-inference-surface-inventory.mjs ]; then
+                node scripts/check-v38-gate2-inference-surface-inventory.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs ]; then
+                node scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate4-prompt-benchmark-report.mjs ]; then
+                node scripts/check-v38-gate4-prompt-benchmark-report.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs ]; then
+                node scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs ]; then
+                node scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs --skip-branch-check --skip-package-tests # check:v38-gate6
+              fi
+              if [ -f scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs ]; then
+                node scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs --skip-branch-check --skip-package-tests # check:v38-gate7
+              fi
+              if [ -f scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs ]; then
+                node scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs --skip-branch-check --skip-package-tests # check:v38-gate8
+              fi
+              if [ -f scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs ]; then
+                node scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs --skip-branch-check --skip-package-tests # check:v38-gate9
+              fi
+              if [ -f scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs ]; then
+                node scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs --skip-branch-check --skip-package-tests # check:v38-gate10
+              fi
+              if [ -f scripts/check-v38-gate11-promotion-readiness.mjs ]; then
+                node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests # check:v38-gate11
+              fi
+            fi
+          elif [ "$POINTER" = "V38" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V38
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V38 --draft-target V39
+            node scripts/check-bitcode-spec-family.mjs --version V38 --mode promoted --current-target V38
+            node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -249,7 +288,15 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V37 --mode draft --current-target V36
               fi
               ;;
+            spec:\ V38*|spec:\ v38*)
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V38" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V38 --mode promoted --current-target V38
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37
+              fi
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38 spec change."
               ;;
           esac

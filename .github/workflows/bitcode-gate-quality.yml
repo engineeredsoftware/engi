@@ -271,6 +271,45 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V37
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38
             node scripts/check-v37-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            if [ -f BITCODE_SPEC_V38.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37
+              node scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v38-gate2-inference-surface-inventory.mjs ]; then
+                node scripts/check-v38-gate2-inference-surface-inventory.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs ]; then
+                node scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate4-prompt-benchmark-report.mjs ]; then
+                node scripts/check-v38-gate4-prompt-benchmark-report.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs ]; then
+                node scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs --skip-branch-check
+              fi
+              if [ -f scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs ]; then
+                node scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs --skip-branch-check --skip-package-tests # check:v38-gate6
+              fi
+              if [ -f scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs ]; then
+                node scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs --skip-branch-check --skip-package-tests # check:v38-gate7
+              fi
+              if [ -f scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs ]; then
+                node scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs --skip-branch-check --skip-package-tests # check:v38-gate8
+              fi
+              if [ -f scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs ]; then
+                node scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs --skip-branch-check --skip-package-tests # check:v38-gate9
+              fi
+              if [ -f scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs ]; then
+                node scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs --skip-branch-check --skip-package-tests # check:v38-gate10
+              fi
+              if [ -f scripts/check-v38-gate11-promotion-readiness.mjs ]; then
+                node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests # check:v38-gate11
+              fi
+            fi
+          elif [ "$POINTER" = "V38" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V38 --mode promoted --current-target V38
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V38
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V38 --draft-target V39
+            node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -295,7 +334,11 @@ jobs:
         run: |
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btc-fee-operation.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btd.test.ts --runInBand --forceExit
+          if [ -f packages/btd/__tests__/asset-pack-economic-traceability.test.ts ]; then
+            pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/asset-pack-economic-traceability.test.ts --runInBand --forceExit
+          fi
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/source-to-shares.test.ts __tests__/reconciliation.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-interface-contract-regression.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/interface-contract-catalog.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/mcp-tool-contract.test.ts --runInBand --forceExit
@@ -346,6 +389,36 @@ jobs:
           pnpm --dir packages/protocol exec node --test --test-force-exit test/conversation-telemetry-proof-hooks.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/conversation-rehearsal.test.js
           pnpm --dir packages/protocol exec node --test --test-force-exit test/v37-promotion-readiness.test.js
+          if [ -f packages/protocol/test/v38-inference-surface-inventory.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-inference-surface-inventory.test.js
+          fi
+          if [ -f packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-ptrr-failsafe-thricified-stack.test.js
+          fi
+          if [ -f packages/protocol/test/v38-prompt-benchmark-report.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-prompt-benchmark-report.test.js
+          fi
+          if [ -f packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-inference-telemetry-disclosure-report.test.js
+          fi
+          if [ -f packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-read-need-comprehension-inference-hardening.test.js
+          fi
+          if [ -f packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-read-fits-finding-search-embeddings.test.js
+          fi
+          if [ -f packages/protocol/test/v38-assetpack-synthesis-economic-traceability.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-assetpack-synthesis-economic-traceability.test.js
+          fi
+          if [ -f packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-conversation-tool-prompt-inference-parity.test.js
+          fi
+          if [ -f packages/protocol/test/v38-local-staging-inference-depository-search-rehearsal.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-local-staging-inference-depository-search-rehearsal.test.js
+          fi
+          if [ -f packages/protocol/test/v38-promotion-readiness.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-promotion-readiness.test.js
+          fi
           pnpm --filter @bitcode/protocol test
 
       - name: Test staged Reading route and Terminal harness contracts

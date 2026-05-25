@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V37`; V38 is the next draft target after the promoted Website
-Conversations canon.
+resolves to `V37`; V38 is the active draft target for inference stack and
+fit-finding correctness after the promoted Website Conversations canon.
 
 ## Current Product Posture
 
@@ -99,6 +99,149 @@ AssetPack source, or wallet private material.
 Promotion hardening also keeps Conversation persistence and telemetry redaction
 on bounded private-key PEM scanning with closed/unclosed PEM tests so static
 security findings block promotion instead of being waived.
+V38 Gate 1 opens the inference stack draft family and `check:v38-gate1` over
+active V37. V38 focuses on commercial inference correctness: PTRR agents,
+Plan/Try/Refine/Retry steps, `FailsafeGenerationSequence`,
+`ThricifiedGeneration`, prompt registry composition, prompt and PromptPart
+benchmarking, tool doc-comment prompts, source-safe inference telemetry,
+`ReadNeedComprehensionSynthesis`, and `ReadFitsFindingSynthesis` depository
+search. Finding Fits remains plural and depository-wide, preserving the active
+`text-embedding-3-small`, 1536 dimension, cosine `match_deliverable_vectors`
+embedding policy until a tested migration exists.
+V38 Gate 2 adds the package-backed `V38InferenceSurfaceInventory` and generated
+source-safe artifact `.bitcode/v38-inference-surface-inventory.json`. The
+inference surface inventory records `ReadNeedComprehensionSynthesis`,
+`ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts,
+interface entrypoints, prompt registry coverage, and execution primitives as
+`source-safe-inference-surface-metadata`; its current count contract is 52 PTRR
+steps, 156 Failsafe/Thricified chains, and 468 provider-call slots. Use
+`pnpm run generate:v38-inference-surface-inventory`,
+`pnpm run check:v38-inference-surface-inventory`, and
+`pnpm run check:v38-gate2` before closing the gate.
+V38 Gate 3 adds the package-backed `V38PtrrFailsafeThricifiedStack` and
+generated source-safe artifact `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+The stack contract records `factoryAgentWithPTRR`, Plan/Try/Refine/Retry,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context
+telemetry, step-owned tool postprocess boundaries, and Gate 2's 52 PTRR steps /
+156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call
+slots as `source-safe-ptrr-failsafe-thricified-stack-metadata`. Use
+`pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
+`pnpm run check:v38-ptrr-failsafe-thricified-stack`, and
+`pnpm run check:v38-gate3` before closing the gate.
+V38 Gate 4 adds the package-backed `V38PromptBenchmarkReport` and generated
+source-safe artifact `.bitcode/v38-prompt-benchmark-report.json`. The Prompt
+benchmarking report covers benchmark infrastructure, generic PTRR/Failsafe/
+ThricifiedGeneration PromptParts, `ReadNeedComprehensionSynthesis`
+PromptParts, `ReadFitsFindingSynthesis` PromptParts, complete Reading Prompt
+registries, Website Conversation Prompts, and DocCodeToolPrompt surfaces as
+`source-safe-prompt-benchmark-metadata`. The current source-safe count contract
+is 7 rows, 13 fixtures, 24 typed-output quality expectations, 38 source
+predicates, 443 PromptPart doc-comments, 39 complete Prompt doc-comments, 465
+benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions.
+Prompt benchmarking artifacts never serialize raw prompt text or raw provider
+responses.
+Use `pnpm run generate:v38-prompt-benchmark-report`,
+`pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`
+before closing the gate.
+V38 Gate 5 adds the package-backed `V38InferenceTelemetryDisclosureReport` and
+generated source-safe artifact `.bitcode/v38-disclosure-boundary-report.json`.
+The inference telemetry disclosure report covers pipeline phase, PTRR agent
+step, FailsafeGenerationSequence, ThricifiedGeneration, tool execution, prompt
+template interpolation, raw provider response root, parsed typed output shape,
+schema verdict, retry, repair, and stream UI/storage projection rows as
+`source-safe-inference-telemetry-disclosure-metadata`. Its disclosure tier
+contract keeps raw provider response content, raw protected prompts, protected
+source, unpaid AssetPack source, credentials, private wallet material, and
+private settlement payloads out of public or reader-visible streams while still
+surfacing roots, presence flags, typed shapes, and proof metadata for audit.
+Use `pnpm run generate:v38-inference-telemetry-disclosure-report`,
+`pnpm run check:v38-inference-telemetry-disclosure-report`, and
+`pnpm run check:v38-gate5` before closing the gate.
+V38 Gate 6 adds the package-backed
+`V38ReadNeedComprehensionInferenceHardening` report and generated source-safe
+artifact `.bitcode/v38-read-need-comprehension-inference-hardening.json`.
+The ReadNeedComprehensionSynthesis hardening report binds produced Needs to
+`ReadNeedComprehensionSynthesisInferenceReceipt` metadata covering 4 phases, 4
+PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48
+ThricifiedGeneration chains, 144 provider-call slots, prompt/template ids,
+interpolation keys, output schemas, telemetry ids, and roots. The receipt keeps
+protected source, raw provider response content, unpaid AssetPack source,
+credentials, private wallet material, and private settlement payloads private
+or blocked while preserving resynthesis-with-feedback and accepted-Need-gated
+Finding Fits admission.
+Use `pnpm run generate:v38-read-need-comprehension-inference-hardening`,
+`pnpm run check:v38-read-need-comprehension-inference-hardening`, and
+`pnpm run check:v38-gate6` before closing the gate.
+V38 Gate 7 adds the package-backed `V38ReadFitsFindingSearchEmbeddings` report
+and generated source-safe artifact
+`.bitcode/v38-read-fits-finding-search-embeddings.json`. The Finding Fits
+report binds `ReadFitsFindingSynthesisSearchReceipt` metadata across accepted
+Need admission, query planning, many-fit depository discovery, embedding
+policy, threshold ranking, selected-fit provenance, and source-safe receipt
+rows. Its count contract is 7 phases, 8 PTRR agents, 32 PTRR steps, 96
+Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4
+tool contracts, 7 search channels, and default 12 above-threshold selected-fit
+carryforward slots. The active vector policy remains OpenAI
+`text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors`,
+and no protected source, raw provider response content, unpaid AssetPack source,
+credentials, private wallet material, or private settlement payloads may enter
+the source-safe receipt.
+Use `pnpm run generate:v38-read-fits-finding-search-embeddings`,
+`pnpm run check:v38-read-fits-finding-search-embeddings`, and
+`pnpm run check:v38-gate7` before closing the gate.
+V38 Gate 8 adds the package-backed
+`V38AssetPackSynthesisEconomicTraceability` report and generated source-safe
+artifact `.bitcode/v38-assetpack-synthesis-economic-traceability.json`. The
+AssetPack handoff report binds selected fit provenance into AssetPack
+synthesis, source-safe preview, deterministic share-to-fee BTC quote, BTD
+mint/read/rights receipts, source-to-shares contributor compensation,
+settlement unlock, post-settlement pull-request delivery, ledger/database
+reconciliation, repair posture, and harness evidence projection without
+exposing protected source, raw provider response content, unpaid AssetPack
+source, credentials, wallet private material, or private settlement payloads.
+Use `pnpm run generate:v38-assetpack-synthesis-economic-traceability`,
+`pnpm run check:v38-assetpack-synthesis-economic-traceability`, and
+`pnpm run check:v38-gate8` before closing the gate.
+V38 Gate 9 adds the package-backed
+`V38ConversationToolPromptInferenceParity` report and generated source-safe
+artifact `.bitcode/v38-conversation-tool-prompt-inference-parity.json`.
+The parity report binds Website Conversation comprehensive and quick-response
+variations to PTRR/Failsafe/Thricified inference, prompt registries, typed
+schemas, source-safe stream telemetry, rich execution-log rendering,
+DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App
+doc-code prompt carriers, read-access and organization-authority admission,
+and interface no-bypass posture without exposing protected source, raw prompt
+text, raw provider response content, unpaid AssetPack source, credentials,
+wallet private material, or private settlement payloads.
+Use `pnpm run generate:v38-conversation-tool-prompt-inference-parity`,
+`pnpm run check:v38-conversation-tool-prompt-inference-parity`, and
+`pnpm run check:v38-gate9` before closing the gate.
+V38 Gate 10 adds the package-backed
+`V38LocalStagingInferenceDepositorySearchRehearsal` report and generated
+source-safe artifact
+`.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+The rehearsal report binds local and staging-testnet lanes to Vercel Sandbox
+harness opt-in, bounded real-inference preflight, Supabase readback validation,
+ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, many-fit depository
+search, source-safe AssetPack preview, telemetry streaming/readback,
+ledger/database synchronization posture, and blocked production-mainnet
+value-bearing admission without exposing protected source, raw prompt text, raw
+provider response content, live rehearsal log payloads, unpaid AssetPack
+source, credentials, wallet private material, or private settlement payloads.
+Use `pnpm run generate:v38-local-staging-inference-depository-search-rehearsal`,
+`pnpm run check:v38-local-staging-inference-depository-search-rehearsal`, and
+`pnpm run check:v38-gate10` before closing the gate.
+V38 Gate 11 adds the package-backed `V38InferencePromotionReadinessReport`
+and generated source-safe artifact `.bitcode/v38-promotion-readiness-report.json`.
+The promotion readiness report binds all V38 inference artifacts,
+`BITCODE_SPEC_V38_PROVEN.md` support, `v38-canon-promotion.yml`, promotion
+command dry-run support, gate/canon workflow posture, active V38 / draft V39
+runtime preparation, and blocked value-bearing mainnet posture without exposing
+protected source, raw protected prompts, raw provider responses, unpaid
+AssetPack source, credentials, wallet private material, or private settlement
+payloads. Use `pnpm run generate:v38-promotion-readiness`,
+`pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`
+before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -229,10 +372,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v37`.
+1. Create one base branch per draft target, such as `version/v38`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v37/gate-1-conversations-roadmap-opening`
-   or `v37/gate-6-conversation-terminal-handoff`.
+   with the gate number, for example `v38/gate-1-inference-stack-roadmap-opening`
+   or `v38/gate-7-read-fits-finding-search`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -241,7 +384,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V37 Gate 5: Source Selectors And Context Policy`.
+   title, for example `V38 Gate 7: ReadFitsFindingSynthesis Depository Search`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -251,11 +394,18 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V37, promotion work must validate the
-Conversations posture, generate `BITCODE_SPEC_V37_PROVEN.md`, and commit
-promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from `V36` to
-`V37` on the version branch.
-Gate 10 is the promotion-readiness gate. V37 Gate 1 is wired through
+run the version promotion workflow. For V38, `v38-canon-promotion.yml` must validate the
+inference stack, Reading pipeline, depository-search, prompt benchmark,
+telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
+commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
+`V37` to `V38` on the version branch.
+V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
+`pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
+`pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
+`pnpm run check:v38-gate6`, `pnpm run check:v38-gate7`,
+`pnpm run check:v38-gate8`, `pnpm run check:v38-gate9`, and
+`pnpm run check:v38-gate10`, and `pnpm run check:v38-gate11`. The promoted V37
+gate closure remains reproducible through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and
 `pnpm run check:v37-conversation-session-route-history`; V37 Gate 3 is wired
@@ -287,9 +437,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V36.md](BITCODE_SPEC_V36.md) is the active promoted spec family.
-- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active draft target.
-- [BITCODE_SPEC_V37_PARITY_MATRIX.md](BITCODE_SPEC_V37_PARITY_MATRIX.md) tracks V37 gate parity.
+- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active promoted spec family.
+- [BITCODE_SPEC_V38.md](BITCODE_SPEC_V38.md) is the active draft target.
+- [BITCODE_SPEC_V38_PARITY_MATRIX.md](BITCODE_SPEC_V38_PARITY_MATRIX.md) tracks V38 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V37` active, `V38` draft after V37 promotion);
+- active/draft canon posture (`V38` active, `V39` draft after V38 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -42,14 +42,164 @@ Current exported commercial helpers include:
 - `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
 - `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
 - `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
+- `V38InferenceSurfaceInventory` helpers for V38 Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive inference-surface inventory;
+- `V38PtrrFailsafeThricifiedStack` helpers for V38 practical PTRR agent stack proof, FailsafeGenerationSequence over ThricifiedGeneration binding, step-owned tool boundaries, source predicates, and source-safe generated metadata;
+- `V38PromptBenchmarkReport` helpers for V38 source-safe PromptPart and complete Prompt benchmark coverage across Reading, Conversation, and tool-definition inference surfaces;
+- `V38InferenceTelemetryDisclosureReport` helpers for V38 source-safe inference telemetry rows, disclosure tiers, raw provider response boundaries, schema verdicts, retry/repair posture, and rich stream UI/storage projection proof;
+- `V38ReadFitsFindingSearchEmbeddings` helpers for V38 source-safe Finding Fits query plans, depository search channels, embedding policy, threshold ranking, selected-fit provenance, and search receipts;
+- `V38InferencePromotionReadinessReport` helpers for V38 source-safe promotion readiness across inference artifacts, generated proof support, workflow posture, and V38 active / V39 draft runtime preparation;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is now the `V37` active, `V38` draft after V37 promotion posture accepted
-by V37 Gate 10.
-V38 Gate 1 treats this package as promotion-critical runtime posture.
+This is the `V38` active, `V39` draft after V38 promotion posture accepted by
+V38 canonical promotion.
+V38 Gate 1 treats this package as promotion-critical runtime posture and opens
+the inference stack specification family for active V37 / draft V38 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V37` active, `V38` draft while V38 opens.
+must remain aligned to `V38` active, `V39` draft after promotion.
+V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
+PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
+ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
+depository-search, embedding policy, prompt benchmarking, and source-safe
+telemetry scope that later V38 gates must implement.
+V38 Gate 2 adds `V38InferenceSurfaceInventory` through
+`packages/protocol/src/canonical/inference-surface-inventory.js` and the
+source-safe generated artifact `.bitcode/v38-inference-surface-inventory.json`.
+The inventory covers `ReadNeedComprehensionSynthesis`,
+`ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts,
+interface entrypoints, prompt registry coverage, and execution primitives as
+`source-safe-inference-surface-metadata`, with 52 PTRR steps, 156
+Failsafe/Thricified chains, and 468 provider-call slots. The maintained commands
+are `pnpm run generate:v38-inference-surface-inventory`,
+`pnpm run check:v38-inference-surface-inventory`, and
+`pnpm run check:v38-gate2`.
+V38 Gate 3 adds `V38PtrrFailsafeThricifiedStack` through
+`packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js` and the
+source-safe generated artifact `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+The stack contract covers `factoryAgentWithPTRR`, Plan/Try/Refine/Retry,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context
+telemetry, step-owned tool postprocess boundaries, and Gate 2's 52 PTRR steps /
+156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call
+slots as `source-safe-ptrr-failsafe-thricified-stack-metadata`. The maintained
+commands are `pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
+`pnpm run check:v38-ptrr-failsafe-thricified-stack`, and
+`pnpm run check:v38-gate3`.
+V38 Gate 4 adds `V38PromptBenchmarkReport` through
+`packages/protocol/src/canonical/prompt-benchmark-report.js` and the
+source-safe generated artifact `.bitcode/v38-prompt-benchmark-report.json`.
+The Prompt benchmarking report covers benchmark infrastructure, generic
+PTRR/Failsafe/ThricifiedGeneration PromptParts,
+`ReadNeedComprehensionSynthesis` PromptParts, `ReadFitsFindingSynthesis`
+PromptParts, complete Reading Prompt registries, Website Conversation Prompts,
+and DocCodeToolPrompt surfaces as `source-safe-prompt-benchmark-metadata`.
+The maintained commands are `pnpm run generate:v38-prompt-benchmark-report`,
+`pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`.
+V38 Gate 5 adds `V38InferenceTelemetryDisclosureReport` through
+`packages/protocol/src/canonical/inference-telemetry-disclosure-report.js` and
+the source-safe generated artifact `.bitcode/v38-disclosure-boundary-report.json`.
+The telemetry disclosure report covers phase, agent, PTRR step, Failsafe,
+ThricifiedGeneration, tool, prompt template, interpolated prompt, raw provider
+response root, parsed output shape, schema verdict, retry, repair, and stream UI
+projection rows as `source-safe-inference-telemetry-disclosure-metadata`. The
+disclosure tier contract exposes source-safe roots, ids, presence flags, typed
+shapes, and fail-closed states while keeping raw provider response content, raw
+protected prompts, protected source, unpaid AssetPack source, credentials,
+private wallet material, and private settlement payloads private or blocked.
+The maintained commands are
+`pnpm run generate:v38-inference-telemetry-disclosure-report`,
+`pnpm run check:v38-inference-telemetry-disclosure-report`, and
+`pnpm run check:v38-gate5`.
+V38 Gate 6 adds `V38ReadNeedComprehensionInferenceHardening` through
+`packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js`
+and the source-safe generated artifact
+`.bitcode/v38-read-need-comprehension-inference-hardening.json`.
+The hardening report proves ReadNeedComprehensionSynthesis request
+normalization, Need comprehension, Need measurement, Need review, and
+source-safe inference receipt coverage. The receipt binds 4 phases, 4 PTRR
+agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains,
+144 provider-call slots, prompt ids, interpolation keys, output schemas,
+telemetry ids, and roots while preserving protected source and raw provider
+response privacy.
+The maintained commands are
+`pnpm run generate:v38-read-need-comprehension-inference-hardening`,
+`pnpm run check:v38-read-need-comprehension-inference-hardening`, and
+`pnpm run check:v38-gate6`.
+V38 Gate 7 adds `V38ReadFitsFindingSearchEmbeddings` through
+`packages/protocol/src/canonical/read-fits-finding-search-embeddings.js` and
+the source-safe generated artifact
+`.bitcode/v38-read-fits-finding-search-embeddings.json`.
+The search report proves accepted-Need admission, source-safe query planning,
+many-fit depository discovery, active OpenAI embedding/vector policy,
+threshold verification, selected-fit provenance, and source-safe search
+receipt coverage. The receipt binds 7 phases, 8 PTRR agents, 32 PTRR steps, 96
+Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4
+tool contracts, 7 search channels, 12 default selected-candidate slots,
+embedding policy, query roots, ranking roots, candidate counts, and provenance
+roots while preserving protected source and raw provider response privacy.
+The maintained commands are
+`pnpm run generate:v38-read-fits-finding-search-embeddings`,
+`pnpm run check:v38-read-fits-finding-search-embeddings`, and
+`pnpm run check:v38-gate7`.
+V38 Gate 8 adds `V38AssetPackSynthesisEconomicTraceability` through
+`packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js`
+and the source-safe generated artifact
+`.bitcode/v38-assetpack-synthesis-economic-traceability.json`.
+The economic traceability report proves selected-fit handoff into AssetPack
+synthesis, source-safe preview, deterministic BTC quote, BTD mint/read/rights
+receipts, source-to-shares contributor allocation, settlement unlock,
+post-settlement delivery, ledger/database reconciliation, repair actions, and
+harness evidence projection while preserving protected source and private
+settlement payload privacy.
+The maintained commands are
+`pnpm run generate:v38-assetpack-synthesis-economic-traceability`,
+`pnpm run check:v38-assetpack-synthesis-economic-traceability`, and
+`pnpm run check:v38-gate8`.
+V38 Gate 9 adds `V38ConversationToolPromptInferenceParity` through
+`packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js`
+and the source-safe generated artifact
+`.bitcode/v38-conversation-tool-prompt-inference-parity.json`.
+The parity report proves comprehensive and quick-response Conversation PTRR
+variations, Conversation agent/step prompt registries, typed output schemas,
+source-safe stream telemetry, rich execution-log UI rendering,
+DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App
+doc-code prompt carriers, read-access checks, organization-authority checks,
+and interface no-bypass posture while preserving protected source, raw prompt,
+raw provider response, credential, private wallet, private settlement, and
+unpaid AssetPack privacy.
+The maintained commands are
+`pnpm run generate:v38-conversation-tool-prompt-inference-parity`,
+`pnpm run check:v38-conversation-tool-prompt-inference-parity`, and
+`pnpm run check:v38-gate9`.
+V38 Gate 10 adds `V38LocalStagingInferenceDepositorySearchRehearsal` through
+`packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js`
+and the source-safe generated artifact
+`.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+The rehearsal report proves local and staging-testnet lanes for Vercel Sandbox
+harness opt-in, bounded real-inference route preflight, Supabase readback,
+ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, many-fit depository
+search, source-safe AssetPack preview, telemetry streaming/readback,
+ledger/database posture, and blocked production-mainnet value-bearing
+admission while preserving protected source, raw prompt, raw provider response,
+live log payload, credential, wallet, private settlement, and unpaid AssetPack
+privacy.
+The maintained commands are
+`pnpm run generate:v38-local-staging-inference-depository-search-rehearsal`,
+`pnpm run check:v38-local-staging-inference-depository-search-rehearsal`, and
+`pnpm run check:v38-gate10`.
+V38 Gate 11 adds `V38InferencePromotionReadinessReport` through
+`packages/protocol/src/canonical/inference-promotion-readiness-report.js`
+and the source-safe generated artifact
+`.bitcode/v38-promotion-readiness-report.json`.
+The promotion readiness report proves every V38 inference artifact is covered,
+parseable, and source-safe; binds `BITCODE_SPEC_V38_PROVEN.md` generation
+support, `v38-canon-promotion.yml`, promotion command dry-run support,
+gate/canon workflow posture, and runtime preparation for `V38` active, `V39` draft;
+and blocks value-bearing mainnet admission while preserving protected
+source, raw protected prompt, raw provider response, credential, wallet,
+private settlement, and unpaid AssetPack privacy.
+The maintained commands are
+`pnpm run generate:v38-promotion-readiness`,
+`pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and
