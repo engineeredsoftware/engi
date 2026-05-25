@@ -51,6 +51,7 @@ Current exported commercial helpers include:
 - `V39DepositorySupplyIndexing` helpers for V39 source-safe Depository supply records, search documents, vector projections, storage readback posture, rights boundaries, repair actions, and Finding Fits handoff;
 - `V39EnterpriseReadingUxState` helpers for V39 source-safe Terminal Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
 - `V39ReadNeedReviewResynthesis` helpers for V39 source-safe ReadNeed review, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, runtime storage projection, and telemetry receipt proof;
+- `V39ReadFitsFindingRuntime` helpers for V39 source-safe Finding Fits runtime storage, many-candidate ranking, selected-fit provenance, replay receipts, repair posture, and active embedding policy proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -93,6 +94,15 @@ rejected-Need posture, source-safe telemetry receipts, route/runtime storage
 projection tests, and workflow wiring. The maintained commands are
 `pnpm run generate:v39-read-need-review-resynthesis` and
 `pnpm run check:v39-gate4`.
+V39 Gate 5 adds `V39ReadFitsFindingRuntime` through
+`packages/protocol/src/canonical/v39-read-fits-finding-runtime.js` and the
+source-safe generated artifact `.bitcode/v39-read-fits-finding-runtime.json`.
+The report proves accepted-Need-only Finding Fits admission, source-safe query
+plans, seven search channels, many-candidate ranking, selected-fit provenance,
+active OpenAI embedding policy, replay receipts, repair posture, runtime
+storage projection, package tests, protocol tests, and workflow wiring. The
+maintained commands are `pnpm run generate:v39-read-fits-finding-runtime` and
+`pnpm run check:v39-gate5`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

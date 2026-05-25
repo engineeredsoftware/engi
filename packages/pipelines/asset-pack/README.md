@@ -129,6 +129,23 @@ for resynthesis. The runtime never serializes protected source, raw protected
 prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
 private material, or private settlement payloads.
 
+## ReadFitsFinding Runtime
+
+`ReadFitsFindingRuntime` is the source-safe package primitive that turns
+`ReadFitsFindingSynthesis` depository search into replayable commercial
+evidence. It projects accepted-Need admission, source-safe query plans, search
+channels, candidate ranking, selected-fit provenance, fit result evidence,
+replay receipt, repair posture, and telemetry receipt records into
+PipelineExecution-compatible storage.
+
+The runtime preserves the active embedding policy
+(`text-embedding-3-small`, 1536 dimensions, cosine
+`match_deliverable_vectors`) and records a `ReadFitsFindingReplayReceipt` that
+verifies query-plan, query, ranking, selected-fit provenance, embedding, and
+candidate-count roots. It never serializes protected source, raw protected
+prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
+private material, or private settlement payloads.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

@@ -225,7 +225,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-gate4-expanded', SOURCE_ROOTS.v39Delta, delta.includes('Gate 4') && delta.includes('readNeedReviewRuntime')),
     predicateResult('notes-gate4-expanded', SOURCE_ROOTS.v39Notes, notes.includes('Gate 4 implementation notes') && notes.includes('rejected-Need posture')),
     predicateResult('parity-gate4-expanded', SOURCE_ROOTS.v39Parity, parity.includes('Gate 4 Parity') && parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate4', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 4 closure anchor') && roadmap.includes('Next queued gate after V39 Gate 4 closure')),
+    predicateResult('roadmap-advanced-to-gate4', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 4 closure anchor') && roadmap.includes('ReadNeedReviewResynthesisRuntime')),
     predicateResult('readmes-document-gate4', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 4') && assetPackReadme.includes('ReadNeed review') && protocolReadme.includes('V39ReadNeedReviewResynthesis')),
     predicateResult('workflows-run-gate4-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate4-read-need-review-resynthesis.mjs') && canonWorkflow.includes('check-v39-gate4-read-need-review-resynthesis.mjs')),
   ];

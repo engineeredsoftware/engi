@@ -134,6 +134,16 @@ blockers; only `acceptReadNeed` may produce Finding Fits admission.
 Gate 5 makes `ReadFitsFindingSynthesis` search the whole available Depository for many candidate deposits.
 It must execute inference-derived query planning, lexical/symbolic/path/metadata/measurement/vector/provider channels, threshold ranking, verification, selected-fit provenance, replay receipts, and repair paths over the accepted Need.
 The active vector policy remains OpenAI `text-embedding-3-small`, 1536 dimensions, cosine similarity, and `match_deliverable_vectors` until a tested migration is specified.
+The implementation basis is `ReadFitsFindingRuntime`, exported from
+`packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`. It wraps
+the depository search result with `ReadFitsFindingReplayReceipt`,
+`ReadFitsFindingStorageRecord`, `ReadFitsFindingTelemetryReceipt`, and
+`ReadFitsFindingRepairPosture` projections so an accepted Need can replay the
+source-safe query plan, ranking root, selected-fit provenance root, embedding
+policy, and candidate counts without exposing protected source or unpaid
+AssetPack source. The generated source-safe proof artifact is
+`.bitcode/v39-read-fits-finding-runtime.json`, checked by
+`pnpm run check:v39-gate5`.
 
 ### Gate 6: AssetPack Preview, Quote, And Disclosure Boundary
 
@@ -248,8 +258,8 @@ Current canonical objects and emitted artifacts: query receipts, search channel 
 Current algorithms and derivation rules: inference-derived queries search lexical, symbolic, path, metadata, measurement, embedding/vector, and provider-specific channels before ranking.
 Current invariants and fail-closed conditions: no-survivor asset pack and unsupported vector policy fail closed.
 Current proof obligations: Selection-and-materialization, Verification-decisions, and Disclosure-boundary proofs.
-Current source-bearing implementation basis: `depository-search.ts`, `embedding-config.ts`, and depository-search tools.
-Current validating commands and parity basis: V39 Gate 7 checks and later Gate 8 handoff checks.
+Current source-bearing implementation basis: `depository-search.ts`, `read-fits-finding-runtime.ts`, `embedding-config.ts`, and depository-search tools.
+Current validating commands and parity basis: V39 Gate 5 checks, Gate 7 checks, and later Gate 8 handoff checks.
 Current accepted boundaries: source-safe preview before settlement, full source only after paid rights transfer.
 
 ### Selection and materialization

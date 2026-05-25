@@ -145,7 +145,16 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 5 work must define runtime search artifacts, active embedding policy checks, and many-candidate replay evidence.
+- Gate 5 defines package-backed `ReadFitsFindingRuntime` source,
+  deterministic `.bitcode/v39-read-fits-finding-runtime.json`, package tests
+  for many-fit search, blocked admission, storage projection, replay, and
+  source-safe summaries, and protocol tests for the generated proof artifact.
+  Runtime payloads include `ReadFitsFindingReplayReceipt`,
+  `ReadFitsFindingStorageRecord`, `ReadFitsFindingTelemetryReceipt`, and
+  `ReadFitsFindingRepairPosture`. The runtime binds accepted-Need admission,
+  source-safe query plan, ranking evidence, selected-fit provenance, active
+  embedding policy, and repair posture without exposing protected source or
+  unpaid AssetPack source.
 
 ### Gate 6: AssetPack Preview, Quote, And Disclosure Boundary
 

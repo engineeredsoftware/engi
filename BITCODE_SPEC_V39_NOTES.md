@@ -211,6 +211,14 @@ without accidentally admitting Finding Fits.
 ## Gate 5 implementation notes
 
 Gate 5 closes `ReadFitsFindingSynthesis` as a runtime many-candidate search pipeline with replayable query, ranking, threshold, and selected-fit provenance receipts across lexical, symbolic, path, metadata, measurement, vector, and provider-specific channels.
+The package-owned runtime is `ReadFitsFindingRuntime`. It persists
+source-safe storage records for accepted-Need admission, query plan, search
+channels, candidate ranking, selected-fit provenance, fit result, telemetry,
+repair posture, and source-safe replay receipt. The source-safe replay receipt
+verifies query-plan, query, ranking, selected-fit provenance, embedding policy,
+and candidate-count roots so an operator can diagnose blocked or no-worthy
+Finding Fits runs without raw source, raw provider responses, credentials,
+wallet private material, settlement payloads, or unpaid AssetPack source.
 
 ## Gate 6 implementation notes
 
