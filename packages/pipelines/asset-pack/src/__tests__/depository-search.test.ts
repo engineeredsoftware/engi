@@ -440,8 +440,8 @@ describe('AssetPack depository search', () => {
       },
     });
     expect(findStored(exec, 'fit', 'selectionTrace')?.selectedCandidates[0].selectedUnits[0]).toMatchObject({
-      unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:unit-1',
-      unitKind: 'repository-revision',
+      unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:supply-index-source-safe-unit',
+      unitKind: 'depository-supply-index',
     });
     expect(output.depositorySearch.selectedCandidateAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',

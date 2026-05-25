@@ -70,7 +70,7 @@ No `_legacy/` source is active source truth.
 | Inference vocabulary | Gate 1 | `PipelineExecution`, PTRR Plan/Try/Refine/Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt` | drafted | V38 inference law remains binding on V39 product implementation. |
 | Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | drafted | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
 | Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | drafted | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
-| Depository supply indexing | Gate 2 | package source, generated artifact, deposit lifecycle tests, embedding/search projection tests | pending | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable. |
+| Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.bitcode/v39-depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
 | Enterprise Reading UX state machine | Gate 3 | Terminal route state, Conversation handoff, rich execution log, browser proof | pending | The five-step enterprise Reading UX is implemented with low-detail defaults and expandable source-safe detail. |
 | ReadNeed review and resynthesis | Gate 4 | `ReadNeedComprehensionSynthesis`, Need storage, feedback, resynthesis, accepted-Need admission | pending | Finding Fits remains blocked until a reviewed Need is accepted. |
 | ReadFitsFinding runtime and replay | Gate 5 | `ReadFitsFindingSynthesis`, search tools, embeddings, ranking, selected-fit provenance, replay receipts | pending | Finding Fits searches the whole available Depository for many above-threshold candidates. |
@@ -92,7 +92,7 @@ No `_legacy/` source is active source truth.
 | Gate-quality workflow | Gate workflow validates V38 active / V39 draft posture and the V39 Gate 1 checker | drafted |
 | Canon-quality workflow | Canon workflow validates promoted V38 canon, V39 draft family when present, and V38/V39 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V38 active / V39 draft workflow | drafted |
-| Depository supply indexing | Deposits become measurable, embedded, indexable, rights-aware, searchable, and repairable | pending |
+| Depository supply indexing | Deposits become measurable, embedded, indexable, rights-aware, searchable, and repairable | implemented |
 | Enterprise Reading UX | Terminal implements request read, review Need, request Finding Fits, review preview, buy and settle | pending |
 | ReadNeed runtime | `ReadNeedComprehensionSynthesis` persists reviewable Needs, feedback, resynthesis, measurements, and accepted-Need admission | pending |
 | ReadFitsFinding runtime | `ReadFitsFindingSynthesis` searches many above-threshold deposits with replayable query, ranking, threshold, and selected-fit provenance receipts | pending |
@@ -123,15 +123,31 @@ No `_legacy/` source is active source truth.
 | Finding Fits is plural and depository-wide | `packages/pipelines/asset-pack/src/depository-search.ts`, V39 SPEC/DELTA | drafted |
 | Gate checker is wired | `scripts/check-v39-gate1-commercial-reading-roadmap-opening.mjs`, `package.json`, workflows | drafted |
 
+## Gate 2 Parity
+
+| Requirement | Source evidence | Current V39 judgment |
+| --- | --- | --- |
+| Depository supply index type exists | `packages/pipelines/asset-pack/src/depository-supply-index.ts` | implemented |
+| Deposited source lifecycle is source-bound | `DepositorySupplyRecord.sourceBinding`, `DepositorySupplyRecord.lifecycle`, `depository-supply-index.test.ts` | implemented |
+| Source-safe search documents exist | `DepositorySupplySearchDocument`, lexical/metadata/measurement/vector document kinds | implemented |
+| Active vector policy is projected | `DepositorySupplyVectorProjection`, `embedding-config.ts`, `match_deliverable_vectors`, `text-embedding-3-small`, 1536 dimensions | implemented |
+| Supabase/storage readback projection exists | `DepositorySupplyStorageProjection`, retained `deliverables` and `deliverable_vectors` storage-edge names | implemented |
+| Depositor and Reader rights boundary is explicit | `DepositorySupplyRecord.rightsBoundary`, BTD range, depositor wallet, settlement-required source-bearing unlock | implemented |
+| Repair posture is deterministic | lifecycle blockers, warnings, and `repairActions` including `sync-active-embedding-vector-rows` | implemented |
+| Finding Fits handoff is source-safe | `depositorySupplyAssetsFromIndex`, `depository-search.ts`, package tests returning `worthy_fit` without raw source text | implemented |
+| Gate 2 proof artifact is source-safe | `.bitcode/v39-depository-supply-indexing.json`, `packages/protocol/src/canonical/v39-depository-supply-indexing.js`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented |
+| Gate 2 checker is wired | `scripts/check-v39-gate2-depository-supply-indexing.mjs`, `package.json`, canon/gate workflows | implemented |
+
 ## Later Gate Parity
 
-Later V39 gates must add gate-specific parity sections when their implementation begins. Gate 1 intentionally does not claim closure for Depository indexing, enterprise Reading UX, Need review, Finding Fits runtime, preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
+Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 and 2 intentionally do not claim closure for enterprise Reading UX, Need review, Finding Fits runtime, preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
 
 ## accepted boundaries and reopen conditions
 
 V39 Gate 1 accepts only draft-family, roadmap, workflow, branch, and documentation posture closure.
+V39 Gate 2 accepts only Depository supply indexing, source-safe search document, vector projection, storage readback posture, rights boundary, repair posture, and Finding Fits handoff closure.
 Later gate scope is intentionally pending and must be reopened into gate-specific parity sections before implementation starts.
 
 ## completion condition
 
-V39 Gate 1 is complete when `check:v39-gate1`, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-1-*` branch.
+V39 Gate 2 is complete when `check:v39-gate2`, package Depository supply tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-2-*` branch.

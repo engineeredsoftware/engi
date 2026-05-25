@@ -249,6 +249,14 @@ ReadFitsFinding runtime and replay, source-safe AssetPack preview and
 deterministic BTC quote, settlement, BTD rights transfer, post-settlement
 delivery, ledger/database/storage synchronization, telemetry/repair, interface
 parity, local/staging rehearsal, and promotion readiness.
+V39 Gate 2 adds the package-owned `DepositorySupplyIndex` and source-safe
+generated artifact `.bitcode/v39-depository-supply-indexing.json`. Deposited
+source supply is normalized into rights-aware records with repository, branch,
+commit, proof, measurement, reconciliation readback, BTD range, depositor
+wallet, source-safe search documents, active embedding/vector projection,
+Supabase storage readback posture, deterministic repair actions, and a
+source-safe Finding Fits handoff. Use `pnpm run generate:v39-depository-supply-indexing`
+and `pnpm run check:v39-gate2` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

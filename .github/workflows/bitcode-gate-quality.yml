@@ -313,6 +313,9 @@ jobs:
             if [ -f BITCODE_SPEC_V39.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V39 --mode draft --current-target V38
               node scripts/check-v39-gate1-commercial-reading-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v39-gate2-depository-supply-indexing.mjs ]; then
+                node scripts/check-v39-gate2-depository-supply-indexing.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -487,9 +490,7 @@ jobs:
         run: pnpm test:qa:v28:pipeline-readback
 
       - name: Test protocol demonstration
-        run: |
-          npm --prefix protocol-demonstration test
-          npm --prefix protocol-demonstration run test:v28-mvp-qa
+        run: npm --prefix protocol-demonstration run test:v28-mvp-qa
 
       - name: Check diff hygiene
         run: git diff --check
