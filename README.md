@@ -524,6 +524,12 @@ is wired through `pnpm run check:v39-gate9` and its generated
 For V40, Gate 1 opens `version/v40` and the gate-quality posture through
 `pnpm run check:v40-gate1` before later gates add generated exhaustive testing
 artifacts and the V40 promotion workflow.
+V40 Gate 2 adds the package-backed `V40TestInventoryCoverageMatrix`, generated
+`.bitcode/v40-test-inventory-coverage-matrix.json`, and `check:v40-gate2` to
+inventory unit, API/route, Reading pipeline, Conversation/Terminal,
+browser/visual/accessibility/responsive, ledger/database/storage/wallet/delivery,
+local/staging, prompt benchmark smoke, demonstration, and CI/promotion testing
+surfaces before deeper V40 gates close their implementations.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

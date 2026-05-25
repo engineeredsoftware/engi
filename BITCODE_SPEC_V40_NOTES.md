@@ -43,6 +43,9 @@ V40 must cover:
 
 V41 should focus on Prompt and PromptPart implementation.
 Every raw PromptPart and composed Prompt should be examined, benchmarked, semantically repartitioned where useful, retitled where useful, rewritten where benchmark evidence supports it, catalogued, and tied to inference callsites.
+V41 treats prompts as programs: every prompt part, composition, interpolation binding, registry edge, benchmark fixture, and inference consumer must be precise enough to review, test, compare, and improve deliberately.
+The primary V41 hardening surface is the Reading inference system, including `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`; conversational interactions and other inference points must receive the same prompt-catalogue treatment after the Reading spine is accounted.
+V38's inference correctness hardening provides the call-stack scaffolding, and V40's benchmark/test work provides the measurement base that makes V41 prompt rewrites auditable instead of stylistic.
 V40 should make those benchmarks runnable and trustworthy, not consume the prompt-rewrite scope.
 
 ## Candidate V40 workstreams
@@ -58,3 +61,9 @@ V40 should make those benchmarks runnable and trustworthy, not consume the promp
 - Gate 9 closes local and staging-testnet rehearsals.
 - Gate 10 closes prompt benchmark smoke and V41 readiness.
 - Gate 11 closes promotion readiness.
+
+## Gate 2 implementation notes
+
+Gate 2 is closed by `V40TestInventoryCoverageMatrix`.
+Its generated `.bitcode/v40-test-inventory-coverage-matrix.json` artifact names every major V40 testing surface, owner gate, source roots, command ids, generated artifact target, coverage tier, and missing-coverage closure gate.
+This is an inventory and planning proof, not a substitute for the later Gate 3 through Gate 10 implementations.

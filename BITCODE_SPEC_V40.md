@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json` and `.bitcode/v40-canonical-input-report.json` plus later V40 gate artifacts for E2E, visual, integration, unit, proof, and promotion readiness coverage
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, plus later V40 gate artifacts for E2E, visual, integration, unit, proof, and promotion readiness coverage
 - Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
@@ -98,6 +98,13 @@ Testing domain objects add scenario matrices, fixture manifests, replay transcri
 
 The V40 operator chain is: author a scenario, seed source-safe fixtures, run unit tests, run integration tests, run browser and visual tests, run route/API tests, run pipeline and conversation tests, run ledger/database/storage synchronization tests, run local/staging rehearsal, inspect generated artifacts, repair failures, and only then promote canon.
 Every chain step must produce a deterministic or explicitly lane-bound receipt.
+
+## V40 Gate 2 Test Inventory And Coverage Matrix
+
+Gate 2 makes the testing scope auditable before V40 closes deeper test implementation.
+The package-owned `V40TestInventoryCoverageMatrix` emits `.bitcode/v40-test-inventory-coverage-matrix.json` with ten source-safe surfaces: unit coverage, API and route integration, Reading pipeline integration, Conversation and Terminal integration, browser/visual/accessibility/responsive proof, ledger/database/storage/wallet/delivery synchronization, local/staging rehearsal, prompt benchmark smoke, demonstration parity, and gate/canon promotion quality.
+Rows record owners, commands, source roots, generated artifact targets, coverage tier, and the later V40 gate responsible for closure.
+The artifact may name test paths, command ids, and source-safe metadata, but must not include secrets, protected source, raw protected prompts, raw provider responses, wallet private material, or unpaid AssetPack source.
 
 ## V40 canonical subsystem surfaces
 
@@ -357,6 +364,7 @@ V40 inherits operator-quality artifact expectations for readable proof and repai
 | --- | --- | --- |
 | `.bitcode/v40-spec-family-report.json` | protocol canonical package | draft spec family validation |
 | `.bitcode/v40-canonical-input-report.json` | protocol canonical package | draft canonical input accounting |
+| `.bitcode/v40-test-inventory-coverage-matrix.json` | protocol canonical package | Gate 2 source-safe test inventory and coverage matrix |
 | `.bitcode/v40-promotion-readiness-report.json` | future V40 promotion gate | promotion readiness |
 
 ### V40 specifying generated artifacts

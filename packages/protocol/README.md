@@ -69,6 +69,13 @@ E2E, visual/screenshot, API integration, pipeline integration, Conversation and
 Terminal integration, unit coverage, ledger/database/storage synchronization,
 local/staging rehearsal, prompt benchmark smoke, and V41 prompt-program
 readiness scope that later V40 gates must implement.
+V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
+`packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
+`packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,
+`.bitcode/v40-test-inventory-coverage-matrix.json`, and `check:v40-gate2`.
+The artifact is source-safe metadata only and inventories owners, commands,
+source roots, generated artifact targets, and closure gates for each V40 testing
+surface before the later gates implement deeper coverage.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

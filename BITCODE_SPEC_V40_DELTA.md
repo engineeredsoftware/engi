@@ -33,6 +33,7 @@ Open the V40 spec family, roadmap, branch posture, workflow posture, checker, an
 ### Gate 2: Test Inventory And Coverage Matrix
 
 Inventory existing tests, missing critical surfaces, owners, commands, fixtures, and generated artifacts.
+Gate 2 closes with package-backed `V40TestInventoryCoverageMatrix`, deterministic `.bitcode/v40-test-inventory-coverage-matrix.json`, protocol exports, source-safe rows for every planned V40 testing surface, and `check:v40-gate2`.
 
 ### Gate 3: Unit Coverage For Packages And Primitives
 
