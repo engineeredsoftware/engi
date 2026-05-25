@@ -88,6 +88,12 @@ const SOURCE_ROOTS = Object.freeze({
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
 });
 
+const STAGING_SUPABASE_PROJECT_REF = 'tkpyosihuouusyaxtbau';
+const STAGING_SUPABASE_REST_URL = new URL(
+  `https://${STAGING_SUPABASE_PROJECT_REF}.supabase.co/rest/v1/`,
+);
+const HTTPS_URL_LITERAL_PATTERN = /https:\/\/[^\s'"`<>)]*/g;
+
 function digest(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 24);
 }
@@ -107,6 +113,26 @@ function sourceExists(repoRoot, sourcePath) {
 
 function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
+}
+
+function sourceContainsExactHttpsUrl(source, expectedUrl) {
+  return Array.from(source.matchAll(HTTPS_URL_LITERAL_PATTERN)).some((match) => {
+    try {
+      const parsed = new URL(match[0]);
+      return (
+        parsed.protocol === expectedUrl.protocol &&
+        parsed.username === '' &&
+        parsed.password === '' &&
+        parsed.hostname === expectedUrl.hostname &&
+        parsed.port === expectedUrl.port &&
+        parsed.pathname === expectedUrl.pathname &&
+        parsed.search === expectedUrl.search &&
+        parsed.hash === expectedUrl.hash
+      );
+    } catch {
+      return false;
+    }
+  });
 }
 
 function row(input) {
@@ -283,8 +309,8 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'operator-script-binds-staging-project',
       SOURCE_ROOTS.operatorScript,
-      sources.operatorScript.includes('tkpyosihuouusyaxtbau') &&
-        sources.operatorScript.includes('https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/') &&
+      sources.operatorScript.includes(STAGING_SUPABASE_PROJECT_REF) &&
+        sourceContainsExactHttpsUrl(sources.operatorScript, STAGING_SUPABASE_REST_URL) &&
         sources.operatorScript.includes('staging-testnet-real-inference'),
     ),
     predicateResult(

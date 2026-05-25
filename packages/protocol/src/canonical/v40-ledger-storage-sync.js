@@ -89,6 +89,12 @@ const SOURCE_ROOTS = Object.freeze({
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
 });
 
+const STAGING_SUPABASE_PROJECT_REF = 'tkpyosihuouusyaxtbau';
+const STAGING_SUPABASE_REST_URL = new URL(
+  `https://${STAGING_SUPABASE_PROJECT_REF}.supabase.co/rest/v1/`,
+);
+const HTTPS_URL_LITERAL_PATTERN = /https:\/\/[^\s'"`<>)]*/g;
+
 function digest(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 24);
 }
@@ -108,6 +114,26 @@ function sourceExists(repoRoot, sourcePath) {
 
 function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
+}
+
+function sourceContainsExactHttpsUrl(source, expectedUrl) {
+  return Array.from(source.matchAll(HTTPS_URL_LITERAL_PATTERN)).some((match) => {
+    try {
+      const parsed = new URL(match[0]);
+      return (
+        parsed.protocol === expectedUrl.protocol &&
+        parsed.username === '' &&
+        parsed.password === '' &&
+        parsed.hostname === expectedUrl.hostname &&
+        parsed.port === expectedUrl.port &&
+        parsed.pathname === expectedUrl.pathname &&
+        parsed.search === expectedUrl.search &&
+        parsed.hash === expectedUrl.hash
+      );
+    } catch {
+      return false;
+    }
+  });
 }
 
 function row(input) {
@@ -324,8 +350,8 @@ function buildPredicateResults(repoRoot) {
       'local-staging-sync-readback-covered',
       SOURCE_ROOTS.localStagingRehearsal,
       sources.localStagingRehearsal.includes('ledgerDatabaseStorageSynchronized') &&
-        sources.localStagingRehearsal.includes('tkpyosihuouusyaxtbau') &&
-        sources.localStagingRehearsal.includes('https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/'),
+        sources.localStagingRehearsal.includes(STAGING_SUPABASE_PROJECT_REF) &&
+        sourceContainsExactHttpsUrl(sources.localStagingRehearsal, STAGING_SUPABASE_REST_URL),
     ),
     predicateResult(
       'uapi-contract-covers-ledger-storage-sync',
