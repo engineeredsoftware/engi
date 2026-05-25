@@ -287,7 +287,7 @@ jobs:
                 node scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs --skip-branch-check
               fi
               if [ -f scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs ]; then
-                pnpm run check:v38-gate6 -- --skip-branch-check
+                node scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs --skip-branch-check # check:v38-gate6
               fi
             fi
           else
