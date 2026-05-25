@@ -76,6 +76,13 @@ V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 The artifact is source-safe metadata only and inventories owners, commands,
 source roots, generated artifact targets, and closure gates for each V40 testing
 surface before the later gates implement deeper coverage.
+V40 Gate 3 adds `V40UnitCoverageInventory` through
+`packages/protocol/src/canonical/v40-unit-coverage-inventory.js`,
+`packages/protocol/test/v40-unit-coverage-inventory.test.js`,
+`.bitcode/v40-unit-coverage-inventory.json`, and `check:v40-gate3`.
+The artifact is source-safe metadata only and closes the unit layer for critical
+packages, primitives, isolated implementations, Reading AssetPack units,
+interface helpers, and the demonstration boundary.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

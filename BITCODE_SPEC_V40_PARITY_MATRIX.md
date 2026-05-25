@@ -43,7 +43,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | --- | --- | --- |
 | Gate 1 | Open V40 family and check script | drafted |
 | Gate 2 | Test inventory artifact and coverage matrix | implemented |
-| Gate 3 | Unit coverage closure artifact | not yet implemented |
+| Gate 3 | Unit coverage closure artifact | implemented |
 | Gate 4 | API/route integration artifact | not yet implemented |
 | Gate 5 | Reading pipeline integration artifact | not yet implemented |
 | Gate 6 | Conversation/Terminal integration artifact | not yet implemented |
@@ -54,6 +54,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Gate 11 | Promotion readiness artifact and workflow | not yet implemented |
 
 Gate 2 implementation evidence: package-backed `V40TestInventoryCoverageMatrix` emits `.bitcode/v40-test-inventory-coverage-matrix.json` and is wired through `check:v40-gate2`.
+Gate 3 implementation evidence: package-backed `V40UnitCoverageInventory` emits `.bitcode/v40-unit-coverage-inventory.json` and is wired through `check:v40-gate3`.
 
 ## V40 accepted boundaries
 

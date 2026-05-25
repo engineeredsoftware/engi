@@ -67,3 +67,10 @@ V40 should make those benchmarks runnable and trustworthy, not consume the promp
 Gate 2 is closed by `V40TestInventoryCoverageMatrix`.
 Its generated `.bitcode/v40-test-inventory-coverage-matrix.json` artifact names every major V40 testing surface, owner gate, source roots, command ids, generated artifact target, coverage tier, and missing-coverage closure gate.
 This is an inventory and planning proof, not a substitute for the later Gate 3 through Gate 10 implementations.
+
+## Gate 3 implementation notes
+
+Gate 3 is closed by `V40UnitCoverageInventory`.
+Its generated `.bitcode/v40-unit-coverage-inventory.json` artifact binds critical unit surfaces to package names, source roots, test paths, commands, and covered verdicts.
+The covered surfaces include protocol report builders, BTD ledger/settlement/right primitives, prompt composition, PTRR agents, registry-backed tools, execution lineage, generic pipelines, Reading AssetPack units, pipeline hosts, isolated interface helpers, utility packages, and the demonstration/commercial boundary.
+No missing, blocked, or exempt critical unit surface is allowed in the Gate 3 artifact.
