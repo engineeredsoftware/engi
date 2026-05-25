@@ -169,6 +169,9 @@ jobs:
               if [ -f scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs ]; then
                 node scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs --skip-branch-check --skip-package-tests # check:v38-gate9
               fi
+              if [ -f scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs ]; then
+                node scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs --skip-branch-check --skip-package-tests # check:v38-gate10
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

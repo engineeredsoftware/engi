@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -135,6 +135,9 @@ The artifact has `source-safe-conversation-tool-prompt-inference-parity-metadata
 
 Gate 10 proves the V38 inference stack locally and in staging-testnet.
 It must rehearse ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, depository search, AssetPack preview, source-safe telemetry, and blocked value-bearing mainnet posture with real non-mocked inference where credentials are available.
+Gate 10 is closed by the package-backed `V38LocalStagingInferenceDepositorySearchRehearsal` source, deterministic `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json` artifact, protocol test, harness/search/route/UI package tests, generator, checker, and workflow wiring.
+The artifact has `source-safe-local-staging-inference-depository-search-rehearsal-metadata` disclosure posture and records 8 rehearsal rows across local and staging-testnet lanes: local sandbox harness opt-in, staging-testnet bounded real-inference preflight, ReadNeedComprehensionSynthesis plus ReadFitsFindingSynthesis pipeline exercise, many-fit depository search, source-safe AssetPack preview, rich telemetry streaming and readback, credential-gated live inference, and blocked value-bearing mainnet posture.
+Gate 10 binds prior V38 Gates 2 through 9 artifact roots while preserving protected source, raw prompt text, raw provider response content, live rehearsal log payloads, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, and production-mainnet value-bearing admission as unavailable in source-safe evidence.
 
 ### Gate 11: V38 Promotion Readiness
 

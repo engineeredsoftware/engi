@@ -216,6 +216,21 @@ wallet private material, or private settlement payloads.
 Use `pnpm run generate:v38-conversation-tool-prompt-inference-parity`,
 `pnpm run check:v38-conversation-tool-prompt-inference-parity`, and
 `pnpm run check:v38-gate9` before closing the gate.
+V38 Gate 10 adds the package-backed
+`V38LocalStagingInferenceDepositorySearchRehearsal` report and generated
+source-safe artifact
+`.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+The rehearsal report binds local and staging-testnet lanes to Vercel Sandbox
+harness opt-in, bounded real-inference preflight, Supabase readback validation,
+ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, many-fit depository
+search, source-safe AssetPack preview, telemetry streaming/readback,
+ledger/database synchronization posture, and blocked production-mainnet
+value-bearing admission without exposing protected source, raw prompt text, raw
+provider response content, live rehearsal log payloads, unpaid AssetPack
+source, credentials, wallet private material, or private settlement payloads.
+Use `pnpm run generate:v38-local-staging-inference-depository-search-rehearsal`,
+`pnpm run check:v38-local-staging-inference-depository-search-rehearsal`, and
+`pnpm run check:v38-gate10` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -373,11 +388,12 @@ inference stack, Reading pipeline, depository-search, prompt benchmark,
 telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V37` to `V38` on the version branch.
-V38 Gates 1 through 8 are wired through `pnpm run check:v38-gate1`,
+V38 Gates 1 through 10 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
-`pnpm run check:v38-gate6`, `pnpm run check:v38-gate7`, and
-`pnpm run check:v38-gate8`. The promoted V37
+`pnpm run check:v38-gate6`, `pnpm run check:v38-gate7`,
+`pnpm run check:v38-gate8`, `pnpm run check:v38-gate9`, and
+`pnpm run check:v38-gate10`. The promoted V37
 gate closure remains reproducible through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and
