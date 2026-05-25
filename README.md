@@ -283,6 +283,14 @@ provenance, active embedding policy, replay receipts, repair posture, and
 telemetry receipts into PipelineExecution-compatible storage records. Use
 `pnpm run generate:v39-read-fits-finding-runtime` and
 `pnpm run check:v39-gate5` before closing the gate.
+V39 Gate 6 adds the package-owned `AssetPackPreviewBoundary` and source-safe
+generated artifact `.bitcode/v39-assetpack-preview-quote-boundary.json`.
+AssetPack preview now projects source-safe measurements, selected-fit
+provenance, deterministic share-to-fee BTC quote, disclosure leak review,
+settlement instructions, withheld pull-request delivery posture, replay
+receipt, and repair posture without exposing unpaid source-bearing AssetPack
+content. Use `pnpm run generate:v39-assetpack-preview-quote-boundary` and
+`pnpm run check:v39-gate6` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -448,7 +456,9 @@ through `pnpm run check:v39-gate3` and its generated
 `.bitcode/v39-enterprise-reading-ux-state.json` artifact. V39 Gate 4 is wired
 through `pnpm run check:v39-gate4`; V39 Gate 5 is wired through
 `pnpm run check:v39-gate5` and its generated
-`.bitcode/v39-read-fits-finding-runtime.json` artifact.
+`.bitcode/v39-read-fits-finding-runtime.json` artifact. V39 Gate 6 is wired
+through `pnpm run check:v39-gate6` and its generated
+`.bitcode/v39-assetpack-preview-quote-boundary.json` artifact.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

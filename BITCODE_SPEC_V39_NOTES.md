@@ -93,7 +93,7 @@ discipline as all other prompt material.
 - Make `ReadFitsFindingSynthesis` a runtime search pipeline over the whole
   available Depository, gathering many above-threshold candidate deposits before
   selected-fit provenance is handed into AssetPack synthesis.
-- Make source-safe AssetPack preview commercially sufficient without IP leakage:
+- Make source-safe AssetPack preview sufficient for buyer review without IP leakage:
   show measurements, fit reasons, selected-fit provenance, quality posture,
   proof roots, deterministic BTC quote, and delivery posture while withholding
   source-bearing AssetPack content until settlement unlock.
@@ -223,6 +223,17 @@ wallet private material, settlement payloads, or unpaid AssetPack source.
 ## Gate 6 implementation notes
 
 Gate 6 closes the source-safe AssetPack preview and deterministic BTC quote boundary. Preview can show measurements, fit reasons, quality posture, proof roots, quote, and delivery posture, but not source-bearing AssetPack content.
+The package-owned `AssetPackPreviewBoundary` is the source-safe AssetPack preview boundary runtime
+projection for this boundary. It composes the source-safe preview, selected-fit
+provenance, `AssetPackPreviewQuoteReceipt`, disclosure review, settlement
+instructions, delivery posture, storage records, replay receipt, and repair
+posture. The quote is deterministic over the accepted Need measurement vector,
+admitted fit quality, weighted volume, minimum sats, dust floor, and active fee
+schedule. Settlement instructions require reader wallet authorization before
+broadcast, BTC fee payment readback, settlement finality readback, BTD rights
+transfer readback, and ledger/database/storage reconciliation before source
+unlock. Pull-request delivery is projected as available only after settlement;
+unpaid source-bearing AssetPack content remains invisible.
 
 ## Gate 7 implementation notes
 

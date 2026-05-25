@@ -74,7 +74,7 @@ No `_legacy/` source is active source truth.
 | Enterprise Reading UX state machine | Gate 3 | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
 | ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.bitcode/v39-read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
 | ReadFitsFinding runtime and replay | Gate 5 | `packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`, `depository-search.ts`, `.bitcode/v39-read-fits-finding-runtime.json`, package tests, protocol tests | implemented | Finding Fits searches the whole available Depository for many above-threshold candidates and persists source-safe replay, storage, telemetry, and repair receipts. |
-| AssetPack preview and quote boundary | Gate 6 | AssetPack preview tests, quote tests, disclosure leak scans, proof roots | pending | Preview is commercially sufficient without exposing source-bearing AssetPack content. |
+| AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
 | Settlement, BTD rights, and delivery | Gate 7 | BTC settlement receipt, BTD rights transfer, source-to-shares, ledger/database/storage, PR delivery | pending | Payment unlocks rights and delivery; repair paths are auditable. |
 | Operational telemetry and repair | Gate 8 | stream events, operator readback, runbook hooks, proof roots, repair commands | pending | Reading is observable and repairable end to end. |
 | Interface and Conversation parity | Gate 9 | Conversation, MCP/API, ChatGPT App, package contract tests | pending | Interfaces follow Terminal authority and cannot bypass gating, preview, settlement, rights, or delivery boundaries. |
@@ -165,7 +165,7 @@ No `_legacy/` source is active source truth.
 
 ## Later Gate Parity
 
-Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 through 5 intentionally do not claim closure for preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
+Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 through 6 intentionally do not claim closure for paid settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
 
 ## accepted boundaries and reopen conditions
 
@@ -174,6 +174,7 @@ V39 Gate 2 accepts only Depository supply indexing, source-safe search document,
 V39 Gate 3 accepts only enterprise Reading UX state, source-safe route handoff/readback, low-detail/expandable Terminal rendering, rich stream-log integration, opt-in browser proof wiring, and generated UX proof artifact closure.
 V39 Gate 4 accepts only ReadNeed review runtime storage projection, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, source-safe telemetry receipts, route actions, and generated review proof artifact closure.
 V39 Gate 5 accepts only ReadFitsFinding runtime storage projection, many-candidate depository search, source-safe query/ranking/provenance evidence, replay receipts, repair posture, active embedding policy, and generated runtime proof artifact closure.
+V39 Gate 6 accepts only source-safe AssetPack preview, deterministic share-to-fee quote, disclosure leak scanning, settlement instructions, delivery-withheld posture, replay receipts, repair posture, and generated preview proof artifact closure.
 Later gate scope is intentionally pending and must be reopened into gate-specific parity sections before implementation starts.
 
 ## Gate 5 Parity
@@ -188,6 +189,19 @@ AssetPack source. The generated proof artifact is
 `.bitcode/v39-read-fits-finding-runtime.json` and the gate check is
 `pnpm run check:v39-gate5`.
 
+## Gate 6 Parity
+
+V39 Gate 6 is implemented when `AssetPackPreviewBoundary` wraps
+`AssetPackSourceSafePreview` with deterministic BTC quote, disclosure review,
+selected-fit provenance, settlement instructions, delivery posture, storage
+projection, replay receipt, and repair posture. The parity source is
+`packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`; it must not
+expose protected source, raw protected prompts, raw provider responses,
+credentials, wallet private material, settlement private payloads, or unpaid
+AssetPack source. The generated proof artifact is
+`.bitcode/v39-assetpack-preview-quote-boundary.json` and the gate check is
+`pnpm run check:v39-gate6`.
+
 ## completion condition
 
-V39 Gate 5 is complete when `check:v39-gate5`, focused ReadFitsFinding package tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-5-*` branch.
+V39 Gate 6 is complete when `check:v39-gate6`, focused AssetPack preview boundary package tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-6-*` branch.

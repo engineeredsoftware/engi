@@ -166,7 +166,11 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 6 work must define preview/quote artifacts, disclosure tests, and deterministic quote source.
+- Gate 6 package source is `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`.
+- `AssetPackPreviewBoundary` persists source-safe preview, fit measurement, selected-fit provenance, deterministic BTC quote, disclosure review, settlement instructions, delivery posture, replay receipt, and repair posture records.
+- `AssetPackPreviewQuoteReceipt` preserves the deterministic `sum(measurement.weight * measurement.volume * admitted_fit_quality)` share-to-fee formula with minimum sats, dust floor, quote root, and reader-wallet-before-broadcast posture.
+- Focused package tests cover deterministic quote replay, blocked no-worthy-fit repair posture, protected-source leak fail-closed review, and postprocess storage projection.
+- The generated proof artifact is `.bitcode/v39-assetpack-preview-quote-boundary.json`; `pnpm run check:v39-gate6` validates artifact freshness, protocol tests, package tests, source safety, docs, and workflow wiring.
 
 ### Gate 7: Settlement, BTD Rights Transfer, And Delivery
 

@@ -147,8 +147,19 @@ AssetPack source. The generated source-safe proof artifact is
 
 ### Gate 6: AssetPack Preview, Quote, And Disclosure Boundary
 
-Gate 6 makes source-safe AssetPack preview commercially usable without leaking source.
+Gate 6 makes source-safe AssetPack preview reviewable and actionable without leaking source.
 It must synthesize a preview from selected fits, expose fit measurements, quality reasons, proof roots, deterministic BTC quote, selected-fit provenance, delivery posture, and settlement instructions while withholding source-bearing AssetPack content until paid.
+The implementation basis is `AssetPackPreviewBoundary`, exported from
+`packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`. It wraps
+`AssetPackSourceSafePreview`, `AssetPackPreviewQuoteReceipt`,
+`AssetPackDisclosureReview`, `AssetPackPreviewSettlementInstructions`,
+`AssetPackPreviewDeliveryPosture`, `AssetPackPreviewReplayReceipt`, and
+`AssetPackPreviewRepairPosture` so preview review is sufficient for buyer review
+without exposing protected source, raw protected prompts, raw provider
+responses, credentials, wallet private material, private settlement payloads,
+or unpaid AssetPack source. The deterministic proof artifact is
+`.bitcode/v39-assetpack-preview-quote-boundary.json`, checked by
+`pnpm run check:v39-gate6`.
 
 ### Gate 7: Settlement, BTD Rights Transfer, And Delivery
 

@@ -28,6 +28,10 @@ import {
   persistReadFitsFindingRuntime,
 } from './read-fits-finding-runtime';
 import {
+  buildAssetPackPreviewBoundary,
+  persistAssetPackPreviewBoundary,
+} from './asset-pack-preview-boundary';
+import {
   admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
@@ -130,6 +134,20 @@ function factoryPreprocess(): Executor<any, any> {
       persistReadFitsFindingRuntime(execution.parent as any, readFitsFindingRuntime);
       processedInput.readFitsFindingRuntime = readFitsFindingRuntime;
       processedInput.readFitsFindingReplayReceipt = readFitsFindingRuntime.replayReceipt;
+    } catch {}
+    try {
+      if (isAcceptedReadNeed(readNeed)) {
+        const assetPackPreviewBoundary = buildAssetPackPreviewBoundary({
+          need: readNeed,
+          fitResult,
+          pullRequestTarget: processedInput?.deliveryTarget || null,
+        });
+        persistAssetPackPreviewBoundary(execution, assetPackPreviewBoundary);
+        persistAssetPackPreviewBoundary(execution.parent as any, assetPackPreviewBoundary);
+        processedInput.sourceSafePreview = assetPackPreviewBoundary.sourceSafePreview;
+        processedInput.assetPackPreviewBoundary = assetPackPreviewBoundary;
+        processedInput.assetPackQuoteReceipt = assetPackPreviewBoundary.quoteReceipt;
+      }
     } catch {}
 
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
@@ -288,6 +306,7 @@ export * from './types/AssetPackWrittenAssetType';
 export * from './depository-search';
 export * from './depository-supply-index';
 export * from './read-fits-finding-runtime';
+export * from './asset-pack-preview-boundary';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';

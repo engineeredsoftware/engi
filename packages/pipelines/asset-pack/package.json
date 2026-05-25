@@ -7,6 +7,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./asset-pack-disclosure": "./src/asset-pack-disclosure.ts",
+    "./asset-pack-preview-boundary": "./src/asset-pack-preview-boundary.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",
