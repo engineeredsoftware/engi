@@ -495,7 +495,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-documents-gate7', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 7 closes with package-backed `V40BrowserE2eVisualProof`')),
     predicateResult('notes-document-gate7', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 7 implementation notes') && notes.includes('browser E2E, visual, accessibility, and responsive proof')),
     predicateResult('parity-documents-gate7', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-browser-e2e-visual-proof') && parity.includes('| Gate 7 | Browser/visual/accessibility/responsive artifact | implemented |')),
-    predicateResult('roadmap-advanced-through-gate7', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('Current working gate: V40 Gate 7') && roadmap.includes('V40 Gate 7 closure anchor')),
+    predicateResult('roadmap-advanced-through-gate7', 'SPECIFICATIONS_ROADMAP.md', (/Current working gate: V40 Gate (?:7|8|9|10|11)\b/u.test(roadmap) || roadmap.includes('Latest closed version: V40')) && roadmap.includes('V40 Gate 7 closure anchor')),
     predicateResult('readmes-document-gate7', 'README.md', rootReadme.includes('V40 Gate 7') && protocolReadme.includes('V40BrowserE2eVisualProof')),
     ...rowPredicates,
   ];

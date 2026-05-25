@@ -106,3 +106,11 @@ Its generated `.bitcode/v40-browser-e2e-visual-proof.json` artifact binds browse
 The app-owned `BITCODE_BROWSER_PROOF_CONTRACT` summarizes five product surfaces, thirteen route states, eighteen interaction states, four canonical viewports, eight accessibility assertions, and five visual proof strategies.
 The focused browser spec covers five-stage Reading, selected activity detail, Conversation source-safe handoff, Exchange rights review, Docs navigation, Auxillaries live regions, reduced motion, and horizontal overflow limits under local mock data.
 No missing, blocked, or exempt critical browser proof row is allowed in the Gate 7 artifact, and screenshot-only approval is explicitly rejected.
+
+## Gate 8 implementation notes
+
+Gate 8 is closed by `V40LedgerStorageSync`.
+Its generated `.bitcode/v40-ledger-storage-sync.json` artifact binds ledger, database, object-storage, wallet, settlement, BTD rights, source-to-shares compensation, repair, and delivery synchronization to ten source-safe rows.
+The app-owned `BITCODE_LEDGER_STORAGE_SYNC_CONTRACT` summarizes settlement source-to-shares, no-custody wallet authority, and post-settlement pull-request delivery surfaces with explicit delivery visibility boundaries.
+The focused tests prove the existing AssetPack settlement delivery boundary, BTD BTC fee/wallet/reconciliation/source-to-shares primitives, Terminal wallet/journal/detail readbacks, and source-safe UAPI contract.
+No missing, blocked, or lane-skipped critical synchronization row is allowed in the Gate 8 artifact; source-bearing delivery stays locked until payment, finality, compensation, BTD rights, and projection reconciliation agree.

@@ -144,6 +144,14 @@ The app-owned `BITCODE_BROWSER_PROOF_CONTRACT` covers Terminal, Conversations, A
 The focused browser spec exercises five-stage Reading, selected activity detail, Conversation source-safe handoff, Exchange rights review, Docs navigation, Auxillaries live regions, reduced motion, and horizontal-overflow limits under local mock data.
 Gate 7 permits no missing, blocked, or exempt critical browser proof row; proof rows may include route ids, viewport ids, screenshot/trace posture, command ids, fixture roots, and source-safe coverage flags, but must not include secrets, protected source, raw protected prompts, raw provider/model responses, wallet private material, or unpaid AssetPack source.
 
+## V40 Gate 8 Ledger, Database, Storage, Wallet, And Delivery Synchronization
+
+Gate 8 closes synchronization coverage for the economic and delivery state that follows a worthy AssetPack preview.
+The package-owned `V40LedgerStorageSync` emits `.bitcode/v40-ledger-storage-sync.json` with ten source-safe rows: BTC fee finality and wallet authority, BTD read-right transfer projection, source-to-shares compensation conservation, ledger/database/object-storage reconciliation, artifact locks and source-safe storage projection, post-settlement pull-request delivery unlock, finality/drift/delivery repair posture, no-custody wallet boundary, Terminal route/interface readback, and proof-system wiring.
+The app-owned `BITCODE_LEDGER_STORAGE_SYNC_CONTRACT` covers settlement source-to-shares, no-custody wallet authority, and post-settlement pull-request delivery across BTC fee, BTD rights, ledger, database, object storage, wallet, VCS delivery, and Terminal readback systems.
+The focused proof test suite exercises the existing `AssetPackSettlementRightsDeliveryBoundary`, BTD wallet and reconciliation primitives, Terminal wallet/journal/detail readbacks, and the app contract without serializing protected source, unpaid AssetPack source, wallet private material, raw prompts, provider responses, or private settlement payloads.
+Gate 8 permits no missing, blocked, or lane-skipped critical synchronization row; source-bearing pull-request delivery remains withheld until payment observation, confirmed finality, source-to-shares conservation, BTD rights transfer, and ledger/database/object-storage reconciliation all agree.
+
 ## V40 canonical subsystem surfaces
 
 ### Depositing and asset supply

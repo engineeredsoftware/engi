@@ -117,6 +117,14 @@ V40 Gate 7 adds `V40BrowserE2eVisualProof` through
 The artifact is source-safe metadata only and closes browser E2E, visual,
 accessibility, responsive, interaction-state, screenshot/trace, and overflow
 coverage for Terminal, Conversations, Auxillaries, Exchange, and Docs.
+V40 Gate 8 adds `V40LedgerStorageSync` through
+`packages/protocol/src/canonical/v40-ledger-storage-sync.js`,
+`packages/protocol/test/v40-ledger-storage-sync.test.js`,
+`.bitcode/v40-ledger-storage-sync.json`, and `check:v40-gate8`.
+The artifact is source-safe metadata only and closes ledger, database,
+object-storage, wallet, settlement, BTD rights, source-to-shares compensation,
+repair, Terminal readback, and post-settlement pull-request delivery
+synchronization coverage.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

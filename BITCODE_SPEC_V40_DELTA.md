@@ -63,6 +63,7 @@ Gate 7 closes with package-backed `V40BrowserE2eVisualProof`, deterministic `.bi
 ### Gate 8: Ledger, Database, Storage, Wallet, And Delivery Synchronization
 
 Close synchronization and reconciliation tests for settlement, rights transfer, delivery, repair, and storage projections.
+Gate 8 closes with package-backed `V40LedgerStorageSync`, deterministic `.bitcode/v40-ledger-storage-sync.json`, protocol exports, app-owned current synchronization contract, source-safe rows for BTC fee finality, BTD rights, source-to-shares compensation, ledger/database/object-storage reconciliation, storage locks, post-settlement pull-request delivery, repair posture, no-custody wallet authority, Terminal readback, workflow wiring, and `check:v40-gate8`.
 
 ### Gate 9: Local And Staging-Testnet Rehearsal Automation
 

@@ -370,6 +370,9 @@ jobs:
               if [ -f scripts/check-v40-gate7-browser-e2e-visual-proof.mjs ]; then
                 node scripts/check-v40-gate7-browser-e2e-visual-proof.mjs --skip-branch-check --skip-browser-tests
               fi
+              if [ -f scripts/check-v40-gate8-ledger-storage-sync.mjs ]; then
+                node scripts/check-v40-gate8-ledger-storage-sync.mjs --skip-branch-check --skip-integration-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -496,6 +499,9 @@ jobs:
           if [ -f packages/protocol/test/v40-conversation-terminal-integration.test.js ]; then
             pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-conversation-terminal-integration.test.js
           fi
+          if [ -f packages/protocol/test/v40-ledger-storage-sync.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-ledger-storage-sync.test.js
+          fi
           pnpm --filter @bitcode/protocol test
 
       - name: Test staged Reading route and Terminal harness contracts
@@ -539,6 +545,7 @@ jobs:
             tests/terminalInterfaceIntegrationRegression.test.ts \
             tests/terminalWalletBtcOperation.test.ts \
             tests/terminalJournalReconciliation.test.ts \
+            tests/bitcodeLedgerStorageSync.test.ts \
             tests/terminalOrganizationAuthority.test.ts \
             tests/protocolCommercialBoundary.test.ts \
             tests/terminalTransactionDetailCards.test.tsx \
