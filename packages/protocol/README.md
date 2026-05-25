@@ -83,6 +83,13 @@ V40 Gate 3 adds `V40UnitCoverageInventory` through
 The artifact is source-safe metadata only and closes the unit layer for critical
 packages, primitives, isolated implementations, Reading AssetPack units,
 interface helpers, and the demonstration boundary.
+V40 Gate 4 adds `V40ApiIntegrationContracts` through
+`packages/protocol/src/canonical/v40-api-integration-contracts.js`,
+`packages/protocol/test/v40-api-integration-contracts.test.js`,
+`.bitcode/v40-api-integration-contracts.json`, and `check:v40-gate4`.
+The artifact is source-safe metadata only and closes API, UAPI, MCP, ChatGPT
+App, persistence, authorization, and response-schema integration contract
+coverage.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights
