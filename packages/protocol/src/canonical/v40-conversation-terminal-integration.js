@@ -473,8 +473,10 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'roadmap-advanced-through-gate6',
       'SPECIFICATIONS_ROADMAP.md',
-      /Current working gate: V40 Gate (6|7|8|9|10|11)\b/.test(roadmap) &&
-        roadmap.includes('V40 Gate 6 closure anchor'),
+      roadmap.includes('V40 Gate 6 closure anchor') &&
+        (/Current working gate: V40 Gate (?:6|7|8|9|10|11)\b/u.test(roadmap) ||
+          roadmap.includes('Latest closed version: V40 Exhaustive Commercial Application Testing') ||
+          roadmap.includes('Recent V40 closure anchor')),
     ),
     predicateResult('readmes-document-gate6', 'README.md', rootReadme.includes('V40 Gate 6') && protocolReadme.includes('V40ConversationTerminalIntegration')),
     predicateResult('roadmap-preserves-v41-prompt-programs', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V41 should focus singularly on Prompt and PromptPart implementation') && roadmap.includes('prompts as programs')),

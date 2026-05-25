@@ -296,7 +296,14 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-documents-gate3', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 3: Unit Coverage For Packages And Primitives')),
     predicateResult('notes-document-gate3', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 3 closes unit coverage breadth') && notes.includes('Gate 3 implementation notes')),
     predicateResult('parity-documents-gate3', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-unit-coverage-inventory') && parity.includes('| Gate 3 | Unit coverage closure artifact | implemented |')),
-    predicateResult('roadmap-advanced-through-gate3', 'SPECIFICATIONS_ROADMAP.md', /Current working gate: V40 Gate (?:3|[4-9]|10|11)\b/u.test(roadmap) && roadmap.includes('V40 Gate 3 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-through-gate3',
+      'SPECIFICATIONS_ROADMAP.md',
+      roadmap.includes('V40 Gate 3 closure anchor') &&
+        (/Current working gate: V40 Gate (?:3|[4-9]|10|11)\b/u.test(roadmap) ||
+          roadmap.includes('Latest closed version: V40 Exhaustive Commercial Application Testing') ||
+          roadmap.includes('Recent V40 closure anchor')),
+    ),
     ...rowPredicates,
   ];
 }

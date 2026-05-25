@@ -220,7 +220,14 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-gate7-expanded', SOURCE_ROOTS.v39Delta, delta.includes('Gate 7') && delta.includes('AssetPackSettlementRightsDeliveryBoundary')),
     predicateResult('notes-gate7-expanded', SOURCE_ROOTS.v39Notes, notes.includes('Gate 7 implementation notes') && notes.includes('source-to-shares compensation')),
     predicateResult('parity-gate7-expanded', SOURCE_ROOTS.v39Parity, parity.includes('Gate 7 Parity') && parity.includes('AssetPackSettlementRightsDeliveryBoundary')),
-    predicateResult('roadmap-advanced-to-gate7', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 7 closure anchor') && (/Current working gate: V39 Gate (?:7|8|9|10|11)\b/u.test(roadmap) || roadmap.includes('Latest closed version: V39 Commercial Reading Readiness'))),
+    predicateResult(
+      'roadmap-advanced-to-gate7',
+      SOURCE_ROOTS.roadmap,
+      roadmap.includes('V39 Gate 7 closure anchor') &&
+        (/Current working gate: V39 Gate (?:7|8|9|10|11)\b/u.test(roadmap) ||
+          roadmap.includes('Latest closed version: V39 Commercial Reading Readiness') ||
+          roadmap.includes('Recent V39 closure anchor')),
+    ),
     predicateResult('readmes-document-gate7', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 7') && assetPackReadme.includes('Settlement Rights Delivery') && protocolReadme.includes('V39SettlementRightsDelivery')),
     predicateResult('workflows-run-gate7-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate7-settlement-rights-delivery.mjs') && canonWorkflow.includes('check-v39-gate7-settlement-rights-delivery.mjs')),
   ];
