@@ -3,20 +3,21 @@
 ## Status
 
 - Version: `V39`
-- V39 state: draft opened; V39 is the commercial Reading readiness target over promoted V38 inference correctness canon
-- Current canonical/latest target: `V38`
+- V39 state: canonical promotion complete; V39 is the active commercial Reading readiness canon and the V39 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V39`
+- Canonical proof-source commit: `1fe583d781bd24f340e5bb89ecc67ef740cf018c`
 - Draft proof-source commit: unbound until V39 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V38.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V38`
-- Generated structured artifact inventory: draft opening requires `.bitcode/v39-spec-family-report.json` and `.bitcode/v39-canonical-input-report.json`; later V39 gates must add package-backed source-safe artifacts for depository supply indexing, enterprise Reading UX state, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote boundaries, settlement/delivery rights receipts, operational telemetry/rehearsal, and promotion readiness
-- Source parity state: V39 source-side parity is opened but not closed; Gate 1 owns spec/roadmap/workflow posture and later gates must close runtime implementation, source-safe generated artifacts, tests, proofs, and local/staging rehearsal before promotion
+- Generated structured artifact inventory: active canonical `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, `.bitcode/v39-promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
+- Source parity state: V39 source-side Depository supply indexing, enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry repair readback, interface parity, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V39 file family
 - Notes companion: `BITCODE_SPEC_V39_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V39_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V39_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md` only after V39 promotion
-- Scope: V39 draft system specification for commercial Reading readiness: deposited source indexing, enterprise Read Request UX, reviewable ReadNeed synthesis and resynthesis, many-fit depository search, source-safe AssetPack preview and deterministic quote, settlement, BTD rights transfer, post-settlement delivery, synchronized ledger/database/storage, operational telemetry, local/staging rehearsal, and promotion readiness
-- Last fully realized canonical target preserved in source: `V38`
+- Scope: V39 canonical system specification for commercial Reading readiness across Depository supply indexing, enterprise Reading UX, ReadNeed review, Finding Fits, source-safe AssetPack preview/quote, settlement, BTD rights transfer, delivery, telemetry/repair, interface parity, local/staging rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V39`
 
 ## Version executive summary
 

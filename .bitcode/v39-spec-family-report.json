@@ -1,0 +1,34 @@
+{
+  "reportId": "v39-spec-family-report",
+  "version": "V39",
+  "proofSourceCommit": "1fe583d781bd24f340e5bb89ecc67ef740cf018c",
+  "generatedAt": "2026-05-25T11:13:27-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedVersion": "V39",
+  "mode": "promoted",
+  "currentTarget": "V39",
+  "pointerVersion": "V39",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "requiredFiles": [
+    "BITCODE_SPEC_V39.md",
+    "BITCODE_SPEC_V39_DELTA.md",
+    "BITCODE_SPEC_V39_NOTES.md",
+    "BITCODE_SPEC_V39_PARITY_MATRIX.md"
+  ],
+  "supportFiles": [
+    "BITCODE_SPECIFYING.md",
+    "BITCODE_SPEC_TEMPLATEGUIDE.md"
+  ],
+  "requiredStatusLabelCount": 4,
+  "requiredPromotedStatusLabelCount": 1,
+  "requiredSpecSectionCount": 18,
+  "requiredAppendixSectionCount": 14,
+  "requiredProofFamilyCount": 9,
+  "requiredGeneratedArtifactCatalogSectionCount": 9,
+  "requiredGeneratedArtifactPathCount": 12,
+  "requiredNotesSectionCount": 4,
+  "requiredSubsystemCoverageCount": 18
+}

@@ -3,19 +3,20 @@
 ## Status
 
 - Version: `V39`
-- V39 state: draft opened; V39 parity truth defines commercial Reading readiness work over promoted V38 inference correctness
-- Current canonical/latest target: `V38`
+- V39 state: canonical promotion complete; V39 parity truth, generated commercial Reading artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V39`
+- Canonical proof-source commit: `1fe583d781bd24f340e5bb89ecc67ef740cf018c`
 - Draft proof-source commit: unbound until V39 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V38.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
-- Generated structured artifact inventory: draft opening requires `.bitcode/v39-spec-family-report.json` and `.bitcode/v39-canonical-input-report.json`; later V39 gates must add package-backed source-safe artifacts for Depository indexing, Reading UX state, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement/delivery rights, telemetry/repair, interface parity, rehearsal, and promotion readiness
-- Source parity state: V39 parity is open; Gate 1 closes roadmap/spec/workflow posture and later gates must close implementation parity before promotion
+- Generated structured artifact inventory: active canonical `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, `.bitcode/v39-promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
+- Source parity state: V39 source-side Depository supply indexing, enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry repair readback, interface parity, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V39 file family
 - Spec companion: `BITCODE_SPEC_V39.md`
 - Notes companion: `BITCODE_SPEC_V39_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V39_DELTA.md`
 - Generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md` only after V39 promotion
-- Scope: V39 draft parity ledger for commercial Reading readiness over promoted V38 inference correctness canon
-- Last fully realized canonical target preserved in source: `V38`
+- Scope: V39 canonical parity ledger for commercial Reading readiness over promoted V38 inference correctness canon
+- Last fully realized canonical target preserved in source: `V39`
 
 ## Purpose
 
@@ -64,12 +65,12 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V39.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v39/gate-1-commercial-reading-roadmap-opening` | drafted | V39 family validates in draft mode over active V38 and `check:v39-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V38 active, V39 draft, and coherent post-V39 responsibility. |
-| Commercial Reading vocabulary | Gate 1 | five-step Reading UX, `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, AssetPack preview, BTC quote, BTD rights transfer, delivery | drafted | Spec family names the product stages without replacing primitive names. |
-| Inference vocabulary | Gate 1 | `PipelineExecution`, PTRR Plan/Try/Refine/Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt` | drafted | V38 inference law remains binding on V39 product implementation. |
-| Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | drafted | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
-| Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | drafted | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V39.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v39/gate-1-commercial-reading-roadmap-opening` | closed | V39 family validates in draft mode over active V38 and `check:v39-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V38 active, V39 draft, and coherent post-V39 responsibility. |
+| Commercial Reading vocabulary | Gate 1 | five-step Reading UX, `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, AssetPack preview, BTC quote, BTD rights transfer, delivery | closed | Spec family names the product stages without replacing primitive names. |
+| Inference vocabulary | Gate 1 | `PipelineExecution`, PTRR Plan/Try/Refine/Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt` | closed | V38 inference law remains binding on V39 product implementation. |
+| Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | closed | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
+| Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | closed | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
 | Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.bitcode/v39-depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
 | Enterprise Reading UX state machine | Gate 3 | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
 | ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.bitcode/v39-read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
@@ -85,13 +86,13 @@ No `_legacy/` source is active source truth.
 
 | Area | Required V39 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V38` during V39 gate work | drafted |
-| Gate branch pattern | V39 work happens on `version/v39` or `v39/gate-N-*` branches | drafted |
-| Spec-family shape | V39 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v39-gate1` fails closed on stale posture, missing roadmap truth, missing commercial Reading scope, missing source anchors, or missing workflow wiring | drafted |
-| Gate-quality workflow | Gate workflow validates V38 active / V39 draft posture and the V39 Gate 1 checker | drafted |
-| Canon-quality workflow | Canon workflow validates promoted V38 canon, V39 draft family when present, and V38/V39 posture | drafted |
-| Package docs | README, protocol package README, demonstration README, and PR template state V38 active / V39 draft workflow | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V38` during V39 gate work | closed |
+| Gate branch pattern | V39 work happens on `version/v39` or `v39/gate-N-*` branches | closed |
+| Spec-family shape | V39 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v39-gate1` fails closed on stale posture, missing roadmap truth, missing commercial Reading scope, missing source anchors, or missing workflow wiring | closed |
+| Gate-quality workflow | Gate workflow validates V38 active / V39 draft posture and the V39 Gate 1 checker | closed |
+| Canon-quality workflow | Canon workflow validates promoted V38 canon, V39 draft family when present, and V38/V39 posture | closed |
+| Package docs | README, protocol package README, demonstration README, and PR template state V38 active / V39 draft workflow | closed |
 | Depository supply indexing | Deposits become measurable, embedded, indexable, rights-aware, searchable, and repairable | implemented |
 | Enterprise Reading UX | Terminal implements request read, review Need, request Finding Fits, review preview, buy and settle | implemented |
 | ReadNeed runtime | `ReadNeedComprehensionSynthesis` persists reviewable Needs, feedback, resynthesis, measurements, accepted-Need admission, and rejected-Need posture | implemented |
