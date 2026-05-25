@@ -261,3 +261,6 @@ Closure acceptance:
 Closure implementation:
 
 - Pending Gate 11 work must define the package-backed commercial Reading promotion readiness report, V39 promotion workflow, promotion command support, generated proof appendix support, active V39 / draft V40 post-promotion posture, and blocked value-bearing mainnet evidence.
+- `V39CommercialReadingPromotionReadinessReport` is implemented in `packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js` and generates `.bitcode/v39-promotion-readiness-report.json`.
+- The generated artifact is `source-safe-commercial-reading-promotion-readiness-metadata` and covers all V39 Gate 2 through Gate 10 artifacts, `BITCODE_SPEC_V39_PROVEN.md` generation support, `v39-canon-promotion.yml`, gate/canon workflow posture, promotion dry-run support, source-safety checks, and value-bearing mainnet blocking.
+- promotion scripts support V39 through `node scripts/promote-bitcode-canon.mjs --version V39 --commit HEAD --dry-run`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V39 --next-draft V40`, `packages/protocol/src/canonical/proven-generator.js`, and `pnpm run check:v39-gate11`.

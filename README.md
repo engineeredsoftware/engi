@@ -249,6 +249,17 @@ ReadFitsFinding runtime and replay, source-safe AssetPack preview and
 deterministic BTC quote, settlement, BTD rights transfer, post-settlement
 delivery, ledger/database/storage synchronization, telemetry/repair, interface
 parity, local/staging rehearsal, and promotion readiness.
+V39 Gate 11 adds the package-backed `V39CommercialReadingPromotionReadinessReport`
+and generated source-safe artifact `.bitcode/v39-promotion-readiness-report.json`.
+The promotion readiness report binds all V39 commercial Reading artifacts,
+`BITCODE_SPEC_V39_PROVEN.md` support, `v39-canon-promotion.yml`, promotion
+command dry-run support, gate/canon workflow posture, active V39 / draft V40
+runtime preparation, and blocked value-bearing mainnet posture without exposing
+protected source, raw protected prompts, raw provider responses, unpaid
+AssetPack source, credentials, wallet private material, or private settlement
+payloads. Use `pnpm run generate:v39-promotion-readiness`,
+`pnpm run check:v39-promotion-readiness`, and `pnpm run check:v39-gate11`
+before closing the gate.
 V39 Gate 2 adds the package-owned `DepositorySupplyIndex` and source-safe
 generated artifact `.bitcode/v39-depository-supply-indexing.json`. Deposited
 source supply is normalized into rights-aware records with repository, branch,
