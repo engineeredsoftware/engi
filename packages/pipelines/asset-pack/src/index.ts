@@ -24,6 +24,11 @@ import {
   runDepositorySearchForPipelineInput,
 } from './depository-search';
 import {
+  buildReadFitsFindingRuntime,
+  persistReadFitsFindingRuntime,
+} from './read-fits-finding-runtime';
+import {
+  admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
   synthesizeReadNeedForPipelineInput,
@@ -109,10 +114,23 @@ function factoryPreprocess(): Executor<any, any> {
     try { processedInput.depositCandidates = depositorySearch.selectedCandidates; } catch {}
     try { processedInput.fitDeposits = depositorySearch.fitDeposits; } catch {}
     try { processedInput.fitDepositAssetIds = depositorySearch.fitDepositAssetIds; } catch {}
+    let fitResult: ReturnType<typeof buildDepositoryFitResultEvidence> | undefined;
     try {
-      processedInput.fitResult = buildDepositoryFitResultEvidence(depositorySearch);
+      fitResult = buildDepositoryFitResultEvidence(depositorySearch);
+      processedInput.fitResult = fitResult;
     } catch {}
     try { processedInput.fit = processedInput.fitResult; } catch {}
+    try {
+      const readFitsFindingRuntime = buildReadFitsFindingRuntime({
+        admission: (execution.get('read/finding-fits', 'admission') as any) || admitReadFitsFinding(processedInput),
+        result: depositorySearch,
+        fitResult,
+      });
+      persistReadFitsFindingRuntime(execution, readFitsFindingRuntime);
+      persistReadFitsFindingRuntime(execution.parent as any, readFitsFindingRuntime);
+      processedInput.readFitsFindingRuntime = readFitsFindingRuntime;
+      processedInput.readFitsFindingReplayReceipt = readFitsFindingRuntime.replayReceipt;
+    } catch {}
 
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
     return processedInput;
@@ -269,6 +287,7 @@ export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
 export * from './depository-search';
 export * from './depository-supply-index';
+export * from './read-fits-finding-runtime';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';

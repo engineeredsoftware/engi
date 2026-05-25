@@ -275,6 +275,14 @@ PipelineExecution-compatible storage records. Finding Fits remains blocked
 until an accepted Need is present. Use
 `pnpm run generate:v39-read-need-review-resynthesis` and
 `pnpm run check:v39-gate4` before closing the gate.
+V39 Gate 5 adds the package-owned `ReadFitsFindingRuntime` and source-safe
+generated artifact `.bitcode/v39-read-fits-finding-runtime.json`.
+ReadFitsFindingSynthesis now projects accepted-Need admission, source-safe
+query plans, seven search channels, many-candidate ranking, selected-fit
+provenance, active embedding policy, replay receipts, repair posture, and
+telemetry receipts into PipelineExecution-compatible storage records. Use
+`pnpm run generate:v39-read-fits-finding-runtime` and
+`pnpm run check:v39-gate5` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -437,7 +445,10 @@ For V39, Gate 1 opens `version/v39` and the gate-quality posture through
 artifacts and the V39 promotion workflow.
 V39 Gate 2 is wired through `pnpm run check:v39-gate2`; V39 Gate 3 is wired
 through `pnpm run check:v39-gate3` and its generated
-`.bitcode/v39-enterprise-reading-ux-state.json` artifact.
+`.bitcode/v39-enterprise-reading-ux-state.json` artifact. V39 Gate 4 is wired
+through `pnpm run check:v39-gate4`; V39 Gate 5 is wired through
+`pnpm run check:v39-gate5` and its generated
+`.bitcode/v39-read-fits-finding-runtime.json` artifact.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

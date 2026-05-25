@@ -253,7 +253,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-gate3-expanded', SOURCE_ROOTS.v39Delta, v39Delta.includes('Closure implementation:') && v39Delta.includes('TerminalEnterpriseReadingUxState')),
     predicateResult('notes-gate3-expanded', SOURCE_ROOTS.v39Notes, v39Notes.includes('Gate 3 implementation notes') && v39Notes.includes('readingStage')),
     predicateResult('parity-gate3-expanded', SOURCE_ROOTS.v39Parity, v39Parity.includes('Gate 3 Parity') && v39Parity.includes('v39-enterprise-reading-ux-state')),
-    predicateResult('roadmap-advanced-to-gate3', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 3 closure anchor') && roadmap.includes('Current working gate: V39 Gate 4')),
+    predicateResult('roadmap-advanced-to-gate3', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 3 closure anchor') && roadmap.includes('TerminalEnterpriseReadingUxState')),
     predicateResult('readmes-document-gate3', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingUxState') && conversationReadme.includes('readingStage') && protocolReadme.includes('V39EnterpriseReadingUxState')),
   ];
 }
