@@ -168,6 +168,7 @@ module.exports = {
     '<rootDir>/tests/terminalTransactionReadModel.test.ts',
     '<rootDir>/tests/bitcodeBrowserProof.test.ts',
     '<rootDir>/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
+    '<rootDir>/tests/bitcodeLedgerStorageSync.test.ts',
     '<rootDir>/tests/terminalUxBrowserProof.test.tsx',
     '<rootDir>/tests/terminalWalletBtcOperation.test.ts',
     '<rootDir>/tests/terminalCoreNativeSections.test.tsx',

@@ -49,7 +49,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Gate 5 | Reading pipeline integration artifact | implemented |
 | Gate 6 | Conversation/Terminal integration artifact | implemented |
 | Gate 7 | Browser/visual/accessibility/responsive artifact | implemented |
-| Gate 8 | Ledger/database/storage/wallet/delivery sync artifact | not yet implemented |
+| Gate 8 | Ledger/database/storage/wallet/delivery sync artifact | implemented |
 | Gate 9 | Local/staging rehearsal artifact | not yet implemented |
 | Gate 10 | Prompt benchmark smoke and V41 readiness artifact | not yet implemented |
 | Gate 11 | Promotion readiness artifact and workflow | not yet implemented |
