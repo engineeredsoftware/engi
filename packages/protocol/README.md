@@ -90,6 +90,16 @@ V40 Gate 4 adds `V40ApiIntegrationContracts` through
 The artifact is source-safe metadata only and closes API, UAPI, MCP, ChatGPT
 App, persistence, authorization, and response-schema integration contract
 coverage.
+V40 Gate 5 adds `V40ReadingPipelineIntegrationCoverage` through
+`packages/protocol/src/canonical/v40-reading-pipeline-integration-coverage.js`,
+`packages/protocol/test/v40-reading-pipeline-integration-coverage.test.js`,
+`.bitcode/v40-reading-pipeline-integration-coverage.json`, and
+`check:v40-gate5`.
+The artifact is source-safe metadata only and closes integration coverage for
+the real Reading pipeline topology, Need runtime, Finding Fits search runtime,
+PTRR agents, preview/settlement/delivery boundaries, telemetry/readback,
+Terminal harness, generic primitives, host harnesses, and local/staging
+rehearsal linkage.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

@@ -48,6 +48,7 @@ Gate 4 closes with package-backed `V40ApiIntegrationContracts`, deterministic `.
 ### Gate 5: Reading Pipeline Integration Coverage
 
 Close primitive and real implementation coverage for `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`.
+Gate 5 closes with package-backed `V40ReadingPipelineIntegrationCoverage`, deterministic `.bitcode/v40-reading-pipeline-integration-coverage.json`, protocol exports, source-safe rows for real Reading pipeline topology/runtime/search/agent/boundary/telemetry/harness/primitive/rehearsal integration, and `check:v40-gate5`.
 
 ### Gate 6: Conversation And Terminal Integration Coverage
 
@@ -75,7 +76,7 @@ Bind all V40 artifacts, proof generation, workflows, and promotion commands into
 
 ## Explicitly deferred
 
-- Prompt and PromptPart semantic rewriting, repartitioning, retitling, and excellence auditing are deferred to V41.
+- Prompt and PromptPart semantic rewriting, repartitioning, retitling, catalogue refactoring, benchmark-driven improvement, and excellence auditing are deferred to V41.
 - New commercial product features are deferred unless needed to make tests truthful.
 - Production-mainnet value-bearing tests remain opt-in until a later promotion mandates them.
 

@@ -47,6 +47,7 @@ V41 treats prompts as programs: every prompt part, composition, interpolation bi
 The primary V41 hardening surface is the Reading inference system, including `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`; conversational interactions and other inference points must receive the same prompt-catalogue treatment after the Reading spine is accounted.
 V38's inference correctness hardening provides the call-stack scaffolding, and V40's benchmark/test work provides the measurement base that makes V41 prompt rewrites auditable instead of stylistic.
 V40 should make those benchmarks runnable and trustworthy, not consume the prompt-rewrite scope.
+V41 must therefore treat prompt improvement as implementation work, not copy editing: raw PromptParts, composed Prompts, prompt registry edges, interpolation variables, benchmark fixtures, benchmark outputs, and downstream parsed return types are all part of the program surface.
 
 ## Candidate V40 workstreams
 
@@ -81,3 +82,11 @@ Gate 4 is closed by `V40ApiIntegrationContracts`.
 Its generated `.bitcode/v40-api-integration-contracts.json` artifact binds critical API route integration contracts to route families, source roots, test paths, command ids, and covered verdicts.
 The covered surfaces include UAPI Reading/pipeline routes, execution stream routes, Conversation routes, Auxillaries/Orbitals routes, VCS/wallet/webhook routes, public activity/template routes, package API route orchestration, package API Conversation/pipeline routes, MCP execution interface contracts, and ChatGPT App action contracts.
 No missing, blocked, or exempt critical API route integration contract surface is allowed in the Gate 4 artifact.
+
+## Gate 5 implementation notes
+
+Gate 5 is closed by `V40ReadingPipelineIntegrationCoverage`.
+Its generated `.bitcode/v40-reading-pipeline-integration-coverage.json` artifact binds Reading pipeline integration coverage to nine source-safe rows: pipeline contract topology, `ReadNeedComprehensionSynthesis` runtime, `ReadFitsFindingSynthesis` search runtime, PTRR agent implementation integration, preview/settlement/delivery boundaries, telemetry/repair readback, Terminal API harness integration, primitive/host integration, and local/staging rehearsal integration.
+The focused asset-pack package test runs a deterministic Reading path through accepted Need synthesis, many-fit Depository search, `worthy_fit` runtime evidence, source-safe AssetPack preview, settlement/right-transfer delivery boundary, and source-safe observability coverage.
+The artifact records expected totals of two Reading pipelines, eleven phases, twelve PTRR agents, forty-eight PTRR steps, one hundred forty-four ThricifiedGeneration records, and four tool surfaces.
+No missing, blocked, or exempt critical Reading integration row is allowed in the Gate 5 artifact, and prompt content rewriting remains deferred to V41.

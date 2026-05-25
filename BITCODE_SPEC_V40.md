@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, plus later V40 gate artifacts for E2E, visual, integration, proof, and promotion readiness coverage
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, plus later V40 gate artifacts for E2E, visual, synchronization, rehearsal, proof, and promotion readiness coverage
 - Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
@@ -26,6 +26,7 @@ The version must cover real user interactions, state possibilities, accessible U
 
 V40 also prepares V41 by making prompt and PromptPart benchmarks measurable in ordinary quality flows.
 V41 remains the singular prompts-as-programs version after V40, focused on every raw PromptPart, composed Prompt, benchmark, semantic division, title, template, interpolation contract, registry binding, and inference callsite.
+That version must examine, benchmark, re-divide into meaningfully benchmarkable semantic parts, retitle, rewrite, catalogue, and validate prompts as executable inference programs across Reading first and conversational or other inference surfaces next.
 
 ## Canonical Bitcode executive summary
 
@@ -120,6 +121,14 @@ The package-owned `V40ApiIntegrationContracts` emits `.bitcode/v40-api-integrati
 Rows bind route families, source roots, test paths, command ids, verdicts, and closure requirements.
 Gate 4 permits no missing, blocked, or exempt critical contract row; the artifact must prove route contract coverage while withholding secrets, protected source, raw protected prompts, raw provider responses, wallet private material, and unpaid AssetPack source.
 
+## V40 Gate 5 Reading Pipeline Integration Coverage
+
+Gate 5 closes integration coverage for the real Reading pipeline spine without rewriting prompt content.
+The package-owned `V40ReadingPipelineIntegrationCoverage` emits `.bitcode/v40-reading-pipeline-integration-coverage.json` with nine source-safe rows: pipeline contract topology, `ReadNeedComprehensionSynthesis` runtime, `ReadFitsFindingSynthesis` Depository search runtime, PTRR agent implementation integration, AssetPack preview/settlement/delivery boundaries, telemetry/repair readback, Terminal API harness integration, primitive/host integration, and local/staging rehearsal linkage.
+The artifact binds the currently expected Reading topology of two pipelines, five UX steps, eleven phases, twelve PTRR agents, forty-eight PTRR steps, twenty model-structured PTRR steps, one hundred forty-four ThricifiedGeneration records, and four tool surfaces.
+The focused integration test runs the deterministic commercial Reading spine from accepted Need synthesis through many-fit Depository search, source-safe AssetPack preview, settlement/right-transfer delivery boundary, and source-safe observability coverage.
+Gate 5 permits no missing, blocked, or exempt critical Reading integration row; proof rows may include topology, command ids, fixture roots, and coverage flags, but must not include secrets, raw protected prompts, raw provider responses, protected source payloads, or unpaid AssetPack source.
+
 ## V40 canonical subsystem surfaces
 
 ### Depositing and asset supply
@@ -208,7 +217,7 @@ Current accepted boundaries: proof artifacts may summarize sensitive facts but c
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v40-pipeline-integration-coverage.json` | pipeline, agent, step | inference-stack-covered | run-reading-pipeline-tests | prompt receipts, generation receipts | packages/pipelines, packages/agent-generics |
+| Inference-synthesis | `.bitcode/v40-reading-pipeline-integration-coverage.json` | pipeline, agent, step | inference-stack-covered | run-reading-pipeline-tests | prompt receipts, generation receipts | packages/pipelines, packages/agent-generics |
 | Prompt-completeness | `.bitcode/v40-prompt-benchmark-smoke.json` | PromptParts, Prompts | prompt-benchmark-runnable | run-prompt-benchmark-smoke | benchmark receipts | packages/prompts |
 | Static-code-analysis | `.bitcode/v40-unit-coverage-inventory.json` | source packages | source-units-covered | run-unit-suites | coverage maps | packages, uapi |
 | Verification-decisions | `.bitcode/v40-api-integration-contracts.json` | routes, contracts | route-contracts-covered | run-api-integration | API receipts | uapi, packages/api |

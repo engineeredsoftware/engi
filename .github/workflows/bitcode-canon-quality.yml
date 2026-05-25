@@ -232,6 +232,9 @@ jobs:
               if [ -f scripts/check-v40-gate4-api-integration-contracts.mjs ]; then
                 node scripts/check-v40-gate4-api-integration-contracts.mjs --skip-branch-check --skip-integration-tests
               fi
+              if [ -f scripts/check-v40-gate5-reading-pipeline-integration.mjs ]; then
+                node scripts/check-v40-gate5-reading-pipeline-integration.mjs --skip-branch-check --skip-integration-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
