@@ -232,7 +232,22 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 10 work must define local/staging artifacts, credential gates, and source-safe rehearsal evidence.
+- Gate 10 defines package-backed `ReadingLocalStagingRehearsal` source,
+  deterministic `.bitcode/v39-local-staging-reading-rehearsal.json`, package
+  tests, protocol tests, workflow wiring, and `check:v39-gate10`.
+- The rehearsal binds local and staging-testnet lanes, the five Reading
+  stages, many-fit Depository search, source-safe preview, deterministic BTC
+  quote, settlement rights delivery, rich telemetry readback, interface
+  no-bypass posture, and ledger/database/storage synchronization by proof
+  roots.
+- The staging-testnet lane is anchored to Supabase project
+  `tkpyosihuouusyaxtbau` and REST host
+  `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`; local/staging
+  credentials remain in untracked env files or host runtime only.
+- The artifact is source-safe metadata only: protected source, raw prompts,
+  raw provider responses, unpaid AssetPack source, wallet private material,
+  private settlement payloads, credentials, live log payloads, and
+  value-bearing mainnet admission are all excluded.
 
 ### Gate 11: V39 Promotion Readiness
 

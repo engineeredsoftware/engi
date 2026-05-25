@@ -319,6 +319,16 @@ export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_STAGE_IDS: readonly strin
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROW_IDS: readonly string[];
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROWS: readonly Record<string, unknown>[];
 export function buildV39InterfaceConversationProductParity(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V39_LOCAL_STAGING_READING_REHEARSAL_ARTIFACT_PATH: string;
+export const V39_LOCAL_STAGING_READING_REHEARSAL_CURRENT_TARGET: string;
+export const V39_LOCAL_STAGING_READING_REHEARSAL_SCHEMA_ID: string;
+export const V39_LOCAL_STAGING_READING_REHEARSAL_VERSION: string;
+export const V39_LOCAL_STAGING_READING_REHEARSAL_SOURCE_SAFETY_VERDICT: string;
+export const V39_LOCAL_STAGING_READING_REHEARSAL_LANE_IDS: readonly string[];
+export const V39_LOCAL_STAGING_READING_REHEARSAL_STAGE_IDS: readonly string[];
+export const V39_LOCAL_STAGING_READING_REHEARSAL_ROW_IDS: readonly string[];
+export const V39_LOCAL_STAGING_READING_REHEARSAL_ROWS: readonly Record<string, unknown>[];
+export function buildV39LocalStagingReadingRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

@@ -44,6 +44,10 @@ import {
   persistReadingInterfaceProductParity,
 } from './reading-interface-product-parity';
 import {
+  buildReadingLocalStagingRehearsal,
+  persistReadingLocalStagingRehearsal,
+} from './reading-local-staging-rehearsal';
+import {
   admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
@@ -240,6 +244,36 @@ function factoryPreprocess(): Executor<any, any> {
       processedInput.readingInterfaceProductParity = interfaceParity;
       processedInput.readingInterfaceParityRows = interfaceParity.rows;
       processedInput.readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+      const localStagingRehearsal = buildReadingLocalStagingRehearsal({
+        runId: String(execution.id || processedInput?.transactionId || processedInput?.id || ''),
+        readNeedRuntime:
+          processedInput?.readNeedReviewRuntime ||
+          (execution.get('read-need-review', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read-need-review', 'runtime') as any) ||
+          null,
+        readFitsRuntime:
+          processedInput?.readFitsFindingRuntime ||
+          (execution.get('read/finding-fits', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read/finding-fits', 'runtime') as any) ||
+          null,
+        previewBoundary:
+          processedInput?.assetPackPreviewBoundary ||
+          (execution.get('asset-pack/preview', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
+          null,
+        settlementBoundary:
+          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
+          (execution.get('asset-pack/settlement', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
+          null,
+        operationalReadback,
+        interfaceParity,
+      });
+      persistReadingLocalStagingRehearsal(execution, localStagingRehearsal);
+      persistReadingLocalStagingRehearsal(execution.parent as any, localStagingRehearsal);
+      processedInput.readingLocalStagingRehearsal = localStagingRehearsal;
+      processedInput.readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
+      processedInput.readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
     } catch {}
 
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
@@ -402,6 +436,7 @@ export * from './asset-pack-preview-boundary';
 export * from './asset-pack-settlement-rights-delivery';
 export * from './reading-operational-telemetry-repair-readback';
 export * from './reading-interface-product-parity';
+export * from './reading-local-staging-rehearsal';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';
