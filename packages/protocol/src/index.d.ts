@@ -406,6 +406,17 @@ export const V40_LEDGER_STORAGE_SYNC_EXPECTED_TOTALS: Readonly<Record<string, nu
 export const V40_LEDGER_STORAGE_SYNC_ROWS: readonly Record<string, unknown>[];
 export function buildV40LedgerStorageSync(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function listMissingV40LedgerStorageSyncSources(repoRoot?: string): string[];
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ARTIFACT_PATH: string;
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_CURRENT_TARGET: string;
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_SCHEMA_ID: string;
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_VERSION: string;
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_SOURCE_SAFETY_VERDICT: string;
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_LANE_IDS: readonly string[];
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ROW_IDS: readonly string[];
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_EXPECTED_TOTALS: Readonly<Record<string, number>>;
+export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ROWS: readonly Record<string, unknown>[];
+export function buildV40LocalStagingRehearsalAutomation(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function listMissingV40LocalStagingRehearsalAutomationSources(repoRoot?: string): string[];
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

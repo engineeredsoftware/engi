@@ -50,7 +50,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Gate 6 | Conversation/Terminal integration artifact | implemented |
 | Gate 7 | Browser/visual/accessibility/responsive artifact | implemented |
 | Gate 8 | Ledger/database/storage/wallet/delivery sync artifact | implemented |
-| Gate 9 | Local/staging rehearsal artifact | not yet implemented |
+| Gate 9 | Local/staging rehearsal artifact | implemented |
 | Gate 10 | Prompt benchmark smoke and V41 readiness artifact | not yet implemented |
 | Gate 11 | Promotion readiness artifact and workflow | not yet implemented |
 
@@ -60,6 +60,8 @@ Gate 4 implementation evidence: package-backed `V40ApiIntegrationContracts` emit
 Gate 5 implementation evidence: package-backed `V40ReadingPipelineIntegrationCoverage` emits `.bitcode/v40-reading-pipeline-integration-coverage.json` and is wired through `check:v40-gate5`.
 Gate 6 implementation evidence: package-backed `V40ConversationTerminalIntegration` emits `.bitcode/v40-conversation-terminal-integration.json` and is wired through `check:v40-gate6`.
 Gate 7 implementation evidence: package-backed `V40BrowserE2eVisualProof` emits `.bitcode/v40-browser-e2e-visual-proof.json` and is wired through `check:v40-gate7`.
+Gate 8 implementation evidence: package-backed `V40LedgerStorageSync` emits `.bitcode/v40-ledger-storage-sync.json` and is wired through `check:v40-gate8`.
+Gate 9 implementation evidence: package-backed `V40LocalStagingRehearsalAutomation` emits `.bitcode/v40-local-staging-rehearsal-automation.json` and is wired through `check:v40-gate9`.
 
 ## V40 accepted boundaries
 

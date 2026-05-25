@@ -68,6 +68,7 @@ Gate 8 closes with package-backed `V40LedgerStorageSync`, deterministic `.bitcod
 ### Gate 9: Local And Staging-Testnet Rehearsal Automation
 
 Close local/staging rehearsal scripts with lane-bound secrets, no tracked credentials, and reproducible operator receipts.
+Gate 9 closes with package-backed `V40LocalStagingRehearsalAutomation`, deterministic `.bitcode/v40-local-staging-rehearsal-automation.json`, source-safe operator dry-run receipts for local and staging-testnet lanes, explicit live-execution opt-in, staging-testnet Supabase project binding, real-inference and database-stream readback checks, workflow wiring, and `check:v40-gate9`.
 
 ### Gate 10: Prompt Benchmark Smoke And V41 Readiness
 

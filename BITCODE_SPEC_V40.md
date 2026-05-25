@@ -152,6 +152,14 @@ The app-owned `BITCODE_LEDGER_STORAGE_SYNC_CONTRACT` covers settlement source-to
 The focused proof test suite exercises the existing `AssetPackSettlementRightsDeliveryBoundary`, BTD wallet and reconciliation primitives, Terminal wallet/journal/detail readbacks, and the app contract without serializing protected source, unpaid AssetPack source, wallet private material, raw prompts, provider responses, or private settlement payloads.
 Gate 8 permits no missing, blocked, or lane-skipped critical synchronization row; source-bearing pull-request delivery remains withheld until payment observation, confirmed finality, source-to-shares conservation, BTD rights transfer, and ledger/database/object-storage reconciliation all agree.
 
+## V40 Gate 9 Local And Staging-Testnet Rehearsal Automation
+
+Gate 9 closes local and staging-testnet rehearsal automation for the source-safe operator path that proves the test system can be replayed without tracked credentials.
+The package-owned `V40LocalStagingRehearsalAutomation` emits `.bitcode/v40-local-staging-rehearsal-automation.json` with ten source-safe rows: local operator rehearsal, staging-testnet real-inference rehearsal, lane-bound secret-family checks, source-safe operator receipts, Vercel Sandbox harness runner, database stream and route readback, five-stage Reading pipeline rehearsal, ledger/storage/wallet/delivery rehearsal continuity, value-bearing mainnet blocking, and proof-system wiring.
+The operator command `rehearse:v40-local-staging` builds local or staging-testnet receipts from environment presence only, writes receipts under ignored harness-run roots when requested, and requires explicit live execution opt-in before delegating to the Vercel Sandbox AssetPack harness.
+Staging-testnet automation binds the Supabase project `tkpyosihuouusyaxtbau`, the REST host `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`, real inference, database event streaming, and structured readback while serializing no secret values, protected source, raw prompts, provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or live log payloads.
+Gate 9 permits no missing critical rehearsal automation row and keeps value-bearing mainnet admission blocked.
+
 ## V40 canonical subsystem surfaces
 
 ### Depositing and asset supply
@@ -416,12 +424,14 @@ V40 inherits operator-quality artifact expectations for readable proof and repai
 | `.bitcode/v40-reading-pipeline-integration-coverage.json` | protocol canonical package | Gate 5 source-safe Reading pipeline integration coverage |
 | `.bitcode/v40-conversation-terminal-integration.json` | protocol canonical package | Gate 6 source-safe Conversation/Terminal integration coverage |
 | `.bitcode/v40-browser-e2e-visual-proof.json` | protocol canonical package | Gate 7 source-safe browser, visual, accessibility, and responsive proof |
+| `.bitcode/v40-ledger-storage-sync.json` | protocol canonical package | Gate 8 source-safe ledger, database, storage, wallet, and delivery synchronization proof |
+| `.bitcode/v40-local-staging-rehearsal-automation.json` | protocol canonical package | Gate 9 source-safe local and staging-testnet rehearsal automation proof |
 | `.bitcode/v40-promotion-readiness-report.json` | future V40 promotion gate | promotion readiness |
 
 ### V40 specifying generated artifacts
 
 V40 generated artifacts begin with `.bitcode/v40-spec-family-report.json` and `.bitcode/v40-canonical-input-report.json`.
-Later gates add disclosure, synchronization, prompt benchmark smoke, rehearsal, and promotion-readiness artifacts.
+Closed gates now add unit, API, pipeline, Conversation/Terminal, browser, synchronization, and local/staging rehearsal artifacts; later gates add prompt benchmark smoke and promotion-readiness artifacts.
 
 ### Shared generated-artifact fields
 
@@ -447,7 +457,7 @@ Missing generated artifacts, stale reports, malformed JSON, invalid screenshots,
 
 ## V40 validation canon
 
-Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `pnpm run check:v40-gate4`, `pnpm run check:v40-gate5`, `pnpm run check:v40-gate6`, `pnpm run check:v40-gate7`, `pnpm run check:v40-browser-e2e-visual-proof`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
+Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `pnpm run check:v40-gate4`, `pnpm run check:v40-gate5`, `pnpm run check:v40-gate6`, `pnpm run check:v40-gate7`, `pnpm run check:v40-gate8`, `pnpm run check:v40-gate9`, `pnpm run check:v40-browser-e2e-visual-proof`, `pnpm run rehearse:v40-local-staging --lane local --dry-run --json`, `pnpm run rehearse:v40-local-staging --lane staging-testnet --dry-run --json`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
 
 ## V40 promotion canon
 
