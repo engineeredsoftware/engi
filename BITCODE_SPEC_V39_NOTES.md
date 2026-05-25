@@ -201,6 +201,12 @@ state tests, component tests, and the maintained opt-in browser proof workflow.
 ## Gate 4 implementation notes
 
 Gate 4 closes `ReadNeedComprehensionSynthesis` as a review, feedback, and resynthesis loop. Finding Fits remains blocked until a reviewed Need is accepted.
+The implementation centers on `ReadNeedReviewResynthesisRuntime`: it persists
+Read Requests, synthesized Needs, feedback history, resynthesis attempts, Need
+measurements, accepted-Need admission, rejected-Need posture, and source-safe
+telemetry receipts as PipelineExecution-compatible storage projections. The
+rejected-Need posture is explicit so operator feedback can drive resynthesis
+without accidentally admitting Finding Fits.
 
 ## Gate 5 implementation notes
 

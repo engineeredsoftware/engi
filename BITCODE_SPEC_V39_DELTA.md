@@ -128,7 +128,12 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 4 work must define package-backed source, deterministic artifact, pipeline tests, route tests, and accepted-Need admission tests.
+- Gate 4 defines package-backed `ReadNeedReviewResynthesisRuntime` source,
+  deterministic `.bitcode/v39-read-need-review-resynthesis.json`, pipeline
+  runtime tests, route tests for `synthesize_read_need`,
+  `resynthesize_read_need`, `accept_read_need`, and `reject_read_need`, and
+  accepted-Need admission tests. Route payloads include `readNeedReviewRuntime`,
+  `storageProjection`, `runtimeSummary`, and Finding Fits admission readback.
 
 ### Gate 5: ReadFitsFinding Runtime, Ranking, And Replay
 

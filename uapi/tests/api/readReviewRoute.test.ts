@@ -182,6 +182,36 @@ describe('/api/read-review', () => {
       reviewState: 'needs_acceptance',
       readRequest: payload.readRequest,
     });
+    expect(payload.readNeedReviewRuntime).toMatchObject({
+      schema: 'bitcode.read-need-review-resynthesis-runtime',
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      action: 'synthesize_read_need',
+      currentNeedId: payload.readNeed.needId,
+      reviewState: 'needs_acceptance',
+      findingFitsAdmission: {
+        admitted: false,
+        blockers: ['accepted_read_need_missing'],
+      },
+      reviewLoop: {
+        readRequestPersisted: true,
+        synthesizedNeedPersisted: true,
+        feedbackHistoryPersisted: true,
+        needMeasurementPersisted: true,
+        findingFitsBlockedUntilAcceptedNeed: true,
+      },
+    });
+    expect(payload.storageProjection.map((record: { recordKind: string }) => record.recordKind)).toEqual([
+      'read_request',
+      'synthesized_need',
+      'feedback',
+      'need_measurement',
+      'telemetry_receipt',
+    ]);
+    expect(payload.runtimeSummary).toMatchObject({
+      storageRecordCount: 5,
+      telemetryReceiptCount: 1,
+      findingFitsAdmitted: false,
+    });
     expect(payload.telemetry.pipelineContract).toMatchObject({
       pipelineName: 'ReadNeedComprehensionSynthesis',
       phaseCount: 4,
@@ -248,6 +278,14 @@ describe('/api/read-review', () => {
       previousNeedId: first.readNeed.needId,
       feedbackHistory: second.readNeed.feedbackHistory,
     });
+    expect(second.readNeedReviewRuntime).toMatchObject({
+      action: 'resynthesize_read_need',
+      previousNeedId: first.readNeed.needId,
+      reviewLoop: {
+        resynthesisAttemptPersisted: true,
+      },
+    });
+    expect(second.storageProjection.map((record: { recordKind: string }) => record.recordKind)).toContain('resynthesis_attempt');
   });
 
   it('accepts a synthesized Read-Need as the only Finding Fits input', async () => {
@@ -296,6 +334,18 @@ describe('/api/read-review', () => {
       admitted: true,
       blockers: [],
     });
+    expect(payload.readNeedReviewRuntime).toMatchObject({
+      action: 'accept_read_need',
+      reviewState: 'accepted',
+      findingFitsAdmission: {
+        admitted: true,
+      },
+      reviewLoop: {
+        acceptedNeedAdmissionPersisted: true,
+        findingFitsBlockedUntilAcceptedNeed: true,
+      },
+    });
+    expect(payload.storageProjection.map((record: { recordKind: string }) => record.recordKind)).toContain('accepted_need_admission');
     expect(payload.telemetry).toMatchObject({
       schema: 'bitcode.read-need.acceptance-telemetry',
       pipelineName: 'ReadNeedComprehensionSynthesis',
@@ -303,6 +353,61 @@ describe('/api/read-review', () => {
       needId: synthesis.readNeed.needId,
       nextStage: 'finding_fits',
       returnType: 'AcceptedReadNeed',
+    });
+  });
+
+  it('records rejected Read-Need posture and keeps Finding Fits blocked', async () => {
+    const synthesisResponse = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'synthesize_read_need',
+          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          sourceRevision: {
+            repositoryFullName: 'engineeredsoftware/ENGI',
+            branch: 'main',
+            commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+          },
+        }),
+      }),
+    );
+    const synthesis = await synthesisResponse.json();
+    const rejectResponse = await POST(
+      new Request('http://localhost/api/read-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'reject_read_need',
+          readNeed: synthesis.readNeed,
+          feedback: ['Need over-claims settlement finality.'],
+        }),
+      }),
+    );
+    const payload = await rejectResponse.json();
+
+    expect(rejectResponse.status).toBe(200);
+    expect(payload.stage).toBe('review_synthesized_need');
+    expect(payload.rejectedReadNeed).toMatchObject({
+      schema: 'bitcode.read.need',
+      reviewState: 'rejected',
+      needId: synthesis.readNeed.needId,
+    });
+    expect(payload.fitsFindingAdmission).toMatchObject({
+      admitted: false,
+      blockers: ['read_need_rejected', 'accepted_read_need_missing'],
+    });
+    expect(payload.readNeedReviewRuntime).toMatchObject({
+      action: 'reject_read_need',
+      reviewState: 'rejected',
+      reviewLoop: {
+        rejectedNeedPosturePersisted: true,
+        findingFitsBlockedUntilAcceptedNeed: true,
+      },
+    });
+    expect(payload.storageProjection.map((record: { recordKind: string }) => record.recordKind)).toContain('rejected_need_posture');
+    expect(payload.telemetry).toMatchObject({
+      schema: 'bitcode.read-need.rejection-telemetry',
+      returnType: 'RejectedReadNeed',
+      blockedStage: 'finding_fits',
     });
   });
 });

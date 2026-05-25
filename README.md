@@ -266,6 +266,15 @@ only source-safe `readingStage` intent, Terminal parses it as posture, and the
 rich execution stream remains the live Reading pipeline log. Use
 `pnpm run generate:v39-enterprise-reading-ux-state` and
 `pnpm run check:v39-gate3` before closing the gate.
+V39 Gate 4 adds the package-owned `ReadNeedReviewResynthesisRuntime` and
+source-safe generated artifact `.bitcode/v39-read-need-review-resynthesis.json`.
+ReadNeedComprehensionSynthesis now projects Read Requests, synthesized Needs,
+feedback history, resynthesis attempts, Need measurements, accepted-Need
+admission, rejected-Need posture, and source-safe telemetry receipts into
+PipelineExecution-compatible storage records. Finding Fits remains blocked
+until an accepted Need is present. Use
+`pnpm run generate:v39-read-need-review-resynthesis` and
+`pnpm run check:v39-gate4` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

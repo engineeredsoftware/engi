@@ -72,7 +72,7 @@ No `_legacy/` source is active source truth.
 | Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | drafted | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
 | Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.bitcode/v39-depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
 | Enterprise Reading UX state machine | Gate 3 | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
-| ReadNeed review and resynthesis | Gate 4 | `ReadNeedComprehensionSynthesis`, Need storage, feedback, resynthesis, accepted-Need admission | pending | Finding Fits remains blocked until a reviewed Need is accepted. |
+| ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.bitcode/v39-read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
 | ReadFitsFinding runtime and replay | Gate 5 | `ReadFitsFindingSynthesis`, search tools, embeddings, ranking, selected-fit provenance, replay receipts | pending | Finding Fits searches the whole available Depository for many above-threshold candidates. |
 | AssetPack preview and quote boundary | Gate 6 | AssetPack preview tests, quote tests, disclosure leak scans, proof roots | pending | Preview is commercially sufficient without exposing source-bearing AssetPack content. |
 | Settlement, BTD rights, and delivery | Gate 7 | BTC settlement receipt, BTD rights transfer, source-to-shares, ledger/database/storage, PR delivery | pending | Payment unlocks rights and delivery; repair paths are auditable. |
@@ -94,7 +94,7 @@ No `_legacy/` source is active source truth.
 | Package docs | README, protocol package README, demonstration README, and PR template state V38 active / V39 draft workflow | drafted |
 | Depository supply indexing | Deposits become measurable, embedded, indexable, rights-aware, searchable, and repairable | implemented |
 | Enterprise Reading UX | Terminal implements request read, review Need, request Finding Fits, review preview, buy and settle | implemented |
-| ReadNeed runtime | `ReadNeedComprehensionSynthesis` persists reviewable Needs, feedback, resynthesis, measurements, and accepted-Need admission | pending |
+| ReadNeed runtime | `ReadNeedComprehensionSynthesis` persists reviewable Needs, feedback, resynthesis, measurements, accepted-Need admission, and rejected-Need posture | implemented |
 | ReadFitsFinding runtime | `ReadFitsFindingSynthesis` searches many above-threshold deposits with replayable query, ranking, threshold, and selected-fit provenance receipts | pending |
 | Preview and quote | AssetPack preview is source-safe and quote is deterministic before settlement | pending |
 | Settlement and delivery | BTC settlement, BTD rights transfer, source-to-shares compensation, ledger/database/storage sync, and delivery are auditable | pending |
@@ -149,17 +149,32 @@ No `_legacy/` source is active source truth.
 | Proof artifact and checker exist | `.bitcode/v39-enterprise-reading-ux-state.json`, `packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js`, `packages/protocol/test/v39-enterprise-reading-ux-state.test.js`, `scripts/check-v39-gate3-enterprise-reading-ux-state.mjs` | implemented |
 | Browser proof remains wired as opt-in gate-quality evidence | `.github/workflows/bitcode-gate-quality.yml`, `uapi/tests/terminalUxBrowserProof.test.tsx`, `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` | implemented |
 
+## Gate 4 Parity
+
+| Requirement | Source evidence | Current V39 judgment |
+| --- | --- | --- |
+| ReadNeed review runtime exists | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts` | implemented |
+| Read Requests and synthesized Needs persist as source-safe storage projections | `ReadNeedReviewStorageRecord`, `read_request`, `synthesized_need`, `need_measurement` records | implemented |
+| Feedback and resynthesis lineage are preserved | `resynthesis_attempt` record, `previousNeedId`, `feedbackHistory`, route resynthesis tests | implemented |
+| Accepted Need is the only Finding Fits admission path | `acceptReadNeed`, `admitReadFitsFinding`, `accepted_need_admission`, route acceptance tests | implemented |
+| Rejected Needs block Finding Fits and retain feedback | `rejectReadNeed`, `rejected_need_posture`, route rejection tests | implemented |
+| Telemetry receipts count the ReadNeed pipeline stack | `ReadNeedReviewTelemetryReceipt`, 4 phases, 16 PTRR steps, 48 ThricifiedGeneration ids | implemented |
+| Read review route exposes all review actions | `uapi/app/api/read-review/route.ts`, `uapi/tests/api/readReviewRoute.test.ts` | implemented |
+| Proof artifact and checker exist | `.bitcode/v39-read-need-review-resynthesis.json`, `packages/protocol/src/canonical/v39-read-need-review-resynthesis.js`, `packages/protocol/test/v39-read-need-review-resynthesis.test.js`, `scripts/check-v39-gate4-read-need-review-resynthesis.mjs` | implemented |
+| Workflow wiring includes Gate 4 source-safe proof | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | implemented |
+
 ## Later Gate Parity
 
-Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 through 3 intentionally do not claim closure for Need review, Finding Fits runtime, preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
+Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 through 4 intentionally do not claim closure for Finding Fits runtime, preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
 
 ## accepted boundaries and reopen conditions
 
 V39 Gate 1 accepts only draft-family, roadmap, workflow, branch, and documentation posture closure.
 V39 Gate 2 accepts only Depository supply indexing, source-safe search document, vector projection, storage readback posture, rights boundary, repair posture, and Finding Fits handoff closure.
 V39 Gate 3 accepts only enterprise Reading UX state, source-safe route handoff/readback, low-detail/expandable Terminal rendering, rich stream-log integration, opt-in browser proof wiring, and generated UX proof artifact closure.
+V39 Gate 4 accepts only ReadNeed review runtime storage projection, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, source-safe telemetry receipts, route actions, and generated review proof artifact closure.
 Later gate scope is intentionally pending and must be reopened into gate-specific parity sections before implementation starts.
 
 ## completion condition
 
-V39 Gate 3 is complete when `check:v39-gate3`, focused Terminal/Conversation/UAPI tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-3-*` branch.
+V39 Gate 4 is complete when `check:v39-gate4`, focused ReadNeed package and route tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-4-*` branch.
