@@ -90,3 +90,11 @@ Its generated `.bitcode/v40-reading-pipeline-integration-coverage.json` artifact
 The focused asset-pack package test runs a deterministic Reading path through accepted Need synthesis, many-fit Depository search, `worthy_fit` runtime evidence, source-safe AssetPack preview, settlement/right-transfer delivery boundary, and source-safe observability coverage.
 The artifact records expected totals of two Reading pipelines, eleven phases, twelve PTRR agents, forty-eight PTRR steps, one hundred forty-four ThricifiedGeneration records, and four tool surfaces.
 No missing, blocked, or exempt critical Reading integration row is allowed in the Gate 5 artifact, and prompt content rewriting remains deferred to V41.
+
+## Gate 6 implementation notes
+
+Gate 6 is closed by `V40ConversationTerminalIntegration`.
+Its generated `.bitcode/v40-conversation-terminal-integration.json` artifact binds Conversation and Terminal integration coverage to eight source-safe rows: Terminal handoff route contracts, Conversation stream events projected into rich execution logs, route/API persistence and branch contracts, writing/source selector handoff, Terminal Reading state readback, Terminal harness log streaming, transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
+The focused UAPI test executes the cross-surface path from a Conversation `finding_fits` handoff into Terminal query parsing, enterprise Reading `request-fit` state, Conversation stream tool-call log metadata, and Terminal harness stream projection.
+No missing, blocked, or exempt critical Conversation/Terminal integration row is allowed in the Gate 6 artifact; Conversation may carry source-safe intent only, while Terminal remains the transaction, wallet, ledger, settlement, and delivery cockpit.
+Prompt and PromptPart rewriting remains deferred to V41.

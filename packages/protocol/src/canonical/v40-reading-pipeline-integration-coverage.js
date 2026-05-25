@@ -489,7 +489,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-documents-gate5', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 5 closes with package-backed `V40ReadingPipelineIntegrationCoverage`')),
     predicateResult('notes-document-gate5', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 5 implementation notes') && notes.includes('Reading pipeline integration coverage')),
     predicateResult('parity-documents-gate5', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-reading-pipeline-integration-coverage') && parity.includes('| Gate 5 | Reading pipeline integration artifact | implemented |')),
-    predicateResult('roadmap-advanced-through-gate5', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('Current working gate: V40 Gate 5') && roadmap.includes('V40 Gate 5 closure anchor')),
+    predicateResult('roadmap-advanced-through-gate5', 'SPECIFICATIONS_ROADMAP.md', /Current working gate: V40 Gate (?:5|6|7|8|9|10|11)\b/u.test(roadmap) && roadmap.includes('V40 Gate 5 closure anchor')),
     predicateResult('roadmap-preserves-v41-prompt-programs', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V41 should focus singularly on Prompt and PromptPart implementation') && roadmap.includes('prompts as programs')),
     ...rowPredicates,
   ];

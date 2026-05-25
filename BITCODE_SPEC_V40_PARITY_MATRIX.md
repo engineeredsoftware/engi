@@ -34,6 +34,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Visual proof | Screenshot comparisons are deterministic and reviewable | future V40 artifacts | not yet implemented |
 | API integration | Route and API contracts are parseable and source-safe | `.bitcode/v40-api-integration-contracts.json` | implemented |
 | Pipeline integration | Primitive and real Reading pipeline implementations are tested | `.bitcode/v40-reading-pipeline-integration-coverage.json` | implemented |
+| Conversation/Terminal integration | Conversation handoff, stream logs, Terminal Reading state, and authority boundaries are tested source-safely | `.bitcode/v40-conversation-terminal-integration.json` | implemented |
 | Unit coverage | Packages, primitives, isolated implementations, and real implementations have unit coverage | `.bitcode/v40-unit-coverage-inventory.json` | implemented |
 | Prompt benchmark smoke | Prompt and PromptPart benchmarks run before V41 | future V40 artifacts | not yet implemented |
 
@@ -46,7 +47,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Gate 3 | Unit coverage closure artifact | implemented |
 | Gate 4 | API/route integration artifact | implemented |
 | Gate 5 | Reading pipeline integration artifact | implemented |
-| Gate 6 | Conversation/Terminal integration artifact | not yet implemented |
+| Gate 6 | Conversation/Terminal integration artifact | implemented |
 | Gate 7 | Browser/visual/accessibility/responsive artifact | not yet implemented |
 | Gate 8 | Ledger/database/storage/wallet/delivery sync artifact | not yet implemented |
 | Gate 9 | Local/staging rehearsal artifact | not yet implemented |
@@ -57,6 +58,7 @@ Gate 2 implementation evidence: package-backed `V40TestInventoryCoverageMatrix` 
 Gate 3 implementation evidence: package-backed `V40UnitCoverageInventory` emits `.bitcode/v40-unit-coverage-inventory.json` and is wired through `check:v40-gate3`.
 Gate 4 implementation evidence: package-backed `V40ApiIntegrationContracts` emits `.bitcode/v40-api-integration-contracts.json` and is wired through `check:v40-gate4`.
 Gate 5 implementation evidence: package-backed `V40ReadingPipelineIntegrationCoverage` emits `.bitcode/v40-reading-pipeline-integration-coverage.json` and is wired through `check:v40-gate5`.
+Gate 6 implementation evidence: package-backed `V40ConversationTerminalIntegration` emits `.bitcode/v40-conversation-terminal-integration.json` and is wired through `check:v40-gate6`.
 
 ## V40 accepted boundaries
 

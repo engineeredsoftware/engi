@@ -546,6 +546,13 @@ generated `.bitcode/v40-reading-pipeline-integration-coverage.json`, and
 Depository search, PTRR agent wiring, AssetPack preview/settlement/delivery,
 telemetry/readback, Terminal harnesses, pipeline primitives, hosts, and local
 staging rehearsal linkage.
+V40 Gate 6 adds the package-backed `V40ConversationTerminalIntegration`,
+generated `.bitcode/v40-conversation-terminal-integration.json`, and
+`check:v40-gate6` to close source-safe integration coverage for Conversation
+handoff route contracts, Conversation stream-to-rich-log projection,
+Conversation route/API persistence and branch contracts, writing/source
+selector handoff, Terminal Reading state readback, Terminal harness log
+streaming, transaction-cockpit authority boundaries, and rehearsal/docs parity.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

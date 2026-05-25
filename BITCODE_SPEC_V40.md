@@ -129,6 +129,13 @@ The artifact binds the currently expected Reading topology of two pipelines, fiv
 The focused integration test runs the deterministic commercial Reading spine from accepted Need synthesis through many-fit Depository search, source-safe AssetPack preview, settlement/right-transfer delivery boundary, and source-safe observability coverage.
 Gate 5 permits no missing, blocked, or exempt critical Reading integration row; proof rows may include topology, command ids, fixture roots, and coverage flags, but must not include secrets, raw protected prompts, raw provider responses, protected source payloads, or unpaid AssetPack source.
 
+## V40 Gate 6 Conversation And Terminal Integration Coverage
+
+Gate 6 closes integration coverage for the Conversation-to-Terminal boundary without changing prompt content.
+The package-owned `V40ConversationTerminalIntegration` emits `.bitcode/v40-conversation-terminal-integration.json` with eight source-safe rows: Conversation Terminal handoff route contracts, Conversation stream events projected into rich execution logs, Conversation route/API persistence and branch contracts, writing workspace/source selector handoff, Terminal Reading state handoff readback, Terminal pipeline harness log streaming, Terminal transaction-cockpit authority boundaries, and Conversation/Terminal rehearsal/docs/interface parity.
+The focused UAPI integration test carries a source-safe Conversation `finding_fits` handoff into Terminal route readback, verifies the five-stage enterprise Reading state at `request-fit`, adapts a Conversation stream tool event into execution-log metadata, and projects that event through the Terminal harness stream snapshot without serializing protected source, raw prompt payload, or unpaid AssetPack source.
+Gate 6 permits no missing, blocked, or exempt critical Conversation/Terminal row; proof rows may include route parameters, proof roots, event ids, telemetry posture, command ids, fixture roots, and coverage flags, but must not include secrets, protected source, raw protected prompts, raw model/provider responses, wallet private material, or unpaid AssetPack source.
+
 ## V40 canonical subsystem surfaces
 
 ### Depositing and asset supply
