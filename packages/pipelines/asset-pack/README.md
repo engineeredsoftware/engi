@@ -207,6 +207,25 @@ raw protected prompts, raw interpolated prompts, raw provider responses,
 unpaid AssetPack source, wallet private material, private settlement payloads,
 or credentials.
 
+## Interface Product Parity
+
+`ReadingInterfaceProductParity` is the source-safe package primitive that
+keeps Terminal, Conversation, public API, MCP API, ChatGPT App, and
+package-facing consumers on one Reading authority. Terminal remains the
+transaction authority. Conversation is a Terminal-delegated handoff. Package
+consumers receive contract readback only. API, MCP, and ChatGPT surfaces reuse
+BTD interface catalog, read-license/AssetPack-rights, telemetry hook, and
+consumer UX proof roots.
+
+The parity rows are persisted under `reading/interfaces` with `productParity`,
+`parityRows`, `noBypassReadback`, `interfaceRoots`, `sourceSafety`, and
+`parityRoot`. Each row proves accepted-Need gating, Finding Fits admission,
+source-safe preview, settlement unlock, BTD rights, authorized delivery, no
+parallel authority, and source-bearing delivery locked before settlement and
+rights transfer. The source-safe artifact is
+`.bitcode/v39-interface-conversation-product-parity.json`, checked by
+`pnpm run check:v39-gate9`.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

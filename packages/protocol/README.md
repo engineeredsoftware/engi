@@ -53,6 +53,7 @@ Current exported commercial helpers include:
 - `V39ReadNeedReviewResynthesis` helpers for V39 source-safe ReadNeed review, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, runtime storage projection, and telemetry receipt proof;
 - `V39ReadFitsFindingRuntime` helpers for V39 source-safe Finding Fits runtime storage, many-candidate ranking, selected-fit provenance, replay receipts, repair posture, and active embedding policy proof;
 - `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
+- `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -134,6 +135,16 @@ hooks, source-safe disclosure posture, rich execution-log rendering, package
 tests, UI tests, protocol tests, and workflow wiring. The maintained commands
 are `pnpm run generate:v39-operational-telemetry-repair-readback` and
 `pnpm run check:v39-gate8`.
+V39 Gate 9 adds `V39InterfaceConversationProductParity` through
+`packages/protocol/src/canonical/v39-interface-conversation-product-parity.js`
+and the source-safe generated artifact
+`.bitcode/v39-interface-conversation-product-parity.json`. The report proves
+Terminal authority, Conversation handoff, public API, MCP API, ChatGPT App,
+and package-consumer parity rows, accepted-Need gating, source-safe preview,
+settlement unlock, BTD rights, delivery boundaries, package tests, interface
+tests, protocol tests, and workflow wiring. The maintained commands are
+`pnpm run generate:v39-interface-conversation-product-parity` and
+`pnpm run check:v39-gate9`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

@@ -29,6 +29,11 @@ import {
   persistReadingOperationalTelemetryRepairReadback,
   type ReadingOperationalTelemetryRepairReadback,
 } from './reading-operational-telemetry-repair-readback';
+import {
+  buildReadingInterfaceProductParity,
+  persistReadingInterfaceProductParity,
+  type ReadingInterfaceProductParity,
+} from './reading-interface-product-parity';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -129,6 +134,12 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
       (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
       (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
     }
+    const interfaceParity = ensureReadingInterfaceProductParity(execution, enhanced);
+    if (interfaceParity) {
+      (enhanced as any).readingInterfaceProductParity = interfaceParity;
+      (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
+      (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+    }
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
   }
   if (!(enhanced as any).readingOperationalTelemetryRepairReadback) {
@@ -138,6 +149,14 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
       (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
       (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
       (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+    }
+  }
+  if (!(enhanced as any).readingInterfaceProductParity) {
+    const interfaceParity = ensureReadingInterfaceProductParity(execution, enhanced);
+    if (interfaceParity) {
+      (enhanced as any).readingInterfaceProductParity = interfaceParity;
+      (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
+      (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
     }
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
@@ -231,6 +250,7 @@ export function buildAssetPackPostprocessedResult(
     : null;
   const readingOperationalTelemetryRepairReadback =
     ensureReadingOperationalTelemetryRepairReadback(execution, normalized);
+  const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -295,6 +315,13 @@ export function buildAssetPackPostprocessedResult(
                 readingOperationalRunbookHooks: readingOperationalTelemetryRepairReadback.runbookHooks,
               }
             : {}),
+          ...(readingInterfaceProductParity
+            ? {
+                readingInterfaceProductParity,
+                readingInterfaceParityRows: readingInterfaceProductParity.rows,
+                readingInterfaceNoBypassReadback: readingInterfaceProductParity.noBypassReadback,
+              }
+            : {}),
           feeQuote: sourceSafePreview.feeQuote,
         }
       : {}),
@@ -304,6 +331,13 @@ export function buildAssetPackPostprocessedResult(
           readingOperationalOperatorReadback: readingOperationalTelemetryRepairReadback.operatorReadback,
           readingOperationalStreamEvents: readingOperationalTelemetryRepairReadback.streamEvents,
           readingOperationalRunbookHooks: readingOperationalTelemetryRepairReadback.runbookHooks,
+        }
+      : {}),
+    ...(!sourceSafePreview && readingInterfaceProductParity
+      ? {
+          readingInterfaceProductParity,
+          readingInterfaceParityRows: readingInterfaceProductParity.rows,
+          readingInterfaceNoBypassReadback: readingInterfaceProductParity.noBypassReadback,
         }
       : {}),
     read:
@@ -529,6 +563,50 @@ function ensureReadingOperationalTelemetryRepairReadback(
   });
   persistReadingOperationalTelemetryRepairReadback(execution, readback);
   return readback;
+}
+
+function ensureReadingInterfaceProductParity(
+  execution: Execution,
+  output: AssetPackOutput,
+): ReadingInterfaceProductParity | null {
+  const storedParity =
+    findStoredExecutionValue(execution, 'reading/interfaces', 'productParity') ||
+    (output as any).readingInterfaceProductParity;
+  if (storedParity?.schema === 'bitcode.reading.interface-product-parity') {
+    return storedParity as ReadingInterfaceProductParity;
+  }
+
+  const readNeedRuntime =
+    (output as any).readNeedReviewRuntime ||
+    findStoredExecutionValue(execution, 'read-need-review', 'runtime');
+  const readFitsRuntime =
+    (output as any).readFitsFindingRuntime ||
+    findStoredExecutionValue(execution, 'read/finding-fits', 'runtime');
+  const previewBoundary =
+    (output as any).assetPackPreviewBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
+  const settlementBoundary =
+    (output as any).assetPackSettlementRightsDeliveryBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
+  const operationalReadback =
+    (output as any).readingOperationalTelemetryRepairReadback ||
+    findStoredExecutionValue(execution, 'reading/operational', 'readback');
+
+  const hasReadingContext =
+    readNeedRuntime || readFitsRuntime || previewBoundary || settlementBoundary || operationalReadback;
+  if (!hasReadingContext) {
+    return null;
+  }
+
+  const parity = buildReadingInterfaceProductParity({
+    readNeedRuntime,
+    readFitsRuntime,
+    previewBoundary,
+    settlementBoundary,
+    operationalReadback,
+  });
+  persistReadingInterfaceProductParity(execution, parity);
+  return parity;
 }
 
 function firstString(...values: unknown[]): string | null {

@@ -277,6 +277,16 @@ compact row-by-row stream while preserving expandable source-safe metadata.
 ## Gate 9 implementation notes
 
 Gate 9 closes interface and Conversation product parity. Conversation, MCP/API, ChatGPT App, and package consumers may assist the flow but cannot bypass accepted-Need gating, preview disclosure, settlement, rights, or delivery law.
+`ReadingInterfaceProductParity` is the package-owned readback for that law. It
+binds Terminal, Conversation, public API, MCP API, ChatGPT App, and package
+consumer rows to the same Terminal Reading authority. Conversation remains a
+source-safe Terminal handoff rather than a second Reading authority. Package
+consumers can read contract roots and no-bypass posture but cannot authorize
+delivery. API/MCP/ChatGPT rows reuse BTD interface catalog,
+read-license/AssetPack-rights, telemetry-hook, and consumer-UX roots. The
+runtime and generated artifact both forbid protected source, raw protected
+prompts, raw interpolated prompts, raw provider responses, unpaid AssetPack
+source, wallet private material, private settlement payloads, and credentials.
 
 ## Gate 10 implementation notes
 

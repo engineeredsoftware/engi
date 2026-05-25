@@ -310,6 +310,15 @@ operator readback with proof roots, runbook hooks, prompt/result disclosure
 posture, and rich execution-log rendering. Use
 `pnpm run generate:v39-operational-telemetry-repair-readback` and
 `pnpm run check:v39-gate8` before closing the gate.
+V39 Gate 9 adds the package-owned `ReadingInterfaceProductParity` and
+source-safe generated artifact
+`.bitcode/v39-interface-conversation-product-parity.json`. Terminal,
+Conversation, public API, MCP API, ChatGPT App, and package consumers now share
+the same Reading authority: accepted Need, Finding Fits, source-safe preview,
+settlement unlock, BTD rights, and delivery boundaries cannot be bypassed, and
+source-bearing delivery remains locked until settlement and rights transfer.
+Use `pnpm run generate:v39-interface-conversation-product-parity` and
+`pnpm run check:v39-gate9` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -481,7 +490,9 @@ through `pnpm run check:v39-gate6` and its generated
 wired through `pnpm run check:v39-gate7` and its generated
 `.bitcode/v39-settlement-rights-delivery.json` artifact. V39 Gate 8 is wired
 through `pnpm run check:v39-gate8` and its generated
-`.bitcode/v39-operational-telemetry-repair-readback.json` artifact.
+`.bitcode/v39-operational-telemetry-repair-readback.json` artifact. V39 Gate 9
+is wired through `pnpm run check:v39-gate9` and its generated
+`.bitcode/v39-interface-conversation-product-parity.json` artifact.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

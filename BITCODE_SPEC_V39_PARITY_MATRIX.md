@@ -77,7 +77,7 @@ No `_legacy/` source is active source truth.
 | AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
 | Settlement, BTD rights, and delivery | Gate 7 | `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`, `.bitcode/v39-settlement-rights-delivery.json`, BTD receipt/source-to-shares/reconciliation primitives, package tests, protocol tests | implemented | Payment unlocks rights and delivery only when finality, source-to-shares, BTD rights, reconciliation, and pull-request delivery agree; repair paths are auditable. |
 | Operational telemetry and repair | Gate 8 | `ReadingOperationalTelemetryRepairReadback`, `.bitcode/v39-operational-telemetry-repair-readback.json`, package tests, UI tests, protocol tests | implemented | Reading is observable and repairable end to end through source-safe stream events, operator readback, runbook hooks, proof roots, and repair commands. |
-| Interface and Conversation parity | Gate 9 | Conversation, MCP/API, ChatGPT App, package contract tests | pending | Interfaces follow Terminal authority and cannot bypass gating, preview, settlement, rights, or delivery boundaries. |
+| Interface and Conversation parity | Gate 9 | `ReadingInterfaceProductParity`, `.bitcode/v39-interface-conversation-product-parity.json`, package/Conversation/MCP/ChatGPT/protocol tests | implemented | Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers share Terminal Reading authority; accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries cannot be bypassed. |
 | Local and staging rehearsal | Gate 10 | local/staging lanes, real-inference gates, depository search, preview, settlement/delivery posture | pending | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
 | Promotion readiness | Gate 11 | V39 promotion report, generated proof appendix, promotion workflow, command dry-run | pending | V39 promotes only after all commercial Reading gates and source-safety evidence close. |
 
@@ -236,6 +236,23 @@ source leakage. The generated proof artifact is
 `.bitcode/v39-operational-telemetry-repair-readback.json` and the gate check
 is `pnpm run check:v39-gate8`.
 
+## Gate 9 Parity
+
+V39 Gate 9 is implemented when `ReadingInterfaceProductParity` binds Terminal,
+Conversation, public API, MCP API, ChatGPT App, and package-consumer surfaces
+to the same Reading authority. Conversation is a Terminal-delegated handoff,
+package consumers receive source-safe contract readback only, and API/MCP/
+ChatGPT rows reuse BTD interface catalog, read-license/AssetPack-rights,
+telemetry hook, and consumer UX proof roots. Each row proves accepted-Need
+gating, Finding Fits admission, source-safe preview, settlement unlock, BTD
+rights, delivery authorization, no parallel authority, and source-bearing
+delivery locked before settlement and rights transfer. The parity source is
+`packages/pipelines/asset-pack/src/reading-interface-product-parity.ts`; it
+persists `reading/interfaces` productParity, parityRows, noBypassReadback,
+interfaceRoots, sourceSafety, and parityRoot. The generated proof artifact is
+`.bitcode/v39-interface-conversation-product-parity.json` and the gate check
+is `pnpm run check:v39-gate9`.
+
 ## completion condition
 
-V39 Gate 8 is complete when `check:v39-gate8`, focused AssetPack operational telemetry package tests, focused rich execution log UI tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-8-*` branch.
+V39 Gate 9 is complete when `check:v39-gate9`, focused AssetPack interface parity package tests, Conversation handoff parity tests, MCP ingress parity tests, ChatGPT source-safe delivery parity tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-9-*` branch.

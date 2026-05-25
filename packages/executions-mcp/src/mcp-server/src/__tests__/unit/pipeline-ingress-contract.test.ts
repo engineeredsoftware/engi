@@ -82,6 +82,7 @@ import {
   queuePipelineJob,
   monitorPipelineExecution,
 } from '../../pipeline-execution/adapter';
+import { buildReadingInterfaceProductParity } from '@bitcode/pipeline-asset-pack/reading-interface-product-parity';
 
 const mockedQueuePipelineJob = jest.mocked(queuePipelineJob);
 const mockedMonitorPipelineExecution = jest.mocked(monitorPipelineExecution);
@@ -586,5 +587,32 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       }),
     ]);
     expect(result).not.toHaveProperty('deliverables');
+  });
+
+  it('binds MCP Reading pipeline ingress to ReadingInterfaceProductParity no-bypass rules', () => {
+    const parity = buildReadingInterfaceProductParity();
+    const mcp = parity.rows.find((row) => row.surface === 'mcp_api');
+
+    expect(mcp).toMatchObject({
+      surface: 'mcp_api',
+      authorityMode: 'terminal-delegated-handoff',
+      entrypoint: 'mcp.reading.pipeline',
+      sameAuthorityAsTerminal: true,
+      parallelAuthorityCreated: false,
+      stageContract: {
+        acceptedNeedRequired: true,
+        findingFitsRequiresAcceptedNeed: true,
+        sourceSafePreviewOnlyBeforeSettlement: true,
+        settlementUnlockRequiredForSource: true,
+        btdRightsRequiredForDelivery: true,
+        sourceBearingDeliveryAllowedBeforeSettlement: false,
+      },
+      noBypassReadback: {
+        findingFitsRequest: 'denied_without_accepted_need',
+        deliveryBoundary: 'source_bearing_delivery_locked_until_settlement_and_rights',
+      },
+    });
+    expect(mcp?.contractRoots.assetPackRightsContractRoot).toMatch(/^assetpack-rights-interface-contract:/);
+    expect(parity.noBypassReadback.allSurfacesUseTerminalAuthority).toBe(true);
   });
 });

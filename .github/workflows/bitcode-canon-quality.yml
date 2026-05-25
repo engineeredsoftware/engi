@@ -205,6 +205,9 @@ jobs:
               if [ -f scripts/check-v39-gate8-operational-telemetry-repair-readback.mjs ]; then
                 node scripts/check-v39-gate8-operational-telemetry-repair-readback.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
               fi
+              if [ -f scripts/check-v39-gate9-interface-conversation-product-parity.mjs ]; then
+                node scripts/check-v39-gate9-interface-conversation-product-parity.mjs --skip-branch-check --skip-package-tests --skip-interface-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

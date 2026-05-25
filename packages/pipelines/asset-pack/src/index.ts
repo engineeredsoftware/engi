@@ -40,6 +40,10 @@ import {
   persistReadingOperationalTelemetryRepairReadback,
 } from './reading-operational-telemetry-repair-readback';
 import {
+  buildReadingInterfaceProductParity,
+  persistReadingInterfaceProductParity,
+} from './reading-interface-product-parity';
+import {
   admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
@@ -208,6 +212,34 @@ function factoryPreprocess(): Executor<any, any> {
       processedInput.readingOperationalOperatorReadback = operationalReadback.operatorReadback;
       processedInput.readingOperationalStreamEvents = operationalReadback.streamEvents;
       processedInput.readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+      const interfaceParity = buildReadingInterfaceProductParity({
+        readNeedRuntime:
+          processedInput?.readNeedReviewRuntime ||
+          (execution.get('read-need-review', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read-need-review', 'runtime') as any) ||
+          null,
+        readFitsRuntime:
+          processedInput?.readFitsFindingRuntime ||
+          (execution.get('read/finding-fits', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read/finding-fits', 'runtime') as any) ||
+          null,
+        previewBoundary:
+          processedInput?.assetPackPreviewBoundary ||
+          (execution.get('asset-pack/preview', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
+          null,
+        settlementBoundary:
+          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
+          (execution.get('asset-pack/settlement', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
+          null,
+        operationalReadback,
+      });
+      persistReadingInterfaceProductParity(execution, interfaceParity);
+      persistReadingInterfaceProductParity(execution.parent as any, interfaceParity);
+      processedInput.readingInterfaceProductParity = interfaceParity;
+      processedInput.readingInterfaceParityRows = interfaceParity.rows;
+      processedInput.readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
     } catch {}
 
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
@@ -369,6 +401,7 @@ export * from './read-fits-finding-runtime';
 export * from './asset-pack-preview-boundary';
 export * from './asset-pack-settlement-rights-delivery';
 export * from './reading-operational-telemetry-repair-readback';
+export * from './reading-interface-product-parity';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';
