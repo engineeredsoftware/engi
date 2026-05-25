@@ -316,7 +316,7 @@ export const V38_INFERENCE_SURFACE_ROWS = Object.freeze([
     failureSurfaceIds: ['missing_llm', 'unsafe_tool_payload', 'pipeline_trigger_not_admitted', 'response_not_complete'],
     storageTargetIds: ['agent.name', 'agent.startTime', 'agent.output', 'conversation.telemetry'],
     streamTargetIds: ['conversation.model_delta', 'conversation.tool_call', 'conversation.completion_decision'],
-    knownGapIds: ['quick-response-single-step-is-inventoried-for-v38-gate9-repair'],
+    knownGapIds: [],
   }),
   surfaceRow({
     surfaceId: 'interface:conversation-stream-events',

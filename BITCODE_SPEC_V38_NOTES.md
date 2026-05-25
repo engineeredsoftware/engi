@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -203,6 +203,14 @@ Gate 8 closes the AssetPack synthesis handoff and economic traceability contract
 The current generated report covers 9 rows, 18 required receipt fields, BTD/AssetPack/harness package tests, 30 source predicates, and V38 Gates 5 through 7 roots.
 Before settlement, the Reader may inspect only measurements, roots, fit ids, score posture, proof posture, ownership boundary, settlement boundary, and BTC quote. Protected source, the full AssetPack patch, source-bearing manifests, and licensed read payloads remain withheld.
 After settlement, protected source and pull-request delivery become admissible only when BTC fee finality, BTD range, ownership/license rows, journal rows, ledger anchor, database readback, object storage, and reconciliation agree.
+
+## Gate 9 implementation notes
+
+Gate 9 closes Conversation and tool-prompt inference parity by binding Website Conversation variations, tool-definition prompts, interface-specific entrypoints, and ChatGPT App tool carriers to the same V38 prompt registry, PTRR/Failsafe/Thricified, telemetry, and disclosure posture used by Reading.
+`V38ConversationToolPromptInferenceParity` and `.bitcode/v38-conversation-tool-prompt-inference-parity.json` record comprehensive and quick-response Conversation PTRR variations, Conversation agent and Plan/Try/Refine/Retry step prompts, typed output schemas, Conversation stream events, telemetry proof hooks, rich execution-log rendering, DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App doc-code prompt carriers, read-access checks, organization-authority checks, and interface no-bypass rows as `source-safe-conversation-tool-prompt-inference-parity-metadata`.
+Gate 9 removes the quick-response single-step repair marker from the inference inventory by routing the quick-response variation through `factoryAgentWithPTRR` with the same agent prompt, step prompt registries, and final `ConversationRetrySchema`.
+The prompt benchmark report no longer carries the Gate 9 Conversation/tool parity follow-up because the Gate 9 artifact binds prompt benchmark roots to source-safe Conversation/tool prompt parity evidence.
+The current generated report covers 8 rows, 34 source predicates, upstream V38 Gate 2 inventory root, Gate 4 prompt benchmark root, Gate 5 disclosure root, and no protected source, raw prompt text, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, global ledger authority claim, or `_legacy/` source roots.
 
 ## V38 gate plan
 

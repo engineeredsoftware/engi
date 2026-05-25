@@ -224,6 +224,15 @@ export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ROW_IDS: readonly str
 export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_REQUIRED_RECEIPT_FIELDS: readonly string[];
 export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ROWS: readonly Record<string, unknown>[];
 export function buildV38AssetPackSynthesisEconomicTraceability(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ARTIFACT_PATH: string;
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_CURRENT_TARGET: string;
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_SCHEMA_ID: string;
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_VERSION: string;
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_SOURCE_SAFETY_VERDICT: string;
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ROW_IDS: readonly string[];
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_REQUIRED_DISCLOSURE_POSTURES: readonly string[];
+export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ROWS: readonly Record<string, unknown>[];
+export function buildV38ConversationToolPromptInferenceParity(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

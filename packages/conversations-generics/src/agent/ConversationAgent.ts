@@ -13,10 +13,8 @@
  * current_version: "BITCODE_V26_CONVERSATION_AGENT_PROMPT_REGISTRY.1"
  */
 
-import { 
-  factoryAgent, 
+import {
   factoryAgentWithPTRR,
-  factoryAgentWithSingleStep,
   AgentPrompt,
   AgentStepPrompt
 } from '@bitcode/agent-generics';
@@ -255,31 +253,30 @@ const comprehensiveConversationVariation = factoryAgentWithPTRR<
 
 /**
  * Quick response variation
- * Single-step for simple queries
+ * Uses the same PTRR/Failsafe/Thricified stack as the comprehensive
+ * conversation path, with smaller chunk thresholds for lightweight turns.
  */
-const quickResponseVariation = factoryAgentWithSingleStep<
+const quickResponseVariation = factoryAgentWithPTRR<
   z.infer<typeof ConversationInputSchema>,
   z.infer<typeof ConversationRetrySchema>
 >({
   name: 'quick-response',
-  description: 'Fast single-step response for simple queries',
-  
-  execute: async (input, execution) => {
-    execution.store('variation', 'mode', 'quick');
-    
-    // Simple direct response
-    const llm = (execution as any).llms?.getDefaultLLM?.(execution);
-    
-    // Quick response logic
-    return {
-      finalResponse: 'Quick response mode - processing...',
-      metadata: {
-        responseLength: 0,
-        toolsUsed: [],
-        confidence: 0.7
-      },
-      success: true
-    };
+  description: 'Fast PTRR conversation with code understanding and pipeline capabilities',
+  prompt: conversationAgentPrompt,
+  stepPrompts: conversationStepPrompts,
+  outputSchema: ConversationRetrySchema,
+  plan: {
+    chunkThreshold: 1000
+  },
+  try: {
+    chunkThreshold: 3000
+  },
+  refine: {
+    maxAttempts: 1
+  },
+  retry: {
+    maxAttempts: 1,
+    backoff: 250
   }
 });
 
@@ -302,7 +299,7 @@ export { comprehensiveConversationVariation, quickResponseVariation };
 
 /**
  * Create a conversation agent instance
- * This is a convenience wrapper for the factoryAgent
+ * This is a convenience wrapper for the PTRR conversation agent
  */
 export async function createConversationAgent(
   input: ConversationInput,

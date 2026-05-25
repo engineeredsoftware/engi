@@ -202,6 +202,20 @@ source, credentials, wallet private material, or private settlement payloads.
 Use `pnpm run generate:v38-assetpack-synthesis-economic-traceability`,
 `pnpm run check:v38-assetpack-synthesis-economic-traceability`, and
 `pnpm run check:v38-gate8` before closing the gate.
+V38 Gate 9 adds the package-backed
+`V38ConversationToolPromptInferenceParity` report and generated source-safe
+artifact `.bitcode/v38-conversation-tool-prompt-inference-parity.json`.
+The parity report binds Website Conversation comprehensive and quick-response
+variations to PTRR/Failsafe/Thricified inference, prompt registries, typed
+schemas, source-safe stream telemetry, rich execution-log rendering,
+DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App
+doc-code prompt carriers, read-access and organization-authority admission,
+and interface no-bypass posture without exposing protected source, raw prompt
+text, raw provider response content, unpaid AssetPack source, credentials,
+wallet private material, or private settlement payloads.
+Use `pnpm run generate:v38-conversation-tool-prompt-inference-parity`,
+`pnpm run check:v38-conversation-tool-prompt-inference-parity`, and
+`pnpm run check:v38-gate9` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

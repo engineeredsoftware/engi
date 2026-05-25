@@ -731,7 +731,6 @@ export function buildV38PromptBenchmarkReport(input = {}) {
       'gate5-streams-benchmark-linked-inference-telemetry-with-disclosure-tiers',
       'gate6-hardens-read-need-comprehension-prompt-return-types',
       'gate7-hardens-read-fits-finding-query-prompt-benchmarking',
-      'gate9-applies-benchmark-report-to-conversation-tool-prompt-parity',
     ],
   };
 
