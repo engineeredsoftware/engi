@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -211,6 +211,17 @@ Gate 9 closes Conversation and tool-prompt inference parity by binding Website C
 Gate 9 removes the quick-response single-step repair marker from the inference inventory by routing the quick-response variation through `factoryAgentWithPTRR` with the same agent prompt, step prompt registries, and final `ConversationRetrySchema`.
 The prompt benchmark report no longer carries the Gate 9 Conversation/tool parity follow-up because the Gate 9 artifact binds prompt benchmark roots to source-safe Conversation/tool prompt parity evidence.
 The current generated report covers 8 rows, 34 source predicates, upstream V38 Gate 2 inventory root, Gate 4 prompt benchmark root, Gate 5 disclosure root, and no protected source, raw prompt text, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, global ledger authority claim, or `_legacy/` source roots.
+
+## Gate 10 implementation notes
+
+Gate 10 closes local and staging-testnet inference/depository rehearsal by binding the Vercel Sandbox harness, staging route preflight, Reading pipelines, many-fit search, AssetPack preview, telemetry streaming, and mainnet-value blocking into one source-safe proof artifact.
+`V38LocalStagingInferenceDepositorySearchRehearsal` and `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json` record local harness explicit opt-in, local env-file loading, sandbox auth gates, staging-testnet bounded real-inference preflight, Supabase readback validation, database streaming, ReadNeedComprehensionSynthesis and ReadFitsFindingSynthesis exercise, depository many-fit discovery, source-safe preview and disclosure review, protected-source settlement unlock, ledger/database reconciliation, rich execution-log projection, and blocked value-bearing mainnet posture as `source-safe-local-staging-inference-depository-search-rehearsal-metadata`.
+The artifact deliberately stores lane ids, row ids, source roots, source predicates, previous V38 proof artifact roots, and closure booleans rather than live logs, prompt contents, provider responses, credentials, protected source, unpaid AssetPack patches, wallet private material, or private settlement payloads.
+Local live rehearsal remains explicit-opt-in through the sandbox harness; staging-testnet route execution requires bounded real inference when deployed or when real-inference strictness is requested. Production-mainnet value-bearing settlement remains blocked by V38.
+The maintained commands are
+`pnpm run generate:v38-local-staging-inference-depository-search-rehearsal`,
+`pnpm run check:v38-local-staging-inference-depository-search-rehearsal`, and
+`pnpm run check:v38-gate10`.
 
 ## V38 gate plan
 

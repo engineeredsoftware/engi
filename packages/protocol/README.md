@@ -169,6 +169,22 @@ The maintained commands are
 `pnpm run generate:v38-conversation-tool-prompt-inference-parity`,
 `pnpm run check:v38-conversation-tool-prompt-inference-parity`, and
 `pnpm run check:v38-gate9`.
+V38 Gate 10 adds `V38LocalStagingInferenceDepositorySearchRehearsal` through
+`packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js`
+and the source-safe generated artifact
+`.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+The rehearsal report proves local and staging-testnet lanes for Vercel Sandbox
+harness opt-in, bounded real-inference route preflight, Supabase readback,
+ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, many-fit depository
+search, source-safe AssetPack preview, telemetry streaming/readback,
+ledger/database posture, and blocked production-mainnet value-bearing
+admission while preserving protected source, raw prompt, raw provider response,
+live log payload, credential, wallet, private settlement, and unpaid AssetPack
+privacy.
+The maintained commands are
+`pnpm run generate:v38-local-staging-inference-depository-search-rehearsal`,
+`pnpm run check:v38-local-staging-inference-depository-search-rehearsal`, and
+`pnpm run check:v38-gate10`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

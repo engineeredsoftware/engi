@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -187,6 +187,12 @@ Closure acceptance:
 - real non-mocked inference is exercised where credentials are available;
 - logs/screenshots/proofs are source-safe;
 - `pnpm run check:v38-gate10` validates rehearsal evidence and workflow wiring.
+
+Closure implementation:
+
+- `V38LocalStagingInferenceDepositorySearchRehearsal` is now package-backed in `packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js` and generated to `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+- The generated artifact is `source-safe-local-staging-inference-depository-search-rehearsal-metadata` and covers local Vercel Sandbox harness opt-in, staging-testnet bounded real-inference preflight, ReadNeedComprehensionSynthesis plus ReadFitsFindingSynthesis exercise, many-fit depository search, source-safe AssetPack preview, telemetry streaming and database readback, live credential gates, ledger/database synchronization posture, and blocked value-bearing mainnet posture.
+- The current closure contract is 8 rehearsal rows, 2 lanes, V38 Gates 2 through 9 proof roots, harness/search/route/UI package tests, and no protected source, raw prompt text, raw provider response content, live rehearsal log payload, unpaid AssetPack source, credentials, wallet private material, private settlement payload, production-mainnet value-bearing admission, or `_legacy/` source roots.
 
 ### Gate 11: V38 Promotion Readiness
 
