@@ -218,6 +218,20 @@ checked by `pnpm run check:v39-gate8`.
 Gate 9 brings Conversation, MCP/API, ChatGPT App, and package-facing interfaces into the same Reading contract without creating parallel authority.
 Every interface must respect accepted-Need gating, source-safe preview, settlement unlock, BTD rights, and delivery boundaries.
 
+The package-owned closure type is `ReadingInterfaceProductParity` in
+`packages/pipelines/asset-pack/src/reading-interface-product-parity.ts`.
+It projects Terminal, Conversation, public API, MCP API, ChatGPT App, and
+package-consumer surfaces into one source-safe contract. Conversation is a
+Terminal-delegated handoff, package consumers receive contract readback only,
+and API/MCP/ChatGPT actions compose the existing BTD interface contract,
+read-license, AssetPack-rights, telemetry hook, and consumer UX primitives.
+Every `ReadingInterfaceProductParityRow` proves accepted-Need gating,
+Finding Fits admission, source-safe preview, settlement unlock, BTD rights,
+authorized delivery, no parallel authority, and locked source-bearing delivery
+before settlement and rights transfer. The deterministic source-safe proof
+artifact is `.bitcode/v39-interface-conversation-product-parity.json`,
+checked by `pnpm run check:v39-gate9`.
+
 ### Gate 10: Local And Staging Commercial Reading Rehearsal
 
 Gate 10 proves V39 locally and in staging-testnet.

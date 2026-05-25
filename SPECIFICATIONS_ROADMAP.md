@@ -5,10 +5,11 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V38`
 - Current active canon: `BITCODE_SPEC_V38.md`
 - Current draft target: `BITCODE_SPEC_V39.md`.
-- Current working gate: V39 Gate 8 Operational Telemetry, Repair, And Operator Readback.
-- Next queued gate after V39 Gate 8 closure: V39 Gate 9 Interface And Conversation Product Parity.
+- Current working gate: V39 Gate 9 Interface And Conversation Product Parity.
+- Next queued gate after V39 Gate 9 closure: V39 Gate 10 Local And Staging Commercial Reading Rehearsal.
 - Latest closed version: V38 Inference Correctness, which promoted pipeline execution call-stack law, PTRR/Failsafe/Thricified parity, prompt and PromptPart benchmarking, source-safe inference telemetry, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search and embeddings, AssetPack economic traceability, local/staging inference rehearsal, and V38 promotion readiness.
 - Recent V38 closure anchor: V38 Gate 11 Promotion Readiness generated V38 proof support, promoted `BITCODE_SPEC.txt` to `V38`, prepared V38 active / V39 draft runtime posture, and closed inference correctness canon.
+- V39 Gate 9 closure anchor: commercial Reading readiness now owns package-backed `ReadingInterfaceProductParity`, deterministic `.bitcode/v39-interface-conversation-product-parity.json`, Terminal/Conversation/API/MCP/ChatGPT/package-consumer no-bypass rows, source-safe contract readback, BTD interface root composition, focused package/interface tests, and workflow wiring through `check:v39-gate9`.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
 - V34 Gate 3 closure anchor: deployment-depth now owns package-backed `DistributedExecutionRuntimeReceipt` source, deterministic `.bitcode/v34-distributed-execution-runtime-receipts.json`, `request_response_not_required` long-running work posture, and source-safe roots for pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work.
 - V34 Gate 4 closure anchor: deployment-depth now owns package-backed `DeploymentStoragePosture` source, deterministic `.bitcode/v34-deployment-storage-posture.json`, ledger/database/object-storage drift repair fixtures, retention/encryption/backup/rollback/audit posture, and source-bearing AssetPack storage remains locked before settlement.

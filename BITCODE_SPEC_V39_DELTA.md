@@ -216,7 +216,11 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 9 work must define interface parity artifacts and consumer contract tests.
+- `ReadingInterfaceProductParity` is implemented in `packages/pipelines/asset-pack/src/reading-interface-product-parity.ts` and persisted under `reading/interfaces`.
+- Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers have parity rows with `sameAuthorityAsTerminal: true`, `parallelAuthorityCreated: false`, accepted-Need gating, source-safe preview, settlement unlock, BTD rights, and delivery-boundary checks.
+- The parity primitive composes BTD interface catalog, read-license/AssetPack-rights contracts, telemetry proof hooks, and interface consumer UX proof roots.
+- Focused package, Conversation, MCP, ChatGPT App, protocol, and checker tests cover no-bypass posture.
+- The generated proof artifact is `.bitcode/v39-interface-conversation-product-parity.json`; `pnpm run check:v39-gate9` validates artifact freshness, protocol tests, package tests, interface tests, docs, source safety, and workflow wiring.
 
 ### Gate 10: Local And Staging Commercial Reading Rehearsal
 

@@ -10,6 +10,7 @@
     "./asset-pack-preview-boundary": "./src/asset-pack-preview-boundary.ts",
     "./asset-pack-settlement-rights-delivery": "./src/asset-pack-settlement-rights-delivery.ts",
     "./reading-operational-telemetry-repair-readback": "./src/reading-operational-telemetry-repair-readback.ts",
+    "./reading-interface-product-parity": "./src/reading-interface-product-parity.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",
