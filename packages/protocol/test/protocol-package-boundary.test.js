@@ -59,6 +59,7 @@ test('@bitcode/protocol commercial formalization exports package-native canon he
     V37: { activeCanon: 'V37', draftTarget: 'V38' },
     V38: { activeCanon: 'V38', draftTarget: 'V39' },
     V39: { activeCanon: 'V39', draftTarget: 'V40' },
+    V40: { activeCanon: 'V40', draftTarget: 'V41' },
   };
   const expectedPosture = expectedPostureByPointer[pointer];
 
@@ -73,6 +74,8 @@ test('@bitcode/protocol commercial formalization exports package-native canon he
   assert.equal(typeof protocol.PROVEN_GENERATOR_ID, 'string');
   assert.equal(typeof protocol.defaultProvenOutputPath, 'function');
   assert.equal(typeof protocol.generateCanonicalProvenMarkdown, 'function');
+  assert.equal(typeof protocol.buildV40PromotionReadinessReport, 'function');
+  assert.equal(typeof protocol.V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH, 'string');
   assert.equal(protocol.defaultProvenOutputPath(expectedPosture.activeCanon), `BITCODE_SPEC_${expectedPosture.activeCanon}_PROVEN.md`);
   const specFamilyReport = protocol.buildV21SpecFamilyReport({
     version: expectedPosture.activeCanon,
