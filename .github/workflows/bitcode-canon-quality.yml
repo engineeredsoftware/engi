@@ -181,6 +181,10 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V38 --draft-target V39
             node scripts/check-bitcode-spec-family.mjs --version V38 --mode promoted --current-target V38
             node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            if [ -f BITCODE_SPEC_V39.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V39 --mode draft --current-target V38
+              node scripts/check-v39-gate1-commercial-reading-roadmap-opening.mjs --skip-branch-check
+            fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -296,7 +300,15 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37
               fi
               ;;
+            spec:\ V39*|spec:\ v39*)
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V39" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V39 --mode promoted --current-target V39
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V39 --mode draft --current-target V38
+              fi
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39 spec change."
               ;;
           esac

@@ -2,13 +2,13 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V37`
-- Current active canon: `BITCODE_SPEC_V37.md`
-- Current draft target: `BITCODE_SPEC_V38.md`.
-- Current working gate: V38 Gate 11 Promotion Readiness.
-- Next queued gate after V38 Gate 10 closure: V38 Gate 11 Promotion Readiness.
-- Latest closed version: V37 Website Conversations, which promoted conversation sessions, route-local history, stream UI/event contracts, fullscreen writing, source selectors, Terminal handoff, persistence/privacy/redaction, telemetry/proof hooks, local/staging rehearsal, and V37 promotion readiness.
-- Recent V37 closure anchor: V37 Gate 10 Promotion Readiness generated V37 proof support, promoted `BITCODE_SPEC.txt` to `V37`, prepared V37 active / V38 draft runtime posture, and closed Website Conversations canon.
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V38`
+- Current active canon: `BITCODE_SPEC_V38.md`
+- Current draft target: `BITCODE_SPEC_V39.md`.
+- Current working gate: V39 Gate 1 Commercial Reading Roadmap And Spec Opening.
+- Next queued gate after V39 Gate 1 closure: V39 Gate 2 Depository Supply Indexing And Searchable Deposit Lifecycle.
+- Latest closed version: V38 Inference Correctness, which promoted pipeline execution call-stack law, PTRR/Failsafe/Thricified parity, prompt and PromptPart benchmarking, source-safe inference telemetry, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search and embeddings, AssetPack economic traceability, local/staging inference rehearsal, and V38 promotion readiness.
+- Recent V38 closure anchor: V38 Gate 11 Promotion Readiness generated V38 proof support, promoted `BITCODE_SPEC.txt` to `V38`, prepared V38 active / V39 draft runtime posture, and closed inference correctness canon.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
 - V34 Gate 3 closure anchor: deployment-depth now owns package-backed `DistributedExecutionRuntimeReceipt` source, deterministic `.bitcode/v34-distributed-execution-runtime-receipts.json`, `request_response_not_required` long-running work posture, and source-safe roots for pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work.
 - V34 Gate 4 closure anchor: deployment-depth now owns package-backed `DeploymentStoragePosture` source, deterministic `.bitcode/v34-deployment-storage-posture.json`, ledger/database/object-storage drift repair fixtures, retention/encryption/backup/rollback/audit posture, and source-bearing AssetPack storage remains locked before settlement.
@@ -60,6 +60,7 @@
 - V38 Gate 9 closure anchor: Inference correctness depth now owns package-backed `V38ConversationToolPromptInferenceParity` source, deterministic `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `source-safe-conversation-tool-prompt-inference-parity-metadata`, protocol test, Conversation stream/telemetry tests, Terminal execution-log UI test, ChatGPT App tool prompt/admission tests, generator/checker scripts, workflow wiring, 8 parity rows, 34 passed source predicates, quick-response Conversation PTRR repair, prompt registry and typed schema parity, source-safe telemetry/disclosure posture, DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App doc-code prompt carriers, interface no-bypass posture, and protected source/raw prompt/raw provider response/unpaid AssetPack source/credential/private wallet/private settlement payloads kept private or blocked.
 - V38 Gate 10 closure anchor: Inference correctness depth now owns package-backed `V38LocalStagingInferenceDepositorySearchRehearsal` source, deterministic `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `source-safe-local-staging-inference-depository-search-rehearsal-metadata`, protocol test, Vercel Sandbox harness tests, Reading depository-search tests, route preflight/harness tests, Terminal stream UI tests, generator/checker scripts, workflow wiring, 8 rehearsal rows, 2 lanes, local sandbox opt-in, staging-testnet bounded real-inference preflight, Supabase readback validation, ReadNeedComprehensionSynthesis and ReadFitsFindingSynthesis rehearsal, many-fit search, source-safe AssetPack preview, telemetry streaming/readback, ledger/database posture, blocked production-mainnet value-bearing admission, and protected source/raw prompt/raw provider response/live log payload/unpaid AssetPack source/credential/private wallet/private settlement payloads kept private or blocked.
 - V38 Gate 11 closure anchor: Inference correctness depth now owns package-backed `V38InferencePromotionReadinessReport` source, deterministic `.bitcode/v38-promotion-readiness-report.json`, `source-safe-inference-promotion-readiness-metadata`, source-safe coverage for all V38 inference artifacts, `BITCODE_SPEC_V38_PROVEN.md` generation support, promotion command dry-run support, `v38-canon-promotion.yml`, active V38 / draft V39 posture preparation, package tests, workflow wiring, and `check:v38-gate11`.
+- V39 Gate 1 opening anchor: Commercial Reading readiness opens over promoted V38 with V39 SPEC, DELTA, NOTES, and PARITY files, `check:v39-gate1`, V38 active / V39 draft posture, and an eleven-gate plan for Depository supply indexing, enterprise Reading UX state, ReadNeed review/resynthesis, ReadFitsFinding runtime and replay, AssetPack preview/quote disclosure, settlement/BTD rights/delivery, operational telemetry/repair, interface parity, local/staging rehearsal, and promotion readiness.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.
@@ -71,9 +72,9 @@ They are referenced here for specification history only; active implementation w
 ## Source Families
 
 - Legacy ENGI specifications: `_legacy/ENGI_SPEC_V1.md` through `_legacy/ENGI_SPEC_V25.md`, with companion `NOTES`, `DELTA`, `PARITY_MATRIX`, `SYSTEM_PARITY_MATRIX`, `PROVEN`, and audit files where present.
-- Active Bitcode specifications: `BITCODE_SPEC_V37.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V36.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Draft and future Bitcode specifications: `BITCODE_SPEC_V38.md`, with companion `DELTA`, `NOTES`, and `PARITY_MATRIX` files while V38 gates are in flight, and later notes files.
+- Active Bitcode specifications: `BITCODE_SPEC_V38.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V37.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Draft and future Bitcode specifications: `BITCODE_SPEC_V39.md`, with companion `DELTA`, `NOTES`, and `PARITY_MATRIX` files while V39 gates are in flight, and later notes files.
 - Specification discipline references: `BITCODE_SPECIFYING.md` and `BITCODE_SPEC_TEMPLATEGUIDE.md`.
 
 ## Roadmap
@@ -116,8 +117,9 @@ They are referenced here for specification history only; active implementation w
 | V34 | `BITCODE_SPEC_V34.md` | promoted historical Bitcode canon | Deeper Deployment: host capabilities, real executions, distributed compute aligned with provations, runtime/storage expectations, ledger/database/object-storage/proof-artifact posture, CI/CD for canonical promotions, environment lanes, deployment approvals, rollback, upgrades, secret rotation, repair playbooks, and local/staging-testnet rehearsal. |
 | V35 | `BITCODE_SPEC_V35.md` | promoted historical Bitcode canon | Deeper telemetry and documenting: internal codebase docs, public `/docs`, telemetry taxonomy, dashboards, alert runbooks, incident response, operator escalation, documentation QA across code/spec/proofs/deployments, developer onboarding, operator guides, and testnet-rollout readiness material. |
 | V36 | `BITCODE_SPEC_V36.md` | promoted historical Bitcode canon | Deeper Exchange after V35: Exchange MVP/deepening, market-wide activity master-detail, buy/sell/bid/ask/cancel/accept/settle/history flows, AssetPack range trading, rights-transfer review, pricing/liquidity/wrapper analysis, dispute/repair/revenue-route operations, Exchange UX, local/staging rehearsal, and Exchange-specific tests/proofs. |
-| V37 | `BITCODE_SPEC_V37.md` | active canon | Website Conversations after V36: website conversation interface, stream UI/event contracts, fullscreen writing mode, conversation-to-Terminal handoff, source selectors, route-local chat history, persistence/privacy/redaction, telemetry/proof/docs, and any conversational UX not covered by the V28 ChatGPT App MVP. |
-| V38 | `BITCODE_SPEC_V38.md` | active draft target | Inference correctness after V37: pipeline execution call stack, PTRR agents, FailsafeGenerationSequence over ThricifiedGeneration, prompt registry composition, PromptPart and Prompt benchmarking, Reading pipeline inference, ReadFitsFindingSynthesis depository search and embeddings, source-safe inference telemetry, local/staging rehearsal, and promotion readiness. |
+| V37 | `BITCODE_SPEC_V37.md` | promoted historical Bitcode canon | Website Conversations after V36: website conversation interface, stream UI/event contracts, fullscreen writing mode, conversation-to-Terminal handoff, source selectors, route-local chat history, persistence/privacy/redaction, telemetry/proof/docs, and any conversational UX not covered by the V28 ChatGPT App MVP. |
+| V38 | `BITCODE_SPEC_V38.md` | active canon | Inference correctness after V37: pipeline execution call stack, PTRR agents, FailsafeGenerationSequence over ThricifiedGeneration, prompt registry composition, PromptPart and Prompt benchmarking, Reading pipeline inference, ReadFitsFindingSynthesis depository search and embeddings, source-safe inference telemetry, local/staging rehearsal, and promotion readiness. |
+| V39 | `BITCODE_SPEC_V39.md` | active draft target | Commercial Reading readiness after V38: Depository supply indexing, enterprise five-step Reading UX, ReadNeed review/resynthesis, ReadFitsFinding many-candidate runtime and replay, source-safe AssetPack preview and deterministic BTC quote, settlement, BTD rights transfer, post-settlement delivery, ledger/database/storage synchronization, operational telemetry/repair, interface parity, local/staging rehearsal, and promotion readiness. |
 
 ## Current Planning Spine
 
@@ -133,12 +135,13 @@ They are referenced here for specification history only; active implementation w
 10. V35 promoted telemetry and documentation as the prelude to full commercial application testnet rollout.
 11. V36 promoted deferred Exchange after the Protocol/Terminal/Auxillaries/interface/deployment/documentation spine matured.
 12. V37 promoted website Conversations after Exchange depth was specified and implemented.
-13. V38 is the current draft target and returns to inference correctness, Reading pipeline search, and source-safe telemetry after Conversations are promoted.
+13. V38 promoted inference correctness, Reading pipeline search, prompt benchmarking, source-safe inference telemetry, and the practical PTRR/Failsafe/Thricified call stack.
+14. V39 is the current draft target and turns that inference foundation into commercial Reading readiness: Depository supply indexing, enterprise Reading UX, accepted-Need-gated Finding Fits, AssetPack preview/quote, settlement, rights transfer, delivery, telemetry/repair, interface parity, and local/staging rehearsal.
 
 ## Boundary Rules
 
 - Do not treat `_legacy/` ENGI specifications as active implementation authority.
 - Do use `_legacy/` specifications to understand why current Bitcode concepts exist and what must not regress.
-- V38+ work must build on V37 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
+- V39+ work must build on V38 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
 - No implementation route should be versioned by spec number; source should move in place with the active canon.
 - Future notes files are planning memory only until their version is explicitly opened as the draft-target SPEC family.

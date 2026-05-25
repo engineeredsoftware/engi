@@ -214,6 +214,7 @@
     "check:v36-gate10": "node scripts/check-v36-gate10-promotion-readiness.mjs",
     "check:v37-gate1": "node scripts/check-v37-gate1-conversations-roadmap-opening.mjs",
     "check:v38-gate1": "node scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs",
+    "check:v39-gate1": "node scripts/check-v39-gate1-commercial-reading-roadmap-opening.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
