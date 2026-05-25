@@ -32,6 +32,10 @@ import {
   persistAssetPackPreviewBoundary,
 } from './asset-pack-preview-boundary';
 import {
+  buildAssetPackSettlementRightsDeliveryBoundary,
+  persistAssetPackSettlementRightsDeliveryBoundary,
+} from './asset-pack-settlement-rights-delivery';
+import {
   admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
@@ -147,6 +151,26 @@ function factoryPreprocess(): Executor<any, any> {
         processedInput.sourceSafePreview = assetPackPreviewBoundary.sourceSafePreview;
         processedInput.assetPackPreviewBoundary = assetPackPreviewBoundary;
         processedInput.assetPackQuoteReceipt = assetPackPreviewBoundary.quoteReceipt;
+        const suppliedSettlement =
+          processedInput?.settlementObservation ||
+          processedInput?.paymentObservation ||
+          processedInput?.btcPaymentObservation ||
+          null;
+        if (suppliedSettlement) {
+          const settlementBoundary = buildAssetPackSettlementRightsDeliveryBoundary({
+            previewBoundary: assetPackPreviewBoundary,
+            paymentObservation: suppliedSettlement,
+            finality: processedInput?.settlementFinality || processedInput?.btcFinality || undefined,
+            readerWalletId: processedInput?.readerWalletId || null,
+            depositorWalletId: processedInput?.depositorWalletId || null,
+            pullRequestTarget: processedInput?.deliveryTarget || null,
+          });
+          persistAssetPackSettlementRightsDeliveryBoundary(execution, settlementBoundary);
+          persistAssetPackSettlementRightsDeliveryBoundary(execution.parent as any, settlementBoundary);
+          processedInput.assetPackSettlementRightsDeliveryBoundary = settlementBoundary;
+          processedInput.assetPackSettlementReplayReceipt = settlementBoundary.replayReceipt;
+          processedInput.assetPackDeliveryUnlock = settlementBoundary.deliveryUnlock;
+        }
       }
     } catch {}
 
@@ -307,6 +331,7 @@ export * from './depository-search';
 export * from './depository-supply-index';
 export * from './read-fits-finding-runtime';
 export * from './asset-pack-preview-boundary';
+export * from './asset-pack-settlement-rights-delivery';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';

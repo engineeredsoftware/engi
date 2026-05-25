@@ -19,6 +19,11 @@ import {
   persistAssetPackPreviewBoundary,
   type AssetPackPreviewBoundary,
 } from './asset-pack-preview-boundary';
+import {
+  buildAssetPackSettlementRightsDeliveryBoundary,
+  persistAssetPackSettlementRightsDeliveryBoundary,
+  type AssetPackSettlementRightsDeliveryBoundary,
+} from './asset-pack-settlement-rights-delivery';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -102,6 +107,16 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (enhanced as any).assetPackQuoteReceipt = assetPackPreviewBoundary?.quoteReceipt;
     (enhanced as any).assetPackSettlementInstructions = assetPackPreviewBoundary?.settlementInstructions;
     (enhanced as any).assetPackDeliveryPosture = assetPackPreviewBoundary?.deliveryPosture;
+    const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
+      ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, enhanced)
+      : null;
+    if (assetPackSettlementRightsDeliveryBoundary) {
+      (enhanced as any).assetPackSettlementRightsDeliveryBoundary = assetPackSettlementRightsDeliveryBoundary;
+      (enhanced as any).assetPackSettlementReplayReceipt = assetPackSettlementRightsDeliveryBoundary.replayReceipt;
+      (enhanced as any).assetPackDeliveryUnlock = assetPackSettlementRightsDeliveryBoundary.deliveryUnlock;
+      (enhanced as any).assetPackLedgerDatabaseStorageReconciliation =
+        assetPackSettlementRightsDeliveryBoundary.reconciliationReport;
+    }
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
@@ -190,6 +205,9 @@ export function buildAssetPackPostprocessedResult(
   const assetPackPreviewBoundary = sourceSafePreview
     ? ensureAssetPackPreviewBoundary(execution, sourceSafePreview, normalized)
     : undefined;
+  const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
+    ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, normalized)
+    : null;
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -237,6 +255,15 @@ export function buildAssetPackPostprocessedResult(
           assetPackQuoteReceipt: assetPackPreviewBoundary?.quoteReceipt,
           assetPackSettlementInstructions: assetPackPreviewBoundary?.settlementInstructions,
           assetPackDeliveryPosture: assetPackPreviewBoundary?.deliveryPosture,
+          ...(assetPackSettlementRightsDeliveryBoundary
+            ? {
+                assetPackSettlementRightsDeliveryBoundary,
+                assetPackSettlementReplayReceipt: assetPackSettlementRightsDeliveryBoundary.replayReceipt,
+                assetPackDeliveryUnlock: assetPackSettlementRightsDeliveryBoundary.deliveryUnlock,
+                assetPackLedgerDatabaseStorageReconciliation:
+                  assetPackSettlementRightsDeliveryBoundary.reconciliationReport,
+              }
+            : {}),
           feeQuote: sourceSafePreview.feeQuote,
         }
       : {}),
@@ -368,6 +395,50 @@ function ensureAssetPackPreviewBoundary(
     ),
   });
   persistAssetPackPreviewBoundary(execution, boundary);
+  return boundary;
+}
+
+function ensureAssetPackSettlementRightsDeliveryBoundary(
+  execution: Execution,
+  previewBoundary: AssetPackPreviewBoundary,
+  output: AssetPackOutput,
+): AssetPackSettlementRightsDeliveryBoundary | null {
+  const storedBoundary =
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary') ||
+    findStoredExecutionValue(execution, 'asset-pack', 'settlementRightsDeliveryBoundary');
+  if (storedBoundary?.schema === 'bitcode.asset-pack.settlement-rights-delivery-boundary') {
+    return storedBoundary as AssetPackSettlementRightsDeliveryBoundary;
+  }
+
+  const paymentObservation =
+    (output as any).settlementObservation ||
+    (output as any).paymentObservation ||
+    (output as any).btcPaymentObservation ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'paymentObservation') ||
+    findStoredExecutionValue(execution, 'btc/fee', 'paymentObservation');
+  if (!paymentObservation) {
+    return null;
+  }
+
+  const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
+    previewBoundary,
+    paymentObservation,
+    finality:
+      (output as any).settlementFinality ||
+      (output as any).btcFinality ||
+      findStoredExecutionValue(execution, 'asset-pack/settlement', 'finalityReceipt') ||
+      undefined,
+    readerWalletId:
+      firstString((output as any).readerWalletId, findStoredExecutionValue(execution, 'reader', 'walletId')),
+    depositorWalletId:
+      firstString((output as any).depositorWalletId, findStoredExecutionValue(execution, 'depositor', 'walletId')),
+    pullRequestTarget: firstString(
+      previewBoundary.sourceSafePreview.delivery.pullRequestTarget,
+      output.deliveryMechanism?.prUrl,
+      output.shippable?.prUrl,
+    ),
+  });
+  persistAssetPackSettlementRightsDeliveryBoundary(execution, boundary);
   return boundary;
 }
 

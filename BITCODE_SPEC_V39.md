@@ -165,6 +165,22 @@ or unpaid AssetPack source. The deterministic proof artifact is
 
 Gate 7 closes the paid boundary.
 It must observe BTC settlement, bind finality, mint or transfer the relevant BTD rights, allocate source-to-shares compensation to contributors, unlock source-bearing AssetPack delivery, create or repair the pull request, and synchronize ledger/database/object-storage receipts.
+The implementation basis is `AssetPackSettlementRightsDeliveryBoundary`,
+exported from
+`packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`.
+It composes BTD receipt primitives, source-to-shares compensation,
+settlement-unlock readback, and ledger/database/object-storage reconciliation
+into a source-safe paid-boundary receipt. It emits
+`AssetPackSettlementPaymentObservation`,
+`AssetPackSettlementFinalityReceipt`, `SourceToSharesProof`,
+`BtdRightsTransferReceipt`, `BtdReadReceipt`,
+`AssetPackDeliveryUnlockReceipt`,
+`AssetPackSettlementRightsDeliveryReplayReceipt`, and repair posture records
+without serializing protected source, private wallet material, private
+settlement payloads, credentials, raw protected prompts, or raw provider
+responses. The deterministic source-safe proof artifact is
+`.bitcode/v39-settlement-rights-delivery.json`, checked by
+`pnpm run check:v39-gate7`.
 
 ### Gate 8: Operational Telemetry, Repair, And Operator Readback
 
@@ -260,8 +276,8 @@ Current algorithms and derivation rules: PTRR steps compose prompts and delegate
 Current invariants and fail-closed conditions: prompt contract incompleteness and parsed-envelope inadmissibility fail closed.
 Current proof obligations: Inference-synthesis and Prompt-completeness evidence must cover every active inference point.
 Current source-bearing implementation basis: `packages/agent-generics`, `packages/prompts`, and `packages/pipelines/asset-pack`.
-Current validating commands and parity basis: V39 Gate 2 through Gate 6 checks.
-Current accepted boundaries: inference may understand and measure; it may not settle, mint, or deliver protected source.
+Current validating commands and parity basis: V39 Gate 2 through Gate 7 checks.
+Current accepted boundaries: inference may understand and measure; settlement, rights transfer, and delivery may proceed only through paid-boundary receipts that agree.
 
 ### Fit, recall, ranking, and verification
 
@@ -269,8 +285,8 @@ Current canonical objects and emitted artifacts: query receipts, search channel 
 Current algorithms and derivation rules: inference-derived queries search lexical, symbolic, path, metadata, measurement, embedding/vector, and provider-specific channels before ranking.
 Current invariants and fail-closed conditions: no-survivor asset pack and unsupported vector policy fail closed.
 Current proof obligations: Selection-and-materialization, Verification-decisions, and Disclosure-boundary proofs.
-Current source-bearing implementation basis: `depository-search.ts`, `read-fits-finding-runtime.ts`, `embedding-config.ts`, and depository-search tools.
-Current validating commands and parity basis: V39 Gate 5 checks, Gate 7 checks, and later Gate 8 handoff checks.
+Current source-bearing implementation basis: `depository-search.ts`, `read-fits-finding-runtime.ts`, `asset-pack-settlement-rights-delivery.ts`, `embedding-config.ts`, and depository-search tools.
+Current validating commands and parity basis: V39 Gate 5 and Gate 7 checks, plus later Gate 8 handoff checks.
 Current accepted boundaries: source-safe preview before settlement, full source only after paid rights transfer.
 
 ### Selection and materialization
@@ -393,7 +409,7 @@ fail-closed conditions: unsupported evidence, below-threshold fit, unverifiable 
 
 ### Selection-and-materialization
 
-proofArtifactPath: `.bitcode/v39-read-fits-finding-search-embeddings.json`; `.bitcode/v39-assetpack-synthesis-economic-traceability.json`
+proofArtifactPath: `.bitcode/v39-read-fits-finding-runtime.json`; `.bitcode/v39-settlement-rights-delivery.json`
 members: candidate deposits, selected fits, AssetPack synthesis handoff, PR delivery
 theoremIds: selected-fits-traceable, materialization-source-safe
 replayStepIds: run V39 Gate 7 and Gate 8 checks

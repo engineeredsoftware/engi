@@ -238,6 +238,19 @@ unpaid source-bearing AssetPack content remains invisible.
 ## Gate 7 implementation notes
 
 Gate 7 closes settlement, BTD rights transfer, contributor compensation, and post-settlement delivery. Source-bearing delivery is unlocked only after settlement finality and rights transfer are auditable.
+The package-owned boundary is `AssetPackSettlementRightsDeliveryBoundary`.
+It observes reader BTC payment against the Gate 6 quote, binds finality,
+allocates source-to-shares compensation across selected fit deposits,
+builds BTD rights transfer and paid read receipts, verifies settlement unlock
+readback, reconciles ledger/database/object-storage projection roots, and
+admits pull-request delivery only when all paid-boundary receipts agree. The
+boundary is source-safe metadata: it can record that source-bearing delivery is
+visible to the paid Reader, but it does not serialize protected source,
+credentials, private wallet material, private settlement payloads, raw
+protected prompts, raw provider responses, or unpaid AssetPack source. Staging
+readback binds to project ref `tkpyosihuouusyaxtbau` and REST host
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/` without serializing any
+credential value.
 
 ## Gate 8 implementation notes
 

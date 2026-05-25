@@ -5,8 +5,8 @@
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V38`
 - Current active canon: `BITCODE_SPEC_V38.md`
 - Current draft target: `BITCODE_SPEC_V39.md`.
-- Current working gate: V39 Gate 6 AssetPack Preview, Quote, And Disclosure Boundary.
-- Next queued gate after V39 Gate 6 closure: V39 Gate 7 Settlement, BTD Rights Transfer, And Delivery.
+- Current working gate: V39 Gate 7 Settlement, BTD Rights Transfer, And Delivery.
+- Next queued gate after V39 Gate 7 closure: V39 Gate 8 Operational Telemetry, Repair, And Operator Readback.
 - Latest closed version: V38 Inference Correctness, which promoted pipeline execution call-stack law, PTRR/Failsafe/Thricified parity, prompt and PromptPart benchmarking, source-safe inference telemetry, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search and embeddings, AssetPack economic traceability, local/staging inference rehearsal, and V38 promotion readiness.
 - Recent V38 closure anchor: V38 Gate 11 Promotion Readiness generated V38 proof support, promoted `BITCODE_SPEC.txt` to `V38`, prepared V38 active / V39 draft runtime posture, and closed inference correctness canon.
 - V34 Gate 2 closure anchor: deployment-depth now owns package-backed `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` source, deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`, and visible `value-bearing-mainnet` blocking through `blocked_future_canon_required`.
@@ -66,6 +66,7 @@
 - V39 Gate 4 closure anchor: Commercial Reading readiness now owns package-backed `ReadNeedReviewResynthesisRuntime` source, deterministic `.bitcode/v39-read-need-review-resynthesis.json`, Read Request persistence, synthesized Need storage, feedback/resynthesis lineage, Need measurement storage, accepted-Need admission, rejected-Need posture, source-safe telemetry receipts, route/runtime storage projection tests, workflow wiring, and `check:v39-gate4`.
 - V39 Gate 5 closure anchor: Commercial Reading readiness now owns package-backed `ReadFitsFindingRuntime` source, deterministic `.bitcode/v39-read-fits-finding-runtime.json`, accepted-Need-only Finding Fits admission, source-safe query plans, seven search channels, many-candidate ranking, selected-fit provenance roots, active OpenAI embedding policy, replay receipts, repair posture, package tests, protocol tests, workflow wiring, and `check:v39-gate5`.
 - V39 Gate 6 closure anchor: Reading readiness now owns package-backed `AssetPackPreviewBoundary` source, deterministic `.bitcode/v39-assetpack-preview-quote-boundary.json`, source-safe preview measurements, deterministic share-to-fee BTC quotes, disclosure leak scanning, selected-fit provenance, settlement instructions, withheld pull-request delivery posture, replay receipts, repair posture, package tests, protocol tests, workflow wiring, and `check:v39-gate6`.
+- V39 Gate 7 closure anchor: Reading readiness now owns package-backed `AssetPackSettlementRightsDeliveryBoundary` source, deterministic `.bitcode/v39-settlement-rights-delivery.json`, BTC payment observation/finality, source-to-shares contributor compensation, BTD rights transfer/read receipts, settlement unlock readback, ledger/database/object-storage reconciliation, post-settlement pull-request delivery unlock, repair posture, package tests, protocol tests, workflow wiring, and `check:v39-gate7`.
 - Purpose: concise running index of Bitcode/ENGI specification history, current work, and planned work.
 
 This roadmap is not an active system specification.

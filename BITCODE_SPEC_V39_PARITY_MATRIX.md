@@ -75,7 +75,7 @@ No `_legacy/` source is active source truth.
 | ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.bitcode/v39-read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
 | ReadFitsFinding runtime and replay | Gate 5 | `packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`, `depository-search.ts`, `.bitcode/v39-read-fits-finding-runtime.json`, package tests, protocol tests | implemented | Finding Fits searches the whole available Depository for many above-threshold candidates and persists source-safe replay, storage, telemetry, and repair receipts. |
 | AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
-| Settlement, BTD rights, and delivery | Gate 7 | BTC settlement receipt, BTD rights transfer, source-to-shares, ledger/database/storage, PR delivery | pending | Payment unlocks rights and delivery; repair paths are auditable. |
+| Settlement, BTD rights, and delivery | Gate 7 | `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`, `.bitcode/v39-settlement-rights-delivery.json`, BTD receipt/source-to-shares/reconciliation primitives, package tests, protocol tests | implemented | Payment unlocks rights and delivery only when finality, source-to-shares, BTD rights, reconciliation, and pull-request delivery agree; repair paths are auditable. |
 | Operational telemetry and repair | Gate 8 | stream events, operator readback, runbook hooks, proof roots, repair commands | pending | Reading is observable and repairable end to end. |
 | Interface and Conversation parity | Gate 9 | Conversation, MCP/API, ChatGPT App, package contract tests | pending | Interfaces follow Terminal authority and cannot bypass gating, preview, settlement, rights, or delivery boundaries. |
 | Local and staging rehearsal | Gate 10 | local/staging lanes, real-inference gates, depository search, preview, settlement/delivery posture | pending | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
@@ -96,8 +96,8 @@ No `_legacy/` source is active source truth.
 | Enterprise Reading UX | Terminal implements request read, review Need, request Finding Fits, review preview, buy and settle | implemented |
 | ReadNeed runtime | `ReadNeedComprehensionSynthesis` persists reviewable Needs, feedback, resynthesis, measurements, accepted-Need admission, and rejected-Need posture | implemented |
 | ReadFitsFinding runtime | `ReadFitsFindingSynthesis` searches many above-threshold deposits with replayable query, ranking, threshold, and selected-fit provenance receipts | implemented |
-| Preview and quote | AssetPack preview is source-safe and quote is deterministic before settlement | pending |
-| Settlement and delivery | BTC settlement, BTD rights transfer, source-to-shares compensation, ledger/database/storage sync, and delivery are auditable | pending |
+| Preview and quote | AssetPack preview is source-safe and quote is deterministic before settlement | implemented |
+| Settlement and delivery | BTC settlement, BTD rights transfer, source-to-shares compensation, ledger/database/storage sync, and delivery are auditable | implemented |
 | Telemetry and repair | Reading emits source-safe rich stream events and operator readback with proof roots and repair posture | pending |
 | Interface parity | Conversation, MCP/API, ChatGPT App, and package consumers cannot bypass Terminal Reading authority | pending |
 | Local/staging rehearsal | Full Reading flow rehearses locally and in staging-testnet with mainnet value-bearing admission blocked | pending |
@@ -175,6 +175,7 @@ V39 Gate 3 accepts only enterprise Reading UX state, source-safe route handoff/r
 V39 Gate 4 accepts only ReadNeed review runtime storage projection, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, source-safe telemetry receipts, route actions, and generated review proof artifact closure.
 V39 Gate 5 accepts only ReadFitsFinding runtime storage projection, many-candidate depository search, source-safe query/ranking/provenance evidence, replay receipts, repair posture, active embedding policy, and generated runtime proof artifact closure.
 V39 Gate 6 accepts only source-safe AssetPack preview, deterministic share-to-fee quote, disclosure leak scanning, settlement instructions, delivery-withheld posture, replay receipts, repair posture, and generated preview proof artifact closure.
+V39 Gate 7 accepts only BTC settlement observation/finality, source-to-shares contributor compensation, BTD rights transfer/read receipts, settlement unlock readback, ledger/database/object-storage synchronization, post-settlement pull-request delivery posture, fail-closed repair, and generated settlement proof artifact closure.
 Later gate scope is intentionally pending and must be reopened into gate-specific parity sections before implementation starts.
 
 ## Gate 5 Parity
@@ -202,6 +203,21 @@ AssetPack source. The generated proof artifact is
 `.bitcode/v39-assetpack-preview-quote-boundary.json` and the gate check is
 `pnpm run check:v39-gate6`.
 
+## Gate 7 Parity
+
+V39 Gate 7 is implemented when `AssetPackSettlementRightsDeliveryBoundary`
+wraps the Gate 6 preview boundary with confirmed payment observation, finality
+receipt, source-to-shares compensation proof, BTD rights transfer receipt,
+paid read receipt, settlement-unlock readback, delivery unlock, storage
+projection, reconciliation report, replay receipt, and repair posture. The
+parity source is
+`packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`;
+it must not serialize protected source, raw protected prompts, raw provider
+responses, credentials, wallet private material, private settlement payloads,
+or unpaid AssetPack source. The generated proof artifact is
+`.bitcode/v39-settlement-rights-delivery.json` and the gate check is
+`pnpm run check:v39-gate7`.
+
 ## completion condition
 
-V39 Gate 6 is complete when `check:v39-gate6`, focused AssetPack preview boundary package tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-6-*` branch.
+V39 Gate 7 is complete when `check:v39-gate7`, focused AssetPack settlement rights delivery package tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-7-*` branch.

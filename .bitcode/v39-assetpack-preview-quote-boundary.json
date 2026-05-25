@@ -452,7 +452,7 @@
       "passed": true
     },
     {
-      "id": "roadmap-advanced-to-gate6",
+      "id": "roadmap-advanced-through-gate6",
       "sourcePath": "SPECIFICATIONS_ROADMAP.md",
       "passed": true
     },
@@ -526,5 +526,5 @@
     "failedPredicateIds": []
   },
   "passed": true,
-  "artifactRoot": "v39-assetpack-preview-quote-boundary:829c3a49a4712c57e921c42b"
+  "artifactRoot": "v39-assetpack-preview-quote-boundary:cdf085fde491e2540e9edb50"
 }

@@ -182,7 +182,12 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 7 work must define settlement/delivery artifacts, receipt tests, and PR delivery repair evidence.
+- Gate 7 package source is `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`.
+- `AssetPackSettlementRightsDeliveryBoundary` composes `BtdRightsTransferReceipt`, `BtdReadReceipt`, `SourceToSharesProof`, `AssetPackSettlementUnlock`, `LedgerDatabaseReconciliationReport`, and source-safe delivery unlock receipts.
+- BTC payment observation, finality, source-to-shares conservation, BTD rights transfer, read receipt, delivery unlock, ledger/database/object-storage reconciliation, replay, repair, and storage projection records are persisted under `asset-pack/settlement`.
+- Delivery unlock emits only proof and pull-request posture before source-bearing delivery is admitted to the paid Reader; the boundary never serializes protected source, private wallet material, private settlement payloads, credentials, raw protected prompts, raw provider responses, or unpaid AssetPack source.
+- Focused package tests cover confirmed settlement delivery, underpayment blocking, missing finality blocking, projection drift repair, and persistence.
+- The generated proof artifact is `.bitcode/v39-settlement-rights-delivery.json`; `pnpm run check:v39-gate7` validates artifact freshness, protocol tests, package tests, source safety, docs, staging-testnet project ref, and workflow wiring.
 
 ### Gate 8: Operational Telemetry, Repair, And Operator Readback
 

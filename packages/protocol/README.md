@@ -115,6 +115,16 @@ receipt, repair posture, package tests, protocol tests, and workflow wiring.
 The maintained commands are
 `pnpm run generate:v39-assetpack-preview-quote-boundary` and
 `pnpm run check:v39-gate6`.
+V39 Gate 7 adds `V39SettlementRightsDelivery` through
+`packages/protocol/src/canonical/v39-settlement-rights-delivery.js` and the
+source-safe generated artifact `.bitcode/v39-settlement-rights-delivery.json`.
+The report proves BTC payment observation/finality, source-to-shares
+compensation, BTD rights transfer/read receipts, settlement unlock,
+ledger/database/object-storage reconciliation, post-settlement pull-request
+delivery unlock, replay, repair posture, package tests, protocol tests, and
+workflow wiring. The maintained commands are
+`pnpm run generate:v39-settlement-rights-delivery` and
+`pnpm run check:v39-gate7`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
