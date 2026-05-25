@@ -539,6 +539,13 @@ V40 Gate 4 adds the package-backed `V40ApiIntegrationContracts`, generated
 source-safe API, UAPI, MCP, ChatGPT App, persistence, authorization, and
 response-schema route integration contract coverage before later browser and
 pipeline gates.
+V40 Gate 5 adds the package-backed `V40ReadingPipelineIntegrationCoverage`,
+generated `.bitcode/v40-reading-pipeline-integration-coverage.json`, and
+`check:v40-gate5` to close source-safe integration coverage for
+`ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, many-fit
+Depository search, PTRR agent wiring, AssetPack preview/settlement/delivery,
+telemetry/readback, Terminal harnesses, pipeline primitives, hosts, and local
+staging rehearsal linkage.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

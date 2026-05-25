@@ -33,8 +33,8 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Browser E2E | Critical website flows have browser proof | future V40 artifacts | not yet implemented |
 | Visual proof | Screenshot comparisons are deterministic and reviewable | future V40 artifacts | not yet implemented |
 | API integration | Route and API contracts are parseable and source-safe | `.bitcode/v40-api-integration-contracts.json` | implemented |
-| Pipeline integration | Primitive and real Reading pipeline implementations are tested | future V40 artifacts | not yet implemented |
-| Unit coverage | Packages, primitives, isolated implementations, and real implementations have unit coverage | future V40 artifacts | not yet implemented |
+| Pipeline integration | Primitive and real Reading pipeline implementations are tested | `.bitcode/v40-reading-pipeline-integration-coverage.json` | implemented |
+| Unit coverage | Packages, primitives, isolated implementations, and real implementations have unit coverage | `.bitcode/v40-unit-coverage-inventory.json` | implemented |
 | Prompt benchmark smoke | Prompt and PromptPart benchmarks run before V41 | future V40 artifacts | not yet implemented |
 
 ## V40 implementation checklist
@@ -45,7 +45,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Gate 2 | Test inventory artifact and coverage matrix | implemented |
 | Gate 3 | Unit coverage closure artifact | implemented |
 | Gate 4 | API/route integration artifact | implemented |
-| Gate 5 | Reading pipeline integration artifact | not yet implemented |
+| Gate 5 | Reading pipeline integration artifact | implemented |
 | Gate 6 | Conversation/Terminal integration artifact | not yet implemented |
 | Gate 7 | Browser/visual/accessibility/responsive artifact | not yet implemented |
 | Gate 8 | Ledger/database/storage/wallet/delivery sync artifact | not yet implemented |
@@ -56,6 +56,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 Gate 2 implementation evidence: package-backed `V40TestInventoryCoverageMatrix` emits `.bitcode/v40-test-inventory-coverage-matrix.json` and is wired through `check:v40-gate2`.
 Gate 3 implementation evidence: package-backed `V40UnitCoverageInventory` emits `.bitcode/v40-unit-coverage-inventory.json` and is wired through `check:v40-gate3`.
 Gate 4 implementation evidence: package-backed `V40ApiIntegrationContracts` emits `.bitcode/v40-api-integration-contracts.json` and is wired through `check:v40-gate4`.
+Gate 5 implementation evidence: package-backed `V40ReadingPipelineIntegrationCoverage` emits `.bitcode/v40-reading-pipeline-integration-coverage.json` and is wired through `check:v40-gate5`.
 
 ## V40 accepted boundaries
 
