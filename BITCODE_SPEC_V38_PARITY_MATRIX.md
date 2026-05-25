@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -84,6 +84,11 @@ Gate 1 audit basis:
 - `packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js`
 - `scripts/generate-v38-read-fits-finding-search-embeddings.mjs`
 - `scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs`
+- `.bitcode/v38-assetpack-synthesis-economic-traceability.json`
+- `packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js`
+- `packages/protocol/test/v38-assetpack-synthesis-economic-traceability.test.js`
+- `scripts/generate-v38-assetpack-synthesis-economic-traceability.mjs`
+- `scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs`
 
 No `_legacy/` source is active source truth.
 
@@ -104,6 +109,7 @@ No `_legacy/` source is active source truth.
 | Inference telemetry and disclosure tiers | Gate 5 | `V38InferenceTelemetryDisclosureReport`, `.bitcode/v38-disclosure-boundary-report.json`, protocol test, generator, checker, workflows | closed | Source-safe telemetry disclosure report covers phase, agent, PTRR step, Failsafe, ThricifiedGeneration, tool, prompt template, interpolated prompt, raw response root, parsed typed output shape, schema verdict, retry, repair, and stream UI projection rows with 8 rows, 13 telemetry levels, 12 disclosure tier ids, and 66 passed predicates. |
 | ReadNeedComprehensionSynthesis inference hardening | Gate 6 | `V38ReadNeedComprehensionInferenceHardening`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `ReadNeedComprehensionSynthesisInferenceReceipt`, protocol test, package tests, generator, checker, workflows | closed | Source-safe ReadNeedComprehensionSynthesis report covers request normalization, Need comprehension, measurement, review, and receipt rows with 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, and 22 passed predicates. |
 | ReadFitsFindingSynthesis depository search and embeddings | Gate 7 | `V38ReadFitsFindingSearchEmbeddings`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `ReadFitsFindingSynthesisSearchReceipt`, protocol test, package tests, generator, checker, workflows | closed | Source-safe Finding Fits report covers accepted-Need admission, query planning, many-fit discovery, embedding policy, threshold ranking, selected-fit provenance, and receipt rows with 7 phases, 8 PTRR agents, 32 PTRR steps, 96 Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4 tool contracts, 7 search channels, 12 default selected-candidate slots, and 23 passed predicates. |
+| AssetPack synthesis handoff and economic traceability | Gate 8 | `V38AssetPackSynthesisEconomicTraceability`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, AssetPack preview/disclosure tests, BTD receipt/source-to-shares/reconciliation tests, pipeline harness tests, generator, checker, workflows | closed | Source-safe AssetPack economic traceability report covers selected-fit handoff, preview, leak scan, deterministic BTC quote, BTD receipts, contributor compensation, settlement unlock, post-settlement delivery, ledger/database synchronization, proof receipts, repair paths, and harness projection with 9 rows and 18 receipt fields. |
 
 ## V38 implementation checklist
 
@@ -122,6 +128,7 @@ No `_legacy/` source is active source truth.
 | Inference telemetry disclosure artifact | `.bitcode/v38-disclosure-boundary-report.json` and `V38InferenceTelemetryDisclosureReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-telemetry-disclosure-metadata` with disclosure tier and raw provider response boundaries explicit | closed |
 | ReadNeedComprehensionSynthesis hardening artifact | `.bitcode/v38-read-need-comprehension-inference-hardening.json` and `V38ReadNeedComprehensionInferenceHardening` are generated, tested, checked, documented, and workflow-wired as `source-safe-read-need-comprehension-inference-hardening-metadata` with Need receipt and accepted-Need-gated Finding Fits boundary explicit | closed |
 | ReadFitsFindingSynthesis search artifact | `.bitcode/v38-read-fits-finding-search-embeddings.json` and `V38ReadFitsFindingSearchEmbeddings` are generated, tested, checked, documented, and workflow-wired as `source-safe-read-fits-finding-search-embeddings-metadata` with many-fit search channels, embedding policy, thresholds, query/ranking roots, and selected-fit provenance explicit | closed |
+| AssetPack synthesis economic traceability artifact | `.bitcode/v38-assetpack-synthesis-economic-traceability.json` and `V38AssetPackSynthesisEconomicTraceability` are generated, tested, checked, documented, and workflow-wired as `source-safe-assetpack-synthesis-economic-traceability-metadata` with selected-fit handoff, source-safe preview, BTD receipts, contributor shares, settlement unlock, ledger/database synchronization, repair paths, and harness evidence explicit | closed |
 | Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
 | Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
 | Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
@@ -240,6 +247,22 @@ Gate 6 closes when `pnpm run check:v38-gate6`, the Gate 6 artifact generator che
 ## Completion condition
 
 Gate 7 closes when `pnpm run check:v38-gate7`, the Gate 7 artifact generator check, Gate 6 ReadNeedComprehensionSynthesis hardening check, Gate 5 telemetry disclosure check, Gate 4 prompt benchmark check, Gate 3 PTRR/Failsafe/Thricified stack check, Gate 2 inventory check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol and pipeline tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-7-readfitsfindingsynthesis-search-embeddings`.
+
+## Gate 8 AssetPack synthesis handoff and economic traceability closure
+
+| Area | Required result | Judgment |
+| --- | --- | --- |
+| Selected-fit handoff | Selected fit ids, selected candidate ids, proof roots, query roots, ranking roots, and selected-fit provenance roots remain available to AssetPack synthesis and preview construction | closed |
+| Source-safe preview | AssetPack preview exposes measurements, roots, score posture, fit ids, ownership boundary, settlement boundary, and BTC quote while withholding protected source and full AssetPack patch before settlement | closed |
+| Disclosure review | AssetPack disclosure review scans preview metadata for protected source fields, patch markers, credentials, and unpaid source markers and fails closed on leakage | closed |
+| Deterministic BTC quote | Share-to-fee preview derives sats from Need measurement vector, admitted fit quality, minimum sats, and dust floor with stable quote root | closed |
+| BTD receipts | AssetPack mint, read, and rights transfer receipts bind source-safe preview root, finding-fits result root, range, access policy, paid unlock, delivery admission, BTC fee finality, and ledger projection root | closed |
+| Contributor compensation | Source-to-shares proof allocates contribution basis points and BTC sats across selected fit deposits with settlement conservation and zero-cell refit posture | closed |
+| Settlement delivery boundary | Protected source and PR delivery unlock only after settlement readback proves BTC fee, range, ownership/license, journal, ledger anchor, database readback, and delivery agree | closed |
+| Ledger/database repair | Reconciliation report covers ledger facts, database projections, object storage artifacts, private facts, staging-testnet readback, conservation checks, and repair actions | closed |
+| Gate checker is wired | `pnpm run check:v38-gate8`, package tests, protocol test, generator check, gate/canon workflows, docs, and package exports are wired | closed |
+
+Gate 8 closes when `pnpm run check:v38-gate8`, the Gate 8 artifact generator check, Gate 7 ReadFitsFindingSynthesis search check, Gate 6 ReadNeedComprehensionSynthesis hardening check, Gate 5 telemetry disclosure check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol tests, BTD receipt/source-to-shares/reconciliation tests, AssetPack preview/disclosure tests, pipeline harness tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-8-assetpack-synthesis-economic-traceability`.
 
 ## accepted boundaries
 
