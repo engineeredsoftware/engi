@@ -25,6 +25,7 @@ function expectedActiveCanonicalInputArtifactCount(version) {
     V35: 0,
     V36: 0,
     V37: 0,
+    V38: 0,
   };
   if (Object.hasOwn(expectedCountsByVersion, version)) {
     return expectedCountsByVersion[version];
