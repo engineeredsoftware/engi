@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -163,6 +163,9 @@ Closure acceptance:
 - selected fits remain traceable into AssetPack synthesis;
 - source-safe preview and post-settlement delivery preserve visibility boundaries;
 - contributor compensation, ledger/database synchronization, proof receipts, and repair paths are specified and tested;
+- `V38AssetPackSynthesisEconomicTraceability` is now package-backed in `packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js` and generated to `.bitcode/v38-assetpack-synthesis-economic-traceability.json`;
+- the generated artifact is `source-safe-assetpack-synthesis-economic-traceability-metadata` and covers selected-fit handoff, source-safe preview, disclosure leak scanning, deterministic BTC quote, BTD receipts, source-to-shares compensation, settlement unlock, post-settlement delivery, ledger/database reconciliation, repair paths, and harness evidence projection;
+- the current closure contract is 9 rows, 18 required receipt fields, BTD/AssetPack/harness package tests, and no protected source, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payload, or `_legacy/` source roots;
 - `pnpm run check:v38-gate8` validates fit-to-AssetPack receipts, settlement traceability, source-safety, and repair posture.
 
 ### Gate 9: Conversation And Tool-Prompt Inference Parity

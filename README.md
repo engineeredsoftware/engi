@@ -189,6 +189,19 @@ the source-safe receipt.
 Use `pnpm run generate:v38-read-fits-finding-search-embeddings`,
 `pnpm run check:v38-read-fits-finding-search-embeddings`, and
 `pnpm run check:v38-gate7` before closing the gate.
+V38 Gate 8 adds the package-backed
+`V38AssetPackSynthesisEconomicTraceability` report and generated source-safe
+artifact `.bitcode/v38-assetpack-synthesis-economic-traceability.json`. The
+AssetPack handoff report binds selected fit provenance into AssetPack
+synthesis, source-safe preview, deterministic share-to-fee BTC quote, BTD
+mint/read/rights receipts, source-to-shares contributor compensation,
+settlement unlock, post-settlement pull-request delivery, ledger/database
+reconciliation, repair posture, and harness evidence projection without
+exposing protected source, raw provider response content, unpaid AssetPack
+source, credentials, wallet private material, or private settlement payloads.
+Use `pnpm run generate:v38-assetpack-synthesis-economic-traceability`,
+`pnpm run check:v38-assetpack-synthesis-economic-traceability`, and
+`pnpm run check:v38-gate8` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -346,10 +359,11 @@ inference stack, Reading pipeline, depository-search, prompt benchmark,
 telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V37` to `V38` on the version branch.
-V38 Gates 1 through 7 are wired through `pnpm run check:v38-gate1`,
+V38 Gates 1 through 8 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
-`pnpm run check:v38-gate6`, and `pnpm run check:v38-gate7`. The promoted V37
+`pnpm run check:v38-gate6`, `pnpm run check:v38-gate7`, and
+`pnpm run check:v38-gate8`. The promoted V37
 gate closure remains reproducible through
 `pnpm run check:v37-gate1`; V37 Gate 2 is wired through
 `pnpm run check:v37-gate2` and

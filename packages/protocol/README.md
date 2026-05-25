@@ -139,6 +139,20 @@ The maintained commands are
 `pnpm run generate:v38-read-fits-finding-search-embeddings`,
 `pnpm run check:v38-read-fits-finding-search-embeddings`, and
 `pnpm run check:v38-gate7`.
+V38 Gate 8 adds `V38AssetPackSynthesisEconomicTraceability` through
+`packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js`
+and the source-safe generated artifact
+`.bitcode/v38-assetpack-synthesis-economic-traceability.json`.
+The economic traceability report proves selected-fit handoff into AssetPack
+synthesis, source-safe preview, deterministic BTC quote, BTD mint/read/rights
+receipts, source-to-shares contributor allocation, settlement unlock,
+post-settlement delivery, ledger/database reconciliation, repair actions, and
+harness evidence projection while preserving protected source and private
+settlement payload privacy.
+The maintained commands are
+`pnpm run generate:v38-assetpack-synthesis-economic-traceability`,
+`pnpm run check:v38-assetpack-synthesis-economic-traceability`, and
+`pnpm run check:v38-gate8`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

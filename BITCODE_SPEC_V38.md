@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -121,6 +121,8 @@ The artifact has `source-safe-read-fits-finding-search-embeddings-metadata` disc
 
 Gate 8 verifies found fits flow into AssetPack synthesis and settlement posture.
 Selected fit deposits must remain traceable into source-safe preview, post-settlement delivery, contributor compensation, exact ledger/database synchronization, proof receipts, and repair paths.
+Gate 8 is closed by the package-backed `V38AssetPackSynthesisEconomicTraceability` source, deterministic `.bitcode/v38-assetpack-synthesis-economic-traceability.json` artifact, AssetPack source-safe preview tests, BTD receipt/source-to-shares/reconciliation tests, and pipeline harness tests.
+The artifact has `source-safe-assetpack-synthesis-economic-traceability-metadata` disclosure posture and records 9 handoff/economic rows, 18 required receipt fields, selected-fit handoff, source-safe preview before settlement, protected-source leak scanning, deterministic share-to-fee BTC quote, BTD mint/read/rights receipts, contributor compensation, settlement unlock, post-settlement delivery boundary, ledger/database synchronization, proof receipts, repair paths, source-to-shares conservation, and harness evidence projection without exposing protected source, raw provider response content, unpaid AssetPack source, credentials, wallet private material, or private settlement payloads.
 
 ### Gate 9: Conversation And Tool-Prompt Inference Parity
 
@@ -342,7 +344,7 @@ fail-closed conditions: unsupported evidence, below-threshold fit, unverifiable 
 
 ### Selection-and-materialization
 
-proofArtifactPath: `.bitcode/v38-selection-materialization-report.json`
+proofArtifactPath: `.bitcode/v38-read-fits-finding-search-embeddings.json`; `.bitcode/v38-assetpack-synthesis-economic-traceability.json`
 members: candidate deposits, selected fits, AssetPack synthesis handoff, PR delivery
 theoremIds: selected-fits-traceable, materialization-source-safe
 replayStepIds: run V38 Gate 7 and Gate 8 checks
@@ -374,7 +376,7 @@ fail-closed conditions: authorization denial, credential exposure, private walle
 
 ### Settlement-source-to-shares
 
-proofArtifactPath: `.bitcode/v38-settlement-traceability-report.json`
+proofArtifactPath: `.bitcode/v38-assetpack-synthesis-economic-traceability.json`
 members: measurement volume, BTC price posture, fit contributor route, ledger/database roots
 theoremIds: settlement-traceable-to-fits, compensation-conserved
 replayStepIds: run V38 Gate 8 and Gate 10 checks
@@ -461,9 +463,9 @@ Each family must close with proofArtifactPath, members, theoremIds, replayStepId
 | Prompt-completeness | `.bitcode/v38-prompt-benchmark-report.json` | PromptParts, Prompts | prompt-registry-totality | v38-gate4 | benchmark fixtures | `packages/prompts` |
 | Static-code-analysis | `.bitcode/v38-static-inference-boundary-report.json` | imports, routes, scans | source-boundary-conformance | gate-quality | workflow logs | scripts and workflows |
 | Verification-decisions | `.bitcode/v38-verification-decision-report.json` | Need, fits, previews | verification-is-typed | v38-gate6, v38-gate7, v38-gate8 | verification reports | Reading pipeline packages |
-| Selection-and-materialization | `.bitcode/v38-selection-materialization-report.json` | candidates, selected fits, AssetPack handoff | selected-fits-traceable | v38-gate7, v38-gate8 | selected-source material | depository search and synthesis packages |
+| Selection-and-materialization | `.bitcode/v38-read-fits-finding-search-embeddings.json`; `.bitcode/v38-assetpack-synthesis-economic-traceability.json` | candidates, selected fits, AssetPack handoff | selected-fits-traceable | v38-gate7, v38-gate8 | selected-source material | depository search and synthesis packages |
 | Authorization-and-sensitive-flow | `.bitcode/v38-sensitive-flow-report.json` | visibility tiers, redaction | sensitive-flow-redacted | v38-gate5, v38-gate9 | redaction receipts | API and UI redaction paths |
-| Settlement-source-to-shares | `.bitcode/v38-settlement-traceability-report.json` | fees, contributors, rights | settlement-traceable-to-fits | v38-gate8, v38-gate10 | settlement receipts | BTD and Reading packages |
+| Settlement-source-to-shares | `.bitcode/v38-assetpack-synthesis-economic-traceability.json` | fees, contributors, rights | settlement-traceable-to-fits | v38-gate8, v38-gate10 | settlement receipts | BTD and Reading packages |
 | Disclosure-boundary | `.bitcode/v38-disclosure-boundary-report.json` | prompt, result, preview tiers | preview-does-not-leak-source | v38-gate5, v38-gate9 | telemetry events | V35/V37/V38 telemetry surfaces |
 | Proof-contract | `BITCODE_SPEC_V38_PROVEN.md` | spec, artifacts, workflows | promotion-proof-complete | v38-gate11 | generated proof appendix | `packages/protocol` |
 

@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -195,6 +195,14 @@ The receipt records phase ids, agent ids, PTRR step ids, Failsafe sequence ids, 
 The current generated report covers 7 rows, 7 phases, 8 PTRR agents, 32 PTRR steps, 96 FailsafeGenerationSequence ids, 96 ThricifiedGeneration ids, 288 provider-call slots, 4 tool contracts, 7 search channels, default 12 above-threshold selected-candidate slots, 23 source predicates, and V38 Gates 2 through 6 roots.
 The active embedding/vector contract remains OpenAI `text-embedding-3-small`, 1536 dimensions, float encoding, cosine distance, `deliverable_vectors.embedding`, and `match_deliverable_vectors`; additional provider channels remain blocked until their storage, credentials, telemetry, and tests are explicit.
 Selected fit provenance carries source-binding ids, selected unit ids, proof roots, measurement roots, and reconciliation-readback roots toward AssetPack synthesis while protected source, raw provider responses, unpaid AssetPack source, credentials, private wallet material, and private settlement payloads remain unavailable in the source-safe receipt.
+
+## Gate 8 implementation notes
+
+Gate 8 closes the AssetPack synthesis handoff and economic traceability contract by binding selected fits to source-safe preview, BTD receipts, source-to-shares compensation, settlement unlock, ledger/database reconciliation, repair posture, and harness evidence.
+`V38AssetPackSynthesisEconomicTraceability` and `.bitcode/v38-assetpack-synthesis-economic-traceability.json` record selected-fit handoff, source-safe preview, protected-source leak scanning, deterministic share-to-fee BTC quote, BTD mint/read/rights receipts, source-to-shares contributor allocation, settlement unlock, post-settlement delivery, ledger/database/object-storage repair, and harness projection rows as `source-safe-assetpack-synthesis-economic-traceability-metadata`.
+The current generated report covers 9 rows, 18 required receipt fields, BTD/AssetPack/harness package tests, 30 source predicates, and V38 Gates 5 through 7 roots.
+Before settlement, the Reader may inspect only measurements, roots, fit ids, score posture, proof posture, ownership boundary, settlement boundary, and BTC quote. Protected source, the full AssetPack patch, source-bearing manifests, and licensed read payloads remain withheld.
+After settlement, protected source and pull-request delivery become admissible only when BTC fee finality, BTD range, ownership/license rows, journal rows, ledger anchor, database readback, object storage, and reconciliation agree.
 
 ## V38 gate plan
 
