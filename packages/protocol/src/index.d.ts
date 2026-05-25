@@ -243,6 +243,14 @@ export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_LANE_IDS: r
 export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_REQUIRED_PROOF_ARTIFACTS: readonly string[];
 export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_ROWS: readonly Record<string, unknown>[];
 export function buildV38LocalStagingInferenceDepositorySearchRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
+export const V38_INFERENCE_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
+export const V38_INFERENCE_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
+export const V38_INFERENCE_PROMOTION_READINESS_REPORT_VERSION: string;
+export const V38_INFERENCE_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const V38_INFERENCE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
+export const V38_INFERENCE_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
+export function buildV38InferencePromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

@@ -425,6 +425,20 @@ function buildV21LikeProfile(version) {
           '.bitcode/v37-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V38'
+        ? [
+          '.bitcode/v38-inference-surface-inventory.json',
+          '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
+          '.bitcode/v38-prompt-benchmark-report.json',
+          '.bitcode/v38-disclosure-boundary-report.json',
+          '.bitcode/v38-read-need-comprehension-inference-hardening.json',
+          '.bitcode/v38-read-fits-finding-search-embeddings.json',
+          '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
+          '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
+          '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json',
+          '.bitcode/v38-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
