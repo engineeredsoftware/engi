@@ -254,7 +254,25 @@ credential value.
 
 ## Gate 8 implementation notes
 
-Gate 8 closes operational telemetry, repair, and operator readback for Reading. Every pipeline, storage, ledger, wallet, delivery, and UI event must be source-safe, proof-rooted, and tied to repair/runbook posture.
+Gate 8 closes operational telemetry, repair, and operator readback for Reading.
+`ReadingOperationalTelemetryRepairReadback` is the package-owned seam that
+turns Reading pipeline contracts, storage projections, settlement facts, UI
+stage states, and repair posture into source-safe operator telemetry. Every
+phase, PTRR agent, PTRR step, `FailsafeGenerationSequence`,
+`ThricifiedGeneration`, `ToolExecution`, storage, ledger, wallet, delivery,
+UI, and repair event is proof-rooted and carries the execution-state metadata
+needed by the rich log component. Prompt visibility is template-id only;
+result visibility is parsed shape and proof roots only; raw interpolated
+prompts and raw provider responses stay absent. Repair hooks include rich-log
+inspection, source-safe metadata inspection, Need resynthesis, Depository
+search repair, BTC finality observation, projection repair, and pull-request
+delivery recovery.
+
+The operator readback persists under `reading/operational` as readback,
+operatorReadback, streamEvents, runbookHooks, telemetryRoot, repairRoot, and
+readbackRoot records. Gate 8 also extends the shared execution log to accept
+direct operational telemetry payloads so live Reading runs can display a
+compact row-by-row stream while preserving expandable source-safe metadata.
 
 ## Gate 9 implementation notes
 

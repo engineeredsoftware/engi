@@ -187,6 +187,32 @@ responses. The deterministic source-safe proof artifact is
 Gate 8 makes the Reading product observable and repairable.
 It must stream source-safe phase, agent, step, Failsafe, ThricifiedGeneration, tool, storage, ledger, wallet, delivery, and UI events into the rich execution log and operator readback surfaces with proof roots and runbook hooks.
 
+The package-owned closure type is `ReadingOperationalTelemetryRepairReadback`
+in
+`packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts`.
+It projects `ReadNeedComprehensionSynthesis` and
+`ReadFitsFindingSynthesis` pipeline contracts into
+`ReadingOperationalTelemetryEvent` rows for phase, PTRR agent, PTRR step,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`,
+storage, ledger, wallet, delivery, UI, and repair posture. Each event carries
+`ReadingOperationalExecutionState` with event id, proof root,
+prompt-template identity, output schema/return type, redaction posture,
+prompt disclosure posture, result disclosure posture, and fail-closed state
+where applicable.
+
+The operator readback persists `ReadingOperationalOperatorReadback`,
+source-safe stream events, repair runbook hooks, telemetry roots, repair
+roots, and readback roots under `reading/operational`. The shared rich
+execution log accepts direct operational telemetry payloads and renders
+Reading pipeline, phase, PTRR agent, PTRR step, Failsafe, generation, tool,
+schema, event, proof, disclosure, and fail-closed metadata in collapsed rows
+with expandable details. No operational artifact may serialize protected
+source, raw protected prompts, raw interpolated prompts, raw provider
+responses, unpaid AssetPack source, wallet private material, private
+settlement payloads, or credentials. The deterministic source-safe proof
+artifact is `.bitcode/v39-operational-telemetry-repair-readback.json`,
+checked by `pnpm run check:v39-gate8`.
+
 ### Gate 9: Interface And Conversation Product Parity
 
 Gate 9 brings Conversation, MCP/API, ChatGPT App, and package-facing interfaces into the same Reading contract without creating parallel authority.

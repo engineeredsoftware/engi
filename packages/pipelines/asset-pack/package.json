@@ -9,6 +9,7 @@
     "./asset-pack-disclosure": "./src/asset-pack-disclosure.ts",
     "./asset-pack-preview-boundary": "./src/asset-pack-preview-boundary.ts",
     "./asset-pack-settlement-rights-delivery": "./src/asset-pack-settlement-rights-delivery.ts",
+    "./reading-operational-telemetry-repair-readback": "./src/reading-operational-telemetry-repair-readback.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",

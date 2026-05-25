@@ -69,4 +69,41 @@ describe('PipelineExecutionLogHeader', () => {
     expect(screen.getByText('parsed_result_shape_only')).toBeTruthy();
     expect(screen.getByText('unsafe_delta_payload')).toBeTruthy();
   });
+
+  it('renders Reading operational telemetry proof and disclosure posture in the live stream header', () => {
+    render(
+      <PipelineExecutionLogHeader
+        isProcessing={true}
+        executionState={{
+          phase: 'Discovery' as any,
+          agent: 'candidate-recall',
+          step: 'try' as any,
+          failsafe: 'prepare-concise-context' as any,
+          generation: 'structured-output' as any,
+          tool: { name: 'bitcode.depository.vector-search' },
+          pipeline: 'ReadFitsFindingSynthesis',
+          phaseId: 'ReadFitsFindingSynthesis.discovery',
+          agentId: 'ReadFitsFindingSynthesis.discovery.candidate-recall',
+          ptrrStepId: 'ReadFitsFindingSynthesis.discovery.candidate-recall.try',
+          ptrrStepName: 'try',
+          outputSchema: 'DepositorySearchResult',
+          eventId: 'reading-telemetry-tool-abc123',
+          proofRoot: 'sha256:reading-telemetry-proof-root',
+          redactionPosture: 'source_safe_reading_operational_telemetry_repair_readback_metadata',
+          promptDisclosurePosture: 'prompt_template_id_only',
+          resultDisclosurePosture: 'parsed_result_shape_and_proof_roots_only',
+        }}
+        isStreamingComplete={false}
+        generationCount={4}
+        error={null}
+        runId="reading-operational-gate8"
+      />,
+    );
+
+    expect(screen.getAllByText('ReadFitsFindingSynthesis').length).toBeGreaterThan(0);
+    expect(screen.getByText('bitcode.depository.vector-search')).toBeTruthy();
+    expect(screen.getByText('DepositorySearchResult')).toBeTruthy();
+    expect(screen.getByText('source_safe_reading_operational_telemetry_repair_readback_metadata')).toBeTruthy();
+    expect(screen.getByText('parsed_result_shape_and_proof_roots_only')).toBeTruthy();
+  });
 });

@@ -301,6 +301,15 @@ private settlement payloads, credentials, raw protected prompts, raw provider
 responses, or unpaid AssetPack source. Use
 `pnpm run generate:v39-settlement-rights-delivery` and
 `pnpm run check:v39-gate7` before closing the gate.
+V39 Gate 8 adds the package-owned
+`ReadingOperationalTelemetryRepairReadback` and source-safe generated artifact
+`.bitcode/v39-operational-telemetry-repair-readback.json`. Reading now
+projects phase, PTRR agent, PTRR step, Failsafe, ThricifiedGeneration,
+ToolExecution, storage, ledger, wallet, delivery, UI, and repair events into
+operator readback with proof roots, runbook hooks, prompt/result disclosure
+posture, and rich execution-log rendering. Use
+`pnpm run generate:v39-operational-telemetry-repair-readback` and
+`pnpm run check:v39-gate8` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -468,7 +477,11 @@ through `pnpm run check:v39-gate4`; V39 Gate 5 is wired through
 `pnpm run check:v39-gate5` and its generated
 `.bitcode/v39-read-fits-finding-runtime.json` artifact. V39 Gate 6 is wired
 through `pnpm run check:v39-gate6` and its generated
-`.bitcode/v39-assetpack-preview-quote-boundary.json` artifact.
+`.bitcode/v39-assetpack-preview-quote-boundary.json` artifact. V39 Gate 7 is
+wired through `pnpm run check:v39-gate7` and its generated
+`.bitcode/v39-settlement-rights-delivery.json` artifact. V39 Gate 8 is wired
+through `pnpm run check:v39-gate8` and its generated
+`.bitcode/v39-operational-telemetry-repair-readback.json` artifact.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
