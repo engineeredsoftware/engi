@@ -107,6 +107,21 @@ The maintained commands are
 `pnpm run generate:v38-inference-telemetry-disclosure-report`,
 `pnpm run check:v38-inference-telemetry-disclosure-report`, and
 `pnpm run check:v38-gate5`.
+V38 Gate 6 adds `V38ReadNeedComprehensionInferenceHardening` through
+`packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js`
+and the source-safe generated artifact
+`.bitcode/v38-read-need-comprehension-inference-hardening.json`.
+The hardening report proves ReadNeedComprehensionSynthesis request
+normalization, Need comprehension, Need measurement, Need review, and
+source-safe inference receipt coverage. The receipt binds 4 phases, 4 PTRR
+agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains,
+144 provider-call slots, prompt ids, interpolation keys, output schemas,
+telemetry ids, and roots while preserving protected source and raw provider
+response privacy.
+The maintained commands are
+`pnpm run generate:v38-read-need-comprehension-inference-hardening`,
+`pnpm run check:v38-read-need-comprehension-inference-hardening`, and
+`pnpm run check:v38-gate6`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

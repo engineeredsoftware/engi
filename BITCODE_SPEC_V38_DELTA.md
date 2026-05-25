@@ -136,10 +136,13 @@ Closure implementation:
 
 Closure acceptance:
 
-- Read Request to Need synthesis uses the V38 inference stack;
+- Read Request to Need synthesis uses the V38 inference stack and emits a `ReadNeedComprehensionSynthesisInferenceReceipt` on the produced Need;
 - synthesized Needs are reviewable, resynthesizable with feedback, measurement-backed, and bounded to the original request;
-- storage and telemetry are source-safe and typed;
-- `pnpm run check:v38-gate6` validates pipeline contracts, agents, prompts, outputs, tests, and docs.
+- storage and telemetry are source-safe and typed, including phase ids, agent ids, PTRR step ids, Failsafe sequence ids, ThricifiedGeneration ids, prompt template ids, interpolation keys, output schema ids, telemetry ids, and proof roots;
+- `V38ReadNeedComprehensionInferenceHardening` is now package-backed in `packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js` and generated to `.bitcode/v38-read-need-comprehension-inference-hardening.json`;
+- the generated artifact is `source-safe-read-need-comprehension-inference-hardening-metadata` and covers request normalization, Need comprehension, Need measurement, Need review, source-safe inference receipts, route/UI resynthesis support, accepted-Need admission boundary, and V38 Gates 2 through 5 roots;
+- the current count contract is 5 rows, 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, 22 passed source predicates, and no protected source, raw provider response content, credentials, unpaid AssetPack source, private wallet material, private settlement payload, or `_legacy/` source roots;
+- `pnpm run check:v38-gate6` validates pipeline contracts, agents, prompts, outputs, tests, docs, artifact freshness, and workflow wiring.
 
 ### Gate 7: ReadFitsFindingSynthesis Depository Search And Embeddings
 

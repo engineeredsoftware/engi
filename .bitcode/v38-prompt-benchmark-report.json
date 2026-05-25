@@ -1654,7 +1654,7 @@
       "extendsDocCodeToolPromptCount": 0,
       "docCodeToolPromptCount": 0,
       "formatUsableToolsCount": 0,
-      "readNeedComprehensionNamesCount": 7,
+      "readNeedComprehensionNamesCount": 15,
       "readFitsFindingNamesCount": 1,
       "depositorySearchToolNamesCount": 0,
       "promptTemplateIdCount": 1,

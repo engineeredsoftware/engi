@@ -79,6 +79,11 @@ export async function runBoundedStructuredInference<T>({
     agentExecution?.store?.('agent', 'name', agentName);
     agentExecution?.store?.('step', 'name', step);
     agentExecution?.store?.('bounded-inference', 'mode', 'thricified-generation');
+    agentExecution?.store?.('bounded-inference', 'stack', {
+      ptrrStep: step,
+      failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
+      thricifiedGenerationStages: ['reason', 'judge', 'structured_output'],
+    });
     agentExecution?.store?.('llm', 'input', {
       messages,
       promptTemplate: promptTemplate || {
@@ -92,6 +97,7 @@ export async function runBoundedStructuredInference<T>({
       phase,
       agent: agentName,
       step,
+      failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
       generation: 'thricified-generation',
       generationSequence: ['reason', 'judge', 'structured_output'],
     });
