@@ -58,13 +58,17 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is the `V38` active, `V39` draft after V38 promotion posture accepted by
-V38 canonical promotion.
-V39 Gate 1 treats this package as promotion-critical runtime posture and opens
-the commercial Reading readiness specification family for active V38 / draft
-V39 work.
+This is the `V39` active, `V40` draft after V39 promotion posture accepted by
+V39 canonical promotion.
+V40 Gate 1 treats this package as promotion-critical runtime posture and opens
+the exhaustive testing specification family for active V39 / draft V40 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V38` active, `V39` draft after promotion.
+must remain aligned to `V39` active, `V40` draft after promotion.
+V40 Gate 1 is wired through `check:v40-gate1` and documents the exact browser
+E2E, visual/screenshot, API integration, pipeline integration, Conversation and
+Terminal integration, unit coverage, ledger/database/storage synchronization,
+local/staging rehearsal, prompt benchmark smoke, and V41 prompt-program
+readiness scope that later V40 gates must implement.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights
