@@ -256,7 +256,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v40-delta-names-gate2', SOURCE_ROOTS.v40Delta, delta.includes('Gate 2: Test Inventory And Coverage Matrix')),
     predicateResult('v40-notes-names-test-inventory', SOURCE_ROOTS.v40Notes, notes.includes('Gate 2 inventories the whole test surface')),
     predicateResult('v40-parity-names-gate2-artifact', SOURCE_ROOTS.v40Parity, parity.includes('Gate 2') && parity.includes('v40-test-inventory-coverage-matrix')),
-    predicateResult('roadmap-advanced-to-gate2', SOURCE_ROOTS.roadmap, roadmap.includes('Current working gate: V40 Gate 2') && roadmap.includes('V40 Gate 2 closure anchor')),
+    predicateResult('roadmap-advanced-through-gate2', SOURCE_ROOTS.roadmap, /Current working gate: V40 Gate (?:2|3|4|5|6|7|8|9|10|11)\b/u.test(roadmap) && roadmap.includes('V40 Gate 2 closure anchor')),
     predicateResult('readmes-document-gate2', SOURCE_ROOTS.rootReadme, rootReadme.includes('V40 Gate 2') && protocolReadme.includes('V40TestInventoryCoverageMatrix')),
     predicateResult('package-scripts-include-gate2', SOURCE_ROOTS.packageJson, packageJson.includes('generate:v40-test-inventory') && packageJson.includes('check:v40-gate2')),
     predicateResult('workflows-run-gate2-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v40-gate2-test-inventory-coverage-matrix.mjs') && canonWorkflow.includes('check-v40-gate2-test-inventory-coverage-matrix.mjs')),

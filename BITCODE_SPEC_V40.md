@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, plus later V40 gate artifacts for E2E, visual, integration, unit, proof, and promotion readiness coverage
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, plus later V40 gate artifacts for E2E, visual, integration, proof, and promotion readiness coverage
 - Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
@@ -105,6 +105,13 @@ Gate 2 makes the testing scope auditable before V40 closes deeper test implement
 The package-owned `V40TestInventoryCoverageMatrix` emits `.bitcode/v40-test-inventory-coverage-matrix.json` with ten source-safe surfaces: unit coverage, API and route integration, Reading pipeline integration, Conversation and Terminal integration, browser/visual/accessibility/responsive proof, ledger/database/storage/wallet/delivery synchronization, local/staging rehearsal, prompt benchmark smoke, demonstration parity, and gate/canon promotion quality.
 Rows record owners, commands, source roots, generated artifact targets, coverage tier, and the later V40 gate responsible for closure.
 The artifact may name test paths, command ids, and source-safe metadata, but must not include secrets, protected source, raw protected prompts, raw provider responses, wallet private material, or unpaid AssetPack source.
+
+## V40 Gate 3 Unit Coverage For Packages And Primitives
+
+Gate 3 closes the unit-coverage foundation beneath later integration and browser gates.
+The package-owned `V40UnitCoverageInventory` emits `.bitcode/v40-unit-coverage-inventory.json` with source-safe unit rows for protocol report builders, BTD ledger/settlement/right primitives, Prompt and PromptPart composition primitives, PTRR agent steps, registry-backed tools, execution lineage/events/metrics, generic pipeline primitives, real Reading AssetPack implementation units, pipeline host harnesses, isolated interface helpers, utility/security packages, and the demonstration/commercial boundary.
+Rows bind package names, source roots, test paths, command ids, verdicts, and closure requirements.
+Gate 3 permits no missing, blocked, or exempt critical unit surface in the artifact; any later discovered critical package unit without a direct test must reopen Gate 3 or be explicitly closed by a later V40 artifact.
 
 ## V40 canonical subsystem surfaces
 
@@ -396,7 +403,7 @@ Missing generated artifacts, stale reports, malformed JSON, invalid screenshots,
 
 ## V40 validation canon
 
-Validation canon includes `pnpm run check:v40-gate1`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
+Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
 
 ## V40 promotion canon
 

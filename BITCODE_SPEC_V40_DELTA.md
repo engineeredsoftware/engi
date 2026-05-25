@@ -38,6 +38,7 @@ Gate 2 closes with package-backed `V40TestInventoryCoverageMatrix`, deterministi
 ### Gate 3: Unit Coverage For Packages And Primitives
 
 Close unit coverage over protocol, BTD, prompts, agents, tools, executions, pipelines, utilities, and isolated app helpers.
+Gate 3 closes with package-backed `V40UnitCoverageInventory`, deterministic `.bitcode/v40-unit-coverage-inventory.json`, protocol exports, source-safe rows for every critical unit surface, and `check:v40-gate3`.
 
 ### Gate 4: API And Route Integration Contracts
 

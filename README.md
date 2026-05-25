@@ -530,6 +530,10 @@ inventory unit, API/route, Reading pipeline, Conversation/Terminal,
 browser/visual/accessibility/responsive, ledger/database/storage/wallet/delivery,
 local/staging, prompt benchmark smoke, demonstration, and CI/promotion testing
 surfaces before deeper V40 gates close their implementations.
+V40 Gate 3 adds the package-backed `V40UnitCoverageInventory`, generated
+`.bitcode/v40-unit-coverage-inventory.json`, and `check:v40-gate3` to close
+critical unit coverage for packages, primitives, isolated implementations,
+Reading AssetPack units, interface helpers, and demonstration boundary tests.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
