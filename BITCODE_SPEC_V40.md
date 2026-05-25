@@ -113,6 +113,13 @@ The package-owned `V40UnitCoverageInventory` emits `.bitcode/v40-unit-coverage-i
 Rows bind package names, source roots, test paths, command ids, verdicts, and closure requirements.
 Gate 3 permits no missing, blocked, or exempt critical unit surface in the artifact; any later discovered critical package unit without a direct test must reopen Gate 3 or be explicitly closed by a later V40 artifact.
 
+## V40 Gate 4 API And Route Integration Contracts
+
+Gate 4 closes API and route integration contract coverage beneath later browser, pipeline, synchronization, and rehearsal gates.
+The package-owned `V40ApiIntegrationContracts` emits `.bitcode/v40-api-integration-contracts.json` with source-safe rows for UAPI Reading and pipeline routes, execution stream routes, Conversation routes, Auxillaries and Orbitals routes, VCS/wallet/webhook routes, public activity/template routes, package API route orchestration, package API Conversation and pipeline routes, MCP execution interface contracts, and ChatGPT App action contracts.
+Rows bind route families, source roots, test paths, command ids, verdicts, and closure requirements.
+Gate 4 permits no missing, blocked, or exempt critical contract row; the artifact must prove route contract coverage while withholding secrets, protected source, raw protected prompts, raw provider responses, wallet private material, and unpaid AssetPack source.
+
 ## V40 canonical subsystem surfaces
 
 ### Depositing and asset supply
@@ -372,6 +379,8 @@ V40 inherits operator-quality artifact expectations for readable proof and repai
 | `.bitcode/v40-spec-family-report.json` | protocol canonical package | draft spec family validation |
 | `.bitcode/v40-canonical-input-report.json` | protocol canonical package | draft canonical input accounting |
 | `.bitcode/v40-test-inventory-coverage-matrix.json` | protocol canonical package | Gate 2 source-safe test inventory and coverage matrix |
+| `.bitcode/v40-unit-coverage-inventory.json` | protocol canonical package | Gate 3 source-safe unit coverage inventory |
+| `.bitcode/v40-api-integration-contracts.json` | protocol canonical package | Gate 4 source-safe API and route integration contract inventory |
 | `.bitcode/v40-promotion-readiness-report.json` | future V40 promotion gate | promotion readiness |
 
 ### V40 specifying generated artifacts

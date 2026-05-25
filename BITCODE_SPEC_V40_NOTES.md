@@ -74,3 +74,10 @@ Gate 3 is closed by `V40UnitCoverageInventory`.
 Its generated `.bitcode/v40-unit-coverage-inventory.json` artifact binds critical unit surfaces to package names, source roots, test paths, commands, and covered verdicts.
 The covered surfaces include protocol report builders, BTD ledger/settlement/right primitives, prompt composition, PTRR agents, registry-backed tools, execution lineage, generic pipelines, Reading AssetPack units, pipeline hosts, isolated interface helpers, utility packages, and the demonstration/commercial boundary.
 No missing, blocked, or exempt critical unit surface is allowed in the Gate 3 artifact.
+
+## Gate 4 implementation notes
+
+Gate 4 is closed by `V40ApiIntegrationContracts`.
+Its generated `.bitcode/v40-api-integration-contracts.json` artifact binds critical API route integration contracts to route families, source roots, test paths, command ids, and covered verdicts.
+The covered surfaces include UAPI Reading/pipeline routes, execution stream routes, Conversation routes, Auxillaries/Orbitals routes, VCS/wallet/webhook routes, public activity/template routes, package API route orchestration, package API Conversation/pipeline routes, MCP execution interface contracts, and ChatGPT App action contracts.
+No missing, blocked, or exempt critical API route integration contract surface is allowed in the Gate 4 artifact.

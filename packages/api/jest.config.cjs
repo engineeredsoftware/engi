@@ -14,4 +14,8 @@ module.exports = {
       },
     ],
   },
+  moduleNameMapper: {
+    '^@bitcode/pipelines-generics$': '<rootDir>/../pipelines-generics/src/index.ts',
+    '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../pipelines-generics/src/$1',
+  },
 };

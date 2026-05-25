@@ -105,10 +105,11 @@ describe('MCP prompt asset-pack canon', () => {
   it('describes the retained pipeline tool as an asset-pack pipeline', () => {
     const source = readFileSync(join(__dirname, '../../tools/pipeline-tools.ts'), 'utf8');
 
-    expect(source).toContain("name: 'bitcode://pipelines/asset-pack/create'");
-    expect(source).toContain('Bitcode asset-pack pipeline');
-    expect(source).toContain('Admitted subtypes');
-    expect(source).toContain('connected-interface delivery readiness');
+    expect(source).toContain("getBtdMcpToolContract('bitcode://pipelines/asset-pack/create')");
+    expect(source).toContain('name: assetPackCreateContract.toolId');
+    expect(source).toContain('description: assetPackCreateContract.description');
+    expect(source).toContain('AssetPackPipelineToolSchema');
+    expect(source).toContain("outputMeaning: 'asset_packs'");
     expect(source).not.toMatch(/deliverable pipeline/i);
   });
 });

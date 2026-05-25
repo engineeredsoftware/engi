@@ -534,6 +534,11 @@ V40 Gate 3 adds the package-backed `V40UnitCoverageInventory`, generated
 `.bitcode/v40-unit-coverage-inventory.json`, and `check:v40-gate3` to close
 critical unit coverage for packages, primitives, isolated implementations,
 Reading AssetPack units, interface helpers, and demonstration boundary tests.
+V40 Gate 4 adds the package-backed `V40ApiIntegrationContracts`, generated
+`.bitcode/v40-api-integration-contracts.json`, and `check:v40-gate4` to close
+source-safe API, UAPI, MCP, ChatGPT App, persistence, authorization, and
+response-schema route integration contract coverage before later browser and
+pipeline gates.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

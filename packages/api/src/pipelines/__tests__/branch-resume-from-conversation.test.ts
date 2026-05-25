@@ -58,15 +58,32 @@ jest.mock('@bitcode/supabase', () => {
         }),
         single: async () => ({ data: clone(tables[table][0] || null), error: null }),
       }),
-      insert: (row: any) => ({
-        then: (cb: any) => {
-          const rows = Array.isArray(row) ? row : [row];
-          rows.forEach((entry) => tables[table].push(entry));
-          cb();
-          return { catch: () => ({}) };
-        },
-        catch: () => ({})
-      }),
+      insert: (row: any) => {
+        const rows = Array.isArray(row) ? row : [row];
+        let inserted: any[] | null = null;
+        const persist = () => {
+          if (!inserted) {
+            inserted = rows.map((entry, index) => ({
+              id: entry.id || `${table}-${tables[table].length + index + 1}`,
+              ...entry,
+            }));
+            inserted.forEach((entry) => tables[table].push(entry));
+          }
+          return inserted;
+        };
+
+        return {
+          select: (_query?: string) => ({
+            single: async () => ({ data: clone(persist()[0]), error: null }),
+          }),
+          then: (cb: any) => {
+            persist();
+            cb({ data: null, error: null });
+            return { catch: () => ({}) };
+          },
+          catch: () => ({}),
+        };
+      },
       // Upsert select returning id convenience
       insertSelect: (row: any) => ({
         select: (_?: string) => ({

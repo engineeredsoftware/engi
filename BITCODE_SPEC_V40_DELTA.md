@@ -43,6 +43,7 @@ Gate 3 closes with package-backed `V40UnitCoverageInventory`, deterministic `.bi
 ### Gate 4: API And Route Integration Contracts
 
 Close API, UAPI, public route, MCP API, ChatGPT App, persistence, and authorization contract suites.
+Gate 4 closes with package-backed `V40ApiIntegrationContracts`, deterministic `.bitcode/v40-api-integration-contracts.json`, protocol exports, source-safe rows for every critical API/interface contract surface, and `check:v40-gate4`.
 
 ### Gate 5: Reading Pipeline Integration Coverage
 

@@ -1005,7 +1005,8 @@ class PerformanceMonitor {
     const endTime = Date.now();
     const duration = endTime - this.startTime;
     const memoryUsage = process.memoryUsage().heapUsed;
-    const cpuUsage = process.cpuUsage().user;
+    const cpuDelta = process.cpuUsage(this.metrics.cpuUsage);
+    const cpuUsage = cpuDelta.user + cpuDelta.system;
     
     this.metrics = {
       ...this.metrics,
@@ -1014,7 +1015,7 @@ class PerformanceMonitor {
       cpuUsage,
       throughput: this.metrics.networkCalls / (duration / 1000),
       latency: duration / this.metrics.networkCalls || 0,
-      resourceUtilization: this.calculateResourceUtilization(memoryUsage, cpuUsage)
+      resourceUtilization: this.calculateResourceUtilization(memoryUsage, cpuUsage, duration)
     };
   }
   
@@ -1026,12 +1027,12 @@ class PerformanceMonitor {
     this.metrics.networkCalls += count;
   }
   
-  private calculateResourceUtilization(memoryUsage: number, cpuUsage: number): number {
-    // Calculate resource utilization based on CPU and memory usage
-    const memoryPercent = memoryUsage / (1024 * 1024 * 1024); // GB
-    const cpuPercent = cpuUsage / 1000000; // seconds
-    
-    return Math.min(100, (memoryPercent + cpuPercent) * 10);
+  private calculateResourceUtilization(memoryUsage: number, cpuUsage: number, durationMs: number): number {
+    const memoryPercent = (memoryUsage / (1024 * 1024 * 1024)) * 100;
+    const elapsedSeconds = Math.max(durationMs / 1000, 0.001);
+    const cpuPercent = Math.min(100, ((cpuUsage / 1000000) / elapsedSeconds) * 100);
+
+    return Math.min(100, (memoryPercent * 0.5) + (cpuPercent * 0.5));
   }
 }
 
