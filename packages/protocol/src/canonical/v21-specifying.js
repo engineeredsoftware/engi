@@ -453,6 +453,20 @@ function buildV21LikeProfile(version) {
           '.bitcode/v39-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V40'
+        ? [
+          '.bitcode/v40-test-inventory-coverage-matrix.json',
+          '.bitcode/v40-unit-coverage-inventory.json',
+          '.bitcode/v40-api-integration-contracts.json',
+          '.bitcode/v40-reading-pipeline-integration-coverage.json',
+          '.bitcode/v40-conversation-terminal-integration.json',
+          '.bitcode/v40-browser-e2e-visual-proof.json',
+          '.bitcode/v40-ledger-storage-sync.json',
+          '.bitcode/v40-local-staging-rehearsal-automation.json',
+          '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
+          '.bitcode/v40-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',

@@ -583,6 +583,14 @@ package benchmark report command, deterministic smoke receipts, V38 prompt
 benchmark inventory evidence, workflow wiring, and the V41 prompt-program
 worklist without rewriting prompt content or serializing raw prompt/provider
 payloads.
+V40 Gate 11 adds the package-backed `V40PromotionReadinessReport`, generated
+`.bitcode/v40-promotion-readiness-report.json`,
+`generate:v40-promotion-readiness`, `check:v40-promotion-readiness`,
+`check:v40-gate11`, and `.github/workflows/v40-canon-promotion.yml` to close
+canonical promotion readiness. The report binds every V40 testing artifact,
+`BITCODE_SPEC_V40_PROVEN.md`, gate/canon workflow posture, promotion scripts,
+active V40 / draft V41 runtime preparation, and source-safe value-bearing
+mainnet blocking without serializing secrets or protected payloads.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

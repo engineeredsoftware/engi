@@ -144,6 +144,15 @@ Prompt benchmark smoke coverage before V41 by binding deterministic local smoke
 receipts, the package benchmark report command, V38 benchmark inventory
 evidence, workflow wiring, and the V41 prompt-program worklist without
 rewriting prompt content or serializing raw prompt/provider payloads.
+V40 Gate 11 adds `V40PromotionReadinessReport` through
+`packages/protocol/src/canonical/v40-promotion-readiness-report.js`,
+`packages/protocol/test/v40-promotion-readiness.test.js`,
+`.bitcode/v40-promotion-readiness-report.json`, `v40-canon-promotion.yml`, and
+`check:v40-gate11`.
+The report closes promotion readiness for the `V40` active, `V41` draft posture
+by binding every V40 testing artifact, generated proof support, gate/canon
+workflow support, promotion scripts, runtime canon rewriting, dry-run promotion,
+and source-safe value-bearing mainnet blocking.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

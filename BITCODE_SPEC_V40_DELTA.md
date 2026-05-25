@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V39`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, and later V40 testing artifacts
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, all V40 gate artifacts, `.bitcode/v40-promotion-readiness-report.json`, and `BITCODE_SPEC_V40_PROVEN.md` after promotion
 - Source parity state: V40 testing surfaces are closing progressively through package-backed proof artifacts
 
 ## Why V40 exists
@@ -79,6 +79,7 @@ Gate 10 does not rewrite PromptPart or Prompt content; it proves benchmark infra
 ### Gate 11: V40 Promotion Readiness
 
 Bind all V40 artifacts, proof generation, workflows, and promotion commands into the V40 canonical promotion path.
+Gate 11 closes with package-backed `V40PromotionReadinessReport`, deterministic `.bitcode/v40-promotion-readiness-report.json`, protocol exports, generated proof support for `BITCODE_SPEC_V40_PROVEN.md`, `v40-canon-promotion.yml`, gate/canon workflow support for active V40 / draft V41 posture, promotion scripts support V40, dry-run promotion validation, source-safe rows for every V40 gate artifact, and `check:v40-gate11`.
 
 ## Explicitly deferred
 

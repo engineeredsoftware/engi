@@ -250,7 +250,15 @@ jobs:
               if [ -f scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs ]; then
                 node scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v40-gate11-promotion-readiness.mjs ]; then
+                node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+              fi
             fi
+          elif [ "$POINTER" = "V40" ]; then
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V40
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41
+            node scripts/check-bitcode-spec-family.mjs --version V40 --mode promoted --current-target V40
+            node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -375,7 +383,12 @@ jobs:
               fi
               ;;
             spec:\ V40*|spec:\ v40*)
-              node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V40" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V40 --mode promoted --current-target V40
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39
+              fi
               ;;
             *)
               echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40 spec change."

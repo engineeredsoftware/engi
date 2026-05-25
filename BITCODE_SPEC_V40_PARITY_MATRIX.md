@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V39`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and later V40 promotion readiness artifacts
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, and `BITCODE_SPEC_V40_PROVEN.md` after promotion
 - Source parity state: V40 testing parity is closing progressively through generated artifacts
 
 ## Purpose
@@ -37,6 +37,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Conversation/Terminal integration | Conversation handoff, stream logs, Terminal Reading state, and authority boundaries are tested source-safely | `.bitcode/v40-conversation-terminal-integration.json` | implemented |
 | Unit coverage | Packages, primitives, isolated implementations, and real implementations have unit coverage | `.bitcode/v40-unit-coverage-inventory.json` | implemented |
 | Prompt benchmark smoke | Prompt and PromptPart benchmarks run before V41 | `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` and `V40PromptBenchmarkSmokeV41Readiness` | implemented |
+| Promotion readiness | All V40 artifacts, proof generation, workflows, and promotion scripts are bound into canonical promotion | `.bitcode/v40-promotion-readiness-report.json` and `v40-canon-promotion.yml` | implemented |
 
 ## V40 implementation checklist
 
@@ -52,7 +53,7 @@ This matrix records the V40 testing surfaces that must become promotion-grade be
 | Gate 8 | Ledger/database/storage/wallet/delivery sync artifact | implemented |
 | Gate 9 | Local/staging rehearsal artifact | implemented |
 | Gate 10 | Prompt benchmark smoke and V41 readiness artifact | implemented |
-| Gate 11 | Promotion readiness artifact and workflow | not yet implemented |
+| Gate 11 | Promotion readiness artifact and workflow | implemented |
 
 Gate 2 implementation evidence: package-backed `V40TestInventoryCoverageMatrix` emits `.bitcode/v40-test-inventory-coverage-matrix.json` and is wired through `check:v40-gate2`.
 Gate 3 implementation evidence: package-backed `V40UnitCoverageInventory` emits `.bitcode/v40-unit-coverage-inventory.json` and is wired through `check:v40-gate3`.
@@ -63,6 +64,18 @@ Gate 7 implementation evidence: package-backed `V40BrowserE2eVisualProof` emits 
 Gate 8 implementation evidence: package-backed `V40LedgerStorageSync` emits `.bitcode/v40-ledger-storage-sync.json` and is wired through `check:v40-gate8`.
 Gate 9 implementation evidence: package-backed `V40LocalStagingRehearsalAutomation` emits `.bitcode/v40-local-staging-rehearsal-automation.json` and is wired through `check:v40-gate9`.
 Gate 10 implementation evidence: package-backed `V40PromptBenchmarkSmokeV41Readiness` emits `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, runs source-safe PromptPart and composed Prompt smoke receipts through `prompt-benchmark:smoke`, binds V38 benchmark inventory evidence, and is wired through `check:v40-gate10`.
+Gate 11 implementation evidence: package-backed `V40PromotionReadinessReport` emits `.bitcode/v40-promotion-readiness-report.json`, binds all V40 gate artifacts, `BITCODE_SPEC_V40_PROVEN.md`, `v40-canon-promotion.yml`, promoted V40 / draft V41 workflow posture, promotion scripts, and is wired through `check:v40-gate11`.
+
+## Gate 11 Promotion readiness parity
+
+| Surface | Evidence | Judgment |
+| --- | --- | --- |
+| Gate artifacts | `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` | closed |
+| Promotion artifact | `.bitcode/v40-promotion-readiness-report.json` | closed |
+| Promotion workflow | `.github/workflows/v40-canon-promotion.yml` | closed |
+| Promotion scripts | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, and `scripts/generate-bitcode-proven.mjs` | closed |
+| Workflow posture | `.github/workflows/bitcode-gate-quality.yml` and `.github/workflows/bitcode-canon-quality.yml` validate active V40 / draft V41 posture | closed |
+| Validation command | `pnpm run check:v40-gate11` | closed |
 
 ## V40 accepted boundaries
 
