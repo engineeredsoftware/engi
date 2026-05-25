@@ -3,12 +3,14 @@
 ## Status
 
 - Version: `V40`
-- V40 state: draft opened; this delta records the planned exhaustive commercial application testing closure set
-- Current canonical/latest target: `V39`
+- V40 state: canonical promotion complete; this delta records the promoted V39-to-V40 exhaustive testing closure set
+- Current canonical/latest target: `V40`
+- Canonical proof-source commit: `a5d169eda05cceb66b78f268e888b10c42542aaa`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, all V40 gate artifacts, `.bitcode/v40-promotion-readiness-report.json`, and `BITCODE_SPEC_V40_PROVEN.md` after promotion
-- Source parity state: V40 testing surfaces are closing progressively through package-backed proof artifacts
+- Generated structured artifact inventory: active canonical `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, V40 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V40_PROVEN.md` as the generated proof appendix for V40 promotion
+- Source parity state: V40 source-side test inventory, unit coverage, API integration contracts, Reading pipeline integration, Conversation/Terminal integration, browser E2E visual proof, ledger/database/storage synchronization, local/staging rehearsal automation, prompt benchmark smoke, workflow, and promotion surfaces are canonicalized in the promoted V40 file family
+- Scope: V40 canonical delta for exhaustive commercial application testing over promoted V39 commercial Reading readiness canon
 
 ## Why V40 exists
 

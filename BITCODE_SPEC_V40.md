@@ -3,20 +3,21 @@
 ## Status
 
 - Version: `V40`
-- V40 state: draft opened; V40 is the exhaustive commercial application testing target over promoted V39 commercial Reading readiness canon
-- Current canonical/latest target: `V39`
+- V40 state: canonical promotion complete; V40 is the active exhaustive commercial application testing canon and the V40 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V40`
+- Canonical proof-source commit: `a5d169eda05cceb66b78f268e888b10c42542aaa`
 - Draft proof-source commit: unbound until V40 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, and `BITCODE_SPEC_V40_PROVEN.md` after promotion
-- Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
+- Generated structured artifact inventory: active canonical `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, V40 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V40_PROVEN.md` as the generated proof appendix for V40 promotion
+- Source parity state: V40 source-side test inventory, unit coverage, API integration contracts, Reading pipeline integration, Conversation/Terminal integration, browser E2E visual proof, ledger/database/storage synchronization, local/staging rehearsal automation, prompt benchmark smoke, workflow, and promotion surfaces are canonicalized in the promoted V40 file family
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V40_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md` only after V40 promotion
-- Scope: V40 canonical draft for exhaustive commercial application testing depth across browser E2E, visual/screenshot proof, integration suites, unit coverage, pipeline/conversation/API/ledger/database/storage proofs, local/staging rehearsals, and promotion readiness
-- Last fully realized canonical target preserved in source: `V39`
+- Scope: V40 canonical system specification for exhaustive commercial application testing across browser E2E, visual and screenshot proof, unit coverage, API integration, Reading pipeline integration, Conversation and Terminal integration, ledger/database/storage/wallet synchronization, local/staging rehearsal, prompt benchmark smoke, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V40`
 
 ## Version executive summary
 
