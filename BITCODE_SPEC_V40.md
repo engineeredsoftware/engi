@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, plus later V40 gate artifacts for synchronization, rehearsal, prompt benchmark, and promotion readiness coverage
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and later V40 promotion readiness coverage
 - Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
@@ -160,6 +160,14 @@ The operator command `rehearse:v40-local-staging` builds local or staging-testne
 Staging-testnet automation binds the Supabase project `tkpyosihuouusyaxtbau`, the REST host `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`, real inference, database event streaming, and structured readback while serializing no secret values, protected source, raw prompts, provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or live log payloads.
 Gate 9 permits no missing critical rehearsal automation row and keeps value-bearing mainnet admission blocked.
 
+## V40 Gate 10 Prompt Benchmark Smoke And V41 Readiness
+
+Gate 10 closes source-safe prompt benchmark smoke coverage before V41 begins focused prompt-program rewriting.
+The package-owned `V40PromptBenchmarkSmokeV41Readiness` emits `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` with ten source-safe rows covering the prompt benchmark report command, deterministic PromptPart smoke execution, deterministic composed Prompt smoke execution, V38 benchmark inventory binding, Reading prompt fixtures, Conversation and tool prompt fixtures, the no-prompt-rewrite boundary, the V41 prompt-program worklist, workflow wiring, and proof-system wiring.
+The operator command `prompt-benchmark:smoke` runs a local deterministic mock benchmark receipt and confirms the package benchmark report command remains runnable.
+Gate 10 serializes no raw prompt text, protected PromptPart source, raw provider response, credential, wallet private material, private settlement payload, or unpaid AssetPack source.
+Gate 10 intentionally proves benchmark infrastructure readiness only; V41 owns every raw PromptPart and composed Prompt audit, semantic repartition, retitle, rewrite, catalogue, interpolation binding review, and callsite-quality benchmark.
+
 ## V40 canonical subsystem surfaces
 
 ### Depositing and asset supply
@@ -249,7 +257,7 @@ Current accepted boundaries: proof artifacts may summarize sensitive facts but c
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
 | Inference-synthesis | `.bitcode/v40-reading-pipeline-integration-coverage.json` | pipeline, agent, step | inference-stack-covered | run-reading-pipeline-tests | prompt receipts, generation receipts | packages/pipelines, packages/agent-generics |
-| Prompt-completeness | `.bitcode/v40-prompt-benchmark-smoke.json` | PromptParts, Prompts | prompt-benchmark-runnable | run-prompt-benchmark-smoke | benchmark receipts | packages/prompts |
+| Prompt-completeness | `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` | PromptParts, Prompts | prompt-benchmark-runnable | run-prompt-benchmark-smoke | benchmark receipts | packages/prompts |
 | Static-code-analysis | `.bitcode/v40-unit-coverage-inventory.json` | source packages | source-units-covered | run-unit-suites | coverage maps | packages, uapi |
 | Verification-decisions | `.bitcode/v40-api-integration-contracts.json` | routes, contracts | route-contracts-covered | run-api-integration | API receipts | uapi, packages/api |
 | Selection-and-materialization | `.bitcode/v40-browser-e2e-visual-proof.json` | browser flows | ux-state-covered | run-browser-visual | screenshot baselines | uapi tests |
@@ -276,7 +284,7 @@ fail-closed conditions: missing prompt, invalid typed output, or unbound tool re
 
 ### Prompt-completeness
 
-proofArtifactPath: `.bitcode/v40-prompt-benchmark-smoke.json`
+proofArtifactPath: `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`
 members: PromptParts, Prompts, templates, interpolation bindings
 theoremIds: prompt-benchmark-runnable
 replayStepIds: run-prompt-benchmark-smoke
@@ -286,8 +294,8 @@ current member verdict shape: pass, fail, missing fixture, or deferred-to-V41
 current theorem-by-theorem closure reading: V40 proves benchmark execution, V41 improves prompt content
 current theorem-to-replay grouping: PromptPart and composed Prompt suites
 minimum artifact/replay binding set: prompt id, PromptPart id, fixture id, result root
-current proof-object fields: promptId, promptPartIds, fixtureRoot, qualityVerdict
-generated-artifact and test bindings: prompt benchmark smoke artifact
+current proof-object fields: promptId, promptPartIds, fixtureRoot, qualityVerdict, v41WorkItemIds
+generated-artifact and test bindings: `V40PromptBenchmarkSmokeV41Readiness`, prompt benchmark smoke artifact, and V41 prompt-program handoff
 fail-closed conditions: missing prompt identity or unbound interpolation
 
 ### Static-code-analysis
@@ -426,12 +434,13 @@ V40 inherits operator-quality artifact expectations for readable proof and repai
 | `.bitcode/v40-browser-e2e-visual-proof.json` | protocol canonical package | Gate 7 source-safe browser, visual, accessibility, and responsive proof |
 | `.bitcode/v40-ledger-storage-sync.json` | protocol canonical package | Gate 8 source-safe ledger, database, storage, wallet, and delivery synchronization proof |
 | `.bitcode/v40-local-staging-rehearsal-automation.json` | protocol canonical package | Gate 9 source-safe local and staging-testnet rehearsal automation proof |
+| `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` | protocol canonical package | Gate 10 source-safe PromptPart and Prompt benchmark smoke plus V41 prompt-program readiness proof |
 | `.bitcode/v40-promotion-readiness-report.json` | future V40 promotion gate | promotion readiness |
 
 ### V40 specifying generated artifacts
 
 V40 generated artifacts begin with `.bitcode/v40-spec-family-report.json` and `.bitcode/v40-canonical-input-report.json`.
-Closed gates now add unit, API, pipeline, Conversation/Terminal, browser, synchronization, and local/staging rehearsal artifacts; later gates add prompt benchmark smoke and promotion-readiness artifacts.
+Closed gates now add unit, API, pipeline, Conversation/Terminal, browser, synchronization, local/staging rehearsal, and prompt benchmark smoke artifacts; later gates add promotion-readiness artifacts.
 
 ### Shared generated-artifact fields
 
@@ -457,7 +466,7 @@ Missing generated artifacts, stale reports, malformed JSON, invalid screenshots,
 
 ## V40 validation canon
 
-Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `pnpm run check:v40-gate4`, `pnpm run check:v40-gate5`, `pnpm run check:v40-gate6`, `pnpm run check:v40-gate7`, `pnpm run check:v40-gate8`, `pnpm run check:v40-gate9`, `pnpm run check:v40-browser-e2e-visual-proof`, `pnpm run rehearse:v40-local-staging --lane local --dry-run --json`, `pnpm run rehearse:v40-local-staging --lane staging-testnet --dry-run --json`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
+Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `pnpm run check:v40-gate4`, `pnpm run check:v40-gate5`, `pnpm run check:v40-gate6`, `pnpm run check:v40-gate7`, `pnpm run check:v40-gate8`, `pnpm run check:v40-gate9`, `pnpm run check:v40-gate10`, `pnpm run check:v40-browser-e2e-visual-proof`, `pnpm run prompt-benchmark:smoke`, `pnpm run generate:v40-prompt-benchmark-smoke-v41-readiness`, `pnpm run check:v40-prompt-benchmark-smoke-v41-readiness`, `pnpm run rehearse:v40-local-staging --lane local --dry-run --json`, `pnpm run rehearse:v40-local-staging --lane staging-testnet --dry-run --json`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
 
 ## V40 promotion canon
 

@@ -134,6 +134,16 @@ operator receipts, lane-bound secret-family checks, explicit live-execution
 opt-in, Vercel Sandbox harness evidence and telemetry capture, staging-testnet
 database stream/readback binding, Reading rehearsal continuity, synchronization
 continuity, and value-bearing mainnet blocking.
+V40 Gate 10 adds `V40PromptBenchmarkSmokeV41Readiness` through
+`packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js`,
+`packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js`,
+`.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and
+`check:v40-gate10`.
+The artifact is source-safe metadata only and closes PromptPart and composed
+Prompt benchmark smoke coverage before V41 by binding deterministic local smoke
+receipts, the package benchmark report command, V38 benchmark inventory
+evidence, workflow wiring, and the V41 prompt-program worklist without
+rewriting prompt content or serializing raw prompt/provider payloads.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

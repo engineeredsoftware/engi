@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V39`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, and later V40 testing artifacts
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and later V40 promotion readiness artifacts
 - Source parity state: V40 testing gates are closing progressively through generated artifacts
 
 ## Notes companion rule
@@ -122,3 +122,10 @@ Its generated `.bitcode/v40-local-staging-rehearsal-automation.json` artifact bi
 The operator command `rehearse:v40-local-staging` emits receipts from environment presence only; secret values, protected source, raw prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, and live log payloads are absent from the generated artifact and receipts.
 Live execution remains dry-run by default and requires `BITCODE_V40_REHEARSAL_EXECUTE=1` before delegating to the Vercel Sandbox AssetPack harness.
 Staging-testnet receipts bind Supabase project `tkpyosihuouusyaxtbau`, REST host `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`, real inference, and database event streaming/readback.
+
+## Gate 10 implementation notes
+
+Gate 10 is closed by `V40PromptBenchmarkSmokeV41Readiness`.
+Its generated `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` artifact binds prompt benchmark smoke coverage to ten source-safe rows: benchmark report command execution, deterministic PromptPart smoke execution, deterministic composed Prompt smoke execution, V38 benchmark inventory binding, Reading prompt fixtures, Conversation and tool prompt fixtures, source-safe no-rewrite boundary, V41 prompt-program worklist, workflow wiring, and proof-system wiring.
+The `prompt-benchmark:smoke` command uses a local source-safe mock provider and records benchmark scores, fixture roots, and package benchmark report counts without serializing raw prompt text, protected PromptPart source, raw provider responses, credentials, wallet private material, private settlement payloads, or unpaid AssetPack source.
+Gate 10 exists to make prompt and PromptPart benchmarking runnable and auditable before V41; every prompt semantic repartition, retitle, rewrite, catalogue improvement, interpolation binding review, and callsite-quality benchmark remains V41 work.
