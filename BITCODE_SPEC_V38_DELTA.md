@@ -202,3 +202,11 @@ Closure acceptance:
 - V38 generated proof appendix support exists;
 - promotion workflow validates V38 and commits only the canonical pointer and generated promotion artifacts;
 - `pnpm run check:v38-gate11` validates promotion readiness, source-safety, generated artifacts, and V39 draft posture preparation.
+
+Closure implementation:
+
+- `V38InferencePromotionReadinessReport` is now package-backed in `packages/protocol/src/canonical/inference-promotion-readiness-report.js` and generated to `.bitcode/v38-promotion-readiness-report.json`.
+- The generated artifact is `source-safe-inference-promotion-readiness-metadata` and covers all V38 Gate 2 through Gate 10 artifacts, `BITCODE_SPEC_V38_PROVEN.md` support, V38 promotion command dry-run support, `v38-canon-promotion.yml`, gate/canon workflow postures, spec-family/runtime promotion support, proven-generator support, active V38 / draft V39 post-promotion readiness, and blocked value-bearing mainnet posture.
+- promotion scripts support V38 through `node scripts/promote-bitcode-canon.mjs --version V38 --commit HEAD --dry-run`, `scripts/prepare-bitcode-spec-family-promotion.mjs --version V38`, and `scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V38 --next-draft V39`.
+- draft-mode Gate 11 freshness validates the standalone readiness artifact, while promoted-mode Gate 11 accepts the proof-wrapped readiness artifact emitted by the V38 canonical promotion generator.
+- The current closure contract is 9 V38 gate artifacts, 5 generated proof outputs, source-safe promotion evidence, and no protected source, raw protected prompt text, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payload, production-mainnet value-bearing admission, or `_legacy/` source roots.

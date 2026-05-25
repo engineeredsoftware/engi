@@ -223,6 +223,18 @@ The maintained commands are
 `pnpm run check:v38-local-staging-inference-depository-search-rehearsal`, and
 `pnpm run check:v38-gate10`.
 
+## Gate 11: V38 Promotion Readiness
+
+Gate 11 closes V38 by binding every inference-correctness gate artifact, V38 proof appendix generation, workflow posture, promotion command support, and post-promotion runtime posture into one source-safe promotion-readiness contract.
+`V38InferencePromotionReadinessReport` and `.bitcode/v38-promotion-readiness-report.json` record all V38 Gate 2 through Gate 10 artifacts, `BITCODE_SPEC_V38_PROVEN.md` support, V38 promotion command dry-run support, `v38-canon-promotion.yml`, gate/canon workflow postures, spec-family/runtime promotion support, proven-generator support, active V38 / draft V39 post-promotion readiness, direct-main push denial, and blocked value-bearing mainnet posture as `source-safe-inference-promotion-readiness-metadata`.
+The artifact deliberately stores artifact paths, digests, byte counts, source-safe closure booleans, validation commands, and posture strings rather than protected source, raw protected prompt text, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, or live rehearsal logs.
+Gate 11 distinguishes draft-mode freshness from promoted-mode proof wrapping: before promotion the standalone `.bitcode/v38-promotion-readiness-report.json` must match `generate:v38-promotion-readiness`, and after promotion the proof-wrapped artifact produced by `generate-bitcode-proven --version V38` remains admissible when source-safe fields and posture predicates still pass.
+The maintained commands are
+`pnpm run generate:v38-promotion-readiness`,
+`pnpm run check:v38-promotion-readiness`, and
+`pnpm run check:v38-gate11`.
+After promotion, runtime posture is active V38 / draft V39 and `BITCODE_SPEC.txt` may point to V38 only through the V38 promotion workflow.
+
 ## V38 gate plan
 
 - Gate 1: V38 Inference Stack Roadmap And Spec Opening

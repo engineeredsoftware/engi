@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `.bitcode/v38-promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` generation support
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -143,6 +143,9 @@ Gate 10 binds prior V38 Gates 2 through 9 artifact roots while preserving protec
 
 Gate 11 closes V38 with promotion readiness.
 It must generate V38 proof support, validate every V38 artifact, update promotion workflows, preserve V37 active / V38 draft to V38 active / V39 draft posture, and block promotion if inference, prompt benchmarking, search, telemetry, source-safety, or settlement traceability evidence is incomplete.
+Gate 11 is closed by the package-backed `V38InferencePromotionReadinessReport` source, deterministic `.bitcode/v38-promotion-readiness-report.json` artifact, V38 promotion workflow, promotion command dry-run support, generated proof appendix support, protocol test, generator, checker, and workflow wiring.
+The artifact has `source-safe-inference-promotion-readiness-metadata` disclosure posture and records all V38 gate artifacts, V38 generated proof outputs, promotion workflow coverage, gate/canon workflow coverage, promotion-script coverage, spec-family/runtime promotion support, V37 active / V38 draft pre-promotion posture, V38 active / draft V39 post-promotion posture, direct-main push denial, and blocked value-bearing mainnet posture without exposing protected source, raw protected prompts, raw provider response content, unpaid AssetPack source, credentials, wallet private material, or private settlement payloads.
+Draft-mode Gate 11 freshness checks validate the standalone readiness artifact; promoted-mode Gate 11 checks accept the proof-wrapped readiness artifact generated during canonical promotion while continuing to validate source-safety, posture, and generated-proof coverage.
 
 ## V38 non-goals
 
@@ -446,6 +449,7 @@ Validation canon includes `pnpm run check:v38-gate1`, `pnpm run check:v38-gate2`
 ## promotion canon
 
 Promotion canon requires all V38 gates to close, V38 proof support to exist, a V38 promotion workflow to pass, and the promotion commit to change only accepted canon artifacts and the `BITCODE_SPEC.txt` pointer from V37 to V38.
+The V38 promotion readiness canon is `.bitcode/v38-promotion-readiness-report.json`, `BITCODE_SPEC_V38_PROVEN.md`, `v38-canon-promotion.yml`, `check:v38-gate11`, `node scripts/promote-bitcode-canon.mjs --version V38 --commit HEAD --dry-run`, and the V38 active / draft V39 posture checks.
 
 ## appendices and canonical supporting material
 
@@ -505,6 +509,13 @@ Its current source-predicate contract is 69/69 passed predicates, 9 rows, 52 PTR
 ### V38 specifying generated artifacts
 
 V38 specifying generated artifacts include inference inventory, prompt benchmark, telemetry disclosure, depository search, AssetPack handoff, rehearsal, and promotion readiness reports.
+
+### V38InferencePromotionReadinessReport
+
+`V38InferencePromotionReadinessReport` is the Gate 11 source-safe V38 promotion readiness contract.
+It is owned by `packages/protocol/src/canonical/inference-promotion-readiness-report.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-promotion-readiness.test.js`, generated by `scripts/generate-v38-promotion-readiness-report.mjs`, checked by `scripts/check-v38-gate11-promotion-readiness.mjs`, and serialized to `.bitcode/v38-promotion-readiness-report.json`.
+It records `source-safe-inference-promotion-readiness-metadata`: all V38 gate artifacts, V38 generated proof outputs, promotion workflow coverage, gate/canon workflow coverage, promotion command support, spec-family/runtime promotion support, proven-generator support, V37 active / V38 draft pre-promotion posture, V38 active / draft V39 post-promotion posture, direct-main push denial, and blocked value-bearing mainnet posture.
+Its current source-predicate contract is all V38 Gate 2 through Gate 10 artifacts parseable and source-safe, documentation/source evidence complete, V38 promotion workflow wired, `BITCODE_SPEC_V38_PROVEN.md` generation supported, and no protected source, raw protected prompt, raw provider response content, unpaid AssetPack source, credentials, private wallet material, private settlement payload, or `_legacy/` source roots.
 
 ### V38ConversationToolPromptInferenceParity
 
