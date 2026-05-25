@@ -24,6 +24,31 @@ import {
   runDepositorySearchForPipelineInput,
 } from './depository-search';
 import {
+  buildReadFitsFindingRuntime,
+  persistReadFitsFindingRuntime,
+} from './read-fits-finding-runtime';
+import {
+  buildAssetPackPreviewBoundary,
+  persistAssetPackPreviewBoundary,
+} from './asset-pack-preview-boundary';
+import {
+  buildAssetPackSettlementRightsDeliveryBoundary,
+  persistAssetPackSettlementRightsDeliveryBoundary,
+} from './asset-pack-settlement-rights-delivery';
+import {
+  buildReadingOperationalTelemetryRepairReadback,
+  persistReadingOperationalTelemetryRepairReadback,
+} from './reading-operational-telemetry-repair-readback';
+import {
+  buildReadingInterfaceProductParity,
+  persistReadingInterfaceProductParity,
+} from './reading-interface-product-parity';
+import {
+  buildReadingLocalStagingRehearsal,
+  persistReadingLocalStagingRehearsal,
+} from './reading-local-staging-rehearsal';
+import {
+  admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
   synthesizeReadNeedForPipelineInput,
@@ -109,10 +134,147 @@ function factoryPreprocess(): Executor<any, any> {
     try { processedInput.depositCandidates = depositorySearch.selectedCandidates; } catch {}
     try { processedInput.fitDeposits = depositorySearch.fitDeposits; } catch {}
     try { processedInput.fitDepositAssetIds = depositorySearch.fitDepositAssetIds; } catch {}
+    let fitResult: ReturnType<typeof buildDepositoryFitResultEvidence> | undefined;
     try {
-      processedInput.fitResult = buildDepositoryFitResultEvidence(depositorySearch);
+      fitResult = buildDepositoryFitResultEvidence(depositorySearch);
+      processedInput.fitResult = fitResult;
     } catch {}
     try { processedInput.fit = processedInput.fitResult; } catch {}
+    try {
+      const readFitsFindingRuntime = buildReadFitsFindingRuntime({
+        admission: (execution.get('read/finding-fits', 'admission') as any) || admitReadFitsFinding(processedInput),
+        result: depositorySearch,
+        fitResult,
+      });
+      persistReadFitsFindingRuntime(execution, readFitsFindingRuntime);
+      persistReadFitsFindingRuntime(execution.parent as any, readFitsFindingRuntime);
+      processedInput.readFitsFindingRuntime = readFitsFindingRuntime;
+      processedInput.readFitsFindingReplayReceipt = readFitsFindingRuntime.replayReceipt;
+    } catch {}
+    try {
+      if (isAcceptedReadNeed(readNeed)) {
+        const assetPackPreviewBoundary = buildAssetPackPreviewBoundary({
+          need: readNeed,
+          fitResult,
+          pullRequestTarget: processedInput?.deliveryTarget || null,
+        });
+        persistAssetPackPreviewBoundary(execution, assetPackPreviewBoundary);
+        persistAssetPackPreviewBoundary(execution.parent as any, assetPackPreviewBoundary);
+        processedInput.sourceSafePreview = assetPackPreviewBoundary.sourceSafePreview;
+        processedInput.assetPackPreviewBoundary = assetPackPreviewBoundary;
+        processedInput.assetPackQuoteReceipt = assetPackPreviewBoundary.quoteReceipt;
+        const suppliedSettlement =
+          processedInput?.settlementObservation ||
+          processedInput?.paymentObservation ||
+          processedInput?.btcPaymentObservation ||
+          null;
+        if (suppliedSettlement) {
+          const settlementBoundary = buildAssetPackSettlementRightsDeliveryBoundary({
+            previewBoundary: assetPackPreviewBoundary,
+            paymentObservation: suppliedSettlement,
+            finality: processedInput?.settlementFinality || processedInput?.btcFinality || undefined,
+            readerWalletId: processedInput?.readerWalletId || null,
+            depositorWalletId: processedInput?.depositorWalletId || null,
+            pullRequestTarget: processedInput?.deliveryTarget || null,
+          });
+          persistAssetPackSettlementRightsDeliveryBoundary(execution, settlementBoundary);
+          persistAssetPackSettlementRightsDeliveryBoundary(execution.parent as any, settlementBoundary);
+          processedInput.assetPackSettlementRightsDeliveryBoundary = settlementBoundary;
+          processedInput.assetPackSettlementReplayReceipt = settlementBoundary.replayReceipt;
+          processedInput.assetPackDeliveryUnlock = settlementBoundary.deliveryUnlock;
+        }
+      }
+    } catch {}
+    try {
+      const operationalReadback = buildReadingOperationalTelemetryRepairReadback({
+        runId: String(execution.id || processedInput?.transactionId || processedInput?.id || ''),
+        readNeedRuntime:
+          processedInput?.readNeedReviewRuntime ||
+          (execution.get('read-need-review', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read-need-review', 'runtime') as any) ||
+          null,
+        readFitsRuntime:
+          processedInput?.readFitsFindingRuntime ||
+          (execution.get('read/finding-fits', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read/finding-fits', 'runtime') as any) ||
+          null,
+        previewBoundary:
+          processedInput?.assetPackPreviewBoundary ||
+          (execution.get('asset-pack/preview', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
+          null,
+        settlementBoundary:
+          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
+          (execution.get('asset-pack/settlement', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
+          null,
+        createdAt: new Date().toISOString(),
+      });
+      persistReadingOperationalTelemetryRepairReadback(execution, operationalReadback);
+      persistReadingOperationalTelemetryRepairReadback(execution.parent as any, operationalReadback);
+      processedInput.readingOperationalTelemetryRepairReadback = operationalReadback;
+      processedInput.readingOperationalOperatorReadback = operationalReadback.operatorReadback;
+      processedInput.readingOperationalStreamEvents = operationalReadback.streamEvents;
+      processedInput.readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+      const interfaceParity = buildReadingInterfaceProductParity({
+        readNeedRuntime:
+          processedInput?.readNeedReviewRuntime ||
+          (execution.get('read-need-review', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read-need-review', 'runtime') as any) ||
+          null,
+        readFitsRuntime:
+          processedInput?.readFitsFindingRuntime ||
+          (execution.get('read/finding-fits', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read/finding-fits', 'runtime') as any) ||
+          null,
+        previewBoundary:
+          processedInput?.assetPackPreviewBoundary ||
+          (execution.get('asset-pack/preview', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
+          null,
+        settlementBoundary:
+          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
+          (execution.get('asset-pack/settlement', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
+          null,
+        operationalReadback,
+      });
+      persistReadingInterfaceProductParity(execution, interfaceParity);
+      persistReadingInterfaceProductParity(execution.parent as any, interfaceParity);
+      processedInput.readingInterfaceProductParity = interfaceParity;
+      processedInput.readingInterfaceParityRows = interfaceParity.rows;
+      processedInput.readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+      const localStagingRehearsal = buildReadingLocalStagingRehearsal({
+        runId: String(execution.id || processedInput?.transactionId || processedInput?.id || ''),
+        readNeedRuntime:
+          processedInput?.readNeedReviewRuntime ||
+          (execution.get('read-need-review', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read-need-review', 'runtime') as any) ||
+          null,
+        readFitsRuntime:
+          processedInput?.readFitsFindingRuntime ||
+          (execution.get('read/finding-fits', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read/finding-fits', 'runtime') as any) ||
+          null,
+        previewBoundary:
+          processedInput?.assetPackPreviewBoundary ||
+          (execution.get('asset-pack/preview', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
+          null,
+        settlementBoundary:
+          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
+          (execution.get('asset-pack/settlement', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
+          null,
+        operationalReadback,
+        interfaceParity,
+      });
+      persistReadingLocalStagingRehearsal(execution, localStagingRehearsal);
+      persistReadingLocalStagingRehearsal(execution.parent as any, localStagingRehearsal);
+      processedInput.readingLocalStagingRehearsal = localStagingRehearsal;
+      processedInput.readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
+      processedInput.readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
+    } catch {}
 
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
     return processedInput;
@@ -268,8 +430,16 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
 export * from './depository-search';
+export * from './depository-supply-index';
+export * from './read-fits-finding-runtime';
+export * from './asset-pack-preview-boundary';
+export * from './asset-pack-settlement-rights-delivery';
+export * from './reading-operational-telemetry-repair-readback';
+export * from './reading-interface-product-parity';
+export * from './reading-local-staging-rehearsal';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
+export * from './read-need-review-resynthesis';
 export * from './reading-pipeline-contract';
 export * from './reading-pipeline-observability';
 export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
@@ -286,6 +456,7 @@ export {
   buildShareToFeePreview,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
+  rejectReadNeed,
   resolveAssetPackReadRightState,
   resolveReadNeedFromPipelineInput,
   shouldRequireAcceptedReadNeed,

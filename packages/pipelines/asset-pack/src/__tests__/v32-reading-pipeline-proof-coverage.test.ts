@@ -95,7 +95,7 @@ describe('V32 Reading pipeline proof coverage', () => {
       .find((phase) => phase.phaseId === 'ReadNeedComprehensionSynthesis.review')!
       .agents[0];
     expect(reviewAgent.returnType).toBe('ReadNeedReviewState');
-    expect(reviewAgent.ptrrSteps.every((step) => step.outputType === 'AcceptedReadNeed | ResynthesisRequestedReadNeed')).toBe(true);
+    expect(reviewAgent.ptrrSteps.every((step) => step.outputType === 'AcceptedReadNeed | RejectedReadNeed | ResynthesisRequestedReadNeed')).toBe(true);
 
     const admitTry = READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases
       .find((phase) => phase.phaseId === 'ReadFitsFindingSynthesis.admit')!

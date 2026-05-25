@@ -91,6 +91,164 @@ Search providers can be added through the `DepositorySearchProvider` interface.
 The default lexical provider is deterministic so QA can prove ranking and result
 state without relying on model availability.
 
+## Depository Supply Index
+
+`buildDepositorySupplyIndex` is the source-safe package primitive that turns
+deposited repository/material supply into searchable Depository records before
+Finding Fits runs. A `DepositorySupplyIndex` contains `DepositorySupplyRecord`
+entries with repository, branch, commit, proof root, measurement root,
+reconciliation readback root, BTD range, depositor wallet boundary, source-safe
+search documents, vector projection rows, storage readback posture, and repair
+actions.
+
+The index deliberately keeps protected source outside the serialized record.
+Lexical, metadata, measurement, and vector search documents use source-safe
+titles, summaries, paths, symbol names, stack tags, constraints, and roots.
+Rows with missing or invalid embeddings remain visible as repair posture through
+`sync-active-embedding-vector-rows`; they are not treated as a fully searchable
+vector corpus.
+
+`depositorySupplyAssetsFromIndex` converts indexed records into source-safe
+`DepositoryAsset` candidates for `ReadFitsFindingSynthesis`. This handoff lets
+Finding Fits rank Depository supply without importing raw source text, unpaid
+AssetPack source, credentials, wallet private material, or private settlement
+payloads before the settlement boundary.
+
+## ReadNeed review runtime
+
+`ReadNeedReviewResynthesisRuntime` is the source-safe package primitive that
+turns `ReadNeedComprehensionSynthesis` output into review-loop storage and
+telemetry records. It projects the Read Request, current synthesized Need,
+feedback history, resynthesis attempts, Need measurement inputs,
+accepted-Need admission, rejected-Need posture, and telemetry receipts into
+PipelineExecution-compatible storage records.
+
+Finding Fits is admitted only when `acceptReadNeed` has produced an accepted
+Need. Rejected or still-unreviewed Needs emit blockers and preserve feedback
+for resynthesis. The runtime never serializes protected source, raw protected
+prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
+private material, or private settlement payloads.
+
+## ReadFitsFinding Runtime
+
+`ReadFitsFindingRuntime` is the source-safe package primitive that turns
+`ReadFitsFindingSynthesis` depository search into replayable commercial
+evidence. It projects accepted-Need admission, source-safe query plans, search
+channels, candidate ranking, selected-fit provenance, fit result evidence,
+replay receipt, repair posture, and telemetry receipt records into
+PipelineExecution-compatible storage.
+
+The runtime preserves the active embedding policy
+(`text-embedding-3-small`, 1536 dimensions, cosine
+`match_deliverable_vectors`) and records a `ReadFitsFindingReplayReceipt` that
+verifies query-plan, query, ranking, selected-fit provenance, embedding, and
+candidate-count roots. It never serializes protected source, raw protected
+prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
+private material, or private settlement payloads.
+
+## AssetPack Preview Boundary
+
+`AssetPackPreviewBoundary` is the source-safe package primitive that turns a
+worthy Finding Fits result into a buyer-reviewable preview without
+crossing the unpaid source boundary. It composes `AssetPackSourceSafePreview`,
+selected-fit provenance, `AssetPackPreviewQuoteReceipt`,
+`AssetPackDisclosureReview`, `AssetPackPreviewSettlementInstructions`,
+`AssetPackPreviewDeliveryPosture`, `AssetPackPreviewReplayReceipt`, and repair
+posture.
+
+The deterministic quote uses the active share-to-fee formula
+`sum(measurement.weight * measurement.volume * admitted_fit_quality)` with the
+Need measurement vector, admitted fit quality, weighted admitted volume,
+minimum sats, dust floor, and reader-wallet-before-broadcast posture. The
+preview can show fit measurements, proof roots, quality reasons, score band,
+selected fit deposit ids, quote, settlement instructions, and delivery posture.
+It cannot show protected source, raw protected prompts, raw provider responses,
+wallet private material, private settlement payloads, credentials, or unpaid
+source-bearing AssetPack content. Pull-request delivery remains withheld until
+BTC settlement, BTD rights transfer, and ledger/database/storage readback agree.
+
+## Settlement Rights Delivery
+
+`AssetPackSettlementRightsDeliveryBoundary` is the paid-boundary package
+primitive that follows a source-safe preview. It observes BTC payment against
+the deterministic quote, binds finality, allocates source-to-shares
+compensation across selected fit deposits, builds BTD rights transfer and paid
+read receipts, verifies settlement unlock readback, reconciles ledger,
+database, and object-storage projections, and admits pull-request delivery only
+when those receipts agree.
+
+The boundary persists `asset-pack/settlement` records for payment observation,
+finality, source-to-shares compensation, BTD receipts, delivery unlock,
+ledger/database/storage reconciliation, replay, and repair posture. Its
+serialized form is source-safe metadata: it may record that source-bearing
+delivery is unlocked for the paid Reader, but it never serializes protected
+source, raw protected prompts, raw provider responses, wallet private material,
+private settlement payloads, credentials, or unpaid source-bearing AssetPack
+content.
+
+## Operational Telemetry Repair Readback
+
+`ReadingOperationalTelemetryRepairReadback` is the source-safe package
+primitive that makes the Reading flow observable and repairable after the
+Need, Finding Fits, preview, settlement, and delivery boundaries have emitted
+their receipts. It projects phase, PTRR agent, PTRR step,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`,
+storage, ledger, wallet, delivery, UI, and repair posture into
+`ReadingOperationalTelemetryEvent` rows.
+
+The operator readback persists under `reading/operational` with
+`operatorReadback`, `streamEvents`, `runbookHooks`, `telemetryRoot`,
+`repairRoot`, and `readbackRoot`. Events carry event ids, proof roots,
+prompt-template identity, output schemas, return types, redaction posture,
+prompt disclosure posture, result disclosure posture, and fail-closed state.
+They are designed for the shared rich execution log, which can show compact
+source-safe rows and expandable metadata without showing protected source,
+raw protected prompts, raw interpolated prompts, raw provider responses,
+unpaid AssetPack source, wallet private material, private settlement payloads,
+or credentials.
+
+## Interface Product Parity
+
+`ReadingInterfaceProductParity` is the source-safe package primitive that
+keeps Terminal, Conversation, public API, MCP API, ChatGPT App, and
+package-facing consumers on one Reading authority. Terminal remains the
+transaction authority. Conversation is a Terminal-delegated handoff. Package
+consumers receive contract readback only. API, MCP, and ChatGPT surfaces reuse
+BTD interface catalog, read-license/AssetPack-rights, telemetry hook, and
+consumer UX proof roots.
+
+The parity rows are persisted under `reading/interfaces` with `productParity`,
+`parityRows`, `noBypassReadback`, `interfaceRoots`, `sourceSafety`, and
+`parityRoot`. Each row proves accepted-Need gating, Finding Fits admission,
+source-safe preview, settlement unlock, BTD rights, authorized delivery, no
+parallel authority, and source-bearing delivery locked before settlement and
+rights transfer. The source-safe artifact is
+`.bitcode/v39-interface-conversation-product-parity.json`, checked by
+`pnpm run check:v39-gate9`.
+
+## Reading Local/Staging Rehearsal
+
+`ReadingLocalStagingRehearsal` is the source-safe package primitive that binds
+local and staging-testnet rehearsal readback to the complete five-step Reading
+flow: request read, review synthesized Need, request Finding Fits, review
+source-safe AssetPack preview, and buy/settle. It composes
+`ReadNeedReviewResynthesisRuntime`, `ReadFitsFindingRuntime`,
+`AssetPackPreviewBoundary`, `AssetPackSettlementRightsDeliveryBoundary`,
+`ReadingOperationalTelemetryRepairReadback`, and
+`ReadingInterfaceProductParity` by proof root.
+
+The rehearsal rows are persisted under `reading/rehearsal` with
+`localStagingRehearsal`, `rehearsalRows`, `laneReadback`, `stageReadback`,
+`sourceSafety`, and `proofRoots`. Staging-testnet is anchored to Supabase
+project `tkpyosihuouusyaxtbau` and REST host
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`. Generated rehearsal
+evidence is metadata only: protected source, raw protected prompts, raw
+interpolated prompts, raw provider responses, unpaid AssetPack source, wallet
+private material, private settlement payloads, credentials, and live log
+payloads are not serialized. Value-bearing mainnet admission remains blocked.
+The source-safe artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`,
+checked by `pnpm run check:v39-gate10`.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

@@ -7,9 +7,17 @@
   "exports": {
     ".": "./src/index.ts",
     "./asset-pack-disclosure": "./src/asset-pack-disclosure.ts",
+    "./asset-pack-preview-boundary": "./src/asset-pack-preview-boundary.ts",
+    "./asset-pack-settlement-rights-delivery": "./src/asset-pack-settlement-rights-delivery.ts",
+    "./reading-operational-telemetry-repair-readback": "./src/reading-operational-telemetry-repair-readback.ts",
+    "./reading-interface-product-parity": "./src/reading-interface-product-parity.ts",
+    "./reading-local-staging-rehearsal": "./src/reading-local-staging-rehearsal.ts",
     "./read-need": "./src/read-need.ts",
+    "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
+    "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",
     "./reading-pipeline-contract": "./src/reading-pipeline-contract.ts",
     "./reading-pipeline-observability": "./src/reading-pipeline-observability.ts",
+    "./depository-supply-index": "./src/depository-supply-index.ts",
     "./depository-search": "./src/depository-search.ts"
   },
   "scripts": {
@@ -19,6 +27,7 @@
     "demo:bringup": "ts-node src/dev/bringup-demo.ts"
   },
   "dependencies": {
+    "@bitcode/btd": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",

@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V38` active, `V39` draft after V38 promotion);
+- active/draft canon posture (`V39` active, `V40` draft after V39 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -48,15 +48,115 @@ Current exported commercial helpers include:
 - `V38InferenceTelemetryDisclosureReport` helpers for V38 source-safe inference telemetry rows, disclosure tiers, raw provider response boundaries, schema verdicts, retry/repair posture, and rich stream UI/storage projection proof;
 - `V38ReadFitsFindingSearchEmbeddings` helpers for V38 source-safe Finding Fits query plans, depository search channels, embedding policy, threshold ranking, selected-fit provenance, and search receipts;
 - `V38InferencePromotionReadinessReport` helpers for V38 source-safe promotion readiness across inference artifacts, generated proof support, workflow posture, and V38 active / V39 draft runtime preparation;
+- `V39DepositorySupplyIndexing` helpers for V39 source-safe Depository supply records, search documents, vector projections, storage readback posture, rights boundaries, repair actions, and Finding Fits handoff;
+- `V39EnterpriseReadingUxState` helpers for V39 source-safe Terminal Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
+- `V39ReadNeedReviewResynthesis` helpers for V39 source-safe ReadNeed review, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, runtime storage projection, and telemetry receipt proof;
+- `V39ReadFitsFindingRuntime` helpers for V39 source-safe Finding Fits runtime storage, many-candidate ranking, selected-fit provenance, replay receipts, repair posture, and active embedding policy proof;
+- `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
+- `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
+- `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
 This is the `V38` active, `V39` draft after V38 promotion posture accepted by
 V38 canonical promotion.
-V38 Gate 1 treats this package as promotion-critical runtime posture and opens
-the inference stack specification family for active V37 / draft V38 work.
+V39 Gate 1 treats this package as promotion-critical runtime posture and opens
+the commercial Reading readiness specification family for active V38 / draft
+V39 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
 must remain aligned to `V38` active, `V39` draft after promotion.
+V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
+Depository supply, five-step enterprise Reading UX, ReadNeed review,
+ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights
+transfer, post-settlement delivery, ledger/database/storage synchronization,
+operational telemetry/repair, interface parity, and local/staging rehearsal
+scope that later V39 gates must implement.
+V39 Gate 2 adds `V39DepositorySupplyIndexing` through
+`packages/protocol/src/canonical/v39-depository-supply-indexing.js` and the
+source-safe generated artifact `.bitcode/v39-depository-supply-indexing.json`.
+The supply indexing report proves `DepositorySupplyIndex` lifecycle receipts,
+source-safe search documents, active embedding/vector projection, retained
+Supabase storage readback posture, depositor/Reader settlement boundary,
+deterministic repair actions, and Finding Fits source-safe handoff. The
+maintained commands are `pnpm run generate:v39-depository-supply-indexing` and
+`pnpm run check:v39-gate2`.
+V39 Gate 3 adds `V39EnterpriseReadingUxState` through
+`packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js` and the
+source-safe generated artifact `.bitcode/v39-enterprise-reading-ux-state.json`.
+The UX state report proves five Terminal Reading stages, source-safe disclosure
+defaults, Conversation `readingStage` handoff/readback, rich execution stream
+integration, component tests, and opt-in browser proof workflow wiring. The
+maintained commands are `pnpm run generate:v39-enterprise-reading-ux-state` and
+`pnpm run check:v39-gate3`.
+V39 Gate 4 adds `V39ReadNeedReviewResynthesis` through
+`packages/protocol/src/canonical/v39-read-need-review-resynthesis.js` and the
+source-safe generated artifact `.bitcode/v39-read-need-review-resynthesis.json`.
+The report proves Read Request persistence, synthesized Need storage, feedback
+and resynthesis lineage, Need measurement storage, accepted-Need admission,
+rejected-Need posture, source-safe telemetry receipts, route/runtime storage
+projection tests, and workflow wiring. The maintained commands are
+`pnpm run generate:v39-read-need-review-resynthesis` and
+`pnpm run check:v39-gate4`.
+V39 Gate 5 adds `V39ReadFitsFindingRuntime` through
+`packages/protocol/src/canonical/v39-read-fits-finding-runtime.js` and the
+source-safe generated artifact `.bitcode/v39-read-fits-finding-runtime.json`.
+The report proves accepted-Need-only Finding Fits admission, source-safe query
+plans, seven search channels, many-candidate ranking, selected-fit provenance,
+active OpenAI embedding policy, replay receipts, repair posture, runtime
+storage projection, package tests, protocol tests, and workflow wiring. The
+maintained commands are `pnpm run generate:v39-read-fits-finding-runtime` and
+`pnpm run check:v39-gate5`.
+V39 Gate 6 adds `V39AssetPackPreviewQuoteBoundary` through
+`packages/protocol/src/canonical/v39-assetpack-preview-quote-boundary.js` and
+the source-safe generated artifact
+`.bitcode/v39-assetpack-preview-quote-boundary.json`. The report proves
+source-safe AssetPack preview measurements, selected-fit provenance,
+deterministic share-to-fee BTC quote, disclosure leak scanning, reader payment
+settlement instructions, withheld pull-request delivery posture, replay
+receipt, repair posture, package tests, protocol tests, and workflow wiring.
+The maintained commands are
+`pnpm run generate:v39-assetpack-preview-quote-boundary` and
+`pnpm run check:v39-gate6`.
+V39 Gate 7 adds `V39SettlementRightsDelivery` through
+`packages/protocol/src/canonical/v39-settlement-rights-delivery.js` and the
+source-safe generated artifact `.bitcode/v39-settlement-rights-delivery.json`.
+The report proves BTC payment observation/finality, source-to-shares
+compensation, BTD rights transfer/read receipts, settlement unlock,
+ledger/database/object-storage reconciliation, post-settlement pull-request
+delivery unlock, replay, repair posture, package tests, protocol tests, and
+workflow wiring. The maintained commands are
+`pnpm run generate:v39-settlement-rights-delivery` and
+`pnpm run check:v39-gate7`.
+V39 Gate 8 adds `V39OperationalTelemetryRepairReadback` through
+`packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js`
+and the source-safe generated artifact
+`.bitcode/v39-operational-telemetry-repair-readback.json`. The report proves
+Reading operational stream events, operator readback, proof roots, runbook
+hooks, source-safe disclosure posture, rich execution-log rendering, package
+tests, UI tests, protocol tests, and workflow wiring. The maintained commands
+are `pnpm run generate:v39-operational-telemetry-repair-readback` and
+`pnpm run check:v39-gate8`.
+V39 Gate 9 adds `V39InterfaceConversationProductParity` through
+`packages/protocol/src/canonical/v39-interface-conversation-product-parity.js`
+and the source-safe generated artifact
+`.bitcode/v39-interface-conversation-product-parity.json`. The report proves
+Terminal authority, Conversation handoff, public API, MCP API, ChatGPT App,
+and package-consumer parity rows, accepted-Need gating, source-safe preview,
+settlement unlock, BTD rights, delivery boundaries, package tests, interface
+tests, protocol tests, and workflow wiring. The maintained commands are
+`pnpm run generate:v39-interface-conversation-product-parity` and
+`pnpm run check:v39-gate9`.
+V39 Gate 10 adds `V39LocalStagingReadingRehearsal` through
+`packages/protocol/src/canonical/v39-local-staging-reading-rehearsal.js` and
+the source-safe generated artifact
+`.bitcode/v39-local-staging-reading-rehearsal.json`. The report proves local
+and staging-testnet lane readback, all five Reading stages, many-fit
+Depository search, source-safe preview, settlement rights delivery, rich
+telemetry readback, interface no-bypass posture, ledger/database/storage
+synchronization, blocked value-bearing mainnet admission, package tests,
+protocol tests, and workflow wiring. The maintained commands are
+`pnpm run generate:v39-local-staging-reading-rehearsal` and
+`pnpm run check:v39-gate10`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
@@ -200,6 +300,17 @@ private settlement, and unpaid AssetPack privacy.
 The maintained commands are
 `pnpm run generate:v38-promotion-readiness`,
 `pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`.
+V39 Gate 11 adds `V39CommercialReadingPromotionReadinessReport` through
+`packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js`
+and the generated source-safe artifact `.bitcode/v39-promotion-readiness-report.json`.
+The report verifies all V39 commercial Reading artifacts are covered, parseable,
+and source-safe; binds `BITCODE_SPEC_V39_PROVEN.md` generation support,
+`v39-canon-promotion.yml`, promotion command dry-run support, gate/canon
+workflow posture, and runtime preparation for `V39` active, `V40` draft; and
+blocks value-bearing mainnet admission while preserving protected source, raw
+protected prompt, raw provider response, credential, wallet, private settlement,
+and unpaid AssetPack privacy. Use `pnpm run generate:v39-promotion-readiness`,
+`pnpm run check:v39-promotion-readiness`, and `pnpm run check:v39-gate11`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

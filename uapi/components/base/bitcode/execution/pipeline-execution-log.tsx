@@ -179,6 +179,12 @@ interface LogLine {
   promptTemplateId?: string;
   outputSchema?: string;
   returnType?: string;
+  eventId?: string;
+  proofRoot?: string;
+  redactionPosture?: string;
+  promptDisclosurePosture?: string;
+  resultDisclosurePosture?: string;
+  failClosedState?: string;
   iteration?: number;
   timestamp?: string;
   details?: any;
@@ -189,6 +195,91 @@ interface LogLine {
 
   // Canonical stream `type` – e.g. 'generation', 'tool-use', 'thinking', 'error', 'completion'
   type?: string;
+}
+
+function extractExecutionState(storedChunk: any) {
+  return storedChunk?.status?.executionState ||
+    storedChunk?.status?.metadata?.executionState ||
+    storedChunk?.executionState ||
+    storedChunk?.telemetry?.executionState ||
+    storedChunk?.status?.telemetry?.executionState ||
+    storedChunk?.operatorReadback?.executionState ||
+    null;
+}
+
+function applyExecutionStateToLogLine(logLine: LogLine, executionState: any, storedChunk: any) {
+  const {
+    phase,
+    agent,
+    step,
+    tool,
+    failsafe,
+    generation,
+    pipeline,
+    phaseId,
+    agentId,
+    ptrrStepId,
+    ptrrStepName,
+    promptTemplateId,
+    outputSchema,
+    returnType,
+    eventId,
+    proofRoot,
+    redactionPosture,
+    promptDisclosurePosture,
+    resultDisclosurePosture,
+    failClosedState,
+  } = executionState || {};
+  logLine.phase = normalizePhaseName(phase);
+  logLine.pipeline = pipeline;
+  logLine.phaseId = phaseId;
+  logLine.agent = agent;
+  logLine.agentId = agentId;
+  logLine.step = normalizeStepName(step);
+  logLine.ptrrStepId = ptrrStepId;
+  logLine.ptrrStepName = ptrrStepName;
+  logLine.failsafe = failsafe;
+  logLine.generation = generation;
+  logLine.tool = tool;
+  logLine.promptTemplateId = promptTemplateId;
+  logLine.outputSchema = outputSchema;
+  logLine.returnType = returnType;
+  logLine.eventId = eventId;
+  logLine.proofRoot = proofRoot;
+  logLine.redactionPosture = redactionPosture;
+  logLine.promptDisclosurePosture = promptDisclosurePosture;
+  logLine.resultDisclosurePosture = resultDisclosurePosture;
+  logLine.failClosedState = failClosedState;
+
+  logLine.details = {
+    ...storedChunk,
+    status: {
+      ...(storedChunk?.status || {}),
+      executionState,
+      metadata: {
+        ...(storedChunk?.metadata || {}),
+        ...(storedChunk?.status?.metadata || {}),
+      },
+    },
+    pipeline,
+    phaseId,
+    agentId,
+    step: normalizeStepName(step),
+    ptrrStepId,
+    ptrrStepName,
+    failsafe,
+    generation,
+    tool,
+    promptTemplateId,
+    outputSchema,
+    returnType,
+    eventId,
+    proofRoot,
+    redactionPosture,
+    promptDisclosurePosture,
+    resultDisclosurePosture,
+    failClosedState,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -229,6 +320,24 @@ const TYPE_STYLES: Record<
     border: 'border-orange-400/25',
     Icon: ChatBubbleIcon,
     glow: true,
+  },
+  'reading-telemetry': {
+    bg: 'bg-gradient-to-r from-sky-700/20 to-emerald-700/10',
+    text: 'text-sky-200',
+    border: 'border-sky-400/25',
+    Icon: InfoCircledIcon,
+  },
+  'operator-readback': {
+    bg: 'bg-gradient-to-r from-emerald-700/20 to-sky-700/10',
+    text: 'text-emerald-200',
+    border: 'border-emerald-400/25',
+    Icon: CheckCircledIcon,
+  },
+  repair: {
+    bg: 'bg-gradient-to-r from-amber-700/20 to-red-700/10',
+    text: 'text-amber-200',
+    border: 'border-amber-400/25',
+    Icon: ExclamationTriangleIcon,
   },
   completion: {
     bg: 'bg-gradient-to-r from-emerald-700/15 to-emerald-700/5',
@@ -377,6 +486,12 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         // Normalise custom aliases used in some mock/staging data
         if (storedChunk.type === 'user_otf_instruction') logLine.type = 'otf_instructions';
         else logLine.type = storedChunk.type;
+      } else if (storedChunk?.schema === 'bitcode.reading.operational-operator-readback') {
+        logLine.type = 'operator-readback';
+      } else if (storedChunk?.eventKind === 'repair') {
+        logLine.type = 'repair';
+      } else if (storedChunk?.schema === 'bitcode.reading.operational-telemetry-event' || storedChunk?.eventKind) {
+        logLine.type = 'reading-telemetry';
       } else {
         // Heuristic fallback when mock data lacks explicit type
         const lower = line.toLowerCase();
@@ -405,109 +520,9 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       }
       // Extract phase, agent, iteration from stored chunk
       else if (storedChunk) {
-        // First check for executionState in status
-        if (storedChunk.status?.executionState) {
-          const {
-            phase,
-            agent,
-            step,
-            tool,
-            failsafe,
-            generation,
-            pipeline,
-            phaseId,
-            agentId,
-            ptrrStepId,
-            ptrrStepName,
-            promptTemplateId,
-            outputSchema,
-            returnType,
-          } = storedChunk.status.executionState;
-          logLine.phase = normalizePhaseName(phase);
-          logLine.pipeline = pipeline;
-          logLine.phaseId = phaseId;
-          logLine.agent = agent;
-          logLine.agentId = agentId;
-          logLine.step = normalizeStepName(step);
-          logLine.ptrrStepId = ptrrStepId;
-          logLine.ptrrStepName = ptrrStepName;
-          logLine.failsafe = failsafe;
-          logLine.generation = generation;
-          logLine.tool = tool;
-          logLine.promptTemplateId = promptTemplateId;
-          logLine.outputSchema = outputSchema;
-          logLine.returnType = returnType;
-
-          // Add step, failsafe, generation, and tool to the details for better display
-          if (step || failsafe || generation || tool || pipeline || phaseId || ptrrStepId || outputSchema) {
-            logLine.details = {
-              ...storedChunk,
-              pipeline,
-              phaseId,
-              agentId,
-              step: normalizeStepName(step),
-              ptrrStepId,
-              ptrrStepName,
-              failsafe,
-              generation,
-              tool,
-              promptTemplateId,
-              outputSchema,
-              returnType,
-            };
-          }
-        }
-        // Then check for executionState in metadata as fallback
-        else if (storedChunk.status?.metadata?.executionState) {
-          const {
-            phase,
-            agent,
-            step,
-            tool,
-            failsafe,
-            generation,
-            pipeline,
-            phaseId,
-            agentId,
-            ptrrStepId,
-            ptrrStepName,
-            promptTemplateId,
-            outputSchema,
-            returnType,
-          } = storedChunk.status.metadata.executionState;
-          logLine.phase = normalizePhaseName(phase);
-          logLine.pipeline = pipeline;
-          logLine.phaseId = phaseId;
-          logLine.agent = agent;
-          logLine.agentId = agentId;
-          logLine.step = normalizeStepName(step);
-          logLine.ptrrStepId = ptrrStepId;
-          logLine.ptrrStepName = ptrrStepName;
-          logLine.failsafe = failsafe;
-          logLine.generation = generation;
-          logLine.tool = tool;
-          logLine.promptTemplateId = promptTemplateId;
-          logLine.outputSchema = outputSchema;
-          logLine.returnType = returnType;
-
-          // Add step, failsafe, generation, and tool to the details for better display
-          if (step || failsafe || generation || tool || pipeline || phaseId || ptrrStepId || outputSchema) {
-            logLine.details = {
-              ...storedChunk,
-              pipeline,
-              phaseId,
-              agentId,
-              step: normalizeStepName(step),
-              ptrrStepId,
-              ptrrStepName,
-              failsafe,
-              generation,
-              tool,
-              promptTemplateId,
-              outputSchema,
-              returnType,
-            };
-          }
+        const executionState = extractExecutionState(storedChunk);
+        if (executionState) {
+          applyExecutionStateToLogLine(logLine, executionState, storedChunk);
         }
         // If step is available directly in status
         else if (storedChunk.status?.step) {
@@ -523,7 +538,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         }
 
         // Store details for expansion
-        logLine.details = storedChunk;
+        if (!logLine.details) logLine.details = storedChunk;
 
         // Extract timestamp if available
         logLine.timestamp = storedChunk.status?.timestamp || storedChunk.timestamp;
@@ -543,13 +558,18 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
       // Determine line type
       logLine.isError = line.toLowerCase().includes('error') ||
-        (storedChunk?.status?.progress === 'error');
+        (storedChunk?.status?.progress === 'error') ||
+        storedChunk?.progress === 'blocked' ||
+        storedChunk?.progress === 'repair-required';
       logLine.isSuccess = line.toLowerCase().includes('success') ||
         line.toLowerCase().includes('completed') ||
-        (storedChunk?.status?.progress === 'success');
+        (storedChunk?.status?.progress === 'success') ||
+        storedChunk?.progress === 'completed';
       logLine.isInfo = line.toLowerCase().includes('info') ||
         line.toLowerCase().includes('processing') ||
-        (storedChunk?.status?.progress === 'in-progress');
+        (storedChunk?.status?.progress === 'in-progress') ||
+        storedChunk?.progress === 'running' ||
+        storedChunk?.progress === 'planned';
       logLine.isComplete = line.toLowerCase().includes('complete') ||
         line.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success');
@@ -557,8 +577,9 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       // If phase is not specified, try to infer from the line text or stored chunk
       if (!logLine.phase) {
         // First try to get from stored chunk
-        if (storedChunk?.status?.executionState?.phase) {
-          logLine.phase = normalizePhaseName(storedChunk.status.executionState.phase);
+        const executionState = extractExecutionState(storedChunk);
+        if (executionState?.phase) {
+          logLine.phase = normalizePhaseName(executionState.phase);
         } else {
           // Then try to infer from text
           for (const phase of PHASES) {
@@ -688,6 +709,12 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         return 'text-purple-400';  // Bitcode purple
       case 'otf_instructions':
         return 'text-orange-400';  // orange
+      case 'reading-telemetry':
+        return 'text-sky-300';
+      case 'operator-readback':
+        return 'text-emerald-300';
+      case 'repair':
+        return 'text-amber-300';
       case 'completion':
         return 'text-emerald-400';
     }
@@ -1230,6 +1257,42 @@ function renderLogLine(
                           <div className="flex items-center space-x-1">
                             <span className="text-xs text-gray-500">Schema:</span>
                             <span className="text-xs text-emerald-300">{logLine.outputSchema || logLine.returnType}</span>
+                          </div>
+                        )}
+                        {logLine.eventId && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Event:</span>
+                            <span className="text-xs text-emerald-300">{formatContractId(logLine.eventId, 2)}</span>
+                          </div>
+                        )}
+                        {logLine.proofRoot && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Proof:</span>
+                            <span className="text-xs text-emerald-300">{formatContractId(logLine.proofRoot, 2)}</span>
+                          </div>
+                        )}
+                        {logLine.redactionPosture && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Redaction:</span>
+                            <span className="text-xs text-emerald-300">{logLine.redactionPosture}</span>
+                          </div>
+                        )}
+                        {logLine.promptDisclosurePosture && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Prompt:</span>
+                            <span className="text-xs text-emerald-300">{logLine.promptDisclosurePosture}</span>
+                          </div>
+                        )}
+                        {logLine.resultDisclosurePosture && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Result:</span>
+                            <span className="text-xs text-emerald-300">{logLine.resultDisclosurePosture}</span>
+                          </div>
+                        )}
+                        {logLine.failClosedState && (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs text-gray-500">Fail Closed:</span>
+                            <span className="text-xs text-emerald-300">{logLine.failClosedState}</span>
                           </div>
                         )}
                         {logLine.tool && (

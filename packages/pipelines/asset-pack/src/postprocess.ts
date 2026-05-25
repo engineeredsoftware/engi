@@ -14,6 +14,31 @@ import {
   buildAssetPackDisclosureReview,
   type AssetPackDisclosureReview,
 } from './asset-pack-disclosure';
+import {
+  buildAssetPackPreviewBoundary,
+  persistAssetPackPreviewBoundary,
+  type AssetPackPreviewBoundary,
+} from './asset-pack-preview-boundary';
+import {
+  buildAssetPackSettlementRightsDeliveryBoundary,
+  persistAssetPackSettlementRightsDeliveryBoundary,
+  type AssetPackSettlementRightsDeliveryBoundary,
+} from './asset-pack-settlement-rights-delivery';
+import {
+  buildReadingOperationalTelemetryRepairReadback,
+  persistReadingOperationalTelemetryRepairReadback,
+  type ReadingOperationalTelemetryRepairReadback,
+} from './reading-operational-telemetry-repair-readback';
+import {
+  buildReadingInterfaceProductParity,
+  persistReadingInterfaceProductParity,
+  type ReadingInterfaceProductParity,
+} from './reading-interface-product-parity';
+import {
+  buildReadingLocalStagingRehearsal,
+  persistReadingLocalStagingRehearsal,
+  type ReadingLocalStagingRehearsal,
+} from './reading-local-staging-rehearsal';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -86,9 +111,72 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, prUrl);
   if (sourceSafePreview) {
     const assetPackDisclosureReview = ensureAssetPackDisclosureReview(execution, sourceSafePreview);
+    const assetPackPreviewBoundary = ensureAssetPackPreviewBoundary(
+      execution,
+      sourceSafePreview,
+      enhanced,
+    );
     (enhanced as any).sourceSafePreview = sourceSafePreview;
     (enhanced as any).assetPackDisclosureReview = assetPackDisclosureReview;
+    (enhanced as any).assetPackPreviewBoundary = assetPackPreviewBoundary;
+    (enhanced as any).assetPackQuoteReceipt = assetPackPreviewBoundary?.quoteReceipt;
+    (enhanced as any).assetPackSettlementInstructions = assetPackPreviewBoundary?.settlementInstructions;
+    (enhanced as any).assetPackDeliveryPosture = assetPackPreviewBoundary?.deliveryPosture;
+    const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
+      ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, enhanced)
+      : null;
+    if (assetPackSettlementRightsDeliveryBoundary) {
+      (enhanced as any).assetPackSettlementRightsDeliveryBoundary = assetPackSettlementRightsDeliveryBoundary;
+      (enhanced as any).assetPackSettlementReplayReceipt = assetPackSettlementRightsDeliveryBoundary.replayReceipt;
+      (enhanced as any).assetPackDeliveryUnlock = assetPackSettlementRightsDeliveryBoundary.deliveryUnlock;
+      (enhanced as any).assetPackLedgerDatabaseStorageReconciliation =
+        assetPackSettlementRightsDeliveryBoundary.reconciliationReport;
+    }
+    const operationalReadback = ensureReadingOperationalTelemetryRepairReadback(execution, enhanced);
+    if (operationalReadback) {
+      (enhanced as any).readingOperationalTelemetryRepairReadback = operationalReadback;
+      (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
+      (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
+      (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+    }
+    const interfaceParity = ensureReadingInterfaceProductParity(execution, enhanced);
+    if (interfaceParity) {
+      (enhanced as any).readingInterfaceProductParity = interfaceParity;
+      (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
+      (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+    }
+    const localStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, enhanced);
+    if (localStagingRehearsal) {
+      (enhanced as any).readingLocalStagingRehearsal = localStagingRehearsal;
+      (enhanced as any).readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
+      (enhanced as any).readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
+    }
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
+  }
+  if (!(enhanced as any).readingOperationalTelemetryRepairReadback) {
+    const operationalReadback = ensureReadingOperationalTelemetryRepairReadback(execution, enhanced);
+    if (operationalReadback) {
+      (enhanced as any).readingOperationalTelemetryRepairReadback = operationalReadback;
+      (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
+      (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
+      (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+    }
+  }
+  if (!(enhanced as any).readingInterfaceProductParity) {
+    const interfaceParity = ensureReadingInterfaceProductParity(execution, enhanced);
+    if (interfaceParity) {
+      (enhanced as any).readingInterfaceProductParity = interfaceParity;
+      (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
+      (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+    }
+  }
+  if (!(enhanced as any).readingLocalStagingRehearsal) {
+    const localStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, enhanced);
+    if (localStagingRehearsal) {
+      (enhanced as any).readingLocalStagingRehearsal = localStagingRehearsal;
+      (enhanced as any).readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
+      (enhanced as any).readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
+    }
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
     enhanced.deliveryMechanism = { ...enhanced.shippable };
@@ -173,6 +261,16 @@ export function buildAssetPackPostprocessedResult(
   const assetPackDisclosureReview = sourceSafePreview
     ? ensureAssetPackDisclosureReview(execution, sourceSafePreview)
     : undefined;
+  const assetPackPreviewBoundary = sourceSafePreview
+    ? ensureAssetPackPreviewBoundary(execution, sourceSafePreview, normalized)
+    : undefined;
+  const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
+    ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, normalized)
+    : null;
+  const readingOperationalTelemetryRepairReadback =
+    ensureReadingOperationalTelemetryRepairReadback(execution, normalized);
+  const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
+  const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -216,7 +314,64 @@ export function buildAssetPackPostprocessedResult(
       ? {
           sourceSafePreview,
           assetPackDisclosureReview,
+          assetPackPreviewBoundary,
+          assetPackQuoteReceipt: assetPackPreviewBoundary?.quoteReceipt,
+          assetPackSettlementInstructions: assetPackPreviewBoundary?.settlementInstructions,
+          assetPackDeliveryPosture: assetPackPreviewBoundary?.deliveryPosture,
+          ...(assetPackSettlementRightsDeliveryBoundary
+            ? {
+                assetPackSettlementRightsDeliveryBoundary,
+                assetPackSettlementReplayReceipt: assetPackSettlementRightsDeliveryBoundary.replayReceipt,
+                assetPackDeliveryUnlock: assetPackSettlementRightsDeliveryBoundary.deliveryUnlock,
+                assetPackLedgerDatabaseStorageReconciliation:
+                  assetPackSettlementRightsDeliveryBoundary.reconciliationReport,
+              }
+            : {}),
+          ...(readingOperationalTelemetryRepairReadback
+            ? {
+                readingOperationalTelemetryRepairReadback,
+                readingOperationalOperatorReadback: readingOperationalTelemetryRepairReadback.operatorReadback,
+                readingOperationalStreamEvents: readingOperationalTelemetryRepairReadback.streamEvents,
+                readingOperationalRunbookHooks: readingOperationalTelemetryRepairReadback.runbookHooks,
+              }
+            : {}),
+          ...(readingInterfaceProductParity
+            ? {
+                readingInterfaceProductParity,
+                readingInterfaceParityRows: readingInterfaceProductParity.rows,
+                readingInterfaceNoBypassReadback: readingInterfaceProductParity.noBypassReadback,
+              }
+            : {}),
+          ...(readingLocalStagingRehearsal
+            ? {
+                readingLocalStagingRehearsal,
+                readingLocalStagingRehearsalRows: readingLocalStagingRehearsal.rows,
+                readingLocalStagingRehearsalStageReadback: readingLocalStagingRehearsal.stageReadback,
+              }
+            : {}),
           feeQuote: sourceSafePreview.feeQuote,
+        }
+      : {}),
+    ...(!sourceSafePreview && readingOperationalTelemetryRepairReadback
+      ? {
+          readingOperationalTelemetryRepairReadback,
+          readingOperationalOperatorReadback: readingOperationalTelemetryRepairReadback.operatorReadback,
+          readingOperationalStreamEvents: readingOperationalTelemetryRepairReadback.streamEvents,
+          readingOperationalRunbookHooks: readingOperationalTelemetryRepairReadback.runbookHooks,
+        }
+      : {}),
+    ...(!sourceSafePreview && readingInterfaceProductParity
+      ? {
+          readingInterfaceProductParity,
+          readingInterfaceParityRows: readingInterfaceProductParity.rows,
+          readingInterfaceNoBypassReadback: readingInterfaceProductParity.noBypassReadback,
+        }
+      : {}),
+    ...(!sourceSafePreview && readingLocalStagingRehearsal
+      ? {
+          readingLocalStagingRehearsal,
+          readingLocalStagingRehearsalRows: readingLocalStagingRehearsal.rows,
+          readingLocalStagingRehearsalStageReadback: readingLocalStagingRehearsal.stageReadback,
         }
       : {}),
     read:
@@ -316,6 +471,230 @@ function ensureAssetPackDisclosureReview(
     execution.store('asset-pack/preview', 'disclosureReviewRoot', review.roots.reviewRoot);
   } catch {}
   return review;
+}
+
+function ensureAssetPackPreviewBoundary(
+  execution: Execution,
+  sourceSafePreview: AssetPackSourceSafePreview,
+  output: AssetPackOutput,
+): AssetPackPreviewBoundary | null {
+  const storedBoundary =
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary') ||
+    findStoredExecutionValue(execution, 'asset-pack', 'previewBoundary');
+  if (storedBoundary?.schema === 'bitcode.asset-pack.preview-boundary') {
+    return storedBoundary as AssetPackPreviewBoundary;
+  }
+
+  const acceptedNeed =
+    findStoredExecutionValue(execution, 'read/need', 'accepted') ||
+    findStoredExecutionValue(execution, 'read', 'acceptedNeed');
+  const fitResult =
+    (output as any).fitResult ||
+    findStoredExecutionValue(execution, 'fit', 'result');
+  const boundary = buildAssetPackPreviewBoundary({
+    need: isAcceptedReadNeed(acceptedNeed) ? acceptedNeed : null,
+    fitResult,
+    sourceSafePreview,
+    pullRequestTarget: firstString(
+      sourceSafePreview.delivery.pullRequestTarget,
+      output.deliveryMechanism?.prUrl,
+      output.shippable?.prUrl,
+    ),
+  });
+  persistAssetPackPreviewBoundary(execution, boundary);
+  return boundary;
+}
+
+function ensureAssetPackSettlementRightsDeliveryBoundary(
+  execution: Execution,
+  previewBoundary: AssetPackPreviewBoundary,
+  output: AssetPackOutput,
+): AssetPackSettlementRightsDeliveryBoundary | null {
+  const storedBoundary =
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary') ||
+    findStoredExecutionValue(execution, 'asset-pack', 'settlementRightsDeliveryBoundary');
+  if (storedBoundary?.schema === 'bitcode.asset-pack.settlement-rights-delivery-boundary') {
+    return storedBoundary as AssetPackSettlementRightsDeliveryBoundary;
+  }
+
+  const paymentObservation =
+    (output as any).settlementObservation ||
+    (output as any).paymentObservation ||
+    (output as any).btcPaymentObservation ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'paymentObservation') ||
+    findStoredExecutionValue(execution, 'btc/fee', 'paymentObservation');
+  if (!paymentObservation) {
+    return null;
+  }
+
+  const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
+    previewBoundary,
+    paymentObservation,
+    finality:
+      (output as any).settlementFinality ||
+      (output as any).btcFinality ||
+      findStoredExecutionValue(execution, 'asset-pack/settlement', 'finalityReceipt') ||
+      undefined,
+    readerWalletId:
+      firstString((output as any).readerWalletId, findStoredExecutionValue(execution, 'reader', 'walletId')),
+    depositorWalletId:
+      firstString((output as any).depositorWalletId, findStoredExecutionValue(execution, 'depositor', 'walletId')),
+    pullRequestTarget: firstString(
+      previewBoundary.sourceSafePreview.delivery.pullRequestTarget,
+      output.deliveryMechanism?.prUrl,
+      output.shippable?.prUrl,
+    ),
+  });
+  persistAssetPackSettlementRightsDeliveryBoundary(execution, boundary);
+  return boundary;
+}
+
+function ensureReadingOperationalTelemetryRepairReadback(
+  execution: Execution,
+  output: AssetPackOutput,
+): ReadingOperationalTelemetryRepairReadback | null {
+  const storedReadback =
+    findStoredExecutionValue(execution, 'reading/operational', 'readback') ||
+    (output as any).readingOperationalTelemetryRepairReadback;
+  if (storedReadback?.schema === 'bitcode.reading.operational-telemetry-repair-readback') {
+    return storedReadback as ReadingOperationalTelemetryRepairReadback;
+  }
+
+  const readNeedRuntime =
+    (output as any).readNeedReviewRuntime ||
+    findStoredExecutionValue(execution, 'read-need-review', 'runtime');
+  const readFitsRuntime =
+    (output as any).readFitsFindingRuntime ||
+    findStoredExecutionValue(execution, 'read/finding-fits', 'runtime');
+  const previewBoundary =
+    (output as any).assetPackPreviewBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
+  const settlementBoundary =
+    (output as any).assetPackSettlementRightsDeliveryBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
+
+  if (!readNeedRuntime && !readFitsRuntime && !previewBoundary && !settlementBoundary) {
+    return null;
+  }
+
+  const readback = buildReadingOperationalTelemetryRepairReadback({
+    runId:
+      firstString(
+        (output as any).runId,
+        findStoredExecutionValue(execution, 'execution', 'id'),
+        findStoredExecutionValue(execution, 'run', 'id'),
+      ) || undefined,
+    readNeedRuntime,
+    readFitsRuntime,
+    previewBoundary,
+    settlementBoundary,
+    createdAt:
+      firstString(
+        (output as any).createdAt,
+        findStoredExecutionValue(execution, 'execution', 'createdAt'),
+        findStoredExecutionValue(execution, 'run', 'created_at'),
+      ) || undefined,
+  });
+  persistReadingOperationalTelemetryRepairReadback(execution, readback);
+  return readback;
+}
+
+function ensureReadingInterfaceProductParity(
+  execution: Execution,
+  output: AssetPackOutput,
+): ReadingInterfaceProductParity | null {
+  const storedParity =
+    findStoredExecutionValue(execution, 'reading/interfaces', 'productParity') ||
+    (output as any).readingInterfaceProductParity;
+  if (storedParity?.schema === 'bitcode.reading.interface-product-parity') {
+    return storedParity as ReadingInterfaceProductParity;
+  }
+
+  const readNeedRuntime =
+    (output as any).readNeedReviewRuntime ||
+    findStoredExecutionValue(execution, 'read-need-review', 'runtime');
+  const readFitsRuntime =
+    (output as any).readFitsFindingRuntime ||
+    findStoredExecutionValue(execution, 'read/finding-fits', 'runtime');
+  const previewBoundary =
+    (output as any).assetPackPreviewBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
+  const settlementBoundary =
+    (output as any).assetPackSettlementRightsDeliveryBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
+  const operationalReadback =
+    (output as any).readingOperationalTelemetryRepairReadback ||
+    findStoredExecutionValue(execution, 'reading/operational', 'readback');
+
+  const hasReadingContext =
+    readNeedRuntime || readFitsRuntime || previewBoundary || settlementBoundary || operationalReadback;
+  if (!hasReadingContext) {
+    return null;
+  }
+
+  const parity = buildReadingInterfaceProductParity({
+    readNeedRuntime,
+    readFitsRuntime,
+    previewBoundary,
+    settlementBoundary,
+    operationalReadback,
+  });
+  persistReadingInterfaceProductParity(execution, parity);
+  return parity;
+}
+
+function ensureReadingLocalStagingRehearsal(
+  execution: Execution,
+  output: AssetPackOutput,
+): ReadingLocalStagingRehearsal | null {
+  const storedRehearsal =
+    findStoredExecutionValue(execution, 'reading/rehearsal', 'localStagingRehearsal') ||
+    (output as any).readingLocalStagingRehearsal;
+  if (storedRehearsal?.schema === 'bitcode.reading.local-staging-rehearsal') {
+    return storedRehearsal as ReadingLocalStagingRehearsal;
+  }
+
+  const readNeedRuntime =
+    (output as any).readNeedReviewRuntime ||
+    findStoredExecutionValue(execution, 'read-need-review', 'runtime');
+  const readFitsRuntime =
+    (output as any).readFitsFindingRuntime ||
+    findStoredExecutionValue(execution, 'read/finding-fits', 'runtime');
+  const previewBoundary =
+    (output as any).assetPackPreviewBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
+  const settlementBoundary =
+    (output as any).assetPackSettlementRightsDeliveryBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
+  const operationalReadback =
+    (output as any).readingOperationalTelemetryRepairReadback ||
+    findStoredExecutionValue(execution, 'reading/operational', 'readback');
+  const interfaceParity =
+    (output as any).readingInterfaceProductParity ||
+    findStoredExecutionValue(execution, 'reading/interfaces', 'productParity');
+
+  const hasReadingContext =
+    readNeedRuntime || readFitsRuntime || previewBoundary || settlementBoundary || operationalReadback || interfaceParity;
+  if (!hasReadingContext) {
+    return null;
+  }
+
+  const rehearsal = buildReadingLocalStagingRehearsal({
+    runId:
+      firstString(
+        (output as any).runId,
+        findStoredExecutionValue(execution, 'execution', 'id'),
+        findStoredExecutionValue(execution, 'run', 'id'),
+      ) || undefined,
+    readNeedRuntime,
+    readFitsRuntime,
+    previewBoundary,
+    settlementBoundary,
+    operationalReadback,
+    interfaceParity,
+  });
+  persistReadingLocalStagingRehearsal(execution, rehearsal);
+  return rehearsal;
 }
 
 function firstString(...values: unknown[]): string | null {

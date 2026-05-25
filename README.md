@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V37`; V38 is the active draft target for inference stack and
-fit-finding correctness after the promoted Website Conversations canon.
+resolves to `V38`; V39 is the active draft target for commercial Reading
+readiness after the promoted inference correctness canon.
 
 ## Current Product Posture
 
@@ -99,8 +99,8 @@ AssetPack source, or wallet private material.
 Promotion hardening also keeps Conversation persistence and telemetry redaction
 on bounded private-key PEM scanning with closed/unclosed PEM tests so static
 security findings block promotion instead of being waived.
-V38 Gate 1 opens the inference stack draft family and `check:v38-gate1` over
-active V37. V38 focuses on commercial inference correctness: PTRR agents,
+V38 Gate 1 opened the inference stack draft family and `check:v38-gate1` over
+active V37. V38 promoted commercial inference correctness: PTRR agents,
 Plan/Try/Refine/Retry steps, `FailsafeGenerationSequence`,
 `ThricifiedGeneration`, prompt registry composition, prompt and PromptPart
 benchmarking, tool doc-comment prompts, source-safe inference telemetry,
@@ -242,6 +242,104 @@ AssetPack source, credentials, wallet private material, or private settlement
 payloads. Use `pnpm run generate:v38-promotion-readiness`,
 `pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`
 before closing the gate.
+V39 Gate 1 opens the commercial Reading readiness draft family and
+`check:v39-gate1` over active V38. V39 focuses on Depository supply indexing,
+the five-step enterprise Reading UX, ReadNeed review/resynthesis,
+ReadFitsFinding runtime and replay, source-safe AssetPack preview and
+deterministic BTC quote, settlement, BTD rights transfer, post-settlement
+delivery, ledger/database/storage synchronization, telemetry/repair, interface
+parity, local/staging rehearsal, and promotion readiness.
+V39 Gate 11 adds the package-backed `V39CommercialReadingPromotionReadinessReport`
+and generated source-safe artifact `.bitcode/v39-promotion-readiness-report.json`.
+The promotion readiness report binds all V39 commercial Reading artifacts,
+`BITCODE_SPEC_V39_PROVEN.md` support, `v39-canon-promotion.yml`, promotion
+command dry-run support, gate/canon workflow posture, active V39 / draft V40
+runtime preparation, and blocked value-bearing mainnet posture without exposing
+protected source, raw protected prompts, raw provider responses, unpaid
+AssetPack source, credentials, wallet private material, or private settlement
+payloads. Use `pnpm run generate:v39-promotion-readiness`,
+`pnpm run check:v39-promotion-readiness`, and `pnpm run check:v39-gate11`
+before closing the gate.
+V39 Gate 2 adds the package-owned `DepositorySupplyIndex` and source-safe
+generated artifact `.bitcode/v39-depository-supply-indexing.json`. Deposited
+source supply is normalized into rights-aware records with repository, branch,
+commit, proof, measurement, reconciliation readback, BTD range, depositor
+wallet, source-safe search documents, active embedding/vector projection,
+Supabase storage readback posture, deterministic repair actions, and a
+source-safe Finding Fits handoff. Use `pnpm run generate:v39-depository-supply-indexing`
+and `pnpm run check:v39-gate2` before closing the gate.
+V39 Gate 3 adds the package-owned `TerminalEnterpriseReadingUxState` and
+source-safe generated artifact `.bitcode/v39-enterprise-reading-ux-state.json`.
+Terminal now owns the five-stage enterprise Reading state machine: request
+Read, review synthesized Need, request Finding Fits, review source-safe
+AssetPack preview, and buy AssetPack/settle. Conversation handoffs may pass
+only source-safe `readingStage` intent, Terminal parses it as posture, and the
+rich execution stream remains the live Reading pipeline log. Use
+`pnpm run generate:v39-enterprise-reading-ux-state` and
+`pnpm run check:v39-gate3` before closing the gate.
+V39 Gate 4 adds the package-owned `ReadNeedReviewResynthesisRuntime` and
+source-safe generated artifact `.bitcode/v39-read-need-review-resynthesis.json`.
+ReadNeedComprehensionSynthesis now projects Read Requests, synthesized Needs,
+feedback history, resynthesis attempts, Need measurements, accepted-Need
+admission, rejected-Need posture, and source-safe telemetry receipts into
+PipelineExecution-compatible storage records. Finding Fits remains blocked
+until an accepted Need is present. Use
+`pnpm run generate:v39-read-need-review-resynthesis` and
+`pnpm run check:v39-gate4` before closing the gate.
+V39 Gate 5 adds the package-owned `ReadFitsFindingRuntime` and source-safe
+generated artifact `.bitcode/v39-read-fits-finding-runtime.json`.
+ReadFitsFindingSynthesis now projects accepted-Need admission, source-safe
+query plans, seven search channels, many-candidate ranking, selected-fit
+provenance, active embedding policy, replay receipts, repair posture, and
+telemetry receipts into PipelineExecution-compatible storage records. Use
+`pnpm run generate:v39-read-fits-finding-runtime` and
+`pnpm run check:v39-gate5` before closing the gate.
+V39 Gate 6 adds the package-owned `AssetPackPreviewBoundary` and source-safe
+generated artifact `.bitcode/v39-assetpack-preview-quote-boundary.json`.
+AssetPack preview now projects source-safe measurements, selected-fit
+provenance, deterministic share-to-fee BTC quote, disclosure leak review,
+settlement instructions, withheld pull-request delivery posture, replay
+receipt, and repair posture without exposing unpaid source-bearing AssetPack
+content. Use `pnpm run generate:v39-assetpack-preview-quote-boundary` and
+`pnpm run check:v39-gate6` before closing the gate.
+V39 Gate 7 adds the package-owned `AssetPackSettlementRightsDeliveryBoundary`
+and source-safe generated artifact `.bitcode/v39-settlement-rights-delivery.json`.
+The boundary projects BTC payment observation/finality, source-to-shares
+compensation, BTD rights transfer and paid read receipts, settlement unlock,
+ledger/database/object-storage reconciliation, delivery unlock, replay, and
+repair posture without serializing protected source, private wallet material,
+private settlement payloads, credentials, raw protected prompts, raw provider
+responses, or unpaid AssetPack source. Use
+`pnpm run generate:v39-settlement-rights-delivery` and
+`pnpm run check:v39-gate7` before closing the gate.
+V39 Gate 8 adds the package-owned
+`ReadingOperationalTelemetryRepairReadback` and source-safe generated artifact
+`.bitcode/v39-operational-telemetry-repair-readback.json`. Reading now
+projects phase, PTRR agent, PTRR step, Failsafe, ThricifiedGeneration,
+ToolExecution, storage, ledger, wallet, delivery, UI, and repair events into
+operator readback with proof roots, runbook hooks, prompt/result disclosure
+posture, and rich execution-log rendering. Use
+`pnpm run generate:v39-operational-telemetry-repair-readback` and
+`pnpm run check:v39-gate8` before closing the gate.
+V39 Gate 9 adds the package-owned `ReadingInterfaceProductParity` and
+source-safe generated artifact
+`.bitcode/v39-interface-conversation-product-parity.json`. Terminal,
+Conversation, public API, MCP API, ChatGPT App, and package consumers now share
+the same Reading authority: accepted Need, Finding Fits, source-safe preview,
+settlement unlock, BTD rights, and delivery boundaries cannot be bypassed, and
+source-bearing delivery remains locked until settlement and rights transfer.
+Use `pnpm run generate:v39-interface-conversation-product-parity` and
+`pnpm run check:v39-gate9` before closing the gate.
+V39 Gate 10 adds the package-owned `ReadingLocalStagingRehearsal` and
+source-safe generated artifact
+`.bitcode/v39-local-staging-reading-rehearsal.json`. Local and
+staging-testnet lanes now rehearse the five Reading stages, many-fit
+Depository search, source-safe preview, settlement/BTD rights delivery, rich
+telemetry readback, ledger/database/storage synchronization, and blocked
+value-bearing mainnet admission. Staging-testnet is bound to Supabase project
+`tkpyosihuouusyaxtbau`. Use
+`pnpm run generate:v39-local-staging-reading-rehearsal` and
+`pnpm run check:v39-gate10` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -372,10 +470,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v38`.
+1. Create one base branch per draft target, such as `version/v39`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v38/gate-1-inference-stack-roadmap-opening`
-   or `v38/gate-7-read-fits-finding-search`.
+   with the gate number, for example `v39/gate-1-commercial-reading-roadmap-opening`
+   or `v39/gate-5-read-fits-finding-runtime-replay`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -384,7 +482,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V38 Gate 7: ReadFitsFindingSynthesis Depository Search`.
+   title, for example `V39 Gate 5: ReadFitsFinding Runtime And Replay`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -394,11 +492,28 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V38, `v38-canon-promotion.yml` must validate the
+run the version promotion workflow. For V38, `v38-canon-promotion.yml` validates the
 inference stack, Reading pipeline, depository-search, prompt benchmark,
 telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V37` to `V38` on the version branch.
+For V39, Gate 1 opens `version/v39` and the gate-quality posture through
+`pnpm run check:v39-gate1` before later gates add generated commercial Reading
+artifacts and the V39 promotion workflow.
+V39 Gate 2 is wired through `pnpm run check:v39-gate2`; V39 Gate 3 is wired
+through `pnpm run check:v39-gate3` and its generated
+`.bitcode/v39-enterprise-reading-ux-state.json` artifact. V39 Gate 4 is wired
+through `pnpm run check:v39-gate4`; V39 Gate 5 is wired through
+`pnpm run check:v39-gate5` and its generated
+`.bitcode/v39-read-fits-finding-runtime.json` artifact. V39 Gate 6 is wired
+through `pnpm run check:v39-gate6` and its generated
+`.bitcode/v39-assetpack-preview-quote-boundary.json` artifact. V39 Gate 7 is
+wired through `pnpm run check:v39-gate7` and its generated
+`.bitcode/v39-settlement-rights-delivery.json` artifact. V39 Gate 8 is wired
+through `pnpm run check:v39-gate8` and its generated
+`.bitcode/v39-operational-telemetry-repair-readback.json` artifact. V39 Gate 9
+is wired through `pnpm run check:v39-gate9` and its generated
+`.bitcode/v39-interface-conversation-product-parity.json` artifact.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

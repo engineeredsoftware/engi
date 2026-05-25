@@ -15,6 +15,7 @@ import {
 export type ReadNeedReviewState =
   | 'needs_acceptance'
   | 'accepted'
+  | 'rejected'
   | 'resynthesis_requested';
 
 export interface ReadNeedMeasurementDimension {
@@ -68,10 +69,14 @@ export interface ReadNeed {
   };
   feedbackHistory: string[];
   review?: {
-    status: 'accepted';
-    acceptedAt: string;
-    acceptanceRoot: string;
-    nextStage: 'finding_fits';
+    status: 'accepted' | 'rejected';
+    acceptedAt?: string;
+    acceptanceRoot?: string;
+    nextStage?: 'finding_fits';
+    rejectedAt?: string;
+    rejectionRoot?: string;
+    blockedStage?: 'finding_fits';
+    feedbackHistory?: string[];
   };
   inferenceReceipt?: ReadNeedComprehensionSynthesisInferenceReceipt;
 }
@@ -798,6 +803,42 @@ export function acceptReadNeed(
   return withReadNeedInferenceReceipt(accepted, need.inferenceReceipt?.mode || 'deterministic-fallback');
 }
 
+export function rejectReadNeed(
+  need: ReadNeed,
+  feedback: string[] = [],
+  rejectedAt = new Date().toISOString()
+): ReadNeed {
+  const feedbackHistory = uniqueStrings([
+    ...need.feedbackHistory,
+    ...feedback,
+  ]);
+  const rejectionRoot = `sha256:${sha256(stableStringify({
+    needId: need.needId,
+    measurementRoot: need.measurementRoot,
+    rejectedAt,
+    blockedStage: 'finding_fits',
+    feedbackHistory,
+  }))}`;
+  const baseNeed = withoutReadNeedInferenceReceipt(need);
+  const rejected: Omit<ReadNeed, 'inferenceReceipt'> = {
+    ...baseNeed,
+    reviewState: 'rejected',
+    feedbackHistory,
+    request: {
+      ...baseNeed.request,
+      feedbackHistory,
+    },
+    review: {
+      status: 'rejected',
+      rejectedAt,
+      rejectionRoot,
+      blockedStage: 'finding_fits',
+      feedbackHistory,
+    },
+  };
+  return withReadNeedInferenceReceipt(rejected, need.inferenceReceipt?.mode || 'deterministic-fallback');
+}
+
 export function isAcceptedReadNeed(value: unknown): value is ReadNeed {
   const record = recordValue(value);
   return Boolean(
@@ -826,16 +867,19 @@ export function shouldRequireAcceptedReadNeed(input: unknown): boolean {
 }
 
 export function admitReadFitsFinding(input: unknown): ReadFitsFindingAdmission {
-  const acceptedNeed = resolveReadNeedFromPipelineInput(input);
-  if (isAcceptedReadNeed(acceptedNeed)) {
-    return { admitted: true, blockers: [], acceptedNeed };
+  const readNeed = resolveReadNeedFromPipelineInput(input);
+  if (isAcceptedReadNeed(readNeed)) {
+    return { admitted: true, blockers: [], acceptedNeed: readNeed };
   }
   if (!shouldRequireAcceptedReadNeed(input)) {
     return { admitted: true, blockers: [], acceptedNeed: null };
   }
+  const blockers = recordValue(readNeed)?.reviewState === 'rejected'
+    ? ['read_need_rejected', 'accepted_read_need_missing']
+    : ['accepted_read_need_missing'];
   return {
     admitted: false,
-    blockers: ['accepted_read_need_missing'],
+    blockers,
     acceptedNeed: null,
   };
 }

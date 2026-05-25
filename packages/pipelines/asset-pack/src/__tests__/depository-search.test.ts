@@ -402,6 +402,23 @@ describe('AssetPack depository search', () => {
     expect(findStored(exec, 'tools', 'vector-depository-search')?.tool).toBe(
       'ReadFitsFindingSynthesis.tool.vector-depository-search'
     );
+    expect(findStored(exec, 'read/finding-fits', 'runtime')).toMatchObject({
+      schema: 'bitcode.read-fits-finding-runtime',
+      pipelineName: 'ReadFitsFindingSynthesis',
+      resultState: 'worthy_fit',
+      replayReceipt: expect.objectContaining({
+        replayMode: 'source-safe-query-ranking-selected-fit-replay',
+        verified: expect.objectContaining({
+          queryRootMatchesSearchReceipt: true,
+          rankingRootMatchesSearchReceipt: true,
+          candidateCountsMatchSearchReceipt: true,
+        }),
+      }),
+    });
+    expect(findStored(exec, 'read/finding-fits', 'replayRoot')).toMatch(/^sha256:/);
+    expect(findStored(exec, 'depository/search', 'sourceSafeCandidateRanking')?.[0]).toMatchObject({
+      assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
+    });
     expect(output.fitResult.resultState).toBe('worthy_fit');
     expect(output.fitResult.fitDepositAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',
@@ -440,8 +457,8 @@ describe('AssetPack depository search', () => {
       },
     });
     expect(findStored(exec, 'fit', 'selectionTrace')?.selectedCandidates[0].selectedUnits[0]).toMatchObject({
-      unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:unit-1',
-      unitKind: 'repository-revision',
+      unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:supply-index-source-safe-unit',
+      unitKind: 'depository-supply-index',
     });
     expect(output.depositorySearch.selectedCandidateAssetIds).toEqual([
       'asset_repository-revision-deposit-engineeredsoftware-engi',

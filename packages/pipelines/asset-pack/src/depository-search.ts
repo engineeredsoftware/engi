@@ -11,6 +11,11 @@ import {
   readNeedToDepositorySearchRead,
   resolveReadNeedFromPipelineInput,
 } from './read-need';
+import {
+  buildDepositorySupplyIndex,
+  depositorySupplyAssetsFromIndex,
+  type DepositorySupplyIndex,
+} from './depository-supply-index';
 
 export type AssetPackFitResultState =
   | 'worthy_fit'
@@ -264,6 +269,7 @@ export interface DepositorySearchResult {
   blockedCandidates: DepositoryCandidate[];
   candidateRanking: DepositoryCandidate[];
   embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+  depositorySupplyIndex?: DepositorySupplyIndex;
   queryRoot: string;
   rankingRoot: string;
   searchReceipt: ReadFitsFindingSynthesisSearchReceipt;
@@ -294,6 +300,7 @@ export interface DepositoryFitResultEvidence {
 export interface DepositorySearchInput {
   read: DepositorySearchRead;
   assets: DepositoryAsset[];
+  depositorySupplyIndex?: DepositorySupplyIndex;
   providers?: DepositorySearchProvider[];
   thresholds?: Partial<DepositorySearchThresholds>;
   createdAt?: string;
@@ -1039,6 +1046,7 @@ export function buildDepositoryFitResultEvidence(
     rankingRoot: result.rankingRoot,
     searchedAssetCount: result.searchedAssetCount,
     embeddingPolicy: result.embeddingPolicy,
+    ...(result.depositorySupplyIndex ? { depositorySupplyIndexRoot: result.depositorySupplyIndex.roots.indexRoot } : {}),
     selectionTrace: {
       selectedCandidates: result.selectedCandidates.map(summarizeDepositoryCandidateForFitEvidence),
       fitDeposits: result.fitDeposits.map(summarizeDepositoryCandidateForFitEvidence),
@@ -1383,6 +1391,7 @@ export async function searchDepositoryAssetSpace(
     blockedCandidates: blocked,
     candidateRanking: ranked,
     embeddingPolicy,
+    depositorySupplyIndex: input.depositorySupplyIndex,
     queryRoot,
     rankingRoot,
     searchReceipt,
@@ -1580,6 +1589,12 @@ function normalizeContentUnit(
 
 export function normalizePipelineDepositoryAssets(input: unknown): DepositoryAsset[] {
   const record = recordValue(input) || {};
+  const depositorySupplyIndex = recordValue(record.depositorySupplyIndex) || recordValue(record.depositorySupply);
+  if (depositorySupplyIndex) {
+    const assets = depositorySupplyAssetsFromIndex(depositorySupplyIndex as unknown as DepositorySupplyIndex);
+    if (assets.length) return assets;
+  }
+
   const candidateCollections = [
     record.depositoryAssets,
     record.depositCandidates,
@@ -1723,6 +1738,7 @@ function buildBlockedReadFitsFindingResult(input: {
   read: DepositorySearchRead;
   assets: DepositoryAsset[];
   blockers: string[];
+  depositorySupplyIndex?: DepositorySupplyIndex;
 }): DepositorySearchResult {
   const embeddingPolicy = buildAssetPackEmbeddingPolicy();
   const createdAt = new Date().toISOString();
@@ -1784,6 +1800,7 @@ function buildBlockedReadFitsFindingResult(input: {
     blockedCandidates: [],
     candidateRanking: [],
     embeddingPolicy,
+    depositorySupplyIndex: input.depositorySupplyIndex,
     queryRoot,
     rankingRoot,
     searchReceipt,
@@ -1797,18 +1814,37 @@ export async function runDepositorySearchForPipelineInput(
 ): Promise<DepositorySearchResult> {
   const admission = admitReadFitsFinding(input);
   const read = normalizeDepositorySearchRead(input);
-  const assets = normalizePipelineDepositoryAssets(input);
+  const sourceInput = recordValue(input) || {};
+  const suppliedSupplyIndex = recordValue(sourceInput.depositorySupplyIndex) || recordValue(sourceInput.depositorySupply);
+  const depositorySupplyIndex = suppliedSupplyIndex
+    ? (suppliedSupplyIndex as unknown as DepositorySupplyIndex)
+    : buildDepositorySupplyIndex({
+        deposits: [
+          ...((Array.isArray(sourceInput.depositoryAssets) ? sourceInput.depositoryAssets : []) as unknown[]),
+          ...((Array.isArray(sourceInput.depositCandidates) ? sourceInput.depositCandidates : []) as unknown[]),
+          ...((Array.isArray(sourceInput.candidateAssets) ? sourceInput.candidateAssets : []) as unknown[]),
+          ...(recordValue(sourceInput.deposit) ? [sourceInput.deposit] : []),
+        ],
+        sourceRevision: sourceInput.sourceRevision,
+        createdAt: new Date(0).toISOString(),
+      });
+  const assets = normalizePipelineDepositoryAssets({
+    ...(sourceInput as Record<string, unknown>),
+    depositorySupplyIndex,
+  });
   const providers = [createLexicalDepositorySearchProvider()];
   const result = admission.admitted
     ? await searchDepositoryAssetSpace({
         read,
         assets,
+        depositorySupplyIndex,
         providers,
       })
     : buildBlockedReadFitsFindingResult({
         read,
         assets,
         blockers: admission.blockers,
+        depositorySupplyIndex,
       });
 
   const fitResult = buildDepositoryFitResultEvidence(result);
@@ -1825,6 +1861,12 @@ export async function runDepositorySearchForPipelineInput(
     target.store('depository/search', 'selectedCandidates', result.selectedCandidates);
     target.store('depository/search', 'selectionTrace', fitResult.selectionTrace);
     target.store('depository/search', 'embeddingPolicy', result.embeddingPolicy);
+    if (result.depositorySupplyIndex) {
+      target.store('depository/supply', 'index', result.depositorySupplyIndex);
+      target.store('depository/supply', 'indexRoot', result.depositorySupplyIndex.roots.indexRoot);
+      target.store('depository/supply', 'recordCount', result.depositorySupplyIndex.recordCount);
+      target.store('depository/supply', 'searchableRecordCount', result.depositorySupplyIndex.searchableRecordCount);
+    }
     target.store('depository/search', 'queryPlan', result.queryPlan);
     target.store('depository/search', 'queryPlanRoot', result.queryPlan.queryPlanRoot);
     target.store('depository/search', 'searchReceipt', result.searchReceipt);

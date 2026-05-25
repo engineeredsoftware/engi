@@ -439,6 +439,20 @@ function buildV21LikeProfile(version) {
           '.bitcode/v38-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V39'
+        ? [
+          '.bitcode/v39-depository-supply-indexing.json',
+          '.bitcode/v39-enterprise-reading-ux-state.json',
+          '.bitcode/v39-read-need-review-resynthesis.json',
+          '.bitcode/v39-read-fits-finding-runtime.json',
+          '.bitcode/v39-assetpack-preview-quote-boundary.json',
+          '.bitcode/v39-settlement-rights-delivery.json',
+          '.bitcode/v39-operational-telemetry-repair-readback.json',
+          '.bitcode/v39-interface-conversation-product-parity.json',
+          '.bitcode/v39-local-staging-reading-rehearsal.json',
+          '.bitcode/v39-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1521,6 +1535,21 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V34') {
     artifacts.push(...buildV21LikeProfile('V34').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V35') {
+    artifacts.push(...buildV21LikeProfile('V35').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V36') {
+    artifacts.push(...buildV21LikeProfile('V36').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V37') {
+    artifacts.push(...buildV21LikeProfile('V37').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V38') {
+    artifacts.push(...buildV21LikeProfile('V38').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V39') {
+    artifacts.push(...buildV21LikeProfile('V39').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

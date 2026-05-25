@@ -3,6 +3,9 @@ import {
   getBtdChatGptAppActionContract,
   renderBtdChatGptAppSourceSafeResponse,
 } from '@bitcode/btd/chatgpt-app-action-contract';
+import {
+  buildBtdReadLicenseAssetPackRightsInterfaceRegistry,
+} from '@bitcode/btd/read-license-assetpack-rights-contract';
 import { getBitcodeTools } from '../tools';
 
 describe('ChatGPT App Reading action contracts', () => {
@@ -108,5 +111,30 @@ describe('ChatGPT App Reading action contracts', () => {
       actionId: 'bitcode_deliver_asset_pack',
       authPolicyId: 'interface.authorization.chatgpt-reading-action',
     });
+  });
+
+  it('keeps Gate 9 ChatGPT App delivery source-safe until readers settle before delivery', () => {
+    const registry = buildBtdReadLicenseAssetPackRightsInterfaceRegistry();
+    const readLicense = registry.readLicenseContracts.find(
+      (contract) => contract.interfaceSurface === 'chatgpt_app',
+    );
+    const rights = registry.assetPackRightsContracts.find(
+      (contract) => contract.interfaceSurface === 'chatgpt_app',
+    );
+
+    expect(readLicense).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      decision: 'locked_source_denied',
+      protectedSourceVisible: false,
+    });
+    expect(rights).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      decision: 'rights_delivery_denied',
+      protectedSourceVisible: false,
+    });
+    expect(rights?.denialCodes).toEqual(
+      expect.arrayContaining(['SETTLEMENT_REQUIRED', 'RIGHTS_TRANSFER_REQUIRED']),
+    );
+    expect(JSON.stringify({ readLicense, rights })).not.toContain('diff --git');
   });
 });

@@ -128,6 +128,22 @@ responses with source, provider tokens, wallet private material, settlement
 private payloads, unpaid AssetPack source, ledger write authority, wallet
 signing authority, or Terminal authority bypass.
 
+## V39 enterprise Reading stage handoff
+
+V39 Gate 3 extends ConversationTerminalHandoff with source-safe
+`readingStage` intent for the five Terminal Reading stages. Conversations may
+suggest request Read, review synthesized Need, request Finding Fits, review
+source-safe AssetPack preview, or buy AssetPack/settle posture. The generated
+Terminal route and envelope metadata carry `readingStage` and
+`terminalEnterpriseReadingStage`; Terminal reads the values back as source-safe
+operator context and remains the authority for transaction execution, wallet,
+settlement, ledger, BTD rights, and delivery.
+
+The stage handoff must not serialize protected source, raw protected prompts,
+raw provider responses, unpaid AssetPack source, wallet private material,
+private settlement payloads, or ledger write authority. Gate 3 is checked by
+`pnpm run check:v39-gate3`.
+
 ## V37 Gate 7 persistence privacy boundary
 
 The fullscreen `ConversationPersistencePrivacyPanel` lets conversation users
