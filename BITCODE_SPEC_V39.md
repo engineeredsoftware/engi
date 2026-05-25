@@ -120,6 +120,14 @@ artifact is `.bitcode/v39-enterprise-reading-ux-state.json`, checked by
 Gate 4 makes `ReadNeedComprehensionSynthesis` a real review loop.
 It must persist Read Requests, synthesized Needs, feedback, resynthesis attempts, Need measurements, accepted-Need admission, rejected-Need posture, and telemetry receipts.
 Finding Fits remains blocked until a reviewed Need is accepted.
+The implementation basis is `ReadNeedReviewResynthesisRuntime`, exported from
+`packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`. It projects
+source-safe storage records for `read_request`, `synthesized_need`, `feedback`,
+`resynthesis_attempt`, `need_measurement`, `accepted_need_admission`,
+`rejected_need_posture`, and `telemetry_receipt`. The generated source-safe
+proof artifact is `.bitcode/v39-read-need-review-resynthesis.json`, checked by
+`pnpm run check:v39-gate4`. Rejected or unaccepted Needs must emit Finding Fits
+blockers; only `acceptReadNeed` may produce Finding Fits admission.
 
 ### Gate 5: ReadFitsFinding Runtime, Ranking, And Replay
 

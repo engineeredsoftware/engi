@@ -342,7 +342,7 @@ export const READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT: ReadingPipelineContract
     },
     {
       phaseId: 'ReadNeedComprehensionSynthesis.review',
-      stores: ['read/need.feedback-history', 'read/need.acceptance-root'],
+      stores: ['read/need.feedback-history', 'read/need.acceptance-root', 'read/need.rejection-root'],
       agents: [
         ptrrAgent({
           pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
@@ -352,12 +352,14 @@ export const READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT: ReadingPipelineContract
           kind: 'review',
           returnType: 'ReadNeedReviewState',
           inputType: 'ReadNeed',
-          outputType: 'AcceptedReadNeed | ResynthesisRequestedReadNeed',
-          stores: ['read/need.accepted', 'read/need.feedbackHistory', 'read/need.acceptanceRoot'],
+          outputType: 'AcceptedReadNeed | RejectedReadNeed | ResynthesisRequestedReadNeed',
+          stores: ['read/need.accepted', 'read/need.rejected', 'read/need.feedbackHistory', 'read/need.acceptanceRoot', 'read/need.rejectionRoot'],
           telemetry: [
             readNeedTelemetry('review-state'),
             readNeedTelemetry('accepted-at'),
             readNeedTelemetry('acceptance-root'),
+            readNeedTelemetry('rejected-at'),
+            readNeedTelemetry('rejection-root'),
             readNeedTelemetry('feedback-history'),
           ],
         }),

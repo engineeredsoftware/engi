@@ -50,6 +50,7 @@ Current exported commercial helpers include:
 - `V38InferencePromotionReadinessReport` helpers for V38 source-safe promotion readiness across inference artifacts, generated proof support, workflow posture, and V38 active / V39 draft runtime preparation;
 - `V39DepositorySupplyIndexing` helpers for V39 source-safe Depository supply records, search documents, vector projections, storage readback posture, rights boundaries, repair actions, and Finding Fits handoff;
 - `V39EnterpriseReadingUxState` helpers for V39 source-safe Terminal Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
+- `V39ReadNeedReviewResynthesis` helpers for V39 source-safe ReadNeed review, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, runtime storage projection, and telemetry receipt proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -83,6 +84,15 @@ defaults, Conversation `readingStage` handoff/readback, rich execution stream
 integration, component tests, and opt-in browser proof workflow wiring. The
 maintained commands are `pnpm run generate:v39-enterprise-reading-ux-state` and
 `pnpm run check:v39-gate3`.
+V39 Gate 4 adds `V39ReadNeedReviewResynthesis` through
+`packages/protocol/src/canonical/v39-read-need-review-resynthesis.js` and the
+source-safe generated artifact `.bitcode/v39-read-need-review-resynthesis.json`.
+The report proves Read Request persistence, synthesized Need storage, feedback
+and resynthesis lineage, Need measurement storage, accepted-Need admission,
+rejected-Need posture, source-safe telemetry receipts, route/runtime storage
+projection tests, and workflow wiring. The maintained commands are
+`pnpm run generate:v39-read-need-review-resynthesis` and
+`pnpm run check:v39-gate4`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

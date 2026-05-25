@@ -114,6 +114,21 @@ Finding Fits rank Depository supply without importing raw source text, unpaid
 AssetPack source, credentials, wallet private material, or private settlement
 payloads before the settlement boundary.
 
+## ReadNeed review runtime
+
+`ReadNeedReviewResynthesisRuntime` is the source-safe package primitive that
+turns `ReadNeedComprehensionSynthesis` output into review-loop storage and
+telemetry records. It projects the Read Request, current synthesized Need,
+feedback history, resynthesis attempts, Need measurement inputs,
+accepted-Need admission, rejected-Need posture, and telemetry receipts into
+PipelineExecution-compatible storage records.
+
+Finding Fits is admitted only when `acceptReadNeed` has produced an accepted
+Need. Rejected or still-unreviewed Needs emit blockers and preserve feedback
+for resynthesis. The runtime never serializes protected source, raw protected
+prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
+private material, or private settlement payloads.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

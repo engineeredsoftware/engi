@@ -29,6 +29,11 @@ export async function POST(request: Request) {
     if (action === 'synthesize_read_need' || action === 'resynthesize_read_need') {
       const { synthesizeReadNeedForPipelineInputWithInference } = await import('@bitcode/pipeline-asset-pack/read-need');
       const {
+        buildReadNeedReviewResynthesisRuntime,
+        persistReadNeedReviewResynthesisRuntime,
+        summarizeReadNeedReviewResynthesisRuntime,
+      } = await import('@bitcode/pipeline-asset-pack/read-need-review-resynthesis');
+      const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
         listReadingPipelineTelemetryTrace,
@@ -39,6 +44,13 @@ export async function POST(request: Request) {
         readNeedPipelineInput(body),
         inferenceCapture.execution,
       );
+      const reviewRuntime = buildReadNeedReviewResynthesisRuntime({
+        action,
+        readNeed,
+        previousReadNeed: objectValue(body.previousReadNeed || body.readNeed) as Parameters<typeof buildReadNeedReviewResynthesisRuntime>[0]['previousReadNeed'],
+        feedback: stringArray(body.feedback || body.readNeedFeedback),
+      });
+      persistReadNeedReviewResynthesisRuntime(inferenceCapture.execution, reviewRuntime);
       const synthesisStep =
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
           .flatMap((phase) => phase.agents)
@@ -52,6 +64,10 @@ export async function POST(request: Request) {
         action,
         readNeed,
         readRequest: readNeed.request,
+        readNeedReviewRuntime: reviewRuntime,
+        storageProjection: reviewRuntime.storageProjection,
+        runtimeSummary: summarizeReadNeedReviewResynthesisRuntime(reviewRuntime),
+        fitsFindingAdmission: reviewRuntime.findingFitsAdmission,
         telemetry: {
           schema: 'bitcode.read-need.synthesis-telemetry',
           pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
@@ -98,13 +114,20 @@ export async function POST(request: Request) {
           measurementRoot: readNeed.measurementRoot,
           reviewState: readNeed.reviewState,
           resynthesisAttempt: action === 'resynthesize_read_need',
+          runtimeRoot: reviewRuntime.proofRoots.runtimeRoot,
+          storageRoot: reviewRuntime.proofRoots.storageRoot,
+          telemetryRoot: reviewRuntime.proofRoots.telemetryRoot,
         },
-        nextProtocolAction: 'Review and accept the synthesized Read-Need before Finding Fits.',
+        nextProtocolAction: reviewRuntime.nextProtocolAction,
       });
     }
 
     if (action === 'accept_read_need') {
       const { acceptReadNeed, admitReadFitsFinding } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const {
+        buildReadNeedReviewResynthesisRuntime,
+        summarizeReadNeedReviewResynthesisRuntime,
+      } = await import('@bitcode/pipeline-asset-pack/read-need-review-resynthesis');
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
@@ -122,6 +145,10 @@ export async function POST(request: Request) {
         acceptedReadNeed,
         requireAcceptedReadNeed: true,
       });
+      const reviewRuntime = buildReadNeedReviewResynthesisRuntime({
+        action,
+        readNeed: acceptedReadNeed,
+      });
       const acceptanceStep =
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
           .flatMap((phase) => phase.agents)
@@ -137,6 +164,9 @@ export async function POST(request: Request) {
         readNeed: acceptedReadNeed,
         readRequest: acceptedReadNeed.request,
         fitsFindingAdmission,
+        readNeedReviewRuntime: reviewRuntime,
+        storageProjection: reviewRuntime.storageProjection,
+        runtimeSummary: summarizeReadNeedReviewResynthesisRuntime(reviewRuntime),
         telemetry: {
           schema: 'bitcode.read-need.acceptance-telemetry',
           pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
@@ -155,8 +185,86 @@ export async function POST(request: Request) {
           nextStage: acceptedReadNeed.review?.nextStage || 'finding_fits',
           nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
           returnType: 'AcceptedReadNeed',
+          runtimeRoot: reviewRuntime.proofRoots.runtimeRoot,
+          storageRoot: reviewRuntime.proofRoots.storageRoot,
+          telemetryRoot: reviewRuntime.proofRoots.telemetryRoot,
         },
-        nextProtocolAction: 'Run Finding Fits with the accepted Read-Need.',
+        nextProtocolAction: reviewRuntime.nextProtocolAction,
+      });
+    }
+
+    if (action === 'reject_read_need') {
+      const { rejectReadNeed, admitReadFitsFinding } = await import('@bitcode/pipeline-asset-pack/read-need');
+      const {
+        buildReadNeedReviewResynthesisRuntime,
+        summarizeReadNeedReviewResynthesisRuntime,
+      } = await import('@bitcode/pipeline-asset-pack/read-need-review-resynthesis');
+      const {
+        READ_NEED_COMPREHENSION_SYNTHESIS,
+        READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
+        READ_FITS_FINDING_SYNTHESIS,
+        listReadingPipelineTelemetryTrace,
+        summarizeReadingPipelineContract,
+      } = await import('@bitcode/pipeline-asset-pack/reading-pipeline-contract');
+      const readNeed = objectValue(body.readNeed);
+      if (!readNeed || readNeed.schema !== 'bitcode.read.need') {
+        return NextResponse.json({ error: 'readNeed is required' }, { status: 400 });
+      }
+
+      const rejectedReadNeed = rejectReadNeed(
+        readNeed as unknown as Parameters<typeof rejectReadNeed>[0],
+        stringArray(body.feedback || body.readNeedFeedback),
+      );
+      const fitsFindingAdmission = admitReadFitsFinding({
+        readNeed: rejectedReadNeed,
+        requireAcceptedReadNeed: true,
+      });
+      const reviewRuntime = buildReadNeedReviewResynthesisRuntime({
+        action,
+        readNeed: rejectedReadNeed,
+        feedback: stringArray(body.feedback || body.readNeedFeedback),
+      });
+      const reviewStep =
+        READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
+          .flatMap((phase) => phase.agents)
+          .flatMap((agent) => agent.ptrrSteps)
+          .find((step) => step.ptrrStepId === 'ReadNeedComprehensionSynthesis.review.operator-review.try');
+      return NextResponse.json({
+        ok: true,
+        pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+        nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
+        stage: 'review_synthesized_need',
+        action,
+        rejectedReadNeed,
+        readNeed: rejectedReadNeed,
+        readRequest: rejectedReadNeed.request,
+        fitsFindingAdmission,
+        readNeedReviewRuntime: reviewRuntime,
+        storageProjection: reviewRuntime.storageProjection,
+        runtimeSummary: summarizeReadNeedReviewResynthesisRuntime(reviewRuntime),
+        telemetry: {
+          schema: 'bitcode.read-need.rejection-telemetry',
+          pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+          pipelineContract: summarizeReadingPipelineContract(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
+          pipelineTrace: listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT),
+          phaseId: 'ReadNeedComprehensionSynthesis.review',
+          agentId: 'ReadNeedComprehensionSynthesis.review.operator-review',
+          ptrrStepId: reviewStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.review.operator-review.try',
+          thricifiedGenerationIds: reviewStep?.thricifiedGenerationIds || [],
+          needId: rejectedReadNeed.needId,
+          measurementRoot: rejectedReadNeed.measurementRoot,
+          reviewState: rejectedReadNeed.reviewState,
+          rejectionRoot: rejectedReadNeed.review?.rejectionRoot || null,
+          readRequest: rejectedReadNeed.request,
+          feedbackHistory: rejectedReadNeed.feedbackHistory,
+          blockedStage: 'finding_fits',
+          nextPipelineName: READ_FITS_FINDING_SYNTHESIS,
+          returnType: 'RejectedReadNeed',
+          runtimeRoot: reviewRuntime.proofRoots.runtimeRoot,
+          storageRoot: reviewRuntime.proofRoots.storageRoot,
+          telemetryRoot: reviewRuntime.proofRoots.telemetryRoot,
+        },
+        nextProtocolAction: reviewRuntime.nextProtocolAction,
       });
     }
 
@@ -174,6 +282,14 @@ function objectValue(value: unknown): Record<string, unknown> | null {
 
 function stringValue(value: unknown): string | null {
   return typeof value === 'string' && value.trim() ? value.trim() : null;
+}
+
+function stringArray(value: unknown): string[] {
+  if (typeof value === 'string' && value.trim()) return [value.trim()];
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => typeof entry === 'string' ? entry.trim() : '')
+    .filter(Boolean);
 }
 
 function readNeedAction(body: Record<string, unknown>): string | null {

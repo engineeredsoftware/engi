@@ -341,7 +341,7 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
-      '@bitcode/pipeline-asset-pack': path.resolve(
+      '@bitcode/pipeline-asset-pack$': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -349,6 +349,33 @@ let nextConfig = {
         'asset-pack',
         'src',
         'index.ts'
+      ),
+      '@bitcode/pipeline-asset-pack/read-need': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'read-need.ts'
+      ),
+      '@bitcode/pipeline-asset-pack/read-need-review-resynthesis': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'read-need-review-resynthesis.ts'
+      ),
+      '@bitcode/pipeline-asset-pack/reading-pipeline-contract': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'reading-pipeline-contract.ts'
       ),
       // Security package: server-safe root and explicit client entry
       '@bitcode/security': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'index.ts'),

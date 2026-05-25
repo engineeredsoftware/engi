@@ -271,6 +271,7 @@ export * from './depository-search';
 export * from './depository-supply-index';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
+export * from './read-need-review-resynthesis';
 export * from './reading-pipeline-contract';
 export * from './reading-pipeline-observability';
 export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
@@ -287,6 +288,7 @@ export {
   buildShareToFeePreview,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
+  rejectReadNeed,
   resolveAssetPackReadRightState,
   resolveReadNeedFromPipelineInput,
   shouldRequireAcceptedReadNeed,
