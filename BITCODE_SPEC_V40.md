@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, plus later V40 gate artifacts for E2E, visual, synchronization, rehearsal, proof, and promotion readiness coverage
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, plus later V40 gate artifacts for synchronization, rehearsal, prompt benchmark, and promotion readiness coverage
 - Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
@@ -135,6 +135,14 @@ Gate 6 closes integration coverage for the Conversation-to-Terminal boundary wit
 The package-owned `V40ConversationTerminalIntegration` emits `.bitcode/v40-conversation-terminal-integration.json` with eight source-safe rows: Conversation Terminal handoff route contracts, Conversation stream events projected into rich execution logs, Conversation route/API persistence and branch contracts, writing workspace/source selector handoff, Terminal Reading state handoff readback, Terminal pipeline harness log streaming, Terminal transaction-cockpit authority boundaries, and Conversation/Terminal rehearsal/docs/interface parity.
 The focused UAPI integration test carries a source-safe Conversation `finding_fits` handoff into Terminal route readback, verifies the five-stage enterprise Reading state at `request-fit`, adapts a Conversation stream tool event into execution-log metadata, and projects that event through the Terminal harness stream snapshot without serializing protected source, raw prompt payload, or unpaid AssetPack source.
 Gate 6 permits no missing, blocked, or exempt critical Conversation/Terminal row; proof rows may include route parameters, proof roots, event ids, telemetry posture, command ids, fixture roots, and coverage flags, but must not include secrets, protected source, raw protected prompts, raw model/provider responses, wallet private material, or unpaid AssetPack source.
+
+## V40 Gate 7 Browser E2E, Accessibility, Responsive, And Visual Proof
+
+Gate 7 closes source-safe browser proof across the rich website product surfaces without making screenshots the only proof.
+The package-owned `V40BrowserE2eVisualProof` emits `.bitcode/v40-browser-e2e-visual-proof.json` with eight source-safe rows: Terminal enterprise Reading and transaction browser flow, Conversations writing and stream-log browser flow, Auxillaries contained-pane accessibility flow, Exchange BTD market and rights browser flow, Docs public learning route browser flow, canonical responsive viewport overflow proof, visual screenshot baseline and trace proof, and keyboard/landmark/status accessibility proof.
+The app-owned `BITCODE_BROWSER_PROOF_CONTRACT` covers Terminal, Conversations, Auxillaries, Exchange, and Docs, thirteen route states, eighteen interaction states, four canonical viewports, eight accessibility assertions, and a visual strategy that requires deterministic screenshot baselines plus semantic assertions with `no-screenshot-only-approval`.
+The focused browser spec exercises five-stage Reading, selected activity detail, Conversation source-safe handoff, Exchange rights review, Docs navigation, Auxillaries live regions, reduced motion, and horizontal-overflow limits under local mock data.
+Gate 7 permits no missing, blocked, or exempt critical browser proof row; proof rows may include route ids, viewport ids, screenshot/trace posture, command ids, fixture roots, and source-safe coverage flags, but must not include secrets, protected source, raw protected prompts, raw provider/model responses, wallet private material, or unpaid AssetPack source.
 
 ## V40 canonical subsystem surfaces
 
@@ -397,12 +405,15 @@ V40 inherits operator-quality artifact expectations for readable proof and repai
 | `.bitcode/v40-test-inventory-coverage-matrix.json` | protocol canonical package | Gate 2 source-safe test inventory and coverage matrix |
 | `.bitcode/v40-unit-coverage-inventory.json` | protocol canonical package | Gate 3 source-safe unit coverage inventory |
 | `.bitcode/v40-api-integration-contracts.json` | protocol canonical package | Gate 4 source-safe API and route integration contract inventory |
+| `.bitcode/v40-reading-pipeline-integration-coverage.json` | protocol canonical package | Gate 5 source-safe Reading pipeline integration coverage |
+| `.bitcode/v40-conversation-terminal-integration.json` | protocol canonical package | Gate 6 source-safe Conversation/Terminal integration coverage |
+| `.bitcode/v40-browser-e2e-visual-proof.json` | protocol canonical package | Gate 7 source-safe browser, visual, accessibility, and responsive proof |
 | `.bitcode/v40-promotion-readiness-report.json` | future V40 promotion gate | promotion readiness |
 
 ### V40 specifying generated artifacts
 
 V40 generated artifacts begin with `.bitcode/v40-spec-family-report.json` and `.bitcode/v40-canonical-input-report.json`.
-Later gates add browser, visual, integration, unit, disclosure, synchronization, prompt benchmark smoke, and promotion-readiness artifacts.
+Later gates add disclosure, synchronization, prompt benchmark smoke, rehearsal, and promotion-readiness artifacts.
 
 ### Shared generated-artifact fields
 
@@ -428,7 +439,7 @@ Missing generated artifacts, stale reports, malformed JSON, invalid screenshots,
 
 ## V40 validation canon
 
-Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
+Validation canon includes `pnpm run check:v40-gate1`, `pnpm run check:v40-gate2`, `pnpm run check:v40-gate3`, `pnpm run check:v40-gate4`, `pnpm run check:v40-gate5`, `pnpm run check:v40-gate6`, `pnpm run check:v40-gate7`, `pnpm run check:v40-browser-e2e-visual-proof`, `node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40`, package typechecks, protocol tests, route/API tests, browser E2E suites, visual/screenshot proof suites, integration suites, unit suites, prompt benchmark smoke tests, local/staging rehearsal commands, and diff hygiene.
 
 ## V40 promotion canon
 

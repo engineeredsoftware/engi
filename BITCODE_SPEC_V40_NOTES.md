@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V39`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, and later V40 testing artifacts
-- Source parity state: V40 testing gates are planned and not yet closed
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, and later V40 testing artifacts
+- Source parity state: V40 testing gates are closing progressively through generated artifacts
 
 ## Notes companion rule
 
@@ -98,3 +98,11 @@ Its generated `.bitcode/v40-conversation-terminal-integration.json` artifact bin
 The focused UAPI test executes the cross-surface path from a Conversation `finding_fits` handoff into Terminal query parsing, enterprise Reading `request-fit` state, Conversation stream tool-call log metadata, and Terminal harness stream projection.
 No missing, blocked, or exempt critical Conversation/Terminal integration row is allowed in the Gate 6 artifact; Conversation may carry source-safe intent only, while Terminal remains the transaction, wallet, ledger, settlement, and delivery cockpit.
 Prompt and PromptPart rewriting remains deferred to V41.
+
+## Gate 7 implementation notes
+
+Gate 7 is closed by `V40BrowserE2eVisualProof`.
+Its generated `.bitcode/v40-browser-e2e-visual-proof.json` artifact binds browser E2E, visual, accessibility, and responsive proof to eight source-safe rows: Terminal enterprise Reading and transaction flow, Conversations writing/stream-log flow, Auxillaries contained-pane accessibility flow, Exchange BTD market and rights flow, Docs public learning routes, canonical viewport overflow proof, screenshot/trace baseline proof, and keyboard/landmark/status accessibility proof.
+The app-owned `BITCODE_BROWSER_PROOF_CONTRACT` summarizes five product surfaces, thirteen route states, eighteen interaction states, four canonical viewports, eight accessibility assertions, and five visual proof strategies.
+The focused browser spec covers five-stage Reading, selected activity detail, Conversation source-safe handoff, Exchange rights review, Docs navigation, Auxillaries live regions, reduced motion, and horizontal overflow limits under local mock data.
+No missing, blocked, or exempt critical browser proof row is allowed in the Gate 7 artifact, and screenshot-only approval is explicitly rejected.

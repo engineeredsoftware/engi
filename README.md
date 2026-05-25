@@ -553,6 +553,13 @@ handoff route contracts, Conversation stream-to-rich-log projection,
 Conversation route/API persistence and branch contracts, writing/source
 selector handoff, Terminal Reading state readback, Terminal harness log
 streaming, transaction-cockpit authority boundaries, and rehearsal/docs parity.
+V40 Gate 7 adds the package-backed `V40BrowserE2eVisualProof`, generated
+`.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7` to close
+source-safe browser proof coverage for Terminal, Conversations, Auxillaries,
+Exchange, Docs, responsive viewport overflow, screenshot/trace baselines, and
+keyboard/landmark/status accessibility. The current app browser proof contract
+binds five product surfaces, thirteen route states, eighteen interaction
+states, four canonical viewports, and no screenshot-only approval.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

@@ -110,6 +110,13 @@ Conversation handoff route contracts, Conversation stream-to-rich-log
 projection, route/API persistence and branch contracts, writing/source selector
 handoff, Terminal Reading state readback, Terminal harness log streaming,
 transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
+V40 Gate 7 adds `V40BrowserE2eVisualProof` through
+`packages/protocol/src/canonical/v40-browser-e2e-visual-proof.js`,
+`packages/protocol/test/v40-browser-e2e-visual-proof.test.js`,
+`.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7`.
+The artifact is source-safe metadata only and closes browser E2E, visual,
+accessibility, responsive, interaction-state, screenshot/trace, and overflow
+coverage for Terminal, Conversations, Auxillaries, Exchange, and Docs.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights
