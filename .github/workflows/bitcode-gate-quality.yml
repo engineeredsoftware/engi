@@ -376,6 +376,9 @@ jobs:
               if [ -f scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs ]; then
                 node scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs ]; then
+                node scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -507,6 +510,9 @@ jobs:
           fi
           if [ -f packages/protocol/test/v40-local-staging-rehearsal-automation.test.js ]; then
             pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-local-staging-rehearsal-automation.test.js
+          fi
+          if [ -f packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-prompt-benchmark-smoke-v41-readiness.test.js
           fi
           pnpm --filter @bitcode/protocol test
 

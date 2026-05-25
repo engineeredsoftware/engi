@@ -417,6 +417,18 @@ export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_EXPECTED_TOTALS: Readonly<Re
 export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ROWS: readonly Record<string, unknown>[];
 export function buildV40LocalStagingRehearsalAutomation(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function listMissingV40LocalStagingRehearsalAutomationSources(repoRoot?: string): string[];
+export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_ARTIFACT_PATH: string;
+export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_CURRENT_TARGET: string;
+export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_SCHEMA_ID: string;
+export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_VERSION: string;
+export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const V40_PROMPT_BENCHMARK_SMOKE_ROW_IDS: readonly string[];
+export const V40_PROMPT_BENCHMARK_SMOKE_EXPECTED_TOTALS: Readonly<Record<string, number>>;
+export const V40_PROMPT_BENCHMARK_SMOKE_COMMAND_IDS: readonly string[];
+export const V40_PROMPT_BENCHMARK_SMOKE_V41_WORK_ITEM_IDS: readonly string[];
+export const V40_PROMPT_BENCHMARK_SMOKE_ROWS: readonly Record<string, unknown>[];
+export function buildV40PromptBenchmarkSmokeV41Readiness(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function listMissingV40PromptBenchmarkSmokeV41ReadinessSources(repoRoot?: string): string[];
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

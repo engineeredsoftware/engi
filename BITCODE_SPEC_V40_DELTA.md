@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, and later V40 testing artifacts
-- Source parity state: V40 testing surfaces are scoped but not yet closed
+- Source parity state: V40 testing surfaces are closing progressively through package-backed proof artifacts
 
 ## Why V40 exists
 
@@ -73,6 +73,8 @@ Gate 9 closes with package-backed `V40LocalStagingRehearsalAutomation`, determin
 ### Gate 10: Prompt Benchmark Smoke And V41 Readiness
 
 Make prompt and PromptPart benchmark commands runnable and reportable without rewriting prompt content, then hand focused prompt evolution to V41.
+Gate 10 closes with package-backed `V40PromptBenchmarkSmokeV41Readiness`, deterministic `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, protocol exports, source-safe PromptPart and composed Prompt smoke receipts, package benchmark report command binding, V38 prompt benchmark inventory binding, workflow wiring, and `check:v40-gate10`.
+Gate 10 does not rewrite PromptPart or Prompt content; it proves benchmark infrastructure readiness and hands every semantic prompt-program improvement to V41.
 
 ### Gate 11: V40 Promotion Readiness
 
