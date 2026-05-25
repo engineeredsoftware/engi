@@ -46,6 +46,7 @@ Current exported commercial helpers include:
 - `V38PtrrFailsafeThricifiedStack` helpers for V38 practical PTRR agent stack proof, FailsafeGenerationSequence over ThricifiedGeneration binding, step-owned tool boundaries, source predicates, and source-safe generated metadata;
 - `V38PromptBenchmarkReport` helpers for V38 source-safe PromptPart and complete Prompt benchmark coverage across Reading, Conversation, and tool-definition inference surfaces;
 - `V38InferenceTelemetryDisclosureReport` helpers for V38 source-safe inference telemetry rows, disclosure tiers, raw provider response boundaries, schema verdicts, retry/repair posture, and rich stream UI/storage projection proof;
+- `V38ReadFitsFindingSearchEmbeddings` helpers for V38 source-safe Finding Fits query plans, depository search channels, embedding policy, threshold ranking, selected-fit provenance, and search receipts;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -122,6 +123,22 @@ The maintained commands are
 `pnpm run generate:v38-read-need-comprehension-inference-hardening`,
 `pnpm run check:v38-read-need-comprehension-inference-hardening`, and
 `pnpm run check:v38-gate6`.
+V38 Gate 7 adds `V38ReadFitsFindingSearchEmbeddings` through
+`packages/protocol/src/canonical/read-fits-finding-search-embeddings.js` and
+the source-safe generated artifact
+`.bitcode/v38-read-fits-finding-search-embeddings.json`.
+The search report proves accepted-Need admission, source-safe query planning,
+many-fit depository discovery, active OpenAI embedding/vector policy,
+threshold verification, selected-fit provenance, and source-safe search
+receipt coverage. The receipt binds 7 phases, 8 PTRR agents, 32 PTRR steps, 96
+Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4
+tool contracts, 7 search channels, 12 default selected-candidate slots,
+embedding policy, query roots, ranking roots, candidate counts, and provenance
+roots while preserving protected source and raw provider response privacy.
+The maintained commands are
+`pnpm run generate:v38-read-fits-finding-search-embeddings`,
+`pnpm run check:v38-read-fits-finding-search-embeddings`, and
+`pnpm run check:v38-gate7`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

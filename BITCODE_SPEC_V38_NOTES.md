@@ -8,7 +8,7 @@
 - Current active draft target: `V38`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -186,6 +186,15 @@ The receipt records phase ids, agent ids, PTRR step ids, Failsafe sequence ids, 
 `V38ReadNeedComprehensionInferenceHardening` and `.bitcode/v38-read-need-comprehension-inference-hardening.json` record request normalization, Need comprehension, Need measurement, Need review, and receipt rows as `source-safe-read-need-comprehension-inference-hardening-metadata`.
 The current generated report covers 5 rows, 4 phases, 4 PTRR agents, 16 PTRR steps, 48 FailsafeGenerationSequence ids, 48 ThricifiedGeneration ids, 144 provider-call slots, 22 source predicates, and V38 Gates 2 through 5 roots.
 The route and Terminal workbench remain aligned to resynthesis-with-feedback and accepted-Need-gated Finding Fits admission while raw provider responses, protected source, unpaid AssetPack source, credentials, private wallet material, and private settlement payloads remain unavailable in the source-safe receipt.
+
+## Gate 7 implementation notes
+
+Gate 7 closes the ReadFitsFindingSynthesis depository-search and embedding contract by binding Finding Fits to a source-safe `ReadFitsFindingSynthesisSearchReceipt`.
+The receipt records phase ids, agent ids, PTRR step ids, Failsafe sequence ids, ThricifiedGeneration ids, tool ids, search channel ids, provider ids, threshold posture, query-plan root, query root, ranking root, candidate counts, selected-fit provenance root, embedding policy, source-safety booleans, and stable roots.
+`V38ReadFitsFindingSearchEmbeddings` and `.bitcode/v38-read-fits-finding-search-embeddings.json` record accepted-Need admission, source-safe query planning, many-fit discovery, embedding policy, threshold verification, selected-fit provenance, and receipt rows as `source-safe-read-fits-finding-search-embeddings-metadata`.
+The current generated report covers 7 rows, 7 phases, 8 PTRR agents, 32 PTRR steps, 96 FailsafeGenerationSequence ids, 96 ThricifiedGeneration ids, 288 provider-call slots, 4 tool contracts, 7 search channels, default 12 above-threshold selected-candidate slots, 23 source predicates, and V38 Gates 2 through 6 roots.
+The active embedding/vector contract remains OpenAI `text-embedding-3-small`, 1536 dimensions, float encoding, cosine distance, `deliverable_vectors.embedding`, and `match_deliverable_vectors`; additional provider channels remain blocked until their storage, credentials, telemetry, and tests are explicit.
+Selected fit provenance carries source-binding ids, selected unit ids, proof roots, measurement roots, and reconciliation-readback roots toward AssetPack synthesis while protected source, raw provider responses, unpaid AssetPack source, credentials, private wallet material, and private settlement payloads remain unavailable in the source-safe receipt.
 
 ## V38 gate plan
 

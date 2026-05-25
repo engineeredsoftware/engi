@@ -1,6 +1,11 @@
 import { createHash } from 'node:crypto';
 import { buildAssetPackEmbeddingPolicy } from './embedding-config';
 import {
+  READ_FITS_FINDING_SYNTHESIS,
+  READ_FITS_FINDING_SYNTHESIS_CONTRACT,
+  listReadingPipelineTelemetryTrace,
+} from './reading-pipeline-contract';
+import {
   admitReadFitsFinding,
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
@@ -24,6 +29,36 @@ export interface DepositorySearchThresholds {
   worthyScore: number;
   semanticScore: number;
   maxSelectedCandidates: number;
+}
+
+export type DepositorySearchChannelId =
+  | 'lexical'
+  | 'symbolic'
+  | 'path'
+  | 'metadata'
+  | 'measurement'
+  | 'embedding-vector'
+  | 'provider-specific';
+
+export interface DepositorySearchQueryPlan {
+  schema: 'bitcode.asset-pack.depository-search.query-plan';
+  pipelineName: typeof READ_FITS_FINDING_SYNTHESIS;
+  derivedFrom: 'accepted-read-need';
+  channelIds: DepositorySearchChannelId[];
+  channels: Array<{
+    channelId: DepositorySearchChannelId;
+    scoreField: string;
+    sourceSafeEvidence: string;
+  }>;
+  queryTermCount: number;
+  targetArtifactKindCount: number;
+  closureCriteriaCount: number;
+  failureModeCount: number;
+  repositoryConstraintPresent: boolean;
+  sourceRevisionConstraintPresent: boolean;
+  providerIds: string[];
+  embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+  queryPlanRoot: string;
 }
 
 export interface DepositorySearchRead {
@@ -219,6 +254,7 @@ export interface DepositorySearchResult {
   resultReasons: string[];
   read: DepositorySearchRead;
   thresholds: DepositorySearchThresholds;
+  queryPlan: DepositorySearchQueryPlan;
   searchedAssetCount: number;
   fitDepositAssetIds: string[];
   fitDeposits: DepositoryCandidate[];
@@ -230,6 +266,7 @@ export interface DepositorySearchResult {
   embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
   queryRoot: string;
   rankingRoot: string;
+  searchReceipt: ReadFitsFindingSynthesisSearchReceipt;
   createdAt: string;
 }
 
@@ -262,17 +299,109 @@ export interface DepositorySearchInput {
   createdAt?: string;
 }
 
+export interface ReadFitsFindingSynthesisSearchReceipt {
+  schema: 'bitcode.read-fits-finding-synthesis.search-receipt';
+  pipelineName: typeof READ_FITS_FINDING_SYNTHESIS;
+  receiptMode: 'source-safe-depository-search-and-embeddings';
+  phaseIds: string[];
+  agentIds: string[];
+  ptrrStepIds: string[];
+  failsafeSequenceIds: string[];
+  thricifiedGenerationIds: string[];
+  toolIds: string[];
+  searchChannelIds: DepositorySearchChannelId[];
+  providerIds: string[];
+  thresholdPosture: DepositorySearchThresholds;
+  queryPlanRoot: string;
+  queryRoot: string;
+  rankingRoot: string;
+  searchedAssetCount: number;
+  candidateCounts: {
+    ranked: number;
+    selected: number;
+    fitDeposits: number;
+    blocked: number;
+    rejected: number;
+  };
+  selectedFitProvenanceRoot: string;
+  embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+  sourceSafety: {
+    sourceSafeMetadataOnly: true;
+    protectedSourceVisible: false;
+    rawProviderResponseVisible: false;
+    unpaidAssetPackSourceVisible: false;
+    credentialsSerialized: false;
+    walletPrivateMaterialVisible: false;
+    settlementPrivatePayloadVisible: false;
+  };
+  roots: {
+    receiptRoot: string;
+    queryPlanRoot: string;
+    queryRoot: string;
+    rankingRoot: string;
+    selectedFitProvenanceRoot: string;
+  };
+}
+
 const DEFAULT_THRESHOLDS: DepositorySearchThresholds = {
   reviewScore: 0.44,
   worthyScore: 0.62,
   semanticScore: 0.18,
-  maxSelectedCandidates: 3,
+  maxSelectedCandidates: 12,
 };
 
 export const READ_FITS_FINDING_SYNTHESIS_TOOL_IDS = {
   lexicalDepositorySearch: 'ReadFitsFindingSynthesis.tool.lexical-depository-search',
   vectorDepositorySearch: 'ReadFitsFindingSynthesis.tool.vector-depository-search',
 } as const;
+
+export const READ_FITS_FINDING_SYNTHESIS_SEARCH_CHANNEL_IDS: DepositorySearchChannelId[] = [
+  'lexical',
+  'symbolic',
+  'path',
+  'metadata',
+  'measurement',
+  'embedding-vector',
+  'provider-specific',
+];
+
+const READ_FITS_FINDING_SYNTHESIS_SEARCH_CHANNELS: DepositorySearchQueryPlan['channels'] = [
+  {
+    channelId: 'lexical',
+    scoreField: 'channelScores.lexical',
+    sourceSafeEvidence: 'overlap between Need query terms and source-safe asset corpus terms',
+  },
+  {
+    channelId: 'symbolic',
+    scoreField: 'channelScores.symbolic',
+    sourceSafeEvidence: 'symbols, configuration keys, stack tags, and constraints extracted from deposited content units',
+  },
+  {
+    channelId: 'path',
+    scoreField: 'channelScores.path',
+    sourceSafeEvidence: 'source paths, content-unit paths, and source path metadata',
+  },
+  {
+    channelId: 'metadata',
+    scoreField: 'channelScores.metadata',
+    sourceSafeEvidence: 'deposit metadata tags, declared stacks, constraints, and artifact kind descriptors',
+  },
+  {
+    channelId: 'measurement',
+    scoreField: 'channelScores.measurement',
+    sourceSafeEvidence: 'source-safe measurement and proof-readback root presence, never raw source',
+  },
+  {
+    channelId: 'embedding-vector',
+    scoreField: 'channelScores.embeddingVector',
+    sourceSafeEvidence: 'embedding policy and vector similarity posture bound to query and ranking roots',
+  },
+  {
+    channelId: 'provider-specific',
+    scoreField: 'channelScores.providerSpecific',
+    sourceSafeEvidence: 'external provider match ids, scores, and evidence refs without provider secrets or raw payloads',
+  },
+];
 
 const STOP_WORDS = new Set([
   'the',
@@ -405,6 +534,38 @@ function contentUnitText(unit: DepositoryContentUnit): string {
     ...(unit.codeAnalysisFacts?.configKeys || []),
     ...(unit.codeAnalysisFacts?.stackTags || []),
     ...(unit.codeAnalysisFacts?.constraints || []),
+  ].join(' ');
+}
+
+function contentUnitSymbolicText(unit: DepositoryContentUnit): string {
+  return [
+    ...(unit.codeAnalysisFacts?.symbols || []),
+    ...(unit.codeAnalysisFacts?.configKeys || []),
+    ...(unit.codeAnalysisFacts?.stackTags || []),
+    ...(unit.codeAnalysisFacts?.constraints || []),
+  ].join(' ');
+}
+
+function assetPathText(asset: DepositoryAsset): string {
+  return [
+    ...(asset.contentUnits || []).map((unit) => unit.path || ''),
+    ...(asset.contentUnits || []).flatMap((unit) => unit.codeAnalysisFacts?.paths || []),
+    ...(stringArray(asset.metadata?.sourcePaths)),
+  ].join(' ');
+}
+
+function assetSymbolicText(asset: DepositoryAsset): string {
+  return (asset.contentUnits || []).map(contentUnitSymbolicText).join(' ');
+}
+
+function assetMetadataText(asset: DepositoryAsset): string {
+  return [
+    asset.artifactKind,
+    asset.artifactType,
+    ...(stringArray(asset.metadata?.tags)),
+    ...(stringArray(asset.metadata?.declaredStacks)),
+    ...(stringArray(asset.metadata?.declaredConstraints)),
+    ...(stringArray(asset.metadata?.sourcePaths)),
   ].join(' ');
 }
 
@@ -627,6 +788,12 @@ function rankAsset(
   const matchedTerms = intersection(readTerms, corpusTerms);
   const selectedUnits = selectedUnitsFor(readTerms, asset);
   const queryVector = hashVector(queryText);
+  const embeddingVectorScore = clamp01(
+    Math.max(
+      0,
+      ...asset.contentUnits.map((unit) => cosine(queryVector, hashVector(contentUnitText(unit))))
+    )
+  );
   const unitScore = clamp01(
     Math.max(
       0,
@@ -637,6 +804,9 @@ function rankAsset(
     )
   );
   const textScore = overlapScore(readTerms, corpusTerms);
+  const symbolicScore = overlapScore(readTerms, tokensFrom(assetSymbolicText(asset)));
+  const pathScore = overlapScore(readTerms, tokensFrom(assetPathText(asset)));
+  const metadataScore = overlapScore(readTerms, tokensFrom(assetMetadataText(asset)));
   const artifactKindTokens = tokensFrom(asset.artifactKind);
   const targetKindTokens = tokensFrom(read.targetArtifactKinds.join(' '));
   const artifactKindScore = read.targetArtifactKinds.length
@@ -713,13 +883,19 @@ function rankAsset(
     providerScore,
     penaltyMass,
     channelScores: {
+      lexical: textScore,
+      symbolic: symbolicScore,
+      path: pathScore,
+      metadata: metadataScore,
+      measurement: measurementScore,
+      embeddingVector: embeddingVectorScore,
+      providerSpecific: providerScore,
       text: textScore,
       units: unitScore,
       repository: repoScore,
       revision: revScore,
       artifactKind: artifactKindScore,
       proof: proofScore,
-      measurement: measurementScore,
       provider: providerScore,
     },
     explainability: {
@@ -940,12 +1116,183 @@ function resultStateFor(input: {
   };
 }
 
+function buildDepositorySearchQueryPlan(input: {
+  read: DepositorySearchRead;
+  thresholds: DepositorySearchThresholds;
+  embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+  providerIds: string[];
+}): DepositorySearchQueryPlan {
+  const queryTermCount = tokensFrom([
+    input.read.prompt,
+    ...input.read.targetArtifactKinds,
+    ...input.read.closureCriteria,
+    ...input.read.failureModes,
+  ].join(' ')).length;
+  const queryPlanRoot = `sha256:${sha256(stableStringify({
+    pipelineName: READ_FITS_FINDING_SYNTHESIS,
+    channelIds: READ_FITS_FINDING_SYNTHESIS_SEARCH_CHANNEL_IDS,
+    queryTermCount,
+    targetArtifactKindCount: input.read.targetArtifactKinds.length,
+    closureCriteriaCount: input.read.closureCriteria.length,
+    failureModeCount: input.read.failureModes.length,
+    repositoryConstraintPresent: Boolean(input.read.repositoryFullName),
+    sourceRevisionConstraintPresent: Boolean(input.read.sourceBranch || input.read.sourceCommit),
+    providerIds: input.providerIds,
+    thresholds: input.thresholds,
+    embeddingPolicy: input.embeddingPolicy,
+  }))}`;
+
+  return {
+    schema: 'bitcode.asset-pack.depository-search.query-plan',
+    pipelineName: READ_FITS_FINDING_SYNTHESIS,
+    derivedFrom: 'accepted-read-need',
+    channelIds: [...READ_FITS_FINDING_SYNTHESIS_SEARCH_CHANNEL_IDS],
+    channels: READ_FITS_FINDING_SYNTHESIS_SEARCH_CHANNELS.map((channel) => ({ ...channel })),
+    queryTermCount,
+    targetArtifactKindCount: input.read.targetArtifactKinds.length,
+    closureCriteriaCount: input.read.closureCriteria.length,
+    failureModeCount: input.read.failureModes.length,
+    repositoryConstraintPresent: Boolean(input.read.repositoryFullName),
+    sourceRevisionConstraintPresent: Boolean(input.read.sourceBranch || input.read.sourceCommit),
+    providerIds: [...input.providerIds].sort(),
+    embeddingPolicy: input.embeddingPolicy,
+    queryPlanRoot,
+  };
+}
+
+function selectedFitProvenanceRootFor(input: {
+  selected: DepositoryCandidate[];
+  blocked: DepositoryCandidate[];
+  rejected: DepositoryCandidate[];
+}): string {
+  return `sha256:${sha256(stableStringify({
+    selected: input.selected.map((candidate) => ({
+      assetId: candidate.assetId,
+      useTier: candidate.useTier,
+      sourceBinding: {
+        repositoryFullName: candidate.asset.repositoryFullName || null,
+        sourceBranch: candidate.asset.sourceBranch || null,
+        sourceCommit: candidate.asset.sourceCommit || null,
+        contentRoot: candidate.asset.contentRoot || null,
+      },
+      selectedUnitIds: candidate.selectedUnits.map((unit) => unit.unitId),
+      finalScore: candidate.ranking.finalScore,
+      semanticScore: candidate.ranking.semanticScore,
+      proofRoot: proofRootFor(candidate.asset),
+      measurementRoot: measurementRootFor(candidate.asset),
+      reconciliationReadbackRoot: reconciliationReadbackRootFor(candidate.asset),
+    })),
+    blockedAssetIds: input.blocked.map((candidate) => candidate.assetId),
+    rejectedAssetIds: input.rejected.map((candidate) => candidate.assetId),
+  }))}`;
+}
+
+function buildReadFitsFindingSynthesisSearchReceipt(input: {
+  thresholds: DepositorySearchThresholds;
+  queryPlan: DepositorySearchQueryPlan;
+  queryRoot: string;
+  rankingRoot: string;
+  searchedAssetCount: number;
+  ranked: DepositoryCandidate[];
+  selected: DepositoryCandidate[];
+  fitDeposits: DepositoryCandidate[];
+  blocked: DepositoryCandidate[];
+  rejected: DepositoryCandidate[];
+  selectedFitProvenanceRoot: string;
+  embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+}): ReadFitsFindingSynthesisSearchReceipt {
+  const trace = listReadingPipelineTelemetryTrace(READ_FITS_FINDING_SYNTHESIS_CONTRACT);
+  const phaseIds = READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases.map((phase) => phase.phaseId);
+  const agentIds = READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases.flatMap((phase) =>
+    phase.agents.map((agent) => agent.agentId)
+  );
+  const ptrrStepIds = trace.map((entry) => entry.ptrrStepId);
+  const thricifiedGenerationIds = trace.flatMap((entry) => entry.thricifiedGenerationIds);
+  const toolIds = [...new Set(trace.flatMap((entry) => entry.toolIds))];
+  const receiptRoot = `sha256:${sha256(stableStringify({
+    pipelineName: READ_FITS_FINDING_SYNTHESIS,
+    phaseIds,
+    agentIds,
+    ptrrStepIds,
+    thricifiedGenerationIds,
+    toolIds,
+    searchChannelIds: input.queryPlan.channelIds,
+    providerIds: input.queryPlan.providerIds,
+    thresholds: input.thresholds,
+    queryPlanRoot: input.queryPlan.queryPlanRoot,
+    queryRoot: input.queryRoot,
+    rankingRoot: input.rankingRoot,
+    searchedAssetCount: input.searchedAssetCount,
+    candidateCounts: {
+      ranked: input.ranked.length,
+      selected: input.selected.length,
+      fitDeposits: input.fitDeposits.length,
+      blocked: input.blocked.length,
+      rejected: input.rejected.length,
+    },
+    selectedFitProvenanceRoot: input.selectedFitProvenanceRoot,
+    embeddingPolicy: input.embeddingPolicy,
+  }))}`;
+
+  return {
+    schema: 'bitcode.read-fits-finding-synthesis.search-receipt',
+    pipelineName: READ_FITS_FINDING_SYNTHESIS,
+    receiptMode: 'source-safe-depository-search-and-embeddings',
+    phaseIds,
+    agentIds,
+    ptrrStepIds,
+    failsafeSequenceIds: [...thricifiedGenerationIds],
+    thricifiedGenerationIds,
+    toolIds,
+    searchChannelIds: [...input.queryPlan.channelIds],
+    providerIds: [...input.queryPlan.providerIds],
+    thresholdPosture: input.thresholds,
+    queryPlanRoot: input.queryPlan.queryPlanRoot,
+    queryRoot: input.queryRoot,
+    rankingRoot: input.rankingRoot,
+    searchedAssetCount: input.searchedAssetCount,
+    candidateCounts: {
+      ranked: input.ranked.length,
+      selected: input.selected.length,
+      fitDeposits: input.fitDeposits.length,
+      blocked: input.blocked.length,
+      rejected: input.rejected.length,
+    },
+    selectedFitProvenanceRoot: input.selectedFitProvenanceRoot,
+    embeddingPolicy: input.embeddingPolicy,
+    sourceSafety: {
+      sourceSafeMetadataOnly: true,
+      protectedSourceVisible: false,
+      rawProviderResponseVisible: false,
+      unpaidAssetPackSourceVisible: false,
+      credentialsSerialized: false,
+      walletPrivateMaterialVisible: false,
+      settlementPrivatePayloadVisible: false,
+    },
+    roots: {
+      receiptRoot,
+      queryPlanRoot: input.queryPlan.queryPlanRoot,
+      queryRoot: input.queryRoot,
+      rankingRoot: input.rankingRoot,
+      selectedFitProvenanceRoot: input.selectedFitProvenanceRoot,
+    },
+  };
+}
+
 export async function searchDepositoryAssetSpace(
   input: DepositorySearchInput
 ): Promise<DepositorySearchResult> {
   const thresholds = { ...DEFAULT_THRESHOLDS, ...(input.thresholds || {}) };
   const assets = input.assets.map(normalizeDepositoryAsset).filter(Boolean) as DepositoryAsset[];
   const providerMatches = new Map<string, DepositoryProviderMatch[]>();
+  const providerIds = (input.providers || []).map((provider) => provider.id).sort();
+  const embeddingPolicy = buildAssetPackEmbeddingPolicy();
+  const queryPlan = buildDepositorySearchQueryPlan({
+    read: input.read,
+    thresholds,
+    embeddingPolicy,
+    providerIds,
+  });
 
   for (const provider of input.providers || []) {
     const matches = await provider.search({ read: input.read, assets });
@@ -991,9 +1338,8 @@ export async function searchDepositoryAssetSpace(
     assets,
     thresholds,
   });
-  const embeddingPolicy = buildAssetPackEmbeddingPolicy();
   const createdAt = input.createdAt || new Date().toISOString();
-  const queryRoot = `sha256:${sha256(stableStringify({ read: input.read, thresholds, embeddingPolicy }))}`;
+  const queryRoot = `sha256:${sha256(stableStringify({ read: input.read, thresholds, embeddingPolicy, queryPlan }))}`;
   const rankingRoot = `sha256:${sha256(stableStringify(ranked.map((candidate) => ({
     assetId: candidate.assetId,
     ranking: candidate.ranking,
@@ -1001,6 +1347,25 @@ export async function searchDepositoryAssetSpace(
     warnings: candidate.verification.warnings,
     useTier: candidate.useTier,
   }))))}`;
+  const selectedFitProvenanceRoot = selectedFitProvenanceRootFor({
+    selected,
+    blocked,
+    rejected,
+  });
+  const searchReceipt = buildReadFitsFindingSynthesisSearchReceipt({
+    thresholds,
+    queryPlan,
+    queryRoot,
+    rankingRoot,
+    searchedAssetCount: assets.length,
+    ranked,
+    selected,
+    fitDeposits: selected,
+    blocked,
+    rejected,
+    selectedFitProvenanceRoot,
+    embeddingPolicy,
+  });
 
   return {
     schema: 'bitcode.asset-pack.depository-search',
@@ -1008,6 +1373,7 @@ export async function searchDepositoryAssetSpace(
     resultReasons: state.resultReasons,
     read: input.read,
     thresholds,
+    queryPlan,
     searchedAssetCount: assets.length,
     fitDepositAssetIds: selected.map((candidate) => candidate.assetId),
     fitDeposits: selected,
@@ -1019,6 +1385,7 @@ export async function searchDepositoryAssetSpace(
     embeddingPolicy,
     queryRoot,
     rankingRoot,
+    searchReceipt,
     createdAt,
   };
 }
@@ -1311,6 +1678,8 @@ function storeDepositorySearchToolResult(
     rejectedCandidateCount: result.rejectedCandidates.length,
     queryRoot: result.queryRoot,
     rankingRoot: result.rankingRoot,
+    queryPlanRoot: result.queryPlan.queryPlanRoot,
+    selectedFitProvenanceRoot: result.searchReceipt.selectedFitProvenanceRoot,
     embeddingPolicy: result.embeddingPolicy,
   };
   const lexicalTelemetry = {
@@ -1333,6 +1702,8 @@ function storeDepositorySearchToolResult(
       fitDepositAssetIds: result.fitDepositAssetIds,
       queryRoot: result.queryRoot,
       rankingRoot: result.rankingRoot,
+      queryPlanRoot: result.queryPlan.queryPlanRoot,
+      selectedFitProvenanceRoot: result.searchReceipt.selectedFitProvenanceRoot,
       embeddingPolicy: result.embeddingPolicy,
       vectorStore: result.embeddingPolicy.vectorStore,
     },
@@ -1356,10 +1727,17 @@ function buildBlockedReadFitsFindingResult(input: {
   const embeddingPolicy = buildAssetPackEmbeddingPolicy();
   const createdAt = new Date().toISOString();
   const thresholds = { ...DEFAULT_THRESHOLDS };
+  const queryPlan = buildDepositorySearchQueryPlan({
+    read: input.read,
+    thresholds,
+    embeddingPolicy,
+    providerIds: ['lexical-depository-search'],
+  });
   const queryRoot = `sha256:${sha256(stableStringify({
     read: input.read,
     thresholds,
     embeddingPolicy,
+    queryPlan,
     blockers: input.blockers,
   }))}`;
   const rankingRoot = `sha256:${sha256(stableStringify({
@@ -1367,6 +1745,25 @@ function buildBlockedReadFitsFindingResult(input: {
     blockers: input.blockers,
     assetCount: input.assets.length,
   }))}`;
+  const selectedFitProvenanceRoot = selectedFitProvenanceRootFor({
+    selected: [],
+    blocked: [],
+    rejected: [],
+  });
+  const searchReceipt = buildReadFitsFindingSynthesisSearchReceipt({
+    thresholds,
+    queryPlan,
+    queryRoot,
+    rankingRoot,
+    searchedAssetCount: input.assets.length,
+    ranked: [],
+    selected: [],
+    fitDeposits: [],
+    blocked: [],
+    rejected: [],
+    selectedFitProvenanceRoot,
+    embeddingPolicy,
+  });
 
   return {
     schema: 'bitcode.asset-pack.depository-search',
@@ -1377,6 +1774,7 @@ function buildBlockedReadFitsFindingResult(input: {
     ],
     read: input.read,
     thresholds,
+    queryPlan,
     searchedAssetCount: input.assets.length,
     fitDepositAssetIds: [],
     fitDeposits: [],
@@ -1388,6 +1786,7 @@ function buildBlockedReadFitsFindingResult(input: {
     embeddingPolicy,
     queryRoot,
     rankingRoot,
+    searchReceipt,
     createdAt,
   };
 }
@@ -1426,6 +1825,10 @@ export async function runDepositorySearchForPipelineInput(
     target.store('depository/search', 'selectedCandidates', result.selectedCandidates);
     target.store('depository/search', 'selectionTrace', fitResult.selectionTrace);
     target.store('depository/search', 'embeddingPolicy', result.embeddingPolicy);
+    target.store('depository/search', 'queryPlan', result.queryPlan);
+    target.store('depository/search', 'queryPlanRoot', result.queryPlan.queryPlanRoot);
+    target.store('depository/search', 'searchReceipt', result.searchReceipt);
+    target.store('depository/search', 'selectedFitProvenanceRoot', result.searchReceipt.selectedFitProvenanceRoot);
     target.store('fit', 'result', fitResult);
     target.store('fit', 'resultState', result.resultState);
     target.store('fit', 'resultReasons', result.resultReasons);

@@ -204,6 +204,17 @@ export const V38_READ_NEED_COMPREHENSION_REQUIRED_RETURN_TYPES: readonly string[
 export const V38_READ_NEED_COMPREHENSION_REQUIRED_RECEIPT_FIELDS: readonly string[];
 export const V38_READ_NEED_COMPREHENSION_HARDENING_ROWS: readonly Record<string, unknown>[];
 export function buildV38ReadNeedComprehensionInferenceHardening(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_ARTIFACT_PATH: string;
+export const V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_CURRENT_TARGET: string;
+export const V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_SCHEMA_ID: string;
+export const V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_VERSION: string;
+export const V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_SOURCE_SAFETY_VERDICT: string;
+export const V38_READ_FITS_FINDING_REQUIRED_PHASE_IDS: readonly string[];
+export const V38_READ_FITS_FINDING_REQUIRED_RETURN_TYPES: readonly string[];
+export const V38_READ_FITS_FINDING_SEARCH_CHANNEL_IDS: readonly string[];
+export const V38_READ_FITS_FINDING_REQUIRED_RECEIPT_FIELDS: readonly string[];
+export const V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_ROWS: readonly Record<string, unknown>[];
+export function buildV38ReadFitsFindingSearchEmbeddings(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;
