@@ -75,12 +75,14 @@ function includesAll(values, requiredValues) {
 function parseArgs(argv) {
   const args = {
     skipBranchCheck: false,
+    skipPackageTests: false,
     repoRoot: defaultRepoRoot,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === '--skip-branch-check') args.skipBranchCheck = true;
+    else if (arg === '--skip-package-tests') args.skipPackageTests = true;
     else if (arg === '--repo-root') args.repoRoot = path.resolve(argv[++index]);
     else if (arg === '--help' || arg === '-h') args.help = true;
     else throw new Error(`Unknown argument ${arg}`);
@@ -92,9 +94,10 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs [--skip-branch-check] [--repo-root <path>]',
+      'Usage: node scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs [--skip-branch-check] [--skip-package-tests] [--repo-root <path>]',
       '',
       'Checks V38 Gate 6 ReadNeedComprehensionSynthesis inference hardening artifacts, tests, docs, and workflow wiring.',
+      'Use --skip-package-tests only in lightweight workflow posture jobs that do not install pnpm dependencies.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -178,7 +181,7 @@ function main() {
     }
   }
 
-  if (failures.length === 0) {
+  if (failures.length === 0 && !args.skipPackageTests) {
     try {
       run(root, 'pnpm', [
         '--filter',
