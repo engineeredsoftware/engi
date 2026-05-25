@@ -2062,6 +2062,9 @@ importers:
       '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
+      '@bitcode/btd':
+        specifier: workspace:*
+        version: link:../../btd
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../execution-generics

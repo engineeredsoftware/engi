@@ -167,6 +167,25 @@ wallet private material, private settlement payloads, credentials, or unpaid
 source-bearing AssetPack content. Pull-request delivery remains withheld until
 BTC settlement, BTD rights transfer, and ledger/database/storage readback agree.
 
+## Settlement Rights Delivery
+
+`AssetPackSettlementRightsDeliveryBoundary` is the paid-boundary package
+primitive that follows a source-safe preview. It observes BTC payment against
+the deterministic quote, binds finality, allocates source-to-shares
+compensation across selected fit deposits, builds BTD rights transfer and paid
+read receipts, verifies settlement unlock readback, reconciles ledger,
+database, and object-storage projections, and admits pull-request delivery only
+when those receipts agree.
+
+The boundary persists `asset-pack/settlement` records for payment observation,
+finality, source-to-shares compensation, BTD receipts, delivery unlock,
+ledger/database/storage reconciliation, replay, and repair posture. Its
+serialized form is source-safe metadata: it may record that source-bearing
+delivery is unlocked for the paid Reader, but it never serializes protected
+source, raw protected prompts, raw provider responses, wallet private material,
+private settlement payloads, credentials, or unpaid source-bearing AssetPack
+content.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

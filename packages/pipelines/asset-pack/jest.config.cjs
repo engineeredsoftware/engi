@@ -45,5 +45,7 @@ module.exports = {
     '^@bitcode/registry/(.*)$': '<rootDir>/../../registry/src/$1',
     '^@bitcode/doc-comment$': '<rootDir>/../../doc-comment/src/index.ts',
     '^@bitcode/doc-comment/(.*)$': '<rootDir>/../../doc-comment/src/$1',
+    '^@bitcode/btd/(.*)$': '<rootDir>/../../btd/src/$1.ts',
+    '^@bitcode/btd$': '<rootDir>/../../btd/src/index.ts',
   },
 };

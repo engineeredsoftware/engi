@@ -8,6 +8,7 @@
     ".": "./src/index.ts",
     "./asset-pack-disclosure": "./src/asset-pack-disclosure.ts",
     "./asset-pack-preview-boundary": "./src/asset-pack-preview-boundary.ts",
+    "./asset-pack-settlement-rights-delivery": "./src/asset-pack-settlement-rights-delivery.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",
@@ -23,6 +24,7 @@
     "demo:bringup": "ts-node src/dev/bringup-demo.ts"
   },
   "dependencies": {
+    "@bitcode/btd": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",

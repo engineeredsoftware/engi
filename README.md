@@ -291,6 +291,16 @@ settlement instructions, withheld pull-request delivery posture, replay
 receipt, and repair posture without exposing unpaid source-bearing AssetPack
 content. Use `pnpm run generate:v39-assetpack-preview-quote-boundary` and
 `pnpm run check:v39-gate6` before closing the gate.
+V39 Gate 7 adds the package-owned `AssetPackSettlementRightsDeliveryBoundary`
+and source-safe generated artifact `.bitcode/v39-settlement-rights-delivery.json`.
+The boundary projects BTC payment observation/finality, source-to-shares
+compensation, BTD rights transfer and paid read receipts, settlement unlock,
+ledger/database/object-storage reconciliation, delivery unlock, replay, and
+repair posture without serializing protected source, private wallet material,
+private settlement payloads, credentials, raw protected prompts, raw provider
+responses, or unpaid AssetPack source. Use
+`pnpm run generate:v39-settlement-rights-delivery` and
+`pnpm run check:v39-gate7` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

@@ -216,7 +216,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-gate6-expanded', SOURCE_ROOTS.v39Delta, delta.includes('Gate 6') && delta.includes('AssetPackPreviewQuoteReceipt')),
     predicateResult('notes-gate6-expanded', SOURCE_ROOTS.v39Notes, notes.includes('Gate 6 implementation notes') && notes.includes('source-safe AssetPack preview boundary')),
     predicateResult('parity-gate6-expanded', SOURCE_ROOTS.v39Parity, parity.includes('Gate 6 Parity') && parity.includes('AssetPackPreviewBoundary')),
-    predicateResult('roadmap-advanced-to-gate6', SOURCE_ROOTS.roadmap, roadmap.includes('Current working gate: V39 Gate 6') && roadmap.includes('V39 Gate 6 closure anchor')),
+    predicateResult('roadmap-advanced-through-gate6', SOURCE_ROOTS.roadmap, roadmap.includes('Current working gate: V39 Gate 7') && roadmap.includes('V39 Gate 6 closure anchor')),
     predicateResult('readmes-document-gate6', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 6') && assetPackReadme.includes('AssetPack Preview Boundary') && protocolReadme.includes('V39AssetPackPreviewQuoteBoundary')),
     predicateResult('workflows-run-gate6-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate6-assetpack-preview-quote-boundary.mjs') && canonWorkflow.includes('check-v39-gate6-assetpack-preview-quote-boundary.mjs')),
   ];
