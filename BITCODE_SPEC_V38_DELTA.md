@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -174,7 +174,10 @@ Closure acceptance:
 
 - Website Conversations and tool-definition prompts use V38 prompt registry, Failsafe, Thricified, tool prompt, telemetry, and disclosure posture;
 - interface-specific inference entrypoints do not bypass the stack;
-- `pnpm run check:v38-gate9` validates Conversation/tool parity, route contracts, UI surfaces, and prompt disclosure rules.
+- `V38ConversationToolPromptInferenceParity` is package-backed in `packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js` and generated to `.bitcode/v38-conversation-tool-prompt-inference-parity.json`;
+- the generated artifact is `source-safe-conversation-tool-prompt-inference-parity-metadata` and covers comprehensive and quick-response Conversation PTRR variations, prompt registries, typed output schemas, source-safe stream telemetry, rich execution-log rendering, DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App doc-code prompt carriers, and interface no-bypass posture;
+- the current closure contract is 8 rows, 34 passed source predicates, Conversation/API/uapi/ChatGPT App tests, no protected source, raw prompt text, raw provider response content, unpaid AssetPack source, credentials, private wallet material, private settlement payload, global ledger authority claim, or `_legacy/` source roots;
+- `pnpm run check:v38-gate9` validates Conversation/tool parity, route contracts, UI surfaces, prompt disclosure rules, package tests, artifact freshness, and workflow wiring.
 
 ### Gate 10: Local Staging Inference And Depository Search Rehearsal
 

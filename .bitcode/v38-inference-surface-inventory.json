@@ -352,9 +352,7 @@
         "conversation.tool_call",
         "conversation.completion_decision"
       ],
-      "knownGapIds": [
-        "quick-response-single-step-is-inventoried-for-v38-gate9-repair"
-      ],
+      "knownGapIds": [],
       "providerCallCount": 36,
       "primitiveStack": [
         "PipelineExecution",
@@ -1206,8 +1204,7 @@
     ],
     "knownGapIds": [
       "gate3-validates-ptrr-failsafe-thricified-call-stack-against-this-inventory",
-      "initial-benchmark-suite-completion-owned-by-v38-gate4",
-      "quick-response-single-step-is-inventoried-for-v38-gate9-repair"
+      "initial-benchmark-suite-completion-owned-by-v38-gate4"
     ],
     "readingPipelinesCovered": true,
     "conversationSurfacesCovered": true,

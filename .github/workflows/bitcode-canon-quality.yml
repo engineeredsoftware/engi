@@ -166,6 +166,9 @@ jobs:
               if [ -f scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs ]; then
                 node scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs --skip-branch-check --skip-package-tests # check:v38-gate8
               fi
+              if [ -f scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs ]; then
+                node scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs --skip-branch-check --skip-package-tests # check:v38-gate9
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
