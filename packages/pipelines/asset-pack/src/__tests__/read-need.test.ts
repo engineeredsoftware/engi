@@ -93,6 +93,43 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
         expect.objectContaining({ dimension: 'source_binding' }),
       ])
     );
+    expect(need.inferenceReceipt).toMatchObject({
+      schema: 'bitcode.read-need-comprehension-synthesis.inference-receipt',
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      needId: need.needId,
+      requestId: 'read-1',
+      reviewState: 'needs_acceptance',
+      mode: 'deterministic-fallback',
+      sourceSafety: {
+        protectedSourceVisible: false,
+        rawProviderResponseVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        credentialsSerialized: false,
+      },
+      reviewBoundary: {
+        supportsResynthesisWithFeedback: true,
+        acceptedNeedRequiredForFindingFits: true,
+        feedbackHistoryCount: 0,
+        previousNeedId: null,
+      },
+    });
+    expect(need.inferenceReceipt?.phaseIds).toEqual([
+      'ReadNeedComprehensionSynthesis.request',
+      'ReadNeedComprehensionSynthesis.comprehend',
+      'ReadNeedComprehensionSynthesis.measure',
+      'ReadNeedComprehensionSynthesis.review',
+    ]);
+    expect(need.inferenceReceipt?.agentIds).toHaveLength(4);
+    expect(need.inferenceReceipt?.ptrrStepIds).toHaveLength(16);
+    expect(need.inferenceReceipt?.failsafeSequenceIds).toHaveLength(48);
+    expect(need.inferenceReceipt?.thricifiedGenerationIds).toHaveLength(48);
+    expect(need.inferenceReceipt?.promptTemplateIds).toEqual(
+      expect.arrayContaining([
+        'ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.agent',
+        'ReadNeedComprehensionSynthesis.prompt.need-synthesis',
+      ])
+    );
+    expect(need.inferenceReceipt?.roots.receiptRoot).toMatch(/^sha256:/);
   });
 
   it('carries Read Request lineage and feedback through resynthesis', () => {
@@ -114,12 +151,24 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     ]);
     expect(second.request.feedbackHistory).toEqual(second.feedbackHistory);
     expect(second.reviewState).toBe('needs_acceptance');
+    expect(second.inferenceReceipt?.reviewBoundary).toMatchObject({
+      feedbackHistoryCount: 2,
+      previousNeedId: first.needId,
+    });
   });
 
   it('accepts a Need as the only admissible input to strict Finding Fits search', () => {
     const accepted = acceptReadNeed(synthesizeReadNeedForPipelineInput(input), '2026-05-18T00:00:00.000Z');
 
     expect(isAcceptedReadNeed(accepted)).toBe(true);
+    expect(accepted.inferenceReceipt).toMatchObject({
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      reviewState: 'accepted',
+      mode: 'deterministic-fallback',
+      reviewBoundary: {
+        acceptedNeedRequiredForFindingFits: true,
+      },
+    });
     expect(admitReadFitsFinding({ acceptedReadNeed: accepted, requireAcceptedReadNeed: true })).toMatchObject({
       admitted: true,
       acceptedNeed: accepted,
@@ -180,12 +229,38 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
       'ThricifiedGeneration telemetry contains reasoning, judgment, and typed output.'
     );
     expect(need.reviewState).toBe('needs_acceptance');
+    expect(need.inferenceReceipt).toMatchObject({
+      pipelineName: 'ReadNeedComprehensionSynthesis',
+      mode: 'real-inference',
+      needId: need.needId,
+      reviewState: 'needs_acceptance',
+    });
     expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'mode', 'thricified-generation');
+    expect(execution.store).toHaveBeenCalledWith(
+      'bounded-inference',
+      'stack',
+      expect.objectContaining({
+        failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
+        thricifiedGenerationStages: ['reason', 'judge', 'structured_output'],
+      })
+    );
     expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'status', 'success');
+    expect(execution.store).toHaveBeenCalledWith(
+      'read-need-comprehension',
+      'inferenceReceipt',
+      expect.objectContaining({
+        pipelineName: 'ReadNeedComprehensionSynthesis',
+        mode: 'real-inference',
+        ptrrStepIds: expect.arrayContaining([
+          'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
+        ]),
+      })
+    );
     expect(execution.store).toHaveBeenCalledWith(
       'llm',
       'input',
       expect.objectContaining({
+        failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
         generationSequence: ['reason', 'judge', 'structured_output'],
       })
     );

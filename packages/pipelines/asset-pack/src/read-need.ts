@@ -6,6 +6,11 @@ import type {
 } from './depository-search';
 import { runBoundedStructuredInference } from './bounded-structured-inference';
 import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
+import {
+  READ_NEED_COMPREHENSION_SYNTHESIS,
+  READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
+  listReadingPipelineTelemetryTrace,
+} from './reading-pipeline-contract';
 
 export type ReadNeedReviewState =
   | 'needs_acceptance'
@@ -67,6 +72,45 @@ export interface ReadNeed {
     acceptedAt: string;
     acceptanceRoot: string;
     nextStage: 'finding_fits';
+  };
+  inferenceReceipt?: ReadNeedComprehensionSynthesisInferenceReceipt;
+}
+
+export interface ReadNeedComprehensionSynthesisInferenceReceipt {
+  schema: 'bitcode.read-need-comprehension-synthesis.inference-receipt';
+  pipelineName: typeof READ_NEED_COMPREHENSION_SYNTHESIS;
+  receiptId: string;
+  needId: string;
+  requestId: string;
+  reviewState: ReadNeedReviewState;
+  mode: 'deterministic-fallback' | 'real-inference';
+  phaseIds: string[];
+  agentIds: string[];
+  ptrrStepIds: string[];
+  failsafeSequenceIds: string[];
+  thricifiedGenerationIds: string[];
+  promptTemplateIds: string[];
+  interpolationContextKeys: string[];
+  outputSchemaIds: string[];
+  telemetryEventIds: string[];
+  sourceSafety: {
+    protectedSourceVisible: false;
+    rawProviderResponseVisible: false;
+    unpaidAssetPackSourceVisible: false;
+    credentialsSerialized: false;
+  };
+  reviewBoundary: {
+    supportsResynthesisWithFeedback: true;
+    acceptedNeedRequiredForFindingFits: true;
+    feedbackHistoryCount: number;
+    previousNeedId: string | null;
+  };
+  roots: {
+    receiptRoot: string;
+    measurementRoot: string;
+    promptTemplateRoot: string;
+    telemetryTraceRoot: string;
+    typedOutputRoot: string;
   };
 }
 
@@ -398,6 +442,160 @@ function clampQuality(value: number): number {
   return Math.max(0, Math.min(1, Number.isFinite(value) ? value : 0));
 }
 
+function readNeedReceiptRoot(value: unknown): string {
+  return `sha256:${sha256(stableStringify(value))}`;
+}
+
+function buildReadNeedComprehensionSynthesisInferenceReceipt(
+  need: Omit<ReadNeed, 'inferenceReceipt'>,
+  mode: ReadNeedComprehensionSynthesisInferenceReceipt['mode']
+): ReadNeedComprehensionSynthesisInferenceReceipt {
+  const trace = listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT);
+  const phaseIds = READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.map((phase) => phase.phaseId);
+  const agentIds = READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.flatMap((phase) =>
+    phase.agents.map((agent) => agent.agentId)
+  );
+  const promptTemplateIds = uniqueStrings(
+    READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.flatMap((phase) =>
+      phase.agents.flatMap((agent) => [
+        agent.promptRegistry.agentPromptId,
+        ...Object.values(agent.promptRegistry.ptrrStepPromptIds),
+        ...agent.ptrrSteps.flatMap((step) => step.prompt?.templateId ? [step.prompt.templateId] : []),
+        ...agent.ptrrSteps.flatMap((step) => step.thricifiedGenerations.flatMap((generation) => [
+          generation.reasonPromptId,
+          generation.judgePromptId,
+          generation.structuredOutputPromptId,
+        ])),
+      ])
+    )
+  );
+  const interpolationContextKeys = uniqueStrings(
+    READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.flatMap((phase) =>
+      phase.agents.flatMap((agent) =>
+        agent.ptrrSteps.flatMap((step) => step.prompt?.interpolatedContextKeys || [])
+      )
+    )
+  );
+  const outputSchemaIds = uniqueStrings([
+    ...trace.map((entry) => entry.outputType),
+    ...READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.flatMap((phase) =>
+      phase.agents.map((agent) => agent.returnType)
+    ),
+  ]);
+  const telemetryEventIds = uniqueStrings(trace.flatMap((entry) => entry.telemetry));
+  const ptrrStepIds = trace.map((entry) => entry.ptrrStepId);
+  const thricifiedGenerationIds = uniqueStrings(trace.flatMap((entry) => entry.thricifiedGenerationIds));
+  const failsafeSequenceIds = uniqueStrings(
+    trace.flatMap((entry) =>
+      entry.thricifiedGenerations.map((generation) =>
+        `${entry.ptrrStepId}.${generation.failsafe}`
+      )
+    )
+  );
+  const promptTemplateRoot = readNeedReceiptRoot({
+    pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+    promptTemplateIds,
+    interpolationContextKeys,
+  });
+  const telemetryTraceRoot = readNeedReceiptRoot({
+    pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+    ptrrStepIds,
+    failsafeSequenceIds,
+    thricifiedGenerationIds,
+    telemetryEventIds,
+  });
+  const typedOutputRoot = readNeedReceiptRoot({
+    needId: need.needId,
+    requestId: need.request.requestId,
+    reviewState: need.reviewState,
+    requirements: need.requirements,
+    closureCriteria: need.closureCriteria,
+    failureModes: need.failureModes,
+    targetArtifactKinds: need.targetArtifactKinds,
+    proofExpectations: need.proofExpectations,
+    measurementRoot: need.measurementRoot,
+  });
+  const receiptRoot = readNeedReceiptRoot({
+    pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+    needId: need.needId,
+    requestId: need.request.requestId,
+    reviewState: need.reviewState,
+    mode,
+    phaseIds,
+    agentIds,
+    ptrrStepIds,
+    failsafeSequenceIds,
+    thricifiedGenerationIds,
+    promptTemplateRoot,
+    telemetryTraceRoot,
+    typedOutputRoot,
+  });
+
+  return {
+    schema: 'bitcode.read-need-comprehension-synthesis.inference-receipt',
+    pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
+    receiptId: `read-need-receipt-${sha256(receiptRoot).slice(0, 16)}`,
+    needId: need.needId,
+    requestId: need.request.requestId,
+    reviewState: need.reviewState,
+    mode,
+    phaseIds,
+    agentIds,
+    ptrrStepIds,
+    failsafeSequenceIds,
+    thricifiedGenerationIds,
+    promptTemplateIds,
+    interpolationContextKeys,
+    outputSchemaIds,
+    telemetryEventIds,
+    sourceSafety: {
+      protectedSourceVisible: false,
+      rawProviderResponseVisible: false,
+      unpaidAssetPackSourceVisible: false,
+      credentialsSerialized: false,
+    },
+    reviewBoundary: {
+      supportsResynthesisWithFeedback: true,
+      acceptedNeedRequiredForFindingFits: true,
+      feedbackHistoryCount: need.feedbackHistory.length,
+      previousNeedId: need.request.previousNeedId || null,
+    },
+    roots: {
+      receiptRoot,
+      measurementRoot: need.measurementRoot,
+      promptTemplateRoot,
+      telemetryTraceRoot,
+      typedOutputRoot,
+    },
+  };
+}
+
+function withReadNeedInferenceReceipt(
+  need: Omit<ReadNeed, 'inferenceReceipt'>,
+  mode: ReadNeedComprehensionSynthesisInferenceReceipt['mode'] = 'deterministic-fallback'
+): ReadNeed {
+  return {
+    ...need,
+    inferenceReceipt: buildReadNeedComprehensionSynthesisInferenceReceipt(need, mode),
+  };
+}
+
+function withoutReadNeedInferenceReceipt(need: ReadNeed): Omit<ReadNeed, 'inferenceReceipt'> {
+  const { inferenceReceipt: _receipt, ...baseNeed } = need;
+  return baseNeed;
+}
+
+function storeReadNeedInferenceReceipt(execution: any, receipt: ReadNeedComprehensionSynthesisInferenceReceipt): void {
+  try {
+    execution?.store?.('read-need-comprehension', 'inferenceReceipt', receipt);
+    execution?.store?.('read-need-comprehension', 'receiptRoot', receipt.roots.receiptRoot);
+    execution?.store?.('read-need-comprehension', 'telemetryTraceRoot', receipt.roots.telemetryTraceRoot);
+    execution?.store?.('read-need-comprehension', 'sourceSafety', receipt.sourceSafety);
+  } catch {
+    // Receipt storage must never make Need synthesis fail after typed output exists.
+  }
+}
+
 export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): ReadNeed {
   const read = normalizeSource(input);
   const targetArtifactKinds = normalizeTargetArtifactKinds(input);
@@ -452,7 +650,7 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
     measurementVector,
   }))}`;
 
-  return {
+  const need: Omit<ReadNeed, 'inferenceReceipt'> = {
     schema: 'bitcode.read.need',
     needId: `need-${sha256(stableStringify(seed)).slice(0, 16)}`,
     reviewState: 'needs_acceptance',
@@ -482,6 +680,8 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
     },
     feedbackHistory,
   };
+
+  return withReadNeedInferenceReceipt(need);
 }
 
 export async function synthesizeReadNeedForPipelineInputWithInference(
@@ -557,7 +757,7 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
       : fallbackNeed.targetArtifactKinds,
   });
 
-  return {
+  const inferredNeed = {
     ...synthesized,
     requirements: inferredRequirements.length
       ? inferredRequirements
@@ -566,6 +766,12 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
       ? inferredProofExpectations
       : synthesized.proofExpectations,
   };
+  const withReceipt = withReadNeedInferenceReceipt(
+    withoutReadNeedInferenceReceipt(inferredNeed),
+    'real-inference'
+  );
+  storeReadNeedInferenceReceipt(execution, withReceipt.inferenceReceipt!);
+  return withReceipt;
 }
 
 export function acceptReadNeed(
@@ -578,8 +784,9 @@ export function acceptReadNeed(
     acceptedAt,
     nextStage: 'finding_fits',
   }))}`;
-  return {
-    ...need,
+  const baseNeed = withoutReadNeedInferenceReceipt(need);
+  const accepted: Omit<ReadNeed, 'inferenceReceipt'> = {
+    ...baseNeed,
     reviewState: 'accepted',
     review: {
       status: 'accepted',
@@ -588,6 +795,7 @@ export function acceptReadNeed(
       nextStage: 'finding_fits',
     },
   };
+  return withReadNeedInferenceReceipt(accepted, need.inferenceReceipt?.mode || 'deterministic-fallback');
 }
 
 export function isAcceptedReadNeed(value: unknown): value is ReadNeed {

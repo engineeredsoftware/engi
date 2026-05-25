@@ -294,6 +294,7 @@ export {
   type AssetPackReadRightState,
   type AssetPackSourceSafePreview,
   type ReadNeed,
+  type ReadNeedComprehensionSynthesisInferenceReceipt,
   type ReadNeedRequest,
   type ReadFitsFindingAdmission,
   type ReadNeedMeasurementDimension,

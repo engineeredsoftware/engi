@@ -179,6 +179,14 @@ The artifact deliberately stores telemetry level ids, disclosure tier ids, sourc
 The current generated report covers 8 rows, 13 required telemetry levels, 12 disclosure tier ids, 66 source predicates, V35 telemetry taxonomy roots, V37 stream event roots, V38 inference inventory roots, V38 PTRR/Failsafe/Thricified stack roots, and V38 prompt benchmark roots.
 Prompt template identity, interpolated prompt presence, raw response presence, parsed typed output shape, schema verdicts, retry, repair, and inference audit shapes can stream at their disclosure tiers; protected source, unpaid AssetPack source, raw provider response content, credentials, private wallet material, and private settlement payloads remain blocked or private.
 
+## Gate 6 implementation notes
+
+Gate 6 closes the ReadNeedComprehensionSynthesis inference-hardening contract by binding the produced `ReadNeed` to a source-safe `ReadNeedComprehensionSynthesisInferenceReceipt`.
+The receipt records phase ids, agent ids, PTRR step ids, Failsafe sequence ids, ThricifiedGeneration ids, prompt template ids, interpolation context keys, output schema ids, telemetry ids, source-safety booleans, review boundary posture, and stable roots.
+`V38ReadNeedComprehensionInferenceHardening` and `.bitcode/v38-read-need-comprehension-inference-hardening.json` record request normalization, Need comprehension, Need measurement, Need review, and receipt rows as `source-safe-read-need-comprehension-inference-hardening-metadata`.
+The current generated report covers 5 rows, 4 phases, 4 PTRR agents, 16 PTRR steps, 48 FailsafeGenerationSequence ids, 48 ThricifiedGeneration ids, 144 provider-call slots, 22 source predicates, and V38 Gates 2 through 5 roots.
+The route and Terminal workbench remain aligned to resynthesis-with-feedback and accepted-Need-gated Finding Fits admission while raw provider responses, protected source, unpaid AssetPack source, credentials, private wallet material, and private settlement payloads remain unavailable in the source-safe receipt.
+
 ## V38 gate plan
 
 - Gate 1: V38 Inference Stack Roadmap And Spec Opening

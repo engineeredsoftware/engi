@@ -92,6 +92,7 @@ No `_legacy/` source is active source truth.
 | PTRR Failsafe and Thricified execution stack | Gate 3 | `V38PtrrFailsafeThricifiedStack`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, protocol test, generator, checker, workflows | closed | Practical PTRR agents prove four steps, three Failsafe stages, three ThricifiedGeneration stages, 69 source predicates, and Gate 2 count binding with step-owned tools. |
 | PromptPart and Prompt benchmarking | Gate 4 | `V38PromptBenchmarkReport`, `.bitcode/v38-prompt-benchmark-report.json`, protocol test, generator, checker, workflows | closed | Source-safe benchmark report covers active Reading, Conversation, and tool-definition PromptParts and complete Prompts with 7 rows, 13 fixtures, 24 typed-output quality expectations, and 38 passed source predicates. |
 | Inference telemetry and disclosure tiers | Gate 5 | `V38InferenceTelemetryDisclosureReport`, `.bitcode/v38-disclosure-boundary-report.json`, protocol test, generator, checker, workflows | closed | Source-safe telemetry disclosure report covers phase, agent, PTRR step, Failsafe, ThricifiedGeneration, tool, prompt template, interpolated prompt, raw response root, parsed typed output shape, schema verdict, retry, repair, and stream UI projection rows with 8 rows, 13 telemetry levels, 12 disclosure tier ids, and 66 passed predicates. |
+| ReadNeedComprehensionSynthesis inference hardening | Gate 6 | `V38ReadNeedComprehensionInferenceHardening`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `ReadNeedComprehensionSynthesisInferenceReceipt`, protocol test, package tests, generator, checker, workflows | closed | Source-safe ReadNeedComprehensionSynthesis report covers request normalization, Need comprehension, measurement, review, and receipt rows with 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, and 22 passed predicates. |
 
 ## V38 implementation checklist
 
@@ -108,6 +109,7 @@ No `_legacy/` source is active source truth.
 | PTRR stack artifact | `.bitcode/v38-ptrr-failsafe-thricified-stack.json` and `V38PtrrFailsafeThricifiedStack` are generated, tested, checked, documented, and workflow-wired as `source-safe-ptrr-failsafe-thricified-stack-metadata` | closed |
 | Prompt benchmark artifact | `.bitcode/v38-prompt-benchmark-report.json` and `V38PromptBenchmarkReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-prompt-benchmark-metadata` | closed |
 | Inference telemetry disclosure artifact | `.bitcode/v38-disclosure-boundary-report.json` and `V38InferenceTelemetryDisclosureReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-telemetry-disclosure-metadata` with disclosure tier and raw provider response boundaries explicit | closed |
+| ReadNeedComprehensionSynthesis hardening artifact | `.bitcode/v38-read-need-comprehension-inference-hardening.json` and `V38ReadNeedComprehensionInferenceHardening` are generated, tested, checked, documented, and workflow-wired as `source-safe-read-need-comprehension-inference-hardening-metadata` with Need receipt and accepted-Need-gated Finding Fits boundary explicit | closed |
 | Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
 | Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
 | Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
@@ -195,6 +197,21 @@ No `_legacy/` source is active source truth.
 ## Completion condition
 
 Gate 5 closes when `pnpm run check:v38-gate5`, the V38 inference telemetry disclosure report generator check, Gate 4 prompt benchmark checks, Gate 3 PTRR/Failsafe/Thricified stack checks, Gate 2 inventory checks, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-5-inference-telemetry-disclosure-tiers`.
+
+## Gate 6 ReadNeedComprehensionSynthesis inference hardening closure
+
+| Area | Required result | Judgment |
+| --- | --- | --- |
+| ReadNeed receipt | Produced `ReadNeed` values carry `ReadNeedComprehensionSynthesisInferenceReceipt` with phase, agent, PTRR step, Failsafe, ThricifiedGeneration, prompt, interpolation, output-schema, telemetry, source-safety, review-boundary, and root fields | closed |
+| Real inference stack | `synthesizeReadNeedForPipelineInputWithInference` delegates to bounded structured inference when enabled, stores Failsafe sequence and ThricifiedGeneration stages, and stores the source-safe receipt on execution state | closed |
+| Resynthesis boundary | Feedback history and previous Need id flow into resynthesized Needs and their receipts | closed |
+| Acceptance boundary | `acceptReadNeed` refreshes the receipt to accepted review state and `admitReadFitsFinding` continues to block strict Finding Fits without accepted Need | closed |
+| Source-safe artifact | `V38ReadNeedComprehensionInferenceHardening` and `.bitcode/v38-read-need-comprehension-inference-hardening.json` bind Gate 6 implementation to V38 Gates 2 through 5 roots without protected payloads | closed |
+| Gate checker is wired | `pnpm run check:v38-gate6`, package tests, protocol test, generator check, gate/canon workflows, docs, and package exports are wired | closed |
+
+## Completion condition
+
+Gate 6 closes when `pnpm run check:v38-gate6`, the Gate 6 artifact generator check, Gate 5 telemetry disclosure check, Gate 4 prompt benchmark check, Gate 3 PTRR/Failsafe/Thricified stack check, Gate 2 inventory check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol and pipeline tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-6-readneedcomprehensionsynthesis-inference-hardening`.
 
 ## accepted boundaries
 

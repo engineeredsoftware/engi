@@ -157,6 +157,21 @@ surfacing roots, presence flags, typed shapes, and proof metadata for audit.
 Use `pnpm run generate:v38-inference-telemetry-disclosure-report`,
 `pnpm run check:v38-inference-telemetry-disclosure-report`, and
 `pnpm run check:v38-gate5` before closing the gate.
+V38 Gate 6 adds the package-backed
+`V38ReadNeedComprehensionInferenceHardening` report and generated source-safe
+artifact `.bitcode/v38-read-need-comprehension-inference-hardening.json`.
+The ReadNeedComprehensionSynthesis hardening report binds produced Needs to
+`ReadNeedComprehensionSynthesisInferenceReceipt` metadata covering 4 phases, 4
+PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48
+ThricifiedGeneration chains, 144 provider-call slots, prompt/template ids,
+interpolation keys, output schemas, telemetry ids, and roots. The receipt keeps
+protected source, raw provider response content, unpaid AssetPack source,
+credentials, private wallet material, and private settlement payloads private
+or blocked while preserving resynthesis-with-feedback and accepted-Need-gated
+Finding Fits admission.
+Use `pnpm run generate:v38-read-need-comprehension-inference-hardening`,
+`pnpm run check:v38-read-need-comprehension-inference-hardening`, and
+`pnpm run check:v38-gate6` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
