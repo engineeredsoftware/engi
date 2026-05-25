@@ -266,6 +266,7 @@ deterministic source-safe proof artifact is
 
 Gate 11 closes V39 with promotion readiness.
 It must generate V39 proof support, validate every V39 artifact, update promotion workflows, preserve V38 active / V39 draft to V39 active / draft V40 posture, and block promotion if Depository supply, Reading UX, Need review, Finding Fits, preview/quote, settlement/delivery, telemetry/repair, interface parity, local/staging rehearsal, or source-safety evidence is incomplete.
+The package-owned closure type is `V39CommercialReadingPromotionReadinessReport`; the deterministic source-safe artifact is `.bitcode/v39-promotion-readiness-report.json`, checked by `pnpm run check:v39-gate11`.
 
 ## V39 non-goals
 
@@ -558,8 +559,8 @@ Generated canon for V39 includes source-safe `.bitcode/v39-*` artifacts, generat
 Generated artifacts must be reproducible, deterministic where possible, and blocked when source-safe payload rules fail.
 Inherited V19 reproducible-canon artifacts remain the baseline for deterministic generated proof.
 Inherited V20 operator-quality artifacts remain the baseline for operator-visible quality.
-Exact generated-artifact inventory matrix includes `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-inference-surface-inventory.json`, `.bitcode/v39-ptrr-failsafe-thricified-stack.json`, `.bitcode/v39-prompt-benchmark-report.json`, `.bitcode/v39-disclosure-boundary-report.json`, and later `.bitcode/v39-*` gate artifacts.
-V39 specifying generated artifacts include inference inventory, prompt benchmark, telemetry disclosure, depository search, AssetPack handoff, rehearsal, and promotion readiness reports.
+Exact generated-artifact inventory matrix includes `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, and `.bitcode/v39-promotion-readiness-report.json`.
+V39 specifying generated artifacts include Depository supply indexing, enterprise Reading UX state, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry/repair readback, interface parity, local/staging rehearsal, and promotion readiness reports.
 Shared generated-artifact fields: version, currentTarget, artifactRoot, sourceRoots, proofRoots, disclosureTier, generatedAt, and command.
 Artifact-specific generated payload fields: prompt ids, PromptPart ids, phase ids, agent ids, step ids, Failsafe ids, ThricifiedGeneration ids, tool ids, fit ids, ranking roots, and settlement roots.
 Artifact confidentiality and disclosability taxonomy: public, source-safe, buyer-visible, reviewer-visible, operator-only, and forbidden.
@@ -572,6 +573,8 @@ Validation canon includes `pnpm run check:v39-gate1`, `pnpm run check:v39-gate2`
 
 Promotion canon requires all V39 gates to close, V39 proof support to exist, a V39 promotion workflow to pass, and the promotion commit to change only accepted canon artifacts and the `BITCODE_SPEC.txt` pointer from V38 to V39.
 The V39 promotion readiness canon is `.bitcode/v39-promotion-readiness-report.json`, `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, `check:v39-gate11`, `node scripts/promote-bitcode-canon.mjs --version V39 --commit HEAD --dry-run`, and the V39 active / draft V40 posture checks.
+`V39CommercialReadingPromotionReadinessReport` is package-backed in `packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js`.
+It proves all Gate 2 through Gate 10 artifacts are present, parseable, source-safe, workflow-wired, and covered by generated proof support; it blocks value-bearing mainnet admission and preserves protected source, raw protected prompts, raw provider responses, unpaid AssetPack source, credentials, wallet private material, and private settlement payloads.
 
 ## appendices and canonical supporting material
 

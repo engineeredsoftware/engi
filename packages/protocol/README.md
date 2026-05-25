@@ -54,6 +54,7 @@ Current exported commercial helpers include:
 - `V39ReadFitsFindingRuntime` helpers for V39 source-safe Finding Fits runtime storage, many-candidate ranking, selected-fit provenance, replay receipts, repair posture, and active embedding policy proof;
 - `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
 - `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
+- `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -299,6 +300,17 @@ private settlement, and unpaid AssetPack privacy.
 The maintained commands are
 `pnpm run generate:v38-promotion-readiness`,
 `pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`.
+V39 Gate 11 adds `V39CommercialReadingPromotionReadinessReport` through
+`packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js`
+and the generated source-safe artifact `.bitcode/v39-promotion-readiness-report.json`.
+The report verifies all V39 commercial Reading artifacts are covered, parseable,
+and source-safe; binds `BITCODE_SPEC_V39_PROVEN.md` generation support,
+`v39-canon-promotion.yml`, promotion command dry-run support, gate/canon
+workflow posture, and runtime preparation for `V39` active, `V40` draft; and
+blocks value-bearing mainnet admission while preserving protected source, raw
+protected prompt, raw provider response, credential, wallet, private settlement,
+and unpaid AssetPack privacy. Use `pnpm run generate:v39-promotion-readiness`,
+`pnpm run check:v39-promotion-readiness`, and `pnpm run check:v39-gate11`.
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and

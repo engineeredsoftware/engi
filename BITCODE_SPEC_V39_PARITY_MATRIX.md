@@ -79,7 +79,7 @@ No `_legacy/` source is active source truth.
 | Operational telemetry and repair | Gate 8 | `ReadingOperationalTelemetryRepairReadback`, `.bitcode/v39-operational-telemetry-repair-readback.json`, package tests, UI tests, protocol tests | implemented | Reading is observable and repairable end to end through source-safe stream events, operator readback, runbook hooks, proof roots, and repair commands. |
 | Interface and Conversation parity | Gate 9 | `ReadingInterfaceProductParity`, `.bitcode/v39-interface-conversation-product-parity.json`, package/Conversation/MCP/ChatGPT/protocol tests | implemented | Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers share Terminal Reading authority; accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries cannot be bypassed. |
 | Local and staging rehearsal | Gate 10 | `ReadingLocalStagingRehearsal`, `.bitcode/v39-local-staging-reading-rehearsal.json`, package/protocol tests | implemented | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
-| Promotion readiness | Gate 11 | V39 promotion report, generated proof appendix, promotion workflow, command dry-run | pending | V39 promotes only after all commercial Reading gates and source-safety evidence close. |
+| Promotion readiness | Gate 11 | `V39CommercialReadingPromotionReadinessReport`, `.bitcode/v39-promotion-readiness-report.json`, `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, `check:v39-gate11`, promotion dry-run | closed | V39 promotes only after all commercial Reading gates, source-safety evidence, workflow posture, generated proof support, active V39 / draft V40 posture, and value-bearing mainnet blocking close. |
 
 ## V39 implementation checklist
 
@@ -99,15 +99,15 @@ No `_legacy/` source is active source truth.
 | Preview and quote | AssetPack preview is source-safe and quote is deterministic before settlement | implemented |
 | Settlement and delivery | BTC settlement, BTD rights transfer, source-to-shares compensation, ledger/database/storage sync, and delivery are auditable | implemented |
 | Operational telemetry and repair | Reading stream events, operator readback, rich log rendering, proof roots, and repair hooks are source-safe and replayable | implemented |
-| Telemetry and repair | Reading emits source-safe rich stream events and operator readback with proof roots and repair posture | pending |
-| Interface parity | Conversation, MCP/API, ChatGPT App, and package consumers cannot bypass Terminal Reading authority | pending |
-| Local/staging rehearsal | Full Reading flow rehearses locally and in staging-testnet with mainnet value-bearing admission blocked | pending |
-| Promotion readiness | V39 promotes only after every commercial Reading gate and source-safety proof closes | pending |
-| Inference stack vocabulary | V39 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | pending |
-| Reading vocabulary | V39 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | pending |
-| Depository search vocabulary | V39 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | pending |
-| Embedding policy | V39 spec family preserves `text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors` until a tested migration exists | pending |
-| Disclosure boundary | V39 telemetry exposes prompt and inference evidence only by disclosure tier and blocks protected source, credentials, unpaid AssetPack source, wallet private material, and private settlement payloads | pending |
+| Telemetry and repair | Reading emits source-safe rich stream events and operator readback with proof roots and repair posture | implemented |
+| Interface parity | Conversation, MCP/API, ChatGPT App, and package consumers cannot bypass Terminal Reading authority | implemented |
+| Local/staging rehearsal | Full Reading flow rehearses locally and in staging-testnet with mainnet value-bearing admission blocked | implemented |
+| Promotion readiness | V39 promotes only after every commercial Reading gate and source-safety proof closes | closed |
+| Inference stack vocabulary | V39 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | implemented |
+| Reading vocabulary | V39 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | implemented |
+| Depository search vocabulary | V39 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | implemented |
+| Embedding policy | V39 spec family preserves `text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors` until a tested migration exists | implemented |
+| Disclosure boundary | V39 telemetry exposes prompt and inference evidence only by disclosure tier and blocks protected source, credentials, unpaid AssetPack source, wallet private material, and private settlement payloads | implemented |
 
 ## Gate 1 Parity
 
@@ -278,3 +278,31 @@ package tests, protocol artifact tests, generated artifact freshness checks,
 V39 draft spec-family validation, V38/V39 canon-posture drift validation,
 promoted V38 spec-family validation, and Gate Quality pass on a
 `v39/gate-10-*` branch.
+
+## Gate 11 Promotion readiness parity
+
+V39 Gate 11 is implemented when `V39CommercialReadingPromotionReadinessReport`
+binds all commercial Reading artifacts, generated proof appendix support,
+promotion workflow posture, promotion command dry-run support, and active V39 /
+draft V40 runtime posture into one source-safe promotion-readiness contract.
+The parity source is
+`packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js`.
+It covers `.bitcode/v39-depository-supply-indexing.json`,
+`.bitcode/v39-enterprise-reading-ux-state.json`,
+`.bitcode/v39-read-need-review-resynthesis.json`,
+`.bitcode/v39-read-fits-finding-runtime.json`,
+`.bitcode/v39-assetpack-preview-quote-boundary.json`,
+`.bitcode/v39-settlement-rights-delivery.json`,
+`.bitcode/v39-operational-telemetry-repair-readback.json`,
+`.bitcode/v39-interface-conversation-product-parity.json`,
+`.bitcode/v39-local-staging-reading-rehearsal.json`,
+`BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, and
+`check:v39-gate11`. The generated proof artifact is
+`.bitcode/v39-promotion-readiness-report.json` and its judgment is closed only
+when every artifact is present, parseable, source-safe, workflow-wired,
+promotion-script-wired, and value-bearing mainnet admission remains blocked.
+
+V39 Gate 11 is complete when `check:v39-gate11`, focused promotion readiness
+protocol tests, promotion dry-run, generated artifact freshness checks, V39
+draft spec-family validation, V38/V39 canon-posture drift validation, promoted
+V38 spec-family validation, and Gate Quality pass on a `v39/gate-11-*` branch.

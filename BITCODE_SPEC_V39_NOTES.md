@@ -309,6 +309,13 @@ generated artifacts.
 ## Gate 11 implementation notes
 
 Gate 11 closes V39 by binding every commercial Reading gate artifact, V39 proof appendix generation, workflow posture, promotion command support, and post-promotion runtime posture into one source-safe promotion-readiness contract. After promotion, runtime posture must become active V39 / draft V40 and `BITCODE_SPEC.txt` may point to V39 only through the V39 promotion workflow.
+The Gate 11 contract is `V39CommercialReadingPromotionReadinessReport` with generated artifact `.bitcode/v39-promotion-readiness-report.json`. It binds all commercial Reading closure artifacts, source-safety evidence, `BITCODE_SPEC_V39_PROVEN.md` support, `v39-canon-promotion.yml`, `pnpm run check:v39-gate11`, and active V39 / draft V40 runtime posture.
+
+## Post-V39 planning notes
+
+The next specification target should focus on exhaustive commercial application testing depth: browser E2E across all rich website interactions and state possibilities, visual and screenshot comparison coverage, integration tests for pipeline primitives and the real Reading implementations, Conversation/API tests, and unit coverage for packages, primitives, isolated implementations, and real commercial implementations.
+
+The following specification target should focus singularly on Prompt and PromptPart excellence, treating prompts as programs. V38's inference correctness hardening in commercial systems and V40's testing and benchmarking depth should make V41's prompt work measurable: every raw PromptPart and every composed Prompt should be audited, benchmarked, semantically repartitioned where useful, retitled or rewritten where optimal, catalogued with registry and interpolation contracts, and validated against the inference callsites they serve. Reading pipelines are the primary focus, with Conversation inference points covered as well.
 
 ## V39 gate plan
 
