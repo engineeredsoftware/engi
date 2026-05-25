@@ -49,6 +49,7 @@ Current exported commercial helpers include:
 - `V38ReadFitsFindingSearchEmbeddings` helpers for V38 source-safe Finding Fits query plans, depository search channels, embedding policy, threshold ranking, selected-fit provenance, and search receipts;
 - `V38InferencePromotionReadinessReport` helpers for V38 source-safe promotion readiness across inference artifacts, generated proof support, workflow posture, and V38 active / V39 draft runtime preparation;
 - `V39DepositorySupplyIndexing` helpers for V39 source-safe Depository supply records, search documents, vector projections, storage readback posture, rights boundaries, repair actions, and Finding Fits handoff;
+- `V39EnterpriseReadingUxState` helpers for V39 source-safe Terminal Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -74,6 +75,14 @@ Supabase storage readback posture, depositor/Reader settlement boundary,
 deterministic repair actions, and Finding Fits source-safe handoff. The
 maintained commands are `pnpm run generate:v39-depository-supply-indexing` and
 `pnpm run check:v39-gate2`.
+V39 Gate 3 adds `V39EnterpriseReadingUxState` through
+`packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js` and the
+source-safe generated artifact `.bitcode/v39-enterprise-reading-ux-state.json`.
+The UX state report proves five Terminal Reading stages, source-safe disclosure
+defaults, Conversation `readingStage` handoff/readback, rich execution stream
+integration, component tests, and opt-in browser proof workflow wiring. The
+maintained commands are `pnpm run generate:v39-enterprise-reading-ux-state` and
+`pnpm run check:v39-gate3`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

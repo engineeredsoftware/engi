@@ -86,6 +86,25 @@ material, settlement private payloads, unpaid AssetPack source, ledger write
 authority, wallet signing authority, or Terminal authority bypass. Gate 6 is
 checked by `pnpm run check:v37-gate6`.
 
+## V39 Enterprise Reading UX state
+
+Gate 3 introduces `TerminalEnterpriseReadingUxState` as the Terminal-owned
+state contract for the enterprise Reading path. The five stable stages are
+request Read, review synthesized Need, request Finding Fits, review
+source-safe AssetPack preview, and buy AssetPack/settle. The default display is
+low-detail operator guidance; each stage can expand source-safe detail,
+visible metadata fields, and blockers without exposing protected source, raw
+protected prompts, raw provider responses, unpaid AssetPack source, wallet
+private material, private settlement payloads, or ledger write authority.
+
+`TerminalDepositReadWorkbench.tsx` renders the stage cards with stable
+`terminal-enterprise-reading-step-*` test ids and keeps
+`BitcodeExecutionStreamPanel` as the live Reading pipeline stream surface.
+Conversation handoffs can provide `readingStage` route intent, but Terminal
+parses it only as operator posture. The source-safe generated artifact is
+`.bitcode/v39-enterprise-reading-ux-state.json`, checked by
+`pnpm run check:v39-gate3`.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are

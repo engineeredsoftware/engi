@@ -257,6 +257,15 @@ wallet, source-safe search documents, active embedding/vector projection,
 Supabase storage readback posture, deterministic repair actions, and a
 source-safe Finding Fits handoff. Use `pnpm run generate:v39-depository-supply-indexing`
 and `pnpm run check:v39-gate2` before closing the gate.
+V39 Gate 3 adds the package-owned `TerminalEnterpriseReadingUxState` and
+source-safe generated artifact `.bitcode/v39-enterprise-reading-ux-state.json`.
+Terminal now owns the five-stage enterprise Reading state machine: request
+Read, review synthesized Need, request Finding Fits, review source-safe
+AssetPack preview, and buy AssetPack/settle. Conversation handoffs may pass
+only source-safe `readingStage` intent, Terminal parses it as posture, and the
+rich execution stream remains the live Reading pipeline log. Use
+`pnpm run generate:v39-enterprise-reading-ux-state` and
+`pnpm run check:v39-gate3` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -417,6 +426,9 @@ commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 For V39, Gate 1 opens `version/v39` and the gate-quality posture through
 `pnpm run check:v39-gate1` before later gates add generated commercial Reading
 artifacts and the V39 promotion workflow.
+V39 Gate 2 is wired through `pnpm run check:v39-gate2`; V39 Gate 3 is wired
+through `pnpm run check:v39-gate3` and its generated
+`.bitcode/v39-enterprise-reading-ux-state.json` artifact.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

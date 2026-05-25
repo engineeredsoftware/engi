@@ -47,7 +47,10 @@ describe('ConversationTerminalHandoff', () => {
     expect(envelope.terminalRoute).toContain('/terminal?');
     expect(envelope.terminalRoute).toContain('conversationHandoff=1');
     expect(envelope.terminalRoute).toContain('transactionId=tx-123');
+    expect(envelope.terminalRoute).toContain('readingStage=review-synthesized-need');
+    expect(envelope.readingStage).toBe('review-synthesized-need');
     expect(envelope.metadata.terminalRemainsTransactionCockpit).toBe(true);
+    expect(envelope.metadata.terminalEnterpriseReadingStage).toBe('review-synthesized-need');
     expect(envelope.metadata.ledgerAuthorityClaimed).toBe(false);
     expect(envelope.metadata.walletSigningAuthorityClaimed).toBe(false);
     expect(envelope.proofRoot).toMatch(/^conversation-terminal-handoff:/u);
@@ -85,6 +88,24 @@ describe('ConversationTerminalHandoff', () => {
 
     expect(retrySelectorEnvelope.policyResult).toBe('retry_required');
     expect(retrySelectorEnvelope.retryAction).toBe('resolve_source_selector_or_policy_retry_before_terminal_execution');
+  });
+
+  it('maps Conversation workflows into source-safe enterprise Reading stages', () => {
+    const findingFitsEnvelope = buildConversationTerminalHandoffEnvelope({
+      workflow: 'finding_fits',
+      sourceSafeSummary: 'Find fits from the accepted Need in Terminal.',
+    });
+    expect(findingFitsEnvelope.readingStage).toBe('request-fit');
+    expect(findingFitsEnvelope.terminalRoute).toContain('readingStage=request-fit');
+
+    const settlementEnvelope = buildConversationTerminalHandoffEnvelope({
+      workflow: 'settlement',
+      readingStage: 'review-synthesized-asset-pack',
+      sourceSafeSummary: 'Review source-safe preview before moving to settlement.',
+    });
+    expect(settlementEnvelope.readingStage).toBe('review-synthesized-asset-pack');
+    expect(settlementEnvelope.metadata.terminalEnterpriseReadingStage).toBe('review-synthesized-asset-pack');
+    expect(settlementEnvelope.terminalRoute).toContain('readingStage=review-synthesized-asset-pack');
   });
 
   it('redacts protected source and secret-shaped handoff text before route serialization', () => {
