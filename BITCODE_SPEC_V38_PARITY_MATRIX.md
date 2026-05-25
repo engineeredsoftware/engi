@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -74,6 +74,16 @@ Gate 1 audit basis:
 - `packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js`
 - `scripts/generate-v38-inference-telemetry-disclosure-report.mjs`
 - `scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs`
+- `.bitcode/v38-read-need-comprehension-inference-hardening.json`
+- `packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js`
+- `packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js`
+- `scripts/generate-v38-read-need-comprehension-inference-hardening.mjs`
+- `scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs`
+- `.bitcode/v38-read-fits-finding-search-embeddings.json`
+- `packages/protocol/src/canonical/read-fits-finding-search-embeddings.js`
+- `packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js`
+- `scripts/generate-v38-read-fits-finding-search-embeddings.mjs`
+- `scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs`
 
 No `_legacy/` source is active source truth.
 
@@ -93,6 +103,7 @@ No `_legacy/` source is active source truth.
 | PromptPart and Prompt benchmarking | Gate 4 | `V38PromptBenchmarkReport`, `.bitcode/v38-prompt-benchmark-report.json`, protocol test, generator, checker, workflows | closed | Source-safe benchmark report covers active Reading, Conversation, and tool-definition PromptParts and complete Prompts with 7 rows, 13 fixtures, 24 typed-output quality expectations, and 38 passed source predicates. |
 | Inference telemetry and disclosure tiers | Gate 5 | `V38InferenceTelemetryDisclosureReport`, `.bitcode/v38-disclosure-boundary-report.json`, protocol test, generator, checker, workflows | closed | Source-safe telemetry disclosure report covers phase, agent, PTRR step, Failsafe, ThricifiedGeneration, tool, prompt template, interpolated prompt, raw response root, parsed typed output shape, schema verdict, retry, repair, and stream UI projection rows with 8 rows, 13 telemetry levels, 12 disclosure tier ids, and 66 passed predicates. |
 | ReadNeedComprehensionSynthesis inference hardening | Gate 6 | `V38ReadNeedComprehensionInferenceHardening`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `ReadNeedComprehensionSynthesisInferenceReceipt`, protocol test, package tests, generator, checker, workflows | closed | Source-safe ReadNeedComprehensionSynthesis report covers request normalization, Need comprehension, measurement, review, and receipt rows with 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, and 22 passed predicates. |
+| ReadFitsFindingSynthesis depository search and embeddings | Gate 7 | `V38ReadFitsFindingSearchEmbeddings`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `ReadFitsFindingSynthesisSearchReceipt`, protocol test, package tests, generator, checker, workflows | closed | Source-safe Finding Fits report covers accepted-Need admission, query planning, many-fit discovery, embedding policy, threshold ranking, selected-fit provenance, and receipt rows with 7 phases, 8 PTRR agents, 32 PTRR steps, 96 Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4 tool contracts, 7 search channels, 12 default selected-candidate slots, and 23 passed predicates. |
 
 ## V38 implementation checklist
 
@@ -110,6 +121,7 @@ No `_legacy/` source is active source truth.
 | Prompt benchmark artifact | `.bitcode/v38-prompt-benchmark-report.json` and `V38PromptBenchmarkReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-prompt-benchmark-metadata` | closed |
 | Inference telemetry disclosure artifact | `.bitcode/v38-disclosure-boundary-report.json` and `V38InferenceTelemetryDisclosureReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-telemetry-disclosure-metadata` with disclosure tier and raw provider response boundaries explicit | closed |
 | ReadNeedComprehensionSynthesis hardening artifact | `.bitcode/v38-read-need-comprehension-inference-hardening.json` and `V38ReadNeedComprehensionInferenceHardening` are generated, tested, checked, documented, and workflow-wired as `source-safe-read-need-comprehension-inference-hardening-metadata` with Need receipt and accepted-Need-gated Finding Fits boundary explicit | closed |
+| ReadFitsFindingSynthesis search artifact | `.bitcode/v38-read-fits-finding-search-embeddings.json` and `V38ReadFitsFindingSearchEmbeddings` are generated, tested, checked, documented, and workflow-wired as `source-safe-read-fits-finding-search-embeddings-metadata` with many-fit search channels, embedding policy, thresholds, query/ranking roots, and selected-fit provenance explicit | closed |
 | Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
 | Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
 | Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
@@ -212,6 +224,22 @@ Gate 5 closes when `pnpm run check:v38-gate5`, the V38 inference telemetry discl
 ## Completion condition
 
 Gate 6 closes when `pnpm run check:v38-gate6`, the Gate 6 artifact generator check, Gate 5 telemetry disclosure check, Gate 4 prompt benchmark check, Gate 3 PTRR/Failsafe/Thricified stack check, Gate 2 inventory check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol and pipeline tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-6-readneedcomprehensionsynthesis-inference-hardening`.
+
+## Gate 7 ReadFitsFindingSynthesis depository search and embeddings closure
+
+| Area | Required result | Judgment |
+| --- | --- | --- |
+| Search receipt | `DepositorySearchResult` carries `ReadFitsFindingSynthesisSearchReceipt` with phase, agent, PTRR step, Failsafe, ThricifiedGeneration, tool, channel, provider, threshold, query, ranking, provenance, embedding, source-safety, and root fields | closed |
+| Query plan | Finding Fits derives a source-safe query plan from the accepted Need with lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific channels | closed |
+| Many-fit selection | Above-threshold selected candidates carry forward up to the default 12-candidate limit, preserving every selected fit deposit id and selected unit id for implementation context | closed |
+| Embedding policy | Active vector policy remains OpenAI `text-embedding-3-small`, 1536 dimensions, float encoding, cosine distance, `deliverable_vectors.embedding`, and `match_deliverable_vectors` | closed |
+| Selected-fit provenance | Selected fit provenance root binds source-binding ids, selected units, proof roots, measurement roots, reconciliation readback roots, and ranking posture without source leakage | closed |
+| Source-safe artifact | `V38ReadFitsFindingSearchEmbeddings` and `.bitcode/v38-read-fits-finding-search-embeddings.json` bind Gate 7 implementation to V38 Gates 2 through 6 roots without protected payloads | closed |
+| Gate checker is wired | `pnpm run check:v38-gate7`, package tests, protocol test, generator check, gate/canon workflows, docs, and package exports are wired | closed |
+
+## Completion condition
+
+Gate 7 closes when `pnpm run check:v38-gate7`, the Gate 7 artifact generator check, Gate 6 ReadNeedComprehensionSynthesis hardening check, Gate 5 telemetry disclosure check, Gate 4 prompt benchmark check, Gate 3 PTRR/Failsafe/Thricified stack check, Gate 2 inventory check, V38 draft spec-family validation over V37, V37/V38 canon-posture drift validation, canonical input validation for V37, strict V38 spec quality, protocol and pipeline tests, workflow wiring checks, secret scans, and diff hygiene all pass on `v38/gate-7-readfitsfindingsynthesis-search-embeddings`.
 
 ## accepted boundaries
 

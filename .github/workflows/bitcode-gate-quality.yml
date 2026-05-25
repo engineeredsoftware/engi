@@ -289,6 +289,9 @@ jobs:
               if [ -f scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs ]; then
                 node scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs --skip-branch-check --skip-package-tests # check:v38-gate6
               fi
+              if [ -f scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs ]; then
+                node scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs --skip-branch-check --skip-package-tests # check:v38-gate7
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -379,6 +382,9 @@ jobs:
           fi
           if [ -f packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js ]; then
             pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-read-need-comprehension-inference-hardening.test.js
+          fi
+          if [ -f packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-read-fits-finding-search-embeddings.test.js
           fi
           pnpm --filter @bitcode/protocol test
 

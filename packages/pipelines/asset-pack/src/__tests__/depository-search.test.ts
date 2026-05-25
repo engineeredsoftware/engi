@@ -108,6 +108,66 @@ describe('AssetPack depository search', () => {
         distanceMetric: 'cosine',
       },
     });
+    expect(result.queryPlan).toMatchObject({
+      schema: 'bitcode.asset-pack.depository-search.query-plan',
+      pipelineName: 'ReadFitsFindingSynthesis',
+      derivedFrom: 'accepted-read-need',
+      channelIds: [
+        'lexical',
+        'symbolic',
+        'path',
+        'metadata',
+        'measurement',
+        'embedding-vector',
+        'provider-specific',
+      ],
+      targetArtifactKindCount: 5,
+      repositoryConstraintPresent: true,
+      sourceRevisionConstraintPresent: true,
+    });
+    expect(result.queryPlan.queryPlanRoot).toMatch(/^sha256:/);
+    expect(result.searchReceipt).toMatchObject({
+      schema: 'bitcode.read-fits-finding-synthesis.search-receipt',
+      pipelineName: 'ReadFitsFindingSynthesis',
+      receiptMode: 'source-safe-depository-search-and-embeddings',
+      searchChannelIds: result.queryPlan.channelIds,
+      toolIds: [
+        'ReadFitsFindingSynthesis.tool.lexical-depository-search',
+        'ReadFitsFindingSynthesis.tool.vector-depository-search',
+        'ReadFitsFindingSynthesis.tool.verification-evidence',
+        'ReadFitsFindingSynthesis.tool.vcs-create-pull-request',
+      ],
+      candidateCounts: {
+        ranked: 1,
+        selected: 1,
+        fitDeposits: 1,
+        blocked: 0,
+        rejected: 0,
+      },
+      sourceSafety: {
+        sourceSafeMetadataOnly: true,
+        protectedSourceVisible: false,
+        rawProviderResponseVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        credentialsSerialized: false,
+      },
+    });
+    expect(result.searchReceipt.phaseIds).toHaveLength(7);
+    expect(result.searchReceipt.agentIds).toHaveLength(8);
+    expect(result.searchReceipt.ptrrStepIds).toHaveLength(32);
+    expect(result.searchReceipt.failsafeSequenceIds).toHaveLength(96);
+    expect(result.searchReceipt.thricifiedGenerationIds).toHaveLength(96);
+    expect(result.searchReceipt.roots.receiptRoot).toMatch(/^sha256:/);
+    expect(result.searchReceipt.selectedFitProvenanceRoot).toMatch(/^sha256:/);
+    expect(result.candidateRanking[0].ranking.channelScores).toMatchObject({
+      lexical: expect.any(Number),
+      symbolic: expect.any(Number),
+      path: expect.any(Number),
+      metadata: expect.any(Number),
+      measurement: 1,
+      embeddingVector: expect.any(Number),
+      providerSpecific: expect.any(Number),
+    });
     expect(result.queryRoot).toMatch(/^sha256:/);
     expect(result.rankingRoot).toMatch(/^sha256:/);
   });
@@ -137,6 +197,8 @@ describe('AssetPack depository search', () => {
     expect(result.fitDepositAssetIds).toEqual(['fit-deposit-1', 'fit-deposit-2']);
     expect(result.fitDeposits.map((fit) => fit.assetId)).toEqual(result.fitDepositAssetIds);
     expect(result.selectedCandidateAssetIds).toEqual(result.fitDepositAssetIds);
+    expect(result.searchReceipt.candidateCounts.fitDeposits).toBe(2);
+    expect(result.searchReceipt.thresholdPosture.maxSelectedCandidates).toBe(12);
   });
 
   it('blocks readiness when candidate search finds source evidence without proof', async () => {
@@ -292,6 +354,22 @@ describe('AssetPack depository search', () => {
     expect(findStored(exec, 'fit', 'resultState')).toBe('worthy_fit');
     expect(findStored(exec, 'depository/search', 'result')?.resultState).toBe('worthy_fit');
     expect(findStored(exec, 'depository/search', 'embeddingPolicy')?.dimensions).toBe(1536);
+    expect(findStored(exec, 'depository/search', 'queryPlan')?.channelIds).toEqual([
+      'lexical',
+      'symbolic',
+      'path',
+      'metadata',
+      'measurement',
+      'embedding-vector',
+      'provider-specific',
+    ]);
+    expect(findStored(exec, 'depository/search', 'searchReceipt')?.candidateCounts).toMatchObject({
+      ranked: 1,
+      selected: 1,
+      fitDeposits: 1,
+      blocked: 0,
+      rejected: 0,
+    });
     expect(findStored(exec, 'depository/search', 'toolTelemetry')).toEqual([
       expect.objectContaining({
         tool: 'ReadFitsFindingSynthesis.tool.lexical-depository-search',
@@ -303,6 +381,8 @@ describe('AssetPack depository search', () => {
           fitDepositAssetIds: ['asset_repository-revision-deposit-engineeredsoftware-engi'],
           queryRoot: expect.stringMatching(/^sha256:/),
           rankingRoot: expect.stringMatching(/^sha256:/),
+          queryPlanRoot: expect.stringMatching(/^sha256:/),
+          selectedFitProvenanceRoot: expect.stringMatching(/^sha256:/),
         }),
       }),
       expect.objectContaining({

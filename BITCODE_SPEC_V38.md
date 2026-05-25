@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
+- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
 - Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -113,6 +113,9 @@ The produced `ReadNeed` now carries a source-safe inference receipt binding phas
 Gate 7 hardens Finding Fits.
 It must use inference-derived search queries, depository-search tools, vector embeddings, metadata and measurement channels, lexical and symbolic channels, ranking, verification, thresholding, and selected-fit provenance.
 It must maintain the active `text-embedding-3-small`, 1536 dimension, cosine `match_deliverable_vectors` policy unless a replacement is specified, tested, and migrated.
+Gate 7 is closed by the package-backed `V38ReadFitsFindingSearchEmbeddings` source, deterministic `.bitcode/v38-read-fits-finding-search-embeddings.json` artifact, `ReadFitsFindingSynthesisSearchReceipt`, and package tests.
+The artifact has `source-safe-read-fits-finding-search-embeddings-metadata` disclosure posture and records 7 lifecycle/search rows, 7 phases, 8 PTRR agents, 32 PTRR steps, 96 Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4 tool contracts, 7 search channels, 12 default above-threshold selected-candidate carryforward slots, and 23 passed source predicates.
+`ReadFitsFindingSynthesis` now emits source-safe query-plan and search receipts binding lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific channels to query roots, ranking roots, selected-fit provenance roots, threshold posture, candidate counts, and the active OpenAI embedding/vector-store policy without exposing protected source, raw provider responses, unpaid AssetPack source, credentials, wallet private material, or private settlement data.
 
 ### Gate 8: AssetPack Synthesis Handoff And Economic Traceability
 
@@ -216,7 +219,7 @@ Current algorithms and derivation rules: inference-derived queries search lexica
 Current invariants and fail-closed conditions: no-survivor asset pack and unsupported vector policy fail closed.
 Current proof obligations: Selection-and-materialization, Verification-decisions, and Disclosure-boundary proofs.
 Current source-bearing implementation basis: `depository-search.ts`, `embedding-config.ts`, and depository-search tools.
-Current validating commands and parity basis: V38 Gate 7 and Gate 8 checks.
+Current validating commands and parity basis: V38 Gate 7 checks and later Gate 8 handoff checks.
 Current accepted boundaries: source-safe preview before settlement, full source only after paid rights transfer.
 
 ### Selection and materialization
