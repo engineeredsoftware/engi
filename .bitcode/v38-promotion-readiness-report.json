@@ -1,9 +1,10 @@
 {
+  "reportId": "v38-promotion-readiness-report",
   "artifactId": "v38-promotion-readiness-report",
   "schemaId": "bitcode.v38.inferencePromotionReadinessReport.v1",
   "version": "V38",
   "currentTarget": "V37",
-  "generatedAt": "2026-05-25T00:00:00.000Z",
+  "generatedAt": "2026-05-25T00:10:48-03:00",
   "sourceSafetyVerdict": "source-safe-inference-promotion-readiness-metadata",
   "prePromotionPosture": "V37 active / V38 draft",
   "postPromotionPosture": "V38 active / V39 draft",
@@ -377,7 +378,7 @@
     {
       "relativePath": "BITCODE_SPEC_V38.md",
       "present": true,
-      "digest": "sha256:93a5faa1b60e2fbb4bb3499fb3d4b3477f21a85bf2c9826110c3b1c59991dc9e",
+      "digest": "sha256:8ad857cf31d5b60ba0b7fe58b2b2adba633da2792a3599ee5daa02c76221b5f1",
       "requiredTokens": [
         {
           "token": "V38 promotion readiness canon",
@@ -396,7 +397,7 @@
     {
       "relativePath": "BITCODE_SPEC_V38_DELTA.md",
       "present": true,
-      "digest": "sha256:6956fcec0fff7a63c13177eef920de5d72d1e6e4ad21401b7190f3e6f10cf07b",
+      "digest": "sha256:c7202a4f8c30e565485170e7425342bd57ae558545e07c923517fcf61b077f7d",
       "requiredTokens": [
         {
           "token": "Gate 11: V38 Promotion Readiness",
@@ -415,7 +416,7 @@
     {
       "relativePath": "BITCODE_SPEC_V38_NOTES.md",
       "present": true,
-      "digest": "sha256:d36c36e86a3aef33c606b387424c41f5c314ac371d1498fcb51139362a992c93",
+      "digest": "sha256:71f7fdd71c74bf3d7b274b7795ab1cca5e16116b637df19dfc5b05532ed4e1a8",
       "requiredTokens": [
         {
           "token": "Gate 11: V38 Promotion Readiness",
@@ -434,7 +435,7 @@
     {
       "relativePath": "BITCODE_SPEC_V38_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:929cbea3c6f58aea0b01371f9c79c966d71bf0045bf72207063b28d1ca6197dd",
+      "digest": "sha256:1d13e7a91bc1cc6d72803d7995dc21c3406ab96cec35a8adc2780700481aa3d1",
       "requiredTokens": [
         {
           "token": "## Gate 11 Promotion readiness parity",
@@ -483,7 +484,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:921b3256a655131311bb2887d4621bdb3b134e06edae1648972c185550ace775",
+      "digest": "sha256:c33bd3dd921675bb0218e1bbaeb9f1ad2b0fabb1e0c221748c2ae3c97c8371c4",
       "requiredTokens": [
         {
           "token": "V38 Gate 11",
@@ -546,5 +547,9 @@
   "artifactRoot": "inference-promotion-readiness-report:1d9795fd4b675391a29f7924",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v38-gate11"
+  "validationCommand": "pnpm run check:v38-gate11",
+  "proofSourceCommit": "57173a81fc05a70b6b4b922ebe88add8bfa7f64e",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

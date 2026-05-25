@@ -3,17 +3,19 @@
 ## Status
 
 - Version: `V38`
-- V38 state: active draft opening over promoted V37
-- Current canonical/latest target: `V37`
+- V38 state: canonical promotion complete; V38 parity truth, generated inference artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V38`
+- Canonical proof-source commit: `57173a81fc05a70b6b4b922ebe88add8bfa7f64e`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, V38 gate-quality workflow evidence, and future V38 generated proof artifacts as gates close
-- Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
+- Generated structured artifact inventory: active canonical `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `.bitcode/v38-promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` as the generated proof appendix for V38 promotion
+- Source parity state: V38 source-side inference inventory, PTRR Failsafe Thricified stack, prompt benchmark report, inference telemetry disclosure law, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search embeddings, AssetPack synthesis economic traceability, Conversation/tool prompt parity, local/staging inference rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V38 file family
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
 - Generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md` only after V38 promotion
-- Scope: V38 parity ledger for inference stack correctness, prompt and PromptPart benchmarking, Reading pipeline inference, depository fit-finding, tool prompt definitions, telemetry, rehearsal, and promotion readiness over promoted V37 Website Conversations canon
+- Scope: V38 canonical parity ledger for inference correctness over promoted V37 Website Conversations canon
+- Last fully realized canonical target preserved in source: `V38`
 
 ## Purpose
 
@@ -106,13 +108,13 @@ No `_legacy/` source is active source truth.
 
 | Area | Gate | Source evidence | Judgment | Closure requirement |
 | --- | --- | --- | --- | --- |
-| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V38.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v38/gate-1-inference-stack-roadmap-opening` | drafted | V38 family validates in draft mode over active V37 and `check:v38-gate1` passes. |
-| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | drafted | Roadmap states V37 active, V38 draft, and coherent post-V38 responsibility. |
-| Inference vocabulary | Gate 1 | `PipelineExecution`, PTRR Plan/Try/Refine/Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt` | drafted | Spec family uses primitive names without overlapping terminology or replacement abstractions. |
-| Reading pipeline scope | Gate 1 | `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Reading pipeline contracts | drafted | Gate plan names both Reading pipelines and their inference, storage, telemetry, and source-safe disclosure obligations. |
-| Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | drafted | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
-| Prompt benchmarking scope | Gate 1 | PromptPart and prompt benchmarking source anchors | drafted | Gate plan requires semantically divided PromptParts and complete Prompts to be benchmarkable. |
-| Telemetry disclosure scope | Gate 1 | V35 telemetry law, V37 stream UI law, V38 inference notes | drafted | Gate plan requires source-safe prompt, raw response, parsed output, schema verdict, retry, and repair visibility at permitted tiers. |
+| Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V38.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v38/gate-1-inference-stack-roadmap-opening` | closed | V38 family validates in draft mode over active V37 and `check:v38-gate1` passes. |
+| Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V37 active, V38 draft, and coherent post-V38 responsibility. |
+| Inference vocabulary | Gate 1 | `PipelineExecution`, PTRR Plan/Try/Refine/Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt` | closed | Spec family uses primitive names without overlapping terminology or replacement abstractions. |
+| Reading pipeline scope | Gate 1 | `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Reading pipeline contracts | closed | Gate plan names both Reading pipelines and their inference, storage, telemetry, and source-safe disclosure obligations. |
+| Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | closed | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
+| Prompt benchmarking scope | Gate 1 | PromptPart and prompt benchmarking source anchors | closed | Gate plan requires semantically divided PromptParts and complete Prompts to be benchmarkable. |
+| Telemetry disclosure scope | Gate 1 | V35 telemetry law, V37 stream UI law, V38 inference notes | closed | Gate plan requires source-safe prompt, raw response, parsed output, schema verdict, retry, and repair visibility at permitted tiers. |
 | Inference surface inventory | Gate 2 | `V38InferenceSurfaceInventory`, `.bitcode/v38-inference-surface-inventory.json`, protocol test, generator, checker, workflows | closed | Source-safe inventory covers Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive families with 52 PTRR steps and later-gate gaps explicit. |
 | PTRR Failsafe and Thricified execution stack | Gate 3 | `V38PtrrFailsafeThricifiedStack`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, protocol test, generator, checker, workflows | closed | Practical PTRR agents prove four steps, three Failsafe stages, three ThricifiedGeneration stages, 69 source predicates, and Gate 2 count binding with step-owned tools. |
 | PromptPart and Prompt benchmarking | Gate 4 | `V38PromptBenchmarkReport`, `.bitcode/v38-prompt-benchmark-report.json`, protocol test, generator, checker, workflows | closed | Source-safe benchmark report covers active Reading, Conversation, and tool-definition PromptParts and complete Prompts with 7 rows, 13 fixtures, 24 typed-output quality expectations, and 38 passed source predicates. |
@@ -128,13 +130,13 @@ No `_legacy/` source is active source truth.
 
 | Area | Required V38 result | Judgment |
 | --- | --- | --- |
-| Active canon pointer | `BITCODE_SPEC.txt` remains `V37` during V38 gate work | drafted |
-| Gate branch pattern | V38 work happens on `version/v38` or `v38/gate-N-*` branches | drafted |
-| Spec-family shape | V38 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | drafted |
-| Gate 1 script | `pnpm run check:v38-gate1` fails closed on stale posture, missing roadmap truth, missing inference scope, missing depository-search scope, or missing workflow wiring | drafted |
-| Gate-quality workflow | Gate workflow validates V37 active / V38 draft posture and the V38 Gate 1 checker | drafted |
-| Canon-quality workflow | Canon workflow validates promoted V37 canon, V38 draft family when present, and V37/V38 posture | drafted |
-| Package docs | README, protocol package README, demonstration README, and PR template state V37 active / V38 draft workflow | drafted |
+| Active canon pointer | `BITCODE_SPEC.txt` remains `V37` during V38 gate work | closed |
+| Gate branch pattern | V38 work happens on `version/v38` or `v38/gate-N-*` branches | closed |
+| Spec-family shape | V38 SPEC, DELTA, NOTES, and PARITY satisfy the full spec-family checker | closed |
+| Gate 1 script | `pnpm run check:v38-gate1` fails closed on stale posture, missing roadmap truth, missing inference scope, missing depository-search scope, or missing workflow wiring | closed |
+| Gate-quality workflow | Gate workflow validates V37 active / V38 draft posture and the V38 Gate 1 checker | closed |
+| Canon-quality workflow | Canon workflow validates promoted V37 canon, V38 draft family when present, and V37/V38 posture | closed |
+| Package docs | README, protocol package README, demonstration README, and PR template state V37 active / V38 draft workflow | closed |
 | Inference surface inventory | `.bitcode/v38-inference-surface-inventory.json` and `V38InferenceSurfaceInventory` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-surface-metadata` | closed |
 | PTRR stack artifact | `.bitcode/v38-ptrr-failsafe-thricified-stack.json` and `V38PtrrFailsafeThricifiedStack` are generated, tested, checked, documented, and workflow-wired as `source-safe-ptrr-failsafe-thricified-stack-metadata` | closed |
 | Prompt benchmark artifact | `.bitcode/v38-prompt-benchmark-report.json` and `V38PromptBenchmarkReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-prompt-benchmark-metadata` | closed |
@@ -144,11 +146,11 @@ No `_legacy/` source is active source truth.
 | AssetPack synthesis economic traceability artifact | `.bitcode/v38-assetpack-synthesis-economic-traceability.json` and `V38AssetPackSynthesisEconomicTraceability` are generated, tested, checked, documented, and workflow-wired as `source-safe-assetpack-synthesis-economic-traceability-metadata` with selected-fit handoff, source-safe preview, BTD receipts, contributor shares, settlement unlock, ledger/database synchronization, repair paths, and harness evidence explicit | closed |
 | Local/staging rehearsal artifact | `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json` and `V38LocalStagingInferenceDepositorySearchRehearsal` are generated, tested, checked, documented, and workflow-wired as `source-safe-local-staging-inference-depository-search-rehearsal-metadata` with local/staging lanes, live inference credential gates, many-fit search rehearsal, source-safe preview, telemetry readback, and blocked mainnet posture explicit | closed |
 | Promotion readiness artifact | `.bitcode/v38-promotion-readiness-report.json` and `V38InferencePromotionReadinessReport` are generated, tested, checked, documented, and workflow-wired as `source-safe-inference-promotion-readiness-metadata` with V38 proof appendix support, V38 promotion workflow, promotion command dry-run, active V38 / draft V39 posture, and blocked mainnet posture explicit | closed |
-| Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | drafted |
-| Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | drafted |
-| Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | drafted |
-| Embedding policy | V38 spec family preserves `text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors` until a tested migration exists | drafted |
-| Disclosure boundary | V38 telemetry exposes prompt and inference evidence only by disclosure tier and blocks protected source, credentials, unpaid AssetPack source, wallet private material, and private settlement payloads | drafted |
+| Inference stack vocabulary | V38 spec family names `PipelineExecution`, PTRR agents, Plan, Try, Refine, Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt`, and provider call boundaries | closed |
+| Reading vocabulary | V38 spec family names `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` | closed |
+| Depository search vocabulary | V38 spec family names lexical, symbolic, path, metadata, measurement, embedding/vector, provider-specific channels, candidate deposits, ranking, thresholds, and selected-fit provenance | closed |
+| Embedding policy | V38 spec family preserves `text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors` until a tested migration exists | closed |
+| Disclosure boundary | V38 telemetry exposes prompt and inference evidence only by disclosure tier and blocks protected source, credentials, unpaid AssetPack source, wallet private material, and private settlement payloads | closed |
 
 ## Gate 1 Parity
 

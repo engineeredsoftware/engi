@@ -3,18 +3,20 @@
 ## Status
 
 - Version: `V38`
-- V38 state: active draft opening over promoted V37; implementation remains V37 until V38 is promoted
-- Current canonical/latest target: `V37`
+- V38 state: canonical promotion complete; V38 is the active inference correctness canon and the V38 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V38`
+- Canonical proof-source commit: `57173a81fc05a70b6b4b922ebe88add8bfa7f64e`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: draft `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `.bitcode/v38-promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` generation support
-- Source parity state: V38 source-side inference stack, prompt benchmarking, Reading pipeline, depository-search, telemetry, rehearsal, workflow, and promotion surfaces are draft-required until their gates close
+- Generated structured artifact inventory: active canonical `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `.bitcode/v38-promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` as the generated proof appendix for V38 promotion
+- Source parity state: V38 source-side inference inventory, PTRR Failsafe Thricified stack, prompt benchmark report, inference telemetry disclosure law, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search embeddings, AssetPack synthesis economic traceability, Conversation/tool prompt parity, local/staging inference rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V38 file family
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V38_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md` only after V38 promotion
-- Scope: V38 draft system specification for inference stack correctness, prompt and PromptPart benchmarking, PTRR agent Failsafe and Thricified generation composition, Reading pipeline inference coverage, ReadFitsFindingSynthesis depository search, tool prompt definition integrity, telemetry visibility, local/staging rehearsal, and promotion readiness
+- Scope: V38 canonical system specification for inference correctness across pipeline execution, PTRR agents, FailsafeGenerationSequences, ThricifiedGenerations, prompt benchmarking, Reading fit-finding search, source-safe telemetry, local/staging rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V38`
 
 ## Version executive summary
 
