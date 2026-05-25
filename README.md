@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V38`; V39 is the active draft target for commercial Reading
-readiness after the promoted inference correctness canon.
+resolves to `V39`; V40 is the active draft target for exhaustive commercial
+application testing after the promoted commercial Reading readiness canon.
 
 ## Current Product Posture
 
@@ -260,6 +260,13 @@ AssetPack source, credentials, wallet private material, or private settlement
 payloads. Use `pnpm run generate:v39-promotion-readiness`,
 `pnpm run check:v39-promotion-readiness`, and `pnpm run check:v39-gate11`
 before closing the gate.
+V40 Gate 1 opens the exhaustive commercial application testing draft family and
+`check:v40-gate1` over active V39. V40 focuses on browser E2E, visual and
+screenshot proof, accessibility, responsive behavior, API and route integration,
+Reading pipeline integration, Conversation and Terminal integration,
+ledger/database/storage/wallet/delivery synchronization, local/staging rehearsal,
+unit coverage across packages and primitives, prompt benchmark smoke, and V41
+prompt-program readiness.
 V39 Gate 2 adds the package-owned `DepositorySupplyIndex` and source-safe
 generated artifact `.bitcode/v39-depository-supply-indexing.json`. Deposited
 source supply is normalized into rights-aware records with repository, branch,
@@ -514,6 +521,9 @@ through `pnpm run check:v39-gate8` and its generated
 `.bitcode/v39-operational-telemetry-repair-readback.json` artifact. V39 Gate 9
 is wired through `pnpm run check:v39-gate9` and its generated
 `.bitcode/v39-interface-conversation-product-parity.json` artifact.
+For V40, Gate 1 opens `version/v40` and the gate-quality posture through
+`pnpm run check:v40-gate1` before later gates add generated exhaustive testing
+artifacts and the V40 promotion workflow.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
@@ -552,9 +562,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active promoted spec family.
-- [BITCODE_SPEC_V38.md](BITCODE_SPEC_V38.md) is the active draft target.
-- [BITCODE_SPEC_V38_PARITY_MATRIX.md](BITCODE_SPEC_V38_PARITY_MATRIX.md) tracks V38 gate parity.
+- [BITCODE_SPEC_V39.md](BITCODE_SPEC_V39.md) is the active promoted spec family.
+- [BITCODE_SPEC_V40.md](BITCODE_SPEC_V40.md) is the active draft target.
+- [BITCODE_SPEC_V40_PARITY_MATRIX.md](BITCODE_SPEC_V40_PARITY_MATRIX.md) tracks V40 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

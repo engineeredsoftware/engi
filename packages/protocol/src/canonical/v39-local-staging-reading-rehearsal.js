@@ -286,7 +286,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-cover-gate10', SOURCE_ROOTS.v39Delta, delta.includes('Gate 10') && delta.includes('ReadingLocalStagingRehearsal')),
     predicateResult('notes-cover-gate10', SOURCE_ROOTS.v39Notes, notes.includes('Gate 10 implementation notes') && notes.includes('local and staging')),
     predicateResult('parity-cover-gate10', SOURCE_ROOTS.v39Parity, parity.includes('Gate 10 Parity') && parity.includes('ReadingLocalStagingRehearsal')),
-    predicateResult('roadmap-advanced-to-gate10', SOURCE_ROOTS.roadmap, /Current working gate: V39 Gate (?:10|11)\b/u.test(roadmap) && roadmap.includes('V39 Gate 10 closure anchor')),
+    predicateResult('roadmap-advanced-to-gate10', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 10 closure anchor') && (/Current working gate: V39 Gate (?:10|11)\b/u.test(roadmap) || roadmap.includes('Latest closed version: V39 Commercial Reading Readiness'))),
     predicateResult('readmes-cover-gate10', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 10') && assetPackReadme.includes('Reading Local/Staging Rehearsal') && protocolReadme.includes('V39LocalStagingReadingRehearsal')),
     predicateResult('scripts-cover-gate10', SOURCE_ROOTS.packageScripts, packageScripts.includes('check:v39-gate10') && packageScripts.includes('generate:v39-local-staging-reading-rehearsal')),
     predicateResult('workflows-cover-gate10', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate10-local-staging-reading-rehearsal') && canonWorkflow.includes('check-v39-gate10-local-staging-reading-rehearsal')),
