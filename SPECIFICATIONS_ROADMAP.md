@@ -2,12 +2,13 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V39`
-- Current active canon: `BITCODE_SPEC_V39.md`
-- Current draft target: `BITCODE_SPEC_V40.md`.
-- Current working gate: V40 Gate 11 V40 Promotion Readiness.
-- Next queued gate after V40 Gate 11 closure: V40 canonical promotion into `main`, then V41 Prompt and PromptPart excellence opening.
-- Latest closed version: V39 Commercial Reading Readiness, which promoted Depository supply indexing, enterprise five-step Reading UX, ReadNeed review/resynthesis, ReadFitsFinding many-candidate runtime, source-safe AssetPack preview and deterministic BTC quote, settlement rights delivery, operational telemetry/repair readback, interface parity, local/staging rehearsal, and V39 promotion readiness.
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V40`
+- Current active canon: `BITCODE_SPEC_V40.md`
+- Current draft target: `BITCODE_SPEC_V41_NOTES.md`.
+- Current working gate: V41 opening is notes-only until V41 Gate 1 creates the full specification family and gate plan.
+- Next queued gate after V40 canonical promotion: V41 Prompt and PromptPart excellence opening.
+- Latest closed version: V40 Exhaustive Commercial Application Testing, which promoted test inventory, unit coverage, API integration contracts, Reading pipeline integration, Conversation/Terminal integration, browser E2E visual proof, ledger/database/storage/wallet/delivery synchronization, local/staging rehearsal automation, prompt benchmark smoke, and V40 promotion readiness.
+- Recent V40 closure anchor: V40 canonical promotion updated `BITCODE_SPEC.txt` to `V40`, generated `BITCODE_SPEC_V40_PROVEN.md`, preserved active V40 / draft V41 runtime posture, and closed exhaustive commercial application testing canon.
 - Recent V39 closure anchor: V39 canonical promotion updated `BITCODE_SPEC.txt` to `V39`, generated `BITCODE_SPEC_V39_PROVEN.md`, preserved active V39 / draft V40 runtime posture, and closed commercial Reading readiness canon.
 - V39 Gate 9 closure anchor: commercial Reading readiness now owns package-backed `ReadingInterfaceProductParity`, deterministic `.bitcode/v39-interface-conversation-product-parity.json`, Terminal/Conversation/API/MCP/ChatGPT/package-consumer no-bypass rows, source-safe contract readback, BTD interface root composition, focused package/interface tests, and workflow wiring through `check:v39-gate9`.
 - V39 Gate 10 closure anchor: Reading readiness now owns package-backed `ReadingLocalStagingRehearsal`, deterministic `.bitcode/v39-local-staging-reading-rehearsal.json`, local/staging-testnet lane readback, five-stage Reading stage readback, many-fit Depository search rehearsal, source-safe AssetPack preview, settlement/BTD rights/delivery posture, rich telemetry readback, ledger/database/storage synchronization, value-bearing mainnet blocking, focused package/protocol tests, and workflow wiring through `check:v39-gate10`.
@@ -94,9 +95,9 @@ They are referenced here for specification history only; active implementation w
 ## Source Families
 
 - Legacy ENGI specifications: `_legacy/ENGI_SPEC_V1.md` through `_legacy/ENGI_SPEC_V25.md`, with companion `NOTES`, `DELTA`, `PARITY_MATRIX`, `SYSTEM_PARITY_MATRIX`, `PROVEN`, and audit files where present.
-- Active Bitcode specifications: `BITCODE_SPEC_V39.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V37.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Draft and future Bitcode specifications: `BITCODE_SPEC_V40.md`, with companion `DELTA`, `NOTES`, and `PARITY_MATRIX` files while V40 gates are in flight, followed by V41 prompt-program work.
+- Active Bitcode specifications: `BITCODE_SPEC_V40.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V39.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
+- Draft and future Bitcode specifications: `BITCODE_SPEC_V41_NOTES.md` as the notes-only draft opening until V41 Gate 1 creates the full specification family.
 - Specification discipline references: `BITCODE_SPECIFYING.md` and `BITCODE_SPEC_TEMPLATEGUIDE.md`.
 
 ## Roadmap
@@ -141,9 +142,9 @@ They are referenced here for specification history only; active implementation w
 | V36 | `BITCODE_SPEC_V36.md` | promoted historical Bitcode canon | Deeper Exchange after V35: Exchange MVP/deepening, market-wide activity master-detail, buy/sell/bid/ask/cancel/accept/settle/history flows, AssetPack range trading, rights-transfer review, pricing/liquidity/wrapper analysis, dispute/repair/revenue-route operations, Exchange UX, local/staging rehearsal, and Exchange-specific tests/proofs. |
 | V37 | `BITCODE_SPEC_V37.md` | promoted historical Bitcode canon | Website Conversations after V36: website conversation interface, stream UI/event contracts, fullscreen writing mode, conversation-to-Terminal handoff, source selectors, route-local chat history, persistence/privacy/redaction, telemetry/proof/docs, and any conversational UX not covered by the V28 ChatGPT App MVP. |
 | V38 | `BITCODE_SPEC_V38.md` | promoted historical Bitcode canon | Inference correctness after V37: pipeline execution call stack, PTRR agents, FailsafeGenerationSequence over ThricifiedGeneration, prompt registry composition, PromptPart and Prompt benchmarking, Reading pipeline inference, ReadFitsFindingSynthesis depository search and embeddings, source-safe inference telemetry, local/staging rehearsal, and promotion readiness. |
-| V39 | `BITCODE_SPEC_V39.md` | active canon | Commercial Reading readiness after V38: Depository supply indexing, enterprise five-step Reading UX, ReadNeed review/resynthesis, ReadFitsFinding many-candidate runtime and replay, source-safe AssetPack preview and deterministic BTC quote, settlement, BTD rights transfer, post-settlement delivery, ledger/database/storage synchronization, operational telemetry/repair, interface parity, local/staging rehearsal, and promotion readiness. |
-| V40 | `BITCODE_SPEC_V40.md` | active draft target | Exhaustive commercial application testing depth after V39: rich browser E2E for all website interactions and state possibilities, visual/screenshot comparison coverage, API and integration suites for pipelines, conversations, routes, ledger/database/storage synchronization, and unit coverage for packages, primitives, isolated implementations, and real commercial implementations. |
-| V41 | future draft target after V40 | planned | Prompt and PromptPart excellence, treating prompts as programs: audit every raw PromptPart and composed Prompt, run and harden benchmarks, repartition prompts into meaningfully benchmarkable semantic parts, retitle and rewrite PromptParts/Prompts where optimal, catalogue registry bindings, interpolation contracts, benchmark fixtures, benchmark outputs, inference callsites, and parsed return types, and elevate all Reading and Conversation inference points after V38 inference scaffolding and V40 testing depth make that work measurable. The primary surface is Reading, especially `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`; conversations and other inference prompts follow with the same benchmarkable catalogue discipline. |
+| V39 | `BITCODE_SPEC_V39.md` | promoted historical Bitcode canon | Commercial Reading readiness after V38: Depository supply indexing, enterprise five-step Reading UX, ReadNeed review/resynthesis, ReadFitsFinding many-candidate runtime and replay, source-safe AssetPack preview and deterministic BTC quote, settlement, BTD rights transfer, post-settlement delivery, ledger/database/storage synchronization, operational telemetry/repair, interface parity, local/staging rehearsal, and promotion readiness. |
+| V40 | `BITCODE_SPEC_V40.md` | active canon | Exhaustive commercial application testing depth after V39: rich browser E2E for all website interactions and state possibilities, visual/screenshot comparison coverage, API and integration suites for pipelines, conversations, routes, ledger/database/storage synchronization, unit coverage for packages, primitives, isolated implementations, real commercial implementations, local/staging rehearsal automation, prompt benchmark smoke, and promotion readiness. |
+| V41 | `BITCODE_SPEC_V41_NOTES.md` | notes-only draft target | Prompt and PromptPart excellence, treating prompts as programs: audit every raw PromptPart and composed Prompt, run and harden benchmarks, repartition prompts into meaningfully benchmarkable semantic parts, retitle and rewrite PromptParts/Prompts where optimal, catalogue registry bindings, interpolation contracts, benchmark fixtures, benchmark outputs, inference callsites, and parsed return types, and elevate all Reading and Conversation inference points after V38 inference scaffolding and V40 testing depth make that work measurable. The primary surface is Reading, especially `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`; conversations and other inference prompts follow with the same benchmarkable catalogue discipline. |
 
 ## Current Planning Spine
 
@@ -161,13 +162,13 @@ They are referenced here for specification history only; active implementation w
 12. V37 promoted website Conversations after Exchange depth was specified and implemented.
 13. V38 promoted inference correctness, Reading pipeline search, prompt benchmarking, source-safe inference telemetry, and the practical PTRR/Failsafe/Thricified call stack.
 14. V39 promoted commercial Reading readiness: Depository supply indexing, enterprise Reading UX, accepted-Need-gated Finding Fits, AssetPack preview/quote, settlement, rights transfer, delivery, telemetry/repair, interface parity, local/staging rehearsal, and promotion readiness.
-15. V40 is the current draft target and hardens exhaustive testing for the rich commercial application: E2E, visual, screenshot comparison, interaction/state matrices, integration, and unit coverage across the website, APIs, pipelines, conversations, packages, primitives, and real implementations.
-16. V41 is the planned prompts-as-programs target after V40: every PromptPart, Prompt composition, benchmark, meaningfully benchmarkable semantic division, title, template, interpolation contract, registry binding, inference callsite, benchmark result, and parsed return type should be examined and improved across Reading and Conversation inference, using V38's inference correctness scaffolding and V40's testing/benchmarking depth as the measurement base.
+15. V40 promoted exhaustive testing for the rich commercial application: E2E, visual, screenshot comparison, interaction/state matrices, integration, unit coverage, ledger/storage synchronization, local/staging rehearsal automation, and prompt benchmark smoke across the website, APIs, pipelines, conversations, packages, primitives, and real implementations.
+16. V41 is the current notes-only prompts-as-programs draft target after V40: every PromptPart, Prompt composition, benchmark, meaningfully benchmarkable semantic division, title, template, interpolation contract, registry binding, inference callsite, benchmark result, and parsed return type should be examined and improved across Reading and Conversation inference, using V38's inference correctness scaffolding and V40's testing/benchmarking depth as the measurement base.
 
 ## Boundary Rules
 
 - Do not treat `_legacy/` ENGI specifications as active implementation authority.
 - Do use `_legacy/` specifications to understand why current Bitcode concepts exist and what must not regress.
-- V40+ work must build on V39 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
+- V41+ work must build on V40 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
 - No implementation route should be versioned by spec number; source should move in place with the active canon.
 - Future notes files are planning memory only until their version is explicitly opened as the draft-target SPEC family.
