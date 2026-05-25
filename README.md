@@ -568,6 +568,13 @@ reconciliation, storage locks, no-custody wallet authority, Terminal readback,
 repair posture, and post-settlement pull-request delivery. The current app
 ledger/storage sync contract keeps source-bearing AssetPack delivery invisible
 until settlement, BTD rights, compensation, and projection readbacks agree.
+V40 Gate 9 adds the package-backed `V40LocalStagingRehearsalAutomation`,
+generated `.bitcode/v40-local-staging-rehearsal-automation.json`,
+`rehearse:v40-local-staging`, and `check:v40-gate9` to close source-safe local
+and staging-testnet rehearsal automation. Operator receipts use lane-bound
+secret-family readiness rather than secret values, are dry-run by default, bind
+staging-testnet to Supabase project `tkpyosihuouusyaxtbau`, and require explicit
+live execution opt-in before delegating to the Vercel Sandbox AssetPack harness.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,

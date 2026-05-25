@@ -125,6 +125,15 @@ The artifact is source-safe metadata only and closes ledger, database,
 object-storage, wallet, settlement, BTD rights, source-to-shares compensation,
 repair, Terminal readback, and post-settlement pull-request delivery
 synchronization coverage.
+V40 Gate 9 adds `V40LocalStagingRehearsalAutomation` through
+`packages/protocol/src/canonical/v40-local-staging-rehearsal-automation.js`,
+`packages/protocol/test/v40-local-staging-rehearsal-automation.test.js`,
+`.bitcode/v40-local-staging-rehearsal-automation.json`, and `check:v40-gate9`.
+The artifact is source-safe metadata only and closes local/staging-testnet
+operator receipts, lane-bound secret-family checks, explicit live-execution
+opt-in, Vercel Sandbox harness evidence and telemetry capture, staging-testnet
+database stream/readback binding, Reading rehearsal continuity, synchronization
+continuity, and value-bearing mainnet blocking.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

@@ -114,3 +114,11 @@ Its generated `.bitcode/v40-ledger-storage-sync.json` artifact binds ledger, dat
 The app-owned `BITCODE_LEDGER_STORAGE_SYNC_CONTRACT` summarizes settlement source-to-shares, no-custody wallet authority, and post-settlement pull-request delivery surfaces with explicit delivery visibility boundaries.
 The focused tests prove the existing AssetPack settlement delivery boundary, BTD BTC fee/wallet/reconciliation/source-to-shares primitives, Terminal wallet/journal/detail readbacks, and source-safe UAPI contract.
 No missing, blocked, or lane-skipped critical synchronization row is allowed in the Gate 8 artifact; source-bearing delivery stays locked until payment, finality, compensation, BTD rights, and projection reconciliation agree.
+
+## Gate 9 implementation notes
+
+Gate 9 is closed by `V40LocalStagingRehearsalAutomation`.
+Its generated `.bitcode/v40-local-staging-rehearsal-automation.json` artifact binds local and staging-testnet rehearsal automation to ten source-safe rows covering operator lane receipts, lane-bound secret-family checks, Vercel Sandbox harness execution, database stream/readback, five-stage Reading rehearsal, ledger/storage/wallet/delivery continuity, value-bearing mainnet blocking, and proof/workflow wiring.
+The operator command `rehearse:v40-local-staging` emits receipts from environment presence only; secret values, protected source, raw prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, and live log payloads are absent from the generated artifact and receipts.
+Live execution remains dry-run by default and requires `BITCODE_V40_REHEARSAL_EXECUTE=1` before delegating to the Vercel Sandbox AssetPack harness.
+Staging-testnet receipts bind Supabase project `tkpyosihuouusyaxtbau`, REST host `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`, real inference, and database event streaming/readback.
