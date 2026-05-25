@@ -4,7 +4,7 @@
   "schemaId": "bitcode.v40.promotionReadinessReport.v1",
   "version": "V40",
   "currentTarget": "V39",
-  "generatedAt": "2026-05-25T19:34:27-03:00",
+  "generatedAt": "2026-05-25T20:29:56-03:00",
   "sourceSafetyVerdict": "source-safe-exhaustive-testing-promotion-readiness-metadata",
   "prePromotionPosture": "V39 active / V40 draft",
   "postPromotionPosture": "V40 active / V41 draft",
@@ -350,7 +350,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:6ba531db18e80293529c03c8c4edcbcebde71faf50f479acbcc6b8dc252af110",
+      "digest": "sha256:22c8add4f33f4c112cc15533daf2a7e7a0a074c1fb122de72bd6eb41f82fb9b5",
       "requiredTokens": [
         {
           "token": ".bitcode/v40-promotion-readiness-report.json",
@@ -458,7 +458,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:6dd7d7b791e354f109902f88d81f0997f4616ee7ee76ef9dd8f834130001e986",
+      "digest": "sha256:f0341d1c79810f783b9b1d9f9b94083fc21b84c1528cfde0c1e6a237ca2b4336",
       "requiredTokens": [
         {
           "token": "V40 Gate 11 closure anchor",
@@ -552,7 +552,7 @@
   "passed": true,
   "failures": [],
   "validationCommand": "pnpm run check:v40-gate11",
-  "proofSourceCommit": "a5d169eda05cceb66b78f268e888b10c42542aaa",
+  "proofSourceCommit": "67a54bee42468be6aae2629d85625b9763fd51c8",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "clean",
   "sourceSafe": true
