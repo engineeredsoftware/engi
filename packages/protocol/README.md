@@ -48,6 +48,7 @@ Current exported commercial helpers include:
 - `V38InferenceTelemetryDisclosureReport` helpers for V38 source-safe inference telemetry rows, disclosure tiers, raw provider response boundaries, schema verdicts, retry/repair posture, and rich stream UI/storage projection proof;
 - `V38ReadFitsFindingSearchEmbeddings` helpers for V38 source-safe Finding Fits query plans, depository search channels, embedding policy, threshold ranking, selected-fit provenance, and search receipts;
 - `V38InferencePromotionReadinessReport` helpers for V38 source-safe promotion readiness across inference artifacts, generated proof support, workflow posture, and V38 active / V39 draft runtime preparation;
+- `V39DepositorySupplyIndexing` helpers for V39 source-safe Depository supply records, search documents, vector projections, storage readback posture, rights boundaries, repair actions, and Finding Fits handoff;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -64,6 +65,15 @@ ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights
 transfer, post-settlement delivery, ledger/database/storage synchronization,
 operational telemetry/repair, interface parity, and local/staging rehearsal
 scope that later V39 gates must implement.
+V39 Gate 2 adds `V39DepositorySupplyIndexing` through
+`packages/protocol/src/canonical/v39-depository-supply-indexing.js` and the
+source-safe generated artifact `.bitcode/v39-depository-supply-indexing.json`.
+The supply indexing report proves `DepositorySupplyIndex` lifecycle receipts,
+source-safe search documents, active embedding/vector projection, retained
+Supabase storage readback posture, depositor/Reader settlement boundary,
+deterministic repair actions, and Finding Fits source-safe handoff. The
+maintained commands are `pnpm run generate:v39-depository-supply-indexing` and
+`pnpm run check:v39-gate2`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

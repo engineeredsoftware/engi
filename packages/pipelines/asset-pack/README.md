@@ -91,6 +91,29 @@ Search providers can be added through the `DepositorySearchProvider` interface.
 The default lexical provider is deterministic so QA can prove ranking and result
 state without relying on model availability.
 
+## Depository Supply Index
+
+`buildDepositorySupplyIndex` is the source-safe package primitive that turns
+deposited repository/material supply into searchable Depository records before
+Finding Fits runs. A `DepositorySupplyIndex` contains `DepositorySupplyRecord`
+entries with repository, branch, commit, proof root, measurement root,
+reconciliation readback root, BTD range, depositor wallet boundary, source-safe
+search documents, vector projection rows, storage readback posture, and repair
+actions.
+
+The index deliberately keeps protected source outside the serialized record.
+Lexical, metadata, measurement, and vector search documents use source-safe
+titles, summaries, paths, symbol names, stack tags, constraints, and roots.
+Rows with missing or invalid embeddings remain visible as repair posture through
+`sync-active-embedding-vector-rows`; they are not treated as a fully searchable
+vector corpus.
+
+`depositorySupplyAssetsFromIndex` converts indexed records into source-safe
+`DepositoryAsset` candidates for `ReadFitsFindingSynthesis`. This handoff lets
+Finding Fits rank Depository supply without importing raw source text, unpaid
+AssetPack source, credentials, wallet private material, or private settlement
+payloads before the settlement boundary.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

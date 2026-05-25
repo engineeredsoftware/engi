@@ -81,8 +81,13 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 2 work must define its package-owned canonical source and deterministic artifact path before implementation begins.
-- The artifact must use a source-safe disclosure posture and include repair/replay acceptance criteria.
+- V39 Gate 2 package source is `packages/pipelines/asset-pack/src/depository-supply-index.ts`.
+- `DepositorySupplyIndex` and `DepositorySupplyRecord` normalize deposited source supply into source-safe lifecycle receipts with repository, branch, commit, proof, measurement, reconciliation readback, BTD range, depositor wallet, and source-safe search document roots.
+- Source-safe search documents are lexical, metadata, measurement, and vector projections. They carry source-safe text roots, source path roots, symbol roots, constraint roots, and active vector policy metadata without protected source text.
+- Vector projection preserves OpenAI `text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors`; pending or invalid vector rows emit repair actions.
+- Storage projection binds the retained physical `deliverables` and `deliverable_vectors` tables to the active AssetPack evidence semantics.
+- `ReadFitsFindingSynthesis` consumes `DepositorySupplyIndex` through `depositorySupplyAssetsFromIndex`, preserving source-safe handoff into candidate recall and ranking.
+- The deterministic artifact path is `.bitcode/v39-depository-supply-indexing.json`; `pnpm run check:v39-gate2` validates artifact freshness, protocol tests, package tests, source-safety markers, docs, and workflow wiring.
 
 ### Gate 3: Enterprise Reading UX State Machine
 

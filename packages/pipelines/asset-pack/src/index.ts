@@ -268,6 +268,7 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
 export * from './depository-search';
+export * from './depository-supply-index';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './reading-pipeline-contract';

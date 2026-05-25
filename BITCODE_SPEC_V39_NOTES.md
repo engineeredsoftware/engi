@@ -175,6 +175,17 @@ Gate 1 adds `check:v39-gate1`, workflow posture updates, README and package docu
 
 Gate 2 closes Depository supply indexing and searchable deposit lifecycle. The artifact must prove deposited source can be measured, embedded, indexed, rights-aware, and searched without exposing protected source or credentials.
 
+Gate 2 closure note: `DepositorySupplyIndex` is now the package-owned
+source-safe index for deposited supply. It produces `DepositorySupplyRecord`
+receipts with source binding, proof roots, measurement roots, reconciliation
+readback roots, lexical/metadata/measurement/vector source-safe search
+documents, active embedding vector projections, storage projection readback,
+depositor/reader BTD rights boundary, and repair actions. The index converts
+into `DepositoryAsset` candidates for `ReadFitsFindingSynthesis` through
+`depositorySupplyAssetsFromIndex`, so Finding Fits can search deposited supply
+without reading source-bearing payloads before settlement. The proof artifact is
+`.bitcode/v39-depository-supply-indexing.json`.
+
 ## Gate 3 implementation notes
 
 Gate 3 closes the enterprise Reading UX state machine. Terminal and Conversation handoff must expose the five-step Reading path with low-detail guidance by default and expandable source-safe pipeline detail.
